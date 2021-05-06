@@ -23,6 +23,7 @@ Other contributors:
   \item Yi Cui \email{yi.cui@merck.com} [contributor]
   \item Ping Yang \email{ping.yang1@merck.com} [contributor]
   \item Xin Tong Li \email{xin.tong.li@merck.com} [contributor]
+  \item Yalin Zho \email{yalin.zhu@merck.com} [contributor]
   \item Merck Sharp & Dohme Corp [copyright holder]
 }
 
