@@ -1,22 +1,27 @@
-Installation
-------------
+ <!-- badges: start -->
+  [![R build status](https://github.com/Merck/gsDesign2/workflows/R-CMD-check/badge.svg)](https://github.com/Merck/gsDesign2/actions)
+  <!-- badges: end -->
+  
+  
+## Installation
 
-You can install `gsDesign2` with:
+You can install `gsDesign2` via CRAN:
 
-    remotes::install_git(
-      "https://stash.merck.com/scm/bards/gsdesign2.git",
-      credentials = git2r::cred_user_pass(
-        rstudioapi::showPrompt("ISID", message = "Enter your ISID"),
-        rstudioapi::askForPassword()
-      )
-    )
+```r
+install.packages("gsDesign2")
+```
 
-Overview
---------
+Or, install from GitHub:
 
-The gsDesign2 package supports recent innovations group sequential
-clinical trial design including non-proportional hazards and graphical
-multiplicity control with group sequential design. Computations are
-based on piecewise constant enrollment and piecewise exponential failure
-rates. Stratified populations are supported. Power and sample size
-calculations based on using testing based on the logrank test.
+```r
+remotes::install_github("Merck/gsDesign2")
+```
+
+
+
+## Overview
+
+The gsDesign2 package supports recent innovations group sequential clinical trial design including non-proportional hazards and graphical multiplicity control with group sequential design.
+Computations are based on piecewise constant enrollment and piecewise exponential failure rates.
+Stratified populations are supported. 
+Power and sample size calculations based on using testing based on the logrank test.
