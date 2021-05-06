@@ -1,4 +1,4 @@
- <!-- badges: start -->
+  <!-- badges: start -->
   [![R build status](https://github.com/Merck/gsDesign2/workflows/R-CMD-check/badge.svg)](https://github.com/Merck/gsDesign2/actions)
   <!-- badges: end -->
   
