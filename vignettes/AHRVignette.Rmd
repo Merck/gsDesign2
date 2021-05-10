@@ -245,7 +245,7 @@ results1 <- simtrial::simfix(nsim = nsim,
                              targetEvents = ceiling(targetEvents),
                              timingType = 1:5
 )
-#save(results1, file = 'results1.Rdata') #save the data 
+#save(results1, file = './fixutes/results1.Rdata') #save the data 
 ```
 
 The following summarizes outcomes by the data cutoff chosen. Regardless of cutoff chosen, we see that the power approximates the targeted 90% quite well. 
@@ -253,7 +253,7 @@ The statistical information computed in the simulation is computed as one over t
 
 
 ```{r summary1,message=FALSE,warning=FALSE}
-load('./results1.Rdata') #loading the data previously saved
+load('./fixtures/results1.Rdata') #loading the data previously saved
 
 results1$Positive <- results1$Z <= qnorm(.025)
 results1 %>% 
@@ -413,11 +413,11 @@ simtrial::simfix(nsim = nsim,
                  targetEvents = as.numeric(targetEvents),
                  timingType = 1:5
 )
-#save(results2, file = 'results2.Rdata') #save data
+#save(results2, file = './fixtures/results2.Rdata') #save data
 ```
 
 ```{r summary2,warning=FALSE,message=FALSE}
-load('./results2.Rdata')
+load('./fixtures/results2.Rdata')
 results2$Positive <- (pnorm(results2$Z)<=.025)
 results2 %>% 
   group_by(cut) %>%
