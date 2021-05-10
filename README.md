@@ -1,4 +1,5 @@
   <!-- badges: start -->
+  [![Codecov test coverage](https://codecov.io/gh/Merck/gsDesign2/branch/master/graph/badge.svg)](https://codecov.io/gh/Merck/gsDesign2?branch=master)
   [![R build status](https://github.com/Merck/gsDesign2/workflows/R-CMD-check/badge.svg)](https://github.com/Merck/gsDesign2/actions)
   <!-- badges: end -->
   
