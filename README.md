@@ -1,6 +1,6 @@
   <!-- badges: start -->
   [![CRAN status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.org/package=gsDesign2)
-  [![Codecov test coverage](https://codecov.io/gh/Merck/gsDesign2/branch/master/graph/badge.svg)](https://codecov.io/gh/Merck/gsDesign2)
+  [![codecov](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg?token=YGEGEGV3WG)](https://codecov.io/gh/Merck/gsDesign2)
   [![R build status](https://github.com/Merck/gsDesign2/workflows/R-CMD-check/badge.svg)](https://github.com/Merck/gsDesign2/actions)
   <!-- badges: end -->
   
