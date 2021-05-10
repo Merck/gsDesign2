@@ -18,14 +18,14 @@ testthat::test_that("AHR results are consistent with simulation results for sing
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and single cutoff", {
-   enrollRates=tibble::tibble(Stratum="All",
-                              duration=c(2,2,10),
-                              rate=c(3,6,9))
-   failRates=tibble::tibble(Stratum="All",
-                            duration=c(3,100),
-                            failRate=log(2)/c(9,18),
-                            hr=c(.9,.6),
-                            dropoutRate=rep(.001,2))
+  enrollRates=tibble::tibble(Stratum="All",
+                             duration=c(2,2,10),
+                             rate=c(3,6,9))
+  failRates=tibble::tibble(Stratum="All",
+                           duration=c(3,100),
+                           failRate=log(2)/c(9,18),
+                           hr=c(.9,.6),
+                           dropoutRate=rep(.001,2))
   totalDuration = 30
   actual <- AHR(enrollRates = enrollRates,
                 failRates = failRates,
@@ -53,4 +53,3 @@ testthat::test_that("AHR results are consistent with simulation results for sing
   testthat::expect_true(all.equal(simulation_AHR3$Events, actual$Events, tolerance = 7e-3))
 
 })
-
