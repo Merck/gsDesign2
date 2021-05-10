@@ -1,9 +1,9 @@
 test_AHR <- function(enrollRates = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                   failRates = tibble::tibble(Stratum = "All",duration = c(3, 100), failRate = log(2)/c(9, 18),
-                                              hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
-                   totalDuration = 30,
-                   ratio = 1,
-                   simple = TRUE){
+                     failRates = tibble::tibble(Stratum = "All",duration = c(3, 100), failRate = log(2)/c(9, 18),
+                                                hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
+                     totalDuration = 30,
+                     ratio = 1,
+                     simple = TRUE){
 
   Bystratum <- NULL
   AHR_allstrata <- NULL
@@ -76,10 +76,10 @@ testthat::test_that("Validation passed for the situation of single stratum and s
   totalDuration <- 30
   ratio <- 1
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = TRUE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = TRUE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
@@ -87,16 +87,16 @@ testthat::test_that("Validation passed for the situation of single stratum and s
                                         simple = TRUE)))
 
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = FALSE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = FALSE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
                                         ratio = ratio,
                                         simple = FALSE)))
-  })
+})
 
 # Test 2: for the situation of single stratum and multiple cutoffs ####
 
@@ -113,26 +113,26 @@ testthat::test_that("Validation passed for the situation of single stratum and m
   ratio <- 1
 
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = TRUE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = TRUE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
                                         ratio = ratio,
                                         simple = TRUE)))
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = FALSE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = FALSE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
                                         ratio = ratio,
                                         simple = FALSE)))
-  })
+})
 
 # Test 3: for the situation of multiple strata and single cutoff ####
 
@@ -148,26 +148,26 @@ testthat::test_that("Validation passed for the situation of multiple strata and 
   totalDuration <- 30
   ratio <- 1
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = TRUE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = TRUE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
                                         ratio = ratio,
                                         simple = TRUE)))
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = FALSE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = FALSE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
                                         ratio = ratio,
                                         simple = FALSE)))
-  })
+})
 
 # Test 4: for the situation of multiple strata and multiple cutoffs ####
 
@@ -184,26 +184,23 @@ testthat::test_that("Validation passed for the situation of multiple strata and 
   ratio <- 1
 
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = TRUE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = TRUE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
                                         ratio = ratio,
                                         simple = TRUE)))
   testthat::expect_equal(data.frame(test_AHR(enrollRates = enrollRates,
-                                           failRates = failRates,
-                                           totalDuration = totalDuration,
-                                           ratio = ratio,
-                                           simple = FALSE)),
+                                             failRates = failRates,
+                                             totalDuration = totalDuration,
+                                             ratio = ratio,
+                                             simple = FALSE)),
                          data.frame(AHR(enrollRates = enrollRates,
                                         failRates = failRates,
                                         totalDuration = totalDuration,
                                         ratio = ratio,
                                         simple = FALSE)))
-  })
-
-
-
+})

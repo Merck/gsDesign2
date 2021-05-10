@@ -72,7 +72,7 @@ testthat::test_that("expected events is different from double-programmed vs eEve
                       totalDuration=80
                       testthat::expect_equal(test_Event(enrollRates, failRates, totalDuration),
                                              eEvents_df(enrollRates, failRates, totalDuration, simple))
-                      })
+                    })
 
 ###test3:with mutiple failrates and with mutiple enrollment duration
 testthat::test_that("expected events is different from double-programmed vs eEvents_df,
@@ -85,5 +85,5 @@ testthat::test_that("expected events is different from double-programmed vs eEve
                       totalDuration=80
                       testthat::expect_equal(test_Event(enrollRates, failRates, totalDuration),
                                              eEvents_df(enrollRates, failRates, totalDuration, simple))
-                      })
+                    })
 
