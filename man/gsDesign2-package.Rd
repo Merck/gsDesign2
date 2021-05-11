@@ -6,14 +6,16 @@
 \alias{gsDesign2-package}
 \title{gsDesign2: Group Sequential Design Under Non-Proportional Hazards}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Compute sample size under non-proportional hazards.
 }
 \author{
-\strong{Maintainer}: Keaven Anderson \email{keaven_anderson@merck.com}
+\strong{Maintainer}: Yilong Zhang \email{yilong.zhang@merck.com}
 
 Authors:
 \itemize{
-  \item Yilong Zhang \email{yilong.zhang@merck.com}
+  \item Keaven Anderson \email{keaven_anderson@merck.com}
 }
 
 Other contributors:

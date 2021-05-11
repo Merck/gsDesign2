@@ -1,4 +1,4 @@
-# gsDesign2
+# gsDesign2  <img src="man/figures/logo.png" alt="" align="right" height="139" />
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.org/package=gsDesign2)
