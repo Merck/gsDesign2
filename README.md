@@ -14,13 +14,7 @@ Power and sample size calculations based on using testing based on the logrank t
 
 ## Installation
 
-You can install `gsDesign2` via CRAN:
-
-```r
-install.packages("gsDesign2")
-```
-
-Or, install from GitHub:
+You can install from GitHub:
 
 ```r
 remotes::install_github("Merck/gsDesign2")
