@@ -612,7 +612,7 @@ Events by time period
 <span class="op">)</span>
 <span class="va">ecat</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Enrollment pattern: "</span>,<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">ecat</span><span class="op">)</span><span class="op">/</span><span class="va">nsim</span><span class="op">)</span>
-<span class="co">#&gt; Enrollment pattern:  0.6003 0.399578 0.000122</span></code></pre></div>
+<span class="co">#&gt; Enrollment pattern:  0.598997 0.400871 0.000132</span></code></pre></div>
 <p>Now we confirm the expected events in each follow-up interval given the targeted enrollment.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">yy</span> <span class="op">&lt;-</span> <span class="va">xx</span> <span class="op">%&gt;%</span> 
@@ -620,9 +620,9 @@ Events by time period
       <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">event</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
       <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>tcat <span class="op">=</span> <span class="fl">4</span><span class="op">+</span><span class="op">(</span><span class="va">tte</span><span class="op">&gt;</span><span class="fl">4</span><span class="op">)</span><span class="op">+</span><span class="op">(</span><span class="va">tte</span><span class="op">&gt;</span><span class="fl">5</span><span class="op">)</span><span class="op">+</span><span class="op">(</span><span class="va">tte</span><span class="op">&gt;</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Event by interval: "</span>,<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">yy</span><span class="op">$</span><span class="va">tcat</span><span class="op">)</span><span class="op">/</span><span class="va">nsim</span><span class="op">*</span><span class="fl">5</span>,<span class="st">"\n"</span><span class="op">)</span>
-<span class="co">#&gt; Event by interval:  0.560725 0.25646 0.195325 0.06943</span>
+<span class="co">#&gt; Event by interval:  0.563205 0.257695 0.192975 0.067865</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Total events: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">yy</span><span class="op">$</span><span class="va">event</span><span class="op">)</span><span class="op">/</span><span class="va">nsim</span><span class="op">*</span><span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt; Total events:  1.08194</span></code></pre></div>
+<span class="co">#&gt; Total events:  1.08174</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
