@@ -165,3 +165,53 @@ testthat::test_that("ppwe fail to identify lower.tail input",{
   lower.tail=123
   expect_error(expect_message(ppwe(lower.tail = lower.tail), "gsDesign2: lower.tail in `ppwe()` must be logical"))
 })
+
+
+## add the following test case
+
+
+
+testthat::test_that("ppwe fail to identify a non-numerical input",{
+ x=c(0:20, "NA")
+  expect_error(expect_message(ppwe(x=x), "gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector"))
+
+})
+
+testthat::test_that("ppwe fail to identify a negative input",{
+  x=-20:-1
+  expect_error(expect_message(ppwe(x=x), "gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector"))
+
+})
+
+
+testthat::test_that("ppwe fail to identify a non-increasing input",{
+  x=20:1
+  expect_error(expect_message(ppwe(x=x), "gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector"))
+
+})
+
+testthat::test_that("ppwe fail to identify a non-dataframe input",{
+  failRates=as.matrix(tibble::tibble(duration = c(13, 100), rate = log(12) / c(9, 18)))
+  expect_error(expect_message(ppwe(failRates = failRates), "gsDesign2: failRates in `ppwe()` must be a data.frame"))
+})
+
+
+testthat::test_that("ppwe fail to identify duration input",{
+  failRates=tibble::tibble(Times = c(13, 100), rate = log(12) / c(9, 18))
+  expect_error(expect_message(ppwe(failRates = failRates), "gsDesign2: failRates in `ppwe()` column names must contain duration"))
+})
+
+
+testthat::test_that("ppwe fail to identify rates input",{
+  failRates=tibble::tibble(duration = c(13, 100), freqs = log(12) / c(9, 18))
+  expect_error(expect_message(ppwe(failRates = failRates), "gsDesign2: failRates in `ppwe()` column names must contain rate"))
+})
+
+testthat::test_that("ppwe fail to identify lower.tail input",{
+  lower.tail=123
+  expect_error(expect_message(ppwe(lower.tail = lower.tail), "gsDesign2: lower.tail in `ppwe()` must be logical"))
+})
+
+
+
+

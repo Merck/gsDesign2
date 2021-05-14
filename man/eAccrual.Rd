@@ -36,7 +36,7 @@ given a set of piecewise constant enrollment rates and times.
    \item Make a tibble of the input time points x, duration, enrollment rates at points, and
    expected accrual.
    \item Extract the expected cumulative or survival enrollment.
-   \item Return \code{eAccural}
+   \item Return \code{eAccrual}
   }
 }
 \if{html}{The contents of this section are shown in PDF user manual only.}

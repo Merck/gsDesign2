@@ -17,6 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # These global variables are declared to eliminate associated `R CMD check` warnings.
+
 # There is no other identified functional impact of these global declarations.
 
 utils::globalVariables(

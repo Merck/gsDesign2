@@ -252,6 +252,7 @@ The statistical information computed in the simulation is computed as one over t
 ```{r summary1,message=FALSE,warning=FALSE}
 load('./fixtures/results1.Rdata') #loading the data previously saved
 
+
 results1$Positive <- results1$Z <= qnorm(.025)
 results1 %>% 
   group_by(cut) %>%

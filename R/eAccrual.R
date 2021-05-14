@@ -41,7 +41,7 @@ NULL
 #'    \item Make a tibble of the input time points x, duration, enrollment rates at points, and
 #'    expected accrual.
 #'    \item Extract the expected cumulative or survival enrollment.
-#'    \item Return \code{eAccural}
+#'    \item Return \code{eAccrual}
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
@@ -58,18 +58,18 @@ eAccrual <- function(x = 0:24,
 )){
 # check input value
   # check input enrollment rate assumptions
-  if(!is.numeric(x)){stop("gsDesign2: x in `eAccural()` must be a strictly increasing non-negative numeric vector")}
-  if(!is.numeric(x) >= 0){stop("gsDesign2: x in `eAccural()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(lead(x,default=max(x)+1) - x) > 0){stop("gsDesign2: x in `eAccural()` must be a strictly increasing non-negative numeric vector")}
+  if(!is.numeric(x)){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
+  if(!min(x) >= 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
+  if(!min(lead(x,default=max(x)+1) - x) > 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
 
   # check enrollment rate assumptions
-  if(!is.data.frame(enrollRates)){stop("gsDesign2: enrollRates in `eAccural()` must be a data frame")}
-  if(!max(names(enrollRates)=="duration") == 1){stop("gsDesign2: enrollRates in `eAccural()` column names must contain duration")}
-  if(!max(names(enrollRates)=="rate") == 1){stop("gsDesign2: enrollRates in `eAccural()` column names must contain rate")}
+  if(!is.data.frame(enrollRates)){stop("gsDesign2: enrollRates in `eAccrual()` must be a data frame")}
+  if(!max(names(enrollRates)=="duration") == 1){stop("gsDesign2: enrollRates in `eAccrual()` column names must contain duration")}
+  if(!max(names(enrollRates)=="rate") == 1){stop("gsDesign2: enrollRates in `eAccrual()` column names must contain rate")}
 
   # test that enrollment rates are non-negative with at least one positive
-  if(!min(enrollRates$rate) >= 0){stop("gsDesign2: enrollRates in `eAccural()` must be non-negative with at least one positive rate")}
-  if(!max(enrollRates$rate) > 0){stop("gsDesign2: enrollRates in `eAccural()` must be non-negative with at least one positive rate")}
+  if(!min(enrollRates$rate) >= 0){stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")}
+  if(!max(enrollRates$rate) > 0){stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")}
 
 
 # convert rates to step function

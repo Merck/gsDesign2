@@ -204,3 +204,4 @@ testthat::test_that("Validation passed for the situation of multiple strata and 
                                         ratio = ratio,
                                         simple = FALSE)))
 })
+
