@@ -45,6 +45,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Approximate survival distribution with piecewise exponential distribution — s2pwe" />
 <meta property="og:description" content="s2pwe converts a discrete set of points from an arbitrary survival distribution
@@ -122,7 +124,12 @@ to a piecewise exponential approximation" />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/Merck/gsDesign2/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -137,7 +144,7 @@ to a piecewise exponential approximation" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Approximate survival distribution with piecewise exponential distribution</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/Merck/gsDesign2/blob/master/R/s2pwe.R'><code>R/s2pwe.R</code></a></small>
     <div class="hidden name"><code>s2pwe.Rd</code></div>
     </div>
 
@@ -173,29 +180,29 @@ to a piecewise exponential approximation</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example: arbitrary numbers</span>
 <span class='fu'>s2pwe</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>9</span>,<span class='op'>(</span><span class='fl'>9</span><span class='op'>:</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>10</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 2</span>
 #&gt;   duration  rate
-#&gt;      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>        1 0.105
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>        1 0.118
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>        1 0.134
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>        1 0.154
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>        1 0.182
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>        1 0.223
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span>        1 0.288
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span>        1 0.405
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span>        1 0.693</div><div class='input'><span class='co'># Example: lognormal</span>
+#&gt;      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>        1 0.105
+#&gt; <span style='color: #BCBCBC;'>2</span>        1 0.118
+#&gt; <span style='color: #BCBCBC;'>3</span>        1 0.134
+#&gt; <span style='color: #BCBCBC;'>4</span>        1 0.154
+#&gt; <span style='color: #BCBCBC;'>5</span>        1 0.182
+#&gt; <span style='color: #BCBCBC;'>6</span>        1 0.223
+#&gt; <span style='color: #BCBCBC;'>7</span>        1 0.288
+#&gt; <span style='color: #BCBCBC;'>8</span>        1 0.405
+#&gt; <span style='color: #BCBCBC;'>9</span>        1 0.693</div><div class='input'><span class='co'># Example: lognormal</span>
 <span class='fu'>s2pwe</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span>,<span class='fl'>9</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/stats/Lognormal.html'>plnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span>,<span class='fl'>9</span><span class='op'>)</span>,meanlog<span class='op'>=</span><span class='fl'>0</span>,sdlog<span class='op'>=</span><span class='fl'>2</span>,lower.tail<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 7 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 7 x 2</span>
 #&gt;   duration  rate
-#&gt;      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>        1 0.693
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>        1 0.316
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>        1 0.224
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>        1 0.177
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>        1 0.148
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>        1 0.128
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span>        3 0.103</div></span></pre>
+#&gt;      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>        1 0.693
+#&gt; <span style='color: #BCBCBC;'>2</span>        1 0.316
+#&gt; <span style='color: #BCBCBC;'>3</span>        1 0.224
+#&gt; <span style='color: #BCBCBC;'>4</span>        1 0.177
+#&gt; <span style='color: #BCBCBC;'>5</span>        1 0.148
+#&gt; <span style='color: #BCBCBC;'>6</span>        1 0.128
+#&gt; <span style='color: #BCBCBC;'>7</span>        3 0.103</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

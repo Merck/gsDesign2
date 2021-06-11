@@ -45,6 +45,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Predict time at which a targeted event count is achieved — tEvents" />
 <meta property="og:description" content="tEvents() is made to match input format with AHR() and to solve for the
@@ -126,7 +128,12 @@ where the enrollment, failure and dropout rates changes over time." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/Merck/gsDesign2/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -141,7 +148,7 @@ where the enrollment, failure and dropout rates changes over time." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Predict time at which a targeted event count is achieved</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/Merck/gsDesign2/blob/master/R/tEvents.R'><code>R/tEvents.R</code></a></small>
     <div class="hidden name"><code>tEvents.Rd</code></div>
     </div>
 
@@ -205,10 +212,10 @@ and info0 (information under related null hypothesis) for each value of <code>to
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example 1: default</span>
 <span class='fu'>tEvents</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span>
 #&gt;    Time   AHR Events  info info0
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  14.9 0.787   150.  36.9  37.5</div><div class='input'><span class='co'># Example 2: check that result matches a finding using AHR()</span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>  14.9 0.787   150.  36.9  37.5</div><div class='input'><span class='co'># Example 2: check that result matches a finding using AHR()</span>
 <span class='co'># Start by deriving an expected event count</span>
 <span class='va'>enrollRates</span> <span class='op'>&lt;-</span>
   <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Stratum<span class='op'>=</span><span class='st'>"All"</span>,
@@ -219,15 +226,15 @@ and info0 (information under related null hypothesis) for each value of <code>to
 <span class='va'>totalDuration</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
 <span class='va'>xx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='AHR.html'>AHR</a></span><span class='op'>(</span><span class='va'>enrollRates</span>,<span class='va'>failRates</span>,<span class='va'>totalDuration</span><span class='op'>)</span>
 <span class='va'>xx</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 5</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span>
 #&gt;    Time   AHR Events  info info0
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>    20 0.738   208.  51.0  52.1</div><div class='input'><span class='co'># Next we check that the function confirms the timing of the final analysis.</span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>    20 0.738   208.  51.0  52.1</div><div class='input'><span class='co'># Next we check that the function confirms the timing of the final analysis.</span>
 <span class='fu'>tEvents</span><span class='op'>(</span><span class='va'>enrollRates</span>,<span class='va'>failRates</span>,targetEvents<span class='op'>=</span><span class='va'>xx</span><span class='op'>$</span><span class='va'>Events</span>,interval<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>,<span class='fl'>1.5</span><span class='op'>)</span><span class='op'>*</span><span class='va'>xx</span><span class='op'>$</span><span class='va'>Time</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 5</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span>
 #&gt;    Time   AHR Events  info info0
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  20.0 0.738   208.  51.0  52.1</div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>  20.0 0.738   208.  51.0  52.1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
