@@ -10,6 +10,15 @@
 
 Compute sample size under non-proportional hazards.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://merck.github.io/gsDesign2/}
+  \item \url{https://github.com/Merck/gsDesign2}
+  \item Report bugs at \url{https://github.com/Merck/gsDesign2/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Yilong Zhang \email{yilong.zhang@merck.com}
 
