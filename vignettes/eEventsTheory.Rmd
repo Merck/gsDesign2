@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r setup, include = FALSE,message=FALSE,warning=FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -17,17 +17,16 @@ knitr::opts_chunk$set(
   warning = FALSE
 )
 
-options( width = 58 )
+options(width = 58)
 ```
 
-
-# Introduction
+## Introduction
 
 This document derives an algorithm for computing expected events observed for a model with piecewise constant enrollment, failure and dropout rates similar to @LachinFoulkes.
 Specifically, we design this to enable computation of an _average hazard ratio_ which we will use elsewhere to approximate sample size for fixed or group sequential designs under a non-proportional hazards assumption (@Kalbfleisch1981, @Schemper2009).
 The expected events calculation outlined here is implemented in the function `eEvents_df()`.
 
-# General formulation and notation
+## General formulation and notation
 
 For notation, the study time scale will denoted with $\omega$ with the study start first opening for enrollment at $\omega=0$.
 We will use the variable $t$ to indicate patient time with $t=0$ representing the time a patient is enrolled.
@@ -61,8 +60,7 @@ P\{t_1<X\leq \min(t_2,\Omega-u), X\leq Y\} du\nonumber\\
 \int_{\Omega-t_2}^{\Omega-t_1} g(u) P\{t_1< X\leq \Omega-u, X\leq Y\} du.\nonumber
 \end{align}
 
-
-# The piecewise model
+## The piecewise model
 
 The model here is as follows:
 
@@ -97,8 +95,7 @@ Letting $G_0=0$ we recursively define for $j=1,\ldots,J$
 and thus for $\omega\in [\omega_{j-1},\omega_j]$ that the expected enrollment by study time $\omega$ is
 \begin{equation}G(\omega)=G_{j-1}+\gamma_j(\omega-\omega_{j-1}).\label{eq:ENpw}\end{equation}
 
-
-## An example under the piecewise model
+### An example under the piecewise model
 
 We consider an example of this piecewise model assuming $J=3$, $\omega_j=1,2,7$ and $\gamma_j=3,2,0$ for $j=1,2,3$. 
 We assume $M=2$ with $t_m=4,\infty$, failure rates $\lambda_m=.03,.06$, and dropout rates $\eta_m=0.001,.002$.
@@ -107,42 +104,48 @@ We plot $\omega$ in reverse order which is related to the integration in the equ
 We have also plotted a vertical dot-dashed line at each point where either the enrollment rate or a failure (and dropout) rate changes.
 
 ```{r,echo=FALSE}
-sfun0  <- stepfun(7-c(0,1,2,7)[4:1], c(3,3,2,0,0)[5:1])
-plot(sfun0,xval=c(0,5,6,7),verticals=FALSE,xlim=c(0,7),
-     do.points=FALSE,main=NULL,
-     ylab="Failure rate and dropout rate",xlab="Time since enrollment = t",
-     xaxt="none",yaxt="none",col="red",lwd=4)
-failRates <- c(.03,.06)
-dropoutRates <- c(.001,.002)
-multiplier <- 3/max(failRates)
+sfun0 <- stepfun(7 - c(0, 1, 2, 7)[4:1], c(3, 3, 2, 0, 0)[5:1])
+plot(sfun0,
+  xval = c(0, 5, 6, 7), verticals = FALSE, xlim = c(0, 7),
+  do.points = FALSE, main = NULL,
+  ylab = "Failure rate and dropout rate", xlab = "Time since enrollment = t",
+  xaxt = "none", yaxt = "none", col = "red", lwd = 4
+)
+failRates <- c(.03, .06)
+dropoutRates <- c(.001, .002)
+multiplier <- 3 / max(failRates)
 pfailRates <- failRates * multiplier
 pdropRates <- dropoutRates * multiplier
-sfunfail <- stepfun(4,pfailRates)
-sfundrop <- stepfun(4,pdropRates)
-plot(sfunfail, xval=c(0,4,7), do.points=FALSE, main=NULL,
-     verticals = FALSE, add = TRUE, xlim=c(0,7),lty=3,lwd=2)
-plot(sfundrop, xval=c(0,4,7), do.points=FALSE, main=NULL,
-     verticals = FALSE, add = TRUE, xlim=c(0,7),lty=2,lwd=2,col="blue")
-axis(4, c(0,2,3),col="red",col.axis="red")
-axis(2, c(0,pfailRates), labels=c(0,failRates))
-axis(1, c(0,4,5,6,7))
-axis(3, c(0,4,5,6,7),col=2,labels=c(7,3,2,1,0),col.axis="red")
-mtext(side=3, bquote("Time from study start = "~ omega  ~ "=" ~ 7-t ~ "        "),
-      col=2)
-mtext(side=4,"Enrollment rate       ",col=2)
-#text("Enrollment at rate of 3 and 2 for one month each\nwith no further enrollment",x=2,y=1,pos=4,col="red")
-lines(x=c(4,4),y=c(0,3),lty=4)
-lines(x=c(5,5),y=c(0,3),col="red",lty=4)
-lines(x=c(6,6),y=c(0,3),col="red",lty=4)
-legend(1/10, 2.75, legend=c("Enrollment rate", "Failure rate", "Dropout rate"),
-       col=c("red", "black"," blue"), lty=c(1,3,4), cex=1.25, lwd=2)
+sfunfail <- stepfun(4, pfailRates)
+sfundrop <- stepfun(4, pdropRates)
+plot(sfunfail,
+  xval = c(0, 4, 7), do.points = FALSE, main = NULL,
+  verticals = FALSE, add = TRUE, xlim = c(0, 7), lty = 3, lwd = 2
+)
+plot(sfundrop,
+  xval = c(0, 4, 7), do.points = FALSE, main = NULL,
+  verticals = FALSE, add = TRUE, xlim = c(0, 7), lty = 2, lwd = 2, col = "blue"
+)
+axis(4, c(0, 2, 3), col = "red", col.axis = "red")
+axis(2, c(0, pfailRates), labels = c(0, failRates))
+axis(1, c(0, 4, 5, 6, 7))
+axis(3, c(0, 4, 5, 6, 7), col = 2, labels = c(7, 3, 2, 1, 0), col.axis = "red")
+mtext(
+  side = 3, bquote("Time from study start = " ~ omega ~ "=" ~ 7 - t ~ "        "),
+  col = 2
+)
+mtext(side = 4, "Enrollment rate       ", col = 2)
+# text("Enrollment at rate of 3 and 2 for one month each\nwith no further enrollment",x=2,y=1,pos=4,col="red")
+lines(x = c(4, 4), y = c(0, 3), lty = 4)
+lines(x = c(5, 5), y = c(0, 3), col = "red", lty = 4)
+lines(x = c(6, 6), y = c(0, 3), col = "red", lty = 4)
+legend(1 / 10, 2.75,
+  legend = c("Enrollment rate", "Failure rate", "Dropout rate"),
+  col = c("red", "black", " blue"), lty = c(1, 3, 4), cex = 1.25, lwd = 2
+)
 ```
 
-
-
-
-
-## Organizing calculations under the piecewise model
+### Organizing calculations under the piecewise model
 
 We now proceed to define algorithms for computing expected events observed in an interval for the model with piecewise constant enrollment, failure rates, and dropout rates.
 We assume study duration is $\Omega=t_M$.
@@ -154,16 +157,19 @@ For example, for the example above, the change points are where the vertical lin
 library(dplyr)
 library(knitr)
 library(kableExtra)
+
 x <- tibble(
-        "$m$" = 1:4,
-        "$t_m$" = c(4,5,6,7),
-        "$\\lambda_m$" = c(rep(.03,1),rep(.06,3)),
-        "$\\eta_m$" = c(rep(.001,1),rep(.002,3)),
-        "$j$"= 4:1,
-        "$\\omega_j$" = c(7,3,2,1),
-        "$\\gamma_j$" = c(0,0,2,3))
-kable(x) %>% kable_styling(c("striped", "bordered")) %>%
-  add_header_above(c("Failure and dropout rates"=4,"Enrollment rates"=3))
+  "$m$" = 1:4,
+  "$t_m$" = c(4, 5, 6, 7),
+  "$\\lambda_m$" = c(rep(.03, 1), rep(.06, 3)),
+  "$\\eta_m$" = c(rep(.001, 1), rep(.002, 3)),
+  "$j$" = 4:1,
+  "$\\omega_j$" = c(7, 3, 2, 1),
+  "$\\gamma_j$" = c(0, 0, 2, 3)
+)
+kable(x) %>%
+  kable_styling(c("striped", "bordered")) %>%
+  add_header_above(c("Failure and dropout rates" = 4, "Enrollment rates" = 3))
 ```
 
 We define for $m=1,\ldots,M$ intermediate probability calculations for use in calculating $\bar n(t_{m-1},t_m)$ as follows:
@@ -194,100 +200,118 @@ From above, we have
 \left(t_m-t_{m-1}-\frac{1-q_m}{\lambda_m+\eta_m}\right)
 \end{align}
 
-
-
-We now add $q_m$, $Q_m$ and $d_m$   to the calculations above to enable computation of $\bar n_m$, the expected events in each time interval.
+We now add $q_m$, $Q_m$, and $d_m$ to the calculations above to enable computation of $\bar n_m$, the expected events in each time interval.
 
 ```{r,results='markup',warning=FALSE}
 namesTem <- names(x)
-names(x) <- c("m","tm","lambda","eta","j","omega","gamma")
+names(x) <- c("m", "tm", "lambda", "eta", "j", "omega", "gamma")
 y <- x %>%
-     mutate(tdel = tm - lag(tm,default=0),
-            q = exp(-(lambda+eta)*tdel),
-            Q = lag(cumprod(q),default=1),
-            d = Q*(1-q)*lambda/(lambda+eta),
-            G = c(5,5,3,0),
-            nbar = G*d + (lambda*Q*gamma)/(lambda+eta)*(tdel-(1-q)/(lambda+eta))
-           )
+  mutate(
+    tdel = tm - lag(tm, default = 0),
+    q = exp(-(lambda + eta) * tdel),
+    Q = lag(cumprod(q), default = 1),
+    d = Q * (1 - q) * lambda / (lambda + eta),
+    G = c(5, 5, 3, 0),
+    nbar = G * d + (lambda * Q * gamma) / (lambda + eta) * (tdel - (1 - q) / (lambda + eta))
+  )
 yy <- y
-names(yy) <- c("$m$","$t_m$","$\\lambda_m$","$\\eta_m$","$j$",
-               "$\\omega_j=t_M-t_{m-1}$",
-               "$\\gamma_j$","$t_m-t_{m-1}$","$q_m$","$Q_{m-1}$",
-               "$d_m$","$G_{j-1}$","$\\bar{n}_m$") 
-yy <- yy %>% select(c(1:7,12,8:11,13))
-yy %>% kable(digits=4) %>% kable_styling(c("striped", "bordered")) %>%
-  add_header_above(c("Failure and dropout rates"=4,
-                     "Enrollment"=4,
-                     "Events by time period"=5))
+names(yy) <- c(
+  "$m$", "$t_m$", "$\\lambda_m$", "$\\eta_m$", "$j$",
+  "$\\omega_j=t_M-t_{m-1}$",
+  "$\\gamma_j$", "$t_m-t_{m-1}$", "$q_m$", "$Q_{m-1}$",
+  "$d_m$", "$G_{j-1}$", "$\\bar{n}_m$"
+)
+yy <- yy %>% select(c(1:7, 12, 8:11, 13))
+yy %>%
+  kable(digits = 4) %>%
+  kable_styling(c("striped", "bordered")) %>%
+  add_header_above(c(
+    "Failure and dropout rates" = 4,
+    "Enrollment" = 4,
+    "Events by time period" = 5
+  ))
 ```
 
-## Verifying calculations
+### Verifying calculations
 
 We check the above for the total number of events using the **gsDesign** function `eEvents()`.
 First, we sum the $\bar{n}_m$ values `sum(y$nbar)` to get `r round(sum(y$nbar),6)` and compare to:
 
-
 ```{r,warning=FALSE}
-Events <- gsDesign::eEvents(lambda=y$lambda,
-                            eta=y$eta,
-                            gamma=y$gamma[length(y$gamma):1],
-                            S=y$tdel[1:(length(y$tdel)-1)],
-                            R=y$tdel[(length(y$tdel):1)],
-                            T=max(y$tm)
-                           )$d
+Events <- gsDesign::eEvents(
+  lambda = y$lambda,
+  eta = y$eta,
+  gamma = y$gamma[length(y$gamma):1],
+  S = y$tdel[1:(length(y$tdel) - 1)],
+  R = y$tdel[(length(y$tdel):1)],
+  T = max(y$tm)
+)$d
 Events
 ```
-
 
 Next, we examine by the periods defined by `failRates`:
 
 ```{r}
 library(gsDesign2)
-eEvents_df(enrollRates = tibble(duration=c(1,1),
-                                rate=c(3,2)),
-           failRates = tibble(duration = c(4,3),
-                              failRate = c(.03,.06),
-                              dropoutRate = c(.001,.002)),
-           totalDuration = 7,
-           simple=FALSE)
+
+eEvents_df(
+  enrollRates = tibble(
+    duration = c(1, 1),
+    rate = c(3, 2)
+  ),
+  failRates = tibble(
+    duration = c(4, 3),
+    failRate = c(.03, .06),
+    dropoutRate = c(.001, .002)
+  ),
+  totalDuration = 7,
+  simple = FALSE
+)
 ```
 
 Now we group rows of `y` above into these same intervals.
 
 ```{r,message=FALSE}
-y %>% mutate(t = c(0,4,4,4)) %>%
-  group_by(t) %>% 
-  summarise(failRate=first(lambda), 
-            Events=sum(nbar))
+y %>%
+  mutate(t = c(0, 4, 4, 4)) %>%
+  group_by(t) %>%
+  summarise(
+    failRate = first(lambda),
+    Events = sum(nbar)
+  )
 ```
-
 
 Finally, we approximate specific numbers using simulation.
 First, we simulate a large dataset and confirm the simulation has the targeted enrollment pattern.
 
 ```{r, warning=FALSE}
 nsim <- 1000000
-xx <- simtrial::simPWSurv(n=nsim,
-                          block=(rep("xx",4)),
-                          enrollRates=tibble(rate=c(3,2)*nsim/5,duration=c(1,1)),
-                          failRates=tibble(Stratum="All",period=1:2,Treatment="xx",
-                                           rate=c(.03,.06),duration=c(4,Inf)),
-                          dropoutRates = tibble(Stratum="All",period=1:2,Treatment="xx",
-                                                rate=c(.001,.002),duration=c(4,Inf))
+xx <- simtrial::simPWSurv(
+  n = nsim,
+  block = (rep("xx", 4)),
+  enrollRates = tibble(rate = c(3, 2) * nsim / 5, duration = c(1, 1)),
+  failRates = tibble(
+    Stratum = "All", period = 1:2, Treatment = "xx",
+    rate = c(.03, .06), duration = c(4, Inf)
+  ),
+  dropoutRates = tibble(
+    Stratum = "All", period = 1:2, Treatment = "xx",
+    rate = c(.001, .002), duration = c(4, Inf)
+  )
 )
 ecat <- 1 + (xx$enrollTime > 1) + (xx$enrollTime > 2)
-cat("Enrollment pattern: ",table(ecat)/nsim)
+cat("Enrollment pattern: ", table(ecat) / nsim)
 ```
 
 Now we confirm the expected events in each follow-up interval given the targeted enrollment.
 
 ```{r,warning=FALSE}
-yy <- xx %>% 
-      simtrial::cutData(7) %>%
-      filter(event==1) %>%
-      mutate(tcat = 4+(tte>4)+(tte>5)+(tte>6))
-cat("Event by interval: ",table(yy$tcat)/nsim*5,"\n")
-cat("Total events: ", sum(yy$event)/nsim*5)
+yy <- xx %>%
+  simtrial::cutData(7) %>%
+  filter(event == 1) %>%
+  mutate(tcat = 4 + (tte > 4) + (tte > 5) + (tte > 6))
+cat("Event by interval: ", table(yy$tcat) / nsim * 5, "\n")
+cat("Total events: ", sum(yy$event) / nsim * 5)
 ```
 
-# References
+## References
