@@ -19,13 +19,7 @@ logrank test.
 
 ## Installation
 
-You can install the released version of gsDesign2 from CRAN with:
-
-``` r
-install.packages("gsDesign2")
-```
-
-Or, install from GitHub:
+You can install from GitHub:
 
 ```r
 remotes::install_github("Merck/gsDesign2")
