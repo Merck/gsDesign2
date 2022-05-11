@@ -631,7 +631,7 @@ Events by time period
 <span class="op">)</span>
 <span class="va">ecat</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Enrollment pattern: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">ecat</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span><span class="op">)</span>
-<span class="co">#&gt; Enrollment pattern:  0.599433 0.400531 3.6e-05</span></code></pre></div>
+<span class="co">#&gt; Enrollment pattern:  0.600528 0.398876 0.000596</span></code></pre></div>
 <p>Now we confirm the expected events in each follow-up interval given the targeted enrollment.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">yy</span> <span class="op">&lt;-</span> <span class="va">xx</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -639,9 +639,9 @@ Events by time period
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">event</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>tcat <span class="op">=</span> <span class="fl">4</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Event by interval: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">yy</span><span class="op">$</span><span class="va">tcat</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span> <span class="op">*</span> <span class="fl">5</span>, <span class="st">"\n"</span><span class="op">)</span>
-<span class="co">#&gt; Event by interval:  0.567205 0.25722 0.193725 0.06903</span>
+<span class="co">#&gt; Event by interval:  0.562335 0.25578 0.192905 0.068875</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Total events: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">yy</span><span class="op">$</span><span class="va">event</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span> <span class="op">*</span> <span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt; Total events:  1.08718</span></code></pre></div>
+<span class="co">#&gt; Total events:  1.079895</span></code></pre></div>
 </div>
 </div>
 <div class="section level2 unnumbered">
