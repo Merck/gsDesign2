@@ -34,14 +34,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -76,6 +76,9 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="AHRVignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Average hazard ratio and sample size under non-proportional hazards</h1>
@@ -90,7 +93,7 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>This document demonstrates applications of the average hazard ratio concept in the design of fixed designs without interim analysis. Throughout we consider a 2-arm trial with an experimental and control group and a time-to-event endpoint. Testing for differences between treatment groups is performed using the stratified logrank test. In the above setting, the <code><a href="../reference/AHR.html">gsDesign2::AHR()</a></code> routine provides an average hazard ratio that can be used for sample size using the function <code><a href="https://rdrr.io/pkg/gsDesign/man/nSurv.html" class="external-link">gsDesign::nSurv()</a></code>. The approach assumes piecewise constant enrollment rates and piecewise exponential failure rates with the option of including multiple strata. This approach allows the flexibility to approximate a wide variety of scenarios. We evaluate the approximations used via simulation using the <strong>simtrial</strong> package; we specifically provide a simulation routine so that any changes specified by the user should be easily incorporated. We consider both non-proportional hazards for a single stratum and multiple strata with different underlying proportional hazards assumptions.</p>
+<p>This document demonstrates applications of the average hazard ratio concept in the design of fixed designs without interim analysis. Throughout we consider a 2-arm trial with an experimental and control group and a time-to-event endpoint. Testing for differences between treatment groups is performed using the stratified logrank test. In the above setting, the <code><a href="../reference/AHR.html">gsDesign2::AHR()</a></code> routine provides an average hazard ratio that can be used for sample size using the function <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::nSurv()</a></code>. The approach assumes piecewise constant enrollment rates and piecewise exponential failure rates with the option of including multiple strata. This approach allows the flexibility to approximate a wide variety of scenarios. We evaluate the approximations used via simulation using the <strong>simtrial</strong> package; we specifically provide a simulation routine so that any changes specified by the user should be easily incorporated. We consider both non-proportional hazards for a single stratum and multiple strata with different underlying proportional hazards assumptions.</p>
 <p>There are two things to note regarding differences between <code><a href="https://merck.github.io/simtrial/reference/simfix.html" class="external-link">simtrial::simfix()</a></code> and <code><a href="../reference/AHR.html">gsDesign2::AHR()</a></code>:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -153,7 +156,7 @@
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">gsDesign</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span>
@@ -276,10 +279,10 @@
 <div class="section level3">
 <h3 id="deriving-the-design">Deriving the design<a class="anchor" aria-label="anchor" href="#deriving-the-design"></a>
 </h3>
-<p>With this average hazard ratio, we use the call for <code><a href="https://rdrr.io/pkg/gsDesign/man/nSurvival.html" class="external-link">gsDesign::nEvents()</a></code> which uses the <span class="citation">Schoenfeld (1981)</span> approximation to derive a targeted number of events. All you need for this is the average hazard ratio from above, the randomization ratio (experimental/control), Type I error and Type II error (1 - power).</p>
+<p>With this average hazard ratio, we use the call for <code><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">gsDesign::nEvents()</a></code> which uses the <span class="citation">Schoenfeld (1981)</span> approximation to derive a targeted number of events. All you need for this is the average hazard ratio from above, the randomization ratio (experimental/control), Type I error and Type II error (1 - power).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">targetEvents</span> <span class="op">&lt;-</span>
-  <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gsDesign/man/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span>
+  <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span>
     hr <span class="op">=</span> <span class="va">avehr</span><span class="op">$</span><span class="va">AHR</span>, <span class="co"># average hazard ratio computed above</span>
     ratio <span class="op">=</span> <span class="fl">1</span>, <span class="co"># randomization ratio</span>
     alpha <span class="op">=</span> <span class="fl">.025</span>, <span class="co"># 1-sided Type I error</span>
@@ -604,7 +607,7 @@
 <p>We derive the sample size as before. We plan the sample size based on the average hazard ratio for the overall population and use that across strata. First, we derive the targeted events:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">targetEvents</span> <span class="op">&lt;-</span>
-  <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gsDesign/man/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span>
+  <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span>
     hr <span class="op">=</span> <span class="va">ahr2</span><span class="op">$</span><span class="va">AHR</span>,
     ratio <span class="op">=</span> <span class="fl">1</span>,
     alpha <span class="op">=</span> <span class="fl">.025</span>,
@@ -671,7 +674,7 @@
 <div class="section level3">
 <h3 id="simulation-to-verify-power-1">Simulation to verify power<a class="anchor" aria-label="anchor" href="#simulation-to-verify-power-1"></a>
 </h3>
-<p>We change the enrollment rates by stratum produced by <code><a href="https://rdrr.io/pkg/gsDesign/man/nSurv.html" class="external-link">gsDesign::nSurv()</a></code> to overall enrollment rates needed for <code><a href="https://merck.github.io/simtrial/reference/simfix.html" class="external-link">simtrial::simfix()</a></code>.</p>
+<p>We change the enrollment rates by stratum produced by <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::nSurv()</a></code> to overall enrollment rates needed for <code><a href="https://merck.github.io/simtrial/reference/simfix.html" class="external-link">simtrial::simfix()</a></code>.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">er</span> <span class="op">&lt;-</span> <span class="va">enrollRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Stratum</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -871,7 +874,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Keaven Anderson, Yilong Zhang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1. <br>Copyright © Merck Sharp &amp; Dohme Corp., a subsidiary of Merck &amp; Co., Inc., Kenilworth, NJ, USA.</p>
+<p>Developed by Keaven Anderson, Yilong Zhang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3. <br>Copyright © Merck Sharp &amp; Dohme Corp., a subsidiary of Merck &amp; Co., Inc., Kenilworth, NJ, USA.</p>
 </div>
 
 <div class="pkgdown-footer-right">

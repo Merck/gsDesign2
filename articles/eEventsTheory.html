@@ -34,14 +34,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -76,6 +76,9 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="eEventsTheory_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="eEventsTheory_files/kePrint-0.0.1/kePrint.js"></script><link href="eEventsTheory_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main"><div class="page-header">
@@ -562,9 +565,9 @@ Events by time period
 <div class="section level3">
 <h3 id="verifying-calculations">Verifying calculations<a class="anchor" aria-label="anchor" href="#verifying-calculations"></a>
 </h3>
-<p>We check the above for the total number of events using the <strong>gsDesign</strong> function <code><a href="https://rdrr.io/pkg/gsDesign/man/eEvents.html" class="external-link">eEvents()</a></code>. First, we sum the <span class="math inline">\(\bar{n}_m\)</span> values <code>sum(y$nbar)</code> to get 1.083773 and compare to:</p>
+<p>We check the above for the total number of events using the <strong>gsDesign</strong> function <code><a href="https://keaven.github.io/gsDesign/reference/eEvents.html" class="external-link">eEvents()</a></code>. First, we sum the <span class="math inline">\(\bar{n}_m\)</span> values <code>sum(y$nbar)</code> to get 1.083773 and compare to:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Events</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gsDesign/man/eEvents.html" class="external-link">eEvents</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">Events</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/eEvents.html" class="external-link">eEvents</a></span><span class="op">(</span>
   lambda <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">lambda</span>,
   eta <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">eta</span>,
   gamma <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">gamma</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">gamma</span><span class="op">)</span><span class="op">:</span><span class="fl">1</span><span class="op">]</span>,
@@ -628,7 +631,7 @@ Events by time period
 <span class="op">)</span>
 <span class="va">ecat</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Enrollment pattern: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">ecat</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span><span class="op">)</span>
-<span class="co">#&gt; Enrollment pattern:  0.599923 0.400077</span></code></pre></div>
+<span class="co">#&gt; Enrollment pattern:  0.599433 0.400531 3.6e-05</span></code></pre></div>
 <p>Now we confirm the expected events in each follow-up interval given the targeted enrollment.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">yy</span> <span class="op">&lt;-</span> <span class="va">xx</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -636,9 +639,9 @@ Events by time period
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">event</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>tcat <span class="op">=</span> <span class="fl">4</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Event by interval: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">yy</span><span class="op">$</span><span class="va">tcat</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span> <span class="op">*</span> <span class="fl">5</span>, <span class="st">"\n"</span><span class="op">)</span>
-<span class="co">#&gt; Event by interval:  0.56149 0.259785 0.194675 0.06905</span>
+<span class="co">#&gt; Event by interval:  0.567205 0.25722 0.193725 0.06903</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Total events: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">yy</span><span class="op">$</span><span class="va">event</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span> <span class="op">*</span> <span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt; Total events:  1.085</span></code></pre></div>
+<span class="co">#&gt; Total events:  1.08718</span></code></pre></div>
 </div>
 </div>
 <div class="section level2 unnumbered">
@@ -664,7 +667,7 @@ Events by time period
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Keaven Anderson, Yilong Zhang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1. <br>Copyright © Merck Sharp &amp; Dohme Corp., a subsidiary of Merck &amp; Co., Inc., Kenilworth, NJ, USA.</p>
+<p>Developed by Keaven Anderson, Yilong Zhang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3. <br>Copyright © Merck Sharp &amp; Dohme Corp., a subsidiary of Merck &amp; Co., Inc., Kenilworth, NJ, USA.</p>
 </div>
 
 <div class="pkgdown-footer-right">
