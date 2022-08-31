@@ -5,8 +5,8 @@
 \title{Predict time at which a targeted event count is achieved}
 \usage{
 tEvents(
-  enrollRates = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
-    9) * 5),
+  enrollRates = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)
+    * 5),
   failRates = tibble::tibble(Stratum = "All", duration = c(3, 100), failRate =
     log(2)/c(9, 18), hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
   targetEvents = 150,
