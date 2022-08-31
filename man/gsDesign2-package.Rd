@@ -6,7 +6,7 @@
 \alias{gsDesign2-package}
 \title{gsDesign2: Group Sequential Design Under Non-Proportional Hazards}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
 Compute sample size under non-proportional hazards.
 }
@@ -36,7 +36,7 @@ Other contributors:
   \item Xin Tong Li \email{xin.tong.li@merck.com} [contributor]
   \item Yalin Zhu \email{yalin.zhu@merck.com} [contributor]
   \item Nan Xiao \email{nan.xiao1@merck.com} [contributor]
-  \item Merck Sharp & Dohme Corp [copyright holder]
+  \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder]
 }
 
 }
