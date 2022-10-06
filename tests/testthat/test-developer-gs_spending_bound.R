@@ -58,10 +58,17 @@ test_that("Two-sided symmetric design fails to reproduce gsDesign test.type=2 bo
                         lower = gs_spending_bound,
                         lpar = list(sf = sfu, total_spend = alpha, param = sfupar),
                         tol = 1e-6)
-  
+  # compare boundaries
   expect_equal(gsd$upper$bound, (gsdv %>% filter(Bound == "Upper"))$Z, tolerance = 7e-6)
   expect_equal(gsd$lower$bound, (gsdv %>% filter(Bound == "Lower"))$Z, tolerance = 7e-6)
-  expect_equal(gsd$n.I, (gsdv %>% filter(Bound == "Upper"))$info, tolerance = .04) # While tolerance should not be problematic, it seems large
+  
+  # compare statistical information
+  # While tolerance should not be problematic, it seems large
+  expect_equal(gsd$n.I, (gsdv %>% filter(Bound == "Upper"))$info, tolerance = .04) 
+  
+  # compare crossing boundaries probability
+  expect_equal((gsdv %>% filter(Bound == "Upper"))$Probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
+  expect_equal((gsdv %>% filter(Bound == "Lower"))$Probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
   
   # get design properties under null hypothesis (theta = 0)
   gsdv0 <- gs_power_npe(theta = 0, info = (gsdv %>% filter(Bound == "Upper"))$info,
@@ -71,9 +78,6 @@ test_that("Two-sided symmetric design fails to reproduce gsDesign test.type=2 bo
                         lpar = list(sf = sfu, total_spend = alpha, param = sfupar))
   
   expect_equal((gsdv0 %>% filter(Bound == "Upper"))$Probability, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
-  
-  # get design properties under null hypothesis (theta = 0)
-  expect_equal((gsdv %>% filter(Bound == "Upper"))$Probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
   
 })
 
