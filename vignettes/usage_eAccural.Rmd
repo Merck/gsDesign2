@@ -1,0 +1,65 @@
+---
+title: "eAccrual: computes the expected cumulative enrollment (accrual) given a set of piecewise constant enrollment rates and times."
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{eAccrual: computes the expected cumulative enrollment (accrual) given a set of piecewise constant enrollment rates and times.}
+---
+
+```{r, message=FALSE}
+library(tibble)
+library(dplyr)
+#library(gsDesign2)
+devtools::load_all()
+```
+
+# Introduction of `eAccrual()`
+
+
+# Use cases of `eAccrual()`
+
+## Example 1
+For the enrollment in the first 3 months, it is exactly $3 \times 5 = 15$.
+```{r}
+eAccrual(x = 3,
+         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+```
+
+## Example 2
+For the enrollment in the first 6 months, it is exactly $3 \times 5 + 3 \times 10 = 45$.
+```{r}
+eAccrual(x = 6, 
+         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+```
+
+## Example 3
+For the enrollment in the first 24 months, it is exactly $3 \times 5 + 3 \times 10 + 18 * 20 = 405$.
+```{r}
+eAccrual(x = 24, 
+         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+```
+
+## Example 4
+For the enrollment after 24 months, it is the same as that from the 24 months, since the enrollment is stopped.
+```{r}
+eAccrual(x = 25, 
+         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+```
+
+## Example 5
+Instead of compute the enrolled subjects one time point by one time point, we can also compute it once.
+```{r}
+eAccrual(x = c(3, 6, 24, 25), 
+         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+```
+
+# Inner Logic of `eAccrual()`
+
+TODO

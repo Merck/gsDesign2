@@ -1,0 +1,309 @@
+---
+title: "Numerical Integration Non-Proportional Effect Size in Group Sequential Design"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: "ggsd.bib"
+vignette: |
+  %\VignetteIndexEntry{Numerical integration for NPES}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tibble)
+library(dplyr)
+library(knitr)
+devtools::load_all()
+```
+
+## Overview
+
+We have provided asymptotic distribution theory and notation for group sequential boundaries in
+`vignette("NPEbackground", package="gsdmvn")`. 
+
+This vignettes generalize computational algorithms provided in Chapter 19 of @JTBook that are used to compute boundary crossing probabilities as well as derive boundaries for group sequential designs.
+
+## Asymptotic normal and boundary crossing probabilities
+
+We assume $Z_1,\cdots,Z_K$ has a multivariate normal distribution with variance for $1\le k\le K$ of 
+$$\hbox{Var}(Z_k) = 1$$
+and the expected value is
+
+$$E(Z_{k})= \sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .$$
+
+## Notation for boundary crossing probabilities
+
+We use a shorthand notation in this section to have $\theta$ represent $\theta()$ and $\theta=0$ to represent $\theta(t)\equiv 0$ for all $t$.
+We denote the probability of crossing the upper boundary at analysis $k$ without previously crossing a bound by
+
+$$\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\le Z_{j}< b_{j}\}),$$
+$k=1,2,\ldots,K.$ 
+
+Next, we consider analogous notation for the lower bound. For $k=1,2,\ldots,K$
+denote the probability of crossing a lower bound at analysis $k$ without previously crossing any bound by
+
+$$\beta_{k}(\theta)=P_{\theta}((Z_{k}< a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\le Z_{j}< b_{j}\}).$$
+For symmetric testing for analysis $k$ we would have $a_k= - b_k$, $\beta_k(0)=\alpha_k(0),$ $k=1,2,\ldots,K$. 
+The total lower boundary crossing probability for a trial is denoted by 
+$$\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).$$
+Note that we can also set $a_k= -\infty$ for any or all analyses if a lower bound is not desired, $k=1,2,\ldots,K$; thus, we will not use the $\alpha^+(\theta)$ notation here.
+For $k<K$, we can set $b_k=\infty$ where an upper bound is not desired.
+Obviously, for each $k$, we want either $a_k>-\infty$ or $b_k<\infty$.
+
+
+
+## Recursive algorithms for numerical integration
+
+We now provide a small update to the algorithm of Chapter 19 of @JTBook to do the numerical integration required to compute the boundary crossing probabilites of the previous section and also identifying group sequential boundaries satisfying desired characteristics. 
+The key to these calculations is the conditional power identitity in equation (1) above which allows building recursive numerical integration identities to enable simple, efficient numerical integration.
+
+We define 
+
+$$g_1(z;\theta) = \frac{d}{dz}P(Z_1\le z) = \phi\left(z - \sqrt{\mathcal{I}_1}\theta(t_1)\right)\tag{2}$$
+
+and for $k=2,3,\ldots K$ we recursively define the subdensity function 
+
+$$\begin{align}
+g_k(z; \theta) &= \frac{d}{dz}P_\theta(\{Z_k\le z\}\cap_{j=1}^{k-1}\{a_j\le Z_j<b_j\}) \\
+ &=\int_{a_{k-1}}^{b_{k-1}}\frac{d}{dz}P_\theta(\{Z_k\le z |Z_{k-1}=z_{k-1}\})g_{k-1}(z_{k-1}; \theta)dz_{k-1}\\
+ &=\int_{a_{k-1}}^{b_{k-1}}f_k(z_{k-1},z;\theta)g_{k-1}(z_{k-1}; \theta)dz_{k-1}.\tag{3}
+ \end{align}$$
+
+The bottom line notation here is the same as on p. 347 in @JTBook.
+However, $f_k()$ here takes a slightly different form.
+
+$$\begin{align}
+f_k(z_{k-1},z;\theta) &=\frac{d}{dz}P_\theta(\{Z_k\le z |Z_{k-1}=z_{k-1}\})\\
+ &=\frac{d}{dz}P_\theta(B_k - B_{k-1} \le z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}})\\
+ &=\frac{d}{dz}\Phi\left(\frac{z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}}-\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_{k-1}\theta(t_{k-1}))}{\sqrt{t_k-t_{k-1}}}\right)\\
+ &=\frac{\sqrt{t_k}}{\sqrt{t_k-t_{k-1}}}\phi\left(\frac{z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}}-\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_{k-1}\theta(t_{k-1}))}{\sqrt{t_k-t_{k-1}}}\right)\\
+ &=\frac{\sqrt{\mathcal{I}_k}}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\phi\left(\frac{z\sqrt{\mathcal{I}_k}-z_{k-1}\sqrt{\mathcal{I}_{k-1}}-(\mathcal{I}_k\theta(t_k)- \mathcal{I}_{k-1}\theta(t_{k-1}))}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{3}
+\end{align}$$
+
+We have worked towards this last line due to its comparability to equation (19.4) on p. 347 of @JTBook which assumes $\theta(t_k)=\theta$ for some constant $\theta$; we re-write that equation slightly here as:
+
+$$f_k(z_{k-1},z;\theta) = \frac{\sqrt{\mathcal{I}_k}}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\phi\left(\frac{z\sqrt{\mathcal{I}_k}-z_{k-1}\sqrt{\mathcal{I}_{k-1}}-\theta(\mathcal{I}_k- \mathcal{I}_{k-1})}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{4}$$
+This is really the only difference in the computational algorithm for boundary crossing probabilities from the @JTBook algorithm.
+Using the above recursive approach we can compute for $k=1,2,\ldots,K$
+
+$$\alpha_{k}(\theta)=\int_{b_k}^\infty g_k(z;\theta)dz\tag{5}$$
+and
+$$\beta_{k}(\theta)=\int_{-\infty}^{a_k} g_k(z;\theta)dz.\tag{6}$$
+
+## Deriving spending boundaries
+
+We can now derive boundaries satisfying given boundary crossing probabilities using equations (2-6) above.
+Suppose for we have specified $b_1,\ldots,b_{k-1}$ and $a_1,\ldots,a_{k-1}$ and now wish to derive $a_k$ and $b_k$ such that equations (5) and (6) hold.
+We write the upper bound as a function of the probability of crossing we wish to derive.
+
+$$\pi_k(b;\theta) = \int_b^\infty g_k(z;\theta)dz$$ 
+$$\pi_k^\prime(b;\theta) =\frac{d}{db}\pi_k(b;\theta)= -g_k(b; \theta).\tag{7}$$
+If we have a value $\pi_k(b^{(i)};\theta)$ we can use a first order Taylor's series expansion to approximate
+
+$$\pi_k(b;\theta)\approx \pi_k(b^{(i)};\theta)+(b-b^{(i)})\pi_k^\prime(b^{(i)};\theta)$$
+We set $b^{(i+1)}$ such that
+
+$$\alpha_k(\theta)=\pi_k(b^{(i)}; \theta) + (b^{(i+1)}-b^{(i)})\pi^\prime(b^{(i)};\theta).$$
+
+Solving for $b^{(i+1)}$ we have 
+
+$$b^{(i+i)} = b^{(i)} + \frac{\alpha_k(\theta) - \pi_k(b^{(i)};\theta)}{\pi_k^\prime(b^{(i)}; \theta)}= b^{(i)} - \frac{\alpha_k(\theta) - \pi_k(b^{(i)};\theta)}{g_k(b^{(i)}; \theta)}\tag{8}$$
+and iterate until $|b^{(i+1)}-b^{(i)}|<\epsilon$ for some tolerance level $\epsilon>0$ and $\pi_k(b^{(i+1)};\theta)-\alpha_k(\theta)$ is suitably small.
+A simple starting value for any $k$ is 
+
+$$b^{(0)} = \Phi^{-1}(1- \alpha_k(\theta)) + \sqrt{\mathcal{I}_k}\theta(t_k).\tag{9}$$
+Normally, $b_k$ will be calculated with $\theta(t_k)=0$ for $k=1,2,\ldots,K$ which simplifies the above.
+However, $a_k$ computed analogously will often use a non-zero $\theta$ to enable so-called $\beta$-spending.
+
+## Numerical integration
+
+The numerical integration required to compute boundary probabilities and derive boundaries is the same as that defined in section 19.3 of @JTBook. The single change is the replacement of the non-proportional effect size assumption of equation (3) above replacing the equivalent of equation (4) used for a constant effect size as in @JTBook.
+
+### Demonstrating calculations
+
+We walk through how to perform the basic calculations above.
+The basic scenario will have one interim analysis in addition to the final analysis.
+We will target Type I error $\alpha=0.025$ and Type II error $\beta = 0.1$, the latter corresponding to a target of 90% power.
+We will assume a power spending function with $\rho=2$ for both bounds.
+That is, for information fraction $t$, the cumulative spending will be $\alpha \times t^2$ for the upper bound and $\beta \times t^2$ for the lower bound.
+Statistical information will be 1 for the first analysis and 4 for the final analysis, leading to information fraction $t_1= 1/4, t_2=1$ for the interim and final, respectively.
+We assume $\theta_1 = .5$, $\theta_3=1.5$.
+
+- Set up overall study parameters
+
+```{r}
+# Information for both null and alternative
+info <- c(1, 4)
+# information fraction
+timing <- info / max(info) 
+# Type I error
+alpha <- 0.025
+# Type II error (1 - power)
+beta <- 0.1
+# Cumulative alpha-spending at IA, Final
+alphaspend <- alpha * timing^2
+# Cumulative beta-spending at IA, Final
+betaspend <- beta * timing^2
+# Average treatment effect at analyses
+theta <- c(1, 3)/2
+```
+
+- Calculate interim bounds
+
+```{r}
+# Upper bound under null hypothesis
+b1 <- qnorm(alphaspend[1], lower.tail = FALSE)
+# Lower bound under alternate hypothesis
+a1 <- qnorm(betaspend[1], mean = sqrt(info[1]) * theta[1])
+# Compare probability of crossing vs target for bounds:
+cat("Upper bound =", b1, "Target spend =", alphaspend[1],
+    "Actual spend =", pnorm(b1, lower.tail=FALSE))
+```
+
+```{r}
+# Lower bound under alternate hypothesis
+a1 <- qnorm(betaspend[1], mean = sqrt(info[1]) * theta[1])
+# Compare probability of crossing vs target for bounds:
+cat("Lower bound =", a1, "Target spend =", betaspend[1],
+    "Actual spend =", pnorm(a1, mean = sqrt(info[1]) * theta[1]))
+```
+
+- Set up numerical integration grid for next (final) analysis
+
+We set up a table for numerical integration over the continuation region which we can subsequently use to compute boundary crossing probabilities for bounds at the second interim analysis.
+We begin with the null hypothesis. 
+The columns in the resulting table are
+    - `z` - $Z$-values for the grid; recall that each interim test statistic is normally distributed with variance 1
+    - `w` - weights for numerical integration
+    - `h` - weights `w` times the normal density that can be used for numerical integration; we will demonstrate use below 
+
+```{r}
+# Set up grid over continuation region
+# Null hypothesis
+grid1_0 <- h1(theta = 0, I = info[1], a = a1, b = b1)
+grid1_0 %>% head()
+```
+The probability of not crossing a bound under the null hypothesis is computed as follows:
+
+```{r}
+probH0continue <- sum(grid1_0$h) 
+cat("Probability of continuing trial under null hypothesis\n",
+    " Using numerical integration:", probH0continue, 
+    "\n  Using normal cdf:", pnorm(b1) - pnorm(a1), "\n")
+```
+
+We now set up numerical integration grid under the alternate hypothesis and the compute continuation probability.
+
+```{r}
+grid1_1 <- h1(theta = theta[1], I = info[1], a = a1, b = b1)
+probH1continue <- sum(grid1_1$h) 
+h1mean <- sqrt(info[1]) * theta[1]
+cat("Probability of continuing trial under alternate hypothesis\n",
+    " Using numerical integration:", probH1continue, 
+    "\n  Using normal cdf:", pnorm(b1, mean = h1mean) - pnorm(a1, h1mean), "\n")
+```
+
+- Compute initial iteration for analysis 2 bounds
+
+The initial estimate of the second analysis bounds are computed the same way as the actual first analysis bounds.
+
+```{r}
+# Upper bound under null hypothesis
+# incremental spend
+spend0 <- alphaspend[2] - alphaspend[1]
+# H0 bound at 2nd analysis; 1st approximation
+b2_0 <- qnorm(spend0, lower.tail = FALSE)
+# Lower bound under alternate hypothesis
+spend1 <- betaspend[2] - betaspend[1]
+a2_0 <- qnorm(spend1, mean = sqrt(info[2]) * theta[2])
+cat("Initial bound approximation for 2nd analysis\n (",
+    a2_0, ", ", b2_0,")\n", sep="")
+```
+
+- Compute actual boundary crossing probabilities with initial approximations
+
+To get actual boundary crossing probabilities at the second analysis, we update our numerical integration grids.
+Under the null hypothesis, we need to update to the interval above `b2_0`.
+
+```{r}
+# Upper rejection region grid under H0
+grid2_0 <- hupdate(theta = 0, I = info[2], a = b2_0, b = Inf, Im1 = info[1], gm1 = grid1_0)
+pupper_0 <- sum(grid2_0$h) 
+cat("Upper spending at analysis 2\n Target:", spend0, "\n Using initial bound approximation:",
+    pupper_0,"\n")
+```
+
+To get a first order Taylor's series approximation to update this bound, we need the derivative of the above probability with respect to the Z-value cutoff. This was given above as the subdensity computed in the grid.
+As before, the grid contains the numerical integration weight in `w` and that weight times the subdensity in `h`. Thus, to get the subdensity at the bound, which is the estimated derivative in the boundary crossing probability, we compute:
+
+```{r}
+# First point in grid is at bound
+# Compute derivative
+dpdb2 <- grid2_0$h[1] / grid2_0$w[1]
+# Compute difference between target and actual bound crossing probability
+pdiff <- spend0 - pupper_0
+# Taylor's series update
+b2_1 <- b2_0 - pdiff / dpdb2
+# Compute boundary crossing probability at updated bound
+cat("Original bound approximation:", b2_0, 
+    "\nUpdated bound approximation:", b2_1
+    )
+grid2_0 <- hupdate(theta = 0, I = info[2], a = b2_1, b = Inf, Im1 = info[1], gm1 = grid1_0)
+pupper_1 <- sum(grid2_0$h)
+cat("\nOriginal boundary crossing probability:", pupper_0, 
+    "\nUpdated boundary crossing probability:", pupper_1,
+    "\nTarget:", spend0, "\n"
+    )
+```
+
+We see that the Taylor's series update has gotten us substantially closer to the targeted boundary probability.
+We now update the lower bound in an analogous fashion.
+
+```{r}
+# Lower rejection region grid under H1
+grid2_1 <- hupdate(theta = theta[2], I = info[2], a = -Inf, b = a2_0, 
+                   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1)
+plower_0 <- sum(grid2_1$h)
+# Last point in grid is at bound
+# Compute derivative
+indx <- length(grid2_1$h)
+dpda2 <- grid2_1$h[indx] / grid2_1$w[indx]
+# Compute difference between target and actual bound crossing probability
+pdiff <- spend1 - plower_0
+# Taylor's series update
+a2_1 <- a2_0 + pdiff / dpda2
+# Compute boundary crossing probability at updated bound
+cat("Original bound approximation:", a2_0, 
+    "\nUpdated bound approximation:", a2_1)
+
+grid2_1 <- hupdate(theta = theta[2], I = info[2], a = -Inf, b = a2_1, 
+                   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1)
+plower_1 <- sum(grid2_1$h) 
+cat("\nOriginal boundary crossing probability:", plower_0, 
+    "\nUpdated boundary crossing probability:", plower_1,
+    "\nTarget:", spend1, "\n"
+    )
+```
+
+- Confirm with `gs_power_npe()`
+
+```{r, message = FALSE}
+gs_power_npe(theta = theta, theta1 = theta, info = info, binding = TRUE,
+             upper = gs_spending_bound,
+             upar = list(sf = gsDesign::sfPower, total_spend = 0.025, param = 2),
+             lower = gs_spending_bound,
+             lpar = list(sf = gsDesign::sfPower, total_spend = 0.1, param = 2)
+)
+```
+
+# References

@@ -6,7 +6,7 @@
 \usage{
 eAccrual(
   x = 0:24,
-  enrollRates = tibble::tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 }
 \arguments{
@@ -43,6 +43,23 @@ given a set of piecewise constant enrollment rates and times.
 }
 
 \examples{
-# Example: default
+library(tibble)
+
+# Example 1: default
 eAccrual()
+
+# Example 2: unstratified design
+eAccrual(x = c(5, 10, 20), 
+         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+
+eAccrual(x = c(5, 10, 20), 
+         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20), 
+         Stratum = "All"))
+         
+# Example 3: stratified design
+eAccrual(x = c(24, 30, 40), 
+         enrollRates = tibble(Stratum=c("subgroup", "complement"), 
+                              duration = 33, 
+                              rate = c(30, 30)))
+
 }
