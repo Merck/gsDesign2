@@ -1,4 +1,5 @@
-#  Copyright (c) 2022 Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.
+#  Copyright (c) 2021 Merck Sharp & Dohme Corp., a subsidiary of
+#  Merck & Co., Inc., Kenilworth, NJ, USA.
 #
 #  This file is part of the gsDesign2 program.
 #
@@ -76,116 +77,127 @@ NULL
 #' and info0 (information under related null hypothesis) for each value of `totalDuration` input;
 #' if `simple=FALSE`, `Stratum` and `t` (beginning of each constant HR period) are also returned
 #' and `HR` is returned instead of `AHR`
+#' 
 #' @examples
 #' # Example: default
 #' AHR()
-#' # Example; default with multiple analysis times (varying totalDuration)
-#' AHR(totalDuration=c(15,30))
+#' 
+#' # Example: default with multiple analysis times (varying totalDuration)
+#' 
+#' AHR(totalDuration = c(15, 30))
+#' 
 #' # Stratified population
-#' enrollRates <- tibble::tibble(Stratum=c(rep("Low",2),rep("High",3)),
-#'                               duration=c(2,10,4,4,8),
-#'                               rate=c(5,10,0,3,6)
-#' )
-#' failRates <- tibble::tibble(Stratum=c(rep("Low",2),rep("High",2)),
-#'                             duration=1,
-#'                             failRate=c(.1,.2,.3,.4),
-#'                             hr=c(.9,.75,.8,.6),
-#'                             dropoutRate=.001
-#' )
-#' AHR(enrollRates=enrollRates,
-#'     failRates=failRates,
-#'     totalDuration=c(15,30)
-#'    )
+#' enrollRates <- tibble::tibble(Stratum = c(rep("Low", 2), rep("High", 3)),
+#'                               duration = c(2, 10, 4, 4, 8),
+#'                               rate = c(5, 10, 0, 3, 6))
+#' failRates <- tibble::tibble(Stratum = c(rep("Low", 2), rep("High", 2)),
+#'                             duration = 1,
+#'                             failRate = c(.1, .2, .3, .4),
+#'                             hr = c(.9, .75, .8, .6),
+#'                             dropoutRate = .001)
+#' AHR(enrollRates = enrollRates, failRates = failRates, totalDuration = c(15, 30))
+#' 
 #' # Same example, give results by strata and time period
-#' AHR(enrollRates=enrollRates,
-#'     failRates=failRates,
-#'     totalDuration=c(15,30),
-#'     simple=FALSE
-#' )
+#' AHR(enrollRates = enrollRates, failRates = failRates, totalDuration = c(15, 30), simple = FALSE)
+#' 
 #' @export
 #'
-AHR <- function(enrollRates=tibble::tibble(Stratum="All",
-                                           duration=c(2,2,10),
-                                           rate=c(3,6,9)),
-                failRates=tibble::tibble(Stratum="All",
-                                         duration=c(3,100),
-                                         failRate=log(2)/c(9,18),
-                                         hr=c(.9,.6),
-                                         dropoutRate=rep(.001,2)),
-                totalDuration=30,
-                ratio=1,
-                simple=TRUE
+AHR <- function(enrollRates = tibble::tibble(Stratum = "All",
+                                             duration = c(2, 2, 10),
+                                             rate = c(3, 6, 9)),
+                failRates = tibble::tibble(Stratum = "All",
+                                           duration = c(3, 100),
+                                           failRate = log(2) / c(9, 18),
+                                           hr = c(.9, .6),
+                                           dropoutRate = rep(.001, 2)),
+                totalDuration = 30,
+                ratio = 1,
+                simple = TRUE
 ){
-  # check input values
-  # check input enrollment rate assumptions
-  if(max(names(enrollRates)=="Stratum") != 1){stop("gsDesign2: enrollRates column names in `AHR()` must contain stratum")}
-  if(max(names(enrollRates)=="duration") != 1){stop("gsDesign2: enrollRates column names in `AHR()` must contain duration")}
-  if(max(names(enrollRates)=="rate") != 1){stop("gsDesign2: enrollRates column names in `AHR()' must contain rate")}
-
-  # check input failure rate assumptions
-  if(max(names(failRates)=="Stratum") != 1){stop("gsDesign2: failRates column names in `AHR()` must contain stratum")}
-  if(max(names(failRates)=="duration") != 1){stop("gsDesign2: failRates column names in `AHR()` must contain duration")}
-  if(max(names(failRates)=="failRate") != 1){stop("gsDesign2: failRates column names in `AHR()` must contain failRate")}
-  if(max(names(failRates)=="hr") != 1){stop("gsDesign2: failRates column names in `AHR()` must contain hr")}
-  if(max(names(failRates)=="dropoutRate") != 1){stop("gsDesign2: failRates column names in `AHR()` must contain dropoutRate")}
-
-  # check input trial durations
-  if(!is.numeric(totalDuration)){stop("gsDesign2: totalDuration in `AHR()` must be a non-empty vector of positive numbers")}
-  if(!is.vector(totalDuration) > 0){stop("gsDesign2: totalDuration in `AHR()` must be a non-empty vector of positive numbers")}
-  if(!min(totalDuration) > 0){stop("gsDesign2: totalDuration in `AHR()` must be greater than zero")}
-  strata <- names(table(enrollRates$Stratum))
-  strata2 <- names(table(failRates$Stratum))
-  length(strata) == length(strata2)
-  for(s in strata){
-    if(max(strata2==s) != 1){stop("gsDesign2: Strata in `AHR()` must be the same in enrollRates and failRates")}
-  }
-  # check input simple is logical
+  # ----------------------------#
+  #    check input values       #
+  # ----------------------------#
+  check_enrollRates(enrollRates)
+  check_failRates(failRates)
+  check_enrollRates_failRates(enrollRates, failRates)
+  check_totalDuration(totalDuration)
+  check_ratio(ratio)
   if(!is.logical(simple)){stop("gsDesign2: simple in `AHR()` must be logical")}
-
+  
   # compute proportion in each group
   Qe <- ratio / (1 + ratio)
   Qc <- 1 - Qe
-
+  
   # compute expected events by treatment group, stratum and time period
-  rval <- NULL
+  ans <- NULL
+  strata <- unique(enrollRates$Stratum)
+  
   for(td in totalDuration){
+    
     events <- NULL
+    
     for(s in strata){
       # subset to stratum
-      enroll <- enrollRates %>% filter(Stratum==s)
-      fail <- failRates %>% filter(Stratum==s)
-      # Control events
-      enrollc <- enroll %>% mutate(rate=rate*Qc)
-      control <- eEvents_df(enrollRates=enrollc,failRates=fail,totalDuration=td,simple=FALSE)
-      # Experimental events
-      enrolle <- enroll %>% mutate(rate=rate*Qe)
-      fre <- fail %>% mutate(failRate=failRate*hr)
-      experimental <- eEvents_df(enrollRates=enrolle,failRates=fre,totalDuration=td,simple=FALSE)
+      enroll <- enrollRates %>% filter(Stratum == s)
+      fail <- failRates %>% filter(Stratum == s)
+      
+      # update enrollment rates
+      enroll_c <- enroll %>% mutate(rate = rate * Qc)
+      enroll_e <- enroll %>% mutate(rate = rate * Qe)
+      
+      # update failure rates
+      fail_c <- fail
+      fail_e <- fail %>% mutate(failRate = failRate * hr)
+      
+      # compute expected number of events
+      events_c <- eEvents_df(enrollRates = enroll_c, failRates = fail_c, totalDuration = td, simple = FALSE)
+      events_e <- eEvents_df(enrollRates = enroll_e, failRates = fail_e, totalDuration = td, simple = FALSE)
+      
       # Combine control and experimental; by period recompute HR, events, information
-      events <-
-        rbind(control %>% mutate(Treatment="Control"),
-              experimental %>% mutate(Treatment="Experimental")) %>%
-        arrange(t, Treatment) %>% ungroup() %>% group_by(t) %>%
-        summarize(Stratum = s, info = (sum(1 / Events))^(-1),
-                  Events = sum(Events), HR = last(failRate) / first(failRate)
-        ) %>%
-        rbind(events)
+      events <- rbind(events_c %>% mutate(Treatment = "Control"),
+                      events_e %>% mutate(Treatment = "Experimental")) %>%
+                arrange(t, Treatment) %>% 
+                ungroup() %>%
+                # recompute HR, events, info by period
+                group_by(t) %>%
+                summarize(Stratum = s, 
+                          info = (sum(1 / Events))^(-1),
+                          Events = sum(Events), 
+                          HR = last(failRate) / first(failRate)) %>%
+                rbind(events)
     }
-    rval <- rbind(rval,
-                  events %>%
-                    mutate(Time=td, lnhr = log(HR), info0 = Events * Qc * Qe) %>%
-                    ungroup() %>% group_by(Time, Stratum, HR) %>%
-                    summarize(t=min(t), Events = sum(Events), info0 = sum(info0), info = sum(info))
-    )
+    
+    # summarize events in one stratum
+    ans_new <- events %>%
+               mutate(Time = td, 
+                      lnhr = log(HR), 
+                      info0 = Events * Qc * Qe) %>%
+               ungroup() %>% 
+               # pool strata together for each time period
+               group_by(Time, Stratum, HR) %>%
+               summarize(t = min(t), 
+                         Events = sum(Events),
+                         info0 = sum(info0), 
+                         info = sum(info))
+    ans <- rbind(ans, ans_new)
   }
-
-  if(!simple) return(rval %>% select(c("Time", "Stratum", "t", "HR", "Events", "info", "info0")) %>%
-                       group_by(Time, Stratum) %>% arrange(t, .by_group = TRUE))
-  return(rval %>%
+  
+  # output the results
+  if(!simple){
+    ans <- ans %>% 
+           select(Time, Stratum, t, HR, Events, info, info0) %>%
+           group_by(Time, Stratum) %>% 
+           arrange(t, .by_group = TRUE) %>% 
+           ungroup()
+  }else{
+    ans <- ans %>%
            group_by(Time) %>%
-           summarize(AHR = exp(sum(log(HR)*Events)/sum(Events)),
+           summarize(AHR = exp(sum(log(HR) * Events) / sum(Events)),
                      Events = sum(Events),
                      info = sum(info),
-                     info0 = sum(info0))
-  )
+                     info0 = sum(info0)) %>%
+           ungroup()
+      
+  }
+  return(ans)
 }

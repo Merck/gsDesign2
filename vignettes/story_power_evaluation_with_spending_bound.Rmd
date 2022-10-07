@@ -1,0 +1,253 @@
+---
+title: "Power Evaluation with Spending bounds"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: "ggsd.bib"
+vignette: >
+  %\VignetteIndexEntry{Power Evaluation with Spending bounds}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+library(tibble)
+library(gt)
+devtools::load_all()
+library(dplyr)
+```
+
+# Overview
+
+This vignette covers how to compute power or Type I error for a design derived with a spending bound. We will write this with a general non-constant treatment effect using `gs_design_npe()` to derived the design under one parameter setting and computing power under another setting. We will use a trial with a binary endpoint to enable a full illustration.
+
+# Scenario for Consideration
+
+We consider a scenario largely based on the CAPTURE study (@CAPTURE) where the primary endpoint was a composite of death, acute myocardial infarction or the need for recurrent percutaneous intervention within 30 days of randomization.
+
+The detailed introduction of this trial is listed as follows.
+
+-   We consider a 2-arm trial with an experimental arm and a control arm.
+
+-   We will assume $K=3$ analyses after $350$, $700$, and $1400$ patients have been observed with equal randomization between the treatment groups.
+
+-   The primary endpoint for the trial is a binary indicator for each participant if they have a failed outcome. For this case, we consider the parameter $$
+    \theta = p_1 - p _2
+    $$ where $p_1$ denotes the probability that a trial participant in the control group experiences a failure and $p_2$ represents the same probability for a trial participant in the experimental group.
+
+-   The study was designed with approximately 80% power (Type II error $\beta = 1 - 0.8 = 0.2$) and 2.5% one-sided Type I error ($\alpha = 0.025$) to detect a reduction from a 15% event rate ($p_1 = 0.15$) in the control group to 10% ($p_2 = 0.1$) in the experimental group.
+
+```{r}
+p0 <- 0.15     # assumed failure rate in control group
+p1 <- 0.10     # assumed failure rate in experimental group
+alpha <- 0.025 # type I error
+beta <- 0.2    # type II error for 80% power
+```
+
+In this example, the parameter of interest is $\theta = p_1 - p_2$. We denote the alternate hypothesis as $$
+  H_1: \theta = \theta_1= p_1^1 - p_2^1 = 0.15 - 0.10 = 0.05
+$$ and the null hypothesis $$
+  H_0: \theta = \theta_0 = 0 = p_1^0 - p_2^0
+$$ where $p^0_1 = p^0_2= (p_1^1+p_2^1)/2 = 0.125$ as laid out in @LachinBook.
+
+We note that had we considered a success outcome such as objective response in an oncology study, we would let $p_1$ denote the experimental group and $p_2$ the control group response rate. Thus, we always set up the notation so the $p_1>p_2$ represents superiority for the experimental group.
+
+# Notations
+
+We assume
+
+-   $k$: the index of analysis, i.e., $k = 1, \ldots, K$;
+-   $i$: the index of arm, i.e., $i = 1$ for the control group and $i = 2$ for the experimental group;
+-   $n_{ik}$: the number of subjects in group $i$ and analysis $k$;
+-   $n_k$: the number of subjects at analysis $k$, i.e., $n_k = n_{1k} + n_{2k}$;
+-   $X_{ij}$: the independent random variable whether the $j$-th subject in group $i$ has response, i.e, $$
+    X_{ij} \sim \hbox{Bernoulli}(p_i);
+    $$
+-   $Y_{ik}$: the number of subject having response in group $i$ and analysis $k$, i.e., $$
+    Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
+    $$
+
+# Statistical Testing
+
+In this section, we will discuss the estimation of statistical information and variance of porprotion under both null hypothesis $H_0: p_1^0 = p_2^0 \equiv p_0$ and alternative hypothesis $H_1: \theta = \theta_1= p_1^1 - p_2^1$. Then, we will introduce the test statistics in the group sequential design.
+
+## Estimation of Statistical Information under H1
+
+Under the alternative hypothesis, one can estimate the proportion of failures in group $i$ at analysis $k$ as $$ 
+  \hat{p}_{ik} = Y_{ik}/n_{ik}.
+$$ We note its variance is $$
+ \hbox{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
+$$ and its consistent estimator $$
+  \widehat{\hbox{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat p_{ik})}{n_{ik}},
+$$ for any $i = 1, 2$ and $k = 1, 2, \ldots, K$. Letting $\hat\theta_k = \hat p_{1k} - \hat p_{2k},$ we also have $$
+  \sigma^2_k
+  \equiv 
+  \hbox{Var}(\hat\theta_k)
+  =
+  \frac{p_1(1-p_1)}{n_{1k}}+\frac{p_2(1-p_2)}{n_{2k}},
+$$ its consistent estimator $$
+  \hat\sigma^2_k
+  =
+  \frac{\hat p_{1k}(1-\hat p_{1k})}{n_{1k}}+\frac{\hat p_{2k}(1-\hat p_{2k})}{n_{2k}},
+$$
+
+Statistical information for each of these quantities and their corresponding estimators are denoted by 
+$$
+  \left\{
+  \begin{align}
+    \mathcal{I}_k = &1/\sigma^2_k,\\
+    \mathcal{\hat I}_k = &1/\hat \sigma^2_k,
+  \end{align}
+  \right.
+$$
+
+## Estimation of Statistical Information under H0
+
+Under the null hypothesis, one can estimate the proportion of failures in group $i$ at analysis $k$ as we estimate 
+$$ 
+  \hat{p}_{0k}
+  =
+  \frac{Y_{1k}+ Y_{2k}}{n_{1k}+ n_{2k}}
+  =
+  \frac{n_{1k}\hat p_{1k} + n_{2k}\hat p_{2k}}{n_{1k} + n_{2k}}. 
+$$ 
+The corresponding null hypothesis estimator 
+$$
+  \hat\sigma^2_{0k}
+  \equiv
+  \widehat{\text{Var}}(\hat{p}_{0k})
+  =
+  \hat p_{0k}(1-\hat p_{0k})\left(\frac{1}{n_{1k}}+ \frac{1}{n_{2k}}\right),
+$$ 
+for any $k = 1,2, \ldots, K$.
+
+Statistical information for each of these quantities and their corresponding estimators are denoted by 
+$$
+  \left\{
+  \begin{align}
+    \mathcal{I}_{0k} =& 1/ \sigma^2_{0k},\\
+    \mathcal{\hat I}_{0k} =& 1/\hat \sigma^2_{0k},
+  \end{align}
+  \right.
+$$ for any $k = 1, 2, \ldots, K$.
+
+## Testing Statistics
+
+Testing, as recommended by @LachinBook, is done with the large sample test with the null hypothesis variance estimate and without continuity correction: $$
+Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
+$$ 
+which is asymptotically $\text{Normal}(0,1)$ if $p_1 = p_2$ and $\text{Normal}(0, \sigma_{0k}^2/\sigma_k^2)$ more generally for any $p_1, p_2$ and $k = 1, 2, \ldots, K$.
+
+If we further assume a constant proportion $\xi_i$ randomized to each group $i=1,2.$ Thus, 
+$$
+  Z_k
+  \approx 
+  \frac{\sqrt{n_k}(\hat p_{1k} - \hat p_{2k})}{\sqrt{(1/\xi_1+ 1/\xi_2)p_{0}(1- p_0)} }.
+$$
+
+Then, we have the asymptotic distribution 
+$$
+  Z_k
+  \sim
+  \hbox{Normal}
+  \left(
+    \sqrt{n_k}\frac{p_1 - p_2}{\sqrt{(1/\xi_1+ 1/\xi_2) p_0(1- p_0)} },
+    \sigma^2_{0k}/\sigma^2_{1k}
+  \right),
+$$ where we note that 
+$$ 
+  \sigma^2_{0k}/\sigma^2_{1k} 
+  = 
+  \frac{ p_0(1-p_0)\left(1/\xi_1+ 1/\xi_2\right)}{p_1(1-p_1)/\xi_1+p_2(1-p_2)/\xi_2}.
+$$ 
+We also note by definition that $\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal I_{0k}.$ Based on an input $p_1, p_2, n_k, \xi_1, \xi_2 = 1-\xi_1$ we will compute $\theta, \mathcal{I}_k, \mathcal{I}_{0k}$ for any $k = 1, 2, \ldots, K$.
+
+We note that $\chi^2=Z^2_k$ is the $\chi^2$ test without continuity correction as recommended by @CCmyth. Note finally that this extends in a straightforward way the non-inferiority test of @FarringtonManning if the null hypothesis is $\theta = p_1 - p_2 - \delta = 0$ for some non-inferiority margin $\delta > 0$; $\delta < 0$ would correspond to what is referred to as super-superiority @Chan2002, requiring that experimental therapy has been shown to be superior to control by at least a margin $-\delta>0$.
+
+# Power Calculations
+
+We begin with developing a function `gs_info_binomial()` to calculate the statistical infomation discussed above.
+
+```{r}
+gs_info_binomial <- function(p1, p2, xi1, n, delta = NULL){
+  if (is.null(delta)) delta <- p1 - p2
+  # Compute (constant) effect size at each analysis theta
+  theta <- rep(p1 - p2, length(n))
+  # compute null hypothesis rate, p0
+  p0 <- xi1 * p1 + (1 - xi1) * p2
+  # compute information based on p1, p2
+  info <-  n / (p1 * (1 - p1) / xi1 + p2 * (1 - p2) / (1 - xi1))
+  # compute information based on null hypothesis rate of p0
+  info0 <- n / (p0 * (1 - p0)*(1 / xi1 + 1 / (1 - xi1)))
+  # compute information based on H1 rates of p1star, p2star
+  p1star <- p0 + delta * xi1
+  p2star <- p0 - delta * (1 - xi1)
+  info1 <-  n / (p1star * (1 - p1star) / xi1 + p2star * (1 - p2star) / (1 - xi1))
+  
+  out <- tibble(Analysis = 1:length(n),
+                n = n,
+                theta = theta,
+                theta1 = rep(delta, length(n)),
+                info = info,
+                info0 = info0,
+                info1 = info1)
+  return(out)
+}
+```
+
+For the CAPTURE trial, we have
+
+```{r}
+h1 <- gs_info_binomial(p1 = .15, p2 = .1, xi1 = .5, n = c(350, 700, 1400))
+h1 %>% gt()
+```
+
+We can plug these into `gs_power_npe()` with the intended spending functions. We begin with power under the alternate hypothesis
+
+```{r}
+gs_power_npe(
+  theta = h1$theta, 
+  theta1 = h1$theta, 
+  info = h1$info,
+  info0 = h1$info0, 
+  info1 = h1$info1,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
+  ) %>% 
+  gt() %>% 
+  fmt_number(columns = 3:10, decimals = 4)
+```
+
+Now we examine information for a smaller assumed treatment difference than the alternative:
+
+```{r}
+h <- gs_info_binomial(p1 = .15, p2 = .12, xi1 = .5, delta = .05, n = c(350, 700, 1400))
+
+gs_power_npe(
+  theta = h$theta, theta1 = h$theta1, info = h$info,
+  info0 = h$info0, info1 = h$info1,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
+  ) %>% 
+  gt() %>% 
+  fmt_number(columns = 3:10, decimals = 4)
+```
+
+# References

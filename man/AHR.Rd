@@ -84,27 +84,23 @@ and enrollment pattern where the enrollment, failure and dropout rates changes o
 \examples{
 # Example: default
 AHR()
-# Example; default with multiple analysis times (varying totalDuration)
-AHR(totalDuration=c(15,30))
+
+# Example: default with multiple analysis times (varying totalDuration)
+
+AHR(totalDuration = c(15, 30))
+
 # Stratified population
-enrollRates <- tibble::tibble(Stratum=c(rep("Low",2),rep("High",3)),
-                              duration=c(2,10,4,4,8),
-                              rate=c(5,10,0,3,6)
-)
-failRates <- tibble::tibble(Stratum=c(rep("Low",2),rep("High",2)),
-                            duration=1,
-                            failRate=c(.1,.2,.3,.4),
-                            hr=c(.9,.75,.8,.6),
-                            dropoutRate=.001
-)
-AHR(enrollRates=enrollRates,
-    failRates=failRates,
-    totalDuration=c(15,30)
-   )
+enrollRates <- tibble::tibble(Stratum = c(rep("Low", 2), rep("High", 3)),
+                              duration = c(2, 10, 4, 4, 8),
+                              rate = c(5, 10, 0, 3, 6))
+failRates <- tibble::tibble(Stratum = c(rep("Low", 2), rep("High", 2)),
+                            duration = 1,
+                            failRate = c(.1, .2, .3, .4),
+                            hr = c(.9, .75, .8, .6),
+                            dropoutRate = .001)
+AHR(enrollRates = enrollRates, failRates = failRates, totalDuration = c(15, 30))
+
 # Same example, give results by strata and time period
-AHR(enrollRates=enrollRates,
-    failRates=failRates,
-    totalDuration=c(15,30),
-    simple=FALSE
-)
+AHR(enrollRates = enrollRates, failRates = failRates, totalDuration = c(15, 30), simple = FALSE)
+
 }

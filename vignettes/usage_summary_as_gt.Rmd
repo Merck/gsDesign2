@@ -1,0 +1,379 @@
+---
+title: "summary & as_gt: summarize group sequential design"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: flatly
+    code_folding: hide
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: gsDesign.bib
+vignette: |
+  %\VignetteIndexEntry{summary & as_gt: summarize group sequential design}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tibble)
+library(gt)
+devtools::load_all()
+```
+
+# Overview
+
+This vignette introduces publication quality table production for group sequential designs in the **gsDesign2** package.  
+It also demonstrates designs for an example scenario using multiple design approaches.
+We divide the document into 3 parts:
+
+- Design specification and derivation
+- Printing design summary tables
+- Details of output from design functions
+- Details on table output options
+
+The reader can decide which of these sections is of interest to them.
+
+The function used to generate bounds tables is `gsDesign2::summary()`. 
+Users can use `gsDesign2::as_gt()` to format the above table using the **gt** package. 
+
+In this vignette, we introduce a general approach to bound summaries by examples using different design approaches for a time-to-event outcome:
+
+- the average hazard ratio (AHR) method extended from @Mukhopadhyay2020 using `gsDesign2::gs_design_ahr()`;
+- the weighted logrank (WLR) method of @Yung2019Bcs using `gsDesign2::gs_design_wlr()`;
+
+# Design Specification and Derivation
+
+## Design Parameters
+
+The design parameters we use across the different designs derived are: 
+
+```{r}
+# enrollment/failure rates
+enrollRates <- tibble::tibble(
+   Stratum = "All", 
+   duration = 12, 
+   rate = 1)
+failRates <- tibble::tibble(
+   Stratum = "All", 
+   duration = c(4, 100), 
+   failRate = log(2) / 12,
+   hr = c(1, .6), 
+   dropoutRate = .001)
+
+# Information fraction
+IF <- (1:3)/3 
+# Analysis times in months; first 2 will be ignored as IF will not be achieved
+analysisTimes <- c(.01, .02, 36)  
+
+# Experimental / Control randomization ratio
+ratio <- 1 
+
+# 1-sided Type I error
+alpha <- 0.025 
+# Type II error (1 - power)
+beta <- 0.1 
+
+# Upper bound
+upper <- gsDesign2::gs_spending_bound     # alpha-spending bound
+upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+           
+# Lower bound
+lower <- gsDesign2::gs_spending_bound    # beta-spending bound
+lpar <- list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 0, timing = NULL)
+
+# Fleming-Harrington (FH) weight functions for weighted logrank (WLR)
+wgt00 <- function(x, arm0, arm1){    # Equal weighting for logrank
+   gsDesign2:::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+wgt05 <- function(x, arm0, arm1){    # Early downweighting with FH(0,.5) 
+   gsDesign2:::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)}
+
+# Both of above tests for MaxCombo: logrank and FH(0,.5)
+fh_test <- rbind(
+   # Include logrank for all 3 analyses
+   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysisTimes = c(12, 24, 36)), 
+   # Only include FH(0,.5) for analyses 2 and 3
+   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysisTimes = 36))
+```
+
+## Deriving Designs
+
+### AHR Design Derivation 
+
+Using the design parameters above, the AHR design is derived as follows:
+
+By using the design parameters above, one can generate an AHR model by `gs_design_ahr` as
+
+```{r, message=FALSE}
+x_design_ahr <- gs_design_ahr(
+   enrollRates = enrollRates,
+   failRates = failRates,
+   IF = IF, 
+   analysisTimes = analysisTimes, 
+   ratio = ratio, 
+   alpha = alpha, 
+   beta = beta, 
+   upper = upper,
+   upar = upar,
+   lower = lower,
+   lpar = lpar
+)
+
+x_power_ahr <- gs_power_ahr(
+   enrollRates = x_design_ahr$enrollRates,
+   failRates = x_design_ahr$failRates,
+   events = c(100, 200, 400),
+   analysisTimes = NULL,
+   upper = upper,
+   upar = upar,
+   lower = lower,
+   lpar = lpar
+)
+```
+
+
+### WLR Design Derivation
+
+```{r, message=FALSE}
+x_design_wlr <- gs_design_wlr(
+   enrollRates = enrollRates,
+   failRates = failRates,
+   weight = wgt05, 
+   IF = NULL, 
+   analysisTimes = sort(unique(x_design_ahr$analysis$Time)), 
+   ratio = ratio, 
+   alpha = alpha, 
+   beta = beta,   
+   upper = upper,
+   upar = upar,
+   lower = lower,
+   lpar = lpar
+)
+
+# x_power_wlr <- gs_power_wlr(
+#    enrollRates = x_design_wlr$enrollRates,
+#    failRates = x_design_wlr$failRates,
+#    weight = wgt05, 
+#    events = c(100, 150, 250),
+#    analysisTimes = NULL, 
+#    upper = upper,
+#    upar = upar,
+#    lower = lower,
+#    lpar = lpar
+# )
+```
+
+# Default Summary Table Production
+
+Instead of outputting 4 detailed tables (a table of enrollment rates, a table of failure rates, a table of analysis summary, a table of bounds summary), users can get a com pensive summary table by calling `summary(x)`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`.
+The `summary()` function produces an overall summary table for bounds for publication in a protocol. 
+
+For example, the default output of `summary()` for the AHR method is
+```{r}
+x_design_ahr %>% 
+  summary() %>% 
+  gt::gt() %>% 
+  gt::fmt_number(columns = c(3:6), decimals = 4)
+```
+
+Please note the `summary()` can also be applied to objected returned by `gs_power_ahr()`. 
+For example,
+```{r}
+x_power_ahr %>% 
+  summary() %>% 
+  gt::gt() %>% 
+  gt::fmt_number(columns = c(3:6), decimals = 4)
+```
+
+
+And the default output of `summary()` for the WLR method is
+
+```{r}
+x_design_wlr %>% 
+  summary() %>% 
+  gt::gt() %>% 
+  gt::fmt_number(columns = c(3:6), decimals = 4)
+```
+
+Note that `summary()` can also be applied to summarize an object returned by `gs_power_wlr()`.
+```{r, eval=FALSE}
+summary(x_power_wlr) %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = c(3:6), decimals = 4)
+```
+
+
+# Detailed Summary Table Formatting
+
+Here we demonstrate options for formatting analysis rows, bound rows as well as other table parameters such as titles, labels and footnotes.
+
+## Custom the Variables to be Summaried for Each Analysis
+
+In the above default table summary table generated by `summary(x)`, the variables used to summarize each analysis includes `Analysis`, `Time`, `N`(sample size), `Events`, `AHR`, and `IF` (information fraction). 
+But users can customize these variables chosen using `analysis_vars = ...` and the corresponding decimals displayed using the argument `analysis_decimals = ...`. 
+For example
+```{r}
+x_design_ahr %>% 
+  summary(analysis_vars = c("N", "Events"),
+          analysis_decimals = c(1, 1)) %>% 
+  gt::gt() %>% 
+  gt::fmt_number(columns = c(3:6), decimals = 4)
+```
+
+Please note that there is no need to input `"Analysis"` into `analysis_vars = ...` as it will always appear.
+
+## Custom the Bound Names
+
+Users can also customize the bound names. 
+In the default output generated by `summary(x)`, the bound name is `c("Efficacy", "Futility")`, which can be changed into `c("A is better", "B is better")` for a 2-sided design by using the argument `bound_names = ...`.
+For example,
+
+```{r, message=FALSE}
+x_design_ahr %>% 
+  summary(bound_names = c("A is better", "B is better")) %>% 
+  mutate_if(is.numeric, round, digits = 4) %>% 
+  gt::gt() %>% 
+  gt::fmt_number(columns = c(3:6), decimals = 4)
+```
+
+## Custom into a gt Table and Add Title/SubTitle/Footnotes/Spanners
+
+Users can also use `as_gt()` to get the the above R table into a gt table.
+Furthermore, they can edit the title/subtitle/spanner/footnotes of the gt table by using the arguments in `summary`. 
+
+```{r}
+summary(x_design_ahr) %>% 
+   as_gt(title = "Summary of the Crossing Probability",
+         subtitle = "by Using gs_design_ahr",
+         colname_spanner = "Cumulative boundary crossing probability",
+         colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
+         footnote = list(content = c("approximate hazard ratio to cross bound.", 
+                                     "gs_design_ahr is a function in gsDesign2.",
+                                     "AHR is average hazard ratio; IF is information fraction."),
+                         location = c("~HR at bound", NA, NA),
+                         attr = c("colname", "subtitle", "analysis")))
+```
+
+The above objective can also be realized by using functions in the R package `gt` for custom design of table layout. 
+We note that `as_gt()` always produces a `gt` object and, thus, can be further customized with **gt** package formatting functions.
+In the future, we to support rich text format using a function `as_rtf()` in a fashion similar to `as_gt()`.
+
+## Custom the Variables to Display 
+
+Users can select the variables to be displayed in the summary table by using the argument `display_colunm = ...`.
+```{r}
+x_design_ahr %>% 
+  summary() %>% 
+  as_gt(display_columns = c("Analysis", "Bound", "Z", "Probability"))
+```
+
+## Custom Whether to Show Infinity Bound or Not 
+
+Users have options to either show the infinity bounds or not by taking advantage of `display_inf_bound = ...`.
+```{r}
+x_design_ahr %>% 
+  summary() %>% 
+  as_gt(display_inf_bound = FALSE)
+```
+
+
+
+# Details of Output from Design/Power Functions
+
+There are four components in the objects returned by either `gs_design_ahr()`/`gs_design_wlr()` or `gs_power_ahr()`/`gs_power_wlr()`: 
+1. failure rates: a table summarizing failure rate and dropout rate.
+1. enrollment rates: a table summarizing the enrollment rate.
+1. bounds: a table summarize the bound of each analysis.
+1. analysis: a table summarize the each analysis, with each one row for one analysis one hypothsis. 
+
+## Failure Rates
+
+The failure rates of different gsDesign object can be obtained by using `x$failRates`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`. 
+For example, the failure rates of the AHR design derivation can be returned by calling 
+```{r}
+x_design_ahr$failRates %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = 3:5, decimals = 4)
+```
+
+Please note that both `x_design_ahr` and `x_wlr` returns the same failure rates, which is the same as that inputted as `failRates`. 
+To verify, let's take a look at the failure rate of the WLR design derivation, which are shown as below.
+
+```{r}
+x_design_wlr$failRates %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = 3:5, decimals = 4)
+```
+
+
+## Enrollment
+
+The enrollment rate of a gs design derivation can be collected by using `x$failRates`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`.
+For example, the enrollment rates of the AHR/WLR design derivation is
+
+```{r}
+x_design_ahr$enrollRates %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = 3, decimals = 4)
+```
+
+```{r}
+x_design_wlr$enrollRates %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = 3, decimals = 4)
+```
+
+It can be seen that, although the design derivation is different, the enrollment rate table share the same table structure, same enrollment period durations for each rate. 
+Yet, the enrollment rates differ between designs only by a multiplicative constant.
+
+## Analysis
+
+The analysis summary table has the structure of one row per analysis per hypothesis. 
+And columns can vary with different defaults for each design option. 
+This type of tables are useful for understanding commonalities in how designs are summarized for different models.
+To get analysis summary table, users can call `x$analysis`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`.
+For example, the analysis summary of the AHR/WLR design derivation is
+```{r}
+x_design_ahr$analysis %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = 2:8, decimals = 4)
+```
+
+```{r}
+x_design_wlr$analysis %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = 2:8, decimals = 4)
+```
+
+
+## Bounds
+
+The analysis summary table has the structure of One row per analysis per bound per hypothesis. Columns can vary with different defaults for each design option.
+To get a bouns summary table, users can call `x$analysis`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`.
+For example, the bounds summary of the AHR/WLR design derivation is
+
+```{r}
+x_design_ahr$bounds %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = c(3, 5:7), decimals = 4) 
+```
+
+```{r}
+x_design_wlr$bounds %>% 
+   gt::gt() %>% 
+   gt::fmt_number(columns = c(3, 5:7), decimals = 4)
+```
+
+
+# References

@@ -1,4 +1,5 @@
-#  Copyright (c) 2022 Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.
+#  Copyright (c) 2021 Merck Sharp & Dohme Corp., a subsidiary of
+#  Merck & Co., Inc., Kenilworth, NJ, USA.
 #
 #  This file is part of the gsDesign2 program.
 #
@@ -24,9 +25,11 @@ NULL
 #'
 #' \code{eAccrual()} computes the expected cumulative enrollment (accrual)
 #' given a set of piecewise constant enrollment rates and times.
+#' 
 #' @param x times at which enrollment is to be computed.
 #' @param enrollRates Piecewise constant enrollment rates expressed as a `tibble` with
 #' `duration` for each piecewise constant period and the `rate` of enrollment for that period.
+#' 
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -46,44 +49,106 @@ NULL
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @return A vector with expected cumulative enrollment for the specified `times`.
+#' 
 #' @examples
-#' # Example: default
+#' library(tibble)
+#' 
+#' # Example 1: default
 #' eAccrual()
+#' 
+#' # Example 2: unstratified design
+#' eAccrual(x = c(5, 10, 20), 
+#'          enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+#' 
+#' eAccrual(x = c(5, 10, 20), 
+#'          enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20), 
+#'          Stratum = "All"))
+#'          
+#' # Example 3: stratified design
+#' eAccrual(x = c(24, 30, 40), 
+#'          enrollRates = tibble(Stratum=c("subgroup", "complement"), 
+#'                               duration = 33, 
+#'                               rate = c(30, 30)))
+#' 
 #' @export
 #'
 eAccrual <- function(x = 0:24,
-                     enrollRates=tibble::tibble(duration=c(3,3,18),
-                                                rate=c(5,10,20)
-)){
-# check input value
+                     enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))){
+  # check input value
   # check input enrollment rate assumptions
-  if(!is.numeric(x)){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(x) >= 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(lead(x,default=max(x)+1) - x) > 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
-
+  if(!is.numeric(x)){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector!")}
+  if(!min(x) >= 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector!")}
+  if(!min(lead(x, default = max(x) + 1) - x) > 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector!")}
+  
   # check enrollment rate assumptions
-  if(!is.data.frame(enrollRates)){stop("gsDesign2: enrollRates in `eAccrual()` must be a data frame")}
-  if(!max(names(enrollRates)=="duration") == 1){stop("gsDesign2: enrollRates in `eAccrual()` column names must contain duration")}
-  if(!max(names(enrollRates)=="rate") == 1){stop("gsDesign2: enrollRates in `eAccrual()` column names must contain rate")}
+  check_enrollRates(enrollRates)
+  
+  # check if it is stratified design
+  if("Stratum" %in% names(enrollRates)){
+    n_strata <- length(unique(enrollRates$Stratum))
+  }else{
+    n_strata <- 1
+  }
+  
+  # convert rates to step function
+  if(n_strata == 1){
+    ratefn <- stepfun(x = cumsum(enrollRates$duration),
+                      y = c(enrollRates$rate, 0),
+                      right = TRUE)
+  }else{
+    ratefn <- lapply(unique(enrollRates$Stratum), 
+                     FUN = function(s){
+                       stepfun(x = cumsum((enrollRates %>% filter(Stratum == s))$duration),
+                               y = c((enrollRates %>% filter(Stratum == s))$rate, 0),
+                               right = TRUE)
+                     })
+  }
 
-  # test that enrollment rates are non-negative with at least one positive
-  if(!min(enrollRates$rate) >= 0){stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")}
-  if(!max(enrollRates$rate) > 0){stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")}
+  # add times where rates change to enrollRates
+  if(n_strata == 1){
+    xvals <- sort(unique(c(x, cumsum(enrollRates$duration))))
+  }else{
+    xvals <- lapply(unique(enrollRates$Stratum), 
+                    FUN = function(s){
+                      sort(unique(c(x, cumsum((enrollRates %>% filter(Stratum == s))$duration))))
+                    })
+  }
+  
+  # make a tibble
+  if(n_strata == 1){
+    xx <- tibble(x = xvals,
+                 duration = xvals - lag(xvals, default = 0),
+                 rate = ratefn(xvals),                        # enrollment rates at points (right continuous)
+                 eAccrual = cumsum(rate * duration)           # expected accrual
+    )
+  }else{
+    xx <- lapply(1:n_strata, 
+               FUN = function(i){
+                 tibble(x = xvals[[i]],
+                        duration = xvals[[i]] - lag(xvals[[i]], default = 0),
+                        rate = ratefn[[i]](xvals[[i]]),       # enrollment rates at points (right continuous)
+                        eAccrual = cumsum(rate * duration)    # expected accrual
+                 )
+               })
+  }
+  
+  
 
-
-# convert rates to step function
-  ratefn <- stepfun(x=cumsum(enrollRates$duration),
-                    y=c(enrollRates$rate,0),
-                    right=TRUE)
-# add times where rates change to enrollRates
-  xvals <- sort(unique(c(x,cumsum(enrollRates$duration))))
-# make a tibble
-  xx <- tibble::tibble(x=xvals,
-                       duration= xvals - lag(xvals,default = 0),
-                       rate=ratefn(xvals), # enrollment rates at points (right continuous)
-                       eAccrual=cumsum(rate*duration) # expected accrual
-                       )
-# return survival or cdf
-  ind <- !is.na(match(xx$x,x))
-  return(as.numeric(xx$eAccrual[ind]))
+  # return survival or cdf
+  if(n_strata == 1){
+    ind <- !is.na(match(xx$x, x))
+    ans <- as.numeric(xx$eAccrual[ind])
+  }else{
+    ind <- lapply(1:n_strata, 
+                  FUN = function(i){
+                    !is.na(match(xx[[i]]$x, x))
+                  })
+    ans <- lapply(1:n_strata, 
+                  FUN = function(i){
+                    as.numeric(xx[[i]]$eAccrual[ind[[i]]])
+                  })
+    ans <- do.call("+", ans)
+  }
+  
+  return(ans)
 }

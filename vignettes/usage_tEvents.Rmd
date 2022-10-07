@@ -1,0 +1,106 @@
+---
+title: "tEvents: compute time when a targeted number of events is made"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{tEvents: compute time when a targeted number of events is made}
+---
+
+
+```{r, essage=FALSE, echo=FALSE}
+knitr::opts_chunk$set(fig.width = 5, fig.height = 4, fig.align = 'center') 
+```
+
+```{r, message=FALSE, echo=FALSE}
+library(gt)
+library(tibble)
+library(dplyr)
+library(testthat)
+#library(gsDesign2)
+devtools::load_all()
+```
+
+# Introduction of `tEvents`
+
+`tEvents()` predicts time at which a targeted events is made. 
+It is designed as a twins to `AHR()`: it matches input/output format with `AHR()`. 
+
+# Use Cases
+
+## Example 1: 
+```{r}
+enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+ratio <- 1
+
+x <- tEvents(enrollRates = enrollRates, failRates = failRates,
+             ratio = ratio, targetEvents = 200)
+
+x %>% gt()
+```
+
+## Example 2: 
+
+In this example, we verify `tEvents()` by `AHR()`.
+```{r}
+enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+ratio <- 1
+
+x <- AHR(enrollRates = enrollRates, failRates = failRates, 
+         ratio = ratio, totalDuration = 20)
+cat("The number of events by 20 months is ", x$Events, ".\n")
+
+y <- tEvents(enrollRates = enrollRates, failRates = failRates,
+             ratio = ratio, targetEvents = x$Events)
+
+cat("The time to get ", x$Events, " is ", y$Time, "months.\n")
+```
+
+
+
+
+
+# Inner Logic of `tEvents()`
+
+The inner logic of `tEvents()` is to uniroot `AHR()` on `totalDuration`.
+
+**Step 1:** find the difference between  `AHR()` and different values of `totalDuration`.
+```{r}
+foo <- function(x){
+  ans <- AHR(enrollRates = enrollRates, failRates = failRates, 
+             totalDuration = x, ratio = ratio)$Events - targetEvents
+  return(ans)
+}
+```
+
+
+```{r}
+enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+ratio <- 1
+targetEvents <- 200
+
+cat("The difference between `targetEvents = 200` and the events after 30 months is ", foo(30), ".\n")
+```
+
+
+**Step 2:** uniroot `AHR()` on `totalDuration`.
+```{r}
+res <- uniroot(foo, interval = c(0.01, 100))
+
+ans <- AHR(enrollRates = enrollRates, failRates = failRates, 
+           totalDuration = res$root, ratio = ratio)
+cat("After ", ans$Time, " months, there will be ", targetEvents, " events .\n")
+```
+
+
+
+

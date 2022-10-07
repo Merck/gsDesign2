@@ -1,0 +1,213 @@
+---
+title: "Trial design with spending under NPH"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+# bibliography: "example.bib"
+vignette: >
+  %\VignetteIndexEntry{Trial design with spending under NPH}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, message=FALSE, warning=FALSE}
+#library(gsdmvn)
+devtools::load_all()
+library(dplyr)
+library(tibble)
+library(gsDesign)
+library(gsDesign2)
+library(gt)
+```
+
+# Overview
+
+This vignette covers how to implement designs for trials with spending assuming non-proportional hazards.
+We are primarily concerned with practical issues of implementation rather than design strategies, but we will not ignore design strategy.
+
+# Scenario for Consideration
+
+Here we set up enrollment, failure and dropout rates along with assumptions for enrollment duration and times of analyses.
+
+In this example, we assume there are 4 analysis (3 interim analysis + 1 final analysis), and they are conducted after 18, 24, 30, 36 months after the trail starts.
+```{r}
+K <- 4
+analysisTimes <- c(18, 24, 30, 36)
+```
+
+And we further assume there is not stratum and the enrollment last for 12 months. 
+For the first 2 months, second 2 months, third 2 months and the reminder month, the enrollment rate is $8:12:16:24$. 
+Please note that $8:12:16:24$ is not the real enrollment rate. 
+Instead, it only specifies the enrollment rate ratio between different duration.
+```{r}
+enrollRates <- tibble(
+  Stratum = "All",
+  duration = c(2, 2, 2, 6),
+  rate = c(8, 12, 16, 24))
+
+enrollRates %>% 
+  gt() %>% 
+  tab_header(title = "Table of Enrollment")
+```
+
+Moreover, we assume the hazard ratio (HR) of the first 3 month is 0.9 and thereafter is 0.6.
+We also assume the the survival time follow a piecewise exponential distribution with a median of 8 month for the first 3 months and 14 month thereafter.
+```{r}
+failRates <- tibble(
+  Stratum = "All",
+  duration = c(3, 100),
+  failRate = log(2) / c(8, 14),
+  hr = c(.9, .6),
+  dropoutRate = .001)
+
+failRates %>% 
+  gt() %>% 
+  tab_header(title = "Table of Failure Rate")
+```
+
+# Deriving Power for a Given Sample Size
+
+In this section, we discuss how to drive the power, given a known sample size.
+
+First, we calculate the number of events and statistical information (both under H0 and H1) at targeted analysis times.
+
+```{r}
+xx <- AHR(enrollRates = enrollRates, 
+          failRates = failRates, 
+          totalDuration = analysisTimes)
+
+xx %>% gt()
+```
+
+Then, we can use `gs_info_ahr()` to calculate (1) the treatment effect (`theta`), (2) AHR, (3) the statistical information (both under H0 and H1) under the targeted number of events.
+
+```{r}
+#Events <- ceiling(xx$Events)
+yy <- gs_info_ahr(enrollRates = enrollRates, 
+                  failRates = failRates, 
+                  events = ceiling(xx$Events)) %>% 
+  mutate(timing = info0 / max(info0))
+
+yy %>% 
+  gt() %>% 
+  fmt_number(columns = 2:8, decimals = 4)
+```
+
+Finally, we can calculate the power of `yy` by using `gs_power_npe()`. 
+
+```{r}
+zz <- gs_power_npe(
+  # set the treatment effet
+  theta = yy$theta, 
+  # set the statistical information under H0 and H1
+  info = yy$info, 
+  info0 = yy$info0,
+  # set the upper bound
+  upper = gs_b, 
+  upar = gsDesign(k = K, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$upper$bound,
+  # set the lower bound
+  lower = gs_b,
+  lpar = gsDesign(k = K, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$lower$bound)
+
+zz %>% 
+  filter(Bound == "Upper") %>%
+  select(Analysis, Bound, Z, Probability, IF) %>% 
+  gt() %>% 
+  fmt_number(columns = 3:5, decimals = 4)
+```
+From the above table, we find the power is 0.6267.
+
+# Deriving Sample Size for a Given Power
+
+In this section, we discuss how to calculate the sample size for a given power (we take the given power as 0.9 in this section).
+And we discuss the calulation into 2 scenario: (1) fixed design and (2) group sequential design.
+
+```{r}
+target_power <- 0.9
+```
+
+## Fixed Design
+
+If we were using a fixed design, we would approximate the sample size as follows:
+
+```{r}
+minx <- ((qnorm(.025) / sqrt(zz$info0[K]) + qnorm(1 - target_power) / sqrt(zz$info[K])) / zz$theta[K])^2
+minx
+```
+
+If we inflate the enrollment rates by `minx` and use a fixed design, we will see this achieves the targeted power.
+
+```{r}
+gs_power_npe(
+  theta = yy$theta[K], 
+  info = yy$info[K] * minx, 
+  info0 = yy$info0[K] * minx,
+  upar = qnorm(.975), 
+  lpar = -Inf) %>%
+  filter(Bound == "Upper") %>%
+  select(Probability)
+```
+
+## Group Sequential Design
+
+The power for a group sequential design with the same final sample size is a bit lower:
+
+```{r}
+gs_power_npe(
+  theta = yy$theta, 
+  info = yy$info * minx, 
+  info0 = yy$info0 * minx,
+  upper = gs_spending_bound, 
+  lower = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  ) %>% 
+  filter(Bound == "Upper", Analysis == K) %>% 
+  select(Probability) %>% 
+  gt()
+```
+
+If we inflate this a bit we will be overpowered.
+
+```{r}
+gs_power_npe(
+  theta = yy$theta, 
+  info = yy$info * minx * 1.2, 
+  info0 = yy$info0 * minx * 1.2,
+  upper = gs_spending_bound, 
+  lower = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)) %>% 
+  filter(Bound == "Upper", Analysis == K) %>% 
+  select(Probability) %>% 
+  gt()
+```
+
+Now we use `gs_design_npe()` to inflate the information proportionately to power the trial.
+
+```{r}
+gs_design_npe(
+  theta = yy$theta, 
+  info = yy$info, 
+  info0 = yy$info0,
+  upper = gs_spending_bound, 
+  lower = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)) %>% 
+  filter(Bound == "Upper", Analysis == K) %>% 
+  select(Probability) %>% 
+  gt()
+```
