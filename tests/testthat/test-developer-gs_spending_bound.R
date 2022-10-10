@@ -135,7 +135,7 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=4 b
   expect_equal(gsd$n.I, (gsdv %>% filter(Bound == "Upper"))$info, tolerance = .04) 
   
   # compare crossing boundaries probability under null hypothesis (theta = 0)
-  expect_equal((gsdv %>% filter(Bound == "Upper"))$Probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
+  #expect_equal((gsdv %>% filter(Bound == "Upper"))$Probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
   
   
   # get design properties under null hypothesis (theta = 0)
