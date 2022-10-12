@@ -1,7 +1,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/LittleBeannie/gsDesign2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/LittleBeannie/gsDesign2/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.org/package=gsDesign2)
 <!-- badges: end -->
