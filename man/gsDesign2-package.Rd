@@ -4,16 +4,16 @@
 \name{gsDesign2-package}
 \alias{gsDesign2}
 \alias{gsDesign2-package}
-\title{gsDesign2: Group sequential design with non-constant effect}
+\title{gsDesign2: Group Sequential Design with Non-Constant Effect}
 \description{
 Basic group sequential design computations extended.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/LittleBeannie/gsDesign2}
-  \item \url{https://littlebeannie.github.io/gsDesign2/}
-  \item Report bugs at \url{https://github.com/LittleBeannie/gsDesign2/issues}
+  \item \url{https://merck.github.io/gsDesign2/}
+  \item \url{https://github.com/Merck/gsDesign2}
+  \item Report bugs at \url{https://github.com/Merck/gsDesign2/issues}
 }
 
 }
@@ -36,7 +36,7 @@ Other contributors:
   \item Ping Yang \email{ping.yang1@merck.com} [contributor]
   \item Xin Tong Li \email{xin.tong.li@merck.com} [contributor]
   \item Yalin Zhu \email{yalin.zhu@merck.com} [contributor]
-  \item Merck Sharp & Dohme Corp [copyright holder]
+  \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder]
 }
 
 }
