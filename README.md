@@ -28,7 +28,7 @@ they will likely be included in the **gsDesign2** package.
 You can install `gsDesign2` with:
 
 ``` r
-remotes::install_github("LittleBeannie/gsDesign2")
+remotes::install_github("Merck/gsDesign2")
 ```
 
 ## Use cases
