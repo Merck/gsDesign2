@@ -2,72 +2,75 @@
 % Please edit documentation in R/summary.R
 \name{summary.fixed_design}
 \alias{summary.fixed_design}
-\title{summary for \code{fixed_design()} object}
+\title{Summary for fixed design objects}
 \usage{
 \method{summary}{fixed_design}(x, ...)
 }
 \arguments{
-\item{x}{a fixed design object returned by \code{fixed_design()}}
+\item{x}{A fixed design object returned by \code{\link[=fixed_design]{fixed_design()}}}
 
-\item{...}{additional arguments}
+\item{...}{Additional arguments}
+}
+\value{
+A data frame
 }
 \description{
-summary function to fixed_design class
+Summary for \code{\link[=fixed_design]{fixed_design()}} objects
 }
 \examples{
 library(dplyr)
 
 # Enrollment rate
 enrollRates <- tibble::tibble(
-  Stratum = "All", 
-  duration = 18, 
+  Stratum = "All",
+  duration = 18,
   rate = 20)
 
 # Failure rates
 failRates <- tibble::tibble(
-  Stratum = "All", 
-  duration = c(4, 100), 
+  Stratum = "All",
+  duration = c(4, 100),
   failRate = log(2) / 12,
-  hr = c(1, .6), 
+  hr = c(1, .6),
   dropoutRate = .001)
 
 # Study duration in months
 studyDuration <- 36
 
 # Experimental / Control randomization ratio
-ratio <- 1 
+ratio <- 1
 
 # 1-sided Type I error
-alpha <- 0.025 
+alpha <- 0.025
 # Type II error (1 - power)
-beta <- 0.1 
+beta <- 0.1
 
 # ------------------------- #
 #        AHR                #
 # ------------------------- #
-# under fixed power 
+# under fixed power
 fixed_design(
-  x = "AHR", 
-  alpha = alpha, 
-  power = 1 - beta, 
-  enrollRates = enrollRates, 
-  failRates = failRates, 
-  studyDuration = studyDuration, 
+  x = "AHR",
+  alpha = alpha,
+  power = 1 - beta,
+  enrollRates = enrollRates,
+  failRates = failRates,
+  studyDuration = studyDuration,
   ratio = ratio
-  ) \%>\% summary() 
+  ) \%>\% summary()
 
 # ------------------------- #
 #        FH                 #
 # ------------------------- #
 # under fixed power
 fixed_design(
-  x = "FH", 
-  alpha = alpha, 
-  power = 1 - beta, 
-  enrollRates = enrollRates, 
-  failRates = failRates, 
+  x = "FH",
+  alpha = alpha,
+  power = 1 - beta,
+  enrollRates = enrollRates,
+  failRates = failRates,
   studyDuration = studyDuration,
    ratio = ratio
-  ) \%>\% summary() 
-  
+  ) \%>\% summary()
+
 }
