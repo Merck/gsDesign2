@@ -5,7 +5,7 @@
 \title{Generate a table summarizing the bounds in the group sequential design}
 \usage{
 \method{summary}{gs_design}(
-  x,
+  object,
   analysis_vars = NULL,
   analysis_decimals = NULL,
   col_vars = NULL,
@@ -15,7 +15,7 @@
 )
 }
 \arguments{
-\item{x}{An object returned by \code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}}
+\item{object}{An object returned by \code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}}
 
 \item{analysis_vars}{The variables to be put at the summary header of each analysis}
 

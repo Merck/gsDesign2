@@ -4,10 +4,10 @@
 \alias{summary.fixed_design}
 \title{Summary for fixed design objects}
 \usage{
-\method{summary}{fixed_design}(x, ...)
+\method{summary}{fixed_design}(object, ...)
 }
 \arguments{
-\item{x}{A fixed design object returned by \code{\link[=fixed_design]{fixed_design()}}}
+\item{object}{A fixed design object returned by \code{\link[=fixed_design]{fixed_design()}}}
 
 \item{...}{Additional arguments}
 }
