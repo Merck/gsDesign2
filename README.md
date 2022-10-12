@@ -8,7 +8,7 @@ status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.
 
 ## Objective
 
-The goal of **gsDesign2** is to enable fixed or group sequential design
+The goal of gsDesign2 is to enable fixed or group sequential design
 under non-proportional hazards. Piecewise constant enrollment, failure
 rates and dropout rates for a stratified population are available to
 enable highly flexible enrollment, time-to-event and time-to-dropout
@@ -18,14 +18,14 @@ progress, substantial capabilities have been enabled. Comments on
 usability and features are encouraged as this is a development version
 of the package.
 
-The goal of **gsDesign2** is to enable group sequential trial design for
+The goal of gsDesign2 is to enable group sequential trial design for
 time-to-event endpoints under non-proportional hazards assumptions. The
 package is still maturing; as the package functions become more stable,
-they will likely be included in the **gsDesign2** package.
+they will likely be included in the gsDesign2 package.
 
 ## Installation
 
-You can install `gsDesign2` with:
+You can install gsDesign2 with:
 
 ``` r
 remotes::install_github("Merck/gsDesign2")
