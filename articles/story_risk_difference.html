@@ -52,7 +52,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/LittleBeannie/gsDesign2/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/Merck/gsDesign2/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -66,12 +66,13 @@
 
 
 
-<script src="story_risk_difference_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Group Sequential Design for Binary Outcomes</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/LittleBeannie/gsDesign2/blob/HEAD/vignettes/story_risk_difference.Rmd" class="external-link"><code>vignettes/story_risk_difference.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/vignettes/story_risk_difference.Rmd" class="external-link"><code>vignettes/story_risk_difference.Rmd</code></a></small>
       <div class="d-none name"><code>story_risk_difference.Rmd</code></div>
     </div>
 
@@ -431,7 +432,7 @@ w_{s,k}
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <div class="section level3">
-<h3 id="unstratified-fixed-design">Unstratified Fixed Design<a class="anchor" aria-label="anchor" href="#unstratified-fixed-design"></a>
+<h3 class="tabset" id="unstratified-fixed-design">Unstratified Fixed Design<a class="anchor" aria-label="anchor" href="#unstratified-fixed-design"></a>
 </h3>
 <p>The example discussed in this section is an unstratified fixed design with equal sized groups to detect a 30% reduction in mortality associated with congestive heart failure, where the 1-year mortality in the control group is assumed to be no greater than 0.4. So <span class="math inline">\(p_C=0.4, p_E = .28\)</span>. Under the null hypothesis, we assume <span class="math inline">\(p_C=p_E =0.34\)</span>. We desire 90% power for a two-sided test for two proportions at <span class="math inline">\(\alpha = 0.05\)</span>. And we would like to calculate the sample size to achieve the 90% power.</p>
 <div class="section level4">
@@ -2343,7 +2344,7 @@ Sample size calculated by EAST
 </div>
 </div>
 <div class="section level3">
-<h3 id="unstratified-group-sequential-design">Unstratified Group Sequential Design<a class="anchor" aria-label="anchor" href="#unstratified-group-sequential-design"></a>
+<h3 class="tabset" id="unstratified-group-sequential-design">Unstratified Group Sequential Design<a class="anchor" aria-label="anchor" href="#unstratified-group-sequential-design"></a>
 </h3>
 <p>The example discussed in this section is an unstratified group sequential design with equal sized groups to detect <span class="math inline">\(p_C = 0.15, p_E = .1\)</span>.<br>
 Under the null hypothesis, we assume <span class="math inline">\(p_C = p_E = 0.125\)</span>. We desire 90% power for a two-sided test for two proportions at <span class="math inline">\(\alpha = 0.05\)</span>. And we would like to calculate the sample size to achieve the 90% power.</p>
@@ -3931,7 +3932,7 @@ Sample size calculated by EAST
 </div>
 </div>
 <div class="section level3">
-<h3 id="stratified-group-sequential-design">Stratified Group Sequential Design<a class="anchor" aria-label="anchor" href="#stratified-group-sequential-design"></a>
+<h3 class="tabset" id="stratified-group-sequential-design">Stratified Group Sequential Design<a class="anchor" aria-label="anchor" href="#stratified-group-sequential-design"></a>
 </h3>
 <p>In this example, we consider 3 strata in a group sequential design with 3 analyses.</p>
 <div class="section level4">
@@ -7544,30 +7545,30 @@ Sample size calculated by EAST
 <span>  </span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>n_sim &lt;-<span class="st"> </span><span class="fl">1e3</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a>run simulations</span>
-<span id="cb28-3"><a href="#cb28-3"></a>ans_H0 &lt;-<span class="st"> </span><span class="kw">do.call</span>(cbind,</span>
-<span id="cb28-4"><a href="#cb28-4"></a>                  <span class="kw">lapply</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="st">"ss_H0"</span>, ans<span class="op">$</span>SS0),</span>
-<span id="cb28-5"><a href="#cb28-5"></a>                              <span class="kw">list</span>(<span class="st">"invar_H0"</span>, ans<span class="op">$</span>INVAR0)),</span>
-<span id="cb28-6"><a href="#cb28-6"></a>                         <span class="cf">function</span>(x){<span class="kw">return</span>(<span class="kw">run_simulation</span>(<span class="dt">N =</span> x[[<span class="dv">2</span>]],</span>
-<span id="cb28-7"><a href="#cb28-7"></a>                                                           <span class="dt">weight_method =</span> x[[<span class="dv">1</span>]],</span>
-<span id="cb28-8"><a href="#cb28-8"></a>                                                           <span class="dt">n_sim =</span> n_sim, <span class="dt">prevalence_ratio =</span> prevalence_ratio,</span>
-<span id="cb28-9"><a href="#cb28-9"></a>                                                           <span class="dt">IF =</span> IF, <span class="dt">under_H0 =</span> <span class="ot">TRUE</span>, <span class="dt">integration =</span> <span class="st">"gs_power_npe"</span>))}))</span>
-<span id="cb28-10"><a href="#cb28-10"></a></span>
-<span id="cb28-11"><a href="#cb28-11"></a>ans_H1 &lt;-<span class="st"> </span><span class="kw">do.call</span>(cbind,</span>
-<span id="cb28-12"><a href="#cb28-12"></a>                  <span class="kw">lapply</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="st">"ss_H1"</span>, ans<span class="op">$</span>SS1),</span>
-<span id="cb28-13"><a href="#cb28-13"></a>                              <span class="kw">list</span>(<span class="st">"invar_H1"</span>, ans<span class="op">$</span>INVAR1)),</span>
-<span id="cb28-14"><a href="#cb28-14"></a>                         <span class="cf">function</span>(x){<span class="kw">return</span>(<span class="kw">run_simulation</span>(<span class="dt">N =</span> x[[<span class="dv">2</span>]],</span>
-<span id="cb28-15"><a href="#cb28-15"></a>                                                           <span class="dt">weight_method =</span> x[[<span class="dv">1</span>]],</span>
-<span id="cb28-16"><a href="#cb28-16"></a>                                                           <span class="dt">n_sim =</span> n_sim, <span class="dt">prevalence_ratio =</span> prevalence_ratio,</span>
-<span id="cb28-17"><a href="#cb28-17"></a>                                                           <span class="dt">IF =</span> IF, <span class="dt">under_H0 =</span> <span class="ot">FALSE</span>, <span class="dt">integration =</span> <span class="st">"gs_power_npe"</span>))}))</span>
-<span id="cb28-18"><a href="#cb28-18"></a></span>
-<span id="cb28-19"><a href="#cb28-19"></a>ans &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">tibble</span>(<span class="dt">simu_ID =</span> <span class="kw">rep</span>(ans_H0<span class="op">$</span>simu_ID, <span class="dv">2</span>),</span>
-<span id="cb28-20"><a href="#cb28-20"></a>                      <span class="dt">ss =</span> <span class="kw">c</span>(ans_H0[, <span class="dv">3</span>], ans_H1[, <span class="dv">3</span>]), </span>
-<span id="cb28-21"><a href="#cb28-21"></a>                      <span class="dt">invar =</span> <span class="kw">c</span>(ans_H0[, <span class="dv">6</span>], ans_H1[, <span class="dv">6</span>]),</span>
-<span id="cb28-22"><a href="#cb28-22"></a>                      <span class="st">`</span><span class="dt">calculated under</span><span class="st">`</span> =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">"H0"</span>, n_sim), <span class="kw">rep</span>(<span class="st">"H1"</span>, n_sim))) </span>
-<span id="cb28-23"><a href="#cb28-23"></a></span>
-<span id="cb28-24"><a href="#cb28-24"></a><span class="kw">save</span>(ans, <span class="dt">file =</span> <span class="st">"./fixtures/rd_simu_power_gspowernpe_2_weight.Rdata"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>n_sim <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>run simulations</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>ans_H0 <span class="ot">&lt;-</span> <span class="fu">do.call</span>(cbind,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">lapply</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="st">"ss_H0"</span>, ans<span class="sc">$</span>SS0),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">list</span>(<span class="st">"invar_H0"</span>, ans<span class="sc">$</span>INVAR0)),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                         <span class="cf">function</span>(x){<span class="fu">return</span>(<span class="fu">run_simulation</span>(<span class="at">N =</span> x[[<span class="dv">2</span>]],</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                                                           <span class="at">weight_method =</span> x[[<span class="dv">1</span>]],</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                                                           <span class="at">n_sim =</span> n_sim, <span class="at">prevalence_ratio =</span> prevalence_ratio,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                                                           <span class="at">IF =</span> IF, <span class="at">under_H0 =</span> <span class="cn">TRUE</span>, <span class="at">integration =</span> <span class="st">"gs_power_npe"</span>))}))</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>ans_H1 <span class="ot">&lt;-</span> <span class="fu">do.call</span>(cbind,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">lapply</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="st">"ss_H1"</span>, ans<span class="sc">$</span>SS1),</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">list</span>(<span class="st">"invar_H1"</span>, ans<span class="sc">$</span>INVAR1)),</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>                         <span class="cf">function</span>(x){<span class="fu">return</span>(<span class="fu">run_simulation</span>(<span class="at">N =</span> x[[<span class="dv">2</span>]],</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                                                           <span class="at">weight_method =</span> x[[<span class="dv">1</span>]],</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>                                                           <span class="at">n_sim =</span> n_sim, <span class="at">prevalence_ratio =</span> prevalence_ratio,</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>                                                           <span class="at">IF =</span> IF, <span class="at">under_H0 =</span> <span class="cn">FALSE</span>, <span class="at">integration =</span> <span class="st">"gs_power_npe"</span>))}))</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">simu_ID =</span> <span class="fu">rep</span>(ans_H0<span class="sc">$</span>simu_ID, <span class="dv">2</span>),</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ss =</span> <span class="fu">c</span>(ans_H0[, <span class="dv">3</span>], ans_H1[, <span class="dv">3</span>]), </span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>                      <span class="at">invar =</span> <span class="fu">c</span>(ans_H0[, <span class="dv">6</span>], ans_H1[, <span class="dv">6</span>]),</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>                      <span class="st">`</span><span class="at">calculated under</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"H0"</span>, n_sim), <span class="fu">rep</span>(<span class="st">"H1"</span>, n_sim))) </span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(ans, <span class="at">file =</span> <span class="st">"./fixtures/rd_simu_power_gspowernpe_2_weight.Rdata"</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"./fixtures/rd_simu_power_gspowernpe_2_weight.Rdata"</span><span class="op">)</span></span>
 <span><span class="va">ans</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -8078,29 +8079,29 @@ non-inferiority design} \end{array} \right.\)</span></td>
 </table>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-FarringtonManning">
-<p>Farrington, Conor P, and Godfrey Manning. 1990. “Test Statistics and Sample Size Formulae for Comparative Binomial Trials with Null Hypothesis of Non-Zero Risk Difference or Non-Unity Relative Risk.” <em>Statistics in Medicine</em> 9 (12): 1447–54.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-FarringtonManning" class="csl-entry">
+Farrington, Conor P, and Godfrey Manning. 1990. <span>“Test Statistics and Sample Size Formulae for Comparative Binomial Trials with Null Hypothesis of Non-Zero Risk Difference or Non-Unity Relative Risk.”</span> <em>Statistics in Medicine</em> 9 (12): 1447–54.
 </div>
-<div id="ref-FTU">
-<p>Fleiss, Joseph L, Alex Tytun, and Hans K Ury. 1980. “A Simple Approximation for Calculating Sample Sizes for Comparing Independent Proportions.” <em>Biometrics</em>, 343–46.</p>
+<div id="ref-FTU" class="csl-entry">
+Fleiss, Joseph L, Alex Tytun, and Hans K Ury. 1980. <span>“A Simple Approximation for Calculating Sample Sizes for Comparing Independent Proportions.”</span> <em>Biometrics</em>, 343–46.
 </div>
-<div id="ref-Lachin1981">
-<p>Lachin, John M. 1981. “Introduction to Sample Size Determination and Power Analysis for Clinical Trials.” <em>Controlled Clinical Trials</em> 2 (2): 93–113.</p>
+<div id="ref-Lachin1981" class="csl-entry">
+Lachin, John M. 1981. <span>“Introduction to Sample Size Determination and Power Analysis for Clinical Trials.”</span> <em>Controlled Clinical Trials</em> 2 (2): 93–113.
 </div>
-<div id="ref-LachinBook">
-<p>———. 2009. <em>Biostatistical Methods: The Assessment of Relative Risks</em>. Vol. 509. John Wiley &amp; Sons.</p>
+<div id="ref-LachinBook" class="csl-entry">
+———. 2009. <em>Biostatistical Methods: The Assessment of Relative Risks</em>. Vol. 509. John Wiley &amp; Sons.
 </div>
-<div id="ref-MantelHaenszel">
-<p>Mantel, Nathan, and William Haenszel. 1959. “Statistical Aspects of the Analysis of Data from Retrospective Studies of Disease.” <em>Journal of the National Cancer Institute</em> 22 (4): 719–48.</p>
+<div id="ref-MantelHaenszel" class="csl-entry">
+Mantel, Nathan, and William Haenszel. 1959. <span>“Statistical Aspects of the Analysis of Data from Retrospective Studies of Disease.”</span> <em>Journal of the National Cancer Institute</em> 22 (4): 719–48.
 </div>
-<div id="ref-Mehrotra2000">
-<p>Mehrotra, Devan V, and Radha Railkar. 2000a. “Minimum Risk Weights for Comparing Treatments in Stratified Binomial Trials.” <em>Statistics in Medicine</em> 19 (6): 811–25.</p>
+<div id="ref-Mehrotra2000" class="csl-entry">
+Mehrotra, Devan V, and Radha Railkar. 2000a. <span>“Minimum Risk Weights for Comparing Treatments in Stratified Binomial Trials.”</span> <em>Statistics in Medicine</em> 19 (6): 811–25.
 </div>
-<div id="ref-mehrotra2000minimum">
-<p>———. 2000b. “Minimum Risk Weights for Comparing Treatments in Stratified Binomial Trials.” <em>Statistics in Medicine</em> 19 (6): 811–25.</p>
+<div id="ref-mehrotra2000minimum" class="csl-entry">
+———. 2000b. <span>“Minimum Risk Weights for Comparing Treatments in Stratified Binomial Trials.”</span> <em>Statistics in Medicine</em> 19 (6): 811–25.
 </div>
 </div>
 </div>
