@@ -56,9 +56,9 @@ lower bound}
 
 \item{weight}{weight of weighted log rank test
 \itemize{
-\item \code{"1"}=unweighted,
-\item \code{"n"}=Gehan-Breslow,
-\item \code{"sqrtN"}=Tarone-Ware,
+\item \code{"1"}= unweighted,
+\item \code{"n"}= Gehan-Breslow,
+\item \code{"sqrtN"}= Tarone-Ware,
 \item \code{"FH_p[a]_q[b]"}= Fleming-Harrington with p=a and q=b
 }}
 

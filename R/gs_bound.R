@@ -1,8 +1,8 @@
-#  Copyright (c) 2021 Merck Sharp & Dohme Corp. a subsidiary of Merck & Co., Inc., Kenilworth, NJ, USA.
+#  Copyright (c) 2022 Merck Sharp & Dohme Corp. a subsidiary of Merck & Co., Inc., Rahway, NJ, USA.
 #
-#  This file is part of the gsdmvn program.
+#  This file is part of the gsDesign2 program.
 #
-#  gsdmvn is free software: you can redistribute it and/or modify
+#  gsDesign2 is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
@@ -57,7 +57,7 @@
 #'
 #' cbind(x$lower$bound, x$upper$bound)
 #'
-#' gsdmvn:::gs_bound(alpha = sfLDOF(0.025, 1:3/3)$spend,
+#' gsDesign2:::gs_bound(alpha = sfLDOF(0.025, 1:3/3)$spend,
 #'          beta = sfLDOF(0.2, 1:3/3)$spend,
 #'          analysis = 1:3,
 #'          theta = x$theta[2] * sqrt(x$n.I),

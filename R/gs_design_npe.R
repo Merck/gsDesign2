@@ -1,8 +1,8 @@
-#  Copyright (c) 2021 Merck Sharp & Dohme Corp. a subsidiary of Merck & Co., Inc., Kenilworth, NJ, USA.
+#  Copyright (c) 2022 Merck Sharp & Dohme Corp. a subsidiary of Merck & Co., Inc., Rahway, NJ, USA.
 #
-#  This file is part of the gsdmvn program.
+#  This file is part of the gsDesign2 program.
 #
-#  gsdmvn is free software: you can redistribute it and/or modify
+#  gsDesign2 is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
@@ -415,8 +415,8 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL,    # 3 theta
                          info = info * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
                          info_scale = info_scale,
                          upper = upper, upar = upar, 
-                         lower = if(!two_sided){gs_b}else{lower}, 
-                         lpar = if(!two_sided){rep(-Inf, K)}else{lpar},
+                         lower = if(!two_sided | !binding){gs_b}else{lower}, 
+                         lpar = if(!two_sided | !binding){rep(-Inf, K)}else{lpar},
                          test_upper = test_upper, test_lower = test_lower,
                          binding = binding, r = r, tol = tol)
   
