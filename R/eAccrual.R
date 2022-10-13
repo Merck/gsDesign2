@@ -147,7 +147,7 @@ eAccrual <- function(x = 0:24,
                   FUN = function(i){
                     as.numeric(xx[[i]]$eAccrual[ind[[i]]])
                   })
-    ans <- do.call("+", ans)
+    ans <- ans %>% purrr::reduce(`+`)
   }
   
   return(ans)
