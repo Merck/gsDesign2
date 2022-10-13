@@ -199,29 +199,60 @@ gs_spending_bound <- function(k = 1,
   # ---------------------------------- #
     if(spend <= 0){return(Inf)}
     
+    # if theta not a vector, make it one
+    # theta is for lower bound only
+    if(length(theta) == 1) theta <- rep(theta, length(info))
+    
     # set starting value
     b <- qnorm(spend, lower.tail = FALSE)
     
     # if it is the first analysis: no iteration needed
     if(k == 1){return(b)} 
     
-    # if it is not the first analysis
-    for(iter in 0:20){
-      
+    # Extremes for numerical integration
+    mu <- theta[k] * sqrt(info[k])
+    EXTREMElow <- mu - 3 - 4 * log(r)
+    EXTREMEhi <- mu + 3 + 4 * log(r)
+    
+    # initial values
+    bdelta <- 1
+    j <- 1
+    
+    while (abs(bdelta) > tol) {
       # sub-density for final analysis in rejection region
       hg <- hupdate(theta = 0, I =  info[k], a = b, b = Inf, thetam1 = 0, Im1 = info[k-1], gm1 = hgm1, r = r)
       
       # compute probability of crossing bound
       pik <- sum(hg$h) 
+      bdelta <- spend - pik
       
       # compute the derivative of bound crossing at b[k]
       dpikdb <- hg$h[1] / hg$w[1] 
       
+      if(bdelta > dpikdb){
+        bdelta <- 1
+      }else if(bdelta < -dpikdb){
+        bdelta <- -1
+      }else{
+        bdelta <- bdelta / dpikdb
+      }
+      
       # update upper boundary by Newton-Raphson method
-      b_old <- b
-      b <- b - (spend - pik) / dpikdb 
-      if(abs(b - b_old) < tol){return(b)}
+      b <- b - bdelta
+      
+      if(b > EXTREMEhi){
+        b <- EXTREMEhi
+      }else if(b < EXTREMElow){
+        b <- EXTREMElow
+      }
+      
+      if(abs(bdelta) < tol){return(b)}
+      
+      # if the while loop does not end in 20 iterations, stop
+      j <- j + 1
+      if (j > 20){
+        stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", k, " !"))
+      }
     }
-    stop(paste("gs_spending_bound(): bound_update did not converge for upper bound calculation, analysis", k, " !"))
   }
 }
