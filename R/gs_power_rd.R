@@ -196,8 +196,8 @@ gs_power_rd <- function(
     weight = c("un-stratified", "ss", "invar"),
     upper = gs_b,
     lower = gs_b,
-    upar = list(par = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound),
-    lpar = list(par = c(qnorm(.1), rep(-Inf, length(N) - 1))),
+    upar = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+    lpar = c(qnorm(.1), rep(-Inf, length(N) - 1)),
     info_scale = c(0, 1, 2),
     binding = FALSE,
     test_upper = TRUE,
@@ -281,7 +281,7 @@ gs_power_rd <- function(
   )
   
   ans <- list(
-    bounds = bounds,
+    bounds = bounds %>% filter(abs(Z) != Inf),
     analysis = analysis)
   
   class(ans) <- c("rd", "gs_design", class(ans))

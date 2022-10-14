@@ -222,7 +222,7 @@ gs_design_rd <- function(
   #     return the output                         #
   # --------------------------------------------- #
   ans <- list(
-    bounds = bounds,
+    bounds = bounds %>% filter(abs(Z) != Inf),
     analysis = analysis)
   
   class(ans) <- c("rd", "gs_design", class(ans))
