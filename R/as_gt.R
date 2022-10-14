@@ -193,6 +193,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' 
 #' @method as_gt gs_design
 #' @examples 
+#' \dontrun{
 #' # the default output 
 #' library(dplyr)
 #' 
@@ -212,7 +213,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #'   summary() %>%
 #'   as_gt()
 #' 
-#' \dontrun{
+#' 
 #' gs_design_combo() %>% 
 #'   summary() %>% 
 #'   as_gt() 
@@ -220,7 +221,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' gs_power_combo() %>% 
 #'   summary() %>% 
 #'   as_gt()
-#' }
 #' 
 #' gs_design_rd() %>% 
 #'   summary() %>% 
@@ -269,7 +269,8 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-#'
+#' }
+#' 
 as_gt.gs_design <- function(
   x,
   title = NULL,
