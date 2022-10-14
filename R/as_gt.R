@@ -220,6 +220,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' gs_power_combo() %>% 
 #'   summary() %>% 
 #'   as_gt()
+#' }
 #' 
 #' gs_design_rd() %>% 
 #'   summary() %>% 
@@ -228,7 +229,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' gs_power_rd() %>% 
 #'   summary() %>% 
 #'   as_gt()
-#' } 
+#'  
 #' # usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle 
 #' gs_power_wlr() %>% 
@@ -319,13 +320,13 @@ as_gt.gs_design <- function(
   # set different default columns to display
   if(is.null(display_columns)){
     if(method == "ahr"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "~HR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~HR at bound", "Alternate hypothesis", "Null hypothesis")
     }else if(method == "wlr"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "~wHR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~wHR at bound", "Alternate hypothesis", "Null hypothesis")
     }else if(method == "combo"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "Alternate hypothesis", "Null hypothesis")
     }else if(method == "rd"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis")
     }
   }
   # filter the columns to display as the output

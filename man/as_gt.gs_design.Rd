@@ -76,6 +76,7 @@ gs_design_combo() \%>\%
 gs_power_combo() \%>\% 
   summary() \%>\% 
   as_gt()
+}
 
 gs_design_rd() \%>\% 
   summary() \%>\% 
@@ -84,7 +85,7 @@ gs_design_rd() \%>\%
 gs_power_rd() \%>\% 
   summary() \%>\% 
   as_gt()
-} 
+ 
 # usage of title = ..., subtitle = ...
 # to edit the title/subtitle 
 gs_power_wlr() \%>\% 
