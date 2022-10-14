@@ -242,7 +242,7 @@ gs_design_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 
   ans <- list(
     enrollRates = enrollRates %>% mutate(rate = rate * inflac_fct),
     failRates = failRates,
-    bounds = bounds,
+    bounds = bounds %>% filter(abs(Z) != Inf),
     analysis = analysis)
   
   class(ans) <- c("ahr", "gs_design", class(ans))

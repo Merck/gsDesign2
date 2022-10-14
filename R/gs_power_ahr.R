@@ -195,8 +195,10 @@ gs_power_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
       arrange(Analysis)
   )
   
-  ans <- list(enrollRates = enrollRates, failRates = failRates,
-              bounds = bounds, analysis = analysis)
+  ans <- list(enrollRates = enrollRates, 
+              failRates = failRates,
+              bounds = bounds %>% filter(abs(Z) != Inf), 
+              analysis = analysis)
   
   class(ans) <- c("ahr", "gs_design", class(ans))
   
