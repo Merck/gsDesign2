@@ -193,6 +193,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' 
 #' @method as_gt gs_design
 #' @examples 
+#' \dontrun{
 #' # the default output 
 #' library(dplyr)
 #' 
@@ -212,7 +213,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #'   summary() %>%
 #'   as_gt()
 #' 
-#' \dontrun{
+#' 
 #' gs_design_combo() %>% 
 #'   summary() %>% 
 #'   as_gt() 
@@ -228,7 +229,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' gs_power_rd() %>% 
 #'   summary() %>% 
 #'   as_gt()
-#' } 
+#'  
 #' # usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle 
 #' gs_power_wlr() %>% 
@@ -268,7 +269,8 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-#'
+#' }
+#' 
 as_gt.gs_design <- function(
   x,
   title = NULL,
@@ -319,13 +321,13 @@ as_gt.gs_design <- function(
   # set different default columns to display
   if(is.null(display_columns)){
     if(method == "ahr"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "~HR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~HR at bound", "Alternate hypothesis", "Null hypothesis")
     }else if(method == "wlr"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "~wHR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~wHR at bound", "Alternate hypothesis", "Null hypothesis")
     }else if(method == "combo"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "Alternate hypothesis", "Null hypothesis")
     }else if(method == "rd"){
-      display_columns <- c("Analysis", "Bound", "Nominal p", "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis")
     }
   }
   # filter the columns to display as the output
