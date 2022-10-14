@@ -18,14 +18,14 @@ library(tibble)
 library(dplyr)
 library(gt)
 library(testthat)
-devtools::load_all()
+library(gsDesign2)
 ```
 
 # Test 1
 
 ```{r}
 x1 <- gs_power_ahr() 
-x2 <- gs_power_ahr_() 
+x2 <- gsDesign2:::gs_power_ahr_() 
 ```
 
 ```{r, echo=FALSE}
@@ -36,9 +36,9 @@ tibble(version = c(rep("new", 3), rep("old", 3)),
        time = c(x1$analysis$Time, x2$Time[1:3]),
        theta = c(x1$analysis$theta, x2$theta[1:3]),
        Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2 %>% filter(Bound == "Upper"))$Z),
-       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, (x2 %>% filter(Bound == "Lower"))$Z),
+       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, NA, NA, (x2 %>% filter(Bound == "Lower"))$Z),
        prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2 %>% filter(Bound == "Upper"))$Probability),
-       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, (x2 %>% filter(Bound == "Lower"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, NA, NA, (x2 %>% filter(Bound == "Lower"))$Probability),
        AHR = c(x1$analysis$AHR, x2$AHR[1:3]),
        info = c(x1$analysis$info, x2$info[1:3]),
        info0 = c(x1$analysis$info0, x2$info0[1:3])
@@ -62,7 +62,7 @@ x1 <- gs_power_ahr(analysisTimes = c(12, 24, 36),
                    lower = gs_spending_bound,
                    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL))
 
-x2 <- gs_power_ahr_(analysisTimes = c(12, 24, 36),
+x2 <- gsDesign2:::gs_power_ahr_(analysisTimes = c(12, 24, 36),
                    events = NULL,
                    binding = TRUE,
                    upper = gs_spending_bound,
@@ -78,10 +78,10 @@ tibble(version = c(rep("new", 3), rep("old", 3)),
        events = c(x1$analysis$Events, x2$Events[1:3]),
        time = c(x1$analysis$Time, x2$Time[1:3]),
        theta = c(x1$analysis$theta, x2$theta[1:3]),
-       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2 %>% filter(Bound == "Upper"))$Z),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z,  (x2 %>% filter(Bound == "Upper"))$Z),
        Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, (x2 %>% filter(Bound == "Lower"))$Z),
        prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2 %>% filter(Bound == "Upper"))$Probability),
-       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability,  (x2 %>% filter(Bound == "Lower"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, (x2 %>% filter(Bound == "Lower"))$Probability),
        AHR = c(x1$analysis$AHR, x2$AHR[1:3]),
        info = c(x1$analysis$info, x2$info[1:3]),
        info0 = c(x1$analysis$info0, x2$info0[1:3])
@@ -104,7 +104,7 @@ x1 <- gs_power_ahr(analysisTimes = NULL,
                    lower = gs_spending_bound,
                    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL))
 
-x2 <- gs_power_ahr_(analysisTimes = NULL,
+x2 <- gsDesign2:::gs_power_ahr_(analysisTimes = NULL,
                    events = c(20, 50, 70),
                    binding = TRUE,
                    upper = gs_spending_bound,
@@ -146,7 +146,7 @@ x1 <- gs_power_ahr(analysisTimes = c(12, 24, 36),
                    lower = gs_spending_bound,
                    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL))
 
-x2 <- gs_power_ahr_(analysisTimes = c(12, 24, 36),
+x2 <- gsDesign2:::gs_power_ahr_(analysisTimes = c(12, 24, 36),
                    events = c(30, 40, 50),
                    binding = TRUE,
                    upper = gs_spending_bound,
