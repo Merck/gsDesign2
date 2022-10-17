@@ -281,7 +281,7 @@ gs_power_rd <- function(
   )
   
   ans <- list(
-    bounds = bounds %>% filter(abs(Z) != Inf),
+    bounds = bounds %>% filter(!is.infinite(Z)),
     analysis = analysis)
   
   class(ans) <- c("rd", "gs_design", class(ans))

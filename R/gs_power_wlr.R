@@ -240,7 +240,7 @@ gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
   ans <- list(
     enrollRates = enrollRates, 
     failRates = failRates,
-    bounds = bounds %>% filter(abs(Z) != Inf),
+    bounds = bounds %>% filter(!is.infinite(Z)),
     analysis = analysis)
   
   class(ans) <- c("wlr", "gs_design", class(ans))
