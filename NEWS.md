@@ -1,3 +1,7 @@
+# gsDesign2 0.2.1, Aug, 2022
+
+- This version is the one before the big merge with `Merck/gsdmvn`.
+
 # gsDesign2 0.2.0, May, 2022
 
 - This version supports the Biometrical Journal paper "A unified framework for weighted parametric group sequential design (WPGSD)" by Keaven M. Anderson, Zifang Guo, Jing Zhao, and Linda Z. Sun.
