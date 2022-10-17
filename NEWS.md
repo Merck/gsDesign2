@@ -1,3 +1,7 @@
+# gsDesign2 0.2.0, May, 2022
+
+- This version supports the Biometrical Journal paper "A unified framework for weighted parametric group sequential design (WPGSD)" by Keaven M. Anderson, Zifang Guo, Jing Zhao, and Linda Z. Sun.
+
 # gsDesign2 0.1.0, May, 2021
 
 - Updated AHR vignette to introduce average hazard ratio concept well
