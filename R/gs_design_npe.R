@@ -412,7 +412,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL,    # 3 theta
   
   # calculate the probability under H0
   ans_H0 <- gs_power_npe(theta = 0, theta0 = theta0, theta1 = theta1, 
-                         info = info * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
+                         info = info0 * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
                          info_scale = info_scale,
                          upper = upper, upar = upar, 
                          lower = if(!two_sided | !binding){gs_b}else{lower}, 
