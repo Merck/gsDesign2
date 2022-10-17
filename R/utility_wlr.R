@@ -184,9 +184,9 @@ gs_delta_wlr <- function(arm0,
       
       stop("gs_delta_wlr(): Hazard is not proportional over time.", call. = F)
       
-    } else if (wlr_weight_fh(seq(0,tmax,length.out = 10), arm0, arm1) != "1") {
+    } else if( any(wlr_weight_fh(seq(0,tmax,length.out = 10), arm0, arm1) != "1")) {
       
-      stop("gs_delta_wlr(): Weight must equal `1`.", call. = F)
+      stop("gs_delta_wlr(): Weight must equal `1` when `approx = 'event_driven'.", call.=F)
     }
     
     theta <- c(arm0$surv_shape * log( arm1$surv_scale / arm0$surv_scale ))[1]        # log hazard ratio
