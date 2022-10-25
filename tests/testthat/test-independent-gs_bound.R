@@ -6,7 +6,7 @@ testthat::test_that("compare with results from gsDesign, 3 analyses, equal IA ti
                          sflpar = 0, lambdaC = 0.1,
                          hr = 0.6, hr0 = 1, eta = 0.01,
                          gamma = 10,
-                         R = c12, S = NULL ,
+                         R = 12, S = NULL ,
                          T = 36, minfup = 24, ratio = 1)
   
   xbound <- cbind( x$upper$bound, x$lower$bound)
