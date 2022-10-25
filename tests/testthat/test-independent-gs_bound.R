@@ -34,7 +34,7 @@ testthat::test_that("compare with results from gsDesign, 3 analyses, unequal IA 
   
   ybound<- cbind(y$upper$bound, y$lower$bound)
   
-  test2<- gsdmvn:::gs_bound(alpha = gsDesign::sfLDOF(0.025, 3:5/5)$spend,
+  test2<- gsDesign2:::gs_bound(alpha = gsDesign::sfLDOF(0.025, 3:5/5)$spend,
                             beta = gsDesign::sfLDOF(0.2, 3:5/5)$spend,
                             analysis = 1:3,
                             theta = y$theta[2] * sqrt(y$n.I),
