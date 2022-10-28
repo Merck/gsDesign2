@@ -256,7 +256,7 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                 dd <- AHR(enrollRates = enrollRates, failRates = failRates, totalDuration = studyDuration, ratio = ratio)
                 
                 # use nSuve to develop the design
-                d <- nSurv(alpha = alpha, beta = if(is.null(power)){NULL}else{1 - power}, 
+                d <- gsDesign::nSurv(alpha = alpha, beta = if(is.null(power)){NULL}else{1 - power}, 
                            ratio = ratio, hr = dd$AHR,
                            # failRates
                            lambdaC = failRates$failRate,
