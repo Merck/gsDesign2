@@ -158,6 +158,16 @@ gs_design_combo <- function(enrollRates = tibble(Stratum = "All",
   theta_fh <- utility$theta
   corr_fh  <- utility$corr
   
+  # --------------------------------------------- #
+  #     check design type                         #
+  # --------------------------------------------- #
+  K <- length(info)
+  if(identical(lower, gs_b) & (!is.list(lpar))){
+    two_sided <- ifelse(identical(lpar, rep(-Inf, K)), FALSE, TRUE)
+  }else{
+    two_sided <- TRUE
+  }
+  
   # Information Fraction
   if(n_analysis == 1){
     min_info_frac <- 1
@@ -214,15 +224,11 @@ gs_design_combo <- function(enrollRates = tibble(Stratum = "All",
   
   # Probability Cross Boundary under Null
   prob_null <- gs_prob_combo(upper_bound = bound$upper,
-                             lower_bound = if(binding){bound$lower}else{rep(-Inf, nrow(bound))},
+                             lower_bound = if(two_sided){bound$lower}else{rep(-Inf, nrow(bound))},
                              analysis = info_fh$Analysis,
                              theta = rep(0, nrow(info_fh)),
                              corr = corr_fh,
                              algorithm = algorithm, ...)
-  
-  # if(binding == FALSE){
-  #   prob_null$Probability[prob_null$Bound == "Lower"] <- NA
-  # }
   
   prob$Probability_Null <- prob_null$Probability
   
