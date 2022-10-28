@@ -256,14 +256,14 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                 dd <- AHR(enrollRates = enrollRates, failRates = failRates, totalDuration = studyDuration, ratio = ratio)
                 
                 # use nSuve to develop the design
-                d <- nSurv(alpha = alpha, beta = if(is.null(power)){NULL}else{1 - power}, 
-                           ratio = ratio, hr = dd$AHR,
-                           # failRates
-                           lambdaC = failRates$failRate,
-                           S = S, eta = failRates$dropoutRate,  
-                           # enrollRates
-                           gamma = enrollRates$rate, R = enrollRates$duration,
-                           T = studyDuration, minfup = studyDuration - sum(enrollRates$duration))
+                d <- gsDesign::nSurv(alpha = alpha, beta = if(is.null(power)){NULL}else{1 - power}, 
+                                     ratio = ratio, hr = dd$AHR,
+                                     # failRates
+                                     lambdaC = failRates$failRate,
+                                     S = S, eta = failRates$dropoutRate,  
+                                     # enrollRates
+                                     gamma = enrollRates$rate, R = enrollRates$duration,
+                                     T = studyDuration, minfup = studyDuration - sum(enrollRates$duration))
                 
                 ans <- tibble::tibble(Design = "LF",
                                       N = d$n,
