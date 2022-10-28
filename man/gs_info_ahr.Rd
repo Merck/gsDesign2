@@ -49,8 +49,8 @@ The \code{tEvents()} function is used to get events and average HR at targeted \
    \item Validate if inputs events and analysisTime have the same length if they are both specified.
    \item Compute average hazard ratio:
    \itemize{
-     \item If analysisTime is specified, calculate average hazard ratio using \code{gsDesign2::AHR()}.
-     \item If events is specified, calculate average hazard ratio using \code{gsDesign2::tEvents()}.
+     \item If analysisTime is specified, calculate average hazard ratio using \code{AHR()}.
+     \item If events is specified, calculate average hazard ratio using \code{tEvents()}.
    }
    \item Return a tibble of Analysis, Time, AHR, Events, theta, info, info0.
   }

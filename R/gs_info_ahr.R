@@ -36,8 +36,8 @@ NULL
 #'    \item Validate if inputs events and analysisTime have the same length if they are both specified.
 #'    \item Compute average hazard ratio:
 #'    \itemize{
-#'      \item If analysisTime is specified, calculate average hazard ratio using \code{gsDesign2::AHR()}.
-#'      \item If events is specified, calculate average hazard ratio using \code{gsDesign2::tEvents()}.
+#'      \item If analysisTime is specified, calculate average hazard ratio using \code{AHR()}.
+#'      \item If events is specified, calculate average hazard ratio using \code{tEvents()}.
 #'    }
 #'    \item Return a tibble of Analysis, Time, AHR, Events, theta, info, info0.
 #'   }
@@ -135,8 +135,8 @@ gs_info_ahr <- function(enrollRates = tibble::tibble(Stratum = "All",
   }else{
     for(i in seq_along(events)){
       avehr <- rbind(avehr,
-                     gsDesign2::tEvents(enrollRates = enrollRates, failRates = failRates, 
-                                        ratio = ratio, targetEvents = events[i]))
+                     tEvents(enrollRates = enrollRates, failRates = failRates, 
+                             ratio = ratio, targetEvents = events[i]))
     }
   }
   

@@ -57,7 +57,7 @@
 #'
 #' cbind(x$lower$bound, x$upper$bound)
 #'
-#' gsDesign2:::gs_bound(alpha = sfLDOF(0.025, 1:3/3)$spend,
+#' gs_bound(alpha = sfLDOF(0.025, 1:3/3)$spend,
 #'          beta = sfLDOF(0.2, 1:3/3)$spend,
 #'          analysis = 1:3,
 #'          theta = x$theta[2] * sqrt(x$n.I),
