@@ -67,19 +67,19 @@ gs_info_wlr <- function(enrollRates=tibble::tibble(Stratum="All",
   # Obtain Analysis time
   avehr <- NULL
   if(!is.null(analysisTimes)){
-    avehr <- gsDesign2::AHR(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
-                            totalDuration = analysisTimes)
+    avehr <- AHR(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
+                 totalDuration = analysisTimes)
     for(i in seq_along(events)){
       if (avehr$Events[i] < events[i]){
-        avehr[i,] <- gsDesign2::tEvents(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
-                                        targetEvents = events[i])
+        avehr[i,] <- tEvents(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
+                             targetEvents = events[i])
       }
     }
   }else{
     for(i in seq_along(events)){
       avehr <- rbind(avehr,
-                     gsDesign2::tEvents(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
-                                        targetEvents = events[i]))
+                     tEvents(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
+                             targetEvents = events[i]))
     }
   }
   
