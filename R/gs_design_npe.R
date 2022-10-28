@@ -415,8 +415,8 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL,    # 3 theta
                          info = info0 * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
                          info_scale = info_scale,
                          upper = upper, upar = upar, 
-                         lower = if(!two_sided | !binding){gs_b}else{lower}, 
-                         lpar = if(!two_sided | !binding){rep(-Inf, K)}else{lpar},
+                         lower = if(!two_sided){gs_b}else{lower}, 
+                         lpar = if(!two_sided){rep(-Inf, K)}else{lpar},
                          test_upper = test_upper, test_lower = test_lower,
                          binding = binding, r = r, tol = tol)
   
