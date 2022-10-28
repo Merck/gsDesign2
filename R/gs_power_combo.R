@@ -224,7 +224,6 @@ gs_power_combo <- function(enrollRates = tibble(Stratum = "All",
   # --------------------------------------------- #
   #     output                                    #
   # --------------------------------------------- #
-  message("The AHR reported in the `analysis` table is under the log-rank test.")
   output <- list(
     enrollRates = enrollRates %>% mutate(rate = rate * max(analysis$N) / sum(rate * duration) ),
     failRates = failRates,
