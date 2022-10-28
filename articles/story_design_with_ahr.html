@@ -81,7 +81,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Design Using Average Hazard Ratio</h1>
             
-            <h4 data-toc-skip class="date">25 October, 2022</h4>
+            <h4 data-toc-skip class="date">28 October, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/vignettes/story_design_with_ahr.Rmd" class="external-link"><code>vignettes/story_design_with_ahr.Rmd</code></a></small>
       <div class="d-none name"><code>story_design_with_ahr.Rmd</code></div>
@@ -92,7 +92,14 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>We consider fixed and group sequential design under non-proportional hazards when testing with the logrank test. We focus primarily on the average hazard ratio approach, expanding the asymptotic approach of <span class="citation">Mukhopadhyay et al. (2020)</span> to both group sequential design and more complex enrollment assumptions. The theoretical background for this is provided in other vignettes in this package. We provide a few basic examples along the lines of <span class="citation">Lin et al. (2020)</span> for illustration of design considerations under the following assumptions:</p>
+<p>We consider fixed and group sequential design under non-proportional
+hazards when testing with the logrank test. We focus primarily on the
+average hazard ratio approach, expanding the asymptotic approach of
+<span class="citation">Mukhopadhyay et al. (2020)</span> to both group
+sequential design and more complex enrollment assumptions. The
+theoretical background for this is provided in other vignettes in this
+package. We provide a few basic examples along the lines of <span class="citation">Lin et al. (2020)</span> for illustration of design
+considerations under the following assumptions:</p>
 <ol style="list-style-type: decimal">
 <li>Proportional hazards</li>
 <li>Short delayed effect</li>
@@ -103,18 +110,25 @@
 <ol style="list-style-type: decimal">
 <li>Expected average hazard ratio (AHR) over time.</li>
 <li>Expected event accumulation over time.</li>
-<li>The impact of planned study duration on required number of events.</li>
-<li>Power across scenarios when a trial is designed under the assumption of a short delayed effect.</li>
+<li>The impact of planned study duration on required number of
+events.</li>
+<li>Power across scenarios when a trial is designed under the assumption
+of a short delayed effect.</li>
 <li>Timing of interim analyses.</li>
 <li>
-<span class="math inline">\(\alpha\)</span>-spending considerations.</li>
+<span class="math inline">\(\alpha\)</span>-spending
+considerations.</li>
 </ol>
-<p>We focus on results rather than code, but hidden code can be revealed for all examples.</p>
+<p>We focus on results rather than code, but hidden code can be revealed
+for all examples.</p>
 </div>
 <div class="section level2">
 <h2 id="packages-used">Packages used<a class="anchor" aria-label="anchor" href="#packages-used"></a>
 </h2>
-<p>The primary packages needed are <strong>gsdmvn</strong> and <strong>gsDesign2</strong> which will likely be combined into <strong>gsDesign2</strong> in the near future. Other packages used are supportive.</p>
+<p>The primary packages needed are <strong>gsdmvn</strong> and
+<strong>gsDesign2</strong> which will likely be combined into
+<strong>gsDesign2</strong> in the near future. Other packages used are
+supportive.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -127,7 +141,11 @@
 <div class="section level2">
 <h2 id="scenarios">Scenarios<a class="anchor" aria-label="anchor" href="#scenarios"></a>
 </h2>
-<p>Expected enrollment duration is 18 months with piecewise constant enrollment rates escalating every 2 months until month 6 where enrollment is assumed to have reached steady state. We will later assume a similar ramp-up period with 24 months expected enrollment duration.</p>
+<p>Expected enrollment duration is 18 months with piecewise constant
+enrollment rates escalating every 2 months until month 6 where
+enrollment is assumed to have reached steady state. We will later assume
+a similar ramp-up period with 24 months expected enrollment
+duration.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set the enrollment table of totally 24 month </span></span>
 <span><span class="va">enroll24</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
@@ -159,26 +177,33 @@
 <ul>
 <li>PH: Proportional hazards is assumed.
 <ul>
-<li>Control group has exponential failure rate with a median of 14 months.</li>
+<li>Control group has exponential failure rate with a median of 14
+months.</li>
 <li>Constant hazard ratio of 0.7 (experimental/control).</li>
 </ul>
 </li>
 <li>Shorter delayed effect
 <ul>
-<li>Control group has exponential failure rate with a median of 10 months.</li>
-<li>Hazard ratio of 1 for 6 months followed by a hazard ratio of 0.6.</li>
+<li>Control group has exponential failure rate with a median of 10
+months.</li>
+<li>Hazard ratio of 1 for 6 months followed by a hazard ratio of
+0.6.</li>
 </ul>
 </li>
 <li>Longer delayed effect
 <ul>
-<li>Control group has exponential failure rate with a median of 10 months.</li>
-<li>Hazard ratio of 1 for 6 months followed by a hazard ratio of 0.6.</li>
+<li>Control group has exponential failure rate with a median of 10
+months.</li>
+<li>Hazard ratio of 1 for 6 months followed by a hazard ratio of
+0.6.</li>
 </ul>
 </li>
 <li>Crossing hazards
 <ul>
-<li>Control group has exponential failure rate with a median of 10 months.</li>
-<li>Hazard ratio of 1.5 for 4 months followed by a hazard ratio of 0.5.</li>
+<li>Control group has exponential failure rate with a median of 10
+months.</li>
+<li>Hazard ratio of 1.5 for 4 months followed by a hazard ratio of
+0.5.</li>
 </ul>
 </li>
 </ul>
@@ -239,7 +264,10 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">42</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Survival over time for 4 scenarios studied"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="story_design_with_ahr_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
-<p>The average hazard ratio for these 4 scenarios are shown below. We note that under the <em>Shorter delayed effect</em> scenario, the average hazard ratio approaches that of the <em>PH</em> scenario after a study duration of about 36 months.</p>
+<p>The average hazard ratio for these 4 scenarios are shown below. We
+note that under the <em>Shorter delayed effect</em> scenario, the
+average hazard ratio approaches that of the <em>PH</em> scenario after a
+study duration of about 36 months.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Durations to be used in common for all failure rate scenarios</span></span>
 <span><span class="va">dur</span> <span class="op">&lt;-</span> <span class="va">Month</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op">-</span> <span class="va">Month</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
@@ -276,14 +304,22 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Average hazard ratio (AHR) by study duration"</span>,</span>
 <span>          subtitle <span class="op">=</span> <span class="st">"Under the 4 scenarios examined"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="story_design_with_ahr_files/figure-html/unnamed-chunk-7-1.png" width="336"></p>
-<p>The number of events for these 4 scenarios are shown below. Under the 3 NPH scenarios events accumulate faster than under the PH scenario both due to a lower control median and/or a delayed effect.</p>
+<p>The number of events for these 4 scenarios are shown below. Under the
+3 NPH scenarios events accumulate faster than under the PH scenario both
+due to a lower control median and/or a delayed effect.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Time</span>, y <span class="op">=</span> <span class="va">`Events`</span>, col <span class="op">=</span> <span class="va">Scenario</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">42</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Expected events per 100 enrolled"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Expected event accumulation under the 4 scenarios studied"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="story_design_with_ahr_files/figure-html/unnamed-chunk-8-1.png" width="336"> From the above, we see that slight variations in control failure rates and the potential for a delayed effect can substantially accelerate the accumulation of events. If doing an event-based cutoff for analysis these slight variations can lead to earlier analyses than anticipated when the average hazard ratio that is expected with longer follow-up would never be achieved. We examine the implications further below.</p>
+<p><img src="story_design_with_ahr_files/figure-html/unnamed-chunk-8-1.png" width="336">
+From the above, we see that slight variations in control failure rates
+and the potential for a delayed effect can substantially accelerate the
+accumulation of events. If doing an event-based cutoff for analysis
+these slight variations can lead to earlier analyses than anticipated
+when the average hazard ratio that is expected with longer follow-up
+would never be achieved. We examine the implications further below.</p>
 </div>
 <div class="section level2">
 <h2 id="sample-size-and-events-by-scenarios">Sample Size and Events by Scenarios<a class="anchor" aria-label="anchor" href="#sample-size-and-events-by-scenarios"></a>
@@ -291,7 +327,14 @@
 <div class="section level3">
 <h3 id="fixed-design-using-ahr-and-logrank">Fixed Design using AHR and Logrank<a class="anchor" aria-label="anchor" href="#fixed-design-using-ahr-and-logrank"></a>
 </h3>
-<p>We power a fixed design at 90% with 2.5% one-sided Type I error under the different scenarios under consideration. We now assume the 18 month enrollment pattern for all scenarios. For the <em>PH</em> and <em>Shorter delayed effect</em> scenarios we need a similar AHR, number of events and sample size for a 36 month study. The other two scenarios with crossing survival curves or a large effect delay would require substantially larger sample sizes due to not achieving a similar AHR by month 36.</p>
+<p>We power a fixed design at 90% with 2.5% one-sided Type I error under
+the different scenarios under consideration. We now assume the 18 month
+enrollment pattern for all scenarios. For the <em>PH</em> and
+<em>Shorter delayed effect</em> scenarios we need a similar AHR, number
+of events and sample size for a 36 month study. The other two scenarios
+with crossing survival curves or a large effect delay would require
+substantially larger sample sizes due to not achieving a similar AHR by
+month 36.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ss_ahr_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
 <span>  <span class="va">rbind</span>,</span>
@@ -319,12 +362,12 @@
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Sample Size and Events Required by Scenario"</span>,</span>
 <span>             subtitle <span class="op">=</span> <span class="st">"36 Month Trial duration, 2.5% One-sided Type 1 Error, 90% Power"</span><span class="op">)</span></span></code></pre></div>
-<div id="yiwbajpscs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jqodejukaj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yiwbajpscs .gt_table {
+#jqodejukaj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -349,7 +392,7 @@
   border-left-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_heading {
+#jqodejukaj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -361,7 +404,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_title {
+#jqodejukaj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -373,7 +416,7 @@
   border-bottom-width: 0;
 }
 
-#yiwbajpscs .gt_subtitle {
+#jqodejukaj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -385,13 +428,13 @@
   border-top-width: 0;
 }
 
-#yiwbajpscs .gt_bottom_border {
+#jqodejukaj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_col_headings {
+#jqodejukaj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -406,7 +449,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_col_heading {
+#jqodejukaj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -426,7 +469,7 @@
   overflow-x: hidden;
 }
 
-#yiwbajpscs .gt_column_spanner_outer {
+#jqodejukaj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -438,15 +481,15 @@
   padding-right: 4px;
 }
 
-#yiwbajpscs .gt_column_spanner_outer:first-child {
+#jqodejukaj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yiwbajpscs .gt_column_spanner_outer:last-child {
+#jqodejukaj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yiwbajpscs .gt_column_spanner {
+#jqodejukaj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -458,7 +501,7 @@
   width: 100%;
 }
 
-#yiwbajpscs .gt_group_heading {
+#jqodejukaj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -483,7 +526,7 @@
   vertical-align: middle;
 }
 
-#yiwbajpscs .gt_empty_group_heading {
+#jqodejukaj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -498,15 +541,15 @@
   vertical-align: middle;
 }
 
-#yiwbajpscs .gt_from_md > :first-child {
+#jqodejukaj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yiwbajpscs .gt_from_md > :last-child {
+#jqodejukaj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yiwbajpscs .gt_row {
+#jqodejukaj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -525,7 +568,7 @@
   overflow-x: hidden;
 }
 
-#yiwbajpscs .gt_stub {
+#jqodejukaj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -538,7 +581,7 @@
   padding-right: 5px;
 }
 
-#yiwbajpscs .gt_stub_row_group {
+#jqodejukaj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -552,11 +595,11 @@
   vertical-align: top;
 }
 
-#yiwbajpscs .gt_row_group_first td {
+#jqodejukaj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yiwbajpscs .gt_summary_row {
+#jqodejukaj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -566,16 +609,16 @@
   padding-right: 5px;
 }
 
-#yiwbajpscs .gt_first_summary_row {
+#jqodejukaj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_first_summary_row.thick {
+#jqodejukaj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yiwbajpscs .gt_last_summary_row {
+#jqodejukaj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -585,7 +628,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_grand_summary_row {
+#jqodejukaj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -595,7 +638,7 @@
   padding-right: 5px;
 }
 
-#yiwbajpscs .gt_first_grand_summary_row {
+#jqodejukaj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -605,11 +648,11 @@
   border-top-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_striped {
+#jqodejukaj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yiwbajpscs .gt_table_body {
+#jqodejukaj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -618,7 +661,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_footnotes {
+#jqodejukaj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -632,7 +675,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_footnote {
+#jqodejukaj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -641,7 +684,7 @@
   padding-right: 5px;
 }
 
-#yiwbajpscs .gt_sourcenotes {
+#jqodejukaj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -655,7 +698,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiwbajpscs .gt_sourcenote {
+#jqodejukaj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -663,64 +706,64 @@
   padding-right: 5px;
 }
 
-#yiwbajpscs .gt_left {
+#jqodejukaj .gt_left {
   text-align: left;
 }
 
-#yiwbajpscs .gt_center {
+#jqodejukaj .gt_center {
   text-align: center;
 }
 
-#yiwbajpscs .gt_right {
+#jqodejukaj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yiwbajpscs .gt_font_normal {
+#jqodejukaj .gt_font_normal {
   font-weight: normal;
 }
 
-#yiwbajpscs .gt_font_bold {
+#jqodejukaj .gt_font_bold {
   font-weight: bold;
 }
 
-#yiwbajpscs .gt_font_italic {
+#jqodejukaj .gt_font_italic {
   font-style: italic;
 }
 
-#yiwbajpscs .gt_super {
+#jqodejukaj .gt_super {
   font-size: 65%;
 }
 
-#yiwbajpscs .gt_footnote_marks {
+#jqodejukaj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#yiwbajpscs .gt_asterisk {
+#jqodejukaj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yiwbajpscs .gt_indent_1 {
+#jqodejukaj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yiwbajpscs .gt_indent_2 {
+#jqodejukaj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yiwbajpscs .gt_indent_3 {
+#jqodejukaj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yiwbajpscs .gt_indent_4 {
+#jqodejukaj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yiwbajpscs .gt_indent_5 {
+#jqodejukaj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -772,7 +815,17 @@
 </tbody>
 </table>
 </div>
-<p>Assuming the shorter delayed effect is the primary scenario for which we wish to protect power, how long should the trial be to optimize the tradeoffs between sample size, AHR and events required? We will inform this tradeoff by looking sizing the trial for different assumed trial durations with the same failure rates and assumed relative enrollment rates. The counts of events required is perhaps the most interesting here in that a 24 month trial requires almost twice the events to be powered at 90% compared to a trial of 42 months duration. For further study, we will consider the 36 month trial duration as a reasonable tradeoff between time, sample size and power under a presumed delayed effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
+<p>Assuming the shorter delayed effect is the primary scenario for which
+we wish to protect power, how long should the trial be to optimize the
+tradeoffs between sample size, AHR and events required? We will inform
+this tradeoff by looking sizing the trial for different assumed trial
+durations with the same failure rates and assumed relative enrollment
+rates. The counts of events required is perhaps the most interesting
+here in that a 24 month trial requires almost twice the events to be
+powered at 90% compared to a trial of 42 months duration. For further
+study, we will consider the 36 month trial duration as a reasonable
+tradeoff between time, sample size and power under a presumed delayed
+effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
 <span>  <span class="va">rbind</span>,</span>
@@ -796,12 +849,12 @@
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Sample Size and Events Required by Trial Duration"</span>,</span>
 <span>             subtitle <span class="op">=</span> <span class="st">"Delayed Effect of 4 Months, HR = 0.6 Thereafter; 90% Power"</span><span class="op">)</span></span></code></pre></div>
-<div id="daxzxxqmml" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="eubezrvurv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#daxzxxqmml .gt_table {
+#eubezrvurv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -826,7 +879,7 @@
   border-left-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_heading {
+#eubezrvurv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -838,7 +891,7 @@
   border-right-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_title {
+#eubezrvurv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -850,7 +903,7 @@
   border-bottom-width: 0;
 }
 
-#daxzxxqmml .gt_subtitle {
+#eubezrvurv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -862,13 +915,13 @@
   border-top-width: 0;
 }
 
-#daxzxxqmml .gt_bottom_border {
+#eubezrvurv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_col_headings {
+#eubezrvurv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -883,7 +936,7 @@
   border-right-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_col_heading {
+#eubezrvurv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -903,7 +956,7 @@
   overflow-x: hidden;
 }
 
-#daxzxxqmml .gt_column_spanner_outer {
+#eubezrvurv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -915,15 +968,15 @@
   padding-right: 4px;
 }
 
-#daxzxxqmml .gt_column_spanner_outer:first-child {
+#eubezrvurv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#daxzxxqmml .gt_column_spanner_outer:last-child {
+#eubezrvurv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#daxzxxqmml .gt_column_spanner {
+#eubezrvurv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -935,7 +988,7 @@
   width: 100%;
 }
 
-#daxzxxqmml .gt_group_heading {
+#eubezrvurv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -960,7 +1013,7 @@
   vertical-align: middle;
 }
 
-#daxzxxqmml .gt_empty_group_heading {
+#eubezrvurv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -975,15 +1028,15 @@
   vertical-align: middle;
 }
 
-#daxzxxqmml .gt_from_md > :first-child {
+#eubezrvurv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#daxzxxqmml .gt_from_md > :last-child {
+#eubezrvurv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#daxzxxqmml .gt_row {
+#eubezrvurv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1002,7 +1055,7 @@
   overflow-x: hidden;
 }
 
-#daxzxxqmml .gt_stub {
+#eubezrvurv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1015,7 +1068,7 @@
   padding-right: 5px;
 }
 
-#daxzxxqmml .gt_stub_row_group {
+#eubezrvurv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1029,11 +1082,11 @@
   vertical-align: top;
 }
 
-#daxzxxqmml .gt_row_group_first td {
+#eubezrvurv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#daxzxxqmml .gt_summary_row {
+#eubezrvurv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1043,16 +1096,16 @@
   padding-right: 5px;
 }
 
-#daxzxxqmml .gt_first_summary_row {
+#eubezrvurv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_first_summary_row.thick {
+#eubezrvurv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#daxzxxqmml .gt_last_summary_row {
+#eubezrvurv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1062,7 +1115,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_grand_summary_row {
+#eubezrvurv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1072,7 +1125,7 @@
   padding-right: 5px;
 }
 
-#daxzxxqmml .gt_first_grand_summary_row {
+#eubezrvurv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1082,11 +1135,11 @@
   border-top-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_striped {
+#eubezrvurv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#daxzxxqmml .gt_table_body {
+#eubezrvurv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1095,7 +1148,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_footnotes {
+#eubezrvurv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1109,7 +1162,7 @@
   border-right-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_footnote {
+#eubezrvurv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1118,7 +1171,7 @@
   padding-right: 5px;
 }
 
-#daxzxxqmml .gt_sourcenotes {
+#eubezrvurv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1132,7 +1185,7 @@
   border-right-color: #D3D3D3;
 }
 
-#daxzxxqmml .gt_sourcenote {
+#eubezrvurv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1140,64 +1193,64 @@
   padding-right: 5px;
 }
 
-#daxzxxqmml .gt_left {
+#eubezrvurv .gt_left {
   text-align: left;
 }
 
-#daxzxxqmml .gt_center {
+#eubezrvurv .gt_center {
   text-align: center;
 }
 
-#daxzxxqmml .gt_right {
+#eubezrvurv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#daxzxxqmml .gt_font_normal {
+#eubezrvurv .gt_font_normal {
   font-weight: normal;
 }
 
-#daxzxxqmml .gt_font_bold {
+#eubezrvurv .gt_font_bold {
   font-weight: bold;
 }
 
-#daxzxxqmml .gt_font_italic {
+#eubezrvurv .gt_font_italic {
   font-style: italic;
 }
 
-#daxzxxqmml .gt_super {
+#eubezrvurv .gt_super {
   font-size: 65%;
 }
 
-#daxzxxqmml .gt_footnote_marks {
+#eubezrvurv .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#daxzxxqmml .gt_asterisk {
+#eubezrvurv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#daxzxxqmml .gt_indent_1 {
+#eubezrvurv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#daxzxxqmml .gt_indent_2 {
+#eubezrvurv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#daxzxxqmml .gt_indent_3 {
+#eubezrvurv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#daxzxxqmml .gt_indent_4 {
+#eubezrvurv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#daxzxxqmml .gt_indent_5 {
+#eubezrvurv .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1253,7 +1306,8 @@
 <div class="section level3">
 <h3 id="alternate-hypothesis-mapping">Alternate Hypothesis Mapping<a class="anchor" aria-label="anchor" href="#alternate-hypothesis-mapping"></a>
 </h3>
-<p>Under the different scenarios of interest, we can examine the expected number of events in time periods of interest.</p>
+<p>Under the different scenarios of interest, we can examine the
+expected number of events in time periods of interest.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">events_by_time_period</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span></span>
@@ -1265,7 +1319,20 @@
 <span>          failRates <span class="op">=</span> <span class="va">failRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">g</span><span class="op">)</span>,</span>
 <span>          totalDuration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">20</span>, <span class="fl">28</span>, <span class="fl">36</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">g</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>Recall that our alternate hypothesis assumes no treatment effect (HR=1) for 4 months and then HR = 0.6 thereafter. For any of the above scenarios, if we wish to base a futility bound on this assumption plus the above number of events in the first 4 months and after 4 months, then we can compute the average hazard ratio under the alternate hazard ratio for each scenario at 20 months as follows. You can see that an interim futility spending bound based on the alternate hypothesis can depend fairly heavily on enrollment and the control failure rate. Note also that at the time of interim analysis, the alternate hypothesis AHR can be computed in this same fashion based on observed events by time period. Note that this can be quite different than the scenario HR; e.g., for PH, we assume HR=0.7 throughout, but for the futility bound comparison, we compute blinded AHR that decreases with each analysis under the alternate hypothesis.</p>
+<p>Recall that our alternate hypothesis assumes no treatment effect
+(HR=1) for 4 months and then HR = 0.6 thereafter. For any of the above
+scenarios, if we wish to base a futility bound on this assumption plus
+the above number of events in the first 4 months and after 4 months,
+then we can compute the average hazard ratio under the alternate hazard
+ratio for each scenario at 20 months as follows. You can see that an
+interim futility spending bound based on the alternate hypothesis can
+depend fairly heavily on enrollment and the control failure rate. Note
+also that at the time of interim analysis, the alternate hypothesis AHR
+can be computed in this same fashion based on observed events by time
+period. Note that this can be quite different than the scenario HR;
+e.g., for PH, we assume HR=0.7 throughout, but for the futility bound
+comparison, we compute blinded AHR that decreases with each analysis
+under the alternate hypothesis.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Time periods for each scenario were 0-4, 4-6, and 6+</span></span>
 <span><span class="co"># Thus H1 has HR as follows</span></span>
@@ -1280,12 +1347,12 @@
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">Scenario</span>, values_from <span class="op">=</span> <span class="va">AHR1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<div id="ublrxhycab" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="xsdjhpiuhp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ublrxhycab .gt_table {
+#xsdjhpiuhp .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1310,7 +1377,7 @@
   border-left-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_heading {
+#xsdjhpiuhp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1322,7 +1389,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_title {
+#xsdjhpiuhp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1334,7 +1401,7 @@
   border-bottom-width: 0;
 }
 
-#ublrxhycab .gt_subtitle {
+#xsdjhpiuhp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1346,13 +1413,13 @@
   border-top-width: 0;
 }
 
-#ublrxhycab .gt_bottom_border {
+#xsdjhpiuhp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_col_headings {
+#xsdjhpiuhp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1367,7 +1434,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_col_heading {
+#xsdjhpiuhp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1387,7 +1454,7 @@
   overflow-x: hidden;
 }
 
-#ublrxhycab .gt_column_spanner_outer {
+#xsdjhpiuhp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1399,15 +1466,15 @@
   padding-right: 4px;
 }
 
-#ublrxhycab .gt_column_spanner_outer:first-child {
+#xsdjhpiuhp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ublrxhycab .gt_column_spanner_outer:last-child {
+#xsdjhpiuhp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ublrxhycab .gt_column_spanner {
+#xsdjhpiuhp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1419,7 +1486,7 @@
   width: 100%;
 }
 
-#ublrxhycab .gt_group_heading {
+#xsdjhpiuhp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1444,7 +1511,7 @@
   vertical-align: middle;
 }
 
-#ublrxhycab .gt_empty_group_heading {
+#xsdjhpiuhp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1459,15 +1526,15 @@
   vertical-align: middle;
 }
 
-#ublrxhycab .gt_from_md > :first-child {
+#xsdjhpiuhp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ublrxhycab .gt_from_md > :last-child {
+#xsdjhpiuhp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ublrxhycab .gt_row {
+#xsdjhpiuhp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1486,7 +1553,7 @@
   overflow-x: hidden;
 }
 
-#ublrxhycab .gt_stub {
+#xsdjhpiuhp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1499,7 +1566,7 @@
   padding-right: 5px;
 }
 
-#ublrxhycab .gt_stub_row_group {
+#xsdjhpiuhp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1513,11 +1580,11 @@
   vertical-align: top;
 }
 
-#ublrxhycab .gt_row_group_first td {
+#xsdjhpiuhp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ublrxhycab .gt_summary_row {
+#xsdjhpiuhp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1527,16 +1594,16 @@
   padding-right: 5px;
 }
 
-#ublrxhycab .gt_first_summary_row {
+#xsdjhpiuhp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_first_summary_row.thick {
+#xsdjhpiuhp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ublrxhycab .gt_last_summary_row {
+#xsdjhpiuhp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1546,7 +1613,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_grand_summary_row {
+#xsdjhpiuhp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1556,7 +1623,7 @@
   padding-right: 5px;
 }
 
-#ublrxhycab .gt_first_grand_summary_row {
+#xsdjhpiuhp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1566,11 +1633,11 @@
   border-top-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_striped {
+#xsdjhpiuhp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ublrxhycab .gt_table_body {
+#xsdjhpiuhp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1579,7 +1646,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_footnotes {
+#xsdjhpiuhp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1593,7 +1660,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_footnote {
+#xsdjhpiuhp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1602,7 +1669,7 @@
   padding-right: 5px;
 }
 
-#ublrxhycab .gt_sourcenotes {
+#xsdjhpiuhp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1616,7 +1683,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ublrxhycab .gt_sourcenote {
+#xsdjhpiuhp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1624,64 +1691,64 @@
   padding-right: 5px;
 }
 
-#ublrxhycab .gt_left {
+#xsdjhpiuhp .gt_left {
   text-align: left;
 }
 
-#ublrxhycab .gt_center {
+#xsdjhpiuhp .gt_center {
   text-align: center;
 }
 
-#ublrxhycab .gt_right {
+#xsdjhpiuhp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ublrxhycab .gt_font_normal {
+#xsdjhpiuhp .gt_font_normal {
   font-weight: normal;
 }
 
-#ublrxhycab .gt_font_bold {
+#xsdjhpiuhp .gt_font_bold {
   font-weight: bold;
 }
 
-#ublrxhycab .gt_font_italic {
+#xsdjhpiuhp .gt_font_italic {
   font-style: italic;
 }
 
-#ublrxhycab .gt_super {
+#xsdjhpiuhp .gt_super {
   font-size: 65%;
 }
 
-#ublrxhycab .gt_footnote_marks {
+#xsdjhpiuhp .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ublrxhycab .gt_asterisk {
+#xsdjhpiuhp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ublrxhycab .gt_indent_1 {
+#xsdjhpiuhp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ublrxhycab .gt_indent_2 {
+#xsdjhpiuhp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ublrxhycab .gt_indent_3 {
+#xsdjhpiuhp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ublrxhycab .gt_indent_4 {
+#xsdjhpiuhp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ublrxhycab .gt_indent_5 {
+#xsdjhpiuhp .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1729,7 +1796,12 @@
 <div class="section level3">
 <h3 id="group-sequential-design">Group Sequential Design<a class="anchor" aria-label="anchor" href="#group-sequential-design"></a>
 </h3>
-<p>Here we assume the design is under a delayed effect model where the delay is not too long and the long-term average hazard ratio benefit is strong. proportional hazards scenario, but we look at power under the alternate scenarios. We will plan a 36 month group sequential design under the Shorter delayed effect scenario. Interim analyses are planned after 12, 20, and 28 months.</p>
+<p>Here we assume the design is under a delayed effect model where the
+delay is not too long and the long-term average hazard ratio benefit is
+strong. proportional hazards scenario, but we look at power under the
+alternate scenarios. We will plan a 36 month group sequential design
+under the Shorter delayed effect scenario. Interim analyses are planned
+after 12, 20, and 28 months.</p>
 <div class="section level4">
 <h4 id="ahr-method">AHR method<a class="anchor" aria-label="anchor" href="#ahr-method"></a>
 </h4>
@@ -1751,12 +1823,12 @@
 <span>                               lpar <span class="op">=</span> <span class="va">lpar</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">NPHasymmetric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="qcavufzqhx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ostdinassn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qcavufzqhx .gt_table {
+#ostdinassn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1781,7 +1853,7 @@
   border-left-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_heading {
+#ostdinassn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1793,7 +1865,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_title {
+#ostdinassn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1805,7 +1877,7 @@
   border-bottom-width: 0;
 }
 
-#qcavufzqhx .gt_subtitle {
+#ostdinassn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1817,13 +1889,13 @@
   border-top-width: 0;
 }
 
-#qcavufzqhx .gt_bottom_border {
+#ostdinassn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_col_headings {
+#ostdinassn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1838,7 +1910,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_col_heading {
+#ostdinassn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1858,7 +1930,7 @@
   overflow-x: hidden;
 }
 
-#qcavufzqhx .gt_column_spanner_outer {
+#ostdinassn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1870,15 +1942,15 @@
   padding-right: 4px;
 }
 
-#qcavufzqhx .gt_column_spanner_outer:first-child {
+#ostdinassn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qcavufzqhx .gt_column_spanner_outer:last-child {
+#ostdinassn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qcavufzqhx .gt_column_spanner {
+#ostdinassn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1890,7 +1962,7 @@
   width: 100%;
 }
 
-#qcavufzqhx .gt_group_heading {
+#ostdinassn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1915,7 +1987,7 @@
   vertical-align: middle;
 }
 
-#qcavufzqhx .gt_empty_group_heading {
+#ostdinassn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1930,15 +2002,15 @@
   vertical-align: middle;
 }
 
-#qcavufzqhx .gt_from_md > :first-child {
+#ostdinassn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qcavufzqhx .gt_from_md > :last-child {
+#ostdinassn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qcavufzqhx .gt_row {
+#ostdinassn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1957,7 +2029,7 @@
   overflow-x: hidden;
 }
 
-#qcavufzqhx .gt_stub {
+#ostdinassn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1970,7 +2042,7 @@
   padding-right: 5px;
 }
 
-#qcavufzqhx .gt_stub_row_group {
+#ostdinassn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1984,11 +2056,11 @@
   vertical-align: top;
 }
 
-#qcavufzqhx .gt_row_group_first td {
+#ostdinassn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qcavufzqhx .gt_summary_row {
+#ostdinassn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1998,16 +2070,16 @@
   padding-right: 5px;
 }
 
-#qcavufzqhx .gt_first_summary_row {
+#ostdinassn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_first_summary_row.thick {
+#ostdinassn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qcavufzqhx .gt_last_summary_row {
+#ostdinassn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2017,7 +2089,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_grand_summary_row {
+#ostdinassn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2027,7 +2099,7 @@
   padding-right: 5px;
 }
 
-#qcavufzqhx .gt_first_grand_summary_row {
+#ostdinassn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2037,11 +2109,11 @@
   border-top-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_striped {
+#ostdinassn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qcavufzqhx .gt_table_body {
+#ostdinassn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2050,7 +2122,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_footnotes {
+#ostdinassn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2064,7 +2136,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_footnote {
+#ostdinassn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2073,7 +2145,7 @@
   padding-right: 5px;
 }
 
-#qcavufzqhx .gt_sourcenotes {
+#ostdinassn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2087,7 +2159,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qcavufzqhx .gt_sourcenote {
+#ostdinassn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2095,64 +2167,64 @@
   padding-right: 5px;
 }
 
-#qcavufzqhx .gt_left {
+#ostdinassn .gt_left {
   text-align: left;
 }
 
-#qcavufzqhx .gt_center {
+#ostdinassn .gt_center {
   text-align: center;
 }
 
-#qcavufzqhx .gt_right {
+#ostdinassn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qcavufzqhx .gt_font_normal {
+#ostdinassn .gt_font_normal {
   font-weight: normal;
 }
 
-#qcavufzqhx .gt_font_bold {
+#ostdinassn .gt_font_bold {
   font-weight: bold;
 }
 
-#qcavufzqhx .gt_font_italic {
+#ostdinassn .gt_font_italic {
   font-style: italic;
 }
 
-#qcavufzqhx .gt_super {
+#ostdinassn .gt_super {
   font-size: 65%;
 }
 
-#qcavufzqhx .gt_footnote_marks {
+#ostdinassn .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qcavufzqhx .gt_asterisk {
+#ostdinassn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qcavufzqhx .gt_indent_1 {
+#ostdinassn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qcavufzqhx .gt_indent_2 {
+#ostdinassn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qcavufzqhx .gt_indent_3 {
+#ostdinassn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qcavufzqhx .gt_indent_4 {
+#ostdinassn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qcavufzqhx .gt_indent_5 {
+#ostdinassn .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2192,7 +2264,7 @@
 <td class="gt_row gt_right">0.9350</td>
 <td class="gt_row gt_right">1.6006</td>
 <td class="gt_row gt_right">0.0043</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.0650</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2211,7 +2283,7 @@
 <td class="gt_row gt_right">0.5942</td>
 <td class="gt_row gt_right">1.0433</td>
 <td class="gt_row gt_right">0.0163</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.4156</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2230,7 +2302,7 @@
 <td class="gt_row gt_right">0.2090</td>
 <td class="gt_row gt_right">0.8982</td>
 <td class="gt_row gt_right">0.0405</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.8017</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2249,7 +2321,7 @@
 <td class="gt_row gt_right">0.0234</td>
 <td class="gt_row gt_right">0.8102</td>
 <td class="gt_row gt_right">0.1002</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9766</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2257,7 +2329,7 @@
 <td class="gt_row gt_right">0.0234</td>
 <td class="gt_row gt_right">0.8102</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0234</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -2272,7 +2344,8 @@
 </tfoot>
 </table>
 </div>
-<p>By scenario, we now wish to compute the adjusted expected futility bounds and the power implied.</p>
+<p>By scenario, we now wish to compute the adjusted expected futility
+bounds and the power implied.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
 <span>  <span class="va">rbind</span>,</span>
@@ -2299,12 +2372,12 @@
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="st">"Events"</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">10</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </span></code></pre></div>
-<div id="qjuvovxgnw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gkyblfleug" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qjuvovxgnw .gt_table {
+#gkyblfleug .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2329,7 +2402,7 @@
   border-left-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_heading {
+#gkyblfleug .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2341,7 +2414,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_title {
+#gkyblfleug .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2353,7 +2426,7 @@
   border-bottom-width: 0;
 }
 
-#qjuvovxgnw .gt_subtitle {
+#gkyblfleug .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2365,13 +2438,13 @@
   border-top-width: 0;
 }
 
-#qjuvovxgnw .gt_bottom_border {
+#gkyblfleug .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_col_headings {
+#gkyblfleug .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2386,7 +2459,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_col_heading {
+#gkyblfleug .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2406,7 +2479,7 @@
   overflow-x: hidden;
 }
 
-#qjuvovxgnw .gt_column_spanner_outer {
+#gkyblfleug .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2418,15 +2491,15 @@
   padding-right: 4px;
 }
 
-#qjuvovxgnw .gt_column_spanner_outer:first-child {
+#gkyblfleug .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qjuvovxgnw .gt_column_spanner_outer:last-child {
+#gkyblfleug .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qjuvovxgnw .gt_column_spanner {
+#gkyblfleug .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2438,7 +2511,7 @@
   width: 100%;
 }
 
-#qjuvovxgnw .gt_group_heading {
+#gkyblfleug .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2463,7 +2536,7 @@
   vertical-align: middle;
 }
 
-#qjuvovxgnw .gt_empty_group_heading {
+#gkyblfleug .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2478,15 +2551,15 @@
   vertical-align: middle;
 }
 
-#qjuvovxgnw .gt_from_md > :first-child {
+#gkyblfleug .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qjuvovxgnw .gt_from_md > :last-child {
+#gkyblfleug .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qjuvovxgnw .gt_row {
+#gkyblfleug .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2505,7 +2578,7 @@
   overflow-x: hidden;
 }
 
-#qjuvovxgnw .gt_stub {
+#gkyblfleug .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2518,7 +2591,7 @@
   padding-right: 5px;
 }
 
-#qjuvovxgnw .gt_stub_row_group {
+#gkyblfleug .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2532,11 +2605,11 @@
   vertical-align: top;
 }
 
-#qjuvovxgnw .gt_row_group_first td {
+#gkyblfleug .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qjuvovxgnw .gt_summary_row {
+#gkyblfleug .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2546,16 +2619,16 @@
   padding-right: 5px;
 }
 
-#qjuvovxgnw .gt_first_summary_row {
+#gkyblfleug .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_first_summary_row.thick {
+#gkyblfleug .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qjuvovxgnw .gt_last_summary_row {
+#gkyblfleug .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2565,7 +2638,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_grand_summary_row {
+#gkyblfleug .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2575,7 +2648,7 @@
   padding-right: 5px;
 }
 
-#qjuvovxgnw .gt_first_grand_summary_row {
+#gkyblfleug .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2585,11 +2658,11 @@
   border-top-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_striped {
+#gkyblfleug .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qjuvovxgnw .gt_table_body {
+#gkyblfleug .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2598,7 +2671,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_footnotes {
+#gkyblfleug .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2612,7 +2685,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_footnote {
+#gkyblfleug .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2621,7 +2694,7 @@
   padding-right: 5px;
 }
 
-#qjuvovxgnw .gt_sourcenotes {
+#gkyblfleug .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2635,7 +2708,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qjuvovxgnw .gt_sourcenote {
+#gkyblfleug .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2643,64 +2716,64 @@
   padding-right: 5px;
 }
 
-#qjuvovxgnw .gt_left {
+#gkyblfleug .gt_left {
   text-align: left;
 }
 
-#qjuvovxgnw .gt_center {
+#gkyblfleug .gt_center {
   text-align: center;
 }
 
-#qjuvovxgnw .gt_right {
+#gkyblfleug .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qjuvovxgnw .gt_font_normal {
+#gkyblfleug .gt_font_normal {
   font-weight: normal;
 }
 
-#qjuvovxgnw .gt_font_bold {
+#gkyblfleug .gt_font_bold {
   font-weight: bold;
 }
 
-#qjuvovxgnw .gt_font_italic {
+#gkyblfleug .gt_font_italic {
   font-style: italic;
 }
 
-#qjuvovxgnw .gt_super {
+#gkyblfleug .gt_super {
   font-size: 65%;
 }
 
-#qjuvovxgnw .gt_footnote_marks {
+#gkyblfleug .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qjuvovxgnw .gt_asterisk {
+#gkyblfleug .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qjuvovxgnw .gt_indent_1 {
+#gkyblfleug .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qjuvovxgnw .gt_indent_2 {
+#gkyblfleug .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qjuvovxgnw .gt_indent_3 {
+#gkyblfleug .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qjuvovxgnw .gt_indent_4 {
+#gkyblfleug .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qjuvovxgnw .gt_indent_5 {
+#gkyblfleug .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2934,8 +3007,10 @@
 <div class="section level4">
 <h4 id="weighted-logrank-method">Weighted Logrank Method<a class="anchor" aria-label="anchor" href="#weighted-logrank-method"></a>
 </h4>
-<p>We investigate two types of the weighting scheme for weight logrank method.</p>
-<p>The fixed design under the first weighting scheme for four scenario are summarized as follows.</p>
+<p>We investigate two types of the weighting scheme for weight logrank
+method.</p>
+<p>The fixed design under the first weighting scheme for four scenario
+are summarized as follows.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
 <span>  <span class="va">rbind</span>,</span>
@@ -2955,7 +3030,8 @@
 <span>    <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">6</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </span></code></pre></div>
-<p>The fixed design under the second weighting scheme for four scenario are summarized as follows.</p>
+<p>The fixed design under the second weighting scheme for four scenario
+are summarized as follows.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Ignore tau or (tau can be -1) </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
@@ -2976,12 +3052,12 @@
 <span>    <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">6</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </span></code></pre></div>
-<div id="epyoozrdjp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qsjyibxejo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#epyoozrdjp .gt_table {
+#qsjyibxejo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3006,7 +3082,7 @@
   border-left-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_heading {
+#qsjyibxejo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3018,7 +3094,7 @@
   border-right-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_title {
+#qsjyibxejo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3030,7 +3106,7 @@
   border-bottom-width: 0;
 }
 
-#epyoozrdjp .gt_subtitle {
+#qsjyibxejo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3042,13 +3118,13 @@
   border-top-width: 0;
 }
 
-#epyoozrdjp .gt_bottom_border {
+#qsjyibxejo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_col_headings {
+#qsjyibxejo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3063,7 +3139,7 @@
   border-right-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_col_heading {
+#qsjyibxejo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3083,7 +3159,7 @@
   overflow-x: hidden;
 }
 
-#epyoozrdjp .gt_column_spanner_outer {
+#qsjyibxejo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3095,15 +3171,15 @@
   padding-right: 4px;
 }
 
-#epyoozrdjp .gt_column_spanner_outer:first-child {
+#qsjyibxejo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#epyoozrdjp .gt_column_spanner_outer:last-child {
+#qsjyibxejo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#epyoozrdjp .gt_column_spanner {
+#qsjyibxejo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3115,7 +3191,7 @@
   width: 100%;
 }
 
-#epyoozrdjp .gt_group_heading {
+#qsjyibxejo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3140,7 +3216,7 @@
   vertical-align: middle;
 }
 
-#epyoozrdjp .gt_empty_group_heading {
+#qsjyibxejo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3155,15 +3231,15 @@
   vertical-align: middle;
 }
 
-#epyoozrdjp .gt_from_md > :first-child {
+#qsjyibxejo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#epyoozrdjp .gt_from_md > :last-child {
+#qsjyibxejo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#epyoozrdjp .gt_row {
+#qsjyibxejo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3182,7 +3258,7 @@
   overflow-x: hidden;
 }
 
-#epyoozrdjp .gt_stub {
+#qsjyibxejo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3195,7 +3271,7 @@
   padding-right: 5px;
 }
 
-#epyoozrdjp .gt_stub_row_group {
+#qsjyibxejo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3209,11 +3285,11 @@
   vertical-align: top;
 }
 
-#epyoozrdjp .gt_row_group_first td {
+#qsjyibxejo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#epyoozrdjp .gt_summary_row {
+#qsjyibxejo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3223,16 +3299,16 @@
   padding-right: 5px;
 }
 
-#epyoozrdjp .gt_first_summary_row {
+#qsjyibxejo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_first_summary_row.thick {
+#qsjyibxejo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#epyoozrdjp .gt_last_summary_row {
+#qsjyibxejo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3242,7 +3318,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_grand_summary_row {
+#qsjyibxejo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3252,7 +3328,7 @@
   padding-right: 5px;
 }
 
-#epyoozrdjp .gt_first_grand_summary_row {
+#qsjyibxejo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3262,11 +3338,11 @@
   border-top-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_striped {
+#qsjyibxejo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#epyoozrdjp .gt_table_body {
+#qsjyibxejo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3275,7 +3351,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_footnotes {
+#qsjyibxejo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3289,7 +3365,7 @@
   border-right-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_footnote {
+#qsjyibxejo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3298,7 +3374,7 @@
   padding-right: 5px;
 }
 
-#epyoozrdjp .gt_sourcenotes {
+#qsjyibxejo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3312,7 +3388,7 @@
   border-right-color: #D3D3D3;
 }
 
-#epyoozrdjp .gt_sourcenote {
+#qsjyibxejo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3320,64 +3396,64 @@
   padding-right: 5px;
 }
 
-#epyoozrdjp .gt_left {
+#qsjyibxejo .gt_left {
   text-align: left;
 }
 
-#epyoozrdjp .gt_center {
+#qsjyibxejo .gt_center {
   text-align: center;
 }
 
-#epyoozrdjp .gt_right {
+#qsjyibxejo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#epyoozrdjp .gt_font_normal {
+#qsjyibxejo .gt_font_normal {
   font-weight: normal;
 }
 
-#epyoozrdjp .gt_font_bold {
+#qsjyibxejo .gt_font_bold {
   font-weight: bold;
 }
 
-#epyoozrdjp .gt_font_italic {
+#qsjyibxejo .gt_font_italic {
   font-style: italic;
 }
 
-#epyoozrdjp .gt_super {
+#qsjyibxejo .gt_super {
   font-size: 65%;
 }
 
-#epyoozrdjp .gt_footnote_marks {
+#qsjyibxejo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#epyoozrdjp .gt_asterisk {
+#qsjyibxejo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#epyoozrdjp .gt_indent_1 {
+#qsjyibxejo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#epyoozrdjp .gt_indent_2 {
+#qsjyibxejo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#epyoozrdjp .gt_indent_3 {
+#qsjyibxejo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#epyoozrdjp .gt_indent_4 {
+#qsjyibxejo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#epyoozrdjp .gt_indent_5 {
+#qsjyibxejo .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3454,10 +3530,17 @@
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-NPHWG2020sim" class="csl-entry">
-Lin, Ray S, Ji Lin, Satrajit Roychoudhury, Keaven M Anderson, Tianle Hu, Bo Huang, Larry F Leon, et al. 2020. <span>“Alternative Analysis Methods for Time to Event Endpoints Under Nonproportional Hazards: A Comparative Analysis.”</span> <em>Statistics in Biopharmaceutical Research</em> 12 (2): 187–98.
+Lin, Ray S, Ji Lin, Satrajit Roychoudhury, Keaven M Anderson, Tianle Hu,
+Bo Huang, Larry F Leon, et al. 2020. <span>“Alternative Analysis Methods
+for Time to Event Endpoints Under Nonproportional Hazards: A Comparative
+Analysis.”</span> <em>Statistics in Biopharmaceutical Research</em> 12
+(2): 187–98.
 </div>
 <div id="ref-Mukhopadhyay2020" class="csl-entry">
-Mukhopadhyay, Pralay, Wenmei Huang, Paul Metcalfe, Fredrik Öhrn, Mary Jenner, and Andrew Stone. 2020. <span>“Statistical and Practical Considerations in Designing of Immuno-Oncology Trials.”</span> <em>Journal of Biopharmaceutical Statistics</em>, 1–17.
+Mukhopadhyay, Pralay, Wenmei Huang, Paul Metcalfe, Fredrik Öhrn, Mary
+Jenner, and Andrew Stone. 2020. <span>“Statistical and Practical
+Considerations in Designing of Immuno-Oncology Trials.”</span>
+<em>Journal of Biopharmaceutical Statistics</em>, 1–17.
 </div>
 </div>
 </div>

@@ -96,20 +96,31 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>This vignette introduces publication quality table production for group sequential designs in the <strong>gsDesign2</strong> package.<br>
-It also demonstrates designs for an example scenario using multiple design approaches. We divide the document into 3 parts:</p>
+<p>This vignette introduces publication quality table production for
+group sequential designs in the <strong>gsDesign2</strong>
+package.<br>
+It also demonstrates designs for an example scenario using multiple
+design approaches. We divide the document into 3 parts:</p>
 <ul>
 <li>Design specification and derivation</li>
 <li>Printing design summary tables</li>
 <li>Details of output from design functions</li>
 <li>Details on table output options</li>
 </ul>
-<p>The reader can decide which of these sections is of interest to them.</p>
-<p>The function used to generate bounds tables is <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">gsDesign2::summary()</a></code>. Users can use <code><a href="../reference/as_gt.html">gsDesign2::as_gt()</a></code> to format the above table using the <strong>gt</strong> package.</p>
-<p>In this vignette, we introduce a general approach to bound summaries by examples using different design approaches for a time-to-event outcome:</p>
+<p>The reader can decide which of these sections is of interest to
+them.</p>
+<p>The function used to generate bounds tables is
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">gsDesign2::summary()</a></code>. Users can use
+<code><a href="../reference/as_gt.html">gsDesign2::as_gt()</a></code> to format the above table using the
+<strong>gt</strong> package.</p>
+<p>In this vignette, we introduce a general approach to bound summaries
+by examples using different design approaches for a time-to-event
+outcome:</p>
 <ul>
-<li>the average hazard ratio (AHR) method extended from <span class="citation">Mukhopadhyay et al. (2020)</span> using <code><a href="../reference/gs_design_ahr.html">gsDesign2::gs_design_ahr()</a></code>;</li>
-<li>the weighted logrank (WLR) method of <span class="citation">Yung (2019)</span> using <code><a href="../reference/gs_design_wlr.html">gsDesign2::gs_design_wlr()</a></code>;</li>
+<li>the average hazard ratio (AHR) method extended from <span class="citation">Mukhopadhyay et al. (2020)</span> using
+<code><a href="../reference/gs_design_ahr.html">gsDesign2::gs_design_ahr()</a></code>;</li>
+<li>the weighted logrank (WLR) method of <span class="citation">Yung
+(2019)</span> using <code><a href="../reference/gs_design_wlr.html">gsDesign2::gs_design_wlr()</a></code>;</li>
 </ul>
 </div>
 <div class="section level2">
@@ -118,7 +129,8 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level3">
 <h3 id="design-parameters">Design Parameters<a class="anchor" aria-label="anchor" href="#design-parameters"></a>
 </h3>
-<p>The design parameters we use across the different designs derived are:</p>
+<p>The design parameters we use across the different designs derived
+are:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># enrollment/failure rates</span></span>
 <span><span class="va">enrollRates</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
@@ -172,8 +184,10 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level4">
 <h4 id="ahr-design-derivation">AHR Design Derivation<a class="anchor" aria-label="anchor" href="#ahr-design-derivation"></a>
 </h4>
-<p>Using the design parameters above, the AHR design is derived as follows:</p>
-<p>By using the design parameters above, one can generate an AHR model by <code>gs_design_ahr</code> as</p>
+<p>Using the design parameters above, the AHR design is derived as
+follows:</p>
+<p>By using the design parameters above, one can generate an AHR model
+by <code>gs_design_ahr</code> as</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>   enrollRates <span class="op">=</span> <span class="va">enrollRates</span>,</span>
@@ -236,19 +250,26 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level2">
 <h2 id="default-summary-table-production">Default Summary Table Production<a class="anchor" aria-label="anchor" href="#default-summary-table-production"></a>
 </h2>
-<p>Instead of outputting 4 detailed tables (a table of enrollment rates, a table of failure rates, a table of analysis summary, a table of bounds summary), users can get a com pensive summary table by calling <code>summary(x)</code>, where <code>x</code> is the object returned either by <code>gs_design_ahr</code> or <code>gs_design_wlr</code>. The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> function produces an overall summary table for bounds for publication in a protocol.</p>
-<p>For example, the default output of <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> for the AHR method is</p>
+<p>Instead of outputting 4 detailed tables (a table of enrollment rates,
+a table of failure rates, a table of analysis summary, a table of bounds
+summary), users can get a com pensive summary table by calling
+<code>summary(x)</code>, where <code>x</code> is the object returned
+either by <code>gs_design_ahr</code> or <code>gs_design_wlr</code>. The
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> function produces an overall summary table for
+bounds for publication in a protocol.</p>
+<p>For example, the default output of <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> for the AHR
+method is</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="pzwnkuimmz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="cafbopcjla" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pzwnkuimmz .gt_table {
+#cafbopcjla .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -273,7 +294,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_heading {
+#cafbopcjla .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -285,7 +306,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_title {
+#cafbopcjla .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -297,7 +318,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#pzwnkuimmz .gt_subtitle {
+#cafbopcjla .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -309,13 +330,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#pzwnkuimmz .gt_bottom_border {
+#cafbopcjla .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_col_headings {
+#cafbopcjla .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -330,7 +351,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_col_heading {
+#cafbopcjla .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -350,7 +371,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#pzwnkuimmz .gt_column_spanner_outer {
+#cafbopcjla .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -362,15 +383,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#pzwnkuimmz .gt_column_spanner_outer:first-child {
+#cafbopcjla .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pzwnkuimmz .gt_column_spanner_outer:last-child {
+#cafbopcjla .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pzwnkuimmz .gt_column_spanner {
+#cafbopcjla .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -382,7 +403,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#pzwnkuimmz .gt_group_heading {
+#cafbopcjla .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -407,7 +428,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#pzwnkuimmz .gt_empty_group_heading {
+#cafbopcjla .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -422,15 +443,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#pzwnkuimmz .gt_from_md > :first-child {
+#cafbopcjla .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pzwnkuimmz .gt_from_md > :last-child {
+#cafbopcjla .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pzwnkuimmz .gt_row {
+#cafbopcjla .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -449,7 +470,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#pzwnkuimmz .gt_stub {
+#cafbopcjla .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -462,7 +483,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#pzwnkuimmz .gt_stub_row_group {
+#cafbopcjla .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -476,11 +497,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#pzwnkuimmz .gt_row_group_first td {
+#cafbopcjla .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pzwnkuimmz .gt_summary_row {
+#cafbopcjla .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -490,16 +511,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#pzwnkuimmz .gt_first_summary_row {
+#cafbopcjla .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_first_summary_row.thick {
+#cafbopcjla .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pzwnkuimmz .gt_last_summary_row {
+#cafbopcjla .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -509,7 +530,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_grand_summary_row {
+#cafbopcjla .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -519,7 +540,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#pzwnkuimmz .gt_first_grand_summary_row {
+#cafbopcjla .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -529,11 +550,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_striped {
+#cafbopcjla .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pzwnkuimmz .gt_table_body {
+#cafbopcjla .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -542,7 +563,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_footnotes {
+#cafbopcjla .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -556,7 +577,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_footnote {
+#cafbopcjla .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -565,7 +586,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#pzwnkuimmz .gt_sourcenotes {
+#cafbopcjla .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -579,7 +600,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#pzwnkuimmz .gt_sourcenote {
+#cafbopcjla .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -587,64 +608,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#pzwnkuimmz .gt_left {
+#cafbopcjla .gt_left {
   text-align: left;
 }
 
-#pzwnkuimmz .gt_center {
+#cafbopcjla .gt_center {
   text-align: center;
 }
 
-#pzwnkuimmz .gt_right {
+#cafbopcjla .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pzwnkuimmz .gt_font_normal {
+#cafbopcjla .gt_font_normal {
   font-weight: normal;
 }
 
-#pzwnkuimmz .gt_font_bold {
+#cafbopcjla .gt_font_bold {
   font-weight: bold;
 }
 
-#pzwnkuimmz .gt_font_italic {
+#cafbopcjla .gt_font_italic {
   font-style: italic;
 }
 
-#pzwnkuimmz .gt_super {
+#cafbopcjla .gt_super {
   font-size: 65%;
 }
 
-#pzwnkuimmz .gt_footnote_marks {
+#cafbopcjla .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#pzwnkuimmz .gt_asterisk {
+#cafbopcjla .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pzwnkuimmz .gt_indent_1 {
+#cafbopcjla .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pzwnkuimmz .gt_indent_2 {
+#cafbopcjla .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pzwnkuimmz .gt_indent_3 {
+#cafbopcjla .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pzwnkuimmz .gt_indent_4 {
+#cafbopcjla .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pzwnkuimmz .gt_indent_5 {
+#cafbopcjla .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -667,7 +688,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">1.1856</td>
 <td class="gt_row gt_right">0.8259</td>
 <td class="gt_row gt_right">0.0338</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.1741</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -686,7 +707,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.9228</td>
 <td class="gt_row gt_right">0.2656</td>
 <td class="gt_row gt_right">0.0666</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.7368</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -705,7 +726,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8118</td>
 <td class="gt_row gt_right">0.0233</td>
 <td class="gt_row gt_right">0.1006</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9753</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -713,23 +734,24 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8116</td>
 <td class="gt_row gt_right">0.0231</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0245</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Please note the <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> can also be applied to objected returned by <code><a href="../reference/gs_power_ahr.html">gs_power_ahr()</a></code>. For example,</p>
+<p>Please note the <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> can also be applied to
+objected returned by <code><a href="../reference/gs_power_ahr.html">gs_power_ahr()</a></code>. For example,</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_power_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="bauqffszvf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wjulvxzxph" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bauqffszvf .gt_table {
+#wjulvxzxph .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -754,7 +776,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_heading {
+#wjulvxzxph .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -766,7 +788,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_title {
+#wjulvxzxph .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -778,7 +800,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#bauqffszvf .gt_subtitle {
+#wjulvxzxph .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -790,13 +812,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#bauqffszvf .gt_bottom_border {
+#wjulvxzxph .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_col_headings {
+#wjulvxzxph .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -811,7 +833,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_col_heading {
+#wjulvxzxph .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -831,7 +853,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bauqffszvf .gt_column_spanner_outer {
+#wjulvxzxph .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -843,15 +865,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#bauqffszvf .gt_column_spanner_outer:first-child {
+#wjulvxzxph .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bauqffszvf .gt_column_spanner_outer:last-child {
+#wjulvxzxph .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bauqffszvf .gt_column_spanner {
+#wjulvxzxph .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -863,7 +885,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#bauqffszvf .gt_group_heading {
+#wjulvxzxph .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -888,7 +910,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bauqffszvf .gt_empty_group_heading {
+#wjulvxzxph .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -903,15 +925,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bauqffszvf .gt_from_md > :first-child {
+#wjulvxzxph .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bauqffszvf .gt_from_md > :last-child {
+#wjulvxzxph .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bauqffszvf .gt_row {
+#wjulvxzxph .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -930,7 +952,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bauqffszvf .gt_stub {
+#wjulvxzxph .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -943,7 +965,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bauqffszvf .gt_stub_row_group {
+#wjulvxzxph .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -957,11 +979,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#bauqffszvf .gt_row_group_first td {
+#wjulvxzxph .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bauqffszvf .gt_summary_row {
+#wjulvxzxph .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -971,16 +993,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bauqffszvf .gt_first_summary_row {
+#wjulvxzxph .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_first_summary_row.thick {
+#wjulvxzxph .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bauqffszvf .gt_last_summary_row {
+#wjulvxzxph .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -990,7 +1012,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_grand_summary_row {
+#wjulvxzxph .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1000,7 +1022,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bauqffszvf .gt_first_grand_summary_row {
+#wjulvxzxph .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1010,11 +1032,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_striped {
+#wjulvxzxph .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bauqffszvf .gt_table_body {
+#wjulvxzxph .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1023,7 +1045,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_footnotes {
+#wjulvxzxph .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1037,7 +1059,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_footnote {
+#wjulvxzxph .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1046,7 +1068,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bauqffszvf .gt_sourcenotes {
+#wjulvxzxph .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1060,7 +1082,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bauqffszvf .gt_sourcenote {
+#wjulvxzxph .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1068,64 +1090,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bauqffszvf .gt_left {
+#wjulvxzxph .gt_left {
   text-align: left;
 }
 
-#bauqffszvf .gt_center {
+#wjulvxzxph .gt_center {
   text-align: center;
 }
 
-#bauqffszvf .gt_right {
+#wjulvxzxph .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bauqffszvf .gt_font_normal {
+#wjulvxzxph .gt_font_normal {
   font-weight: normal;
 }
 
-#bauqffszvf .gt_font_bold {
+#wjulvxzxph .gt_font_bold {
   font-weight: bold;
 }
 
-#bauqffszvf .gt_font_italic {
+#wjulvxzxph .gt_font_italic {
   font-style: italic;
 }
 
-#bauqffszvf .gt_super {
+#wjulvxzxph .gt_super {
   font-size: 65%;
 }
 
-#bauqffszvf .gt_footnote_marks {
+#wjulvxzxph .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bauqffszvf .gt_asterisk {
+#wjulvxzxph .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bauqffszvf .gt_indent_1 {
+#wjulvxzxph .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bauqffszvf .gt_indent_2 {
+#wjulvxzxph .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bauqffszvf .gt_indent_3 {
+#wjulvxzxph .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bauqffszvf .gt_indent_4 {
+#wjulvxzxph .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bauqffszvf .gt_indent_5 {
+#wjulvxzxph .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1199,18 +1221,19 @@ It also demonstrates designs for an example scenario using multiple design appro
 </tbody>
 </table>
 </div>
-<p>And the default output of <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> for the WLR method is</p>
+<p>And the default output of <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> for the WLR method
+is</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_wlr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="bfoehbijqx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="dplfljxbzs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bfoehbijqx .gt_table {
+#dplfljxbzs .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1235,7 +1258,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_heading {
+#dplfljxbzs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1247,7 +1270,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_title {
+#dplfljxbzs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1259,7 +1282,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#bfoehbijqx .gt_subtitle {
+#dplfljxbzs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1271,13 +1294,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#bfoehbijqx .gt_bottom_border {
+#dplfljxbzs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_col_headings {
+#dplfljxbzs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1292,7 +1315,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_col_heading {
+#dplfljxbzs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1312,7 +1335,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bfoehbijqx .gt_column_spanner_outer {
+#dplfljxbzs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1324,15 +1347,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#bfoehbijqx .gt_column_spanner_outer:first-child {
+#dplfljxbzs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bfoehbijqx .gt_column_spanner_outer:last-child {
+#dplfljxbzs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bfoehbijqx .gt_column_spanner {
+#dplfljxbzs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1344,7 +1367,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#bfoehbijqx .gt_group_heading {
+#dplfljxbzs .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1369,7 +1392,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bfoehbijqx .gt_empty_group_heading {
+#dplfljxbzs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1384,15 +1407,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bfoehbijqx .gt_from_md > :first-child {
+#dplfljxbzs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bfoehbijqx .gt_from_md > :last-child {
+#dplfljxbzs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bfoehbijqx .gt_row {
+#dplfljxbzs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1411,7 +1434,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bfoehbijqx .gt_stub {
+#dplfljxbzs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1424,7 +1447,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bfoehbijqx .gt_stub_row_group {
+#dplfljxbzs .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1438,11 +1461,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#bfoehbijqx .gt_row_group_first td {
+#dplfljxbzs .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bfoehbijqx .gt_summary_row {
+#dplfljxbzs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1452,16 +1475,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bfoehbijqx .gt_first_summary_row {
+#dplfljxbzs .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_first_summary_row.thick {
+#dplfljxbzs .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bfoehbijqx .gt_last_summary_row {
+#dplfljxbzs .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1471,7 +1494,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_grand_summary_row {
+#dplfljxbzs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1481,7 +1504,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bfoehbijqx .gt_first_grand_summary_row {
+#dplfljxbzs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1491,11 +1514,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_striped {
+#dplfljxbzs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bfoehbijqx .gt_table_body {
+#dplfljxbzs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1504,7 +1527,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_footnotes {
+#dplfljxbzs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1518,7 +1541,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_footnote {
+#dplfljxbzs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1527,7 +1550,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bfoehbijqx .gt_sourcenotes {
+#dplfljxbzs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1541,7 +1564,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bfoehbijqx .gt_sourcenote {
+#dplfljxbzs .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1549,64 +1572,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bfoehbijqx .gt_left {
+#dplfljxbzs .gt_left {
   text-align: left;
 }
 
-#bfoehbijqx .gt_center {
+#dplfljxbzs .gt_center {
   text-align: center;
 }
 
-#bfoehbijqx .gt_right {
+#dplfljxbzs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bfoehbijqx .gt_font_normal {
+#dplfljxbzs .gt_font_normal {
   font-weight: normal;
 }
 
-#bfoehbijqx .gt_font_bold {
+#dplfljxbzs .gt_font_bold {
   font-weight: bold;
 }
 
-#bfoehbijqx .gt_font_italic {
+#dplfljxbzs .gt_font_italic {
   font-style: italic;
 }
 
-#bfoehbijqx .gt_super {
+#dplfljxbzs .gt_super {
   font-size: 65%;
 }
 
-#bfoehbijqx .gt_footnote_marks {
+#dplfljxbzs .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bfoehbijqx .gt_asterisk {
+#dplfljxbzs .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bfoehbijqx .gt_indent_1 {
+#dplfljxbzs .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bfoehbijqx .gt_indent_2 {
+#dplfljxbzs .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bfoehbijqx .gt_indent_3 {
+#dplfljxbzs .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bfoehbijqx .gt_indent_4 {
+#dplfljxbzs .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bfoehbijqx .gt_indent_5 {
+#dplfljxbzs .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1629,7 +1652,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">1.2773</td>
 <td class="gt_row gt_right">0.8792</td>
 <td class="gt_row gt_right">0.0141</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.1208</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -1648,7 +1671,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.9187</td>
 <td class="gt_row gt_right">0.2831</td>
 <td class="gt_row gt_right">0.0464</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.7221</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -1667,7 +1690,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.7890</td>
 <td class="gt_row gt_right">0.0247</td>
 <td class="gt_row gt_right">0.1001</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9777</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -1675,12 +1698,13 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.7890</td>
 <td class="gt_row gt_right">0.0247</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0223</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Note that <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> can also be applied to summarize an object returned by <code><a href="../reference/gs_power_wlr.html">gs_power_wlr()</a></code>.</p>
+<p>Note that <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> can also be applied to summarize an
+object returned by <code><a href="../reference/gs_power_wlr.html">gs_power_wlr()</a></code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">x_power_wlr</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -1689,23 +1713,32 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level2">
 <h2 id="detailed-summary-table-formatting">Detailed Summary Table Formatting<a class="anchor" aria-label="anchor" href="#detailed-summary-table-formatting"></a>
 </h2>
-<p>Here we demonstrate options for formatting analysis rows, bound rows as well as other table parameters such as titles, labels and footnotes.</p>
+<p>Here we demonstrate options for formatting analysis rows, bound rows
+as well as other table parameters such as titles, labels and
+footnotes.</p>
 <div class="section level3">
 <h3 id="custom-the-variables-to-be-summaried-for-each-analysis">Custom the Variables to be Summaried for Each Analysis<a class="anchor" aria-label="anchor" href="#custom-the-variables-to-be-summaried-for-each-analysis"></a>
 </h3>
-<p>In the above default table summary table generated by <code>summary(x)</code>, the variables used to summarize each analysis includes <code>Analysis</code>, <code>Time</code>, <code>N</code>(sample size), <code>Events</code>, <code>AHR</code>, and <code>IF</code> (information fraction). But users can customize these variables chosen using <code>analysis_vars = ...</code> and the corresponding decimals displayed using the argument <code>analysis_decimals = ...</code>. For example</p>
+<p>In the above default table summary table generated by
+<code>summary(x)</code>, the variables used to summarize each analysis
+includes <code>Analysis</code>, <code>Time</code>, <code>N</code>(sample
+size), <code>Events</code>, <code>AHR</code>, and <code>IF</code>
+(information fraction). But users can customize these variables chosen
+using <code>analysis_vars = ...</code> and the corresponding decimals
+displayed using the argument <code>analysis_decimals = ...</code>. For
+example</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span>analysis_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"N"</span>, <span class="st">"Events"</span><span class="op">)</span>,</span>
 <span>          analysis_decimals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="mlhaswcaad" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="itsqtdhpcz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#mlhaswcaad .gt_table {
+#itsqtdhpcz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1730,7 +1763,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_heading {
+#itsqtdhpcz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1742,7 +1775,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_title {
+#itsqtdhpcz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1754,7 +1787,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#mlhaswcaad .gt_subtitle {
+#itsqtdhpcz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1766,13 +1799,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#mlhaswcaad .gt_bottom_border {
+#itsqtdhpcz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_col_headings {
+#itsqtdhpcz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1787,7 +1820,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_col_heading {
+#itsqtdhpcz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1807,7 +1840,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#mlhaswcaad .gt_column_spanner_outer {
+#itsqtdhpcz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1819,15 +1852,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#mlhaswcaad .gt_column_spanner_outer:first-child {
+#itsqtdhpcz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mlhaswcaad .gt_column_spanner_outer:last-child {
+#itsqtdhpcz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mlhaswcaad .gt_column_spanner {
+#itsqtdhpcz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1839,7 +1872,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#mlhaswcaad .gt_group_heading {
+#itsqtdhpcz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1864,7 +1897,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#mlhaswcaad .gt_empty_group_heading {
+#itsqtdhpcz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1879,15 +1912,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#mlhaswcaad .gt_from_md > :first-child {
+#itsqtdhpcz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mlhaswcaad .gt_from_md > :last-child {
+#itsqtdhpcz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mlhaswcaad .gt_row {
+#itsqtdhpcz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1906,7 +1939,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#mlhaswcaad .gt_stub {
+#itsqtdhpcz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1919,7 +1952,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#mlhaswcaad .gt_stub_row_group {
+#itsqtdhpcz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1933,11 +1966,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#mlhaswcaad .gt_row_group_first td {
+#itsqtdhpcz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mlhaswcaad .gt_summary_row {
+#itsqtdhpcz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1947,16 +1980,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#mlhaswcaad .gt_first_summary_row {
+#itsqtdhpcz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_first_summary_row.thick {
+#itsqtdhpcz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mlhaswcaad .gt_last_summary_row {
+#itsqtdhpcz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1966,7 +1999,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_grand_summary_row {
+#itsqtdhpcz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1976,7 +2009,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#mlhaswcaad .gt_first_grand_summary_row {
+#itsqtdhpcz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1986,11 +2019,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_striped {
+#itsqtdhpcz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mlhaswcaad .gt_table_body {
+#itsqtdhpcz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1999,7 +2032,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_footnotes {
+#itsqtdhpcz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2013,7 +2046,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_footnote {
+#itsqtdhpcz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2022,7 +2055,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#mlhaswcaad .gt_sourcenotes {
+#itsqtdhpcz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2036,7 +2069,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#mlhaswcaad .gt_sourcenote {
+#itsqtdhpcz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2044,64 +2077,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#mlhaswcaad .gt_left {
+#itsqtdhpcz .gt_left {
   text-align: left;
 }
 
-#mlhaswcaad .gt_center {
+#itsqtdhpcz .gt_center {
   text-align: center;
 }
 
-#mlhaswcaad .gt_right {
+#itsqtdhpcz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mlhaswcaad .gt_font_normal {
+#itsqtdhpcz .gt_font_normal {
   font-weight: normal;
 }
 
-#mlhaswcaad .gt_font_bold {
+#itsqtdhpcz .gt_font_bold {
   font-weight: bold;
 }
 
-#mlhaswcaad .gt_font_italic {
+#itsqtdhpcz .gt_font_italic {
   font-style: italic;
 }
 
-#mlhaswcaad .gt_super {
+#itsqtdhpcz .gt_super {
   font-size: 65%;
 }
 
-#mlhaswcaad .gt_footnote_marks {
+#itsqtdhpcz .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#mlhaswcaad .gt_asterisk {
+#itsqtdhpcz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mlhaswcaad .gt_indent_1 {
+#itsqtdhpcz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mlhaswcaad .gt_indent_2 {
+#itsqtdhpcz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mlhaswcaad .gt_indent_3 {
+#itsqtdhpcz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mlhaswcaad .gt_indent_4 {
+#itsqtdhpcz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mlhaswcaad .gt_indent_5 {
+#itsqtdhpcz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2124,7 +2157,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">1.1856</td>
 <td class="gt_row gt_right">0.8259</td>
 <td class="gt_row gt_right">0.0338</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.1741</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2143,7 +2176,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.9228</td>
 <td class="gt_row gt_right">0.2656</td>
 <td class="gt_row gt_right">0.0666</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.7368</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2162,7 +2195,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8118</td>
 <td class="gt_row gt_right">0.0233</td>
 <td class="gt_row gt_right">0.1006</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9753</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2170,29 +2203,34 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8116</td>
 <td class="gt_row gt_right">0.0231</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0245</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Please note that there is no need to input <code>"Analysis"</code> into <code>analysis_vars = ...</code> as it will always appear.</p>
+<p>Please note that there is no need to input <code>"Analysis"</code>
+into <code>analysis_vars = ...</code> as it will always appear.</p>
 </div>
 <div class="section level3">
 <h3 id="custom-the-bound-names">Custom the Bound Names<a class="anchor" aria-label="anchor" href="#custom-the-bound-names"></a>
 </h3>
-<p>Users can also customize the bound names. In the default output generated by <code>summary(x)</code>, the bound name is <code>c("Efficacy", "Futility")</code>, which can be changed into <code>c("A is better", "B is better")</code> for a 2-sided design by using the argument <code>bound_names = ...</code>. For example,</p>
+<p>Users can also customize the bound names. In the default output
+generated by <code>summary(x)</code>, the bound name is
+<code>c("Efficacy", "Futility")</code>, which can be changed into
+<code>c("A is better", "B is better")</code> for a 2-sided design by
+using the argument <code>bound_names = ...</code>. For example,</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span>bound_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A is better"</span>, <span class="st">"B is better"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_if</a></span><span class="op">(</span><span class="va">is.numeric</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="vssieiwcpv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gdxudtlpop" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vssieiwcpv .gt_table {
+#gdxudtlpop .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2217,7 +2255,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_heading {
+#gdxudtlpop .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2229,7 +2267,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_title {
+#gdxudtlpop .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2241,7 +2279,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#vssieiwcpv .gt_subtitle {
+#gdxudtlpop .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2253,13 +2291,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#vssieiwcpv .gt_bottom_border {
+#gdxudtlpop .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_col_headings {
+#gdxudtlpop .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2274,7 +2312,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_col_heading {
+#gdxudtlpop .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2294,7 +2332,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#vssieiwcpv .gt_column_spanner_outer {
+#gdxudtlpop .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2306,15 +2344,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#vssieiwcpv .gt_column_spanner_outer:first-child {
+#gdxudtlpop .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vssieiwcpv .gt_column_spanner_outer:last-child {
+#gdxudtlpop .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vssieiwcpv .gt_column_spanner {
+#gdxudtlpop .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2326,7 +2364,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#vssieiwcpv .gt_group_heading {
+#gdxudtlpop .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2351,7 +2389,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#vssieiwcpv .gt_empty_group_heading {
+#gdxudtlpop .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2366,15 +2404,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#vssieiwcpv .gt_from_md > :first-child {
+#gdxudtlpop .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vssieiwcpv .gt_from_md > :last-child {
+#gdxudtlpop .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vssieiwcpv .gt_row {
+#gdxudtlpop .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2393,7 +2431,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#vssieiwcpv .gt_stub {
+#gdxudtlpop .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2406,7 +2444,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#vssieiwcpv .gt_stub_row_group {
+#gdxudtlpop .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2420,11 +2458,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#vssieiwcpv .gt_row_group_first td {
+#gdxudtlpop .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vssieiwcpv .gt_summary_row {
+#gdxudtlpop .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2434,16 +2472,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#vssieiwcpv .gt_first_summary_row {
+#gdxudtlpop .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_first_summary_row.thick {
+#gdxudtlpop .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vssieiwcpv .gt_last_summary_row {
+#gdxudtlpop .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2453,7 +2491,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_grand_summary_row {
+#gdxudtlpop .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2463,7 +2501,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#vssieiwcpv .gt_first_grand_summary_row {
+#gdxudtlpop .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2473,11 +2511,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_striped {
+#gdxudtlpop .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vssieiwcpv .gt_table_body {
+#gdxudtlpop .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2486,7 +2524,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_footnotes {
+#gdxudtlpop .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2500,7 +2538,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_footnote {
+#gdxudtlpop .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2509,7 +2547,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#vssieiwcpv .gt_sourcenotes {
+#gdxudtlpop .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2523,7 +2561,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#vssieiwcpv .gt_sourcenote {
+#gdxudtlpop .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2531,64 +2569,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#vssieiwcpv .gt_left {
+#gdxudtlpop .gt_left {
   text-align: left;
 }
 
-#vssieiwcpv .gt_center {
+#gdxudtlpop .gt_center {
   text-align: center;
 }
 
-#vssieiwcpv .gt_right {
+#gdxudtlpop .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vssieiwcpv .gt_font_normal {
+#gdxudtlpop .gt_font_normal {
   font-weight: normal;
 }
 
-#vssieiwcpv .gt_font_bold {
+#gdxudtlpop .gt_font_bold {
   font-weight: bold;
 }
 
-#vssieiwcpv .gt_font_italic {
+#gdxudtlpop .gt_font_italic {
   font-style: italic;
 }
 
-#vssieiwcpv .gt_super {
+#gdxudtlpop .gt_super {
   font-size: 65%;
 }
 
-#vssieiwcpv .gt_footnote_marks {
+#gdxudtlpop .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#vssieiwcpv .gt_asterisk {
+#gdxudtlpop .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vssieiwcpv .gt_indent_1 {
+#gdxudtlpop .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vssieiwcpv .gt_indent_2 {
+#gdxudtlpop .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vssieiwcpv .gt_indent_3 {
+#gdxudtlpop .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vssieiwcpv .gt_indent_4 {
+#gdxudtlpop .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vssieiwcpv .gt_indent_5 {
+#gdxudtlpop .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2611,7 +2649,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">1.1856</td>
 <td class="gt_row gt_right">0.8259</td>
 <td class="gt_row gt_right">0.0338</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.1741</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">A is better</td>
@@ -2630,7 +2668,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.9228</td>
 <td class="gt_row gt_right">0.2656</td>
 <td class="gt_row gt_right">0.0666</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.7368</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">A is better</td>
@@ -2649,7 +2687,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8118</td>
 <td class="gt_row gt_right">0.0233</td>
 <td class="gt_row gt_right">0.1006</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9753</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">A is better</td>
@@ -2657,16 +2695,20 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8116</td>
 <td class="gt_row gt_right">0.0231</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0245</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="section level3">
-<h3 id="custom-into-a-gt-table-and-add-titlesubtitlefootnotesspanners">Custom into a gt Table and Add Title/SubTitle/Footnotes/Spanners<a class="anchor" aria-label="anchor" href="#custom-into-a-gt-table-and-add-titlesubtitlefootnotesspanners"></a>
+<h3 id="custom-into-a-gt-table-and-add-titlesubtitlefootnotesspanners">Custom into a gt Table and Add
+Title/SubTitle/Footnotes/Spanners<a class="anchor" aria-label="anchor" href="#custom-into-a-gt-table-and-add-titlesubtitlefootnotesspanners"></a>
 </h3>
-<p>Users can also use <code><a href="../reference/as_gt.html">as_gt()</a></code> to get the the above R table into a gt table. Furthermore, they can edit the title/subtitle/spanner/footnotes of the gt table by using the arguments in <code>summary</code>.</p>
+<p>Users can also use <code><a href="../reference/as_gt.html">as_gt()</a></code> to get the the above R table
+into a gt table. Furthermore, they can edit the
+title/subtitle/spanner/footnotes of the gt table by using the arguments
+in <code>summary</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">x_design_ahr</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Summary of the Crossing Probability"</span>,</span>
@@ -2678,12 +2720,12 @@ It also demonstrates designs for an example scenario using multiple design appro
 <span>                                     <span class="st">"AHR is average hazard ratio; IF is information fraction."</span><span class="op">)</span>,</span>
 <span>                         location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"~HR at bound"</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>                         attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"colname"</span>, <span class="st">"subtitle"</span>, <span class="st">"analysis"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div id="qwefjpjkza" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ougiixjrqe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qwefjpjkza .gt_table {
+#ougiixjrqe .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2708,7 +2750,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_heading {
+#ougiixjrqe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2720,7 +2762,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_title {
+#ougiixjrqe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2732,7 +2774,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#qwefjpjkza .gt_subtitle {
+#ougiixjrqe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2744,13 +2786,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#qwefjpjkza .gt_bottom_border {
+#ougiixjrqe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_col_headings {
+#ougiixjrqe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2765,7 +2807,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_col_heading {
+#ougiixjrqe .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2785,7 +2827,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#qwefjpjkza .gt_column_spanner_outer {
+#ougiixjrqe .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2797,15 +2839,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#qwefjpjkza .gt_column_spanner_outer:first-child {
+#ougiixjrqe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qwefjpjkza .gt_column_spanner_outer:last-child {
+#ougiixjrqe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qwefjpjkza .gt_column_spanner {
+#ougiixjrqe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2817,7 +2859,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#qwefjpjkza .gt_group_heading {
+#ougiixjrqe .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2842,7 +2884,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#qwefjpjkza .gt_empty_group_heading {
+#ougiixjrqe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2857,15 +2899,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#qwefjpjkza .gt_from_md > :first-child {
+#ougiixjrqe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qwefjpjkza .gt_from_md > :last-child {
+#ougiixjrqe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qwefjpjkza .gt_row {
+#ougiixjrqe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2884,7 +2926,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#qwefjpjkza .gt_stub {
+#ougiixjrqe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2897,7 +2939,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#qwefjpjkza .gt_stub_row_group {
+#ougiixjrqe .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2911,11 +2953,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#qwefjpjkza .gt_row_group_first td {
+#ougiixjrqe .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qwefjpjkza .gt_summary_row {
+#ougiixjrqe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2925,16 +2967,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#qwefjpjkza .gt_first_summary_row {
+#ougiixjrqe .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_first_summary_row.thick {
+#ougiixjrqe .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qwefjpjkza .gt_last_summary_row {
+#ougiixjrqe .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2944,7 +2986,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_grand_summary_row {
+#ougiixjrqe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2954,7 +2996,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#qwefjpjkza .gt_first_grand_summary_row {
+#ougiixjrqe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2964,11 +3006,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_striped {
+#ougiixjrqe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qwefjpjkza .gt_table_body {
+#ougiixjrqe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2977,7 +3019,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_footnotes {
+#ougiixjrqe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2991,7 +3033,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_footnote {
+#ougiixjrqe .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3000,7 +3042,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#qwefjpjkza .gt_sourcenotes {
+#ougiixjrqe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3014,7 +3056,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#qwefjpjkza .gt_sourcenote {
+#ougiixjrqe .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3022,64 +3064,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#qwefjpjkza .gt_left {
+#ougiixjrqe .gt_left {
   text-align: left;
 }
 
-#qwefjpjkza .gt_center {
+#ougiixjrqe .gt_center {
   text-align: center;
 }
 
-#qwefjpjkza .gt_right {
+#ougiixjrqe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qwefjpjkza .gt_font_normal {
+#ougiixjrqe .gt_font_normal {
   font-weight: normal;
 }
 
-#qwefjpjkza .gt_font_bold {
+#ougiixjrqe .gt_font_bold {
   font-weight: bold;
 }
 
-#qwefjpjkza .gt_font_italic {
+#ougiixjrqe .gt_font_italic {
   font-style: italic;
 }
 
-#qwefjpjkza .gt_super {
+#ougiixjrqe .gt_super {
   font-size: 65%;
 }
 
-#qwefjpjkza .gt_footnote_marks {
+#ougiixjrqe .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qwefjpjkza .gt_asterisk {
+#ougiixjrqe .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qwefjpjkza .gt_indent_1 {
+#ougiixjrqe .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qwefjpjkza .gt_indent_2 {
+#ougiixjrqe .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qwefjpjkza .gt_indent_3 {
+#ougiixjrqe .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qwefjpjkza .gt_indent_4 {
+#ougiixjrqe .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qwefjpjkza .gt_indent_5 {
+#ougiixjrqe .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3120,7 +3162,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8259</td>
 <td class="gt_row gt_right">1.1856</td>
 <td class="gt_row gt_right">0.0338</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.1741</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -3140,7 +3182,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.2656</td>
 <td class="gt_row gt_right">0.9228</td>
 <td class="gt_row gt_right">0.0666</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.7368</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -3160,7 +3202,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.0233</td>
 <td class="gt_row gt_right">0.8118</td>
 <td class="gt_row gt_right">0.1006</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9753</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -3168,7 +3210,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.0231</td>
 <td class="gt_row gt_right">0.8116</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0245</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -3187,22 +3229,29 @@ It also demonstrates designs for an example scenario using multiple design appro
 </tfoot>
 </table>
 </div>
-<p>The above objective can also be realized by using functions in the R package <code>gt</code> for custom design of table layout. We note that <code><a href="../reference/as_gt.html">as_gt()</a></code> always produces a <code>gt</code> object and, thus, can be further customized with <strong>gt</strong> package formatting functions. In the future, we to support rich text format using a function <code><a href="https://gt.rstudio.com/reference/as_rtf.html" class="external-link">as_rtf()</a></code> in a fashion similar to <code><a href="../reference/as_gt.html">as_gt()</a></code>.</p>
+<p>The above objective can also be realized by using functions in the R
+package <code>gt</code> for custom design of table layout. We note that
+<code><a href="../reference/as_gt.html">as_gt()</a></code> always produces a <code>gt</code> object and, thus,
+can be further customized with <strong>gt</strong> package formatting
+functions. In the future, we to support rich text format using a
+function <code><a href="https://gt.rstudio.com/reference/as_rtf.html" class="external-link">as_rtf()</a></code> in a fashion similar to
+<code><a href="../reference/as_gt.html">as_gt()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="custom-the-variables-to-display">Custom the Variables to Display<a class="anchor" aria-label="anchor" href="#custom-the-variables-to-display"></a>
 </h3>
-<p>Users can select the variables to be displayed in the summary table by using the argument <code>display_colunm = ...</code>.</p>
+<p>Users can select the variables to be displayed in the summary table
+by using the argument <code>display_colunm = ...</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>display_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Analysis"</span>, <span class="st">"Bound"</span>, <span class="st">"Z"</span>, <span class="st">"Probability"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div id="bwckvuaqag" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="nbtghmialf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bwckvuaqag .gt_table {
+#nbtghmialf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3227,7 +3276,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_heading {
+#nbtghmialf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3239,7 +3288,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_title {
+#nbtghmialf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3251,7 +3300,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#bwckvuaqag .gt_subtitle {
+#nbtghmialf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3263,13 +3312,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#bwckvuaqag .gt_bottom_border {
+#nbtghmialf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_col_headings {
+#nbtghmialf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3284,7 +3333,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_col_heading {
+#nbtghmialf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3304,7 +3353,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bwckvuaqag .gt_column_spanner_outer {
+#nbtghmialf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3316,15 +3365,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#bwckvuaqag .gt_column_spanner_outer:first-child {
+#nbtghmialf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bwckvuaqag .gt_column_spanner_outer:last-child {
+#nbtghmialf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bwckvuaqag .gt_column_spanner {
+#nbtghmialf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3336,7 +3385,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#bwckvuaqag .gt_group_heading {
+#nbtghmialf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3361,7 +3410,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bwckvuaqag .gt_empty_group_heading {
+#nbtghmialf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3376,15 +3425,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bwckvuaqag .gt_from_md > :first-child {
+#nbtghmialf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bwckvuaqag .gt_from_md > :last-child {
+#nbtghmialf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bwckvuaqag .gt_row {
+#nbtghmialf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3403,7 +3452,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bwckvuaqag .gt_stub {
+#nbtghmialf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3416,7 +3465,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bwckvuaqag .gt_stub_row_group {
+#nbtghmialf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3430,11 +3479,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#bwckvuaqag .gt_row_group_first td {
+#nbtghmialf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bwckvuaqag .gt_summary_row {
+#nbtghmialf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3444,16 +3493,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bwckvuaqag .gt_first_summary_row {
+#nbtghmialf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_first_summary_row.thick {
+#nbtghmialf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bwckvuaqag .gt_last_summary_row {
+#nbtghmialf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3463,7 +3512,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_grand_summary_row {
+#nbtghmialf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3473,7 +3522,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bwckvuaqag .gt_first_grand_summary_row {
+#nbtghmialf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3483,11 +3532,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_striped {
+#nbtghmialf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bwckvuaqag .gt_table_body {
+#nbtghmialf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3496,7 +3545,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_footnotes {
+#nbtghmialf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3510,7 +3559,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_footnote {
+#nbtghmialf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3519,7 +3568,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bwckvuaqag .gt_sourcenotes {
+#nbtghmialf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3533,7 +3582,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bwckvuaqag .gt_sourcenote {
+#nbtghmialf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3541,64 +3590,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bwckvuaqag .gt_left {
+#nbtghmialf .gt_left {
   text-align: left;
 }
 
-#bwckvuaqag .gt_center {
+#nbtghmialf .gt_center {
   text-align: center;
 }
 
-#bwckvuaqag .gt_right {
+#nbtghmialf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bwckvuaqag .gt_font_normal {
+#nbtghmialf .gt_font_normal {
   font-weight: normal;
 }
 
-#bwckvuaqag .gt_font_bold {
+#nbtghmialf .gt_font_bold {
   font-weight: bold;
 }
 
-#bwckvuaqag .gt_font_italic {
+#nbtghmialf .gt_font_italic {
   font-style: italic;
 }
 
-#bwckvuaqag .gt_super {
+#nbtghmialf .gt_super {
   font-size: 65%;
 }
 
-#bwckvuaqag .gt_footnote_marks {
+#nbtghmialf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bwckvuaqag .gt_asterisk {
+#nbtghmialf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bwckvuaqag .gt_indent_1 {
+#nbtghmialf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bwckvuaqag .gt_indent_2 {
+#nbtghmialf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bwckvuaqag .gt_indent_3 {
+#nbtghmialf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bwckvuaqag .gt_indent_4 {
+#nbtghmialf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bwckvuaqag .gt_indent_5 {
+#nbtghmialf .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3632,7 +3681,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_left">Futility</td>
 <td class="gt_row gt_right">-0.94</td>
 <td class="gt_row gt_right">0.0338</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.1741</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -3647,7 +3696,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_left">Futility</td>
 <td class="gt_row gt_right">0.63</td>
 <td class="gt_row gt_right">0.0666</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.7368</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -3662,13 +3711,13 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_left">Futility</td>
 <td class="gt_row gt_right">1.99</td>
 <td class="gt_row gt_right">0.1006</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9753</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
 <td class="gt_row gt_right">1.99</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0245</td>
 </tr>
 </tbody>
 </table>
@@ -3677,17 +3726,18 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level3">
 <h3 id="custom-whether-to-show-infinity-bound-or-not">Custom Whether to Show Infinity Bound or Not<a class="anchor" aria-label="anchor" href="#custom-whether-to-show-infinity-bound-or-not"></a>
 </h3>
-<p>Users have options to either show the infinity bounds or not by taking advantage of <code>display_inf_bound = ...</code>.</p>
+<p>Users have options to either show the infinity bounds or not by
+taking advantage of <code>display_inf_bound = ...</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>display_inf_bound <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div id="epoaalpazp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="bylvymgmty" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#epoaalpazp .gt_table {
+#bylvymgmty .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3712,7 +3762,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_heading {
+#bylvymgmty .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3724,7 +3774,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_title {
+#bylvymgmty .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3736,7 +3786,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#epoaalpazp .gt_subtitle {
+#bylvymgmty .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3748,13 +3798,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#epoaalpazp .gt_bottom_border {
+#bylvymgmty .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_col_headings {
+#bylvymgmty .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3769,7 +3819,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_col_heading {
+#bylvymgmty .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3789,7 +3839,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#epoaalpazp .gt_column_spanner_outer {
+#bylvymgmty .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3801,15 +3851,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#epoaalpazp .gt_column_spanner_outer:first-child {
+#bylvymgmty .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#epoaalpazp .gt_column_spanner_outer:last-child {
+#bylvymgmty .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#epoaalpazp .gt_column_spanner {
+#bylvymgmty .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3821,7 +3871,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#epoaalpazp .gt_group_heading {
+#bylvymgmty .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3846,7 +3896,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#epoaalpazp .gt_empty_group_heading {
+#bylvymgmty .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3861,15 +3911,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#epoaalpazp .gt_from_md > :first-child {
+#bylvymgmty .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#epoaalpazp .gt_from_md > :last-child {
+#bylvymgmty .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#epoaalpazp .gt_row {
+#bylvymgmty .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3888,7 +3938,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#epoaalpazp .gt_stub {
+#bylvymgmty .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3901,7 +3951,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#epoaalpazp .gt_stub_row_group {
+#bylvymgmty .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3915,11 +3965,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#epoaalpazp .gt_row_group_first td {
+#bylvymgmty .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#epoaalpazp .gt_summary_row {
+#bylvymgmty .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3929,16 +3979,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#epoaalpazp .gt_first_summary_row {
+#bylvymgmty .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_first_summary_row.thick {
+#bylvymgmty .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#epoaalpazp .gt_last_summary_row {
+#bylvymgmty .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3948,7 +3998,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_grand_summary_row {
+#bylvymgmty .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3958,7 +4008,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#epoaalpazp .gt_first_grand_summary_row {
+#bylvymgmty .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3968,11 +4018,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_striped {
+#bylvymgmty .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#epoaalpazp .gt_table_body {
+#bylvymgmty .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3981,7 +4031,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_footnotes {
+#bylvymgmty .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3995,7 +4045,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_footnote {
+#bylvymgmty .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -4004,7 +4054,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#epoaalpazp .gt_sourcenotes {
+#bylvymgmty .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4018,7 +4068,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#epoaalpazp .gt_sourcenote {
+#bylvymgmty .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4026,64 +4076,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#epoaalpazp .gt_left {
+#bylvymgmty .gt_left {
   text-align: left;
 }
 
-#epoaalpazp .gt_center {
+#bylvymgmty .gt_center {
   text-align: center;
 }
 
-#epoaalpazp .gt_right {
+#bylvymgmty .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#epoaalpazp .gt_font_normal {
+#bylvymgmty .gt_font_normal {
   font-weight: normal;
 }
 
-#epoaalpazp .gt_font_bold {
+#bylvymgmty .gt_font_bold {
   font-weight: bold;
 }
 
-#epoaalpazp .gt_font_italic {
+#bylvymgmty .gt_font_italic {
   font-style: italic;
 }
 
-#epoaalpazp .gt_super {
+#bylvymgmty .gt_super {
   font-size: 65%;
 }
 
-#epoaalpazp .gt_footnote_marks {
+#bylvymgmty .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#epoaalpazp .gt_asterisk {
+#bylvymgmty .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#epoaalpazp .gt_indent_1 {
+#bylvymgmty .gt_indent_1 {
   text-indent: 5px;
 }
 
-#epoaalpazp .gt_indent_2 {
+#bylvymgmty .gt_indent_2 {
   text-indent: 10px;
 }
 
-#epoaalpazp .gt_indent_3 {
+#bylvymgmty .gt_indent_3 {
   text-indent: 15px;
 }
 
-#epoaalpazp .gt_indent_4 {
+#bylvymgmty .gt_indent_4 {
   text-indent: 20px;
 }
 
-#epoaalpazp .gt_indent_5 {
+#bylvymgmty .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4123,7 +4173,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.8259</td>
 <td class="gt_row gt_right">1.1856</td>
 <td class="gt_row gt_right">0.0338</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.1741</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -4142,7 +4192,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.2656</td>
 <td class="gt_row gt_right">0.9228</td>
 <td class="gt_row gt_right">0.0666</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.7368</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -4161,7 +4211,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.0233</td>
 <td class="gt_row gt_right">0.8118</td>
 <td class="gt_row gt_right">0.1006</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.9753</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -4169,7 +4219,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">0.0231</td>
 <td class="gt_row gt_right">0.8116</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250</td>
+<td class="gt_row gt_right">0.0245</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -4189,21 +4239,31 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level2">
 <h2 id="details-of-output-from-designpower-functions">Details of Output from Design/Power Functions<a class="anchor" aria-label="anchor" href="#details-of-output-from-designpower-functions"></a>
 </h2>
-<p>There are four components in the objects returned by either <code><a href="../reference/gs_design_ahr.html">gs_design_ahr()</a></code>/<code><a href="../reference/gs_design_wlr.html">gs_design_wlr()</a></code> or <code><a href="../reference/gs_power_ahr.html">gs_power_ahr()</a></code>/<code><a href="../reference/gs_power_wlr.html">gs_power_wlr()</a></code>: 1. failure rates: a table summarizing failure rate and dropout rate. 1. enrollment rates: a table summarizing the enrollment rate. 1. bounds: a table summarize the bound of each analysis. 1. analysis: a table summarize the each analysis, with each one row for one analysis one hypothsis.</p>
+<p>There are four components in the objects returned by either
+<code><a href="../reference/gs_design_ahr.html">gs_design_ahr()</a></code>/<code><a href="../reference/gs_design_wlr.html">gs_design_wlr()</a></code> or
+<code><a href="../reference/gs_power_ahr.html">gs_power_ahr()</a></code>/<code><a href="../reference/gs_power_wlr.html">gs_power_wlr()</a></code>: 1. failure
+rates: a table summarizing failure rate and dropout rate. 1. enrollment
+rates: a table summarizing the enrollment rate. 1. bounds: a table
+summarize the bound of each analysis. 1. analysis: a table summarize the
+each analysis, with each one row for one analysis one hypothsis.</p>
 <div class="section level3">
 <h3 id="failure-rates">Failure Rates<a class="anchor" aria-label="anchor" href="#failure-rates"></a>
 </h3>
-<p>The failure rates of different gsDesign object can be obtained by using <code>x$failRates</code>, where <code>x</code> is the object returned either by <code>gs_design_ahr</code> or <code>gs_design_wlr</code>. For example, the failure rates of the AHR design derivation can be returned by calling</p>
+<p>The failure rates of different gsDesign object can be obtained by
+using <code>x$failRates</code>, where <code>x</code> is the object
+returned either by <code>gs_design_ahr</code> or
+<code>gs_design_wlr</code>. For example, the failure rates of the AHR
+design derivation can be returned by calling</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span><span class="op">$</span><span class="va">failRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="tyngabpkhv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mwcaqfhudg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tyngabpkhv .gt_table {
+#mwcaqfhudg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -4228,7 +4288,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_heading {
+#mwcaqfhudg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4240,7 +4300,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_title {
+#mwcaqfhudg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4252,7 +4312,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#tyngabpkhv .gt_subtitle {
+#mwcaqfhudg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4264,13 +4324,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#tyngabpkhv .gt_bottom_border {
+#mwcaqfhudg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_col_headings {
+#mwcaqfhudg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4285,7 +4345,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_col_heading {
+#mwcaqfhudg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4305,7 +4365,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#tyngabpkhv .gt_column_spanner_outer {
+#mwcaqfhudg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4317,15 +4377,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#tyngabpkhv .gt_column_spanner_outer:first-child {
+#mwcaqfhudg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tyngabpkhv .gt_column_spanner_outer:last-child {
+#mwcaqfhudg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tyngabpkhv .gt_column_spanner {
+#mwcaqfhudg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4337,7 +4397,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#tyngabpkhv .gt_group_heading {
+#mwcaqfhudg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4362,7 +4422,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#tyngabpkhv .gt_empty_group_heading {
+#mwcaqfhudg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4377,15 +4437,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#tyngabpkhv .gt_from_md > :first-child {
+#mwcaqfhudg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tyngabpkhv .gt_from_md > :last-child {
+#mwcaqfhudg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tyngabpkhv .gt_row {
+#mwcaqfhudg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4404,7 +4464,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#tyngabpkhv .gt_stub {
+#mwcaqfhudg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4417,7 +4477,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#tyngabpkhv .gt_stub_row_group {
+#mwcaqfhudg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4431,11 +4491,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#tyngabpkhv .gt_row_group_first td {
+#mwcaqfhudg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tyngabpkhv .gt_summary_row {
+#mwcaqfhudg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4445,16 +4505,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#tyngabpkhv .gt_first_summary_row {
+#mwcaqfhudg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_first_summary_row.thick {
+#mwcaqfhudg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tyngabpkhv .gt_last_summary_row {
+#mwcaqfhudg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4464,7 +4524,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_grand_summary_row {
+#mwcaqfhudg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4474,7 +4534,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#tyngabpkhv .gt_first_grand_summary_row {
+#mwcaqfhudg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4484,11 +4544,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_striped {
+#mwcaqfhudg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tyngabpkhv .gt_table_body {
+#mwcaqfhudg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4497,7 +4557,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_footnotes {
+#mwcaqfhudg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4511,7 +4571,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_footnote {
+#mwcaqfhudg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -4520,7 +4580,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#tyngabpkhv .gt_sourcenotes {
+#mwcaqfhudg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4534,7 +4594,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#tyngabpkhv .gt_sourcenote {
+#mwcaqfhudg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4542,64 +4602,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#tyngabpkhv .gt_left {
+#mwcaqfhudg .gt_left {
   text-align: left;
 }
 
-#tyngabpkhv .gt_center {
+#mwcaqfhudg .gt_center {
   text-align: center;
 }
 
-#tyngabpkhv .gt_right {
+#mwcaqfhudg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tyngabpkhv .gt_font_normal {
+#mwcaqfhudg .gt_font_normal {
   font-weight: normal;
 }
 
-#tyngabpkhv .gt_font_bold {
+#mwcaqfhudg .gt_font_bold {
   font-weight: bold;
 }
 
-#tyngabpkhv .gt_font_italic {
+#mwcaqfhudg .gt_font_italic {
   font-style: italic;
 }
 
-#tyngabpkhv .gt_super {
+#mwcaqfhudg .gt_super {
   font-size: 65%;
 }
 
-#tyngabpkhv .gt_footnote_marks {
+#mwcaqfhudg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#tyngabpkhv .gt_asterisk {
+#mwcaqfhudg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tyngabpkhv .gt_indent_1 {
+#mwcaqfhudg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tyngabpkhv .gt_indent_2 {
+#mwcaqfhudg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tyngabpkhv .gt_indent_3 {
+#mwcaqfhudg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tyngabpkhv .gt_indent_4 {
+#mwcaqfhudg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tyngabpkhv .gt_indent_5 {
+#mwcaqfhudg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4629,17 +4689,21 @@ It also demonstrates designs for an example scenario using multiple design appro
 </tbody>
 </table>
 </div>
-<p>Please note that both <code>x_design_ahr</code> and <code>x_wlr</code> returns the same failure rates, which is the same as that inputted as <code>failRates</code>. To verify, let’s take a look at the failure rate of the WLR design derivation, which are shown as below.</p>
+<p>Please note that both <code>x_design_ahr</code> and
+<code>x_wlr</code> returns the same failure rates, which is the same as
+that inputted as <code>failRates</code>. To verify, let’s take a look at
+the failure rate of the WLR design derivation, which are shown as
+below.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_wlr</span><span class="op">$</span><span class="va">failRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="sipvezseoz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jlmuuqhddd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#sipvezseoz .gt_table {
+#jlmuuqhddd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -4664,7 +4728,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_heading {
+#jlmuuqhddd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4676,7 +4740,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_title {
+#jlmuuqhddd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4688,7 +4752,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#sipvezseoz .gt_subtitle {
+#jlmuuqhddd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4700,13 +4764,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#sipvezseoz .gt_bottom_border {
+#jlmuuqhddd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_col_headings {
+#jlmuuqhddd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4721,7 +4785,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_col_heading {
+#jlmuuqhddd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4741,7 +4805,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#sipvezseoz .gt_column_spanner_outer {
+#jlmuuqhddd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4753,15 +4817,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#sipvezseoz .gt_column_spanner_outer:first-child {
+#jlmuuqhddd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sipvezseoz .gt_column_spanner_outer:last-child {
+#jlmuuqhddd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sipvezseoz .gt_column_spanner {
+#jlmuuqhddd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4773,7 +4837,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#sipvezseoz .gt_group_heading {
+#jlmuuqhddd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4798,7 +4862,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#sipvezseoz .gt_empty_group_heading {
+#jlmuuqhddd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4813,15 +4877,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#sipvezseoz .gt_from_md > :first-child {
+#jlmuuqhddd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sipvezseoz .gt_from_md > :last-child {
+#jlmuuqhddd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sipvezseoz .gt_row {
+#jlmuuqhddd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4840,7 +4904,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#sipvezseoz .gt_stub {
+#jlmuuqhddd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4853,7 +4917,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sipvezseoz .gt_stub_row_group {
+#jlmuuqhddd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4867,11 +4931,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#sipvezseoz .gt_row_group_first td {
+#jlmuuqhddd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sipvezseoz .gt_summary_row {
+#jlmuuqhddd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4881,16 +4945,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sipvezseoz .gt_first_summary_row {
+#jlmuuqhddd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_first_summary_row.thick {
+#jlmuuqhddd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sipvezseoz .gt_last_summary_row {
+#jlmuuqhddd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4900,7 +4964,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_grand_summary_row {
+#jlmuuqhddd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4910,7 +4974,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sipvezseoz .gt_first_grand_summary_row {
+#jlmuuqhddd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4920,11 +4984,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_striped {
+#jlmuuqhddd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sipvezseoz .gt_table_body {
+#jlmuuqhddd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4933,7 +4997,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_footnotes {
+#jlmuuqhddd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4947,7 +5011,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_footnote {
+#jlmuuqhddd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -4956,7 +5020,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sipvezseoz .gt_sourcenotes {
+#jlmuuqhddd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4970,7 +5034,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sipvezseoz .gt_sourcenote {
+#jlmuuqhddd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4978,64 +5042,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sipvezseoz .gt_left {
+#jlmuuqhddd .gt_left {
   text-align: left;
 }
 
-#sipvezseoz .gt_center {
+#jlmuuqhddd .gt_center {
   text-align: center;
 }
 
-#sipvezseoz .gt_right {
+#jlmuuqhddd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sipvezseoz .gt_font_normal {
+#jlmuuqhddd .gt_font_normal {
   font-weight: normal;
 }
 
-#sipvezseoz .gt_font_bold {
+#jlmuuqhddd .gt_font_bold {
   font-weight: bold;
 }
 
-#sipvezseoz .gt_font_italic {
+#jlmuuqhddd .gt_font_italic {
   font-style: italic;
 }
 
-#sipvezseoz .gt_super {
+#jlmuuqhddd .gt_super {
   font-size: 65%;
 }
 
-#sipvezseoz .gt_footnote_marks {
+#jlmuuqhddd .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#sipvezseoz .gt_asterisk {
+#jlmuuqhddd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sipvezseoz .gt_indent_1 {
+#jlmuuqhddd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sipvezseoz .gt_indent_2 {
+#jlmuuqhddd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sipvezseoz .gt_indent_3 {
+#jlmuuqhddd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sipvezseoz .gt_indent_4 {
+#jlmuuqhddd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sipvezseoz .gt_indent_5 {
+#jlmuuqhddd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -5069,17 +5133,21 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level3">
 <h3 id="enrollment">Enrollment<a class="anchor" aria-label="anchor" href="#enrollment"></a>
 </h3>
-<p>The enrollment rate of a gs design derivation can be collected by using <code>x$failRates</code>, where <code>x</code> is the object returned either by <code>gs_design_ahr</code> or <code>gs_design_wlr</code>. For example, the enrollment rates of the AHR/WLR design derivation is</p>
+<p>The enrollment rate of a gs design derivation can be collected by
+using <code>x$failRates</code>, where <code>x</code> is the object
+returned either by <code>gs_design_ahr</code> or
+<code>gs_design_wlr</code>. For example, the enrollment rates of the
+AHR/WLR design derivation is</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span><span class="op">$</span><span class="va">enrollRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="avqvrjaxak" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="dqkicexfoy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#avqvrjaxak .gt_table {
+#dqkicexfoy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -5104,7 +5172,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_heading {
+#dqkicexfoy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5116,7 +5184,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_title {
+#dqkicexfoy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5128,7 +5196,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#avqvrjaxak .gt_subtitle {
+#dqkicexfoy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5140,13 +5208,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#avqvrjaxak .gt_bottom_border {
+#dqkicexfoy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_col_headings {
+#dqkicexfoy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5161,7 +5229,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_col_heading {
+#dqkicexfoy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5181,7 +5249,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#avqvrjaxak .gt_column_spanner_outer {
+#dqkicexfoy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5193,15 +5261,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#avqvrjaxak .gt_column_spanner_outer:first-child {
+#dqkicexfoy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#avqvrjaxak .gt_column_spanner_outer:last-child {
+#dqkicexfoy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#avqvrjaxak .gt_column_spanner {
+#dqkicexfoy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5213,7 +5281,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#avqvrjaxak .gt_group_heading {
+#dqkicexfoy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5238,7 +5306,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#avqvrjaxak .gt_empty_group_heading {
+#dqkicexfoy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5253,15 +5321,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#avqvrjaxak .gt_from_md > :first-child {
+#dqkicexfoy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#avqvrjaxak .gt_from_md > :last-child {
+#dqkicexfoy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#avqvrjaxak .gt_row {
+#dqkicexfoy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5280,7 +5348,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#avqvrjaxak .gt_stub {
+#dqkicexfoy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5293,7 +5361,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#avqvrjaxak .gt_stub_row_group {
+#dqkicexfoy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5307,11 +5375,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#avqvrjaxak .gt_row_group_first td {
+#dqkicexfoy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#avqvrjaxak .gt_summary_row {
+#dqkicexfoy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5321,16 +5389,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#avqvrjaxak .gt_first_summary_row {
+#dqkicexfoy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_first_summary_row.thick {
+#dqkicexfoy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#avqvrjaxak .gt_last_summary_row {
+#dqkicexfoy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5340,7 +5408,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_grand_summary_row {
+#dqkicexfoy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5350,7 +5418,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#avqvrjaxak .gt_first_grand_summary_row {
+#dqkicexfoy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5360,11 +5428,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_striped {
+#dqkicexfoy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#avqvrjaxak .gt_table_body {
+#dqkicexfoy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5373,7 +5441,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_footnotes {
+#dqkicexfoy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5387,7 +5455,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_footnote {
+#dqkicexfoy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -5396,7 +5464,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#avqvrjaxak .gt_sourcenotes {
+#dqkicexfoy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5410,7 +5478,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#avqvrjaxak .gt_sourcenote {
+#dqkicexfoy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5418,64 +5486,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#avqvrjaxak .gt_left {
+#dqkicexfoy .gt_left {
   text-align: left;
 }
 
-#avqvrjaxak .gt_center {
+#dqkicexfoy .gt_center {
   text-align: center;
 }
 
-#avqvrjaxak .gt_right {
+#dqkicexfoy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#avqvrjaxak .gt_font_normal {
+#dqkicexfoy .gt_font_normal {
   font-weight: normal;
 }
 
-#avqvrjaxak .gt_font_bold {
+#dqkicexfoy .gt_font_bold {
   font-weight: bold;
 }
 
-#avqvrjaxak .gt_font_italic {
+#dqkicexfoy .gt_font_italic {
   font-style: italic;
 }
 
-#avqvrjaxak .gt_super {
+#dqkicexfoy .gt_super {
   font-size: 65%;
 }
 
-#avqvrjaxak .gt_footnote_marks {
+#dqkicexfoy .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#avqvrjaxak .gt_asterisk {
+#dqkicexfoy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#avqvrjaxak .gt_indent_1 {
+#dqkicexfoy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#avqvrjaxak .gt_indent_2 {
+#dqkicexfoy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#avqvrjaxak .gt_indent_3 {
+#dqkicexfoy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#avqvrjaxak .gt_indent_4 {
+#dqkicexfoy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#avqvrjaxak .gt_indent_5 {
+#dqkicexfoy .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -5496,12 +5564,12 @@ It also demonstrates designs for an example scenario using multiple design appro
 <code class="sourceCode R"><span><span class="va">x_design_wlr</span><span class="op">$</span><span class="va">enrollRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="bbpapgjyok" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="chenezygtf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bbpapgjyok .gt_table {
+#chenezygtf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -5526,7 +5594,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_heading {
+#chenezygtf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5538,7 +5606,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_title {
+#chenezygtf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5550,7 +5618,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#bbpapgjyok .gt_subtitle {
+#chenezygtf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5562,13 +5630,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#bbpapgjyok .gt_bottom_border {
+#chenezygtf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_col_headings {
+#chenezygtf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5583,7 +5651,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_col_heading {
+#chenezygtf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5603,7 +5671,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bbpapgjyok .gt_column_spanner_outer {
+#chenezygtf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5615,15 +5683,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#bbpapgjyok .gt_column_spanner_outer:first-child {
+#chenezygtf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bbpapgjyok .gt_column_spanner_outer:last-child {
+#chenezygtf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bbpapgjyok .gt_column_spanner {
+#chenezygtf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5635,7 +5703,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#bbpapgjyok .gt_group_heading {
+#chenezygtf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5660,7 +5728,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bbpapgjyok .gt_empty_group_heading {
+#chenezygtf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5675,15 +5743,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#bbpapgjyok .gt_from_md > :first-child {
+#chenezygtf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bbpapgjyok .gt_from_md > :last-child {
+#chenezygtf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bbpapgjyok .gt_row {
+#chenezygtf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5702,7 +5770,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#bbpapgjyok .gt_stub {
+#chenezygtf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5715,7 +5783,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bbpapgjyok .gt_stub_row_group {
+#chenezygtf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5729,11 +5797,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#bbpapgjyok .gt_row_group_first td {
+#chenezygtf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bbpapgjyok .gt_summary_row {
+#chenezygtf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5743,16 +5811,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bbpapgjyok .gt_first_summary_row {
+#chenezygtf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_first_summary_row.thick {
+#chenezygtf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bbpapgjyok .gt_last_summary_row {
+#chenezygtf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5762,7 +5830,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_grand_summary_row {
+#chenezygtf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5772,7 +5840,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bbpapgjyok .gt_first_grand_summary_row {
+#chenezygtf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5782,11 +5850,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_striped {
+#chenezygtf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bbpapgjyok .gt_table_body {
+#chenezygtf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5795,7 +5863,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_footnotes {
+#chenezygtf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5809,7 +5877,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_footnote {
+#chenezygtf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -5818,7 +5886,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bbpapgjyok .gt_sourcenotes {
+#chenezygtf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5832,7 +5900,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#bbpapgjyok .gt_sourcenote {
+#chenezygtf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5840,64 +5908,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#bbpapgjyok .gt_left {
+#chenezygtf .gt_left {
   text-align: left;
 }
 
-#bbpapgjyok .gt_center {
+#chenezygtf .gt_center {
   text-align: center;
 }
 
-#bbpapgjyok .gt_right {
+#chenezygtf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bbpapgjyok .gt_font_normal {
+#chenezygtf .gt_font_normal {
   font-weight: normal;
 }
 
-#bbpapgjyok .gt_font_bold {
+#chenezygtf .gt_font_bold {
   font-weight: bold;
 }
 
-#bbpapgjyok .gt_font_italic {
+#chenezygtf .gt_font_italic {
   font-style: italic;
 }
 
-#bbpapgjyok .gt_super {
+#chenezygtf .gt_super {
   font-size: 65%;
 }
 
-#bbpapgjyok .gt_footnote_marks {
+#chenezygtf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bbpapgjyok .gt_asterisk {
+#chenezygtf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bbpapgjyok .gt_indent_1 {
+#chenezygtf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bbpapgjyok .gt_indent_2 {
+#chenezygtf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bbpapgjyok .gt_indent_3 {
+#chenezygtf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bbpapgjyok .gt_indent_4 {
+#chenezygtf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bbpapgjyok .gt_indent_5 {
+#chenezygtf .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -5914,22 +5982,32 @@ It also demonstrates designs for an example scenario using multiple design appro
 </tr></tbody>
 </table>
 </div>
-<p>It can be seen that, although the design derivation is different, the enrollment rate table share the same table structure, same enrollment period durations for each rate. Yet, the enrollment rates differ between designs only by a multiplicative constant.</p>
+<p>It can be seen that, although the design derivation is different, the
+enrollment rate table share the same table structure, same enrollment
+period durations for each rate. Yet, the enrollment rates differ between
+designs only by a multiplicative constant.</p>
 </div>
 <div class="section level3">
 <h3 id="analysis">Analysis<a class="anchor" aria-label="anchor" href="#analysis"></a>
 </h3>
-<p>The analysis summary table has the structure of one row per analysis per hypothesis. And columns can vary with different defaults for each design option. This type of tables are useful for understanding commonalities in how designs are summarized for different models. To get analysis summary table, users can call <code>x$analysis</code>, where <code>x</code> is the object returned either by <code>gs_design_ahr</code> or <code>gs_design_wlr</code>. For example, the analysis summary of the AHR/WLR design derivation is</p>
+<p>The analysis summary table has the structure of one row per analysis
+per hypothesis. And columns can vary with different defaults for each
+design option. This type of tables are useful for understanding
+commonalities in how designs are summarized for different models. To get
+analysis summary table, users can call <code>x$analysis</code>, where
+<code>x</code> is the object returned either by
+<code>gs_design_ahr</code> or <code>gs_design_wlr</code>. For example,
+the analysis summary of the AHR/WLR design derivation is</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span><span class="op">$</span><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">8</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="sxemsuuynh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="dcesovvajt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#sxemsuuynh .gt_table {
+#dcesovvajt .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -5954,7 +6032,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_heading {
+#dcesovvajt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5966,7 +6044,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_title {
+#dcesovvajt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5978,7 +6056,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#sxemsuuynh .gt_subtitle {
+#dcesovvajt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5990,13 +6068,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#sxemsuuynh .gt_bottom_border {
+#dcesovvajt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_col_headings {
+#dcesovvajt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6011,7 +6089,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_col_heading {
+#dcesovvajt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6031,7 +6109,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#sxemsuuynh .gt_column_spanner_outer {
+#dcesovvajt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6043,15 +6121,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#sxemsuuynh .gt_column_spanner_outer:first-child {
+#dcesovvajt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sxemsuuynh .gt_column_spanner_outer:last-child {
+#dcesovvajt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sxemsuuynh .gt_column_spanner {
+#dcesovvajt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -6063,7 +6141,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#sxemsuuynh .gt_group_heading {
+#dcesovvajt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6088,7 +6166,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#sxemsuuynh .gt_empty_group_heading {
+#dcesovvajt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -6103,15 +6181,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#sxemsuuynh .gt_from_md > :first-child {
+#dcesovvajt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sxemsuuynh .gt_from_md > :last-child {
+#dcesovvajt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sxemsuuynh .gt_row {
+#dcesovvajt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6130,7 +6208,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#sxemsuuynh .gt_stub {
+#dcesovvajt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6143,7 +6221,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sxemsuuynh .gt_stub_row_group {
+#dcesovvajt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6157,11 +6235,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#sxemsuuynh .gt_row_group_first td {
+#dcesovvajt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sxemsuuynh .gt_summary_row {
+#dcesovvajt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6171,16 +6249,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sxemsuuynh .gt_first_summary_row {
+#dcesovvajt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_first_summary_row.thick {
+#dcesovvajt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sxemsuuynh .gt_last_summary_row {
+#dcesovvajt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6190,7 +6268,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_grand_summary_row {
+#dcesovvajt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6200,7 +6278,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sxemsuuynh .gt_first_grand_summary_row {
+#dcesovvajt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6210,11 +6288,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_striped {
+#dcesovvajt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sxemsuuynh .gt_table_body {
+#dcesovvajt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6223,7 +6301,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_footnotes {
+#dcesovvajt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6237,7 +6315,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_footnote {
+#dcesovvajt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -6246,7 +6324,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sxemsuuynh .gt_sourcenotes {
+#dcesovvajt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6260,7 +6338,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#sxemsuuynh .gt_sourcenote {
+#dcesovvajt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -6268,64 +6346,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#sxemsuuynh .gt_left {
+#dcesovvajt .gt_left {
   text-align: left;
 }
 
-#sxemsuuynh .gt_center {
+#dcesovvajt .gt_center {
   text-align: center;
 }
 
-#sxemsuuynh .gt_right {
+#dcesovvajt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sxemsuuynh .gt_font_normal {
+#dcesovvajt .gt_font_normal {
   font-weight: normal;
 }
 
-#sxemsuuynh .gt_font_bold {
+#dcesovvajt .gt_font_bold {
   font-weight: bold;
 }
 
-#sxemsuuynh .gt_font_italic {
+#dcesovvajt .gt_font_italic {
   font-style: italic;
 }
 
-#sxemsuuynh .gt_super {
+#dcesovvajt .gt_super {
   font-size: 65%;
 }
 
-#sxemsuuynh .gt_footnote_marks {
+#dcesovvajt .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#sxemsuuynh .gt_asterisk {
+#dcesovvajt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sxemsuuynh .gt_indent_1 {
+#dcesovvajt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sxemsuuynh .gt_indent_2 {
+#dcesovvajt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sxemsuuynh .gt_indent_3 {
+#dcesovvajt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sxemsuuynh .gt_indent_4 {
+#dcesovvajt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sxemsuuynh .gt_indent_5 {
+#dcesovvajt .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -6382,12 +6460,12 @@ It also demonstrates designs for an example scenario using multiple design appro
 <code class="sourceCode R"><span><span class="va">x_design_wlr</span><span class="op">$</span><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">8</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="jfxuvyuabv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fbfavaslfq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#jfxuvyuabv .gt_table {
+#fbfavaslfq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -6412,7 +6490,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_heading {
+#fbfavaslfq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -6424,7 +6502,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_title {
+#fbfavaslfq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -6436,7 +6514,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#jfxuvyuabv .gt_subtitle {
+#fbfavaslfq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -6448,13 +6526,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#jfxuvyuabv .gt_bottom_border {
+#fbfavaslfq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_col_headings {
+#fbfavaslfq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6469,7 +6547,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_col_heading {
+#fbfavaslfq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6489,7 +6567,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#jfxuvyuabv .gt_column_spanner_outer {
+#fbfavaslfq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6501,15 +6579,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#jfxuvyuabv .gt_column_spanner_outer:first-child {
+#fbfavaslfq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jfxuvyuabv .gt_column_spanner_outer:last-child {
+#fbfavaslfq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jfxuvyuabv .gt_column_spanner {
+#fbfavaslfq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -6521,7 +6599,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#jfxuvyuabv .gt_group_heading {
+#fbfavaslfq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6546,7 +6624,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#jfxuvyuabv .gt_empty_group_heading {
+#fbfavaslfq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -6561,15 +6639,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#jfxuvyuabv .gt_from_md > :first-child {
+#fbfavaslfq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jfxuvyuabv .gt_from_md > :last-child {
+#fbfavaslfq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jfxuvyuabv .gt_row {
+#fbfavaslfq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6588,7 +6666,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#jfxuvyuabv .gt_stub {
+#fbfavaslfq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6601,7 +6679,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#jfxuvyuabv .gt_stub_row_group {
+#fbfavaslfq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6615,11 +6693,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#jfxuvyuabv .gt_row_group_first td {
+#fbfavaslfq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jfxuvyuabv .gt_summary_row {
+#fbfavaslfq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6629,16 +6707,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#jfxuvyuabv .gt_first_summary_row {
+#fbfavaslfq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_first_summary_row.thick {
+#fbfavaslfq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jfxuvyuabv .gt_last_summary_row {
+#fbfavaslfq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6648,7 +6726,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_grand_summary_row {
+#fbfavaslfq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6658,7 +6736,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#jfxuvyuabv .gt_first_grand_summary_row {
+#fbfavaslfq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6668,11 +6746,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_striped {
+#fbfavaslfq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jfxuvyuabv .gt_table_body {
+#fbfavaslfq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6681,7 +6759,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_footnotes {
+#fbfavaslfq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6695,7 +6773,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_footnote {
+#fbfavaslfq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -6704,7 +6782,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#jfxuvyuabv .gt_sourcenotes {
+#fbfavaslfq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6718,7 +6796,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#jfxuvyuabv .gt_sourcenote {
+#fbfavaslfq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -6726,64 +6804,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#jfxuvyuabv .gt_left {
+#fbfavaslfq .gt_left {
   text-align: left;
 }
 
-#jfxuvyuabv .gt_center {
+#fbfavaslfq .gt_center {
   text-align: center;
 }
 
-#jfxuvyuabv .gt_right {
+#fbfavaslfq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jfxuvyuabv .gt_font_normal {
+#fbfavaslfq .gt_font_normal {
   font-weight: normal;
 }
 
-#jfxuvyuabv .gt_font_bold {
+#fbfavaslfq .gt_font_bold {
   font-weight: bold;
 }
 
-#jfxuvyuabv .gt_font_italic {
+#fbfavaslfq .gt_font_italic {
   font-style: italic;
 }
 
-#jfxuvyuabv .gt_super {
+#fbfavaslfq .gt_super {
   font-size: 65%;
 }
 
-#jfxuvyuabv .gt_footnote_marks {
+#fbfavaslfq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#jfxuvyuabv .gt_asterisk {
+#fbfavaslfq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jfxuvyuabv .gt_indent_1 {
+#fbfavaslfq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jfxuvyuabv .gt_indent_2 {
+#fbfavaslfq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jfxuvyuabv .gt_indent_3 {
+#fbfavaslfq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jfxuvyuabv .gt_indent_4 {
+#fbfavaslfq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jfxuvyuabv .gt_indent_5 {
+#fbfavaslfq .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -6840,17 +6918,22 @@ It also demonstrates designs for an example scenario using multiple design appro
 <div class="section level3">
 <h3 id="bounds">Bounds<a class="anchor" aria-label="anchor" href="#bounds"></a>
 </h3>
-<p>The analysis summary table has the structure of One row per analysis per bound per hypothesis. Columns can vary with different defaults for each design option. To get a bouns summary table, users can call <code>x$analysis</code>, where <code>x</code> is the object returned either by <code>gs_design_ahr</code> or <code>gs_design_wlr</code>. For example, the bounds summary of the AHR/WLR design derivation is</p>
+<p>The analysis summary table has the structure of One row per analysis
+per bound per hypothesis. Columns can vary with different defaults for
+each design option. To get a bouns summary table, users can call
+<code>x$analysis</code>, where <code>x</code> is the object returned
+either by <code>gs_design_ahr</code> or <code>gs_design_wlr</code>. For
+example, the bounds summary of the AHR/WLR design derivation is</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_design_ahr</span><span class="op">$</span><span class="va">bounds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </span></code></pre></div>
-<div id="gzbchjgucu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="yaeyfpalvc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#gzbchjgucu .gt_table {
+#yaeyfpalvc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -6875,7 +6958,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_heading {
+#yaeyfpalvc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -6887,7 +6970,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_title {
+#yaeyfpalvc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -6899,7 +6982,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#gzbchjgucu .gt_subtitle {
+#yaeyfpalvc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -6911,13 +6994,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#gzbchjgucu .gt_bottom_border {
+#yaeyfpalvc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_col_headings {
+#yaeyfpalvc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6932,7 +7015,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_col_heading {
+#yaeyfpalvc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6952,7 +7035,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#gzbchjgucu .gt_column_spanner_outer {
+#yaeyfpalvc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6964,15 +7047,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#gzbchjgucu .gt_column_spanner_outer:first-child {
+#yaeyfpalvc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gzbchjgucu .gt_column_spanner_outer:last-child {
+#yaeyfpalvc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gzbchjgucu .gt_column_spanner {
+#yaeyfpalvc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -6984,7 +7067,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#gzbchjgucu .gt_group_heading {
+#yaeyfpalvc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7009,7 +7092,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#gzbchjgucu .gt_empty_group_heading {
+#yaeyfpalvc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -7024,15 +7107,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#gzbchjgucu .gt_from_md > :first-child {
+#yaeyfpalvc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gzbchjgucu .gt_from_md > :last-child {
+#yaeyfpalvc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gzbchjgucu .gt_row {
+#yaeyfpalvc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7051,7 +7134,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#gzbchjgucu .gt_stub {
+#yaeyfpalvc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7064,7 +7147,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#gzbchjgucu .gt_stub_row_group {
+#yaeyfpalvc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7078,11 +7161,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#gzbchjgucu .gt_row_group_first td {
+#yaeyfpalvc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gzbchjgucu .gt_summary_row {
+#yaeyfpalvc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7092,16 +7175,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#gzbchjgucu .gt_first_summary_row {
+#yaeyfpalvc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_first_summary_row.thick {
+#yaeyfpalvc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gzbchjgucu .gt_last_summary_row {
+#yaeyfpalvc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7111,7 +7194,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_grand_summary_row {
+#yaeyfpalvc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7121,7 +7204,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#gzbchjgucu .gt_first_grand_summary_row {
+#yaeyfpalvc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7131,11 +7214,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_striped {
+#yaeyfpalvc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gzbchjgucu .gt_table_body {
+#yaeyfpalvc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -7144,7 +7227,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_footnotes {
+#yaeyfpalvc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7158,7 +7241,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_footnote {
+#yaeyfpalvc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -7167,7 +7250,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#gzbchjgucu .gt_sourcenotes {
+#yaeyfpalvc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7181,7 +7264,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#gzbchjgucu .gt_sourcenote {
+#yaeyfpalvc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -7189,64 +7272,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#gzbchjgucu .gt_left {
+#yaeyfpalvc .gt_left {
   text-align: left;
 }
 
-#gzbchjgucu .gt_center {
+#yaeyfpalvc .gt_center {
   text-align: center;
 }
 
-#gzbchjgucu .gt_right {
+#yaeyfpalvc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gzbchjgucu .gt_font_normal {
+#yaeyfpalvc .gt_font_normal {
   font-weight: normal;
 }
 
-#gzbchjgucu .gt_font_bold {
+#yaeyfpalvc .gt_font_bold {
   font-weight: bold;
 }
 
-#gzbchjgucu .gt_font_italic {
+#yaeyfpalvc .gt_font_italic {
   font-style: italic;
 }
 
-#gzbchjgucu .gt_super {
+#yaeyfpalvc .gt_super {
   font-size: 65%;
 }
 
-#gzbchjgucu .gt_footnote_marks {
+#yaeyfpalvc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#gzbchjgucu .gt_asterisk {
+#yaeyfpalvc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gzbchjgucu .gt_indent_1 {
+#yaeyfpalvc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gzbchjgucu .gt_indent_2 {
+#yaeyfpalvc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gzbchjgucu .gt_indent_3 {
+#yaeyfpalvc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gzbchjgucu .gt_indent_4 {
+#yaeyfpalvc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gzbchjgucu .gt_indent_5 {
+#yaeyfpalvc .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -7274,7 +7357,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">Lower</td>
 <td class="gt_row gt_right">0.0338</td>
-<td class="gt_row gt_right">0.0000000000</td>
+<td class="gt_row gt_right">0.1740609319</td>
 <td class="gt_row gt_right">−0.9382</td>
 <td class="gt_row gt_right">1.1856</td>
 <td class="gt_row gt_right">0.8259</td>
@@ -7283,7 +7366,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">2</td>
 <td class="gt_row gt_left">Upper</td>
 <td class="gt_row gt_right">0.4135</td>
-<td class="gt_row gt_right">0.0060483890</td>
+<td class="gt_row gt_right">0.0060482351</td>
 <td class="gt_row gt_right">2.5114</td>
 <td class="gt_row gt_right">0.7246</td>
 <td class="gt_row gt_right">0.0060</td>
@@ -7292,7 +7375,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">2</td>
 <td class="gt_row gt_left">Lower</td>
 <td class="gt_row gt_right">0.0666</td>
-<td class="gt_row gt_right">0.0000000000</td>
+<td class="gt_row gt_right">0.7368187135</td>
 <td class="gt_row gt_right">0.6262</td>
 <td class="gt_row gt_right">0.9228</td>
 <td class="gt_row gt_right">0.2656</td>
@@ -7301,7 +7384,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">3</td>
 <td class="gt_row gt_left">Upper</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">0.0250000000</td>
+<td class="gt_row gt_right">0.0245385477</td>
 <td class="gt_row gt_right">1.9931</td>
 <td class="gt_row gt_right">0.8116</td>
 <td class="gt_row gt_right">0.0231</td>
@@ -7310,7 +7393,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">3</td>
 <td class="gt_row gt_left">Lower</td>
 <td class="gt_row gt_right">0.1006</td>
-<td class="gt_row gt_right">0.0000000000</td>
+<td class="gt_row gt_right">0.9753350071</td>
 <td class="gt_row gt_right">1.9905</td>
 <td class="gt_row gt_right">0.8118</td>
 <td class="gt_row gt_right">0.0233</td>
@@ -7322,12 +7405,12 @@ It also demonstrates designs for an example scenario using multiple design appro
 <code class="sourceCode R"><span><span class="va">x_design_wlr</span><span class="op">$</span><span class="va">bounds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="rozbahhzte" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="uuysymgcoz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rozbahhzte .gt_table {
+#uuysymgcoz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -7352,7 +7435,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-left-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_heading {
+#uuysymgcoz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -7364,7 +7447,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_title {
+#uuysymgcoz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -7376,7 +7459,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-width: 0;
 }
 
-#rozbahhzte .gt_subtitle {
+#uuysymgcoz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -7388,13 +7471,13 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-width: 0;
 }
 
-#rozbahhzte .gt_bottom_border {
+#uuysymgcoz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_col_headings {
+#uuysymgcoz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -7409,7 +7492,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_col_heading {
+#uuysymgcoz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7429,7 +7512,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#rozbahhzte .gt_column_spanner_outer {
+#uuysymgcoz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7441,15 +7524,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 4px;
 }
 
-#rozbahhzte .gt_column_spanner_outer:first-child {
+#uuysymgcoz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rozbahhzte .gt_column_spanner_outer:last-child {
+#uuysymgcoz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rozbahhzte .gt_column_spanner {
+#uuysymgcoz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -7461,7 +7544,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   width: 100%;
 }
 
-#rozbahhzte .gt_group_heading {
+#uuysymgcoz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7486,7 +7569,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#rozbahhzte .gt_empty_group_heading {
+#uuysymgcoz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -7501,15 +7584,15 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: middle;
 }
 
-#rozbahhzte .gt_from_md > :first-child {
+#uuysymgcoz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rozbahhzte .gt_from_md > :last-child {
+#uuysymgcoz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rozbahhzte .gt_row {
+#uuysymgcoz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7528,7 +7611,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   overflow-x: hidden;
 }
 
-#rozbahhzte .gt_stub {
+#uuysymgcoz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7541,7 +7624,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#rozbahhzte .gt_stub_row_group {
+#uuysymgcoz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7555,11 +7638,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   vertical-align: top;
 }
 
-#rozbahhzte .gt_row_group_first td {
+#uuysymgcoz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rozbahhzte .gt_summary_row {
+#uuysymgcoz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7569,16 +7652,16 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#rozbahhzte .gt_first_summary_row {
+#uuysymgcoz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_first_summary_row.thick {
+#uuysymgcoz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rozbahhzte .gt_last_summary_row {
+#uuysymgcoz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7588,7 +7671,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_grand_summary_row {
+#uuysymgcoz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7598,7 +7681,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#rozbahhzte .gt_first_grand_summary_row {
+#uuysymgcoz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7608,11 +7691,11 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-top-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_striped {
+#uuysymgcoz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rozbahhzte .gt_table_body {
+#uuysymgcoz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -7621,7 +7704,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-bottom-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_footnotes {
+#uuysymgcoz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7635,7 +7718,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_footnote {
+#uuysymgcoz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -7644,7 +7727,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#rozbahhzte .gt_sourcenotes {
+#uuysymgcoz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7658,7 +7741,7 @@ It also demonstrates designs for an example scenario using multiple design appro
   border-right-color: #D3D3D3;
 }
 
-#rozbahhzte .gt_sourcenote {
+#uuysymgcoz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -7666,64 +7749,64 @@ It also demonstrates designs for an example scenario using multiple design appro
   padding-right: 5px;
 }
 
-#rozbahhzte .gt_left {
+#uuysymgcoz .gt_left {
   text-align: left;
 }
 
-#rozbahhzte .gt_center {
+#uuysymgcoz .gt_center {
   text-align: center;
 }
 
-#rozbahhzte .gt_right {
+#uuysymgcoz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rozbahhzte .gt_font_normal {
+#uuysymgcoz .gt_font_normal {
   font-weight: normal;
 }
 
-#rozbahhzte .gt_font_bold {
+#uuysymgcoz .gt_font_bold {
   font-weight: bold;
 }
 
-#rozbahhzte .gt_font_italic {
+#uuysymgcoz .gt_font_italic {
   font-style: italic;
 }
 
-#rozbahhzte .gt_super {
+#uuysymgcoz .gt_super {
   font-size: 65%;
 }
 
-#rozbahhzte .gt_footnote_marks {
+#uuysymgcoz .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#rozbahhzte .gt_asterisk {
+#uuysymgcoz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rozbahhzte .gt_indent_1 {
+#uuysymgcoz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rozbahhzte .gt_indent_2 {
+#uuysymgcoz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rozbahhzte .gt_indent_3 {
+#uuysymgcoz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rozbahhzte .gt_indent_4 {
+#uuysymgcoz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rozbahhzte .gt_indent_5 {
+#uuysymgcoz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -7751,7 +7834,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">Lower</td>
 <td class="gt_row gt_right">0.0141</td>
-<td class="gt_row gt_right">0.000000e+00</td>
+<td class="gt_row gt_right">1.207603e-01</td>
 <td class="gt_row gt_right">−1.1712</td>
 <td class="gt_row gt_right">1.2773</td>
 <td class="gt_row gt_right">0.8792</td>
@@ -7760,7 +7843,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">2</td>
 <td class="gt_row gt_left">Upper</td>
 <td class="gt_row gt_right">0.2139</td>
-<td class="gt_row gt_right">7.999483e-04</td>
+<td class="gt_row gt_right">7.998203e-04</td>
 <td class="gt_row gt_right">3.1560</td>
 <td class="gt_row gt_right">0.6273</td>
 <td class="gt_row gt_right">0.0008</td>
@@ -7769,7 +7852,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">2</td>
 <td class="gt_row gt_left">Lower</td>
 <td class="gt_row gt_right">0.0464</td>
-<td class="gt_row gt_right">0.000000e+00</td>
+<td class="gt_row gt_right">7.221476e-01</td>
 <td class="gt_row gt_right">0.5738</td>
 <td class="gt_row gt_right">0.9187</td>
 <td class="gt_row gt_right">0.2831</td>
@@ -7778,7 +7861,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">3</td>
 <td class="gt_row gt_left">Upper</td>
 <td class="gt_row gt_right">0.9000</td>
-<td class="gt_row gt_right">2.500000e-02</td>
+<td class="gt_row gt_right">2.230536e-02</td>
 <td class="gt_row gt_right">1.9646</td>
 <td class="gt_row gt_right">0.7890</td>
 <td class="gt_row gt_right">0.0247</td>
@@ -7787,7 +7870,7 @@ It also demonstrates designs for an example scenario using multiple design appro
 <td class="gt_row gt_right">3</td>
 <td class="gt_row gt_left">Lower</td>
 <td class="gt_row gt_right">0.1001</td>
-<td class="gt_row gt_right">0.000000e+00</td>
+<td class="gt_row gt_right">9.776948e-01</td>
 <td class="gt_row gt_right">1.9646</td>
 <td class="gt_row gt_right">0.7890</td>
 <td class="gt_row gt_right">0.0247</td>
@@ -7802,10 +7885,15 @@ It also demonstrates designs for an example scenario using multiple design appro
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Mukhopadhyay2020" class="csl-entry">
-Mukhopadhyay, Pralay, Wenmei Huang, Paul Metcalfe, Fredrik Öhrn, Mary Jenner, and Andrew Stone. 2020. <span>“Statistical and Practical Considerations in Designing of Immuno-Oncology Trials.”</span> <em>Journal of Biopharmaceutical Statistics</em>, 1–17.
+Mukhopadhyay, Pralay, Wenmei Huang, Paul Metcalfe, Fredrik Öhrn, Mary
+Jenner, and Andrew Stone. 2020. <span>“Statistical and Practical
+Considerations in Designing of Immuno-Oncology Trials.”</span>
+<em>Journal of Biopharmaceutical Statistics</em>, 1–17.
 </div>
 <div id="ref-Yung2019Bcs" class="csl-entry">
-Yung. 2019. <span>“Sample Size and Power for the Weighted Log-Rank Test and Kaplan-Meier Based Tests with Allowance for Nonproportional Hazard, Godwin and Liu, Yi.”</span> <em>Biometricss</em>.
+Yung. 2019. <span>“Sample Size and Power for the Weighted Log-Rank Test
+and Kaplan-Meier Based Tests with Allowance for Nonproportional Hazard,
+Godwin and Liu, Yi.”</span> <em>Biometricss</em>.
 </div>
 </div>
 </div>

@@ -81,7 +81,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Power Evaluation with Spending bounds</h1>
             
-            <h4 data-toc-skip class="date">25 October, 2022</h4>
+            <h4 data-toc-skip class="date">28 October, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/vignettes/story_power_evaluation_with_spending_bound.Rmd" class="external-link"><code>vignettes/story_power_evaluation_with_spending_bound.Rmd</code></a></small>
       <div class="d-none name"><code>story_power_evaluation_with_spending_bound.Rmd</code></div>
@@ -92,32 +92,59 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>This vignette covers how to compute power or Type I error for a design derived with a spending bound. We will write this with a general non-constant treatment effect using <code><a href="../reference/gs_design_npe.html">gs_design_npe()</a></code> to derived the design under one parameter setting and computing power under another setting. We will use a trial with a binary endpoint to enable a full illustration.</p>
+<p>This vignette covers how to compute power or Type I error for a
+design derived with a spending bound. We will write this with a general
+non-constant treatment effect using <code><a href="../reference/gs_design_npe.html">gs_design_npe()</a></code> to
+derived the design under one parameter setting and computing power under
+another setting. We will use a trial with a binary endpoint to enable a
+full illustration.</p>
 </div>
 <div class="section level2">
 <h2 id="scenario-for-consideration">Scenario for Consideration<a class="anchor" aria-label="anchor" href="#scenario-for-consideration"></a>
 </h2>
-<p>We consider a scenario largely based on the CAPTURE study (<span class="citation">Investigators et al. (1997)</span>) where the primary endpoint was a composite of death, acute myocardial infarction or the need for recurrent percutaneous intervention within 30 days of randomization.</p>
+<p>We consider a scenario largely based on the CAPTURE study (<span class="citation">Investigators et al. (1997)</span>) where the primary
+endpoint was a composite of death, acute myocardial infarction or the
+need for recurrent percutaneous intervention within 30 days of
+randomization.</p>
 <p>The detailed introduction of this trial is listed as follows.</p>
 <ul>
-<li><p>We consider a 2-arm trial with an experimental arm and a control arm.</p></li>
-<li><p>We will assume <span class="math inline">\(K=3\)</span> analyses after <span class="math inline">\(350\)</span>, <span class="math inline">\(700\)</span>, and <span class="math inline">\(1400\)</span> patients have been observed with equal randomization between the treatment groups.</p></li>
-<li><p>The primary endpoint for the trial is a binary indicator for each participant if they have a failed outcome. For this case, we consider the parameter <span class="math display">\[
+<li><p>We consider a 2-arm trial with an experimental arm and a control
+arm.</p></li>
+<li><p>We will assume <span class="math inline">\(K=3\)</span> analyses
+after <span class="math inline">\(350\)</span>, <span class="math inline">\(700\)</span>, and <span class="math inline">\(1400\)</span> patients have been observed with
+equal randomization between the treatment groups.</p></li>
+<li><p>The primary endpoint for the trial is a binary indicator for each
+participant if they have a failed outcome. For this case, we consider
+the parameter <span class="math display">\[
 \theta = p_1 - p _2
-\]</span> where <span class="math inline">\(p_1\)</span> denotes the probability that a trial participant in the control group experiences a failure and <span class="math inline">\(p_2\)</span> represents the same probability for a trial participant in the experimental group.</p></li>
-<li><p>The study was designed with approximately 80% power (Type II error <span class="math inline">\(\beta = 1 - 0.8 = 0.2\)</span>) and 2.5% one-sided Type I error (<span class="math inline">\(\alpha = 0.025\)</span>) to detect a reduction from a 15% event rate (<span class="math inline">\(p_1 = 0.15\)</span>) in the control group to 10% (<span class="math inline">\(p_2 = 0.1\)</span>) in the experimental group.</p></li>
+\]</span> where <span class="math inline">\(p_1\)</span> denotes the
+probability that a trial participant in the control group experiences a
+failure and <span class="math inline">\(p_2\)</span> represents the same
+probability for a trial participant in the experimental group.</p></li>
+<li><p>The study was designed with approximately 80% power (Type II
+error <span class="math inline">\(\beta = 1 - 0.8 = 0.2\)</span>) and
+2.5% one-sided Type I error (<span class="math inline">\(\alpha =
+0.025\)</span>) to detect a reduction from a 15% event rate (<span class="math inline">\(p_1 = 0.15\)</span>) in the control group to 10%
+(<span class="math inline">\(p_2 = 0.1\)</span>) in the experimental
+group.</p></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="fl">0.15</span>     <span class="co"># assumed failure rate in control group</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fl">0.10</span>     <span class="co"># assumed failure rate in experimental group</span></span>
 <span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.025</span> <span class="co"># type I error</span></span>
 <span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">0.2</span>    <span class="co"># type II error for 80% power</span></span></code></pre></div>
-<p>In this example, the parameter of interest is <span class="math inline">\(\theta = p_1 - p_2\)</span>. We denote the alternate hypothesis as <span class="math display">\[
+<p>In this example, the parameter of interest is <span class="math inline">\(\theta = p_1 - p_2\)</span>. We denote the
+alternate hypothesis as <span class="math display">\[
   H_1: \theta = \theta_1= p_1^1 - p_2^1 = 0.15 - 0.10 = 0.05
 \]</span> and the null hypothesis <span class="math display">\[
   H_0: \theta = \theta_0 = 0 = p_1^0 - p_2^0
-\]</span> where <span class="math inline">\(p^0_1 = p^0_2= (p_1^1+p_2^1)/2 = 0.125\)</span> as laid out in <span class="citation">Lachin (2009)</span>.</p>
-<p>We note that had we considered a success outcome such as objective response in an oncology study, we would let <span class="math inline">\(p_1\)</span> denote the experimental group and <span class="math inline">\(p_2\)</span> the control group response rate. Thus, we always set up the notation so the <span class="math inline">\(p_1&gt;p_2\)</span> represents superiority for the experimental group.</p>
+\]</span> where <span class="math inline">\(p^0_1 = p^0_2=
+(p_1^1+p_2^1)/2 = 0.125\)</span> as laid out in <span class="citation">Lachin (2009)</span>.</p>
+<p>We note that had we considered a success outcome such as objective
+response in an oncology study, we would let <span class="math inline">\(p_1\)</span> denote the experimental group and
+<span class="math inline">\(p_2\)</span> the control group response
+rate. Thus, we always set up the notation so the <span class="math inline">\(p_1&gt;p_2\)</span> represents superiority for the
+experimental group.</p>
 </div>
 <div class="section level2">
 <h2 id="notations">Notations<a class="anchor" aria-label="anchor" href="#notations"></a>
@@ -125,20 +152,30 @@
 <p>We assume</p>
 <ul>
 <li>
-<span class="math inline">\(k\)</span>: the index of analysis, i.e., <span class="math inline">\(k = 1, \ldots, K\)</span>;</li>
+<span class="math inline">\(k\)</span>: the index of analysis, i.e.,
+<span class="math inline">\(k = 1, \ldots, K\)</span>;</li>
 <li>
-<span class="math inline">\(i\)</span>: the index of arm, i.e., <span class="math inline">\(i = 1\)</span> for the control group and <span class="math inline">\(i = 2\)</span> for the experimental group;</li>
+<span class="math inline">\(i\)</span>: the index of arm, i.e.,
+<span class="math inline">\(i = 1\)</span> for the control group and
+<span class="math inline">\(i = 2\)</span> for the experimental
+group;</li>
 <li>
-<span class="math inline">\(n_{ik}\)</span>: the number of subjects in group <span class="math inline">\(i\)</span> and analysis <span class="math inline">\(k\)</span>;</li>
+<span class="math inline">\(n_{ik}\)</span>: the number of subjects
+in group <span class="math inline">\(i\)</span> and analysis <span class="math inline">\(k\)</span>;</li>
 <li>
-<span class="math inline">\(n_k\)</span>: the number of subjects at analysis <span class="math inline">\(k\)</span>, i.e., <span class="math inline">\(n_k = n_{1k} + n_{2k}\)</span>;</li>
+<span class="math inline">\(n_k\)</span>: the number of subjects at
+analysis <span class="math inline">\(k\)</span>, i.e., <span class="math inline">\(n_k = n_{1k} + n_{2k}\)</span>;</li>
 <li>
-<span class="math inline">\(X_{ij}\)</span>: the independent random variable whether the <span class="math inline">\(j\)</span>-th subject in group <span class="math inline">\(i\)</span> has response, i.e, <span class="math display">\[
+<span class="math inline">\(X_{ij}\)</span>: the independent random
+variable whether the <span class="math inline">\(j\)</span>-th subject
+in group <span class="math inline">\(i\)</span> has response, i.e, <span class="math display">\[
 X_{ij} \sim \hbox{Bernoulli}(p_i);
 \]</span>
 </li>
 <li>
-<span class="math inline">\(Y_{ik}\)</span>: the number of subject having response in group <span class="math inline">\(i\)</span> and analysis <span class="math inline">\(k\)</span>, i.e., <span class="math display">\[
+<span class="math inline">\(Y_{ik}\)</span>: the number of subject
+having response in group <span class="math inline">\(i\)</span> and
+analysis <span class="math inline">\(k\)</span>, i.e., <span class="math display">\[
 Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
 \]</span>
 </li>
@@ -147,28 +184,39 @@ Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
 <div class="section level2">
 <h2 id="statistical-testing">Statistical Testing<a class="anchor" aria-label="anchor" href="#statistical-testing"></a>
 </h2>
-<p>In this section, we will discuss the estimation of statistical information and variance of porprotion under both null hypothesis <span class="math inline">\(H_0: p_1^0 = p_2^0 \equiv p_0\)</span> and alternative hypothesis <span class="math inline">\(H_1: \theta = \theta_1= p_1^1 - p_2^1\)</span>. Then, we will introduce the test statistics in the group sequential design.</p>
+<p>In this section, we will discuss the estimation of statistical
+information and variance of porprotion under both null hypothesis <span class="math inline">\(H_0: p_1^0 = p_2^0 \equiv p_0\)</span> and
+alternative hypothesis <span class="math inline">\(H_1: \theta =
+\theta_1= p_1^1 - p_2^1\)</span>. Then, we will introduce the test
+statistics in the group sequential design.</p>
 <div class="section level3">
 <h3 id="estimation-of-statistical-information-under-h1">Estimation of Statistical Information under H1<a class="anchor" aria-label="anchor" href="#estimation-of-statistical-information-under-h1"></a>
 </h3>
-<p>Under the alternative hypothesis, one can estimate the proportion of failures in group <span class="math inline">\(i\)</span> at analysis <span class="math inline">\(k\)</span> as <span class="math display">\[ 
+<p>Under the alternative hypothesis, one can estimate the proportion of
+failures in group <span class="math inline">\(i\)</span> at analysis
+<span class="math inline">\(k\)</span> as <span class="math display">\[
   \hat{p}_{ik} = Y_{ik}/n_{ik}.
 \]</span> We note its variance is <span class="math display">\[
- \hbox{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
+\hbox{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
 \]</span> and its consistent estimator <span class="math display">\[
-  \widehat{\hbox{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat p_{ik})}{n_{ik}},
-\]</span> for any <span class="math inline">\(i = 1, 2\)</span> and <span class="math inline">\(k = 1, 2, \ldots, K\)</span>. Letting <span class="math inline">\(\hat\theta_k = \hat p_{1k} - \hat p_{2k},\)</span> we also have <span class="math display">\[
+  \widehat{\hbox{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat
+p_{ik})}{n_{ik}},
+\]</span> for any <span class="math inline">\(i = 1, 2\)</span> and
+<span class="math inline">\(k = 1, 2, \ldots, K\)</span>. Letting <span class="math inline">\(\hat\theta_k = \hat p_{1k} - \hat p_{2k},\)</span>
+we also have <span class="math display">\[
   \sigma^2_k
-  \equiv 
+  \equiv
   \hbox{Var}(\hat\theta_k)
   =
   \frac{p_1(1-p_1)}{n_{1k}}+\frac{p_2(1-p_2)}{n_{2k}},
 \]</span> its consistent estimator <span class="math display">\[
   \hat\sigma^2_k
   =
-  \frac{\hat p_{1k}(1-\hat p_{1k})}{n_{1k}}+\frac{\hat p_{2k}(1-\hat p_{2k})}{n_{2k}},
+  \frac{\hat p_{1k}(1-\hat p_{1k})}{n_{1k}}+\frac{\hat p_{2k}(1-\hat
+p_{2k})}{n_{2k}},
 \]</span></p>
-<p>Statistical information for each of these quantities and their corresponding estimators are denoted by <span class="math display">\[
+<p>Statistical information for each of these quantities and their
+corresponding estimators are denoted by <span class="math display">\[
   \left\{
   \begin{align}
     \mathcal{I}_k = &amp;1/\sigma^2_k,\\
@@ -180,38 +228,49 @@ Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
 <div class="section level3">
 <h3 id="estimation-of-statistical-information-under-h0">Estimation of Statistical Information under H0<a class="anchor" aria-label="anchor" href="#estimation-of-statistical-information-under-h0"></a>
 </h3>
-<p>Under the null hypothesis, one can estimate the proportion of failures in group <span class="math inline">\(i\)</span> at analysis <span class="math inline">\(k\)</span> as we estimate <span class="math display">\[ 
+<p>Under the null hypothesis, one can estimate the proportion of
+failures in group <span class="math inline">\(i\)</span> at analysis
+<span class="math inline">\(k\)</span> as we estimate <span class="math display">\[
   \hat{p}_{0k}
   =
   \frac{Y_{1k}+ Y_{2k}}{n_{1k}+ n_{2k}}
   =
-  \frac{n_{1k}\hat p_{1k} + n_{2k}\hat p_{2k}}{n_{1k} + n_{2k}}. 
+  \frac{n_{1k}\hat p_{1k} + n_{2k}\hat p_{2k}}{n_{1k} + n_{2k}}.
 \]</span> The corresponding null hypothesis estimator <span class="math display">\[
   \hat\sigma^2_{0k}
   \equiv
   \widehat{\text{Var}}(\hat{p}_{0k})
   =
-  \hat p_{0k}(1-\hat p_{0k})\left(\frac{1}{n_{1k}}+ \frac{1}{n_{2k}}\right),
-\]</span> for any <span class="math inline">\(k = 1,2, \ldots, K\)</span>.</p>
-<p>Statistical information for each of these quantities and their corresponding estimators are denoted by <span class="math display">\[
+  \hat p_{0k}(1-\hat p_{0k})\left(\frac{1}{n_{1k}}+
+\frac{1}{n_{2k}}\right),
+\]</span> for any <span class="math inline">\(k = 1,2, \ldots,
+K\)</span>.</p>
+<p>Statistical information for each of these quantities and their
+corresponding estimators are denoted by <span class="math display">\[
   \left\{
   \begin{align}
     \mathcal{I}_{0k} =&amp; 1/ \sigma^2_{0k},\\
     \mathcal{\hat I}_{0k} =&amp; 1/\hat \sigma^2_{0k},
   \end{align}
   \right.
-\]</span> for any <span class="math inline">\(k = 1, 2, \ldots, K\)</span>.</p>
+\]</span> for any <span class="math inline">\(k = 1, 2, \ldots,
+K\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="testing-statistics">Testing Statistics<a class="anchor" aria-label="anchor" href="#testing-statistics"></a>
 </h3>
-<p>Testing, as recommended by <span class="citation">Lachin (2009)</span>, is done with the large sample test with the null hypothesis variance estimate and without continuity correction: <span class="math display">\[
-Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
-\]</span> which is asymptotically <span class="math inline">\(\text{Normal}(0,1)\)</span> if <span class="math inline">\(p_1 = p_2\)</span> and <span class="math inline">\(\text{Normal}(0, \sigma_{0k}^2/\sigma_k^2)\)</span> more generally for any <span class="math inline">\(p_1, p_2\)</span> and <span class="math inline">\(k = 1, 2, \ldots, K\)</span>.</p>
+<p>Testing, as recommended by <span class="citation">Lachin
+(2009)</span>, is done with the large sample test with the null
+hypothesis variance estimate and without continuity correction: <span class="math display">\[
+Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat
+p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
+\]</span> which is asymptotically <span class="math inline">\(\text{Normal}(0,1)\)</span> if <span class="math inline">\(p_1 = p_2\)</span> and <span class="math inline">\(\text{Normal}(0,
+\sigma_{0k}^2/\sigma_k^2)\)</span> more generally for any <span class="math inline">\(p_1, p_2\)</span> and <span class="math inline">\(k = 1, 2, \ldots, K\)</span>.</p>
 <p>If we further assume a constant proportion <span class="math inline">\(\xi_i\)</span> randomized to each group <span class="math inline">\(i=1,2.\)</span> Thus, <span class="math display">\[
   Z_k
-  \approx 
-  \frac{\sqrt{n_k}(\hat p_{1k} - \hat p_{2k})}{\sqrt{(1/\xi_1+ 1/\xi_2)p_{0}(1- p_0)} }.
+  \approx
+  \frac{\sqrt{n_k}(\hat p_{1k} - \hat p_{2k})}{\sqrt{(1/\xi_1+
+1/\xi_2)p_{0}(1- p_0)} }.
 \]</span></p>
 <p>Then, we have the asymptotic distribution <span class="math display">\[
   Z_k
@@ -221,18 +280,32 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
     \sqrt{n_k}\frac{p_1 - p_2}{\sqrt{(1/\xi_1+ 1/\xi_2) p_0(1- p_0)} },
     \sigma^2_{0k}/\sigma^2_{1k}
   \right),
-\]</span> where we note that <span class="math display">\[ 
-  \sigma^2_{0k}/\sigma^2_{1k} 
-  = 
-  \frac{ p_0(1-p_0)\left(1/\xi_1+ 1/\xi_2\right)}{p_1(1-p_1)/\xi_1+p_2(1-p_2)/\xi_2}.
-\]</span> We also note by definition that <span class="math inline">\(\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal I_{0k}.\)</span> Based on an input <span class="math inline">\(p_1, p_2, n_k, \xi_1, \xi_2 = 1-\xi_1\)</span> we will compute <span class="math inline">\(\theta, \mathcal{I}_k, \mathcal{I}_{0k}\)</span> for any <span class="math inline">\(k = 1, 2, \ldots, K\)</span>.</p>
-<p>We note that <span class="math inline">\(\chi^2=Z^2_k\)</span> is the <span class="math inline">\(\chi^2\)</span> test without continuity correction as recommended by <span class="citation">Gordon and Watson (1996)</span>. Note finally that this extends in a straightforward way the non-inferiority test of <span class="citation">Farrington and Manning (1990)</span> if the null hypothesis is <span class="math inline">\(\theta = p_1 - p_2 - \delta = 0\)</span> for some non-inferiority margin <span class="math inline">\(\delta &gt; 0\)</span>; <span class="math inline">\(\delta &lt; 0\)</span> would correspond to what is referred to as super-superiority <span class="citation">Chan (2002)</span>, requiring that experimental therapy has been shown to be superior to control by at least a margin <span class="math inline">\(-\delta&gt;0\)</span>.</p>
+\]</span> where we note that <span class="math display">\[
+  \sigma^2_{0k}/\sigma^2_{1k}
+  =
+  \frac{ p_0(1-p_0)\left(1/\xi_1+
+1/\xi_2\right)}{p_1(1-p_1)/\xi_1+p_2(1-p_2)/\xi_2}.
+\]</span> We also note by definition that <span class="math inline">\(\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal
+I_{0k}.\)</span> Based on an input <span class="math inline">\(p_1, p_2,
+n_k, \xi_1, \xi_2 = 1-\xi_1\)</span> we will compute <span class="math inline">\(\theta, \mathcal{I}_k, \mathcal{I}_{0k}\)</span>
+for any <span class="math inline">\(k = 1, 2, \ldots, K\)</span>.</p>
+<p>We note that <span class="math inline">\(\chi^2=Z^2_k\)</span> is the
+<span class="math inline">\(\chi^2\)</span> test without continuity
+correction as recommended by <span class="citation">Gordon and Watson
+(1996)</span>. Note finally that this extends in a straightforward way
+the non-inferiority test of <span class="citation">Farrington and
+Manning (1990)</span> if the null hypothesis is <span class="math inline">\(\theta = p_1 - p_2 - \delta = 0\)</span> for some
+non-inferiority margin <span class="math inline">\(\delta &gt;
+0\)</span>; <span class="math inline">\(\delta &lt; 0\)</span> would
+correspond to what is referred to as super-superiority <span class="citation">Chan (2002)</span>, requiring that experimental therapy
+has been shown to be superior to control by at least a margin <span class="math inline">\(-\delta&gt;0\)</span>.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="power-calculations">Power Calculations<a class="anchor" aria-label="anchor" href="#power-calculations"></a>
 </h2>
-<p>We begin with developing a function <code>gs_info_binomial()</code> to calculate the statistical infomation discussed above.</p>
+<p>We begin with developing a function <code>gs_info_binomial()</code>
+to calculate the statistical infomation discussed above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gs_info_binomial</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">xi1</span>, <span class="va">n</span>, <span class="va">delta</span> <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">delta</span><span class="op">)</span><span class="op">)</span> <span class="va">delta</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">-</span> <span class="va">p2</span></span>
@@ -262,12 +335,12 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h1</span> <span class="op">&lt;-</span> <span class="fu">gs_info_binomial</span><span class="op">(</span>p1 <span class="op">=</span> <span class="fl">.15</span>, p2 <span class="op">=</span> <span class="fl">.1</span>, xi1 <span class="op">=</span> <span class="fl">.5</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">350</span>, <span class="fl">700</span>, <span class="fl">1400</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">h1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="obtxeznuye" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="pserlroyga" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#obtxeznuye .gt_table {
+#pserlroyga .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -292,7 +365,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-left-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_heading {
+#pserlroyga .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -304,7 +377,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_title {
+#pserlroyga .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -316,7 +389,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-width: 0;
 }
 
-#obtxeznuye .gt_subtitle {
+#pserlroyga .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -328,13 +401,13 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-top-width: 0;
 }
 
-#obtxeznuye .gt_bottom_border {
+#pserlroyga .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_col_headings {
+#pserlroyga .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -349,7 +422,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_col_heading {
+#pserlroyga .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -369,7 +442,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   overflow-x: hidden;
 }
 
-#obtxeznuye .gt_column_spanner_outer {
+#pserlroyga .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -381,15 +454,15 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 4px;
 }
 
-#obtxeznuye .gt_column_spanner_outer:first-child {
+#pserlroyga .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#obtxeznuye .gt_column_spanner_outer:last-child {
+#pserlroyga .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#obtxeznuye .gt_column_spanner {
+#pserlroyga .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -401,7 +474,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   width: 100%;
 }
 
-#obtxeznuye .gt_group_heading {
+#pserlroyga .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -426,7 +499,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: middle;
 }
 
-#obtxeznuye .gt_empty_group_heading {
+#pserlroyga .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -441,15 +514,15 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: middle;
 }
 
-#obtxeznuye .gt_from_md > :first-child {
+#pserlroyga .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#obtxeznuye .gt_from_md > :last-child {
+#pserlroyga .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#obtxeznuye .gt_row {
+#pserlroyga .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -468,7 +541,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   overflow-x: hidden;
 }
 
-#obtxeznuye .gt_stub {
+#pserlroyga .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -481,7 +554,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#obtxeznuye .gt_stub_row_group {
+#pserlroyga .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -495,11 +568,11 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: top;
 }
 
-#obtxeznuye .gt_row_group_first td {
+#pserlroyga .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#obtxeznuye .gt_summary_row {
+#pserlroyga .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -509,16 +582,16 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#obtxeznuye .gt_first_summary_row {
+#pserlroyga .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_first_summary_row.thick {
+#pserlroyga .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#obtxeznuye .gt_last_summary_row {
+#pserlroyga .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -528,7 +601,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_grand_summary_row {
+#pserlroyga .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -538,7 +611,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#obtxeznuye .gt_first_grand_summary_row {
+#pserlroyga .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -548,11 +621,11 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-top-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_striped {
+#pserlroyga .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#obtxeznuye .gt_table_body {
+#pserlroyga .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -561,7 +634,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_footnotes {
+#pserlroyga .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -575,7 +648,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_footnote {
+#pserlroyga .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -584,7 +657,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#obtxeznuye .gt_sourcenotes {
+#pserlroyga .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -598,7 +671,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#obtxeznuye .gt_sourcenote {
+#pserlroyga .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -606,64 +679,64 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#obtxeznuye .gt_left {
+#pserlroyga .gt_left {
   text-align: left;
 }
 
-#obtxeznuye .gt_center {
+#pserlroyga .gt_center {
   text-align: center;
 }
 
-#obtxeznuye .gt_right {
+#pserlroyga .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#obtxeznuye .gt_font_normal {
+#pserlroyga .gt_font_normal {
   font-weight: normal;
 }
 
-#obtxeznuye .gt_font_bold {
+#pserlroyga .gt_font_bold {
   font-weight: bold;
 }
 
-#obtxeznuye .gt_font_italic {
+#pserlroyga .gt_font_italic {
   font-style: italic;
 }
 
-#obtxeznuye .gt_super {
+#pserlroyga .gt_super {
   font-size: 65%;
 }
 
-#obtxeznuye .gt_footnote_marks {
+#pserlroyga .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#obtxeznuye .gt_asterisk {
+#pserlroyga .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#obtxeznuye .gt_indent_1 {
+#pserlroyga .gt_indent_1 {
   text-indent: 5px;
 }
 
-#obtxeznuye .gt_indent_2 {
+#pserlroyga .gt_indent_2 {
   text-indent: 10px;
 }
 
-#obtxeznuye .gt_indent_3 {
+#pserlroyga .gt_indent_3 {
   text-indent: 15px;
 }
 
-#obtxeznuye .gt_indent_4 {
+#pserlroyga .gt_indent_4 {
   text-indent: 20px;
 }
 
-#obtxeznuye .gt_indent_5 {
+#pserlroyga .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -708,7 +781,9 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
 </tbody>
 </table>
 </div>
-<p>We can plug these into <code><a href="../reference/gs_power_npe.html">gs_power_npe()</a></code> with the intended spending functions. We begin with power under the alternate hypothesis</p>
+<p>We can plug these into <code><a href="../reference/gs_power_npe.html">gs_power_npe()</a></code> with the intended
+spending functions. We begin with power under the alternate
+hypothesis</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_power_npe.html">gs_power_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">h1</span><span class="op">$</span><span class="va">theta</span>, </span>
@@ -723,12 +798,12 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">10</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="wwqyzmbauz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="vcmoxtoohj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#wwqyzmbauz .gt_table {
+#vcmoxtoohj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -753,7 +828,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-left-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_heading {
+#vcmoxtoohj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -765,7 +840,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_title {
+#vcmoxtoohj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -777,7 +852,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-width: 0;
 }
 
-#wwqyzmbauz .gt_subtitle {
+#vcmoxtoohj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -789,13 +864,13 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-top-width: 0;
 }
 
-#wwqyzmbauz .gt_bottom_border {
+#vcmoxtoohj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_col_headings {
+#vcmoxtoohj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -810,7 +885,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_col_heading {
+#vcmoxtoohj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -830,7 +905,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   overflow-x: hidden;
 }
 
-#wwqyzmbauz .gt_column_spanner_outer {
+#vcmoxtoohj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -842,15 +917,15 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 4px;
 }
 
-#wwqyzmbauz .gt_column_spanner_outer:first-child {
+#vcmoxtoohj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wwqyzmbauz .gt_column_spanner_outer:last-child {
+#vcmoxtoohj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wwqyzmbauz .gt_column_spanner {
+#vcmoxtoohj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -862,7 +937,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   width: 100%;
 }
 
-#wwqyzmbauz .gt_group_heading {
+#vcmoxtoohj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -887,7 +962,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: middle;
 }
 
-#wwqyzmbauz .gt_empty_group_heading {
+#vcmoxtoohj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -902,15 +977,15 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: middle;
 }
 
-#wwqyzmbauz .gt_from_md > :first-child {
+#vcmoxtoohj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wwqyzmbauz .gt_from_md > :last-child {
+#vcmoxtoohj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wwqyzmbauz .gt_row {
+#vcmoxtoohj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -929,7 +1004,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   overflow-x: hidden;
 }
 
-#wwqyzmbauz .gt_stub {
+#vcmoxtoohj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -942,7 +1017,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#wwqyzmbauz .gt_stub_row_group {
+#vcmoxtoohj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -956,11 +1031,11 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: top;
 }
 
-#wwqyzmbauz .gt_row_group_first td {
+#vcmoxtoohj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wwqyzmbauz .gt_summary_row {
+#vcmoxtoohj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -970,16 +1045,16 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#wwqyzmbauz .gt_first_summary_row {
+#vcmoxtoohj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_first_summary_row.thick {
+#vcmoxtoohj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wwqyzmbauz .gt_last_summary_row {
+#vcmoxtoohj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -989,7 +1064,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_grand_summary_row {
+#vcmoxtoohj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -999,7 +1074,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#wwqyzmbauz .gt_first_grand_summary_row {
+#vcmoxtoohj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1009,11 +1084,11 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-top-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_striped {
+#vcmoxtoohj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wwqyzmbauz .gt_table_body {
+#vcmoxtoohj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1022,7 +1097,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_footnotes {
+#vcmoxtoohj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1036,7 +1111,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_footnote {
+#vcmoxtoohj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1045,7 +1120,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#wwqyzmbauz .gt_sourcenotes {
+#vcmoxtoohj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1059,7 +1134,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#wwqyzmbauz .gt_sourcenote {
+#vcmoxtoohj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1067,64 +1142,64 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#wwqyzmbauz .gt_left {
+#vcmoxtoohj .gt_left {
   text-align: left;
 }
 
-#wwqyzmbauz .gt_center {
+#vcmoxtoohj .gt_center {
   text-align: center;
 }
 
-#wwqyzmbauz .gt_right {
+#vcmoxtoohj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wwqyzmbauz .gt_font_normal {
+#vcmoxtoohj .gt_font_normal {
   font-weight: normal;
 }
 
-#wwqyzmbauz .gt_font_bold {
+#vcmoxtoohj .gt_font_bold {
   font-weight: bold;
 }
 
-#wwqyzmbauz .gt_font_italic {
+#vcmoxtoohj .gt_font_italic {
   font-style: italic;
 }
 
-#wwqyzmbauz .gt_super {
+#vcmoxtoohj .gt_super {
   font-size: 65%;
 }
 
-#wwqyzmbauz .gt_footnote_marks {
+#vcmoxtoohj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#wwqyzmbauz .gt_asterisk {
+#vcmoxtoohj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wwqyzmbauz .gt_indent_1 {
+#vcmoxtoohj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wwqyzmbauz .gt_indent_2 {
+#vcmoxtoohj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wwqyzmbauz .gt_indent_3 {
+#vcmoxtoohj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wwqyzmbauz .gt_indent_4 {
+#vcmoxtoohj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wwqyzmbauz .gt_indent_5 {
+#vcmoxtoohj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1217,7 +1292,8 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
 </tbody>
 </table>
 </div>
-<p>Now we examine information for a smaller assumed treatment difference than the alternative:</p>
+<p>Now we examine information for a smaller assumed treatment difference
+than the alternative:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu">gs_info_binomial</span><span class="op">(</span>p1 <span class="op">=</span> <span class="fl">.15</span>, p2 <span class="op">=</span> <span class="fl">.12</span>, xi1 <span class="op">=</span> <span class="fl">.5</span>, delta <span class="op">=</span> <span class="fl">.05</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">350</span>, <span class="fl">700</span>, <span class="fl">1400</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1231,12 +1307,12 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">10</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="dgjavsemcv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qypkhdttep" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dgjavsemcv .gt_table {
+#qypkhdttep .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1261,7 +1337,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-left-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_heading {
+#qypkhdttep .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1273,7 +1349,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_title {
+#qypkhdttep .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1285,7 +1361,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-width: 0;
 }
 
-#dgjavsemcv .gt_subtitle {
+#qypkhdttep .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1297,13 +1373,13 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-top-width: 0;
 }
 
-#dgjavsemcv .gt_bottom_border {
+#qypkhdttep .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_col_headings {
+#qypkhdttep .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1318,7 +1394,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_col_heading {
+#qypkhdttep .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1338,7 +1414,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   overflow-x: hidden;
 }
 
-#dgjavsemcv .gt_column_spanner_outer {
+#qypkhdttep .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1350,15 +1426,15 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 4px;
 }
 
-#dgjavsemcv .gt_column_spanner_outer:first-child {
+#qypkhdttep .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dgjavsemcv .gt_column_spanner_outer:last-child {
+#qypkhdttep .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dgjavsemcv .gt_column_spanner {
+#qypkhdttep .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1370,7 +1446,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   width: 100%;
 }
 
-#dgjavsemcv .gt_group_heading {
+#qypkhdttep .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1395,7 +1471,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: middle;
 }
 
-#dgjavsemcv .gt_empty_group_heading {
+#qypkhdttep .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1410,15 +1486,15 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: middle;
 }
 
-#dgjavsemcv .gt_from_md > :first-child {
+#qypkhdttep .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dgjavsemcv .gt_from_md > :last-child {
+#qypkhdttep .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dgjavsemcv .gt_row {
+#qypkhdttep .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1437,7 +1513,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   overflow-x: hidden;
 }
 
-#dgjavsemcv .gt_stub {
+#qypkhdttep .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1450,7 +1526,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#dgjavsemcv .gt_stub_row_group {
+#qypkhdttep .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1464,11 +1540,11 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   vertical-align: top;
 }
 
-#dgjavsemcv .gt_row_group_first td {
+#qypkhdttep .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dgjavsemcv .gt_summary_row {
+#qypkhdttep .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1478,16 +1554,16 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#dgjavsemcv .gt_first_summary_row {
+#qypkhdttep .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_first_summary_row.thick {
+#qypkhdttep .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dgjavsemcv .gt_last_summary_row {
+#qypkhdttep .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1497,7 +1573,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_grand_summary_row {
+#qypkhdttep .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1507,7 +1583,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#dgjavsemcv .gt_first_grand_summary_row {
+#qypkhdttep .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1517,11 +1593,11 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-top-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_striped {
+#qypkhdttep .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dgjavsemcv .gt_table_body {
+#qypkhdttep .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1530,7 +1606,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-bottom-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_footnotes {
+#qypkhdttep .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1544,7 +1620,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_footnote {
+#qypkhdttep .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1553,7 +1629,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#dgjavsemcv .gt_sourcenotes {
+#qypkhdttep .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1567,7 +1643,7 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   border-right-color: #D3D3D3;
 }
 
-#dgjavsemcv .gt_sourcenote {
+#qypkhdttep .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1575,64 +1651,64 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
   padding-right: 5px;
 }
 
-#dgjavsemcv .gt_left {
+#qypkhdttep .gt_left {
   text-align: left;
 }
 
-#dgjavsemcv .gt_center {
+#qypkhdttep .gt_center {
   text-align: center;
 }
 
-#dgjavsemcv .gt_right {
+#qypkhdttep .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dgjavsemcv .gt_font_normal {
+#qypkhdttep .gt_font_normal {
   font-weight: normal;
 }
 
-#dgjavsemcv .gt_font_bold {
+#qypkhdttep .gt_font_bold {
   font-weight: bold;
 }
 
-#dgjavsemcv .gt_font_italic {
+#qypkhdttep .gt_font_italic {
   font-style: italic;
 }
 
-#dgjavsemcv .gt_super {
+#qypkhdttep .gt_super {
   font-size: 65%;
 }
 
-#dgjavsemcv .gt_footnote_marks {
+#qypkhdttep .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#dgjavsemcv .gt_asterisk {
+#qypkhdttep .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dgjavsemcv .gt_indent_1 {
+#qypkhdttep .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dgjavsemcv .gt_indent_2 {
+#qypkhdttep .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dgjavsemcv .gt_indent_3 {
+#qypkhdttep .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dgjavsemcv .gt_indent_4 {
+#qypkhdttep .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dgjavsemcv .gt_indent_5 {
+#qypkhdttep .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1731,19 +1807,30 @@ Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Chan2002" class="csl-entry">
-Chan, Ivan SF. 2002. <span>“Power and Sample Size Determination for Noninferiority Trials Using an Exact Method.”</span> <em>Journal of Biopharmaceutical Statistics</em> 12 (4): 457–69.
+Chan, Ivan SF. 2002. <span>“Power and Sample Size Determination for
+Noninferiority Trials Using an Exact Method.”</span> <em>Journal of
+Biopharmaceutical Statistics</em> 12 (4): 457–69.
 </div>
 <div id="ref-FarringtonManning" class="csl-entry">
-Farrington, Conor P, and Godfrey Manning. 1990. <span>“Test Statistics and Sample Size Formulae for Comparative Binomial Trials with Null Hypothesis of Non-Zero Risk Difference or Non-Unity Relative Risk.”</span> <em>Statistics in Medicine</em> 9 (12): 1447–54.
+Farrington, Conor P, and Godfrey Manning. 1990. <span>“Test Statistics
+and Sample Size Formulae for Comparative Binomial Trials with Null
+Hypothesis of Non-Zero Risk Difference or Non-Unity Relative
+Risk.”</span> <em>Statistics in Medicine</em> 9 (12): 1447–54.
 </div>
 <div id="ref-CCmyth" class="csl-entry">
-Gordon, Ian, and Ray Watson. 1996. <span>“The Myth of Continuity-Corrected Sample Size Formulae.”</span> <em>Biometrics</em>, 71–76.
+Gordon, Ian, and Ray Watson. 1996. <span>“The Myth of
+Continuity-Corrected Sample Size Formulae.”</span> <em>Biometrics</em>,
+71–76.
 </div>
 <div id="ref-CAPTURE" class="csl-entry">
-Investigators, Capture et al. 1997. <span>“Randomised Placebo-Controlled Trial of Abciximab Before and During Coronary Intervention in Refractory Unstable Angina: The CAPTURE Study.”</span> <em>Lancet</em> 349: 1429–35.
+Investigators, Capture et al. 1997. <span>“Randomised Placebo-Controlled
+Trial of Abciximab Before and During Coronary Intervention in Refractory
+Unstable Angina: The CAPTURE Study.”</span> <em>Lancet</em> 349:
+1429–35.
 </div>
 <div id="ref-LachinBook" class="csl-entry">
-Lachin, John M. 2009. <em>Biostatistical Methods: The Assessment of Relative Risks</em>. Vol. 509. John Wiley &amp; Sons.
+Lachin, John M. 2009. <em>Biostatistical Methods: The Assessment of
+Relative Risks</em>. Vol. 509. John Wiley &amp; Sons.
 </div>
 </div>
 </div>

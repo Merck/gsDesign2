@@ -91,24 +91,47 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>We consider group sequential design examining the risk difference between two treatment groups for a binary outcome. There are several issues to consider:</p>
+<p>We consider group sequential design examining the risk difference
+between two treatment groups for a binary outcome. There are several
+issues to consider:</p>
 <ul>
-<li>The measure of treatment difference or natural parameter; we focus on risk difference.</li>
+<li>The measure of treatment difference or natural parameter; we focus
+on risk difference.</li>
 <li>Incorporation of both null and alternate hypothesis variances.</li>
 <li>Superiority, non-inferiority and super-superiority designs.</li>
 <li>Stratified populations.</li>
 <li>Fixed and group sequential designs.</li>
 </ul>
-<p>For single stratum designs, we focus on sample size or power using the method of <span class="citation">Farrington and Manning (1990)</span> for a trial to test the difference between two binomial event rates. The routine can be used for a test of superiority, non-inferiority or super-superiority. For a design that tests for superiority, the methods are consistent with those of <span class="citation">Fleiss, Tytun, and Ury (1980)</span>, but without the continuity correction. Methods for sample size and power are the same as <code><a href="https://keaven.github.io/gsDesign/reference/varBinomial.html" class="external-link">gsDesign::nBinomial()</a></code> when testing on the risk-difference scale for a single stratum. This is also consistent with the <strong>Hmisc</strong> R package routines <code>bsamsize()</code> and <code>bpower()</code> for superiority designs.</p>
-<p>For trials with multiple strata, testing for a risk difference is often done by weighting each stratum according to the inverse of the variance (<span class="citation">Mantel and Haenszel (1959)</span>). Since risk differences may also be assumed to be different for different strata, we will also explore weighting by strata sample sizes as in <span class="citation">Mehrotra and Railkar (2000a)</span>.</p>
-<p>The focus here is for sample sizes that are large enough for asymptotic theory to work well without continuity corrections. The concepts are incorporated in the following functions intended for use in fixed and group sequential designs:</p>
+<p>For single stratum designs, we focus on sample size or power using
+the method of <span class="citation">Farrington and Manning
+(1990)</span> for a trial to test the difference between two binomial
+event rates. The routine can be used for a test of superiority,
+non-inferiority or super-superiority. For a design that tests for
+superiority, the methods are consistent with those of <span class="citation">Fleiss, Tytun, and Ury (1980)</span>, but without the
+continuity correction. Methods for sample size and power are the same as
+<code><a href="https://keaven.github.io/gsDesign/reference/varBinomial.html" class="external-link">gsDesign::nBinomial()</a></code> when testing on the risk-difference
+scale for a single stratum. This is also consistent with the
+<strong>Hmisc</strong> R package routines <code>bsamsize()</code> and
+<code>bpower()</code> for superiority designs.</p>
+<p>For trials with multiple strata, testing for a risk difference is
+often done by weighting each stratum according to the inverse of the
+variance (<span class="citation">Mantel and Haenszel (1959)</span>).
+Since risk differences may also be assumed to be different for different
+strata, we will also explore weighting by strata sample sizes as in
+<span class="citation">Mehrotra and Railkar (2000a)</span>.</p>
+<p>The focus here is for sample sizes that are large enough for
+asymptotic theory to work well without continuity corrections. The
+concepts are incorporated in the following functions intended for use in
+fixed and group sequential designs:</p>
 <ul>
 <li>
-<code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code> to support asymptotic variance and statistical information calculation.</li>
+<code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code> to support asymptotic variance and
+statistical information calculation.</li>
 <li>
 <code><a href="../reference/gs_power_rd.html">gs_power_rd()</a></code> to support power calculations.</li>
 <li>
-<code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> to support sample size calculations.</li>
+<code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> to support sample size
+calculations.</li>
 </ul>
 <p>Simulation is used throughout to check the examples presented.</p>
 </div>
@@ -116,58 +139,110 @@
 <h2 id="notation">Notation<a class="anchor" aria-label="anchor" href="#notation"></a>
 </h2>
 <ul>
-<li><p><span class="math inline">\(K\)</span>: total number of analyses (including the final analysis) in the group sequential design. For fixed design, <span class="math inline">\(K= 1\)</span>.</p></li>
-<li><p><span class="math inline">\(S\)</span>: total number of strata. If the population is un-stratified population, then <span class="math inline">\(S=1\)</span>.</p></li>
-<li><p><span class="math inline">\(w_{s,k}\)</span>: the <strong>underlying</strong> weight assigned for the <span class="math inline">\(s\)</span>-th strata at the <span class="math inline">\(k\)</span>-th analysis. WHY SWITH ORDER OF s, k FROM w?</p></li>
-<li><p><span class="math inline">\(\widehat w_{s,k}\)</span>: the <strong>estimated</strong> weight assigned for the <span class="math inline">\(s\)</span>-th strata at the <span class="math inline">\(k\)</span>-th analysis.</p></li>
-<li><p><span class="math inline">\(N_{C,k,s}, N_{E,k,s}\)</span>: the <strong>planned</strong> sample size in the control/treatment group at the <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
-<li><p><span class="math inline">\(\widehat N_{C,k,s}, \widehat N_{E,k,s}\)</span>: the <strong>observed</strong> sample size in the control/treatment group at the <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
-<li><p><span class="math inline">\(r\)</span>: <strong>planned</strong> randomization ratio, i.e., <span class="math display">\[
-r = N_{E,k,s} / N_{C,k,s} \;\; \forall k = 1, \ldots, K \;\; \text{and} \;\; s = 1, \ldots, S.
+<li><p><span class="math inline">\(K\)</span>: total number of analyses
+(including the final analysis) in the group sequential design. For fixed
+design, <span class="math inline">\(K= 1\)</span>.</p></li>
+<li><p><span class="math inline">\(S\)</span>: total number of strata.
+If the population is un-stratified population, then <span class="math inline">\(S=1\)</span>.</p></li>
+<li><p><span class="math inline">\(w_{s,k}\)</span>: the
+<strong>underlying</strong> weight assigned for the <span class="math inline">\(s\)</span>-th strata at the <span class="math inline">\(k\)</span>-th analysis. WHY SWITH ORDER OF s, k
+FROM w?</p></li>
+<li><p><span class="math inline">\(\widehat w_{s,k}\)</span>: the
+<strong>estimated</strong> weight assigned for the <span class="math inline">\(s\)</span>-th strata at the <span class="math inline">\(k\)</span>-th analysis.</p></li>
+<li><p><span class="math inline">\(N_{C,k,s}, N_{E,k,s}\)</span>: the
+<strong>planned</strong> sample size in the control/treatment group at
+the <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
+<li><p><span class="math inline">\(\widehat N_{C,k,s}, \widehat
+N_{E,k,s}\)</span>: the <strong>observed</strong> sample size in the
+control/treatment group at the <span class="math inline">\(k\)</span>-th
+analysis of the <span class="math inline">\(s\)</span>-th
+strata.</p></li>
+<li><p><span class="math inline">\(r\)</span>: <strong>planned</strong>
+randomization ratio, i.e., <span class="math display">\[
+r = N_{E,k,s} / N_{C,k,s} \;\; \forall k = 1, \ldots, K \;\; \text{and}
+\;\; s = 1, \ldots, S.
 \]</span></p></li>
-<li><p><span class="math inline">\(p_{C,s}, p_{E,s}\)</span>: the <strong>planned</strong> rate of the control/treatment arm, i.e., the independent observations in the control/treatment group with a binary outcome that is observed with probability <span class="math inline">\(p_{C,s}\)</span> at any <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
-<li><p><span class="math inline">\(d\)</span>: an indicator whether is an outcome is failure (bad outcome) or response (good outcome), i.e., <span class="math display">\[
+<li><p><span class="math inline">\(p_{C,s}, p_{E,s}\)</span>: the
+<strong>planned</strong> rate of the control/treatment arm, i.e., the
+independent observations in the control/treatment group with a binary
+outcome that is observed with probability <span class="math inline">\(p_{C,s}\)</span> at any <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
+<li><p><span class="math inline">\(d\)</span>: an indicator whether is
+an outcome is failure (bad outcome) or response (good outcome), i.e.,
+<span class="math display">\[
 d
-= 
+=
 \left\{
 \begin{array}{lll}
-  -1 &amp; \text{if } p_{C,s} &lt; p_{E,s} &amp; \text{the control arm is better}\\
-   1 &amp; \text{if } p_{C,s} &gt; p_{E,s} &amp; \text{the treatment arm is better}\\
+  -1 &amp; \text{if } p_{C,s} &lt; p_{E,s} &amp; \text{the control arm
+is better}\\
+   1 &amp; \text{if } p_{C,s} &gt; p_{E,s} &amp; \text{the treatment arm
+is better}\\
 \end{array}
 \right.
-\]</span> Here we assume if <span class="math inline">\(\exists s^* \in \{1, \ldots, S\}\)</span>, s.t., <span class="math inline">\(p_{C,s^*} &lt; p_{E,s^*}\)</span>, then <span class="math inline">\(p_{C,s} &lt; p_{E,s}, \forall s \in \{1, \ldots, S\}\)</span>, and vice versa.</p></li>
-<li><p><span class="math inline">\(X_{C,k,s}, X_{E,k,s}\)</span>: random variables indicating the number of subjects failed in control/treatment arm, i.e., <span class="math inline">\(X_{C,k,s} \sim \hbox{Binomial}(N_{C,k,s}, p_{C,k,s})\)</span>, <span class="math inline">\(X_{E,k,s} \sim \hbox{Binomial}(N_{E,k,s}, p_{E,k,s})\)</span> at the <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
-<li><p><span class="math inline">\(x_{C,k,s}, x_{E,k,s}\)</span>: the observed outcome of <span class="math inline">\(X_{C, k, s}, X_{E, k, s}\)</span> at the <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata, respectively.</p></li>
-<li><p><span class="math inline">\(\widehat p_{C,k,s}, \widehat p_{E,k,s}\)</span>: observed rates of the control/treatment group at the <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata, i.e., <span class="math display">\[
+\]</span> Here we assume if <span class="math inline">\(\exists s^* \in
+\{1, \ldots, S\}\)</span>, s.t., <span class="math inline">\(p_{C,s^*}
+&lt; p_{E,s^*}\)</span>, then <span class="math inline">\(p_{C,s} &lt;
+p_{E,s}, \forall s \in \{1, \ldots, S\}\)</span>, and vice
+versa.</p></li>
+<li><p><span class="math inline">\(X_{C,k,s}, X_{E,k,s}\)</span>: random
+variables indicating the number of subjects failed in control/treatment
+arm, i.e., <span class="math inline">\(X_{C,k,s} \sim
+\hbox{Binomial}(N_{C,k,s}, p_{C,k,s})\)</span>, <span class="math inline">\(X_{E,k,s} \sim \hbox{Binomial}(N_{E,k,s},
+p_{E,k,s})\)</span> at the <span class="math inline">\(k\)</span>-th
+analysis of the <span class="math inline">\(s\)</span>-th
+strata.</p></li>
+<li><p><span class="math inline">\(x_{C,k,s}, x_{E,k,s}\)</span>: the
+observed outcome of <span class="math inline">\(X_{C, k, s}, X_{E, k,
+s}\)</span> at the <span class="math inline">\(k\)</span>-th analysis of
+the <span class="math inline">\(s\)</span>-th strata,
+respectively.</p></li>
+<li><p><span class="math inline">\(\widehat p_{C,k,s}, \widehat
+p_{E,k,s}\)</span>: observed rates of the control/treatment group at the
+<span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata, i.e., <span class="math display">\[
 \widehat p_{C,k,s} = x_{C,k,s} / \widehat N_{C,k,s}.\\
 \widehat p_{E,k,s} = x_{E,k,s} / \widehat N_{E,k,s}.
 \]</span></p></li>
-<li><p><span class="math inline">\(\delta_{s}^{null}\)</span>: the <strong>planned</strong> risk difference under <span class="math inline">\(H_0\)</span> at any <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
-<li><p><span class="math inline">\(\delta_{s}\)</span>: the <strong>planned</strong> risk difference under <span class="math inline">\(H_1\)</span> at any <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata is denoted by <span class="math display">\[
-\delta_{s} = |p_{C,s} - p_{E,s}|. 
+<li><p><span class="math inline">\(\delta_{s}^{null}\)</span>: the
+<strong>planned</strong> risk difference under <span class="math inline">\(H_0\)</span> at any <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata.</p></li>
+<li><p><span class="math inline">\(\delta_{s}\)</span>: the
+<strong>planned</strong> risk difference under <span class="math inline">\(H_1\)</span> at any <span class="math inline">\(k\)</span>-th analysis of the <span class="math inline">\(s\)</span>-th strata is denoted by <span class="math display">\[
+\delta_{s} = |p_{C,s} - p_{E,s}|.
 \]</span></p></li>
-<li><p><span class="math inline">\(\hat\delta_{s}\)</span>: estimation of risk difference with <span class="math display">\[
+<li><p><span class="math inline">\(\hat\delta_{s}\)</span>: estimation
+of risk difference with <span class="math display">\[
 \widehat\theta_{k,s} = |\widehat p_{C,k,s} - \widehat p_{E,k,s}|
-\]</span> We have <span class="math inline">\(E(\widehat\theta_{k,s}) = \theta_{s}, \;\forall k = 1, \ldots, K\)</span>.</p></li>
+\]</span> We have <span class="math inline">\(E(\widehat\theta_{k,s}) =
+\theta_{s}, \;\forall k = 1, \ldots, K\)</span>.</p></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a>
 </h2>
-<p>The test statistics at the <span class="math inline">\(k\)</span>-th analysis is <span class="math display">\[
-  Z_{k} 
-  = 
-  \frac{ 
-    \sum_{s=1}^S \widehat w_{s,k} \; |\widehat \delta_{k,s} - \delta_{s}^{null} |
+<p>The test statistics at the <span class="math inline">\(k\)</span>-th
+analysis is <span class="math display">\[
+  Z_{k}
+  =
+  \frac{
+    \sum_{s=1}^S \widehat w_{s,k} \; |\widehat \delta_{k,s} -
+\delta_{s}^{null} |
   }{
     \sqrt{\sum_{s=1}^S \widehat w_{s,k}^2 \widehat\sigma_{H_0,k,s}^2}
   }
-\]</span> where <span class="math inline">\(\widehat\sigma^2_{k,s} = \widehat{\hbox{Var}}(\widehat p_C -\widehat p_E)\)</span>. And the value of <span class="math inline">\(\widehat\sigma^2_{k,s}\)</span> depends on the hypothesis and design, i.e., whether it is a superiority design, or non-inferiority design, or super-superiority design. We will discuss <span class="math inline">\(\widehat\sigma^2_{k,s}\)</span> in the following 3 subsections.</p>
+\]</span> where <span class="math inline">\(\widehat\sigma^2_{k,s} =
+\widehat{\hbox{Var}}(\widehat p_C -\widehat p_E)\)</span>. And the value
+of <span class="math inline">\(\widehat\sigma^2_{k,s}\)</span> depends
+on the hypothesis and design, i.e., whether it is a superiority design,
+or non-inferiority design, or super-superiority design. We will discuss
+<span class="math inline">\(\widehat\sigma^2_{k,s}\)</span> in the
+following 3 subsections.</p>
 <div class="section level3">
 <h3 id="superiority-design">Superiority Design<a class="anchor" aria-label="anchor" href="#superiority-design"></a>
 </h3>
-<p>A superiority design (<span class="math inline">\(\delta_{s}^{null} = 0\)</span>) is to show that experimental group is superior to the control group above some thresholds. Its hypothesis is <span class="math display">\[
-  H_0: \delta_{s} = 0 \text{ vs. } H_1: \delta_{s} &gt; 0, \; \forall k = 1, \ldots, K, s = 1, \ldots, S
+<p>A superiority design (<span class="math inline">\(\delta_{s}^{null} =
+0\)</span>) is to show that experimental group is superior to the
+control group above some thresholds. Its hypothesis is <span class="math display">\[
+  H_0: \delta_{s} = 0 \text{ vs. } H_1: \delta_{s} &gt; 0, \; \forall k
+= 1, \ldots, K, s = 1, \ldots, S
 \]</span></p>
 <ul>
 <li>
@@ -175,32 +250,45 @@ d
 <ul>
 <li><p>Under the null hypothesis, we have <span class="math display">\[
 \begin{array}{ll}
-\sigma^2_{H_0,k,s} 
-&amp; = 
+\sigma^2_{H_0,k,s}
+&amp; =
 \text{Var}(p_C - p_E | H_0)
 =
-p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right), \\
-\widehat\sigma^2_{H_0,k,s} 
-&amp; = 
+p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
+\left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right), \\
+\widehat\sigma^2_{H_0,k,s}
+&amp; =
 \widehat{\text{Var}}(\hat p_C - \hat p_E | H_0)
 =
-\widehat p_{k,s}^{pool} \left(1 - \widehat p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right),
+\widehat p_{k,s}^{pool} \left(1 - \widehat p^{pool}_{k,s} \right)
+\left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right),
 \end{array}
-\]</span> where <span class="math inline">\(p_{k,s}^{pool} = (p_{C,s} N_{C,k,s} + p_{E,s} N_{E,k,s}) / (N_{C,k,s} + N_{E,k,s})\)</span> and <span class="math inline">\(\widehat p_{k,s}^{pool} = (x_{C,k,s} + x_{E,k,s}) / (\widehat N_{C,k,s} + \widehat N_{E,k,s}).\)</span></p></li>
+\]</span> where <span class="math inline">\(p_{k,s}^{pool} = (p_{C,s}
+N_{C,k,s} + p_{E,s} N_{E,k,s}) / (N_{C,k,s} + N_{E,k,s})\)</span> and
+<span class="math inline">\(\widehat p_{k,s}^{pool} = (x_{C,k,s} +
+x_{E,k,s}) / (\widehat N_{C,k,s} + \widehat
+N_{E,k,s}).\)</span></p></li>
 <li><p>Under the alternative hypothesis, we have <span class="math display">\[
 \begin{array}{ll}
-\sigma_{H_1,k,s}^2 
-&amp; = 
+\sigma_{H_1,k,s}^2
+&amp; =
 \text{Var}(p_C - p_E | H_1)
-= 
-\frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}} \\
-\widehat\sigma_{H_1,k,s}^2 
-&amp; = 
+=
+\frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 -
+p_{E,s})}{N_{E,k,s}} \\
+\widehat\sigma_{H_1,k,s}^2
+&amp; =
 \widehat{\text{Var}}(\hat p_C - \hat p_E | H_1)
-= 
-\frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}
+=
+\frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} +
+\frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}
 \end{array}
-\]</span> where <span class="math inline">\(\widehat p_{C,k,s} = x_{C,k,s} / N_{C,k,s} \text{ and } \widehat p_{E,k,s} = x_{E,k,s} / N_{E,k,s}\)</span>. Testing will be one-sided at level <span class="math inline">\(\alpha \in (0, 1)\)</span> and the null hypothesis will be rejected if <span class="math inline">\(Z_k\)</span> cross the upper boundary. And the upper boundary can be either fixed or derived from spending functions.</p></li>
+\]</span> where <span class="math inline">\(\widehat p_{C,k,s} =
+x_{C,k,s} / N_{C,k,s} \text{ and } \widehat p_{E,k,s} = x_{E,k,s} /
+N_{E,k,s}\)</span>. Testing will be one-sided at level <span class="math inline">\(\alpha \in (0, 1)\)</span> and the null hypothesis
+will be rejected if <span class="math inline">\(Z_k\)</span> cross the
+upper boundary. And the upper boundary can be either fixed or derived
+from spending functions.</p></li>
 </ul>
 </li>
 <li>
@@ -212,10 +300,11 @@ p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \fra
 \]</span></p></li>
 <li><p>Under the alternative hypothesis, we have <span class="math display">\[
 \begin{array}{ll}
-\theta_{H_1,k} 
-&amp; = \frac{\sum_{s=1}^S w_{k,s} (p_{C,s} - p_{E,s})}{\sqrt{\sum_{s=1}^S w_{k,s}^2 \sigma_{H_1, k,s}^2}}\\
-\widehat\theta_{H_1,k} 
-&amp; = 
+\theta_{H_1,k}
+&amp; = \frac{\sum_{s=1}^S w_{k,s} (p_{C,s} -
+p_{E,s})}{\sqrt{\sum_{s=1}^S w_{k,s}^2 \sigma_{H_1, k,s}^2}}\\
+\widehat\theta_{H_1,k}
+&amp; =
 \frac{
 \sum_{s=1}^S \widehat w_{k,s} (\widehat p_C - \widehat p_E)
 }{
@@ -227,41 +316,51 @@ p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \fra
 </li>
 <li>
 <p><strong>Standardized information per analysis:</strong></p>
-<p><span class="citation">Lachin (2009)</span> or <span class="citation">Lachin (1981)</span> provide fixed sample size calculations based on the values <span class="math inline">\(\psi_0\)</span> under the null hypothesis and <span class="math inline">\(\psi_1\)</span> under the alternate hypothesis. Here we propose using the same variance calculations to compute statistical information for a group sequential design and apply the formulation for power and sample size calculation in the vignette <em>Computing Bounds Under Non-Constant Treatment Effect</em>.</p>
+<p><span class="citation">Lachin (2009)</span> or <span class="citation">Lachin (1981)</span> provide fixed sample size
+calculations based on the values <span class="math inline">\(\psi_0\)</span> under the null hypothesis and
+<span class="math inline">\(\psi_1\)</span> under the alternate
+hypothesis. Here we propose using the same variance calculations to
+compute statistical information for a group sequential design and apply
+the formulation for power and sample size calculation in the vignette
+<em>Computing Bounds Under Non-Constant Treatment Effect</em>.</p>
 <ul>
 <li><p>Under the null hypothesis, we have <span class="math display">\[
 \begin{array}{ll}
-\mathcal I_{H0,k} 
-&amp; = 
-\left[ 
-\sum_{s=1}^S 
-w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} + 
-w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}} 
+\mathcal I_{H0,k}
+&amp; =
+\left[
+\sum_{s=1}^S
+w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} +
+w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 \right]^{-1} \\
-\widehat{\mathcal I}_{H0,k} 
-&amp; = 
-\left[ 
-\sum_{s=1}^S 
-\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}} +
-\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}} 
+\widehat{\mathcal I}_{H0,k}
+&amp; =
+\left[
+\sum_{s=1}^S
+\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat
+p_{k,s}^{pool})}{\widehat N_{C,k,s}} +
+\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat
+p_{k,s}^{pool})}{\widehat N_{C,k,s}}
 \right]^{-1}
 \end{array}
 \]</span></p></li>
 <li><p>Under the alternative hypothesis, we have <span class="math display">\[
 \begin{array}{ll}
 \mathcal I_{H1,k}
-= 
-\left[ 
+=
+\left[
 \sum_{s=1}^S w_{k,s}^2 \frac{p_{C,k,s} (1 - p_{C,k,s})}{N_{C,k,s}}
 +
-\sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}} 
+\sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}}
 \right]^{-1}\\
-\widehat{\mathcal I}_{H1,k} 
-= 
-\left[ 
-\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{C,k,s} (1 - \widehat p_{C,k,s})}{\widehat N_{C,k,s}}
+\widehat{\mathcal I}_{H1,k}
+=
+\left[
+\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{C,k,s} (1 - \widehat
+p_{C,k,s})}{\widehat N_{C,k,s}}
 +
-\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{\widehat N_{E,k,s}} 
+\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat
+p_{E,k,s})}{\widehat N_{E,k,s}}
 \right]^{-1}
 \end{array}
 \]</span></p></li>
@@ -274,22 +373,32 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 </h3>
 <p>The hypothesis of the super-superiority design is</p>
 <p><span class="math display">\[
-  H_0: \delta_{k,s} = \delta_{k,s}^{null} 
-  \;\; vs. \;\; 
-  H_1: \delta &gt; \delta_{k,s}^{null} \text{ with } \delta_{k,s}^{null} &gt; 0.
-\]</span> Here <span class="math inline">\(\theta_{k,s_1}^{null} = \theta_{k,s_2}^{null}\)</span> or <span class="math inline">\(\theta_{k,s_1}^{null} \neq \theta_{k,s_2}^{null}\)</span> for <span class="math inline">\(s_1 \neq s_2\)</span>.</p>
-<p>Under the null hypothesis <span class="math inline">\(\theta_{0,k,s} \neq 0\)</span>, the estimation of rates <span class="math inline">\(\widehat p_{C0,k,s}, \widehat p_{E0,k,s}\)</span> satisfy <span class="math display">\[
+  H_0: \delta_{k,s} = \delta_{k,s}^{null}
+  \;\; vs. \;\;
+  H_1: \delta &gt; \delta_{k,s}^{null} \text{ with } \delta_{k,s}^{null}
+&gt; 0.
+\]</span> Here <span class="math inline">\(\theta_{k,s_1}^{null} =
+\theta_{k,s_2}^{null}\)</span> or <span class="math inline">\(\theta_{k,s_1}^{null} \neq
+\theta_{k,s_2}^{null}\)</span> for <span class="math inline">\(s_1 \neq
+s_2\)</span>.</p>
+<p>Under the null hypothesis <span class="math inline">\(\theta_{0,k,s}
+\neq 0\)</span>, the estimation of rates <span class="math inline">\(\widehat p_{C0,k,s}, \widehat p_{E0,k,s}\)</span>
+satisfy <span class="math display">\[
   \left\{
   \begin{array}{l}
-    \widehat p_{C0,k,s} = \widehat p_{E0,k,s} + d_{k,s} \times \delta_{k,s}^{null} \\
-    \widehat p_{C0,k,s} + r\widehat p_{E0,k,s} = \widehat p_{C,k,s} + r\widehat p_{E,k,s} .
+    \widehat p_{C0,k,s} = \widehat p_{E0,k,s} + d_{k,s} \times
+\delta_{k,s}^{null} \\
+    \widehat p_{C0,k,s} + r\widehat p_{E0,k,s} = \widehat p_{C,k,s} +
+r\widehat p_{E,k,s} .
   \end{array}
   \right.
 \]</span> Solving these 2 equations with 2 unknowns yields <span class="math display">\[
   \left\{
   \begin{array}{l}
-  \widehat p_{E0,k,s} &amp; = (\widehat p_{C,k,s} + r \widehat p_{E,k,s} - d_{k,s} \delta_{k,s}^{null}) / (r + 1)\\
-  \widehat p_{C0,k,s} &amp; =  \widehat p_{E0,k,s} + d_{k,s} \delta_{k,s}^{null}.
+  \widehat p_{E0,k,s} &amp; = (\widehat p_{C,k,s} + r \widehat p_{E,k,s}
+- d_{k,s} \delta_{k,s}^{null}) / (r + 1)\\
+  \widehat p_{C0,k,s} &amp; =  \widehat p_{E0,k,s} + d_{k,s}
+\delta_{k,s}^{null}.
   \end{array}
   \right.
 \]</span></p>
@@ -303,16 +412,18 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 </ul>
 <p><span class="math display">\[
   \hat\sigma^2_{H_0,k,s}
-  = 
-  \frac{\widehat p_{C0,k,s}(1- \widehat p_{C0,k,s})}{N_{C,k,s}} + \frac{ \widehat p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}.
+  =
+  \frac{\widehat p_{C0,k,s}(1- \widehat p_{C0,k,s})}{N_{C,k,s}} + \frac{
+\widehat p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}.
 \]</span></p>
 <ul>
 <li>Under <span class="math inline">\(H_1\)</span>, we have</li>
 </ul>
 <p><span class="math display">\[
-  \widehat\sigma_{H_1,k,s}^2 
-  = 
-  \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}.
+  \widehat\sigma_{H_1,k,s}^2
+  =
+  \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} +
+\frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}.
 \]</span></p>
 <ul>
 <li>
@@ -323,8 +434,8 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 </li>
 </ul>
 <p><span class="math display">\[
-  \widehat \theta_{H_0,k} 
-  = 
+  \widehat \theta_{H_0,k}
+  =
   \frac{
     \sum_{s=1}^S w_{k,s} \delta_{s,k}^{null}
   }{
@@ -335,10 +446,11 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 <li>Under the alternative hypothesis, we have</li>
 </ul>
 <p><span class="math display">\[
-  \widehat \theta_{H_1} 
-  = 
+  \widehat \theta_{H_1}
+  =
   \frac{
-    \sum_{s=1}^S w_{k,s} d_{k,s} \times (\widehat p_{C,k,s} - \widehat p_{E,k,s})
+    \sum_{s=1}^S w_{k,s} d_{k,s} \times (\widehat p_{C,k,s} - \widehat
+p_{E,k,s})
   }{
     \sqrt{\sum_{s=1}^S w_{k,s}^2 \widehat \sigma_{H_1,k,s}^2}
   }.
@@ -352,60 +464,89 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 </li>
 </ul>
 <p><span class="math display">\[
-  \widehat{\mathcal I}_{H0,k} 
-  = 
-  \left[ 
-  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar p_{E0,s})}{N_{E,s}} 
+  \widehat{\mathcal I}_{H0,k}
+  =
+  \left[
+  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar
+p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar
+p_{E0,s})}{N_{E,s}}
   \right]^{-1}.
 \]</span></p>
 <ul>
 <li>Under the alternative hypothesis, we have</li>
 </ul>
 <p><span class="math display">\[
-  \widehat{\mathcal I}_{H1,k} 
-  = 
+  \widehat{\mathcal I}_{H1,k}
+  =
   \left[
-  \sum_{s=1}^S \left( w_{k,s}^2 \frac{\bar p_{C,k,s} (1 - \bar p_{C,k,s})}{N_{C,k,s}} + w_{k,s}^2 \frac{\bar p_{E,k,s} (1 - \bar p_{E,k,s})}{N_{E,k,s}} \right)
+  \sum_{s=1}^S \left( w_{k,s}^2 \frac{\bar p_{C,k,s} (1 - \bar
+p_{C,k,s})}{N_{C,k,s}} + w_{k,s}^2 \frac{\bar p_{E,k,s} (1 - \bar
+p_{E,k,s})}{N_{E,k,s}} \right)
   \right]^{-1}.
 \]</span></p>
 </div>
 <div class="section level3">
 <h3 id="non-inferiority-design">Non-inferiority Design<a class="anchor" aria-label="anchor" href="#non-inferiority-design"></a>
 </h3>
-<p>The non-inferiority Design means that, while the treatment group is definitely not better than the control group, it is not unacceptably worse. Its hypothesis is <span class="math inline">\(H_0: \delta_{k,s} = \delta_{k,s}^{null} \;\; vs. \;\; H_1: \delta_{k,s} &gt; \delta_{k,s}^{null}\)</span> with <span class="math inline">\(\delta_{k,s}^{null} &lt;0\)</span>. Its variance, standardized treatment effect and statistical information is the same as that from super-superiority design by setting <span class="math inline">\(\delta_{k,s}^{null}\)</span> as negative numbers.</p>
+<p>The non-inferiority Design means that, while the treatment group is
+definitely not better than the control group, it is not unacceptably
+worse. Its hypothesis is <span class="math inline">\(H_0: \delta_{k,s} =
+\delta_{k,s}^{null} \;\; vs. \;\; H_1: \delta_{k,s} &gt;
+\delta_{k,s}^{null}\)</span> with <span class="math inline">\(\delta_{k,s}^{null} &lt;0\)</span>. Its variance,
+standardized treatment effect and statistical information is the same as
+that from super-superiority design by setting <span class="math inline">\(\delta_{k,s}^{null}\)</span> as negative
+numbers.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="weighting-options">Weighting Options<a class="anchor" aria-label="anchor" href="#weighting-options"></a>
 </h2>
-<p>As previously noted, we will consider weighting based on either inverse-variance weights (<span class="citation">Mantel and Haenszel (1959)</span>) or strata sample size weights (<span class="citation">Mehrotra and Railkar (2000b)</span>).</p>
+<p>As previously noted, we will consider weighting based on either
+inverse-variance weights (<span class="citation">Mantel and Haenszel
+(1959)</span>) or strata sample size weights (<span class="citation">Mehrotra and Railkar (2000b)</span>).</p>
 <ul>
 <li><p><strong>Inverse-variance weights (INVAR):</strong> <span class="math display">\[
 w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}. \\
-\widehat w_{s,k} = \frac{1/\widehat\sigma^2_{s,k}}{\sum_{s=1}^S 1/\widehat\sigma^2_{s,k}}.
-\]</span> where <span class="math inline">\(\widehat\sigma_{s,k}^2 \in \{\widehat\sigma_{H_0, k,s}^2, \widehat\sigma_{H_1, k,s}^2 \}\)</span> depending on the infomation scale <code>info_scale = ...</code> in <code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code>, <code><a href="../reference/gs_power_rd.html">gs_power_rd()</a></code> and <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>.</p></li>
+\widehat w_{s,k} = \frac{1/\widehat\sigma^2_{s,k}}{\sum_{s=1}^S
+1/\widehat\sigma^2_{s,k}}.
+\]</span> where <span class="math inline">\(\widehat\sigma_{s,k}^2 \in
+\{\widehat\sigma_{H_0, k,s}^2, \widehat\sigma_{H_1, k,s}^2 \}\)</span>
+depending on the infomation scale <code>info_scale = ...</code> in
+<code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code>, <code><a href="../reference/gs_power_rd.html">gs_power_rd()</a></code> and
+<code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>.</p></li>
 <li><p><strong>Sample-Size Weights (SS):</strong> <span class="math display">\[
-w_{s,k} 
+w_{s,k}
 =
 \frac{
   (N_{C, s, k} \; N_{E, s, k}) / (N_{C, s, k} + N_{E, s, k})
 }{
-  \sum_{s=1}^S (N_{C, s, k} \; N_{E, s, k}) / (N_{C, s, k} + N_{E, s, k})
+  \sum_{s=1}^S (N_{C, s, k} \; N_{E, s, k}) / (N_{C, s, k} + N_{E, s,
+k})
 },\\
-\widehat w_{s,k} 
+\widehat w_{s,k}
 =
 \frac{
-  (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) / (\widehat N_{C, s, k} + \widehat N_{E, s, k})
+  (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) / (\widehat N_{C, s, k}
++ \widehat N_{E, s, k})
 }{
-  \sum_{s=1}^S (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) / (\widehat N_{C, s, k} + \widehat N_{E, s, k})
+  \sum_{s=1}^S (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) /
+(\widehat N_{C, s, k} + \widehat N_{E, s, k})
 },
-\]</span> where <span class="math inline">\(N_{C,s,k}, N_{E,s,k}\)</span> are the planned sample size of the <span class="math inline">\(s\)</span>-th strata and <span class="math inline">\(k\)</span>-th analysis of the control group and experimental group, respectively. And <span class="math inline">\(\widehat N_{C,s,k}, \widehat N_{E,s,k}\)</span> are the observed sample size of the <span class="math inline">\(s\)</span>-th strata and <span class="math inline">\(k\)</span>-th analysis of the control group and experimental group, respectively.</p></li>
+\]</span> where <span class="math inline">\(N_{C,s,k},
+N_{E,s,k}\)</span> are the planned sample size of the <span class="math inline">\(s\)</span>-th strata and <span class="math inline">\(k\)</span>-th analysis of the control group and
+experimental group, respectively. And <span class="math inline">\(\widehat N_{C,s,k}, \widehat N_{E,s,k}\)</span>
+are the observed sample size of the <span class="math inline">\(s\)</span>-th strata and <span class="math inline">\(k\)</span>-th analysis of the control group and
+experimental group, respectively.</p></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="simulations">Simulations<a class="anchor" aria-label="anchor" href="#simulations"></a>
 </h2>
-<p>We do a quick 20,000 simulations and compare the density histogram of outcomes to the standard normal density. Assume <span class="math inline">\(r=1, d = 1, p_C=p_E=0.125, N=200\)</span>. We then compute <span class="math inline">\(\sigma\)</span> as 0.047. Even for this <em>not huge</em> sample size the normal density fits quite well other than some flatness in the middle.</p>
+<p>We do a quick 20,000 simulations and compare the density histogram of
+outcomes to the standard normal density. Assume <span class="math inline">\(r=1, d = 1, p_C=p_E=0.125, N=200\)</span>. We then
+compute <span class="math inline">\(\sigma\)</span> as 0.047. Even for
+this <em>not huge</em> sample size the normal density fits quite well
+other than some flatness in the middle.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Hypothesized failure rate</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">.125</span></span>
@@ -444,7 +585,14 @@ w_{s,k}
 <div class="section level3">
 <h3 class="tabset" id="unstratified-fixed-design">Unstratified Fixed Design<a class="anchor" aria-label="anchor" href="#unstratified-fixed-design"></a>
 </h3>
-<p>The example discussed in this section is an unstratified fixed design with equal sized groups to detect a 30% reduction in mortality associated with congestive heart failure, where the 1-year mortality in the control group is assumed to be no greater than 0.4. So <span class="math inline">\(p_C=0.4, p_E = .28\)</span>. Under the null hypothesis, we assume <span class="math inline">\(p_C=p_E =0.34\)</span>. We desire 90% power for a two-sided test for two proportions at <span class="math inline">\(\alpha = 0.05\)</span>. And we would like to calculate the sample size to achieve the 90% power.</p>
+<p>The example discussed in this section is an unstratified fixed design
+with equal sized groups to detect a 30% reduction in mortality
+associated with congestive heart failure, where the 1-year mortality in
+the control group is assumed to be no greater than 0.4. So <span class="math inline">\(p_C=0.4, p_E = .28\)</span>. Under the null
+hypothesis, we assume <span class="math inline">\(p_C=p_E
+=0.34\)</span>. We desire 90% power for a two-sided test for two
+proportions at <span class="math inline">\(\alpha = 0.05\)</span>. And
+we would like to calculate the sample size to achieve the 90% power.</p>
 <div class="section level4">
 <h4 id="gsdesign2">
 <code>gsDesign2</code><a class="anchor" aria-label="anchor" href="#gsdesign2"></a>
@@ -459,22 +607,25 @@ w_{s,k}
 <span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">N_c</span> <span class="op">&lt;-</span> <span class="va">N</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span></span>
 <span><span class="va">N_e</span> <span class="op">&lt;-</span> <span class="va">N_c</span> <span class="op">*</span> <span class="va">ratio</span></span></code></pre></div>
-<p>Then we calculate the variance under <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span>. Their mathmatical formulation are shown as follows. <span class="math display">\[
+<p>Then we calculate the variance under <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span>. Their mathmatical formulation are
+shown as follows. <span class="math display">\[
   \begin{array}{ll}
-  \sigma^2_{H_0} 
+  \sigma^2_{H_0}
   =
-  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N_C} + \frac{1}{N_{E}} \right)
+  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N_C} +
+\frac{1}{N_{E}} \right)
   =
-  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N \xi_C} + \frac{1}{N \xi_E} \right)
+  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N \xi_C} +
+\frac{1}{N \xi_E} \right)
   \overset{r=1}{=}
   p^{pool} \left(1 - p^{pool} \right) \frac{4}{N} \\
-  \sigma^2_{H_1} 
+  \sigma^2_{H_1}
   =
   \frac{p_C \left(1 - p_C \right)}{N_C} +
   \frac{p_E \left(1 - p_E \right)}{N_E}
   =
   \frac{p_C \left(1 - p_C \right)}{N \xi_C} +
-  \frac{p_E \left(1 - p_E \right)}{N \xi_E} 
+  \frac{p_E \left(1 - p_E \right)}{N \xi_E}
   \overset{r=1}{=}
   \left[
     p_C \left(1 - p_C \right) +
@@ -488,7 +639,8 @@ w_{s,k}
 <span></span>
 <span><span class="va">info_H0</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="va">sigma_H0</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">info_H1</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="va">sigma_H1</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p>Next, we calculate the standarized treatment effect under <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span>, whose mathmatical formulation are <span class="math display">\[
+<p>Next, we calculate the standarized treatment effect under <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span>, whose mathmatical formulation are
+<span class="math display">\[
   \begin{array}{ll}
   \theta_{H_0} = 0; \\
   \theta_{H_1} = \frac{|p_c - p_e|}{\sigma_{H_1}}
@@ -931,7 +1083,8 @@ w_{s,k}
 </tr></tbody>
 </table>
 </div>
-<p>The above logic is implemented in teh function <code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code>.</p>
+<p>The above logic is implemented in teh function
+<code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_info_rd.html">gs_info_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, Rate <span class="op">=</span> <span class="fl">.28</span><span class="op">)</span>,</span>
@@ -1372,7 +1525,9 @@ w_{s,k}
 </tr></tbody>
 </table>
 </div>
-<p>By plugging the <code>theta</code> and <code>info</code> above into <code><a href="../reference/gs_design_npe.html">gs_design_npe()</a></code>, one can calculate the sample size to achieve the 90% power.</p>
+<p>By plugging the <code>theta</code> and <code>info</code> above into
+<code><a href="../reference/gs_design_npe.html">gs_design_npe()</a></code>, one can calculate the sample size to
+achieve the 90% power.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># under info_scale = 0</span></span>
 <span><span class="va">y_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
@@ -1839,7 +1994,8 @@ w_{s,k}
 </tr></tbody>
 </table>
 </div>
-<p>The above logic is implement in <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> to calculate the sample size given fixed power in one-step.</p>
+<p>The above logic is implement in <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> to
+calculate the sample size given fixed power in one-step.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">z_info_scale_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, Rate <span class="op">=</span> <span class="fl">.28</span><span class="op">)</span>,</span>
@@ -2356,13 +2512,19 @@ Sample size calculated by EAST
 <div class="section level3">
 <h3 class="tabset" id="unstratified-group-sequential-design">Unstratified Group Sequential Design<a class="anchor" aria-label="anchor" href="#unstratified-group-sequential-design"></a>
 </h3>
-<p>The example discussed in this section is an unstratified group sequential design with equal sized groups to detect <span class="math inline">\(p_C = 0.15, p_E = .1\)</span>.<br>
-Under the null hypothesis, we assume <span class="math inline">\(p_C = p_E = 0.125\)</span>. We desire 90% power for a two-sided test for two proportions at <span class="math inline">\(\alpha = 0.05\)</span>. And we would like to calculate the sample size to achieve the 90% power.</p>
+<p>The example discussed in this section is an unstratified group
+sequential design with equal sized groups to detect <span class="math inline">\(p_C = 0.15, p_E = .1\)</span>.<br>
+Under the null hypothesis, we assume <span class="math inline">\(p_C =
+p_E = 0.125\)</span>. We desire 90% power for a two-sided test for two
+proportions at <span class="math inline">\(\alpha = 0.05\)</span>. And
+we would like to calculate the sample size to achieve the 90% power.</p>
 <div class="section level4">
 <h4 id="gsdesign2-1">
 <code>gsDesign2</code><a class="anchor" aria-label="anchor" href="#gsdesign2-1"></a>
 </h4>
-<p>To calculate the sample size, one can use <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>. The logic of <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> is to calculate the sample size of fixed design first.</p>
+<p>To calculate the sample size, one can use
+<code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>. The logic of <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> is
+to calculate the sample size of fixed design first.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_gs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_info_rd.html">gs_info_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, Rate <span class="op">=</span> <span class="fl">.15</span><span class="op">)</span>,</span>
@@ -3944,7 +4106,8 @@ Sample size calculated by EAST
 <div class="section level3">
 <h3 class="tabset" id="stratified-group-sequential-design">Stratified Group Sequential Design<a class="anchor" aria-label="anchor" href="#stratified-group-sequential-design"></a>
 </h3>
-<p>In this example, we consider 3 strata in a group sequential design with 3 analyses.</p>
+<p>In this example, we consider 3 strata in a group sequential design
+with 3 analyses.</p>
 <div class="section level4">
 <h4 id="gsdesign2-2">
 <code>gsDesign2</code><a class="anchor" aria-label="anchor" href="#gsdesign2-2"></a>
@@ -4471,18 +4634,21 @@ Sample size calculated by EAST
 <p>First, we calculate the variance <span class="math display">\[
   \left\{
   \begin{array}{ll}
-  \sigma^2_{H_0,k,s} 
+  \sigma^2_{H_0,k,s}
   &amp; =
-  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) 
-  \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right) 
+  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
+  \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right)
   =
-  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) 
-  \left(\frac{1}{ \frac{\xi_s}{1+r} N_{k}} + \frac{1}{ \frac{r \xi_s}{1+r} N_{k}} \right) \\
-  \sigma_{H_1,k,s}^2 
-  &amp; = 
-  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}} 
-  = 
-  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s} (1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}} 
+  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
+  \left(\frac{1}{ \frac{\xi_s}{1+r} N_{k}} + \frac{1}{ \frac{r
+\xi_s}{1+r} N_{k}} \right) \\
+  \sigma_{H_1,k,s}^2
+  &amp; =
+  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 -
+p_{E,s})}{N_{E,k,s}}
+  =
+  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s}
+(1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}}
   \end{array}
   \right.
 \]</span></p>
@@ -5058,7 +5224,7 @@ Sample size calculated by EAST
 </div>
 <p>Second, we calculate the weight by using inverse variance</p>
 <p><span class="math display">\[
-  w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}. 
+  w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}.
 \]</span></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -5670,30 +5836,32 @@ Sample size calculated by EAST
 </tfoot>
 </table>
 </div>
-<p>Third, we calculate the weighted risk difference and weighted statistical information. <span class="math display">\[
+<p>Third, we calculate the weighted risk difference and weighted
+statistical information. <span class="math display">\[
   \left\{
   \begin{array}{ll}
-    \delta_{H_0,k} 
+    \delta_{H_0,k}
     &amp; = 0\\
-    \delta_{H_1,k} 
+    \delta_{H_1,k}
     &amp; = \sum_{s=1}^S w_{k,s} |p_{C,s} - p_{E,s}|
   \end{array}
   \right. \\
   \left\{
   \begin{array}{ll}
-    \mathcal I_{H_0,k} 
-    &amp; = 
-    \left[ 
-      \sum_{s=1}^S 
-      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} + 
-      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}} 
+    \mathcal I_{H_0,k}
+    &amp; =
+    \left[
+      \sum_{s=1}^S
+      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}}
++
+      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
     \right]^{-1}\\
     \mathcal I_{H_1,k}  
-    &amp; = 
-    \left[ 
+    &amp; =
+    \left[
       \sum_{s=1}^S w_{k,s}^2 \frac{p_{C,k,s} (1 - p_{C,k,s})}{N_{C,k,s}}
       +
-      \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}} 
+      \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}}
     \right]^{-1}
   \end{array}
   \right. \\
@@ -8042,47 +8210,77 @@ Sample size calculated by EAST
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\widehat\delta _{H_0,k} = \sum_{s=1}^S w _{k,s} \delta_{k,s}^{null}\)</span></td>
+<td align="left"><span class="math inline">\(\widehat\delta _{H_0,k} =
+\sum_{s=1}^S w _{k,s} \delta_{k,s}^{null}\)</span></td>
 <td align="left">
-<p><span class="math inline">\(\delta_{k,s}^{null}\)</span> is the risk difference under <span class="math inline">\(H_0\)</span>.</p>
-<p>It is 0, positive, and negative for superiority, super-superiority and non-inferiority design, respectively.</p>
+<p><span class="math inline">\(\delta_{k,s}^{null}\)</span> is the risk
+difference under <span class="math inline">\(H_0\)</span>.</p>
+<p>It is 0, positive, and negative for superiority, super-superiority
+and non-inferiority design, respectively.</p>
 </td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">\(\widehat \delta_{H_1,k} =\sum_{s=1}^S w_{k,s} (p_{C,k,s} -\widehat p_{E,k,s})\)</span></td>
-<td align="left"><span class="math inline">\(\widehat p_{C,k,s} = \frac{ x _{C,k,s}}{N_{C,k,s}}, \; \widehat p_{ E,k,s} = \frac{x_{E,k,s} }{N_{E,k,s}}\)</span></td>
+<td align="left"><span class="math inline">\(\widehat \delta_{H_1,k}
+=\sum_{s=1}^S w_{k,s} (p_{C,k,s} -\widehat p_{E,k,s})\)</span></td>
+<td align="left"><span class="math inline">\(\widehat p_{C,k,s} = \frac{
+x _{C,k,s}}{N_{C,k,s}}, \; \widehat p_{ E,k,s} = \frac{x_{E,k,s}
+}{N_{E,k,s}}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><strong><em>standardized treatment effect:</em></strong></td>
+<td align="left"><strong><em>standardized treatment
+effect:</em></strong></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">\(\widehat\theta_{H_0,k}  = \frac{\sum_{s=1}^S  w_{k,s}\delta_{s,k}^{null}} {\sqrt { \sum_{s=1}^S w_{k,s}^2 \widehat \sigma _{H_0,k,s}^2}}\)</span></td>
+<td align="left"><span class="math inline">\(\widehat\theta_{H_0,k}  =
+\frac{\sum_{s=1}^S  w_{k,s}\delta_{s,k}^{null}} {\sqrt { \sum_{s=1}^S
+w_{k,s}^2 \widehat \sigma _{H_0,k,s}^2}}\)</span></td>
 <td align="left">
-<p>For superiority design, <span class="math inline">\(\widehat \sigma^2_{H_0,k,s} = \widehat p _{k,s}^{pool} \left(1 - \widehat p ^{pool}_{k,s} \right) \left( \frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right)\)</span> <br></p>
-<p>For super-superiority design and non-inferiority design, <span class="math inline">\(\hat \sigma^2 _{H_0,k,s} = \frac {\widehat p _{C0,k,s}(1- \widehat p_{C0,k,s})}{N_ {C,k,s}} + \frac{ \widehat p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}\)</span></p>
+<p>For superiority design, <span class="math inline">\(\widehat \sigma^2_{H_0,k,s} = \widehat p
+_{k,s}^{pool} \left(1 - \widehat p ^{pool}_{k,s} \right) \left(
+\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right)\)</span> <br></p>
+<p>For super-superiority design and non-inferiority design, <span class="math inline">\(\hat \sigma^2 _{H_0,k,s} = \frac {\widehat p
+_{C0,k,s}(1- \widehat p_{C0,k,s})}{N_ {C,k,s}} + \frac{ \widehat
+p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}\)</span></p>
 </td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\widehat\theta_{H_1 ,k}  = \frac{\sum_{s=1}^S w_{k ,s} (\widehat p_{C,k,s} - \widehat p_{E,k,s})}{\sqrt {\sum_{s=1}^S w_{k,s}^2 \widehat \sigma_{H_1,k,s}^2}}\)</span></td>
-<td align="left"><span class="math inline">\(\widehat \sigma_{H_1,k,s}  = \sqrt{\frac{\widehat p_{C,k,s}  (1- \widehat p_{C,k,s})}{ N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}}\)</span></td>
+<td align="left"><span class="math inline">\(\widehat\theta_{H_1 ,k}  =
+\frac{\sum_{s=1}^S w_{k ,s} (\widehat p_{C,k,s} - \widehat
+p_{E,k,s})}{\sqrt {\sum_{s=1}^S w_{k,s}^2 \widehat
+\sigma_{H_1,k,s}^2}}\)</span></td>
+<td align="left"><span class="math inline">\(\widehat
+\sigma_{H_1,k,s}  = \sqrt{\frac{\widehat p_{C,k,s}  (1- \widehat
+p_{C,k,s})}{ N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat
+p_{E,k,s})}{N_{E,k,s}}}\)</span></td>
 </tr>
 <tr class="odd">
 <td align="left"><strong><em>statistical information:</em></strong></td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\widehat{\mathcal I} _{H_0,k} = \left\{ \begin {array}{ll} \left[ \sum_{ s=1}^S w_{k,s}^2 \frac{p_ { k,s}^{pool} (1 - p_{k,s}^{ pool})}{N_{k,s}}\right]^{-1} &amp; \text{for superiority
+<td align="left"><span class="math inline">\(\widehat{\mathcal I}
+_{H_0,k} = \left\{ \begin {array}{ll} \left[ \sum_{ s=1}^S w_{k,s}^2
+\frac{p_ { k,s}^{pool} (1 - p_{k,s}^{ pool})}{N_{k,s}}\right]^{-1} &amp;
+\text{for superiority
 design
-} \\ \left[ \sum_{s=1 }^S w _{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar p_{C0,s})} {N _{C,s}} + w_{k,s}^2 \frac{ \bar p_{E0,s} (1 - \bar p _{E0,s})}{N_{E,s}} \right] ^{-1} &amp; \text{for
+} \\ \left[ \sum_{s=1 }^S w _{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar
+p_{C0,s})} {N _{C,s}} + w_{k,s}^2 \frac{ \bar p_{E0,s} (1 - \bar p
+_{E0,s})}{N_{E,s}} \right] ^{-1} &amp; \text{for
 super-superiority and
 non-inferiority design} \end{array} \right.\)</span></td>
 <td align="left">
-<span class="math inline">\(N_{k,s} = N_{C,k,s} + N_{E,k,s}\)</span> and <span class="math inline">\(\widehat p_{k,s } = (x_{C,k,s} + x_{E,k,s}) / N_{k,s}\)</span>
+<span class="math inline">\(N_{k,s} = N_{C,k,s} +
+N_{E,k,s}\)</span> and <span class="math inline">\(\widehat p_{k,s } =
+(x_{C,k,s} + x_{E,k,s}) / N_{k,s}\)</span>
 </td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">\(\widehat{ \mathcal I}_{H_1,k} = \left[ \sum_{s=1}^S w_{k,s}^2 \frac {\widehat p_{C,k,s} (1 - \widehat p_{C,k,s})}{N_{C,k, s}} + \sum_{s=1} ^S w _{k,s}^2 \frac{\widehat p _{E,k,s} (1 - \widehat p _{E,k,s})}{N_{E,k,s}} \right]^{-1}\)</span></td>
+<td align="left"><span class="math inline">\(\widehat{ \mathcal
+I}_{H_1,k} = \left[ \sum_{s=1}^S w_{k,s}^2 \frac {\widehat p_{C,k,s} (1
+- \widehat p_{C,k,s})}{N_{C,k, s}} + \sum_{s=1} ^S w _{k,s}^2
+\frac{\widehat p _{E,k,s} (1 - \widehat p _{E,k,s})}{N_{E,k,s}}
+\right]^{-1}\)</span></td>
 <td align="left"></td>
 </tr>
 </tbody>
@@ -8093,25 +8291,39 @@ non-inferiority design} \end{array} \right.\)</span></td>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-FarringtonManning" class="csl-entry">
-Farrington, Conor P, and Godfrey Manning. 1990. <span>“Test Statistics and Sample Size Formulae for Comparative Binomial Trials with Null Hypothesis of Non-Zero Risk Difference or Non-Unity Relative Risk.”</span> <em>Statistics in Medicine</em> 9 (12): 1447–54.
+Farrington, Conor P, and Godfrey Manning. 1990. <span>“Test Statistics
+and Sample Size Formulae for Comparative Binomial Trials with Null
+Hypothesis of Non-Zero Risk Difference or Non-Unity Relative
+Risk.”</span> <em>Statistics in Medicine</em> 9 (12): 1447–54.
 </div>
 <div id="ref-FTU" class="csl-entry">
-Fleiss, Joseph L, Alex Tytun, and Hans K Ury. 1980. <span>“A Simple Approximation for Calculating Sample Sizes for Comparing Independent Proportions.”</span> <em>Biometrics</em>, 343–46.
+Fleiss, Joseph L, Alex Tytun, and Hans K Ury. 1980. <span>“A Simple
+Approximation for Calculating Sample Sizes for Comparing Independent
+Proportions.”</span> <em>Biometrics</em>, 343–46.
 </div>
 <div id="ref-Lachin1981" class="csl-entry">
-Lachin, John M. 1981. <span>“Introduction to Sample Size Determination and Power Analysis for Clinical Trials.”</span> <em>Controlled Clinical Trials</em> 2 (2): 93–113.
+Lachin, John M. 1981. <span>“Introduction to Sample Size Determination
+and Power Analysis for Clinical Trials.”</span> <em>Controlled Clinical
+Trials</em> 2 (2): 93–113.
 </div>
 <div id="ref-LachinBook" class="csl-entry">
-———. 2009. <em>Biostatistical Methods: The Assessment of Relative Risks</em>. Vol. 509. John Wiley &amp; Sons.
+———. 2009. <em>Biostatistical Methods: The Assessment of Relative
+Risks</em>. Vol. 509. John Wiley &amp; Sons.
 </div>
 <div id="ref-MantelHaenszel" class="csl-entry">
-Mantel, Nathan, and William Haenszel. 1959. <span>“Statistical Aspects of the Analysis of Data from Retrospective Studies of Disease.”</span> <em>Journal of the National Cancer Institute</em> 22 (4): 719–48.
+Mantel, Nathan, and William Haenszel. 1959. <span>“Statistical Aspects
+of the Analysis of Data from Retrospective Studies of Disease.”</span>
+<em>Journal of the National Cancer Institute</em> 22 (4): 719–48.
 </div>
 <div id="ref-Mehrotra2000" class="csl-entry">
-Mehrotra, Devan V, and Radha Railkar. 2000a. <span>“Minimum Risk Weights for Comparing Treatments in Stratified Binomial Trials.”</span> <em>Statistics in Medicine</em> 19 (6): 811–25.
+Mehrotra, Devan V, and Radha Railkar. 2000a. <span>“Minimum Risk Weights
+for Comparing Treatments in Stratified Binomial Trials.”</span>
+<em>Statistics in Medicine</em> 19 (6): 811–25.
 </div>
 <div id="ref-mehrotra2000minimum" class="csl-entry">
-———. 2000b. <span>“Minimum Risk Weights for Comparing Treatments in Stratified Binomial Trials.”</span> <em>Statistics in Medicine</em> 19 (6): 811–25.
+———. 2000b. <span>“Minimum Risk Weights for Comparing Treatments in
+Stratified Binomial Trials.”</span> <em>Statistics in Medicine</em> 19
+(6): 811–25.
 </div>
 </div>
 </div>

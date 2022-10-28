@@ -93,14 +93,19 @@
 </h2>
 <p>The overall goal of the style guide:</p>
 <ul>
-<li>User experience: ensure a consistent API and syntax with minimal surprises for using our software.</li>
-<li>Developer experience: minimize time and cost to make consistent interface design decisions for developing our software.</li>
+<li>User experience: ensure a consistent API and syntax with minimal
+surprises for using our software.</li>
+<li>Developer experience: minimize time and cost to make consistent
+interface design decisions for developing our software.</li>
 </ul>
 <p>Ultimately, the style guide should help us</p>
 <ul>
-<li>Support a healthy coexistence of user-facing, functional API, and low-level, object-oriented API.</li>
-<li>Create balanced alignment with the style and best practices presented in other high-quality research software.</li>
-<li>Build a universe of software for clinical trial design at scale.</li>
+<li>Support a healthy coexistence of user-facing, functional API, and
+low-level, object-oriented API.</li>
+<li>Create balanced alignment with the style and best practices
+presented in other high-quality research software.</li>
+<li>Build a universe of software for clinical trial design at
+scale.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -109,11 +114,15 @@
 <p>General principles for deciding the name of a package:</p>
 <ul>
 <li>Prefer lower case</li>
-<li>Use dot (<code>.</code>) to indicate a collection of extension packages. Examples include the “gamlss” packages and the “future” packages.</li>
+<li>Use dot (<code>.</code>) to indicate a collection of extension
+packages. Examples include the “gamlss” packages and the “future”
+packages.</li>
 <li>Can be easily searched and found using search engines.</li>
-<li>Follow existing conventions, even if they don’t agree with the rules above. Examples include gsDesign and gsDesign2.</li>
+<li>Follow existing conventions, even if they don’t agree with the rules
+above. Examples include gsDesign and gsDesign2.</li>
 </ul>
-<p>Note that the package name and the product name can be stylized differently. Example: tensorflow vs. TensorFlow.</p>
+<p>Note that the package name and the product name can be stylized
+differently. Example: tensorflow vs. TensorFlow.</p>
 </div>
 <div class="section level2">
 <h2 id="functional-api">Functional API<a class="anchor" aria-label="anchor" href="#functional-api"></a>
@@ -122,7 +131,8 @@
 <div class="section level3">
 <h3 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
 </h3>
-<p>Function names, argument names, and variable names should use <code>snake_case</code>.</p>
+<p>Function names, argument names, and variable names should use
+<code>snake_case</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Good</span></span>
 <span><span class="va">gs_design_ahr</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">enroll_rates</span> <span class="op">=</span> <span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span>
@@ -133,7 +143,10 @@
 <div class="section level3">
 <h3 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
 </h3>
-<p>This rule also applies to the S3 or R7 <strong>method</strong> names and argument names, as they are inherently, functions. One should still follow the S3 convention to use dot (<code>.</code>) to connect the method name and class name.</p>
+<p>This rule also applies to the S3 or R7 <strong>method</strong> names
+and argument names, as they are inherently, functions. One should still
+follow the S3 convention to use dot (<code>.</code>) to connect the
+method name and class name.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Good</span></span>
 <span><span class="va">as_gt.gsDesign</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span>
@@ -145,13 +158,19 @@
 <div class="section level2">
 <h2 id="object-oriented-api">Object-oriented API<a class="anchor" aria-label="anchor" href="#object-oriented-api"></a>
 </h2>
-<p>Object-oriented API should be selectively used for low-level abstractions and limited cases in user-facing interactions when appropriate.</p>
+<p>Object-oriented API should be selectively used for low-level
+abstractions and limited cases in user-facing interactions when
+appropriate.</p>
 <div class="section level3">
 <h3 id="classes">Classes<a class="anchor" aria-label="anchor" href="#classes"></a>
 </h3>
-<p>Class names defined under an OOP system, for example, S3 or R7, should use <code>UpperCamelCase</code>.</p>
-<p>This rule intends to indicate the “function” is a class constructor, instead of a (regular) exported or internal function and follows the conventions in R6.</p>
-<p>The input argument names and variable names should still use <code>snake_case</code>.</p>
+<p>Class names defined under an OOP system, for example, S3 or R7,
+should use <code>UpperCamelCase</code>.</p>
+<p>This rule intends to indicate the “function” is a class constructor,
+instead of a (regular) exported or internal function and follows the
+conventions in R6.</p>
+<p>The input argument names and variable names should still use
+<code>snake_case</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Good</span></span>
 <span><span class="va">RangedDoubleOrNULL</span> <span class="op">&lt;-</span> <span class="fu">new_class</span><span class="op">(</span></span>
@@ -186,8 +205,11 @@
 <div class="section level3">
 <h3 id="argument-order">Argument order<a class="anchor" aria-label="anchor" href="#argument-order"></a>
 </h3>
-<p>Arguments should be arranged in the order of <a href="https://design.tidyverse.org/args-data-details.html" class="external-link">data, descriptors, details</a>.</p>
-<p>This style makes it natural to consistently create chainable operations that form a workflow under either a functional API or object-oriented API, with minimal surprises.</p>
+<p>Arguments should be arranged in the order of <a href="https://design.tidyverse.org/args-data-details.html" class="external-link">data,
+descriptors, details</a>.</p>
+<p>This style makes it natural to consistently create chainable
+operations that form a workflow under either a functional API or
+object-oriented API, with minimal surprises.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Functional API</span></span>
 <span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu">create_design</span><span class="op">(</span><span class="va">enroll_rates</span>, <span class="va">fail_rates</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -198,17 +220,22 @@
 <code class="sourceCode R"><span><span class="co"># Object-oriented API</span></span>
 <span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu">Design</span><span class="op">(</span><span class="va">enroll_rates</span>, <span class="va">fail_rates</span>, <span class="va">...</span><span class="op">)</span></span>
 <span><span class="va">design</span><span class="op">$</span><span class="fu">do_compute_1</span><span class="op">(</span>detail_1 <span class="op">=</span> <span class="va">...</span><span class="op">)</span><span class="op">$</span><span class="fu">do_compute_2</span><span class="op">(</span>detail_2 <span class="op">=</span> <span class="va">...</span><span class="op">)</span></span></code></pre></div>
-<p>This suggests that if the “data” argument requires multiple inputs, create another function to bundle them as a single object and pass it to the function of interest.</p>
+<p>This suggests that if the “data” argument requires multiple inputs,
+create another function to bundle them as a single object and pass it to
+the function of interest.</p>
 </div>
 <div class="section level3">
 <h3 id="required-and-optional-arguments">Required and optional arguments<a class="anchor" aria-label="anchor" href="#required-and-optional-arguments"></a>
 </h3>
-<p><a href="https://design.tidyverse.org/def-required.html" class="external-link">Required arguments</a> should <strong>not</strong> have a default value. In contrast, optional arguments should have a default value.</p>
+<p><a href="https://design.tidyverse.org/def-required.html" class="external-link">Required
+arguments</a> should <strong>not</strong> have a default value. In
+contrast, optional arguments should have a default value.</p>
 </div>
 <div class="section level3">
 <h3 id="enumerated-type-arguments">Enumerated type arguments<a class="anchor" aria-label="anchor" href="#enumerated-type-arguments"></a>
 </h3>
-<p>Use lower case abbreviations or <code>snake_case</code> for the enumerated type arguments.</p>
+<p>Use lower case abbreviations or <code>snake_case</code> for the
+enumerated type arguments.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Bad</span></span>
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">method</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AHR"</span>, <span class="st">"WLR"</span>, <span class="va">...</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span>
@@ -221,35 +248,51 @@
 <span></span>
 <span><span class="co"># Good</span></span>
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">approx</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"event_driven"</span>, <span class="st">"asymptotic"</span>, <span class="st">"generalized_schoenfeld"</span>, <span class="va">...</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span></code></pre></div>
-<p>The reasoning behind this: the strings are used together with function names and argument names, using <code>snake_case</code> would create a visual consistency.</p>
-<p>Whenever possible, set the default value of an enumerated type input in the argument definition. See <a href="https://design.tidyverse.org/def-enum.html" class="external-link">enumerate possible options</a>.</p>
+<p>The reasoning behind this: the strings are used together with
+function names and argument names, using <code>snake_case</code> would
+create a visual consistency.</p>
+<p>Whenever possible, set the default value of an enumerated type input
+in the argument definition. See <a href="https://design.tidyverse.org/def-enum.html" class="external-link">enumerate possible
+options</a>.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="code-formatting">Code formatting<a class="anchor" aria-label="anchor" href="#code-formatting"></a>
 </h2>
-<p>R code should be formatted using <a href="https://styler.r-lib.org/" class="external-link">styler</a> with the default tidyverse style.</p>
-<p>C/C++ code should be formatted using clang-format. This is doable via the <a href="https://code.visualstudio.com/docs/cpp/cpp-ide" class="external-link">Visual Studio Code C++ extension</a>.</p>
-<p>The code formatting can be automatically checked in CI/CD workflows.</p>
+<p>R code should be formatted using <a href="https://styler.r-lib.org/" class="external-link">styler</a> with the default tidyverse
+style.</p>
+<p>C/C++ code should be formatted using clang-format. This is doable via
+the <a href="https://code.visualstudio.com/docs/cpp/cpp-ide" class="external-link">Visual
+Studio Code C++ extension</a>.</p>
+<p>The code formatting can be automatically checked in CI/CD
+workflows.</p>
 </div>
 <div class="section level2">
 <h2 id="code-linting">Code linting<a class="anchor" aria-label="anchor" href="#code-linting"></a>
 </h2>
-<p>The rules should be enforced via a CI/CD workflow for code linting.</p>
+<p>The rules should be enforced via a CI/CD workflow for code
+linting.</p>
 <ul>
-<li><a href="https://github.com/r-lib/actions/blob/v2-branch/examples/lint.yaml" class="external-link">Example GitHub Actions workflow</a></li>
-<li><a href="https://lintr.r-lib.org/articles/lintr.html" class="external-link">Customize code linting rules</a></li>
+<li><a href="https://github.com/r-lib/actions/blob/v2-branch/examples/lint.yaml" class="external-link">Example
+GitHub Actions workflow</a></li>
+<li><a href="https://lintr.r-lib.org/articles/lintr.html" class="external-link">Customize code
+linting rules</a></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="useful-links">Useful links<a class="anchor" aria-label="anchor" href="#useful-links"></a>
 </h2>
 <ul>
-<li><a href="https://style.tidyverse.org/" class="external-link">The tidyverse style guide</a></li>
-<li><a href="https://design.tidyverse.org/" class="external-link">The tidyverse design guide</a></li>
-<li><a href="https://adv-r.hadley.nz/r6.html#r6-classes" class="external-link">R6 - Advanced R</a></li>
-<li><a href="https://www.tensorflow.org/probability/api_docs/python/tfp" class="external-link">TensorFlow Probability API</a></li>
-<li><a href="https://abseil.io/resources/swe-book/html/ch08.html" class="external-link">Style guides and rules - Software Engineering at Google</a></li>
+<li><a href="https://style.tidyverse.org/" class="external-link">The tidyverse style
+guide</a></li>
+<li><a href="https://design.tidyverse.org/" class="external-link">The tidyverse design
+guide</a></li>
+<li><a href="https://adv-r.hadley.nz/r6.html#r6-classes" class="external-link">R6 - Advanced
+R</a></li>
+<li><a href="https://www.tensorflow.org/probability/api_docs/python/tfp" class="external-link">TensorFlow
+Probability API</a></li>
+<li><a href="https://abseil.io/resources/swe-book/html/ch08.html" class="external-link">Style
+guides and rules - Software Engineering at Google</a></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

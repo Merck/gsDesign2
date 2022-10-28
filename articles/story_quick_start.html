@@ -81,7 +81,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Quick Start for NPH Sample Size and Power</h1>
             
-            <h4 data-toc-skip class="date">25 October, 2022</h4>
+            <h4 data-toc-skip class="date">28 October, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/vignettes/story_quick_start.Rmd" class="external-link"><code>vignettes/story_quick_start.Rmd</code></a></small>
       <div class="d-none name"><code>story_quick_start.Rmd</code></div>
@@ -92,32 +92,56 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>We provide simple examples for use of the <strong>gsdmvn</strong> package for deriving fixed and group sequential designs under non-proportional hazards. The piecewise model for enrollment, failure rates, dropout rates and changing hazard ratio over time allow great flexibility in design assumptions. Users are encouraged to suggest features that would be of immediate and long-term interest to add.</p>
+<p>We provide simple examples for use of the <strong>gsdmvn</strong>
+package for deriving fixed and group sequential designs under
+non-proportional hazards. The piecewise model for enrollment, failure
+rates, dropout rates and changing hazard ratio over time allow great
+flexibility in design assumptions. Users are encouraged to suggest
+features that would be of immediate and long-term interest to add.</p>
 <p>Topics included here are:</p>
 <ul>
 <li>Packages required and how they are used.</li>
 <li>Specifying enrollment rates.</li>
-<li>Specifying failure and dropout rates with possibly changing hazard ratio over time.</li>
+<li>Specifying failure and dropout rates with possibly changing hazard
+ratio over time.</li>
 <li>Deriving a fixed design with no interim analysis.</li>
 <li>Simple boundary specification for group sequential design.</li>
-<li>Deriving a group sequential design under non-proportional hazards.</li>
+<li>Deriving a group sequential design under non-proportional
+hazards.</li>
 <li>Displaying design properties.</li>
 <li>Design properties under alternate assumptions.</li>
 <li>Differences from <strong>gsDesign</strong>.</li>
 <li>Future enhancement priorities.</li>
 </ul>
-<p>All of these items are discussed briefly to enable a quick start for early adopters while also suggesting the ultimate possibilities that the software enables. Finally, while the final section provides current enhancement priorities, potential topic-related enhancements are discussed throughout the document.</p>
+<p>All of these items are discussed briefly to enable a quick start for
+early adopters while also suggesting the ultimate possibilities that the
+software enables. Finally, while the final section provides current
+enhancement priorities, potential topic-related enhancements are
+discussed throughout the document.</p>
 </div>
 <div class="section level2">
 <h2 id="packages-used">Packages Used<a class="anchor" aria-label="anchor" href="#packages-used"></a>
 </h2>
 <ul>
-<li>The <strong>gsdmvn</strong> package is used here to implement group sequential distribution theory under non-proportional hazards and to derive a wide variety of boundary types for group sequential designs.</li>
-<li>The <strong>gsDesign</strong> package is used as a check for results under proportional hazards as well as a source from deriving bounds using spending functions.</li>
-<li>The <strong>gsDesign2</strong> package provides computations to compute expected event accumulation and average hazard ratio over time; these are key inputs to the group sequential distribution parameters.</li>
-<li>The <strong>simtrial</strong> package is used to verify design properties using simulation.</li>
+<li>The <strong>gsdmvn</strong> package is used here to implement group
+sequential distribution theory under non-proportional hazards and to
+derive a wide variety of boundary types for group sequential
+designs.</li>
+<li>The <strong>gsDesign</strong> package is used as a check for results
+under proportional hazards as well as a source from deriving bounds
+using spending functions.</li>
+<li>The <strong>gsDesign2</strong> package provides computations to
+compute expected event accumulation and average hazard ratio over time;
+these are key inputs to the group sequential distribution
+parameters.</li>
+<li>The <strong>simtrial</strong> package is used to verify design
+properties using simulation.</li>
 </ul>
-<p>The <strong>gsdmvn</strong> package will likely will likely be incorporated eventually into the <strong>gsDesign2</strong> package, resulting in a fully featured design package. However, features and implementation in <strong>gsdmvn</strong> will be allowed to change as needed during the agile rapid development phase.</p>
+<p>The <strong>gsdmvn</strong> package will likely will likely be
+incorporated eventually into the <strong>gsDesign2</strong> package,
+resulting in a fully featured design package. However, features and
+implementation in <strong>gsdmvn</strong> will be allowed to change as
+needed during the agile rapid development phase.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span>
@@ -131,7 +155,13 @@
 <div class="section level2">
 <h2 id="enrollment-rates">Enrollment Rates<a class="anchor" aria-label="anchor" href="#enrollment-rates"></a>
 </h2>
-<p>Piecewise constant enrollment rates are input in a tabular format. Here we assume enrollment will ramp-up with <span class="math inline">\(25\%\)</span>, <span class="math inline">\(50\%\)</span>, and <span class="math inline">\(75\%\)</span> of the final enrollment rate for <span class="math inline">\(2\)</span> months each followed by a steady state <span class="math inline">\(100\%\)</span> enrollment for another <span class="math inline">\(6\)</span> months. The rates will be increased later to power the design appropriately. However, the fixed enrollment rate periods will remain unchanged.</p>
+<p>Piecewise constant enrollment rates are input in a tabular format.
+Here we assume enrollment will ramp-up with <span class="math inline">\(25\%\)</span>, <span class="math inline">\(50\%\)</span>, and <span class="math inline">\(75\%\)</span> of the final enrollment rate for
+<span class="math inline">\(2\)</span> months each followed by a steady
+state <span class="math inline">\(100\%\)</span> enrollment for another
+<span class="math inline">\(6\)</span> months. The rates will be
+increased later to power the design appropriately. However, the fixed
+enrollment rate periods will remain unchanged.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">enrollRates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  Stratum <span class="op">=</span> <span class="st">"All"</span>, </span>
@@ -139,12 +169,12 @@
 <span>  rate <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">/</span> <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">enrollRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="aprvpgpxjr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="banqocagtg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#aprvpgpxjr .gt_table {
+#banqocagtg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -169,7 +199,7 @@
   border-left-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_heading {
+#banqocagtg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -181,7 +211,7 @@
   border-right-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_title {
+#banqocagtg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -193,7 +223,7 @@
   border-bottom-width: 0;
 }
 
-#aprvpgpxjr .gt_subtitle {
+#banqocagtg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -205,13 +235,13 @@
   border-top-width: 0;
 }
 
-#aprvpgpxjr .gt_bottom_border {
+#banqocagtg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_col_headings {
+#banqocagtg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -226,7 +256,7 @@
   border-right-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_col_heading {
+#banqocagtg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -246,7 +276,7 @@
   overflow-x: hidden;
 }
 
-#aprvpgpxjr .gt_column_spanner_outer {
+#banqocagtg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -258,15 +288,15 @@
   padding-right: 4px;
 }
 
-#aprvpgpxjr .gt_column_spanner_outer:first-child {
+#banqocagtg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#aprvpgpxjr .gt_column_spanner_outer:last-child {
+#banqocagtg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#aprvpgpxjr .gt_column_spanner {
+#banqocagtg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -278,7 +308,7 @@
   width: 100%;
 }
 
-#aprvpgpxjr .gt_group_heading {
+#banqocagtg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -303,7 +333,7 @@
   vertical-align: middle;
 }
 
-#aprvpgpxjr .gt_empty_group_heading {
+#banqocagtg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -318,15 +348,15 @@
   vertical-align: middle;
 }
 
-#aprvpgpxjr .gt_from_md > :first-child {
+#banqocagtg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#aprvpgpxjr .gt_from_md > :last-child {
+#banqocagtg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#aprvpgpxjr .gt_row {
+#banqocagtg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -345,7 +375,7 @@
   overflow-x: hidden;
 }
 
-#aprvpgpxjr .gt_stub {
+#banqocagtg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -358,7 +388,7 @@
   padding-right: 5px;
 }
 
-#aprvpgpxjr .gt_stub_row_group {
+#banqocagtg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -372,11 +402,11 @@
   vertical-align: top;
 }
 
-#aprvpgpxjr .gt_row_group_first td {
+#banqocagtg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#aprvpgpxjr .gt_summary_row {
+#banqocagtg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -386,16 +416,16 @@
   padding-right: 5px;
 }
 
-#aprvpgpxjr .gt_first_summary_row {
+#banqocagtg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_first_summary_row.thick {
+#banqocagtg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#aprvpgpxjr .gt_last_summary_row {
+#banqocagtg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -405,7 +435,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_grand_summary_row {
+#banqocagtg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -415,7 +445,7 @@
   padding-right: 5px;
 }
 
-#aprvpgpxjr .gt_first_grand_summary_row {
+#banqocagtg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -425,11 +455,11 @@
   border-top-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_striped {
+#banqocagtg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#aprvpgpxjr .gt_table_body {
+#banqocagtg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -438,7 +468,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_footnotes {
+#banqocagtg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -452,7 +482,7 @@
   border-right-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_footnote {
+#banqocagtg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -461,7 +491,7 @@
   padding-right: 5px;
 }
 
-#aprvpgpxjr .gt_sourcenotes {
+#banqocagtg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -475,7 +505,7 @@
   border-right-color: #D3D3D3;
 }
 
-#aprvpgpxjr .gt_sourcenote {
+#banqocagtg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -483,64 +513,64 @@
   padding-right: 5px;
 }
 
-#aprvpgpxjr .gt_left {
+#banqocagtg .gt_left {
   text-align: left;
 }
 
-#aprvpgpxjr .gt_center {
+#banqocagtg .gt_center {
   text-align: center;
 }
 
-#aprvpgpxjr .gt_right {
+#banqocagtg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#aprvpgpxjr .gt_font_normal {
+#banqocagtg .gt_font_normal {
   font-weight: normal;
 }
 
-#aprvpgpxjr .gt_font_bold {
+#banqocagtg .gt_font_bold {
   font-weight: bold;
 }
 
-#aprvpgpxjr .gt_font_italic {
+#banqocagtg .gt_font_italic {
   font-style: italic;
 }
 
-#aprvpgpxjr .gt_super {
+#banqocagtg .gt_super {
   font-size: 65%;
 }
 
-#aprvpgpxjr .gt_footnote_marks {
+#banqocagtg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#aprvpgpxjr .gt_asterisk {
+#banqocagtg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#aprvpgpxjr .gt_indent_1 {
+#banqocagtg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#aprvpgpxjr .gt_indent_2 {
+#banqocagtg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#aprvpgpxjr .gt_indent_3 {
+#banqocagtg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#aprvpgpxjr .gt_indent_4 {
+#banqocagtg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#aprvpgpxjr .gt_indent_5 {
+#banqocagtg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -578,9 +608,21 @@
 <div class="section level2">
 <h2 id="failure-and-dropout-rates">Failure and Dropout Rates<a class="anchor" aria-label="anchor" href="#failure-and-dropout-rates"></a>
 </h2>
-<p>Constant failure and dropout rates are specified by study period and stratum; we consider a single stratum here. A hazard ratio is provided for treatment/control hazard rate for each period and stratum. The dropout rate for each period is assumed the same for each treatment group; this restriction could be eliminated in a future version, if needed. Generally, we take advantage of the identity for an exponential distribution with median <span class="math inline">\(m\)</span>, the corresponding failure rate <span class="math inline">\(\lambda\)</span> is</p>
+<p>Constant failure and dropout rates are specified by study period and
+stratum; we consider a single stratum here. A hazard ratio is provided
+for treatment/control hazard rate for each period and stratum. The
+dropout rate for each period is assumed the same for each treatment
+group; this restriction could be eliminated in a future version, if
+needed. Generally, we take advantage of the identity for an exponential
+distribution with median <span class="math inline">\(m\)</span>, the
+corresponding failure rate <span class="math inline">\(\lambda\)</span>
+is</p>
 <p><span class="math display">\[\lambda = \log(2) / m.\]</span></p>
-<p>We consider a control group exponential time-to-event with a <span class="math inline">\(12\)</span> month median. We assume a hazard ratio of <span class="math inline">\(1\)</span> for <span class="math inline">\(4\)</span> months, followed by a hazard ratio of <span class="math inline">\(0.6\)</span> thereafter. Finally, we assume a low <span class="math inline">\(0.001\)</span> exponential dropout rate per month for both treatment groups.</p>
+<p>We consider a control group exponential time-to-event with a <span class="math inline">\(12\)</span> month median. We assume a hazard ratio
+of <span class="math inline">\(1\)</span> for <span class="math inline">\(4\)</span> months, followed by a hazard ratio of
+<span class="math inline">\(0.6\)</span> thereafter. Finally, we assume
+a low <span class="math inline">\(0.001\)</span> exponential dropout
+rate per month for both treatment groups.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">medianSurv</span> <span class="op">&lt;-</span> <span class="fl">12</span></span>
 <span><span class="va">failRates</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
@@ -591,12 +633,12 @@
 <span>  dropoutRate <span class="op">=</span> <span class="fl">.001</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">failRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="qvaybcqgmg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="nspculhrlv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qvaybcqgmg .gt_table {
+#nspculhrlv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -621,7 +663,7 @@
   border-left-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_heading {
+#nspculhrlv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -633,7 +675,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_title {
+#nspculhrlv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -645,7 +687,7 @@
   border-bottom-width: 0;
 }
 
-#qvaybcqgmg .gt_subtitle {
+#nspculhrlv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -657,13 +699,13 @@
   border-top-width: 0;
 }
 
-#qvaybcqgmg .gt_bottom_border {
+#nspculhrlv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_col_headings {
+#nspculhrlv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -678,7 +720,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_col_heading {
+#nspculhrlv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -698,7 +740,7 @@
   overflow-x: hidden;
 }
 
-#qvaybcqgmg .gt_column_spanner_outer {
+#nspculhrlv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -710,15 +752,15 @@
   padding-right: 4px;
 }
 
-#qvaybcqgmg .gt_column_spanner_outer:first-child {
+#nspculhrlv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qvaybcqgmg .gt_column_spanner_outer:last-child {
+#nspculhrlv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qvaybcqgmg .gt_column_spanner {
+#nspculhrlv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -730,7 +772,7 @@
   width: 100%;
 }
 
-#qvaybcqgmg .gt_group_heading {
+#nspculhrlv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -755,7 +797,7 @@
   vertical-align: middle;
 }
 
-#qvaybcqgmg .gt_empty_group_heading {
+#nspculhrlv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -770,15 +812,15 @@
   vertical-align: middle;
 }
 
-#qvaybcqgmg .gt_from_md > :first-child {
+#nspculhrlv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qvaybcqgmg .gt_from_md > :last-child {
+#nspculhrlv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qvaybcqgmg .gt_row {
+#nspculhrlv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -797,7 +839,7 @@
   overflow-x: hidden;
 }
 
-#qvaybcqgmg .gt_stub {
+#nspculhrlv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -810,7 +852,7 @@
   padding-right: 5px;
 }
 
-#qvaybcqgmg .gt_stub_row_group {
+#nspculhrlv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -824,11 +866,11 @@
   vertical-align: top;
 }
 
-#qvaybcqgmg .gt_row_group_first td {
+#nspculhrlv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qvaybcqgmg .gt_summary_row {
+#nspculhrlv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -838,16 +880,16 @@
   padding-right: 5px;
 }
 
-#qvaybcqgmg .gt_first_summary_row {
+#nspculhrlv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_first_summary_row.thick {
+#nspculhrlv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qvaybcqgmg .gt_last_summary_row {
+#nspculhrlv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -857,7 +899,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_grand_summary_row {
+#nspculhrlv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -867,7 +909,7 @@
   padding-right: 5px;
 }
 
-#qvaybcqgmg .gt_first_grand_summary_row {
+#nspculhrlv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -877,11 +919,11 @@
   border-top-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_striped {
+#nspculhrlv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qvaybcqgmg .gt_table_body {
+#nspculhrlv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -890,7 +932,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_footnotes {
+#nspculhrlv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -904,7 +946,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_footnote {
+#nspculhrlv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -913,7 +955,7 @@
   padding-right: 5px;
 }
 
-#qvaybcqgmg .gt_sourcenotes {
+#nspculhrlv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -927,7 +969,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qvaybcqgmg .gt_sourcenote {
+#nspculhrlv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -935,64 +977,64 @@
   padding-right: 5px;
 }
 
-#qvaybcqgmg .gt_left {
+#nspculhrlv .gt_left {
   text-align: left;
 }
 
-#qvaybcqgmg .gt_center {
+#nspculhrlv .gt_center {
   text-align: center;
 }
 
-#qvaybcqgmg .gt_right {
+#nspculhrlv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qvaybcqgmg .gt_font_normal {
+#nspculhrlv .gt_font_normal {
   font-weight: normal;
 }
 
-#qvaybcqgmg .gt_font_bold {
+#nspculhrlv .gt_font_bold {
   font-weight: bold;
 }
 
-#qvaybcqgmg .gt_font_italic {
+#nspculhrlv .gt_font_italic {
   font-style: italic;
 }
 
-#qvaybcqgmg .gt_super {
+#nspculhrlv .gt_super {
   font-size: 65%;
 }
 
-#qvaybcqgmg .gt_footnote_marks {
+#nspculhrlv .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qvaybcqgmg .gt_asterisk {
+#nspculhrlv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qvaybcqgmg .gt_indent_1 {
+#nspculhrlv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qvaybcqgmg .gt_indent_2 {
+#nspculhrlv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qvaybcqgmg .gt_indent_3 {
+#nspculhrlv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qvaybcqgmg .gt_indent_4 {
+#nspculhrlv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qvaybcqgmg .gt_indent_5 {
+#nspculhrlv .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1026,7 +1068,10 @@
 <div class="section level2">
 <h2 id="fixed-design">Fixed Design<a class="anchor" aria-label="anchor" href="#fixed-design"></a>
 </h2>
-<p>Under the above enrollment, failure and dropout rate assumptions we now derive sample size for a trial targeted to complete in 36 months with no interim analysis, <span class="math inline">\(90\%\)</span> power and <span class="math inline">\(2.5\%\)</span> Type I error.</p>
+<p>Under the above enrollment, failure and dropout rate assumptions we
+now derive sample size for a trial targeted to complete in 36 months
+with no interim analysis, <span class="math inline">\(90\%\)</span>
+power and <span class="math inline">\(2.5\%\)</span> Type I error.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">.025</span></span>
 <span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">.1</span>                   <span class="co"># 1 - targeted power</span></span>
@@ -1038,15 +1083,17 @@
 <span>  power <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">beta</span>,          <span class="co"># Type II error = 1 - power</span></span>
 <span>  studyDuration <span class="op">=</span> <span class="fl">36</span>         <span class="co"># Planned trial duration</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>A quick summary of the targeted sample size is obtained below. Note that you would normally round up <code>N</code> up to an even number and <code>Events</code> to the next integer.</p>
+<p>A quick summary of the targeted sample size is obtained below. Note
+that you would normally round up <code>N</code> up to an even number and
+<code>Events</code> to the next integer.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="npscwgnzyc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gebktgcgoy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#npscwgnzyc .gt_table {
+#gebktgcgoy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1071,7 +1118,7 @@
   border-left-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_heading {
+#gebktgcgoy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1083,7 +1130,7 @@
   border-right-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_title {
+#gebktgcgoy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1095,7 +1142,7 @@
   border-bottom-width: 0;
 }
 
-#npscwgnzyc .gt_subtitle {
+#gebktgcgoy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1107,13 +1154,13 @@
   border-top-width: 0;
 }
 
-#npscwgnzyc .gt_bottom_border {
+#gebktgcgoy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_col_headings {
+#gebktgcgoy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1128,7 +1175,7 @@
   border-right-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_col_heading {
+#gebktgcgoy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1148,7 +1195,7 @@
   overflow-x: hidden;
 }
 
-#npscwgnzyc .gt_column_spanner_outer {
+#gebktgcgoy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1160,15 +1207,15 @@
   padding-right: 4px;
 }
 
-#npscwgnzyc .gt_column_spanner_outer:first-child {
+#gebktgcgoy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#npscwgnzyc .gt_column_spanner_outer:last-child {
+#gebktgcgoy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#npscwgnzyc .gt_column_spanner {
+#gebktgcgoy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1180,7 +1227,7 @@
   width: 100%;
 }
 
-#npscwgnzyc .gt_group_heading {
+#gebktgcgoy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1205,7 +1252,7 @@
   vertical-align: middle;
 }
 
-#npscwgnzyc .gt_empty_group_heading {
+#gebktgcgoy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1220,15 +1267,15 @@
   vertical-align: middle;
 }
 
-#npscwgnzyc .gt_from_md > :first-child {
+#gebktgcgoy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#npscwgnzyc .gt_from_md > :last-child {
+#gebktgcgoy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#npscwgnzyc .gt_row {
+#gebktgcgoy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1247,7 +1294,7 @@
   overflow-x: hidden;
 }
 
-#npscwgnzyc .gt_stub {
+#gebktgcgoy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1260,7 +1307,7 @@
   padding-right: 5px;
 }
 
-#npscwgnzyc .gt_stub_row_group {
+#gebktgcgoy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1274,11 +1321,11 @@
   vertical-align: top;
 }
 
-#npscwgnzyc .gt_row_group_first td {
+#gebktgcgoy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#npscwgnzyc .gt_summary_row {
+#gebktgcgoy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1288,16 +1335,16 @@
   padding-right: 5px;
 }
 
-#npscwgnzyc .gt_first_summary_row {
+#gebktgcgoy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_first_summary_row.thick {
+#gebktgcgoy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#npscwgnzyc .gt_last_summary_row {
+#gebktgcgoy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1307,7 +1354,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_grand_summary_row {
+#gebktgcgoy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1317,7 +1364,7 @@
   padding-right: 5px;
 }
 
-#npscwgnzyc .gt_first_grand_summary_row {
+#gebktgcgoy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1327,11 +1374,11 @@
   border-top-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_striped {
+#gebktgcgoy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#npscwgnzyc .gt_table_body {
+#gebktgcgoy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1340,7 +1387,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_footnotes {
+#gebktgcgoy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1354,7 +1401,7 @@
   border-right-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_footnote {
+#gebktgcgoy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1363,7 +1410,7 @@
   padding-right: 5px;
 }
 
-#npscwgnzyc .gt_sourcenotes {
+#gebktgcgoy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1377,7 +1424,7 @@
   border-right-color: #D3D3D3;
 }
 
-#npscwgnzyc .gt_sourcenote {
+#gebktgcgoy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1385,64 +1432,64 @@
   padding-right: 5px;
 }
 
-#npscwgnzyc .gt_left {
+#gebktgcgoy .gt_left {
   text-align: left;
 }
 
-#npscwgnzyc .gt_center {
+#gebktgcgoy .gt_center {
   text-align: center;
 }
 
-#npscwgnzyc .gt_right {
+#gebktgcgoy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#npscwgnzyc .gt_font_normal {
+#gebktgcgoy .gt_font_normal {
   font-weight: normal;
 }
 
-#npscwgnzyc .gt_font_bold {
+#gebktgcgoy .gt_font_bold {
   font-weight: bold;
 }
 
-#npscwgnzyc .gt_font_italic {
+#gebktgcgoy .gt_font_italic {
   font-style: italic;
 }
 
-#npscwgnzyc .gt_super {
+#gebktgcgoy .gt_super {
   font-size: 65%;
 }
 
-#npscwgnzyc .gt_footnote_marks {
+#gebktgcgoy .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#npscwgnzyc .gt_asterisk {
+#gebktgcgoy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#npscwgnzyc .gt_indent_1 {
+#gebktgcgoy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#npscwgnzyc .gt_indent_2 {
+#gebktgcgoy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#npscwgnzyc .gt_indent_3 {
+#gebktgcgoy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#npscwgnzyc .gt_indent_4 {
+#gebktgcgoy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#npscwgnzyc .gt_indent_5 {
+#gebktgcgoy .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1475,15 +1522,17 @@
     </tr></tfoot>
 </table>
 </div>
-<p>The enrollment rates for each period have been increased proportionately to size the trial for the desired properties; the duration for each enrollment rate has not changed.</p>
+<p>The enrollment rates for each period have been increased
+proportionately to size the trial for the desired properties; the
+duration for each enrollment rate has not changed.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span><span class="op">$</span><span class="va">enrollRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="vzmustqpdu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ktdxxntoub" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vzmustqpdu .gt_table {
+#ktdxxntoub .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1508,7 +1557,7 @@
   border-left-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_heading {
+#ktdxxntoub .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1520,7 +1569,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_title {
+#ktdxxntoub .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1532,7 +1581,7 @@
   border-bottom-width: 0;
 }
 
-#vzmustqpdu .gt_subtitle {
+#ktdxxntoub .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1544,13 +1593,13 @@
   border-top-width: 0;
 }
 
-#vzmustqpdu .gt_bottom_border {
+#ktdxxntoub .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_col_headings {
+#ktdxxntoub .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1565,7 +1614,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_col_heading {
+#ktdxxntoub .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1585,7 +1634,7 @@
   overflow-x: hidden;
 }
 
-#vzmustqpdu .gt_column_spanner_outer {
+#ktdxxntoub .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1597,15 +1646,15 @@
   padding-right: 4px;
 }
 
-#vzmustqpdu .gt_column_spanner_outer:first-child {
+#ktdxxntoub .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vzmustqpdu .gt_column_spanner_outer:last-child {
+#ktdxxntoub .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vzmustqpdu .gt_column_spanner {
+#ktdxxntoub .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1617,7 +1666,7 @@
   width: 100%;
 }
 
-#vzmustqpdu .gt_group_heading {
+#ktdxxntoub .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1642,7 +1691,7 @@
   vertical-align: middle;
 }
 
-#vzmustqpdu .gt_empty_group_heading {
+#ktdxxntoub .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1657,15 +1706,15 @@
   vertical-align: middle;
 }
 
-#vzmustqpdu .gt_from_md > :first-child {
+#ktdxxntoub .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vzmustqpdu .gt_from_md > :last-child {
+#ktdxxntoub .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vzmustqpdu .gt_row {
+#ktdxxntoub .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1684,7 +1733,7 @@
   overflow-x: hidden;
 }
 
-#vzmustqpdu .gt_stub {
+#ktdxxntoub .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1697,7 +1746,7 @@
   padding-right: 5px;
 }
 
-#vzmustqpdu .gt_stub_row_group {
+#ktdxxntoub .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1711,11 +1760,11 @@
   vertical-align: top;
 }
 
-#vzmustqpdu .gt_row_group_first td {
+#ktdxxntoub .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vzmustqpdu .gt_summary_row {
+#ktdxxntoub .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1725,16 +1774,16 @@
   padding-right: 5px;
 }
 
-#vzmustqpdu .gt_first_summary_row {
+#ktdxxntoub .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_first_summary_row.thick {
+#ktdxxntoub .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vzmustqpdu .gt_last_summary_row {
+#ktdxxntoub .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1744,7 +1793,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_grand_summary_row {
+#ktdxxntoub .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1754,7 +1803,7 @@
   padding-right: 5px;
 }
 
-#vzmustqpdu .gt_first_grand_summary_row {
+#ktdxxntoub .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1764,11 +1813,11 @@
   border-top-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_striped {
+#ktdxxntoub .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vzmustqpdu .gt_table_body {
+#ktdxxntoub .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1777,7 +1826,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_footnotes {
+#ktdxxntoub .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1791,7 +1840,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_footnote {
+#ktdxxntoub .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1800,7 +1849,7 @@
   padding-right: 5px;
 }
 
-#vzmustqpdu .gt_sourcenotes {
+#ktdxxntoub .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1814,7 +1863,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmustqpdu .gt_sourcenote {
+#ktdxxntoub .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1822,64 +1871,64 @@
   padding-right: 5px;
 }
 
-#vzmustqpdu .gt_left {
+#ktdxxntoub .gt_left {
   text-align: left;
 }
 
-#vzmustqpdu .gt_center {
+#ktdxxntoub .gt_center {
   text-align: center;
 }
 
-#vzmustqpdu .gt_right {
+#ktdxxntoub .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vzmustqpdu .gt_font_normal {
+#ktdxxntoub .gt_font_normal {
   font-weight: normal;
 }
 
-#vzmustqpdu .gt_font_bold {
+#ktdxxntoub .gt_font_bold {
   font-weight: bold;
 }
 
-#vzmustqpdu .gt_font_italic {
+#ktdxxntoub .gt_font_italic {
   font-style: italic;
 }
 
-#vzmustqpdu .gt_super {
+#ktdxxntoub .gt_super {
   font-size: 65%;
 }
 
-#vzmustqpdu .gt_footnote_marks {
+#ktdxxntoub .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#vzmustqpdu .gt_asterisk {
+#ktdxxntoub .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vzmustqpdu .gt_indent_1 {
+#ktdxxntoub .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vzmustqpdu .gt_indent_2 {
+#ktdxxntoub .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vzmustqpdu .gt_indent_3 {
+#ktdxxntoub .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vzmustqpdu .gt_indent_4 {
+#ktdxxntoub .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vzmustqpdu .gt_indent_5 {
+#ktdxxntoub .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1917,23 +1966,51 @@
 <div class="section level2">
 <h2 id="group-sequential-design">Group Sequential Design<a class="anchor" aria-label="anchor" href="#group-sequential-design"></a>
 </h2>
-<p>We will not go into detail for group sequential designs here. In brief, however, a sequence of tests <span class="math inline">\(Z_1, Z_2,\ldots, Z_K\)</span> that follow a multivariate normal distribution are performed to test if a new treatment is better than control (<span class="citation">Jennison and Turnbull (1999)</span>). We assume <span class="math inline">\(Z_k &gt; 0\)</span> is favorable for the experimental treatment. Generally Type I error for this set of tests will be controlled under the null hypothesis of no treatment difference by a sequence of bounds <span class="math inline">\(b_1, b_2,\ldots,b_K\)</span> such that for a chosen Type I error <span class="math inline">\(\alpha &gt; 0\)</span> we have</p>
+<p>We will not go into detail for group sequential designs here. In
+brief, however, a sequence of tests <span class="math inline">\(Z_1,
+Z_2,\ldots, Z_K\)</span> that follow a multivariate normal distribution
+are performed to test if a new treatment is better than control (<span class="citation">Jennison and Turnbull (1999)</span>). We assume <span class="math inline">\(Z_k &gt; 0\)</span> is favorable for the
+experimental treatment. Generally Type I error for this set of tests
+will be controlled under the null hypothesis of no treatment difference
+by a sequence of bounds <span class="math inline">\(b_1,
+b_2,\ldots,b_K\)</span> such that for a chosen Type I error <span class="math inline">\(\alpha &gt; 0\)</span> we have</p>
 <p><span class="math display">\[
   \alpha = 1 - P_0(\cap_{k=1}^K Z_k &lt; b_k)
-\]</span> Where <span class="math inline">\(P_0()\)</span> refers to a probability under the null hypothesis. This is referred to as a non-binding bound since it is assumed the trial will not be stopped early for futility if some <span class="math inline">\(Z_k\)</span> is small.</p>
+\]</span> Where <span class="math inline">\(P_0()\)</span> refers to a
+probability under the null hypothesis. This is referred to as a
+non-binding bound since it is assumed the trial will not be stopped
+early for futility if some <span class="math inline">\(Z_k\)</span> is
+small.</p>
 <div class="section level3">
 <h3 id="simple-efficacy-bound-definition">Simple Efficacy Bound Definition<a class="anchor" aria-label="anchor" href="#simple-efficacy-bound-definition"></a>
 </h3>
-<p><span class="citation">Lan and DeMets (1983)</span> developed the spending function method for deriving group sequential bounds. This involves use of a non-decreasing spending function <span class="math inline">\(f(t)\)</span> for <span class="math inline">\(t\ge 0\)</span> where <span class="math inline">\(f(0)=0\)</span> and <span class="math inline">\(f(t)=\alpha\)</span> for <span class="math inline">\(t \ge 1\)</span>. Suppose for <span class="math inline">\(K&gt;0\)</span> analyses are performed when proportion <span class="math inline">\(t_1&lt; t_2 &lt;\ldots t_K=1\)</span> of some planned statistical information (e.g., proportion of planned events for a time-to-event endpoint trial for proportion of observations for a binomial or normal endpoint). Bounds through the first <span class="math inline">\(k\)</span> analyses <span class="math inline">\(1\le k\le K\)</span> are recursively defined by the spending function and the multivariate normal distribution to satisfy</p>
+<p><span class="citation">Lan and DeMets (1983)</span> developed the
+spending function method for deriving group sequential bounds. This
+involves use of a non-decreasing spending function <span class="math inline">\(f(t)\)</span> for <span class="math inline">\(t\ge
+0\)</span> where <span class="math inline">\(f(0)=0\)</span> and <span class="math inline">\(f(t)=\alpha\)</span> for <span class="math inline">\(t \ge 1\)</span>. Suppose for <span class="math inline">\(K&gt;0\)</span> analyses are performed when
+proportion <span class="math inline">\(t_1&lt; t_2 &lt;\ldots
+t_K=1\)</span> of some planned statistical information (e.g., proportion
+of planned events for a time-to-event endpoint trial for proportion of
+observations for a binomial or normal endpoint). Bounds through the
+first <span class="math inline">\(k\)</span> analyses <span class="math inline">\(1\le k\le K\)</span> are recursively defined by
+the spending function and the multivariate normal distribution to
+satisfy</p>
 <p><span class="math display">\[
   f(t_k) = 1 - P_0(\cap_{j=1}^k Z_j &lt; b_j).
-\]</span> For this quick start, we will only illustrate this type of efficacy bound.</p>
-<p>Perhaps the most common spending function for this approach is the <span class="citation">Lan and DeMets (1983)</span> approximation to the O’Brien-Fleming bound with</p>
+\]</span> For this quick start, we will only illustrate this type of
+efficacy bound.</p>
+<p>Perhaps the most common spending function for this approach is the
+<span class="citation">Lan and DeMets (1983)</span> approximation to the
+O’Brien-Fleming bound with</p>
 <p><span class="math display">\[
   f(t) = 2-2\Phi\left(\frac{\Phi^{-1}(1-\alpha/2)}{t^{1/2}}\right).
 \]</span></p>
 <p><img src="story_quick_start_files/figure-html/unnamed-chunk-8-1.png" width="624"></p>
-<p>Suppose <span class="math inline">\(K=3\)</span> and <span class="math inline">\(t_1=0.5\)</span>, <span class="math inline">\(t_2 = 0.75\)</span>, <span class="math inline">\(t_3 = 1\)</span>. We can use the assumptions above for a group sequential design with only an efficacy bound using the Lan-DeMets O’Brien-Fleming spending function for <span class="math inline">\(\alpha = 0.025\)</span> with</p>
+<p>Suppose <span class="math inline">\(K=3\)</span> and <span class="math inline">\(t_1=0.5\)</span>, <span class="math inline">\(t_2
+= 0.75\)</span>, <span class="math inline">\(t_3 = 1\)</span>. We can
+use the assumptions above for a group sequential design with only an
+efficacy bound using the Lan-DeMets O’Brien-Fleming spending function
+for <span class="math inline">\(\alpha = 0.025\)</span> with</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design1s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>  alpha <span class="op">=</span> <span class="va">alpha</span>,</span>
@@ -1946,18 +2023,21 @@
 <span>  lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">3</span><span class="op">)</span>,                       <span class="co"># No futility bound</span></span>
 <span>  info_scale <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Bounds at the 3 analyses are as follows. Note that expected sample size at time of each data cutoff for analysis is also here in <code>N</code>. We filter on the upper bound so that lower bounds with <code>Z = -Inf</code> are not shown.</p>
+<p>Bounds at the 3 analyses are as follows. Note that expected sample
+size at time of each data cutoff for analysis is also here in
+<code>N</code>. We filter on the upper bound so that lower bounds with
+<code>Z = -Inf</code> are not shown.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design1s</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"1-sided group sequential bound using AHR method"</span>,</span>
 <span>        subtitle <span class="op">=</span> <span class="st">"Lan-DeMets spending to approximate O'Brien-Fleming bound"</span><span class="op">)</span> </span></code></pre></div>
-<div id="xqrlbiigpq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ymoxktkdao" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xqrlbiigpq .gt_table {
+#ymoxktkdao .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1982,7 +2062,7 @@
   border-left-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_heading {
+#ymoxktkdao .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1994,7 +2074,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_title {
+#ymoxktkdao .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2006,7 +2086,7 @@
   border-bottom-width: 0;
 }
 
-#xqrlbiigpq .gt_subtitle {
+#ymoxktkdao .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2018,13 +2098,13 @@
   border-top-width: 0;
 }
 
-#xqrlbiigpq .gt_bottom_border {
+#ymoxktkdao .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_col_headings {
+#ymoxktkdao .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2039,7 +2119,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_col_heading {
+#ymoxktkdao .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2059,7 +2139,7 @@
   overflow-x: hidden;
 }
 
-#xqrlbiigpq .gt_column_spanner_outer {
+#ymoxktkdao .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2071,15 +2151,15 @@
   padding-right: 4px;
 }
 
-#xqrlbiigpq .gt_column_spanner_outer:first-child {
+#ymoxktkdao .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xqrlbiigpq .gt_column_spanner_outer:last-child {
+#ymoxktkdao .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xqrlbiigpq .gt_column_spanner {
+#ymoxktkdao .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2091,7 +2171,7 @@
   width: 100%;
 }
 
-#xqrlbiigpq .gt_group_heading {
+#ymoxktkdao .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2116,7 +2196,7 @@
   vertical-align: middle;
 }
 
-#xqrlbiigpq .gt_empty_group_heading {
+#ymoxktkdao .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2131,15 +2211,15 @@
   vertical-align: middle;
 }
 
-#xqrlbiigpq .gt_from_md > :first-child {
+#ymoxktkdao .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xqrlbiigpq .gt_from_md > :last-child {
+#ymoxktkdao .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xqrlbiigpq .gt_row {
+#ymoxktkdao .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2158,7 +2238,7 @@
   overflow-x: hidden;
 }
 
-#xqrlbiigpq .gt_stub {
+#ymoxktkdao .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2171,7 +2251,7 @@
   padding-right: 5px;
 }
 
-#xqrlbiigpq .gt_stub_row_group {
+#ymoxktkdao .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2185,11 +2265,11 @@
   vertical-align: top;
 }
 
-#xqrlbiigpq .gt_row_group_first td {
+#ymoxktkdao .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xqrlbiigpq .gt_summary_row {
+#ymoxktkdao .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2199,16 +2279,16 @@
   padding-right: 5px;
 }
 
-#xqrlbiigpq .gt_first_summary_row {
+#ymoxktkdao .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_first_summary_row.thick {
+#ymoxktkdao .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xqrlbiigpq .gt_last_summary_row {
+#ymoxktkdao .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2218,7 +2298,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_grand_summary_row {
+#ymoxktkdao .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2228,7 +2308,7 @@
   padding-right: 5px;
 }
 
-#xqrlbiigpq .gt_first_grand_summary_row {
+#ymoxktkdao .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2238,11 +2318,11 @@
   border-top-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_striped {
+#ymoxktkdao .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xqrlbiigpq .gt_table_body {
+#ymoxktkdao .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2251,7 +2331,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_footnotes {
+#ymoxktkdao .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2265,7 +2345,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_footnote {
+#ymoxktkdao .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2274,7 +2354,7 @@
   padding-right: 5px;
 }
 
-#xqrlbiigpq .gt_sourcenotes {
+#ymoxktkdao .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2288,7 +2368,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xqrlbiigpq .gt_sourcenote {
+#ymoxktkdao .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2296,64 +2376,64 @@
   padding-right: 5px;
 }
 
-#xqrlbiigpq .gt_left {
+#ymoxktkdao .gt_left {
   text-align: left;
 }
 
-#xqrlbiigpq .gt_center {
+#ymoxktkdao .gt_center {
   text-align: center;
 }
 
-#xqrlbiigpq .gt_right {
+#ymoxktkdao .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xqrlbiigpq .gt_font_normal {
+#ymoxktkdao .gt_font_normal {
   font-weight: normal;
 }
 
-#xqrlbiigpq .gt_font_bold {
+#ymoxktkdao .gt_font_bold {
   font-weight: bold;
 }
 
-#xqrlbiigpq .gt_font_italic {
+#ymoxktkdao .gt_font_italic {
   font-style: italic;
 }
 
-#xqrlbiigpq .gt_super {
+#ymoxktkdao .gt_super {
   font-size: 65%;
 }
 
-#xqrlbiigpq .gt_footnote_marks {
+#ymoxktkdao .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#xqrlbiigpq .gt_asterisk {
+#ymoxktkdao .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xqrlbiigpq .gt_indent_1 {
+#ymoxktkdao .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xqrlbiigpq .gt_indent_2 {
+#ymoxktkdao .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xqrlbiigpq .gt_indent_3 {
+#ymoxktkdao .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xqrlbiigpq .gt_indent_4 {
+#ymoxktkdao .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xqrlbiigpq .gt_indent_5 {
+#ymoxktkdao .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2430,7 +2510,8 @@
 </tfoot>
 </table>
 </div>
-<p>gsDesign to replicate above bounds (this will not replicate sample size).</p>
+<p>gsDesign to replicate above bounds (this will not replicate sample
+size).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, timing <span class="op">=</span> <span class="va">design1s</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">IF</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"gsDesign\n  Upper bound: "</span>,<span class="va">x</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span>
@@ -2476,12 +2557,12 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"2-sided symmetric group sequential bound using AHR method"</span>,</span>
 <span>        subtitle <span class="op">=</span> <span class="st">"Lan-DeMets spending to approximate O'Brien-Fleming bound"</span><span class="op">)</span></span></code></pre></div>
-<div id="tovwxexxzs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wxjzkgdpkt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tovwxexxzs .gt_table {
+#wxjzkgdpkt .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2506,7 +2587,7 @@
   border-left-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_heading {
+#wxjzkgdpkt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2518,7 +2599,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_title {
+#wxjzkgdpkt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2530,7 +2611,7 @@
   border-bottom-width: 0;
 }
 
-#tovwxexxzs .gt_subtitle {
+#wxjzkgdpkt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2542,13 +2623,13 @@
   border-top-width: 0;
 }
 
-#tovwxexxzs .gt_bottom_border {
+#wxjzkgdpkt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_col_headings {
+#wxjzkgdpkt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2563,7 +2644,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_col_heading {
+#wxjzkgdpkt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2583,7 +2664,7 @@
   overflow-x: hidden;
 }
 
-#tovwxexxzs .gt_column_spanner_outer {
+#wxjzkgdpkt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2595,15 +2676,15 @@
   padding-right: 4px;
 }
 
-#tovwxexxzs .gt_column_spanner_outer:first-child {
+#wxjzkgdpkt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tovwxexxzs .gt_column_spanner_outer:last-child {
+#wxjzkgdpkt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tovwxexxzs .gt_column_spanner {
+#wxjzkgdpkt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2615,7 +2696,7 @@
   width: 100%;
 }
 
-#tovwxexxzs .gt_group_heading {
+#wxjzkgdpkt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2640,7 +2721,7 @@
   vertical-align: middle;
 }
 
-#tovwxexxzs .gt_empty_group_heading {
+#wxjzkgdpkt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2655,15 +2736,15 @@
   vertical-align: middle;
 }
 
-#tovwxexxzs .gt_from_md > :first-child {
+#wxjzkgdpkt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tovwxexxzs .gt_from_md > :last-child {
+#wxjzkgdpkt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tovwxexxzs .gt_row {
+#wxjzkgdpkt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2682,7 +2763,7 @@
   overflow-x: hidden;
 }
 
-#tovwxexxzs .gt_stub {
+#wxjzkgdpkt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2695,7 +2776,7 @@
   padding-right: 5px;
 }
 
-#tovwxexxzs .gt_stub_row_group {
+#wxjzkgdpkt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2709,11 +2790,11 @@
   vertical-align: top;
 }
 
-#tovwxexxzs .gt_row_group_first td {
+#wxjzkgdpkt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tovwxexxzs .gt_summary_row {
+#wxjzkgdpkt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2723,16 +2804,16 @@
   padding-right: 5px;
 }
 
-#tovwxexxzs .gt_first_summary_row {
+#wxjzkgdpkt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_first_summary_row.thick {
+#wxjzkgdpkt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tovwxexxzs .gt_last_summary_row {
+#wxjzkgdpkt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2742,7 +2823,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_grand_summary_row {
+#wxjzkgdpkt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2752,7 +2833,7 @@
   padding-right: 5px;
 }
 
-#tovwxexxzs .gt_first_grand_summary_row {
+#wxjzkgdpkt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2762,11 +2843,11 @@
   border-top-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_striped {
+#wxjzkgdpkt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tovwxexxzs .gt_table_body {
+#wxjzkgdpkt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2775,7 +2856,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_footnotes {
+#wxjzkgdpkt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2789,7 +2870,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_footnote {
+#wxjzkgdpkt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2798,7 +2879,7 @@
   padding-right: 5px;
 }
 
-#tovwxexxzs .gt_sourcenotes {
+#wxjzkgdpkt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2812,7 +2893,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tovwxexxzs .gt_sourcenote {
+#wxjzkgdpkt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2820,64 +2901,64 @@
   padding-right: 5px;
 }
 
-#tovwxexxzs .gt_left {
+#wxjzkgdpkt .gt_left {
   text-align: left;
 }
 
-#tovwxexxzs .gt_center {
+#wxjzkgdpkt .gt_center {
   text-align: center;
 }
 
-#tovwxexxzs .gt_right {
+#wxjzkgdpkt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tovwxexxzs .gt_font_normal {
+#wxjzkgdpkt .gt_font_normal {
   font-weight: normal;
 }
 
-#tovwxexxzs .gt_font_bold {
+#wxjzkgdpkt .gt_font_bold {
   font-weight: bold;
 }
 
-#tovwxexxzs .gt_font_italic {
+#wxjzkgdpkt .gt_font_italic {
   font-style: italic;
 }
 
-#tovwxexxzs .gt_super {
+#wxjzkgdpkt .gt_super {
   font-size: 65%;
 }
 
-#tovwxexxzs .gt_footnote_marks {
+#wxjzkgdpkt .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#tovwxexxzs .gt_asterisk {
+#wxjzkgdpkt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tovwxexxzs .gt_indent_1 {
+#wxjzkgdpkt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tovwxexxzs .gt_indent_2 {
+#wxjzkgdpkt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tovwxexxzs .gt_indent_3 {
+#wxjzkgdpkt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tovwxexxzs .gt_indent_4 {
+#wxjzkgdpkt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tovwxexxzs .gt_indent_5 {
+#wxjzkgdpkt .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2917,7 +2998,7 @@
 <td class="gt_row gt_right">0.9987</td>
 <td class="gt_row gt_right">1.6096</td>
 <td class="gt_row gt_right">0.0000</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.0013</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2936,7 +3017,7 @@
 <td class="gt_row gt_right">0.9880</td>
 <td class="gt_row gt_right">1.3211</td>
 <td class="gt_row gt_right">0.0000</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.0125</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2955,7 +3036,7 @@
 <td class="gt_row gt_right">0.9788</td>
 <td class="gt_row gt_right">1.2518</td>
 <td class="gt_row gt_right">0.0000</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.0250</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -2990,7 +3071,19 @@
 <div class="section level4">
 <h4 id="asymmetric-2-sided-bounds">Asymmetric 2-sided bounds<a class="anchor" aria-label="anchor" href="#asymmetric-2-sided-bounds"></a>
 </h4>
-<p>Asymmetric 2-sided designs are more common than symmetric since the objectives of the two bounds tend to be different. There is often caution to analyze early for efficacy or to use other than a conservative bound; both of these principles have been used with the example designs so far. Stopping when there is a lack of benefit for experimental treatment over control or for an overt indication of an unfavorable trend generally might be examined early and bounds be less stringent. We will add an early futility analysis where if there is a nominal 1-sided p-value of <span class="math inline">\(0.05\)</span> in the wrong direction (<span class="math inline">\(Z=\Phi^{-1}(0.05)\)</span> after 30% or <span class="math inline">\(50\%\)</span> of events have accrued. This might be considered a <em>disaster check</em>. After this point in time, there may not be a perceived need for further futility analysis. For efficacy, we add an infinite bound at this first interim analysis.</p>
+<p>Asymmetric 2-sided designs are more common than symmetric since the
+objectives of the two bounds tend to be different. There is often
+caution to analyze early for efficacy or to use other than a
+conservative bound; both of these principles have been used with the
+example designs so far. Stopping when there is a lack of benefit for
+experimental treatment over control or for an overt indication of an
+unfavorable trend generally might be examined early and bounds be less
+stringent. We will add an early futility analysis where if there is a
+nominal 1-sided p-value of <span class="math inline">\(0.05\)</span> in
+the wrong direction (<span class="math inline">\(Z=\Phi^{-1}(0.05)\)</span> after 30% or <span class="math inline">\(50\%\)</span> of events have accrued. This might
+be considered a <em>disaster check</em>. After this point in time, there
+may not be a perceived need for further futility analysis. For efficacy,
+we add an infinite bound at this first interim analysis.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design2sa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>  alpha <span class="op">=</span> <span class="va">alpha</span>,</span>
@@ -3004,18 +3097,19 @@
 <span>  lower <span class="op">=</span> <span class="va">gs_b</span>, </span>
 <span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.05</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>   <span class="co"># Fixed lower bound at first 2 analyses</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>We now have a slightly larger sample size to account for the possibility of an early futility stop. Bounds are now:</p>
+<p>We now have a slightly larger sample size to account for the
+possibility of an early futility stop. Bounds are now:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design2sa</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"2-sided asymmetric group sequential bound using AHR method"</span>,</span>
 <span>        subtitle <span class="op">=</span> <span class="st">"Lan-DeMets spending to approximate O'Brien-Fleming bound for efficacy, futility disaster check at IA1, IA2 only"</span><span class="op">)</span></span></code></pre></div>
-<div id="awfsejeutc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mybvpkisis" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#awfsejeutc .gt_table {
+#mybvpkisis .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3040,7 +3134,7 @@
   border-left-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_heading {
+#mybvpkisis .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3052,7 +3146,7 @@
   border-right-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_title {
+#mybvpkisis .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3064,7 +3158,7 @@
   border-bottom-width: 0;
 }
 
-#awfsejeutc .gt_subtitle {
+#mybvpkisis .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3076,13 +3170,13 @@
   border-top-width: 0;
 }
 
-#awfsejeutc .gt_bottom_border {
+#mybvpkisis .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_col_headings {
+#mybvpkisis .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3097,7 +3191,7 @@
   border-right-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_col_heading {
+#mybvpkisis .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3117,7 +3211,7 @@
   overflow-x: hidden;
 }
 
-#awfsejeutc .gt_column_spanner_outer {
+#mybvpkisis .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3129,15 +3223,15 @@
   padding-right: 4px;
 }
 
-#awfsejeutc .gt_column_spanner_outer:first-child {
+#mybvpkisis .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#awfsejeutc .gt_column_spanner_outer:last-child {
+#mybvpkisis .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#awfsejeutc .gt_column_spanner {
+#mybvpkisis .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3149,7 +3243,7 @@
   width: 100%;
 }
 
-#awfsejeutc .gt_group_heading {
+#mybvpkisis .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3174,7 +3268,7 @@
   vertical-align: middle;
 }
 
-#awfsejeutc .gt_empty_group_heading {
+#mybvpkisis .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3189,15 +3283,15 @@
   vertical-align: middle;
 }
 
-#awfsejeutc .gt_from_md > :first-child {
+#mybvpkisis .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#awfsejeutc .gt_from_md > :last-child {
+#mybvpkisis .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#awfsejeutc .gt_row {
+#mybvpkisis .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3216,7 +3310,7 @@
   overflow-x: hidden;
 }
 
-#awfsejeutc .gt_stub {
+#mybvpkisis .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3229,7 +3323,7 @@
   padding-right: 5px;
 }
 
-#awfsejeutc .gt_stub_row_group {
+#mybvpkisis .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3243,11 +3337,11 @@
   vertical-align: top;
 }
 
-#awfsejeutc .gt_row_group_first td {
+#mybvpkisis .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#awfsejeutc .gt_summary_row {
+#mybvpkisis .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3257,16 +3351,16 @@
   padding-right: 5px;
 }
 
-#awfsejeutc .gt_first_summary_row {
+#mybvpkisis .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_first_summary_row.thick {
+#mybvpkisis .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#awfsejeutc .gt_last_summary_row {
+#mybvpkisis .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3276,7 +3370,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_grand_summary_row {
+#mybvpkisis .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3286,7 +3380,7 @@
   padding-right: 5px;
 }
 
-#awfsejeutc .gt_first_grand_summary_row {
+#mybvpkisis .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3296,11 +3390,11 @@
   border-top-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_striped {
+#mybvpkisis .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#awfsejeutc .gt_table_body {
+#mybvpkisis .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3309,7 +3403,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_footnotes {
+#mybvpkisis .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3323,7 +3417,7 @@
   border-right-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_footnote {
+#mybvpkisis .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3332,7 +3426,7 @@
   padding-right: 5px;
 }
 
-#awfsejeutc .gt_sourcenotes {
+#mybvpkisis .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3346,7 +3440,7 @@
   border-right-color: #D3D3D3;
 }
 
-#awfsejeutc .gt_sourcenote {
+#mybvpkisis .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3354,64 +3448,64 @@
   padding-right: 5px;
 }
 
-#awfsejeutc .gt_left {
+#mybvpkisis .gt_left {
   text-align: left;
 }
 
-#awfsejeutc .gt_center {
+#mybvpkisis .gt_center {
   text-align: center;
 }
 
-#awfsejeutc .gt_right {
+#mybvpkisis .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#awfsejeutc .gt_font_normal {
+#mybvpkisis .gt_font_normal {
   font-weight: normal;
 }
 
-#awfsejeutc .gt_font_bold {
+#mybvpkisis .gt_font_bold {
   font-weight: bold;
 }
 
-#awfsejeutc .gt_font_italic {
+#mybvpkisis .gt_font_italic {
   font-style: italic;
 }
 
-#awfsejeutc .gt_super {
+#mybvpkisis .gt_super {
   font-size: 65%;
 }
 
-#awfsejeutc .gt_footnote_marks {
+#mybvpkisis .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#awfsejeutc .gt_asterisk {
+#mybvpkisis .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#awfsejeutc .gt_indent_1 {
+#mybvpkisis .gt_indent_1 {
   text-indent: 5px;
 }
 
-#awfsejeutc .gt_indent_2 {
+#mybvpkisis .gt_indent_2 {
   text-indent: 10px;
 }
 
-#awfsejeutc .gt_indent_3 {
+#mybvpkisis .gt_indent_3 {
   text-indent: 15px;
 }
 
-#awfsejeutc .gt_indent_4 {
+#mybvpkisis .gt_indent_4 {
   text-indent: 20px;
 }
 
-#awfsejeutc .gt_indent_5 {
+#mybvpkisis .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3451,7 +3545,7 @@
 <td class="gt_row gt_right">0.9500</td>
 <td class="gt_row gt_right">1.3896</td>
 <td class="gt_row gt_right">0.0115</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.0500</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -3470,7 +3564,7 @@
 <td class="gt_row gt_right">0.9500</td>
 <td class="gt_row gt_right">1.2932</td>
 <td class="gt_row gt_right">0.0119</td>
-<td class="gt_row gt_right">0.0000</td>
+<td class="gt_row gt_right">0.0763</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Efficacy</td>
@@ -3523,10 +3617,12 @@
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-JTBook" class="csl-entry">
-Jennison, Christopher, and Bruce W Turnbull. 1999. <em>Group Sequential Methods with Applications to Clinical Trials</em>. CRC Press.
+Jennison, Christopher, and Bruce W Turnbull. 1999. <em>Group Sequential
+Methods with Applications to Clinical Trials</em>. CRC Press.
 </div>
 <div id="ref-LanDeMets" class="csl-entry">
-Lan, K. K. G., and David L. DeMets. 1983. <span>“Discrete Sequential Boundaries for Clinical Trials.”</span> <em>Biometrika</em> 70: 659–63.
+Lan, K. K. G., and David L. DeMets. 1983. <span>“Discrete Sequential
+Boundaries for Clinical Trials.”</span> <em>Biometrika</em> 70: 659–63.
 </div>
 </div>
 </div>

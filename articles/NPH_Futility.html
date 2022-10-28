@@ -97,11 +97,24 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>We set up futility bounds under a non-proportional hazards assumption. We consider methods presented by <span class="citation">Korn and Freidlin (2018)</span> for setting such bounds and then consider an alternate futility bound based on <span class="math inline">\(\beta-\)</span>spending under a delayed or crossing treatment effect to simplify implementation. Finally, we show how to update this <span class="math inline">\(\beta-\)</span>spending bound based on blinded interim data. We will consider an example to reproduce a line of <span class="citation">Korn and Freidlin (2018)</span> Table 1 with the alternative futility bounds considered.</p>
+<p>We set up futility bounds under a non-proportional hazards
+assumption. We consider methods presented by <span class="citation">Korn
+and Freidlin (2018)</span> for setting such bounds and then consider an
+alternate futility bound based on <span class="math inline">\(\beta-\)</span>spending under a delayed or
+crossing treatment effect to simplify implementation. Finally, we show
+how to update this <span class="math inline">\(\beta-\)</span>spending
+bound based on blinded interim data. We will consider an example to
+reproduce a line of <span class="citation">Korn and Freidlin
+(2018)</span> Table 1 with the alternative futility bounds
+considered.</p>
 <div class="section level3">
 <h3 id="initial-design-set-up-for-fixed-analysis">Initial design set-up for fixed analysis<a class="anchor" aria-label="anchor" href="#initial-design-set-up-for-fixed-analysis"></a>
 </h3>
-<p><span class="citation">Korn and Freidlin (2018)</span> considered delayed effect scenarios and proposed a futility bound that is a modification of an earlier method proposed by <span class="citation">Wieand, Schroeder, and O’Fallon (1994)</span>. We begin with the enrollment and failure rate assumptions which <span class="citation">Korn and Freidlin (2018)</span> based on an example by <span class="citation">Chen (2013)</span>.</p>
+<p><span class="citation">Korn and Freidlin (2018)</span> considered
+delayed effect scenarios and proposed a futility bound that is a
+modification of an earlier method proposed by <span class="citation">Wieand, Schroeder, and O’Fallon (1994)</span>. We begin
+with the enrollment and failure rate assumptions which <span class="citation">Korn and Freidlin (2018)</span> based on an example by
+<span class="citation">Chen (2013)</span>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Enrollment assumed to be 680 patients over 12 months with no ramp-up</span></span>
 <span><span class="va">enrollRates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, duration <span class="op">=</span> <span class="fl">12</span>, rate <span class="op">=</span> <span class="fl">680</span> <span class="op">/</span> <span class="fl">12</span><span class="op">)</span></span>
@@ -114,7 +127,10 @@
 <span><span class="co">## Study duration was 34.8 in Korn &amp; Freidlin Table 1</span></span>
 <span><span class="co">## We change to 34.86 here to obtain 512 expected events more precisely</span></span>
 <span><span class="va">studyDuration</span> <span class="op">&lt;-</span> <span class="fl">34.86</span></span></code></pre></div>
-<p>We now derive a fixed sample size based on these assumptions. Ideally, we would allow a targeted event count and variable follow-up in <code><a href="../reference/fixed_design.html">fixed_design()</a></code> so that the study duration will be computed automatically.</p>
+<p>We now derive a fixed sample size based on these assumptions.
+Ideally, we would allow a targeted event count and variable follow-up in
+<code><a href="../reference/fixed_design.html">fixed_design()</a></code> so that the study duration will be computed
+automatically.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fixedevents</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fixed_design.html">fixed_design</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"AHR"</span>, alpha <span class="op">=</span> <span class="fl">0.025</span>, power <span class="op">=</span> <span class="cn">NULL</span>, </span>
 <span>                      enrollRates <span class="op">=</span> <span class="va">enrollRates</span>,</span>
@@ -125,12 +141,12 @@
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>footnote<span class="op">=</span><span class="st">"Power based on 512 events"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, decimals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<div id="mccnolgazc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ibxsjuxodh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#mccnolgazc .gt_table {
+#ibxsjuxodh .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -155,7 +171,7 @@
   border-left-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_heading {
+#ibxsjuxodh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -167,7 +183,7 @@
   border-right-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_title {
+#ibxsjuxodh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -179,7 +195,7 @@
   border-bottom-width: 0;
 }
 
-#mccnolgazc .gt_subtitle {
+#ibxsjuxodh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -191,13 +207,13 @@
   border-top-width: 0;
 }
 
-#mccnolgazc .gt_bottom_border {
+#ibxsjuxodh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_col_headings {
+#ibxsjuxodh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -212,7 +228,7 @@
   border-right-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_col_heading {
+#ibxsjuxodh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -232,7 +248,7 @@
   overflow-x: hidden;
 }
 
-#mccnolgazc .gt_column_spanner_outer {
+#ibxsjuxodh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -244,15 +260,15 @@
   padding-right: 4px;
 }
 
-#mccnolgazc .gt_column_spanner_outer:first-child {
+#ibxsjuxodh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mccnolgazc .gt_column_spanner_outer:last-child {
+#ibxsjuxodh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mccnolgazc .gt_column_spanner {
+#ibxsjuxodh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -264,7 +280,7 @@
   width: 100%;
 }
 
-#mccnolgazc .gt_group_heading {
+#ibxsjuxodh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -289,7 +305,7 @@
   vertical-align: middle;
 }
 
-#mccnolgazc .gt_empty_group_heading {
+#ibxsjuxodh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -304,15 +320,15 @@
   vertical-align: middle;
 }
 
-#mccnolgazc .gt_from_md > :first-child {
+#ibxsjuxodh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mccnolgazc .gt_from_md > :last-child {
+#ibxsjuxodh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mccnolgazc .gt_row {
+#ibxsjuxodh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -331,7 +347,7 @@
   overflow-x: hidden;
 }
 
-#mccnolgazc .gt_stub {
+#ibxsjuxodh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -344,7 +360,7 @@
   padding-right: 5px;
 }
 
-#mccnolgazc .gt_stub_row_group {
+#ibxsjuxodh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -358,11 +374,11 @@
   vertical-align: top;
 }
 
-#mccnolgazc .gt_row_group_first td {
+#ibxsjuxodh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mccnolgazc .gt_summary_row {
+#ibxsjuxodh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -372,16 +388,16 @@
   padding-right: 5px;
 }
 
-#mccnolgazc .gt_first_summary_row {
+#ibxsjuxodh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_first_summary_row.thick {
+#ibxsjuxodh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mccnolgazc .gt_last_summary_row {
+#ibxsjuxodh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -391,7 +407,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_grand_summary_row {
+#ibxsjuxodh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -401,7 +417,7 @@
   padding-right: 5px;
 }
 
-#mccnolgazc .gt_first_grand_summary_row {
+#ibxsjuxodh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -411,11 +427,11 @@
   border-top-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_striped {
+#ibxsjuxodh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mccnolgazc .gt_table_body {
+#ibxsjuxodh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -424,7 +440,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_footnotes {
+#ibxsjuxodh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -438,7 +454,7 @@
   border-right-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_footnote {
+#ibxsjuxodh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -447,7 +463,7 @@
   padding-right: 5px;
 }
 
-#mccnolgazc .gt_sourcenotes {
+#ibxsjuxodh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -461,7 +477,7 @@
   border-right-color: #D3D3D3;
 }
 
-#mccnolgazc .gt_sourcenote {
+#ibxsjuxodh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -469,64 +485,64 @@
   padding-right: 5px;
 }
 
-#mccnolgazc .gt_left {
+#ibxsjuxodh .gt_left {
   text-align: left;
 }
 
-#mccnolgazc .gt_center {
+#ibxsjuxodh .gt_center {
   text-align: center;
 }
 
-#mccnolgazc .gt_right {
+#ibxsjuxodh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mccnolgazc .gt_font_normal {
+#ibxsjuxodh .gt_font_normal {
   font-weight: normal;
 }
 
-#mccnolgazc .gt_font_bold {
+#ibxsjuxodh .gt_font_bold {
   font-weight: bold;
 }
 
-#mccnolgazc .gt_font_italic {
+#ibxsjuxodh .gt_font_italic {
   font-style: italic;
 }
 
-#mccnolgazc .gt_super {
+#ibxsjuxodh .gt_super {
   font-size: 65%;
 }
 
-#mccnolgazc .gt_footnote_marks {
+#ibxsjuxodh .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#mccnolgazc .gt_asterisk {
+#ibxsjuxodh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mccnolgazc .gt_indent_1 {
+#ibxsjuxodh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mccnolgazc .gt_indent_2 {
+#ibxsjuxodh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mccnolgazc .gt_indent_3 {
+#ibxsjuxodh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mccnolgazc .gt_indent_4 {
+#ibxsjuxodh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mccnolgazc .gt_indent_5 {
+#ibxsjuxodh .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -562,7 +578,22 @@
 <div class="section level2">
 <h2 id="modified-wieand-futility-bound">Modified Wieand futility bound<a class="anchor" aria-label="anchor" href="#modified-wieand-futility-bound"></a>
 </h2>
-<p>The <span class="citation">Wieand, Schroeder, and O’Fallon (1994)</span> rule recommends stopping after 50% of planned events accrue if the observed HR &gt; 1. kornfreidlin2018 modified this by adding a second interim analysis after 75% of planned events and stop if the observed HR &gt; 1 This is implemented here by requiring a trend in favor of control with a direction <span class="math inline">\(Z\)</span>-bound at 0 resulting in the <em>Nominal p</em> bound being 0.5 for interim analyses in the table below. A fixed bound is specified with the ’gs_b()<code>function for</code>upper<code>and</code>lower<code>and its correspoinding parameters</code>upar<code>for the upper (efficacy) bound and</code>lpar` for the lower (futility) bound. The final efficacy bound is for a 1-sided nominal p-value of 0.025; the futility bound lowers this to 0.0247 as noted in the lower-right-hand corner of the table below. In the last row under <em>Alternate hypothesis</em> below we see the power is 88.44%. <span class="citation">Korn and Freidlin (2018)</span> computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be 0.1%.</p>
+<p>The <span class="citation">Wieand, Schroeder, and O’Fallon
+(1994)</span> rule recommends stopping after 50% of planned events
+accrue if the observed HR &gt; 1. kornfreidlin2018 modified this by
+adding a second interim analysis after 75% of planned events and stop if
+the observed HR &gt; 1 This is implemented here by requiring a trend in
+favor of control with a direction <span class="math inline">\(Z\)</span>-bound at 0 resulting in the <em>Nominal
+p</em> bound being 0.5 for interim analyses in the table below. A fixed
+bound is specified with the
+’gs_b()<code>function for</code>upper<code>and</code>lower<code>and its correspoinding parameters</code>upar<code>for the upper (efficacy) bound and</code>lpar`
+for the lower (futility) bound. The final efficacy bound is for a
+1-sided nominal p-value of 0.025; the futility bound lowers this to
+0.0247 as noted in the lower-right-hand corner of the table below. In
+the last row under <em>Alternate hypothesis</em> below we see the power
+is 88.44%. <span class="citation">Korn and Freidlin (2018)</span>
+computed 88.4% power for this design with 100,000 simulations which
+estimate the standard error for the power calculation to be 0.1%.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wieand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span>enrollRates <span class="op">=</span> <span class="va">enrollRates</span>, failRates <span class="op">=</span> <span class="va">failRates</span>,</span>
 <span>                       upper <span class="op">=</span> <span class="va">gs_b</span>, upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -571,12 +602,12 @@
 <span><span class="va">wieand</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"Group sequential design with futility only at interim analyses"</span>,</span>
 <span>        subtitle<span class="op">=</span><span class="st">"Wieand futility rule stops if HR &gt; 1"</span><span class="op">)</span></span></code></pre></div>
-<div id="tmijtpbeoa" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wvhvtyprvp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tmijtpbeoa .gt_table {
+#wvhvtyprvp .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -601,7 +632,7 @@
   border-left-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_heading {
+#wvhvtyprvp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -613,7 +644,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_title {
+#wvhvtyprvp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -625,7 +656,7 @@
   border-bottom-width: 0;
 }
 
-#tmijtpbeoa .gt_subtitle {
+#wvhvtyprvp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -637,13 +668,13 @@
   border-top-width: 0;
 }
 
-#tmijtpbeoa .gt_bottom_border {
+#wvhvtyprvp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_col_headings {
+#wvhvtyprvp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -658,7 +689,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_col_heading {
+#wvhvtyprvp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -678,7 +709,7 @@
   overflow-x: hidden;
 }
 
-#tmijtpbeoa .gt_column_spanner_outer {
+#wvhvtyprvp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -690,15 +721,15 @@
   padding-right: 4px;
 }
 
-#tmijtpbeoa .gt_column_spanner_outer:first-child {
+#wvhvtyprvp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tmijtpbeoa .gt_column_spanner_outer:last-child {
+#wvhvtyprvp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tmijtpbeoa .gt_column_spanner {
+#wvhvtyprvp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -710,7 +741,7 @@
   width: 100%;
 }
 
-#tmijtpbeoa .gt_group_heading {
+#wvhvtyprvp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -735,7 +766,7 @@
   vertical-align: middle;
 }
 
-#tmijtpbeoa .gt_empty_group_heading {
+#wvhvtyprvp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -750,15 +781,15 @@
   vertical-align: middle;
 }
 
-#tmijtpbeoa .gt_from_md > :first-child {
+#wvhvtyprvp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tmijtpbeoa .gt_from_md > :last-child {
+#wvhvtyprvp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tmijtpbeoa .gt_row {
+#wvhvtyprvp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -777,7 +808,7 @@
   overflow-x: hidden;
 }
 
-#tmijtpbeoa .gt_stub {
+#wvhvtyprvp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -790,7 +821,7 @@
   padding-right: 5px;
 }
 
-#tmijtpbeoa .gt_stub_row_group {
+#wvhvtyprvp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -804,11 +835,11 @@
   vertical-align: top;
 }
 
-#tmijtpbeoa .gt_row_group_first td {
+#wvhvtyprvp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tmijtpbeoa .gt_summary_row {
+#wvhvtyprvp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -818,16 +849,16 @@
   padding-right: 5px;
 }
 
-#tmijtpbeoa .gt_first_summary_row {
+#wvhvtyprvp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_first_summary_row.thick {
+#wvhvtyprvp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tmijtpbeoa .gt_last_summary_row {
+#wvhvtyprvp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -837,7 +868,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_grand_summary_row {
+#wvhvtyprvp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -847,7 +878,7 @@
   padding-right: 5px;
 }
 
-#tmijtpbeoa .gt_first_grand_summary_row {
+#wvhvtyprvp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -857,11 +888,11 @@
   border-top-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_striped {
+#wvhvtyprvp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tmijtpbeoa .gt_table_body {
+#wvhvtyprvp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -870,7 +901,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_footnotes {
+#wvhvtyprvp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -884,7 +915,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_footnote {
+#wvhvtyprvp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -893,7 +924,7 @@
   padding-right: 5px;
 }
 
-#tmijtpbeoa .gt_sourcenotes {
+#wvhvtyprvp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -907,7 +938,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tmijtpbeoa .gt_sourcenote {
+#wvhvtyprvp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -915,64 +946,64 @@
   padding-right: 5px;
 }
 
-#tmijtpbeoa .gt_left {
+#wvhvtyprvp .gt_left {
   text-align: left;
 }
 
-#tmijtpbeoa .gt_center {
+#wvhvtyprvp .gt_center {
   text-align: center;
 }
 
-#tmijtpbeoa .gt_right {
+#wvhvtyprvp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tmijtpbeoa .gt_font_normal {
+#wvhvtyprvp .gt_font_normal {
   font-weight: normal;
 }
 
-#tmijtpbeoa .gt_font_bold {
+#wvhvtyprvp .gt_font_bold {
   font-weight: bold;
 }
 
-#tmijtpbeoa .gt_font_italic {
+#wvhvtyprvp .gt_font_italic {
   font-style: italic;
 }
 
-#tmijtpbeoa .gt_super {
+#wvhvtyprvp .gt_super {
   font-size: 65%;
 }
 
-#tmijtpbeoa .gt_footnote_marks {
+#wvhvtyprvp .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#tmijtpbeoa .gt_asterisk {
+#wvhvtyprvp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tmijtpbeoa .gt_indent_1 {
+#wvhvtyprvp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tmijtpbeoa .gt_indent_2 {
+#wvhvtyprvp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tmijtpbeoa .gt_indent_3 {
+#wvhvtyprvp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tmijtpbeoa .gt_indent_4 {
+#wvhvtyprvp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tmijtpbeoa .gt_indent_5 {
+#wvhvtyprvp .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1065,12 +1096,12 @@
 <span><span class="va">betaspending</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"Group sequential design with futility only"</span>,</span>
 <span>                      subtitle<span class="op">=</span><span class="st">"Beta-spending futility bound"</span><span class="op">)</span></span></code></pre></div>
-<div id="vhmzfyarjg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="aeabjsgdat" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vhmzfyarjg .gt_table {
+#aeabjsgdat .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1095,7 +1126,7 @@
   border-left-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_heading {
+#aeabjsgdat .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1107,7 +1138,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_title {
+#aeabjsgdat .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1119,7 +1150,7 @@
   border-bottom-width: 0;
 }
 
-#vhmzfyarjg .gt_subtitle {
+#aeabjsgdat .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1131,13 +1162,13 @@
   border-top-width: 0;
 }
 
-#vhmzfyarjg .gt_bottom_border {
+#aeabjsgdat .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_col_headings {
+#aeabjsgdat .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1152,7 +1183,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_col_heading {
+#aeabjsgdat .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1172,7 +1203,7 @@
   overflow-x: hidden;
 }
 
-#vhmzfyarjg .gt_column_spanner_outer {
+#aeabjsgdat .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1184,15 +1215,15 @@
   padding-right: 4px;
 }
 
-#vhmzfyarjg .gt_column_spanner_outer:first-child {
+#aeabjsgdat .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vhmzfyarjg .gt_column_spanner_outer:last-child {
+#aeabjsgdat .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vhmzfyarjg .gt_column_spanner {
+#aeabjsgdat .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1204,7 +1235,7 @@
   width: 100%;
 }
 
-#vhmzfyarjg .gt_group_heading {
+#aeabjsgdat .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1229,7 +1260,7 @@
   vertical-align: middle;
 }
 
-#vhmzfyarjg .gt_empty_group_heading {
+#aeabjsgdat .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1244,15 +1275,15 @@
   vertical-align: middle;
 }
 
-#vhmzfyarjg .gt_from_md > :first-child {
+#aeabjsgdat .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vhmzfyarjg .gt_from_md > :last-child {
+#aeabjsgdat .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vhmzfyarjg .gt_row {
+#aeabjsgdat .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1271,7 +1302,7 @@
   overflow-x: hidden;
 }
 
-#vhmzfyarjg .gt_stub {
+#aeabjsgdat .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1284,7 +1315,7 @@
   padding-right: 5px;
 }
 
-#vhmzfyarjg .gt_stub_row_group {
+#aeabjsgdat .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1298,11 +1329,11 @@
   vertical-align: top;
 }
 
-#vhmzfyarjg .gt_row_group_first td {
+#aeabjsgdat .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vhmzfyarjg .gt_summary_row {
+#aeabjsgdat .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1312,16 +1343,16 @@
   padding-right: 5px;
 }
 
-#vhmzfyarjg .gt_first_summary_row {
+#aeabjsgdat .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_first_summary_row.thick {
+#aeabjsgdat .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vhmzfyarjg .gt_last_summary_row {
+#aeabjsgdat .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1331,7 +1362,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_grand_summary_row {
+#aeabjsgdat .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1341,7 +1372,7 @@
   padding-right: 5px;
 }
 
-#vhmzfyarjg .gt_first_grand_summary_row {
+#aeabjsgdat .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1351,11 +1382,11 @@
   border-top-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_striped {
+#aeabjsgdat .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vhmzfyarjg .gt_table_body {
+#aeabjsgdat .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1364,7 +1395,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_footnotes {
+#aeabjsgdat .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1378,7 +1409,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_footnote {
+#aeabjsgdat .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1387,7 +1418,7 @@
   padding-right: 5px;
 }
 
-#vhmzfyarjg .gt_sourcenotes {
+#aeabjsgdat .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1401,7 +1432,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vhmzfyarjg .gt_sourcenote {
+#aeabjsgdat .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1409,64 +1440,64 @@
   padding-right: 5px;
 }
 
-#vhmzfyarjg .gt_left {
+#aeabjsgdat .gt_left {
   text-align: left;
 }
 
-#vhmzfyarjg .gt_center {
+#aeabjsgdat .gt_center {
   text-align: center;
 }
 
-#vhmzfyarjg .gt_right {
+#aeabjsgdat .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vhmzfyarjg .gt_font_normal {
+#aeabjsgdat .gt_font_normal {
   font-weight: normal;
 }
 
-#vhmzfyarjg .gt_font_bold {
+#aeabjsgdat .gt_font_bold {
   font-weight: bold;
 }
 
-#vhmzfyarjg .gt_font_italic {
+#aeabjsgdat .gt_font_italic {
   font-style: italic;
 }
 
-#vhmzfyarjg .gt_super {
+#aeabjsgdat .gt_super {
   font-size: 65%;
 }
 
-#vhmzfyarjg .gt_footnote_marks {
+#aeabjsgdat .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#vhmzfyarjg .gt_asterisk {
+#aeabjsgdat .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vhmzfyarjg .gt_indent_1 {
+#aeabjsgdat .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vhmzfyarjg .gt_indent_2 {
+#aeabjsgdat .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vhmzfyarjg .gt_indent_3 {
+#aeabjsgdat .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vhmzfyarjg .gt_indent_4 {
+#aeabjsgdat .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vhmzfyarjg .gt_indent_5 {
+#aeabjsgdat .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1547,16 +1578,31 @@
 <div class="section level2">
 <h2 id="classical-beta-spending-futility-bound">Classical beta-spending futility bound<a class="anchor" aria-label="anchor" href="#classical-beta-spending-futility-bound"></a>
 </h2>
-<p>A classical <span class="math inline">\(\beta-\)</span>spending bound would assume a constant treatment effect over time using the proportional hazards assumption. We use the average hazard ratio at the fixed design analysis for this purpose.</p>
+<p>A classical <span class="math inline">\(\beta-\)</span>spending bound
+would assume a constant treatment effect over time using the
+proportional hazards assumption. We use the average hazard ratio at the
+fixed design analysis for this purpose.</p>
 </div>
 <div class="section level2">
 <h2 id="korn-and-freidlin-futility-bound">Korn and Freidlin futility bound<a class="anchor" aria-label="anchor" href="#korn-and-freidlin-futility-bound"></a>
 </h2>
-<p>The <span class="citation">Korn and Freidlin (2018)</span> futility bound is set <em>when at least 50% of the expected events have occurred and at least two thirds of the observed events have occurred later than 3 months from randomization</em>. The expected timing for this is demonstrated below.</p>
+<p>The <span class="citation">Korn and Freidlin (2018)</span> futility
+bound is set <em>when at least 50% of the expected events have occurred
+and at least two thirds of the observed events have occurred later than
+3 months from randomization</em>. The expected timing for this is
+demonstrated below.</p>
 <div class="section level3">
 <h3 id="accumulation-of-events-by-time-interval">Accumulation of events by time interval<a class="anchor" aria-label="anchor" href="#accumulation-of-events-by-time-interval"></a>
 </h3>
-<p>We consider the accumulation of events over time that occur during the no-effect interval for the first 3 months after randomization and events after this time interval. This is done for the overall trial without dividing out by treatment group using the <code><a href="../reference/AHR.html">gsDesign2::AHR()</a></code> function. We consider monthly accumulation of events through the 34.86 months planned trial duration. We note in the summary of early expected events below that all events during the first 3 months on-study are expected prior to the first interim analysis.</p>
+<p>We consider the accumulation of events over time that occur during
+the no-effect interval for the first 3 months after randomization and
+events after this time interval. This is done for the overall trial
+without dividing out by treatment group using the
+<code><a href="../reference/AHR.html">gsDesign2::AHR()</a></code> function. We consider monthly accumulation
+of events through the 34.86 months planned trial duration. We note in
+the summary of early expected events below that all events during the
+first 3 months on-study are expected prior to the first interim
+analysis.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op">&lt;-</span> </span>
 <span><span class="fu"><a href="../reference/AHR.html">AHR</a></span><span class="op">(</span>enrollRates <span class="op">=</span> <span class="va">enrollRates</span>,</span>
@@ -1565,12 +1611,12 @@
 <span>    ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">event_accumulation</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="wsujgvqpgd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="kogemwgmim" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#wsujgvqpgd .gt_table {
+#kogemwgmim .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1595,7 +1641,7 @@
   border-left-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_heading {
+#kogemwgmim .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1607,7 +1653,7 @@
   border-right-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_title {
+#kogemwgmim .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1619,7 +1665,7 @@
   border-bottom-width: 0;
 }
 
-#wsujgvqpgd .gt_subtitle {
+#kogemwgmim .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1631,13 +1677,13 @@
   border-top-width: 0;
 }
 
-#wsujgvqpgd .gt_bottom_border {
+#kogemwgmim .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_col_headings {
+#kogemwgmim .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1652,7 +1698,7 @@
   border-right-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_col_heading {
+#kogemwgmim .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1672,7 +1718,7 @@
   overflow-x: hidden;
 }
 
-#wsujgvqpgd .gt_column_spanner_outer {
+#kogemwgmim .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1684,15 +1730,15 @@
   padding-right: 4px;
 }
 
-#wsujgvqpgd .gt_column_spanner_outer:first-child {
+#kogemwgmim .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wsujgvqpgd .gt_column_spanner_outer:last-child {
+#kogemwgmim .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wsujgvqpgd .gt_column_spanner {
+#kogemwgmim .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1704,7 +1750,7 @@
   width: 100%;
 }
 
-#wsujgvqpgd .gt_group_heading {
+#kogemwgmim .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1729,7 +1775,7 @@
   vertical-align: middle;
 }
 
-#wsujgvqpgd .gt_empty_group_heading {
+#kogemwgmim .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1744,15 +1790,15 @@
   vertical-align: middle;
 }
 
-#wsujgvqpgd .gt_from_md > :first-child {
+#kogemwgmim .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wsujgvqpgd .gt_from_md > :last-child {
+#kogemwgmim .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wsujgvqpgd .gt_row {
+#kogemwgmim .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1771,7 +1817,7 @@
   overflow-x: hidden;
 }
 
-#wsujgvqpgd .gt_stub {
+#kogemwgmim .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1784,7 +1830,7 @@
   padding-right: 5px;
 }
 
-#wsujgvqpgd .gt_stub_row_group {
+#kogemwgmim .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1798,11 +1844,11 @@
   vertical-align: top;
 }
 
-#wsujgvqpgd .gt_row_group_first td {
+#kogemwgmim .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wsujgvqpgd .gt_summary_row {
+#kogemwgmim .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1812,16 +1858,16 @@
   padding-right: 5px;
 }
 
-#wsujgvqpgd .gt_first_summary_row {
+#kogemwgmim .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_first_summary_row.thick {
+#kogemwgmim .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wsujgvqpgd .gt_last_summary_row {
+#kogemwgmim .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1831,7 +1877,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_grand_summary_row {
+#kogemwgmim .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1841,7 +1887,7 @@
   padding-right: 5px;
 }
 
-#wsujgvqpgd .gt_first_grand_summary_row {
+#kogemwgmim .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1851,11 +1897,11 @@
   border-top-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_striped {
+#kogemwgmim .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wsujgvqpgd .gt_table_body {
+#kogemwgmim .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1864,7 +1910,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_footnotes {
+#kogemwgmim .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1878,7 +1924,7 @@
   border-right-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_footnote {
+#kogemwgmim .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1887,7 +1933,7 @@
   padding-right: 5px;
 }
 
-#wsujgvqpgd .gt_sourcenotes {
+#kogemwgmim .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1901,7 +1947,7 @@
   border-right-color: #D3D3D3;
 }
 
-#wsujgvqpgd .gt_sourcenote {
+#kogemwgmim .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1909,64 +1955,64 @@
   padding-right: 5px;
 }
 
-#wsujgvqpgd .gt_left {
+#kogemwgmim .gt_left {
   text-align: left;
 }
 
-#wsujgvqpgd .gt_center {
+#kogemwgmim .gt_center {
   text-align: center;
 }
 
-#wsujgvqpgd .gt_right {
+#kogemwgmim .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wsujgvqpgd .gt_font_normal {
+#kogemwgmim .gt_font_normal {
   font-weight: normal;
 }
 
-#wsujgvqpgd .gt_font_bold {
+#kogemwgmim .gt_font_bold {
   font-weight: bold;
 }
 
-#wsujgvqpgd .gt_font_italic {
+#kogemwgmim .gt_font_italic {
   font-style: italic;
 }
 
-#wsujgvqpgd .gt_super {
+#kogemwgmim .gt_super {
   font-size: 65%;
 }
 
-#wsujgvqpgd .gt_footnote_marks {
+#kogemwgmim .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#wsujgvqpgd .gt_asterisk {
+#kogemwgmim .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wsujgvqpgd .gt_indent_1 {
+#kogemwgmim .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wsujgvqpgd .gt_indent_2 {
+#kogemwgmim .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wsujgvqpgd .gt_indent_3 {
+#kogemwgmim .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wsujgvqpgd .gt_indent_4 {
+#kogemwgmim .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wsujgvqpgd .gt_indent_5 {
+#kogemwgmim .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2047,19 +2093,25 @@
 </tbody>
 </table>
 </div>
-<p>We can look at the proportion of events after the first 3 months as follows:</p>
+<p>We can look at the proportion of events after the first 3 months as
+follows:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>`Total events` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span>, <span class="st">"Proportion early"</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span> <span class="op">/</span>  <span class="va">`Total events`</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">Time</span>, y<span class="op">=</span><span class="va">`Proportion early`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="NPH_Futility_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>For the <span class="citation">Korn and Freidlin (2018)</span> bound the targeted timing is when both 50% of events have occurred and at least 2/3 are more than 3 months after enrollment with 3 months being the delayed effect period. We see above that about 1/3 of events are still within 3 months of enrollment at month 20.</p>
+<p>For the <span class="citation">Korn and Freidlin (2018)</span> bound
+the targeted timing is when both 50% of events have occurred and at
+least 2/3 are more than 3 months after enrollment with 3 months being
+the delayed effect period. We see above that about 1/3 of events are
+still within 3 months of enrollment at month 20.</p>
 </div>
 <div class="section level3">
 <h3 id="korn-and-freidlin-bound">Korn and Freidlin bound<a class="anchor" aria-label="anchor" href="#korn-and-freidlin-bound"></a>
 </h3>
-<p>The bound proposed by <span class="citation">Korn and Freidlin (2018)</span></p>
+<p>The bound proposed by <span class="citation">Korn and Freidlin
+(2018)</span></p>
 </div>
 </div>
 <div class="section level2">
@@ -2067,13 +2119,20 @@
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-ttchen2013" class="csl-entry">
-Chen, Tai-Tsang. 2013. <span>“Statistical Issues and Challenges in Immuno-Oncology.”</span> <em>Journal for Immunotherapy of Cancer</em> 1 (1): 1–9.
+Chen, Tai-Tsang. 2013. <span>“Statistical Issues and Challenges in
+Immuno-Oncology.”</span> <em>Journal for Immunotherapy of Cancer</em> 1
+(1): 1–9.
 </div>
 <div id="ref-kornfreidlin2018" class="csl-entry">
-Korn, Edward L, and Boris Freidlin. 2018. <span>“Interim Futility Monitoring Assessing Immune Therapies with a Potentially Delayed Treatment Effect.”</span> <em>Journal of Clinical Oncology</em> 36 (23): 2444.
+Korn, Edward L, and Boris Freidlin. 2018. <span>“Interim Futility
+Monitoring Assessing Immune Therapies with a Potentially Delayed
+Treatment Effect.”</span> <em>Journal of Clinical Oncology</em> 36 (23):
+2444.
 </div>
 <div id="ref-wieand" class="csl-entry">
-Wieand, Sam, Georgene Schroeder, and Judith Rich O’Fallon. 1994. <span>“Stopping When the Experimental Regimen Does Not Appear to Help.”</span> <em>Statistics in Medicine</em> 13 (13-14): 1453–58.
+Wieand, Sam, Georgene Schroeder, and Judith Rich O’Fallon. 1994.
+<span>“Stopping When the Experimental Regimen Does Not Appear to
+Help.”</span> <em>Statistics in Medicine</em> 13 (13-14): 1453–58.
 </div>
 </div>
 </div>
