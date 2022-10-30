@@ -132,8 +132,8 @@ gs_power_combo <- function(enrollRates = tibble(Stratum = "All",
   }
   
   # Obtain spending function
-  bound <- gs_bound(alpha = upper(upar, min_info_frac),
-                    beta = lower(lpar, min_info_frac),
+  bound <- gs_bound(alpha = upper(upar, info = min_info_frac),
+                    beta = lower(lpar, info = min_info_frac),
                     analysis = info_fh$Analysis,
                     theta = theta_fh * sqrt(n),
                     corr = corr_fh,
