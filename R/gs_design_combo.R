@@ -161,9 +161,9 @@ gs_design_combo <- function(enrollRates = tibble(Stratum = "All",
   # --------------------------------------------- #
   #     check design type                         #
   # --------------------------------------------- #
-  K <- length(info)
+
   if(identical(lower, gs_b) & (!is.list(lpar))){
-    two_sided <- ifelse(identical(lpar, rep(-Inf, K)), FALSE, TRUE)
+    two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
   }else{
     two_sided <- TRUE
   }
@@ -194,7 +194,7 @@ gs_design_combo <- function(enrollRates = tibble(Stratum = "All",
   n <- max(info$N)
   n0 <- 0
   while( (abs(n - n0)) > 1e-2){
-    # print(n)
+
     n0 <- n
     
     # Obtain spending function
