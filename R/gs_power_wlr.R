@@ -174,8 +174,7 @@ gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
     ratio = ratio,
     events = events,
     weight = weight,
-    analysisTimes = analysisTimes
-  )
+    analysisTimes = analysisTimes)
   
   # ---------------------------------------- #
   #  given the above statistical information #
@@ -185,6 +184,7 @@ gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
     theta = x$theta, 
     info = x$info, 
     info0 = x$info0,
+    info1 = x$info,
     info_scale = info_scale,
     binding = binding,
     upper = upper, 
@@ -197,9 +197,12 @@ gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
     tol = tol)
   
   y_H0 <- gs_power_npe(
-    theta = 0, #x$theta, 
+    theta = 0, 
+    theta0 = 0,
+    theta1 = x$theta,
     info = x$info0, 
     info0 = x$info0,
+    info1 = x$info,
     info_scale = info_scale,
     binding = binding,
     upper = upper, 

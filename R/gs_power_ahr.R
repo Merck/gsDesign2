@@ -157,13 +157,13 @@ gs_power_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
   #         calculate the power              #
   # ---------------------------------------- #
   y_H1 <- gs_power_npe(theta = x$theta, 
-                       info = x$info, info0 = x$info0, info_scale = info_scale,
+                       info = x$info, info0 = x$info0, info1 = x$info, info_scale = info_scale,
                        upper = upper, upar = upar, test_upper = test_upper,
                        lower = lower, lpar = lpar, test_lower = test_lower,
                        binding = binding, r = r, tol = tol) 
   
-  y_H0 <- gs_power_npe(theta = 0, 
-                       info = x$info0, info0 = x$info0, info_scale = info_scale,
+  y_H0 <- gs_power_npe(theta = 0, theta0 = 0, theta1 = x$theta, 
+                       info = x$info0, info0 = x$info0, info1 = x$info, info_scale = info_scale,
                        upper = upper, upar = upar, test_upper = test_upper,
                        lower = if(!two_sided){gs_b}else{lower}, 
                        lpar = if(!two_sided){rep(-Inf, K)}else{lpar}, 
