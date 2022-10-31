@@ -122,7 +122,7 @@ gs_bound <- function(alpha,
       .upper <- sum(alpha[1:k])
     }else{
       .upper <- uniroot(bound_fun, .upper = Inf, .prob = alpha[k], .theta = theta0,
-                        binding_lower_bound = FALSE,
+                        binding_lower_bound = binding_lower_bound,
                         interval = c(-20, 20), extendInt = "yes")$root
     }
     
