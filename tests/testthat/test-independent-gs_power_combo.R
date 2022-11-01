@@ -48,29 +48,29 @@ fh_test <- rbind( data.frame(rho = 0,
                              analysisTimes = 36))
 
 # User defined bound
-# gs_power_combo_test1 <- gsDesign2::gs_power_combo(enrollRates = enrollRates, 
-#                                                   failRates = failRates, 
-#                                                   fh_test = fh_test, 
-#                                                   upper = gs_b, upar = c(3, 2, 1), 
-#                                                   lower = gs_b, lpar = c(-1, 0, 1))
-# 
-# test_that ( "calculate analysis number as planed",{
-#   expect_equal(max(fh_test$Analysis), max(gs_power_combo_test1$analysis$Analysis ))
-# })
-# 
-# test_that ( "calculate analysisTimes as planed",{
-#   expect_equal(unique(fh_test$analysisTimes), unique(gs_power_combo_test1$analysis$Time))
-# })
-# 
-# 
-# for (i in 1:max(fh_test$Analysis)) {
-#   test_that ( "calculate N and each analysis Events N as planed",{
-#     event <- test_tEvents(enrollRates = enrollRates,
-#                           failRates = failRates,
-#                           td = unique(fh_test$analysisTimes)[i])
-#     expect_equal(event, unique(gs_power_combo_test1$analysis$Events)[i], tolerance = 0.01)
-#   })
-# }
+gs_power_combo_test1 <- gsDesign2::gs_power_combo(enrollRates = enrollRates,
+                                                  failRates = failRates,
+                                                  fh_test = fh_test,
+                                                  upper = gs_b, upar = c(3, 2, 1),
+                                                  lower = gs_b, lpar = c(-1, 0, 1))
+
+test_that ( "calculate analysis number as planed",{
+  expect_equal(max(fh_test$Analysis), max(gs_power_combo_test1$analysis$Analysis ))
+})
+
+test_that ( "calculate analysisTimes as planed",{
+  expect_equal(unique(fh_test$analysisTimes), unique(gs_power_combo_test1$analysis$Time))
+})
+
+
+for (i in 1:max(fh_test$Analysis)) {
+  test_that ( "calculate N and each analysis Events N as planed",{
+    event <- test_tEvents(enrollRates = enrollRates,
+                          failRates = failRates,
+                          td = unique(fh_test$analysisTimes)[i])
+    expect_equal(event, unique(gs_power_combo_test1$analysis$Events)[i], tolerance = 0.01)
+  })
+}
 
 
 # Minimal Information Fraction derived bound
