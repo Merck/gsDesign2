@@ -84,22 +84,15 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
                         tol = 1e-6)
 
   #tests
-  # expect_equal(object = as.numeric(gspow$Time), expected = rep(fh01$Time, 2), tolerance = 0.0001)
   expect_equal(object = as.numeric(gspow$analysis$Time), expected = fh01$Time, tolerance = 0.0001)
-  # expect_equal(object = as.numeric(gspow$Events), expected = rep(fh01$Events, 2), tolerance = 1)
   expect_equal(object = as.numeric(gspow$analysis$Events), expected = fh01$Events, tolerance = 1)
-  # expect_equal(object = as.numeric(gspow$Z), expected = npe$Z, tolerance = 0.1)
+
   tt <- gspow$bounds %>% dplyr::arrange(Analysis, Bound)
   tt1 <- npe %>% dplyr::arrange(Analysis, Bound) %>% dplyr::filter(Z > -999999)
   expect_equal(object = as.numeric(tt$Z), expected = as.numeric(tt1$Z), tolerance = 0.1)
-  # expect_equal(object = as.numeric(gspow$Probability), expected = npe$Probability, tolerance = 0.001)
   expect_equal(object = as.numeric(tt$Probability), expected = tt1$Probability, tolerance = 0.001)
-  # expect_equal(object = as.numeric(gspow$AHR), expected = rep(fh01$AHR, 2), tolerance = 0.01)
   expect_equal(object = as.numeric(gspow$analysis$AHR), expected = fh01$AHR, tolerance = 0.01)
-  # expect_equal(object = as.numeric(gspow$theta), expected = rep(fh01$theta, 2), tolerance = 0.001)
   expect_equal(object = as.numeric(gspow$analysis$theta), expected = fh01$theta, tolerance = 0.001)
-  # expect_equal(object = as.numeric(gspow$info), expected = rep(fh01$info, 2), tolerance = 0.001)
   expect_equal(object = as.numeric(gspow$analysis$info), expected = fh01$info, tolerance = 0.001)
-  # expect_equal(object = as.numeric(gspow$info0), expected = rep(fh01$info0, 2), tolerance = 0.001)
   expect_equal(object = as.numeric(gspow$analysis$info0), expected = fh01$info0, tolerance = 0.001)
 })
