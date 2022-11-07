@@ -1,14 +1,15 @@
-
 # gsDesign2 <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/gsDesign2?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/gsDesign2?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.org/package=gsDesign2)
+
 <!-- badges: end -->
+
+
 
 ## Objective
 
@@ -70,7 +71,8 @@ patterns you wish.
 
 ``` r
 failRates %>%
-  gt()
+  gt() %>%
+  as_raw_html(inline_css = FALSE)
 ```
 
 <div id="emxtqsnhox" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -127,7 +129,8 @@ The input enrollment rates have now been scaled to achieve power:
 
 ``` r
 fd$enrollRates %>%
-  gt()
+  gt() %>%
+  as_raw_html(inline_css = FALSE)
 ```
 
 <div id="byvvhvdyso" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -160,7 +163,10 @@ alpha level for testing), Power (power corresponding to enrollment,
 failure rate and trial targeted events).
 
 ``` r
-fd %>% summary() %>% as_gt()
+fd %>% 
+  summary() %>% 
+  as_gt() %>%
+  as_raw_html(inline_css = FALSE)
 ```
 
 <div id="zbmtyoqmwi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -252,7 +258,10 @@ a trial are situation dependent, but we hope the suggestions here are
 provocative for what might be considered.
 
 ``` r
-gsd %>% summary() %>% as_gt()
+gsd %>% 
+  summary() %>% 
+  as_gt()  %>%
+  as_raw_html(inline_css = FALSE)
 ```
 
 <div id="omivlhhprp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
