@@ -284,8 +284,10 @@ as_gt.gs_design <- function(
   ...
 ){
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
-  
-  
+  x_alpha <- max((x %>% filter(Bound == "Efficacy"))$`Null hypothesis`)
+  x_non_binding <- "non-binding" %in% class(x)
+  x_k <- lapply(x$Analysis, function(x){return(as.numeric(substring(x, 11, 11)))}) %>% unlist()
+  x_old <- x
   # --------------------------------------------- #
   #     set defaults                              #
   # --------------------------------------------- #
@@ -443,5 +445,22 @@ as_gt.gs_design <- function(
       }
     }
   }
+  
+  ## if it is non-binding design
+  if(x_non_binding & (x_alpha < 0.025)){
+    x <- x %>% 
+      gt::tab_footnote(
+        footnote = paste0("Cumulative alpha for final analysis (", x_alpha, 
+                          ") is less than the full alpha (0.025) when the futility bound is non-binding. ",
+                          "The smaller value subtracts the probability of crossing a futility bound before ",
+                          " crossing an efficacy bound at a later analysis (0.025 - ",
+                          0.025 - x_alpha, " = ", x_alpha, ") under the null hypothesis."),
+        locations = cells_body(
+          columns = `Null hypothesis`,
+          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & (x_old$Bound == "Efficacy")
+        )
+      ) 
+  }
+  
   return(x)
 }

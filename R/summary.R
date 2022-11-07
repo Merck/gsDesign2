@@ -488,5 +488,9 @@ summary.gs_design <- function(
   }
 
   class(output) <- c(method, "gs_design", class(output))
+  if("non-binding" %in% class(object)){
+    class(output) <- c("non-binding", class(output))
+  }
+  
   return(output)
 }

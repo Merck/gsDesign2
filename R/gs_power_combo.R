@@ -229,6 +229,11 @@ gs_power_combo <- function(enrollRates = tibble(Stratum = "All",
     failRates = failRates,
     bounds = bounds, 
     analysis = analysis)
+  
   class(output) <- c("combo", "gs_design", class(output))
+  if(!binding){
+    class(output) <- c("non-binding", class(output))
+  }
+  
   return(output)
 }

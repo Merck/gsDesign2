@@ -201,6 +201,9 @@ gs_power_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
               analysis = analysis)
   
   class(ans) <- c("ahr", "gs_design", class(ans))
+  if(!binding){
+    class(ans) <- c("non-binding", class(ans))
+  }
   
   return(ans)
 }
