@@ -1,15 +1,16 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # gsDesign2 <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/gsDesign2?branch=main)
+[![Codecov test
+coverage](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/gsDesign2?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.org/package=gsDesign2)
-
 <!-- badges: end -->
-
-
 
 ## Objective
 
@@ -75,17 +76,17 @@ failRates %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="emxtqsnhox" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-
-<table class="gt_table">
+<div id="vgmpibcdtq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Stratum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">duration</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">failRate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hr</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dropoutRate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Stratum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">duration</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">failRate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">dropoutRate</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -116,12 +117,12 @@ is a single analysis:
 ``` r
 fd <- fixed_design(
   x = "AHR",
-  enrollRates = enrollRates, 
+  enrollRates = enrollRates,
   failRates = failRates,
   alpha = 0.025,
   power = 0.9,
   studyDuration = 36,
-  ratio = 1 # experimental/control randomization ratio
+  ratio = 1 # Experimental/control randomization ratio
 )
 ```
 
@@ -133,15 +134,15 @@ fd$enrollRates %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="byvvhvdyso" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-
-<table class="gt_table">
+<div id="bgquvvmeev" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Stratum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">duration</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Stratum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">duration</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">rate</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -163,30 +164,30 @@ alpha level for testing), Power (power corresponding to enrollment,
 failure rate and trial targeted events).
 
 ``` r
-fd %>% 
-  summary() %>% 
+fd %>%
+  summary() %>%
   as_gt() %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="zbmtyoqmwi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-
-<table class="gt_table">
+<div id="oanludyuya" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  <table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <th colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Fixed Design under AHR Method<sup class="gt_footnote_marks">1</sup></th>
+      <td colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Fixed Design under AHR Method<sup class="gt_footnote_marks">1</sup></td>
     </tr>
     
   </thead>
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Design</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">N</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Events</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">alpha</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Power</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Design</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">N</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Events</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Bound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">alpha</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Power</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -219,7 +220,7 @@ and again here.
 
 We use an O’Brien-Fleming spending function to derive our efficacy
 bounds at 24 and 36 months. For futility, we simply require a nominally
-significant trend in the wrong direction (p&lt;0.1) after 8 months, a
+significant trend in the wrong direction (p\<0.1) after 8 months, a
 trend in favor of experimental treatment after 14 months ($Z > 0$) and
 no bound later ($Z = -\infty$). Thus, we have two efficacy analyses and
 two separate, earlier futility analysis. Power is set to 80% due to the
@@ -239,12 +240,12 @@ gsd <- gs_design_ahr(
   beta = 0.2, # 80% power; enables aggressive futility bound specified
   analysisTimes = c(8, 14, 24, 36),
   binding = FALSE, # Non-binding futility bound
-  upper = gs_spending_bound, # use spending bound for efficacy; total_spend is normally alpha
+  upper = gs_spending_bound, # Use spending bound for efficacy; total_spend is normally alpha
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-  test_upper = c(FALSE, FALSE, TRUE, TRUE), # only test efficacy after 1st analysis
-  lower = gs_b, # fixed Z-values will be provided for futility bound
+  test_upper = c(FALSE, FALSE, TRUE, TRUE), # Only test efficacy after 1st analysis
+  lower = gs_b, # Fixed Z-values will be provided for futility bound
   lpar = c(qnorm(0.1), 0, -Inf, -Inf)
-  )
+)
 ```
 
 Now we summarize the derived design. The summary table is further
@@ -252,42 +253,42 @@ described in vignette *Summarize group sequential designs in nice gt
 tables*. Note that the design trend in favor of experimental treatment
 is very minor at 8 months due to the delayed effect assumption used (see
 AHR at analysis 1 in table). The design trend at 16 months is somewhat
-more favorable when we are looking for HR &lt; 1 (favoring experimental
+more favorable when we are looking for HR \< 1 (favoring experimental
 treatment) for a proof of concept. Actual bounds and timing selected for
 a trial are situation dependent, but we hope the suggestions here are
 provocative for what might be considered.
 
 ``` r
-gsd %>% 
-  summary() %>% 
-  as_gt()  %>%
+gsd %>%
+  summary() %>%
+  as_gt() %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="omivlhhprp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-
-<table class="gt_table">
+<div id="iuxndmnutt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  <table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <th colspan="6" class="gt_heading gt_title gt_font_normal" style>Bound summary for AHR design</th>
+      <td colspan="6" class="gt_heading gt_title gt_font_normal" style>Bound summary for AHR design</td>
     </tr>
     <tr>
-      <th colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>AHR approximations of ~HR at bound</th>
+      <td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>AHR approximations of ~HR at bound</td>
     </tr>
   </thead>
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1">Nominal p<sup class="gt_footnote_marks">1</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1">~HR at bound<sup class="gt_footnote_marks">2</sup></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col">Bound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">Z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">Nominal p<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">~HR at bound<sup class="gt_footnote_marks">2</sup></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup">
         <span class="gt_column_spanner">Cumulative boundary crossing probability</span>
       </th>
     </tr>
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Null hypothesis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Alternate hypothesis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Null hypothesis</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
