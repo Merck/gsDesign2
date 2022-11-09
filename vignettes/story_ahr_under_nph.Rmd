@@ -93,12 +93,11 @@ We load packages needed below.
 - Hidden underneath this is the `gsDesign2::eEvents_df()` routine that provides expected event counts for each period and stratum where the hazard ratio differs. This is the basic calculation used in the `gsDesign2::AHR()` routine.
 
 ```{r libraries,message=FALSE,warning=FALSE}
-devtools::load_all()
 library(gsDesign)
+library(gsDesign2)
 library(ggplot2)
 library(dplyr)
 library(tibble)
-library(simtrial)
 library(survival)
 library(knitr)
 library(gt)
@@ -294,7 +293,7 @@ We specify three strata:
 - Moderate risk: 1/2 of the population with median time-to-event of 9 months and a hazard ratio of 0.2.
 - Low risk: 1/6 of the population that is essentially cured in both arms (median 100, HR = 1).
 
-```{r scenario2,warning=FALSE,message=FALSE}
+```{r scenario2, warning=FALSE, message=FALSE}
 strata <- tibble::tibble(Stratum = c("High", "Moderate", "Low"), p = c(1 / 3, 1 / 2, 1 / 6))
 
 enrollRates <- tibble::tibble(
@@ -318,7 +317,7 @@ totalDuration <- 36
 
 Now we transform the enrollment rates to account for stratified population.
 
-```{r avehr2,warning = FALSE,message = FALSE}
+```{r avehr2, warning = FALSE, message = FALSE}
 ahr2 <- AHR(enrollRates, failRates, totalDuration)
 ahr2 %>% gt()
 ```
@@ -420,7 +419,7 @@ er %>% gt()
 Now we simulate and summarize results.
 Once again, we see that the expected statistical information from the simulation is greater than what would be expected by the Schoenfeld approximation which is the expected events divided by 4.
 
-```{r simfix2,cache=FALSE,warning=FALSE,message=FALSE, eval=FALSE}
+```{r simfix2, cache=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 results2 <- simtrial::simfix(
     nsim = nsim,
     block = block,
