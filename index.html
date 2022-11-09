@@ -93,8 +93,7 @@
 <div class="section level2">
 <h2 id="objective">Objective<a class="anchor" aria-label="anchor" href="#objective"></a>
 </h2>
-<p>The goal of gsDesign2 is to enable fixed or group sequential design under non-proportional hazards. Piecewise constant enrollment, failure rates and dropout rates for a stratified population are available to enable highly flexible enrollment, time-to-event and time-to-dropout assumptions. Substantial flexibility on top of what is in the gsDesign package is intended for selecting boundaries. While this work is in progress, substantial capabilities have been enabled. Comments on usability and features are encouraged as this is a development version of the package.</p>
-<p>The goal of gsDesign2 is to enable group sequential trial design for time-to-event endpoints under non-proportional hazards assumptions. The package is still maturing; as the package functions become more stable, they will likely be included in the gsDesign2 package.</p>
+<p>The goal of gsDesign2 is to enable fixed or group sequential design under non-proportional hazards. Piecewise constant enrollment, failure rates and dropout rates for a stratified population are available to enable highly flexible enrollment, time-to-event and time-to-dropout assumptions. Substantial flexibility on top of what is in the gsDesign package is intended for selecting boundaries. Comments on usability and features are encouraged as this is still a young package.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -138,7 +137,7 @@
 <code class="sourceCode R"><span><span class="va">failRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div id="rukhwqbnsm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="vgmpibcdtq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">
@@ -197,22 +196,25 @@ Inf
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-2-compute-the-design">Step 2: compute the design<a class="anchor" aria-label="anchor" href="#step-2-compute-the-design"></a>
+<h3 id="step-2-derive-a-fixed-design-with-no-interim-analyses">Step 2: derive a fixed design with no interim analyses<a class="anchor" aria-label="anchor" href="#step-2-derive-a-fixed-design-with-no-interim-analyses"></a>
 </h3>
-<p>Computing a fixed sample size design with 2.5% one-sided Type I error and 90% power. We specify a trial duration of 36 months with <code>analysisTimes</code>. Since there is a single analysis, we specify an upper p-value bound of 0.025 with <code>upar = qnorm(0.975)</code>. There is no lower bound which is specified with <code>lpar = -Inf</code>.</p>
+<p>Computing a fixed sample size design with 2.5% one-sided Type I error and 90% power. We specify a trial duration of 36 months with <code>analysisTimes</code>. Enrollment duration is the sum of <code>enrollRates$duration</code>. We used the <code><a href="reference/fixed_design.html">fixed_design()</a></code> routine since there is a single analysis:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
-<span>  <span class="va">enrollRates</span>, <span class="va">failRates</span>,</span>
-<span>  upper <span class="op">=</span> <span class="va">gs_b</span>, upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
-<span>  lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
-<span>  IF <span class="op">=</span> <span class="fl">1</span>, analysisTimes <span class="op">=</span> <span class="fl">36</span></span>
+<code class="sourceCode R"><span><span class="va">fd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fixed_design.html">fixed_design</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="st">"AHR"</span>,</span>
+<span>  enrollRates <span class="op">=</span> <span class="va">enrollRates</span>,</span>
+<span>  failRates <span class="op">=</span> <span class="va">failRates</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.025</span>,</span>
+<span>  power <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  studyDuration <span class="op">=</span> <span class="fl">36</span>,</span>
+<span>  ratio <span class="op">=</span> <span class="fl">1</span> <span class="co"># Experimental/control randomization ratio</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The input enrollment rates are scaled to achieve power:</p>
+<p>The input enrollment rates have now been scaled to achieve power:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">enrollRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">fd</span><span class="op">$</span><span class="va">enrollRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div id="yjtuqvrhny" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="bgquvvmeev" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">
@@ -238,136 +240,22 @@ All
 </tr></tbody>
 </table>
 </div>
-<p>The failure and dropout rates remain unchanged from what was input:</p>
+<p>The failure and dropout rates remain unchanged from what was input. The summary is obtained below. The columns are Design (sample size derivation method), N (sample size; generally you will round up to an even number), Events (generally you will round up), Bound (Z value for efficacy; this is the inverse normal from 1 - alpha), alpha (1-sided alpha level for testing), Power (power corresponding to enrollment, failure rate and trial targeted events).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">failRates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">fd</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div id="lsubyqwkcb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="oanludyuya" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <table class="table gt_table">
+<thead class="gt_header"><tr>
+<td colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>
+Fixed Design under AHR Method<sup class="gt_footnote_marks">1</sup>
+</td>
+</tr></thead>
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">
-Stratum
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-duration
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-failRate
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-hr
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-dropoutRate
-</th>
-</tr></thead>
-<tbody class="gt_table_body">
-<tr>
-<td class="gt_row gt_left">
-All
-</td>
-<td class="gt_row gt_right">
-4
-</td>
-<td class="gt_row gt_right">
-0.05776227
-</td>
-<td class="gt_row gt_right">
-1.0
-</td>
-<td class="gt_row gt_right">
-0.001
-</td>
-</tr>
-<tr>
-<td class="gt_row gt_left">
-All
-</td>
-<td class="gt_row gt_right">
-Inf
-</td>
-<td class="gt_row gt_right">
-0.05776227
-</td>
-<td class="gt_row gt_right">
-0.6
-</td>
-<td class="gt_row gt_right">
-0.001
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Additionally, the summary of bounds and crossing probability is available at</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">bounds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div id="xxbcmivtvt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-Analysis
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">
-Bound
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-Probability
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-Probability0
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-Z
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-~HR at bound
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-Nominal p
-</th>
-</tr></thead>
-<tbody class="gt_table_body"><tr>
-<td class="gt_row gt_right">
-1
-</td>
-<td class="gt_row gt_left">
-Upper
-</td>
-<td class="gt_row gt_right">
-0.9
-</td>
-<td class="gt_row gt_right">
-0.025
-</td>
-<td class="gt_row gt_right">
-1.959964
-</td>
-<td class="gt_row gt_right">
-0.800693
-</td>
-<td class="gt_row gt_right">
-0.025
-</td>
-</tr></tbody>
-</table>
-</div>
-<p>Finally, the expected analysis time is in <code>Time</code>, sample size <code>N</code>, events required <code>Events</code> and average hazard ratio <code>AHR</code> are in <code>x$analysis</code>. Note that <code>AHR</code> is the average hazard ratio used to calculate the targeted event counts. The natural parameter (<code>log(AHR)</code>) is in theta and corresponding statistical information under the alternate hypothesis are in <code>info</code> and under the null hypothesis in <code>info0</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div id="kxchevjpcx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-Analysis
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-Time
+Design
 </th>
 <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
 N
@@ -376,27 +264,21 @@ N
 Events
 </th>
 <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-AHR
+Time
 </th>
 <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-theta
+Bound
 </th>
 <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-info
+alpha
 </th>
 <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-info0
-</th>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">
-IF
+Power
 </th>
 </tr></thead>
 <tbody class="gt_table_body"><tr>
-<td class="gt_row gt_right">
-1
-</td>
-<td class="gt_row gt_right">
-36
+<td class="gt_row gt_left">
+AHR
 </td>
 <td class="gt_row gt_right">
 420.6346
@@ -405,42 +287,62 @@ IF
 311.0028
 </td>
 <td class="gt_row gt_right">
-0.6917244
+36
 </td>
 <td class="gt_row gt_right">
-0.3685676
+1.959964
 </td>
 <td class="gt_row gt_right">
-76.74383
+0.025
 </td>
 <td class="gt_row gt_right">
-77.75069
-</td>
-<td class="gt_row gt_right">
-1
+0.9
 </td>
 </tr></tbody>
+<tfoot class="gt_footnotes"><tr>
+<td class="gt_footnote" colspan="7">
+<sup class="gt_footnote_marks">1</sup> Power computed with average hazard ratio method.
+</td>
+</tr></tfoot>
 </table>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-3-summarize-the-design">Step 3: summarize the design<a class="anchor" aria-label="anchor" href="#step-3-summarize-the-design"></a>
+<h3 id="step-3-group-sequential-design">Step 3: group sequential design<a class="anchor" aria-label="anchor" href="#step-3-group-sequential-design"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<p>We provide a simple example for a group sequential design that demonstrates a couple of features not available in the <em>gsDesign</em> package. The first is specifying analysis times by calendar time rather than information fraction. The second is not having an efficacy and futility bound at each analysis. This is in addition to having methods for non-proportional hazards as demonstrated in the fixed design above and again here.</p>
+<p>We use an O’Brien-Fleming spending function to derive our efficacy bounds at 24 and 36 months. For futility, we simply require a nominally significant trend in the wrong direction (p&lt;0.1) after 8 months, a trend in favor of experimental treatment after 14 months (<span class="math inline"><em>Z</em> &gt; 0</span>) and no bound later (<span class="math inline"><em>Z</em> =  − ∞</span>). Thus, we have two efficacy analyses and two separate, earlier futility analysis. Power is set to 80% due to the somewhat aggressive futility bounds that are used for safety (analysis 1 half way through enrollment) and proof of concept (analysis 2). Such aggressive futility bounds may be desirable when a previous proof of concept for experimental treatment has not been established; essentially, this becomes a Phase II/III design with an interim evaluation of appropriate efficacy trends before completing the trial.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gsd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
+<span>  enrollRates <span class="op">=</span> <span class="va">enrollRates</span>,</span>
+<span>  failRates <span class="op">=</span> <span class="va">failRates</span>,</span>
+<span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.025</span>,</span>
+<span>  beta <span class="op">=</span> <span class="fl">0.2</span>, <span class="co"># 80% power; enables aggressive futility bound specified</span></span>
+<span>  analysisTimes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">14</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span>,</span>
+<span>  binding <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># Non-binding futility bound</span></span>
+<span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>, <span class="co"># Use spending bound for efficacy; total_spend is normally alpha</span></span>
+<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span>
+<span>  test_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>, <span class="co"># Only test efficacy after 1st analysis</span></span>
+<span>  lower <span class="op">=</span> <span class="va">gs_b</span>, <span class="co"># Fixed Z-values will be provided for futility bound</span></span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Now we summarize the derived design. The summary table is further described in vignette <em>Summarize group sequential designs in nice gt tables</em>. Note that the design trend in favor of experimental treatment is very minor at 8 months due to the delayed effect assumption used (see AHR at analysis 1 in table). The design trend at 16 months is somewhat more favorable when we are looking for HR &lt; 1 (favoring experimental treatment) for a proof of concept. Actual bounds and timing selected for a trial are situation dependent, but we hope the suggestions here are provocative for what might be considered.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gsd</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div id="qdcrjlcmwp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="iuxndmnutt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <table class="table gt_table">
 <thead class="gt_header">
 <tr>
-<td colspan="5" class="gt_heading gt_title gt_font_normal" style>
+<td colspan="6" class="gt_heading gt_title gt_font_normal" style>
 Bound summary for AHR design
 </td>
 </tr>
 <tr>
-<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>
 AHR approximations of ~HR at bound
 </td>
 </tr>
@@ -449,6 +351,9 @@ AHR approximations of ~HR at bound
 <tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col">
 Bound
+</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">
+Z
 </th>
 <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">
 Nominal p<sup class="gt_footnote_marks">1</sup>
@@ -471,8 +376,58 @@ Null hypothesis
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<td colspan="5" class="gt_group_heading">
-Analysis: 1 Time: 36 N: 420.6 Events: 311 AHR: 0.69 IF: 1
+<td colspan="6" class="gt_group_heading">
+Analysis: 1 Time: 8 N: 279.1 Events: 53.2 AHR: 0.91 IF: 0.17
+</td>
+</tr>
+<tr class="gt_row_group_first">
+<td class="gt_row gt_left">
+Futility
+</td>
+<td class="gt_row gt_right">
+-1.28
+</td>
+<td class="gt_row gt_right">
+0.9000
+</td>
+<td class="gt_row gt_right">
+1.4210
+</td>
+<td class="gt_row gt_right">
+0.0539
+</td>
+<td class="gt_row gt_right">
+0.1000
+</td>
+</tr>
+<tr class="gt_group_heading_row">
+<td colspan="6" class="gt_group_heading">
+Analysis: 2 Time: 14 N: 418.7 Events: 137.2 AHR: 0.82 IF: 0.44
+</td>
+</tr>
+<tr class="gt_row_group_first">
+<td class="gt_row gt_left">
+Futility
+</td>
+<td class="gt_row gt_right">
+0.00
+</td>
+<td class="gt_row gt_right">
+0.5000
+</td>
+<td class="gt_row gt_right">
+1.0000
+</td>
+<td class="gt_row gt_right">
+0.1451
+</td>
+<td class="gt_row gt_right">
+0.5091
+</td>
+</tr>
+<tr class="gt_group_heading_row">
+<td colspan="6" class="gt_group_heading">
+Analysis: 3 Time: 24 N: 418.7 Events: 238.4 AHR: 0.72 IF: 0.76
 </td>
 </tr>
 <tr class="gt_row_group_first">
@@ -480,27 +435,55 @@ Analysis: 1 Time: 36 N: 420.6 Events: 311 AHR: 0.69 IF: 1
 Efficacy
 </td>
 <td class="gt_row gt_right">
-0.025
+2.30
 </td>
 <td class="gt_row gt_right">
-0.8007
+0.0106
 </td>
 <td class="gt_row gt_right">
-0.9
+0.7421
 </td>
 <td class="gt_row gt_right">
-0.025
+0.5582
+</td>
+<td class="gt_row gt_right">
+0.0106
+</td>
+</tr>
+<tr class="gt_group_heading_row">
+<td colspan="6" class="gt_group_heading">
+Analysis: 4 Time: 36 N: 418.7 Events: 309.5 AHR: 0.69 IF: 1
+</td>
+</tr>
+<tr class="gt_row_group_first">
+<td class="gt_row gt_left">
+Efficacy
+</td>
+<td class="gt_row gt_right">
+2.02
+</td>
+<td class="gt_row gt_right">
+0.0219
+</td>
+<td class="gt_row gt_right">
+0.7951
+</td>
+<td class="gt_row gt_right">
+0.8000
+</td>
+<td class="gt_row gt_right">
+0.0244
 </td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
 <tr>
-<td class="gt_footnote" colspan="5">
+<td class="gt_footnote" colspan="6">
 <sup class="gt_footnote_marks">1</sup> One-sided p-value for experimental vs control treatment. Values &lt; 0.5 favor experimental, &gt; 0.5 favor control.
 </td>
 </tr>
 <tr>
-<td class="gt_footnote" colspan="5">
+<td class="gt_footnote" colspan="6">
 <sup class="gt_footnote_marks">2</sup> Approximate hazard ratio to cross bound.
 </td>
 </tr>
