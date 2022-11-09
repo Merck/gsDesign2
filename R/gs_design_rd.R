@@ -226,6 +226,9 @@ gs_design_rd <- function(
     analysis = analysis)
   
   class(ans) <- c("rd", "gs_design", class(ans))
+  if(!binding){
+    class(ans) <- c("non-binding", class(ans))
+  }
   
   return(ans)
 }
