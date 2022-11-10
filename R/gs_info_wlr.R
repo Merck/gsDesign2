@@ -20,11 +20,11 @@
 #'
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
 #' approximate information and effect size using an average hazard ratio model.
-#' @param enrollRates enrollment rates
-#' @param failRates failure and dropout rates
+#' @param enroll_rate enrollment rates
+#' @param fail_rate failure and dropout rates
 #' @param ratio Experimental:Control randomization ratio
 #' @param events Targeted minimum events at each analysis
-#' @param analysisTimes Targeted minimum study duration at each analysis
+#' @param analysis_time Targeted minimum study duration at each analysis
 #' @param weight weight of weighted log rank test
 #' - `"1"`= unweighted,
 #' - `"n"`= Gehan-Breslow,
@@ -36,62 +36,76 @@
 #'
 #' @return a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}
 #' \code{info, info0} contains statistical information under H1, H0, respectively.
-#' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysisTimes[k]} and the expected time
+#' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
 #' required to accrue the targeted \code{events[k]}.
 #' \code{AHR} is expected average hazard ratio at each analysis.
 #' 
 #' @details The \code{AHR()} function computes statistical information at targeted event times.
-#' The \code{tEvents()} function is used to get events and average HR at targeted \code{analysisTimes}.
+#' The \code{tEvents()} function is used to get events and average HR at targeted \code{analysis_time}.
 #' 
 #' @export
 #' 
-gs_info_wlr <- function(enrollRates=tibble::tibble(Stratum="All",
-                                                   duration=c(2,2,10),
-                                                   rate=c(3,6,9)),
-                        failRates=tibble::tibble(Stratum="All",
-                                                 duration=c(3,100),
-                                                 failRate=log(2)/c(9,18),
-                                                 hr=c(.9,.6),
-                                                 dropoutRate=rep(.001,2)),
-                        ratio=1,                # Experimental:Control randomization ratio
-                        events = NULL, # Events at analyses
-                        analysisTimes = NULL,   # Times of analyses
+#' @example 
+#' # set enrollment rates
+#' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' # set failure rates
+#' fail_rate <- tibble(
+#'   Stratum = "All",
+#'   duration = c(4, 100),
+#'   fail_rate = log(2) / 15,  # median survival 15 month
+#'   hr = c(1, .6),
+#'   dropout_rate = 0.001)
+#' 
+#' # set the targeted number of events and analysis time
+#' events <- c(30, 40, 50)
+#' analysis_time <- c(10, 24, 30)
+#' 
+#' gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'             events = events, analysis_time = analysis_time)
+gs_info_wlr <- function(enroll_rate = tibble::tibble(Stratum = "All",
+                                                     duration = c(2,2,10),
+                                                     rate = c(3, 6, 9)),
+                        fail_rate = tibble::tibble(Stratum = "All",
+                                                   duration = c(3, 100),
+                                                   fail_rate = log(2) / c(9, 18),
+                                                   hr = c(.9, .6),
+                                                   dropout_rate = rep(.001, 2)),
+                        ratio = 1,                # Experimental:Control randomization ratio
+                        events = NULL,            # Events at analyses
+                        analysis_time = NULL,     # Times of analyses
                         weight = wlr_weight_fh,
                         approx = "asymptotic"
 ){
   
-  if (is.null(analysisTimes) && is.null(events)){
-    stop("gs_info_wlr(): One of events and analysisTimes must be a numeric value or vector with increasing values!")
+  if (is.null(analysis_time) && is.null(events)){
+    stop("gs_info_wlr(): One of events and analysis_time must be a numeric value or vector with increasing values!")
   }
   
   # Obtain Analysis time
   avehr <- NULL
-  if(!is.null(analysisTimes)){
-    avehr <- AHR(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
-                 totalDuration = analysisTimes)
+  if(!is.null(analysis_time)){
+    avehr <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                 ratio = ratio, total_duration = analysis_time)
     for(i in seq_along(events)){
       if (avehr$Events[i] < events[i]){
-        avehr[i,] <- tEvents(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
-                             targetEvents = events[i])
+        avehr[i,] <- tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                             ratio = ratio, target_event = events[i])
       }
     }
   }else{
     for(i in seq_along(events)){
       avehr <- rbind(avehr,
-                     tEvents(enrollRates = enrollRates, failRates = failRates, ratio = ratio,
-                             targetEvents = events[i]))
+                     tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                             ratio = ratio, target_event = events[i]))
     }
   }
   
   time <- avehr$Time
   
   # Create Arm object
-  gs_arm <- gs_create_arm(enrollRates, failRates, ratio)
-  
+  gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio)
   arm0 <- gs_arm$arm0
   arm1 <- gs_arm$arm1
-  
-  
   
   # Randomization ratio
   p0 <- arm0$size/(arm0$size + arm1$size)
@@ -104,11 +118,11 @@ gs_info_wlr <- function(enrollRates=tibble::tibble(Stratum="All",
   arm_null1 <- arm_null
   arm_null1$size <- arm1$size
   
-  delta <- c()     # delta of effect size in each analysis
+  delta <- c()        # delta of effect size in each analysis
   sigma2_h1 <- c()    # sigma square of effect size in each analysis under null
   sigma2_h0 <- c()    # sigma square of effect size in each analysis under alternative
-  p_event <- c()   # probability of events in each analysis
-  p_subject <- c() # probability of subjects enrolled
+  p_event <- c()      # probability of events in each analysis
+  p_subject <- c()    # probability of subjects enrolled
   num_log_ahr <- c()
   dem_log_ahr <- c()
   

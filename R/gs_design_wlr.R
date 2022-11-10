@@ -23,10 +23,10 @@
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
-#'    \item Validate if input analysisTimes is a positive number or a positive increasing sequence.
-#'    \item Validate if input IF is a positive number or positive increasing sequence on (0, 1] with final value of 1.
-#'    \item Validate if inputs IF and analysisTimes  have the same length if both have length > 1.
-#'    \item Compute information at input analysisTimes using \code{gs_info_wlr()}.
+#'    \item Validate if input analysis_time is a positive number or a positive increasing sequence.
+#'    \item Validate if input info_frac is a positive number or positive increasing sequence on (0, 1] with final value of 1.
+#'    \item Validate if inputs info_frac and analysis_time  have the same length if both have length > 1.
+#'    \item Compute information at input analysis_time using \code{gs_info_wlr()}.
 #'    \item Compute sample size and bounds using \code{gs_design_npe()}.
 #'    \item Return a list of design enrollment, failure rates, and bounds.
 #'   }
@@ -43,15 +43,15 @@
 #' library(gsDesign2)
 #' 
 #' # set enrollment rates
-#' enrollRates <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
 #' 
 #' # set failure rates
-#' failRates <- tibble(
+#' fail_rate <- tibble(
 #'   Stratum = "All",
 #'   duration = c(4, 100),
-#'   failRate = log(2) / 15,  # median survival 15 month
+#'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
-#'   dropoutRate = 0.001)
+#'   dropout_rate = 0.001)
 #' 
 #' # -------------------------#
 #' #       example 1          #
@@ -72,8 +72,8 @@
 #'   ratio = 1)
 #' 
 #' gs_design_wlr(
-#'   enrollRates = enrollRates, 
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate, 
+#'   fail_rate = fail_rate,
 #'   ratio = 1, 
 #'   alpha = 0.025, beta = 0.2,
 #'   weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
@@ -81,15 +81,15 @@
 #'   upar = x$upper$bound,
 #'   lower = gs_b,
 #'   lpar = x$lower$bound,
-#'   analysisTimes = c(12, 24, 36))
+#'   analysis_time = c(12, 24, 36))
 #' 
 #' # -------------------------#
 #' #       example 2          #
 #' # ------------------------ #
 #' # Boundary derived by spending function
 #' gs_design_wlr(
-#'   enrollRates = enrollRates, 
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate, 
+#'   fail_rate = fail_rate,
 #'   ratio = 1, 
 #'   alpha = 0.025, beta = 0.2,
 #'   weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
@@ -97,17 +97,17 @@
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-#'   analysisTimes = c(12, 24, 36))
+#'   analysis_time = c(12, 24, 36))
 #'
-gs_design_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), 
+gs_design_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), 
                                                rate = c(3, 6, 9)),
-                          failRates = tibble(Stratum = "All", duration = c(3, 100),
-                                             failRate = log(2)/c(9, 18), hr = c(.9, .6),
-                                             dropoutRate = rep(.001, 2)),
+                          fail_rate = tibble(Stratum = "All", duration = c(3, 100),
+                                             fail_rate = log(2)/c(9, 18), hr = c(.9, .6),
+                                             dropout_rate = rep(.001, 2)),
                           weight = wlr_weight_fh, approx = "asymptotic",
                           alpha = 0.025, beta = 0.1, ratio = 1,           
-                          IF = NULL, info_scale = c(0, 1, 2),     
-                          analysisTimes = 36,    
+                          info_frac = NULL, info_scale = c(0, 1, 2),     
+                          analysis_time = 36,    
                           binding = FALSE,
                           upper = gs_b,
                           upar = gsDesign(k = 3, test.type = 1, n.I = c(.25, .75, 1), sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -121,46 +121,46 @@ gs_design_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
-  msg <- "gs_design_wlr(): analysisTimes must be a positive number or positive increasing sequence"
-  if (!is.vector(analysisTimes,mode = "numeric")) stop(msg)
-  if (min(analysisTimes - dplyr::lag(analysisTimes, def = 0)) <= 0) stop(msg)
-  msg <- "gs_design_wlr(): IF must be a positive number or positive increasing sequence on (0, 1] with final value of 1"
-  if (is.null(IF)){IF <- 1}
-  if (!is.vector(IF,mode = "numeric")) stop(msg)
-  if (min(IF - dplyr::lag(IF, def = 0)) <= 0) stop(msg)
-  if (max(IF) != 1) stop(msg)
-  msg <- "gs_design_wlr(): IF and analysisTimes must have the same length if both have length > 1"
-  if ((length(analysisTimes) > 1) & (length(IF) > 1) & (length(IF) != length(analysisTimes))) stop(msg)
+  msg <- "gs_design_wlr(): analysis_time must be a positive number or positive increasing sequence"
+  if (!is.vector(analysis_time,mode = "numeric")) stop(msg)
+  if (min(analysis_time - dplyr::lag(analysis_time, def = 0)) <= 0) stop(msg)
+  msg <- "gs_design_wlr(): info_frac must be a positive number or positive increasing sequence on (0, 1] with final value of 1"
+  if (is.null(info_frac)){info_frac <- 1}
+  if (!is.vector(info_frac, mode = "numeric")) stop(msg)
+  if (min(info_frac - dplyr::lag(info_frac, def = 0)) <= 0) stop(msg)
+  if (max(info_frac) != 1) stop(msg)
+  msg <- "gs_design_wlr(): info_frac and analysis_time must have the same length if both have length > 1"
+  if ((length(analysis_time) > 1) & (length(info_frac) > 1) & (length(info_frac) != length(analysis_time))) stop(msg)
   # get the info_scale
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   
   # --------------------------------------------- #
-  #     get information at input analysisTimes    #
+  #     get information at input analysis_time    #
   # --------------------------------------------- #
-  y <- gs_info_wlr(enrollRates, failRates, ratio = ratio, events = NULL, 
-                   analysisTimes = analysisTimes, weight = weight, approx = approx)
+  y <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio, events = NULL, 
+                   analysis_time = analysis_time, weight = weight, approx = approx)
   
   finalEvents <- y$Events[nrow(y)]
   IFalt <- y$Events / finalEvents
   
-  # Check if IF needed for (any) IA timing
-  K <- max(length(analysisTimes), length(IF))
-  nextTime <- max(analysisTimes)
+  # Check if info_frac needed for (any) IA timing
+  K <- max(length(analysis_time), length(info_frac))
+  nextTime <- max(analysis_time)
   
-  if(length(IF) == 1){
-    IF <- IFalt
+  if(length(info_frac) == 1){
+    info_frac <- IFalt
   }else{
-    IFindx <- IF[1 : (K-1)]
+    IFindx <- info_frac[1 : (K-1)]
     for(i in seq_along(IFindx)){
       if(length(IFalt) == 1){
-        y <- rbind(tEvents(enrollRates, failRates, 
-                          targetEvents = IF[K - i] * finalEvents, 
-                          ratio = ratio, interval = c(.01, nextTime)) %>% 
+        y <- rbind(tEvents(enroll_rate, fail_rate, 
+                           target_event = info_frac[K - i] * finalEvents, 
+                           ratio = ratio, interval = c(.01, nextTime)) %>% 
                      mutate(theta = -log(AHR), Analysis = K - i),
                    y)
-      }else if(IF[K-i] > IFalt[K-i]){
-        y[K - i,] <- tEvents(enrollRates, failRates, 
-                             targetEvents = IF[K - i] * finalEvents,
+      }else if(info_frac[K-i] > IFalt[K-i]){
+        y[K - i,] <- tEvents(enroll_rate, fail_rate, 
+                             target_event = IF[K - i] * finalEvents,
                              ratio = ratio, interval = c(.01, nextTime)) %>%
           dplyr::transmute(Analysis = K - i, Time, Events, AHR, theta = -log(AHR), info, info0)
       } 
@@ -169,7 +169,7 @@ gs_design_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 
   }
   
   y$Analysis <- 1:K
-  y$N <- eAccrual(x = y$Time, enrollRates = enrollRates)
+  y$N <- eAccrual(time = y$Time, enroll_rate = enroll_rate)
   
   # h1 spending
   if(h1_spending){
@@ -192,7 +192,7 @@ gs_design_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 
                             r = r, tol = tol) %>%
       full_join(y %>% select(-c(info, info0, theta)), by = "Analysis") %>%
       select(c("Analysis", "Bound", "Time", "N", "Events", "Z", 
-               "Probability", "Probability0", "AHR", "theta", "info", "info0", "IF")) %>%  
+               "Probability", "Probability0", "AHR", "theta", "info", "info0", "info_frac")) %>%  
       arrange(Analysis, desc(Bound))  
   )
   
@@ -217,14 +217,14 @@ gs_design_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 
   
   # analysis table
   analysis <- allout %>% 
-    select(Analysis, Time, N, Events, AHR, theta, info, info0, IF) %>% 
+    select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac) %>% 
     unique() %>%  
     arrange(Analysis)
   
   # final output
   ans <- list(
-    enrollRates = enrollRates %>% mutate(rate = rate * inflac_fct),
-    failRates = failRates,
+    enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
+    fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(Z)),
     analysis = analysis)
   
