@@ -20,12 +20,12 @@
 #' Computes fixed design sample size for many sample size methods.
 #' Returns a `tibble` with a basic summary
 #' @param x Sample size method; default is \code{"AHR"}; 
-#'          other options include \code{"FH"}, \code{"MB"}, \code{"LF"}, \code{"RD"}, \code{"MaxCombo"}, \code{"Milestone"}.
+#'          other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.
 #' @param alpha One-sided Type I error (strictly between 0 and 1)
 #' @param power Power (`NULL` to compute power or strictly between 0 and `1 - alpha` otherwise)
 #' @param ratio Experimental:Control randomization ratio
-#' @param studyDuration study duration
-#' @param ... additional arguments like \code{enrollRates}, \code{failRates}, \code{rho}, \code{gamma}, \code{tau}
+#' @param study_duration study duration
+#' @param ... additional arguments like \code{enroll_rate}, \code{fail_rate}, \code{rho}, \code{gamma}, \code{tau}
 #' 
 #' @return a table
 #' @export
@@ -34,51 +34,51 @@
 #' library(dplyr)
 #' 
 #' # Average hazard ratio
-#' x <- fixed_design("AHR", 
+#' x <- fixed_design("ahr", 
 #'                   alpha = .025, power = .9, 
-#'                   enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   failRates = tibble::tibble(Stratum = "All", duration = c(4, 100), failRate = log(2) / 12, hr = c(1, .6), dropoutRate = .001),
-#'                   studyDuration = 36)
+#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(Stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12, hr = c(1, .6), dropout_rate = .001),
+#'                   study_duration = 36)
 #' x %>% summary()            
 #' 
 #' # Lachin and Foulkes (uses gsDesign::nSurv())
-#' x <- fixed_design("LF", 
+#' x <- fixed_design("lf", 
 #'                   alpha = .025, power = .9, 
-#'                   enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   failRates = tibble::tibble(Stratum = "All", duration = 100, failRate = log(2) / 12, hr = .7, dropoutRate = .001),
-#'                   studyDuration = 36)
+#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+#'                   study_duration = 36)
 #' x %>% summary()
 #' 
 #' # RMST
-#' x <- fixed_design("RMST", alpha = .025, power = .9, 
-#'                   enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   failRates = tibble::tibble(Stratum = "All", duration = 100, failRate = log(2) / 12, hr = .7, dropoutRate = .001),
-#'                   studyDuration = 36,
+#' x <- fixed_design("rmst", alpha = .025, power = .9, 
+#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+#'                   study_duration = 36,
 #'                   tau = 18)
 #' x %>% summary()
 #' 
 #' # Milestone 
-#' x <- fixed_design("Milestone", alpha = .025, power = .9, 
-#'                   enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   failRates = tibble::tibble(Stratum = "All", duration = 100, failRate = log(2) / 12, hr = .7, dropoutRate = .001),
-#'                   studyDuration = 36,
+#' x <- fixed_design("milestone", alpha = .025, power = .9, 
+#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+#'                   study_duration = 36,
 #'                   tau = 18)
 #' x %>% summary()
 #' 
-fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST", "Milestone"), 
-                         alpha = 0.025, power = NULL, ratio = 1, studyDuration = 36, ...){
+fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "rmst", "milestone"), 
+                         alpha = 0.025, power = NULL, ratio = 1, study_duration = 36, ...){
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
-  x <- match.arg(x)
+  x <- match.arg(method)
   args <- list(...)
   
   has_weight <- "weight" %in% names(args)
   has_rho <- "rho" %in% names(args)
   has_gamma <- "gamma" %in% names(args)
   has_tau <- "tau" %in% names(args)
-  has_enrollRates <- "enrollRates" %in% names(args)
-  has_failRates <- "failRates" %in% names(args)
+  has_enroll_rate <- "enroll_rate" %in% names(args)
+  has_fail_rate <- "fail_rate" %in% names(args)
   has_N <- "N" %in% names(args)
   
   # ------------------------- #
@@ -86,38 +86,38 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
   # ------------------------- #
   
   # check enrollment rate (not expected for RD)
-  if(!has_enrollRates && x != "RD"){
-    stop("fixed_design: please input enrollRates!")
+  if(!has_enroll_rate && x != "rd"){
+    stop("fixed_design: please input enroll_rate!")
   }else{
-    enrollRates <- args$enrollRates
+    enroll_rate <- args$enroll_rate
   }
   
   # check failure rate (not expected for RD)
-  if(!has_failRates && x != "RD"){
-    stop("fixed_design: please input failRates!")
+  if(!has_fail_rate && x != "rd"){
+    stop("fixed_design: please input fail_rate!")
   }else{
-    failRates <- args$failRates
+    fail_rate <- args$fail_rate
   }
   
   # check test parameters, like rho, gamma, tau 
-  if(has_rho & length(args$rho) > 1 & x %in% c("FH", "MB")){
+  if(has_rho & length(args$rho) > 1 & x %in% c("fh", "mb")){
     stop("fixed_design: multiple rho can not be used in Fleming-Harrington or Magirr-Burman method!")
   }
-  if(has_gamma & length(args$gamma) > 1 & x %in% c("FH", "MB")){
+  if(has_gamma & length(args$gamma) > 1 & x %in% c("fh", "mb")){
     stop("fixed_design: multiple gamma can not be used in Fleming-Harrington or Magirr-Burman method!")
   }
-  if(has_tau & length(args$tau) > 1 & x %in% c("FH", "MB")){
+  if(has_tau & length(args$tau) > 1 & x %in% c("fh", "mb")){
     stop("fixed_design: multiple tau can not be used in Fleming-Harrington or Magirr-Burman method!")
   }
-  if(has_tau & x == "FH"){
+  if(has_tau & x == "fh"){
     stop("fixed_design: tau is not needed for Fleming-Harrington (FH) method!")
   }
-  if(has_rho & has_gamma & x == "MB"){
+  if(has_rho & has_gamma & x == "mb"){
     stop("fixed_design: rho and gamma are not needed for Magirr-Burman (MB) method!")
   }
   
   # check inputs necessary for RD
-  if(x == "RD"){
+  if(x == "rd"){
     if(!"p_c" %in% names(args)){stop("fixed_design: p_c is needed for RD!")}
     if(!"p_e" %in% names(args)){stop("fixed_design: p_e is needed for RD!")}
     if(!"rd0" %in% names(args)){stop("fixed_design: rd0 is needed for RD!")}
@@ -128,23 +128,23 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
   #     generate design       #
   # ------------------------- #
   y <- switch(x, 
-              "AHR" = {
+              "ahr" = {
                 if (!is.null(power)){
                   d <- gs_design_ahr(alpha = alpha, beta = 1 - power,
                                      upar = qnorm(1 - alpha), lpar = -Inf,
-                                     enrollRates = enrollRates,
-                                     failRates = failRates,
+                                     enroll_rate = enroll_rate,
+                                     fail_rate = fail_rate,
                                      ratio  = ratio, 
-                                     analysisTimes = studyDuration)
+                                     analysis_time = study_duration)
                 }else{
                   d <- gs_power_ahr(upar = qnorm(1 - alpha), lpar = -Inf,
-                                    enrollRates = enrollRates,
-                                    failRates = failRates,
+                                    enroll_rate = enroll_rate,
+                                    fail_rate = fail_rate,
                                     ratio  = ratio, 
-                                    analysisTimes = studyDuration,
+                                    analysis_time = study_duration,
                                     events = NULL)
                 }
-                ans <- tibble::tibble(Design = "AHR",
+                ans <- tibble::tibble(Design = "ahr",
                                       N = d$analysis$N,
                                       Events = d$analysis$Events,
                                       Time = d$analysis$Time,
@@ -152,10 +152,10 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enrollRates = d$enrollRates, failRates = d$failRates, analysis = ans, design = "AHR")
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "ahr")
               },
               
-              "FH" = {
+              "fh" = {
                 
                 if(has_weight + has_rho + has_gamma == 0){
                   weight <- function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)}
@@ -168,21 +168,21 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                 if (!is.null(power)){
                   d <- gs_design_wlr(alpha = alpha, beta = 1 - power,
                                      upar = qnorm(1 - alpha), lpar = -Inf,
-                                     enrollRates = enrollRates, 
-                                     failRates = failRates,
+                                     enroll_rate = enroll_rate, 
+                                     fail_rate = fail_rate,
                                      ratio = ratio, 
                                      weight = weight,
-                                     analysisTimes = studyDuration)
+                                     analysis_time = study_duration)
                 }else{
                   d <- gs_power_wlr(upar = qnorm(1 - alpha), lpar = -Inf,
-                                    enrollRates = enrollRates, 
-                                    failRates = failRates,
+                                    enroll_rate = enroll_rate, 
+                                    fail_rate = fail_rate,
                                     ratio = ratio, 
                                     weight = weight,
-                                    analysisTimes = studyDuration,
+                                    analysis_time = study_duration,
                                     events = NULL)
                 }
-                ans <- tibble::tibble(Design = "FH",
+                ans <- tibble::tibble(Design = "fh",
                                       N = d$analysis$N,
                                       Events = d$analysis$Events,
                                       Time = d$analysis$Time,
@@ -190,20 +190,20 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enrollRates = d$enrollRates, failRates = d$failRates, analysis = ans, 
-                     design = "FH", design_par = list(rho = if(has_rho){args$rho}else{0}, 
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                     design = "fh", design_par = list(rho = if(has_rho){args$rho}else{0}, 
                                                       gamma = if(has_gamma){args$gamma}else{0.5})
                 )
               },
               
               
-              "MB" = {
+              "mb" = {
                 # check if power is NULL or not
                 if(!is.null(power)){
                   d <- gs_design_wlr(alpha = alpha,
                                      beta = 1 - power,
-                                     enrollRates = enrollRates, 
-                                     failRates = failRates,
+                                     enroll_rate = enroll_rate, 
+                                     fail_rate = fail_rate,
                                      ratio = 1, 
                                      weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0,
                                                                                     tau = ifelse(has_tau, args$tau, 6))},
@@ -211,10 +211,10 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                      upar = qnorm(1 - alpha),
                                      lower = gs_b,
                                      lpar = -Inf,
-                                     analysisTimes = studyDuration) 
+                                     analysis_time = study_duration) 
                 }else{
-                  d <- gs_power_wlr(enrollRates = enrollRates, 
-                                    failRates = failRates,
+                  d <- gs_power_wlr(enroll_rate = enroll_rate, 
+                                    fail_rate = fail_rate,
                                     ratio = 1, 
                                     weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0,
                                                                                    tau = ifelse(has_tau, args$tau, 6))},
@@ -222,12 +222,12 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                     upar = qnorm(1 - alpha),
                                     lower = gs_b,
                                     lpar = -Inf,
-                                    analysisTimes = studyDuration,
+                                    analysis_time = study_duration,
                                     events = NULL) 
                 }
                 
                 # get the output of MB
-                ans <- tibble::tibble(Design = "MB",
+                ans <- tibble::tibble(Design = "mb",
                                       N = d$analysis$N,
                                       Events = d$analysis$Events,
                                       Time = d$analysis$Time,
@@ -235,37 +235,37 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enrollRates = d$enrollRates, failRates = d$failRates, analysis = ans, 
-                     design = "MB", design_par = list(tau = ifelse(has_tau, args$tau, 6)))
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                     design = "mb", design_par = list(tau = ifelse(has_tau, args$tau, 6)))
                 
                 
               },
               
               
-              "LF" = { 
+              "lf" = { 
                 # check if it is stratum
-                if(length(unique(enrollRates$Stratum)) != 1 | length(unique(failRates$Stratum)) != 1){
+                if(length(unique(enroll_rate$Stratum)) != 1 | length(unique(fail_rate$Stratum)) != 1){
                   warning("Lachin-Foulkes is not recommended for stratified designs!")
                 }
                 
                 # calculate the S: duration of piecewise constant event rates 
-                m <- length(failRates$failRate)
-                if (m == 1){S <- NULL}else{S <- failRates$duration[1:(m-1)]}
+                m <- length(fail_rate$fail_rate)
+                if (m == 1){S <- NULL}else{S <- fail_rate$duration[1:(m-1)]}
                 
                 # calculate the ahr as the hr in nSurv
-                dd <- AHR(enrollRates = enrollRates, failRates = failRates, totalDuration = studyDuration, ratio = ratio)
+                dd <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = study_duration, ratio = ratio)
                 
                 # use nSuve to develop the design
                 d <- gsDesign::nSurv(alpha = alpha, beta = if(is.null(power)){NULL}else{1 - power}, 
                                      ratio = ratio, hr = dd$AHR,
-                                     # failRates
-                                     lambdaC = failRates$failRate,
-                                     S = S, eta = failRates$dropoutRate,  
-                                     # enrollRates
-                                     gamma = enrollRates$rate, R = enrollRates$duration,
-                                     T = studyDuration, minfup = studyDuration - sum(enrollRates$duration))
+                                     # fail_rate
+                                     lambdaC = fail_rate$fail_rate,
+                                     S = S, eta = fail_rate$dropout_rate,  
+                                     # enroll_rate
+                                     gamma = enroll_rate$rate, R = enroll_rate$duration,
+                                     T = study_duration, minfup = study_duration - sum(enroll_rate$duration))
                 
-                ans <- tibble::tibble(Design = "LF",
+                ans <- tibble::tibble(Design = "lf",
                                       N = d$n,
                                       Events = d$d,
                                       Time = d$T,
@@ -273,39 +273,39 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                       alpha = d$alpha,
                                       Power = d$power)
                 
-                list(enrollRates = enrollRates %>% mutate(rate = rate * d$n/sum(enrollRates$duration * enrollRates$rate)), 
-                     failRates = failRates, 
+                list(enroll_rate = enroll_rate %>% mutate(rate = rate * d$n/sum(enroll_rate$duration * enroll_rate$rate)), 
+                     fail_rate = fail_rate, 
                      analysis = ans, 
-                     design = "LF")
+                     design = "lf")
               },
               
               
-              "MaxCombo" = {
+              "maxcombo" = {
                 # organize the tests in max combo
                 max_combo_test <- data.frame(rho = if(has_rho){args$rho}else{c(0, 0)},
                                              gamma = if(has_gamma){args$gamma}else{c(0, 0.5)},
                                              tau = if(has_tau){args$tau}else{-1}) %>% 
-                  mutate(test = seq(1, length(rho)), Analysis = 1, analysisTimes = studyDuration)
+                  mutate(test = seq(1, length(rho)), Analysis = 1, analysis_time = study_duration)
                 
                 # check if power is NULL or not
                 if(!is.null(power)){
                   d <- gs_design_combo(alpha = alpha, beta = 1 - power, ratio = ratio, 
-                                       enrollRates = enrollRates, 
-                                       failRates = failRates,
+                                       enroll_rate = enroll_rate, 
+                                       fail_rate = fail_rate,
                                        fh_test = max_combo_test, 
                                        upper = gs_b, upar = qnorm(1 - alpha),
                                        lower = gs_b, lpar = -Inf) 
                 }else{
                   d <- gs_power_combo(ratio = ratio,
-                                      enrollRates = enrollRates,  
-                                      failRates = failRates,  
+                                      enroll_rate = enroll_rate,  
+                                      fail_rate = fail_rate,  
                                       fh_test = max_combo_test, 
                                       upper = gs_b, upar = qnorm(1 - alpha),
                                       lower = gs_b, lpar = -Inf) 
                 }
                 
                 # get the output of max combo
-                ans <- tibble::tibble(Design = "MaxCombo",
+                ans <- tibble::tibble(Design = "maxcombo",
                                       N = d$analysis$N,
                                       Events = d$analysis$Events,
                                       Time = d$analysis$Time,
@@ -313,13 +313,13 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enrollRates = d$enrollRates, failRates = d$failRates, analysis = ans, 
-                     design = "MaxCombo", design_par = list(rho = if(has_rho){args$rho}else{c(0, 0)},
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                     design = "maxcombo", design_par = list(rho = if(has_rho){args$rho}else{c(0, 0)},
                                                             gamma = if(has_gamma){args$gamma}else{c(0, 0.5)},
                                                             tau = if(has_tau){args$tau}else{c(-1, -1)}))
               },
               
-              "RD" = {
+              "rd" = {
                 if(!is.null(power)){
                   d <- gs_design_rd(p_c = tibble::tibble(Stratum = "All", Rate = args$p_c),
                                     p_e = tibble::tibble(Stratum = "All", Rate = args$p_e),
@@ -338,33 +338,33 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                 }
                 
                 # get the output of max combo
-                ans <- tibble::tibble(Design = "RD",
+                ans <- tibble::tibble(Design = "rd",
                                       N = d$analysis$N,
                                       Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enrollRates = d$enrollRates, failRates = d$failRates, analysis = ans, design = "RD")
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "RD")
               },
               
               
-              "RMST" = {
+              "rmst" = {
                 if(!is.null(power)){
                   d <- fixed_design_size_rmst(alpha = alpha, beta = 1 - power, ratio = ratio, 
-                                              enrollRates = enrollRates, failRates = failRates,
-                                              analysisTimes = studyDuration, 
+                                              enroll_rate = enroll_rate, fail_rate = fail_rate,
+                                              analysis_time = study_duration, 
                                               test = "rmst difference",
-                                              tau = ifelse(has_tau, args$tau, studyDuration)) 
+                                              tau = ifelse(has_tau, args$tau, study_duration)) 
                 }else{
                   d <- fixed_design_power_rmst(alpha = alpha, ratio = ratio,
-                                               enrollRates = enrollRates, failRates = failRates,  
-                                               analysisTimes = studyDuration, 
+                                               enroll_rate = enroll_rate, fail_rate = fail_rate,  
+                                               analysis_time = study_duration, 
                                                test = "rmst difference",
-                                               tau = ifelse(has_tau, args$tau, studyDuration)) 
+                                               tau = ifelse(has_tau, args$tau, study_duration)) 
                 }
                 
                 # get the output 
-                ans <- tibble::tibble(Design = "RMST",
+                ans <- tibble::tibble(Design = "rmst",
                                       N = d$analysis$N,
                                       Events = d$analysis$Events,
                                       Time = d$analysis$Time,
@@ -372,27 +372,27 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enrollRates = d$enrollRates, failRates = d$failRates, analysis = ans, 
-                     design = "RMST", design_par = list(tau = ifelse(has_tau, args$tau, studyDuration)))
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                     design = "rmst", design_par = list(tau = ifelse(has_tau, args$tau, study_duration)))
               },
               
-              "Milestone" = {
+              "milestone" = {
                 if(!is.null(power)){
                   d <- fixed_design_size_rmst(alpha = alpha, beta = 1 - power, ratio = ratio, 
-                                              enrollRates = enrollRates, failRates = failRates,
-                                              analysisTimes = studyDuration, 
+                                              enroll_rate = enroll_rate, fail_rate = fail_rate,
+                                              analysis_time = study_duration, 
                                               test = "survival difference",
-                                              tau = ifelse(has_tau, args$tau, studyDuration)) 
+                                              tau = ifelse(has_tau, args$tau, study_duration)) 
                 }else{
                   d <- fixed_design_power_rmst(alpha = alpha, ratio = ratio,
-                                               enrollRates = enrollRates, failRates = failRates,
-                                               analysisTimes = studyDuration, 
+                                               enroll_rate = enroll_rate, fail_rate = fail_rate,
+                                               analysis_time = study_duration, 
                                                test = "survival difference",
-                                               tau = ifelse(has_tau, args$tau, studyDuration)) 
+                                               tau = ifelse(has_tau, args$tau, study_duration)) 
                 }
                 
                 # get the output of max combo
-                ans <- tibble::tibble(Design = "Milestone",
+                ans <- tibble::tibble(Design = "milestone",
                                       N = d$analysis$N,
                                       Events = d$analysis$Events,
                                       Time = d$analysis$Time,
@@ -400,8 +400,8 @@ fixed_design <- function(x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST"
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enrollRates = d$enrollRates, failRates = d$failRates, analysis = ans, 
-                     design = "Milestone", design_par = list(tau = ifelse(has_tau, args$tau, studyDuration)))
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                     design = "milestone", design_par = list(tau = ifelse(has_tau, args$tau, study_duration)))
               }
   )
   
