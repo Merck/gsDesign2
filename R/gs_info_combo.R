@@ -20,28 +20,31 @@
 #' @importFrom tibble tibble
 #' @importFrom tibble tibble
 #' 
-#' @param enrollRates enrollment rates
-#' @param failRates failure and dropout rates
+#' @param enroll_rate enrollment rates
+#' @param fail_rate failure and dropout rates
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
 #' @param events Targeted events at each analysis
-#' @param analysisTimes Minimum time of analysis
+#' @param analysis_time Minimum time of analysis
 #' @param rho Weighting parameters
 #' @param gamma Weighting parameters
 #' @param tau Weighting parameters
 #' @param approx Approximation method
 #' 
 #' @export
-gs_info_combo <- function(enrollRates = tibble(Stratum = "All", 
+#' 
+#' @example 
+#' gs_info_combo(event = c(20, 30), rho = 0, gamma = 0.5)
+gs_info_combo <- function(enroll_rate = tibble(Stratum = "All", 
                                                duration = c(2, 2, 10), 
                                                rate = c(3, 6, 9)),
-                          failRates = tibble(Stratum = "All",
+                          fail_rate = tibble(Stratum = "All",
                                              duration = c(3,100),
-                                             failRate = log(2) / c(9, 18),
+                                             fail_rate = log(2) / c(9, 18),
                                              hr = c(.9, .6),
-                                             dropoutRate = rep(.001, 2)),
+                                             dropout_rate = rep(.001, 2)),
                           ratio = 1,                
                           events = NULL, 
-                          analysisTimes = NULL,   
+                          analysis_time = NULL,   
                           rho,
                           gamma,
                           tau =  rep(-1, length(rho)),
@@ -51,7 +54,9 @@ gs_info_combo <- function(enrollRates = tibble(Stratum = "All",
   
   info <- lapply(weight, function(x){
     x <- eval(parse(text = x))
-    gs_info_wlr(enrollRates, failRates, ratio, events = events, analysisTimes = analysisTimes, weight = x)
+    gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                events = events, analysis_time = analysis_time, 
+                ratio = ratio, weight = x)
   })
   
   info <- dplyr::bind_rows(info, .id = "test")
