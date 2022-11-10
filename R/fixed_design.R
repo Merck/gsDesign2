@@ -344,7 +344,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "RD")
+                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "rd")
               },
               
               

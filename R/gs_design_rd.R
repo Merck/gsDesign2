@@ -103,7 +103,7 @@ NULL
 gs_design_rd <- function(
     p_c = tibble(Stratum = "All", Rate = .2),
     p_e = tibble(Stratum = "All", Rate = .15),
-    IF = 1:3/3,
+    info_frac = 1:3/3,
     rd0 = 0, 
     alpha = .025,                  
     beta = .1,                    
@@ -128,10 +128,10 @@ gs_design_rd <- function(
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   weight <- if(methods::missingArg(weight)){"un-stratified"}else{match.arg(weight)}
   n_strata <- length(unique(p_c$Stratum))
-  if(methods::missingArg(IF)){
+  if(methods::missingArg(info_frac)){
     k <- 1
   }else{
-    k <- length(IF)
+    k <- length(info_frac)
   }
   
   # --------------------------------------------- #
@@ -158,9 +158,9 @@ gs_design_rd <- function(
     N = tibble(Analysis = rep(1:k, n_strata), 
                Stratum = rep(p_c$Stratum, each = k), 
                N = if(is.null(stratum_prev)){
-                      IF
+                      info_frac
                    }else{
-                     rep((stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x, each = k) * IF
+                     rep((stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x, each = k) * info_frac
                    }), 
     rd0 = rd0,
     ratio = ratio,
@@ -199,10 +199,10 @@ gs_design_rd <- function(
            rd0 = rd0,
            "~Risk difference at bound" = Z / sqrt(info) / theta * (rd -rd0)  + rd0, 
            "Nominal p" = pnorm(-Z),
-           IF0 = if(sum(!is.na(info0)) == 0){NA}else{info0 / max(info0)},
+           info_frac0 = if(sum(!is.na(info0)) == 0){NA}else{info0 / max(info0)},
            N = (y_gs %>% filter(Bound == "Upper", Analysis == k))$info
-               / ifelse(info_scale == 0, x_fix$info0[1], x_fix$info1[1])  * IF) %>% 
-    select(c(Analysis, Bound,  N, rd, rd0, Z, Probability, Probability0, info, info0, IF, IF0, `~Risk difference at bound`, `Nominal p`)) %>% 
+               / ifelse(info_scale == 0, x_fix$info0[1], x_fix$info1[1])  * info_frac) %>% 
+    select(c(Analysis, Bound,  N, rd, rd0, Z, Probability, Probability0, info, info0, info_frac, info_frac0, `~Risk difference at bound`, `Nominal p`)) %>% 
     arrange(Analysis, desc(Bound)) 
   
   # --------------------------------------------- #
@@ -216,7 +216,7 @@ gs_design_rd <- function(
   # --------------------------------------------- #
   analysis <- allout %>% 
     filter(Bound == "Upper") %>% 
-    select(Analysis, N, rd, rd0, info, info0, IF, IF0) 
+    select(Analysis, N, rd, rd0, info, info0, info_frac, info_frac0) 
   
   # --------------------------------------------- #
   #     return the output                         #
