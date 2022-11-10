@@ -34,9 +34,9 @@ NULL
 #' The intent is to enable sample size calculations under non-proportional hazards assumptions
 #' for stratified populations.
 #'
-#' @param enrollRates Enrollment rates; see details and examples
-#' @param failRates Failure rates and dropout rates by period
-#' @param totalDuration Total follow-up from start of enrollment to data cutoff
+#' @param enroll_rate Enrollment rates; see details and examples
+#' @param fail_rate Failure rates and dropout rates by period
+#' @param total_duration Total follow-up from start of enrollment to data cutoff
 #' @param simple If default (TRUE), return numeric expected number of events, otherwise
 #' a \code{tibble} as described below.
 #' @section Specification:
@@ -57,7 +57,7 @@ NULL
 #'    the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd
 #'    \item Only consider the failure rates in the interval of the end failure rate and total duration.
 #'    \item Compute the failure rates over time using \code{stepfun} which is used
-#'     to group rows by periods defined by failRates.
+#'     to group rows by periods defined by fail_rate.
 #'    \item Compute the dropout rate over time using \code{stepfun}.
 #'    \item Compute the enrollment rate over time using \code{stepfun}. Details are
 #'    available in vignette/eEventsTheory.Rmd.
@@ -68,12 +68,12 @@ NULL
 #' }
 #' @return
 #' The default when \code{simple=TRUE} is to return the total expected number of events as a real number.
-#' Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with the following variables for each period specified in 'failRates':
+#' Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with the following variables for each period specified in 'fail_rate':
 #' \code{t} start of period,
-#' \code{failRate} failure rate during the period
+#' \code{fail_rate} failure rate during the period
 #' \code{Events} expected events during the period,
 #'
-#' The records in the returned \code{tibble} correspond to the input \code{tibble} \code{failRates}.
+#' The records in the returned \code{tibble} correspond to the input \code{tibble} \code{fail_rate}.
 #' 
 #' @details
 #' More periods will generally be supplied in output than those that are input.
@@ -91,53 +91,51 @@ NULL
 #' eEvents_df(simple = FALSE)
 #' 
 #' # Early cutoff
-#' eEvents_df(totalDuration = .5)
+#' eEvents_df(total_duration = .5)
 #' 
 #' # Single time period example
-#' eEvents_df(enrollRates = tibble(duration = 10,rate = 10),
-#'            failRates = tibble(duration=100, failRate = log(2) / 6 ,dropoutRate = .01),
-#'            totalDuration = 22,
+#' eEvents_df(enroll_rate = tibble(duration = 10,rate = 10),
+#'            fail_rate = tibble(duration=100, fail_rate = log(2) / 6 ,dropout_rate = .01),
+#'            total_duration = 22,
 #'            simple = FALSE)
 #' 
 #' # Single time period example, multiple enrollment periods
-#' eEvents_df(enrollRates = tibble(duration = c(5,5), rate = c(10, 20)),
-#'            failRates = tibble(duration = 100, failRate = log(2)/6, dropoutRate = .01),
-#'            totalDuration = 22, simple = FALSE)
+#' eEvents_df(enroll_rate = tibble(duration = c(5,5), rate = c(10, 20)),
+#'            fail_rate = tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01),
+#'            total_duration = 22, simple = FALSE)
 #' @export
-eEvents_df <- function(enrollRates = tibble::tibble(duration = c(2, 2, 10),
+eEvents_df <- function(enroll_rate = tibble::tibble(duration = c(2, 2, 10),
                                                     rate = c(3, 6, 9)),
-                       failRates = tibble::tibble(duration = c(3, 100),
-                                                  failRate = log(2) / c(9, 18),
-                                                  dropoutRate = rep(.001, 2)),
-                       totalDuration = 25,
+                       fail_rate = tibble::tibble(duration = c(3, 100),
+                                                  fail_rate = log(2) / c(9, 18),
+                                                  dropout_rate = rep(.001, 2)),
+                       total_duration = 25,
                        simple = TRUE
 ){
   # ----------------------------#
   #    check input values       #
   # ----------------------------#
-  check_enrollRates(enrollRates)
-  check_failRates(failRates)
-  check_enrollRates_failRates(enrollRates, failRates)
-  check_totalDuration(totalDuration)
-  if(length(totalDuration) > 1){stop("gsDesign2: totalDuration in `events_df()` must be a numeric number!")}
-  if(!is.logical(simple)){stop("gsDesign2: simple in `eEvents_df()` must be logical")}
+  check_enroll_rate(enroll_rate)
+  check_fail_rate(fail_rate)
+  check_enroll_rate_fail_rate(enroll_rate, fail_rate)
+  check_total_duration(total_duration)
+  if(length(total_duration) > 1){stop("gsDesign2: total_duration in `events_df()` must be a numeric number!")}
+  if(!is.logical(simple)){stop("gsDesign2: simple in `eEvents_df()` must be logical!")}
   
   # ----------------------------#
   #    divide the time line     #
   #     into sub-intervals      #
   # ----------------------------#
   ## by piecewise enrollment rates 
-  df_1 <- tibble::tibble(startEnroll = c(0, cumsum(enrollRates$duration)),
-                         endFail = totalDuration - startEnroll
-                         #rate = c(enrollRates$rate, 0)
-                         ) %>% subset(endFail > 0)
+  df_1 <- tibble::tibble(startEnroll = c(0, cumsum(enroll_rate$duration)),
+                         endFail = total_duration - startEnroll) %>% subset(endFail > 0)
   ## by piecewise failure & dropout rates 
-  df_2 <- tibble::tibble(endFail = cumsum(failRates$duration),
-                         startEnroll = totalDuration - endFail,
-                         failRate = failRates$failRate,
-                         dropoutRate = failRates$dropoutRate)
-  temp <- cumsum(failRates$duration)
-  if(temp[length(temp)] < totalDuration){
+  df_2 <- tibble::tibble(endFail = cumsum(fail_rate$duration),
+                         startEnroll = total_duration - endFail,
+                         failRate = fail_rate$fail_rate,
+                         dropoutRate = fail_rate$dropout_rate)
+  temp <- cumsum(fail_rate$duration)
+  if(temp[length(temp)] < total_duration){
     df_2 <- df_2[-nrow(df_2), ]
   }else{
     df_2 <- df_2[df_2$startEnroll > 0, ]
@@ -147,17 +145,17 @@ eEvents_df <- function(enrollRates = tibble::tibble(duration = c(2, 2, 10),
   # create 3 step functions (sf)#
   # ----------------------------#
   # Step function to define enrollment rates over time
-  sf.enrollRate <- stepfun(c(0, cumsum(enrollRates$duration)),
-                           c(0, enrollRates$rate,0),
+  sf.enrollRate <- stepfun(c(0, cumsum(enroll_rate$duration)),
+                           c(0, enroll_rate$rate,0),
                            right = FALSE)
   # step function to define failure rates over time
-  startFail <- c(0, cumsum(failRates$duration))
+  startFail <- c(0, cumsum(fail_rate$duration))
   sf.failRate <- stepfun(startFail,
-                         c(0, failRates$failRate, last(failRates$failRate)),
+                         c(0, fail_rate$fail_rate, last(fail_rate$fail_rate)),
                          right = FALSE)
   # step function to define dropout rates over time
   sf.dropoutRate <- stepfun(startFail,
-                            c(0, failRates$dropoutRate, last(failRates$dropoutRate)),
+                            c(0, fail_rate$dropout_rate, last(fail_rate$dropout_rate)),
                             right = FALSE)
 
   # ----------------------------#
@@ -168,7 +166,7 @@ eEvents_df <- function(enrollRates = tibble::tibble(duration = c(2, 2, 10),
   # impute the NA by step functions
   df <- full_join(df_1, df_2, by = c("startEnroll", "endFail")) %>%
     arrange(endFail) %>%
-    mutate(endEnroll = lag(startEnroll, default = as.numeric(totalDuration)),
+    mutate(endEnroll = lag(startEnroll, default = as.numeric(total_duration)),
            startFail = lag(endFail, default = 0),
            duration = endEnroll - startEnroll,
            failRate = sf.failRate(startFail),
