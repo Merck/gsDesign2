@@ -23,8 +23,7 @@ library(gt)
 library(tibble)
 library(dplyr)
 library(testthat)
-#library(gsDesign2)
-devtools::load_all()
+library(gsDesign2)
 ```
 
 # Introduction of `tEvents`
@@ -36,12 +35,14 @@ It is designed as a twins to `AHR()`: it matches input/output format with `AHR()
 
 ## Example 1: 
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
 
-x <- tEvents(enrollRates = enrollRates, failRates = failRates,
-             ratio = ratio, targetEvents = 200)
+x <- tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate,
+             ratio = ratio, target_event = 200)
 
 x %>% gt()
 ```
@@ -50,16 +51,18 @@ x %>% gt()
 
 In this example, we verify `tEvents()` by `AHR()`.
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
 
-x <- AHR(enrollRates = enrollRates, failRates = failRates, 
-         ratio = ratio, totalDuration = 20)
+x <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+         ratio = ratio, total_duration = 20)
 cat("The number of events by 20 months is ", x$Events, ".\n")
 
-y <- tEvents(enrollRates = enrollRates, failRates = failRates,
-             ratio = ratio, targetEvents = x$Events)
+y <- tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate,
+             ratio = ratio, target_event = x$Events)
 
 cat("The time to get ", x$Events, " is ", y$Time, "months.\n")
 ```
@@ -70,35 +73,37 @@ cat("The time to get ", x$Events, " is ", y$Time, "months.\n")
 
 # Inner Logic of `tEvents()`
 
-The inner logic of `tEvents()` is to uniroot `AHR()` on `totalDuration`.
+The inner logic of `tEvents()` is to uniroot `AHR()` on `total_duration`.
 
-**Step 1:** find the difference between  `AHR()` and different values of `totalDuration`.
+**Step 1:** find the difference between  `AHR()` and different values of `total_duration`.
 ```{r}
 foo <- function(x){
-  ans <- AHR(enrollRates = enrollRates, failRates = failRates, 
-             totalDuration = x, ratio = ratio)$Events - targetEvents
+  ans <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             total_duration = x, ratio = ratio)$Events - target_event
   return(ans)
 }
 ```
 
 
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
-targetEvents <- 200
+target_event <- 200
 
 cat("The difference between `targetEvents = 200` and the events after 30 months is ", foo(30), ".\n")
 ```
 
 
-**Step 2:** uniroot `AHR()` on `totalDuration`.
+**Step 2:** uniroot `AHR()` on `total_duration`.
 ```{r}
 res <- uniroot(foo, interval = c(0.01, 100))
 
-ans <- AHR(enrollRates = enrollRates, failRates = failRates, 
-           totalDuration = res$root, ratio = ratio)
-cat("After ", ans$Time, " months, there will be ", targetEvents, " events .\n")
+ans <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+           total_duration = res$root, ratio = ratio)
+cat("After ", ans$Time, " months, there will be ", target_event, " events .\n")
 ```
 
 
