@@ -39,16 +39,16 @@ We begin with the enrollment and failure rate assumptions which @kornfreidlin201
 
 ```{r}
 # Enrollment assumed to be 680 patients over 12 months with no ramp-up
-enrollRates <- tibble(Stratum = "All", duration = 12, rate = 680 / 12)
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 680 / 12)
 # Failure rates
 ## Control exponential with median of 12 mos
 ## Delayed effect with HR = 1 for 3 months and HR = .693 thereafter
 ## Censoring rate is 0
-failRates <- tibble(Stratum = "All", duration = c(3, 100), 
-                   failRate = -log(.5) / 12, hr = c(1, .693), dropoutRate = 0)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                   fail_rate = -log(.5) / 12, hr = c(1, .693), dropout_rate = 0)
 ## Study duration was 34.8 in Korn & Freidlin Table 1
 ## We change to 34.86 here to obtain 512 expected events more precisely
-studyDuration <- 34.86
+study_duation <- 34.86
 ```
 
 We now derive a fixed sample size based on these assumptions.
@@ -57,10 +57,11 @@ Ideally, we would allow a targeted event count and variable follow-up in `fixed_
 
 ```{r}
 fixedevents <- fixed_design(x = "AHR", alpha = 0.025, power = NULL, 
-                      enrollRates = enrollRates,
-                      failRates = failRates,
-                      studyDuration = studyDuration)
-fixedevents %>% summary() %>% 
+                      enroll_rate = enroll_rate,
+                      fail_rate = fail_rate,
+                      study_duation = study_duation)
+fixedevents %>% 
+  summary() %>% 
   select(-Bound) %>%
   as_gt(footnote="Power based on 512 events") %>%
   fmt_number(columns = 3:4, decimals = 2) %>% 
@@ -80,7 +81,7 @@ In the last row under *Alternate hypothesis* below we see the power is 88.44%.
 @kornfreidlin2018 computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884)/100000),4),'%',sep='')`.
 
 ```{r}
-wieand <- gs_power_ahr(enrollRates = enrollRates, failRates = failRates,
+wieand <- gs_power_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                        upper = gs_b, upar = c(rep(Inf, 2), qnorm(.975)),
                        lower = gs_b, lpar = c(0, 0, -Inf),
                        events = 512 * c(.5, .75, 1))
@@ -95,7 +96,7 @@ Need to summarize here.
 
 
 ```{r}
-betaspending <- gs_power_ahr(enrollRates = enrollRates, failRates = failRates,
+betaspending <- gs_power_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                        upper = gs_b, upar = c(rep(Inf, 2), qnorm(.975)),
                        lower = gs_spending_bound, 
                        lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025,
@@ -124,10 +125,9 @@ We consider monthly accumulation of events through the 34.86 months planned tria
 We note in the summary of early expected events below that all events during the first 3 months on-study are expected prior to the first interim analysis.
 
 ```{r}
-event_accumulation <- 
-AHR(enrollRates = enrollRates,
-    failRates = failRates,
-    totalDuration = c(1:34, 34.86),
+event_accumulation <- AHR(enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = c(1:34, 34.86),
     ratio = 1,
     simple = FALSE)
 head(event_accumulation, n = 7) %>% gt()
