@@ -160,11 +160,11 @@ AHR_ <- function(enrollRates=tibble::tibble(Stratum="All",
       fail <- failRates %>% filter(Stratum==s)
       # Control events
       enrollc <- enroll %>% mutate(rate=rate*Qc)
-      control <- eEvents_df(enrollRates=enrollc,failRates=fail,totalDuration=td,simple=FALSE)
+      control <- eEvents_df_(enrollRates=enrollc,failRates=fail,totalDuration=td,simple=FALSE)
       # Experimental events
       enrolle <- enroll %>% mutate(rate=rate*Qe)
       fre <- fail %>% mutate(failRate=failRate*hr)
-      experimental <- eEvents_df(enrollRates=enrolle,failRates=fre,totalDuration=td,simple=FALSE)
+      experimental <- eEvents_df_(enrollRates=enrolle,failRates=fre,totalDuration=td,simple=FALSE)
       # Combine control and experimental; by period recompute HR, events, information
       events <-
         rbind(control %>% mutate(Treatment="Control"),
