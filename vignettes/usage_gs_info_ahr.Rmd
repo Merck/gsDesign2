@@ -23,8 +23,7 @@ library(gt)
 library(tibble)
 library(dplyr)
 library(testthat)
-devtools::load_all()
-#library(gsDesign2)
+library(gsDesign2)
 ```
 
 # Introduction of `gs_info_ahr()`
@@ -43,40 +42,46 @@ The aforementioned calculation is based on piecewise model:
 
 In this example, we only input the target number of events by `events = ...`, and derive the time when these events will be arrived.
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
 
-gs_info_ahr(enrollRates = enrollRates, failRates = failRates,
+gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
             ratio = ratio, events = c(50, 80, 100))
 ```
 
 ## Example 2
 
-In this example, we only input the analysis time by `analysisTimes = ...`, and derive the number of events at these analysis time.
+In this example, we only input the analysis time by `analysis_time = ...`, and derive the number of events at these analysis time.
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
 
-gs_info_ahr(enrollRates = enrollRates, failRates = failRates,
-            ratio = ratio, analysisTimes = c(10, 15, 20))
+gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+            ratio = ratio, analysis_time = c(10, 15, 20))
 ```
 
 ## Example 3
 
-In this example, we both input `analysisTimes = ...` and `events = ...`. 
+In this example, we both input `analysis_time = ...` and `events = ...`. 
 In this case, one will see 
-+ the derived analysis time (`Time` column) $\geq$ input `analysisTimes`
++ the derived analysis time (`Time` column) $\geq$ input `analysis_time`
 + the derived number of event (`Events` column) $\geq$ input `events`
 
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
 
-gs_info_ahr(enrollRates = enrollRates, failRates = failRates,
-            ratio = ratio, analysisTimes = c(10, 15, 20), events = c(80,  # > events in example 2 
+gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+            ratio = ratio, analysis_time = c(10, 15, 20), events = c(80,  # > events in example 2 
                                                                      140, # < > events in example 2 
                                                                      220  # > events in example 2 
                                                                      ))
@@ -90,30 +95,32 @@ gs_info_ahr(enrollRates = enrollRates, failRates = failRates,
 
 To explain the inner logic of `gs_info_ahr()`, we discuss 3 scenario.
 
-1. only input `analysisTimes`
+1. only input `analysis_time`
 1. only input `events`
-1. both input `analysisTimes` and `events`
+1. both input `analysis_time` and `events`
 
-## Scenario 1: only input `analysisTimes`
+## Scenario 1: only input `analysis_time`
 
-If only `analysisTimes = ...` is input, essentially, `gs_info_ahr()` uses `AHR()` to calculate the number of events at these `analysisTimes`.
+If only `analysis_time = ...` is input, essentially, `gs_info_ahr()` uses `AHR()` to calculate the number of events at these `analysis_time`.
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
-analysisTimes <- c(10, 15, 20)
+analysis_time <- c(10, 15, 20)
 
-AHR(enrollRates = enrollRates, failRates = failRates, 
-    ratio = ratio, totalDuration = analysisTimes) %>% 
-  mutate(theta = -log(AHR), Analysis = 1 : length(analysisTimes)) %>% 
+AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+    ratio = ratio, total_duration = analysis_time) %>% 
+  mutate(theta = -log(AHR), Analysis = 1 : length(analysis_time)) %>% 
   select(Analysis, Time, Events, AHR, theta, info, info0) %>% 
   gt()
 ```
 
 This is exactly the output from `gs_info_ahr()`:
 ```{r}
-gs_info_ahr(enrollRates = enrollRates, failRates = failRates, 
-            ratio = ratio, analysisTimes = analysisTimes) %>% gt()
+gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+            ratio = ratio, analysis_time = analysis_time) %>% gt()
 ```
 
 
@@ -121,67 +128,69 @@ gs_info_ahr(enrollRates = enrollRates, failRates = failRates,
 
 If only `events = ...` is input, essentially, `gs_info_ahr()` uses `tEvents()` to calculate the time when these events will be arrived.
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), 
+                    fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+                    dropout_rate = rep(.001, 2))
 ratio <- 1
 events <- c(70, 150, 200)
 
 ans <- NULL
 for(i in seq_along(events)){
-  ans_new <- gsDesign2::tEvents(enrollRates = enrollRates, failRates = failRates, 
-                                ratio = ratio, targetEvents = events[i])
+  ans_new <- gsDesign2::tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                                ratio = ratio, target_event = events[i])
   ans <- rbind(ans, ans_new)
 }
 
 ans %>% 
-  mutate(theta = -log(AHR), Analysis = 1 : length(analysisTimes)) %>% 
+  mutate(theta = -log(AHR), Analysis = 1 : length(analysis_time)) %>% 
   select(Analysis, Time, Events, AHR, theta, info, info0) %>% 
   gt()
 ```
 
 This is exactly the output from `gs_info_ahr()`:
 ```{r}
-gs_info_ahr(enrollRates = enrollRates, failRates = failRates, 
+gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
             ratio = ratio, events = events) %>% gt()
 ```
 
 
-## Scenario 3: both input `analysisTimes` and `events`
+## Scenario 3: both input `analysis_time` and `events`
 
-If both `analysisTimes = ...` and `events = ...` are input, `gs_info_ahr()` uses both `AHR()` and `tEvents()`. 
+If both `analysis_time = ...` and `events = ...` are input, `gs_info_ahr()` uses both `AHR()` and `tEvents()`. 
 In this way, it is guaranteed that
 + the derived number of event (`Events` column) $\geq$ input `events`
-+ the derived analysis time (`Time` column) $\geq$ input `analysisTimes`
++ the derived analysis time (`Time` column) $\geq$ input `analysis_time`
 
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), hr = c(.9, .6), dropoutRate = rep(.001, 2))
+enroll_rate <- tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18), hr = c(.9, .6), dropout_rate = rep(.001, 2))
 ratio <- 1
-analysisTimes <- c(10, 15, 20)
+analysis_time <- c(10, 15, 20)
 events <- c(70, 150, 200)
 
 ans <- NULL
 
-# first, use `AHR()` to calculate the number of events at the input `analysisTimes`
-ans <- AHR(enrollRates = enrollRates, failRates = failRates, 
-           ratio = ratio, totalDuration = analysisTimes)
+# first, use `AHR()` to calculate the number of events at the input `analysis_time`
+ans <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+           ratio = ratio, total_duration = analysis_time)
 
 # second, compare if the events derived above meet the targeted number of events input in `events`
 for(i in seq_along(events)){
   if (ans$Events[i] < events[i]){
-    ans[i,] <- tEvents(enrollRates = enrollRates, failRates = failRates, 
-                       ratio = ratio, targetEvents = events[i])
+    ans[i,] <- tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                       ratio = ratio, target_event = events[i])
   }
 }
 
 ans %>% 
-  mutate(theta = -log(AHR), Analysis = 1 : length(analysisTimes)) %>% 
+  mutate(theta = -log(AHR), Analysis = 1 : length(analysis_time)) %>% 
   select(Analysis, Time, Events, AHR, theta, info, info0) %>% 
   gt()
 ```
 
 This is exactly the output from `gs_info_ahr()`:
 ```{r}
-gs_info_ahr(enrollRates = enrollRates, failRates = failRates, 
-            ratio = ratio, events = events, analysisTimes = analysisTimes) %>% gt()
+gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+            ratio = ratio, events = events, analysis_time = analysis_time) %>% gt()
 ```
