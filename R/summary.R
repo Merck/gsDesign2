@@ -152,9 +152,9 @@ summary.fixed_design <- function(object, ...){
 #'                      dropoutRate = .001)
 #'
 #' # Information fraction
-#' IF <- (1:3)/3
+#' info_frac <- (1:3)/3
 #'
-#' # Analysis times in months; first 2 will be ignored as IF will not be achieved
+#' # Analysis times in months; first 2 will be ignored as info_frac will not be achieved
 #' analysisTimes <- c(.01, .02, 36)
 #'
 #' # Experimental / Control randomization ratio
@@ -190,7 +190,7 @@ summary.fixed_design <- function(object, ...){
 #' x_ahr <- gs_design_ahr(
 #'   enrollRates = enrollRates,
 #'   failRates = failRates,
-#'   IF = IF, # Information fraction
+#'   info_frac = info_frac, # Information fraction
 #'   analysisTimes = analysisTimes,
 #'   ratio = ratio,
 #'   alpha = alpha,
@@ -201,7 +201,7 @@ summary.fixed_design <- function(object, ...){
 #'   lpar = lpar)
 #'
 #' x_ahr %>% summary()
-#' x_ahr %>% summary(analysis_vars = c("Time", "Events", "IF"), analysis_decimals = c(1, 0, 2))
+#' x_ahr %>% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
 #' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
 #'
 #' # ---------------------------- #
@@ -211,7 +211,7 @@ summary.fixed_design <- function(object, ...){
 #'   enrollRates = enrollRates,
 #'   failRates = failRates,
 #'   weight = wgt05,
-#'   IF = NULL,
+#'   info_frac = NULL,
 #'   analysisTimes = sort(unique(x_ahr$analysis$Time)),
 #'   ratio = ratio,
 #'   alpha = alpha,
@@ -246,7 +246,7 @@ summary.fixed_design <- function(object, ...){
 #' gs_design_rd(
 #'   p_c = tibble(Stratum = "All", Rate = .2),
 #'   p_e = tibble(Stratum = "All", Rate = .15),
-#'   IF = c(0.7, 1),
+#'   info_frac = c(0.7, 1),
 #'   rd0 = 0,
 #'   alpha = .025,
 #'   beta = .1,
@@ -323,7 +323,7 @@ summary.gs_design <- function(
   # (2) decimals to be displayed for the analysis variables in (3)
   if(is.null(analysis_vars) & is.null(analysis_decimals)){
     if(method %in% c("ahr", "wlr")){
-      analysis_vars <- c("Time", "N", "Events", "AHR", "IF")
+      analysis_vars <- c("Time", "N", "Events", "AHR", "info_frac")
       analysis_decimals <- c(1, 1, 1, 2, 2)
     }
     if(method == "combo"){
@@ -331,7 +331,7 @@ summary.gs_design <- function(
       analysis_decimals <- c(1, 1, 1, 2, 2)
     }
     if(method == "rd"){
-      analysis_vars <- c("N", "rd", "IF")
+      analysis_vars <- c("N", "rd", "info_frac")
       analysis_decimals <- c(1, 4, 2)
     }
   }else if(is.null(analysis_vars) & !is.null(analysis_decimals)){
