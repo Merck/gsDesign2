@@ -1,10 +1,10 @@
 test_eAccrual = function(x = 0:24,
-                         enrollRates = tibble::tibble(duration = c(3, 3, 18),
+                         enroll_rate = tibble::tibble(duration = c(3, 3, 18),
                                                       rate = c(5, 10, 20))) {
-  boundary = cumsum(enrollRates$duration)
-  rate = enrollRates$rate
+  boundary = cumsum(enroll_rate$duration)
+  rate = enroll_rate$rate
   xvals = unique(c(x, boundary))
-  # maxlen=sum(enrollRates$duration)
+  # maxlen=sum(enroll_rate$duration)
   # xvals1=xvals[xvals<=maxlen]
   eAc2 = numeric(length(xvals))
   for (t in 1:length(xvals)) {
@@ -33,11 +33,11 @@ test_eAccrual = function(x = 0:24,
 
 testthat::test_that("eAccrual doesn't match with the double programming e_Acurral function", {
   testthat::expect_equal(
-    eAccrual(x = 0:30,
-             enrollRates = tibble::tibble(duration = c(3, 13, 18),
+    eAccrual(time = 0:30,
+             enroll_rate = tibble::tibble(duration = c(3, 13, 18),
                                           rate = c(5, 20, 8))),
     test_eAccrual(x = 0:30,
-                  enrollRates = tibble::tibble(duration = c(3, 13, 18),
+                  enroll_rate = tibble::tibble(duration = c(3, 13, 18),
                                                rate = c(5, 20, 8)))
   )
 })
@@ -49,86 +49,86 @@ testthat::test_that("eAccrual doesn't match with the double programming e_Acurra
 
 testthat::test_that("eAccrual fail to identify a non-numerical input",{
   x=c(0:20, "NA")
-  expect_error(expect_message(eAccrual(x=x), "gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector"))
+  expect_error(expect_message(eAccrual(time=x), "gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector"))
   
 })
 
 testthat::test_that("eAccrual fail to identify a negative input",{
   x=-20:-1
-  expect_error(expect_message(eAccrual(x=x), "gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector"))
+  expect_error(expect_message(eAccrual(time=x), "gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector"))
   
 })
 
 
 testthat::test_that("eAccrual fail to identify a non-increasing input",{
   x=20:1
-  expect_error(expect_message(eAccrual(x=x), "gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector"))
+  expect_error(expect_message(eAccrual(time=x), "gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector"))
   
 })
 
 
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  enrollRates=as.matrix(tibble::tibble(duration=c(3,3,18), rate=c(5,10,20)))
-  expect_error(expect_message(eAccrual(enrollRates = enrollRates), "gsDesign2: enrollRates in `eAccrual()` must be a data.frame"))
+  enroll_rate=as.matrix(tibble::tibble(duration=c(3,3,18), rate=c(5,10,20)))
+  expect_error(expect_message(eAccrual(enroll_rate = enroll_rate), "gsDesign2: enroll_rate in `eAccrual()` must be a data.frame"))
 })
 
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  enrollRates=tibble::tibble(times=c(3,3,18), rate=c(5,10,20))
-  expect_error(expect_message(eAccrual(enrollRates = enrollRates), "gsDesign2: enrollRates in `eAccrual()` column names must contain duration"))
+  enroll_rate=tibble::tibble(times=c(3,3,18), rate=c(5,10,20))
+  expect_error(expect_message(eAccrual(enroll_rate = enroll_rate), "gsDesign2: enroll_rate in `eAccrual()` column names must contain duration"))
 })
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  enrollRates=tibble::tibble(duration=c(3,3,18), freqs=c(5,10,20))
-  expect_error(expect_message(eAccrual(enrollRates = enrollRates), "gsDesign2: enrollRates in `eAccrual()` column names must contain rate"))
-})
-
-
-
-testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  enrollRates=tibble::tibble(duration=c(3,3,18), rate=c(-5,10,20))
-  expect_error(expect_message(eAccrual(enrollRates = enrollRates), "gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate"))
+  enroll_rate=tibble::tibble(duration=c(3,3,18), freqs=c(5,10,20))
+  expect_error(expect_message(eAccrual(enroll_rate = enroll_rate), "gsDesign2: enroll_rate in `eAccrual()` column names must contain rate"))
 })
 
 
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  enrollRates=tibble::tibble(duration=c(3,3,18), rate=c(-15,-10,-2))
-  expect_error(expect_message(eAccrual(enrollRates = enrollRates), "gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate"))
+  enroll_rate=tibble::tibble(duration=c(3,3,18), rate=c(-5,10,20))
+  expect_error(expect_message(eAccrual(enroll_rate = enroll_rate), "gsDesign2: enroll_rate in `eAccrual()` must be non-negative with at least one positive rate"))
+})
+
+
+
+testthat::test_that("eAccrual fail to identify a non-dataframe input",{
+  enroll_rate=tibble::tibble(duration=c(3,3,18), rate=c(-15,-10,-2))
+  expect_error(expect_message(eAccrual(enroll_rate = enroll_rate), "gsDesign2: enroll_rate in `eAccrual()` must be non-negative with at least one positive rate"))
 })
 
 ## add test cases for stratified design
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  x <- eAccrual(x = 40, enrollRates = tibble(Stratum = c("S1", "S2"),
+  x <- eAccrual(time = 40, enroll_rate = tibble(Stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 33*30*2)
 })
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  x <- eAccrual(x = 33, enrollRates = tibble(Stratum = c("S1", "S2"),
+  x <- eAccrual(time = 33, enroll_rate = tibble(Stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 33*30*2)
 })
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  x <- eAccrual(x = 30, enrollRates = tibble(Stratum = c("S1", "S2"),
+  x <- eAccrual(time = 30, enroll_rate = tibble(Stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 30*30*2)
 })
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  x <- eAccrual(x = 10, enrollRates = tibble(Stratum = c("S1", "S2"),
+  x <- eAccrual(time = 10, enroll_rate = tibble(Stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 10*30*2)
 })
 
 testthat::test_that("eAccrual fail to identify a non-dataframe input",{
-  x <- eAccrual(x = c(5, 10, 20, 33, 50), enrollRates = tibble(Stratum = c("S1", "S2"),
+  x <- eAccrual(time = c(5, 10, 20, 33, 50), enroll_rate = tibble(Stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, c(5, 10, 20, 33, 33) * 30 * 2)
