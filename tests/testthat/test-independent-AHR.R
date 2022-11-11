@@ -12,6 +12,7 @@ testthat::test_that("AHR results are consistent with simulation results for sing
   actual <- AHR(enroll_rate = enroll_rate,
                 fail_rate = fail_rate,
                 total_duration=c(12, 24, 36))
+
   
   testthat::expect_true(all.equal(simulation_AHR1$AHR, actual$AHR, tolerance = 0.005))
   testthat::expect_true(all.equal(simulation_AHR1$Events, actual$Events, tolerance = 0.005))
