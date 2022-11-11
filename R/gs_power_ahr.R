@@ -58,7 +58,7 @@ NULL
 #' @details
 #' Bound satisfy input upper bound specification in \code{upper, upar} and lower bound specification in \code{lower, lpar}.
 #' The \code{AHR()} function computes statistical information at targeted event times.
-#' The \code{tEvents()} function is used to get events and average HR at targeted \code{analysis_time}.
+#' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
 #'
 #' @export
 #'

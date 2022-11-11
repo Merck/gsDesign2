@@ -21,7 +21,7 @@ NULL
 
 #' Predict time at which a targeted event count is achieved
 #'
-#' \code{tEvents()} is made to match input format with \code{AHR()} and to solve for the
+#' \code{expected_time()} is made to match input format with \code{AHR()} and to solve for the
 #' time at which the expected accumulated events is equal to an input target.
 #' Enrollment and failure rate distributions are specified as follows.
 #' The piecewise exponential distribution allows a simple method to specify a distribtuion
@@ -52,7 +52,7 @@ NULL
 #' #      Example 1          #
 #' # ------------------------#
 #' # default
-#' tEvents()
+#' expected_time()
 #' 
 #' # ------------------------# 
 #' #      Example 2          #
@@ -67,12 +67,12 @@ NULL
 #' xx
 #' 
 #' # Next we check that the function confirms the timing of the final analysis.
-#' tEvents(enroll_rate, fail_rate, 
+#' expected_time(enroll_rate, fail_rate, 
 #'         target_event = xx$Events, interval = c(.5, 1.5) * xx$Time)
 #' 
 #' @export
 #'
-tEvents <- function(enroll_rate = tibble::tibble(Stratum = "All",
+expected_time <- function(enroll_rate = tibble::tibble(Stratum = "All",
                                                  duration = c(2, 2, 10),
                                                  rate = c(3, 6, 9) * 5),
                     fail_rate = tibble::tibble(Stratum = "All",
@@ -89,7 +89,7 @@ tEvents <- function(enroll_rate = tibble::tibble(Stratum = "All",
   # ----------------------------#
   check_ratio(ratio)
   if(length(target_event) > 1){
-    stop("tEvents(): the input target_event` should be a positive numer, rather than a vector!")
+    stop("expected_time(): the input target_event` should be a positive numer, rather than a vector!")
   }
   
   # ----------------------------#
@@ -109,7 +109,7 @@ tEvents <- function(enroll_rate = tibble::tibble(Stratum = "All",
   res <- try(uniroot(foo, interval))
   
   if(inherits(res,"try-error")){
-    stop("tEvents(): solution not found!")
+    stop("expected_time(): solution not found!")
   }else{
     ans <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
                total_duration = res$root, ratio = ratio)

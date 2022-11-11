@@ -186,14 +186,14 @@ gs_design_ahr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 
     for(i in seq_along(IFindx)){
       # if ...
       if(length(IFalt) == 1){
-        y <- rbind(tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+        y <- rbind(expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
                            ratio = ratio, target_event = info_frac[K - i] * finalEvents, 
                            interval = c(.01, nextTime)) %>% 
                      mutate(theta = -log(AHR), Analysis = K - i),
                    y)
       }else if(info_frac[K-i] > IFalt[K-i]){
         # if the planned info_frac > info_frac under H1
-        y[K - i,] <- tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+        y[K - i,] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
                              ratio = ratio, target_event = info_frac[K - i] * finalEvents, 
                              interval = c(.01, nextTime)) %>%
           dplyr::transmute(Analysis = K - i, Time, Events, AHR, theta = -log(AHR), info, info0)

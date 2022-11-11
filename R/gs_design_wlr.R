@@ -153,15 +153,15 @@ gs_design_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 
     IFindx <- info_frac[1 : (K-1)]
     for(i in seq_along(IFindx)){
       if(length(IFalt) == 1){
-        y <- rbind(tEvents(enroll_rate, fail_rate, 
-                           target_event = info_frac[K - i] * finalEvents, 
-                           ratio = ratio, interval = c(.01, nextTime)) %>% 
+        y <- rbind(expected_time(enroll_rate, fail_rate, 
+                                 target_event = info_frac[K - i] * finalEvents, 
+                                 ratio = ratio, interval = c(.01, nextTime)) %>% 
                      mutate(theta = -log(AHR), Analysis = K - i),
                    y)
       }else if(info_frac[K-i] > IFalt[K-i]){
-        y[K - i,] <- tEvents(enroll_rate, fail_rate, 
-                             target_event = IF[K - i] * finalEvents,
-                             ratio = ratio, interval = c(.01, nextTime)) %>%
+        y[K - i,] <- expected_time(enroll_rate, fail_rate, 
+                                   target_event = IF[K - i] * finalEvents,
+                                   ratio = ratio, interval = c(.01, nextTime)) %>%
           dplyr::transmute(Analysis = K - i, Time, Events, AHR, theta = -log(AHR), info, info0)
       } 
       nextTime <- y$Time[K - i]
