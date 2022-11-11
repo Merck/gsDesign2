@@ -57,9 +57,10 @@ Ideally, we would allow a targeted event count and variable follow-up in `fixed_
 
 ```{r}
 fixedevents <- fixed_design(x = "AHR", alpha = 0.025, power = NULL, 
-                      enroll_rate = enroll_rate,
-                      fail_rate = fail_rate,
-                      study_duation = study_duation)
+                            enroll_rate = enroll_rate,
+                            fail_rate = fail_rate,
+                            study_duation = study_duation)
+
 fixedevents %>% 
   summary() %>% 
   select(-Bound) %>%
@@ -86,8 +87,8 @@ wieand <- gs_power_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                        lower = gs_b, lpar = c(0, 0, -Inf),
                        events = 512 * c(.5, .75, 1))
 wieand %>% summary() %>% 
-  as_gt(title="Group sequential design with futility only at interim analyses",
-        subtitle="Wieand futility rule stops if HR > 1")
+  as_gt(title = "Group sequential design with futility only at interim analyses",
+        subtitle = "Wieand futility rule stops if HR > 1")
 ```
 
 # Beta-spending futility bound with AHR
@@ -96,13 +97,15 @@ Need to summarize here.
 
 
 ```{r}
-betaspending <- gs_power_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-                       upper = gs_b, upar = c(rep(Inf, 2), qnorm(.975)),
-                       lower = gs_spending_bound, 
-                       lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025,
-                                   param = NULL, timing = NULL),
-                       events = 512 * c(.5, .75, 1),
-                       test_lower = c(TRUE, TRUE, FALSE))
+betaspending <- gs_power_ahr(enroll_rate = enroll_rate, 
+                             fail_rate = fail_rate,
+                             upper = gs_b, 
+                             upar = c(rep(Inf, 2), qnorm(.975)),
+                             lower = gs_spending_bound, 
+                             lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                             events = 512 * c(.5, .75, 1),
+                             test_lower = c(TRUE, TRUE, FALSE))
+
 betaspending %>% 
   summary() %>% as_gt(title="Group sequential design with futility only",
                       subtitle="Beta-spending futility bound")
@@ -126,10 +129,10 @@ We note in the summary of early expected events below that all events during the
 
 ```{r}
 event_accumulation <- AHR(enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    total_duration = c(1:34, 34.86),
-    ratio = 1,
-    simple = FALSE)
+                          fail_rate = fail_rate,
+                          total_duration = c(1:34, 34.86),
+                          ratio = 1,
+                          simple = FALSE)
 head(event_accumulation, n = 7) %>% gt()
 ```
 
@@ -139,7 +142,7 @@ We can look at the proportion of events after the first 3 months as follows:
 event_accumulation %>% 
   group_by(Time) %>%
   summarize(`Total events` = sum(Events), "Proportion early" = first(Events) /  `Total events`) %>%
-  ggplot(aes(x=Time, y=`Proportion early`)) + geom_line()
+  ggplot(aes(x = Time, y = `Proportion early`)) + geom_line()
 ```
 
 For the @kornfreidlin2018 bound the targeted timing is when both 50% of events have occurred and at least 2/3 are more than 3 months after enrollment with 3 months being the delayed effect period.
