@@ -19,7 +19,7 @@
 #'
 #' Computes fixed design sample size for many sample size methods.
 #' Returns a `tibble` with a basic summary
-#' @param x Sample size method; default is \code{"AHR"}; 
+#' @param method Sample size method; default is \code{"AHR"}; 
 #'          other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.
 #' @param alpha One-sided Type I error (strictly between 0 and 1)
 #' @param power Power (`NULL` to compute power or strictly between 0 and `1 - alpha` otherwise)

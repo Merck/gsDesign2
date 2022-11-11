@@ -94,7 +94,7 @@ library(gsDesign)
 gs_design_rd(
   p_c = tibble(Stratum = "All", Rate = .2),
   p_e = tibble(Stratum = "All", Rate = .15),
-  IF = c(0.7, 1),
+  info_frac = c(0.7, 1),
   rd0 = 0, 
   alpha = .025,                  
   beta = .1,                    
@@ -114,7 +114,7 @@ gs_design_rd(
 gs_design_rd(
   p_c = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.2, .25)),
   p_e = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.15,.22)),
-  IF = c(0.7, 1),
+  info_frac = c(0.7, 1),
   rd0 = 0, 
   alpha = .025,                  
   beta = .1,                    

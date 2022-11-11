@@ -14,6 +14,9 @@ fixed_design(
 )
 }
 \arguments{
+\item{method}{Sample size method; default is \code{"AHR"};
+other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.}
+
 \item{alpha}{One-sided Type I error (strictly between 0 and 1)}
 
 \item{power}{Power (\code{NULL} to compute power or strictly between 0 and \code{1 - alpha} otherwise)}
@@ -23,9 +26,6 @@ fixed_design(
 \item{study_duration}{study duration}
 
 \item{...}{additional arguments like \code{enroll_rate}, \code{fail_rate}, \code{rho}, \code{gamma}, \code{tau}}
-
-\item{x}{Sample size method; default is \code{"AHR"};
-other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.}
 }
 \value{
 a table
