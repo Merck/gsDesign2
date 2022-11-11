@@ -53,6 +53,7 @@ testthat::test_that("compare results with gsDesign2::AHR in the situation with I
   
   #update enroll_rate for AHR to make Events/info/info0 also match in outputs
   enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(max(out$analysis$N) / (duration %*% rate)))
+
   
   testthat::expect_equal(out$analysis %>%
                            select(Time, AHR, Events, info, info0) %>%

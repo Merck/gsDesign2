@@ -72,7 +72,6 @@ testthat::test_that("under same number of events, compare the power",{
 })
 
 testthat::test_that("under same power setting, compare the number of events",{
-  
   out <- gs_power_ahr(enroll_rate = tibble::tibble(Stratum = "All",
                                                    duration = c(2, 2, 2, 6),
                                                    rate = c(6, 12, 18, 24)),
