@@ -21,13 +21,13 @@ fh_test <- rbind(data.frame(rho = 0,
                             tau = -1,
                             test = 1,
                             Analysis = 1:3,
-                            analysisTimes = c(12, 24, 36)),
+                            analysis_time = c(12, 24, 36)),
                  data.frame(rho = c(0, 0.5),
                             gamma = 0.5, 
                             tau = -1,
                             test = 2:3,
                             Analysis = 3, 
-                            analysisTimes = 36))
+                            analysis_time = 36))
 
 x <- gsDesign::gsSurv(k = 3, 
                       test.type = 4, 
@@ -53,7 +53,7 @@ x <- gsDesign::gsSurv(k = 3,
 
 # User defined boundary
 gs_design_combo_test1 <- gs_design_combo(enrollRates,
-                                         failRates,
+                                         failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
                                          fh_test,
                                          alpha = alpha,
                                          beta = beta,
@@ -63,7 +63,7 @@ gs_design_combo_test1 <- gs_design_combo(enrollRates,
                                          lpar = x$lower$bound)
 #### Boundary derived by spending function testing
 gs_design_combo_test2 <- gs_design_combo(enrollRates,
-                                         failRates,
+                                         failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
                                          fh_test,
                                          alpha = 0.025,
                                          beta = 0.2,
@@ -90,33 +90,30 @@ test_tEvents <- function(enrollRates = tibble::tibble(Stratum = "All",
   failRatesc <- failRates[,c("duration","failRate","dropoutRate")]
   failRatest <- failRatesc
   failRatest$failRate <- failRates$failRate*failRates$hr
-  eventc <- gsDesign2::eEvents_df(enrollRates = enrollRates_1,
-                                 failRates = failRatesc,
-                                 totalDuration = td,
-                                 simple = FALSE)
-  eventt <- gsDesign2::eEvents_df(enrollRates = enrollRates_1,
-                                 failRates = failRatest,
-                                 totalDuration = td,
-                                 simple = FALSE)
+  eventc <- gsDesign2::eEvents_df(enroll_rate = enrollRates_1,
+                                  fail_rate = failRatesc %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+                                  total_duration = td,
+                                  simple = FALSE)
+  eventt <- gsDesign2::eEvents_df(enroll_rate = enrollRates_1,
+                                  fail_rate = failRatest %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+                                  total_duration = td,
+                                  simple = FALSE)
   totale <- sum(eventc$Events+eventt$Events)
   return(totale)
 }
 
-
-
-c
 testthat::test_that("calculate analysis number as planed",{
   expect_equal(max(fh_test$Analysis), max(gs_design_combo_test2$analysis$Analysis))
 })
 testthat::test_that("calculate analysisTimes as planed",{
-  expect_equal(unique(fh_test$analysisTimes), unique(gs_design_combo_test2$analysis$Time))
+  expect_equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$Time))
 })
 
 for (i in 1:max(fh_test$Analysis)) {
   testthat::test_that("calculate N and each analysis Events N as planed",{
     event <- test_tEvents(enrollRates = enrollRates,
                           failRates = failRates,
-                          td = unique(fh_test$analysisTimes)[i])
+                          td = unique(fh_test$analysis_time)[i])
     enrollsum = enrollRates$duration*enrollRates$rate
     N = max(gs_design_combo_test2$analysis$N)
     expect_equal(event*N/enrollsum, unique(gs_design_combo_test2$analysis$Events)[i], tolerance=0.01)

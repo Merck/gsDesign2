@@ -1,64 +1,64 @@
 # Test 1: compare results with AHR ####
 
 testthat::test_that("compare results with AHR in the situation of single analysis",{
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  failRates <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(Stratum = "All",
                               duration = c(3, 100),
-                              failRate = log(2)/c(9, 18),
+                              fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
-                              dropoutRate = rep(0.001, 2))
-  totalDuration <- 30
-  analysisTimes <- totalDuration
+                              dropout_rate = rep(0.001, 2))
+  total_duration <- 30
+  analysis_time <- total_duration
   
-  out <- gs_design_ahr(enrollRates = enrollRates,
-                       failRates = failRates,
-                       analysisTimes = analysisTimes)
+  out <- gs_design_ahr(enroll_rate = enroll_rate,
+                       fail_rate = fail_rate,
+                       analysis_time = analysis_time)
   
   testthat::expect_equal(out$analysis %>% select(Time, AHR),
-                         AHR(enrollRates = enrollRates,
-                             failRates = failRates,
-                             totalDuration = totalDuration) %>% select(Time, AHR))
+                         AHR(enroll_rate = enroll_rate,
+                             fail_rate = fail_rate,
+                             total_duration = total_duration) %>% select(Time, AHR))
   
-  #update enrollRates for AHR to make Events/info/info0 also match in outputs
-  enrollRates1 <- enrollRates %>% mutate(rate = rate * c(out$analysis$N / (duration %*% rate)))
+  #update enroll_rate for AHR to make Events/info/info0 also match in outputs
+  enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(out$analysis$N / (duration %*% rate)))
   
   testthat::expect_equal(out$analysis %>% select(Time, AHR, Events, info, info0),
-                         AHR(enrollRates = enrollRates1,
-                             failRates = failRates,
-                             totalDuration = totalDuration) %>% select(Time, AHR, Events, info, info0))
+                         AHR(enroll_rate = enroll_rate1,
+                             fail_rate = fail_rate,
+                             total_duration = total_duration) %>% select(Time, AHR, Events, info, info0))
 })
 
 testthat::test_that("compare results with gsDesign2::AHR in the situation with IF and multiple analysis times specified",{
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  failRates <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(Stratum = "All",
                               duration = c(3, 100),
-                              failRate = log(2)/c(9, 18),
+                              fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
-                              dropoutRate = rep(0.001, 2))
-  totalDuration <- c(12, 25, 36)
-  analysisTimes <- totalDuration
+                              dropout_rate = rep(0.001, 2))
+  total_duration <- c(12, 25, 36)
+  analysis_time <- total_duration
   
-  out <- gs_design_ahr(enrollRates = enrollRates,
-                       failRates = failRates,
-                       analysisTimes = analysisTimes)
+  out <- gs_design_ahr(enroll_rate = enroll_rate,
+                       fail_rate = fail_rate,
+                       analysis_time = analysis_time)
   
   testthat::expect_equal(out$analysis %>% select(Time, AHR) %>% dplyr::distinct (.keep_all = TRUE),
-                         AHR(enrollRates = enrollRates,
-                             failRates = failRates,
-                             totalDuration = totalDuration) %>% select(Time, AHR))
+                         AHR(enroll_rate = enroll_rate,
+                             fail_rate = fail_rate,
+                             total_duration = total_duration) %>% select(Time, AHR))
   
-  #update enrollRates for AHR to make Events/info/info0 also match in outputs
-  enrollRates1 <- enrollRates %>% mutate(rate = rate * c(max(out$analysis$N) / (duration %*% rate)))
+  #update enroll_rate for AHR to make Events/info/info0 also match in outputs
+  enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(max(out$analysis$N) / (duration %*% rate)))
   
   testthat::expect_equal(out$analysis %>%
                            select(Time, AHR, Events, info, info0) %>%
                            dplyr::distinct (.keep_all = TRUE),
-                         AHR(enrollRates = enrollRates1,
-                             failRates = failRates,
-                             totalDuration = totalDuration) %>%
+                         AHR(enroll_rate = enroll_rate1,
+                             fail_rate = fail_rate,
+                             total_duration = total_duration) %>%
                            select(Time, AHR, Events, info, info0))
 })

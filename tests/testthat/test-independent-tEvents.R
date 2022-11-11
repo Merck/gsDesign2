@@ -14,13 +14,13 @@ test_tEvents<-function(enrollRates = tibble::tibble(Stratum = "All",
   failRatesc=failRates[,c("duration","failRate","dropoutRate")]
   failRatest=failRatesc
   failRatest$failRate=failRates$failRate*failRates$hr
-  eventc=eEvents_df(enrollRates=enrollRates_1,
-                    failRates=failRatesc,
-                    totalDuration=td,
+  eventc=eEvents_df(enroll_rate=enrollRates_1,
+                    fail_rate=failRatesc %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+                    total_duration=td,
                     simple=FALSE)
-  eventt=eEvents_df(enrollRates=enrollRates_1,
-                    failRates=failRatest,
-                    totalDuration=td,
+  eventt=eEvents_df(enroll_rate=enrollRates_1,
+                    fail_rate=failRatest %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+                    total_duration=td,
                     simple=FALSE)
   totale=sum(eventc$Events+eventt$Events)
   return(totale)
@@ -38,9 +38,9 @@ testthat::test_that("tEvents does not equal to eEvent_df's result", {
                              dropoutRate = rep(.001, 2))
   targetEvents = 150
   interval = c(.01, 100)
-  t1=tEvents(enrollRates = enrollRates,
-             failRates = failRates,
-             targetEvents = targetEvents,
+  t1=tEvents(enroll_rate = enrollRates,
+             fail_rate = failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+             target_event = targetEvents,
              interval = interval)
   testthat::expect_equal(
     t1$Events,
@@ -61,16 +61,16 @@ testthat::test_that("tEvents does not euqal to AHR's result",{
                              dropoutRate = rep(.001, 2))
   targetEvents = 150
   interval = c(.01, 100)
-  t1=tEvents(enrollRates = enrollRates,
-             failRates = failRates,
-             targetEvents = targetEvents,
+  t1=tEvents(enroll_rate = enrollRates,
+             fail_rate = failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+             target_event = targetEvents,
              interval = interval)
   
   testthat::expect_equal(
     t1$Events,
-    AHR(enrollRates=enrollRates,
-        failRates=failRates,
-        totalDuration=t1$Time,
+    AHR(enroll_rate=enrollRates,
+        fail_rate=failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+        total_duration=t1$Time,
         ratio=1,
         simple = TRUE)$Events
   )

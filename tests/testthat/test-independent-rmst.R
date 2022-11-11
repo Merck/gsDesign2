@@ -1,20 +1,20 @@
 test_that("given sample size, the output power arrives at the target", {
   # set enrollment rates
-  enrollRates <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
+  enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
 
   # set failure rates
-  failRates <- tibble::tibble(
+  fail_rate <- tibble::tibble(
     Stratum = "All",
     duration = c(4, 100),
-    failRate = log(2) / 15,  # median survival 15 month
+    fail_rate = log(2) / 15,  # median survival 15 month
     hr = c(1, .6),
-    dropoutRate = 0.001)
+    dropout_rate = 0.001)
   
   # output from gsDesign2
-  x1 <- fixed_design_size_rmst(enrollRates, failRates, ratio = 1, analysisTimes = 36, alpha = 0.025)
+  x1 <- fixed_design_size_rmst(enroll_rate, fail_rate, ratio = 1, analysis_time = 36, alpha = 0.025)
   
   # output from npsurvSS
-  gs_arm <- gs_create_arm(enrollRates, failRates, ratio = 1,  total_time = 36) 
+  gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1,  total_time = 36) 
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
   arm0$size <- x1$analysis$N / 2
@@ -28,21 +28,21 @@ test_that("given sample size, the output power arrives at the target", {
 
 test_that("given power, the output sample size arrives at the target power", {
   # set enrollment rates
-  enrollRates <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
+  enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
   
   # set failure rates
-  failRates <- tibble::tibble(
+  fail_rate <- tibble::tibble(
     Stratum = "All",
     duration = c(4, 100),
-    failRate = log(2) / 15,  # median survival 15 month
+    fail_rate = log(2) / 15,  # median survival 15 month
     hr = c(1, .6),
-    dropoutRate = 0.001)
+    dropout_rate = 0.001)
   
   # output from gsDesign2
-  x1 <- fixed_design_power_rmst(enrollRates, failRates, analysisTimes = 36)
+  x1 <- fixed_design_power_rmst(enroll_rate, fail_rate, analysis_time = 36)
   
   # output from npsurvSS
-  gs_arm <- gs_create_arm(enrollRates, failRates, ratio = 1,  total_time = 36) 
+  gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1,  total_time = 36) 
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
   
