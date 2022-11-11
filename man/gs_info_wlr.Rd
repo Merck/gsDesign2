@@ -57,11 +57,14 @@ The \code{AHR()} function computes statistical information at targeted event tim
 The \code{tEvents()} function is used to get events and average HR at targeted \code{analysis_time}.
 }
 \examples{
+library(tibble)
+library(gsDesign2)
+
 # set enrollment rates
-enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
 
 # set failure rates
-fail_rate <- tibble::tibble(
+fail_rate <- tibble(
   Stratum = "All",
   duration = c(4, 100),
   fail_rate = log(2) / 15,  # median survival 15 month
@@ -74,4 +77,5 @@ analysis_time <- c(10, 24, 30)
 
 gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
             events = events, analysis_time = analysis_time)
+            
 }

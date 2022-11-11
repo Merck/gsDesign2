@@ -46,11 +46,14 @@
 #' @export
 #' 
 #' @examples 
+#' library(tibble)
+#' library(gsDesign2)
+#' 
 #' # set enrollment rates
-#' enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
 #' 
 #' # set failure rates
-#' fail_rate <- tibble::tibble(
+#' fail_rate <- tibble(
 #'   Stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15,  # median survival 15 month
@@ -63,6 +66,7 @@
 #' 
 #' gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'             events = events, analysis_time = analysis_time)
+#'             
 gs_info_wlr <- function(enroll_rate = tibble::tibble(Stratum = "All",
                                                      duration = c(2,2,10),
                                                      rate = c(3, 6, 9)),
