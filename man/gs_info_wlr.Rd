@@ -56,3 +56,21 @@ approximate information and effect size using an average hazard ratio model.
 The \code{AHR()} function computes statistical information at targeted event times.
 The \code{tEvents()} function is used to get events and average HR at targeted \code{analysis_time}.
 }
+\examples{
+# set enrollment rates
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+# set failure rates
+fail_rate <- tibble(
+  Stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15,  # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001)
+
+# set the targeted number of events and analysis time
+events <- c(30, 40, 50)
+analysis_time <- c(10, 24, 30)
+
+gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+            events = events, analysis_time = analysis_time)
+}

@@ -32,8 +32,6 @@
 #' 
 #' @export
 #' 
-#' @example 
-#' gs_info_combo(event = c(20, 30), rho = 0, gamma = 0.5)
 gs_info_combo <- function(enroll_rate = tibble(Stratum = "All", 
                                                duration = c(2, 2, 10), 
                                                rate = c(3, 6, 9)),

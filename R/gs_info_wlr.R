@@ -45,7 +45,7 @@
 #' 
 #' @export
 #' 
-#' @example 
+#' @examples 
 #' # set enrollment rates
 #' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
 #' # set failure rates
