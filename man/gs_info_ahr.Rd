@@ -38,7 +38,7 @@ approximate information and effect size using an average hazard ratio model.
 }
 \details{
 The \code{AHR()} function computes statistical information at targeted event times.
-The \code{tEvents()} function is used to get events and average HR at targeted \code{analysis_time}.
+The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
 }
 \section{Specification}{
 
@@ -50,7 +50,7 @@ The \code{tEvents()} function is used to get events and average HR at targeted \
    \item Compute average hazard ratio:
    \itemize{
      \item If analysisTime is specified, calculate average hazard ratio using \code{AHR()}.
-     \item If events is specified, calculate average hazard ratio using \code{tEvents()}.
+     \item If events is specified, calculate average hazard ratio using \code{expected_time()}.
    }
    \item Return a tibble of Analysis, Time, AHR, Events, theta, info, info0.
   }

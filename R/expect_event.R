@@ -23,7 +23,7 @@ NULL
 
 #' Expected events observed under piecewise exponential model
 #'
-#' \code{eEvents_df} computes expected events over time and by strata
+#' \code{expect_event} computes expected events over time and by strata
 #' under the assumption of piecewise constant enrollment rates and piecewise
 #' exponential failure and censoring rates.
 #' The piecewise exponential distribution allows a simple method to specify a distribtuion
@@ -63,7 +63,7 @@ NULL
 #'    available in vignette/eEventsTheory.Rmd.
 #'    \item Compute expected events by interval at risk using the notations and descriptions in
 #'    vignette/eEventsTheory.Rmd.
-#'    \item Return \code{eEvents_df}
+#'    \item Return \code{expect_event}
 #'  }
 #' }
 #' @return
@@ -85,26 +85,26 @@ NULL
 #' library(gsDesign2)
 #' 
 #' # Default arguments, simple output (total event count only)
-#' eEvents_df()
+#' expect_event()
 #' 
 #' # Event count by time period
-#' eEvents_df(simple = FALSE)
+#' expect_event(simple = FALSE)
 #' 
 #' # Early cutoff
-#' eEvents_df(total_duration = .5)
+#' expect_event(total_duration = .5)
 #' 
 #' # Single time period example
-#' eEvents_df(enroll_rate = tibble(duration = 10,rate = 10),
+#' expect_event(enroll_rate = tibble(duration = 10,rate = 10),
 #'            fail_rate = tibble(duration=100, fail_rate = log(2) / 6 ,dropout_rate = .01),
 #'            total_duration = 22,
 #'            simple = FALSE)
 #' 
 #' # Single time period example, multiple enrollment periods
-#' eEvents_df(enroll_rate = tibble(duration = c(5,5), rate = c(10, 20)),
+#' expect_event(enroll_rate = tibble(duration = c(5,5), rate = c(10, 20)),
 #'            fail_rate = tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01),
 #'            total_duration = 22, simple = FALSE)
 #' @export
-eEvents_df <- function(enroll_rate = tibble::tibble(duration = c(2, 2, 10),
+expect_event <- function(enroll_rate = tibble::tibble(duration = c(2, 2, 10),
                                                     rate = c(3, 6, 9)),
                        fail_rate = tibble::tibble(duration = c(3, 100),
                                                   fail_rate = log(2) / c(9, 18),
@@ -120,7 +120,7 @@ eEvents_df <- function(enroll_rate = tibble::tibble(duration = c(2, 2, 10),
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
   check_total_duration(total_duration)
   if(length(total_duration) > 1){stop("gsDesign2: total_duration in `events_df()` must be a numeric number!")}
-  if(!is.logical(simple)){stop("gsDesign2: simple in `eEvents_df()` must be logical!")}
+  if(!is.logical(simple)){stop("gsDesign2: simple in `expect_event()` must be logical!")}
   
   # ----------------------------#
   #    divide the time line     #
