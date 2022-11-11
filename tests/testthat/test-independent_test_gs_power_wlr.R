@@ -1,13 +1,13 @@
 test_that("Check using gs_info_wlr and gs_power_npe", {
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = 12,
                                 rate = 500 / 12)
-  failRates <- tibble::tibble(
+  fail_rate <- tibble::tibble(
     Stratum = "All",
     duration = c(4, 100),
-    failRate = log(2) / 15, # Median survival 15 months
+    fail_rate = log(2) / 15, # Median survival 15 months
     hr = c(1, .6), # Delay effect after 4 months
-    dropoutRate = 0.001
+    dropout_rate = 0.001
   )
   ## Randomization Ratio is 1:1
   ratio <- 1
@@ -20,13 +20,13 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
   power <- 1 - beta
 
   # Interim Analysis Time
-  analysisTimes <- c(12, 24, 36)
+  analysis_time <- c(12, 24, 36)
 
   #create arms
   # Define study design object in each arm
   gs_arm <- gsDesign2:::gs_create_arm(
-    enrollRates,
-    failRates,
+    enroll_rate,
+    fail_rate,
     ratio = 2, # Randomization ratio
     total_time = 36 # Total study duration
   )
@@ -37,10 +37,10 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
     gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 1)
   }
   gs_info <- gsDesign2::gs_info_wlr(
-    enrollRates,
-    failRates,
+    enroll_rate,
+    fail_rate,
     ratio,
-    analysisTimes = analysisTimes,
+    analysis_time = analysis_time,
     weight = weight
   )
   fh01 <-gs_info %>% dplyr::mutate_if(is.numeric, round, digits = 5)
@@ -66,13 +66,13 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
                       tol = 1e-6) %>% dplyr::arrange(Analysis, Bound)
 
  #output
-  gspow <- gsDesign2::gs_power_wlr(enrollRates = enrollRates,
-                        failRates = failRates,
+  gspow <- gsDesign2::gs_power_wlr(enroll_rate = enroll_rate,
+                        fail_rate = fail_rate,
                         ratio = ratio,               # Experimental:Control randomization ratio
                         weight = weight,
                         approx = "asymptotic",
                         events = fh01$Events, # Targeted events of analysis
-                        analysisTimes = NULL,   # Targeted times of analysis
+                        analysis_time = NULL,   # Targeted times of analysis
                         binding = FALSE,
                         upper = gsDesign2::gs_b, # Default is Lan-DeMets approximation of
                         upar = up,

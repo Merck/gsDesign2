@@ -3,18 +3,18 @@ test_that("test wlr_weight_1", {
 })
 
 test_that("test wlr_weight_n", {
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = c(2, 2, 30),
                                 rate = c(3, 6, 9))
-  failRates <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(Stratum = "All",
                               duration = c(3, 100),
-                              failRate = log(2)/c(9, 18),
+                              fail_rate = log(2)/c(9, 18),
                               hr = c(.9,.6),
-                              dropoutRate = rep(.001, 2))
+                              dropout_rate = rep(.001, 2))
   total_time <- 36
   analysis_time <- 12
   
-  arm <- gsDesign2:::gs_create_arm(enrollRates, failRates, ratio = 1, total_time = total_time)
+  arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = total_time)
   arm0 <- arm$arm0
   arm1 <- arm$arm1
   
