@@ -5,31 +5,31 @@
 \title{Expected events observed under piecewise exponential model}
 \usage{
 eEvents_df(
-  enrollRates = tibble::tibble(duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  failRates = tibble::tibble(duration = c(3, 100), failRate = log(2)/c(9, 18),
-    dropoutRate = rep(0.001, 2)),
-  totalDuration = 25,
+  enroll_rate = tibble::tibble(duration = c(2, 2, 10), rate = c(3, 6, 9)),
+  fail_rate = tibble::tibble(duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+    dropout_rate = rep(0.001, 2)),
+  total_duration = 25,
   simple = TRUE
 )
 }
 \arguments{
-\item{enrollRates}{Enrollment rates; see details and examples}
+\item{enroll_rate}{Enrollment rates; see details and examples}
 
-\item{failRates}{Failure rates and dropout rates by period}
+\item{fail_rate}{Failure rates and dropout rates by period}
 
-\item{totalDuration}{Total follow-up from start of enrollment to data cutoff}
+\item{total_duration}{Total follow-up from start of enrollment to data cutoff}
 
 \item{simple}{If default (TRUE), return numeric expected number of events, otherwise
 a \code{tibble} as described below.}
 }
 \value{
 The default when \code{simple=TRUE} is to return the total expected number of events as a real number.
-Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with the following variables for each period specified in 'failRates':
+Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with the following variables for each period specified in 'fail_rate':
 \code{t} start of period,
-\code{failRate} failure rate during the period
+\code{fail_rate} failure rate during the period
 \code{Events} expected events during the period,
 
-The records in the returned \code{tibble} correspond to the input \code{tibble} \code{failRates}.
+The records in the returned \code{tibble} correspond to the input \code{tibble} \code{fail_rate}.
 }
 \description{
 \code{eEvents_df} computes expected events over time and by strata
@@ -67,7 +67,7 @@ maximize flexibility for a variety of purposes.
    the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd
    \item Only consider the failure rates in the interval of the end failure rate and total duration.
    \item Compute the failure rates over time using \code{stepfun} which is used
-    to group rows by periods defined by failRates.
+    to group rows by periods defined by fail_rate.
    \item Compute the dropout rate over time using \code{stepfun}.
    \item Compute the enrollment rate over time using \code{stepfun}. Details are
    available in vignette/eEventsTheory.Rmd.
@@ -89,16 +89,16 @@ eEvents_df()
 eEvents_df(simple = FALSE)
 
 # Early cutoff
-eEvents_df(totalDuration = .5)
+eEvents_df(total_duration = .5)
 
 # Single time period example
-eEvents_df(enrollRates = tibble(duration = 10,rate = 10),
-           failRates = tibble(duration=100, failRate = log(2) / 6 ,dropoutRate = .01),
-           totalDuration = 22,
+eEvents_df(enroll_rate = tibble(duration = 10,rate = 10),
+           fail_rate = tibble(duration=100, fail_rate = log(2) / 6 ,dropout_rate = .01),
+           total_duration = 22,
            simple = FALSE)
 
 # Single time period example, multiple enrollment periods
-eEvents_df(enrollRates = tibble(duration = c(5,5), rate = c(10, 20)),
-           failRates = tibble(duration = 100, failRate = log(2)/6, dropoutRate = .01),
-           totalDuration = 22, simple = FALSE)
+eEvents_df(enroll_rate = tibble(duration = c(5,5), rate = c(10, 20)),
+           fail_rate = tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01),
+           total_duration = 22, simple = FALSE)
 }

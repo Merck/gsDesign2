@@ -55,9 +55,9 @@ failRates <- tibble(Stratum = "All", duration = c(4, 100),
                      dropoutRate = .001)
 
 # Information fraction
-IF <- (1:3)/3
+info_frac <- (1:3)/3
 
-# Analysis times in months; first 2 will be ignored as IF will not be achieved
+# Analysis times in months; first 2 will be ignored as info_frac will not be achieved
 analysisTimes <- c(.01, .02, 36)
 
 # Experimental / Control randomization ratio
@@ -93,7 +93,7 @@ fh_test <- rbind(
 x_ahr <- gs_design_ahr(
   enrollRates = enrollRates,
   failRates = failRates,
-  IF = IF, # Information fraction
+  info_frac = info_frac, # Information fraction
   analysisTimes = analysisTimes,
   ratio = ratio,
   alpha = alpha,
@@ -104,7 +104,7 @@ x_ahr <- gs_design_ahr(
   lpar = lpar)
 
 x_ahr \%>\% summary()
-x_ahr \%>\% summary(analysis_vars = c("Time", "Events", "IF"), analysis_decimals = c(1, 0, 2))
+x_ahr \%>\% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
 x_ahr \%>\% summary(bound_names = c("A is better", "B is better"))
 
 # ---------------------------- #
@@ -114,7 +114,7 @@ x_wlr <- gs_design_wlr(
   enrollRates = enrollRates,
   failRates = failRates,
   weight = wgt05,
-  IF = NULL,
+  info_frac = NULL,
   analysisTimes = sort(unique(x_ahr$analysis$Time)),
   ratio = ratio,
   alpha = alpha,
@@ -149,7 +149,7 @@ x_combo \%>\% summary()
 gs_design_rd(
   p_c = tibble(Stratum = "All", Rate = .2),
   p_e = tibble(Stratum = "All", Rate = .15),
-  IF = c(0.7, 1),
+  info_frac = c(0.7, 1),
   rd0 = 0,
   alpha = .025,
   beta = .1,

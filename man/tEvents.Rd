@@ -5,32 +5,32 @@
 \title{Predict time at which a targeted event count is achieved}
 \usage{
 tEvents(
-  enrollRates = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)
+  enroll_rate = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)
     * 5),
-  failRates = tibble::tibble(Stratum = "All", duration = c(3, 100), failRate =
-    log(2)/c(9, 18), hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
-  targetEvents = 150,
+  fail_rate = tibble::tibble(Stratum = "All", duration = c(3, 100), fail_rate =
+    log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
+  target_event = 150,
   ratio = 1,
   interval = c(0.01, 100)
 )
 }
 \arguments{
-\item{enrollRates}{Piecewise constant enrollment rates by stratum and time period.}
+\item{enroll_rate}{Piecewise constant enrollment rates by stratum and time period.}
 
-\item{failRates}{Piecewise constant control group failure rates, duration for each piecewise constant period,
+\item{fail_rate}{Piecewise constant control group failure rates, duration for each piecewise constant period,
 hazard ratio for experimental vs control, and dropout rates by stratum and time period.}
 
-\item{targetEvents}{The targeted number of events to be achieved.}
+\item{target_event}{The targeted number of events to be achieved.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
 \item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to \code{targetEvents}.}
+expected event count is equal to \code{target_event}.}
 }
 \value{
-A \code{tibble} with \code{Time} (computed to match events in \code{targetEvents}), \code{AHR} (average hazard ratio),
-\code{Events} (\code{targetEvents} input), info (information under given scenarios),
-and info0 (information under related null hypothesis) for each value of \code{totalDuration} input;
+A \code{tibble} with \code{Time} (computed to match events in \code{target_event}), \code{AHR} (average hazard ratio),
+\code{Events} (\code{target_event} input), info (information under given scenarios),
+and info0 (information under related null hypothesis) for each value of \code{total_duration} input;
 }
 \description{
 \code{tEvents()} is made to match input format with \code{AHR()} and to solve for the
@@ -62,15 +62,15 @@ tEvents()
 # ------------------------#
 # check that result matches a finding using AHR()
 # Start by deriving an expected event count
-enrollRates <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-failRates <- tibble::tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), 
+enroll_rate <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+fail_rate <- tibble::tibble(Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18), 
                             hr = c(.9,.6), dropoutRate = rep(.001, 2))
-totalDuration <- 20
-xx <- AHR(enrollRates, failRates, totalDuration)
+total_duration <- 20
+xx <- AHR(enroll_rate, fail_rate, total_duration)
 xx
 
 # Next we check that the function confirms the timing of the final analysis.
-tEvents(enrollRates, failRates, 
-        targetEvents = xx$Events, interval = c(.5, 1.5) * xx$Time)
+tEvents(enroll_rate, fail_rate, 
+        target_event = xx$Events, interval = c(.5, 1.5) * xx$Time)
 
 }

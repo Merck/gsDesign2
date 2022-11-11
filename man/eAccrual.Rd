@@ -5,14 +5,14 @@
 \title{Piecewise constant expected accrual}
 \usage{
 eAccrual(
-  x = 0:24,
-  enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  time = 0:24,
+  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 }
 \arguments{
-\item{x}{times at which enrollment is to be computed.}
+\item{time}{times at which enrollment is to be computed.}
 
-\item{enrollRates}{Piecewise constant enrollment rates expressed as a \code{tibble} with
+\item{enroll_rate}{Piecewise constant enrollment rates expressed as a \code{tibble} with
 \code{duration} for each piecewise constant period and the \code{rate} of enrollment for that period.}
 }
 \value{
@@ -49,16 +49,16 @@ library(tibble)
 eAccrual()
 
 # Example 2: unstratified design
-eAccrual(x = c(5, 10, 20), 
-         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
+eAccrual(time = c(5, 10, 20), 
+         enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
 
-eAccrual(x = c(5, 10, 20), 
-         enrollRates = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20), 
-         Stratum = "All"))
+eAccrual(time = c(5, 10, 20), 
+         enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20), 
+                              Stratum = "All"))
          
 # Example 3: stratified design
-eAccrual(x = c(24, 30, 40), 
-         enrollRates = tibble(Stratum=c("subgroup", "complement"), 
+eAccrual(time = c(24, 30, 40), 
+         enroll_rate = tibble(Stratum=c("subgroup", "complement"), 
                               duration = 33, 
                               rate = c(30, 30)))
 

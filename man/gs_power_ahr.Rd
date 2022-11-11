@@ -5,11 +5,11 @@
 \title{Group sequential design power using average hazard ratio under non-proportional hazards}
 \usage{
 gs_power_ahr(
-  enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  failRates = tibble(Stratum = "All", duration = c(3, 100), failRate = log(2)/c(9, 18),
-    hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
+  enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+  fail_rate = tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+    hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   events = c(30, 40, 50),
-  analysisTimes = NULL,
+  analysis_time = NULL,
   upper = gs_b,
   upar = gsDesign(k = length(events), test.type = 1, n.I = events, maxn.IPlan =
     max(events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -25,13 +25,13 @@ gs_power_ahr(
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
+\item{fail_rate}{failure and dropout rates}
 
 \item{events}{Targeted events at each analysis}
 
-\item{analysisTimes}{Minimum time of analysis}
+\item{analysis_time}{Minimum time of analysis}
 
 \item{upper}{Function to compute upper bound}
 
@@ -68,7 +68,7 @@ Group sequential design power using average hazard ratio under non-proportional 
 \details{
 Bound satisfy input upper bound specification in \code{upper, upar} and lower bound specification in \code{lower, lpar}.
 The \code{AHR()} function computes statistical information at targeted event times.
-The \code{tEvents()} function is used to get events and average HR at targeted \code{analysisTimes}.
+The \code{tEvents()} function is used to get events and average HR at targeted \code{analysis_time}.
 }
 \section{Specification}{
 
@@ -90,16 +90,16 @@ library(dplyr)
 #       example 1          #
 # ------------------------ #
 # The default output of \code{gs_power_ahr} is driven by events, i.e.,
-# \code{events = c(30, 40, 50), analysisTimes = NULL}
+# \code{events = c(30, 40, 50), analysis_time = NULL}
 gs_power_ahr() 
 
 # -------------------------#
 #       example 2          #
 # -------------------------#
 # 2-sided symmetric O'Brien-Fleming spending bound, 
-# driven by analysis time, i.e., \code{events = NULL, analysisTimes = c(12, 24, 36)}
+# driven by analysis time, i.e., \code{events = NULL, analysis_time = c(12, 24, 36)}
 gs_power_ahr(
-  analysisTimes = c(12, 24, 36),
+  analysis_time = c(12, 24, 36),
   events = NULL,
   binding = TRUE,
   upper = gs_spending_bound,
@@ -111,9 +111,9 @@ gs_power_ahr(
 #       example 3          #
 # -------------------------#
 # 2-sided symmetric O'Brien-Fleming spending bound,
-# driven by events, i.e., \code{events = c(20, 50, 70), analysisTimes = NULL}
+# driven by events, i.e., \code{events = c(20, 50, 70), analysis_time = NULL}
 gs_power_ahr(
-  analysisTimes = NULL,
+  analysis_time = NULL,
   events = c(20, 50, 70),
   binding = TRUE,
   upper = gs_spending_bound,
@@ -125,13 +125,13 @@ gs_power_ahr(
 #       example 4          #
 # -------------------------#
 # 2-sided symmetric O'Brien-Fleming spending bound,
-# driven by both `events` and `analysisTimes`, i.e.,
-# both `events` and `analysisTimes` are not `NULL`,
+# driven by both `events` and `analysis_time`, i.e.,
+# both `events` and `analysis_time` are not `NULL`,
 # then the analysis will driven by the maximal one, i.e.,
-# Time = max(analysisTime, calculated Time for targeted events)
-# Events = max(events, calculated events for targeted analysisTime)
+# Time = max(analysis_time, calculated Time for targeted events)
+# Events = max(events, calculated events for targeted analysis_time)
 gs_power_ahr(
-  analysisTimes = c(12, 24, 36),
+  analysis_time = c(12, 24, 36),
   events = c(30, 40, 50),
   binding = TRUE,
   upper = gs_spending_bound,

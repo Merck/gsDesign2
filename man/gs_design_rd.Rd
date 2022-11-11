@@ -7,7 +7,7 @@
 gs_design_rd(
   p_c = tibble(Stratum = "All", Rate = 0.2),
   p_e = tibble(Stratum = "All", Rate = 0.15),
-  IF = 1:3/3,
+  info_frac = 1:3/3,
   rd0 = 0,
   alpha = 0.025,
   beta = 0.1,
@@ -31,8 +31,6 @@ gs_design_rd(
 \item{p_c}{rate at the control group}
 
 \item{p_e}{rate at the experimental group}
-
-\item{IF}{statistical information fraction}
 
 \item{rd0}{treatment effect under super-superiority designs, the default is 0}
 
@@ -73,6 +71,8 @@ lower bound}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
 if spending is used for lower bound}
+
+\item{IF}{statistical information fraction}
 }
 \value{
 a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events

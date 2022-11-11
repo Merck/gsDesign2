@@ -5,27 +5,27 @@
 \title{Fixed design sample size}
 \usage{
 fixed_design(
-  x = c("AHR", "FH", "MB", "LF", "RD", "MaxCombo", "RMST", "Milestone"),
+  method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "rmst", "milestone"),
   alpha = 0.025,
   power = NULL,
   ratio = 1,
-  studyDuration = 36,
+  study_duration = 36,
   ...
 )
 }
 \arguments{
-\item{x}{Sample size method; default is \code{"AHR"};
-other options include \code{"FH"}, \code{"MB"}, \code{"LF"}, \code{"RD"}, \code{"MaxCombo"}, \code{"Milestone"}.}
-
 \item{alpha}{One-sided Type I error (strictly between 0 and 1)}
 
 \item{power}{Power (\code{NULL} to compute power or strictly between 0 and \code{1 - alpha} otherwise)}
 
 \item{ratio}{Experimental:Control randomization ratio}
 
-\item{studyDuration}{study duration}
+\item{study_duration}{study duration}
 
-\item{...}{additional arguments like \code{enrollRates}, \code{failRates}, \code{rho}, \code{gamma}, \code{tau}}
+\item{...}{additional arguments like \code{enroll_rate}, \code{fail_rate}, \code{rho}, \code{gamma}, \code{tau}}
+
+\item{x}{Sample size method; default is \code{"AHR"};
+other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.}
 }
 \value{
 a table
@@ -38,34 +38,34 @@ Returns a \code{tibble} with a basic summary
 library(dplyr)
 
 # Average hazard ratio
-x <- fixed_design("AHR", 
+x <- fixed_design("ahr", 
                   alpha = .025, power = .9, 
-                  enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-                  failRates = tibble::tibble(Stratum = "All", duration = c(4, 100), failRate = log(2) / 12, hr = c(1, .6), dropoutRate = .001),
-                  studyDuration = 36)
+                  enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+                  fail_rate = tibble::tibble(Stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12, hr = c(1, .6), dropout_rate = .001),
+                  study_duration = 36)
 x \%>\% summary()            
 
 # Lachin and Foulkes (uses gsDesign::nSurv())
-x <- fixed_design("LF", 
+x <- fixed_design("lf", 
                   alpha = .025, power = .9, 
-                  enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-                  failRates = tibble::tibble(Stratum = "All", duration = 100, failRate = log(2) / 12, hr = .7, dropoutRate = .001),
-                  studyDuration = 36)
+                  enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+                  fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+                  study_duration = 36)
 x \%>\% summary()
 
 # RMST
-x <- fixed_design("RMST", alpha = .025, power = .9, 
-                  enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-                  failRates = tibble::tibble(Stratum = "All", duration = 100, failRate = log(2) / 12, hr = .7, dropoutRate = .001),
-                  studyDuration = 36,
+x <- fixed_design("rmst", alpha = .025, power = .9, 
+                  enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+                  fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+                  study_duration = 36,
                   tau = 18)
 x \%>\% summary()
 
 # Milestone 
-x <- fixed_design("Milestone", alpha = .025, power = .9, 
-                  enrollRates = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-                  failRates = tibble::tibble(Stratum = "All", duration = 100, failRate = log(2) / 12, hr = .7, dropoutRate = .001),
-                  studyDuration = 36,
+x <- fixed_design("milestone", alpha = .025, power = .9, 
+                  enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
+                  fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+                  study_duration = 36,
                   tau = 18)
 x \%>\% summary()
 

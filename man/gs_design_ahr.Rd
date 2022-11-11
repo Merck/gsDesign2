@@ -5,14 +5,14 @@
 \title{Group sequential design using average hazard ratio under non-proportional hazards}
 \usage{
 gs_design_ahr(
-  enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  failRates = tibble(Stratum = "All", duration = c(3, 100), failRate = log(2)/c(9, 18),
-    hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
-  ratio = 1,
+  enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+  fail_rate = tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+    hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   alpha = 0.025,
   beta = 0.1,
-  IF = NULL,
-  analysisTimes = 36,
+  info_frac = NULL,
+  analysis_time = 36,
+  ratio = 1,
   binding = FALSE,
   upper = gs_b,
   upar = gsDesign::gsDesign(k = 3, test.type = 1, n.I = c(0.25, 0.75, 1), sfu = sfLDOF,
@@ -28,19 +28,17 @@ gs_design_ahr(
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
-
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
+\item{fail_rate}{failure and dropout rates}
 
 \item{alpha}{One-sided Type I error}
 
 \item{beta}{Type II error}
 
-\item{IF}{Targeted information fraction at each analysis}
+\item{analysis_time}{Minimum time of analysis}
 
-\item{analysisTimes}{Minimum time of analysis}
+\item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
 \item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
 
@@ -52,7 +50,7 @@ gs_design_ahr(
 
 \item{lpar}{Parameter passed to \code{lower()}}
 
-\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
+\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound}
 
 \item{test_upper}{indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
@@ -67,6 +65,8 @@ lower bound}
 \item{r}{Integer, at least 2; default of 18 recommended by Jennison and Turnbull}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+
+\item{IF}{Targeted information fraction at each analysis}
 }
 \value{
 a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
@@ -81,18 +81,18 @@ Need to be added
 
 \if{latex}{
  \itemize{
-   \item Validate if input analysisTimes is a positive number or positive increasing sequence.
-   \item Validate if input IF is a positive number or positive increasing sequence
+   \item Validate if input analysis_time is a positive number or positive increasing sequence.
+   \item Validate if input info_frac is a positive number or positive increasing sequence
    on (0, 1] with final value of 1.
-   \item Validate if input IF and analysisTimes  have the same length if both have length > 1.
-   \item Get information at input analysisTimes
+   \item Validate if input info_frac and analysis_time  have the same length if both have length > 1.
+   \item Get information at input analysis_time
    \itemize{
      \item Use \code{gs_info_ahr()} to get the information and effect size based on AHR approximation.
      \item Extract the final event.
      \item Check if input If needed for (any) interim analysis timing.
    }
-   \item Add the analysis column to the information at input analysisTimes.
-   \item Add the sample size column to the information at input analysisTimes using \code{eAccrual()}.
+   \item Add the analysis column to the information at input analysis_time.
+   \item Add the sample size column to the information at input analysis_time using \code{eAccrual()}.
    \item Get sample size and bounds using \code{gs_design_npe()} and save them to bounds.
    \item Add Time, Events, AHR, N that have already been calculated to the bounds.
    \item Return a list of design enrollment, failure rates, and bounds.
@@ -106,27 +106,45 @@ library(gsDesign)
 library(gsDesign2)
 library(dplyr)
 
+# ----------------- #
+#    example 1      #
+# ----------------- #
 # call with defaults
 gs_design_ahr()
 
+# ----------------- #
+#    example 2      #
+# ----------------- #
 # Single analysis
-gs_design_ahr(analysisTimes = 40)
+gs_design_ahr(analysis_time = 40)
 
-# Multiple analysisTimes
-gs_design_ahr(analysisTimes = c(12, 24, 36))
+# ----------------- #
+#    example 3      #
+# ----------------- #
+# Multiple analysis_time
+gs_design_ahr(analysis_time = c(12, 24, 36))
 
+# ----------------- #
+#    example 4      #
+# ----------------- #
 # Specified information fraction
-gs_design_ahr(IF = c(.25, .75, 1), analysisTimes = 36)
+gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 
-# multiple analysis times & IF
+# ----------------- #
+#    example 5      #
+# ----------------- #
+# multiple analysis times & info_frac
 # driven by times
-gs_design_ahr(IF = c(.25, .75, 1), analysisTimes = c(12, 25, 36))
-# driven by IF
-gs_design_ahr(IF = c(1/3, .8, 1), analysisTimes = c(12, 25, 36))
+gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
+# driven by info_frac
+gs_design_ahr(info_frac = c(1/3, .8, 1), analysis_time = c(12, 25, 36))
 
+# ----------------- #
+#    example 6      #
+# ----------------- #
 # 2-sided symmetric design with O'Brien-Fleming spending
 gs_design_ahr(
-  analysisTimes = c(12, 24, 36),
+  analysis_time = c(12, 24, 36),
   binding = TRUE,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -137,7 +155,7 @@ gs_design_ahr(
 # 2-sided asymmetric design with O'Brien-Fleming upper spending
 # Pocock lower spending under H1 (NPH)
 gs_design_ahr(
-  analysisTimes = c(12, 24, 36),
+  analysis_time = c(12, 24, 36),
   binding = TRUE,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
