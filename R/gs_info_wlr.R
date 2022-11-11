@@ -47,9 +47,10 @@
 #' 
 #' @examples 
 #' # set enrollment rates
-#' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' 
 #' # set failure rates
-#' fail_rate <- tibble(
+#' fail_rate <- tibble::tibble(
 #'   Stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15,  # median survival 15 month
