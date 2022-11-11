@@ -32,21 +32,21 @@
 #' library(dplyr)
 #'
 #' # Enrollment rate
-#' enrollRates <- tibble::tibble(
+#' enroll_rate <- tibble::tibble(
 #'   Stratum = "All",
 #'   duration = 18,
 #'   rate = 20)
 #'
 #' # Failure rates
-#' failRates <- tibble::tibble(
+#' fail_rate <- tibble::tibble(
 #'   Stratum = "All",
 #'   duration = c(4, 100),
-#'   failRate = log(2) / 12,
+#'   fail_rate = log(2) / 12,
 #'   hr = c(1, .6),
-#'   dropoutRate = .001)
+#'   dropout_rate = .001)
 #'
 #' # Study duration in months
-#' studyDuration <- 36
+#' study_duration <- 36
 #'
 #' # Experimental / Control randomization ratio
 #' ratio <- 1
@@ -61,12 +61,12 @@
 #' # ------------------------- #
 #' # under fixed power
 #' fixed_design(
-#'   x = "AHR",
+#'   "ahr",
 #'   alpha = alpha,
 #'   power = 1 - beta,
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
-#'   studyDuration = studyDuration,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
+#'   study_duration = study_duration,
 #'   ratio = ratio
 #'   ) %>% summary()
 #'
@@ -75,13 +75,13 @@
 #' # ------------------------- #
 #' # under fixed power
 #' fixed_design(
-#'   x = "FH",
+#'   "fh",
 #'   alpha = alpha,
 #'   power = 1 - beta,
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
-#'   studyDuration = studyDuration,
-#'    ratio = ratio
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
+#'   study_duration = study_duration,
+#'   ratio = ratio
 #'   ) %>% summary()
 #'
 summary.fixed_design <- function(object, ...){
@@ -143,19 +143,19 @@ summary.fixed_design <- function(object, ...){
 #' library(dplyr)
 #'
 #' # enrollment/failure rates
-#' enrollRates <- tibble(Stratum = "All",
+#' enroll_rate <- tibble(Stratum = "All",
 #'                       duration = 12,
 #'                       rate = 1)
-#' failRates <- tibble(Stratum = "All", duration = c(4, 100),
-#'                     failRate = log(2) / 12,
+#' fail_rate <- tibble(Stratum = "All", duration = c(4, 100),
+#'                     fail_rate = log(2) / 12,
 #'                     hr = c(1, .6),
-#'                      dropoutRate = .001)
+#'                     dropout_rate = .001)
 #'
 #' # Information fraction
 #' info_frac <- (1:3)/3
 #'
 #' # Analysis times in months; first 2 will be ignored as info_frac will not be achieved
-#' analysisTimes <- c(.01, .02, 36)
+#' analysis_time <- c(.01, .02, 36)
 #'
 #' # Experimental / Control randomization ratio
 #' ratio <- 1
@@ -180,18 +180,18 @@ summary.fixed_design <- function(object, ...){
 #'
 #' # test in COMBO
 #' fh_test <- rbind(
-#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3,analysisTimes = c(12, 24, 36)),
-#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysisTimes = 36)
+#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3,analysis_time = c(12, 24, 36)),
+#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
 #' )
 #'
 #' # ---------------------------- #
 #' #          ahr                 #
 #' # ---------------------------- #
 #' x_ahr <- gs_design_ahr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   info_frac = info_frac, # Information fraction
-#'   analysisTimes = analysisTimes,
+#'   analysis_time = analysis_time,
 #'   ratio = ratio,
 #'   alpha = alpha,
 #'   beta = beta,
@@ -208,11 +208,11 @@ summary.fixed_design <- function(object, ...){
 #' #         wlr                  #
 #' # ---------------------------- #
 #' x_wlr <- gs_design_wlr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   weight = wgt05,
 #'   info_frac = NULL,
-#'   analysisTimes = sort(unique(x_ahr$analysis$Time)),
+#'   analysis_time = sort(unique(x_ahr$analysis$Time)),
 #'   ratio = ratio,
 #'   alpha = alpha,
 #'   beta = beta,
@@ -230,9 +230,9 @@ summary.fixed_design <- function(object, ...){
 #'   ratio = 1,
 #'   alpha = 0.025,
 #'   beta = 0.2,
-#'   enrollRates = tibble::tibble(Stratum = "All", duration = 12, rate = 500/12),
-#'   failRates = tibble::tibble(Stratum = "All", duration = c(4, 100),
-#'                              failRate = log(2) / 15, hr = c(1, .6), dropoutRate = .001),
+#'   enroll_rate = tibble::tibble(Stratum = "All", duration = 12, rate = 500/12),
+#'   fail_rate = tibble::tibble(Stratum = "All", duration = c(4, 100),
+#'                              fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001),
 #'   fh_test = fh_test,
 #'   upper = gs_spending_combo,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
