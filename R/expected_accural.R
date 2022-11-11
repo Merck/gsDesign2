@@ -23,7 +23,7 @@ NULL
 
 #' Piecewise constant expected accrual
 #'
-#' \code{eAccrual()} computes the expected cumulative enrollment (accrual)
+#' \code{expected_accrual()} computes the expected cumulative enrollment (accrual)
 #' given a set of piecewise constant enrollment rates and times.
 #' 
 #' @param time times at which enrollment is to be computed.
@@ -43,7 +43,7 @@ NULL
 #'    \item Make a tibble of the input time points x, duration, enrollment rates at points, and
 #'    expected accrual.
 #'    \item Extract the expected cumulative or survival enrollment.
-#'    \item Return \code{eAccrual}
+#'    \item Return \code{expected_accrual}
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
@@ -54,31 +54,31 @@ NULL
 #' library(tibble)
 #' 
 #' # Example 1: default
-#' eAccrual()
+#' expected_accrual()
 #' 
 #' # Example 2: unstratified design
-#' eAccrual(time = c(5, 10, 20), 
+#' expected_accrual(time = c(5, 10, 20), 
 #'          enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20)))
 #' 
-#' eAccrual(time = c(5, 10, 20), 
+#' expected_accrual(time = c(5, 10, 20), 
 #'          enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20), 
 #'                               Stratum = "All"))
 #'          
 #' # Example 3: stratified design
-#' eAccrual(time = c(24, 30, 40), 
+#' expected_accrual(time = c(24, 30, 40), 
 #'          enroll_rate = tibble(Stratum=c("subgroup", "complement"), 
 #'                               duration = 33, 
 #'                               rate = c(30, 30)))
 #' 
 #' @export
 #'
-eAccrual <- function(time = 0:24,
+expected_accrual <- function(time = 0:24,
                      enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))){
   # check input value
   # check input enrollment rate assumptions
-  if(!is.numeric(time)){stop("gsDesign2: time in `eAccrual()` must be a strictly increasing non-negative numeric vector!")}
-  if(!min(time) >= 0){stop("gsDesign2: time in `eAccrual()` must be a strictly increasing non-negative numeric vector!")}
-  if(!min(lead(time, default = max(time) + 1) - time) > 0){stop("gsDesign2: t in `eAccrual()` must be a strictly increasing non-negative numeric vector!")}
+  if(!is.numeric(time)){stop("gsDesign2: time in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")}
+  if(!min(time) >= 0){stop("gsDesign2: time in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")}
+  if(!min(lead(time, default = max(time) + 1) - time) > 0){stop("gsDesign2: t in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")}
   
   # check enrollment rate assumptions
   check_enroll_rate(enroll_rate)

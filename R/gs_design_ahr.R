@@ -59,7 +59,7 @@ NULL
 #'      \item Check if input If needed for (any) interim analysis timing.
 #'    }
 #'    \item Add the analysis column to the information at input analysis_time.
-#'    \item Add the sample size column to the information at input analysis_time using \code{eAccrual()}.
+#'    \item Add the sample size column to the information at input analysis_time using \code{expected_accural()}.
 #'    \item Get sample size and bounds using \code{gs_design_npe()} and save them to bounds.
 #'    \item Add Time, Events, AHR, N that have already been calculated to the bounds.
 #'    \item Return a list of design enrollment, failure rates, and bounds.
@@ -207,7 +207,7 @@ gs_design_ahr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 
   # 2) the accrual sample size, i.e., `N`
   # 3) `theta1` and `info1`
   y$Analysis <- 1:K
-  y$N <- eAccrual(time = y$Time, enroll_rate = enroll_rate)
+  y$N <- expected_accural(time = y$Time, enroll_rate = enroll_rate)
   if(h1_spending){
     theta1 <- y$theta  
     info1 <- y$info

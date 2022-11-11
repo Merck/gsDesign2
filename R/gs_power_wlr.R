@@ -233,7 +233,7 @@ gs_power_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 2
   suppressMessages(
     analysis <- x %>% 
       select(Analysis, Time, Events, AHR) %>% 
-      mutate(N = eAccrual(time = x$Time, enroll_rate = enroll_rate)) %>% 
+      mutate(N = expected_accural(time = x$Time, enroll_rate = enroll_rate)) %>% 
       dplyr::left_join(y_H1 %>% select(Analysis, info, info_frac, theta) %>% unique()) %>%
       dplyr::left_join(y_H0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
       select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>% 

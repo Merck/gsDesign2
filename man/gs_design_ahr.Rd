@@ -92,7 +92,7 @@ Need to be added
      \item Check if input If needed for (any) interim analysis timing.
    }
    \item Add the analysis column to the information at input analysis_time.
-   \item Add the sample size column to the information at input analysis_time using \code{eAccrual()}.
+   \item Add the sample size column to the information at input analysis_time using \code{expected_accural()}.
    \item Get sample size and bounds using \code{gs_design_npe()} and save them to bounds.
    \item Add Time, Events, AHR, N that have already been calculated to the bounds.
    \item Return a list of design enrollment, failure rates, and bounds.
