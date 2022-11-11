@@ -54,6 +54,8 @@ gs_design_wlr(
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
+\item{info_frac}{Targeted information fraction at each analysis}
+
 \item{info_scale}{the information scale for calculation}
 
 \item{analysis_time}{Minimum time of analysis}

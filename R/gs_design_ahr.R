@@ -28,7 +28,7 @@ NULL
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
 #' @param alpha One-sided Type I error
 #' @param beta Type II error
-#' @param IF Targeted information fraction at each analysis
+#' @param info_frac Targeted information fraction at each analysis
 #' @param analysis_time Minimum time of analysis
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param upper Function to compute upper bound

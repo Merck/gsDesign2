@@ -36,6 +36,8 @@ gs_design_ahr(
 
 \item{beta}{Type II error}
 
+\item{info_frac}{Targeted information fraction at each analysis}
+
 \item{analysis_time}{Minimum time of analysis}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
@@ -65,8 +67,6 @@ lower bound}
 \item{r}{Integer, at least 2; default of 18 recommended by Jennison and Turnbull}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
-
-\item{IF}{Targeted information fraction at each analysis}
 }
 \value{
 a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events

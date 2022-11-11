@@ -25,7 +25,7 @@ NULL
 #' 
 #' @param p_c rate at the control group
 #' @param p_e rate at the experimental group 
-#' @param IF statistical information fraction
+#' @param info_frac statistical information fraction
 #' @param rd0 treatment effect under super-superiority designs, the default is 0
 #' @param alpha One-sided Type I error
 #' @param beta Type II error

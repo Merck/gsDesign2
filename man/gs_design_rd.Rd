@@ -32,6 +32,8 @@ gs_design_rd(
 
 \item{p_e}{rate at the experimental group}
 
+\item{info_frac}{statistical information fraction}
+
 \item{rd0}{treatment effect under super-superiority designs, the default is 0}
 
 \item{alpha}{One-sided Type I error}
@@ -71,8 +73,6 @@ lower bound}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
 if spending is used for lower bound}
-
-\item{IF}{statistical information fraction}
 }
 \value{
 a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
