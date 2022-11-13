@@ -104,7 +104,7 @@ NULL
 #'            fail_rate = tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01),
 #'            total_duration = 22, simple = FALSE)
 #' @export
-expect_event <- function(enroll_rate = tibble::tibble(duration = c(2, 2, 10),
+expected_event <- function(enroll_rate = tibble::tibble(duration = c(2, 2, 10),
                                                     rate = c(3, 6, 9)),
                        fail_rate = tibble::tibble(duration = c(3, 100),
                                                   fail_rate = log(2) / c(9, 18),
