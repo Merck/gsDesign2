@@ -150,8 +150,8 @@ AHR <- function(enroll_rate = tibble::tibble(Stratum = "All",
       fail_e <- fail %>% mutate(fail_rate = fail_rate * hr)
       
       # compute expected number of events
-      events_c <- eEvents_df(enroll_rate = enroll_c, fail_rate = fail_c, total_duration = td, simple = FALSE)
-      events_e <- eEvents_df(enroll_rate = enroll_e, fail_rate = fail_e, total_duration = td, simple = FALSE)
+      events_c <- expected_event(enroll_rate = enroll_c, fail_rate = fail_c, total_duration = td, simple = FALSE)
+      events_e <- expected_event(enroll_rate = enroll_e, fail_rate = fail_e, total_duration = td, simple = FALSE)
       
       # Combine control and experimental; by period recompute HR, events, information
       events <- rbind(events_c %>% mutate(Treatment = "Control"),

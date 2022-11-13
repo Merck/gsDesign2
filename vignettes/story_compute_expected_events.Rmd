@@ -34,7 +34,7 @@ devtools::load_all()
 
 This document derives an algorithm for computing expected events observed for a model with piecewise constant enrollment, failure and dropout rates similar to @LachinFoulkes.
 Specifically, we design this to enable computation of an _average hazard ratio_ which we will use elsewhere to approximate sample size for fixed or group sequential designs under a non-proportional hazards assumption (@Kalbfleisch1981, @Schemper2009).
-The expected events calculation outlined here is implemented in the function `eEvents_df()`.
+The expected events calculation outlined here is implemented in the function `expected_event()`.
 
 # General formulation and notation
 
@@ -268,7 +268,7 @@ Events
 Next, we examine by the periods defined by `fail_rate`:
 
 ```{r}
-eEvents_df(
+expected_event(
   enroll_rate = tibble(duration = c(1, 1), rate = c(3, 2)),
   fail_rate = tibble(duration = c(4, 3), fail_rate = c(.03, .06), dropout_rate = c(.001, .002)),
   total_duration = 7,
