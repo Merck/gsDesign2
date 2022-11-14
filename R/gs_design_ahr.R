@@ -207,7 +207,7 @@ gs_design_ahr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 
   # 2) the accrual sample size, i.e., `N`
   # 3) `theta1` and `info1`
   y$Analysis <- 1:K
-  y$N <- expected_accural(time = y$Time, enroll_rate = enroll_rate)
+  y$N <- expected_accrual(time = y$Time, enroll_rate = enroll_rate)
   if(h1_spending){
     theta1 <- y$theta  
     info1 <- y$info
