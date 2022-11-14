@@ -41,7 +41,7 @@
 #' \code{AHR} is expected average hazard ratio at each analysis.
 #' 
 #' @details The \code{AHR()} function computes statistical information at targeted event times.
-#' The \code{tEvents()} function is used to get events and average HR at targeted \code{analysis_time}.
+#' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
 #' 
 #' @export
 #' 
@@ -93,15 +93,15 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(Stratum = "All",
                  ratio = ratio, total_duration = analysis_time)
     for(i in seq_along(events)){
       if (avehr$Events[i] < events[i]){
-        avehr[i,] <- tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                             ratio = ratio, target_event = events[i])
+        avehr[i,] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                                   ratio = ratio, target_event = events[i])
       }
     }
   }else{
     for(i in seq_along(events)){
       avehr <- rbind(avehr,
-                     tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                             ratio = ratio, target_event = events[i]))
+                     expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                                   ratio = ratio, target_event = events[i]))
     }
   }
   
