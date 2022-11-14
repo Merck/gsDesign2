@@ -137,8 +137,8 @@ events <- c(70, 150, 200)
 
 ans <- NULL
 for(i in seq_along(events)){
-  ans_new <- gsDesign2::tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                                ratio = ratio, target_event = events[i])
+  ans_new <- gsDesign2::expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                                      ratio = ratio, target_event = events[i])
   ans <- rbind(ans, ans_new)
 }
 
