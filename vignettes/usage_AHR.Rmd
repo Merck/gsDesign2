@@ -113,8 +113,8 @@ fail_e <- fail %>% mutate(fail_rate = fail_rate * hr)
 
 **Step 5:** we calculate the expected number of events in the control and experimental by `eEvents_df()`.
 ```{r}
-events_c <- expected_evnet(enroll_rate = enroll_c, fail_rate = fail_c, total_duration = td, simple = FALSE)
-events_e <- expected_evnet(enroll_rate = enroll_e, fail_rate = fail_e, total_duration = td, simple = FALSE)
+events_c <- expected_event(enroll_rate = enroll_c, fail_rate = fail_c, total_duration = td, simple = FALSE)
+events_e <- expected_event(enroll_rate = enroll_e, fail_rate = fail_e, total_duration = td, simple = FALSE)
 ```
 
 ```{r, echo=FALSE}
