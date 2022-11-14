@@ -1,10 +1,10 @@
 library(dplyr)
 
-test_that("expected events is different from gsDesign::eEvents and eEvents_df",{
+test_that("expected events is different from gsDesign::eEvents and expected_event",{
   enrollRates <- tibble::tibble(duration=c(2,1,2),rate=c(5,10,20))
   failRates <- tibble::tibble(duration=c(1,1,1),failRate=c(.05,.02,.01),dropoutRate=.01)
   totalDuration <- 20
-  testthat::expect_equal(eEvents_df(enrollRates,
+  testthat::expect_equal(expected_event(enrollRates,
                                     failRates %>% rename(fail_rate = failRate, dropout_rate = dropoutRate),
                                     totalDuration,
                                     simple=TRUE),
@@ -14,12 +14,12 @@ test_that("expected events is different from gsDesign::eEvents and eEvents_df",{
                          ignore_attr = TRUE)
 })
 
-test_that("data frame returned from eEvents_df not as expected",{
+test_that("data frame returned from expected_event not as expected",{
   # test case from gsSurvNPH
   enrollRates <-tibble::tibble(duration=c(1,1,8),rate=c(3,2,0))
   failRates <- tibble::tibble(duration=c(4,Inf),failRate=c(.03,.06),dropoutRate=c(.001,.002))
   totalDuration <- 7
-  xx <- eEvents_df(enrollRates,
+  xx <- expected_event(enrollRates,
                    failRates %>% rename(fail_rate = failRate, dropout_rate = dropoutRate),
                    totalDuration,simple=FALSE) %>% data.frame()
   # expected checked with alternate calculations in gsSurvNPH vignette
@@ -91,27 +91,27 @@ simple = TRUE
 
 ###test1:with mutiple failrates, short FU
 testthat::test_that(
-  "expected events is different from double-programmed vs eEvents_df, with mutiple failrates, short FU",{
+  "expected events is different from double-programmed vs expected_event, with mutiple failrates, short FU",{
     testthat::expect_equal(
       test_Event(enrollRates, failRates, totalDuration),
-      eEvents_df(enrollRates, 
+      expected_event(enrollRates, 
                  failRates %>% rename(fail_rate = failRate, dropout_rate = dropoutRate), 
                  totalDuration, simple)
     )
   })
 
 ###test2:with mutiple failrates, long FU
-testthat::test_that("expected events is different from double-programmed vs eEvents_df,
+testthat::test_that("expected events is different from double-programmed vs expected_event,
                     with mutiple failrates, long FU",{
                       totalDuration=80
                       testthat::expect_equal(test_Event(enrollRates, failRates, totalDuration),
-                                             eEvents_df(enrollRates, 
+                                             expected_event(enrollRates, 
                                                         failRates %>% rename(fail_rate = failRate, dropout_rate = dropoutRate), 
                                                         totalDuration, simple))
                     })
 
 ###test3:with mutiple failrates and with multiple enrollment duration
-testthat::test_that("expected events is different from double-programmed vs eEvents_df,
+testthat::test_that("expected events is different from double-programmed vs expected_event,
                     with mutiple enrollment duration",{
                       enrollRates=tibble::tibble(duration=c(50,10),
                                                  rate=c(10,5))
@@ -120,7 +120,7 @@ testthat::test_that("expected events is different from double-programmed vs eEve
                                                dropoutRate=c(0.1,0.2,0))
                       totalDuration=80
                       testthat::expect_equal(test_Event(enrollRates, failRates, totalDuration),
-                                             eEvents_df(enrollRates, 
+                                             expected_event(enrollRates, 
                                                         failRates %>% rename(fail_rate = failRate, dropout_rate = dropoutRate), 
                                                         totalDuration, simple))
                     })

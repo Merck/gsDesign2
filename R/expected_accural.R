@@ -73,7 +73,7 @@ NULL
 #' @export
 #'
 expected_accrual <- function(time = 0:24,
-                     enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))){
+                             enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))){
   # check input value
   # check input enrollment rate assumptions
   if(!is.numeric(time)){stop("gsDesign2: time in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")}
