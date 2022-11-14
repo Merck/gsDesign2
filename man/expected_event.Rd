@@ -32,7 +32,7 @@ Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with the followi
 The records in the returned \code{tibble} correspond to the input \code{tibble} \code{fail_rate}.
 }
 \description{
-\code{expect_event} computes expected events over time and by strata
+\code{expected_event} computes expected events over time and by strata
 under the assumption of piecewise constant enrollment rates and piecewise
 exponential failure and censoring rates.
 The piecewise exponential distribution allows a simple method to specify a distribtuion
@@ -73,7 +73,7 @@ maximize flexibility for a variety of purposes.
    available in vignette/eEventsTheory.Rmd.
    \item Compute expected events by interval at risk using the notations and descriptions in
    vignette/eEventsTheory.Rmd.
-   \item Return \code{expect_event}
+   \item Return \code{expected_event}
  }
 }
 }
@@ -83,22 +83,22 @@ library(tibble)
 library(gsDesign2)
 
 # Default arguments, simple output (total event count only)
-expect_event()
+expected_event()
 
 # Event count by time period
-expect_event(simple = FALSE)
+expected_event(simple = FALSE)
 
 # Early cutoff
-expect_event(total_duration = .5)
+expected_event(total_duration = .5)
 
 # Single time period example
-expect_event(enroll_rate = tibble(duration = 10,rate = 10),
+expected_event(enroll_rate = tibble(duration = 10,rate = 10),
            fail_rate = tibble(duration=100, fail_rate = log(2) / 6 ,dropout_rate = .01),
            total_duration = 22,
            simple = FALSE)
 
 # Single time period example, multiple enrollment periods
-expect_event(enroll_rate = tibble(duration = c(5,5), rate = c(10, 20)),
+expected_event(enroll_rate = tibble(duration = c(5,5), rate = c(10, 20)),
            fail_rate = tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01),
            total_duration = 22, simple = FALSE)
 }
