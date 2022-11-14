@@ -169,7 +169,7 @@ gs_design_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 
   }
   
   y$Analysis <- 1:K
-  y$N <- expected_accural(time = y$Time, enroll_rate = enroll_rate)
+  y$N <- expected_accrual(time = y$Time, enroll_rate = enroll_rate)
   
   # h1 spending
   if(h1_spending){
