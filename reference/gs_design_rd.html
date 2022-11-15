@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gs_design_rd</span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, Rate <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
 <span>  p_e <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, Rate <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span>,</span>
-<span>  IF <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">/</span><span class="fl">3</span>,</span>
+<span>  info_frac <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">/</span><span class="fl">3</span>,</span>
 <span>  rd0 <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.025</span>,</span>
 <span>  beta <span class="op">=</span> <span class="fl">0.1</span>,</span>
@@ -91,7 +91,7 @@
 <dd><p>rate at the experimental group</p></dd>
 
 
-<dt>IF</dt>
+<dt>info_frac</dt>
 <dd><p>statistical information fraction</p></dd>
 
 
@@ -192,7 +192,7 @@ if spending is used for lower bound</p></dd>
 <span class="r-in"><span><span class="fu">gs_design_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, Rate <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  p_e <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="st">"All"</span>, Rate <span class="op">=</span> <span class="fl">.15</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  IF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  info_frac <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rd0 <span class="op">=</span> <span class="fl">0</span>, </span></span>
 <span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">.025</span>,                  </span></span>
 <span class="r-in"><span>  beta <span class="op">=</span> <span class="fl">.1</span>,                    </span></span>
@@ -215,10 +215,10 @@ if spending is used for lower bound</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis     N    rd   rd0  info info0    IF   IF0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 <span style="text-decoration: underline;">2</span>336.  0.05     0 <span style="text-decoration: underline;">4</span>062. <span style="text-decoration: underline;">4</span>044.   0.7   0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 <span style="text-decoration: underline;">3</span>337.  0.05     0 <span style="text-decoration: underline;">5</span>803. <span style="text-decoration: underline;">5</span>778.   1     1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis     N    rd   rd0  info info0 info_frac info_frac0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 <span style="text-decoration: underline;">2</span>336.  0.05     0 <span style="text-decoration: underline;">4</span>062. <span style="text-decoration: underline;">4</span>044.       0.7        0.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 <span style="text-decoration: underline;">3</span>337.  0.05     0 <span style="text-decoration: underline;">5</span>803. <span style="text-decoration: underline;">5</span>778.       1          1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non-binding" "rd"          "gs_design"   "list"       </span>
@@ -230,7 +230,7 @@ if spending is used for lower bound</p></dd>
 <span class="r-in"><span><span class="fu">gs_design_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"biomarker positive"</span>, <span class="st">"biomarker negative"</span><span class="op">)</span>, Rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  p_e <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>Stratum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"biomarker positive"</span>, <span class="st">"biomarker negative"</span><span class="op">)</span>, Rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.15</span>,<span class="fl">.22</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  IF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  info_frac <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rd0 <span class="op">=</span> <span class="fl">0</span>, </span></span>
 <span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">.025</span>,                  </span></span>
 <span class="r-in"><span>  beta <span class="op">=</span> <span class="fl">.1</span>,                    </span></span>
@@ -251,10 +251,10 @@ if spending is used for lower bound</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis     N    rd   rd0  info info0    IF   IF0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 <span style="text-decoration: underline;">3</span>426. 0.038     0 <span style="text-decoration: underline;">5</span>184. <span style="text-decoration: underline;">5</span>172.   0.7   0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 <span style="text-decoration: underline;">4</span>894. 0.038     0 <span style="text-decoration: underline;">7</span>406. <span style="text-decoration: underline;">7</span>388.   1     1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis     N    rd   rd0  info info0 info_frac info_frac0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 <span style="text-decoration: underline;">3</span>426. 0.038     0 <span style="text-decoration: underline;">5</span>184. <span style="text-decoration: underline;">5</span>172.       0.7        0.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 <span style="text-decoration: underline;">4</span>894. 0.038     0 <span style="text-decoration: underline;">7</span>406. <span style="text-decoration: underline;">7</span>388.       1          1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non-binding" "rd"          "gs_design"   "list"       </span>
