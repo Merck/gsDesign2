@@ -80,7 +80,9 @@ lower bound}
 \item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound}
 
-\item{r}{Integer, at least 2; default of 18 recommended by Jennison and Turnbull}
+\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+Normally r will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 }
