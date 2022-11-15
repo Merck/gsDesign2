@@ -77,8 +77,8 @@ tEvents_ <- function(enrollRates=tibble::tibble(Stratum="All",
                     ratio = 1,
                     interval=c(.01, 100)
 ){
-  res <- try(uniroot(function(x){AHR(enrollRates, failRates, x, ratio)$Events - targetEvents},
+  res <- try(uniroot(function(x){AHR_(enrollRates, failRates, x, ratio)$Events - targetEvents},
                      interval))
   if(inherits(res,"try-error")){stop("tEvents solution not found")}
-  AHR(enrollRates, failRates, res$root, ratio)
+  AHR_(enrollRates, failRates, res$root, ratio)
 }

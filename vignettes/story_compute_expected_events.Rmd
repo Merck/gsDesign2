@@ -34,7 +34,7 @@ devtools::load_all()
 
 This document derives an algorithm for computing expected events observed for a model with piecewise constant enrollment, failure and dropout rates similar to @LachinFoulkes.
 Specifically, we design this to enable computation of an _average hazard ratio_ which we will use elsewhere to approximate sample size for fixed or group sequential designs under a non-proportional hazards assumption (@Kalbfleisch1981, @Schemper2009).
-The expected events calculation outlined here is implemented in the function `eEvents_df()`.
+The expected events calculation outlined here is implemented in the function `expected_event()`.
 
 # General formulation and notation
 
@@ -122,12 +122,12 @@ plot(sfun0,
   ylab = "Failure rate and dropout rate", xlab = "Time since enrollment = t",
   xaxt = "none", yaxt = "none", col = "red", lwd = 4)
 
-failRates <- c(.03, .06)
-dropoutRates <- c(.001, .002)
-multiplier <- 3 / max(failRates)
-pfailRates <- failRates * multiplier
-pdropRates <- dropoutRates * multiplier
-sfunfail <- stepfun(4, pfailRates)
+fail_rate <- c(.03, .06)
+dropout_rate <- c(.001, .002)
+multiplier <- 3 / max(fail_rate)
+pfail_rate <- fail_rate * multiplier
+pdropRates <- dropout_rate * multiplier
+sfunfail <- stepfun(4, pfail_rate)
 sfundrop <- stepfun(4, pdropRates)
 
 plot(sfunfail,
@@ -139,7 +139,7 @@ plot(sfundrop,
   verticals = FALSE, add = TRUE, xlim = c(0, 7), lty = 2, lwd = 2, col = "blue")
 
 axis(4, c(0, 2, 3), col = "red", col.axis = "red")
-axis(2, c(0, pfailRates), labels = c(0, failRates))
+axis(2, c(0, pfail_rate), labels = c(0, fail_rate))
 axis(1, c(0, 4, 5, 6, 7))
 axis(3, c(0, 4, 5, 6, 7), col = 2, labels = c(7, 3, 2, 1, 0), col.axis = "red")
 mtext(
@@ -265,13 +265,13 @@ Events <- gsDesign::eEvents(
 Events
 ```
 
-Next, we examine by the periods defined by `failRates`:
+Next, we examine by the periods defined by `fail_rate`:
 
 ```{r}
-eEvents_df(
-  enrollRates = tibble(duration = c(1, 1), rate = c(3, 2)),
-  failRates = tibble(duration = c(4, 3), failRate = c(.03, .06), dropoutRate = c(.001, .002)),
-  totalDuration = 7,
+expected_event(
+  enroll_rate = tibble(duration = c(1, 1), rate = c(3, 2)),
+  fail_rate = tibble(duration = c(4, 3), fail_rate = c(.03, .06), dropout_rate = c(.001, .002)),
+  total_duration = 7,
   simple = FALSE)
 ```
 
@@ -282,7 +282,7 @@ y %>%
   mutate(t = c(0, 4, 4, 4)) %>%
   group_by(t) %>%
   summarise(
-    failRate = first(lambda),
+    fail_rate = first(lambda),
     Events = sum(nbar))
 ```
 
@@ -297,12 +297,12 @@ nsim <- 1e6
 xx <- simtrial::simPWSurv(
   n = nsim,
   block = (rep("xx", 4)),
-  enrollRates = tibble(rate = c(3, 2) * nsim / 5, duration = c(1, 1)),
-  failRates = tibble(
+  enroll_rate = tibble(rate = c(3, 2) * nsim / 5, duration = c(1, 1)),
+  fail_rate = tibble(
     Stratum = "All", period = 1:2, Treatment = "xx",
     rate = c(.03, .06), duration = c(4, Inf)
   ),
-  dropoutRates = tibble(
+  dropout_rate = tibble(
     Stratum = "All", period = 1:2, Treatment = "xx",
     rate = c(.001, .002), duration = c(4, Inf)
   ))

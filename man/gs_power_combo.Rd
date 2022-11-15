@@ -5,12 +5,12 @@
 \title{Group sequential design power using MaxCombo test under non-proportional hazards}
 \usage{
 gs_power_combo(
-  enrollRates = tibble(Stratum = "All", duration = 12, rate = 500/12),
-  failRates = tibble(Stratum = "All", duration = c(4, 100), failRate = log(2)/15, hr =
-    c(1, 0.6), dropoutRate = 0.001),
+  enroll_rate = tibble(Stratum = "All", duration = 12, rate = 500/12),
+  fail_rate = tibble(Stratum = "All", duration = c(4, 100), fail_rate = log(2)/15, hr =
+    c(1, 0.6), dropout_rate = 0.001),
   fh_test = rbind(data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3,
-    analysisTimes = c(12, 24, 36)), data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1,
-    test = 2:3, Analysis = 3, analysisTimes = 36)),
+    analysis_time = c(12, 24, 36)), data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1,
+    test = 2:3, Analysis = 3, analysis_time = 36)),
   ratio = 1,
   binding = FALSE,
   upper = gs_b,
@@ -22,9 +22,9 @@ gs_power_combo(
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
+\item{fail_rate}{failure and dropout rates}
 
 \item{fh_test}{a data frame to summarize the test in each analysis.
 Refer examples for its data structure.}
@@ -75,21 +75,21 @@ library(gsDesign)
 library(gsDesign2)
 library(tibble)
 
-enrollRates <- tibble(
+enroll_rate <- tibble(
   Stratum = "All", 
   duration = 12, 
   rate = 500/12)
 
-failRates <- tibble(
+fail_rate <- tibble(
   Stratum = "All",
   duration = c(4, 100),
-  failRate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15,  # median survival 15 month
   hr = c(1, .6),
-  dropoutRate = 0.001)
+  dropout_rate = 0.001)
 
 fh_test <- rbind(
-  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysisTimes = c(12, 24, 36)),
-  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysisTimes = 36)
+  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
+  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
 )
 
 # -------------------------#
@@ -97,9 +97,9 @@ fh_test <- rbind(
 # ------------------------ #
 # Minimal Information Fraction derived bound
 gs_power_combo(
-  enrollRates, 
-  failRates, 
-  fh_test,
+  enroll_rate = enroll_rate, 
+  fail_rate = fail_rate, 
+  fh_test = fh_test,
   upper = gs_spending_combo,
   upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_combo,

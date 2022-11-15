@@ -15,204 +15,189 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' A function to check the arguments \code{enrollRates} used in gsDesign2
+#' A function to check the arguments \code{enroll_rate} used in gsDesign2
 #'
-#' @param enrollRates enrollment rates
+#' @param enroll_rate enrollment rates
 #'
 #' @return TURE or FALSE
 #'
 #' @examples
 #' 
-#' enrollRates <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
-#' check_enrollRates(enrollRates)
+#' enroll_rate <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
+#' check_enroll_rate(enroll_rate)
 #' 
 #' @noRd
 #' 
-check_enrollRates <- function(enrollRates){
-  
-  # --------------------------- #
-  #   check the Stratum column  #
-  # --------------------------- #
-  # if("Stratum" %in% colnames(enrollRates)){
-  #   stop("The enrollRates is a tibble which contains a column called `Stratum`!")
-  # }
+check_enroll_rate <- function(enroll_rate){
   
   # --------------------------- #
   #   check the duration column #
   # --------------------------- #
-  if(!"duration" %in% colnames(enrollRates)){
-    stop("The enrollRates is a tibble which contains a column called `duration`!")
+  if(!"duration" %in% colnames(enroll_rate)){
+    stop("The enroll_rate is a tibble which contains a column called `duration`!")
   }
   # the duration is numerical values
-  if(!is.numeric(enrollRates$duration)){
-    stop("The `duration`column in enrollRates should be numeric!")
+  if(!is.numeric(enroll_rate$duration)){
+    stop("The `duration`column in enroll_rate should be numeric!")
   }
   
   # the duration is positive numbers
-  if(sum(!enrollRates$duration > 0) != 0){
-    stop("The `duration` column in enrollRates should be positive numbers!")
+  if(sum(!enroll_rate$duration > 0) != 0){
+    stop("The `duration` column in enroll_rate should be positive numbers!")
   }
   
   # --------------------------- #
   #   check the rate column     #
   # --------------------------- #
-  if(!"rate" %in% colnames(enrollRates)){
-    stop("The enrollRates is a tibble which contains a column called `rate`!")
+  if(!"rate" %in% colnames(enroll_rate)){
+    stop("The enroll_rate is a tibble which contains a column called `rate`!")
   }
   
   # the rate is numerical values
-  if(!is.numeric(enrollRates$rate)){
-    stop("The `rate`column in enrollRates should be numeric!")
+  if(!is.numeric(enroll_rate$rate)){
+    stop("The `rate`column in enroll_rate should be numeric!")
   }
   
   # the rate is positive numbers
-  if(sum(!enrollRates$rate >= 0) != 0){
-    stop("The `rate` column in enrollRates should be positive numbers!")
+  if(sum(!enroll_rate$rate >= 0) != 0){
+    stop("The `rate` column in enroll_rate should be positive numbers!")
   }
 }
 
 
 
-#' A function to check the arguments \code{failRates} used in gsDesign2
+#' A function to check the arguments \code{fail_rate} used in gsDesign2
 #'
-#' @param failRates failure rates
+#' @param fail_rate failure rates
 #'
 #' @return TURE or FALSE
 #'
 #' @examples
 #' 
-#' failRates <- tibble::tibble(Stratum = "All", duration = c(3, 100), 
-#'                             failRate = log(2) / c(9, 18), hr = c(.9, .6), 
-#'                             dropoutRate = rep(.001, 2))
-#' check_failRates(failRates)
+#' fail_rate <- tibble::tibble(Stratum = "All", duration = c(3, 100), 
+#'                             fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+#'                             dropout_rate = rep(.001, 2))
+#' check_fail_rate(fail_rate)
 #' 
 #' @noRd
-check_failRates <- function(failRates){
-  
-  # --------------------------- #
-  #   check the Stratum column  #
-  # --------------------------- #
-  # if(!"Stratum" %in% colnames(enrollRates)){
-  #   stop("The enrollRates is a tibble which contains a column called `Stratum`!")
-  # }
-  
+check_fail_rate <- function(fail_rate){
   # --------------------------- #
   #   check the duration column #
   # --------------------------- #
-  if(!"duration" %in% colnames(failRates)){
-    stop("The failRates is a tibble which contains a column called `duration`!")
+  if(!"duration" %in% colnames(fail_rate)){
+    stop("The fail_rate is a tibble which contains a column called `duration`!")
   }
   # the duration is numerical values
-  if(!is.numeric(failRates$duration)){
-    stop("The `duration`column in failRates should be numeric!")
+  if(!is.numeric(fail_rate$duration)){
+    stop("The `duration`column in fail_rate should be numeric!")
   }
   
   # the duration is positive numbers
-  if(sum(!failRates$duration > 0) != 0){
-    stop("The `duration` column in failRates should be positive numbers!")
+  if(sum(!fail_rate$duration > 0) != 0){
+    stop("The `duration` column in fail_rate should be positive numbers!")
   }
   
-  # --------------------------- #
-  #   check the failRate column #
-  # --------------------------- #
-  if(!"failRate" %in% colnames(failRates)){
-    stop("The failRates is a tibble which contains a column called `failRate`!")
+  # -----------------------------#
+  #   check the fail_rate column #
+  # ---------------------------- #
+  if(!"fail_rate" %in% colnames(fail_rate)){
+    stop("The fail_rate is a tibble which contains a column called `fail_rate`!")
   }
   
-  # the rate is failRates values
-  if(!is.numeric(failRates$failRate)){
-    stop("The `failRate`column in failRates should be numeric!")
+  # the rate is fail_rate values
+  if(!is.numeric(fail_rate$fail_rate)){
+    stop("The `fail_rate`column in fail_rate should be numeric!")
   }
   
   # the rate is positive numbers
-  if(sum(!failRates$failRate > 0) != 0){
-    stop("The `failRate` column in failRates should be positive numbers!")
+  if(sum(!fail_rate$fail_rate > 0) != 0){
+    stop("The `fail_rate` column in fail_rate should be positive numbers!")
   }
   
   # --------------------------- #
   #   check the hr column       #
   # --------------------------- #
-  if("hr" %in% colnames(failRates)){
+  if("hr" %in% colnames(fail_rate)){
     
-    if(!is.numeric(failRates$hr)){
-      stop("The `hr`column in failRates should be numeric!")
+    if(!is.numeric(fail_rate$hr)){
+      stop("The `hr`column in fail_rate should be numeric!")
     }
     
-    if(sum(!failRates$hr > 0) != 0){
-      stop("The `hr` column in failRates should be positive numbers!")
+    if(sum(!fail_rate$hr > 0) != 0){
+      stop("The `hr` column in fail_rate should be positive numbers!")
     }
   }
   
   # --------------------------- #
-  # check the dropoutRate column#
+  # check the dropout_rate column#
   # --------------------------- #
-  if(!"dropoutRate" %in% colnames(failRates)){
-    stop("The failRates is a tibble which contains a column called `dropoutRate`!")
+  if(!"dropout_rate" %in% colnames(fail_rate)){
+    stop("The fail_rate is a tibble which contains a column called `dropout_rate`!")
   }
   
   # the rate is numerical values
-  if(!is.numeric(failRates$dropoutRate)){
-    stop("The `dropoutRate`column in failRates should be numeric!")
+  if(!is.numeric(fail_rate$dropout_rate)){
+    stop("The `dropout_rate`column in fail_rate should be numeric!")
   }
   
   # the rate is positive numbers
-  if(sum(!failRates$dropoutRate >= 0) != 0){
-    stop("The `dropoutRate` column in failRates should be positive numbers!")
+  if(sum(!fail_rate$dropout_rate >= 0) != 0){
+    stop("The `dropout_rate` column in fail_rate should be positive numbers!")
   }
 }
 
 
 
-#' A function to check the arguments \code{enrollRates} and \code{failRates} used in gsDesign2
+#' A function to check the arguments \code{enroll_rate} and \code{fail_rate} used in gsDesign2
 #'
-#' @param enrollRates enrollment rates
-#' @param failRates failure rates
+#' @param enroll_rate enrollment rates
+#' @param fail_rate failure rates
 #' @return TURE or FALSE
 #'
 #' @examples
 #' 
-#' enrollRates <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
-#' failRates <- tibble::tibble(Stratum = "All", duration = c(3, 100), 
-#'                             failRate = log(2) / c(9, 18), hr = c(.9, .6), 
-#'                             dropoutRate = rep(.001, 2))
-#' check_enrollRates(enrollRates, failRates)
+#' enroll_rate <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
+#' fail_rate <- tibble::tibble(Stratum = "All", duration = c(3, 100), 
+#'                             fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
+#'                             dropout_rate = rep(.001, 2))
+#' check_enroll_rate_fail_rate(enroll_rate, fail_rate)
 #' 
 #' @noRd
 #' 
-check_enrollRates_failRates <- function(enrollRates, failRates){
+check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate){
   
-  if("Stratum" %in% colnames(enrollRates) && "Stratum" %in% colnames(failRates)){
-    strata_enroll <- unique(enrollRates$Stratum)
-    strata_fail   <- unique(failRates$Stratum)
+  if("Stratum" %in% colnames(enroll_rate) && "Stratum" %in% colnames(fail_rate)){
+    strata_enroll <- unique(enroll_rate$Stratum)
+    strata_fail   <- unique(fail_rate$Stratum)
     strata_common <- dplyr::intersect(strata_enroll, strata_fail)
     
     if(sum(strata_common %in% strata_enroll) != length(strata_enroll)){
-      stop("The `Strata` column in the input argument `enrollRates` and `failRates` must be the same!")
+      stop("The `Strata` column in the input argument `enroll_rate` and `fail_rate` must be the same!")
     }
   }
 }
 
 
-#' A function to check the arguments \code{analysisTimes} used in gsDesign2
+#' A function to check the arguments \code{analysis_time} used in gsDesign2
 #'
-#' @param analysisTimes analysis time
+#' @param analysis_time analysis time
 #'
 #' @return TURE or FALSE
 #'
 #' @examples
-#' analysisTimes <- 20
-#' check_analysisTimes(analysisTimes)
+#' analysis_time <- 20
+#' check_analysis_time(analysis_time)
 #' 
-#' analysisTimes <- c(20, 30)
-#' check_analysisTimes(analysisTimes)
+#' analysis_time <- c(20, 30)
+#' check_analysis_time(analysis_time)
 #' 
 #' @noRd
-check_analysisTimes <- function(analysisTimes){
-  cond1 <- !is.numeric(analysisTimes)
-  cond2 <- !is.vector(analysisTimes)
-  cond3 <- min(analysisTimes - dplyr::lag(analysisTimes, def=0))<=0
+check_analysis_time <- function(analysis_time){
+  cond1 <- !is.numeric(analysis_time)
+  cond2 <- !is.vector(analysis_time)
+  cond3 <- min(analysis_time - dplyr::lag(analysis_time, def=0))<=0
   if ( cond1 || cond2 || cond3 ){
-    stop("The input argument `analysisTimes` must be NULL a numeric vector with positive increasing values!")
+    stop("The input argument `analysis_times` must be NULL a numeric vector with positive increasing values!")
   }
 }
 
@@ -240,27 +225,27 @@ check_events <- function(events){
   }
 }
 
-#' A function to check the arguments \code{totalDuration} used in gsDesign2
+#' A function to check the arguments \code{total_duration} used in gsDesign2
 #'
 #' @param totalDuration total duration
 #'
 #' @return TURE or FALSE
 #' 
 #' @examples
-#' totalDuration <- 36
-#' check_totalDuration(totalDuration)
+#' total_duration <- 36
+#' check_total_duration(total_duration)
 #' 
-#' totalDuration <- c(36, 48)
-#' check_totalDuration(totalDuration)
+#' total_duration <- c(36, 48)
+#' check_total_duration(total_duration)
 #' 
 #' @noRd
-check_totalDuration <- function(totalDuration){
-  if(!is.numeric(totalDuration)){
-    stop("The input argument `totalDuration` must be a non-empty vector of positive numbers!")
+check_total_duration <- function(total_duration){
+  if(!is.numeric(total_duration)){
+    stop("The input argument `total_duration` must be a non-empty vector of positive numbers!")
   }
   
-  if(sum(!totalDuration > 0) != 0){
-    stop("The input argument `totalDuration` must be a non-empty vector of positive numbers!")
+  if(sum(!total_duration > 0) != 0){
+    stop("The input argument `total_duration` must be a non-empty vector of positive numbers!")
   }
 }
 
@@ -313,8 +298,7 @@ check_info <- function(info){
 #' @return TURE or FALSE
 #' 
 #' @examples
-#' theta <- 0.5
-#' check_theta(theta)
+#' check_theta(theta = rep(0.5, 3), K = 3)
 #' 
 #' @noRd
 check_theta <- function(theta, K){
@@ -340,7 +324,7 @@ check_theta <- function(theta, K){
 #' 
 #' @examples
 #' test_upper <- TRUE
-#' check_test_upper(test_upper)
+#' check_test_upper(test_upper, 1)
 #' 
 #' @noRd
 check_test_upper <- function(test_upper, K){
@@ -369,7 +353,7 @@ check_test_upper <- function(test_upper, K){
 #' 
 #' @examples
 #' test_lower <- TRUE
-#' check_test_lower(test_lower)
+#' check_test_lower(test_lower, 1)
 #' 
 #' @noRd
 check_test_lower <- function(test_lower, K){
@@ -405,19 +389,18 @@ check_alpha_beta <- function(alpha, beta){
 
 #' A function to check the arguments \code{IF} in gsDesign2
 #'
-#' @param IF statistical informational fraction
+#' @param info_frac statistical informational fraction
 #'
 #' @return TURE or FALSE
 #' 
 #' @examples
-#' IF <- 1:3/3
-#' check_IF(IF)
+#' check_info_frac(1:3/3)
 #' 
 #' @noRd
-check_IF <- function(IF){
-  msg <- "gs_design_ahr(): IF must be a positive number or positive increasing sequence on (0, 1] with final value of 1"
-  if(!is.vector(IF, mode = "numeric")) stop(msg)
-  if(min(IF - dplyr::lag(IF, def = 0)) <= 0) stop(msg)
-  if(max(IF) != 1) stop(msg)
+check_info_frac <- function(info_frac){
+  msg <- "gs_design_ahr(): info_frac must be a positive number or positive increasing sequence on (0, 1] with final value of 1"
+  if(!is.vector(info_frac, mode = "numeric")) stop(msg)
+  if(min(info_frac - dplyr::lag(info_frac, def = 0)) <= 0) stop(msg)
+  if(max(info_frac) != 1) stop(msg)
 }
 

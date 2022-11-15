@@ -5,11 +5,11 @@
 \title{Group sequential design power using weighted log rank test under non-proportional hazards}
 \usage{
 gs_power_wlr(
-  enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  failRates = tibble(Stratum = "All", duration = c(3, 100), failRate = log(2)/c(9, 18),
-    hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
+  enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+  fail_rate = tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+    hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   events = c(30, 40, 50),
-  analysisTimes = NULL,
+  analysis_time = NULL,
   binding = FALSE,
   upper = gs_b,
   lower = gs_b,
@@ -27,13 +27,13 @@ gs_power_wlr(
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
+\item{fail_rate}{failure and dropout rates}
 
 \item{events}{Targeted events at each analysis}
 
-\item{analysisTimes}{Minimum time of analysis}
+\item{analysis_time}{Minimum time of analysis}
 
 \item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
 
@@ -96,15 +96,15 @@ library(gsDesign)
 library(gsDesign2)
 
 # set enrollment rates
-enrollRates <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
 
 # set failure rates
-failRates <- tibble(
+fail_rate <- tibble(
   Stratum = "All",
   duration = c(4, 100),
-  failRate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15,  # median survival 15 month
   hr = c(1, .6),
-  dropoutRate = 0.001)
+  dropout_rate = 0.001)
   
 # set the targeted number of events and analysis time
 target_events <- c(30, 40, 50)
@@ -115,10 +115,10 @@ target_analysisTime <- c(10, 24, 30)
 # ------------------------ #
 # fixed bounds and calculate the power for targeted number of events
 gs_power_wlr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   events = target_events,
-  analysisTimes = NULL,
+  analysis_time = NULL,
   upper = gs_b,
   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lower = gs_b,
@@ -129,10 +129,10 @@ gs_power_wlr(
 # ------------------------ #
 # fixed bounds and calculate the power for targeted analysis time
 gs_power_wlr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   events = NULL,
-  analysisTimes = target_analysisTime,
+  analysis_time = target_analysisTime,
   upper = gs_b,
   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lower = gs_b,
@@ -143,10 +143,10 @@ gs_power_wlr(
 # ------------------------ #
 # fixed bounds and calculate the power for targeted analysis time & number of events
 gs_power_wlr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   events = target_events,
-  analysisTimes = target_analysisTime,
+  analysis_time = target_analysisTime,
   upper = gs_b,
   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lower = gs_b,
@@ -157,10 +157,10 @@ gs_power_wlr(
 # ------------------------ #
 # spending bounds and calculate the power for targeted number of events
 gs_power_wlr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   events = target_events,
-  analysisTimes = NULL,
+  analysis_time = NULL,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
@@ -171,10 +171,10 @@ gs_power_wlr(
 # ------------------------ #
 # spending bounds and calculate the power for targeted analysis time
 gs_power_wlr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   events = NULL,
-  analysisTimes = target_analysisTime,
+  analysis_time = target_analysisTime,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
@@ -185,10 +185,10 @@ gs_power_wlr(
 # ------------------------ #
 # spending bounds and calculate the power for targeted analysis time & number of events
 gs_power_wlr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   events = target_events,
-  analysisTimes = target_analysisTime,
+  analysis_time = target_analysisTime,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,

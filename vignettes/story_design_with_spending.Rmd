@@ -24,8 +24,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-#library(gsdmvn)
-devtools::load_all()
 library(dplyr)
 library(tibble)
 library(gsDesign)
@@ -45,7 +43,7 @@ Here we set up enrollment, failure and dropout rates along with assumptions for 
 In this example, we assume there are 4 analysis (3 interim analysis + 1 final analysis), and they are conducted after 18, 24, 30, 36 months after the trail starts.
 ```{r}
 K <- 4
-analysisTimes <- c(18, 24, 30, 36)
+analysis_time <- c(18, 24, 30, 36)
 ```
 
 And we further assume there is not stratum and the enrollment last for 12 months. 
@@ -53,12 +51,12 @@ For the first 2 months, second 2 months, third 2 months and the reminder month, 
 Please note that $8:12:16:24$ is not the real enrollment rate. 
 Instead, it only specifies the enrollment rate ratio between different duration.
 ```{r}
-enrollRates <- tibble(
+enroll_rate <- tibble(
   Stratum = "All",
   duration = c(2, 2, 2, 6),
   rate = c(8, 12, 16, 24))
 
-enrollRates %>% 
+enroll_rate %>% 
   gt() %>% 
   tab_header(title = "Table of Enrollment")
 ```
@@ -66,14 +64,14 @@ enrollRates %>%
 Moreover, we assume the hazard ratio (HR) of the first 3 month is 0.9 and thereafter is 0.6.
 We also assume the the survival time follow a piecewise exponential distribution with a median of 8 month for the first 3 months and 14 month thereafter.
 ```{r}
-failRates <- tibble(
+fail_rate <- tibble(
   Stratum = "All",
   duration = c(3, 100),
-  failRate = log(2) / c(8, 14),
+  fail_rate = log(2) / c(8, 14),
   hr = c(.9, .6),
-  dropoutRate = .001)
+  dropout_rate = .001)
 
-failRates %>% 
+fail_rate %>% 
   gt() %>% 
   tab_header(title = "Table of Failure Rate")
 ```
@@ -85,9 +83,9 @@ In this section, we discuss how to drive the power, given a known sample size.
 First, we calculate the number of events and statistical information (both under H0 and H1) at targeted analysis times.
 
 ```{r}
-xx <- AHR(enrollRates = enrollRates, 
-          failRates = failRates, 
-          totalDuration = analysisTimes)
+xx <- AHR(enroll_rate = enroll_rate, 
+          fail_rate = fail_rate, 
+          total_duration = analysis_time)
 
 xx %>% gt()
 ```
@@ -96,8 +94,8 @@ Then, we can use `gs_info_ahr()` to calculate (1) the treatment effect (`theta`)
 
 ```{r}
 #Events <- ceiling(xx$Events)
-yy <- gs_info_ahr(enrollRates = enrollRates, 
-                  failRates = failRates, 
+yy <- gs_info_ahr(enroll_rate = enroll_rate, 
+                  fail_rate = fail_rate, 
                   events = ceiling(xx$Events)) %>% 
   mutate(timing = info0 / max(info0))
 
@@ -124,7 +122,7 @@ zz <- gs_power_npe(
 
 zz %>% 
   filter(Bound == "Upper") %>%
-  select(Analysis, Bound, Z, Probability, IF) %>% 
+  select(Analysis, Bound, Z, Probability, info_frac) %>% 
   gt() %>% 
   fmt_number(columns = 3:5, decimals = 4)
 ```

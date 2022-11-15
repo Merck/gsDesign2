@@ -21,21 +21,21 @@ Summary for \code{\link[=fixed_design]{fixed_design()}} objects
 library(dplyr)
 
 # Enrollment rate
-enrollRates <- tibble::tibble(
+enroll_rate <- tibble::tibble(
   Stratum = "All",
   duration = 18,
   rate = 20)
 
 # Failure rates
-failRates <- tibble::tibble(
+fail_rate <- tibble::tibble(
   Stratum = "All",
   duration = c(4, 100),
-  failRate = log(2) / 12,
+  fail_rate = log(2) / 12,
   hr = c(1, .6),
-  dropoutRate = .001)
+  dropout_rate = .001)
 
 # Study duration in months
-studyDuration <- 36
+study_duration <- 36
 
 # Experimental / Control randomization ratio
 ratio <- 1
@@ -50,12 +50,12 @@ beta <- 0.1
 # ------------------------- #
 # under fixed power
 fixed_design(
-  x = "AHR",
+  "ahr",
   alpha = alpha,
   power = 1 - beta,
-  enrollRates = enrollRates,
-  failRates = failRates,
-  studyDuration = studyDuration,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  study_duration = study_duration,
   ratio = ratio
   ) \%>\% summary()
 
@@ -64,13 +64,13 @@ fixed_design(
 # ------------------------- #
 # under fixed power
 fixed_design(
-  x = "FH",
+  "fh",
   alpha = alpha,
   power = 1 - beta,
-  enrollRates = enrollRates,
-  failRates = failRates,
-  studyDuration = studyDuration,
-   ratio = ratio
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  study_duration = study_duration,
+  ratio = ratio
   ) \%>\% summary()
 
 }

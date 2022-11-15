@@ -314,7 +314,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL,    # 3 theta
     ans <- tibble(Analysis = 1, Bound = "Upper", Z = qnorm(1 - alpha),
                   Probability = 1 - beta, Probability0 = alpha, theta = theta, 
                   info = info * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
-                  IF = info / max(info))
+                  info_frac = info / max(info))
     return(ans)
   } 
   
@@ -425,7 +425,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL,    # 3 theta
     ans <- ans_H1 %>% full_join(ans_H0 %>% select(Analysis, Bound, Probability) %>% dplyr::rename(Probability0 = Probability))
   )
   
-  ans <- ans %>% select(Analysis, Bound, Z, Probability, Probability0, theta, IF, info, info0, info1) 
+  ans <- ans %>% select(Analysis, Bound, Z, Probability, Probability0, theta, info_frac, info, info0, info1) 
   
   ans <- ans %>% arrange(Analysis)
   

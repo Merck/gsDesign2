@@ -45,15 +45,15 @@ rho <- c(1,1,0,0)
 gamma <- c(0,1,0,1)
 tau <- c(-1,-1,-1,-1)
 
-enrollRates <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(Stratum = "All",
                               duration = c(2, 2, 30),
                               rate = c(3, 6, 9))
-failRates <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(Stratum = "All",
                             duration = c(3, 100),
-                            failRate = log(2)/c(9, 18),
+                            fail_rate = log(2)/c(9, 18),
                             hr = c(.9,.6),
-                            dropoutRate = rep(.001, 2))
-arm <- gsDesign2:::gs_create_arm(enrollRates, failRates, ratio = 1, total_time = 1e6)
+                            dropout_rate = rep(.001, 2))
+arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 1e6)
 delta <- gsDesign2:::gs_delta_combo(arm0 = arm$arm0, arm1 = arm$arm1,
                                     tmax = 30, rho = rho, gamma = gamma, tau = rep(-1, length(rho)),
                                     approx = "asymptotic", normalization = FALSE)
@@ -91,30 +91,30 @@ for (i in 1:4) {
 rho <- c(1,1,0,0)
 gamma <- c(0,1,0,1)
 tau <- c(-1,-1,-1,-1)
-enrollRates <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(Stratum = "All",
                               duration = c(2,2,30),
                               rate = c(3,6,9))
-failRates <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(Stratum = "All",
                             duration = c(3,100),
-                            failRate = log(2)/c(9,18),
+                            fail_rate = log(2)/c(9,18),
                             hr = c(.9,.6),
-                            dropoutRate = rep(.001,2))
-info_combo <- gsDesign2:::gs_info_combo(enrollRates = enrollRates,
-                            failRates = failRates,
+                            dropout_rate = rep(.001,2))
+info_combo <- gsDesign2:::gs_info_combo(enroll_rate = enroll_rate,
+                            fail_rate = fail_rate,
                             ratio = 1,                # Experimental:Control randomization ratio
                             events = NULL,            # Events at analyses
-                            analysisTimes = 30,       # Times of analyses
+                            analysis_time = 30,       # Times of analyses
                             rho = rho,
                             gamma = gamma,
                             tau = rep(-1, length(rho)),
                             approx = "asymptotic")
 for (i in 1:4) {
   weight_test_i <- gsDesign2:::get_combo_weight(rho[i], gamma[i], tau[i])
-  info_wlr <- gsDesign2::gs_info_wlr(enrollRates = enrollRates,
-                          failRates = failRates,
+  info_wlr <- gsDesign2::gs_info_wlr(enroll_rate = enroll_rate,
+                          fail_rate = fail_rate,
                           ratio = 1,                  # Experimental:Control randomization ratio
                           events = NULL,              # Events at analyses
-                          analysisTimes = 30,         # Times of analyses
+                          analysis_time = 30,         # Times of analyses
                           weight = eval(parse(text = weight_test_i)),
                           approx = "asymptotic")
   test_that ( "gs_info_combo correctly use gs_info_wlr 1",{
@@ -129,16 +129,16 @@ upper <- 0.4
 rho <- c(1,1,0,0)
 gamma <- c(0,1,0,1)
 tau <- c(-1,-1,-1,-1)
-enrollRates <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(Stratum = "All",
                               duration = c(2, 2, 30),
                               rate = c(3, 6, 9))
-failRates <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(Stratum = "All",
                             duration = c(3, 100),
-                            failRate=log(2)/c(9, 18),
+                            fail_rate=log(2)/c(9, 18),
                             hr = c(.9, .6),
-                            dropoutRate = rep(.001, 2))
-arm <- gsDesign2:::gs_create_arm(enrollRates = enrollRates,
-                              failRates = failRates,
+                            dropout_rate = rep(.001, 2))
+arm <- gsDesign2:::gs_create_arm(enroll_rate = enroll_rate,
+                              fail_rate = fail_rate,
                               ratio = 1,
                               total_time = 1e6)
 sigma <- gsDesign2:::gs_sigma2_combo(arm0 = arm$arm0,
@@ -182,16 +182,16 @@ upper <- c(0.3, 0.4)
 rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
-enrollRates <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(Stratum = "All",
                               duration = c(2, 2, 30),
                               rate = c(3, 6, 9))
-failRates <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(Stratum = "All",
                             duration = c(3, 100),
-                            failRate = log(2)/c(9, 18),
+                            fail_rate = log(2)/c(9, 18),
                             hr = c(.9, .6),
-                            dropoutRate = rep(.001, 2))
-arm <- gsDesign2:::gs_create_arm(enrollRates = enrollRates,
-                              failRates = failRates,
+                            dropout_rate = rep(.001, 2))
+arm <- gsDesign2:::gs_create_arm(enroll_rate = enroll_rate,
+                              fail_rate = fail_rate,
                               ratio = 1,
                               total_time = 1e6)
 sigma <- gsDesign2:::gs_sigma2_combo (arm0 = arm$arm0,
@@ -255,16 +255,16 @@ rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
 
-enrollRates <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(Stratum = "All",
                               duration = c(2, 2, 10),
                               rate=c(3, 6, 9))
-failRates <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(Stratum = "All",
                             duration = c(3, 100),
-                            failRate = log(2)/c(9, 18),
+                            fail_rate = log(2)/c(9, 18),
                             hr = c(.9, .6),
-                            dropoutRate = rep(.001, 2))
-arm <- gsDesign2:::gs_create_arm(enrollRates = enrollRates,
-                              failRates = failRates,
+                            dropout_rate = rep(.001, 2))
+arm <- gsDesign2:::gs_create_arm(enroll_rate = enroll_rate,
+                              fail_rate = fail_rate,
                               ratio = 1,
                               total_time = 1e6)
 sigma <- gsDesign2:::gs_sigma2_combo(arm0 = arm$arm0,
@@ -296,37 +296,37 @@ test_that ( "pmvnorm_comb calculate p for One test for all group or lower bound 
 
 # test gs_utility_combo
 #####log-rank multiple analysis#####
-enrollRates <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(Stratum = "All",
                               duration = c(2, 2, 30),
                               rate = c(3, 6, 9))
-failRates <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(Stratum = "All",
                             duration = c(3, 100),
-                            failRate = log(2)/c(9, 18),
+                            fail_rate = log(2)/c(9, 18),
                             hr = c(.9, .6),
-                            dropoutRate = rep(.001, 2))
-analysisTimes <- c(12, 24, 36)
-n_analysis <- length(analysisTimes)
+                            dropout_rate = rep(.001, 2))
+analysis_time <- c(12, 24, 36)
+n_analysis <- length(analysis_time)
 fh_test <- rbind(data.frame(rho = 0,
                             gamma = 0,
                             tau = -1,
                             test = 1,
                             Analysis = 1:3,
-                            analysisTimes = analysisTimes))
-gs_arm <- gsDesign2:::gs_create_arm(enrollRates,
-                                 failRates,
+                            analysis_time = analysis_time))
+gs_arm <- gsDesign2:::gs_create_arm(enroll_rate,
+                                 fail_rate,
                                  ratio = 1,                       # Randomization ratio
-                                 total_time = max(analysisTimes)) # Total study duration
+                                 total_time = max(analysis_time)) # Total study duration
 
-utility_combo <- gsDesign2:::gs_utility_combo(enrollRates = enrollRates,
-                                           failRates = failRates,
+utility_combo <- gsDesign2:::gs_utility_combo(enroll_rate = enroll_rate,
+                                           fail_rate = fail_rate,
                                            fh_test = fh_test,
                                            ratio = 1,
                                            algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5))
 
-info_combo_test <- gsDesign2:::gs_info_combo(enrollRates = enrollRates,
-                                          failRates = failRates,
+info_combo_test <- gsDesign2:::gs_info_combo(enroll_rate = enroll_rate,
+                                          fail_rate = fail_rate,
                                           ratio = 1,
-                                          analysisTimes = analysisTimes,
+                                          analysis_time = analysis_time,
                                           rho = 0,
                                           gamma = 0)
 test_that("gs_utility_combo output correct info as gs_info_combo",{
@@ -353,16 +353,16 @@ test_that ( "gs_utility_combo output correct correlation matrix as gs_info_combo
 
 
 ##### multiple test analysis#####
-enrollRates <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(Stratum = "All",
                               duration = c(2, 2, 30),
                               rate = c(3, 6, 9))
-failRates <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(Stratum = "All",
                             duration = c(3, 100),
-                            failRate = log(2)/c(9, 18),
+                            fail_rate = log(2)/c(9, 18),
                             hr = c(.9, .6),
-                            dropoutRate = rep(.001, 2))
-analysisTimes <- 36
-n_analysis <- length(analysisTimes)
+                            dropout_rate = rep(.001, 2))
+analysis_time <- 36
+n_analysis <- length(analysis_time)
 rho <- c(0, 0.5, 1)
 gamma <- c(0.5, 0.5, 0.5)
 tau <- c(-1, -1, -1)
@@ -371,23 +371,23 @@ fh_test <- rbind(data.frame(rho = rho,
                             tau = tau,
                             test = 1:3,
                             Analysis = 1,
-                            analysisTimes = analysisTimes)
+                            analysis_time = analysis_time)
 )
-gs_arm <- gsDesign2:::gs_create_arm(enrollRates,
-                                 failRates,
+gs_arm <- gsDesign2:::gs_create_arm(enroll_rate,
+                                 fail_rate,
                                  ratio = 1,                   # Randomization ratio
-                                 total_time = max(analysisTimes)) # Total study duration
+                                 total_time = max(analysis_time)) # Total study duration
 
-utility_combo <- gsDesign2:::gs_utility_combo(enrollRates = enrollRates,
-                                           failRates = failRates,
+utility_combo <- gsDesign2:::gs_utility_combo(enroll_rate = enroll_rate,
+                                           fail_rate = fail_rate,
                                            fh_test = fh_test,
                                            ratio = 1,
                                            algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5))
 
-info_combo_test <- gsDesign2:::gs_info_combo(enrollRates = enrollRates,
-                                          failRates = failRates,
+info_combo_test <- gsDesign2:::gs_info_combo(enroll_rate = enroll_rate,
+                                          fail_rate = fail_rate,
                                           ratio = 1,
-                                          analysisTimes = analysisTimes,
+                                          analysis_time = analysis_time,
                                           rho = rho,
                                           gamma = gamma)
 test_that ( "gs_utility_combo output correct info as gs_info_combo",{
@@ -401,7 +401,7 @@ test_that ( "gs_utility_combo output correct theta effect as gs_info_combo",{
 
 sigma2 <- gsDesign2:::gs_sigma2_combo(arm0 = gs_arm$arm0,
                                    arm1 = gs_arm$arm1,
-                                   tmax = analysisTimes,
+                                   tmax = analysis_time,
                                    rho = rho,
                                    gamma = gamma,
                                    tau = tau)

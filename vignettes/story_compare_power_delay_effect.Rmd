@@ -26,7 +26,7 @@ library(tidyr)
 library(tibble)
 library(ggplot2)
 library(gsDesign)
-devtools::load_all()
+library(gsDesign2)
 ```
 
 # Overview
@@ -40,14 +40,14 @@ We consider a delayed effect scenario where
 - Exponential dropout rate of 0.001 per month.
 
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = 12, rate = 1)
-failRates <- tibble(Stratum = "All",
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 1)
+fail_rate <- tibble(Stratum = "All",
                             duration = c(6, 100),
-                            failRate = log(2) / 15,
+                            fail_rate = log(2) / 15,
                             hr = c(1, .6),
-                            dropoutRate = 0.001)
-enrollRates %>% gt() %>% tab_header(title = "Enrollment Table of Scenario 1")
-failRates %>% gt() %>% tab_header(title = "Failure Table of Scenario 1")
+                            dropout_rate = 0.001)
+enroll_rate %>% gt() %>% tab_header(title = "Enrollment Table of Scenario 1")
+fail_rate %>% gt() %>% tab_header(title = "Failure Table of Scenario 1")
 ```
 
 For the above scenarios, we investigate the power, sample size and events under 6 tests:
@@ -70,43 +70,43 @@ tab <- NULL
 for(trial_duration in seq(24, 60, 4)){
   
   # Fleming-Harrington rho=0, gamma=0.5 test
-  FH05 <- gs_design_wlr(enrollRates = enrollRates, 
-                        failRates = failRates,
+  FH05 <- gs_design_wlr(enroll_rate = enroll_rate, 
+                        fail_rate = fail_rate,
                         ratio = 1, 
                         alpha = 0.025, beta = 0.15,
                         weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
                         upar = qnorm(.975),
                         lpar = -Inf,
-                        analysisTimes = trial_duration) 
+                        analysis_time = trial_duration) 
   
   # regular logrank test
-  FH00 <- gs_power_wlr(enrollRates = FH05$enrollRates, 
-                       failRates = failRates,
+  FH00 <- gs_power_wlr(enroll_rate = FH05$enroll_rate, 
+                       fail_rate = fail_rate,
                        ratio = 1, 
                        weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)},
                        upar = qnorm(.975),
                        lpar = -Inf,
-                       analysisTimes = trial_duration,
+                       analysis_time = trial_duration,
                        events = .1) 
   
   # max combo test 1
   mc2_test <- data.frame(rho = 0, gamma = c(0, .5), tau = -1,
-                         test = 1:2, Analysis = 1, analysisTimes = trial_duration)
+                         test = 1:2, Analysis = 1, analysis_time = trial_duration)
   
-  MC2 <- gs_power_combo(enrollRates = FH05$enrollRates, 
-                        failRates = failRates, 
+  MC2 <- gs_power_combo(enroll_rate = FH05$enroll_rate, 
+                        fail_rate = fail_rate, 
                         fh_test = mc2_test,
                         upper = gs_spending_combo,
-                   upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-                   lower = gs_spending_combo,
-                   lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.01))
+                        upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+                        lower = gs_spending_combo,
+                        lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.01))
   
   # max combo test 2
   mc3_test <- data.frame(rho = c(0, 0, .5), gamma = c(0, .5, .5), tau = -1,
-                         test = 1:3, Analysis = 1, analysisTimes = trial_duration)
+                         test = 1:3, Analysis = 1, analysis_time = trial_duration)
   
-  MC3 <- gs_power_combo(enrollRates = FH05$enrollRates, 
-                        failRates = failRates, 
+  MC3 <- gs_power_combo(enroll_rate = FH05$enroll_rate, 
+                        fail_rate = fail_rate, 
                         fh_test = mc3_test,
                         upper = gs_spending_combo,
                         upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -115,10 +115,10 @@ for(trial_duration in seq(24, 60, 4)){
   
   # max combo test 
   mc4_test <- data.frame(rho = c(0, 0, .5, .5), gamma = c(0, .5, .5, 0), tau = -1,
-                         test = 1:4, Analysis = 1, analysisTimes = trial_duration)
+                         test = 1:4, Analysis = 1, analysis_time = trial_duration)
   
-  MC4 <- gs_power_combo(enrollRates = FH05$enrollRates, 
-                        failRates = failRates, 
+  MC4 <- gs_power_combo(enroll_rate = FH05$enroll_rate, 
+                        fail_rate = fail_rate, 
                         fh_test = mc4_test,
                         upper = gs_spending_combo,
                         upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -126,13 +126,13 @@ for(trial_duration in seq(24, 60, 4)){
                         lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.01))
   
   # Magirr-Burman rho=-1, gamma=0, tau = 6 test
-  MB6 <- gs_power_wlr(enrollRates = FH05$enrollRates, 
-                      failRates = failRates,
+  MB6 <- gs_power_wlr(enroll_rate = FH05$enroll_rate, 
+                      fail_rate = fail_rate,
                       ratio = 1, 
                       weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 20)},
                       upar = qnorm(.975),
                       lpar = -Inf,
-                      analysisTimes = trial_duration,
+                      analysis_time = trial_duration,
                       events = .1) 
   
   tab_new <- tibble(`Study duration` = trial_duration,
@@ -163,16 +163,16 @@ tab %>%
 Now we consider an alternate scenario where the placebo group starts with the same median, but then has a piecewise change to a median of 30 after 16 months and with a hazard ratio of 0.85 during that late period.
 
 ```{r}
-enrollRates <- tibble(Stratum = "All", duration = 12, rate = 1)
-failRates <- tibble(Stratum = "All",
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 1)
+fail_rate <- tibble(Stratum = "All",
                     duration = c(6, 10, 100),
-                    # in Scenario 1: failRate = log(2) / 15,
-                    failRate = log(2) / c(15, 15, 30),
+                    # in Scenario 1: fail_rate = log(2) / 15,
+                    fail_rate = log(2) / c(15, 15, 30),
                     # in Scenario 1: hr = c(1, .6)
                     hr = c(1, .6, .85),
-                    dropoutRate = 0.001)
-enrollRates %>% gt() %>% tab_header(title = "Enrollment Table of Scenario 2")
-failRates %>% gt() %>% tab_header(title = "Failure Table of Scenario 2")
+                    dropout_rate = 0.001)
+enroll_rate %>% gt() %>% tab_header(title = "Enrollment Table of Scenario 2")
+fail_rate %>% gt() %>% tab_header(title = "Failure Table of Scenario 2")
 ```
 
 ```{r, message=FALSE}
@@ -180,8 +180,8 @@ tab <- NULL
 
 for(trial_duration in seq(20, 60, 4)){
   # Fleming-Harrington rho=0, gamma=0.5 test
-  FH05 <- gs_design_wlr(enrollRates = enrollRates, 
-                        failRates = failRates,
+  FH05 <- gs_design_wlr(enroll_rate = enroll_rate, 
+                        fail_rate = fail_rate,
                         ratio = 1,
                         alpha = 0.025, beta = 0.15,
                         weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
@@ -189,25 +189,25 @@ for(trial_duration in seq(20, 60, 4)){
                         upar = qnorm(.975),
                         lower = gs_b,
                         lpar = -Inf,
-                        analysisTimes = trial_duration) 
+                        analysis_time = trial_duration) 
   
   # regular logrank test
-  FH00 <- gs_power_wlr(enrollRates = FH05$enrollRates, 
-                       failRates = failRates,
+  FH00 <- gs_power_wlr(enroll_rate = FH05$enroll_rate, 
+                       fail_rate = fail_rate,
                        ratio = 1, 
                        weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)},
                        upper = gs_b,
                        upar = qnorm(.975),
                        lower = gs_b,
                        lpar = -Inf,
-                       analysisTimes = trial_duration,
+                       analysis_time = trial_duration,
                        events = .1)
   
   # max combo test 
   mc2_test <- data.frame(rho = 0, gamma = c(0, .5), tau = -1,
-                         test = 1:2, Analysis = 1, analysisTimes = trial_duration)
-  MC2 <- gs_power_combo(enrollRates = FH05$enrollRates, 
-                        failRates = failRates, 
+                         test = 1:2, Analysis = 1, analysis_time = trial_duration)
+  MC2 <- gs_power_combo(enroll_rate = FH05$enroll_rate, 
+                        fail_rate = fail_rate, 
                         fh_test = mc2_test,
                         upper = gs_spending_combo,
                         upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -216,10 +216,10 @@ for(trial_duration in seq(20, 60, 4)){
   
   # max combo test 
   mc3_test <- data.frame(rho = c(0,0,.5), gamma = c(0, .5, .5), tau = -1,
-                         test = 1:3, Analysis = 1, analysisTimes = trial_duration)
+                         test = 1:3, Analysis = 1, analysis_time = trial_duration)
   
-  MC3 <- gs_power_combo(enrollRates = FH05$enrollRates, 
-                        failRates = failRates, 
+  MC3 <- gs_power_combo(enroll_rate = FH05$enroll_rate, 
+                        fail_rate = fail_rate, 
                         fh_test = mc3_test,
                         upper = gs_spending_combo,
                         upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -228,23 +228,23 @@ for(trial_duration in seq(20, 60, 4)){
   
   # max combo test 
   mc4_test <- data.frame(rho = c(0,0,.5,.5), gamma = c(0, .5, .5, 0), tau = -1,
-                         test = 1:4, Analysis = 1, analysisTimes = trial_duration)
+                         test = 1:4, Analysis = 1, analysis_time = trial_duration)
   
-  MC4 <- gs_power_combo(enrollRates = FH05$enrollRates, 
-                        failRates = failRates, fh_test = mc4_test,
+  MC4 <- gs_power_combo(enroll_rate = FH05$enroll_rate, 
+                        fail_rate = fail_rate, fh_test = mc4_test,
                         upper = gs_spending_combo,
                         upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
                         lower = gs_spending_combo,
                         lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.01))
   
   # Magirr-Burman rho=-1, gamma=0, tau = 6 test
-  MB6 <- gs_power_wlr(enrollRates = FH05$enrollRates, 
-                      failRates = failRates,
+  MB6 <- gs_power_wlr(enroll_rate = FH05$enroll_rate, 
+                      fail_rate = fail_rate,
                       ratio = 1, 
                       weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 6)},
                       upar = qnorm(.975),
                       lpar = -Inf,
-                      analysisTimes = trial_duration,
+                      analysis_time = trial_duration,
                       events = .1) 
   
   tab_new <- tibble(`Study duration` = trial_duration,

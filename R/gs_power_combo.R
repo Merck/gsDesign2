@@ -29,21 +29,21 @@
 #' library(gsDesign2)
 #' library(tibble)
 #' 
-#' enrollRates <- tibble(
+#' enroll_rate <- tibble(
 #'   Stratum = "All", 
 #'   duration = 12, 
 #'   rate = 500/12)
 #'
-#' failRates <- tibble(
+#' fail_rate <- tibble(
 #'   Stratum = "All",
 #'   duration = c(4, 100),
-#'   failRate = log(2) / 15,  # median survival 15 month
+#'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
-#'   dropoutRate = 0.001)
+#'   dropout_rate = 0.001)
 #'
 #' fh_test <- rbind(
-#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysisTimes = c(12, 24, 36)),
-#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysisTimes = 36)
+#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
+#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
 #' )
 #' 
 #' # -------------------------#
@@ -51,9 +51,9 @@
 #' # ------------------------ #
 #' # Minimal Information Fraction derived bound
 #' gs_power_combo(
-#'   enrollRates, 
-#'   failRates, 
-#'   fh_test,
+#'   enroll_rate = enroll_rate, 
+#'   fail_rate = fail_rate, 
+#'   fh_test = fh_test,
 #'   upper = gs_spending_combo,
 #'   upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_combo,
@@ -76,18 +76,18 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @export
-gs_power_combo <- function(enrollRates = tibble(Stratum = "All", 
+gs_power_combo <- function(enroll_rate = tibble(Stratum = "All", 
                                                 duration = 12, 
                                                 rate = 500 / 12),
-                           failRates = tibble(Stratum = "All", 
+                           fail_rate = tibble(Stratum = "All", 
                                               duration = c(4, 100), 
-                                              failRate = log(2) / 15,  
+                                              fail_rate = log(2) / 15,  
                                               hr = c(1, .6), 
-                                              dropoutRate = 0.001),
+                                              dropout_rate = 0.001),
                            fh_test = rbind(data.frame(rho = 0, gamma = 0, tau = -1, test = 1, 
-                                                      Analysis = 1:3, analysisTimes = c(12, 24, 36)),
+                                                      Analysis = 1:3, analysis_time = c(12, 24, 36)),
                                            data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, 
-                                                      Analysis = 3, analysisTimes = 36)),
+                                                      Analysis = 3, analysis_time = 36)),
                            ratio = 1,
                            binding = FALSE,
                            upper = gs_b,
@@ -108,8 +108,8 @@ gs_power_combo <- function(enrollRates = tibble(Stratum = "All",
   n_test <- max(fh_test$test)
   
   # Obtain utilities
-  utility <- gs_utility_combo(enrollRates = enrollRates,
-                              failRates = failRates,
+  utility <- gs_utility_combo(enroll_rate = enroll_rate,
+                              fail_rate = fail_rate,
                               fh_test = fh_test,
                               ratio = ratio,
                               algorithm = algorithm, ...)
@@ -202,11 +202,11 @@ gs_power_combo <- function(enrollRates = tibble(Stratum = "All",
       as.numeric()
   }else{
     AHR_dis <- gs_info_wlr(
-      enrollRates, 
-      failRates, 
+      enroll_rate, 
+      fail_rate, 
       ratio, 
       events = unique(utility$info_all$Events), 
-      analysisTimes = unique(utility$info_all$Time), 
+      analysis_time = unique(utility$info_all$Time), 
       weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = -1))))$AHR
   }
   
@@ -225,8 +225,8 @@ gs_power_combo <- function(enrollRates = tibble(Stratum = "All",
   #     output                                    #
   # --------------------------------------------- #
   output <- list(
-    enrollRates = enrollRates %>% mutate(rate = rate * max(analysis$N) / sum(rate * duration) ),
-    failRates = failRates,
+    enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$N) / sum(rate * duration) ),
+    fail_rate = fail_rate,
     bounds = bounds, 
     analysis = analysis)
   

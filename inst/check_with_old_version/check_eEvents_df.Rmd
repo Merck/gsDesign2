@@ -17,26 +17,33 @@ vignette: >
 library(gt)
 library(dplyr)
 library(tibble)
-#library(gsDesign2)
 devtools::load_all()
 ```
 
+```{r, warning=FALSE}
+setwd('./..')
+my_path <- "./old_function/"              
+source_files <- list.files(my_path, "*.R$") 
+sapply(paste0(my_path, source_files), source)
+```
 
 # Test 1
 ```{r}
 enrollRates <- tibble(duration = c(2, 1, 2), rate = c(5, 10, 20))
 failRates <- tibble(duration = c(1, 1, 1),failRate = c(.05, .02, .01), dropoutRate = .01)
 totalDuration <- 20
-
 x1 <- gsDesign::eEvents(lambda = failRates$failRate,
                         S = failRates$duration[1 : (nrow(failRates) - 1)],
                         eta = failRates$dropoutRate,
                         gamma = enrollRates$rate,
                         R = enrollRates$duration,
                         T = totalDuration)$d
-
 x2 <- eEvents_df_(enrollRates, failRates, totalDuration, simple = TRUE)
 
+
+enrollRates <- tibble(duration = c(2, 1, 2), rate = c(5, 10, 20))
+failRates <- tibble(duration = c(1, 1, 1), fail_rate = c(.05, .02, .01), dropout_rate = .01)
+totalDuration <- 20
 x3 <- eEvents_df(enrollRates, failRates, totalDuration, simple = TRUE)
 
 tibble(method = c("gsDesign", "old version", "new version"),
@@ -46,15 +53,12 @@ tibble(method = c("gsDesign", "old version", "new version"),
 # Test 2
 ```{r}
 enrollRates <- tibble(duration = c(1, 1, 8), rate = c(3, 2, 0))
-failRates <- tibble(duration = c(4, Inf), failRate = c(.03, .06), dropoutRate = c(.001, .002))
+failRates <- tibble(duration = c(4, Inf), fail_rate = c(.03, .06), dropout_rate = c(.001, .002))
 totalDuration <- 7
-
 x <- eEvents_df(enrollRates, failRates, totalDuration, simple = FALSE) %>% data.frame()
 # expected checked with alternate calculations in gsSurvNPH vignette
 y <- data.frame(t = c(0, 4), failRate = c(0.03, 0.06), Events = c(0.5642911, 0.5194821))
-
 x %>% gt() %>% tab_header(title = "From gsDesign2 new version")
-
 y %>% gt() %>% tab_header(title = "From gsSurvNPH vignette") 
 ```
 

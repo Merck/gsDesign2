@@ -1,44 +1,44 @@
 # Test 1: independent test using AHR to check outputs of gs_info_ahr ####
 
 testthat::test_that("results match if only put in targeted analysis times",{
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  failRates <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(Stratum = "All",
                               duration = c(3, 100),
-                              failRate = log(2)/c(9, 18),
+                              fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
-                              dropoutRate = rep(0.001, 2))
-  totalDuration <- c(18, 27, 36)
+                              dropout_rate = rep(0.001, 2))
+  total_duration <- c(18, 27, 36)
   
-  testthat::expect_equal(gs_info_ahr(enrollRates = enrollRates,
-                                     failRates = failRates,
-                                     analysisTimes = totalDuration) %>% select(Time, AHR, Events, info, info0),
-                         AHR(enrollRates = enrollRates,
-                             failRates = failRates,
-                             totalDuration = totalDuration))
+  testthat::expect_equal(gs_info_ahr(enroll_rate = enroll_rate,
+                                     fail_rate = fail_rate,
+                                     analysis_time = total_duration) %>% select(Time, AHR, Events, info, info0),
+                         AHR(enroll_rate = enroll_rate,
+                             fail_rate = fail_rate,
+                             total_duration = total_duration))
 })
 
 
 testthat::test_that("results match if only put in targeted events",{
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  failRates <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(Stratum = "All",
                               duration = c(3, 100),
-                              failRate = log(2)/c(9, 18),
+                              fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
-                              dropoutRate = rep(0.001, 2))
+                              dropout_rate = rep(0.001, 2))
   events <- c(30, 40, 50)
   
-  out1 <- gs_info_ahr(enrollRates = enrollRates, failRates = failRates, events = events)
+  out1 <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, events = events)
   
-  totalDuration <- out1$Time
+  total_duration <- out1$Time
   
   testthat::expect_equal(out1 %>% select(Time, AHR, Events, info, info0),
-                         AHR(enrollRates = enrollRates,
-                         failRates=failRates,
-                         totalDuration = totalDuration))
+                         AHR(enroll_rate = enroll_rate,
+                         fail_rate=fail_rate,
+                         total_duration = total_duration))
   
   # since above test is based on the output "Time", here is to check whether the output "Time" is reasonable
   
@@ -49,37 +49,37 @@ testthat::test_that("results match if only put in targeted events",{
 
 
 testthat::test_that("results match if put in both analysis time and targeted events",{
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  failRates <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(Stratum = "All",
                               duration = c(3, 100),
-                              failRate = log(2)/c(9, 18),
+                              fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
-                              dropoutRate = rep(0.001, 2))
+                              dropout_rate = rep(0.001, 2))
   events <- c(30, 40, 50)
-  analysisTime <- c(16, 19, 26)
+  analysis_time <- c(16, 19, 26)
   
-  out1 <- gs_info_ahr(enrollRates = enrollRates,
-                      failRates = failRates,
+  out1 <- gs_info_ahr(enroll_rate = enroll_rate,
+                      fail_rate = fail_rate,
                       events = events,
-                      analysisTimes = analysisTime)
+                      analysis_time = analysis_time)
   
-  totalDuration <- out1$Time
+  total_duration <- out1$Time
   
   testthat::expect_equal(out1 %>% select(Time, AHR, Events, info, info0),
-                         AHR(enrollRates = enrollRates,
-                             failRates = failRates,
-                             totalDuration = totalDuration))
+                         AHR(enroll_rate = enroll_rate,
+                             fail_rate = fail_rate,
+                             total_duration = total_duration))
   
   # since above test is based on the output "Time", here is to check whether the output "Time" is reasonable
   
-  # either being equal to the corresponding element in the input analysisTime or at the time point when targeted event number achieved
-  testthat::expect_equal(max((1 - (out1$Time == analysisTime))*(1 - (round(out1$Events) == round(events)))),
+  # either being equal to the corresponding element in the input analysis_time or at the time point when targeted event number achieved
+  testthat::expect_equal(max((1 - (out1$Time == analysis_time))*(1 - (round(out1$Events) == round(events)))),
                          0)
   
-  # "Time" >= input analysisTime
-  testthat::expect_gte(max(out1$Time - analysisTime), 0)
+  # "Time" >= input analysis_time
+  testthat::expect_gte(max(out1$Time - analysis_time), 0)
   
   # "Events" >= input events
   testthat::expect_gte(max(round(out1$Events) - round(events)), 0)

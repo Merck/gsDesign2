@@ -43,15 +43,15 @@
 #' library(gsDesign2)
 #' 
 #' # set enrollment rates
-#' enrollRates <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
 #' 
 #' # set failure rates
-#' failRates <- tibble(
+#' fail_rate <- tibble(
 #'   Stratum = "All",
 #'   duration = c(4, 100),
-#'   failRate = log(2) / 15,  # median survival 15 month
+#'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
-#'   dropoutRate = 0.001)
+#'   dropout_rate = 0.001)
 #'   
 #' # set the targeted number of events and analysis time
 #' target_events <- c(30, 40, 50)
@@ -62,10 +62,10 @@
 #' # ------------------------ #
 #' # fixed bounds and calculate the power for targeted number of events
 #' gs_power_wlr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   events = target_events,
-#'   analysisTimes = NULL,
+#'   analysis_time = NULL,
 #'   upper = gs_b,
 #'   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lower = gs_b,
@@ -76,10 +76,10 @@
 #' # ------------------------ #
 #' # fixed bounds and calculate the power for targeted analysis time
 #' gs_power_wlr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   events = NULL,
-#'   analysisTimes = target_analysisTime,
+#'   analysis_time = target_analysisTime,
 #'   upper = gs_b,
 #'   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lower = gs_b,
@@ -90,10 +90,10 @@
 #' # ------------------------ #
 #' # fixed bounds and calculate the power for targeted analysis time & number of events
 #' gs_power_wlr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   events = target_events,
-#'   analysisTimes = target_analysisTime,
+#'   analysis_time = target_analysisTime,
 #'   upper = gs_b,
 #'   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lower = gs_b,
@@ -104,10 +104,10 @@
 #' # ------------------------ #
 #' # spending bounds and calculate the power for targeted number of events
 #' gs_power_wlr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   events = target_events,
-#'   analysisTimes = NULL,
+#'   analysis_time = NULL,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
@@ -118,10 +118,10 @@
 #' # ------------------------ #
 #' # spending bounds and calculate the power for targeted analysis time
 #' gs_power_wlr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   events = NULL,
-#'   analysisTimes = target_analysisTime,
+#'   analysis_time = target_analysisTime,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
@@ -132,20 +132,20 @@
 #' # ------------------------ #
 #' # spending bounds and calculate the power for targeted analysis time & number of events
 #' gs_power_wlr(
-#'   enrollRates = enrollRates,
-#'   failRates = failRates,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
 #'   events = target_events,
-#'   analysisTimes = target_analysisTime,
+#'   analysis_time = target_analysisTime,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
 #'   
-gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                         failRates = tibble(Stratum = "All", duration = c(3, 100), failRate = log(2)/c(9, 18),
-                                            hr = c(.9, .6), dropoutRate = rep(.001, 2)),
+gs_power_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+                         fail_rate = tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+                                            hr = c(.9, .6), dropout_rate = rep(.001, 2)),
                          events = c(30, 40, 50), 
-                         analysisTimes = NULL, 
+                         analysis_time = NULL, 
                          binding = FALSE,
                          upper = gs_b, 
                          lower = gs_b,               
@@ -160,7 +160,7 @@ gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
                          r = 18, 
                          tol = 1e-6){
   # get the number of analysis
-  K <- max(length(events), length(analysisTimes), na.rm = TRUE)
+  K <- max(length(events), length(analysis_time), na.rm = TRUE)
   # get the info_scale
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   
@@ -169,12 +169,12 @@ gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
   #       and statistical information        #
   # ---------------------------------------- #
   x <- gs_info_wlr(
-    enrollRates = enrollRates,
-    failRates = failRates,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
     ratio = ratio,
     events = events,
     weight = weight,
-    analysisTimes = analysisTimes)
+    analysis_time = analysis_time)
   
   # ---------------------------------------- #
   #  given the above statistical information #
@@ -233,16 +233,16 @@ gs_power_wlr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
   suppressMessages(
     analysis <- x %>% 
       select(Analysis, Time, Events, AHR) %>% 
-      mutate(N = eAccrual(x = x$Time, enrollRates = enrollRates)) %>% 
-      dplyr::left_join(y_H1 %>% select(Analysis, info, IF, theta) %>% unique()) %>%
-      dplyr::left_join(y_H0 %>% select(Analysis, info, IF) %>% dplyr::rename(info0 = info, IF0 = IF) %>% unique()) %>%
-      select(Analysis, Time, N, Events, AHR, theta, info, info0, IF, IF0) %>% 
+      mutate(N = expected_accrual(time = x$Time, enroll_rate = enroll_rate)) %>% 
+      dplyr::left_join(y_H1 %>% select(Analysis, info, info_frac, theta) %>% unique()) %>%
+      dplyr::left_join(y_H0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
+      select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>% 
       arrange(Analysis)
   )
   
   ans <- list(
-    enrollRates = enrollRates, 
-    failRates = failRates,
+    enroll_rate = enroll_rate, 
+    fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(Z)),
     analysis = analysis)
   

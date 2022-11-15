@@ -5,17 +5,17 @@
 \title{Group sequential design using weighted log-rank test under non-proportional hazards}
 \usage{
 gs_design_wlr(
-  enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  failRates = tibble(Stratum = "All", duration = c(3, 100), failRate = log(2)/c(9, 18),
-    hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
+  enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+  fail_rate = tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+    hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   weight = wlr_weight_fh,
   approx = "asymptotic",
   alpha = 0.025,
   beta = 0.1,
   ratio = 1,
-  IF = NULL,
+  info_frac = NULL,
   info_scale = c(0, 1, 2),
-  analysisTimes = 36,
+  analysis_time = 36,
   binding = FALSE,
   upper = gs_b,
   upar = gsDesign(k = 3, test.type = 1, n.I = c(0.25, 0.75, 1), sfu = sfLDOF, sfupar =
@@ -30,9 +30,9 @@ gs_design_wlr(
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
+\item{fail_rate}{failure and dropout rates}
 
 \item{weight}{weight of weighted log rank test
 \itemize{
@@ -54,11 +54,11 @@ gs_design_wlr(
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
-\item{IF}{Targeted information fraction at each analysis}
+\item{info_frac}{Targeted information fraction at each analysis}
 
 \item{info_scale}{the information scale for calculation}
 
-\item{analysisTimes}{Minimum time of analysis}
+\item{analysis_time}{Minimum time of analysis}
 
 \item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
 
@@ -77,7 +77,7 @@ otherwise, a logical vector of the same length as \code{info} should indicate wh
 single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
 lower bound}
 
-\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
+\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound}
 
 \item{r}{Integer, at least 2; default of 18 recommended by Jennison and Turnbull}
@@ -91,10 +91,10 @@ Group sequential design using weighted log-rank test under non-proportional haza
 
 \if{latex}{
  \itemize{
-   \item Validate if input analysisTimes is a positive number or a positive increasing sequence.
-   \item Validate if input IF is a positive number or positive increasing sequence on (0, 1] with final value of 1.
-   \item Validate if inputs IF and analysisTimes  have the same length if both have length > 1.
-   \item Compute information at input analysisTimes using \code{gs_info_wlr()}.
+   \item Validate if input analysis_time is a positive number or a positive increasing sequence.
+   \item Validate if input info_frac is a positive number or positive increasing sequence on (0, 1] with final value of 1.
+   \item Validate if inputs info_frac and analysis_time  have the same length if both have length > 1.
+   \item Compute information at input analysis_time using \code{gs_info_wlr()}.
    \item Compute sample size and bounds using \code{gs_design_npe()}.
    \item Return a list of design enrollment, failure rates, and bounds.
   }
@@ -110,15 +110,15 @@ library(tibble)
 library(gsDesign2)
 
 # set enrollment rates
-enrollRates <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
 
 # set failure rates
-failRates <- tibble(
+fail_rate <- tibble(
   Stratum = "All",
   duration = c(4, 100),
-  failRate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15,  # median survival 15 month
   hr = c(1, .6),
-  dropoutRate = 0.001)
+  dropout_rate = 0.001)
 
 # -------------------------#
 #       example 1          #
@@ -139,8 +139,8 @@ x <- gsSurv(
   ratio = 1)
 
 gs_design_wlr(
-  enrollRates = enrollRates, 
-  failRates = failRates,
+  enroll_rate = enroll_rate, 
+  fail_rate = fail_rate,
   ratio = 1, 
   alpha = 0.025, beta = 0.2,
   weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
@@ -148,15 +148,15 @@ gs_design_wlr(
   upar = x$upper$bound,
   lower = gs_b,
   lpar = x$lower$bound,
-  analysisTimes = c(12, 24, 36))
+  analysis_time = c(12, 24, 36))
 
 # -------------------------#
 #       example 2          #
 # ------------------------ #
 # Boundary derived by spending function
 gs_design_wlr(
-  enrollRates = enrollRates, 
-  failRates = failRates,
+  enroll_rate = enroll_rate, 
+  fail_rate = fail_rate,
   ratio = 1, 
   alpha = 0.025, beta = 0.2,
   weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
@@ -164,6 +164,6 @@ gs_design_wlr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-  analysisTimes = c(12, 24, 36))
+  analysis_time = c(12, 24, 36))
 
 }

@@ -14,14 +14,14 @@ test_that("Validate the function based on examples with simulation results",{
     R = c(12), S = NULL,
     T = 36, minfup = 24, ratio = 1
   )
-  enrollRates <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(Stratum = "All",
                                 duration = 12,
                                 rate = 500 / 12)
-  failRates <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(Stratum = "All",
                               duration = c(4, 100),
-                              failRate = log(2) / 15, # Median survival 15 month
+                              fail_rate = log(2) / 15, # Median survival 15 month
                               hr = c(1, 0.6),
-                              dropoutRate = 0.001
+                              dropout_rate = 0.001
   )
   ## Randomization Ratio is 1:1
   ratio <- 1
@@ -31,18 +31,18 @@ test_that("Validate the function based on examples with simulation results",{
   beta <- 0.2
   power <- 1 - beta
   # Interim Analysis Time
-  analysisTimes <- c(12, 24, 36)
+  analysis_time <- c(12, 24, 36)
   #logrank test
   lrk <- gsDesign2::gs_design_wlr(
-    enrollRates = enrollRates,
-    failRates = failRates,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
     weight = function(x, arm0, arm1) {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
     },
     ratio = ratio, alpha = alpha, beta = beta,
     upar = x$upper$bound,
     lpar = x$lower$bound,
-    analysisTimes = c(12, 24, 36)
+    analysis_time = c(12, 24, 36)
   )
   lrk_bnd <- 
     lrk$bounds %>% dplyr::mutate_if(is.numeric, round, digits = 2) %>% dplyr::select(Analysis, Bound, Probability) %>%
@@ -50,15 +50,15 @@ test_that("Validate the function based on examples with simulation results",{
 
   #FH(0,1)
   fh01 <- gsDesign2::gs_design_wlr(
-    enrollRates = enrollRates,
-    failRates = failRates,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
     weight = function(x, arm0, arm1) {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 1)
     },
     ratio = ratio, alpha = alpha, beta = beta,
     upar = x$upper$bound,
     lpar = x$lower$bound,
-    analysisTimes = analysisTimes
+    analysis_time = analysis_time
   )
   fh01_bnd <-
     fh01$bounds %>% dplyr::mutate_if(is.numeric, round, digits = 2) %>% dplyr::select(Analysis, Bound, Probability) %>%
@@ -66,15 +66,15 @@ test_that("Validate the function based on examples with simulation results",{
   
   #FH(0,0.5)
   fh0d5 <- gsDesign2::gs_design_wlr(
-    enrollRates = enrollRates,
-    failRates = failRates,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
     weight = function(x, arm0, arm1) {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
     },
     ratio = ratio, alpha = alpha, beta = beta,
     upar = x$upper$bound,
     lpar = x$lower$bound,
-    analysisTimes = analysisTimes
+    analysis_time = analysis_time
   )
   fh0d5_bnd <- 
     fh0d5$bounds %>% dplyr::mutate_if(is.numeric, round, digits = 2) %>% dplyr::select(Analysis, Bound, Probability) %>%
@@ -82,15 +82,15 @@ test_that("Validate the function based on examples with simulation results",{
   
   #FH(0.5,0.5)
   fh5d5 <- gsDesign2::gs_design_wlr(
-    enrollRates = enrollRates,
-    failRates = failRates,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
     weight = function(x, arm0, arm1) {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0.5, gamma = 0.5)
     },
     ratio = ratio, alpha = alpha, beta = beta,
     upar = x$upper$bound,
     lpar = x$lower$bound,
-    analysisTimes = analysisTimes
+    analysis_time = analysis_time
   )
   fh5d5_bnd <-
     fh5d5$bounds %>% dplyr::mutate_if(is.numeric, round, digits = 2) %>% dplyr::select(Analysis, Bound, Probability) %>%

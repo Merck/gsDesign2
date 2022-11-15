@@ -5,27 +5,27 @@
 \title{Information and effect size for Weighted Log-rank test}
 \usage{
 gs_info_wlr(
-  enrollRates = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
+  enroll_rate = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
     9)),
-  failRates = tibble::tibble(Stratum = "All", duration = c(3, 100), failRate =
-    log(2)/c(9, 18), hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
+  fail_rate = tibble::tibble(Stratum = "All", duration = c(3, 100), fail_rate =
+    log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   ratio = 1,
   events = NULL,
-  analysisTimes = NULL,
+  analysis_time = NULL,
   weight = wlr_weight_fh,
   approx = "asymptotic"
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
+\item{fail_rate}{failure and dropout rates}
 
 \item{ratio}{Experimental:Control randomization ratio}
 
 \item{events}{Targeted minimum events at each analysis}
 
-\item{analysisTimes}{Targeted minimum study duration at each analysis}
+\item{analysis_time}{Targeted minimum study duration at each analysis}
 
 \item{weight}{weight of weighted log rank test
 \itemize{
@@ -44,7 +44,7 @@ gs_info_wlr(
 \value{
 a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}
 \code{info, info0} contains statistical information under H1, H0, respectively.
-For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysisTimes[k]} and the expected time
+For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
 required to accrue the targeted \code{events[k]}.
 \code{AHR} is expected average hazard ratio at each analysis.
 }
@@ -54,5 +54,28 @@ approximate information and effect size using an average hazard ratio model.
 }
 \details{
 The \code{AHR()} function computes statistical information at targeted event times.
-The \code{tEvents()} function is used to get events and average HR at targeted \code{analysisTimes}.
+The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
+}
+\examples{
+library(tibble)
+library(gsDesign2)
+
+# set enrollment rates
+enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+
+# set failure rates
+fail_rate <- tibble(
+  Stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15,  # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001)
+
+# set the targeted number of events and analysis time
+events <- c(30, 40, 50)
+analysis_time <- c(10, 24, 30)
+
+gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+            events = events, analysis_time = analysis_time)
+            
 }

@@ -1,4 +1,4 @@
-# directly compare the results of tEvents with eEvents_df.
+# directly compare the results of expected_time with expected_event.
 test_tEvents<-function(enrollRates = tibble::tibble(Stratum = "All",
                                                     duration = c(2, 2, 10),
                                                     rate = c(3, 6, 9) * 5),
@@ -14,19 +14,19 @@ test_tEvents<-function(enrollRates = tibble::tibble(Stratum = "All",
   failRatesc=failRates[,c("duration","failRate","dropoutRate")]
   failRatest=failRatesc
   failRatest$failRate=failRates$failRate*failRates$hr
-  eventc=eEvents_df(enrollRates=enrollRates_1,
-                    failRates=failRatesc,
-                    totalDuration=td,
+  eventc=expected_event(enroll_rate=enrollRates_1,
+                    fail_rate=failRatesc %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+                    total_duration=td,
                     simple=FALSE)
-  eventt=eEvents_df(enrollRates=enrollRates_1,
-                    failRates=failRatest,
-                    totalDuration=td,
+  eventt=expected_event(enroll_rate=enrollRates_1,
+                    fail_rate=failRatest %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+                    total_duration=td,
                     simple=FALSE)
   totale=sum(eventc$Events+eventt$Events)
   return(totale)
 }
 
-testthat::test_that("tEvents does not equal to eEvent_df's result", {
+testthat::test_that("expected_time does not equal to eEvent_df's result", {
   enrollRates = tibble::tibble(Stratum = "All",
                                duration = c(2, 2, 10),
                                rate = c(3, 6, 9) * 5)
@@ -38,10 +38,12 @@ testthat::test_that("tEvents does not equal to eEvent_df's result", {
                              dropoutRate = rep(.001, 2))
   targetEvents = 150
   interval = c(.01, 100)
-  t1=tEvents(enrollRates = enrollRates,
-             failRates = failRates,
-             targetEvents = targetEvents,
+  
+  t1 = expected_time(enroll_rate = enrollRates,
+             fail_rate = failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+             target_event = targetEvents,
              interval = interval)
+  
   testthat::expect_equal(
     t1$Events,
     test_tEvents(enrollRates=enrollRates,
@@ -50,7 +52,7 @@ testthat::test_that("tEvents does not equal to eEvent_df's result", {
   )
 })
 
-testthat::test_that("tEvents does not euqal to AHR's result",{
+testthat::test_that("expected_time does not euqal to AHR's result",{
   enrollRates = tibble::tibble(Stratum = "All",
                                duration = c(2, 2, 10),
                                rate = c(3, 6, 9) * 5)
@@ -61,16 +63,16 @@ testthat::test_that("tEvents does not euqal to AHR's result",{
                              dropoutRate = rep(.001, 2))
   targetEvents = 150
   interval = c(.01, 100)
-  t1=tEvents(enrollRates = enrollRates,
-             failRates = failRates,
-             targetEvents = targetEvents,
+  t1=expected_time(enroll_rate = enrollRates,
+             fail_rate = failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+             target_event = targetEvents,
              interval = interval)
   
   testthat::expect_equal(
     t1$Events,
-    AHR(enrollRates=enrollRates,
-        failRates=failRates,
-        totalDuration=t1$Time,
+    AHR(enroll_rate=enrollRates,
+        fail_rate=failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+        total_duration=t1$Time,
         ratio=1,
         simple = TRUE)$Events
   )

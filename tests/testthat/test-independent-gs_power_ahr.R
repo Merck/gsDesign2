@@ -47,18 +47,18 @@ y <- gsBoundSummary(x,
 
 testthat::test_that("under same number of events, compare the power",{
   
-  out <- gs_power_ahr(enrollRates = tibble::tibble(Stratum = "All",
+  out <- gs_power_ahr(enroll_rate = tibble::tibble(Stratum = "All",
                                                    duration = c(2, 2, 2, 6),
                                                    rate = c(6, 12, 18, 24)),
-                      failRates = tibble::tibble(Stratum = "All",
+                      fail_rate = tibble::tibble(Stratum = "All",
                                                  duration = 1,
-                                                 failRate =log(2)/9,
+                                                 fail_rate =log(2)/9,
                                                  hr = 0.65,
-                                                 dropoutRate = 0.001),
+                                                 dropout_rate = 0.001),
                       ratio = 1,
                       #set number of events the same as the design x above from gsDesign()
                       events = x$n.I,
-                      analysisTimes = NULL,
+                      analysis_time = NULL,
                       binding = FALSE,
                       upper = gs_spending_bound,
                       upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL, theta=0),
@@ -72,19 +72,18 @@ testthat::test_that("under same number of events, compare the power",{
 })
 
 testthat::test_that("under same power setting, compare the number of events",{
-  
-  out <- gs_power_ahr(enrollRates = tibble::tibble(Stratum = "All",
+  out <- gs_power_ahr(enroll_rate = tibble::tibble(Stratum = "All",
                                                    duration = c(2, 2, 2, 6),
                                                    rate = c(6, 12, 18, 24)),
-                      failRates = tibble::tibble(Stratum = "All",
+                      fail_rate = tibble::tibble(Stratum = "All",
                                                  duration = 1,
-                                                 failRate =log(2)/9,
+                                                 fail_rate =log(2)/9,
                                                  hr = 0.65,
-                                                 dropoutRate = 0.001),
+                                                 dropout_rate = 0.001),
                       ratio = 1,
                       events = NULL,
                       #adjust the times s.t. power ~= 0.801 and information fraction ~= 0.7 (same as the design x above from gsDesign())
-                      analysisTimes = c(21, 34.9),
+                      analysis_time = c(21, 34.9),
                       binding = FALSE,
                       upper = gs_spending_bound,
                       upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL, theta=0),

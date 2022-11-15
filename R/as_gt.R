@@ -47,21 +47,21 @@ as_gt <- function(x, ...) {
 #' library(tibble)
 #' 
 #' # Enrollment rate
-#' enrollRates <- tibble(
+#' enroll_rate <- tibble(
 #'   Stratum = "All", 
 #'   duration = 18, 
 #'   rate = 20)
 #' 
 #' # Failure rates
-#' failRates <- tibble(
+#' fail_rate <- tibble(
 #'   Stratum = "All", 
 #'   duration = c(4, 100), 
-#'   failRate = log(2) / 12,
+#'   fail_rate = log(2) / 12,
 #'   hr = c(1, .6), 
-#'   dropoutRate = .001)
+#'   dropout_rate = .001)
 #' 
 #' # Study duration in months
-#' studyDuration <- 36
+#' study_duration <- 36
 #' 
 #' # Experimental / Control randomization ratio
 #' ratio <- 1 
@@ -79,8 +79,8 @@ as_gt <- function(x, ...) {
 #' fixed_design(
 #'   x = "AHR", 
 #'   alpha = alpha, power = 1 - beta, 
-#'   enrollRates = enrollRates, failRates = failRates, 
-#'   studyDuration = studyDuration, ratio = ratio
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate, 
+#'   study_duration = study_duration, ratio = ratio
 #'   ) %>% 
 #'   summary() %>% 
 #'   as_gt()
@@ -90,49 +90,49 @@ as_gt <- function(x, ...) {
 #' # ------------------------- #
 #' # under fixed power
 #' fixed_design(
-#'   x = "FH", 
+#'   "fh", 
 #'   alpha = alpha, power = 1 - beta, 
-#'   enrollRates = enrollRates, failRates = failRates, 
-#'   studyDuration = studyDuration, ratio = ratio
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'   study_duration = study_duration, ratio = ratio
 #'   ) %>% 
 #'   summary() %>% 
 #'   as_gt()
 #'   
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
   # get the design method 
-  if("AHR" %in% class(x)){
-    design_mtd <- "AHR"
-  }else if("FH" %in% class(x)){
-    design_mtd <- "FH"
-  }else if("MB" %in% class(x)){
-    design_mtd <- "MB"
-  }else if("LF" %in% class(x)){
-    design_mtd <- "LF"
-  }else if("RD" %in% class(x)){
-    design_mtd <- "RD"
-  }else if("MaxCombo" %in% class(x)){
-    design_mtd <- "MaxCombo"
-  }else if("Milestone" %in% class(x)){
-    design_mtd <- "Milestone"
-  }else if("RMST" %in% class(x)){
-    design_mtd <- "RMST"
-  }else if("RD" %in% class(x)){
-    design_mtd <- "RD"
+  if("ahr" %in% class(x)){
+    design_mtd <- "ahr"
+  }else if("fh" %in% class(x)){
+    design_mtd <- "fh"
+  }else if("mb" %in% class(x)){
+    design_mtd <- "mb"
+  }else if("lf" %in% class(x)){
+    design_mtd <- "lf"
+  }else if("rd" %in% class(x)){
+    design_mtd <- "rd"
+  }else if("maxcombo" %in% class(x)){
+    design_mtd <- "maxcombo"
+  }else if("milestone" %in% class(x)){
+    design_mtd <- "milestone"
+  }else if("rmst" %in% class(x)){
+    design_mtd <- "rmst"
+  }else if("rd" %in% class(x)){
+    design_mtd <- "rd"
   }
   
   
   # set the default title
   if(is.null(title)){
     title <- switch (design_mtd,
-                     "AHR" = {"Fixed Design under AHR Method"},
-                     "FH" = {"Fixed Design under Fleming-Harrington Method"},
-                     "MB" = {"Fixed Design under Magirr-Burman Method"},
-                     "LF" = {"Fixed Design under Lachin and Foulkes Method"},
-                     "RD" = {"Fixed Design of Risk Difference under Farrington-Manning Method"},
-                     "MaxCombo" = {"Fixed Design under Max Combo Method"},
-                     "Milestone" = {"Fixed Design under Milestone Method"},
-                     "RMST" = {"Fixed Design under Restricted Mean Survival Time Method"},
-                     "RD" = {"Fixed Design of Risk Difference"}
+                     "ahr" = {"Fixed Design under AHR Method"},
+                     "fh" = {"Fixed Design under Fleming-Harrington Method"},
+                     "mb" = {"Fixed Design under Magirr-Burman Method"},
+                     "lf" = {"Fixed Design under Lachin and Foulkes Method"},
+                     "rd" = {"Fixed Design of Risk Difference under Farrington-Manning Method"},
+                     "maxcombo" = {"Fixed Design under Max Combo Method"},
+                     "milestone" = {"Fixed Design under Milestone Method"},
+                     "rmst" = {"Fixed Design under Restricted Mean Survival Time Method"},
+                     "rd" = {"Fixed Design of Risk Difference"}
     )
   }
   
@@ -140,21 +140,21 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
   # set the default footnote
   if(is.null(footnote)){
     footnote <- switch (design_mtd,
-                        "AHR" = {"Power computed with average hazard ratio method."},
-                        "FH" = {paste0("Power for Fleming-Harrington test ",
+                        "ahr" = {"Power computed with average hazard ratio method."},
+                        "fh" = {paste0("Power for Fleming-Harrington test ",
                                        substr(x$Design, 19, nchar(x$Design)),
                                        " using method of Yung and Liu.")},
-                        "MB" = {paste0("Power for ",
+                        "mb" = {paste0("Power for ",
                                        x$Design,
                                        " computed with method of Yung and Liu.")},
-                        "LF" = {"Power using Lachin and Foulkes method applied using expected average hazard ratio (AHR) at time of planned analysis."},
-                        "RD" = {"Risk difference power without continuity correction using method of Farrington and Manning."},
-                        "MaxCombo" = {paste0("Power for MaxCombo test with Fleming-Harrington tests",
+                        "lf" = {"Power using Lachin and Foulkes method applied using expected average hazard ratio (AHR) at time of planned analysis."},
+                        "rd" = {"Risk difference power without continuity correction using method of Farrington and Manning."},
+                        "maxcombo" = {paste0("Power for MaxCombo test with Fleming-Harrington tests",
                                              substr(x$Design, 9, nchar(x$Design)), "."
                                              # paste(apply(do.call(rbind, x$design_par), 2 , paste , collapse = "," ), collapse = ") and ("),
                         )},
-                        "Milestone" = {paste0("Power for ", x$Design, " computed with method of Yung and Liu.")},
-                        "RMST" = {paste0("Power for ", x$Design, " computed with method of Yung and Liu.")}
+                        "milestone" = {paste0("Power for ", x$Design, " computed with method of Yung and Liu.")},
+                        "rmst" = {paste0("Power for ", x$Design, " computed with method of Yung and Liu.")}
     )  
   }
   
