@@ -45,9 +45,9 @@ NULL
 #' lower bound
 #' @param h1_spending Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
 #' if spending is used for lower bound
-#' @param r  Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
 #' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
-#' Normally r will not be changed by the user.
+#' Normally \code{r} will not be changed by the user.
 #' @param info_scale the information scale for calculation
 #' @param weight the weighting scheme for stratified population
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
