@@ -1,0 +1,367 @@
+---
+title: "Group Sequential Design for Time to Event Outcomes: `gsDesign`, `gsDesign2` vs EAST comparison"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+    code_folding: hide
+    number_sections: false
+    highlight: "textmate"
+    css: "custom.css"
+# bibliography: "example.bib"
+vignette: >
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Group Sequential Design for Time to Event Outcomes: `gsDesign`, `gsDesign2` vs EAST comparison}
+editor_options: 
+  markdown: 
+    wrap: 72
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(gsDesign)
+library(gsDesign2)
+library(kableExtra)
+library(targets)
+library(flextable)
+library(details)
+options(knitr.table.format = "html", knitr.kable.NA = '')
+```
+
+# Overview
+
+TO ADD
+
+# Interim Analysis for Efficacy
+
+First, we will compare the outputs from `gsDesign`, `gsDesign2` and EAST for a case where interim analyses are planned for efficacy only. 
+
+## Working Example
+
+- We will use a phase 3 study which compares experimental therapy to a standard of care (SOC) in cancer patients. Although the study outlined here is not a real study, it contains features of commonly used phase 3 designs in oncology.
+
+- The study has two primary endpoints: progression free survival (PFS) and overall survival(OS):
+  - PFS is has one interim analysis (IA) for efficacy and futility.
+  - OS has two IAs for efficacy only.
+  
+- It is assumed that the initial sample/power calculations in the protocol are done using EAST.  
+
+### Sample Size Assumptions
+
+- PFS HR=0.6 and median PFS of 9.4 months in the control arm
+- OS HR=0.65 and median OS of 3 years in the control arm
+-	Enrollment period of 24 months.
+- Minimum follow-up of 10 and 44 months for PFS and OS, respectively
+- Monthly dropout of 0.019 and 0.001 for PFS and OS, respectively
+- 1:1 randomization ratio
+- 400 total patients
+
+Target number of events:
+
+- PFS: 236 events with IA at 75% information fraction, 95% power at initially allocated $\alpha$ = 0.0125.
+- OS: 219 events with IAs at 60% and 80% information fraction respectively, 82% power at initially allocated $\alpha$ = 0.0125.
+
+### Multiplicity Assumption
+
+TO ADD
+
+
+## OS Analysis: Efficacy Boundaries and Properties
+
+- Lan-DeMets O’Brien-Fleming alpha-spending function was used to construct the boundaries.
+
+- Efficacy boundaries table calculated using EAST is presented below:
+
+
+```{r, eval=TRUE}
+os_east <- tribble(
+  ~analysis, ~value, ~eff_125,  ~eff_25,
+  
+  'IA3: 60%',   'Z',                   -3.02569409632101,    -2.67335178005868,
+  'N=400',      'p (1-sided)',          0.00124031566230105,  0.00375487271138121,
+  'Events: 131','HR at bound',          0.589363439145686,    0.626790039898953,
+  'Month: 38',  'P(Cross) if HR=1',     0.00124031566236733,  0.00375487271160193, 
+  '',           'P(Cross) if HR=0.60',  0.287594389776889,    0.417581743680648,
+  
+  'IA4: 80%',   'Z',                   -2.58884138850925,    -2.28988990769677,
+  'N=400',      'p (1-sided)',          0.00481497196501242,  0.0110138497146098,
+  'Events: 175','HR at bound',          0.676112343292131,    0.707371838489819,
+  'Month: 50',  'P(Cross) if HR=1',     0.005204198,          0.01216244,
+  '',           'P(Cross) if HR=0.60',  0.6078709,            0.7185137,
+  
+  'FA',         'Z',                    -2.29555066802652,   -2.03037092268016,
+  'N=400',      'p (1-sided)',           0.0108507930971346,  0.0211594250017298,
+  'Events: 219','HR at bound',           0.733272506020993,   0.760028379543686,
+  'Month: 66',  'P(Cross) if HR=1',      0.0125,              0.025,
+  '',           'P(Cross) if HR=0.60',   0.8207454,           0.8832428 
+  
+  
+)
+
+os_east |> 
+  flextable() |>
+  autofit() |>
+  set_header_labels(
+    analysis = 'Analysis',
+     value= 'Value',
+     eff_125 = "alpha=0.0125",
+     eff_25  = "alpha=0.025"
+    ) |>
+  hline(i = c(5, 10)) |>
+  colformat_double(j = c(3, 4), digits = 4)
+
+```
+
+
+### Calculations using `gsDesign` and `gsDesign2`
+
+- `gsDesign::gsSurv` is used with `test.type = 1` because the OS IAs are for efficacy only.
+
+- It should be noted that EAST returns integer values for the number of events, so that the actual information fraction specified by the user might not __exactly__ match the actual information fraction, calculated by simply dividing the number of events provided by EAST as can be seen below:
+
+```{r,collapse=FALSE}
+timing_east <- c(131/219, 175/219)
+timing_east
+```
+
+
+- `gsDesign` and `gsDesign2`, on the other hand, provide non-integer values which match __exactly__ the specified information fraction. For a proper comparison between `gsDesign`, `gsDesign2`,  and EAST we will use the exact timing based on the number of events calculated in EAST, i.e., `timing_east` object.
+
+```{r}
+#define input parameters:
+enroll_dur <- 24
+ss <- 400
+enroll_rate <- ss/enroll_dur
+minfu_os <- 44
+fa_time_os <- enroll_dur + minfu_os
+failrate_os <- log(2)/36
+hr1_os <- 0.65
+hr0 <- 1
+do_rate_os <- 0.001
+
+
+os_scen <- tibble(
+  alevel = c(0.0125, 0.025),
+  blevel = c(1 - os_east$eff_125[length(os_east$eff_125)], 1 - os_east$eff_25[length(os_east$eff_25)])
+  )
+
+#map over two values of alpha
+os_gs <-
+  os_scen |>
+  mutate(
+    gs_out = purrr::map2(
+      alevel, blevel, function(x, y){
+        
+    out <- gsSurv(
+      k = 3,
+      timing = timing_east,
+      R = enroll_dur, 
+      gamma = enroll_rate,
+      eta =  do_rate_os, 
+      minfup = minfu_os,
+      T = fa_time_os, 
+      lambdaC = failrate_os,
+      hr = hr1_os,
+      hr0 = 1,
+      beta = y,
+      alpha = x,
+      sfu = sfLDOF,
+      sfupar = NULL, 
+      test.type = 1
+      )
+    out |> gsBoundSummary()
+     
+  }))
+
+#dataframes for inputs to be used in gsDesign2 below
+enrollRates <- tibble(Stratum="All", duration = enroll_dur, rate = enroll_rate)
+failRates <- tibble(Stratum="All", 
+                    duration=c(fa_time_os), 
+                    failRate = failrate_os, 
+                    hr = hr1_os, 
+                    dropoutRate = do_rate_os)
+
+os_gs2_a125 <- gsDesign2::gs_power_ahr(
+  enrollRates = enrollRates,
+  failRates = failRates,
+  ratio = 1, 
+  events = c(131, 175, 219),
+  upper = gs_spending_bound, 
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.0125), 
+  test_lower = FALSE
+) 
+
+os_gs2_a25 <- gsDesign2::gs_power_ahr(
+  enrollRates = enrollRates,
+  failRates = failRates,
+  ratio = 1, 
+  events = c(131, 175, 219),
+  upper = gs_spending_bound, 
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+  test_lower = FALSE
+) 
+
+```
+
+<div style="float: left; width: 50%;">
+- Summary from `gsDesign::gsSurv` for $\alpha = 0.0125$:
+
+```{r}
+os_gs |>
+  dplyr::filter(alevel == 0.0125) |>
+  tidyr::unnest(gs_out) |>
+  dplyr::select(-c(alevel, blevel)) |>
+  flextable::flextable() |>
+  flextable::autofit() |>
+  flextable::hline(i = c(5, 10))
+
+```
+</div>
+
+<div style="float: right; width: 50%;">
+- Summary from `gsDesign::gsSurv` for $\alpha = 0.025$:
+
+```{r}
+os_gs |>
+  dplyr::filter(alevel == 0.025) |>
+  tidyr::unnest(gs_out) |>
+  dplyr::select(-c(alevel, blevel)) |>
+  flextable::flextable() |>
+  flextable::autofit() |>
+  flextable::hline(i = c(5, 10))
+
+```
+</div>
+
+<div style="float: left; width: 48%;">
+- Summary from `gsDesign2::gs_power_ahr` for $\alpha = 0.0125$:
+
+```{r}
+os_gs2_a125 |>
+  summary() |>
+  as_gt()
+```
+</div>
+
+<div style="float: right; width: 48%;">
+- Summary from `gsDesign2::gs_power_ahr` for $\alpha = 0.025$:
+
+```{r}
+os_gs2_a25 |>
+  summary() |>
+  as_gt()
+```
+</div>
+
+### Summary of comparison between EAST, `gsDesign` and `gsDesign2`
+
+The differences in the results between EAST, `gsDesign` and `gsDesign2` are presented below up to 4th decimal place. The values highlighted in green correspond to non-zero differences.
+
+- Comparison between EAST vs `gsDesign` and `gsDesign2` for $\alpha = 0.0125$:
+
+
+```{r, echo=FALSE}
+#helper function to align the gsDesign2 summary with gsDesign summary
+as_gs <- function(data){
+  
+  data <- data$bounds
+  
+  data |>
+    dplyr::filter(Bound == 'Upper') |>
+    tidyr::pivot_longer(cols = -c(Analysis, Bound), names_to = 'Value', values_to = 'Efficacy') |>
+    dplyr::mutate(Value = dplyr::case_when(
+      Value == '~HR at bound' ~ 'HR at bound',
+      Value == 'Nominal p' ~ 'p (1-sided)',
+      Value == 'Probability' ~ 'P(Cross) if HR=0.60',
+      Value == 'Probability0' ~ 'P(Cross) if HR=1',
+      TRUE ~ Value
+    ),
+    Value_index = dplyr::case_when(
+      Value == 'HR at bound' ~ 3,
+      Value == 'p (1-sided)' ~ 2,
+      Value == 'P(Cross) if HR=0.60' ~ 5,
+      Value == 'P(Cross) if HR=1' ~ 4,
+      TRUE ~ 1
+    )
+    ) |>
+    dplyr::arrange(Analysis, Value_index) |>
+    dplyr::select(Analysis, Value, Efficacy)
+  
+}
+```
+
+
+```{r}
+os_gs |>
+  dplyr::filter(alevel == 0.0125) |>
+  tidyr::unnest(gs_out) |>
+  dplyr::select(-c(alevel, blevel)) |>
+  dplyr::select(eff_gs = Efficacy) |>
+  dplyr::bind_cols(os_east |>
+                     dplyr::select(value, analysis, eff_east = eff_125) |>
+                     dplyr::mutate(eff_east = ifelse(value == 'Z', -eff_east, eff_east))) |>
+  dplyr::bind_cols(as_gs(os_gs2_a125) |>
+                     dplyr::select(eff_gs2 = Efficacy)) |>
+  dplyr::mutate(
+    diff_gsDesign = abs(eff_gs - eff_east),
+    diff_gsDesign2 = abs(eff_gs2 - eff_east)
+    ) |>
+  dplyr::select(analysis, value, diff_gsDesign, diff_gsDesign2) |>
+  flextable::flextable() |>
+  flextable::autofit() |>
+    flextable::set_header_labels(
+    analysis = 'Analysis',
+    value = 'Value',
+    diff_gsDesign = 'EAST vs gsDesign ',
+    diff_gsDesign2 = 'EAST vs gsDesign2'
+  ) |>
+  flextable::hline(i = c(5, 10)) |>
+  flextable::colformat_double(j = c(3, 4), digits = 4) |>
+  flextable::bg(~ round(diff_gsDesign, 4) != 0,  ~ diff_gsDesign, bg = '#6ECEB2') |>
+  flextable::bg(~ round(diff_gsDesign2, 4) != 0,  ~ diff_gsDesign2, bg = '#6ECEB2')
+```
+
+- Comparison between EAST vs `gsDesign` and `gsDesign2` for $\alpha = 0.025$:
+
+```{r}
+os_gs |>
+  dplyr::filter(alevel == 0.025) |>
+  tidyr::unnest(gs_out) |>
+  dplyr::select(-c(alevel, blevel)) |>
+  dplyr::select(eff_gs = Efficacy) |>
+  dplyr::bind_cols(os_east |>
+                     dplyr::select(value, analysis, eff_east = eff_25) |>
+                     dplyr::mutate(eff_east = ifelse(value == 'Z', -eff_east, eff_east))) |>
+  dplyr::bind_cols(as_gs(os_gs2_a25) |>
+                     dplyr::select(eff_gs2 = Efficacy)) |>
+  dplyr::mutate(
+    diff_gsDesign = abs(eff_gs - eff_east),
+    diff_gsDesign2 = abs(eff_gs2 - eff_east)
+    ) |>
+  dplyr::select(analysis, value, diff_gsDesign, diff_gsDesign2) |>
+  flextable::flextable() |>
+  flextable::autofit() |>
+    flextable::set_header_labels(
+    analysis = 'Analysis',
+    value = 'Value',
+    diff_gsDesign = 'EAST vs gsDesign ',
+    diff_gsDesign2 = 'EAST vs gsDesign2'
+  ) |>
+  flextable::hline(i = c(5, 10)) |>
+  flextable::colformat_double(j = c(3, 4), digits = 4) |>
+  flextable::bg(~ round(diff_gsDesign, 4) != 0,  ~ diff_gsDesign, bg = '#6ECEB2') |>
+  flextable::bg(~ round(diff_gsDesign2, 4) != 0,  ~ diff_gsDesign2, bg = '#6ECEB2')
+```
+
+# Interim Analysis for Efficacy and Futility
+
