@@ -29,10 +29,10 @@ The piecewise exponential distribution allows a simple method to specify a distr
 
 ## Example 1: Un-stratified population
 ```{r}
-enroll_rate <- tibble(Stratum = "All",
+enroll_rate <- tibble(stratum = "All",
                       duration = c(2, 10, 4, 4, 8),
                       rate = c(5, 10, 0, 3, 6))
-fail_rate <- tibble(Stratum = "All",
+fail_rate <- tibble(stratum = "All",
                     duration = 1,
                     fail_rate = c(.1, .2, .3, .4),
                     hr = c(.9, .75, .8, .6),
@@ -43,10 +43,10 @@ AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30)
 
 ## Example 2: Stratified population
 ```{r}
-enroll_rate <- tibble(Stratum = c(rep("Low", 2), rep("High", 3)),
+enroll_rate <- tibble(stratum = c(rep("Low", 2), rep("High", 3)),
                       duration = c(2, 10, 4, 4, 8),
                       rate = c(5, 10, 0, 3, 6))
-fail_rate <- tibble(Stratum = c(rep("Low", 2), rep("High", 2)),
+fail_rate <- tibble(stratum = c(rep("Low", 2), rep("High", 2)),
                     duration = 1,
                     fail_rate = c(.1, .2, .3, .4),
                     hr = c(.9, .75, .8, .6),
@@ -58,10 +58,10 @@ AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30)
 
 Let's take the un-stratified population as an example, where the enrollment rate, failure rates and dropout rates are
 ```{r}
-enroll_rate <- tibble(Stratum = "All",
+enroll_rate <- tibble(stratum = "All",
                       duration = c(2, 10, 4),
                       rate = c(5, 10, 0))
-fail_rate <- tibble(Stratum = "All",
+fail_rate <- tibble(stratum = "All",
                     duration = 1,
                     fail_rate = c(.1, .2),
                     hr = c(.9, .75),
@@ -83,7 +83,7 @@ cat("The proportion of the experimental arm is ", Qe, "\n")
 cat("The proportion of the control arm is ", Qc, "\n")
 ```
 To compute the expected events over different treatment group, stratum and time period, we iterate over `total_duration` and `Strata`.
-Since in this example, we only have one analysis time (`total_duration = 30`) and one stratum (`Stratum = "All"`), we only iterate once. 
+Since in this example, we only have one analysis time (`total_duration = 30`) and one stratum (`stratum = "All"`), we only iterate once. 
 In one has multiple analysis time and strata, one can use a for loop and bind the results by row. 
 
 ```{r}
@@ -95,8 +95,8 @@ s <- "All"
 
 **Step 2:** subset the enrollment rates and failure rates by stratum.
 ```{r}
-enroll <- enroll_rate %>% filter(Stratum == s)
-fail <- fail_rate %>% filter(Stratum == s)
+enroll <- enroll_rate %>% filter(stratum == s)
+fail <- fail_rate %>% filter(stratum == s)
 ```
 
 **Step 3:** we calculate the enrollment rates in experimental arm and control arm, respectively.
@@ -137,7 +137,7 @@ events <- rbind(events_c %>% mutate(Treatment = "Control"),
           ungroup() %>% 
           # recompute HR, events, info by period
           group_by(t) %>%
-          summarize(Stratum = s, 
+          summarize(stratum = s, 
                     info = (sum(1 / Events))^(-1),
                     Events = sum(Events), 
                     HR = last(failRate) / first(failRate)) %>% 
@@ -146,7 +146,7 @@ events <- rbind(events_c %>% mutate(Treatment = "Control"),
                  lnhr = log(HR), 
                  info0 = Events * Qc * Qe) %>%
           ungroup() %>% 
-          group_by(Time, Stratum, HR) %>%
+          group_by(Time, stratum, HR) %>%
           summarize(t = min(t), 
                     Events = sum(Events), 
                     info0 = sum(info0), 
@@ -166,10 +166,10 @@ events
 
 Please note that, in the output, the `info` column is based on the following input.
 ```{r, eval=FALSE}
-enroll_rate <- tibble(Stratum = "All",
+enroll_rate <- tibble(stratum = "All",
                       duration = c(2, 10, 4),
                       rate = c(5, 10, 0))
-fail_rate <- tibble(Stratum = "All",
+fail_rate <- tibble(stratum = "All",
                     duration = 1,
                     fail_rate = c(.1, .2),
                     hr = c(.9, .75),

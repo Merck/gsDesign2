@@ -73,7 +73,7 @@ However, the fixed enrollment rate periods will remain unchanged.
 
 ```{r}
 enroll_rate <- tibble(
-  Stratum = "All", 
+  stratum = "All", 
   duration = c(2, 2, 2, 6), 
   rate = (1:4) / 4)
 
@@ -97,7 +97,7 @@ Finally, we assume a low $0.001$ exponential dropout rate per month for both tre
 medianSurv <- 12
 
 fail_rate <- tibble::tibble(
-  Stratum = "All",
+  stratum = "All",
   duration = c(4, Inf),
   fail_rate = log(2) / medianSurv,
   hr = c(1, .6),

@@ -89,14 +89,14 @@ m <- 12
 
 # enrollment rate 
 enroll_rate <- tibble(
-  Stratum = "All",       # single stratum
+  stratum = "All",       # single stratum
   duration = 12,         # expected enrollment duration of 12 months
   rate = 1               # here the rate is a ratio, which will be updated to achieve the desired sample size
   )
 
 # failure rate
 fail_rate <- tibble(
-  Stratum = "All", 
+  stratum = "All", 
   duration = c(4, 100),  # hazard ratio of 1 for the first 4 months and a hazard ratio of 0.6 thereafter
   hr = c(1, .6), 
   fail_rate = log(2) / m, # exponential distribution
@@ -333,13 +333,13 @@ lpar <- rep(-Inf, 2)
 
 # enrollment rate
 enroll_rate <- tibble(
-  Stratum = "All", 
+  stratum = "All", 
   duration = 12, 
   rate = 1)
 
 # failure rate
 fail_rate <- tibble(
-  Stratum = "All", 
+  stratum = "All", 
   duration = c(4, 100), 
   hr = c(1, .6), 
   fail_rate = log(2) / m, 
@@ -605,14 +605,14 @@ m <- 12
 
 # the enrollment rate of both subgroup and population is the same
 enroll_rate <- tibble(
-  Stratum = c("Positive", "Negative"), 
+  stratum = c("Positive", "Negative"), 
   duration = 12, 
   rate = 20)
 
 # the hazard ratio in the biomarker positive subgroup will be assumed to be 0.6, 
 # and in the negative population 0.8.
 fail_rate <- tibble(
-  Stratum = c("Positive", "Negative"), 
+  stratum = c("Positive", "Negative"), 
   hr = c(0.6, 0.8),
   duration = 100,
   fail_rate = log(2) / m,
@@ -644,8 +644,8 @@ lpar <- rep(-Inf, 2)     # Z = -infinity for lower bound
 # we will base the combined hypothesis design to ensure power in the biomarker subgroup
 positive <- gs_design_ahr(
   # enroll/failure rates
-  enroll_rate = enroll_rate %>% filter(Stratum == "Positive"),
-  fail_rate = fail_rate %>% filter(Stratum == "Positive"),
+  enroll_rate = enroll_rate %>% filter(stratum == "Positive"),
+  fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # Following drives information fraction for interim
   info_frac = c(.8, 1), 
   # Total study duration driven by final analysis_time value, i.e., 30
@@ -680,7 +680,7 @@ planned_enroll_rate %>% gt()
 # Store overall enrollment rates for future use
 overall_enroll_rate <- planned_enroll_rate %>% 
   summarize(
-    Stratum = "All", 
+    stratum = "All", 
     duration = first(duration), 
     rate = sum(rate))
 
@@ -782,8 +782,8 @@ The enrollment rates by positive versus negative patients and expected enrollmen
 ```{r}
 # update the enrollment rate due to 60% prevalence
 positive_60_enroll_rate <- rbind(
-  overall_enroll_rate %>% mutate(Stratum = "Positive", rate = 0.6 * rate),
-  overall_enroll_rate %>% mutate(Stratum = "Negative", rate = 0.4 * rate)
+  overall_enroll_rate %>% mutate(stratum = "Positive", rate = 0.6 * rate),
+  overall_enroll_rate %>% mutate(stratum = "Negative", rate = 0.4 * rate)
 )
 
 # update the enrollment duration
@@ -803,8 +803,8 @@ Since we have a simple proportional hazards model, they only thing that is chang
 ```{r}
 positive_60_power <- gs_power_ahr(
   # enrollment/failure rate
-  enroll_rate = positive_60_enroll_rate %>% filter(Stratum == "Positive"),
-  fail_rate = fail_rate %>% filter(Stratum == "Positive"),
+  enroll_rate = positive_60_enroll_rate %>% filter(stratum == "Positive"),
+  fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # number of events
   events = positive$analysis$Events, # positive$bounds$Events[1:K],
   # analysis time will be calcuated to achieve the targeted events
@@ -878,8 +878,8 @@ The enrollment rates by positive versus negative patients and expected enrollmen
 ```{r}
 # set the enrollment rate under 40% prevalence
 positive_40_enroll_rate <- rbind(
-  overall_enroll_rate %>% mutate(Stratum = "Positive", rate = 0.4 * rate),
-  overall_enroll_rate %>% mutate(Stratum = "Negative", rate = 0.6 * rate)
+  overall_enroll_rate %>% mutate(stratum = "Positive", rate = 0.4 * rate),
+  overall_enroll_rate %>% mutate(stratum = "Negative", rate = 0.6 * rate)
 )
 
 # update the duration of enrollment table
@@ -902,8 +902,8 @@ upar_actual_IF$max_info <- max(positive$analysis$info)
 
 positive_40_power <- gs_power_ahr(
   # set enrollment/failure rate
-  enroll_rate = positive_40_enroll_rate %>% filter(Stratum == "Positive"),
-  fail_rate = fail_rate %>% filter(Stratum == "Positive"),
+  enroll_rate = positive_40_enroll_rate %>% filter(stratum == "Positive"),
+  fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # set events/analysis time
   events = positive$analysis$Events,
   analysis_time = NULL,

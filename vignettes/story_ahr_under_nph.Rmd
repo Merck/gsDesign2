@@ -114,12 +114,12 @@ The hazard ratio of the experimental group versus control is 1 for the first 3 m
 
 ```{r scenario1,warning=FALSE,message=FALSE}
 enroll_rate <- tibble::tibble(
-  Stratum = "All", # Note: this is done differently for multiple strata; see below!
+  stratum = "All", # Note: this is done differently for multiple strata; see below!
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )
 fail_rate <- tibble::tibble(
-  Stratum = "All",
+  stratum = "All",
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
   hr = c(1, .55),
@@ -131,7 +131,7 @@ total_duration <- 30
 Since there is a single stratum, we set `strata` to the default:
 
 ```{r strata1,message=FALSE,warning=FALSE}
-strata <- tibble::tibble(Stratum = "All", p = 1)
+strata <- tibble::tibble(stratum = "All", p = 1)
 ```
 
 ## Computing average hazard ratio
@@ -294,16 +294,16 @@ We specify three strata:
 - Low risk: 1/6 of the population that is essentially cured in both arms (median 100, HR = 1).
 
 ```{r scenario2, warning=FALSE, message=FALSE}
-strata <- tibble::tibble(Stratum = c("High", "Moderate", "Low"), p = c(1 / 3, 1 / 2, 1 / 6))
+strata <- tibble::tibble(stratum = c("High", "Moderate", "Low"), p = c(1 / 3, 1 / 2, 1 / 6))
 
 enroll_rate <- tibble::tibble(
-  Stratum = c(array("High", 4), array("Moderate", 4), array("Low", 4)),
+  stratum = c(array("High", 4), array("Moderate", 4), array("Low", 4)),
   duration = rep(c(2, 2, 2, 18), 3),
   rate = c((1:4) / 3, (1:4) / 2, (1:4) / 6)
 )
 
 fail_rate <- tibble::tibble(
-  Stratum = c("High", "Moderate", "Low"),
+  stratum = c("High", "Moderate", "Low"),
   duration = 100,
   fail_rate = log(2) / c(6, 9, 100),
   hr = c(1.2, 1 / 3, 1),
@@ -407,7 +407,7 @@ to overall enrollment rates needed for `simtrial::simfix()`.
 
 ```{r, message = FALSE}
 er <- enroll_rate %>%
-  group_by(Stratum) %>%
+  group_by(stratum) %>%
   mutate(period = 1:n()) %>%
   group_by(period) %>%
   summarise(rate = sum(rate), duration = last(duration))

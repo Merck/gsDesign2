@@ -67,7 +67,7 @@ We will later assume a similar ramp-up period with 24 months expected enrollment
 ```{r}
 # Set the enrollment table of totally 24 month 
 enroll24 <- tibble(
-  Stratum = rep("All", 4),     # un-stratified
+  stratum = rep("All", 4),     # un-stratified
   duration = c(rep(2, 3), 18), # 6 month ramp-up of enrollment, 24 months enrollment time target
   rate = 1:4                   # ratio of the enrollment rate
   )
@@ -76,7 +76,7 @@ enroll24$rate <- enroll24$rate * 100 / sum(enroll24$duration * enroll24$rate)
 
 # Set the enrollment table for 18 month expected enrollment  
 enroll18 <- tibble(
-  Stratum = rep("All", 4),     # un-stratified
+  stratum = rep("All", 4),     # un-stratified
   duration = c(rep(2, 3), 12), # 6 month ramp-up of enrollment, 18 months enrollment time target
   rate = 1:4                   # ratio of the enrollment rate
   )
@@ -184,16 +184,16 @@ dur <- Month[2:4] - Month[1:3]
 # Set the failure table 
 # We use exponential failure, proportional hazards
 fail_rate <- rbind(
-  tibble(Scenario = "PH", Stratum = "All", 
+  tibble(Scenario = "PH", stratum = "All", 
          duration = dur, fail_rate = log(2) / 14,
          hr = hr[1], dropout_rate = .001),
-  tibble(Scenario = "Shorter delayed effect", Stratum = "All", 
+  tibble(Scenario = "Shorter delayed effect", stratum = "All", 
          duration = dur, fail_rate = log(2) / 11,
          hr = hr[6:8], dropout_rate = .001),
-  tibble(Scenario = "Longer delayed effect", Stratum = "All", 
+  tibble(Scenario = "Longer delayed effect", stratum = "All", 
          duration = dur, fail_rate = log(2) / 11,
          hr = hr[10:12], dropout_rate = .001),
-  tibble(Scenario = "Crossing", Stratum = "All", 
+  tibble(Scenario = "Crossing", stratum = "All", 
          duration = dur, fail_rate = log(2) / 11,
          hr = hr[14:16], dropout_rate = .001))
 

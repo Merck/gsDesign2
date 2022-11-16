@@ -559,9 +559,9 @@ The above logic is implemented in teh function `gs_info_rd()`.
 
 ```{r}
 x <- gs_info_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .28),
-  p_e = tibble::tibble(Stratum = "All", Rate = .4),
-  N = tibble::tibble(Stratum = "All", N = 1, Analysis = 1),
+  p_c = tibble::tibble(stratum = "All", Rate = .28),
+  p_e = tibble::tibble(stratum = "All", Rate = .4),
+  N = tibble::tibble(stratum = "All", N = 1, Analysis = 1),
   rd0 = 0, 
   ratio = 1,
   weight = "un-stratified") 
@@ -626,8 +626,8 @@ size given fixed power in one-step.
 
 ```{r}
 z_info_scale_0 <- gs_design_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .28),
-  p_e = tibble::tibble(Stratum = "All", Rate = .4),
+  p_c = tibble::tibble(stratum = "All", Rate = .28),
+  p_e = tibble::tibble(stratum = "All", Rate = .4),
   rd0 = 0, 
   alpha = 0.025,   
   beta = 0.1,   
@@ -640,8 +640,8 @@ z_info_scale_0 <- gs_design_rd(
   info_scale = 0)  
 
 z_info_scale_1 <- gs_design_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .28),
-  p_e = tibble::tibble(Stratum = "All", Rate = .4),
+  p_c = tibble::tibble(stratum = "All", Rate = .28),
+  p_e = tibble::tibble(stratum = "All", Rate = .4),
   rd0 = 0, 
   alpha = 0.025,   
   beta = 0.1,   
@@ -654,8 +654,8 @@ z_info_scale_1 <- gs_design_rd(
   info_scale = 1)
 
 z_info_scale_2 <- gs_design_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .28),
-  p_e = tibble::tibble(Stratum = "All", Rate = .4),
+  p_c = tibble::tibble(stratum = "All", Rate = .28),
+  p_e = tibble::tibble(stratum = "All", Rate = .4),
   rd0 = 0, 
   alpha = 0.025,   
   beta = 0.1,   
@@ -716,9 +716,9 @@ To calculate the sample size, one can use `gs_design_rd()`. The logic of
 
 ```{r}
 x_gs <- gs_info_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .15),
-  p_e = tibble::tibble(Stratum = "All", Rate = .1),
-  N = tibble::tibble(Stratum = "All", N = 1:3/3, Analysis = 1:3),
+  p_c = tibble::tibble(stratum = "All", Rate = .15),
+  p_e = tibble::tibble(stratum = "All", Rate = .1),
+  N = tibble::tibble(stratum = "All", N = 1:3/3, Analysis = 1:3),
   rd0 = 0, 
   ratio = 1,
   weight = "un-stratified"
@@ -780,8 +780,8 @@ The above logic is implemented in `gs_design_rd()`.
 
 ```{r}
 x_gsDesign2_info_scale_0 <- gs_design_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .15),
-  p_e = tibble::tibble(Stratum = "All", Rate = .1),
+  p_c = tibble::tibble(stratum = "All", Rate = .15),
+  p_e = tibble::tibble(stratum = "All", Rate = .1),
   info_frac = 1:3/3,
   rd0 = 0, 
   alpha = .025,                  
@@ -797,8 +797,8 @@ x_gsDesign2_info_scale_0 <- gs_design_rd(
 )
 
 x_gsDesign2_info_scale_1 <- gs_design_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .15),
-  p_e = tibble::tibble(Stratum = "All", Rate = .1),
+  p_c = tibble::tibble(stratum = "All", Rate = .15),
+  p_e = tibble::tibble(stratum = "All", Rate = .1),
   info_frac = 1:3/3,
   rd0 = 0, 
   alpha = .025,                  
@@ -814,8 +814,8 @@ x_gsDesign2_info_scale_1 <- gs_design_rd(
 )
 
 x_gsDesign2_info_scale_2 <- gs_design_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = .15),
-  p_e = tibble::tibble(Stratum = "All", Rate = .1),
+  p_c = tibble::tibble(stratum = "All", Rate = .15),
+  p_e = tibble::tibble(stratum = "All", Rate = .1),
   info_frac = 1:3/3,
   rd0 = 0, 
   alpha = .025,                  
@@ -929,9 +929,9 @@ prevalence_ratio <- c(4, 5, 6)
 p_c_by_stratum <- c(.3, .37, .6)
 p_e_by_stratum <- c(.25, .3, .5)
   
-p_c <- tibble::tibble(Stratum = c("S1", "S2", "S3"), Rate = p_c_by_stratum)
-p_e <- tibble::tibble(Stratum = c("S1", "S2", "S3"), Rate = p_e_by_stratum)
-ratio_strata_c <- tibble::tibble(Stratum = c("S1", "S2", "S3"), ratio = prevalence_ratio)
+p_c <- tibble::tibble(stratum = c("S1", "S2", "S3"), Rate = p_c_by_stratum)
+p_e <- tibble::tibble(stratum = c("S1", "S2", "S3"), Rate = p_e_by_stratum)
+ratio_strata_c <- tibble::tibble(stratum = c("S1", "S2", "S3"), ratio = prevalence_ratio)
 ratio_strata_e <- ratio_strata_c
 
 N <- 1
@@ -991,7 +991,7 @@ x <- x %>%
   mutate(Analysis = rep(1:3, each = 3)) %>% 
   left_join(tibble(Analysis = 1:3, IF = IF)) %>% 
   mutate(N_c = N_c * IF, N_e = N_e * IF) %>% 
-  select(Analysis, Stratum, p_c, p_pool, p_e, N_c, N_e, xi_c, xi_e) %>% 
+  select(Analysis, stratum, p_c, p_pool, p_e, N_c, N_e, xi_c, xi_e) %>% 
   mutate(sigma_H0 = sqrt(p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e)),
          sigma_H1 = sqrt(p_c * (1 - p_c) / N_c + p_e * (1 - p_e) / N_e))
 
@@ -1218,7 +1218,7 @@ x_ss0 <- gs_design_rd(
   alpha = .025,                  
   beta = .2,                    
   ratio = 1,
-  stratum_prev = tibble::tibble(Stratum = c("S1", "S2", "S3"), prevalence = 4:6),
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 4:6),
   weight = "ss",
   upper = gs_b,
   lower = gs_b,
@@ -1238,7 +1238,7 @@ x_ss1 <- gs_design_rd(
   alpha = .025,                  
   beta = .2,                    
   ratio = 1,
-  stratum_prev = tibble::tibble(Stratum = c("S1", "S2", "S3"), prevalence = 4:6),
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 4:6),
   weight = "ss",
   upper = gs_b,
   lower = gs_b,
@@ -1258,7 +1258,7 @@ x_ss2 <- gs_design_rd(
   alpha = .025,                  
   beta = .2,                    
   ratio = 1,
-  stratum_prev = tibble::tibble(Stratum = c("S1", "S2", "S3"), prevalence = 4:6),
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 4:6),
   weight = "ss",
   upper = gs_b,
   lower = gs_b,
@@ -1278,7 +1278,7 @@ x_invar0 <- gs_design_rd(
   alpha = .025,                  
   beta = .2,                    
   ratio = 1,
-  stratum_prev = tibble::tibble(Stratum = c("S1", "S2", "S3"), prevalence = 1:3),
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
   weight = "invar",
   upper = gs_b,
   lower = gs_b,
@@ -1298,7 +1298,7 @@ x_invar1 <- gs_design_rd(
   alpha = .025,                  
   beta = .2,                    
   ratio = 1,
-  stratum_prev = tibble::tibble(Stratum = c("S1", "S2", "S3"), prevalence = 1:3),
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
   weight = "invar",
   upper = gs_b,
   lower = gs_b,
@@ -1318,7 +1318,7 @@ x_invar2 <- gs_design_rd(
   alpha = .025,                  
   beta = .2,                    
   ratio = 1,
-  stratum_prev = tibble::tibble(Stratum = c("S1", "S2", "S3"), prevalence = 1:3),
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
   weight = "invar",
   upper = gs_b,
   lower = gs_b,

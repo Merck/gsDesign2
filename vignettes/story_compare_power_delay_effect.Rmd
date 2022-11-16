@@ -40,8 +40,8 @@ We consider a delayed effect scenario where
 - Exponential dropout rate of 0.001 per month.
 
 ```{r}
-enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 1)
-fail_rate <- tibble(Stratum = "All",
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 1)
+fail_rate <- tibble(stratum = "All",
                             duration = c(6, 100),
                             fail_rate = log(2) / 15,
                             hr = c(1, .6),
@@ -163,8 +163,8 @@ tab %>%
 Now we consider an alternate scenario where the placebo group starts with the same median, but then has a piecewise change to a median of 30 after 16 months and with a hazard ratio of 0.85 during that late period.
 
 ```{r}
-enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 1)
-fail_rate <- tibble(Stratum = "All",
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 1)
+fail_rate <- tibble(stratum = "All",
                     duration = c(6, 10, 100),
                     # in Scenario 1: fail_rate = log(2) / 15,
                     fail_rate = log(2) / c(15, 15, 30),
