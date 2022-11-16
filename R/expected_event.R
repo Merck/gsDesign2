@@ -101,8 +101,8 @@ NULL
 #' 
 #' # Single time period example, multiple enrollment periods
 #' expected_event(enroll_rate = tibble(duration = c(5,5), rate = c(10, 20)),
-#'            fail_rate = tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01),
-#'            total_duration = 22, simple = FALSE)
+#'                fail_rate = tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01),
+#'                total_duration = 22, simple = FALSE)
 #' @export
 expected_event <- function(enroll_rate = tibble::tibble(duration = c(2, 2, 10),
                                                     rate = c(3, 6, 9)),

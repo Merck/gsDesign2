@@ -62,11 +62,11 @@ NULL
 #' 
 #' expected_accrual(time = c(5, 10, 20), 
 #'          enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20), 
-#'                               Stratum = "All"))
+#'                               stratum = "All"))
 #'          
 #' # Example 3: stratified design
 #' expected_accrual(time = c(24, 30, 40), 
-#'          enroll_rate = tibble(Stratum=c("subgroup", "complement"), 
+#'          enroll_rate = tibble(stratum=c("subgroup", "complement"), 
 #'                               duration = 33, 
 #'                               rate = c(30, 30)))
 #' 
@@ -84,8 +84,8 @@ expected_accrual <- function(time = 0:24,
   check_enroll_rate(enroll_rate)
   
   # check if it is stratified design
-  if("Stratum" %in% names(enroll_rate)){
-    n_strata <- length(unique(enroll_rate$Stratum))
+  if("stratum" %in% names(enroll_rate)){
+    n_strata <- length(unique(enroll_rate$stratum))
   }else{
     n_strata <- 1
   }
@@ -96,10 +96,10 @@ expected_accrual <- function(time = 0:24,
                       y = c(enroll_rate$rate, 0),
                       right = TRUE)
   }else{
-    ratefn <- lapply(unique(enroll_rate$Stratum), 
+    ratefn <- lapply(unique(enroll_rate$stratum), 
                      FUN = function(s){
-                       stepfun(x = cumsum((enroll_rate %>% filter(Stratum == s))$duration),
-                               y = c((enroll_rate %>% filter(Stratum == s))$rate, 0),
+                       stepfun(x = cumsum((enroll_rate %>% filter(stratum == s))$duration),
+                               y = c((enroll_rate %>% filter(stratum == s))$rate, 0),
                                right = TRUE)
                      })
   }
@@ -108,9 +108,9 @@ expected_accrual <- function(time = 0:24,
   if(n_strata == 1){
     xvals <- sort(unique(c(time, cumsum(enroll_rate$duration))))
   }else{
-    xvals <- lapply(unique(enroll_rate$Stratum), 
+    xvals <- lapply(unique(enroll_rate$stratum), 
                     FUN = function(s){
-                      sort(unique(c(time, cumsum((enroll_rate %>% filter(Stratum == s))$duration))))
+                      sort(unique(c(time, cumsum((enroll_rate %>% filter(stratum == s))$duration))))
                     })
   }
   

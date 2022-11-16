@@ -50,7 +50,7 @@ gs_create_arm <- function(enroll_rate,
                           ratio,
                           total_time = 1e6){
   
-  n_stratum <- length(unique(enroll_rate$Stratum))
+  n_stratum <- length(unique(enroll_rate$stratum))
   if(n_stratum > 1){
     stop("Only one stratum is supported")
   }

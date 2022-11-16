@@ -54,11 +54,11 @@ expected_accrual(time = c(5, 10, 20),
 
 expected_accrual(time = c(5, 10, 20), 
          enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20), 
-                              Stratum = "All"))
+                              stratum = "All"))
          
 # Example 3: stratified design
 expected_accrual(time = c(24, 30, 40), 
-         enroll_rate = tibble(Stratum=c("subgroup", "complement"), 
+         enroll_rate = tibble(stratum=c("subgroup", "complement"), 
                               duration = 33, 
                               rate = c(30, 30)))
 

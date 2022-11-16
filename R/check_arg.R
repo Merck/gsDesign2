@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' 
-#' enroll_rate <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
+#' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
 #' check_enroll_rate(enroll_rate)
 #' 
 #' @noRd
@@ -74,7 +74,7 @@ check_enroll_rate <- function(enroll_rate){
 #'
 #' @examples
 #' 
-#' fail_rate <- tibble::tibble(Stratum = "All", duration = c(3, 100), 
+#' fail_rate <- tibble::tibble(stratum = "All", duration = c(3, 100), 
 #'                             fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
 #'                             dropout_rate = rep(.001, 2))
 #' check_fail_rate(fail_rate)
@@ -156,8 +156,8 @@ check_fail_rate <- function(fail_rate){
 #'
 #' @examples
 #' 
-#' enroll_rate <- tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
-#' fail_rate <- tibble::tibble(Stratum = "All", duration = c(3, 100), 
+#' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
+#' fail_rate <- tibble::tibble(stratum = "All", duration = c(3, 100), 
 #'                             fail_rate = log(2) / c(9, 18), hr = c(.9, .6), 
 #'                             dropout_rate = rep(.001, 2))
 #' check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -166,9 +166,9 @@ check_fail_rate <- function(fail_rate){
 #' 
 check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate){
   
-  if("Stratum" %in% colnames(enroll_rate) && "Stratum" %in% colnames(fail_rate)){
-    strata_enroll <- unique(enroll_rate$Stratum)
-    strata_fail   <- unique(fail_rate$Stratum)
+  if("stratum" %in% colnames(enroll_rate) && "stratum" %in% colnames(fail_rate)){
+    strata_enroll <- unique(enroll_rate$stratum)
+    strata_fail   <- unique(fail_rate$stratum)
     strata_common <- dplyr::intersect(strata_enroll, strata_fail)
     
     if(sum(strata_common %in% strata_enroll) != length(strata_enroll)){

@@ -133,8 +133,8 @@ NULL
 #'   lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
 #'   h1_spending = TRUE)
 #'   
-gs_design_ahr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                          fail_rate = tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+                          fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
                                              hr = c(.9, .6), dropout_rate = rep(.001, 2)),
                           alpha = 0.025, beta = 0.1, 
                           info_frac = NULL, analysis_time = 36, 

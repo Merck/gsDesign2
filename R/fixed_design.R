@@ -36,31 +36,31 @@
 #' # Average hazard ratio
 #' x <- fixed_design("ahr", 
 #'                   alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(Stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12, hr = c(1, .6), dropout_rate = .001),
+#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12, hr = c(1, .6), dropout_rate = .001),
 #'                   study_duration = 36)
 #' x %>% summary()            
 #' 
 #' # Lachin and Foulkes (uses gsDesign::nSurv())
 #' x <- fixed_design("lf", 
 #'                   alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
 #'                   study_duration = 36)
 #' x %>% summary()
 #' 
 #' # RMST
 #' x <- fixed_design("rmst", alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
 #'                   study_duration = 36,
 #'                   tau = 18)
 #' x %>% summary()
 #' 
 #' # Milestone 
 #' x <- fixed_design("milestone", alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(Stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(Stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
+#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
 #'                   study_duration = 36,
 #'                   tau = 18)
 #' x %>% summary()
@@ -244,7 +244,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
               
               "lf" = { 
                 # check if it is stratum
-                if(length(unique(enroll_rate$Stratum)) != 1 | length(unique(fail_rate$Stratum)) != 1){
+                if(length(unique(enroll_rate$stratum)) != 1 | length(unique(fail_rate$stratum)) != 1){
                   warning("Lachin-Foulkes is not recommended for stratified designs!")
                 }
                 
@@ -321,19 +321,19 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
               
               "rd" = {
                 if(!is.null(power)){
-                  d <- gs_design_rd(p_c = tibble::tibble(Stratum = "All", Rate = args$p_c),
-                                    p_e = tibble::tibble(Stratum = "All", Rate = args$p_e),
+                  d <- gs_design_rd(p_c = tibble::tibble(stratum = "All", Rate = args$p_c),
+                                    p_e = tibble::tibble(stratum = "All", Rate = args$p_e),
                                     alpha = alpha, beta = 1 - power, ratio = ratio,
                                     upper = gs_b, upar = qnorm(1 - alpha),
                                     lower = gs_b, lpar = -Inf,
                                     rd0 = args$rd0, weight = "un-stratified") 
                 }else{
-                  d <- gs_power_rd(p_c = tibble::tibble(Stratum = "All", Rate = args$p_c),
-                                   p_e = tibble::tibble(Stratum = "All", Rate = args$p_e),
+                  d <- gs_power_rd(p_c = tibble::tibble(stratum = "All", Rate = args$p_c),
+                                   p_e = tibble::tibble(stratum = "All", Rate = args$p_e),
                                    ratio = ratio,
                                    upper = gs_b, upar = qnorm(1 - alpha),
                                    lower = gs_b, lpar = -Inf,
-                                   N = tibble::tibble(Stratum = "All", N = args$N, Analysis = 1),
+                                   N = tibble::tibble(stratum = "All", N = args$N, Analysis = 1),
                                    rd0 = args$rd0,  weight = "un-stratified") 
                 }
                 

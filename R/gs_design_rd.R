@@ -32,7 +32,7 @@ NULL
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
 #' @param stratum_prev randomization ratio of different stratum. 
 #' If it is un-stratified design then \code{NULL}.
-#' Otherwise it is a tibble containing two columns (Stratum and prevalence).
+#' Otherwise it is a tibble containing two columns (stratum and prevalence).
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param upper Function to compute upper bound
 #' @param upar Parameter passed to \code{upper()}
@@ -66,8 +66,8 @@ NULL
 #' #------------------ #
 #' # un-stratified group sequential design
 #' gs_design_rd(
-#'   p_c = tibble(Stratum = "All", Rate = .2),
-#'   p_e = tibble(Stratum = "All", Rate = .15),
+#'   p_c = tibble(stratum = "All", Rate = .2),
+#'   p_e = tibble(stratum = "All", Rate = .15),
 #'   info_frac = c(0.7, 1),
 #'   rd0 = 0, 
 #'   alpha = .025,                  
@@ -86,14 +86,14 @@ NULL
 #' # ----------------- #
 #' # stratified group sequential design
 #' gs_design_rd(
-#'   p_c = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.2, .25)),
-#'   p_e = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.15,.22)),
+#'   p_c = tibble(stratum = c("biomarker positive", "biomarker negative"), Rate = c(.2, .25)),
+#'   p_e = tibble(stratum = c("biomarker positive", "biomarker negative"), Rate = c(.15,.22)),
 #'   info_frac = c(0.7, 1),
 #'   rd0 = 0, 
 #'   alpha = .025,                  
 #'   beta = .1,                    
 #'   ratio = 1,
-#'   stratum_prev = tibble(Stratum = c("biomarker positive", "biomarker negative"), prevalence = c(.4, .6)),
+#'   stratum_prev = tibble(stratum = c("biomarker positive", "biomarker negative"), prevalence = c(.4, .6)),
 #'   weight = "ss",
 #'   upper = gs_spending_bound,lower = gs_b,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -101,8 +101,8 @@ NULL
 #' )
 #' 
 gs_design_rd <- function(
-    p_c = tibble(Stratum = "All", Rate = .2),
-    p_e = tibble(Stratum = "All", Rate = .15),
+    p_c = tibble(stratum = "All", Rate = .2),
+    p_e = tibble(stratum = "All", Rate = .15),
     info_frac = 1:3/3,
     rd0 = 0, 
     alpha = .025,                  
@@ -127,7 +127,7 @@ gs_design_rd <- function(
   # --------------------------------------------- #
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   weight <- if(methods::missingArg(weight)){"un-stratified"}else{match.arg(weight)}
-  n_strata <- length(unique(p_c$Stratum))
+  n_strata <- length(unique(p_c$stratum))
   if(methods::missingArg(info_frac)){
     k <- 1
   }else{
@@ -142,7 +142,7 @@ gs_design_rd <- function(
     p_c = p_c, 
     p_e = p_e,
     N = tibble(Analysis = 1, 
-               Stratum = p_c$Stratum, 
+               stratum = p_c$stratum, 
                N = if(is.null(stratum_prev)){1}else{(stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x}), 
     rd0 = rd0,
     ratio = ratio,
@@ -156,7 +156,7 @@ gs_design_rd <- function(
     p_c = p_c, 
     p_e = p_e,
     N = tibble(Analysis = rep(1:k, n_strata), 
-               Stratum = rep(p_c$Stratum, each = k), 
+               stratum = rep(p_c$stratum, each = k), 
                N = if(is.null(stratum_prev)){
                       info_frac
                    }else{

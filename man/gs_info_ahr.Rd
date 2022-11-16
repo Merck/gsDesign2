@@ -5,9 +5,9 @@
 \title{Information and effect size based on AHR approximation}
 \usage{
 gs_info_ahr(
-  enroll_rate = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
+  enroll_rate = tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
     9)),
-  fail_rate = tibble::tibble(Stratum = "All", duration = c(3, 100), fail_rate =
+  fail_rate = tibble::tibble(stratum = "All", duration = c(3, 100), fail_rate =
     log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   ratio = 1,
   events = NULL,

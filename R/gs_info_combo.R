@@ -32,10 +32,10 @@
 #' 
 #' @export
 #' 
-gs_info_combo <- function(enroll_rate = tibble(Stratum = "All", 
+gs_info_combo <- function(enroll_rate = tibble(stratum = "All", 
                                                duration = c(2, 2, 10), 
                                                rate = c(3, 6, 9)),
-                          fail_rate = tibble(Stratum = "All",
+                          fail_rate = tibble(stratum = "All",
                                              duration = c(3,100),
                                              fail_rate = log(2) / c(9, 18),
                                              hr = c(.9, .6),

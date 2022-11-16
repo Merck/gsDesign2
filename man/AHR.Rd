@@ -5,9 +5,9 @@
 \title{Average hazard ratio under non-proportional hazards (test version)}
 \usage{
 AHR(
-  enroll_rate = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
+  enroll_rate = tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
     9)),
-  fail_rate = tibble::tibble(Stratum = "All", duration = c(3, 100), fail_rate =
+  fail_rate = tibble::tibble(stratum = "All", duration = c(3, 100), fail_rate =
     log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   total_duration = 30,
   ratio = 1,
@@ -33,7 +33,7 @@ if FALSE, hazard ratio, expected events and statistical information are produced
 A \code{tibble} with \code{Time} (from \code{total_duration}), \code{AHR} (average hazard ratio),
 \code{Events} (expected number of events), info (information under given scenarios),
 and info0 (information under related null hypothesis) for each value of \code{total_duration} input;
-if \code{simple=FALSE}, \code{Stratum} and \code{t} (beginning of each constant HR period) are also returned
+if \code{simple=FALSE}, \code{stratum} and \code{t} (beginning of each constant HR period) are also returned
 and \code{HR} is returned instead of \code{AHR}
 }
 \description{
@@ -90,10 +90,10 @@ AHR()
 AHR(total_duration = c(15, 30))
 
 # Stratified population
-enroll_rate <- tibble::tibble(Stratum = c(rep("Low", 2), rep("High", 3)),
+enroll_rate <- tibble::tibble(stratum = c(rep("Low", 2), rep("High", 3)),
                               duration = c(2, 10, 4, 4, 8),
                               rate = c(5, 10, 0, 3, 6))
-fail_rate <- tibble::tibble(Stratum = c(rep("Low", 2), rep("High", 2)),
+fail_rate <- tibble::tibble(stratum = c(rep("Low", 2), rep("High", 2)),
                             duration = 1,
                             fail_rate = c(.1, .2, .3, .4),
                             hr = c(.9, .75, .8, .6),

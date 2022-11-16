@@ -33,13 +33,13 @@
 #'
 #' # Enrollment rate
 #' enroll_rate <- tibble::tibble(
-#'   Stratum = "All",
+#'   stratum = "All",
 #'   duration = 18,
 #'   rate = 20)
 #'
 #' # Failure rates
 #' fail_rate <- tibble::tibble(
-#'   Stratum = "All",
+#'   stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 12,
 #'   hr = c(1, .6),
@@ -143,10 +143,10 @@ summary.fixed_design <- function(object, ...){
 #' library(dplyr)
 #'
 #' # enrollment/failure rates
-#' enroll_rate <- tibble(Stratum = "All",
+#' enroll_rate <- tibble(stratum = "All",
 #'                       duration = 12,
 #'                       rate = 1)
-#' fail_rate <- tibble(Stratum = "All", duration = c(4, 100),
+#' fail_rate <- tibble(stratum = "All", duration = c(4, 100),
 #'                     fail_rate = log(2) / 12,
 #'                     hr = c(1, .6),
 #'                     dropout_rate = .001)
@@ -230,8 +230,8 @@ summary.fixed_design <- function(object, ...){
 #'   ratio = 1,
 #'   alpha = 0.025,
 #'   beta = 0.2,
-#'   enroll_rate = tibble::tibble(Stratum = "All", duration = 12, rate = 500/12),
-#'   fail_rate = tibble::tibble(Stratum = "All", duration = c(4, 100),
+#'   enroll_rate = tibble::tibble(stratum = "All", duration = 12, rate = 500/12),
+#'   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100),
 #'                              fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001),
 #'   fh_test = fh_test,
 #'   upper = gs_spending_combo,
@@ -244,8 +244,8 @@ summary.fixed_design <- function(object, ...){
 #' #      risk difference         #
 #' # ---------------------------- #
 #' gs_design_rd(
-#'   p_c = tibble(Stratum = "All", Rate = .2),
-#'   p_e = tibble(Stratum = "All", Rate = .15),
+#'   p_c = tibble(stratum = "All", Rate = .2),
+#'   p_e = tibble(stratum = "All", Rate = .15),
 #'   info_frac = c(0.7, 1),
 #'   rd0 = 0,
 #'   alpha = .025,

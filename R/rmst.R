@@ -31,11 +31,11 @@
 #'
 #' @examples 
 #' # set enrollment rates
-#' enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500/12)
 #' 
 #' # set failure rates
 #' fail_rate <- tibble::tibble(
-#'   Stratum = "All",
+#'   stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
@@ -104,11 +104,11 @@ fixed_design_size_rmst <- function(enroll_rate,
 #' 
 #' @examples 
 #' # set enrollment rates
-#' enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500/12)
 #' 
 #' # set failure rates
 #' fail_rate <- tibble::tibble(
-#'   Stratum = "All",
+#'   stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
