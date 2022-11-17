@@ -101,7 +101,7 @@ testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
 ## add test cases for stratified design
 testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
   x <- expected_accrual(time = 40, 
-                        enroll_rate = tibble(Stratum = c("S1", "S2"),
+                        enroll_rate = tibble(stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 33*30*2)
@@ -109,7 +109,7 @@ testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
 
 testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
   x <- expected_accrual(time = 33, 
-                        enroll_rate = tibble(Stratum = c("S1", "S2"),
+                        enroll_rate = tibble(stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 33*30*2)
@@ -117,7 +117,7 @@ testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
 
 testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
   x <- expected_accrual(time = 30, 
-                     enroll_rate = tibble(Stratum = c("S1", "S2"),
+                     enroll_rate = tibble(stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 30*30*2)
@@ -125,7 +125,7 @@ testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
 
 testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
   x <- expected_accrual(time = 10, 
-                        enroll_rate = tibble(Stratum = c("S1", "S2"),
+                        enroll_rate = tibble(stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, 10*30*2)
@@ -133,7 +133,7 @@ testthat::test_that("expect_accrua fail to identify a non-dataframe input",{
 
 testthat::test_that("expect_accrual fail to identify a non-dataframe input",{
   x <- expected_accrual(time = c(5, 10, 20, 33, 50), 
-                        enroll_rate = tibble(Stratum = c("S1", "S2"),
+                        enroll_rate = tibble(stratum = c("S1", "S2"),
                                              duration = 33, 
                                              rate = c(30, 30)))
   expect_equal(x, c(5, 10, 20, 33, 33) * 30 * 2)

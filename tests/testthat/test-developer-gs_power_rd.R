@@ -14,9 +14,9 @@ test_that("fixed design", {
                             delta0 = rd0, ratio = ratio, sided = 1,
                             outtype = 1, scale = "Difference")
   
-  x2 <- gs_power_rd(p_c = tibble::tibble(Stratum = "All", Rate = p1),
-                    p_e = tibble::tibble(Stratum = "All", Rate = p2),
-                    N = tibble::tibble(Stratum = "All",  N = N, Analysis = 1),
+  x2 <- gs_power_rd(p_c = tibble::tibble(stratum = "All", Rate = p1),
+                    p_e = tibble::tibble(stratum = "All", Rate = p2),
+                    N = tibble::tibble(stratum = "All",  N = N, Analysis = 1),
                     rd0 = rd0, ratio = 1, 
                     upper = gs_b,
                     lower = gs_b,

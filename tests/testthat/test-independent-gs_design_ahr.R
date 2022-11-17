@@ -1,10 +1,10 @@
 # Test 1: compare results with AHR ####
 
 testthat::test_that("compare results with AHR in the situation of single analysis",{
-  enroll_rate <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  fail_rate <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(stratum = "All",
                               duration = c(3, 100),
                               fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
@@ -31,10 +31,10 @@ testthat::test_that("compare results with AHR in the situation of single analysi
 })
 
 testthat::test_that("compare results with gsDesign2::AHR in the situation with IF and multiple analysis times specified",{
-  enroll_rate <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  fail_rate <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(stratum = "All",
                               duration = c(3, 100),
                               fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),

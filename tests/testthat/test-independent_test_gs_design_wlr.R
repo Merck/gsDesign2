@@ -14,10 +14,10 @@ test_that("Validate the function based on examples with simulation results",{
     R = c(12), S = NULL,
     T = 36, minfup = 24, ratio = 1
   )
-  enroll_rate <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(stratum = "All",
                                 duration = 12,
                                 rate = 500 / 12)
-  fail_rate <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(stratum = "All",
                               duration = c(4, 100),
                               fail_rate = log(2) / 15, # Median survival 15 month
                               hr = c(1, 0.6),

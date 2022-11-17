@@ -1,10 +1,10 @@
 # Test 1: independent test using AHR to check outputs of gs_info_ahr ####
 
 testthat::test_that("results match if only put in targeted analysis times",{
-  enroll_rate <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  fail_rate <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(stratum = "All",
                               duration = c(3, 100),
                               fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
@@ -21,10 +21,10 @@ testthat::test_that("results match if only put in targeted analysis times",{
 
 
 testthat::test_that("results match if only put in targeted events",{
-  enroll_rate <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  fail_rate <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(stratum = "All",
                               duration = c(3, 100),
                               fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),
@@ -49,10 +49,10 @@ testthat::test_that("results match if only put in targeted events",{
 
 
 testthat::test_that("results match if put in both analysis time and targeted events",{
-  enroll_rate <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(stratum = "All",
                                 duration = c(2, 2, 10),
                                 rate = c(3, 6, 9))
-  fail_rate <- tibble::tibble(Stratum = "All",
+  fail_rate <- tibble::tibble(stratum = "All",
                               duration = c(3, 100),
                               fail_rate = log(2)/c(9, 18),
                               hr = c(0.9, 0.6),

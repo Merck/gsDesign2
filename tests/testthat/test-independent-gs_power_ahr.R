@@ -47,10 +47,10 @@ y <- gsBoundSummary(x,
 
 testthat::test_that("under same number of events, compare the power",{
   
-  out <- gs_power_ahr(enroll_rate = tibble::tibble(Stratum = "All",
+  out <- gs_power_ahr(enroll_rate = tibble::tibble(stratum = "All",
                                                    duration = c(2, 2, 2, 6),
                                                    rate = c(6, 12, 18, 24)),
-                      fail_rate = tibble::tibble(Stratum = "All",
+                      fail_rate = tibble::tibble(stratum = "All",
                                                  duration = 1,
                                                  fail_rate =log(2)/9,
                                                  hr = 0.65,
@@ -72,10 +72,10 @@ testthat::test_that("under same number of events, compare the power",{
 })
 
 testthat::test_that("under same power setting, compare the number of events",{
-  out <- gs_power_ahr(enroll_rate = tibble::tibble(Stratum = "All",
+  out <- gs_power_ahr(enroll_rate = tibble::tibble(stratum = "All",
                                                    duration = c(2, 2, 2, 6),
                                                    rate = c(6, 12, 18, 24)),
-                      fail_rate = tibble::tibble(Stratum = "All",
+                      fail_rate = tibble::tibble(stratum = "All",
                                                  duration = 1,
                                                  fail_rate =log(2)/9,
                                                  hr = 0.65,
