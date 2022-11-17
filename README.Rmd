@@ -61,18 +61,18 @@ library(gt)
 
 # Constant enrollment over 12 months
 # Rate will be adjusted later by gsDesign NPH to get sample size
-enrollRates <- tibble::tibble(Stratum = "All", duration = 12, rate = 1)
+enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 1)
 
 # 12 month median exponential failure rate in control
 # 4 month delay in effect with HR=0.6 after
 # Low exponential dropout rate
-medianSurv <- 12
-failRates <- tibble::tibble(
+median_surv <- 12
+fail_rate <- tibble::tibble(
   Stratum = "All",
   duration = c(4, Inf),
-  failRate = log(2) / medianSurv,
+  fail_rate = log(2) / median_surv,
   hr = c(1, .6),
-  dropoutRate = .001
+  dropout_rate = .001
 )
 ```
 
@@ -81,7 +81,7 @@ rows and strata as needed can be specified to approximate whatever
 patterns you wish.
 
 ```{r}
-failRates %>%
+fail_rate %>%
   gt() %>%
   as_raw_html(inline_css = FALSE)
 ```
@@ -96,12 +96,12 @@ is a single analysis:
 
 ```{r}
 fd <- fixed_design(
-  x = "AHR",
-  enrollRates = enrollRates,
-  failRates = failRates,
+  method = "ahr",
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   alpha = 0.025,
   power = 0.9,
-  studyDuration = 36,
+  study_duration = 36,
   ratio = 1 # Experimental/control randomization ratio
 )
 ```
@@ -109,7 +109,7 @@ fd <- fixed_design(
 The input enrollment rates have now been scaled to achieve power:
 
 ```{r}
-fd$enrollRates %>%
+fd$enroll_rate %>%
   gt() %>%
   as_raw_html(inline_css = FALSE)
 ```
@@ -154,12 +154,12 @@ evaluation of appropriate efficacy trends before completing the trial.
 
 ```{r}
 gsd <- gs_design_ahr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   ratio = 1,
   alpha = 0.025,
   beta = 0.2, # 80% power; enables aggressive futility bound specified
-  analysisTimes = c(8, 14, 24, 36),
+  analysis_time = c(8, 14, 24, 36),
   binding = FALSE, # Non-binding futility bound
   upper = gs_spending_bound, # Use spending bound for efficacy; total_spend is normally alpha
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
