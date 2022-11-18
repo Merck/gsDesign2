@@ -281,7 +281,7 @@ gs_design_combo <- function(enroll_rate = tibble(stratum = "All",
       enroll_rate, 
       fail_rate, 
       ratio, 
-      events = unique(utility$info_all$Events), 
+      event = unique(utility$info_all$Events), 
       analysis_time = unique(utility$info_all$Time), 
       weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = -1))))$AHR
   }

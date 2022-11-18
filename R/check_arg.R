@@ -209,19 +209,19 @@ check_analysis_time <- function(analysis_time){
 #' @return TURE or FALSE
 #' 
 #' @examples
-#' events <- 20
-#' check_events(events)
+#' event <- 20
+#' check_event(events)
 #' 
-#' events <- c(20, 30)
-#' check_events(events)
+#' event <- c(20, 30)
+#' check_event(events)
 #' 
 #' @noRd
-check_events <- function(events){
-  cond1 <- !is.numeric(events)
-  cond2 <- !is.vector(events)
-  cond3 <- min(events - dplyr::lag(events, default=0))<=0
+check_event <- function(event){
+  cond1 <- !is.numeric(event)
+  cond2 <- !is.vector(event)
+  cond3 <- min(event - dplyr::lag(event, default = 0)) <= 0
   if ( cond1 || cond2 || cond3 ){
-    stop("The input argument `events` must be NULL or a numeric vector with positive increasing values!")
+    stop("The input argument `event` must be NULL or a numeric vector with positive increasing values!")
   }
 }
 

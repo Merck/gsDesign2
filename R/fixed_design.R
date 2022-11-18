@@ -142,7 +142,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                     fail_rate = fail_rate,
                                     ratio  = ratio, 
                                     analysis_time = study_duration,
-                                    events = NULL)
+                                    event = NULL)
                 }
                 ans <- tibble::tibble(Design = "ahr",
                                       N = d$analysis$N,
@@ -180,7 +180,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                     ratio = ratio, 
                                     weight = weight,
                                     analysis_time = study_duration,
-                                    events = NULL)
+                                    event = NULL)
                 }
                 ans <- tibble::tibble(Design = "fh",
                                       N = d$analysis$N,
@@ -223,7 +223,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                     lower = gs_b,
                                     lpar = -Inf,
                                     analysis_time = study_duration,
-                                    events = NULL) 
+                                    event = NULL) 
                 }
                 
                 # get the output of MB

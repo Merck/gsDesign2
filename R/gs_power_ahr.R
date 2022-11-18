@@ -26,7 +26,7 @@ NULL
 #' @param enroll_rate enrollment rates
 #' @param fail_rate failure and dropout rates
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
-#' @param events Targeted events at each analysis
+#' @param event Targeted event at each analysis
 #' @param analysis_time Minimum time of analysis
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param info_scale the information scale for calculation
@@ -70,17 +70,17 @@ NULL
 #' #       example 1          #
 #' # ------------------------ #
 #' # The default output of \code{gs_power_ahr} is driven by events, i.e.,
-#' # \code{events = c(30, 40, 50), analysis_time = NULL}
+#' # \code{event = c(30, 40, 50), analysis_time = NULL}
 #' gs_power_ahr() 
 #' 
 #' # -------------------------#
 #' #       example 2          #
 #' # -------------------------#
 #' # 2-sided symmetric O'Brien-Fleming spending bound, 
-#' # driven by analysis time, i.e., \code{events = NULL, analysis_time = c(12, 24, 36)}
+#' # driven by analysis time, i.e., \code{event = NULL, analysis_time = c(12, 24, 36)}
 #' gs_power_ahr(
 #'   analysis_time = c(12, 24, 36),
-#'   events = NULL,
+#'   event = NULL,
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -91,10 +91,10 @@ NULL
 #' #       example 3          #
 #' # -------------------------#
 #' # 2-sided symmetric O'Brien-Fleming spending bound,
-#' # driven by events, i.e., \code{events = c(20, 50, 70), analysis_time = NULL}
+#' # driven by event, i.e., \code{event = c(20, 50, 70), analysis_time = NULL}
 #' gs_power_ahr(
 #'   analysis_time = NULL,
-#'   events = c(20, 50, 70),
+#'   event = c(20, 50, 70),
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -105,14 +105,14 @@ NULL
 #' #       example 4          #
 #' # -------------------------#
 #' # 2-sided symmetric O'Brien-Fleming spending bound,
-#' # driven by both `events` and `analysis_time`, i.e.,
-#' # both `events` and `analysis_time` are not `NULL`,
+#' # driven by both `event` and `analysis_time`, i.e.,
+#' # both `event` and `analysis_time` are not `NULL`,
 #' # then the analysis will driven by the maximal one, i.e.,
-#' # Time = max(analysis_time, calculated Time for targeted events)
+#' # Time = max(analysis_time, calculated Time for targeted event)
 #' # Events = max(events, calculated events for targeted analysis_time)
 #' gs_power_ahr(
 #'   analysis_time = c(12, 24, 36),
-#'   events = c(30, 40, 50),
+#'   event = c(30, 40, 50),
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -122,10 +122,10 @@ NULL
 gs_power_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
                          fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18), 
                                             hr = c(.9, .6), dropout_rate = rep(.001, 2)),
-                         events = c(30, 40, 50), 
+                         event = c(30, 40, 50), 
                          analysis_time = NULL, 
                          upper = gs_b, 
-                         upar = gsDesign(k = length(events), test.type = 1, n.I = events, maxn.IPlan = max(events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+                         upar = gsDesign(k = length(event), test.type = 1, n.I = event, maxn.IPlan = max(event), sfu = sfLDOF, sfupar = NULL)$upper$bound,
                          lower = gs_b,
                          lpar = c(qnorm(.1), rep(-Inf, 2)), 
                          test_lower = TRUE, 
@@ -134,7 +134,7 @@ gs_power_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
                          ){
   
   # get the number of analysis
-  K <- max(length(events), length(analysis_time), na.rm = TRUE)
+  K <- max(length(event), length(analysis_time), na.rm = TRUE)
   
   # get the info_scale
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
@@ -150,7 +150,7 @@ gs_power_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
   #       and statistical information        #
   # ---------------------------------------- #
   x <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-                   ratio = ratio, events = events, analysis_time = analysis_time)
+                   ratio = ratio, event = event, analysis_time = analysis_time)
   
   # ---------------------------------------- #
   #  given the above statistical information #

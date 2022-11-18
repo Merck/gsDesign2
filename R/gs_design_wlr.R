@@ -137,7 +137,7 @@ gs_design_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
   # --------------------------------------------- #
   #     get information at input analysis_time    #
   # --------------------------------------------- #
-  y <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio, events = NULL, 
+  y <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio, event = NULL, 
                    analysis_time = analysis_time, weight = weight, approx = approx)
   
   finalEvents <- y$Events[nrow(y)]
