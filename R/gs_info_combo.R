@@ -23,7 +23,7 @@
 #' @param enroll_rate enrollment rates
 #' @param fail_rate failure and dropout rates
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
-#' @param events Targeted events at each analysis
+#' @param event Targeted events at each analysis
 #' @param analysis_time Minimum time of analysis
 #' @param rho Weighting parameters
 #' @param gamma Weighting parameters
@@ -41,7 +41,7 @@ gs_info_combo <- function(enroll_rate = tibble(stratum = "All",
                                              hr = c(.9, .6),
                                              dropout_rate = rep(.001, 2)),
                           ratio = 1,                
-                          events = NULL, 
+                          event = NULL, 
                           analysis_time = NULL,   
                           rho,
                           gamma,
@@ -53,7 +53,7 @@ gs_info_combo <- function(enroll_rate = tibble(stratum = "All",
   info <- lapply(weight, function(x){
     x <- eval(parse(text = x))
     gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                events = events, analysis_time = analysis_time, 
+                event = event, analysis_time = analysis_time, 
                 ratio = ratio, weight = x)
   })
   

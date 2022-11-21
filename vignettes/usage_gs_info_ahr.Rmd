@@ -28,7 +28,7 @@ library(gsDesign2)
 
 # Introduction of `gs_info_ahr()`
 
-`tEvents()` calculate the analysis time (`Time` in its output), number of events (`Events` in its output), average hazard ratio (`AHR` in its outputs), effect size (`theta` in its output), statistical information (`info` and `info0` in its output) using an average hazard ratio model.
+`expected_time()` calculate the analysis time (`Time` in its output), number of events (`Events` in its output), average hazard ratio (`AHR` in its outputs), effect size (`theta` in its output), statistical information (`info` and `info0` in its output) using an average hazard ratio model.
 
 The aforementioned calculation is based on piecewise model:
 + piecewise constant enrollment rates 
@@ -40,7 +40,7 @@ The aforementioned calculation is based on piecewise model:
 
 ## Example 1 
 
-In this example, we only input the target number of events by `events = ...`, and derive the time when these events will be arrived.
+In this example, we only input the target number of events by `event = ...`, and derive the time when these events will be arrived.
 ```{r}
 enroll_rate <- tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
 fail_rate <- tibble(stratum = "All", duration = c(3, 100), 
@@ -49,7 +49,7 @@ fail_rate <- tibble(stratum = "All", duration = c(3, 100),
 ratio <- 1
 
 gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-            ratio = ratio, events = c(50, 80, 100))
+            ratio = ratio, event = c(50, 80, 100))
 ```
 
 ## Example 2
@@ -68,10 +68,10 @@ gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
 
 ## Example 3
 
-In this example, we both input `analysis_time = ...` and `events = ...`. 
+In this example, we both input `analysis_time = ...` and `event = ...`. 
 In this case, one will see 
 + the derived analysis time (`Time` column) $\geq$ input `analysis_time`
-+ the derived number of event (`Events` column) $\geq$ input `events`
++ the derived number of event (`Events` column) $\geq$ input `event`
 
 ```{r}
 enroll_rate <- tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
@@ -81,7 +81,7 @@ fail_rate <- tibble(stratum = "All", duration = c(3, 100),
 ratio <- 1
 
 gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-            ratio = ratio, analysis_time = c(10, 15, 20), events = c(80,  # > events in example 2 
+            ratio = ratio, analysis_time = c(10, 15, 20), event = c(80,  # > events in example 2 
                                                                      140, # < > events in example 2 
                                                                      220  # > events in example 2 
                                                                      ))
@@ -96,8 +96,8 @@ gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
 To explain the inner logic of `gs_info_ahr()`, we discuss 3 scenario.
 
 1. only input `analysis_time`
-1. only input `events`
-1. both input `analysis_time` and `events`
+1. only input `event`
+1. both input `analysis_time` and `event`
 
 ## Scenario 1: only input `analysis_time`
 
@@ -124,9 +124,9 @@ gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
 ```
 
 
-## Scenario 2: only input `events`
+## Scenario 2: only input `event`
 
-If only `events = ...` is input, essentially, `gs_info_ahr()` uses `tEvents()` to calculate the time when these events will be arrived.
+If only `event = ...` is input, essentially, `gs_info_ahr()` uses `expected_time()` to calculate the time when these events will be arrived.
 ```{r}
 enroll_rate <- tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
 fail_rate <- tibble(stratum = "All", duration = c(3, 100), 
@@ -151,7 +151,7 @@ ans %>%
 This is exactly the output from `gs_info_ahr()`:
 ```{r}
 gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-            ratio = ratio, events = events) %>% gt()
+            ratio = ratio, event = events) %>% gt()
 ```
 
 
@@ -178,8 +178,8 @@ ans <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate,
 # second, compare if the events derived above meet the targeted number of events input in `events`
 for(i in seq_along(events)){
   if (ans$Events[i] < events[i]){
-    ans[i,] <- tEvents(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                       ratio = ratio, target_event = events[i])
+    ans[i,] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                             ratio = ratio, target_event = events[i])
   }
 }
 
@@ -192,5 +192,5 @@ ans %>%
 This is exactly the output from `gs_info_ahr()`:
 ```{r}
 gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-            ratio = ratio, events = events, analysis_time = analysis_time) %>% gt()
+            ratio = ratio, event = events, analysis_time = analysis_time) %>% gt()
 ```
