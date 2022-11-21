@@ -12,7 +12,7 @@ fail_rate <- tibble::tibble(stratum = "All",
 info_combo <- gsDesign2::gs_info_combo(enroll_rate = enroll_rate,
                             fail_rate = fail_rate,
                             ratio = 1,                # Experimental:Control randomization ratio
-                            events = NULL,            # Events at analyses
+                            event = NULL,            # Events at analyses
                             analysis_time = 30,       # Times of analyses
                             rho = rho,
                             gamma = gamma,
@@ -25,7 +25,7 @@ for (i in 1:4) {
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,                  # Experimental:Control randomization ratio
-    events = NULL,              # Events at analyses
+    event = NULL,              # Events at analyses
     analysis_time = 30,         # Times of analyses
     weight = eval(parse(text = weight_test_i)),
     approx = "asymptotic")

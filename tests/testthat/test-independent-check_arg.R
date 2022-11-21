@@ -50,9 +50,9 @@ test_that("check analysis_time",{
   expect_error(check_analysis_time(c(20, 10)))
 })
 
-test_that("check events",{
-  expect_error(check_events("a"))
-  expect_error(check_events(c(20, 10)))
+test_that("check event",{
+  expect_error(check_event("a"))
+  expect_error(check_event(c(20, 10)))
 })
 
 testthat::test_that("check total_duration",{

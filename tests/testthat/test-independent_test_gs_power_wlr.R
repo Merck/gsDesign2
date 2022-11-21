@@ -71,7 +71,7 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
                         ratio = ratio,               # Experimental:Control randomization ratio
                         weight = weight,
                         approx = "asymptotic",
-                        events = fh01$Events, # Targeted events of analysis
+                        event = fh01$Events, # Targeted events of analysis
                         analysis_time = NULL,   # Targeted times of analysis
                         binding = FALSE,
                         upper = gsDesign2::gs_b, # Default is Lan-DeMets approximation of

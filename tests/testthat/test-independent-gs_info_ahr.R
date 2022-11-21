@@ -31,7 +31,7 @@ testthat::test_that("results match if only put in targeted events",{
                               dropout_rate = rep(0.001, 2))
   events <- c(30, 40, 50)
   
-  out1 <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, events = events)
+  out1 <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, event = event)
   
   total_duration <- out1$Time
   
@@ -62,7 +62,7 @@ testthat::test_that("results match if put in both analysis time and targeted eve
   
   out1 <- gs_info_ahr(enroll_rate = enroll_rate,
                       fail_rate = fail_rate,
-                      events = events,
+                      event = events,
                       analysis_time = analysis_time)
   
   total_duration <- out1$Time

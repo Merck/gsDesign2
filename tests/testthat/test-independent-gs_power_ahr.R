@@ -57,7 +57,7 @@ testthat::test_that("under same number of events, compare the power",{
                                                  dropout_rate = 0.001),
                       ratio = 1,
                       #set number of events the same as the design x above from gsDesign()
-                      events = x$n.I,
+                      event = x$n.I,
                       analysis_time = NULL,
                       binding = FALSE,
                       upper = gs_spending_bound,
@@ -81,7 +81,7 @@ testthat::test_that("under same power setting, compare the number of events",{
                                                  hr = 0.65,
                                                  dropout_rate = 0.001),
                       ratio = 1,
-                      events = NULL,
+                      event = NULL,
                       #adjust the times s.t. power ~= 0.801 and information fraction ~= 0.7 (same as the design x above from gsDesign())
                       analysis_time = c(21, 34.9),
                       binding = FALSE,
