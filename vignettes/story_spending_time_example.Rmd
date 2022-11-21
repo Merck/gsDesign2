@@ -175,7 +175,7 @@ yy <- gs_power_ahr(
   fail_rate = fail_rate,
   # here we want to achieve the targeted events, 
   # but also keep the 30 month as the analysis_time
-  events = target_events,
+  event = target_events,
   analysis_time = 30,
   upar = Z_025,
   lpar = Z_025)
@@ -205,7 +205,7 @@ yy <- gs_power_ahr(
   fail_rate = fail_rate,
   # here we set analysisTime as 30 
   # and calculate the corresponding number of events
-  events = NULL,
+  event = NULL,
   analysis_time = 30,
   upper = gs_b, upar = Z_025,
   lower = gs_b, lpar = Z_025)
@@ -227,7 +227,7 @@ yy <- gs_power_ahr(
   fail_rate = fail_rate,
   # here we set trial duration as 30 month 
   # and keep the events as the target events
-  events = target_events,
+  event = target_events,
   analysis_time = 30,
   upar = Z_025,
   lpar = Z_025) 
@@ -388,7 +388,7 @@ yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate, 
   fail_rate = xx$fail_rate, 
   # Planned time will drive timing since information accrues faster
-  events = 1:2, 
+  event = 1:2, 
   # Interim time rounded
   analysis_time = c(22, 30), 
   # upper bound: use calendar fraction
@@ -450,7 +450,7 @@ upar_FHO <- list(
 FHO <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = xx$fail_rate,
-  events = NULL,
+  event = NULL,
   analysis_time = seq(6, 30, 6),
   upper = gs_spending_bound,
   upar = upar_FHO,
@@ -496,7 +496,7 @@ yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate, 
   fail_rate = fail_rate, 
   # Planned time will drive timing since information accrues faster
-  events = 1:2, 
+  event = 1:2, 
   analysis_time = xx$analysis$Time,
   upper = gs_spending_bound, 
   upar = upar_actual_IF, 
@@ -518,7 +518,7 @@ There are multiple trials where delayed effects have been observed where this di
 yz <- gs_power_ahr(
   enroll_rate = xx$enroll_rate, 
   fail_rate = fail_rate, 
-  events = xx$analysis$Events,
+  event = xx$analysis$Events,
   analysis_time = xx$analysis$Time,
   upper = gs_spending_bound, 
   upar = upar_planned_IF, 
@@ -550,7 +550,7 @@ fail_rate$duration[1] <- 4
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate, 
   fail_rate = fail_rate, 
-  events = c(1, max(xx$analysis$Events)),
+  event = c(1, max(xx$analysis$Events)),
   analysis_time = xx$analysis$Time,
   upper = gs_spending_bound, 
   upar = upar_planned_IF, 
@@ -569,7 +569,7 @@ Since the number of events was less than expected, if we had used the actual num
 yz <- gs_power_ahr(
   enroll_rate = xx$enroll_rate, 
   fail_rate = fail_rate, 
-  events = c(1, max(xx$analysis$Events)),
+  event = c(1, max(xx$analysis$Events)),
   analysis_time = xx$analysis$Time,
   upper = gs_spending_bound, 
   upar = upar_actual_IF, 
@@ -713,7 +713,7 @@ overall_planned_bounds <- gs_power_ahr(
   # analysis time: the planed analysis time for biomarker positive population 
   analysis_time = positive$analysis$Time,
   # events will be determined by expected events at planned analysis times
-  events = NULL, 
+  event = NULL, 
   # upper bound: planned spending times are specified the same as before
   upper = gs_spending_bound,
   upar = upar_overall_planned_IF,
@@ -806,7 +806,7 @@ positive_60_power <- gs_power_ahr(
   enroll_rate = positive_60_enroll_rate %>% filter(stratum == "Positive"),
   fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # number of events
-  events = positive$analysis$Events, # positive$bounds$Events[1:K],
+  event = positive$analysis$Events, # positive$bounds$Events[1:K],
   # analysis time will be calcuated to achieve the targeted events
   analysis_time = NULL,
   # upper bound
@@ -834,7 +834,7 @@ gs_power_ahr(
   enroll_rate = positive_60_enroll_rate,
   fail_rate = fail_rate,
   # set evnets and analysis time
-  events = NULL,
+  event = NULL,
   analysis_time = positive_60_power$analysis$Time,
   # set upper bound: use planned spending in spite of lower overall information
   upper = gs_spending_bound,
@@ -856,7 +856,7 @@ gs_power_ahr(
   enroll_rate = positive_60_enroll_rate,
   fail_rate = fail_rate,
   # set evnets and analysis time
-  events = NULL,
+  event = NULL,
   analysis_time = positive_60_power$analysis$Time,
   # upper bound: use actual spending which uses less than complete alpha
   upper = gs_spending_bound,
@@ -905,7 +905,7 @@ positive_40_power <- gs_power_ahr(
   enroll_rate = positive_40_enroll_rate %>% filter(stratum == "Positive"),
   fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # set events/analysis time
-  events = positive$analysis$Events,
+  event = positive$analysis$Events,
   analysis_time = NULL,
   # set upper bound
   upper = gs_spending_bound,
@@ -929,7 +929,7 @@ In spite of the lower overall effect size, the larger adapted sample size ensure
 gs_power_ahr(
   enroll_rate = positive_40_enroll_rate,
   fail_rate = fail_rate,
-  events = 1:2,
+  event = 1:2,
   analysis_time = positive_40_power$analysis$Time,
   upper = gs_spending_bound,
   upar = upar_overall_planned_IF,
