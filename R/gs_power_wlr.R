@@ -160,7 +160,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
                          r = 18, 
                          tol = 1e-6){
   # get the number of analysis
-  K <- max(length(events), length(analysis_time), na.rm = TRUE)
+  K <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   
