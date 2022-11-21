@@ -39,7 +39,9 @@ NULL
 #' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param r  Integer, at least 2; default of 18 recommended by Jennison and Turnbull
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
+#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
+#' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' 
 #' @section Specification:
