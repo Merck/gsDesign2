@@ -34,8 +34,8 @@ NULL
 #' # --------------------- #
 #' # un-stratified case with H0: rd0 = 0
 #' gs_info_rd(
-#'   p_c = tibble(stratum = "All", Rate = .15),
-#'   p_e = tibble(stratum = "All", Rate = .1),
+#'   p_c = tibble(stratum = "All", rate = .15),
+#'   p_e = tibble(stratum = "All", rate = .1),
 #'   N = tibble(stratum = "All", N = c(100, 200, 300), Analysis = 1:3),
 #'   rd0 = 0,
 #'   ratio = 1
@@ -46,8 +46,8 @@ NULL
 #' # --------------------- #
 #' # un-stratified case with H0: rd0 != 0
 #' gs_info_rd(
-#'   p_c = tibble(stratum = "All", Rate = .2),
-#'   p_e = tibble(stratum = "All", Rate = .15),
+#'   p_c = tibble(stratum = "All", rate = .2),
+#'   p_e = tibble(stratum = "All", rate = .15),
 #'   N = tibble(stratum = "All", N = c(100, 200, 300), Analysis = 1:3),
 #'   rd0 = 0.005,
 #'   ratio = 1
@@ -58,8 +58,8 @@ NULL
 #' # --------------------- #
 #' # stratified case under sample size weighting and H0: rd0 = 0
 #' gs_info_rd(
-#'   p_c = tibble(stratum = c("S1", "S2", "S3"), Rate = c(.15, .2, .25)),
-#'   p_e = tibble(stratum = c("S1", "S2", "S3"), Rate = c(.1, .16, .19)),
+#'   p_c = tibble(stratum = c("S1", "S2", "S3"), rate = c(.15, .2, .25)),
+#'   p_e = tibble(stratum = c("S1", "S2", "S3"), rate = c(.1, .16, .19)),
 #'   N = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
 #'              Analysis = rep(1:3, 3),
 #'              N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
@@ -73,9 +73,9 @@ NULL
 #' # stratified case under inverse variance weighting and H0: rd0 = 0
 #' gs_info_rd(
 #'   p_c = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.15, .2, .25)),
+#'                rate = c(.15, .2, .25)),
 #'   p_e = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.1, .16, .19)),
+#'                rate = c(.1, .16, .19)),
 #'   N = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
 #'              Analysis = rep(1:3, 3),
 #'              N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
@@ -89,9 +89,9 @@ NULL
 #' # stratified case under sample size weighting and H0: rd0 != 0
 #' gs_info_rd(
 #'   p_c = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.15, .2, .25)),
+#'                rate = c(.15, .2, .25)),
 #'   p_e = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.1, .16, .19)),
+#'                rate = c(.1, .16, .19)),
 #'   N = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
 #'              Analysis = rep(1:3, 3),
 #'              N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
@@ -105,9 +105,9 @@ NULL
 #' # stratified case under inverse variance weighting and H0: rd0 != 0
 #' gs_info_rd(
 #'   p_c = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.15, .2, .25)),
+#'                rate = c(.15, .2, .25)),
 #'   p_e = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.1, .16, .19)),
+#'                rate = c(.1, .16, .19)),
 #'   N = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
 #'              Analysis = rep(1:3, 3),
 #'              N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
@@ -122,9 +122,9 @@ NULL
 #' # rd0 difference for different statum
 #' gs_info_rd(
 #'   p_c = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.15, .2, .25)),
+#'                rate = c(.15, .2, .25)),
 #'   p_e = tibble(stratum = c("S1", "S2", "S3"),
-#'                Rate = c(.1, .16, .19)),
+#'                rate = c(.1, .16, .19)),
 #'   N = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
 #'              Analysis = rep(1:3, 3),
 #'              N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
@@ -135,9 +135,9 @@ NULL
 #' 
 gs_info_rd <- function(
     p_c = tibble::tibble(stratum = "All",
-                         Rate = .2),
+                         rate = .2),
     p_e = tibble::tibble(stratum = "All",
-                         Rate = .15),
+                         rate = .15),
     N = tibble::tibble(stratum = "All",
                        N = c(100, 200, 300),
                        Analysis = 1:3),
@@ -155,9 +155,9 @@ gs_info_rd <- function(
   suppressMessages(
     tbl <- N %>% 
       left_join(p_c) %>%
-      dplyr::rename(p_c = Rate) %>% 
+      dplyr::rename(p_c = rate) %>% 
       left_join(p_e) %>% 
-      dplyr::rename(p_e = Rate) %>% 
+      dplyr::rename(p_e = rate) %>% 
       left_join(if("data.frame" %in% class(rd0)){rd0}else{tibble::tibble(Analysis = 1:K, rd0 = rd0)}) %>% 
       mutate(
         N_e = N / (1 + ratio), 

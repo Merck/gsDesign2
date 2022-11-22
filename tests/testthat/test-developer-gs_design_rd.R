@@ -12,8 +12,8 @@ test_that("fixed design", {
                             delta0 = rd0, ratio = ratio, sided = 1,
                             outtype = 1, scale = "Difference", n = NULL)
   
-  x2 <- gs_design_rd(p_c = tibble(Stratum = "All", Rate = p1),
-                     p_e = tibble(Stratum = "All", Rate = p2),
+  x2 <- gs_design_rd(p_c = tibble(stratum = "All", rate = p1),
+                     p_e = tibble(stratum = "All", rate = p2),
                      alpha = alpha, beta = beta,
                      rd0 = rd0, ratio = 1, info_frac = 1, 
                      upper = gs_b,

@@ -5,8 +5,8 @@
 \title{Group sequential design power under risk difference}
 \usage{
 gs_power_rd(
-  p_c = tibble::tibble(stratum = "All", Rate = 0.2),
-  p_e = tibble::tibble(stratum = "All", Rate = 0.15),
+  p_c = tibble::tibble(stratum = "All", rate = 0.2),
+  p_e = tibble::tibble(stratum = "All", rate = 0.15),
   N = tibble::tibble(stratum = "All", N = c(40, 50, 60), Analysis = 1:3),
   rd0 = 0,
   ratio = 1,
@@ -78,9 +78,9 @@ library(gsDesign)
 # un-stratified case with H0: rd0 = 0
 gs_power_rd(
   p_c = tibble::tibble(stratum = "All",
-                       Rate = .2),
+                       rate = .2),
   p_e = tibble::tibble(stratum = "All",
-                       Rate = .15),
+                       rate = .15),
   N = tibble::tibble(stratum = "All",
                      N = c(20, 40, 60),
                      Analysis = 1:3),
@@ -98,9 +98,9 @@ gs_power_rd(
 # un-stratified case with H0: rd0 != 0
 gs_power_rd(
   p_c = tibble::tibble(stratum = "All",
-                       Rate = .2),
+                       rate = .2),
   p_e = tibble::tibble(stratum = "All",
-                       Rate = .15),
+                       rate = .15),
   N = tibble::tibble(stratum = "All",
                      N = c(20, 40, 60),
                      Analysis = 1:3),
@@ -115,9 +115,9 @@ gs_power_rd(
 # use spending function
 gs_power_rd(
   p_c = tibble::tibble(stratum = "All",
-                       Rate = .2),
+                       rate = .2),
   p_e = tibble::tibble(stratum = "All",
-                       Rate = .15),
+                       rate = .15),
   N = tibble::tibble(stratum = "All",
                      N = c(20, 40, 60),
                      Analysis = 1:3),
@@ -135,9 +135,9 @@ gs_power_rd(
 # stratified case under sample size weighting and H0: rd0 = 0
 gs_power_rd(
   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.15, .2, .25)),
+                       rate = c(.15, .2, .25)),
   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.1, .16, .19)),
+                       rate = c(.1, .16, .19)),
   N = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
                      Analysis = rep(1:3, 3),
                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
@@ -155,9 +155,9 @@ gs_power_rd(
 # stratified case under inverse variance weighting and H0: rd0 = 0
 gs_power_rd(
   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.15, .2, .25)),
+                       rate = c(.15, .2, .25)),
   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.1, .16, .19)),
+                       rate = c(.1, .16, .19)),
   N = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
                      Analysis = rep(1:3, 3),
                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
@@ -175,9 +175,9 @@ gs_power_rd(
 # stratified case under sample size weighting and H0: rd0 != 0
 gs_power_rd(
   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.15, .2, .25)),
+                       rate = c(.15, .2, .25)),
   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.1, .16, .19)),
+                       rate = c(.1, .16, .19)),
   N = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
                      Analysis = rep(1:3, 3),
                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
@@ -195,9 +195,9 @@ gs_power_rd(
 # stratified case under inverse variance weighting and H0: rd0 != 0
 gs_power_rd(
   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.15, .2, .25)),
+                       rate = c(.15, .2, .25)),
   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
-                       Rate = c(.1, .16, .19)),
+                       rate = c(.1, .16, .19)),
   N = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
                      Analysis = rep(1:3, 3),
                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),

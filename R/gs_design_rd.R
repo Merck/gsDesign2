@@ -43,7 +43,7 @@ NULL
 #' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param h1_spending Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
+#' @param h1_spending Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
 #' if spending is used for lower bound
 #' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
 #' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
@@ -65,8 +65,8 @@ NULL
 #' #------------------ #
 #' # un-stratified group sequential design
 #' gs_design_rd(
-#'   p_c = tibble(stratum = "All", Rate = .2),
-#'   p_e = tibble(stratum = "All", Rate = .15),
+#'   p_c = tibble(stratum = "All", rate = .2),
+#'   p_e = tibble(stratum = "All", rate = .15),
 #'   info_frac = c(0.7, 1),
 #'   rd0 = 0, 
 #'   alpha = .025,                  
@@ -85,8 +85,8 @@ NULL
 #' # ----------------- #
 #' # stratified group sequential design
 #' gs_design_rd(
-#'   p_c = tibble(stratum = c("biomarker positive", "biomarker negative"), Rate = c(.2, .25)),
-#'   p_e = tibble(stratum = c("biomarker positive", "biomarker negative"), Rate = c(.15,.22)),
+#'   p_c = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.2, .25)),
+#'   p_e = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.15,.22)),
 #'   info_frac = c(0.7, 1),
 #'   rd0 = 0, 
 #'   alpha = .025,                  
@@ -100,8 +100,8 @@ NULL
 #' )
 #' 
 gs_design_rd <- function(
-    p_c = tibble(stratum = "All", Rate = .2),
-    p_e = tibble(stratum = "All", Rate = .15),
+    p_c = tibble(stratum = "All", rate = .2),
+    p_e = tibble(stratum = "All", rate = .15),
     info_frac = 1:3/3,
     rd0 = 0, 
     alpha = .025,                  
