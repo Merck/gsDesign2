@@ -56,7 +56,7 @@ beta <- 0.1
 # ------------------------- #
 # under fixed power 
 fixed_design(
-  x = "AHR", 
+  "ahr", 
   alpha = alpha, power = 1 - beta, 
   enroll_rate = enroll_rate, fail_rate = fail_rate, 
   study_duration = study_duration, ratio = ratio
