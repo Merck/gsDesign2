@@ -244,8 +244,8 @@ summary.fixed_design <- function(object, ...){
 #' #      risk difference         #
 #' # ---------------------------- #
 #' gs_design_rd(
-#'   p_c = tibble(stratum = "All", Rate = .2),
-#'   p_e = tibble(stratum = "All", Rate = .15),
+#'   p_c = tibble(stratum = "All", rate = .2),
+#'   p_e = tibble(stratum = "All", rate = .15),
 #'   info_frac = c(0.7, 1),
 #'   rd0 = 0,
 #'   alpha = .025,
