@@ -6,11 +6,11 @@ algorithm <- GenzBretz(maxpts = 1e5,
                        abseps = 1e-5)
 alpha <- 0.025
 beta <- 0.2
-enrollRates <- tibble::tibble(Stratum = "All", 
+enrollRates <- tibble::tibble(stratum = "All", 
                               duration = 12, 
                               rate = 500/12)
 
-failRates <- tibble::tibble(Stratum = "All",
+failRates <- tibble::tibble(stratum = "All",
                             duration = c(4, 100),
                             failRate = log(2) / 15,  # median survival 15 month
                             hr = c(1, .6),
@@ -75,10 +75,10 @@ gs_design_combo_test2 <- gs_design_combo(enrollRates,
                                          lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),     # beta spending
 )
 
-test_tEvents <- function(enrollRates = tibble::tibble(Stratum = "All",
+test_tEvents <- function(enrollRates = tibble::tibble(stratum = "All",
                                                       duration = c(2, 2, 10),
                                                       rate = c(3, 6, 9) * 5),
-                         failRates = tibble::tibble(Stratum = "All",
+                         failRates = tibble::tibble(stratum = "All",
                                                     duration = c(3, 100),
                                                     failRate = log(2) / c(9, 18),
                                                     hr = c(.9, .6),

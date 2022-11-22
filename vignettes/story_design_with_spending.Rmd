@@ -52,7 +52,7 @@ Please note that $8:12:16:24$ is not the real enrollment rate.
 Instead, it only specifies the enrollment rate ratio between different duration.
 ```{r}
 enroll_rate <- tibble(
-  Stratum = "All",
+  stratum = "All",
   duration = c(2, 2, 2, 6),
   rate = c(8, 12, 16, 24))
 
@@ -65,7 +65,7 @@ Moreover, we assume the hazard ratio (HR) of the first 3 month is 0.9 and therea
 We also assume the the survival time follow a piecewise exponential distribution with a median of 8 month for the first 3 months and 14 month thereafter.
 ```{r}
 fail_rate <- tibble(
-  Stratum = "All",
+  stratum = "All",
   duration = c(3, 100),
   fail_rate = log(2) / c(8, 14),
   hr = c(.9, .6),
@@ -96,7 +96,7 @@ Then, we can use `gs_info_ahr()` to calculate (1) the treatment effect (`theta`)
 #Events <- ceiling(xx$Events)
 yy <- gs_info_ahr(enroll_rate = enroll_rate, 
                   fail_rate = fail_rate, 
-                  events = ceiling(xx$Events)) %>% 
+                  event = ceiling(xx$Events)) %>% 
   mutate(timing = info0 / max(info0))
 
 yy %>% 

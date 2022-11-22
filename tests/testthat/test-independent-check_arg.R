@@ -36,12 +36,12 @@ test_that("check fail_rate",{
 test_that("check enrollments and fail_rate together",{
   expect_error(check_enroll_rate_fail_rate(enroll_rate = tibble::tibble(duration = c(10, 20),
                                                                                     rate = c(2, 4),
-                                                                                    Stratum = "All"),
+                                                                                    stratum = "All"),
                                                        fail_rate = tibble::tibble(duration = c(10, 20), 
                                                                                   fail_rate = c(0.02, 0.04), 
                                                                                   dropout_rate = 0.001, 
                                                                                   hr = 0.6,
-                                                                                  Stratum = c("S1", "S2"))))
+                                                                                  stratum = c("S1", "S2"))))
  
 })
 
@@ -50,9 +50,9 @@ test_that("check analysis_time",{
   expect_error(check_analysis_time(c(20, 10)))
 })
 
-test_that("check events",{
-  expect_error(check_events("a"))
-  expect_error(check_events(c(20, 10)))
+test_that("check event",{
+  expect_error(check_event("a"))
+  expect_error(check_event(c(20, 10)))
 })
 
 testthat::test_that("check total_duration",{

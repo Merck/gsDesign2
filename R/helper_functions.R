@@ -57,14 +57,15 @@ NULL
 #' @examples
 #' # Example: default
 #' ppwe(seq(0:10))
+#' 
 #' # Example: plot a survival function with 2 different sets of time values
 #' # to demonstrate plot precision corresponding to input parameters.
 #' fr <- tibble::tibble(duration = c(3, 3, 1), rate = c(.2, .1, .005))
 #' Time <- seq(0, 10, 10/pi)
 #' Survival <-  ppwe(Time, fr)
-#' plot(Time, Survival, type = "l",ylim = c(0, 1))
+#' plot(Time, Survival, type="l", ylim = c(0, 1))
 #' Time <- seq(0, 10, .25)
-#' Survival <- ppwe(Time, fr)
+#' Survival <-  ppwe(Time, fr)
 #' lines(Time, Survival, col = 2)
 #' @export
 ppwe <- function(x = 0:20,

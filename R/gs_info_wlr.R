@@ -23,7 +23,7 @@
 #' @param enroll_rate enrollment rates
 #' @param fail_rate failure and dropout rates
 #' @param ratio Experimental:Control randomization ratio
-#' @param events Targeted minimum events at each analysis
+#' @param event Targeted minimum events at each analysis
 #' @param analysis_time Targeted minimum study duration at each analysis
 #' @param weight weight of weighted log rank test
 #' - `"1"`= unweighted,
@@ -37,7 +37,7 @@
 #' @return a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}
 #' \code{info, info0} contains statistical information under H1, H0, respectively.
 #' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
-#' required to accrue the targeted \code{events[k]}.
+#' required to accrue the targeted \code{event[k]}.
 #' \code{AHR} is expected average hazard ratio at each analysis.
 #' 
 #' @details The \code{AHR()} function computes statistical information at targeted event times.
@@ -50,40 +50,40 @@
 #' library(gsDesign2)
 #' 
 #' # set enrollment rates
-#' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500/12)
 #' 
 #' # set failure rates
 #' fail_rate <- tibble(
-#'   Stratum = "All",
+#'   stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
 #'   dropout_rate = 0.001)
 #' 
 #' # set the targeted number of events and analysis time
-#' events <- c(30, 40, 50)
+#' event <- c(30, 40, 50)
 #' analysis_time <- c(10, 24, 30)
 #' 
 #' gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-#'             events = events, analysis_time = analysis_time)
+#'             event = event, analysis_time = analysis_time)
 #'             
-gs_info_wlr <- function(enroll_rate = tibble::tibble(Stratum = "All",
+gs_info_wlr <- function(enroll_rate = tibble::tibble(stratum = "All",
                                                      duration = c(2,2,10),
                                                      rate = c(3, 6, 9)),
-                        fail_rate = tibble::tibble(Stratum = "All",
+                        fail_rate = tibble::tibble(stratum = "All",
                                                    duration = c(3, 100),
                                                    fail_rate = log(2) / c(9, 18),
                                                    hr = c(.9, .6),
                                                    dropout_rate = rep(.001, 2)),
                         ratio = 1,                # Experimental:Control randomization ratio
-                        events = NULL,            # Events at analyses
+                        event = NULL,             # event at analyses
                         analysis_time = NULL,     # Times of analyses
                         weight = wlr_weight_fh,
                         approx = "asymptotic"
 ){
   
-  if (is.null(analysis_time) && is.null(events)){
-    stop("gs_info_wlr(): One of events and analysis_time must be a numeric value or vector with increasing values!")
+  if (is.null(analysis_time) && is.null(event)){
+    stop("gs_info_wlr(): One of event and analysis_time must be a numeric value or vector with increasing values!")
   }
   
   # Obtain Analysis time
@@ -91,17 +91,17 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(Stratum = "All",
   if(!is.null(analysis_time)){
     avehr <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
                  ratio = ratio, total_duration = analysis_time)
-    for(i in seq_along(events)){
-      if (avehr$Events[i] < events[i]){
+    for(i in seq_along(event)){
+      if (avehr$Events[i] < event[i]){
         avehr[i,] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                                   ratio = ratio, target_event = events[i])
+                                   ratio = ratio, target_event = event[i])
       }
     }
   }else{
-    for(i in seq_along(events)){
+    for(i in seq_along(event)){
       avehr <- rbind(avehr,
                      expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                                   ratio = ratio, target_event = events[i]))
+                                   ratio = ratio, target_event = event[i]))
     }
   }
   

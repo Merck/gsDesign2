@@ -59,11 +59,11 @@ The design parameters we use across the different designs derived are:
 ```{r}
 # enrollment/failure rates
 enroll_rate <- tibble::tibble(
-   Stratum = "All", 
+   stratum = "All", 
    duration = 12, 
    rate = 30)
 fail_rate <- tibble::tibble(
-   Stratum = "All", 
+   stratum = "All", 
    duration = c(4, 100), 
    fail_rate = log(2) / 12,
    hr = c(1, .6), 
@@ -130,7 +130,7 @@ x_design_ahr <- gs_design_ahr(
 x_power_ahr <- gs_power_ahr(
    enroll_rate = x_design_ahr$enroll_rate,
    fail_rate = x_design_ahr$fail_rate,
-   events = c(100, 200, 300),
+   event = c(100, 200, 300),
    analysis_time = NULL,
    upper = upper,
    upar = upar,
@@ -162,7 +162,7 @@ x_power_wlr <- gs_power_wlr(
    enroll_rate = x_design_wlr$enroll_rate,
    fail_rate = x_design_wlr$fail_rate,
    weight = wgt05, 
-   events = c(50, 100, 150),
+   event = c(50, 100, 150),
    analysis_time = NULL, 
    upper = upper,
    upar = upar,

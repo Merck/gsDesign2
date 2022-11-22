@@ -5,12 +5,12 @@
 \title{Information and effect size based on AHR approximation}
 \usage{
 gs_info_ahr(
-  enroll_rate = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
+  enroll_rate = tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
     9)),
-  fail_rate = tibble::tibble(Stratum = "All", duration = c(3, 100), fail_rate =
+  fail_rate = tibble::tibble(stratum = "All", duration = c(3, 100), fail_rate =
     log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   ratio = 1,
-  events = NULL,
+  event = NULL,
   analysis_time = NULL
 )
 }
@@ -21,7 +21,7 @@ gs_info_ahr(
 
 \item{ratio}{Experimental:Control randomization ratio}
 
-\item{events}{Targeted minimum events at each analysis}
+\item{event}{Targeted minimum events at each analysis}
 
 \item{analysis_time}{Targeted minimum study duration at each analysis}
 }
@@ -29,7 +29,7 @@ gs_info_ahr(
 a \code{tibble} with columns \code{Analysis, Time, AHR, Events, theta, info, info0.}
 \code{info, info0} contains statistical information under H1, H0, respectively.
 For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
-required to accrue the targeted \code{events[k]}.
+required to accrue the targeted \code{event[k]}.
 \code{AHR} is expected average hazard ratio at each analysis.
 }
 \description{
@@ -44,13 +44,13 @@ The \code{expected_time()} function is used to get events and average HR at targ
 
 \if{latex}{
  \itemize{
-   \item Validate if input events is a numeric value vector or a vector with increasing values.
-   \item Validate if input analysisTime is a numeric value vector or a vector with increasing values.
-   \item Validate if inputs events and analysisTime have the same length if they are both specified.
+   \item Validate if input event is a numeric value vector or a vector with increasing values.
+   \item Validate if input analysis_time is a numeric value vector or a vector with increasing values.
+   \item Validate if inputs event and analysis_time have the same length if they are both specified.
    \item Compute average hazard ratio:
    \itemize{
-     \item If analysisTime is specified, calculate average hazard ratio using \code{AHR()}.
-     \item If events is specified, calculate average hazard ratio using \code{expected_time()}.
+     \item If analysis_time is specified, calculate average hazard ratio using \code{AHR()}.
+     \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
    }
    \item Return a tibble of Analysis, Time, AHR, Events, theta, info, info0.
   }
@@ -66,7 +66,7 @@ library(gsDesign2)
 #       Example 1          #
 # ------------------------ #
 # Only put in targeted events
-gs_info_ahr(events = c(30, 40, 50))
+gs_info_ahr(event = c(30, 40, 50))
 
 # ------------------------ #
 #       Example 2          #
@@ -77,9 +77,9 @@ gs_info_ahr(analysis_time = c(18, 27, 36))
 # ------------------------ #
 #       Example 3          #
 # ------------------------ #
-# Some analysis times after time at which targeted events accrue
-# Check that both Time >= input analysis_time and Events >= input events
-gs_info_ahr(events = c(30, 40, 50), analysis_time = c(16, 19, 26))
-gs_info_ahr(events = c(30, 40, 50), analysis_time = c(14, 20, 24))
+# Some analysis times after time at which targeted event accrue
+# Check that both Time >= input analysis_time and event >= input event
+gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
+gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
 
 }

@@ -1,10 +1,10 @@
 rho <- c(1,1,0,0)
 gamma <- c(0,1,0,1)
 tau <- c(-1,-1,-1,-1)
-enroll_rate <- tibble::tibble(Stratum = "All",
+enroll_rate <- tibble::tibble(stratum = "All",
                               duration = c(2,2,30),
                               rate = c(3,6,9))
-fail_rate <- tibble::tibble(Stratum = "All",
+fail_rate <- tibble::tibble(stratum = "All",
                             duration = c(3,100),
                             fail_rate = log(2)/c(9,18),
                             hr = c(.9,.6),
@@ -12,7 +12,7 @@ fail_rate <- tibble::tibble(Stratum = "All",
 info_combo <- gsDesign2::gs_info_combo(enroll_rate = enroll_rate,
                             fail_rate = fail_rate,
                             ratio = 1,                # Experimental:Control randomization ratio
-                            events = NULL,            # Events at analyses
+                            event = NULL,            # Events at analyses
                             analysis_time = 30,       # Times of analyses
                             rho = rho,
                             gamma = gamma,
@@ -25,7 +25,7 @@ for (i in 1:4) {
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,                  # Experimental:Control randomization ratio
-    events = NULL,              # Events at analyses
+    event = NULL,              # Events at analyses
     analysis_time = 30,         # Times of analyses
     weight = eval(parse(text = weight_test_i)),
     approx = "asymptotic")

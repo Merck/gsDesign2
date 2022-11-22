@@ -48,8 +48,8 @@ fh_test <- rbind( data.frame(rho = 0,
                              analysis_time = 36))
 
 # User defined bound
-gs_power_combo_test1 <- gsDesign2::gs_power_combo(enrollRates = enrollRates,
-                                                  failRates = failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
+gs_power_combo_test1 <- gsDesign2::gs_power_combo(enrollRates = enrollRates %>% dplyr::rename(stratum = Stratum),
+                                                  failRates = failRates %>% dplyr::rename(stratum = Stratum, fail_rate = failRate, dropout_rate = dropoutRate),
                                                   fh_test = fh_test,
                                                   upper = gs_b, upar = c(3, 2, 1),
                                                   lower = gs_b, lpar = c(-1, 0, 1))
@@ -74,8 +74,8 @@ for (i in 1:max(fh_test$Analysis)) {
 
 
 # Minimal Information Fraction derived bound
-gs_power_combo_test2 <- gsDesign2::gs_power_combo(enrollRates, 
-                                                  failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate), 
+gs_power_combo_test2 <- gsDesign2::gs_power_combo(enrollRates %>% dplyr::rename(stratum = Stratum), 
+                                                  failRates %>% dplyr::rename(stratum = Stratum, fail_rate = failRate, dropout_rate = dropoutRate), 
                                                   fh_test,
                                                   upper = gs_spending_combo,
                                                   upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),

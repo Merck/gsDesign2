@@ -1,9 +1,9 @@
 test_that("Check using gs_info_wlr and gs_power_npe", {
-  enroll_rate <- tibble::tibble(Stratum = "All",
+  enroll_rate <- tibble::tibble(stratum = "All",
                                 duration = 12,
                                 rate = 500 / 12)
   fail_rate <- tibble::tibble(
-    Stratum = "All",
+    stratum = "All",
     duration = c(4, 100),
     fail_rate = log(2) / 15, # Median survival 15 months
     hr = c(1, .6), # Delay effect after 4 months
@@ -71,7 +71,7 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
                         ratio = ratio,               # Experimental:Control randomization ratio
                         weight = weight,
                         approx = "asymptotic",
-                        events = fh01$Events, # Targeted events of analysis
+                        event = fh01$Events, # Targeted events of analysis
                         analysis_time = NULL,   # Targeted times of analysis
                         binding = FALSE,
                         upper = gsDesign2::gs_b, # Default is Lan-DeMets approximation of

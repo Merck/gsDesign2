@@ -1,12 +1,12 @@
 # Enrollment rate
 enroll_rate <- tibble::tibble(
-  Stratum = "All", 
+  stratum = "All", 
   duration = 18, 
   rate = 20)
 
 # Failure rates
 fail_rate <- tibble::tibble(
-  Stratum = "All", 
+  stratum = "All", 
   duration = c(4, 100), 
   fail_rate = log(2) / 12,
   hr = c(1, .6), 

@@ -30,12 +30,12 @@
 #' library(tibble)
 #' 
 #' enroll_rate <- tibble(
-#'   Stratum = "All", 
+#'   stratum = "All", 
 #'   duration = 12, 
 #'   rate = 500/12)
 #'
 #' fail_rate <- tibble(
-#'   Stratum = "All",
+#'   stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
@@ -76,10 +76,10 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @export
-gs_power_combo <- function(enroll_rate = tibble(Stratum = "All", 
+gs_power_combo <- function(enroll_rate = tibble(stratum = "All", 
                                                 duration = 12, 
                                                 rate = 500 / 12),
-                           fail_rate = tibble(Stratum = "All", 
+                           fail_rate = tibble(stratum = "All", 
                                               duration = c(4, 100), 
                                               fail_rate = log(2) / 15,  
                                               hr = c(1, .6), 
@@ -205,7 +205,7 @@ gs_power_combo <- function(enroll_rate = tibble(Stratum = "All",
       enroll_rate, 
       fail_rate, 
       ratio, 
-      events = unique(utility$info_all$Events), 
+      event = unique(utility$info_all$Events), 
       analysis_time = unique(utility$info_all$Time), 
       weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = -1))))$AHR
   }

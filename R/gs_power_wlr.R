@@ -43,11 +43,11 @@
 #' library(gsDesign2)
 #' 
 #' # set enrollment rates
-#' enroll_rate <- tibble(Stratum = "All", duration = 12, rate = 500/12)
+#' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500/12)
 #' 
 #' # set failure rates
 #' fail_rate <- tibble(
-#'   Stratum = "All",
+#'   stratum = "All",
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15,  # median survival 15 month
 #'   hr = c(1, .6),
@@ -64,7 +64,7 @@
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   events = target_events,
+#'   event = target_events,
 #'   analysis_time = NULL,
 #'   upper = gs_b,
 #'   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -78,7 +78,7 @@
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   events = NULL,
+#'   event = NULL,
 #'   analysis_time = target_analysisTime,
 #'   upper = gs_b,
 #'   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -92,7 +92,7 @@
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   events = target_events,
+#'   event = target_events,
 #'   analysis_time = target_analysisTime,
 #'   upper = gs_b,
 #'   upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -106,7 +106,7 @@
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   events = target_events,
+#'   event = target_events,
 #'   analysis_time = NULL,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -120,7 +120,7 @@
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   events = NULL,
+#'   event = NULL,
 #'   analysis_time = target_analysisTime,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -134,17 +134,17 @@
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   events = target_events,
+#'   event = target_events,
 #'   analysis_time = target_analysisTime,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
 #'   
-gs_power_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                         fail_rate = tibble(Stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+                         fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
                                             hr = c(.9, .6), dropout_rate = rep(.001, 2)),
-                         events = c(30, 40, 50), 
+                         event = c(30, 40, 50), 
                          analysis_time = NULL, 
                          binding = FALSE,
                          upper = gs_b, 
@@ -160,7 +160,7 @@ gs_power_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 2
                          r = 18, 
                          tol = 1e-6){
   # get the number of analysis
-  K <- max(length(events), length(analysis_time), na.rm = TRUE)
+  K <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   
@@ -172,7 +172,7 @@ gs_power_wlr <- function(enroll_rate = tibble(Stratum = "All", duration = c(2, 2
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     ratio = ratio,
-    events = events,
+    event = event,
     weight = weight,
     analysis_time = analysis_time)
   
