@@ -50,15 +50,15 @@ library(gt)
 # Basic example
 
 # Constant enrollment over 12 months
-# Rate will be adjusted later by gsDesign NPH to get sample size
-enroll_rate <- tibble::tibble(Stratum = "All", duration = 12, rate = 1)
+# Rate will be adjusted later by gsDesign2 NPH to get sample size
+enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 1)
 
 # 12 month median exponential failure rate in control
 # 4 month delay in effect with HR=0.6 after
 # Low exponential dropout rate
 median_surv <- 12
 fail_rate <- tibble::tibble(
-  Stratum = "All",
+  stratum = "All",
   duration = c(4, Inf),
   fail_rate = log(2) / median_surv,
   hr = c(1, .6),
@@ -76,13 +76,13 @@ fail_rate %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="ctpmmbsuww" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ylzxwguajb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Stratum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">stratum</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">duration</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fail_rate</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hr</th>
@@ -134,13 +134,13 @@ fd$enroll_rate %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="jzokpomsrd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fzvalyxidu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Stratum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">stratum</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">duration</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">rate</th>
     </tr>
@@ -170,7 +170,7 @@ fd %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="wkoqkaejzv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mlwycyveqd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table">
   <thead class="gt_header">
@@ -268,7 +268,7 @@ gsd %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="tnfwnnvacq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fhmqzkkils" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table">
   <thead class="gt_header">

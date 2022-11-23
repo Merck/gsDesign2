@@ -116,15 +116,15 @@ The hazard ratio of the experimental group versus control is 1 for the first 3 m
 enroll_rate <- tibble::tibble(
   stratum = "All", # Note: this is done differently for multiple strata; see below!
   duration = c(2, 2, 10),
-  rate = c(3, 6, 9)
-)
+  rate = c(3, 6, 9))
+
 fail_rate <- tibble::tibble(
   stratum = "All",
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
   hr = c(1, .55),
-  dropout_rate = .001
-)
+  dropout_rate = .001)
+
 total_duration <- 30
 ```
 
@@ -143,8 +143,8 @@ Recall that the parameterization here is in terms of $\log(HR)$, and, thus the i
 avehr <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  total_duration = as.numeric(total_duration)
-)
+  total_duration = as.numeric(total_duration))
+
 avehr %>% gt()
 ```
 
@@ -181,6 +181,7 @@ target_event <- nEvents(
   alpha = .025, # 1-sided Type I error
   beta = .1 # Type II error (1-power)
 )
+
 target_event <- ceiling(target_event)
 target_event
 ```
@@ -193,8 +194,8 @@ enroll_rate$rate <- ceiling(target_event) / avehr$Events * enroll_rate$rate
 avehr <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  total_duration = as.numeric(total_duration)
-)
+  total_duration = as.numeric(total_duration))
+
 avehr %>% gt()
 ```
 
