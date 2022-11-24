@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 # Overview
 
-We provide simple examples for use of the **gsdmvn** package for deriving fixed and group sequential designs under non-proportional hazards.
+We provide simple examples for use of the **gsDesign2** package for deriving fixed and group sequential designs under non-proportional hazards.
 The piecewise model for enrollment, failure rates, dropout rates and changing hazard ratio over time allow great flexibility in design assumptions. 
 Users are encouraged to suggest features that would be of immediate and long-term interest to add.
 
@@ -47,13 +47,12 @@ Finally, while the final section provides current enhancement priorities, potent
 
 # Packages Used
 
-- The **gsdmvn** package is used here to implement group sequential distribution theory under non-proportional hazards and to derive a wide variety of boundary types for group sequential designs.
 - The **gsDesign** package is used as a check for results under proportional hazards as well as a source from deriving bounds using spending functions.
-- The **gsDesign2** package provides computations to compute expected event accumulation and average hazard ratio over time; these are key inputs to the group sequential distribution parameters.
+- The **gsDesign2** package provides 
+  + computations to compute expected event accumulation and average hazard ratio over time; these are key inputs to the group sequential distribution parameters.
+  + implement group sequential distribution theory under non-proportional hazards and to derive a wide variety of boundary types for group sequential designs.
 - The **simtrial** package is used to verify design properties using simulation.
 
-The **gsdmvn** package will likely will likely be incorporated eventually into the **gsDesign2** package, resulting in a fully featured design package.
-However, features and implementation in **gsdmvn** will be allowed to change as needed during the agile rapid development phase.
 
 ```{r, message=FALSE, warning=FALSE}
 library(gsDesign)
