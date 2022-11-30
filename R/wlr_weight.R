@@ -28,7 +28,9 @@
 #' @param rho A scalar parameter that controls the type of test
 #' @param gamma A scalar parameter that controls the type of test
 #' @param tau A scalar parameter of the cut-off time for modest weighted log rank test
+#' @param wmax A scalar parameter of the cut-off weight for modest weighted log rank test
 #' @param power A scalar parameter that controls the power of the weight function
+#' 
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
