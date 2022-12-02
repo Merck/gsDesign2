@@ -17,7 +17,7 @@ wlr_weight_n(x, arm0, arm1, power = 1)
 wlr_weight_mb(x, arm0, arm1, tau = NULL, wmax = Inf)
 }
 \arguments{
-\item{x}{a vector of numeric value}
+\item{x}{a vector of numeric values}
 
 \item{arm0}{an "arm" object defined in \code{npsurvSS} package}
 
