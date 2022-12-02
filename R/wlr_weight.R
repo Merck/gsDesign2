@@ -22,7 +22,7 @@
 #' * `wlr_weight_power` is Gehan-Breslow and Tarone-Ware weight function.
 #' * `wlr_weight_mb` is  Magirr (2021) weight function.
 #' 
-#' @param x analysis time
+#' @param x a vector of numeric values
 #' @param arm0 an "arm" object defined in `npsurvSS` package
 #' @param arm1 an "arm" object defined in `npsurvSS` package
 #' @param rho A scalar parameter that controls the type of test
