@@ -289,8 +289,8 @@ gs_design_combo <- function(enroll_rate = tibble(stratum = "All",
   analysis <- utility$info_all %>% 
     select(Analysis, test, Time, N, Events)%>% 
     mutate(theta = utility$info_all$theta,
-           EF = Events/tapply(Events, test, function(x) max(x)) %>% unlist() %>% as.numeric()) %>% 
-    select(Analysis, Time, N, Events, EF) %>% 
+           event_frac = Events/tapply(Events, test, function(x) max(x)) %>% unlist() %>% as.numeric()) %>% 
+    select(Analysis, Time, N, Events, event_frac) %>% 
     unique() %>% 
     mutate(AHR = AHR_dis) %>% 
     mutate(N = N *n / max(info_fh$N),

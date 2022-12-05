@@ -103,7 +103,6 @@ gs_power_combo(
   upper = gs_spending_combo,
   upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_combo,
-  lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
-
+  lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.2)) 
 
 }
