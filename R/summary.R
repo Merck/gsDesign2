@@ -329,7 +329,7 @@ summary.gs_design <- function(
       analysis_decimals <- c(1, 1, 1, 2, 2)
     }
     if(method == "combo"){
-      analysis_vars <- c("Time", "N", "Events", "AHR", "EF")
+      analysis_vars <- c("Time", "N", "Events", "AHR", "event_frac")
       analysis_decimals <- c(1, 1, 1, 2, 2)
     }
     if(method == "rd"){
@@ -350,8 +350,13 @@ summary.gs_design <- function(
     dplyr::arrange(Analysis)
   
   if("info_frac" %in% names(analyses)){
-    analyses <- analyses %>% dplyr::rename(`information fraction` = info_frac)
-    analysis_vars <- c(analysis_vars[analysis_vars != "info_frac"], "information fraction")
+    analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac)
+    analysis_vars <- c(analysis_vars[analysis_vars != "info_frac"], "Information fraction")
+  }
+  
+  if("event_frac" %in% names(analyses)){
+    analyses <- analyses %>% dplyr::rename(`Event fraction` = event_frac)
+    analysis_vars <- c(analysis_vars[analysis_vars != "event_frac"], "Event fraction")
   }
   
   # --------------------------------------------- #

@@ -57,8 +57,7 @@
 #'   upper = gs_spending_combo,
 #'   upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_combo,
-#'   lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
-#'
+#'   lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.2)) 
 #' 
 #' @section Specification:
 #' \if{latex}{
@@ -213,11 +212,11 @@ gs_power_combo <- function(enroll_rate = tibble(stratum = "All",
   analysis <- utility$info_all %>% 
     select(Analysis, test, Time, N, Events) %>% 
     mutate(theta = utility$info_all$theta,
-           EF = Events/tapply(Events, test, function(x) max(x)) %>% unlist() %>% as.numeric()) %>% 
-    select(Analysis, Time, N, Events, EF) %>% 
+           event_frac = Events/tapply(Events, test, function(x) max(x)) %>% unlist() %>% as.numeric()) %>% 
+    select(Analysis, Time, N, Events, event_frac) %>% 
     unique() %>% 
     mutate(AHR = AHR_dis) %>% 
-    mutate(N = N *n / max(info_fh$N),
+    mutate(N = N * n / max(info_fh$N),
            Events = Events * n / max(info_fh$N)) %>%  
     arrange(Analysis)
   
