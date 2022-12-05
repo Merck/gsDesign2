@@ -286,6 +286,7 @@ summary.gs_design <- function(
       x_decimals <- tibble::tibble(col_vars = col_vars, col_decimals = col_decimals)
     }
   }
+  
   if(method == "wlr"){
     if(is.null(col_vars) & is.null(col_decimals)){
       x_decimals <- tibble::tibble(
@@ -295,6 +296,7 @@ summary.gs_design <- function(
       x_decimals <- tibble::tibble(col_vars = col_vars, col_decimals = col_decimals)
     }
   }
+  
   if(method == "combo"){
     if(is.null(col_vars) & is.null(col_decimals)){
       x_decimals <- tibble::tibble(
@@ -339,13 +341,19 @@ summary.gs_design <- function(
   }else if(!is.null(analysis_vars) & is.null(analysis_decimals)){
     stop("summary: please input analysis_vars and analysis_decimals in pairs!")
   }
+  
   # set the analysis summary header
   analyses <- x_analysis %>%
     dplyr::group_by(Analysis) %>%
     dplyr::filter(dplyr::row_number() == 1) %>%
     dplyr::select(all_of(c("Analysis", analysis_vars))) %>%
     dplyr::arrange(Analysis)
-
+  
+  if("info_frac" %in% names(analyses)){
+    analyses <- analyses %>% dplyr::rename(`information fraction` = info_frac)
+    analysis_vars <- c(analysis_vars[analysis_vars != "info_frac"], "information fraction")
+  }
+  
   # --------------------------------------------- #
   #             merge 2 tables:                   #
   #         (1) alternate hypothesis table        #
@@ -372,23 +380,7 @@ summary.gs_design <- function(
   # change Lower -> bound_names[2], e.g., Futility
   xy <- xy %>%
     dplyr::mutate(Bound = dplyr::recode(Bound, "Upper" = bound_names[1], "Lower" = bound_names[2]))  %>%
-    dplyr::arrange(Analysis,desc(Bound))
-
-  # tbl_a <- x_bounds %>%
-  #   dplyr::filter(hypothesis == "H1") %>%
-  #   dplyr::rename("Alternate hypothesis" = Probability) %>%
-  #   # change Upper -> bound_names[1], e.g., Efficacy
-  #   # change Lower -> bound_names[2], e.g., Futility
-  #   dplyr::mutate(Bound = dplyr::recode(Bound, "Upper" = bound_names[1], "Lower" = bound_names[2]))
-  #
-  # # table B: a table under null hypothesis
-  # tbl_b <- x_bounds %>%
-  #   dplyr::filter(hypothesis == "H0") %>%
-  #   dplyr::rename("Null hypothesis" = Probability) %>%
-  #   dplyr::mutate(Bound = dplyr::recode(Bound, "Upper" = bound_names[1], "Lower" = bound_names[2])) %>%
-  #   dplyr::select(all_of(c("Analysis", "Bound", "Null hypothesis")))
-  #
-  # xy <- full_join(tbl_a, tbl_b, by = c("Analysis", "Bound"))
+    dplyr::arrange(Analysis, desc(Bound))
 
   # --------------------------------------------- #
   #             merge 2 tables:                   #

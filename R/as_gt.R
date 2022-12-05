@@ -288,6 +288,7 @@ as_gt.gs_design <- function(
   x_non_binding <- "non-binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x){return(as.numeric(substring(x, 11, 11)))}) %>% unlist()
   x_old <- x
+  
   # --------------------------------------------- #
   #     set defaults                              #
   # --------------------------------------------- #
