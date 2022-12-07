@@ -333,7 +333,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                    ratio = ratio,
                                    upper = gs_b, upar = qnorm(1 - alpha),
                                    lower = gs_b, lpar = -Inf,
-                                   N = tibble::tibble(stratum = "All", N = args$N, Analysis = 1),
+                                   n = tibble::tibble(stratum = "All", n = args$n, analysis = 1),
                                    rd0 = args$rd0,  weight = "un-stratified") 
                 }
                 
