@@ -78,7 +78,7 @@ NULL
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
-#'   )
+#' )
 #'   
 #' # ----------------- #
 #' #     example 2     #
@@ -140,9 +140,9 @@ gs_design_rd <- function(
   x_fix <- gs_info_rd(
     p_c = p_c, 
     p_e = p_e,
-    N = tibble(Analysis = 1, 
+    n = tibble(analysis = 1, 
                stratum = p_c$stratum, 
-               N = if(is.null(stratum_prev)){1}else{(stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x}), 
+               n = if(is.null(stratum_prev)){1}else{(stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x}), 
     rd0 = rd0,
     ratio = ratio,
     weight = weight) 
@@ -154,9 +154,9 @@ gs_design_rd <- function(
   x_gs <- gs_info_rd(
     p_c = p_c, 
     p_e = p_e,
-    N = tibble(Analysis = rep(1:k, n_strata), 
+    n = tibble(analysis = rep(1:k, n_strata), 
                stratum = rep(p_c$stratum, each = k), 
-               N = if(is.null(stratum_prev)){
+               n = if(is.null(stratum_prev)){
                       info_frac
                    }else{
                      rep((stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x, each = k) * info_frac
