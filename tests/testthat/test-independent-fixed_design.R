@@ -155,7 +155,7 @@ test_that("RD", {
                     tau = 18) 
   
   y <- fixed_design("rd", 
-                    alpha = 0.025, N = x$analysis$N,
+                    alpha = 0.025, n = x$analysis$N,
                     p_c = .15, p_e = .1, rd0 = 0, ratio = ratio,
                     tau = 18) 
   
