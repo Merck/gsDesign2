@@ -107,7 +107,7 @@ gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
-  )
+)
   
 # ----------------- #
 #     example 2     #

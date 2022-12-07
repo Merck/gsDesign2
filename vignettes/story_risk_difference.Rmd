@@ -561,7 +561,7 @@ The above logic is implemented in teh function `gs_info_rd()`.
 x <- gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .28),
   p_e = tibble::tibble(stratum = "All", rate = .4),
-  N = tibble::tibble(stratum = "All", N = 1, Analysis = 1),
+  n = tibble::tibble(stratum = "All", n = 1, analysis = 1),
   rd0 = 0, 
   ratio = 1,
   weight = "un-stratified") 
@@ -718,7 +718,7 @@ To calculate the sample size, one can use `gs_design_rd()`. The logic of
 x_gs <- gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
   p_e = tibble::tibble(stratum = "All", rate = .1),
-  N = tibble::tibble(stratum = "All", N = 1:3/3, Analysis = 1:3),
+  n = tibble::tibble(stratum = "All", n = 1:3/3, analysis = 1:3),
   rd0 = 0, 
   ratio = 1,
   weight = "un-stratified"

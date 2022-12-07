@@ -79,7 +79,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
   has_tau <- "tau" %in% names(args)
   has_enroll_rate <- "enroll_rate" %in% names(args)
   has_fail_rate <- "fail_rate" %in% names(args)
-  has_N <- "N" %in% names(args)
+  has_N <- "n" %in% names(args)
   
   # ------------------------- #
   #     check inputs          #
@@ -121,7 +121,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
     if(!"p_c" %in% names(args)){stop("fixed_design: p_c is needed for RD!")}
     if(!"p_e" %in% names(args)){stop("fixed_design: p_e is needed for RD!")}
     if(!"rd0" %in% names(args)){stop("fixed_design: rd0 is needed for RD!")}
-    if(is.null(power) && !has_N){stop("fixed_design: sample size N = ... is needed for RD!")}
+    if(is.null(power) && !has_N){stop("fixed_design: sample size n = ... is needed for RD!")}
   }
   
   # ------------------------- #
@@ -333,7 +333,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                    ratio = ratio,
                                    upper = gs_b, upar = qnorm(1 - alpha),
                                    lower = gs_b, lpar = -Inf,
-                                   N = tibble::tibble(stratum = "All", N = args$N, Analysis = 1),
+                                   n = tibble::tibble(stratum = "All", n = args$n, analysis = 1),
                                    rd0 = args$rd0,  weight = "un-stratified") 
                 }
                 
