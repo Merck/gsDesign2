@@ -433,7 +433,7 @@ summary.gs_design <- function(
     # header
     analysis_summary_header <- analyses %>%
       dplyr::select(all_of(c("Analysis", analysis_vars))) %>%
-      dplyr::rename("risk difference" = rd)
+      dplyr::rename("Risk difference" = rd)
     # bound details
     bound_summary_detail <- xy
   }
