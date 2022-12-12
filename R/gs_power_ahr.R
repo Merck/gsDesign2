@@ -197,7 +197,18 @@ gs_power_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
       arrange(Analysis)
   )
   
-  ans <- list(enroll_rate = enroll_rate, 
+  # --------------------------------------------- #
+  #     get input parameter to output             #
+  # --------------------------------------------- #
+  input <- list(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                event = event, analysis_time = analysis_time, 
+                upper = upper, upar = upar,
+                lower = lower, lpar = lpar, 
+                test_lower = test_lower,test_upper = test_upper,
+                ratio = ratio, binding = binding, info_scale = info_scale, r = r, tol = tol)
+  
+  ans <- list(input = input,
+              enroll_rate = enroll_rate, 
               fail_rate = fail_rate,
               bounds = bounds %>% filter(!is.infinite(Z)), 
               analysis = analysis)
