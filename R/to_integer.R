@@ -143,7 +143,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...){
                           alpha = x$input$alpha,
                           Power = (x_new$bounds %>% filter(Bound == "Upper"))$Probability)
     
-    list(input = x$input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, 
+    list(input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate, 
          analysis = ans, design = "mb", 
          design_par = x$design_par)
     
