@@ -159,7 +159,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
   }
   
   ans <- x %>% 
-    mutate(Design = design_mtd) %>% 
+    dplyr::mutate(Design = design_mtd) %>% 
     gt::gt() %>% 
     gt::tab_header(title = title) %>%     
     gt::tab_footnote(footnote = footnote, locations = gt::cells_title(group = "title"))
@@ -284,7 +284,7 @@ as_gt.gs_design <- function(
   ...
 ){
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
-  x_alpha <- max((x %>% filter(Bound == "Efficacy"))$`Null hypothesis`)
+  x_alpha <- max((x %>% dplyr::filter(Bound == "Efficacy"))$`Null hypothesis`)
   x_non_binding <- "non-binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x){return(as.numeric(substring(x, 11, 11)))}) %>% unlist()
   x_old <- x
@@ -343,7 +343,7 @@ as_gt.gs_design <- function(
   if(sum(!(display_columns %in% names(x))) >= 1){
     stop("as_gt: the variable names in display_columns is not outputted in the summary_bound object!")
   }else{
-    x <- x %>% dplyr::select(all_of(display_columns))
+    x <- x %>% dplyr::select(dplyr::all_of(display_columns))
   }
   
   # set different default footnotes to different methods
@@ -404,7 +404,7 @@ as_gt.gs_design <- function(
     dplyr::group_by(Analysis) %>%
     gt::gt() %>%
     gt::tab_spanner(
-      columns = all_of(colname_spannersub),
+      columns = dplyr::all_of(colname_spannersub),
       label = colname_spanner) %>% 
     gt::tab_header(title = title, subtitle = subtitle)
   
@@ -456,7 +456,7 @@ as_gt.gs_design <- function(
                           "The smaller value subtracts the probability of crossing a futility bound before ",
                           " crossing an efficacy bound at a later analysis (0.025 - ",
                           0.025 - x_alpha, " = ", x_alpha, ") under the null hypothesis."),
-        locations = cells_body(
+        locations = gt::cells_body(
           columns = `Null hypothesis`,
           rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & (x_old$Bound == "Efficacy")
         )
