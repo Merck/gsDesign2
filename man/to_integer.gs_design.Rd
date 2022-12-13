@@ -2,7 +2,7 @@
 % Please edit documentation in R/to_integer.R
 \name{to_integer.gs_design}
 \alias{to_integer.gs_design}
-\title{This is the function to format the bounds summary table of fixed design into gt style.}
+\title{This is the function to format group sequential design into interger sample size.}
 \usage{
 \method{to_integer}{gs_design}(x, sample_size = TRUE, ...)
 }
@@ -18,7 +18,7 @@ a list similar to the output of \code{gs_design_ahr}, \code{gs_design_wlr}, or \
 but the sample size is an integer
 }
 \description{
-This is the function to format the bounds summary table of fixed design into gt style.
+This is the function to format group sequential design into interger sample size.
 }
 \examples{
 library(dplyr)

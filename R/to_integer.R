@@ -28,7 +28,128 @@ to_integer <- function(x, ...) {
   UseMethod("to_integer", x)
 }
 
-#' This is the function to format the bounds summary table of fixed design into gt style.
+#' This is the function to format the fixed design into integer sample size.
+#' @rdname to_integer.fixed_design
+#' @param x an object returned from \code{fixed_design}
+#' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling sample size to an even integer
+#' @param ... additional arguments
+#' 
+#' @return a list similar to the output of \code{fixed_design}, but the sample size is an integer
+#' 
+#' @export to_integer
+#' @exportS3Method
+#'  
+#' @method to_integer fixed_design
+#' 
+#' @examples
+#' library(dplyr)
+#' library(gsDesign2)
+#' 
+#' # Average hazard ratio
+#' x <- fixed_design("ahr", 
+#'                   alpha = .025, power = .9, 
+#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12, hr = c(1, .6), dropout_rate = .001),
+#'                   study_duration = 36)
+#' x %>% to_integer()    
+#' 
+#' # FH
+#' x <- fixed_design("fh", alpha = 0.025, power = 0.9, 
+#'                   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 20), 
+#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12,hr = c(1, .6), dropout_rate = .001), 
+#'                   rho = 0.5, gamma = 0.5,
+#'                   study_duration = 36, ratio = 1)         
+#' x %>% to_integer() 
+#' 
+#' # MB
+#' x <- fixed_design("mb", alpha = 0.025, power = 0.9, 
+#'                   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 20), 
+#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12,hr = c(1, .6), dropout_rate = .001), 
+#'                   tau = 4,
+#'                   study_duration = 36, ratio = 1)         
+#' x %>% to_integer()                   
+to_integer.fixed_design <- function(x, sample_size = TRUE, ...){
+  
+  enroll_rate_new <- x$enroll_rate %>% mutate(rate = rate * ceiling(x$analysis$N / 2) * 2 / x$analysis$N) 
+  
+  input_N <- expected_accrual(time = x$analysis$Time, enroll_rate = x$input$enroll_rate)
+  output_N <- x$analysis$N
+  
+  if(x$design == "ahr" & input_N != output_N){
+    x_new <- gs_power_ahr(enroll_rate = enroll_rate_new,
+                          fail_rate = x$input$fail_rate,
+                          event = as.numeric(ceiling(x$analysis$Events)),
+                          analysis_time = NULL,
+                          ratio = x$input$ratio,
+                          upar = qnorm(1 - x$input$alpha), lpar = -Inf)
+    
+    ans <- tibble::tibble(Design = "ahr",
+                          N = x_new$analysis$N,
+                          Events = x_new$analysis$Events,
+                          Time = x_new$analysis$Time,
+                          Bound = (x_new$bounds %>% filter(Bound == "Upper"))$Z,
+                          alpha = x$input$alpha,
+                          Power = (x_new$bounds %>% filter(Bound == "Upper"))$Probability)
+    
+    list(input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate, 
+         analysis = ans, design = "ahr")
+    
+  }else if(x$design == "fh" & input_N != output_N){
+    x_new <- gs_power_wlr(enroll_rate = enroll_rate_new,
+                          fail_rate = x$input$fail_rate,
+                          event = as.numeric(ceiling(x$analysis$Events)),
+                          analysis_time = NULL,
+                          ratio = x$input$ratio,
+                          weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, 
+                                                                         rho = x$design_par$rho, 
+                                                                         gamma = x$design_par$gamma)},
+                          upar = qnorm(1 - x$input$alpha), lpar = -Inf)
+    
+    ans <- tibble::tibble(Design = "fh",
+                          N = x_new$analysis$N,
+                          Events = x_new$analysis$Events,
+                          Time = x_new$analysis$Time,
+                          Bound = (x_new$bounds %>% filter(Bound == "Upper"))$Z,
+                          alpha = x$input$alpha,
+                          Power = (x_new$bounds %>% filter(Bound == "Upper"))$Probability)
+    
+    list(input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate, 
+         analysis = ans, design = "fh", 
+         design_par = x$design_par)
+    
+    
+  }else if(x$design == "mb" & input_N != output_N){
+    x_new <- gs_power_wlr(enroll_rate = enroll_rate_new,
+                          fail_rate = x$input$fail_rate,
+                          event = as.numeric(ceiling(x$analysis$Events)),
+                          analysis_time = NULL,
+                          ratio = x$input$ratio,
+                          weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0,
+                                                                         tau = design_par$tau)},
+                          upar = qnorm(1 - x$input$alpha), lpar = -Inf)
+    
+    ans <- tibble::tibble(Design = "mb",
+                          N = x_new$analysis$N,
+                          Events = x_new$analysis$Events,
+                          Time = x_new$analysis$Time,
+                          Bound = (x_new$bounds %>% filter(Bound == "Upper"))$Z,
+                          alpha = x$input$alpha,
+                          Power = (x_new$bounds %>% filter(Bound == "Upper"))$Probability)
+    
+    list(input = x$input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, 
+         analysis = ans, design = "mb", 
+         design_par = x$design_par)
+    
+  }else{
+    message("The input object is not applicatable to get an integer sample size.")
+    x_new <- x
+  }
+  
+  return(x_new)
+}
+
+
+#' This is the function to format group sequential design into interger sample size.
 #' @rdname to_integer.gs_design
 #' @param x an object returned from \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo}
 #' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling sample size to an even integer
@@ -77,6 +198,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...){
                           info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
                           weight = x$input$weight,
                           approx = x$input$approx)
+  }else{
+    message("The input object is not applicatable to get an integer sample size.")
+    x_new <- x
   }
   
   return(x_new)
