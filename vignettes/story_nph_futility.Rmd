@@ -1,0 +1,157 @@
+---
+title: "Futility bounds at design and analysis under non-proportional hazards"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: "ggsd.bib"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Futility Bounds at Design and Analysis Under Non-proportional Hazards}
+---
+
+
+```{r, warning=FALSE, message = FALSE}
+library(gsDesign2)
+library(gt)
+library(dplyr)
+library(tibble)
+library(ggplot2)
+```
+
+
+# Overview
+
+We set up futility bounds under a non-proportional hazards assumption.
+We consider methods presented by @kornfreidlin2018 for setting such bounds and then consider an alternate futility bound based on $\beta-$spending under a delayed or crossing treatment effect to simplify implementation.
+Finally, we show how to update this $\beta-$spending bound based on blinded interim data.
+We will consider an example to reproduce a line of @kornfreidlin2018 Table 1 with the alternative futility bounds considered.
+
+
+## Initial design set-up for fixed analysis
+
+@kornfreidlin2018 considered delayed effect scenarios and proposed a futility bound that is a modification of an earlier method proposed by @wieand. 
+We begin with the enrollment and failure rate assumptions which @kornfreidlin2018 based on an example by @ttchen2013.
+
+```{r}
+# Enrollment assumed to be 680 patients over 12 months with no ramp-up
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 680 / 12)
+# Failure rates
+## Control exponential with median of 12 mos
+## Delayed effect with HR = 1 for 3 months and HR = .693 thereafter
+## Censoring rate is 0
+fail_rate <- tibble(stratum = "All", duration = c(3, 100), 
+                   fail_rate = -log(.5) / 12, hr = c(1, .693), dropout_rate = 0)
+## Study duration was 34.8 in Korn & Freidlin Table 1
+## We change to 34.86 here to obtain 512 expected events more precisely
+study_duation <- 34.86
+```
+
+We now derive a fixed sample size based on these assumptions.
+Ideally, we would allow a targeted event count and variable follow-up in `fixed_design()` so that the study duration will be computed automatically.
+
+
+```{r}
+fixedevents <- fixed_design(x = "AHR", alpha = 0.025, power = NULL, 
+                            enroll_rate = enroll_rate,
+                            fail_rate = fail_rate,
+                            study_duation = study_duation)
+
+fixedevents %>% 
+  summary() %>% 
+  select(-Bound) %>%
+  as_gt(footnote="Power based on 512 events") %>%
+  fmt_number(columns = 3:4, decimals = 2) %>% 
+  fmt_number(columns = 5:6, decimals = 3)
+```
+
+
+
+# Modified Wieand futility bound
+
+The @wieand rule recommends stopping after 50% of planned events accrue if the observed HR > 1.
+kornfreidlin2018 modified this by adding a second interim analysis after 75% of planned events and stop if the observed HR > 1
+This is implemented here by requiring a trend in favor of control with a direction $Z$-bound at 0 resulting in the *Nominal p* bound being 0.5 for interim analyses in the table below.
+A fixed bound is specified with the 'gs_b()` function for `upper` and `lower` and its correspoinding parameters `upar` for the upper (efficacy) bound and `lpar` for the lower (futility) bound.
+The final efficacy bound is for a 1-sided nominal p-value of 0.025; the futility bound lowers this to 0.0247 as noted in the lower-right-hand corner of the table below.
+In the last row under *Alternate hypothesis* below we see the power is 88.44%.
+@kornfreidlin2018 computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884)/100000),4),'%',sep='')`.
+
+```{r}
+wieand <- gs_power_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                       upper = gs_b, upar = c(rep(Inf, 2), qnorm(.975)),
+                       lower = gs_b, lpar = c(0, 0, -Inf),
+                       event = 512 * c(.5, .75, 1))
+wieand %>% summary() %>% 
+  as_gt(title = "Group sequential design with futility only at interim analyses",
+        subtitle = "Wieand futility rule stops if HR > 1")
+```
+
+# Beta-spending futility bound with AHR
+
+Need to summarize here.
+
+
+```{r}
+betaspending <- gs_power_ahr(enroll_rate = enroll_rate, 
+                             fail_rate = fail_rate,
+                             upper = gs_b, 
+                             upar = c(rep(Inf, 2), qnorm(.975)),
+                             lower = gs_spending_bound, 
+                             lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                             event = 512 * c(.5, .75, 1),
+                             test_lower = c(TRUE, TRUE, FALSE))
+
+betaspending %>% 
+  summary() %>% as_gt(title="Group sequential design with futility only",
+                      subtitle="Beta-spending futility bound")
+```
+
+# Classical beta-spending futility bound
+
+A classical $\beta-$spending bound would assume a constant treatment effect over time using the  proportional hazards assumption. We use the average hazard ratio at the fixed design analysis for this purpose.
+
+# Korn and Freidlin futility bound
+
+The @kornfreidlin2018 futility bound is set *when at least 50% of the expected events have occurred and at least two thirds of the observed events have occurred later than 3 months from randomization*.
+The expected timing for this is demonstrated below.
+
+## Accumulation of events by time interval
+
+We consider the accumulation of events over time that occur during the no-effect interval for the first 3 months after randomization and events after this time interval.
+This is done for the overall trial without dividing out by treatment group using the `gsDesign2::AHR()` function.
+We consider monthly accumulation of events through the 34.86 months planned trial duration.
+We note in the summary of early expected events below that all events during the first 3 months on-study are expected prior to the first interim analysis.
+
+```{r}
+event_accumulation <- AHR(enroll_rate = enroll_rate,
+                          fail_rate = fail_rate,
+                          total_duration = c(1:34, 34.86),
+                          ratio = 1,
+                          simple = FALSE)
+head(event_accumulation, n = 7) %>% gt()
+```
+
+We can look at the proportion of events after the first 3 months as follows:
+
+```{r}
+event_accumulation %>% 
+  group_by(Time) %>%
+  summarize(`Total events` = sum(Events), "Proportion early" = first(Events) /  `Total events`) %>%
+  ggplot(aes(x = Time, y = `Proportion early`)) + geom_line()
+```
+
+For the @kornfreidlin2018 bound the targeted timing is when both 50% of events have occurred and at least 2/3 are more than 3 months after enrollment with 3 months being the delayed effect period.
+We see above that about 1/3 of events are still within 3 months of enrollment at month 20.
+
+## Korn and Freidlin bound
+
+The bound proposed by @kornfreidlin2018 
+
+
+
+# References

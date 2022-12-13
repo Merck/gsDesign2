@@ -1,8 +1,13 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# gsDesign2 <img src="man/figures/logo.png" align="right" width="120" />
+
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Merck/gsDesign2/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/gsDesign2?branch=main)
+[![Codecov test
+coverage](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/gsDesign2?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.org/package=gsDesign2)
 <!-- badges: end -->
@@ -14,15 +19,8 @@ under non-proportional hazards. Piecewise constant enrollment, failure
 rates and dropout rates for a stratified population are available to
 enable highly flexible enrollment, time-to-event and time-to-dropout
 assumptions. Substantial flexibility on top of what is in the gsDesign
-package is intended for selecting boundaries. While this work is in
-progress, substantial capabilities have been enabled. Comments on
-usability and features are encouraged as this is a development version
-of the package.
-
-The goal of gsDesign2 is to enable group sequential trial design for
-time-to-event endpoints under non-proportional hazards assumptions. The
-package is still maturing; as the package functions become more stable,
-they will likely be included in the gsDesign2 package.
+package is intended for selecting boundaries. Comments on usability and
+features are encouraged as this is still a young package.
 
 ## Installation
 
@@ -52,19 +50,19 @@ library(gt)
 # Basic example
 
 # Constant enrollment over 12 months
-# Rate will be adjusted later by gsDesignNPH to get sample size
-enrollRates <- tibble::tibble(Stratum = "All", duration = 12, rate = 1)
+# Rate will be adjusted later by gsDesign2 NPH to get sample size
+enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 1)
 
 # 12 month median exponential failure rate in control
 # 4 month delay in effect with HR=0.6 after
 # Low exponential dropout rate
-medianSurv <- 12
-failRates <- tibble::tibble(
-  Stratum = "All",
+median_surv <- 12
+fail_rate <- tibble::tibble(
+  stratum = "All",
   duration = c(4, Inf),
-  failRate = log(2) / medianSurv,
+  fail_rate = log(2) / median_surv,
   hr = c(1, .6),
-  dropoutRate = .001
+  dropout_rate = .001
 )
 ```
 
@@ -73,22 +71,22 @@ rows and strata as needed can be specified to approximate whatever
 patterns you wish.
 
 ``` r
-failRates %>%
+fail_rate %>%
   gt() %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="rukhwqbnsm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ylzxwguajb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Stratum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">duration</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">failRate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hr</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">dropoutRate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">stratum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">duration</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fail_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dropout_rate</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -108,40 +106,43 @@ failRates %>%
 </table>
 </div>
 
-### Step 2: compute the design
+### Step 2: derive a fixed design with no interim analyses
 
 Computing a fixed sample size design with 2.5% one-sided Type I error
 and 90% power. We specify a trial duration of 36 months with
-`analysisTimes`. Since there is a single analysis, we specify an upper
-p-value bound of 0.025 with `upar = qnorm(0.975)`. There is no lower
-bound which is specified with `lpar = -Inf`.
+`analysisTimes`. Enrollment duration is the sum of
+`enrollRates$duration`. We used the `fixed_design()` routine since there
+is a single analysis:
 
 ``` r
-x <- gs_design_ahr(
-  enrollRates, failRates,
-  upper = gs_b, upar = qnorm(.975),
-  lower = gs_b, lpar = -Inf,
-  IF = 1, analysisTimes = 36
+fd <- fixed_design(
+  method = "ahr",
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  alpha = 0.025,
+  power = 0.9,
+  study_duration = 36,
+  ratio = 1 # Experimental/control randomization ratio
 )
 ```
 
-The input enrollment rates are scaled to achieve power:
+The input enrollment rates have now been scaled to achieve power:
 
 ``` r
-x$enrollRates %>%
+fd$enroll_rate %>%
   gt() %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="yjtuqvrhny" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fzvalyxidu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Stratum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">duration</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">stratum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">duration</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">rate</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -154,180 +155,193 @@ x$enrollRates %>%
 </table>
 </div>
 
-The failure and dropout rates remain unchanged from what was input:
+The failure and dropout rates remain unchanged from what was input. The
+summary is obtained below. The columns are Design (sample size
+derivation method), N (sample size; generally you will round up to an
+even number), Events (generally you will round up), Bound (Z value for
+efficacy; this is the inverse normal from 1 - alpha), alpha (1-sided
+alpha level for testing), Power (power corresponding to enrollment,
+failure rate and trial targeted events).
 
 ``` r
-x$failRates %>%
-  gt() %>%
-  as_raw_html(inline_css = FALSE)
-```
-
-<div id="lsubyqwkcb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-  
-  <table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Stratum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">duration</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">failRate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hr</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">dropoutRate</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_left">All</td>
-<td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">0.05776227</td>
-<td class="gt_row gt_right">1.0</td>
-<td class="gt_row gt_right">0.001</td></tr>
-    <tr><td class="gt_row gt_left">All</td>
-<td class="gt_row gt_right">Inf</td>
-<td class="gt_row gt_right">0.05776227</td>
-<td class="gt_row gt_right">0.6</td>
-<td class="gt_row gt_right">0.001</td></tr>
-  </tbody>
-  
-  
-</table>
-</div>
-
-Additionally, the summary of bounds and crossing probability is
-available at
-
-``` r
-x$bounds %>%
-  gt() %>%
-  as_raw_html(inline_css = FALSE)
-```
-
-<div id="xxbcmivtvt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-  
-  <table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Analysis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Probability</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Probability0</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">~HR at bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Nominal p</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">1</td>
-<td class="gt_row gt_left">Upper</td>
-<td class="gt_row gt_right">0.9</td>
-<td class="gt_row gt_right">0.025</td>
-<td class="gt_row gt_right">1.959964</td>
-<td class="gt_row gt_right">0.800693</td>
-<td class="gt_row gt_right">0.025</td></tr>
-  </tbody>
-  
-  
-</table>
-</div>
-
-Finally, the expected analysis time is in `Time`, sample size `N`,
-events required `Events` and average hazard ratio `AHR` are in
-`x$analysis`. Note that `AHR` is the average hazard ratio used to
-calculate the targeted event counts. The natural parameter (`log(AHR)`)
-is in theta and corresponding statistical information under the
-alternate hypothesis are in `info` and under the null hypothesis in
-`info0`.
-
-``` r
-x$analysis %>%
-  gt() %>%
-  as_raw_html(inline_css = FALSE)
-```
-
-<div id="kxchevjpcx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-  
-  <table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Analysis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">N</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Events</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">AHR</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">theta</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">info</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">info0</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">IF</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">36</td>
-<td class="gt_row gt_right">420.6346</td>
-<td class="gt_row gt_right">311.0028</td>
-<td class="gt_row gt_right">0.6917244</td>
-<td class="gt_row gt_right">0.3685676</td>
-<td class="gt_row gt_right">76.74383</td>
-<td class="gt_row gt_right">77.75069</td>
-<td class="gt_row gt_right">1</td></tr>
-  </tbody>
-  
-  
-</table>
-</div>
-
-### Step 3: summarize the design
-
-``` r
-x %>%
+fd %>%
   summary() %>%
   as_gt() %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="qdcrjlcmwp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mlwycyveqd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <td colspan="5" class="gt_heading gt_title gt_font_normal" style>Bound summary for AHR design</td>
+      <th colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Fixed Design under AHR Method<sup class="gt_footnote_marks">1</sup></th>
     </tr>
-    <tr>
-      <td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>AHR approximations of ~HR at bound</td>
-    </tr>
+    
   </thead>
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">Nominal p<sup class="gt_footnote_marks">1</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">~HR at bound<sup class="gt_footnote_marks">2</sup></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup">
-        <span class="gt_column_spanner">Cumulative boundary crossing probability</span>
-      </th>
-    </tr>
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Null hypothesis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Design</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">N</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Events</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Bound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">alpha</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Power</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr class="gt_group_heading_row">
-      <td colspan="5" class="gt_group_heading">Analysis: 1 Time: 36 N: 420.6 Events: 311 AHR: 0.69 IF: 1</td>
-    </tr>
-    <tr class="gt_row_group_first"><td class="gt_row gt_left">Efficacy</td>
+    <tr><td class="gt_row gt_left">ahr</td>
+<td class="gt_row gt_right">420.6346</td>
+<td class="gt_row gt_right">311.0028</td>
+<td class="gt_row gt_right">36</td>
+<td class="gt_row gt_right">1.959964</td>
 <td class="gt_row gt_right">0.025</td>
-<td class="gt_row gt_right">0.8007</td>
-<td class="gt_row gt_right">0.9</td>
-<td class="gt_row gt_right">0.025</td></tr>
+<td class="gt_row gt_right">0.9</td></tr>
   </tbody>
   
   <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="5"><sup class="gt_footnote_marks">1</sup> One-sided p-value for experimental vs control treatment. Values &lt; 0.5 favor experimental, &gt; 0.5 favor control.</td>
+      <td class="gt_footnote" colspan="7"><sup class="gt_footnote_marks">1</sup> Power computed with average hazard ratio method.</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+### Step 3: group sequential design
+
+We provide a simple example for a group sequential design that
+demonstrates a couple of features not available in the *gsDesign*
+package. The first is specifying analysis times by calendar time rather
+than information fraction. The second is not having an efficacy and
+futility bound at each analysis. This is in addition to having methods
+for non-proportional hazards as demonstrated in the fixed design above
+and again here.
+
+We use an O’Brien-Fleming spending function to derive our efficacy
+bounds at 24 and 36 months. For futility, we simply require a nominally
+significant trend in the wrong direction (p\<0.1) after 8 months, a
+trend in favor of experimental treatment after 14 months
+(![Z \> 0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Z%20%3E%200 "Z > 0"))
+and no bound later
+(![Z = -\infty](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Z%20%3D%20-%5Cinfty "Z = -\infty")).
+Thus, we have two efficacy analyses and two separate, earlier futility
+analysis. Power is set to 80% due to the somewhat aggressive futility
+bounds that are used for safety (analysis 1 half way through enrollment)
+and proof of concept (analysis 2). Such aggressive futility bounds may
+be desirable when a previous proof of concept for experimental treatment
+has not been established; essentially, this becomes a Phase II/III
+design with an interim evaluation of appropriate efficacy trends before
+completing the trial.
+
+``` r
+gsd <- gs_design_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025,
+  beta = 0.2, # 80% power; enables aggressive futility bound specified
+  analysis_time = c(8, 14, 24, 36),
+  binding = FALSE, # Non-binding futility bound
+  upper = gs_spending_bound, # Use spending bound for efficacy; total_spend is normally alpha
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  test_upper = c(FALSE, FALSE, TRUE, TRUE), # Only test efficacy after 1st analysis
+  lower = gs_b, # Fixed Z-values will be provided for futility bound
+  lpar = c(qnorm(0.1), 0, -Inf, -Inf)
+)
+```
+
+Now we summarize the derived design. The summary table is further
+described in vignette *Summarize group sequential designs in nice gt
+tables*. Note that the design trend in favor of experimental treatment
+is very minor at 8 months due to the delayed effect assumption used (see
+AHR at analysis 1 in table). The design trend at 16 months is somewhat
+more favorable when we are looking for HR \< 1 (favoring experimental
+treatment) for a proof of concept. Actual bounds and timing selected for
+a trial are situation dependent, but we hope the suggestions here are
+provocative for what might be considered.
+
+``` r
+gsd %>%
+  summary() %>%
+  as_gt() %>%
+  as_raw_html(inline_css = FALSE)
+```
+
+<div id="fhmqzkkils" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  <table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="6" class="gt_heading gt_title gt_font_normal" style>Bound summary for AHR design</th>
     </tr>
     <tr>
-      <td class="gt_footnote" colspan="5"><sup class="gt_footnote_marks">2</sup> Approximate hazard ratio to cross bound.</td>
+      <th colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>AHR approximations of ~HR at bound</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1">Bound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1">Z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1">Nominal p<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1">~HR at bound<sup class="gt_footnote_marks">2</sup></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2">
+        <span class="gt_column_spanner">Cumulative boundary crossing probability</span>
+      </th>
+    </tr>
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Alternate hypothesis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Null hypothesis</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr class="gt_group_heading_row">
+      <td colspan="6" class="gt_group_heading">Analysis: 1 Time: 8 N: 279.1 Events: 53.2 AHR: 0.91 info_frac: 0.17</td>
+    </tr>
+    <tr class="gt_row_group_first"><td class="gt_row gt_left">Futility</td>
+<td class="gt_row gt_right">-1.28</td>
+<td class="gt_row gt_right">0.9000</td>
+<td class="gt_row gt_right">1.4210</td>
+<td class="gt_row gt_right">0.0539</td>
+<td class="gt_row gt_right">0.1000</td></tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="6" class="gt_group_heading">Analysis: 2 Time: 14 N: 418.7 Events: 137.2 AHR: 0.82 info_frac: 0.44</td>
+    </tr>
+    <tr class="gt_row_group_first"><td class="gt_row gt_left">Futility</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">0.5000</td>
+<td class="gt_row gt_right">1.0000</td>
+<td class="gt_row gt_right">0.1451</td>
+<td class="gt_row gt_right">0.5091</td></tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="6" class="gt_group_heading">Analysis: 3 Time: 24 N: 418.7 Events: 238.4 AHR: 0.72 info_frac: 0.76</td>
+    </tr>
+    <tr class="gt_row_group_first"><td class="gt_row gt_left">Efficacy</td>
+<td class="gt_row gt_right">2.30</td>
+<td class="gt_row gt_right">0.0106</td>
+<td class="gt_row gt_right">0.7421</td>
+<td class="gt_row gt_right">0.5582</td>
+<td class="gt_row gt_right">0.0106</td></tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="6" class="gt_group_heading">Analysis: 4 Time: 36 N: 418.7 Events: 309.5 AHR: 0.69 info_frac: 1</td>
+    </tr>
+    <tr class="gt_row_group_first"><td class="gt_row gt_left">Efficacy</td>
+<td class="gt_row gt_right">2.02</td>
+<td class="gt_row gt_right">0.0219</td>
+<td class="gt_row gt_right">0.7951</td>
+<td class="gt_row gt_right">0.8000</td>
+<td class="gt_row gt_right">0.0244<sup class="gt_footnote_marks">3</sup></td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">1</sup> One-sided p-value for experimental vs control treatment. Values &lt; 0.5 favor experimental, &gt; 0.5 favor control.</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">2</sup> Approximate hazard ratio to cross bound.</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">3</sup> Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before  crossing an efficacy bound at a later analysis (0.025 - 6e-04 = 0.0244) under the null hypothesis.</td>
     </tr>
   </tfoot>
 </table>

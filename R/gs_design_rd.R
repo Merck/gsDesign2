@@ -25,14 +25,14 @@ NULL
 #' 
 #' @param p_c rate at the control group
 #' @param p_e rate at the experimental group 
-#' @param IF statistical information fraction
+#' @param info_frac statistical information fraction
 #' @param rd0 treatment effect under super-superiority designs, the default is 0
 #' @param alpha One-sided Type I error
 #' @param beta Type II error
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
 #' @param stratum_prev randomization ratio of different stratum. 
 #' If it is un-stratified design then \code{NULL}.
-#' Otherwise it is a tibble containing two columns (Stratum and prevalence).
+#' Otherwise it is a tibble containing two columns (stratum and prevalence).
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param upper Function to compute upper bound
 #' @param upar Parameter passed to \code{upper()}
@@ -43,12 +43,11 @@ NULL
 #' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param h1_spending Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
+#' @param h1_spending Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
 #' if spending is used for lower bound
-#' 
-#' @param r  Integer, at least 2; default of 18 recommended by Jennison and Turnbull
-
-#' 
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
+#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
+#' Normally \code{r} will not be changed by the user.
 #' @param info_scale the information scale for calculation
 #' @param weight the weighting scheme for stratified population
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
@@ -66,9 +65,9 @@ NULL
 #' #------------------ #
 #' # un-stratified group sequential design
 #' gs_design_rd(
-#'   p_c = tibble(Stratum = "All", Rate = .2),
-#'   p_e = tibble(Stratum = "All", Rate = .15),
-#'   IF = c(0.7, 1),
+#'   p_c = tibble(stratum = "All", rate = .2),
+#'   p_e = tibble(stratum = "All", rate = .15),
+#'   info_frac = c(0.7, 1),
 #'   rd0 = 0, 
 #'   alpha = .025,                  
 #'   beta = .1,                    
@@ -79,21 +78,21 @@ NULL
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
-#'   )
+#' )
 #'   
 #' # ----------------- #
 #' #     example 2     #
 #' # ----------------- #
 #' # stratified group sequential design
 #' gs_design_rd(
-#'   p_c = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.2, .25)),
-#'   p_e = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.15,.22)),
-#'   IF = c(0.7, 1),
+#'   p_c = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.2, .25)),
+#'   p_e = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.15,.22)),
+#'   info_frac = c(0.7, 1),
 #'   rd0 = 0, 
 #'   alpha = .025,                  
 #'   beta = .1,                    
 #'   ratio = 1,
-#'   stratum_prev = tibble(Stratum = c("biomarker positive", "biomarker negative"), prevalence = c(.4, .6)),
+#'   stratum_prev = tibble(stratum = c("biomarker positive", "biomarker negative"), prevalence = c(.4, .6)),
 #'   weight = "ss",
 #'   upper = gs_spending_bound,lower = gs_b,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -101,9 +100,9 @@ NULL
 #' )
 #' 
 gs_design_rd <- function(
-    p_c = tibble(Stratum = "All", Rate = .2),
-    p_e = tibble(Stratum = "All", Rate = .15),
-    IF = 1:3/3,
+    p_c = tibble(stratum = "All", rate = .2),
+    p_e = tibble(stratum = "All", rate = .15),
+    info_frac = 1:3/3,
     rd0 = 0, 
     alpha = .025,                  
     beta = .1,                    
@@ -127,11 +126,11 @@ gs_design_rd <- function(
   # --------------------------------------------- #
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   weight <- if(methods::missingArg(weight)){"un-stratified"}else{match.arg(weight)}
-  n_strata <- length(unique(p_c$Stratum))
-  if(methods::missingArg(IF)){
+  n_strata <- length(unique(p_c$stratum))
+  if(methods::missingArg(info_frac)){
     k <- 1
   }else{
-    k <- length(IF)
+    k <- length(info_frac)
   }
   
   # --------------------------------------------- #
@@ -141,9 +140,9 @@ gs_design_rd <- function(
   x_fix <- gs_info_rd(
     p_c = p_c, 
     p_e = p_e,
-    N = tibble(Analysis = 1, 
-               Stratum = p_c$Stratum, 
-               N = if(is.null(stratum_prev)){1}else{(stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x}), 
+    n = tibble(analysis = 1, 
+               stratum = p_c$stratum, 
+               n = if(is.null(stratum_prev)){1}else{(stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x}), 
     rd0 = rd0,
     ratio = ratio,
     weight = weight) 
@@ -155,12 +154,12 @@ gs_design_rd <- function(
   x_gs <- gs_info_rd(
     p_c = p_c, 
     p_e = p_e,
-    N = tibble(Analysis = rep(1:k, n_strata), 
-               Stratum = rep(p_c$Stratum, each = k), 
-               N = if(is.null(stratum_prev)){
-                      IF
+    n = tibble(analysis = rep(1:k, n_strata), 
+               stratum = rep(p_c$stratum, each = k), 
+               n = if(is.null(stratum_prev)){
+                      info_frac
                    }else{
-                     rep((stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x, each = k) * IF
+                     rep((stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x, each = k) * info_frac
                    }), 
     rd0 = rd0,
     ratio = ratio,
@@ -199,10 +198,10 @@ gs_design_rd <- function(
            rd0 = rd0,
            "~Risk difference at bound" = Z / sqrt(info) / theta * (rd -rd0)  + rd0, 
            "Nominal p" = pnorm(-Z),
-           IF0 = if(sum(!is.na(info0)) == 0){NA}else{info0 / max(info0)},
+           info_frac0 = if(sum(!is.na(info0)) == 0){NA}else{info0 / max(info0)},
            N = (y_gs %>% filter(Bound == "Upper", Analysis == k))$info
-               / ifelse(info_scale == 0, x_fix$info0[1], x_fix$info1[1])  * IF) %>% 
-    select(c(Analysis, Bound,  N, rd, rd0, Z, Probability, Probability0, info, info0, IF, IF0, `~Risk difference at bound`, `Nominal p`)) %>% 
+               / ifelse(info_scale == 0, x_fix$info0[1], x_fix$info1[1])  * info_frac) %>% 
+    select(c(Analysis, Bound,  N, rd, rd0, Z, Probability, Probability0, info, info0, info_frac, info_frac0, `~Risk difference at bound`, `Nominal p`)) %>% 
     arrange(Analysis, desc(Bound)) 
   
   # --------------------------------------------- #
@@ -216,16 +215,19 @@ gs_design_rd <- function(
   # --------------------------------------------- #
   analysis <- allout %>% 
     filter(Bound == "Upper") %>% 
-    select(Analysis, N, rd, rd0, info, info0, IF, IF0) 
+    select(Analysis, N, rd, rd0, info, info0, info_frac, info_frac0) 
   
   # --------------------------------------------- #
   #     return the output                         #
   # --------------------------------------------- #
   ans <- list(
-    bounds = bounds,
+    bounds = bounds %>% filter(!is.infinite(Z)),
     analysis = analysis)
   
   class(ans) <- c("rd", "gs_design", class(ans))
+  if(!binding){
+    class(ans) <- c("non-binding", class(ans))
+  }
   
   return(ans)
 }

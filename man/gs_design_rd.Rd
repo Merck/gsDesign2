@@ -5,9 +5,9 @@
 \title{Group sequential design using average hazard ratio under non-proportional hazards}
 \usage{
 gs_design_rd(
-  p_c = tibble(Stratum = "All", Rate = 0.2),
-  p_e = tibble(Stratum = "All", Rate = 0.15),
-  IF = 1:3/3,
+  p_c = tibble(stratum = "All", rate = 0.2),
+  p_e = tibble(stratum = "All", rate = 0.15),
+  info_frac = 1:3/3,
   rd0 = 0,
   alpha = 0.025,
   beta = 0.1,
@@ -32,7 +32,7 @@ gs_design_rd(
 
 \item{p_e}{rate at the experimental group}
 
-\item{IF}{statistical information fraction}
+\item{info_frac}{statistical information fraction}
 
 \item{rd0}{treatment effect under super-superiority designs, the default is 0}
 
@@ -44,7 +44,7 @@ gs_design_rd(
 
 \item{stratum_prev}{randomization ratio of different stratum.
 If it is un-stratified design then \code{NULL}.
-Otherwise it is a tibble containing two columns (Stratum and prevalence).}
+Otherwise it is a tibble containing two columns (stratum and prevalence).}
 
 \item{weight}{the weighting scheme for stratified population}
 
@@ -67,11 +67,13 @@ lower bound}
 
 \item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
 
-\item{r}{Integer, at least 2; default of 18 recommended by Jennison and Turnbull}
+\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 
-\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{failRates})
+\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound}
 }
 \value{
@@ -92,9 +94,9 @@ library(gsDesign)
 #------------------ #
 # un-stratified group sequential design
 gs_design_rd(
-  p_c = tibble(Stratum = "All", Rate = .2),
-  p_e = tibble(Stratum = "All", Rate = .15),
-  IF = c(0.7, 1),
+  p_c = tibble(stratum = "All", rate = .2),
+  p_e = tibble(stratum = "All", rate = .15),
+  info_frac = c(0.7, 1),
   rd0 = 0, 
   alpha = .025,                  
   beta = .1,                    
@@ -105,21 +107,21 @@ gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
-  )
+)
   
 # ----------------- #
 #     example 2     #
 # ----------------- #
 # stratified group sequential design
 gs_design_rd(
-  p_c = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.2, .25)),
-  p_e = tibble(Stratum = c("biomarker positive", "biomarker negative"), Rate = c(.15,.22)),
-  IF = c(0.7, 1),
+  p_c = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.2, .25)),
+  p_e = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.15,.22)),
+  info_frac = c(0.7, 1),
   rd0 = 0, 
   alpha = .025,                  
   beta = .1,                    
   ratio = 1,
-  stratum_prev = tibble(Stratum = c("biomarker positive", "biomarker negative"), prevalence = c(.4, .6)),
+  stratum_prev = tibble(stratum = c("biomarker positive", "biomarker negative"), prevalence = c(.4, .6)),
   weight = "ss",
   upper = gs_spending_bound,lower = gs_b,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),

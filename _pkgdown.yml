@@ -30,138 +30,127 @@ navbar:
     href: reference/index.html
   - text: Articles
     href: articles/index.html
+  - text: News
+    href: news/index.html
 
 reference:
-- title: High-level Functions
+- title: "High-level Functions"
   desc: >
     Functions to calculate fixed/group sequential design under multiple tests.
   contents:
     - fixed_design
-- title: AHR
+- title: "AHR"
   desc: >
     Functions for the average hazard ratio (AHR) method. 
   contents: 
-  - AHR
-  - tEvents
-  - eEvents_df
-  - gs_info_ahr
-  - gs_power_ahr
-  - gs_design_ahr
+    - AHR
+    - expected_time
+    - expected_event
+    - gs_info_ahr
+    - gs_power_ahr
+    - gs_design_ahr
 - title: "WLR"
   desc: >
     Functions for the weighted logrank test (WLR) method. 
   contents: 
-  - wlr_weight_fh
-  - wlr_weight_1
-  - gs_info_wlr
-  - gs_power_wlr
-  - gs_design_wlr
-- title: Max Combo
+    - wlr_weight_fh
+    - wlr_weight_1
+    - gs_info_wlr
+    - gs_power_wlr
+    - gs_design_wlr
+- title: "Max Combo"
   desc: >
     Functions for the max combo method. 
   contents: 
-  - pmvnorm_combo
-  - gs_info_combo
-  - gs_spending_combo
-  - gs_power_combo
-  - gs_design_combo
-- title: Risk differnce
+    - pmvnorm_combo
+    - gs_info_combo
+    - gs_spending_combo
+    - gs_power_combo
+    - gs_design_combo
+- title: "Risk differnce"
   desc: >
     Functions for risk differences. 
   contents: 
-  - gs_info_rd
-  - gs_power_rd
-  - gs_design_rd
-- title: Summary and display tables
+    - gs_info_rd
+    - gs_power_rd
+    - gs_design_rd
+- title: "Summary and display tables"
   desc: >
     Functions to summarize fixed / group sequential design results. 
   contents:
-  - summary.fixed_design
-  - summary.gs_design
-  - as_gt
-  - as_gt.fixed_design
-  - as_gt.gs_design
-- title: Boundary functions
+    - summary.fixed_design
+    - summary.gs_design
+    - as_gt
+    - as_gt.fixed_design
+    - as_gt.gs_design
+- title: "Boundary functions"
   desc: >
     Functions to specify the upper and lower bound in group sequential designs.
     They are not recommended to use alone. 
     Instead, they should be used companied with gs_design_npe, gs_power_npe, ect..
   contents: 
-  - gs_b
-  - gs_spending_bound
-- title: Lower level helper functions
+    - gs_b
+    - gs_spending_bound
+- title: "Lower level helper functions"
   desc: >
     Functions to calculate sample size or number of events under non-constant treatment effect over time.
   contents: 
-  - gs_power_npe
-  - gs_design_npe
-  - eAccrual
-  - ahr_blinded
-  - ppwe
-  - s2pwe
-  
+    - gs_power_npe
+    - gs_design_npe
+    - expected_accrual
+    - ppwe
+    - s2pwe
+
 articles:
-- title: "Use gsDesign2 to solve practical problems"
-  navbar: ~
+  
+- title: "Quick start of gsDesign2"
   desc: >
-    The following vignettes cover cases where gsDesin2 can be used to solve problems in practics.
-  contents: 
+    The following vignettes offers a quick tutorial to learn gsDesign2.
+  contents:
   - story_quick_start
+
+- title: "NPH background"
+  desc: >
+    The following vignettes cover an introduction of NPH.
+  contents:
   - story_npe_background
-  - story_design_with_ahr
-  - story_ahr_under_nph
-  - story_design_with_spending
-  - story_spending_time_example
-  - story_power_evaluation_with_spending_bound
-  - story_summarize_designs
   - story_compare_power_delay_effect
   - story_compute_npe_bound
   - story_npe_integration
+  - story_nph_futility
   - story_arbitrary_distribution
-  - story_compute_expected_events
-  - story_risk_difference
-  - NPH_Futility
-- title: "Use case of functions"
-  navbar: ~
-  desc: >
-    The following vignettes cover the usage of the key functions in gsDesign2.
-  contents: 
-  - usage_eEvents_df
-  - usage_AHR
-  - usage_tEvents
-  - usage_gs_info_ahr
-  - usage_gs_info_wlr
-  - usage_gs_info_combo
-  - usage_gs_power_ahr
-  - usage_gs_power_wlr
-  - usage_gs_power_combo
-  - usage_gs_design_ahr
-  - usage_gs_design_wlr
-  - usage_gs_design_combo
-  - usage_gs_b
-  - usage_gs_spending_bound
-  - usage_gs_power_npe
-  - usage_eAccural
-  - usage_summary_as_gt
-  - usage_fixed_design
   
-- title: "Check of functions"
-  navbar: Testing & checks of functions
+- title: "Spending bound"
   desc: >
-    The following vignettes cover the tests and checks of the key functions in gsDesign2.
+    The following vignettes cover an introduction of spending bounds.
+  contents:
+  - story_design_with_spending
+  - story_spending_time_example
+  - story_power_evaluation_with_spending_bound
+
+- title: "Design by AHR"
+  desc: >
+    The following vignettes show how to develop designs for time-to-event endpoints by AHR.
+  contents:
+  - story_design_with_ahr
+  - story_ahr_under_nph
+  - story_compute_expected_events
+  - story_summarize_designs
+
+- title: "Design for binary endpoints"
+  desc: >
+    The following vignettes show how to develop designs for binary endpoints.
   contents: 
-  - check_gridpts_h1_hupdate
-  - check_eEvents_df
-  - check_AHR
-  - check_tEvents
-  - check_gs_power_npe
-  - check_gs_design_npe
-  - check_gs_info_ahr
-  - check_gs_info_wlr
-  - check_gs_info_combo
-  - check_gs_power_ahr
-  - check_gs_power_wlr
-  - check_gs_power_combo
-  - check_gs_design_ahr
-  - check_gs_design_wlr
-  - check_gs_design_combo
+  - story_risk_difference
+
+- title: "Key functions in gsDesign2"
+  contents: 
+  - starts_with("usage_")
+
+- title: "Best practices"
+  contents:
+  - starts_with("best_practice_")
+
+- title: "Style guide"
+  contents: 
+  - style

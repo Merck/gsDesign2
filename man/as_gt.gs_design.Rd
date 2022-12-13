@@ -49,6 +49,7 @@ a gt table summarizing the bounds table in group sequential designs
 This is the function to format the bounds summary table into gt style.
 }
 \examples{
+\dontrun{
 # the default output 
 library(dplyr)
 
@@ -68,7 +69,7 @@ gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt()
 
-\dontrun{
+
 gs_design_combo() \%>\% 
   summary() \%>\% 
   as_gt() 
@@ -84,7 +85,7 @@ gs_design_rd() \%>\%
 gs_power_rd() \%>\% 
   summary() \%>\% 
   as_gt()
-} 
+ 
 # usage of title = ..., subtitle = ...
 # to edit the title/subtitle 
 gs_power_wlr() \%>\% 
@@ -124,5 +125,6 @@ gs_power_wlr() \%>\%
 gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
+}
 
 }

@@ -6,7 +6,9 @@
 \alias{gsDesign2-package}
 \title{gsDesign2: Group Sequential Design with Non-Constant Effect}
 \description{
-Basic group sequential design computations extended.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+The goal of gsDesign2 is to enable fixed or group sequential design under non-proportional hazards. Piecewise constant enrollment, failure rates and dropout rates for a stratified population are available to enable highly flexible enrollment, time-to-event and time-to-dropout assumptions. Substantial flexibility on top of what is in the gsDesign package is intended for selecting boundaries.
 }
 \seealso{
 Useful links:
@@ -24,17 +26,18 @@ Authors:
 \itemize{
   \item Keaven Anderson \email{keaven_anderson@merck.com}
   \item Yilong Zhang \email{elong0527@gmail.com}
+  \item Jianxiao Yang \email{yangjx@ucla.edu}
+  \item Nan Xiao \email{nan.xiao1@merck.com}
 }
 
 Other contributors:
 \itemize{
-  \item Jianxiao Yang \email{yangjx@ucla.edu} [contributor]
-  \item Nan Xiao \email{nan.xiao1@merck.com} [contributor]
   \item Amin Shirazi \email{ashirazist@gmail.com} [contributor]
   \item Ruixue Wang \email{ruixue.wang@merck.com} [contributor]
   \item Yi Cui \email{yi.cui@merck.com} [contributor]
   \item Ping Yang \email{ping.yang1@merck.com} [contributor]
   \item Xin Tong Li \email{xin.tong.li@merck.com} [contributor]
+  \item Chenxiang Li \email{chenxiang.li@merck.com} [contributor]
   \item Yalin Zhu \email{yalin.zhu@merck.com} [contributor]
   \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder]
 }

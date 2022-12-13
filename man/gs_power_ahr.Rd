@@ -5,14 +5,14 @@
 \title{Group sequential design power using average hazard ratio under non-proportional hazards}
 \usage{
 gs_power_ahr(
-  enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  failRates = tibble(Stratum = "All", duration = c(3, 100), failRate = log(2)/c(9, 18),
-    hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
-  events = c(30, 40, 50),
-  analysisTimes = NULL,
+  enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+  fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+    hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
+  event = c(30, 40, 50),
+  analysis_time = NULL,
   upper = gs_b,
-  upar = gsDesign(k = length(events), test.type = 1, n.I = events, maxn.IPlan =
-    max(events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  upar = gsDesign(k = length(event), test.type = 1, n.I = event, maxn.IPlan = max(event),
+    sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lower = gs_b,
   lpar = c(qnorm(0.1), rep(-Inf, 2)),
   test_lower = TRUE,
@@ -25,13 +25,13 @@ gs_power_ahr(
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
+\item{fail_rate}{failure and dropout rates}
 
-\item{events}{Targeted events at each analysis}
+\item{event}{Targeted event at each analysis}
 
-\item{analysisTimes}{Minimum time of analysis}
+\item{analysis_time}{Minimum time of analysis}
 
 \item{upper}{Function to compute upper bound}
 
@@ -54,7 +54,9 @@ otherwise, a logical vector of the same length as \code{info} should indicate wh
 
 \item{info_scale}{the information scale for calculation}
 
-\item{r}{Integer, at least 2; default of 18 recommended by Jennison and Turnbull}
+\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 }
@@ -68,7 +70,7 @@ Group sequential design power using average hazard ratio under non-proportional 
 \details{
 Bound satisfy input upper bound specification in \code{upper, upar} and lower bound specification in \code{lower, lpar}.
 The \code{AHR()} function computes statistical information at targeted event times.
-The \code{tEvents()} function is used to get events and average HR at targeted \code{analysisTimes}.
+The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
 }
 \section{Specification}{
 
@@ -90,17 +92,17 @@ library(dplyr)
 #       example 1          #
 # ------------------------ #
 # The default output of \code{gs_power_ahr} is driven by events, i.e.,
-# \code{events = c(30, 40, 50), analysisTimes = NULL}
+# \code{event = c(30, 40, 50), analysis_time = NULL}
 gs_power_ahr() 
 
 # -------------------------#
 #       example 2          #
 # -------------------------#
 # 2-sided symmetric O'Brien-Fleming spending bound, 
-# driven by analysis time, i.e., \code{events = NULL, analysisTimes = c(12, 24, 36)}
+# driven by analysis time, i.e., \code{event = NULL, analysis_time = c(12, 24, 36)}
 gs_power_ahr(
-  analysisTimes = c(12, 24, 36),
-  events = NULL,
+  analysis_time = c(12, 24, 36),
+  event = NULL,
   binding = TRUE,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -111,10 +113,10 @@ gs_power_ahr(
 #       example 3          #
 # -------------------------#
 # 2-sided symmetric O'Brien-Fleming spending bound,
-# driven by events, i.e., \code{events = c(20, 50, 70), analysisTimes = NULL}
+# driven by event, i.e., \code{event = c(20, 50, 70), analysis_time = NULL}
 gs_power_ahr(
-  analysisTimes = NULL,
-  events = c(20, 50, 70),
+  analysis_time = NULL,
+  event = c(20, 50, 70),
   binding = TRUE,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -125,14 +127,14 @@ gs_power_ahr(
 #       example 4          #
 # -------------------------#
 # 2-sided symmetric O'Brien-Fleming spending bound,
-# driven by both `events` and `analysisTimes`, i.e.,
-# both `events` and `analysisTimes` are not `NULL`,
+# driven by both `event` and `analysis_time`, i.e.,
+# both `event` and `analysis_time` are not `NULL`,
 # then the analysis will driven by the maximal one, i.e.,
-# Time = max(analysisTime, calculated Time for targeted events)
-# Events = max(events, calculated events for targeted analysisTime)
+# Time = max(analysis_time, calculated Time for targeted event)
+# Events = max(events, calculated events for targeted analysis_time)
 gs_power_ahr(
-  analysisTimes = c(12, 24, 36),
-  events = c(30, 40, 50),
+  analysis_time = c(12, 24, 36),
+  event = c(30, 40, 50),
   binding = TRUE,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),

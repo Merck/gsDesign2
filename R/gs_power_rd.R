@@ -19,7 +19,7 @@
 #'
 #' @param p_c rate at the control group
 #' @param p_e rate at the experimental group 
-#' @param N sample size 
+#' @param n sample size 
 #' @param rd0 treatment effect under super-superiority designs, the default is 0
 #' @param ratio experimental:control randomization ratio
 #' @param upper function to compute upper bound
@@ -36,7 +36,9 @@
 #' single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise,
 #' a logical vector of the same length as \code{info} should indicate which analyses will have a lower bound
-#' @param r Integer, at least 2; default of 18 recommended by Jennison and Turnbull
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
+#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
+#' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' 
 #' @return a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
@@ -51,13 +53,13 @@
 #' 
 #' # un-stratified case with H0: rd0 = 0
 #' gs_power_rd(
-#'   p_c = tibble::tibble(Stratum = "All",
-#'                        Rate = .2),
-#'   p_e = tibble::tibble(Stratum = "All",
-#'                        Rate = .15),
-#'   N = tibble::tibble(Stratum = "All",
-#'                      N = c(20, 40, 60),
-#'                      Analysis = 1:3),
+#'   p_c = tibble::tibble(stratum = "All",
+#'                        rate = .2),
+#'   p_e = tibble::tibble(stratum = "All",
+#'                        rate = .15),
+#'   n = tibble::tibble(stratum = "All",
+#'                      n = c(20, 40, 60),
+#'                      analysis = 1:3),
 #'   rd0 = 0,
 #'   ratio = 1,
 #'   upper = gs_b,
@@ -71,13 +73,13 @@
 #' # --------------------- #
 #' # un-stratified case with H0: rd0 != 0
 #' gs_power_rd(
-#'   p_c = tibble::tibble(Stratum = "All",
-#'                        Rate = .2),
-#'   p_e = tibble::tibble(Stratum = "All",
-#'                        Rate = .15),
-#'   N = tibble::tibble(Stratum = "All",
-#'                      N = c(20, 40, 60),
-#'                      Analysis = 1:3),
+#'   p_c = tibble::tibble(stratum = "All",
+#'                        rate = .2),
+#'   p_e = tibble::tibble(stratum = "All",
+#'                        rate = .15),
+#'   n = tibble::tibble(stratum = "All",
+#'                      n = c(20, 40, 60),
+#'                      analysis = 1:3),
 #'   rd0 = 0.005,
 #'   ratio = 1,
 #'   upper = gs_b,
@@ -88,13 +90,13 @@
 #' 
 #' # use spending function
 #' gs_power_rd(
-#'   p_c = tibble::tibble(Stratum = "All",
-#'                        Rate = .2),
-#'   p_e = tibble::tibble(Stratum = "All",
-#'                        Rate = .15),
-#'   N = tibble::tibble(Stratum = "All",
-#'                      N = c(20, 40, 60),
-#'                      Analysis = 1:3),
+#'   p_c = tibble::tibble(stratum = "All",
+#'                        rate = .2),
+#'   p_e = tibble::tibble(stratum = "All",
+#'                        rate = .15),
+#'   n = tibble::tibble(stratum = "All",
+#'                      n = c(20, 40, 60),
+#'                      analysis = 1:3),
 #'   rd0 = 0.005,
 #'   ratio = 1,
 #'   upper = gs_spending_bound,
@@ -108,13 +110,13 @@
 #' # --------------------- #
 #' # stratified case under sample size weighting and H0: rd0 = 0
 #' gs_power_rd(
-#'   p_c = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.15, .2, .25)),
-#'   p_e = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.1, .16, .19)),
-#'   N = tibble::tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-#'                      Analysis = rep(1:3, 3),
-#'                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
+#'   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.15, .2, .25)),
+#'   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.1, .16, .19)),
+#'   n = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+#'                      analysis = rep(1:3, 3),
+#'                      n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
 #'   rd0 = 0,
 #'   ratio = 1,
 #'   weight = "ss",
@@ -128,76 +130,79 @@
 #' # --------------------- #
 #' # stratified case under inverse variance weighting and H0: rd0 = 0
 #' gs_power_rd(
-#'   p_c = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.15, .2, .25)),
-#'   p_e = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.1, .16, .19)),
-#'   N = tibble::tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-#'                      Analysis = rep(1:3, 3),
-#'                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
+#'   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.15, .2, .25)),
+#'   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.1, .16, .19)),
+#'   n = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+#'                      analysis = rep(1:3, 3),
+#'                      n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
 #'   rd0 = 0,
 #'   ratio = 1,
 #'   weight = "invar",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-#'   lpar = c(qnorm(.1), rep(-Inf, 2)))
+#'   lpar = c(qnorm(.1), rep(-Inf, 2))
+#' )
 #' 
 #' # --------------------- #
 #' #      example 5        #
 #' # --------------------- #
 #' # stratified case under sample size weighting and H0: rd0 != 0
 #' gs_power_rd(
-#'   p_c = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.15, .2, .25)),
-#'   p_e = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.1, .16, .19)),
-#'   N = tibble::tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-#'                      Analysis = rep(1:3, 3),
-#'                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
+#'   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.15, .2, .25)),
+#'   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.1, .16, .19)),
+#'   n = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+#'                      analysis = rep(1:3, 3),
+#'                      n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
 #'   rd0 = 0.02,
 #'   ratio = 1,
 #'   weight = "ss",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-#'   lpar = c(qnorm(.1), rep(-Inf, 2)))
+#'   lpar = c(qnorm(.1), rep(-Inf, 2))
+#' )
 #' 
 #' # --------------------- #
 #' #      example 6        #
 #' # --------------------- #
 #' # stratified case under inverse variance weighting and H0: rd0 != 0
 #' gs_power_rd(
-#'   p_c = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.15, .2, .25)),
-#'   p_e = tibble::tibble(Stratum = c("S1", "S2", "S3"),
-#'                        Rate = c(.1, .16, .19)),
-#'   N = tibble::tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-#'                      Analysis = rep(1:3, 3),
-#'                      N = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
+#'   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.15, .2, .25)),
+#'   p_e = tibble::tibble(stratum = c("S1", "S2", "S3"),
+#'                        rate = c(.1, .16, .19)),
+#'   n = tibble::tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+#'                      analysis = rep(1:3, 3),
+#'                      n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)),
 #'   rd0 = 0.03,
 #'   ratio = 1,
 #'   weight = "invar",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-#'   lpar = c(qnorm(.1), rep(-Inf, 2)))
+#'   lpar = c(qnorm(.1), rep(-Inf, 2))
+#' )
 #'   
 gs_power_rd <- function(
-    p_c = tibble::tibble(Stratum = "All", 
-                         Rate = .2),
-    p_e = tibble::tibble(Stratum = "All",
-                         Rate = .15),
-    N = tibble::tibble(Stratum = "All",  
-                       N = c(40, 50, 60),
-                       Analysis = 1:3),
+    p_c = tibble::tibble(stratum = "All", 
+                         rate = .2),
+    p_e = tibble::tibble(stratum = "All",
+                         rate = .15),
+    n = tibble::tibble(stratum = "All",  
+                       n = c(40, 50, 60),
+                       analysis = 1:3),
     rd0 = 0, 
     ratio = 1,
     weight = c("un-stratified", "ss", "invar"),
     upper = gs_b,
     lower = gs_b,
-    upar = list(par = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound),
-    lpar = list(par = c(qnorm(.1), rep(-Inf, length(N) - 1))),
+    upar = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+    lpar = c(qnorm(.1), rep(-Inf, length(N) - 1)),
     info_scale = c(0, 1, 2),
     binding = FALSE,
     test_upper = TRUE,
@@ -207,7 +212,7 @@ gs_power_rd <- function(
 ){
   
   # get the number of analysis
-  K <- max(N$Analysis)
+  K <- max(n$analysis)
   # get the info_scale
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
   # get the weighting scheme
@@ -220,7 +225,7 @@ gs_power_rd <- function(
   x <- gs_info_rd(
     p_c = p_c,
     p_e = p_e,
-    N = N,
+    n = n,
     rd0 = rd0,
     ratio = ratio,
     weight = weight)
@@ -275,16 +280,19 @@ gs_power_rd <- function(
   suppressMessages(
     analysis <- x %>% 
       select(Analysis, N, rd, rd0, theta1, theta0) %>% 
-      left_join(y_H1 %>% select(Analysis, info, IF) %>% unique()) %>%
-      left_join(y_H0 %>% select(Analysis, info, IF) %>% dplyr::rename(info0 = info, IF0 = IF) %>% unique()) %>%
-      select(Analysis, N, rd, rd0, theta1, theta0, info, info0, IF, IF0)
+      left_join(y_H1 %>% select(Analysis, info, info_frac) %>% unique()) %>%
+      left_join(y_H0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
+      select(Analysis, N, rd, rd0, theta1, theta0, info, info0, info_frac, info_frac0)
   )
   
   ans <- list(
-    bounds = bounds,
+    bounds = bounds %>% filter(!is.infinite(Z)),
     analysis = analysis)
   
   class(ans) <- c("rd", "gs_design", class(ans))
+  if(!binding){
+    class(ans) <- c("non-binding", class(ans))
+  }
   
   return(ans)
 }

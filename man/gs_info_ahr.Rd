@@ -5,31 +5,31 @@
 \title{Information and effect size based on AHR approximation}
 \usage{
 gs_info_ahr(
-  enrollRates = tibble::tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
+  enroll_rate = tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
     9)),
-  failRates = tibble::tibble(Stratum = "All", duration = c(3, 100), failRate =
-    log(2)/c(9, 18), hr = c(0.9, 0.6), dropoutRate = rep(0.001, 2)),
+  fail_rate = tibble::tibble(stratum = "All", duration = c(3, 100), fail_rate =
+    log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   ratio = 1,
-  events = NULL,
-  analysisTimes = NULL
+  event = NULL,
+  analysis_time = NULL
 )
 }
 \arguments{
-\item{enrollRates}{enrollment rates}
+\item{enroll_rate}{enrollment rates}
 
-\item{failRates}{failure and dropout rates}
+\item{fail_rate}{failure and dropout rates}
 
 \item{ratio}{Experimental:Control randomization ratio}
 
-\item{events}{Targeted minimum events at each analysis}
+\item{event}{Targeted minimum events at each analysis}
 
-\item{analysisTimes}{Targeted minimum study duration at each analysis}
+\item{analysis_time}{Targeted minimum study duration at each analysis}
 }
 \value{
 a \code{tibble} with columns \code{Analysis, Time, AHR, Events, theta, info, info0.}
 \code{info, info0} contains statistical information under H1, H0, respectively.
-For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysisTimes[k]} and the expected time
-required to accrue the targeted \code{events[k]}.
+For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
+required to accrue the targeted \code{event[k]}.
 \code{AHR} is expected average hazard ratio at each analysis.
 }
 \description{
@@ -38,19 +38,19 @@ approximate information and effect size using an average hazard ratio model.
 }
 \details{
 The \code{AHR()} function computes statistical information at targeted event times.
-The \code{tEvents()} function is used to get events and average HR at targeted \code{analysisTimes}.
+The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
 }
 \section{Specification}{
 
 \if{latex}{
  \itemize{
-   \item Validate if input events is a numeric value vector or a vector with increasing values.
-   \item Validate if input analysisTime is a numeric value vector or a vector with increasing values.
-   \item Validate if inputs events and analysisTime have the same length if they are both specified.
+   \item Validate if input event is a numeric value vector or a vector with increasing values.
+   \item Validate if input analysis_time is a numeric value vector or a vector with increasing values.
+   \item Validate if inputs event and analysis_time have the same length if they are both specified.
    \item Compute average hazard ratio:
    \itemize{
-     \item If analysisTime is specified, calculate average hazard ratio using \code{gsDesign2::AHR()}.
-     \item If events is specified, calculate average hazard ratio using \code{gsDesign2::tEvents()}.
+     \item If analysis_time is specified, calculate average hazard ratio using \code{AHR()}.
+     \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
    }
    \item Return a tibble of Analysis, Time, AHR, Events, theta, info, info0.
   }
@@ -66,20 +66,20 @@ library(gsDesign2)
 #       Example 1          #
 # ------------------------ #
 # Only put in targeted events
-gs_info_ahr(events = c(30, 40, 50))
+gs_info_ahr(event = c(30, 40, 50))
 
 # ------------------------ #
 #       Example 2          #
 # ------------------------ #
 # Only put in targeted analysis times
-gs_info_ahr(analysisTimes = c(18, 27, 36))
+gs_info_ahr(analysis_time = c(18, 27, 36))
 
 # ------------------------ #
 #       Example 3          #
 # ------------------------ #
-# Some analysis times after time at which targeted events accrue
-# Check that both Time >= input analysisTime and Events >= input events
-gs_info_ahr(events = c(30, 40, 50), analysisTimes = c(16, 19, 26))
-gs_info_ahr(events = c(30, 40, 50), analysisTimes = c(14, 20, 24))
+# Some analysis times after time at which targeted event accrue
+# Check that both Time >= input analysis_time and event >= input event
+gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
+gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
 
 }

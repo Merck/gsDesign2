@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 library(dplyr)
 library(tibble)
 library(gt)
-devtools::load_all()
+library(gsDesign2)
 ```
 
 # Overview
@@ -61,21 +61,22 @@ The design parameters we use across the different designs derived are:
 
 ```{r}
 # enrollment/failure rates
-enrollRates <- tibble::tibble(
-   Stratum = "All", 
+enroll_rate <- tibble::tibble(
+   stratum = "All", 
    duration = 12, 
    rate = 1)
-failRates <- tibble::tibble(
-   Stratum = "All", 
+
+fail_rate <- tibble::tibble(
+   stratum = "All", 
    duration = c(4, 100), 
-   failRate = log(2) / 12,
+   fail_rate = log(2) / 12,
    hr = c(1, .6), 
-   dropoutRate = .001)
+   dropout_rate = .001)
 
 # Information fraction
-IF <- (1:3)/3 
+info_frac <- (1:3)/3 
 # Analysis times in months; first 2 will be ignored as IF will not be achieved
-analysisTimes <- c(.01, .02, 36)  
+analysis_time <- c(.01, .02, 36)  
 
 # Experimental / Control randomization ratio
 ratio <- 1 
@@ -102,9 +103,9 @@ wgt05 <- function(x, arm0, arm1){    # Early downweighting with FH(0,.5)
 # Both of above tests for MaxCombo: logrank and FH(0,.5)
 fh_test <- rbind(
    # Include logrank for all 3 analyses
-   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysisTimes = c(12, 24, 36)), 
+   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)), 
    # Only include FH(0,.5) for analyses 2 and 3
-   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysisTimes = 36))
+   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36))
 ```
 
 ## Deriving Designs
@@ -117,10 +118,10 @@ By using the design parameters above, one can generate an AHR model by `gs_desig
 
 ```{r, message=FALSE}
 x_design_ahr <- gs_design_ahr(
-   enrollRates = enrollRates,
-   failRates = failRates,
-   IF = IF, 
-   analysisTimes = analysisTimes, 
+   enroll_rate = enroll_rate,
+   fail_rate = fail_rate,
+   info_frac = info_frac, 
+   analysis_time = analysis_time, 
    ratio = ratio, 
    alpha = alpha, 
    beta = beta, 
@@ -131,10 +132,10 @@ x_design_ahr <- gs_design_ahr(
 )
 
 x_power_ahr <- gs_power_ahr(
-   enrollRates = x_design_ahr$enrollRates,
-   failRates = x_design_ahr$failRates,
-   events = c(100, 200, 400),
-   analysisTimes = NULL,
+   enroll_rate = x_design_ahr$enroll_rate,
+   fail_rate = x_design_ahr$fail_rate,
+   event = c(100, 200, 400),
+   analysis_time = NULL,
    upper = upper,
    upar = upar,
    lower = lower,
@@ -147,11 +148,11 @@ x_power_ahr <- gs_power_ahr(
 
 ```{r, message=FALSE}
 x_design_wlr <- gs_design_wlr(
-   enrollRates = enrollRates,
-   failRates = failRates,
+   enroll_rate = enroll_rate,
+   fail_rate = fail_rate,
    weight = wgt05, 
-   IF = NULL, 
-   analysisTimes = sort(unique(x_design_ahr$analysis$Time)), 
+   info_frac = NULL, 
+   analysis_time = sort(unique(x_design_ahr$analysis$Time)), 
    ratio = ratio, 
    alpha = alpha, 
    beta = beta,   
@@ -160,18 +161,6 @@ x_design_wlr <- gs_design_wlr(
    lower = lower,
    lpar = lpar
 )
-
-# x_power_wlr <- gs_power_wlr(
-#    enrollRates = x_design_wlr$enrollRates,
-#    failRates = x_design_wlr$failRates,
-#    weight = wgt05, 
-#    events = c(100, 150, 250),
-#    analysisTimes = NULL, 
-#    upper = upper,
-#    upar = upar,
-#    lower = lower,
-#    lpar = lpar
-# )
 ```
 
 # Default Summary Table Production
@@ -206,12 +195,6 @@ x_design_wlr %>%
   gt::fmt_number(columns = c(3:6), decimals = 4)
 ```
 
-Note that `summary()` can also be applied to summarize an object returned by `gs_power_wlr()`.
-```{r, eval=FALSE}
-summary(x_power_wlr) %>% 
-   gt::gt() %>% 
-   gt::fmt_number(columns = c(3:6), decimals = 4)
-```
 
 
 # Detailed Summary Table Formatting
@@ -299,19 +282,19 @@ There are four components in the objects returned by either `gs_design_ahr()`/`g
 
 ## Failure Rates
 
-The failure rates of different gsDesign object can be obtained by using `x$failRates`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`. 
+The failure rates of different gsDesign object can be obtained by using `x$fail_rate`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`. 
 For example, the failure rates of the AHR design derivation can be returned by calling 
 ```{r}
-x_design_ahr$failRates %>% 
+x_design_ahr$fail_rate %>% 
    gt::gt() %>% 
    gt::fmt_number(columns = 3:5, decimals = 4)
 ```
 
-Please note that both `x_design_ahr` and `x_wlr` returns the same failure rates, which is the same as that inputted as `failRates`. 
+Please note that both `x_design_ahr` and `x_wlr` returns the same failure rates, which is the same as that inputted as `fail_rate`. 
 To verify, let's take a look at the failure rate of the WLR design derivation, which are shown as below.
 
 ```{r}
-x_design_wlr$failRates %>% 
+x_design_wlr$fail_rate %>% 
    gt::gt() %>% 
    gt::fmt_number(columns = 3:5, decimals = 4)
 ```
@@ -319,17 +302,17 @@ x_design_wlr$failRates %>%
 
 ## Enrollment
 
-The enrollment rate of a gs design derivation can be collected by using `x$failRates`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`.
+The enrollment rate of a gs design derivation can be collected by using `x$fail_rate`, where `x` is the object returned either by `gs_design_ahr` or `gs_design_wlr`.
 For example, the enrollment rates of the AHR/WLR design derivation is
 
 ```{r}
-x_design_ahr$enrollRates %>% 
+x_design_ahr$enroll_rate %>% 
    gt::gt() %>% 
    gt::fmt_number(columns = 3, decimals = 4)
 ```
 
 ```{r}
-x_design_wlr$enrollRates %>% 
+x_design_wlr$enroll_rate %>% 
    gt::gt() %>% 
    gt::fmt_number(columns = 3, decimals = 4)
 ```

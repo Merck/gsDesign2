@@ -20,14 +20,17 @@
 #' * `wlr_weight_fh` is Fleming-Harriongton, FH(rho, gamma) weight function.
 #' * `wlr_weight_1`  is constant for log rank test
 #' * `wlr_weight_power` is Gehan-Breslow and Tarone-Ware weight function.
-#'
-#' @param x analysis time
+#' * `wlr_weight_mb` is  Magirr (2021) weight function.
+#' 
+#' @param x a vector of numeric values
 #' @param arm0 an "arm" object defined in `npsurvSS` package
 #' @param arm1 an "arm" object defined in `npsurvSS` package
 #' @param rho A scalar parameter that controls the type of test
 #' @param gamma A scalar parameter that controls the type of test
 #' @param tau A scalar parameter of the cut-off time for modest weighted log rank test
+#' @param wmax A scalar parameter of the cut-off weight for modest weighted log rank test
 #' @param power A scalar parameter that controls the power of the weight function
+#' 
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -77,4 +80,12 @@ wlr_weight_n <- function(x, arm0, arm1, power = 1){
   tmax <- arm0$total_time
   
   (n * (p0 * prob_risk(arm0, x, tmax) + p1 * prob_risk(arm1, x,tmax)))^power
+}
+
+#' @rdname wlr_weight
+#' @export
+wlr_weight_mb <- function(x, arm0, arm1, tau = NULL, wmax = Inf){
+  
+  pmin(wmax, wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau))
+  
 }

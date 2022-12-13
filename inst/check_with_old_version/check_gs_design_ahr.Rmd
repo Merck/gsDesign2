@@ -1,0 +1,294 @@
+---
+title: "Test of the function gs_design_ahr"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    highlight: "textmate"
+    css: "custom.css"
+# bibliography: "example.bib"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Test of the function gs_design_ahr}
+---
+
+```{r, message=FALSE}
+library(tibble)
+library(dplyr)
+library(gt)
+library(testthat)
+devtools::load_all()
+```
+
+# Test 1
+
+Call with defaults.
+```{r}
+x1 <- gs_design_ahr()
+x2 <- gs_design_ahr_()
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 1), rep("old", 1)),
+       analysis = rep(1, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N),
+       events = c(x1$analysis$Events, x2$bounds$Events),
+       time = c(x1$analysis$Time, x2$bounds$Time),
+       theta = c(x1$analysis$theta, x2$bounds$theta),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       #Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, NA, NA, (x2 %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       #prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, NA, NA, (x2 %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR),
+       info = c(x1$analysis$info, x2$bounds$info),
+       info0 = c(x1$analysis$info0, x2$bounds$info0)
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```
+
+# Test 2
+
+Single analysis.
+```{r}
+x1 <- gs_design_ahr(analysisTimes = 40)
+x2 <- gs_design_ahr_(analysisTimes = 40)
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 1), rep("old", 1)),
+       analysis = rep(1, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N),
+       events = c(x1$analysis$Events, x2$bounds$Events),
+       time = c(x1$analysis$Time, x2$bounds$Time),
+       theta = c(x1$analysis$theta, x2$bounds$theta),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       #Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, NA, NA, (x2 %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       #prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, NA, NA, (x2 %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR),
+       info = c(x1$analysis$info, x2$bounds$info),
+       info0 = c(x1$analysis$info0, x2$bounds$info0)
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```
+
+# Test 3
+
+Multiple analysisTimes.
+```{r}
+x1 <- gs_design_ahr(analysisTimes = c(12, 24, 36))
+x2 <- gs_design_ahr_(analysisTimes = c(12, 24, 36))
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 3), rep("old", 3)),
+       analysis = rep(1:3, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N[1:3]),
+       events = c(x1$analysis$Events, x2$bounds$Events[1:3]),
+       time = c(x1$analysis$Time, x2$bounds$Time[1:3]),
+       theta = c(x1$analysis$theta, x2$bounds$theta[1:3]),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, NA, NA, (x2$bounds %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, NA, NA, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR[1:3]),
+       info = c(x1$analysis$info, x2$bounds$info[1:3]),
+       info0 = c(x1$analysis$info0, x2$bounds$info0[1:3])
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```
+
+# Test 4
+
+Specified information fraction
+```{r}
+x1 <- gs_design_ahr(IF = c(.25, .75, 1), analysisTimes = 36)
+x2 <- gs_design_ahr_(IF = c(.25, .75, 1), analysisTimes = 36)
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 3), rep("old", 3)),
+       analysis = rep(1:3, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N[1:3]),
+       events = c(x1$analysis$Events, x2$bounds$Events[1:3]),
+       time = c(x1$analysis$Time, x2$bounds$Time[1:3]),
+       theta = c(x1$analysis$theta, x2$bounds$theta[1:3]),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, NA, NA, (x2$bounds %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, NA, NA, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR[1:3]),
+       info = c(x1$analysis$info, x2$bounds$info[1:3]),
+       info0 = c(x1$analysis$info0, x2$bounds$info0[1:3])
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```
+
+# Test 5
+
+Multiple analysis times & IF and driven by times.
+```{r}
+x1 <- gs_design_ahr(IF = c(.25, .75, 1), analysisTimes = c(12, 25, 36))
+x2 <- gs_design_ahr_(IF = c(.25, .75, 1), analysisTimes = c(12, 25, 36))
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 3), rep("old", 3)),
+       analysis = rep(1:3, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N[1:3]),
+       events = c(x1$analysis$Events, x2$bounds$Events[1:3]),
+       time = c(x1$analysis$Time, x2$bounds$Time[1:3]),
+       theta = c(x1$analysis$theta, x2$bounds$theta[1:3]),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, NA, NA, (x2$bounds %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, NA, NA, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR[1:3]),
+       info = c(x1$analysis$info, x2$bounds$info[1:3]),
+       info0 = c(x1$analysis$info0, x2$bounds$info0[1:3])
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```
+
+# Test 6
+
+Multiple analysis times & IF and driven by IF.
+```{r}
+x1 <- gs_design_ahr(IF = c(1/3, .8, 1), analysisTimes = c(12, 25, 36))
+x2 <- gs_design_ahr_(IF = c(1/3, .8, 1), analysisTimes = c(12, 25, 36))
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 3), rep("old", 3)),
+       analysis = rep(1:3, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N[1:3]),
+       events = c(x1$analysis$Events, x2$bounds$Events[1:3]),
+       time = c(x1$analysis$Time, x2$bounds$Time[1:3]),
+       theta = c(x1$analysis$theta, x2$bounds$theta[1:3]),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, NA, NA, (x2$bounds %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, NA, NA, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR[1:3]),
+       info = c(x1$analysis$info, x2$bounds$info[1:3]),
+       info0 = c(x1$analysis$info0, x2$bounds$info0[1:3])
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```
+
+
+# Test 7
+
+2-sided symmetric design with O'Brien-Fleming spending
+
+```{r}
+x1 <- gs_design_ahr(analysisTimes = c(12, 24, 36), binding = TRUE,
+                    upper = gs_spending_bound,
+                    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                    lower = gs_spending_bound,
+                    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                    h1_spending = FALSE)
+x2 <- gs_design_ahr_(analysisTimes = c(12, 24, 36), binding = TRUE,
+                    upper = gs_spending_bound,
+                    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                    lower = gs_spending_bound,
+                    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                    h1_spending = FALSE)
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 3), rep("old", 3)),
+       analysis = rep(1:3, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N[1:3]),
+       events = c(x1$analysis$Events, x2$bounds$Events[1:3]),
+       time = c(x1$analysis$Time, x2$bounds$Time[1:3]),
+       theta = c(x1$analysis$theta, x2$bounds$theta[1:3]),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, (x2$bounds %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR[1:3]),
+       info = c(x1$analysis$info, x2$bounds$info[1:3]),
+       info0 = c(x1$analysis$info0, x2$bounds$info0[1:3])
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```
+
+# Test 8
+
+Pocock lower spending under H1 (NPH).
+
+```{r}
+x1 <- gs_design_ahr(analysisTimes = c(12, 24, 36), binding = TRUE,
+                    upper = gs_spending_bound,
+                    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                    lower = gs_spending_bound,
+                    lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
+                    h1_spending = TRUE)
+
+x2 <- gs_design_ahr_(analysisTimes = c(12, 24, 36), binding = TRUE,
+                    upper = gs_spending_bound,
+                    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+                    lower = gs_spending_bound,
+                    lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
+                    h1_spending = TRUE)
+```
+
+```{r, echo=FALSE}
+tibble(version = c(rep("new", 3), rep("old", 3)),
+       analysis = rep(1:3, 2),
+       samplesize = c(x1$analysis$N, x2$bounds$N[1:3]),
+       events = c(x1$analysis$Events, x2$bounds$Events[1:3]),
+       time = c(x1$analysis$Time, x2$bounds$Time[1:3]),
+       theta = c(x1$analysis$theta, x2$bounds$theta[1:3]),
+       Z_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Z, (x2$bounds %>% filter(Bound == "Upper"))$Z),
+       Z_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Z, (x2$bounds %>% filter(Bound == "Lower"))$Z),
+       prob_upper = c((x1$bounds %>% filter(Bound == "Upper"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       prob_lower = c((x1$bounds %>% filter(Bound == "Lower"))$Probability, (x2$bounds %>% filter(Bound == "Upper"))$Probability),
+       AHR = c(x1$analysis$AHR, x2$bounds$AHR[1:3]),
+       info = c(x1$analysis$info, x2$bounds$info[1:3]),
+       info0 = c(x1$analysis$info0, x2$bounds$info0[1:3])
+       ) %>% 
+  arrange(analysis) %>% 
+  group_by(analysis) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(cell_fill(color = "#d3edeb")),
+    locations = cells_body(rows = `version` == "old"))
+```

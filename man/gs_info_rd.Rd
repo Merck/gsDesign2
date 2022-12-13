@@ -5,9 +5,9 @@
 \title{Information and effect size under risk difference}
 \usage{
 gs_info_rd(
-  p_c = tibble::tibble(Stratum = "All", Rate = 0.2),
-  p_e = tibble::tibble(Stratum = "All", Rate = 0.15),
-  N = tibble::tibble(Stratum = "All", N = c(100, 200, 300), Analysis = 1:3),
+  p_c = tibble::tibble(stratum = "All", rate = 0.2),
+  p_e = tibble::tibble(stratum = "All", rate = 0.15),
+  n = tibble::tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
   weight = c("un-stratified", "ss", "invar")
@@ -18,7 +18,7 @@ gs_info_rd(
 
 \item{p_e}{rate at the experimental group}
 
-\item{N}{sample size}
+\item{n}{sample size}
 
 \item{rd0}{the risk difference under H0}
 
@@ -36,9 +36,9 @@ library(tibble)
 # --------------------- #
 # un-stratified case with H0: rd0 = 0
 gs_info_rd(
-  p_c = tibble(Stratum = "All", Rate = .15),
-  p_e = tibble(Stratum = "All", Rate = .1),
-  N = tibble(Stratum = "All", N = c(100, 200, 300), Analysis = 1:3),
+  p_c = tibble(stratum = "All", rate = .15),
+  p_e = tibble(stratum = "All", rate = .1),
+  n = tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0,
   ratio = 1
 )
@@ -48,9 +48,9 @@ gs_info_rd(
 # --------------------- #
 # un-stratified case with H0: rd0 != 0
 gs_info_rd(
-  p_c = tibble(Stratum = "All", Rate = .2),
-  p_e = tibble(Stratum = "All", Rate = .15),
-  N = tibble(Stratum = "All", N = c(100, 200, 300), Analysis = 1:3),
+  p_c = tibble(stratum = "All", rate = .2),
+  p_e = tibble(stratum = "All", rate = .15),
+  n = tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0.005,
   ratio = 1
 )
@@ -60,11 +60,11 @@ gs_info_rd(
 # --------------------- #
 # stratified case under sample size weighting and H0: rd0 = 0
 gs_info_rd(
-  p_c = tibble(Stratum = c("S1", "S2", "S3"), Rate = c(.15, .2, .25)),
-  p_e = tibble(Stratum = c("S1", "S2", "S3"), Rate = c(.1, .16, .19)),
-  N = tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-             Analysis = rep(1:3, 3),
-             N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
+  p_c = tibble(stratum = c("S1", "S2", "S3"), rate = c(.15, .2, .25)),
+  p_e = tibble(stratum = c("S1", "S2", "S3"), rate = c(.1, .16, .19)),
+  n = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+             analysis = rep(1:3, 3),
+             n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
   rd0 = 0,
   ratio = 1,
   weight = "ss")
@@ -74,13 +74,13 @@ gs_info_rd(
 # --------------------- #
 # stratified case under inverse variance weighting and H0: rd0 = 0
 gs_info_rd(
-  p_c = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.15, .2, .25)),
-  p_e = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.1, .16, .19)),
-  N = tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-             Analysis = rep(1:3, 3),
-             N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
+  p_c = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.15, .2, .25)),
+  p_e = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.1, .16, .19)),
+  n = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+             analysis = rep(1:3, 3),
+             n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
   rd0 = 0,
   ratio = 1,
   weight = "invar")
@@ -90,13 +90,13 @@ gs_info_rd(
 # --------------------- #
 # stratified case under sample size weighting and H0: rd0 != 0
 gs_info_rd(
-  p_c = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.15, .2, .25)),
-  p_e = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.1, .16, .19)),
-  N = tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-             Analysis = rep(1:3, 3),
-             N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
+  p_c = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.15, .2, .25)),
+  p_e = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.1, .16, .19)),
+  n = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+             analysis = rep(1:3, 3),
+             n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
   rd0 = 0.02,
   ratio = 1,
   weight = "ss")
@@ -106,16 +106,17 @@ gs_info_rd(
 # --------------------- #
 # stratified case under inverse variance weighting and H0: rd0 != 0
 gs_info_rd(
-  p_c = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.15, .2, .25)),
-  p_e = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.1, .16, .19)),
-  N = tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-             Analysis = rep(1:3, 3),
-             N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
+  p_c = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.15, .2, .25)),
+  p_e = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.1, .16, .19)),
+  n = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+             analysis = rep(1:3, 3),
+             n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
   rd0 = 0.02,
   ratio = 1,
-  weight = "invar")
+  weight = "invar"
+)
 
 # --------------------- #
 #      example 7        #
@@ -123,14 +124,14 @@ gs_info_rd(
 # stratified case under inverse variance weighting and H0: rd0 != 0 and 
 # rd0 difference for different statum
 gs_info_rd(
-  p_c = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.15, .2, .25)),
-  p_e = tibble(Stratum = c("S1", "S2", "S3"),
-               Rate = c(.1, .16, .19)),
-  N = tibble(Stratum = rep(c("S1", "S2", "S3"), each = 3),
-             Analysis = rep(1:3, 3),
-             N = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
-  rd0 = tibble(Stratum = c("S1", "S2", "S3"),
+  p_c = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.15, .2, .25)),
+  p_e = tibble(stratum = c("S1", "S2", "S3"),
+               rate = c(.1, .16, .19)),
+  n = tibble(stratum = rep(c("S1", "S2", "S3"), each = 3),
+             analysis = rep(1:3, 3),
+             n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)),
+  rd0 = tibble(stratum = c("S1", "S2", "S3"),
                rd0 = c(0.01, 0.02, 0.03)),
   ratio = 1,
   weight = "invar")

@@ -54,7 +54,9 @@ NULL
 #' single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise,
 #' a logical vector of the same length as \code{info} should indicate which analyses will have a lower bound
-#' @param r  Integer, at least 2; default of 18 recommended by Jennison and Turnbull
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
+#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
+#' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' @section Specification:
 #' \if{latex}{
@@ -266,7 +268,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL,    # 3 theta
     Probability = c(cumsum(upperProb), cumsum(lowerProb)),
     theta = rep(theta, 2),
     theta1 = rep(theta1, 2),
-    IF = rep(info / max(info), 2),
+    info_frac = rep(info / max(info), 2),
     info = rep(info, 2)) %>% 
     mutate(info0 = rep(info0, 2),
            info1 = rep(info1, 2)) %>% 

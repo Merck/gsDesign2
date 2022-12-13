@@ -46,19 +46,19 @@ library(gsDesign2)
 library(dplyr)
 
 # enrollment/failure rates
-enrollRates <- tibble(Stratum = "All",
+enroll_rate <- tibble(stratum = "All",
                       duration = 12,
                       rate = 1)
-failRates <- tibble(Stratum = "All", duration = c(4, 100),
-                    failRate = log(2) / 12,
+fail_rate <- tibble(stratum = "All", duration = c(4, 100),
+                    fail_rate = log(2) / 12,
                     hr = c(1, .6),
-                     dropoutRate = .001)
+                    dropout_rate = .001)
 
 # Information fraction
-IF <- (1:3)/3
+info_frac <- (1:3)/3
 
-# Analysis times in months; first 2 will be ignored as IF will not be achieved
-analysisTimes <- c(.01, .02, 36)
+# Analysis times in months; first 2 will be ignored as info_frac will not be achieved
+analysis_time <- c(.01, .02, 36)
 
 # Experimental / Control randomization ratio
 ratio <- 1
@@ -83,18 +83,18 @@ wgt05 <- function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .
 
 # test in COMBO
 fh_test <- rbind(
-  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3,analysisTimes = c(12, 24, 36)),
-  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysisTimes = 36)
+  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3,analysis_time = c(12, 24, 36)),
+  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
 )
 
 # ---------------------------- #
 #          ahr                 #
 # ---------------------------- #
 x_ahr <- gs_design_ahr(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  IF = IF, # Information fraction
-  analysisTimes = analysisTimes,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  info_frac = info_frac, # Information fraction
+  analysis_time = analysis_time,
   ratio = ratio,
   alpha = alpha,
   beta = beta,
@@ -104,18 +104,18 @@ x_ahr <- gs_design_ahr(
   lpar = lpar)
 
 x_ahr \%>\% summary()
-x_ahr \%>\% summary(analysis_vars = c("Time", "Events", "IF"), analysis_decimals = c(1, 0, 2))
+x_ahr \%>\% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
 x_ahr \%>\% summary(bound_names = c("A is better", "B is better"))
 
 # ---------------------------- #
 #         wlr                  #
 # ---------------------------- #
 x_wlr <- gs_design_wlr(
-  enrollRates = enrollRates,
-  failRates = failRates,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   weight = wgt05,
-  IF = NULL,
-  analysisTimes = sort(unique(x_ahr$analysis$Time)),
+  info_frac = NULL,
+  analysis_time = sort(unique(x_ahr$analysis$Time)),
   ratio = ratio,
   alpha = alpha,
   beta = beta,
@@ -133,9 +133,9 @@ x_combo <- gs_design_combo(
   ratio = 1,
   alpha = 0.025,
   beta = 0.2,
-  enrollRates = tibble::tibble(Stratum = "All", duration = 12, rate = 500/12),
-  failRates = tibble::tibble(Stratum = "All", duration = c(4, 100),
-                             failRate = log(2) / 15, hr = c(1, .6), dropoutRate = .001),
+  enroll_rate = tibble::tibble(stratum = "All", duration = 12, rate = 500/12),
+  fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100),
+                             fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001),
   fh_test = fh_test,
   upper = gs_spending_combo,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -147,9 +147,9 @@ x_combo \%>\% summary()
 #      risk difference         #
 # ---------------------------- #
 gs_design_rd(
-  p_c = tibble(Stratum = "All", Rate = .2),
-  p_e = tibble(Stratum = "All", Rate = .15),
-  IF = c(0.7, 1),
+  p_c = tibble(stratum = "All", rate = .2),
+  p_e = tibble(stratum = "All", rate = .15),
+  info_frac = c(0.7, 1),
   rd0 = 0,
   alpha = .025,
   beta = .1,

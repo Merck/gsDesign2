@@ -5,6 +5,7 @@
 \alias{wlr_weight_fh}
 \alias{wlr_weight_1}
 \alias{wlr_weight_n}
+\alias{wlr_weight_mb}
 \title{Weight Function of Weighted Log-rank Test}
 \usage{
 wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0, tau = NULL)
@@ -12,9 +13,11 @@ wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0, tau = NULL)
 wlr_weight_1(x, arm0, arm1)
 
 wlr_weight_n(x, arm0, arm1, power = 1)
+
+wlr_weight_mb(x, arm0, arm1, tau = NULL, wmax = Inf)
 }
 \arguments{
-\item{x}{analysis time}
+\item{x}{a vector of numeric values}
 
 \item{arm0}{an "arm" object defined in \code{npsurvSS} package}
 
@@ -27,12 +30,15 @@ wlr_weight_n(x, arm0, arm1, power = 1)
 \item{tau}{A scalar parameter of the cut-off time for modest weighted log rank test}
 
 \item{power}{A scalar parameter that controls the power of the weight function}
+
+\item{wmax}{A scalar parameter of the cut-off weight for modest weighted log rank test}
 }
 \description{
 \itemize{
 \item \code{wlr_weight_fh} is Fleming-Harriongton, FH(rho, gamma) weight function.
 \item \code{wlr_weight_1}  is constant for log rank test
 \item \code{wlr_weight_power} is Gehan-Breslow and Tarone-Ware weight function.
+\item \code{wlr_weight_mb} is  Magirr (2021) weight function.
 }
 }
 \section{Specification}{

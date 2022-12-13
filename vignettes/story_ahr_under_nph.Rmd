@@ -93,14 +93,12 @@ We load packages needed below.
 - Hidden underneath this is the `gsDesign2::eEvents_df()` routine that provides expected event counts for each period and stratum where the hazard ratio differs. This is the basic calculation used in the `gsDesign2::AHR()` routine.
 
 ```{r libraries,message=FALSE,warning=FALSE}
-devtools::load_all()
 library(gsDesign)
+library(gsDesign2)
 library(ggplot2)
 library(dplyr)
 library(tibble)
-library(simtrial)
 library(survival)
-library(knitr)
 library(gt)
 ```
 
@@ -115,25 +113,25 @@ The control group has a piecewise exponential distribution with median 9 for the
 The hazard ratio of the experimental group versus control is 1 for the first 3 months followed by 0.55 thereafter.
 
 ```{r scenario1,warning=FALSE,message=FALSE}
-enrollRates <- tibble::tibble(
-  Stratum = "All", # Note: this is done differently for multiple strata; see below!
+enroll_rate <- tibble::tibble(
+  stratum = "All", # Note: this is done differently for multiple strata; see below!
   duration = c(2, 2, 10),
-  rate = c(3, 6, 9)
-)
-failRates <- tibble::tibble(
-  Stratum = "All",
+  rate = c(3, 6, 9))
+
+fail_rate <- tibble::tibble(
+  stratum = "All",
   duration = c(3, 100),
-  failRate = log(2) / c(9, 18),
+  fail_rate = log(2) / c(9, 18),
   hr = c(1, .55),
-  dropoutRate = .001
-)
-totalDuration <- 30
+  dropout_rate = .001)
+
+total_duration <- 30
 ```
 
 Since there is a single stratum, we set `strata` to the default:
 
 ```{r strata1,message=FALSE,warning=FALSE}
-strata <- tibble::tibble(Stratum = "All", p = 1)
+strata <- tibble::tibble(stratum = "All", p = 1)
 ```
 
 ## Computing average hazard ratio
@@ -143,10 +141,10 @@ Recall that the parameterization here is in terms of $\log(HR)$, and, thus the i
 
 ```{r avehr,warning=FALSE,message=FALSE}
 avehr <- AHR(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = as.numeric(totalDuration)
-)
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = as.numeric(total_duration))
+
 avehr %>% gt()
 ```
 
@@ -154,9 +152,9 @@ This result can be explained by the number of events observed before and after t
 
 ```{r}
 xx <- AHR(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = as.numeric(totalDuration),
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = as.numeric(total_duration),
   simple = FALSE)
 xx %>% gt()
 ```
@@ -177,26 +175,27 @@ With this average hazard ratio, we use the call for `gsDesign::nEvents()` which 
 All you need for this is the average hazard ratio from above, the randomization ratio (experimental/control), Type I error and Type II error (1 - power).
 
 ```{r}
-targetEvents <- nEvents(
+target_event <- nEvents(
   hr = avehr$AHR, # average hazard ratio computed above
   ratio = 1, # randomization ratio
   alpha = .025, # 1-sided Type I error
   beta = .1 # Type II error (1-power)
 )
-targetEvents <- ceiling(targetEvents)
-targetEvents
+
+target_event <- ceiling(target_event)
+target_event
 ```
 
 We also compute proportionately increase the enrollment rates to achieve this targeted number of events; we round up the number of events required to the next higher integer.
 
 ```{r}
-# Update enrollRates to obtain targeted events
-enrollRates$rate <- ceiling(targetEvents) / avehr$Events * enrollRates$rate
+# Update enroll_rate to obtain targeted events
+enroll_rate$rate <- ceiling(target_event) / avehr$Events * enroll_rate$rate
 avehr <- AHR(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = as.numeric(totalDuration)
-)
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = as.numeric(total_duration))
+
 avehr %>% gt()
 ```
 
@@ -204,7 +203,7 @@ We also compute sample size, rounding up to the nearest even integer.
 
 ```{r}
 # round up sample size in both treatment groups
-sampleSize <- ceiling(sum(enrollRates$rate * enrollRates$duration) / 2) * 2
+sampleSize <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
 sampleSize
 ```
 
@@ -215,9 +214,9 @@ A key design consideration is selecting trial duration based on things like the 
 
 ```{r avehrplot, warning=FALSE, message=FALSE, fig.width=3.5}
 avehrtbl <- AHR(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = 1:(totalDuration + 10))
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = 1:(total_duration + 10))
 
 ggplot(avehrtbl, aes(x = Time, y = AHR)) +
   geom_line() +
@@ -247,10 +246,10 @@ results1 <- simtrial::simfix(
   block = block,
   sampleSize = sampleSize,
   strata = strata,
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = totalDuration,
-  targetEvents = ceiling(targetEvents),
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = total_duration,
+  target_event = ceiling(target_event),
   timingType = 1:5
 )
 # save(results1, file = './fixutes/results1.Rdata') # Save the data
@@ -269,7 +268,8 @@ results1 %>%
     sdEvents = sd(Events), Events = mean(Events),
     HR = exp(mean(lnhr)), sdlnhr = sd(lnhr), info = 1 / sdlnhr^2
   ) %>%
-  kable(digits = 3)
+  gt() %>% 
+  fmt_number(column = 2:9, decimals = 3)
 ```
 
 The column `HR` above is the exponentiated mean of the Cox regression coefficients (geometric mean of HR).
@@ -294,39 +294,39 @@ We specify three strata:
 - Moderate risk: 1/2 of the population with median time-to-event of 9 months and a hazard ratio of 0.2.
 - Low risk: 1/6 of the population that is essentially cured in both arms (median 100, HR = 1).
 
-```{r scenario2,warning=FALSE,message=FALSE}
-strata <- tibble::tibble(Stratum = c("High", "Moderate", "Low"), p = c(1 / 3, 1 / 2, 1 / 6))
+```{r scenario2, warning=FALSE, message=FALSE}
+strata <- tibble::tibble(stratum = c("High", "Moderate", "Low"), p = c(1 / 3, 1 / 2, 1 / 6))
 
-enrollRates <- tibble::tibble(
-  Stratum = c(array("High", 4), array("Moderate", 4), array("Low", 4)),
+enroll_rate <- tibble::tibble(
+  stratum = c(array("High", 4), array("Moderate", 4), array("Low", 4)),
   duration = rep(c(2, 2, 2, 18), 3),
   rate = c((1:4) / 3, (1:4) / 2, (1:4) / 6)
 )
 
-failRates <- tibble::tibble(
-  Stratum = c("High", "Moderate", "Low"),
+fail_rate <- tibble::tibble(
+  stratum = c("High", "Moderate", "Low"),
   duration = 100,
-  failRate = log(2) / c(6, 9, 100),
+  fail_rate = log(2) / c(6, 9, 100),
   hr = c(1.2, 1 / 3, 1),
-  dropoutRate = .001
+  dropout_rate = .001
 )
 
-totalDuration <- 36
+total_duration <- 36
 ```
 
 ## Computing average hazard ratio
 
 Now we transform the enrollment rates to account for stratified population.
 
-```{r avehr2,warning = FALSE,message = FALSE}
-ahr2 <- AHR(enrollRates, failRates, totalDuration)
+```{r avehr2, warning = FALSE, message = FALSE}
+ahr2 <- AHR(enroll_rate, fail_rate, total_duration)
 ahr2 %>% gt()
 ```
 
 We examine the expected events by stratum.
 
 ```{r}
-xx <- AHR(enrollRates, failRates, totalDuration, simple = FALSE)
+xx <- AHR(enroll_rate, fail_rate, total_duration, simple = FALSE)
 xx %>% gt()
 ```
 
@@ -345,32 +345,32 @@ We derive the sample size as before. We plan the sample size based on the averag
 First, we derive the targeted events:
 
 ```{r gsDesign2,warning = FALSE,message = FALSE}
-targetEvents <- gsDesign::nEvents(
+target_event <- gsDesign::nEvents(
   hr = ahr2$AHR,
   ratio = 1,
   alpha = .025,
   beta = .1
 )
-targetEvents <- ceiling(targetEvents)
-targetEvents
+target_event <- ceiling(target_event)
+target_event
 ```
 
 Next, we adapt enrollment rates proportionately so that the trial will be powered for the targeted failure rates and follow-up duration.
 
 ```{r inflate2, message=FALSE}
-enrollRates <- enrollRates %>% mutate(rate = targetEvents / ahr2$Events * rate)
+enroll_rate <- enroll_rate %>% mutate(rate = target_event / ahr2$Events * rate)
 
 AHR(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = totalDuration
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = total_duration
 ) %>% gt()
 ```
 
 The targeted sample size, rounding up to an even integer, is:
 
 ```{r}
-sampleSize <- ceiling(sum(enrollRates$rate * enrollRates$duration) / 2) * 2
+sampleSize <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
 sampleSize
 ```
 
@@ -382,9 +382,9 @@ As before, we plot for 10 months more than the planned study duration of 36 mont
 
 ```{r avehrplot2,warning=FALSE,message=FALSE,fig.width=4.5}
 avehrtbl <- AHR(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = 1:(totalDuration + 10)
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = 1:(total_duration + 10)
 )
 
 ggplot(avehrtbl, aes(x = Time, y = AHR)) +
@@ -407,8 +407,8 @@ to overall enrollment rates needed for `simtrial::simfix()`.
 
 
 ```{r, message = FALSE}
-er <- enrollRates %>%
-  group_by(Stratum) %>%
+er <- enroll_rate %>%
+  group_by(stratum) %>%
   mutate(period = 1:n()) %>%
   group_by(period) %>%
   summarise(rate = sum(rate), duration = last(duration))
@@ -420,16 +420,16 @@ er %>% gt()
 Now we simulate and summarize results.
 Once again, we see that the expected statistical information from the simulation is greater than what would be expected by the Schoenfeld approximation which is the expected events divided by 4.
 
-```{r simfix2,cache=FALSE,warning=FALSE,message=FALSE, eval=FALSE}
+```{r simfix2, cache=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 results2 <- simtrial::simfix(
     nsim = nsim,
     block = block,
     sampleSize = sampleSize,
     strata = strata,
-    enrollRates = er,
-    failRates = failRates,
-    totalDuration = as.numeric(totalDuration),
-    targetEvents = as.numeric(targetEvents),
+    enroll_rate = er,
+    fail_rate = fail_rate,
+    total_duration = as.numeric(total_duration),
+    target_event = as.numeric(target_event),
     timingType = 1:5
   )
 # save(results2, file = './fixtures/results2.Rdata') # Save data
@@ -445,7 +445,8 @@ results2 %>%
     sdEvents = sd(Events), Events = mean(Events),
     HR = exp(mean(lnhr)), sdlnhr = sd(lnhr), info = 1 / sdlnhr^2
   ) %>%
-  kable(digits = 3)
+  gt() %>% 
+  fmt_number(column = 2:9, decimals = 3)
 ```
 
 Finally, compare the simulation results above to the asymptotic approximation below.
@@ -454,9 +455,9 @@ Using the final cutoff that requires both the targeted events and minimum follow
 
 ```{r}
 AHR(
-  enrollRates = enrollRates,
-  failRates = failRates,
-  totalDuration = totalDuration
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = total_duration
 ) %>% gt()
 ```
 

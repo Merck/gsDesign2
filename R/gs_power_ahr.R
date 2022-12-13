@@ -23,11 +23,11 @@ NULL
 
 #' Group sequential design power using average hazard ratio under non-proportional hazards
 #'
-#' @param enrollRates enrollment rates
-#' @param failRates failure and dropout rates
+#' @param enroll_rate enrollment rates
+#' @param fail_rate failure and dropout rates
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
-#' @param events Targeted events at each analysis
-#' @param analysisTimes Minimum time of analysis
+#' @param event Targeted event at each analysis
+#' @param analysis_time Minimum time of analysis
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param info_scale the information scale for calculation
 #' @param upper Function to compute upper bound
@@ -39,7 +39,9 @@ NULL
 #' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param r  Integer, at least 2; default of 18 recommended by Jennison and Turnbull
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
+#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
+#' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' 
 #' @section Specification:
@@ -58,7 +60,7 @@ NULL
 #' @details
 #' Bound satisfy input upper bound specification in \code{upper, upar} and lower bound specification in \code{lower, lpar}.
 #' The \code{AHR()} function computes statistical information at targeted event times.
-#' The \code{tEvents()} function is used to get events and average HR at targeted \code{analysisTimes}.
+#' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
 #'
 #' @export
 #'
@@ -70,17 +72,17 @@ NULL
 #' #       example 1          #
 #' # ------------------------ #
 #' # The default output of \code{gs_power_ahr} is driven by events, i.e.,
-#' # \code{events = c(30, 40, 50), analysisTimes = NULL}
+#' # \code{event = c(30, 40, 50), analysis_time = NULL}
 #' gs_power_ahr() 
 #' 
 #' # -------------------------#
 #' #       example 2          #
 #' # -------------------------#
 #' # 2-sided symmetric O'Brien-Fleming spending bound, 
-#' # driven by analysis time, i.e., \code{events = NULL, analysisTimes = c(12, 24, 36)}
+#' # driven by analysis time, i.e., \code{event = NULL, analysis_time = c(12, 24, 36)}
 #' gs_power_ahr(
-#'   analysisTimes = c(12, 24, 36),
-#'   events = NULL,
+#'   analysis_time = c(12, 24, 36),
+#'   event = NULL,
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -91,10 +93,10 @@ NULL
 #' #       example 3          #
 #' # -------------------------#
 #' # 2-sided symmetric O'Brien-Fleming spending bound,
-#' # driven by events, i.e., \code{events = c(20, 50, 70), analysisTimes = NULL}
+#' # driven by event, i.e., \code{event = c(20, 50, 70), analysis_time = NULL}
 #' gs_power_ahr(
-#'   analysisTimes = NULL,
-#'   events = c(20, 50, 70),
+#'   analysis_time = NULL,
+#'   event = c(20, 50, 70),
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
@@ -105,27 +107,27 @@ NULL
 #' #       example 4          #
 #' # -------------------------#
 #' # 2-sided symmetric O'Brien-Fleming spending bound,
-#' # driven by both `events` and `analysisTimes`, i.e.,
-#' # both `events` and `analysisTimes` are not `NULL`,
+#' # driven by both `event` and `analysis_time`, i.e.,
+#' # both `event` and `analysis_time` are not `NULL`,
 #' # then the analysis will driven by the maximal one, i.e.,
-#' # Time = max(analysisTime, calculated Time for targeted events)
-#' # Events = max(events, calculated events for targeted analysisTime)
+#' # Time = max(analysis_time, calculated Time for targeted event)
+#' # Events = max(events, calculated events for targeted analysis_time)
 #' gs_power_ahr(
-#'   analysisTimes = c(12, 24, 36),
-#'   events = c(30, 40, 50),
+#'   analysis_time = c(12, 24, 36),
+#'   event = c(30, 40, 50),
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL))
 #'   
-gs_power_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                         failRates = tibble(Stratum = "All", duration = c(3, 100), failRate = log(2)/c(9, 18), 
-                                            hr = c(.9, .6), dropoutRate = rep(.001, 2)),
-                         events = c(30, 40, 50), 
-                         analysisTimes = NULL, 
+gs_power_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+                         fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18), 
+                                            hr = c(.9, .6), dropout_rate = rep(.001, 2)),
+                         event = c(30, 40, 50), 
+                         analysis_time = NULL, 
                          upper = gs_b, 
-                         upar = gsDesign(k = length(events), test.type = 1, n.I = events, maxn.IPlan = max(events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+                         upar = gsDesign(k = length(event), test.type = 1, n.I = event, maxn.IPlan = max(event), sfu = sfLDOF, sfupar = NULL)$upper$bound,
                          lower = gs_b,
                          lpar = c(qnorm(.1), rep(-Inf, 2)), 
                          test_lower = TRUE, 
@@ -134,7 +136,7 @@ gs_power_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
                          ){
   
   # get the number of analysis
-  K <- max(length(events), length(analysisTimes), na.rm = TRUE)
+  K <- max(length(event), length(analysis_time), na.rm = TRUE)
   
   # get the info_scale
   info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
@@ -149,21 +151,21 @@ gs_power_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
   #    calculate the asymptotic variance     #
   #       and statistical information        #
   # ---------------------------------------- #
-  x <- gs_info_ahr(enrollRates = enrollRates, failRates = failRates,
-                   ratio = ratio, events = events, analysisTimes = analysisTimes)
+  x <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                   ratio = ratio, event = event, analysis_time = analysis_time)
   
   # ---------------------------------------- #
   #  given the above statistical information #
   #         calculate the power              #
   # ---------------------------------------- #
   y_H1 <- gs_power_npe(theta = x$theta, 
-                       info = x$info, info0 = x$info0, info_scale = info_scale,
+                       info = x$info, info0 = x$info0, info1 = x$info, info_scale = info_scale,
                        upper = upper, upar = upar, test_upper = test_upper,
                        lower = lower, lpar = lpar, test_lower = test_lower,
                        binding = binding, r = r, tol = tol) 
   
-  y_H0 <- gs_power_npe(theta = 0, 
-                       info = x$info0, info0 = x$info0, info_scale = info_scale,
+  y_H0 <- gs_power_npe(theta = 0, theta0 = 0, theta1 = x$theta, 
+                       info = x$info0, info0 = x$info0, info1 = x$info, info_scale = info_scale,
                        upper = upper, upar = upar, test_upper = test_upper,
                        lower = if(!two_sided){gs_b}else{lower}, 
                        lpar = if(!two_sided){rep(-Inf, K)}else{lpar}, 
@@ -188,17 +190,22 @@ gs_power_ahr <- function(enrollRates = tibble(Stratum = "All", duration = c(2, 2
   suppressMessages(
     analysis <- x %>% 
       select(Analysis, Time, Events, AHR) %>% 
-      mutate(N = eAccrual(x = x$Time, enrollRates = enrollRates)) %>% 
-      left_join(y_H1 %>% select(Analysis, info, IF, theta) %>% unique()) %>%
-      left_join(y_H0 %>% select(Analysis, info, IF) %>% dplyr::rename(info0 = info, IF0 = IF) %>% unique()) %>%
-      select(Analysis, Time, N, Events, AHR, theta, info, info0, IF, IF0) %>% 
+      mutate(N = expected_accrual(time = x$Time, enroll_rate = enroll_rate)) %>% 
+      left_join(y_H1 %>% select(Analysis, info, info_frac, theta) %>% unique()) %>%
+      left_join(y_H0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
+      select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>% 
       arrange(Analysis)
   )
   
-  ans <- list(enrollRates = enrollRates, failRates = failRates,
-              bounds = bounds, analysis = analysis)
+  ans <- list(enroll_rate = enroll_rate, 
+              fail_rate = fail_rate,
+              bounds = bounds %>% filter(!is.infinite(Z)), 
+              analysis = analysis)
   
   class(ans) <- c("ahr", "gs_design", class(ans))
+  if(!binding){
+    class(ans) <- c("non-binding", class(ans))
+  }
   
   return(ans)
 }

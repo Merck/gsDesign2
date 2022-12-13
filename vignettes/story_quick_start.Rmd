@@ -1,5 +1,5 @@
 ---
-title: "Quick Start for NPH Sample Size and Power"
+title: "Quick start for NPH sample size and power"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_document:
@@ -11,7 +11,7 @@ output:
     css: "custom.css"
 bibliography: "ggsd.bib"
 vignette: |
-  %\VignetteIndexEntry{Quick Start for NPH Sample Size and Power}
+  %\VignetteIndexEntry{Quick start for NPH sample size and power}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 # Overview
 
-We provide simple examples for use of the **gsdmvn** package for deriving fixed and group sequential designs under non-proportional hazards.
+We provide simple examples for use of the **gsDesign2** package for deriving fixed and group sequential designs under non-proportional hazards.
 The piecewise model for enrollment, failure rates, dropout rates and changing hazard ratio over time allow great flexibility in design assumptions. 
 Users are encouraged to suggest features that would be of immediate and long-term interest to add.
 
@@ -47,22 +47,20 @@ Finally, while the final section provides current enhancement priorities, potent
 
 # Packages Used
 
-- The **gsdmvn** package is used here to implement group sequential distribution theory under non-proportional hazards and to derive a wide variety of boundary types for group sequential designs.
 - The **gsDesign** package is used as a check for results under proportional hazards as well as a source from deriving bounds using spending functions.
-- The **gsDesign2** package provides computations to compute expected event accumulation and average hazard ratio over time; these are key inputs to the group sequential distribution parameters.
+- The **gsDesign2** package provides 
+  + computations to compute expected event accumulation and average hazard ratio over time; these are key inputs to the group sequential distribution parameters.
+  + implement group sequential distribution theory under non-proportional hazards and to derive a wide variety of boundary types for group sequential designs.
 - The **simtrial** package is used to verify design properties using simulation.
 
-The **gsdmvn** package will likely will likely be incorporated eventually into the **gsDesign2** package, resulting in a fully featured design package.
-However, features and implementation in **gsdmvn** will be allowed to change as needed during the agile rapid development phase.
 
 ```{r, message=FALSE, warning=FALSE}
-devtools::load_all()
 library(gsDesign)
-#library(gsDesign2)
-library(simtrial)
+library(gsDesign2)
 library(knitr)
 library(dplyr)
 library(gt)
+library(ggplot2)
 ```
 
 # Enrollment Rates
@@ -73,12 +71,12 @@ The rates will be increased later to power the design appropriately.
 However, the fixed enrollment rate periods will remain unchanged.
 
 ```{r}
-enrollRates <- tibble(
-  Stratum = "All", 
+enroll_rate <- tibble(
+  stratum = "All", 
   duration = c(2, 2, 2, 6), 
   rate = (1:4) / 4)
 
-enrollRates %>% gt()
+enroll_rate %>% gt()
 ```
 
 # Failure and Dropout Rates
@@ -96,14 +94,15 @@ Finally, we assume a low $0.001$ exponential dropout rate per month for both tre
 
 ```{r}
 medianSurv <- 12
-failRates <- tibble::tibble(
-  Stratum = "All",
-  duration = c(4, Inf),
-  failRate = log(2) / medianSurv,
-  hr = c(1, .6),
-  dropoutRate = .001)
 
-failRates %>% gt()
+fail_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(4, Inf),
+  fail_rate = log(2) / medianSurv,
+  hr = c(1, .6),
+  dropout_rate = .001)
+
+fail_rate %>% gt()
 ```
 
 # Fixed Design
@@ -116,11 +115,11 @@ alpha <- .025
 beta <- .1                   # 1 - targeted power
 d <- fixed_design(
   x = "AHR",                 # method for computing sample size
-  enrollRates = enrollRates, # Relative enrollment rates 
-  failRates = failRates,     # Failure rates from above
+  enroll_rate = enroll_rate, # Relative enrollment rates 
+  fail_rate = fail_rate,     # Failure rates from above
   alpha = alpha,             # Type I error
   power = 1 - beta,          # Type II error = 1 - power
-  studyDuration = 36         # Planned trial duration
+  study_duration = 36         # Planned trial duration
 )
 ```
 
@@ -135,7 +134,7 @@ d %>% summary() %>% as_gt()
 The enrollment rates for each period have been increased proportionately to size the trial for the desired properties; the duration for each enrollment rate has not changed.
 
 ```{r}
-d$enrollRates %>% gt()
+d$enroll_rate %>% gt()
 ```
 
 # Group Sequential Design
@@ -183,9 +182,9 @@ We can use the assumptions above for a group sequential design with only an effi
 design1s <- gs_design_ahr(
   alpha = alpha,
   beta = beta,
-  enrollRates = enrollRates,
-  failRates = failRates,
-  analysisTimes = c(16, 26, 36),                           # Calendar time of planned analyses
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  analysis_time = c(16, 26, 36),                           # Calendar time of planned analyses
   upper = gs_spending_bound,                               # Spending function bound for efficacy
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # specify spending function and total Type I error
   lower = gs_b, lpar = rep(-Inf, 3),                       # No futility bound
@@ -231,9 +230,9 @@ Our first 2-sided design is a symmetric design.
 design2ss <- gs_design_ahr(
   alpha = alpha,
   beta = beta,
-  enrollRates = enrollRates,
-  failRates = failRates,
-  analysisTimes = c(16, 26, 36),  #  Calendar analysis times
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  analysis_time = c(16, 26, 36),  #  Calendar analysis times
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
@@ -275,9 +274,9 @@ For efficacy, we add an infinite bound at this first interim analysis.
 design2sa <- gs_design_ahr(
   alpha = alpha,
   beta = beta,
-  enrollRates = enrollRates,
-  failRates = failRates,
-  analysisTimes = c(12, 16, 26, 36),
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  analysis_time = c(12, 16, 26, 36),
   upper = gs_spending_bound, 
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),  # Same efficacy bound as before
   test_lower = c(FALSE, TRUE, TRUE, TRUE), # Only test efficacy after IA1

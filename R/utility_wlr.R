@@ -29,7 +29,7 @@
 #'    \item Calculate the accrual parameter as the proportion of enrollment rate*duration.
 #'    \item Set cure proportion to zero.
 #'    \item set survival intervals and shape.
-#'    \item Set fail rate in failRates to the Weibull scale parameter for the survival distribution in the arm 0.
+#'    \item Set fail rate in fail_rate to the Weibull scale parameter for the survival distribution in the arm 0.
 #'    \item Set the multiplication of hazard ratio and fail rate to the Weibull scale parameter
 #'    for the survival distribution in the arm 1.
 #'    \item Set the shape parameter to one as the exponential distribution for
@@ -45,28 +45,28 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @noRd
-gs_create_arm <- function(enrollRates,
-                          failRates,
+gs_create_arm <- function(enroll_rate,
+                          fail_rate,
                           ratio,
                           total_time = 1e6){
   
-  n_stratum <- length(unique(enrollRates$Stratum))
+  n_stratum <- length(unique(enroll_rate$stratum))
   if(n_stratum > 1){
     stop("Only one stratum is supported")
   }
   
-  accr_time     <- sum(enrollRates$duration)
-  accr_interval <- cumsum(enrollRates$duration)
-  accr_param    <- enrollRates$rate * enrollRates$duration / sum(enrollRates$rate * enrollRates$duration)
+  accr_time     <- sum(enroll_rate$duration)
+  accr_interval <- cumsum(enroll_rate$duration)
+  accr_param    <- enroll_rate$rate * enroll_rate$duration / sum(enroll_rate$rate * enroll_rate$duration)
   
   surv_cure     <- 0                    # No cure proportion
-  surv_interval <- c(0, c(utils::head(failRates$duration, -1), Inf))
+  surv_interval <- c(0, c(cumsum(utils::head(fail_rate$duration, -1)), Inf))
   surv_shape    <- 1                    # Exponential Distribution
-  surv_scale0   <- failRates$failRate
-  surv_scale1   <- failRates$hr * failRates$failRate
+  surv_scale0   <- fail_rate$fail_rate
+  surv_scale1   <- fail_rate$hr * fail_rate$fail_rate
   
   loss_shape    <- 1                         # Exponential Distribution
-  loss_scale    <- failRates$dropoutRate[1]  # Only Exponential Distribution is supported
+  loss_scale    <- fail_rate$dropout_rate[1]  # Only Exponential Distribution is supported
   
   # Control Group
   arm0 <- npsurvSS::create_arm(size = 1,
@@ -166,8 +166,8 @@ prob_event.arm <- function(arm, tmin = 0, tmax = arm$total_time) {
 gs_delta_wlr <- function(arm0,
                          arm1,
                          tmax = NULL,
-                         weight= wlr_weight_fh,
-                         approx="asymptotic",
+                         weight = wlr_weight_fh,
+                         approx = "asymptotic",
                          normalization = FALSE) {
   
   if(is.null(tmax)){
@@ -184,9 +184,9 @@ gs_delta_wlr <- function(arm0,
       
       stop("gs_delta_wlr(): Hazard is not proportional over time.", call. = F)
       
-    } else if (wlr_weight_fh(seq(0,tmax,length.out = 10), arm0, arm1) != "1") {
+    } else if( any(wlr_weight_fh(seq(0,tmax,length.out = 10), arm0, arm1) != "1")) {
       
-      stop("gs_delta_wlr(): Weight must equal `1`.", call. = F)
+      stop("gs_delta_wlr(): Weight must equal `1` when `approx = 'event_driven'.", call.=F)
     }
     
     theta <- c(arm0$surv_shape * log( arm1$surv_scale / arm0$surv_scale ))[1]        # log hazard ratio

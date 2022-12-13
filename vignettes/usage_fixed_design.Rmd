@@ -9,7 +9,7 @@ output:
     code_folding: hide
     highlight: "textmate"
     css: "custom.css"
-bibliography: gsDesign.bib
+bibliography: ggsd.bib
 vignette: |
   %\VignetteIndexEntry{fixed_design: compute sample size/power of a fixed design}
   %\VignetteEncoding{UTF-8}
@@ -18,32 +18,44 @@ vignette: |
 
 
 ```{r, message=FALSE, warning=FALSE}
-library(gsDesign)
 library(tibble)
 library(gt)
-# load the develop version of gsDesign2
-# it will finally be replaced by `libraray(gsDesign2)`
-devtools::load_all()
+library(gsDesign)
+library(gsDesign2)
 ```
 
-# Parameters
+
+# Introduction
+
+In this vignette, we introduce the key functionality of `fixed_design` in `gsDesign2`. 
+Generally speaking, `fixed_design` is caplable to both power calculations and sample size calculations under many methods, including
+
+- AHR
+- Fleming-Harrington (FH) [@FarringtonManning]
+- Magirr-Burman (MB)
+- Lachin-Foulkes (LF) [@LachinFoulkes]
+- RMST [@YungLiu]
+- Milestone [@YungLiu]
+- risk difference (RD) [@MehrotraRailkar].
+
+Throughout this vignette, we assume the design parameter is 
 ```{r}
 # Enrollment rate
-enrollRates <- tibble::tibble(
-   Stratum = "All", 
+enroll_rate <- tibble::tibble(
+   stratum = "All", 
    duration = 18, 
    rate = 20)
 
 # Failure rates
-failRates <- tibble::tibble(
-   Stratum = "All", 
+fail_rate <- tibble::tibble(
+   stratum = "All", 
    duration = c(4, 100), 
-   failRate = log(2) / 12,
+   fail_rate = log(2) / 12,
    hr = c(1, .6), 
-   dropoutRate = .001)
+   dropout_rate = .001)
 
 # Study duration in months
-studyDuration <- 36
+study_duration <- 36
 
 # Experimental / Control randomization ratio
 ratio <- 1 
@@ -54,177 +66,169 @@ alpha <- 0.025
 beta <- 0.1 
 ```
 
-# AHR {.tabset}
+# Examples of AHR {.tabset}
 
-## under fixed power 
+If one wants to get a power of 90%, one can calculate the sample size by
 ```{r}
-x <- fixed_design(x = "AHR", 
+fixed_design("ahr", 
              alpha = alpha, power = 1 - beta, 
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio) 
-
-x %>% summary()
-
-x %>% summary() %>% as_gt()
-```
-
-## under fixed sample size
-```{r}
-fixed_design(x = "AHR", 
-             alpha = alpha,  
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio) %>% 
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio) %>% 
   summary() %>% 
   as_gt()
 ```
 
-# FH {.tabset}
+Given the above enrollment rate and enrollment duration, one can calculate the power of AHR by
+```{r}
+fixed_design("ahr", 
+             alpha = alpha,  
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio) %>% 
+  summary() %>% 
+  as_gt()
+```
 
-## under fixed power (default rho/gamma)
+# Examples of FH {.tabset}
+
+If one wants to get a power of 90\%, one can calculate the sample size by
 ```{r}
 # fixed design with a given power with default rho/gamma
-x <- fixed_design(x = "FH", 
+fixed_design("fh", 
              alpha = alpha, power = 1 - beta, 
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio) 
-x %>% summary() 
-x %>% summary() %>% as_gt()
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio) %>% 
+  summary() %>% 
+  as_gt()
 ```
-
-## under fixed power (custom rho/gamma)
+In the above example, the FH parameters (`rho`, `gamma`) take the default value as `rho = 0`, `gamma = 0.5`. But users can always custom their `rho` and `gamma` by  
 ```{r}
 # fixed design with a given power with input rho/gamma
-fixed_design(x = "FH", 
+fixed_design("fh", 
              alpha = alpha, power = 1 - beta, 
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio,
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio,
              rho = 0.5, gamma = 0.5) %>% 
   summary() %>%  
   as_gt()
 ```
 
-
-## under fixed sample size (default rho/gamma)
+Given the above enrollment rate and enrollment duration, one can calculate the power of FH under the default `rho`, `gamma` by
 ```{r}
 # fixed design with power calculated
-fixed_design(x = "FH", 
+fixed_design("fh", 
              alpha = alpha,  
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio) %>% 
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio) %>% 
   summary() %>%  
   as_gt()
 ```
-
-## under fixed sample size (custom rho/gamma)
+But users can always custom their `rho` and `gamma` by  
 ```{r}
 # fixed design with power calculated
-fixed_design(x = "FH", 
+fixed_design("fh", 
              alpha = alpha,  
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio,
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio,
              rho = 0.5, gamma = 0.5) %>% 
   summary() %>%  
   as_gt()
 ```
 
-# MB {.tabset}
+# Examples of mb {.tabset}
 
-## under fixed power (default tau)
+If one wants to get a power of 90\%, one can calculate the sample size by
 ```{r}
-x <- fixed_design(x = "MB", 
+fixed_design("mb", 
              ratio = ratio, 
              alpha = alpha, power = 1 - beta,
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration) 
-x %>% summary() 
-x %>% summary() %>% as_gt()
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration) %>% 
+  summary() %>% 
+  as_gt()
 ```
-
-## under fixed power (custom tau)
+In the above example, the mb parameter (`tau`) takes the default value as `tau = 6`. But users can always custom their `tau` by  
 ```{r}
-fixed_design(x = "MB", 
+fixed_design("mb", 
              ratio = ratio, 
              alpha = alpha, power = 1 - beta,
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration,
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration,
              tau = 4) %>% 
   summary() %>%  
   as_gt()
 ```
 
-
-## under fixed sample size (default tau)
+Given the above enrollment rate and enrollment duration, one can calculate the power of MB under the default `tau = 6` by
 ```{r}
-fixed_design(x = "MB",
+fixed_design("mb",
              ratio = ratio,
              alpha = alpha,
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration) %>% 
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration) %>% 
   summary() %>%  
   as_gt()
 ```
-
-## under fixed sample size (custom tau)
+But users can always custom their `tau` by  
 ```{r}
-fixed_design(x = "MB",
+fixed_design("mb",
              ratio = ratio,
              alpha = alpha,
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration,
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration,
              tau = 4) %>% 
   summary() %>%  
   as_gt()
 ```
 
-# LF {.tabset}
+# Examples of lf {.tabset}
 
-## under fixed power
+If one wants to get a power of 90\%, one can calculate the sample size by
 ```{r}
-fixed_design(x = "LF", alpha = alpha, power = 1 - beta, 
+fixed_design("lf", alpha = alpha, power = 1 - beta, 
              ratio = ratio,
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration) %>% 
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration) %>% 
   summary() %>%  
   as_gt()
 ```
 
-
-## under sample size
+Given the above enrollment rate and enrollment duration, one can calculate the power of LF by
 ```{r}
-fixed_design(x = "LF", alpha = alpha,  
+fixed_design("lf", alpha = alpha,  
              ratio = ratio, 
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration) %>% 
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration) %>% 
   summary() %>%  
   as_gt()
 ```
 
-# MaxCombo {.tabset}
+# Examples of MaxCombo {.tabset}
 
-## under fixed power (default rho/gamma/tau)
+If one wants to get a power of 90\%, one can calculate the sample size by
 ```{r}
-x <- fixed_design(x = "MaxCombo", alpha = alpha, power = 1 - beta,
+fixed_design("maxcombo", alpha = alpha, power = 1 - beta,
              ratio = ratio, 
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration) 
-x %>% summary() 
-x %>% summary() %>% as_gt()
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration) %>% summary() %>% as_gt()
 ```
-
-## under fixed power (custom rho/gamma/tau)
+In the above example, the MaxCombo parameters take the default value 
 ```{r}
-fixed_design(x = "MaxCombo", alpha = alpha, power = 1 - beta,
+data.frame(rho = c(0, 0), gamma = c(0, 0.5), tau = -1) %>% gt()
+```
+But users can always custom their `rho`, `gamma`, `tau` by  
+```{r}
+fixed_design("maxcombo", alpha = alpha, power = 1 - beta,
              ratio = ratio, 
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration,
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration,
              rho = c(0, 0.5, 0.5),
              gamma = c(0, 0, 0.5),
              tau = c(-1, 4, 6)) %>% 
@@ -233,26 +237,23 @@ fixed_design(x = "MaxCombo", alpha = alpha, power = 1 - beta,
 ```
 
 
-## under sample size (default rho/gamma/tau)
-
+Given the above enrollment rate and enrollment duration, one can calculate the power of MaxCombo under the default parameters by
 ```{r}
-fixed_design(x = "MaxCombo", alpha = alpha, 
+fixed_design("maxcombo", alpha = alpha, 
              ratio = ratio, 
-             enrollRates = enrollRates,
-             failRates = failRates,
-             studyDuration = studyDuration) %>% 
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate,
+             study_duration = study_duration) %>% 
   summary() %>% 
   as_gt()
 ```
-
-
-## under sample size (custom rho/gamma/tau)
+But users can always custom their `rho`, `gamma`, `tau` by 
 ```{r}
-fixed_design(x = "MaxCombo", alpha = alpha, 
+fixed_design("maxcombo", alpha = alpha, 
              ratio = ratio, 
-             enrollRates = enrollRates,
-             failRates = failRates, 
-             studyDuration = studyDuration,
+             enroll_rate = enroll_rate,
+             fail_rate = fail_rate, 
+             study_duration = study_duration,
              rho = c(0, 0.5, 0.5),
              gamma = c(0, 0, 0.5),
              tau = c(-1, 4, 6)) %>% 
@@ -262,113 +263,106 @@ fixed_design(x = "MaxCombo", alpha = alpha,
 
 
 
-# RMST {.tabset}
+# Examples of RMST {.tabset}
 
-## under fixed power 
+If one wants to get a power of 90\%, one can calculate the sample size by
 ```{r}
-x <- fixed_design(x = "RMST", 
-                  alpha = alpha, power = 1 - beta, 
-                  enrollRates = enrollRates, failRates = failRates, 
-                  studyDuration = studyDuration, ratio = ratio,
-                  tau = 18) 
-
-x %>% summary()
-
-x %>% summary() %>% as_gt()
+fixed_design("rmst", 
+             alpha = alpha, power = 1 - beta, 
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio,
+             tau = 18) %>% summary() %>% as_gt()
 ```
 
-## under fixed sample size
+Given the above enrollment rate and enrollment duration, one can calculate the power of RMST by
 ```{r}
-fixed_design(x = "RMST", 
+fixed_design("rmst", 
              alpha = alpha,  
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio,
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio,
              tau = 18) %>% 
   summary() %>% 
   as_gt()
 ```
 
 
-# Milestone {.tabset}
+# Examples of Milestone {.tabset}
 
-## under fixed power 
+If one wants to get a power of 90\%, one can calculate the sample size by
 ```{r}
-x <- fixed_design(x = "Milestone", 
-                  alpha = alpha, power = 1 - beta, 
-                  enrollRates = enrollRates, failRates = failRates, 
-                  studyDuration = studyDuration, ratio = ratio,
-                  tau = 18) 
-
-x %>% summary()
-
-x %>% summary() %>% as_gt()
+fixed_design("milestone", 
+             alpha = alpha, power = 1 - beta, 
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio,
+             tau = 18) %>% 
+  summary() %>% 
+  as_gt()
 ```
 
-## under fixed sample size
+Given the above enrollment rate and enrollment duration, one can calculate the power of Milestone by
 ```{r}
-fixed_design(x = "Milestone", 
+fixed_design("milestone", 
              alpha = alpha,  
-             enrollRates = enrollRates, failRates = failRates, 
-             studyDuration = studyDuration, ratio = ratio,
+             enroll_rate = enroll_rate, fail_rate = fail_rate, 
+             study_duration = study_duration, ratio = ratio,
              tau = 18) %>% 
   summary() %>% 
   as_gt()
 ```
 
 
-# RD {.tabset}
+# Examples of RD {.tabset}
 
-## under fixed power 
+If one wants to get a power of 90\%, one can calculate the sample size by
 ```{r}
-x <- fixed_design(x = "RD", 
-                  alpha = alpha, power = 1 - beta, 
-                  p_c = .15, p_e = .1, rd0 = 0,
-                  ratio = ratio) 
-
-x %>% summary()
-x %>% summary() %>% as_gt()
+fixed_design("rd", 
+             alpha = alpha, power = 1 - beta, 
+             p_c = .15, p_e = .1, rd0 = 0,
+             ratio = ratio) %>% 
+  summary() %>% 
+  as_gt()
 ```
 
-## under fixed sample size
+Given the above enrollment rate and enrollment duration, one can calculate the power by
 ```{r}
-fixed_design(x = "RD", 
+fixed_design("rd", 
              alpha = alpha, power = NULL, 
              p_c = .15, p_e = .1, rd0 = 0,
-             N = 2000, ratio = ratio) %>% 
+             n = 2000, ratio = ratio) %>% 
   summary() %>% 
   as_gt()
 ```
 
-# Multiple Designs
+# Examples to get multiple designs together
 
 ```{r, message = FALSE}
-x_AHR <- fixed_design(x = "AHR", alpha = alpha, ratio = ratio,
-                      enrollRates = enrollRates, failRates = failRates, 
-                      studyDuration = studyDuration)
+x_ahr <- fixed_design("ahr", alpha = alpha, ratio = ratio,
+                      enroll_rate = enroll_rate, fail_rate = fail_rate, 
+                      study_duration = study_duration)
 
-x_FH <- fixed_design(x = "FH", alpha = alpha, ratio = ratio, 
-                     enrollRates = enrollRates, failRates = failRates, studyDuration = studyDuration,
+x_fh <- fixed_design("fh", alpha = alpha, ratio = ratio, 
+                     enroll_rate = enroll_rate, fail_rate = fail_rate, study_duration = study_duration,
                      rho = 0.5, gamma = 0.5) 
 
-x_MB <- fixed_design(x = "MB", alpha = alpha, ratio = ratio, 
-                     enrollRates = enrollRates,failRates = failRates, studyDuration = studyDuration, 
+x_mb <- fixed_design("mb", alpha = alpha, ratio = ratio, 
+                     enroll_rate = enroll_rate,fail_rate = fail_rate, study_duration = study_duration, 
                      tau = 4)
 
-x_LF <- fixed_design(x = "LF", alpha = alpha, ratio = ratio, 
-                     enrollRates = enrollRates, failRates = failRates, studyDuration = studyDuration)
+x_lf <- fixed_design("lf", alpha = alpha, ratio = ratio, 
+                     enroll_rate = enroll_rate, fail_rate = fail_rate, study_duration = study_duration)
 
-x_MaxCombo <- fixed_design(x = "MaxCombo", alpha = alpha, ratio = ratio, 
-                           enrollRates = enrollRates, failRates = failRates, studyDuration = studyDuration,
+x_maxcombo <- fixed_design("maxcombo", alpha = alpha, ratio = ratio, 
+                           enroll_rate = enroll_rate, fail_rate = fail_rate, study_duration = study_duration,
                            rho = c(0, 0.5, 0.5), gamma = c(0, 0, 0.5), tau = c(-1, 4, 6))
 
-x_RMST <- fixed_design(x = "RMST", alpha = alpha, ratio = ratio, 
-                       enrollRates = enrollRates, failRates = failRates, studyDuration = studyDuration,
+x_rmst <- fixed_design("rmst", alpha = alpha, ratio = ratio, 
+                       enroll_rate = enroll_rate, fail_rate = fail_rate, study_duration = study_duration,
                        tau = 30)
 
-x_Milestone <- fixed_design(x = "Milestone", alpha = alpha, ratio = ratio, 
-                       enrollRates = enrollRates, failRates = failRates, studyDuration = studyDuration,
+x_milestone <- fixed_design("milestone", alpha = alpha, ratio = ratio, 
+                       enroll_rate = enroll_rate, fail_rate = fail_rate, study_duration = study_duration,
                        tau = 30)
 
-rbind(summary(x_AHR), summary(x_FH), summary(x_MB), summary(x_LF), summary(x_MaxCombo), summary(x_RMST), summary(x_Milestone)) %>% gt()
+rbind(summary(x_ahr), summary(x_fh), summary(x_mb), summary(x_lf), summary(x_maxcombo), summary(x_rmst), summary(x_milestone)) %>% gt()
 ```
 
