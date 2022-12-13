@@ -43,28 +43,35 @@ to_integer <- function(x, ...) {
 #' 
 #' @examples
 #' library(dplyr)
+#' library(tibble)
 #' library(gsDesign2)
 #' 
 #' # Average hazard ratio
 #' x <- fixed_design("ahr", 
 #'                   alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12, hr = c(1, .6), dropout_rate = .001),
+#'                   enroll_rate = tibble(stratum = "All",  duration = 18, rate = 1),
+#'                   fail_rate = tibble(stratum = "All", duration = c(4, 100), 
+#'                                      fail_rate = log(2) / 12, hr = c(1, .6), 
+#'                                      dropout_rate = .001),
 #'                   study_duration = 36)
 #' x %>% to_integer()    
 #' 
 #' # FH
 #' x <- fixed_design("fh", alpha = 0.025, power = 0.9, 
-#'                   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 20), 
-#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12,hr = c(1, .6), dropout_rate = .001), 
+#'                   enroll_rate = tibble(stratum = "All", duration = 18, rate = 20), 
+#'                   fail_rate = tibble(stratum = "All", duration = c(4, 100), 
+#'                                      fail_rate = log(2) / 12, hr = c(1, .6), 
+#'                                      dropout_rate = .001), 
 #'                   rho = 0.5, gamma = 0.5,
 #'                   study_duration = 36, ratio = 1)         
 #' x %>% to_integer() 
 #' 
 #' # MB
 #' x <- fixed_design("mb", alpha = 0.025, power = 0.9, 
-#'                   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 20), 
-#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12,hr = c(1, .6), dropout_rate = .001), 
+#'                   enroll_rate = tibble(stratum = "All", duration = 18, rate = 20), 
+#'                   fail_rate = tibble(stratum = "All", duration = c(4, 100), 
+#'                                      fail_rate = log(2) / 12, hr = c(1, .6), 
+#'                                      dropout_rate = .001), 
 #'                   tau = 4,
 #'                   study_duration = 36, ratio = 1)         
 #' x %>% to_integer()                   
@@ -100,10 +107,10 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...){
                           event = as.numeric(ceiling(x$analysis$Events)),
                           analysis_time = NULL,
                           ratio = x$input$ratio,
-                          weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, 
+                          upar = qnorm(1 - x$input$alpha), lpar = -Inf,
+                          weight = function(s, arm0, arm1){wlr_weight_fh(s, arm0, arm1, 
                                                                          rho = x$design_par$rho, 
-                                                                         gamma = x$design_par$gamma)},
-                          upar = qnorm(1 - x$input$alpha), lpar = -Inf)
+                                                                         gamma = x$design_par$gamma)})
     
     ans <- tibble::tibble(Design = "fh",
                           N = x_new$analysis$N,
@@ -124,7 +131,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...){
                           event = as.numeric(ceiling(x$analysis$Events)),
                           analysis_time = NULL,
                           ratio = x$input$ratio,
-                          weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0,
+                          weight = function(s, arm0, arm1){wlr_weight_fh(s, arm0, arm1, rho = -1, gamma = 0,
                                                                          tau = design_par$tau)},
                           upar = qnorm(1 - x$input$alpha), lpar = -Inf)
     
@@ -167,6 +174,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...){
 #' library(dplyr)
 #' gs_design_ahr() %>% to_integer()
 #' gs_design_wlr() %>% to_integer()
+#' 
 to_integer.gs_design <- function(x, sample_size = TRUE, ...){
   enroll_rate <- x$enroll_rate
   enroll_rate_new <- enroll_rate %>% mutate(rate = rate * ceiling(x$analysis$N / 2) * 2 / x$analysis$N) 

@@ -24,4 +24,5 @@ This is the function to format group sequential design into interger sample size
 library(dplyr)
 gs_design_ahr() \%>\% to_integer()
 gs_design_wlr() \%>\% to_integer()
+
 }
