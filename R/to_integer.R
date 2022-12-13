@@ -132,7 +132,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...){
                           analysis_time = NULL,
                           ratio = x$input$ratio,
                           weight = function(s, arm0, arm1){wlr_weight_fh(s, arm0, arm1, rho = -1, gamma = 0,
-                                                                         tau = design_par$tau)},
+                                                                         tau = x$design_par$tau)},
                           upar = qnorm(1 - x$input$alpha), lpar = -Inf)
     
     ans <- tibble::tibble(Design = "mb",
