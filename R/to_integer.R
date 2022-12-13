@@ -43,6 +43,7 @@ to_integer <- function(x, ...) {
 #' @method to_integer gs_design
 #' 
 #' @examples
+#' library(dplyr)
 #' gs_design_ahr() %>% to_integer()
 #' gs_design_wlr() %>% to_integer()
 to_integer.gs_design <- function(x, sample_size = TRUE, ...){

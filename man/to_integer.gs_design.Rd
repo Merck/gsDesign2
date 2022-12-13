@@ -21,6 +21,7 @@ but the sample size is an integer
 This is the function to format the bounds summary table of fixed design into gt style.
 }
 \examples{
+library(dplyr)
 gs_design_ahr() \%>\% to_integer()
 gs_design_wlr() \%>\% to_integer()
 }
