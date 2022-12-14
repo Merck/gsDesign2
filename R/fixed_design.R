@@ -84,7 +84,6 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
   # ------------------------- #
   #     check inputs          #
   # ------------------------- #
-  
   # check enrollment rate (not expected for RD)
   if(!has_enroll_rate && x != "rd"){
     stop("fixed_design: please input enroll_rate!")
@@ -125,6 +124,18 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
   }
   
   # ------------------------- #
+  #     save inputs           #
+  # ------------------------- #
+  input <- list(alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
+                weight = if(has_weight){args$weight}else{NULL},
+                rho = if(has_rho){args$rho}else{NULL},
+                gamma = if(has_gamma){args$gamma}else{NULL},
+                tau = if(has_tau){args$tau}else{NULL},
+                enroll_rate = if(has_enroll_rate){args$enroll_rate}else{NULL},
+                fail_rate = if(has_fail_rate){args$fail_rate}else{NULL},
+                n = if(has_N){args$n}else{NULL})
+  
+  # ------------------------- #
   #     generate design       #
   # ------------------------- #
   y <- switch(x, 
@@ -152,7 +163,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "ahr")
+                list(input = input, enroll_rate = d$enroll_rate, 
+                     fail_rate = d$fail_rate, analysis = ans, design = "ahr")
               },
               
               "fh" = {
@@ -190,7 +202,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                list(input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, 
+                     analysis = ans, 
                      design = "fh", design_par = list(rho = if(has_rho){args$rho}else{0}, 
                                                       gamma = if(has_gamma){args$gamma}else{0.5})
                 )
@@ -235,7 +248,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                list(input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
                      design = "mb", design_par = list(tau = ifelse(has_tau, args$tau, 6)))
                 
                 
@@ -273,7 +286,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = d$alpha,
                                       Power = d$power)
                 
-                list(enroll_rate = enroll_rate %>% mutate(rate = rate * d$n/sum(enroll_rate$duration * enroll_rate$rate)), 
+                list(input = input, 
+                     enroll_rate = enroll_rate %>% mutate(rate = rate * d$n/sum(enroll_rate$duration * enroll_rate$rate)), 
                      fail_rate = fail_rate, 
                      analysis = ans, 
                      design = "lf")
@@ -313,7 +327,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                list(input = input,
+                     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
                      design = "maxcombo", design_par = list(rho = if(has_rho){args$rho}else{c(0, 0)},
                                                             gamma = if(has_gamma){args$gamma}else{c(0, 0.5)},
                                                             tau = if(has_tau){args$tau}else{c(-1, -1)}))
@@ -344,7 +359,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "rd")
+                list(input = input,
+                     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "rd")
               },
               
               
@@ -372,7 +388,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                list(input = input,
+                     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
                      design = "rmst", design_par = list(tau = ifelse(has_tau, args$tau, study_duration)))
               },
               
@@ -400,7 +417,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
                                       alpha = alpha,
                                       Power = (d$bounds %>% filter(Bound == "Upper"))$Probability)
                 
-                list(enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
+                list(input = input,
+                     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, 
                      design = "milestone", design_par = list(tau = ifelse(has_tau, args$tau, study_duration)))
               }
   )

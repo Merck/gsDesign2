@@ -220,9 +220,20 @@ gs_design_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
     select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac) %>% 
     unique() %>%  
     arrange(Analysis)
+  # input table
+  input <- list(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                weight = weight, approx = approx,
+                alpha = alpha, beta = beta, ratio = ratio, 
+                info_frac = info_frac, analysis_time = analysis_time,
+                upper = upper, upar = upar,
+                lower = lower, lpar = lpar,
+                test_upper = test_upper, test_lower = test_lower,
+                h1_spending = h1_spending, binding = binding,
+                info_scale = info_scale, r = r, tol = tol)
   
   # final output
   ans <- list(
+    input = input,
     enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
     fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(Z)),

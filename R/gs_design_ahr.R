@@ -260,11 +260,23 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
     select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac) %>% 
     unique() %>% 
     arrange(Analysis)
+  # --------------------------------------------- #
+  #     get input parameter to output             #
+  # --------------------------------------------- #
+  input <- list(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                alpha = alpha, beta = beta, ratio = ratio, 
+                info_frac = info_frac, analysis_time = analysis_time,
+                upper = upper, upar = upar,
+                lower = lower, lpar = lpar,
+                test_upper = test_upper, test_lower = test_lower,
+                h1_spending = h1_spending, binding = binding,
+                info_scale = info_scale, r = r, tol = tol)
   
   # --------------------------------------------- #
   #     return the output                         #
   # --------------------------------------------- #
   ans <- list(
+    input = input,
     enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
     fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(Z)),

@@ -214,10 +214,9 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
     r = r, 
     tol = tol)
   
-  # ---------------------------------------- #
-  #         organize the outputs             #
-  # ---------------------------------------- #
-  # summarize the bounds
+  # --------------------------------------------- #
+  #     get bounds to output                      #
+  # --------------------------------------------- #
   suppressMessages(
     bounds <- y_H0 %>%
       select(Analysis, Bound, Z, Probability) %>% 
@@ -229,7 +228,9 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
       arrange(Analysis, desc(Bound))
   )
   
-  # summarize the analysis
+  # --------------------------------------------- #
+  #     get analysis summary to output            #
+  # --------------------------------------------- #
   suppressMessages(
     analysis <- x %>% 
       select(Analysis, Time, Events, AHR) %>% 
@@ -239,8 +240,21 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
       select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>% 
       arrange(Analysis)
   )
-  
+  # --------------------------------------------- #
+  #     get input parameter to output             #
+  # --------------------------------------------- #
+  input <- list(enroll_rate = enroll_rate,fail_rate = fail_rate,
+                event = event, analysis_time = analysis_time, 
+                binding = binding, ratio = ratio, 
+                upper = upper, upar = upar, test_upper = test_upper, 
+                lower = lower, lpar = lpar, test_lower = test_lower,          
+                weight = weight, info_scale = info_scale, 
+                approx = approx, r = r, tol = tol)
+  # --------------------------------------------- #
+  #     return the output                         #
+  # --------------------------------------------- #
   ans <- list(
+    input = input,
     enroll_rate = enroll_rate, 
     fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(Z)),
