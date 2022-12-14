@@ -158,8 +158,9 @@ gs_design_rd(
   weight = "un-stratified",
   upper = gs_b,
   lower = gs_b,
-  upar = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL)$upper$bound,
+  upar = gsDesign::gsDesign(
+    k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL
+  )$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
 ) \%>\% summary()
-
 }

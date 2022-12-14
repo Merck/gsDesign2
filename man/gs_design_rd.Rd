@@ -114,18 +114,26 @@ gs_design_rd(
 # ----------------- #
 # stratified group sequential design
 gs_design_rd(
-  p_c = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.2, .25)),
-  p_e = tibble(stratum = c("biomarker positive", "biomarker negative"), rate = c(.15,.22)),
+  p_c = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    rate = c(.2, .25)
+  ),
+  p_e = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    rate = c(.15, .22)
+  ),
   info_frac = c(0.7, 1),
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .1,                    
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
   ratio = 1,
-  stratum_prev = tibble(stratum = c("biomarker positive", "biomarker negative"), prevalence = c(.4, .6)),
+  stratum_prev = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    prevalence = c(.4, .6)
+  ),
   weight = "ss",
-  upper = gs_spending_bound,lower = gs_b,
+  upper = gs_spending_bound, lower = gs_b,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lpar = rep(-Inf, 2)
 )
-
 }

@@ -255,10 +255,11 @@ summary.fixed_design <- function(object, ...){
 #'   weight = "un-stratified",
 #'   upper = gs_b,
 #'   lower = gs_b,
-#'   upar = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL)$upper$bound,
+#'   upar = gsDesign::gsDesign(
+#'     k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL
+#'   )$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' ) %>% summary()
-#'
 summary.gs_design <- function(
   object,
   analysis_vars = NULL,

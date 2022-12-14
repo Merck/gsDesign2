@@ -34,37 +34,70 @@
 #' library(dplyr)
 #' 
 #' # Average hazard ratio
-#' x <- fixed_design("ahr", 
-#'                   alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2) / 12, hr = c(1, .6), dropout_rate = .001),
-#'                   study_duration = 36)
+#' x <- fixed_design(
+#'   "ahr",
+#'   alpha = .025, power = .9,
+#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   fail_rate = tibble::tibble(
+#'     stratum = "All",
+#'     duration = c(4, 100),
+#'     fail_rate = log(2) / 12,
+#'     hr = c(1, .6),
+#'     dropout_rate = .001
+#'   ),
+#'   study_duration = 36
+#' )
 #' x %>% summary()            
 #' 
 #' # Lachin and Foulkes (uses gsDesign::nSurv())
-#' x <- fixed_design("lf", 
-#'                   alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
-#'                   study_duration = 36)
+#' x <- fixed_design(
+#'   "lf",
+#'   alpha = .025, power = .9,
+#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   fail_rate = tibble::tibble(
+#'     stratum = "All",
+#'     duration = 100,
+#'     fail_rate = log(2) / 12,
+#'     hr = .7,
+#'     dropout_rate = .001
+#'   ),
+#'   study_duration = 36
+#' )
 #' x %>% summary()
 #' 
 #' # RMST
-#' x <- fixed_design("rmst", alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
-#'                   study_duration = 36,
-#'                   tau = 18)
+#' x <- fixed_design(
+#'   "rmst",
+#'   alpha = .025, power = .9,
+#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   fail_rate = tibble::tibble(
+#'     stratum = "All",
+#'     duration = 100,
+#'     fail_rate = log(2) / 12,
+#'     hr = .7,
+#'     dropout_rate = .001
+#'   ),
+#'   study_duration = 36,
+#'   tau = 18
+#' )
 #' x %>% summary()
 #' 
 #' # Milestone 
-#' x <- fixed_design("milestone", alpha = .025, power = .9, 
-#'                   enroll_rate = tibble::tibble(stratum = "All",  duration = 18, rate = 1),
-#'                   fail_rate = tibble::tibble(stratum = "All", duration = 100, fail_rate = log(2) / 12, hr = .7, dropout_rate = .001),
-#'                   study_duration = 36,
-#'                   tau = 18)
+#' x <- fixed_design(
+#'   "milestone",
+#'   alpha = .025, power = .9,
+#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   fail_rate = tibble::tibble(
+#'     stratum = "All",
+#'     duration = 100,
+#'     fail_rate = log(2) / 12,
+#'     hr = .7,
+#'     dropout_rate = .001
+#'   ),
+#'   study_duration = 36,
+#'   tau = 18
+#' )
 #' x %>% summary()
-#' 
 fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "rmst", "milestone"), 
                          alpha = 0.025, power = NULL, ratio = 1, study_duration = 36, ...){
   # --------------------------------------------- #
