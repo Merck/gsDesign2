@@ -128,6 +128,8 @@ summary.fixed_design <- function(object, ...){
 #' @param ... Additional arguments
 #'
 #' @return A summary table
+#' 
+#' @importFrom dplyr all_of
 #'
 #' @rdname summary.gs_design
 #' @method summary gs_design

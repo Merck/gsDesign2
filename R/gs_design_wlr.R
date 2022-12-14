@@ -33,6 +33,8 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
+#' @importFrom dplyr all_of
+#'
 #' @export
 #' 
 #' @examples

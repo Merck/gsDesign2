@@ -70,7 +70,11 @@ NULL
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @return a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
+#'
 #' @details Need to be added
+#'
+#' @importFrom dplyr all_of
+#'
 #' @export
 #'
 #' @examples
