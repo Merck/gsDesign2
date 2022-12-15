@@ -152,6 +152,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...){
     x_new <- x
   }
   
+  class(x_new) <- c("fixed_design", class(x_new)[which(class(x_new) != "gs_design")])
   return(x_new)
 }
 
