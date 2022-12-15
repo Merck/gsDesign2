@@ -43,6 +43,8 @@
 #' @details The \code{AHR()} function computes statistical information at targeted event times.
 #' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
 #' 
+#' @importFrom utils tail
+#' 
 #' @export
 #' 
 #' @examples 
@@ -66,7 +68,6 @@
 #' 
 #' gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'             event = event, analysis_time = analysis_time)
-#'             
 gs_info_wlr <- function(enroll_rate = tibble::tibble(stratum = "All",
                                                      duration = c(2,2,10),
                                                      rate = c(3, 6, 9)),

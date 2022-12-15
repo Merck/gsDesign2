@@ -98,16 +98,17 @@ library(gsDesign)
 library(gsDesign2)
 
 # set enrollment rates
-enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500/12)
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
 
 # set failure rates
 fail_rate <- tibble(
   stratum = "All",
   duration = c(4, 100),
-  fail_rate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),
-  dropout_rate = 0.001)
-  
+  dropout_rate = 0.001
+)
+
 # set the targeted number of events and analysis time
 target_events <- c(30, 40, 50)
 target_analysisTime <- c(10, 24, 30)
@@ -122,10 +123,18 @@ gs_power_wlr(
   event = target_events,
   analysis_time = NULL,
   upper = gs_b,
-  upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  upar = gsDesign(
+    k = length(target_events),
+    test.type = 1,
+    n.I = target_events,
+    maxn.IPlan = max(target_events),
+    sfu = sfLDOF,
+    sfupar = NULL
+  )$upper$bound,
   lower = gs_b,
-  lpar = c(qnorm(.1), rep(-Inf, 2)))
-  
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+
 # -------------------------#
 #       example 2          #
 # ------------------------ #
@@ -136,9 +145,17 @@ gs_power_wlr(
   event = NULL,
   analysis_time = target_analysisTime,
   upper = gs_b,
-  upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  upar = gsDesign(
+    k = length(target_events),
+    test.type = 1,
+    n.I = target_events,
+    maxn.IPlan = max(target_events),
+    sfu = sfLDOF,
+    sfupar = NULL
+  )$upper$bound,
   lower = gs_b,
-  lpar = c(qnorm(.1), rep(-Inf, 2)))
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
 
 # -------------------------#
 #       example 3          #
@@ -150,10 +167,18 @@ gs_power_wlr(
   event = target_events,
   analysis_time = target_analysisTime,
   upper = gs_b,
-  upar = gsDesign(k = length(target_events), test.type = 1, n.I = target_events, maxn.IPlan = max(target_events), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  upar = gsDesign(
+    k = length(target_events),
+    test.type = 1,
+    n.I = target_events,
+    maxn.IPlan = max(target_events),
+    sfu = sfLDOF,
+    sfupar = NULL
+  )$upper$bound,
   lower = gs_b,
-  lpar = c(qnorm(.1), rep(-Inf, 2)))
-  
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+
 # -------------------------#
 #       example 4          #
 # ------------------------ #
@@ -166,8 +191,9 @@ gs_power_wlr(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
-  
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
+
 # -------------------------#
 #       example 5          #
 # ------------------------ #
@@ -180,8 +206,9 @@ gs_power_wlr(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
-  
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
+
 # -------------------------#
 #       example 6          #
 # ------------------------ #
@@ -194,6 +221,6 @@ gs_power_wlr(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
-  
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
 }

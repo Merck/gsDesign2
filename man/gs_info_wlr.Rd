@@ -77,5 +77,4 @@ analysis_time <- c(10, 24, 30)
 
 gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
             event = event, analysis_time = analysis_time)
-            
 }
