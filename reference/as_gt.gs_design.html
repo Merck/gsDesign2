@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,7 @@
 <span>  display_bound <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Efficacy"</span>, <span class="st">"Futility"</span><span class="op">)</span>,</span>
 <span>  display_columns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  display_inf_bound <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  full_alpha <span class="op">=</span> <span class="fl">0.025</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -114,6 +115,14 @@ users can use the functions in the <code>gt</code> package to custom themselves.
 <dd><p>a logic value (TRUE or FALSE) whether to display the +-inf bound</p></dd>
 
 
+<dt>full_alpha</dt>
+<dd><p>The full alpha used in the design, the default is 0.025.
+If the cumulative alpha for final analysis is less than the <code>full_alpha</code>
+when the futility bound is non-binding, a footnote will be displayed, saying
+the smaller value subtracts the probability of crossing a futility bound before
+crossing an efficacy bound at a later analysis under the null hypothesis.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments</p></dd>
 
@@ -147,10 +156,6 @@ users can use the functions in the <code>gt</code> package to custom themselves.
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="gs_design_combo.html">gs_design_combo</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span> </span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="gs_power_combo.html">gs_power_combo</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
