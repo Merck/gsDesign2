@@ -14,7 +14,7 @@ gs_power_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(0.1), rep(-Inf, length(N) - 1)),
+  lpar = c(qnorm(0.1), rep(-Inf, 2)),
   info_scale = c(0, 1, 2),
   binding = FALSE,
   test_upper = TRUE,

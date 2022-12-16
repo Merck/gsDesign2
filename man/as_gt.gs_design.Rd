@@ -14,6 +14,7 @@
   display_bound = c("Efficacy", "Futility"),
   display_columns = NULL,
   display_inf_bound = TRUE,
+  full_alpha = 0.025,
   ...
 )
 }
@@ -39,6 +40,12 @@ users can use the functions in the \code{gt} package to custom themselves.}
 \item{display_columns}{a vector of strings specifying the variables to be displayed in the summary table}
 
 \item{display_inf_bound}{a logic value (TRUE or FALSE) whether to display the +-inf bound}
+
+\item{full_alpha}{The full alpha used in the design, the default is 0.025.
+If the cumulative alpha for final analysis is less than the \code{full_alpha}
+when the futility bound is non-binding, a footnote will be displayed, saying
+the smaller value subtracts the probability of crossing a futility bound before
+crossing an efficacy bound at a later analysis under the null hypothesis.}
 
 \item{...}{additional arguments}
 }
@@ -69,10 +76,6 @@ gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt()
 
-
-gs_design_combo() \%>\% 
-  summary() \%>\% 
-  as_gt() 
 
 gs_power_combo() \%>\% 
   summary() \%>\% 
