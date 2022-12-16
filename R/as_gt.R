@@ -181,6 +181,11 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #'                 the \code{location} is a vector of string to specify the locations to put the superscript of the footnote index;
 #'                 the \code{attr} is a vector of string to specify the attributes of the footnotes, e.g., c("colname", "title", "subtitle", "analysis", "spanner");
 #'                 users can use the functions in the \code{gt} package to custom themselves.
+#' @param full_alpha The full alpha used in the design, the default is 0.025. 
+#'                   If the cumulative alpha for final analysis is less than the \code{full_alpha} 
+#'                   when the futility bound is non-binding, a footnote will be displayed, saying 
+#'                   the smaller value subtracts the probability of crossing a futility bound before 
+#'                   crossing an efficacy bound at a later analysis under the null hypothesis.
 #' @param display_bound a vector of strings specifying the label of the bounds. The default is \code{c("Efficacy", "Futility")}
 #' @param display_columns a vector of strings specifying the variables to be displayed in the summary table
 #' @param display_inf_bound a logic value (TRUE or FALSE) whether to display the +-inf bound
@@ -213,10 +218,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...){
 #'   summary() %>%
 #'   as_gt()
 #' 
-#' 
-#' gs_design_combo() %>% 
-#'   summary() %>% 
-#'   as_gt() 
 #' 
 #' gs_power_combo() %>% 
 #'   summary() %>% 
@@ -281,10 +282,11 @@ as_gt.gs_design <- function(
   display_bound = c("Efficacy", "Futility"),
   display_columns = NULL,
   display_inf_bound = TRUE,
+  full_alpha = 0.025,
   ...
 ){
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
-  x_alpha <- max((x %>% dplyr::filter(Bound == "Efficacy"))$`Null hypothesis`)
+  x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
   x_non_binding <- "non-binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x){return(as.numeric(substring(x, 11, 11)))}) %>% unlist()
   x_old <- x
@@ -448,17 +450,17 @@ as_gt.gs_design <- function(
   }
   
   ## if it is non-binding design
-  if(x_non_binding & (x_alpha < 0.025)){
+  if(x_non_binding & (x_alpha < full_alpha)){
     x <- x %>% 
       gt::tab_footnote(
         footnote = paste0("Cumulative alpha for final analysis (", x_alpha, 
                           ") is less than the full alpha (0.025) when the futility bound is non-binding. ",
                           "The smaller value subtracts the probability of crossing a futility bound before ",
                           " crossing an efficacy bound at a later analysis (0.025 - ",
-                          0.025 - x_alpha, " = ", x_alpha, ") under the null hypothesis."),
+                          full_alpha - x_alpha, " = ", x_alpha, ") under the null hypothesis."),
         locations = gt::cells_body(
-          columns = `Null hypothesis`,
-          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & (x_old$Bound == "Efficacy")
+          columns = colname_spannersub[2],
+          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & (x_old$Bound == display_bound[1])
         )
       ) 
   }
