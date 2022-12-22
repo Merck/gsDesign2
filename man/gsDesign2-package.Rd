@@ -38,6 +38,7 @@ Other contributors:
   \item Ping Yang \email{ping.yang1@merck.com} [contributor]
   \item Xin Tong Li \email{xin.tong.li@merck.com} [contributor]
   \item Chenxiang Li \email{chenxiang.li@merck.com} [contributor]
+  \item Hongtao Zhang \email{hongtao.zhang1@merck.com} [contributor]
   \item Yalin Zhu \email{yalin.zhu@merck.com} [contributor]
   \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder]
 }
