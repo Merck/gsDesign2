@@ -111,7 +111,7 @@ check_fail_rate <- function(fail_rate){
   
   # the rate is positive numbers
   if(sum(fail_rate$fail_rate) <= 0){
-    stop("The `fail_rate` column in fail_rate should be at least one positive number!")
+    stop("The `fail_rate` column in fail_rate should have at least one positive number!")
   }
   
   # --------------------------- #
