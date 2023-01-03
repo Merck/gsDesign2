@@ -104,13 +104,18 @@ check_fail_rate <- function(fail_rate){
     stop("The fail_rate is a tibble which contains a column called `fail_rate`!")
   }
   
-  # the rate is fail_rate values
+  # the rates are fail_rate values
   if(!is.numeric(fail_rate$fail_rate)){
     stop("The `fail_rate`column in fail_rate should be numeric!")
   }
   
-  # the rate is positive numbers
-  if(sum(fail_rate$fail_rate) <= 0){
+  # the rates are positive numbers
+  if(any(fail_rate$fail_rate < 0)){
+    stop("The `fail_rate` column in fail_rate should be positive numbers!")
+  }
+  
+  # at least 1 rate is positive
+  if(all(fail_rate$fail_rate <= 0)){
     stop("The `fail_rate` column in fail_rate should have at least one positive number!")
   }
   
