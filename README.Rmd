@@ -1,8 +1,17 @@
 ---
 output: github_document
-# The following line removes the redundant CSS from the rendered README.md
-# on GitHub. You do not need it for HTML, PDF, or other output formats.
-knit: (function(inputFile, encoding) { rmarkdown::render(input = inputFile, encoding = encoding); output <- paste0(basename(tools::file_path_sans_ext(inputFile)), ".md"); content_old <- paste0(readLines(output), collapse = "\n"); content_new <- gsub("<style>.*?</style>", replacement = "", content_old); writeLines(content_new, con = output); invisible(output) })
+# The following code customizes the Knit button behavior to remove
+# redundant CSS from the rendered README.md for proper display on GitHub.
+# You do not need it for HTML, PDF, or other output formats.
+knit: >
+  (function(inputFile, encoding) {
+    rmarkdown::render(input = inputFile, encoding = encoding)
+    output <- paste0(basename(tools::file_path_sans_ext(inputFile)), ".md")
+    content_old <- paste0(readLines(output), collapse = "\n")
+    content_new <- gsub("<style>.*?</style>", replacement = "", content_old)
+    writeLines(content_new, con = output)
+    invisible(output)
+  })
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
