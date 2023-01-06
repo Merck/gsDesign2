@@ -87,96 +87,126 @@ NULL
 #' library(gsDesign)
 #' library(gsDesign2)
 #' library(dplyr)
-#' 
+#'
 #' # Default (single analysis; Type I error controlled)
-#' gsDesign2:::gs_power_npe_(theta=0) %>% filter(Bound=="Upper")
+#' gsDesign2:::gs_power_npe_(theta = 0) %>% filter(Bound == "Upper")
 #'
 #' # Fixed bound
-#' gsDesign2:::gs_power_npe_(theta = c(.1, .2, .3), info = (1:3) * 40, info0 = (1:3) * 40,
-#'              upper = gs_b, 
-#'              upar = gsDesign::gsDesign(k = 3,
-#'                                        sfu = gsDesign::sfLDOF)$upper$bound,
-#'              lower = gs_b, 
-#'              lpar = c(-1, 0, 0))
+#' gsDesign2:::gs_power_npe_(
+#'   theta = c(.1, .2, .3), info = (1:3) * 40, info0 = (1:3) * 40,
+#'   upper = gs_b,
+#'   upar = gsDesign::gsDesign(
+#'     k = 3,
+#'     sfu = gsDesign::sfLDOF
+#'   )$upper$bound,
+#'   lower = gs_b,
+#'   lpar = c(-1, 0, 0)
+#' )
 #'
-#' # Same fixed efficacy bounds, 
+#' # Same fixed efficacy bounds,
 #' # no futility bound (i.e., non-binding bound), null hypothesis
-#' gsDesign2:::gs_power_npe_(theta = rep(0,3), 
-#'              info = (1:3) * 40,
-#'              upar = gsDesign::gsDesign(k = 3,
-#'                                        sfu = gsDesign::sfLDOF)$upper$bound,
-#'              lpar = rep(-Inf, 3)) %>% filter(Bound=="Upper")
+#' gsDesign2:::gs_power_npe_(
+#'   theta = rep(0, 3),
+#'   info = (1:3) * 40,
+#'   upar = gsDesign::gsDesign(
+#'     k = 3,
+#'     sfu = gsDesign::sfLDOF
+#'   )$upper$bound,
+#'   lpar = rep(-Inf, 3)
+#' ) %>% filter(Bound == "Upper")
 #'
-#' # Fixed bound with futility only at analysis 1; 
+#' # Fixed bound with futility only at analysis 1;
 #' # efficacy only at analyses 2, 3
-#' gsDesign2:::gs_power_npe_(theta = c(.1, .2, .3), 
-#'              info = (1:3) * 40, 
-#'              upar = c(Inf, 3, 2), 
-#'              lpar = c(qnorm(.1), -Inf, -Inf))
+#' gsDesign2:::gs_power_npe_(
+#'   theta = c(.1, .2, .3),
+#'   info = (1:3) * 40,
+#'   upar = c(Inf, 3, 2),
+#'   lpar = c(qnorm(.1), -Inf, -Inf)
+#' )
 #'
 #' # Spending function bounds
 #' # Lower spending based on non-zero effect
-#' gsDesign2:::gs_power_npe_(theta = c(.1, .2, .3), 
-#'              info = (1:3) * 40,
-#'              upper = gs_spending_bound,
-#'              upar = list(sf = gsDesign::sfLDOF, 
-#'                          total_spend = 0.025, 
-#'                          param = NULL, 
-#'                          timing = NULL),
-#'              lower = gs_spending_bound,
-#'              lpar = list(sf = gsDesign::sfHSD, 
-#'                          total_spend = 0.1, 
-#'                          param = -1, 
-#'                          timing = NULL))
+#' gsDesign2:::gs_power_npe_(
+#'   theta = c(.1, .2, .3),
+#'   info = (1:3) * 40,
+#'   upper = gs_spending_bound,
+#'   upar = list(
+#'     sf = gsDesign::sfLDOF,
+#'     total_spend = 0.025,
+#'     param = NULL,
+#'     timing = NULL
+#'   ),
+#'   lower = gs_spending_bound,
+#'   lpar = list(
+#'     sf = gsDesign::sfHSD,
+#'     total_spend = 0.1,
+#'     param = -1,
+#'     timing = NULL
+#'   )
+#' )
 #'
 #' # Same bounds, but power under different theta
-#' gsDesign2:::gs_power_npe_(theta = c(.15, .25, .35), 
-#'              theta1 = c(.1, .2, .3), 
-#'              info = (1:3) * 40,
-#'              upper = gs_spending_bound,
-#'              upar = list(sf = gsDesign::sfLDOF, 
-#'                          total_spend = 0.025, 
-#'                          param = NULL, 
-#'                          timing = NULL),
-#'              lower = gs_spending_bound,
-#'              lpar = list(sf = gsDesign::sfHSD, 
-#'                          total_spend = 0.1, 
-#'                          param = -1, 
-#'                          timing = NULL))
+#' gsDesign2:::gs_power_npe_(
+#'   theta = c(.15, .25, .35),
+#'   theta1 = c(.1, .2, .3),
+#'   info = (1:3) * 40,
+#'   upper = gs_spending_bound,
+#'   upar = list(
+#'     sf = gsDesign::sfLDOF,
+#'     total_spend = 0.025,
+#'     param = NULL,
+#'     timing = NULL
+#'   ),
+#'   lower = gs_spending_bound,
+#'   lpar = list(
+#'     sf = gsDesign::sfHSD,
+#'     total_spend = 0.1,
+#'     param = -1,
+#'     timing = NULL
+#'   )
+#' )
 #'
 #' # Two-sided symmetric spend, O'Brien-Fleming spending
 #' # Typically, 2-sided bounds are binding
-#' xx <- gsDesign2:::gs_power_npe_(theta = rep(0, 3), 
-#'                    theta1 = rep(0, 3), 
-#'                    info = (1:3) * 40,
-#'                    upper = gs_spending_bound,
-#'                    binding = TRUE,
-#'                    upar = list(sf = gsDesign::sfLDOF, 
-#'                                total_spend = 0.025, 
-#'                                param = NULL, 
-#'                                timing = NULL),
-#'                    lower = gs_spending_bound,
-#'                    lpar = list(sf = gsDesign::sfLDOF, 
-#'                                total_spend = 0.025, 
-#'                                param = NULL, 
-#'                                timing = NULL))
+#' xx <- gsDesign2:::gs_power_npe_(
+#'   theta = rep(0, 3),
+#'   theta1 = rep(0, 3),
+#'   info = (1:3) * 40,
+#'   upper = gs_spending_bound,
+#'   binding = TRUE,
+#'   upar = list(
+#'     sf = gsDesign::sfLDOF,
+#'     total_spend = 0.025,
+#'     param = NULL,
+#'     timing = NULL
+#'   ),
+#'   lower = gs_spending_bound,
+#'   lpar = list(
+#'     sf = gsDesign::sfLDOF,
+#'     total_spend = 0.025,
+#'     param = NULL,
+#'     timing = NULL
+#'   )
+#' )
 #' xx
 #'
 #' # Re-use these bounds under alternate hypothesis
 #' # Always use binding = TRUE for power calculations
 #' upar <- (xx %>% filter(Bound == "Upper"))$Z
-#' gsDesign2:::gs_power_npe_(theta = c(.1, .2, .3), 
-#'              info = (1:3) * 40,
-#'              binding = TRUE,
-#'              upar = upar,
-#'              lpar = -upar)
+#' gsDesign2:::gs_power_npe_(
+#'   theta = c(.1, .2, .3),
+#'   info = (1:3) * 40,
+#'   binding = TRUE,
+#'   upar = upar,
+#'   lpar = -upar
+#' )
 #'
 #' @noRd
 gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, info0 = NULL,
-                         binding = FALSE,
-                         upper=gs_b, lower=gs_b, upar = qnorm(.975), lpar= -Inf,
-                         test_upper = TRUE, test_lower = TRUE,
-                         r = 18, tol = 1e-6){
+                          binding = FALSE,
+                          upper = gs_b, lower = gs_b, upar = qnorm(.975), lpar = -Inf,
+                          test_upper = TRUE, test_lower = TRUE,
+                          r = 18, tol = 1e-6) {
   #######################################################################################
   # WRITE INPUT CHECK TESTS AND RETURN APPROPRIATE ERROR MESSAGES
   # theta should be a scalar or vector of real values; if vector, same length as info
@@ -191,7 +221,9 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
   if (is.null(info1)) info1 <- info
   if (length(info1) != length(info) || length(info0) != length(info)) stop("gs_power_npe: length of info, info0, info1 must be the same")
   if (length(theta) == 1 && K > 1) theta <- rep(theta, K)
-  if (is.null(theta1)){theta1 <- theta}else if (length(theta1)==1) theta1 <- rep(theta1,K)
+  if (is.null(theta1)) {
+    theta1 <- theta
+  } else if (length(theta1) == 1) theta1 <- rep(theta1, K)
   if (length(test_upper) == 1 && K > 1) test_upper <- rep(test_upper, K)
   if (length(test_lower) == 1 && K > 1) test_lower <- rep(test_lower, K)
   a <- rep(-Inf, K)
@@ -203,65 +235,99 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
   lowerProb <- rep(NA, K)
   ######################################################################################
   # COMPUTE BOUNDS
-  for(k in 1:K){
+  for (k in 1:K) {
     # Lower bound update
-    a[k] <- lower(k = k, par = lpar, hgm1 = hgm1_1, theta = theta1, info = info1, r = r, tol = tol, test_bound = test_lower,
-                  efficacy = FALSE)
+    a[k] <- lower(
+      k = k, par = lpar, hgm1 = hgm1_1, theta = theta1, info = info1, r = r, tol = tol, test_bound = test_lower,
+      efficacy = FALSE
+    )
     # Upper bound update
     b[k] <- upper(k = k, par = upar, hgm1 = hgm1_0, info = info0, r = r, tol = tol, test_bound = test_upper)
-    if(k==1){
-      upperProb[1] <- if(b[1] < Inf) {pnorm( sqrt(info[1]) * (theta[1] - b[1] / sqrt(info0[1])))}else{0}
-      lowerProb[1] <- if(a[1] > -Inf){pnorm(-sqrt(info[1]) * (theta[1] - a[1] / sqrt(info0[1])))}else{0}
-      
+    if (k == 1) {
+      upperProb[1] <- if (b[1] < Inf) {
+        pnorm(sqrt(info[1]) * (theta[1] - b[1] / sqrt(info0[1])))
+      } else {
+        0
+      }
+      lowerProb[1] <- if (a[1] > -Inf) {
+        pnorm(-sqrt(info[1]) * (theta[1] - a[1] / sqrt(info0[1])))
+      } else {
+        0
+      }
+
       # hgm1_0 <- h1(r = r, theta = 0,         I = info0[1], a = if(binding){a[1]}else{-Inf}, b = b[1])
-      hgm1_0 <- h1(r = r, theta = 0,         I = info0[1], a = if(binding){a[1]}else{-Inf}, b = b[1])
+      hgm1_0 <- h1(r = r, theta = 0, I = info0[1], a = if (binding) {
+        a[1]
+      } else {
+        -Inf
+      }, b = b[1])
       # hgm1_1 <- h1(r = r, theta = theta1[1], I = info1[1], a = a[1], b = b[1])
       hgm1_1 <- h1(r = r, theta = theta1[1], I = info1[1], a = a[1], b = b[1])
       # hgm1   <- h1(r = r, theta = theta[1],  I = info[1],  a = a[1], b = b[1])
-      hgm1   <- h1(r = r, theta = theta[1],  I = info[1],  a = a[1], b = b[1])
-    }else{
+      hgm1 <- h1(r = r, theta = theta[1], I = info[1], a = a[1], b = b[1])
+    } else {
       # Cross upper bound
-      upperProb[k] <- if(b[k]< Inf){
+      upperProb[k] <- if (b[k] < Inf) {
         # hupdate(r = r, theta = theta[k], I = info[k], a = b[k], b = Inf,
         #         thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1) %>%
         #   summarise(sum(h)) %>% as.numeric()
-        sum(hupdate(r = r, theta = theta[k], I = info[k], a = b[k], b = Inf,
-                    thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1)$h)
-      }else{0}
+        sum(hupdate(
+          r = r, theta = theta[k], I = info[k], a = b[k], b = Inf,
+          thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1
+        )$h)
+      } else {
+        0
+      }
       # Cross lower bound
-      lowerProb[k] <- if(a[k] > -Inf){
+      lowerProb[k] <- if (a[k] > -Inf) {
         # hupdate(r = r, theta = theta[k], I = info[k], a = -Inf, b = a[k],
         #         thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1) %>%
         #   summarise(sum(h)) %>% as.numeric()
-        sum(hupdate(r = r, theta = theta[k], I = info[k], a = -Inf, b = a[k],
-                    thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1)$h)
-      }else{0}
-      if(k < K){
+        sum(hupdate(
+          r = r, theta = theta[k], I = info[k], a = -Inf, b = a[k],
+          thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1
+        )$h)
+      } else {
+        0
+      }
+      if (k < K) {
         # hgm1_0 <- hupdate(r = r, theta = 0,         I = info0[k], a = if(binding){a[k]}else{-Inf}, b = b[k],
         #                   thetam1 = 0,           Im1 = info0[k-1], gm1 = hgm1_0)
-        hgm1_0 <- hupdate(r = r, theta = 0,         I = info0[k], a = if(binding){a[k]}else{-Inf}, b = b[k],
-                          thetam1 = 0,           Im1 = info0[k-1], gm1 = hgm1_0)
+        hgm1_0 <- hupdate(
+          r = r, theta = 0, I = info0[k], a = if (binding) {
+            a[k]
+          } else {
+            -Inf
+          }, b = b[k],
+          thetam1 = 0, Im1 = info0[k - 1], gm1 = hgm1_0
+        )
         # hgm1_1 <- hupdate(r = r, theta = theta1[k], I = info1[k], a = a[k], b = b[k],
         #                   thetam1 = theta1[k-1], Im1 = info1[k-1], gm1 = hgm1_1)
-        hgm1_1 <- hupdate(r = r, theta = theta1[k], I = info1[k], a = a[k], b = b[k],
-                          thetam1 = theta1[k-1], Im1 = info1[k-1], gm1 = hgm1_1)
+        hgm1_1 <- hupdate(
+          r = r, theta = theta1[k], I = info1[k], a = a[k], b = b[k],
+          thetam1 = theta1[k - 1], Im1 = info1[k - 1], gm1 = hgm1_1
+        )
         # hgm1   <- hupdate(r = r, theta = theta[k],  I = info[k],  a = a[k], b = b[k],
         #                   thetam1 = theta[k-1],  Im1 = info[k-1],  gm1 = hgm1)
-        hgm1   <- hupdate(r = r, theta = theta[k],  I = info[k],  a = a[k], b = b[k],
-                          thetam1 = theta[k-1],  Im1 = info[k-1],  gm1 = hgm1)
+        hgm1 <- hupdate(
+          r = r, theta = theta[k], I = info[k], a = a[k], b = b[k],
+          thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1
+        )
       }
     }
   }
   return(tibble::tibble(
     Analysis = rep(1:K, 2),
     Bound = c(rep("Upper", K), rep("Lower", K)),
-    Z= c(b, a),
-    Probability = c(cumsum(upperProb),
-                    cumsum(lowerProb)),
+    Z = c(b, a),
+    Probability = c(
+      cumsum(upperProb),
+      cumsum(lowerProb)
+    ),
     theta = rep(theta, 2),
     theta1 = rep(theta1, 2),
     info = rep(info, 2),
     info0 = rep(info0, 2),
-    info1 = rep(info1, 2))
-  )
+    info1 = rep(info1, 2)
+  ))
 }

@@ -28,7 +28,7 @@
 #' specified.
 #' @param hr vector of hazard ratios assumed for each interval
 #' @param ratio ratio of experimental to control randomization.
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -59,37 +59,44 @@
 #' \dontrun{
 #' library(simtrial)
 #' library(survival)
-#' ahr_blinded(Srv = Surv(time = simtrial::Ex2delayedEffect$month,
-#'                        event = simtrial::Ex2delayedEffect$evntd),
-#'             intervals = c(4, 100),
-#'             hr = c(1, .55),
-#'             ratio = 1)
+#' ahr_blinded(
+#'   Srv = Surv(
+#'     time = simtrial::Ex2delayedEffect$month,
+#'     event = simtrial::Ex2delayedEffect$evntd
+#'   ),
+#'   intervals = c(4, 100),
+#'   hr = c(1, .55),
+#'   ratio = 1
+#' )
 #' }
 #'
 #' @export
-ahr_blinded <- function (Srv = Surv(time = simtrial::Ex1delayedEffect$month,
-                                    event = simtrial::Ex1delayedEffect$evntd),
-                         intervals = array(3, 3),
-                         hr = c(1, .6),
-                         ratio = 1){   
-  
+ahr_blinded <- function(Srv = Surv(
+                          time = simtrial::Ex1delayedEffect$month,
+                          event = simtrial::Ex1delayedEffect$evntd
+                        ),
+                        intervals = array(3, 3),
+                        hr = c(1, .6),
+                        ratio = 1) {
   msg <- "hr must be a vector of positive numbers"
   if (!is.vector(hr, mode = "numeric")) stop(msg)
   if (min(hr) <= 0) stop(msg)
-  
-  events <- simtrial::pwexpfit(Srv, intervals)[ , 3]
+
+  events <- simtrial::pwexpfit(Srv, intervals)[, 3]
   nhr <- length(hr)
   nx <- length(events)
   # Add to hr if length shorter than intervals
   if (length(hr) < length(events)) hr <- c(hr, rep(hr[nhr], nx - nhr))
-  
+
   # Compute blinded AHR
-  theta <- sum(log(hr[1 : nx]) * events) / sum(events)
-  
+  theta <- sum(log(hr[1:nx]) * events) / sum(events)
+
   # Compute adjustment for information
   Qe <- ratio / (1 + ratio)
-  
-  ans <- tibble(Events = sum(events), AHR = exp(theta), 
-                theta = theta, info0 = sum(events) * (1 - Qe) * Qe)
+
+  ans <- tibble(
+    Events = sum(events), AHR = exp(theta),
+    theta = theta, info0 = sum(events) * (1 - Qe) * Qe
+  )
   return(ans)
 }
