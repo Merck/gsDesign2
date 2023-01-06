@@ -43,8 +43,8 @@ NULL
 #' @param info statistical information at all analyses, at least up to analysis k
 #' @param efficacy TRUE (default) for efficacy bound, FALSE otherwise
 #' @param test_bound a logical vector of the same length as \code{info} should indicate which analyses will have a bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
+#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for convergence (on Z-scale)
 #' @section Specification:
@@ -69,190 +69,205 @@ NULL
 #' Methods with Applications to Clinical Trials}. Boca Raton: Chapman and Hall.
 #' @export
 gs_spending_bound <- function(k = 1,
-                              par = list(sf = gsDesign::sfLDOF,
-                                         total_spend = 0.025,
-                                         param = NULL,
-                                         timing = NULL,
-                                         max_info = NULL),
+                              par = list(
+                                sf = gsDesign::sfLDOF,
+                                total_spend = 0.025,
+                                param = NULL,
+                                timing = NULL,
+                                max_info = NULL
+                              ),
                               hgm1 = NULL,
                               theta = .1,
                               info = 1:3,
                               efficacy = TRUE,
                               test_bound = TRUE,
                               r = 18,
-                              tol = 1e-6){
+                              tol = 1e-6) {
   # ---------------------------------- #
   #  check and initialize inputs       #
   # ---------------------------------- #
   # Make test_bound a vector of length k > 1 if input as a single value
-  if(length(test_bound) == 1 && k > 1){test_bound <- rep(test_bound, k)}
-  
+  if (length(test_bound) == 1 && k > 1) {
+    test_bound <- rep(test_bound, k)
+  }
+
   # ---------------------------------- #
   #  set spending time at analyses     #
   # ---------------------------------- #
-  if(!is.null(par$timing)){
+  if (!is.null(par$timing)) {
     timing <- par$timing
-  }else{
-    if(is.null(par$max_info)){
+  } else {
+    if (is.null(par$max_info)) {
       timing <- info / max(info)
-    }else{
+    } else {
       timing <- info / par$max_info
-    } 
+    }
   }
-  
+
   # ---------------------------------- #
   #   compute cumulative spending      #
   #         at each analyses           #
   # ---------------------------------- #
   spend <- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend
-  
+
   # ---------------------------------- #
   #   compute incremental spending     #
   #         at each analyses           #
   # ---------------------------------- #
   old_spend <- 0
 
-  for(i in 1:k){
-    if (test_bound[i]){          # Check if spending is taken at analysis i
+  for (i in 1:k) {
+    if (test_bound[i]) { # Check if spending is taken at analysis i
       xx <- spend[i] - old_spend # Cumulative spending minus previous spending
-      old_spend <- spend[i]      # Reset previous spending
-      spend[i] <- xx             # Incremental spend at analysis i
-    }else{
-      spend[i] <- 0              # 0 incremental spend if no testing at analysis i
-    } 
+      old_spend <- spend[i] # Reset previous spending
+      spend[i] <- xx # Incremental spend at analysis i
+    } else {
+      spend[i] <- 0 # 0 incremental spend if no testing at analysis i
+    }
   }
-  
-  
+
+
   # Now just get spending for current bound
   spend <- spend[k]
-  
+
   # ---------------------------------- #
   #   compute lower bound              #
   #      at each analyses              #
   # ---------------------------------- #
   # lower bound
-  if (!efficacy){
+  if (!efficacy) {
     # If no spending, return -Inf for bound
-    if(spend <= 0){return(-Inf)} 
-    
+    if (spend <= 0) {
+      return(-Inf)
+    }
+
     # if theta not a vector, make it one
     # theta is for lower bound only
-    if(length(theta) == 1) theta <- rep(theta, length(info))
-    
+    if (length(theta) == 1) theta <- rep(theta, length(info))
+
     # set starting value
     a <- qnorm(spend) + sqrt(info[k]) * theta[k]
-    
+
     # if it is the first analysis: no need for iteration
-    if(k == 1){return(a)} 
-    
+    if (k == 1) {
+      return(a)
+    }
+
     # Extremes for numerical integration
     mu <- theta[k] * sqrt(info[k])
     EXTREMElow <- mu - 3 - 4 * log(r)
     EXTREMEhi <- mu + 3 + 4 * log(r)
-    
+
     # iterate to convergence as in gsbound.c from gsDesign
     adelta <- 1
     j <- 0
-    
-    # ---------------------------------------------------------------- # 
+
+    # ---------------------------------------------------------------- #
     # FOLLOWING UPDATE ALGORITHM FROM GSDESIGN::GSBOUND.C              #
     # use 1st order Taylor's series to update boundaries               #
     # maximum allowed change is 1                                      #
     # maximum value allowed is z1[m1]*rtIk to keep within grid points  #
-    # ---------------------------------------------------------------- # 
-    while(abs(adelta) > tol){ 
-      
+    # ---------------------------------------------------------------- #
+    while (abs(adelta) > tol) {
       # get grid for rejection region
-      hg <- hupdate(theta = theta[k], I =  info[k], a = -Inf, b = a, thetam1 = theta[k-1], Im1 = info[k-1], gm1 = hgm1, r = r)
+      hg <- hupdate(theta = theta[k], I = info[k], a = -Inf, b = a, thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1, r = r)
       i <- length(hg$h)
-      
+
       # compute lower bound crossing (pik)
-      pik <- sum(hg$h)  
+      pik <- sum(hg$h)
       adelta <- spend - pik
       dplo <- hg$h[i] / hg$w[i]
-      
-      if(adelta > dplo){
+
+      if (adelta > dplo) {
         adelta <- 1
-      }else if(adelta < -dplo){
+      } else if (adelta < -dplo) {
         adelta <- -1
-      }else{
+      } else {
         adelta <- adelta / dplo
       }
-      
+
       a <- a + adelta
-      
-      if(a > EXTREMEhi){
+
+      if (a > EXTREMEhi) {
         a <- EXTREMEhi
-      }else if(a < EXTREMElow){
+      } else if (a < EXTREMElow) {
         a <- EXTREMElow
       }
-      
-      if (abs(adelta) < tol){return(a)}
-      
+
+      if (abs(adelta) < tol) {
+        return(a)
+      }
+
       j <- j + 1
-      if (j > 20){
+      if (j > 20) {
         stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", k, " !"))
       }
     }
-  }else{
-  # ---------------------------------- #
-  #   compute upper bound              #
-  #      at each analyses              #
-  # ---------------------------------- #
-    if(spend <= 0){return(Inf)}
-    
+  } else {
+    # ---------------------------------- #
+    #   compute upper bound              #
+    #      at each analyses              #
+    # ---------------------------------- #
+    if (spend <= 0) {
+      return(Inf)
+    }
+
     # if theta not a vector, make it one
     # theta is for lower bound only
-    if(length(theta) == 1) theta <- rep(theta, length(info))
-    
+    if (length(theta) == 1) theta <- rep(theta, length(info))
+
     # set starting value
     b <- qnorm(spend, lower.tail = FALSE)
-    
+
     # if it is the first analysis: no iteration needed
-    if(k == 1){return(b)} 
-    
+    if (k == 1) {
+      return(b)
+    }
+
     # Extremes for numerical integration
     mu <- theta[k] * sqrt(info[k])
     EXTREMElow <- mu - 3 - 4 * log(r)
     EXTREMEhi <- mu + 3 + 4 * log(r)
-    
+
     # initial values
     bdelta <- 1
     j <- 1
-    
+
     while (abs(bdelta) > tol) {
       # sub-density for final analysis in rejection region
-      hg <- hupdate(theta = 0, I =  info[k], a = b, b = Inf, thetam1 = 0, Im1 = info[k-1], gm1 = hgm1, r = r)
-      
+      hg <- hupdate(theta = 0, I = info[k], a = b, b = Inf, thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)
+
       # compute probability of crossing bound
-      pik <- sum(hg$h) 
+      pik <- sum(hg$h)
       bdelta <- spend - pik
-      
+
       # compute the derivative of bound crossing at b[k]
-      dpikdb <- hg$h[1] / hg$w[1] 
-      
-      if(bdelta > dpikdb){
+      dpikdb <- hg$h[1] / hg$w[1]
+
+      if (bdelta > dpikdb) {
         bdelta <- 1
-      }else if(bdelta < -dpikdb){
+      } else if (bdelta < -dpikdb) {
         bdelta <- -1
-      }else{
+      } else {
         bdelta <- bdelta / dpikdb
       }
-      
+
       # update upper boundary by Newton-Raphson method
       b <- b - bdelta
-      
-      if(b > EXTREMEhi){
+
+      if (b > EXTREMEhi) {
         b <- EXTREMEhi
-      }else if(b < EXTREMElow){
+      } else if (b < EXTREMElow) {
         b <- EXTREMElow
       }
-      
-      if(abs(bdelta) < tol){return(b)}
-      
+
+      if (abs(bdelta) < tol) {
+        return(b)
+      }
+
       # if the while loop does not end in 20 iterations, stop
       j <- j + 1
-      if (j > 20){
+      if (j > 20) {
         stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", k, " !"))
       }
     }

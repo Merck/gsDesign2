@@ -43,8 +43,8 @@ NULL
 #' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000); 
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy. 
+#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
+#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' @section Specification:
@@ -81,31 +81,31 @@ NULL
 #' library(gsDesign)
 #' library(gsDesign2)
 #' library(dplyr)
-#' 
+#'
 #' # ----------------- #
 #' #    example 1      #
 #' # ----------------- #
 #' # call with defaults
 #' gs_design_ahr()
-#' 
+#'
 #' # ----------------- #
 #' #    example 2      #
 #' # ----------------- #
 #' # Single analysis
 #' gs_design_ahr(analysis_time = 40)
-#' 
+#'
 #' # ----------------- #
 #' #    example 3      #
 #' # ----------------- #
 #' # Multiple analysis_time
 #' gs_design_ahr(analysis_time = c(12, 24, 36))
-#' 
+#'
 #' # ----------------- #
 #' #    example 4      #
 #' # ----------------- #
 #' # Specified information fraction
 #' gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
-#' 
+#'
 #' # ----------------- #
 #' #    example 5      #
 #' # ----------------- #
@@ -113,8 +113,8 @@ NULL
 #' # driven by times
 #' gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 #' # driven by info_frac
-#' gs_design_ahr(info_frac = c(1/3, .8, 1), analysis_time = c(12, 25, 36))
-#' 
+#' gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
+#'
 #' # ----------------- #
 #' #    example 6      #
 #' # ----------------- #
@@ -126,8 +126,9 @@ NULL
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-#'   h1_spending = FALSE)
-#' 
+#'   h1_spending = FALSE
+#' )
+#'
 #' # 2-sided asymmetric design with O'Brien-Fleming upper spending
 #' # Pocock lower spending under H1 (NPH)
 #' gs_design_ahr(
@@ -137,145 +138,165 @@ NULL
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
-#'   h1_spending = TRUE)
-#'   
+#'   h1_spending = TRUE
+#' )
+#'
 gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                          fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
-                                             hr = c(.9, .6), dropout_rate = rep(.001, 2)),
-                          alpha = 0.025, beta = 0.1, 
-                          info_frac = NULL, analysis_time = 36, 
+                          fail_rate = tibble(
+                            stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+                            hr = c(.9, .6), dropout_rate = rep(.001, 2)
+                          ),
+                          alpha = 0.025, beta = 0.1,
+                          info_frac = NULL, analysis_time = 36,
                           ratio = 1, binding = FALSE,
-                          upper = gs_b,         
+                          upper = gs_b,
                           upar = gsDesign::gsDesign(k = 3, test.type = 1, n.I = c(.25, .75, 1), sfu = sfLDOF, sfupar = NULL)$upper$bound,
                           lower = gs_b,
-                          lpar = c(qnorm(.1), -Inf, -Inf), 
+                          lpar = c(qnorm(.1), -Inf, -Inf),
                           h1_spending = TRUE,
                           test_upper = TRUE,
                           test_lower = TRUE,
                           info_scale = c(0, 1, 2),
                           r = 18,
-                          tol = 1e-6){
+                          tol = 1e-6) {
   # --------------------------------------------- #
   #     initialization                             #
   # --------------------------------------------- #
-  if(is.null(info_frac)){info_frac <- 1}
-  info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
+  if (is.null(info_frac)) {
+    info_frac <- 1
+  }
+  info_scale <- if (methods::missingArg(info_scale)) {
+    2
+  } else {
+    match.arg(as.character(info_scale), choices = 0:2)
+  }
 
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
   check_analysis_time(analysis_time)
   check_info_frac(info_frac)
-  if((length(analysis_time) > 1) & (length(info_frac) > 1) & (length(info_frac) != length(analysis_time))){
+  if ((length(analysis_time) > 1) & (length(info_frac) > 1) & (length(info_frac) != length(analysis_time))) {
     stop("gs_design_ahr() info_frac and analysis_time must have the same length if both have length > 1!")
-  } 
-  
+  }
+
   # --------------------------------------------- #
   #     get information at input analysis_time    #
   # --------------------------------------------- #
   y <- gs_info_ahr(enroll_rate, fail_rate, ratio = ratio, event = NULL, analysis_time = analysis_time)
-  
+
   finalEvents <- y$Events[nrow(y)]
   IFalt <- y$Events / finalEvents
-  
+
   # --------------------------------------------- #
   #     check if info_frac needed for IA timing   #
   # --------------------------------------------- #
   K <- max(length(analysis_time), length(info_frac))
   nextTime <- max(analysis_time)
   # if info_frac is not provided by the users
-  if(length(info_frac) == 1){
+  if (length(info_frac) == 1) {
     info_frac <- IFalt
-  }else{
+  } else {
     # if there are >= 2 analysis
-    IFindx <- info_frac[1:(K-1)]
-    for(i in seq_along(IFindx)){
+    IFindx <- info_frac[1:(K - 1)]
+    for (i in seq_along(IFindx)) {
       # if ...
-      if(length(IFalt) == 1){
-        y <- rbind(expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                           ratio = ratio, target_event = info_frac[K - i] * finalEvents, 
-                           interval = c(.01, nextTime)) %>% 
-                     mutate(theta = -log(AHR), Analysis = K - i),
-                   y)
-      }else if(info_frac[K-i] > IFalt[K-i]){
+      if (length(IFalt) == 1) {
+        y <- rbind(
+          expected_time(
+            enroll_rate = enroll_rate, fail_rate = fail_rate,
+            ratio = ratio, target_event = info_frac[K - i] * finalEvents,
+            interval = c(.01, nextTime)
+          ) %>%
+            mutate(theta = -log(AHR), Analysis = K - i),
+          y
+        )
+      } else if (info_frac[K - i] > IFalt[K - i]) {
         # if the planned info_frac > info_frac under H1
-        y[K - i,] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                             ratio = ratio, target_event = info_frac[K - i] * finalEvents, 
-                             interval = c(.01, nextTime)) %>%
+        y[K - i, ] <- expected_time(
+          enroll_rate = enroll_rate, fail_rate = fail_rate,
+          ratio = ratio, target_event = info_frac[K - i] * finalEvents,
+          interval = c(.01, nextTime)
+        ) %>%
           dplyr::transmute(Analysis = K - i, Time, Events, AHR, theta = -log(AHR), info, info0)
-      } 
+      }
       nextTime <- y$Time[K - i]
     }
   }
-  
-  # update `y` (an object from `gs_power_ahr`) with 
+
+  # update `y` (an object from `gs_power_ahr`) with
   # 1) analysis NO.
   # 2) the accrual sample size, i.e., `N`
   # 3) `theta1` and `info1`
   y$Analysis <- 1:K
   y$N <- expected_accrual(time = y$Time, enroll_rate = enroll_rate)
-  if(h1_spending){
-    theta1 <- y$theta  
+  if (h1_spending) {
+    theta1 <- y$theta
     info1 <- y$info
-  }else{
+  } else {
     theta1 <- 0
     info1 <- y$info0
   }
-  
+
   # --------------------------------------------- #
   #     combine all the calculations              #
   # --------------------------------------------- #
   suppressMessages(
     allout <- gs_design_npe(
-      theta = y$theta, theta0 = 0, theta1 = theta1, 
-      info = y$info, info0 = y$info0, info1 = info1, 
+      theta = y$theta, theta0 = 0, theta1 = theta1,
+      info = y$info, info0 = y$info0, info1 = info1,
       info_scale = info_scale,
       alpha = alpha, beta = beta, binding = binding,
       upper = upper, upar = upar, test_upper = test_upper,
       lower = lower, lpar = lpar, test_lower = test_lower,
-      r = r, tol = tol)
+      r = r, tol = tol
+    )
   )
-  
+
   allout <- allout %>%
     # add `~HR at bound`, `HR generic` and `Nominal p`
-    mutate("~HR at bound" = exp(-Z / sqrt(info0)), "Nominal p" = pnorm(-Z)) %>% 
+    mutate("~HR at bound" = exp(-Z / sqrt(info0)), "Nominal p" = pnorm(-Z)) %>%
     # Add `Time`, `Events`, `AHR`, `N` from gs_info_ahr call above
     full_join(y %>% select(-c(info, info0, theta)), by = "Analysis") %>%
     # select variables to be output
-    select(c("Analysis", "Bound", "Time", "N", "Events", "Z", "Probability", "Probability0", "AHR", "theta", 
-             "info", "info0", "info_frac", "~HR at bound", "Nominal p")) %>% 
+    select(c(
+      "Analysis", "Bound", "Time", "N", "Events", "Z", "Probability", "Probability0", "AHR", "theta",
+      "info", "info0", "info_frac", "~HR at bound", "Nominal p"
+    )) %>%
     # arrange the output table
     arrange(Analysis, desc(Bound))
-  
+
   inflac_fct <- (allout %>% filter(Analysis == K, Bound == "Upper"))$info / (y %>% filter(Analysis == K))$info
   allout$Events <- allout$Events * inflac_fct
   allout$N <- allout$N * inflac_fct
-  
+
   # --------------------------------------------- #
   #     get bounds to output                      #
   # --------------------------------------------- #
-  bounds <- allout %>% 
-    select(all_of(c("Analysis", "Bound", "Probability", "Probability0", "Z", "~HR at bound", "Nominal p"))) %>% 
+  bounds <- allout %>%
+    select(all_of(c("Analysis", "Bound", "Probability", "Probability0", "Z", "~HR at bound", "Nominal p"))) %>%
     arrange(Analysis, desc(Bound))
   # --------------------------------------------- #
   #     get analysis summary to output            #
   # --------------------------------------------- #
-  analysis <- allout %>% 
-    select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac) %>% 
-    unique() %>% 
+  analysis <- allout %>%
+    select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac) %>%
+    unique() %>%
     arrange(Analysis)
   # --------------------------------------------- #
   #     get input parameter to output             #
   # --------------------------------------------- #
-  input <- list(enroll_rate = enroll_rate, fail_rate = fail_rate,
-                alpha = alpha, beta = beta, ratio = ratio, 
-                info_frac = info_frac, analysis_time = analysis_time,
-                upper = upper, upar = upar,
-                lower = lower, lpar = lpar,
-                test_upper = test_upper, test_lower = test_lower,
-                h1_spending = h1_spending, binding = binding,
-                info_scale = info_scale, r = r, tol = tol)
-  
+  input <- list(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    alpha = alpha, beta = beta, ratio = ratio,
+    info_frac = info_frac, analysis_time = analysis_time,
+    upper = upper, upar = upar,
+    lower = lower, lpar = lpar,
+    test_upper = test_upper, test_lower = test_lower,
+    h1_spending = h1_spending, binding = binding,
+    info_scale = info_scale, r = r, tol = tol
+  )
+
   # --------------------------------------------- #
   #     return the output                         #
   # --------------------------------------------- #
@@ -284,13 +305,13 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
     enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
     fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(Z)),
-    analysis = analysis)
-  
+    analysis = analysis
+  )
+
   class(ans) <- c("ahr", "gs_design", class(ans))
-  if(!binding){
+  if (!binding) {
     class(ans) <- c("non-binding", class(ans))
   }
-  
+
   return(ans)
-  
 }
