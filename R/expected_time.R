@@ -34,7 +34,7 @@ NULL
 #' @param ratio Experimental:Control randomization ratio.
 #' @param interval An interval that is presumed to include the time at which
 #' expected event count is equal to `target_event`.
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -42,78 +42,87 @@ NULL
 #'    \item Return a tibble with a single row with the output from `AHR()` got the specified output.
 #'    }
 #'  }
-#'  
+#'
 #' @return A `tibble` with `Time` (computed to match events in `target_event`), `AHR` (average hazard ratio),
 #' `Events` (`target_event` input), info (information under given scenarios),
 #' and info0 (information under related null hypothesis) for each value of `total_duration` input;
-#' 
+#'
 #' @examples
-#' # ------------------------# 
+#' # ------------------------#
 #' #      Example 1          #
 #' # ------------------------#
 #' # default
 #' expected_time()
-#' 
-#' # ------------------------# 
+#'
+#' # ------------------------#
 #' #      Example 2          #
 #' # ------------------------#
 #' # check that result matches a finding using AHR()
 #' # Start by deriving an expected event count
 #' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-#' fail_rate <- tibble::tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18), 
-#'                             hr = c(.9,.6), dropout_rate = rep(.001, 2))
+#' fail_rate <- tibble::tibble(
+#'   stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6), dropout_rate = rep(.001, 2)
+#' )
 #' total_duration <- 20
 #' xx <- AHR(enroll_rate, fail_rate, total_duration)
 #' xx
-#' 
+#'
 #' # Next we check that the function confirms the timing of the final analysis.
-#' expected_time(enroll_rate, fail_rate, 
-#'         target_event = xx$Events, interval = c(.5, 1.5) * xx$Time)
-#' 
+#' expected_time(enroll_rate, fail_rate,
+#'   target_event = xx$Events, interval = c(.5, 1.5) * xx$Time
+#' )
+#'
 #' @export
 #'
-expected_time <- function(enroll_rate = tibble::tibble(stratum = "All",
-                                                 duration = c(2, 2, 10),
-                                                 rate = c(3, 6, 9) * 5),
-                          fail_rate = tibble::tibble(stratum = "All",
-                                                     duration = c(3, 100),
-                                                     fail_rate = log(2) / c(9, 18),
-                                                     hr = c(.9, .6),
-                                                     dropout_rate = rep(.001, 2)),
+expected_time <- function(enroll_rate = tibble::tibble(
+                            stratum = "All",
+                            duration = c(2, 2, 10),
+                            rate = c(3, 6, 9) * 5
+                          ),
+                          fail_rate = tibble::tibble(
+                            stratum = "All",
+                            duration = c(3, 100),
+                            fail_rate = log(2) / c(9, 18),
+                            hr = c(.9, .6),
+                            dropout_rate = rep(.001, 2)
+                          ),
                           target_event = 150,
                           ratio = 1,
-                          interval = c(.01, 100)
-){
+                          interval = c(.01, 100)) {
   # ----------------------------#
   #    check inputs             #
   # ----------------------------#
   check_ratio(ratio)
-  if(length(target_event) > 1){
+  if (length(target_event) > 1) {
     stop("expected_time(): the input target_event` should be a positive numer, rather than a vector!")
   }
-  
+
   # ----------------------------#
   #    build a help function    #
   # ----------------------------#
   # find the difference between  `AHR()` and different values of total_duration
-  foo <- function(x){
-    ans <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-               total_duration = x, ratio = ratio)$Events - target_event
+  foo <- function(x) {
+    ans <- AHR(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      total_duration = x, ratio = ratio
+    )$Events - target_event
     return(ans)
   }
-  
+
   # ----------------------------#
   #       uniroot AHR()         #
   #    over total_duration      #
   # ----------------------------#
   res <- try(uniroot(foo, interval))
-  
-  if(inherits(res,"try-error")){
+
+  if (inherits(res, "try-error")) {
     stop("expected_time(): solution not found!")
-  }else{
-    ans <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-               total_duration = res$root, ratio = ratio)
+  } else {
+    ans <- AHR(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      total_duration = res$root, ratio = ratio
+    )
     return(ans)
   }
-  
 }

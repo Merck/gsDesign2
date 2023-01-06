@@ -23,11 +23,11 @@
 #' it simply returns the vector input in the input vector \code{Z} or, if \code{k} is specified \code{par[k]j} is returned.
 #' Note that if bounds need to change with changing information at analyses, \code{gs_b()} should not be used.
 #' For instance, for spending function bounds use
-#' 
+#'
 #' @param par For \code{gs_b()}, this is just Z-values for the boundaries; can include infinite values
 #' @param k is NULL (default), return \code{par}, else return \code{par[k]}
 #' @param ... further arguments passed to or from other methods
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -45,7 +45,7 @@
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' # Simple: enter a vector of length 3 for bound
 #' gs_b(par = 4:2)
 #'
@@ -57,16 +57,16 @@
 #' # as 50%, 75% and 100% of final spending
 #' # Information fraction
 #' IF <- c(.5, .75, 1)
-#' gs_b(par = gsDesign::gsDesign(alpha = .025, k = length(IF), 
-#'      test.type = 1, sfu = gsDesign::sfLDOF, 
-#'      timing = IF)$upper$bound)
-#'      
-gs_b <- function(par = NULL, k = NULL, ...){
-  
-  if(is.null(k)){
+#' gs_b(par = gsDesign::gsDesign(
+#'   alpha = .025, k = length(IF),
+#'   test.type = 1, sfu = gsDesign::sfLDOF,
+#'   timing = IF
+#' )$upper$bound)
+#'
+gs_b <- function(par = NULL, k = NULL, ...) {
+  if (is.null(k)) {
     return(par)
-  }else{ 
+  } else {
     return(par[k])
   }
-  
 }

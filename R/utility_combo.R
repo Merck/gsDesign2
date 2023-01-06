@@ -16,13 +16,13 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' @importFrom mvtnorm GenzBretz
-#' 
+#'
 #' @param enroll_rate enrollment rates
 #' @param fail_rate failure and dropout rates
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
 #' @param fh_test weighting tests
 #' @param algorithm numerical algorithms
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -40,80 +40,84 @@
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#' 
+#'
 #' @noRd
 gs_utility_combo <- function(enroll_rate,
                              fail_rate,
                              fh_test,
                              ratio = 1,
                              algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
-                             ...){
-  
+                             ...) {
   # Define analysis time
   analysis_time <- sort(unique(fh_test$analysis_time))
-  
+
   # Define Arm
   gs_arm <- gs_create_arm(enroll_rate, fail_rate,
-                          ratio = ratio,                   # Randomization ratio
-                          total_time = max(analysis_time)) # Total study duration
-  
+    ratio = ratio, # Randomization ratio
+    total_time = max(analysis_time)
+  ) # Total study duration
+
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
-  
+
   # Unique test
-  u_fh_test <- unique(fh_test[, c("test","rho", "gamma", "tau")] )
-  
+  u_fh_test <- unique(fh_test[, c("test", "rho", "gamma", "tau")])
+
   # Information Fraction
-  info <- gs_info_combo(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                        ratio = ratio, analysis_time = analysis_time,
-                        rho = u_fh_test$rho,
-                        gamma = u_fh_test$gamma)
-  
-  # Correlation between test
-  corr_test <- with(u_fh_test,
-                    lapply(analysis_time, function(tmax){
-                      cov2cor(gs_sigma2_combo(arm0, arm1, tmax = tmax,
-                                              rho = rho, gamma = gamma, tau = tau))
-                    })
+  info <- gs_info_combo(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    ratio = ratio, analysis_time = analysis_time,
+    rho = u_fh_test$rho,
+    gamma = u_fh_test$gamma
   )
-  
+
+  # Correlation between test
+  corr_test <- with(
+    u_fh_test,
+    lapply(analysis_time, function(tmax) {
+      cov2cor(gs_sigma2_combo(arm0, arm1,
+        tmax = tmax,
+        rho = rho, gamma = gamma, tau = tau
+      ))
+    })
+  )
+
   # Correlation between analysis
   info_split <- split(info, info$test)
-  corr_time <- lapply(info_split, function(x){
-    corr <- with(x, outer(sqrt(info), sqrt(info), function(x,y) pmin(x,y) / pmax(x,y)))
+  corr_time <- lapply(info_split, function(x) {
+    corr <- with(x, outer(sqrt(info), sqrt(info), function(x, y) pmin(x, y) / pmax(x, y)))
     rownames(corr) <- analysis_time
     colnames(corr) <- analysis_time
     corr
   })
-  
+
   # Overall Correlation
   corr_combo <- diag(1, nrow = nrow(info))
-  for(i in 1:nrow(info)){
-    for(j in 1:nrow(info)){
+  for (i in 1:nrow(info)) {
+    for (j in 1:nrow(info)) {
       t1 <- as.numeric(info$Analysis[i])
       t2 <- as.numeric(info$Analysis[j])
-      if(t1 <= t2){
+      if (t1 <= t2) {
         test1 <- as.numeric(info$test[i])
         test2 <- as.numeric(info$test[j])
-        corr_combo[i,j] <- corr_test[[t1]][test1,test2] * corr_time[[test2]][t1, t2]
-        corr_combo[j,i] <- corr_combo[i,j]
+        corr_combo[i, j] <- corr_test[[t1]][test1, test2] * corr_time[[test2]][t1, t2]
+        corr_combo[j, i] <- corr_combo[i, j]
       }
     }
   }
-  
+
   # Sample size
   n <- max(info$N)
-  
+
   # Restricted to actual analysis
   info_fh <- merge(info, fh_test, all = TRUE)
-  corr_fh <- corr_combo[! is.na(info_fh$gamma), ! is.na(info_fh$gamma)]
-  info_fh <- subset(info_fh, ! is.na(gamma))
-  
+  corr_fh <- corr_combo[!is.na(info_fh$gamma), !is.na(info_fh$gamma)]
+  info_fh <- subset(info_fh, !is.na(gamma))
+
   # Effect size
-  theta_fh <- (- info_fh$delta) / sqrt(info_fh$sigma2)
-  
+  theta_fh <- (-info_fh$delta) / sqrt(info_fh$sigma2)
+
   list(info_all = info, info = info_fh, theta = theta_fh, corr = corr_fh)
-  
 }
 
 
@@ -123,10 +127,10 @@ gs_utility_combo <- function(enroll_rate,
 #' with maximum statistics for arbitrary limits and correlation matrices
 #' @importFrom mvtnorm GenzBretz
 #' @inheritParams mvtnorm::pmvnorm
-#' 
+#'
 #' @param group the vector of test statistics group.
 #' @param ... additional parameters transfer to `mvtnorm::pmvnorm`
-#' 
+#'
 #' @details
 #' Let $Z = {Z_ij}$ be a multivariate normal distribution.
 #' Here i is a group indicator and j is a within group statistics indicator.
@@ -141,84 +145,83 @@ pmvnorm_combo <- function(lower,
                           group,
                           mean,
                           corr,
-                          algorithm = GenzBretz(maxpts= 1e5, abseps= 1e-5),
-                          ...){
-  
+                          algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+                          ...) {
   # Number of test in each group
   n_test <- as.numeric(table(group))
-  
-  
+
+
   # Ensure positive definitive of the correlation matrix
-  if(! corpcor::is.positive.definite(corr)){
+  if (!corpcor::is.positive.definite(corr)) {
     corr <- corpcor::make.positive.definite(corr)
     corr <- stats::cov2cor(corr)
   }
-  
+
   # One dimension test
-  if(length(mean) == 1){
+  if (length(mean) == 1) {
     p <- pnorm(mean, lower) - pnorm(mean, upper)
     return(p)
   }
-  
+
   # One test for all group or lower bound is -Inf.
-  if(all(n_test == 1) | all(lower == -Inf) ){
-    p <- mvtnorm::pmvnorm(lower = rep(lower, n_test),
-                          upper = rep(upper, n_test),
-                          mean = mean,
-                          corr = corr,
-                          sigma = NULL,
-                          algorithm = algorithm,
-                          ...)
-    
+  if (all(n_test == 1) | all(lower == -Inf)) {
+    p <- mvtnorm::pmvnorm(
+      lower = rep(lower, n_test),
+      upper = rep(upper, n_test),
+      mean = mean,
+      corr = corr,
+      sigma = NULL,
+      algorithm = algorithm,
+      ...
+    )
+
     return(p)
-    
+
     # General Algorithm
-  }else{
-    
+  } else {
     # Re-arrange test based on the order for number of test
     group <- as.numeric(factor(group, order(n_test)))
-    
+
     mean <- mean[order(group)]
     corr <- corr[order(group), order(group)]
     group <- group[order(group)]
-    
+
     n_test <- as.numeric(table(group))
-    
-    
-    
+
+
+
     # Split by number of test == 1
     lower1 <- lower[n_test == 1]
     upper1 <- upper[n_test == 1]
-    
+
     lower2 <- lower[n_test > 1]
     upper2 <- upper[n_test > 1]
-    
+
     # Combination of all possible test
     k <- length(lower2)
-    test_ind <- split(matrix(c(1,-1), nrow = k, ncol = 2, byrow = TRUE), 1:k)
+    test_ind <- split(matrix(c(1, -1), nrow = k, ncol = 2, byrow = TRUE), 1:k)
     test_ind <- expand.grid(test_ind)
     test <- split(test_ind, 1:nrow(test_ind))
-    
-    p <- sapply(test, function(x){
+
+    p <- sapply(test, function(x) {
       lower_bound <- rep(c(lower1, rep(-Inf, k)), n_test)
       upper_bound <- rep(c(upper1, ifelse(x == 1, upper2, lower2)), n_test)
-      
-      p_bound <- mvtnorm::pmvnorm(lower = lower_bound,
-                                  upper = upper_bound,
-                                  mean = mean,
-                                  corr = corr,
-                                  sigma = NULL,
-                                  algorithm = algorithm,
-                                  ...)
-      
+
+      p_bound <- mvtnorm::pmvnorm(
+        lower = lower_bound,
+        upper = upper_bound,
+        mean = mean,
+        corr = corr,
+        sigma = NULL,
+        algorithm = algorithm,
+        ...
+      )
+
       prod(x) * p_bound
-      
     })
-    
+
     return(sum(p))
-    
   }
-  
 }
 
 
@@ -226,32 +229,31 @@ pmvnorm_combo <- function(lower,
 #' @param rho weighting parameter
 #' @param gamma weighting parameter
 #' @param tau weighting parameter
-#' 
+#'
 #' @noRd
-get_combo_weight <- function(rho, gamma, tau){
-  
+get_combo_weight <- function(rho, gamma, tau) {
   stopifnot(length(rho) == length(gamma))
   stopifnot(length(rho) == length(tau))
-  
+
   weight <- list()
-  for(i in 1:length(rho)){
-    
-    if(tau[i] == -1){
+  for (i in 1:length(rho)) {
+    if (tau[i] == -1) {
       tmp_tau <- NULL
-    }else{
+    } else {
       tmp_tau <- tau[i]
     }
-    
-    text <- paste0("weight <- function(x, arm0, arm1){
+
+    text <- paste0(
+      "weight <- function(x, arm0, arm1){
                             wlr_weight_fh(x, arm0, arm1
                                 ,rho =", rho[i],
-                   ", gamma =", gamma[i],
-                   ", tau =", tmp_tau,  ")}")
-    
+      ", gamma =", gamma[i],
+      ", tau =", tmp_tau, ")}"
+    )
+
     weight[[i]] <- text
-    
   }
-  
+
   weight
 }
 
@@ -263,20 +265,20 @@ gs_delta_combo <- function(arm0,
                            rho,
                            gamma,
                            tau = rep(-1, length(rho)),
-                           approx="asymptotic",
+                           approx = "asymptotic",
                            normalization = FALSE) {
-  
   stopifnot(length(tmax) == 1)
-  
+
   weight <- get_combo_weight(rho, gamma, tau)
-  delta <- sapply(weight, function(x){
+  delta <- sapply(weight, function(x) {
     x <- eval(parse(text = x))
-    gs_delta_wlr(arm0, arm1, tmax = tmax, weight = x,
-                 approx = approx, normalization = normalization)
+    gs_delta_wlr(arm0, arm1,
+      tmax = tmax, weight = x,
+      approx = approx, normalization = normalization
+    )
   })
-  
+
   delta
-  
 }
 
 #' Compute delta in max combo test
@@ -287,30 +289,28 @@ gs_sigma2_combo <- function(arm0,
                             rho,
                             gamma,
                             tau = rep(-1, length(rho)),
-                            approx="asymptotic"){
-  
+                            approx = "asymptotic") {
   stopifnot(length(tmax) == 1)
   stopifnot(length(rho) == length(gamma))
   stopifnot(length(rho) == length(tau))
-  
-  rho1   <- outer(rho, rho, function(x,y) (x+y)/2 )
-  gamma1 <- outer(gamma, gamma, function(x,y) (x+y)/2 )
-  
+
+  rho1 <- outer(rho, rho, function(x, y) (x + y) / 2)
+  gamma1 <- outer(gamma, gamma, function(x, y) (x + y) / 2)
+
   sigma2 <- rho1
-  for(i in 1:length(rho)){
-    
-    weight <- get_combo_weight(rho1[i,], gamma1[i,],tau)
-    
-    sigma2[i,] <- sapply(weight, function(x){
+  for (i in 1:length(rho)) {
+    weight <- get_combo_weight(rho1[i, ], gamma1[i, ], tau)
+
+    sigma2[i, ] <- sapply(weight, function(x) {
       x <- eval(parse(text = x))
-      gs_sigma2_wlr(arm0, arm1, tmax = tmax, weight = x,
-                    approx = approx)
-      
+      gs_sigma2_wlr(arm0, arm1,
+        tmax = tmax, weight = x,
+        approx = approx
+      )
     })
   }
-  
+
   sigma2
-  
 }
 
 #' MaxCombo Group sequential boundary crossing probabilities
@@ -330,60 +330,61 @@ gs_prob_combo <- function(upper_bound,
                           analysis,
                           theta,
                           corr,
-                          algorithm = GenzBretz(maxpts= 1e5, abseps= 1e-5),
-                          ...){
-  
+                          algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+                          ...) {
   n_analysis <- length(unique(analysis))
-  
+
   p <- c()
   q <- c()
-  for(k in 1:n_analysis){
+  for (k in 1:n_analysis) {
     k_ind <- analysis <= k
-    
-    
+
+
     # Efficacy Bound
-    if(k == 1){
+    if (k == 1) {
       lower <- upper_bound[1]
       upper <- Inf
-    }else{
-      lower <- c(lower_bound[1:(k-1)], upper_bound[k])
-      upper <- c(upper_bound[1:(k-1)], Inf)
+    } else {
+      lower <- c(lower_bound[1:(k - 1)], upper_bound[k])
+      upper <- c(upper_bound[1:(k - 1)], Inf)
     }
-    
-    
+
+
     p[k] <- pmvnorm_combo(lower,
-                          upper,
-                          group = analysis[k_ind],
-                          mean = theta[k_ind],
-                          corr = corr[k_ind, k_ind])
-    
+      upper,
+      group = analysis[k_ind],
+      mean = theta[k_ind],
+      corr = corr[k_ind, k_ind]
+    )
+
     # Futility Bound
-    if(k == 1){
+    if (k == 1) {
       lower <- -Inf
       upper <- lower_bound[k]
-    }else{
-      lower <- c(lower_bound[1:(k-1)], -Inf)
-      upper <- c(upper_bound[1:(k-1)], lower_bound[k])
+    } else {
+      lower <- c(lower_bound[1:(k - 1)], -Inf)
+      upper <- c(upper_bound[1:(k - 1)], lower_bound[k])
     }
-    
+
     q[k] <- pmvnorm_combo(lower,
-                          upper,
-                          group = analysis[k_ind],
-                          mean  = theta[k_ind],
-                          corr  = corr[k_ind, k_ind])
-    
+      upper,
+      group = analysis[k_ind],
+      mean  = theta[k_ind],
+      corr  = corr[k_ind, k_ind]
+    )
   }
-  
-  data.frame(Bound = rep(c("Upper", "Lower"), each = n_analysis),
-             Probability = c(cumsum(p),cumsum(q)))
-  
+
+  data.frame(
+    Bound = rep(c("Upper", "Lower"), each = n_analysis),
+    Probability = c(cumsum(p), cumsum(q))
+  )
 }
 
 
 #' Lower and Upper Bound of Group Sequential Design
-#' 
+#'
 #' @importFrom mvtnorm GenzBretz
-#' 
+#'
 #' @param alpha a numeric vector of cumulative allocated alpha in each interim analysis
 #' @param beta  a numeric vector of cumulative allocated beta in each interim analysis
 #' @param theta a numeric vector of effect size under alternative.
@@ -394,7 +395,7 @@ gs_prob_combo <- function(upper_bound,
 #' @param alpha_bound logical value to indicate if alpha is Type I error or upper bound. Default is FALSE.
 #' @param beta_bound logical value to indicate if beta is Type II error or lower bound. Default is FALSE.
 #' @inheritParams pmvnorm_combo
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -411,22 +412,26 @@ gs_prob_combo <- function(upper_bound,
 #' @examples
 #' library(gsDesign)
 #'
-#' x <- gsDesign::gsSurv( k = 3 , test.type = 4 , alpha = 0.025 ,
-#'                        beta = 0.2 , astar = 0 , timing = c( 1 ) ,
-#'                        sfu = sfLDOF , sfupar = c( 0 ) , sfl = sfLDOF ,
-#'                        sflpar = c( 0 ) , lambdaC = c( 0.1 ) ,
-#'                        hr = 0.6 , hr0 = 1 , eta = 0.01 ,
-#'                        gamma = c( 10 ) ,
-#'                        R = c( 12 ) , S = NULL ,
-#'                        T = 36 , minfup = 24 , ratio = 1 )
+#' x <- gsDesign::gsSurv(
+#'   k = 3, test.type = 4, alpha = 0.025,
+#'   beta = 0.2, astar = 0, timing = c(1),
+#'   sfu = sfLDOF, sfupar = c(0), sfl = sfLDOF,
+#'   sflpar = c(0), lambdaC = c(0.1),
+#'   hr = 0.6, hr0 = 1, eta = 0.01,
+#'   gamma = c(10),
+#'   R = c(12), S = NULL,
+#'   T = 36, minfup = 24, ratio = 1
+#' )
 #'
 #' cbind(x$lower$bound, x$upper$bound)
 #'
-#' gs_bound(alpha = sfLDOF(0.025, 1:3/3)$spend,
-#'          beta = sfLDOF(0.2, 1:3/3)$spend,
-#'          analysis = 1:3,
-#'          theta = x$theta[2] * sqrt(x$n.I),
-#'          corr = outer(1:3, 1:3, function(x,y) pmin(x,y) / pmax(x,y)))
+#' gs_bound(
+#'   alpha = sfLDOF(0.025, 1:3 / 3)$spend,
+#'   beta = sfLDOF(0.2, 1:3 / 3)$spend,
+#'   analysis = 1:3,
+#'   theta = x$theta[2] * sqrt(x$n.I),
+#'   corr = outer(1:3, 1:3, function(x, y) pmin(x, y) / pmax(x, y))
+#' )
 #'
 #' @noRd
 #'
@@ -437,67 +442,68 @@ gs_bound <- function(alpha,
                      analysis = 1:length(alpha),
                      theta0 = rep(0, length(analysis)),
                      binding_lower_bound = FALSE,
-                     algorithm = GenzBretz(maxpts= 1e5, abseps= 1e-5),
+                     algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
                      alpha_bound = FALSE,
                      beta_bound = FALSE,
-                     ...){
-  
-  
+                     ...) {
   alpha <- c(alpha[1], diff(alpha))
-  beta  <- c(beta[1],  diff(beta))
-  
+  beta <- c(beta[1], diff(beta))
+
   lower <- NULL
   upper <- NULL
   .lower <- -Inf
-  
+
   n_analysis <- length(unique(analysis))
-  
-  for(k in 1:n_analysis){
+
+  for (k in 1:n_analysis) {
     k_ind <- analysis <= k
-    
-    bound_fun <- function(.lower, .upper, .prob, .theta, binding_lower_bound = FALSE){
-      
-      if(binding_lower_bound){
+
+    bound_fun <- function(.lower, .upper, .prob, .theta, binding_lower_bound = FALSE) {
+      if (binding_lower_bound) {
         lower_bound <- c(lower, .lower)
-      }else{
-        lower_bound <- c(rep(-Inf, k-1), .lower)
+      } else {
+        lower_bound <- c(rep(-Inf, k - 1), .lower)
       }
       upper_bound <- c(upper, .upper)
-      
+
       p <- pmvnorm_combo(lower_bound,
-                         upper_bound,
-                         group = analysis[k_ind],
-                         mean = .theta[k_ind],
-                         corr = corr[k_ind, k_ind], ...)
-      
+        upper_bound,
+        group = analysis[k_ind],
+        mean = .theta[k_ind],
+        corr = corr[k_ind, k_ind], ...
+      )
+
       p - .prob
     }
-    
-    
+
+
     # change .lower for different type of test (gsDesign test.type)
-    if(beta_bound){
+    if (beta_bound) {
       .lower <- sum(beta[1:k])
-    }else{
-      .lower <- uniroot(bound_fun, .lower = -Inf, .prob = beta[k], .theta = theta,
-                        binding_lower_bound = TRUE,
-                        interval = c(-20, 20), extendInt = "yes")$root
+    } else {
+      .lower <- uniroot(bound_fun,
+        .lower = -Inf, .prob = beta[k], .theta = theta,
+        binding_lower_bound = TRUE,
+        interval = c(-20, 20), extendInt = "yes"
+      )$root
     }
-    
-    if(alpha_bound){
+
+    if (alpha_bound) {
       .upper <- sum(alpha[1:k])
-    }else{
-      .upper <- uniroot(bound_fun, .upper = Inf, .prob = alpha[k], .theta = theta0,
-                        binding_lower_bound = binding_lower_bound,
-                        interval = c(-20, 20), extendInt = "yes")$root
+    } else {
+      .upper <- uniroot(bound_fun,
+        .upper = Inf, .prob = alpha[k], .theta = theta0,
+        binding_lower_bound = binding_lower_bound,
+        interval = c(-20, 20), extendInt = "yes"
+      )$root
     }
-    
+
     lower <- c(lower, .lower)
     upper <- c(upper, .upper)
   }
-  
+
   # Ensure final analysis bound are the same
   lower[n_analysis] <- upper[n_analysis]
-  
+
   data.frame(upper = upper, lower = lower)
-  
 }

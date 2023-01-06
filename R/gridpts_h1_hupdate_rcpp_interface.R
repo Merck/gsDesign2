@@ -52,7 +52,7 @@ NULL
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @return A \code{list} with grid points in \code{z} and numerical integration weights in \code{w}
-#' 
+#'
 #' @examples
 #'
 #' # approximate variance of standard normal (i.e., 1)
@@ -93,7 +93,7 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #' and a normal density with mean \code{mu = theta * sqrt{I}} and variance 1 times the weight in \code{w}.
 #'
 #' @examples
-#' 
+#'
 #' # Replicate variance of 1, mean of 35
 #' g <- h1(theta = 5, I = 49)
 #' mu <- sum(g$z * g$h)
@@ -103,7 +103,7 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #' g <- h1(a = qnorm(.9999))
 #' sum(g$h)
 #' @noRd
-h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf){
+h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
   .h1Rcpp(r = r, theta = theta, I = I, a = a, b = b)
 }
 
@@ -134,12 +134,12 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf){
 #' and a normal density with mean \code{mu = theta * sqrt{I}} and variance 1 times the weight in \code{w}.
 #'
 #' @examples
-#' 
+#'
 #' # 2nd analysis with no interim bound and drift 0 should have mean 0, variance 1
 #' g <- hupdate()
 #' mu <- sum(g$z * g$h)
 #' var <- sum((g$z - mu)^2 * g$h)
 #' @noRd
-hupdate <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1()){
+hupdate <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1()) {
   .hupdateRcpp(r = r, theta = theta, I = I, a = a, b = b, thetam1 = thetam1, Im1 = Im1, gm1 = gm1)
 }

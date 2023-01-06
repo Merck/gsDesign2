@@ -20,10 +20,10 @@
 #' @importFrom tibble tibble
 #' @importFrom gsDesign gsDesign
 #' @importFrom dplyr left_join
-#' 
+#'
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_ahr
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -36,15 +36,15 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @export
-#' 
-#' @examples 
+#'
+#' @examples
 #' library(tibble)
 #' library(gsDesign)
 #' library(gsDesign2)
-#' 
+#'
 #' # set enrollment rates
 #' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
-#' 
+#'
 #' # set failure rates
 #' fail_rate <- tibble(
 #'   stratum = "All",
@@ -53,11 +53,11 @@
 #'   hr = c(1, .6),
 #'   dropout_rate = 0.001
 #' )
-#' 
+#'
 #' # set the targeted number of events and analysis time
 #' target_events <- c(30, 40, 50)
 #' target_analysisTime <- c(10, 24, 30)
-#' 
+#'
 #' # -------------------------#
 #' #       example 1          #
 #' # ------------------------ #
@@ -79,7 +79,7 @@
 #'   lower = gs_b,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-#' 
+#'
 #' # -------------------------#
 #' #       example 2          #
 #' # ------------------------ #
@@ -101,7 +101,7 @@
 #'   lower = gs_b,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-#' 
+#'
 #' # -------------------------#
 #' #       example 3          #
 #' # ------------------------ #
@@ -123,7 +123,7 @@
 #'   lower = gs_b,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-#' 
+#'
 #' # -------------------------#
 #' #       example 4          #
 #' # ------------------------ #
@@ -138,7 +138,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
-#' 
+#'
 #' # -------------------------#
 #' #       example 5          #
 #' # ------------------------ #
@@ -153,7 +153,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
-#' 
+#'
 #' # -------------------------#
 #' #       example 6          #
 #' # ------------------------ #
@@ -169,28 +169,34 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
 gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                         fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
-                                            hr = c(.9, .6), dropout_rate = rep(.001, 2)),
-                         event = c(30, 40, 50), 
-                         analysis_time = NULL, 
+                         fail_rate = tibble(
+                           stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+                           hr = c(.9, .6), dropout_rate = rep(.001, 2)
+                         ),
+                         event = c(30, 40, 50),
+                         analysis_time = NULL,
                          binding = FALSE,
-                         upper = gs_b, 
-                         lower = gs_b,               
+                         upper = gs_b,
+                         lower = gs_b,
                          upar = gsDesign(k = 3, test.type = 1, n.I = c(30, 40, 50), maxn.IPlan = 50, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                         lpar = c(qnorm(.1), rep(-Inf, 2)), 
-                         test_upper = TRUE, 
+                         lpar = c(qnorm(.1), rep(-Inf, 2)),
+                         test_upper = TRUE,
                          test_lower = TRUE,
-                         ratio = 1, 
-                         weight = wlr_weight_fh, 
-                         info_scale = c(0, 1, 2), 
-                         approx = "asymptotic", 
-                         r = 18, 
-                         tol = 1e-6){
+                         ratio = 1,
+                         weight = wlr_weight_fh,
+                         info_scale = c(0, 1, 2),
+                         approx = "asymptotic",
+                         r = 18,
+                         tol = 1e-6) {
   # get the number of analysis
   K <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
-  info_scale <- if(methods::missingArg(info_scale)){2}else{match.arg(as.character(info_scale), choices = 0:2)}
-  
+  info_scale <- if (methods::missingArg(info_scale)) {
+    2
+  } else {
+    match.arg(as.character(info_scale), choices = 0:2)
+  }
+
   # ---------------------------------------- #
   #    calculate the asymptotic variance     #
   #       and statistical information        #
@@ -201,96 +207,102 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
     ratio = ratio,
     event = event,
     weight = weight,
-    analysis_time = analysis_time)
-  
+    analysis_time = analysis_time
+  )
+
   # ---------------------------------------- #
   #  given the above statistical information #
   #         calculate the power              #
   # ---------------------------------------- #
   y_H1 <- gs_power_npe(
-    theta = x$theta, 
-    info = x$info, 
+    theta = x$theta,
+    info = x$info,
     info0 = x$info0,
     info1 = x$info,
     info_scale = info_scale,
     binding = binding,
-    upper = upper, 
-    lower = lower, 
-    upar = upar, 
-    lpar= lpar,
-    test_upper = test_upper, 
+    upper = upper,
+    lower = lower,
+    upar = upar,
+    lpar = lpar,
+    test_upper = test_upper,
     test_lower = test_lower,
-    r = r, 
-    tol = tol)
-  
+    r = r,
+    tol = tol
+  )
+
   y_H0 <- gs_power_npe(
-    theta = 0, 
+    theta = 0,
     theta0 = 0,
     theta1 = x$theta,
-    info = x$info0, 
+    info = x$info0,
     info0 = x$info0,
     info1 = x$info,
     info_scale = info_scale,
     binding = binding,
-    upper = upper, 
-    lower = lower, 
-    upar = upar, 
-    lpar= lpar,
-    test_upper = test_upper, 
+    upper = upper,
+    lower = lower,
+    upar = upar,
+    lpar = lpar,
+    test_upper = test_upper,
     test_lower = test_lower,
-    r = r, 
-    tol = tol)
-  
+    r = r,
+    tol = tol
+  )
+
   # --------------------------------------------- #
   #     get bounds to output                      #
   # --------------------------------------------- #
   suppressMessages(
     bounds <- y_H0 %>%
-      select(Analysis, Bound, Z, Probability) %>% 
+      select(Analysis, Bound, Z, Probability) %>%
       dplyr::rename(Probability0 = Probability) %>%
-      dplyr::left_join(x %>% select(Analysis, Events)) %>% 
-      mutate(`~HR at bound` = gsDesign::zn2hr(z = Z, n = Events, ratio = ratio), `Nominal p` = pnorm(-Z)) %>% 
-      dplyr::left_join(y_H1 %>% select(Analysis, Bound, Probability)) %>% 
-      select(Analysis, Bound, Probability, Probability0, Z, `~HR at bound`, `Nominal p`) %>% 
+      dplyr::left_join(x %>% select(Analysis, Events)) %>%
+      mutate(`~HR at bound` = gsDesign::zn2hr(z = Z, n = Events, ratio = ratio), `Nominal p` = pnorm(-Z)) %>%
+      dplyr::left_join(y_H1 %>% select(Analysis, Bound, Probability)) %>%
+      select(Analysis, Bound, Probability, Probability0, Z, `~HR at bound`, `Nominal p`) %>%
       arrange(Analysis, desc(Bound))
   )
-  
+
   # --------------------------------------------- #
   #     get analysis summary to output            #
   # --------------------------------------------- #
   suppressMessages(
-    analysis <- x %>% 
-      select(Analysis, Time, Events, AHR) %>% 
-      mutate(N = expected_accrual(time = x$Time, enroll_rate = enroll_rate)) %>% 
+    analysis <- x %>%
+      select(Analysis, Time, Events, AHR) %>%
+      mutate(N = expected_accrual(time = x$Time, enroll_rate = enroll_rate)) %>%
       dplyr::left_join(y_H1 %>% select(Analysis, info, info_frac, theta) %>% unique()) %>%
       dplyr::left_join(y_H0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
-      select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>% 
+      select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>%
       arrange(Analysis)
   )
   # --------------------------------------------- #
   #     get input parameter to output             #
   # --------------------------------------------- #
-  input <- list(enroll_rate = enroll_rate,fail_rate = fail_rate,
-                event = event, analysis_time = analysis_time, 
-                binding = binding, ratio = ratio, 
-                upper = upper, upar = upar, test_upper = test_upper, 
-                lower = lower, lpar = lpar, test_lower = test_lower,          
-                weight = weight, info_scale = info_scale, 
-                approx = approx, r = r, tol = tol)
+  input <- list(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    event = event, analysis_time = analysis_time,
+    binding = binding, ratio = ratio,
+    upper = upper, upar = upar, test_upper = test_upper,
+    lower = lower, lpar = lpar, test_lower = test_lower,
+    weight = weight, info_scale = info_scale,
+    approx = approx, r = r, tol = tol
+  )
   # --------------------------------------------- #
   #     return the output                         #
   # --------------------------------------------- #
   ans <- list(
     input = input,
-    enroll_rate = enroll_rate, 
+    enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(Z)),
-    analysis = analysis)
-  
+    analysis = analysis
+  )
+
   class(ans) <- c("wlr", "gs_design", class(ans))
-  if(!binding){
+  if (!binding) {
     class(ans) <- c("non-binding", class(ans))
   }
-  
+
   return(ans)
 }

@@ -39,127 +39,145 @@
 #' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
 #' required to accrue the targeted \code{event[k]}.
 #' \code{AHR} is expected average hazard ratio at each analysis.
-#' 
+#'
 #' @details The \code{AHR()} function computes statistical information at targeted event times.
 #' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
-#' 
+#'
 #' @importFrom utils tail
-#' 
+#'
 #' @export
-#' 
-#' @examples 
+#'
+#' @examples
 #' library(tibble)
 #' library(gsDesign2)
-#' 
+#'
 #' # set enrollment rates
-#' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500/12)
-#' 
+#' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
+#'
 #' # set failure rates
 #' fail_rate <- tibble(
 #'   stratum = "All",
 #'   duration = c(4, 100),
-#'   fail_rate = log(2) / 15,  # median survival 15 month
+#'   fail_rate = log(2) / 15, # median survival 15 month
 #'   hr = c(1, .6),
-#'   dropout_rate = 0.001)
-#' 
+#'   dropout_rate = 0.001
+#' )
+#'
 #' # set the targeted number of events and analysis time
 #' event <- c(30, 40, 50)
 #' analysis_time <- c(10, 24, 30)
-#' 
-#' gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-#'             event = event, analysis_time = analysis_time)
-gs_info_wlr <- function(enroll_rate = tibble::tibble(stratum = "All",
-                                                     duration = c(2,2,10),
-                                                     rate = c(3, 6, 9)),
-                        fail_rate = tibble::tibble(stratum = "All",
-                                                   duration = c(3, 100),
-                                                   fail_rate = log(2) / c(9, 18),
-                                                   hr = c(.9, .6),
-                                                   dropout_rate = rep(.001, 2)),
-                        ratio = 1,                # Experimental:Control randomization ratio
-                        event = NULL,             # event at analyses
-                        analysis_time = NULL,     # Times of analyses
+#'
+#' gs_info_wlr(
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'   event = event, analysis_time = analysis_time
+#' )
+gs_info_wlr <- function(enroll_rate = tibble::tibble(
+                          stratum = "All",
+                          duration = c(2, 2, 10),
+                          rate = c(3, 6, 9)
+                        ),
+                        fail_rate = tibble::tibble(
+                          stratum = "All",
+                          duration = c(3, 100),
+                          fail_rate = log(2) / c(9, 18),
+                          hr = c(.9, .6),
+                          dropout_rate = rep(.001, 2)
+                        ),
+                        ratio = 1, # Experimental:Control randomization ratio
+                        event = NULL, # event at analyses
+                        analysis_time = NULL, # Times of analyses
                         weight = wlr_weight_fh,
-                        approx = "asymptotic"
-){
-  
-  if (is.null(analysis_time) && is.null(event)){
+                        approx = "asymptotic") {
+  if (is.null(analysis_time) && is.null(event)) {
     stop("gs_info_wlr(): One of event and analysis_time must be a numeric value or vector with increasing values!")
   }
-  
+
   # Obtain Analysis time
   avehr <- NULL
-  if(!is.null(analysis_time)){
-    avehr <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                 ratio = ratio, total_duration = analysis_time)
-    for(i in seq_along(event)){
-      if (avehr$Events[i] < event[i]){
-        avehr[i,] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                                   ratio = ratio, target_event = event[i])
+  if (!is.null(analysis_time)) {
+    avehr <- AHR(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      ratio = ratio, total_duration = analysis_time
+    )
+    for (i in seq_along(event)) {
+      if (avehr$Events[i] < event[i]) {
+        avehr[i, ] <- expected_time(
+          enroll_rate = enroll_rate, fail_rate = fail_rate,
+          ratio = ratio, target_event = event[i]
+        )
       }
     }
-  }else{
-    for(i in seq_along(event)){
-      avehr <- rbind(avehr,
-                     expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate, 
-                                   ratio = ratio, target_event = event[i]))
+  } else {
+    for (i in seq_along(event)) {
+      avehr <- rbind(
+        avehr,
+        expected_time(
+          enroll_rate = enroll_rate, fail_rate = fail_rate,
+          ratio = ratio, target_event = event[i]
+        )
+      )
     }
   }
-  
+
   time <- avehr$Time
-  
+
   # Create Arm object
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio)
   arm0 <- gs_arm$arm0
   arm1 <- gs_arm$arm1
-  
+
   # Randomization ratio
-  p0 <- arm0$size/(arm0$size + arm1$size)
+  p0 <- arm0$size / (arm0$size + arm1$size)
   p1 <- 1 - p0
-  
+
   # Null arm
   arm_null <- arm0
-  arm_null$surv_scale <- p0* arm0$surv_scale + p1 * arm1$surv_scale
-  
+  arm_null$surv_scale <- p0 * arm0$surv_scale + p1 * arm1$surv_scale
+
   arm_null1 <- arm_null
   arm_null1$size <- arm1$size
-  
-  delta <- c()        # delta of effect size in each analysis
-  sigma2_h1 <- c()    # sigma square of effect size in each analysis under null
-  sigma2_h0 <- c()    # sigma square of effect size in each analysis under alternative
-  p_event <- c()      # probability of events in each analysis
-  p_subject <- c()    # probability of subjects enrolled
+
+  delta <- c() # delta of effect size in each analysis
+  sigma2_h1 <- c() # sigma square of effect size in each analysis under null
+  sigma2_h0 <- c() # sigma square of effect size in each analysis under alternative
+  p_event <- c() # probability of events in each analysis
+  p_subject <- c() # probability of subjects enrolled
   num_log_ahr <- c()
   dem_log_ahr <- c()
-  
+
   # Used to calculate average hazard ratio
-  arm01 <- arm0; arm01$size <- 1
-  arm11 <- arm1; arm11$size <- 1
-  
-  for(i in seq_along(time)){
+  arm01 <- arm0
+  arm01$size <- 1
+  arm11 <- arm1
+  arm11$size <- 1
+
+  for (i in seq_along(time)) {
     t <- time[i]
-    p_event[i]      <- p0 * prob_event.arm(arm0, tmax = t) + p1 * prob_event.arm(arm1, tmax = t)
-    p_subject[i]    <- p0 * npsurvSS::paccr(t, arm0) + p1 * npsurvSS::paccr(t, arm1)
-    delta[i]        <- gs_delta_wlr(arm0, arm1, tmax = t, weight = weight, approx = approx)
+    p_event[i] <- p0 * prob_event.arm(arm0, tmax = t) + p1 * prob_event.arm(arm1, tmax = t)
+    p_subject[i] <- p0 * npsurvSS::paccr(t, arm0) + p1 * npsurvSS::paccr(t, arm1)
+    delta[i] <- gs_delta_wlr(arm0, arm1, tmax = t, weight = weight, approx = approx)
     num_log_ahr[i] <- gs_delta_wlr(arm01, arm11, tmax = t, weight = weight, approx = approx)
-    dem_log_ahr[i] <- gs_delta_wlr(arm01, arm11, tmax = t, weight = weight,
-                                   approx = "generalized schoenfeld", normalization = TRUE)
-    
-    sigma2_h1[i]    <- gs_sigma2_wlr(arm0, arm1, tmax = t, weight = weight, approx = approx)
-    sigma2_h0[i]    <- gs_sigma2_wlr(arm_null, arm_null1, tmax = t, weight = weight, approx = approx)
+    dem_log_ahr[i] <- gs_delta_wlr(arm01, arm11,
+      tmax = t, weight = weight,
+      approx = "generalized schoenfeld", normalization = TRUE
+    )
+
+    sigma2_h1[i] <- gs_sigma2_wlr(arm0, arm1, tmax = t, weight = weight, approx = approx)
+    sigma2_h0[i] <- gs_sigma2_wlr(arm_null, arm_null1, tmax = t, weight = weight, approx = approx)
   }
-  
-  N <- tail(avehr$Events / p_event,1) * p_subject
-  theta <- (- delta) / sigma2_h1
-  data.frame(Analysis = 1:length(time),
-             Time = time,
-             N = N,
-             Events = avehr$Events,
-             AHR = exp(num_log_ahr/dem_log_ahr),
-             delta = delta,
-             sigma2 = sigma2_h1,
-             theta = theta,
-             info =  sigma2_h1 * N,
-             info0 = sigma2_h0 * N)
-  
+
+  N <- tail(avehr$Events / p_event, 1) * p_subject
+  theta <- (-delta) / sigma2_h1
+  data.frame(
+    Analysis = 1:length(time),
+    Time = time,
+    N = N,
+    Events = avehr$Events,
+    AHR = exp(num_log_ahr / dem_log_ahr),
+    delta = delta,
+    sigma2 = sigma2_h1,
+    theta = theta,
+    info = sigma2_h1 * N,
+    info0 = sigma2_h0 * N
+  )
 }

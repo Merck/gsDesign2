@@ -57,54 +57,72 @@ NULL
 #' @examples
 #' # Example: default
 #' ppwe(seq(0:10))
-#' 
+#'
 #' # Example: plot a survival function with 2 different sets of time values
 #' # to demonstrate plot precision corresponding to input parameters.
 #' fr <- tibble::tibble(duration = c(3, 3, 1), rate = c(.2, .1, .005))
-#' Time <- seq(0, 10, 10/pi)
-#' Survival <-  ppwe(Time, fr)
-#' plot(Time, Survival, type="l", ylim = c(0, 1))
+#' Time <- seq(0, 10, 10 / pi)
+#' Survival <- ppwe(Time, fr)
+#' plot(Time, Survival, type = "l", ylim = c(0, 1))
 #' Time <- seq(0, 10, .25)
-#' Survival <-  ppwe(Time, fr)
+#' Survival <- ppwe(Time, fr)
 #' lines(Time, Survival, col = 2)
 #' @export
 ppwe <- function(x = 0:20,
                  failRates = tibble::tibble(duration = c(3, 100), rate = log(2) / c(9, 18)),
-                 lower.tail = FALSE
-){
+                 lower.tail = FALSE) {
   # check input values
   # check input enrollment rate assumptions
-  if(!is.numeric(x)){stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(x) >= 0){stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(x[x>0] - lag(x[x > 0], default = 0)) > 0){stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")}
-  
+  if (!is.numeric(x)) {
+    stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
+  }
+  if (!min(x) >= 0) {
+    stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
+  }
+  if (!min(x[x > 0] - lag(x[x > 0], default = 0)) > 0) {
+    stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
+  }
+
   # check input failure rate assumptions
-  if(!is.data.frame(failRates)){stop("gsDesign2: failRates in `ppwe()` must be a data.frame")}
-  if(!max(names(failRates) == "duration") == 1){stop("gsDesign2: failRates in `ppwe()` column names must contain duration")}
-  if(!max(names(failRates) == "rate") == 1){stop("gsDesign2: failRates in `ppwe()` column names must contain rate")}
-  
+  if (!is.data.frame(failRates)) {
+    stop("gsDesign2: failRates in `ppwe()` must be a data.frame")
+  }
+  if (!max(names(failRates) == "duration") == 1) {
+    stop("gsDesign2: failRates in `ppwe()` column names must contain duration")
+  }
+  if (!max(names(failRates) == "rate") == 1) {
+    stop("gsDesign2: failRates in `ppwe()` column names must contain rate")
+  }
+
   # check lower.tail
-  if(!is.logical(lower.tail)){stop("gsDesign2: lower.tail in `ppwe()` must be logical")}
-  
+  if (!is.logical(lower.tail)) {
+    stop("gsDesign2: lower.tail in `ppwe()` must be logical")
+  }
+
   # convert rates to step function
-  ratefn <- stepfun(x = cumsum(failRates$duration),
-                    y = c(failRates$rate, last(failRates$rate)),
-                    right = TRUE)
+  ratefn <- stepfun(
+    x = cumsum(failRates$duration),
+    y = c(failRates$rate, last(failRates$rate)),
+    right = TRUE
+  )
   # add times where rates change to failRates
   xvals <- sort(unique(c(x, cumsum(failRates$duration))))
   # make a tibble
-  xx <- tibble::tibble(x = xvals,
-                       duration = xvals - lag(xvals, default = 0),
-                       h = ratefn(xvals), # hazard rates at points (right continuous)
-                       H = cumsum(h * duration), # cumulative hazard
-                       survival = exp(-H) # survival
+  xx <- tibble::tibble(
+    x = xvals,
+    duration = xvals - lag(xvals, default = 0),
+    h = ratefn(xvals), # hazard rates at points (right continuous)
+    H = cumsum(h * duration), # cumulative hazard
+    survival = exp(-H) # survival
   )
   # return survival or cdf
   ind <- !is.na(match(xx$x, x))
   survival <- as.numeric(xx$survival[ind])
-  if(lower.tail){
-    return(1 - survival)}else{
-      return(survival)}
+  if (lower.tail) {
+    return(1 - survival)
+  } else {
+    return(survival)
+  }
 }
 
 #' @importFrom dplyr lag select "%>%"
@@ -132,37 +150,59 @@ NULL
 #' @return A tibble containing the duration and rate.
 #' @examples
 #' # Example: arbitrary numbers
-#' s2pwe(1:9, (9:1)/10)
+#' s2pwe(1:9, (9:1) / 10)
 #' # Example: lognormal
-#' s2pwe(c(1:6,9), plnorm(c(1:6,9),meanlog = 0, sdlog = 2,lower.tail = FALSE))
+#' s2pwe(c(1:6, 9), plnorm(c(1:6, 9), meanlog = 0, sdlog = 2, lower.tail = FALSE))
 #' @export
-s2pwe <- function(times, survival){
+s2pwe <- function(times, survival) {
   # check input values
   # check that times are positive, ordered, unique and finite numbers
-  if(!is.numeric(times)){stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")}
-  if(!min(times) > 0){stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")}
-  if(!max(times) < Inf){stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")}
+  if (!is.numeric(times)) {
+    stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")
+  }
+  if (!min(times) > 0) {
+    stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")
+  }
+  if (!max(times) < Inf) {
+    stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")
+  }
   len <- length(times)
-  if(!if(len>1){min(times[2 : len] - times[1 : (len - 1)]) > 0}){stop("gsDesign2: times in `s2pwe()`must be increasing positive finite numbers")}
-  
+  if (!if (len > 1) {
+    min(times[2:len] - times[1:(len - 1)]) > 0
+  }) {
+    stop("gsDesign2: times in `s2pwe()`must be increasing positive finite numbers")
+  }
+
   # check that survival is numeric and same length as times
-  if(!is.numeric(survival)){stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")}
-  if(!length(survival) == len){stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")}
-  
+  if (!is.numeric(survival)) {
+    stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")
+  }
+  if (!length(survival) == len) {
+    stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")
+  }
+
   # check that survival is positive, non-increasing, less than or equal to 1 and gt 0
-  if(!min(survival) > 0){stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")}
-  if(!max(survival) <= 1){stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")}
-  if(!min(survival) < 1){stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")}
-  if(len > 1){
-    if(!min(survival[2 : len] - survival[1 : (len - 1)]) <= 0 ){
+  if (!min(survival) > 0) {
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+  }
+  if (!max(survival) <= 1) {
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+  }
+  if (!min(survival) < 1) {
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+  }
+  if (len > 1) {
+    if (!min(survival[2:len] - survival[1:(len - 1)]) <= 0) {
       stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
     }
   }
-  
+
   ans <- tibble::tibble(Times = times, Survival = survival) %>%
-    mutate(duration = Times - lag(Times, default = 0),
-           H = -log(Survival),
-           rate = (H - lag(H,default = 0)) / duration) %>%
-    select(duration,rate)
+    mutate(
+      duration = Times - lag(Times, default = 0),
+      H = -log(Survival),
+      rate = (H - lag(H, default = 0)) / duration
+    ) %>%
+    select(duration, rate)
   return(ans)
 }
