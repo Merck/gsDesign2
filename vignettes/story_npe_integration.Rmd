@@ -29,13 +29,13 @@ devtools::load_all()
 ## Overview
 
 We have provided asymptotic distribution theory and notation for group sequential boundaries in
-`vignette("NPEbackground", package="gsDesign2")`. 
+`vignette("NPEbackground", package="gsDesign2")`.
 
 This vignettes generalize computational algorithms provided in Chapter 19 of @JTBook that are used to compute boundary crossing probabilities as well as derive boundaries for group sequential designs.
 
 ## Asymptotic normal and boundary crossing probabilities
 
-We assume $Z_1,\cdots,Z_K$ has a multivariate normal distribution with variance for $1\le k\le K$ of 
+We assume $Z_1,\cdots,Z_K$ has a multivariate normal distribution with variance for $1\le k\le K$ of
 $$\hbox{Var}(Z_k) = 1$$
 and the expected value is
 
@@ -47,31 +47,29 @@ We use a shorthand notation in this section to have $\theta$ represent $\theta()
 We denote the probability of crossing the upper boundary at analysis $k$ without previously crossing a bound by
 
 $$\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\le Z_{j}< b_{j}\}),$$
-$k=1,2,\ldots,K.$ 
+$k=1,2,\ldots,K.$
 
 Next, we consider analogous notation for the lower bound. For $k=1,2,\ldots,K$
 denote the probability of crossing a lower bound at analysis $k$ without previously crossing any bound by
 
 $$\beta_{k}(\theta)=P_{\theta}((Z_{k}< a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\le Z_{j}< b_{j}\}).$$
-For symmetric testing for analysis $k$ we would have $a_k= - b_k$, $\beta_k(0)=\alpha_k(0),$ $k=1,2,\ldots,K$. 
-The total lower boundary crossing probability for a trial is denoted by 
+For symmetric testing for analysis $k$ we would have $a_k= - b_k$, $\beta_k(0)=\alpha_k(0),$ $k=1,2,\ldots,K$.
+The total lower boundary crossing probability for a trial is denoted by
 $$\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).$$
 Note that we can also set $a_k= -\infty$ for any or all analyses if a lower bound is not desired, $k=1,2,\ldots,K$; thus, we will not use the $\alpha^+(\theta)$ notation here.
 For $k<K$, we can set $b_k=\infty$ where an upper bound is not desired.
 Obviously, for each $k$, we want either $a_k>-\infty$ or $b_k<\infty$.
 
-
-
 ## Recursive algorithms for numerical integration
 
-We now provide a small update to the algorithm of Chapter 19 of @JTBook to do the numerical integration required to compute the boundary crossing probabilites of the previous section and also identifying group sequential boundaries satisfying desired characteristics. 
+We now provide a small update to the algorithm of Chapter 19 of @JTBook to do the numerical integration required to compute the boundary crossing probabilites of the previous section and also identifying group sequential boundaries satisfying desired characteristics.
 The key to these calculations is the conditional power identitity in equation (1) above which allows building recursive numerical integration identities to enable simple, efficient numerical integration.
 
-We define 
+We define
 
 $$g_1(z;\theta) = \frac{d}{dz}P(Z_1\le z) = \phi\left(z - \sqrt{\mathcal{I}_1}\theta(t_1)\right)\tag{2}$$
 
-and for $k=2,3,\ldots K$ we recursively define the subdensity function 
+and for $k=2,3,\ldots K$ we recursively define the subdensity function
 
 $$\begin{align}
 g_k(z; \theta) &= \frac{d}{dz}P_\theta(\{Z_k\le z\}\cap_{j=1}^{k-1}\{a_j\le Z_j<b_j\}) \\
@@ -106,7 +104,7 @@ We can now derive boundaries satisfying given boundary crossing probabilities us
 Suppose for we have specified $b_1,\ldots,b_{k-1}$ and $a_1,\ldots,a_{k-1}$ and now wish to derive $a_k$ and $b_k$ such that equations (5) and (6) hold.
 We write the upper bound as a function of the probability of crossing we wish to derive.
 
-$$\pi_k(b;\theta) = \int_b^\infty g_k(z;\theta)dz$$ 
+$$\pi_k(b;\theta) = \int_b^\infty g_k(z;\theta)dz$$
 $$\pi_k^\prime(b;\theta) =\frac{d}{db}\pi_k(b;\theta)= -g_k(b; \theta).\tag{7}$$
 If we have a value $\pi_k(b^{(i)};\theta)$ we can use a first order Taylor's series expansion to approximate
 
@@ -115,11 +113,11 @@ We set $b^{(i+1)}$ such that
 
 $$\alpha_k(\theta)=\pi_k(b^{(i)}; \theta) + (b^{(i+1)}-b^{(i)})\pi^\prime(b^{(i)};\theta).$$
 
-Solving for $b^{(i+1)}$ we have 
+Solving for $b^{(i+1)}$ we have
 
 $$b^{(i+i)} = b^{(i)} + \frac{\alpha_k(\theta) - \pi_k(b^{(i)};\theta)}{\pi_k^\prime(b^{(i)}; \theta)}= b^{(i)} - \frac{\alpha_k(\theta) - \pi_k(b^{(i)};\theta)}{g_k(b^{(i)}; \theta)}\tag{8}$$
 and iterate until $|b^{(i+1)}-b^{(i)}|<\epsilon$ for some tolerance level $\epsilon>0$ and $\pi_k(b^{(i+1)};\theta)-\alpha_k(\theta)$ is suitably small.
-A simple starting value for any $k$ is 
+A simple starting value for any $k$ is
 
 $$b^{(0)} = \Phi^{-1}(1- \alpha_k(\theta)) + \sqrt{\mathcal{I}_k}\theta(t_k).\tag{9}$$
 Normally, $b_k$ will be calculated with $\theta(t_k)=0$ for $k=1,2,\ldots,K$ which simplifies the above.
@@ -185,11 +183,11 @@ cat(
 - Set up numerical integration grid for next (final) analysis
 
 We set up a table for numerical integration over the continuation region which we can subsequently use to compute boundary crossing probabilities for bounds at the second interim analysis.
-We begin with the null hypothesis. 
+We begin with the null hypothesis.
 The columns in the resulting table are
     - `z` - $Z$-values for the grid; recall that each interim test statistic is normally distributed with variance 1
     - `w` - weights for numerical integration
-    - `h` - weights `w` times the normal density that can be used for numerical integration; we will demonstrate use below 
+    - `h` - weights `w` times the normal density that can be used for numerical integration; we will demonstrate use below
 
 ```{r}
 # Set up grid over continuation region

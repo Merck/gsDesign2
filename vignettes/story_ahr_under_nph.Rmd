@@ -15,8 +15,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
-```{r setup, include = FALSE,message=FALSE,warning=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -39,21 +38,21 @@ We consider both non-proportional hazards for a single stratum and multiple stra
 There are two things to note regarding differences between `simtrial::simfix()` and `gsDesign2::AHR()`:
 
 1. `simtrial::simfix()` is less flexible in that it requires all strata are enrolled at the same relative rates throughout the trial whereas `gsDesign2::AHR()` allows, for example, enrollment to start or stop at different times in different strata. In this document, we use the more restrictive parameterization of `simtrial::simfix()` so that we can confirm the asymptotic sample size approximation based on `gsDesign2::AHR()` by simulation.
-2. `simtrial::simfix()` provides more flexibility in test statistics used than `gsDesign2::AHR()` as documented in the pMaxCombo vignette demonstrating use of Fleming-Harrington weighted logrank tests and combinations of such tests.
+1. `simtrial::simfix()` provides more flexibility in test statistics used than `gsDesign2::AHR()` as documented in the pMaxCombo vignette demonstrating use of Fleming-Harrington weighted logrank tests and combinations of such tests.
 
 ## Document organization
 
 This vignette is organized as follows:
 
 - Two non-proportional hazards examples are introduced for fixed sample size approximation, one with a single stratum and one with two strata.
-    - The single stratum design assumes a delayed treatment benefit.
-    - The stratified example assumes different proportional hazards in 3 strata.
+  - The single stratum design assumes a delayed treatment benefit.
+  - The stratified example assumes different proportional hazards in 3 strata.
 - Each of these examples have the following subsections:
-    - Decription of the design scenario.
-    - Deriving an average hazard ratio.
-    - Deriving sample size based on average hazard ratio.
-    - Computing and plotting the average hazard ratio as a function of time.
-    - Simulation to verify that the sample size approximation provides the targeted power.
+  - Description of the design scenario.
+  - Deriving an average hazard ratio.
+  - Deriving sample size based on average hazard ratio.
+  - Computing and plotting the average hazard ratio as a function of time.
+  - Simulation to verify that the sample size approximation provides the targeted power.
 
 Each simulation is done with data cutoff performed in 5 different ways:
 
@@ -65,13 +64,13 @@ Each simulation is done with data cutoff performed in 5 different ways:
 
 The method based on waiting to achieve targeted event count and targeted minimum follow-up appears to be both practical and to provide the targeted power.
 
-### Intial setup
+### Initial setup
 
 We begin by setting two parameters that will be used throughout in simulations used to verify accuracy of power approximations; either could be customized for each simulation.
 First, we set the number of simulations to be performed.
 You can increase this to improve accuracy of simulation estimates of power.
 
-```{r nsim,warning=FALSE,message=FALSE}
+```{r nsim, warning=FALSE, message=FALSE}
 nsim <- 2000
 ```
 
@@ -92,7 +91,7 @@ We load packages needed below.
 - **survival** to enable Cox proportional hazards estimation of the (average) hazard ratio for each simulation to compare with the approximation provided by the `gsDesign2::AHR()` routine that computes an expected average hazard ratio for the trial (@Kalbfleisch1981, @Schemper2009).
 - Hidden underneath this is the `gsDesign2::eEvents_df()` routine that provides expected event counts for each period and stratum where the hazard ratio differs. This is the basic calculation used in the `gsDesign2::AHR()` routine.
 
-```{r libraries,message=FALSE,warning=FALSE}
+```{r libraries, message=FALSE, warning=FALSE}
 library(gsDesign)
 library(gsDesign2)
 library(ggplot2)
@@ -112,7 +111,7 @@ This will be adjusted proportionately to power the trial later.
 The control group has a piecewise exponential distribution with median 9 for the first 3 months and 18 thereafter.
 The hazard ratio of the experimental group versus control is 1 for the first 3 months followed by 0.55 thereafter.
 
-```{r scenario1,warning=FALSE,message=FALSE}
+```{r scenario1, warning=FALSE, message=FALSE}
 enroll_rate <- tibble::tibble(
   stratum = "All", # Note: this is done differently for multiple strata; see below!
   duration = c(2, 2, 10),
@@ -141,7 +140,7 @@ strata <- tibble::tibble(stratum = "All", p = 1)
 We compute an average hazard ratio using the `gsDesign2::AHR()` (average hazard ratio) routine. We will modify enrollment rates proportionately below when the sample size is computed. This result is for the given enrollment rates which will be adjusted in our next step. However, since they will be adjusted proportionately with relative enrollment timing not changing, the average hazard ratio will not change. Approximations of statistical information under the null (`info0`) and alternate (`info`) hypotheses are provided here.
 Recall that the parameterization here is in terms of $\log(HR)$, and, thus the information is intended to approximate 1 over the variance for the Cox regression coefficient for treatment effect; this will be checked with simulation later.
 
-```{r avehr,warning=FALSE,message=FALSE}
+```{r avehr, warning=FALSE, message=FALSE}
 avehr <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -244,8 +243,8 @@ Arguments for `simtrial::simfix()` are slightly different than the set-up that w
 Thus, there is some reformatting of input parameters involved.
 One difference from the `gsDesign2::AHR()` parameterization in `simtrial::simfix()` is that `block` is provided to specify fixed block randomization as opposed to `ratio` for `gsDesign2::AHR()`.
 
-```{r simfix1,cache = FALSE,warning = FALSE,message = FALSE, eval=FALSE}
-# do simulations
+```{r simfix1, cache=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
+# Do simulations
 # Cut at targeted study duration
 results1 <- simtrial::simfix(
   nsim = nsim,
@@ -258,13 +257,13 @@ results1 <- simtrial::simfix(
   target_event = ceiling(target_event),
   timingType = 1:5
 )
-# save(results1, file = './fixutes/results1.Rdata') # Save the data
+# save(results1, file = './fixtures/results1.Rdata') # Save the data
 ```
 
-The following summarizes outcomes by the data cutoff chosen. Regardless of cutoff chosen, we see that the power approximates the targeted 90% quite well. 
+The following summarizes outcomes by the data cutoff chosen. Regardless of cutoff chosen, we see that the power approximates the targeted 90% quite well.
 The statistical information computed in the simulation is computed as one over the simulation variance of the Cox regression coefficient for treatment (i.e., the log hazard ratio).
 
-```{r summary1,message=FALSE,warning=FALSE}
+```{r summary1, message=FALSE, warning=FALSE}
 load("./fixtures/results1.Rdata") # loading the data previously saved
 results1$Positive <- results1$Z <= qnorm(.025)
 results1 %>%
@@ -324,7 +323,7 @@ total_duration <- 36
 
 Now we transform the enrollment rates to account for stratified population.
 
-```{r avehr2, warning = FALSE, message = FALSE}
+```{r avehr2, warning=FALSE, message=FALSE}
 ahr2 <- AHR(enroll_rate, fail_rate, total_duration)
 ahr2 %>% gt()
 ```
@@ -350,7 +349,7 @@ xx %>%
 We derive the sample size as before. We plan the sample size based on the average hazard ratio for the overall population and use that across strata.
 First, we derive the targeted events:
 
-```{r gsDesign2,warning = FALSE,message = FALSE}
+```{r gsDesign2, warning=FALSE, message=FALSE}
 target_event <- gsDesign::nEvents(
   hr = ahr2$AHR,
   ratio = 1,
@@ -382,11 +381,11 @@ sampleSize
 
 ## Average HR and expected event accumulation over time
 
-Plotting the average hazard ratio as a function of study duration, we see that it improves considerably over the course of the study. 
-We also plot expected event accumulation. 
+Plotting the average hazard ratio as a function of study duration, we see that it improves considerably over the course of the study.
+We also plot expected event accumulation.
 As before, we plot for 10 months more than the planned study duration of 36 months to allow evaluation of event accumulation versus treatment effect for different trial durations.
 
-```{r avehrplot2,warning=FALSE,message=FALSE,fig.width=4.5}
+```{r avehrplot2, warning=FALSE, message=FALSE, fig.width=4.5}
 avehrtbl <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -411,8 +410,7 @@ ggplot(avehrtbl, aes(x = Time, y = Events)) +
 We change the enrollment rates by stratum produced by `gsDesign::nSurv()`
 to overall enrollment rates needed for `simtrial::simfix()`.
 
-
-```{r, message = FALSE}
+```{r, message=FALSE}
 er <- enroll_rate %>%
   group_by(stratum) %>%
   mutate(period = 1:n()) %>%

@@ -23,19 +23,18 @@ library(gsDesign2)
 
 # Introduction of `gs_power_npe()`
 
-`gs_power_npe()` derives group sequential **bounds** and boundary crossing **probabilities** for a design. 
-It allows a **non-constant treatment effect** over time, but also can be applied for the usual homogeneous effect size designs. 
-It requires 
-+ treatment effect (`theta`, `theta1`)
-+ statistical information at each analysis (`info`, `info0`, `info1`)
-+ a method of deriving bounds, such as fixed bounds or spending (`upper`, `upar`, `lower`, `lpar`). 
+`gs_power_npe()` derives group sequential **bounds** and boundary crossing **probabilities** for a design.
+It allows a **non-constant treatment effect** over time, but also can be applied for the usual homogeneous effect size designs.
+It requires
+
+- treatment effect (`theta`, `theta1`)
+- statistical information at each analysis (`info`, `info0`, `info1`)
+- a method of deriving bounds, such as fixed bounds or spending (`upper`, `upar`, `lower`, `lpar`).
 
 The routine enables two things not available in the gsDesign package:
 
-1. non-constant effect, 
-1. more flexibility in boundary selection. 
-
-
+1. non-constant effect,
+2. more flexibility in boundary selection.
 
 # Usage of `gs_power_npe()`
 
@@ -55,7 +54,8 @@ gs_power_npe(
   gt()
 ```
 
-### with futility bound 
+### with futility bound
+
 ```{r}
 # Fixed bound
 gs_power_npe(
@@ -68,8 +68,8 @@ gs_power_npe(
 ) %>% gt()
 ```
 
-
 ### futility only at analysis 1
+
 ```{r}
 gs_power_npe(
   theta = c(.1, .2, .3),
@@ -81,10 +81,10 @@ gs_power_npe(
 ) %>% gt()
 ```
 
-
 ## Example 2: spending bounds {.tabset}
 
 ### lower spending based on non-zero effect
+
 ```{r}
 gs_power_npe(
   theta = c(.1, .2, .3), # non-zero effect
@@ -97,6 +97,7 @@ gs_power_npe(
 ```
 
 ### 2-sided symmetric spend
+
 ```{r}
 x <- gs_power_npe(
   theta = rep(0, 3),
@@ -122,12 +123,10 @@ gs_power_npe(
   binding = TRUE,
   upar = (x %>% filter(Bound == "Upper"))$Z,
   lpar = -(x %>% filter(Bound == "Upper"))$Z
-) %>% gt()
+) %>%
+  gt()
 ```
-
 
 # Inner Logic of `gs_spending_bound()`
 
 TODO
-
-

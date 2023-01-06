@@ -1,6 +1,5 @@
 ---
 title: "Power evaluation with spending bounds"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_document:
     toc: true
@@ -86,7 +85,7 @@ In this section, we will discuss the estimation of statistical information and v
 
 ## Estimation of Statistical Information under H1
 
-Under the alternative hypothesis, one can estimate the proportion of failures in group $i$ at analysis $k$ as $$ 
+Under the alternative hypothesis, one can estimate the proportion of failures in group $i$ at analysis $k$ as $$
   \hat{p}_{ik} = Y_{ik}/n_{ik}.
 $$ We note its variance is $$
  \hbox{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
@@ -94,7 +93,7 @@ $$ and its consistent estimator $$
   \widehat{\hbox{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat p_{ik})}{n_{ik}},
 $$ for any $i = 1, 2$ and $k = 1, 2, \ldots, K$. Letting $\hat\theta_k = \hat p_{1k} - \hat p_{2k},$ we also have $$
   \sigma^2_k
-  \equiv 
+  \equiv
   \hbox{Var}(\hat\theta_k)
   =
   \frac{p_1(1-p_1)}{n_{1k}}+\frac{p_2(1-p_2)}{n_{2k}},
@@ -104,7 +103,7 @@ $$ its consistent estimator $$
   \frac{\hat p_{1k}(1-\hat p_{1k})}{n_{1k}}+\frac{\hat p_{2k}(1-\hat p_{2k})}{n_{2k}},
 $$
 
-Statistical information for each of these quantities and their corresponding estimators are denoted by 
+Statistical information for each of these quantities and their corresponding estimators are denoted by
 $$
   \left\{
   \begin{align}
@@ -116,25 +115,25 @@ $$
 
 ## Estimation of Statistical Information under H0
 
-Under the null hypothesis, one can estimate the proportion of failures in group $i$ at analysis $k$ as we estimate 
-$$ 
+Under the null hypothesis, one can estimate the proportion of failures in group $i$ at analysis $k$ as we estimate
+$$
   \hat{p}_{0k}
   =
   \frac{Y_{1k}+ Y_{2k}}{n_{1k}+ n_{2k}}
   =
-  \frac{n_{1k}\hat p_{1k} + n_{2k}\hat p_{2k}}{n_{1k} + n_{2k}}. 
-$$ 
-The corresponding null hypothesis estimator 
+  \frac{n_{1k}\hat p_{1k} + n_{2k}\hat p_{2k}}{n_{1k} + n_{2k}}.
+$$
+The corresponding null hypothesis estimator
 $$
   \hat\sigma^2_{0k}
   \equiv
   \widehat{\text{Var}}(\hat{p}_{0k})
   =
   \hat p_{0k}(1-\hat p_{0k})\left(\frac{1}{n_{1k}}+ \frac{1}{n_{2k}}\right),
-$$ 
+$$
 for any $k = 1,2, \ldots, K$.
 
-Statistical information for each of these quantities and their corresponding estimators are denoted by 
+Statistical information for each of these quantities and their corresponding estimators are denoted by
 $$
   \left\{
   \begin{align}
@@ -148,17 +147,17 @@ $$ for any $k = 1, 2, \ldots, K$.
 
 Testing, as recommended by @LachinBook, is done with the large sample test with the null hypothesis variance estimate and without continuity correction: $$
 Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
-$$ 
+$$
 which is asymptotically $\text{Normal}(0,1)$ if $p_1 = p_2$ and $\text{Normal}(0, \sigma_{0k}^2/\sigma_k^2)$ more generally for any $p_1, p_2$ and $k = 1, 2, \ldots, K$.
 
-If we further assume a constant proportion $\xi_i$ randomized to each group $i=1,2.$ Thus, 
+If we further assume a constant proportion $\xi_i$ randomized to each group $i=1,2.$ Thus,
 $$
   Z_k
-  \approx 
+  \approx
   \frac{\sqrt{n_k}(\hat p_{1k} - \hat p_{2k})}{\sqrt{(1/\xi_1+ 1/\xi_2)p_{0}(1- p_0)} }.
 $$
 
-Then, we have the asymptotic distribution 
+Then, we have the asymptotic distribution
 $$
   Z_k
   \sim
@@ -167,12 +166,12 @@ $$
     \sqrt{n_k}\frac{p_1 - p_2}{\sqrt{(1/\xi_1+ 1/\xi_2) p_0(1- p_0)} },
     \sigma^2_{0k}/\sigma^2_{1k}
   \right),
-$$ where we note that 
-$$ 
-  \sigma^2_{0k}/\sigma^2_{1k} 
-  = 
+$$ where we note that
+$$
+  \sigma^2_{0k}/\sigma^2_{1k}
+  =
   \frac{ p_0(1-p_0)\left(1/\xi_1+ 1/\xi_2\right)}{p_1(1-p_1)/\xi_1+p_2(1-p_2)/\xi_2}.
-$$ 
+$$
 We also note by definition that $\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal I_{0k}.$ Based on an input $p_1, p_2, n_k, \xi_1, \xi_2 = 1-\xi_1$ we will compute $\theta, \mathcal{I}_k, \mathcal{I}_{0k}$ for any $k = 1, 2, \ldots, K$.
 
 We note that $\chi^2=Z^2_k$ is the $\chi^2$ test without continuity correction as recommended by @CCmyth. Note finally that this extends in a straightforward way the non-inferiority test of @FarringtonManning if the null hypothesis is $\theta = p_1 - p_2 - \delta = 0$ for some non-inferiority margin $\delta > 0$; $\delta < 0$ would correspond to what is referred to as super-superiority @Chan2002, requiring that experimental therapy has been shown to be superior to control by at least a margin $-\delta>0$.

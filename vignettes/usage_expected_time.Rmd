@@ -13,8 +13,7 @@ vignette: >
   %\VignetteIndexEntry{expected_time: compute time when a targeted number of events is made}
 ---
 
-
-```{r, essage=FALSE, echo=FALSE}
+```{r, message=FALSE, echo=FALSE}
 knitr::opts_chunk$set(fig.width = 5, fig.height = 4, fig.align = "center")
 ```
 
@@ -28,16 +27,22 @@ library(gsDesign2)
 
 # Introduction of `expected_time`
 
-`expected_time()` predicts time at which a targeted events is made. 
-It is designed as a twins to `AHR()`: it matches input/output format with `AHR()`. 
+`expected_time()` predicts time at which a targeted events is made.
+It is designed as a twins to `AHR()`: it matches input/output format with `AHR()`.
 
 # Use Cases
 
-## Example 1: 
+## Example 1
+
 ```{r}
-enroll_rate <- tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9) * 5
+)
 fail_rate <- tibble(
-  stratum = "All", duration = c(3, 100),
+  stratum = "All",
+  duration = c(3, 100),
   fail_rate = log(2) / c(9, 18), hr = c(.9, .6),
   dropout_rate = rep(.001, 2)
 )
@@ -51,13 +56,19 @@ x <- expected_time(
 x %>% gt()
 ```
 
-## Example 2: 
+## Example 2
 
 In this example, we verify `expected_time()` by `AHR()`.
+
 ```{r}
-enroll_rate <- tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9) * 5
+)
 fail_rate <- tibble(
-  stratum = "All", duration = c(3, 100),
+  stratum = "All",
+  duration = c(3, 100),
   fail_rate = log(2) / c(9, 18), hr = c(.9, .6),
   dropout_rate = rep(.001, 2)
 )
@@ -77,15 +88,12 @@ y <- expected_time(
 cat("The time to get ", x$Events, " is ", y$Time, "months.\n")
 ```
 
-
-
-
-
 # Inner Logic of `expected_time()`
 
 The inner logic of `expected_time()` is to uniroot `AHR()` on `total_duration`.
 
 **Step 1:** find the difference between  `AHR()` and different values of `total_duration`.
+
 ```{r}
 foo <- function(x) {
   ans <- AHR(
@@ -96,11 +104,15 @@ foo <- function(x) {
 }
 ```
 
-
 ```{r}
-enroll_rate <- tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9) * 5
+)
 fail_rate <- tibble(
-  stratum = "All", duration = c(3, 100),
+  stratum = "All",
+  duration = c(3, 100),
   fail_rate = log(2) / c(9, 18), hr = c(.9, .6),
   dropout_rate = rep(.001, 2)
 )
@@ -110,8 +122,8 @@ target_event <- 200
 cat("The difference between `targetEvents = 200` and the events after 30 months is ", foo(30), ".\n")
 ```
 
-
 **Step 2:** uniroot `AHR()` on `total_duration`.
+
 ```{r}
 res <- uniroot(foo, interval = c(0.01, 100))
 
@@ -121,7 +133,3 @@ ans <- AHR(
 )
 cat("After ", ans$Time, " months, there will be ", target_event, " events .\n")
 ```
-
-
-
-

@@ -1,6 +1,5 @@
 ---
 title: "Trial design with spending under NPH"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_document:
     toc: true
@@ -41,15 +40,17 @@ We are primarily concerned with practical issues of implementation rather than d
 Here we set up enrollment, failure and dropout rates along with assumptions for enrollment duration and times of analyses.
 
 In this example, we assume there are 4 analysis (3 interim analysis + 1 final analysis), and they are conducted after 18, 24, 30, 36 months after the trail starts.
+
 ```{r}
 K <- 4
 analysis_time <- c(18, 24, 30, 36)
 ```
 
-And we further assume there is not stratum and the enrollment last for 12 months. 
-For the first 2 months, second 2 months, third 2 months and the reminder month, the enrollment rate is $8:12:16:24$. 
-Please note that $8:12:16:24$ is not the real enrollment rate. 
+And we further assume there is not stratum and the enrollment last for 12 months.
+For the first 2 months, second 2 months, third 2 months and the reminder month, the enrollment rate is $8:12:16:24$.
+Please note that $8:12:16:24$ is not the real enrollment rate.
 Instead, it only specifies the enrollment rate ratio between different duration.
+
 ```{r}
 enroll_rate <- tibble(
   stratum = "All",
@@ -64,6 +65,7 @@ enroll_rate %>%
 
 Moreover, we assume the hazard ratio (HR) of the first 3 month is 0.9 and thereafter is 0.6.
 We also assume the the survival time follow a piecewise exponential distribution with a median of 8 month for the first 3 months and 14 month thereafter.
+
 ```{r}
 fail_rate <- tibble(
   stratum = "All",
@@ -110,7 +112,7 @@ yy %>%
   fmt_number(columns = 2:8, decimals = 4)
 ```
 
-Finally, we can calculate the power of `yy` by using `gs_power_npe()`. 
+Finally, we can calculate the power of `yy` by using `gs_power_npe()`.
 
 ```{r}
 zz <- gs_power_npe(

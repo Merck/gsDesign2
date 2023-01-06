@@ -15,8 +15,8 @@ vignette: |
   %\VignetteIndexEntry{Group sequential design for binary outcomes}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: 72
 ---
 
@@ -110,7 +110,7 @@ Simulation is used throughout to check the examples presented.
 -   $d$: an indicator whether is an outcome is failure (bad outcome) or
     response (good outcome), i.e., $$
     d
-    = 
+    =
     \left\{
     \begin{array}{lll}
       -1 & \text{if } p_{C,s} < p_{E,s} & \text{the control arm is better}\\
@@ -143,7 +143,7 @@ Simulation is used throughout to check the examples presented.
 
 -   $\delta_{s}$: the **planned** risk difference under $H_1$ at any
     $k$-th analysis of the $s$-th strata is denoted by $$
-    \delta_{s} = |p_{C,s} - p_{E,s}|. 
+    \delta_{s} = |p_{C,s} - p_{E,s}|.
     $$
 
 -   $\hat\delta_{s}$: estimation of risk difference with $$
@@ -154,9 +154,9 @@ Simulation is used throughout to check the examples presented.
 # Testing
 
 The test statistics at the $k$-th analysis is $$
-  Z_{k} 
-  = 
-  \frac{ 
+  Z_{k}
+  =
+  \frac{
     \sum_{s=1}^S \widehat w_{s,k} \; |\widehat \delta_{k,s} - \delta_{s}^{null} |
   }{
     \sqrt{\sum_{s=1}^S \widehat w_{s,k}^2 \widehat\sigma_{H_0,k,s}^2}
@@ -172,7 +172,7 @@ $\widehat\sigma^2_{k,s}$ in the following 3 subsections.
 
 A superiority design ($\delta_{s}^{null} = 0$) is to show that
 experimental group is superior to the control group above some
-thresholds. Its hypothesis is 
+thresholds. Its hypothesis is
 $$
   H_0: \delta_{s} = 0 \text{ vs. } H_1: \delta_{s} > 0, \; \forall k = 1, \ldots, K, s = 1, \ldots, S
 $$
@@ -181,13 +181,13 @@ $$
 
     -   Under the null hypothesis, we have $$
         \begin{array}{ll}
-        \sigma^2_{H_0,k,s} 
-        & = 
+        \sigma^2_{H_0,k,s}
+        & =
         \text{Var}(p_C - p_E | H_0)
         =
         p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right), \\
-        \widehat\sigma^2_{H_0,k,s} 
-        & = 
+        \widehat\sigma^2_{H_0,k,s}
+        & =
         \widehat{\text{Var}}(\hat p_C - \hat p_E | H_0)
         =
         \widehat p_{k,s}^{pool} \left(1 - \widehat p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right),
@@ -199,15 +199,15 @@ $$
 
     -   Under the alternative hypothesis, we have $$
         \begin{array}{ll}
-        \sigma_{H_1,k,s}^2 
-        & = 
+        \sigma_{H_1,k,s}^2
+        & =
         \text{Var}(p_C - p_E | H_1)
-        = 
+        =
         \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}} \\
-        \widehat\sigma_{H_1,k,s}^2 
-        & = 
+        \widehat\sigma_{H_1,k,s}^2
+        & =
         \widehat{\text{Var}}(\hat p_C - \hat p_E | H_1)
-        = 
+        =
         \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}
         \end{array}
         $$ where
@@ -226,10 +226,10 @@ $$
 
     -   Under the alternative hypothesis, we have $$
         \begin{array}{ll}
-        \theta_{H_1,k} 
+        \theta_{H_1,k}
         & = \frac{\sum_{s=1}^S w_{k,s} (p_{C,s} - p_{E,s})}{\sqrt{\sum_{s=1}^S w_{k,s}^2 \sigma_{H_1, k,s}^2}}\\
-        \widehat\theta_{H_1,k} 
-        & = 
+        \widehat\theta_{H_1,k}
+        & =
         \frac{
         \sum_{s=1}^S \widehat w_{k,s} (\widehat p_C - \widehat p_E)
         }{
@@ -250,19 +250,19 @@ $$
 
     -   Under the null hypothesis, we have $$
         \begin{array}{ll}
-        \mathcal I_{H0,k} 
-        & = 
-        \left[ 
-        \sum_{s=1}^S 
-        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} + 
-        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}} 
+        \mathcal I_{H0,k}
+        & =
+        \left[
+        \sum_{s=1}^S
+        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} +
+        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
         \right]^{-1} \\
-        \widehat{\mathcal I}_{H0,k} 
-        & = 
-        \left[ 
-        \sum_{s=1}^S 
+        \widehat{\mathcal I}_{H0,k}
+        & =
+        \left[
+        \sum_{s=1}^S
         \widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}} +
-        \widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}} 
+        \widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}}
         \right]^{-1}
         \end{array}
         $$
@@ -270,18 +270,18 @@ $$
     -   Under the alternative hypothesis, we have $$
         \begin{array}{ll}
         \mathcal I_{H1,k}
-        = 
-        \left[ 
+        =
+        \left[
         \sum_{s=1}^S w_{k,s}^2 \frac{p_{C,k,s} (1 - p_{C,k,s})}{N_{C,k,s}}
         +
-        \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}} 
+        \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}}
         \right]^{-1}\\
-        \widehat{\mathcal I}_{H1,k} 
-        = 
-        \left[ 
+        \widehat{\mathcal I}_{H1,k}
+        =
+        \left[
         \sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{C,k,s} (1 - \widehat p_{C,k,s})}{\widehat N_{C,k,s}}
         +
-        \sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{\widehat N_{E,k,s}} 
+        \sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{\widehat N_{E,k,s}}
         \right]^{-1}
         \end{array}
         $$
@@ -291,15 +291,15 @@ $$
 The hypothesis of the super-superiority design is
 
 $$
-  H_0: \delta_{k,s} = \delta_{k,s}^{null} 
-  \;\; vs. \;\; 
+  H_0: \delta_{k,s} = \delta_{k,s}^{null}
+  \;\; vs. \;\;
   H_1: \delta > \delta_{k,s}^{null} \text{ with } \delta_{k,s}^{null} > 0.
-$$ 
+$$
 Here $\theta_{k,s_1}^{null} = \theta_{k,s_2}^{null}$ or
 $\theta_{k,s_1}^{null} \neq \theta_{k,s_2}^{null}$ for $s_1 \neq s_2$.
 
 Under the null hypothesis $\theta_{0,k,s} \neq 0$, the estimation of
-rates $\widehat p_{C0,k,s}, \widehat p_{E0,k,s}$ satisfy 
+rates $\widehat p_{C0,k,s}, \widehat p_{E0,k,s}$ satisfy
 $$
   \left\{
   \begin{array}{l}
@@ -307,8 +307,8 @@ $$
     \widehat p_{C0,k,s} + r\widehat p_{E0,k,s} = \widehat p_{C,k,s} + r\widehat p_{E,k,s} .
   \end{array}
   \right.
-$$ 
-Solving these 2 equations with 2 unknowns yields 
+$$
+Solving these 2 equations with 2 unknowns yields
 $$
   \left\{
   \begin{array}{l}
@@ -324,15 +324,15 @@ $$
 
 $$
   \hat\sigma^2_{H_0,k,s}
-  = 
+  =
   \frac{\widehat p_{C0,k,s}(1- \widehat p_{C0,k,s})}{N_{C,k,s}} + \frac{ \widehat p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}.
 $$
 
 -   Under $H_1$, we have
 
 $$
-  \widehat\sigma_{H_1,k,s}^2 
-  = 
+  \widehat\sigma_{H_1,k,s}^2
+  =
   \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}.
 $$
 
@@ -341,8 +341,8 @@ $$
     -   Under the null hypothesis, we have
 
 $$
-  \widehat \theta_{H_0,k} 
-  = 
+  \widehat \theta_{H_0,k}
+  =
   \frac{
     \sum_{s=1}^S w_{k,s} \delta_{s,k}^{null}
   }{
@@ -353,8 +353,8 @@ $$
 -   Under the alternative hypothesis, we have
 
 $$
-  \widehat \theta_{H_1} 
-  = 
+  \widehat \theta_{H_1}
+  =
   \frac{
     \sum_{s=1}^S w_{k,s} d_{k,s} \times (\widehat p_{C,k,s} - \widehat p_{E,k,s})
   }{
@@ -367,18 +367,18 @@ $$
     -   Under the null hypothesis, we have
 
 $$
-  \widehat{\mathcal I}_{H0,k} 
-  = 
-  \left[ 
-  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar p_{E0,s})}{N_{E,s}} 
+  \widehat{\mathcal I}_{H0,k}
+  =
+  \left[
+  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar p_{E0,s})}{N_{E,s}}
   \right]^{-1}.
 $$
 
 -   Under the alternative hypothesis, we have
 
 $$
-  \widehat{\mathcal I}_{H1,k} 
-  = 
+  \widehat{\mathcal I}_{H1,k}
+  =
   \left[
   \sum_{s=1}^S \left( w_{k,s}^2 \frac{\bar p_{C,k,s} (1 - \bar p_{C,k,s})}{N_{C,k,s}} + w_{k,s}^2 \frac{\bar p_{E,k,s} (1 - \bar p_{E,k,s})}{N_{E,k,s}} \right)
   \right]^{-1}.
@@ -401,33 +401,33 @@ As previously noted, we will consider weighting based on either
 inverse-variance weights (@MantelHaenszel) or strata sample size weights
 (@mehrotra2000minimum).
 
--   **Inverse-variance weights (INVAR):** 
+-   **Inverse-variance weights (INVAR):**
 $$
     w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}. \\
     \widehat w_{s,k} = \frac{1/\widehat\sigma^2_{s,k}}{\sum_{s=1}^S 1/\widehat\sigma^2_{s,k}}.
-$$ 
+$$
 where
     $\widehat\sigma_{s,k}^2 \in \{\widehat\sigma_{H_0, k,s}^2, \widehat\sigma_{H_1, k,s}^2 \}$
     depending on the infomation scale `info_scale = ...` in
     `gs_info_rd()`, `gs_power_rd()` and `gs_design_rd()`.
 
--   **Sample-Size Weights (SS):** 
+-   **Sample-Size Weights (SS):**
 $$
-    w_{s,k} 
+    w_{s,k}
     =
     \frac{
       (N_{C, s, k} \; N_{E, s, k}) / (N_{C, s, k} + N_{E, s, k})
     }{
       \sum_{s=1}^S (N_{C, s, k} \; N_{E, s, k}) / (N_{C, s, k} + N_{E, s, k})
     },\\
-    \widehat w_{s,k} 
+    \widehat w_{s,k}
     =
     \frac{
       (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) / (\widehat N_{C, s, k} + \widehat N_{E, s, k})
     }{
       \sum_{s=1}^S (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) / (\widehat N_{C, s, k} + \widehat N_{E, s, k})
     },
-$$ 
+$$
 where $N_{C,s,k}, N_{E,s,k}$ are the planned sample size of the $s$-th strata and $k$-th analysis of the control group and experimental group, respectively. And $\widehat N_{C,s,k}, \widehat N_{E,s,k}$ are the observed sample size of the $s$-th strata and $k$-th analysis of the control group and experimental group, respectively.
 
 # Simulations
@@ -501,30 +501,30 @@ N_e <- N_c * ratio
 ```
 
 Then we calculate the variance under $H_0$ and $H_1$. Their mathmatical
-formulation are shown as follows. 
+formulation are shown as follows.
 $$
   \begin{array}{ll}
-  \sigma^2_{H_0} 
+  \sigma^2_{H_0}
   =
   p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N_C} + \frac{1}{N_{E}} \right)
   =
   p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N \xi_C} + \frac{1}{N \xi_E} \right)
   \overset{r=1}{=}
   p^{pool} \left(1 - p^{pool} \right) \frac{4}{N} \\
-  \sigma^2_{H_1} 
+  \sigma^2_{H_1}
   =
   \frac{p_C \left(1 - p_C \right)}{N_C} +
   \frac{p_E \left(1 - p_E \right)}{N_E}
   =
   \frac{p_C \left(1 - p_C \right)}{N \xi_C} +
-  \frac{p_E \left(1 - p_E \right)}{N \xi_E} 
+  \frac{p_E \left(1 - p_E \right)}{N \xi_E}
   \overset{r=1}{=}
   \left[
     p_C \left(1 - p_C \right) +
     p_E \left(1 - p_E \right)
   \right] \frac{2}{N}
   \end{array}
-$$ 
+$$
 And their calculation results are
 
 ```{r}
@@ -536,13 +536,13 @@ info_H1 <- 1 / (sigma_H1^2)
 ```
 
 Next, we calculate the standarized treatment effect under $H_0$ and
-$H_1$, whose mathmatical formulation are 
+$H_1$, whose mathmatical formulation are
 $$
   \begin{array}{ll}
   \theta_{H_0} = 0; \\
   \theta_{H_1} = \frac{|p_c - p_e|}{\sigma_{H_1}}
   \end{array}.
-$$ 
+$$
 
 And their calculation results are
 
@@ -1007,22 +1007,22 @@ x %>%
   gt::tab_header(title = "Stratified Example")
 ```
 
-First, we calculate the variance 
+First, we calculate the variance
 $$
   \left\{
   \begin{array}{ll}
-  \sigma^2_{H_0,k,s} 
+  \sigma^2_{H_0,k,s}
   & =
-  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) 
-  \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right) 
+  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
+  \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right)
   =
-  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) 
+  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
   \left(\frac{1}{ \frac{\xi_s}{1+r} N_{k}} + \frac{1}{ \frac{r \xi_s}{1+r} N_{k}} \right) \\
-  \sigma_{H_1,k,s}^2 
-  & = 
-  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}} 
-  = 
-  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s} (1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}} 
+  \sigma_{H_1,k,s}^2
+  & =
+  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}}
+  =
+  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s} (1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}}
   \end{array}
   \right.
 $$
@@ -1056,7 +1056,7 @@ x %>%
 Second, we calculate the weight by using inverse variance
 
 $$
-  w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}. 
+  w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}.
 $$
 
 ```{r, message=FALSE}
@@ -1095,31 +1095,31 @@ x %>%
 ```
 
 Third, we calculate the weighted risk difference and weighted
-statistical information. 
+statistical information.
 $$
   \left\{
   \begin{array}{ll}
-    \delta_{H_0,k} 
+    \delta_{H_0,k}
     & = 0\\
-    \delta_{H_1,k} 
+    \delta_{H_1,k}
     & = \sum_{s=1}^S w_{k,s} |p_{C,s} - p_{E,s}|
   \end{array}
   \right. \\
   \left\{
   \begin{array}{ll}
-    \mathcal I_{H_0,k} 
-    & = 
-    \left[ 
-      \sum_{s=1}^S 
-      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} + 
-      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}} 
+    \mathcal I_{H_0,k}
+    & =
+    \left[
+      \sum_{s=1}^S
+      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} +
+      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
     \right]^{-1}\\
-    \mathcal I_{H_1,k}  
-    & = 
-    \left[ 
+    \mathcal I_{H_1,k}
+    & =
+    \left[
       \sum_{s=1}^S w_{k,s}^2 \frac{p_{C,k,s} (1 - p_{C,k,s})}{N_{C,k,s}}
       +
-      \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}} 
+      \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}}
     \right]^{-1}
   \end{array}
   \right. \\

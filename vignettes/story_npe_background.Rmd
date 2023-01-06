@@ -28,7 +28,7 @@ devtools::load_all()
 
 ## Overview
 
-The acronym NPES is short for non-proportional effect size. 
+The acronym NPES is short for non-proportional effect size.
 While it is motivated primarily by a use for when designing a time-to-event trial under non-proportional hazards (NPH), we have simplified and generalized the concept here. The model is likely to be useful for rank-based survival tests beyond the logrank test that will be considered initially by @Tsiatis.
 It could also be useful in other situations where treatment effect may vary over time in a trial for some reason.
 We generalize the framework of Chapter 2 of @PLWBook to incorporate the possibility of the treatment effect changing during the course of a trial in some systematic way.
@@ -57,7 +57,7 @@ While @PLWBook have used $\delta$ instead of $\theta$ in our notation, we stick 
 For our example, we see $\hat{\theta}_k\equiv\bar X_k$ represents the sample average at analysis $k$, $1\le k\le K$.
 With a survival endpoint, $\hat\theta_k$ would typically represent a Cox model coefficient representing the logarithm of the hazard ratio for experimental vs control treatment and $n_k$ would represent the planned number of events at analysis $k$, $1\le k\le K.$
 Denoting $t_k=n_k/N$, we assume that for some real-valued function $\theta(t)$ for $t\ge 0$ we have for $1\le k\le K$
- 
+
 $$E(\hat{\theta}_k) =\theta(t_k) =E(\bar X_k).$$
 In the models of @PLWBook and @JTBook we would have $\theta(t)$ equal to some constant $\theta$.
 We assume further that for $i=1,2,\ldots$
@@ -76,7 +76,7 @@ The Z-process is commonly used (e.g., @JTBook) and will be used below to extend 
 
 $$Z_{k} = \frac{\hat\theta_k}{\sqrt{\hbox{Var}(\hat\theta_k)}}= \sqrt{\mathcal{I}_k}\hat\theta_k= \sqrt{n_k}\bar X_k.$$
 
-The variance for $1\le k\le K$ is 
+The variance for $1\le k\le K$ is
 $$\hbox{Var}(Z_k) = 1$$
 and the expected value is
 
@@ -114,7 +114,7 @@ mt %>% kable(escape = FALSE)
 We assume independent increments in the B-process.
 That is, for $1\le j < k\le K$
 $$\tag{1} B_k - B_j \sim \hbox{Normal} (\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_j\theta(t_j)), t_k-t_j)$$
-independent of $B_1,\ldots,B_j$. 
+independent of $B_1,\ldots,B_j$.
 As noted above, for a given $1\le k\le K$ we have for our example
 $$B_j=\sum_{i=1}^{n_j}X_i / \sqrt N.$$
 Because of independence of the sequence $X_i$, $i=1,2,\ldots$, we  immediately have for $1\le j\le k\le K$
@@ -124,13 +124,13 @@ $$\hbox{Corr}(B_j,B_k)=\frac{t_j}{\sqrt{t_jt_k}}=\sqrt{t_j/t_k}=\hbox{Corr}(Z_j,
 which is the covariance structure in the so-called *canonical form* of @JTBook.
 For our example, we have
 $$B_k=\frac{1}{\sqrt N}\sum_{i=1}^{n_k}X_i$$
-and 
+and
 $$B_k-B_j=\frac{1}{\sqrt N}\sum_{i=n_j + 1}^{n_k}X_i$$
 and the covariance is obvious.
 We assume independent increments in the B-process that will be demonstrated for the simple example above.
 That is, for $1\le j < k\le K$
 $$\tag{1} B_k - B_j \sim \hbox{Normal} (\mathcal{I}_k\theta(t_k)- \mathcal{I}_j\theta(t_j), t_k-t_j)$$
-independent of $B_1,\ldots,B_j$. 
+independent of $B_1,\ldots,B_j$.
 For a given $1\le j\le k\le K$ we have for our example
 $$B_j=\sum_{i=1}^{n_j}X_i / (\sqrt N\sigma).$$
 Because of independence of the sequence $X_i$, $i=1,2,\ldots$, we  immediately have for $1\le j\le k\le K$
@@ -138,20 +138,20 @@ $$\hbox{Cov}(B_j,B_k) = \hbox{Var}(B_j) = t_j/t_k =\mathcal{I}_j/\mathcal{I}_k.$
 This leads to
 $$\mathcal{I}_j/\mathcal{I}_k=\sqrt{t_j/t_k}=\hbox{Corr}(B_j,B_k)=\hbox{Corr}(Z_j,Z_k)=\hbox{Cov}(Z_j,Z_k)$$
 which is the covariance structure in the so-called *canonical form* of @JTBook.
-The independence of $B_j$ and 
+The independence of $B_j$ and
 $$B_k-B_j=\sum_{i=n_j + 1}^{n_k}X_i/(\sqrt N\sigma)$$
-is obvious for this example. 
+is obvious for this example.
 
 ## Test bounds and crossing probabilities
 
 In this section we define notation for bounds and boundary crossing probabilities for a group sequential design.
 We also define an algorithm for computing bounds based on a targeted boundary crossing probability at each analysis.
 The notation will be used elsewhere for defining one- and two-sided group sequential hypothesis testing.
-A value of $\theta(t)>0$ will reflect a positive benefit. 
+A value of $\theta(t)>0$ will reflect a positive benefit.
 
 For $k=1,2,\ldots,K-1$, interim cutoffs $-\infty \le a_k< b_k\le \infty$ are set; final cutoffs $-\infty \le a_K\leq b_K <\infty$ are also set.
 An infinite efficacy bound at an analysis means that bound cannot be crossed at that analysis.
-Thus, $3K$ parameters define a group sequential design: $a_k$, $b_k$, and $\mathcal{I}_k$, $k=1,2,\ldots,K$. 
+Thus, $3K$ parameters define a group sequential design: $a_k$, $b_k$, and $\mathcal{I}_k$, $k=1,2,\ldots,K$.
 
 ### Notation for boundary crossing probabilities
 
@@ -162,18 +162,15 @@ We denote the probability of crossing the upper boundary at analysis $k$ without
 $$\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\le Z_{j}< b_{j}\}),$$
 $k=1,2,\ldots,K.$
 
-
 Next, we consider analogous notation for the lower bound. For $k=1,2,\ldots,K$
 denote the probability of crossing a lower bound at analysis $k$ without previously crossing any bound by
 
 $$\beta_{k}(\theta)=P_{\theta}((Z_{k}< a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\le Z_{j}< b_{j}\}).$$
-For symmetric testing for analysis $k$ we would have $a_k= - b_k$, $\beta_k(0)=\alpha_k(0),$ $k=1,2,\ldots,K$. 
-The total lower boundary crossing probability for a trial is denoted by 
+For symmetric testing for analysis $k$ we would have $a_k= - b_k$, $\beta_k(0)=\alpha_k(0),$ $k=1,2,\ldots,K$.
+The total lower boundary crossing probability for a trial is denoted by
 $$\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).$$
 Note that we can also set $a_k= -\infty$ for any or all analyses if a lower bound is not desired, $k=1,2,\ldots,K$.
 For $k<K$, we can set $b_k=\infty$ where an upper bound is not desired.
 Obviously, for each $k$, we want either $a_k>-\infty$ or $b_k<\infty$.
-
-
 
 # References

@@ -1,6 +1,5 @@
 ---
 title: "Design using average hazard ratio"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_document:
     toc: true
@@ -22,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-We consider fixed and group sequential design under non-proportional hazards when testing with the logrank test. 
+We consider fixed and group sequential design under non-proportional hazards when testing with the logrank test.
 We focus primarily on the average hazard ratio approach, expanding the asymptotic approach of @Mukhopadhyay2020 to both group sequential design and more complex enrollment assumptions.
 The theoretical background for this is provided in other vignettes in this package.
 We provide a few basic examples along the lines of @NPHWG2020sim for illustration of design considerations under the following assumptions:
@@ -34,7 +33,7 @@ We provide a few basic examples along the lines of @NPHWG2020sim for illustratio
 
 Illustrations include
 
-1. Expected average hazard ratio (AHR) over time. 
+1. Expected average hazard ratio (AHR) over time.
 1. Expected event accumulation over time.
 1. The impact of planned study duration on required number of events.
 1. Power across scenarios when a trial is designed under the assumption of a short delayed effect.
@@ -57,7 +56,6 @@ library(gt)
 library(tidyr)
 library(tibble)
 ```
-
 
 # Scenarios
 
@@ -108,7 +106,6 @@ We will consider the following failure rate assumptions:
     - Control group has exponential failure rate with a median of 10 months.
     - Hazard ratio of 1.5 for 4 months followed by a hazard ratio of 0.5.
 
-
 ```{r, }
 Month <- c(0, 4, 6, 44)
 duration <- Month - c(0, Month[1:3])
@@ -133,7 +130,6 @@ ggplot(s, aes(x = Month, y = Survival, col = Scenario, lty = Treatment)) +
   scale_y_log10(breaks = (1:10) / 10, lim = c(.1, 1)) +
   scale_x_continuous(breaks = seq(0, 42, 6))
 ```
-
 
 ```{r}
 # get 4 scenarios
@@ -182,7 +178,7 @@ ggplot(s, aes(x = Month, y = Survival, col = Scenario, lty = Treatment, shape = 
   scale_x_continuous(breaks = seq(0, 42, 6)) +
   ggtitle("Survival over time for 4 scenarios studied")
 ```
-    
+
 The average hazard ratio for these 4 scenarios are shown below.
 We note that under the *Shorter delayed effect* scenario, the average hazard ratio approaches that of the *PH* scenario after a study duration of about 36 months.
 
@@ -230,7 +226,7 @@ hr <- do.call(
 )
 ```
 
-```{r, fig.width=3.5} 
+```{r, fig.width=3.5}
 ggplot(hr, aes(x = Time, y = AHR, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
@@ -240,7 +236,7 @@ ggplot(hr, aes(x = Time, y = AHR, col = Scenario)) +
 ```
 
 The number of events for these 4 scenarios are shown below.
-Under the 3 NPH scenarios events accumulate faster than under the PH scenario both due to a lower control median and/or a delayed effect. 
+Under the 3 NPH scenarios events accumulate faster than under the PH scenario both due to a lower control median and/or a delayed effect.
 
 ```{r, fig.width=3.5}
 ggplot(hr, aes(x = Time, y = `Events`, col = Scenario)) +
@@ -249,6 +245,7 @@ ggplot(hr, aes(x = Time, y = `Events`, col = Scenario)) +
   ylab("Expected events per 100 enrolled") +
   ggtitle("Expected event accumulation under the 4 scenarios studied")
 ```
+
 From the above, we see that slight variations in control failure rates and the potential for a delayed effect can substantially accelerate the accumulation of events.
 If doing an event-based cutoff for analysis these slight variations can lead to earlier analyses than anticipated when the average hazard ratio that is expected with longer follow-up would never be achieved.
 We examine the implications further below.
@@ -287,7 +284,6 @@ ss_ahr_fixed <- do.call(
   )
 )
 
-
 ss_ahr_fixed %>%
   gt() %>%
   fmt_number(columns = 1:3, decimals = 0) %>%
@@ -301,7 +297,7 @@ ss_ahr_fixed %>%
 Assuming the shorter delayed effect is the primary scenario for which we wish to protect power, how long should the trial be to optimize the tradeoffs between sample size, AHR and events required?
 We will inform this tradeoff by looking sizing the trial for different assumed trial durations with the same failure rates and assumed relative enrollment rates.
 The counts of events required is perhaps the most interesting here in that a 24 month trial requires almost twice the events to be powered at 90% compared to a trial of 42 months duration.
-For further study, we will consider the 36 month trial duration as a reasonable tradeoff between time, sample size and power under a presumed delayed effect of 4 months followed by a hazard ratio of 0.6 thereafter. 
+For further study, we will consider the 36 month trial duration as a reasonable tradeoff between time, sample size and power under a presumed delayed effect of 4 months followed by a hazard ratio of 0.6 thereafter.
 
 ```{r}
 do.call(
@@ -333,7 +329,6 @@ do.call(
   )
 ```
 
-
 ## Alternate Hypothesis Mapping
 
 Under the different scenarios of interest, we can examine the expected number of events in time periods of interest.
@@ -359,7 +354,6 @@ You can see that an interim futility spending bound based on the alternate hypot
 Note also that at the time of interim analysis, the alternate hypothesis AHR can be computed in this same fashion based on observed events by time period.
 Note that this can be quite different than the scenario HR; e.g., for PH, we assume HR=0.7 throughout, but for the futility bound comparison, we compute blinded AHR that decreases with each analysis under the alternate hypothesis.
 
-
 ```{r, message=FALSE}
 # Time periods for each scenario were 0-4, 4-6, and 6+
 # Thus H1 has HR as follows
@@ -376,14 +370,12 @@ ahr_by_analysis %>%
   fmt_number(columns = 2:5, decimals = 3)
 ```
 
-
 ## Group Sequential Design
 
 Here we assume the design is under a delayed effect model where the delay is not too long and the long-term average hazard ratio benefit is strong.
 proportional hazards scenario, but we look at power under the alternate scenarios.
 We will plan a 36 month group sequential design under the Shorter delayed effect scenario.
 Interim analyses are planned after 12, 20, and 28 months.
-
 
 ### AHR method
 
@@ -500,7 +492,5 @@ do.call(
   gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
-
-
 
 # References

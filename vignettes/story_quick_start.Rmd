@@ -1,6 +1,5 @@
 ---
 title: "Quick start for NPH sample size and power"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_document:
     toc: true
@@ -26,7 +25,7 @@ knitr::opts_chunk$set(
 # Overview
 
 We provide simple examples for use of the **gsDesign2** package for deriving fixed and group sequential designs under non-proportional hazards.
-The piecewise model for enrollment, failure rates, dropout rates and changing hazard ratio over time allow great flexibility in design assumptions. 
+The piecewise model for enrollment, failure rates, dropout rates and changing hazard ratio over time allow great flexibility in design assumptions.
 Users are encouraged to suggest features that would be of immediate and long-term interest to add.
 
 Topics included here are:
@@ -48,11 +47,10 @@ Finally, while the final section provides current enhancement priorities, potent
 # Packages Used
 
 - The **gsDesign** package is used as a check for results under proportional hazards as well as a source from deriving bounds using spending functions.
-- The **gsDesign2** package provides 
+- The **gsDesign2** package provides
   + computations to compute expected event accumulation and average hazard ratio over time; these are key inputs to the group sequential distribution parameters.
   + implement group sequential distribution theory under non-proportional hazards and to derive a wide variety of boundary types for group sequential designs.
 - The **simtrial** package is used to verify design properties using simulation.
-
 
 ```{r, message=FALSE, warning=FALSE}
 library(gsDesign)
@@ -126,7 +124,7 @@ d <- fixed_design(
 ```
 
 A quick summary of the targeted sample size is obtained below.
-Note that you would normally round up `N` up to an even number and `Events` to the next integer. 
+Note that you would normally round up `N` up to an even number and `Events` to the next integer.
 
 ```{r}
 d %>%
@@ -158,7 +156,7 @@ This is referred to as a non-binding bound since it is assumed the trial will no
 
 @LanDeMets developed the spending function method for deriving group sequential bounds.
 This involves use of a non-decreasing spending function $f(t)$ for $t\ge 0$ where $f(0)=0$ and $f(t)=\alpha$ for $t \ge 1$.
-Suppose for $K>0$ analyses are performed when proportion $t_1< t_2 <\ldots t_K=1$ of some planned statistical information (e.g., proportion of planned events for a time-to-event endpoint trial for proportion of observations for a binomial or normal endpoint). 
+Suppose for $K>0$ analyses are performed when proportion $t_1< t_2 <\ldots t_K=1$ of some planned statistical information (e.g., proportion of planned events for a time-to-event endpoint trial for proportion of observations for a binomial or normal endpoint).
 Bounds through the first $k$ analyses $1\le k\le K$ are recursively defined by the spending function and the multivariate normal distribution to satisfy
 
 $$
@@ -181,7 +179,7 @@ ggplot(
 ```
 
 Suppose $K=3$ and $t_1=0.5$, $t_2 = 0.75$, $t_3 = 1$.
-We can use the assumptions above for a group sequential design with only an efficacy bound using the Lan-DeMets O'Brien-Fleming spending function for $\alpha = 0.025$ with 
+We can use the assumptions above for a group sequential design with only an efficacy bound using the Lan-DeMets O'Brien-Fleming spending function for $\alpha = 0.025$ with
 
 ```{r}
 design1s <- gs_design_ahr(
@@ -197,7 +195,7 @@ design1s <- gs_design_ahr(
 )
 ```
 
-Bounds at the 3 analyses are as follows. 
+Bounds at the 3 analyses are as follows.
 Note that expected sample size at time of each data cutoff for analysis is also here in `N`. We filter on the upper bound so that lower bounds with `Z = -Inf` are not shown.
 
 ```{r}
@@ -225,8 +223,6 @@ cat(
 )
 ```
 
-
-
 ## Two-Sided Testing
 
 We will consider both symmetric and asymmetric 2-sided designs.
@@ -250,8 +246,7 @@ design2ss <- gs_design_ahr(
 )
 ```
 
-
-Design bounds are confirmed with: 
+Design bounds are confirmed with:
 
 ```{r, message=FALSE}
 design2ss %>%
@@ -309,6 +304,5 @@ design2sa %>%
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound for efficacy, futility disaster check at IA1, IA2 only"
   )
 ```
-
 
 # References

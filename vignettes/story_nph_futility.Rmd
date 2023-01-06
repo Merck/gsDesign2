@@ -14,7 +14,6 @@ vignette: >
   %\VignetteIndexEntry{Futility Bounds at Design and Analysis Under Non-proportional Hazards}
 ---
 
-
 ```{r, warning=FALSE, message = FALSE}
 library(gsDesign2)
 library(gt)
@@ -23,7 +22,6 @@ library(tibble)
 library(ggplot2)
 ```
 
-
 # Overview
 
 We set up futility bounds under a non-proportional hazards assumption.
@@ -31,10 +29,9 @@ We consider methods presented by @kornfreidlin2018 for setting such bounds and t
 Finally, we show how to update this $\beta-$spending bound based on blinded interim data.
 We will consider an example to reproduce a line of @kornfreidlin2018 Table 1 with the alternative futility bounds considered.
 
-
 ## Initial design set-up for fixed analysis
 
-@kornfreidlin2018 considered delayed effect scenarios and proposed a futility bound that is a modification of an earlier method proposed by @wieand. 
+@kornfreidlin2018 considered delayed effect scenarios and proposed a futility bound that is a modification of an earlier method proposed by @wieand.
 We begin with the enrollment and failure rate assumptions which @kornfreidlin2018 based on an example by @ttchen2013.
 
 ```{r}
@@ -56,7 +53,6 @@ study_duation <- 34.86
 We now derive a fixed sample size based on these assumptions.
 Ideally, we would allow a targeted event count and variable follow-up in `fixed_design()` so that the study duration will be computed automatically.
 
-
 ```{r}
 fixedevents <- fixed_design(
   x = "AHR", alpha = 0.025, power = NULL,
@@ -72,8 +68,6 @@ fixedevents %>%
   fmt_number(columns = 3:4, decimals = 2) %>%
   fmt_number(columns = 5:6, decimals = 3)
 ```
-
-
 
 # Modified Wieand futility bound
 
@@ -103,7 +97,6 @@ wieand %>%
 # Beta-spending futility bound with AHR
 
 Need to summarize here.
-
 
 ```{r}
 betaspending <- gs_power_ahr(
@@ -167,8 +160,6 @@ We see above that about 1/3 of events are still within 3 months of enrollment at
 
 ## Korn and Freidlin bound
 
-The bound proposed by @kornfreidlin2018 
-
-
+The bound proposed by @kornfreidlin2018
 
 # References

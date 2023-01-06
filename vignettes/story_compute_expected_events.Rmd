@@ -15,7 +15,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -41,13 +40,13 @@ The expected events calculation outlined here is implemented in the function `ex
 For notation, the study time scale will denoted with $\omega$ with the study start first opening for enrollment at $\omega=0$.
 We will use the variable $t$ to indicate patient time with $t=0$ representing the time a patient is enrolled.
 We assume the patient time from enrollment to an event is independent and identically distributed for all subjects enrolled.
-We also assume the patient time of censoring is independent and identically distributed for all subjects enrolled. 
-For an individual, let $X>0$ denote the patient time until an event and $Y>0$ denote the patient time until loss-to-follow-up. 
+We also assume the patient time of censoring is independent and identically distributed for all subjects enrolled.
+For an individual, let $X>0$ denote the patient time until an event and $Y>0$ denote the patient time until loss-to-follow-up.
 We also let $U$ denote the (independent) study time of entry for the patient.
 We assume the triplet $X$, $Y$, $U$ are independent.
 
 We will consider a single treatment group and stratum and assume subjects enroll according to a Poisson process with entry rate $g(\omega)\geq 0$ for $0\le \omega$.
-The expected number of subjects enrolled by study time $\omega$ is simply 
+The expected number of subjects enrolled by study time $\omega$ is simply
 
 \begin{equation}
 G(\omega)=\int_0^\omega g(u)du.
@@ -56,17 +55,17 @@ G(\omega)=\int_0^\omega g(u)du.
 Analysis of time-to-event data is done using the time from enrollment until the patient has an event, drops out, or is censored prior having an event at the time of a data cutoff; we will consider the data cutoff to be fixed at time $\Omega$.
 The key counts we consider here is:
 
-- $\bar{N}(t)$ : the number of patients with events at or before being on study for at least a duration $0<t \le \Omega$ at time of data cutoff at study time $\Omega$. 
+- $\bar{N}(t)$ : the number of patients with events at or before being on study for at least a duration $0<t \le \Omega$ at time of data cutoff at study time $\Omega$.
 - $\bar{n}(t_1,t_2)\equiv E\{\bar{N}(t_2)-\bar{N}(t_1)\}$ : the number of patients with events in the interval $(t_1,t_2]$, $0\le t_1< t_2\le \Omega$.
 
 We will focus on the the expected value of $\bar{n}(t_1,t_2)$ due to its usefulness in computing an average hazard ratio under the piecewise model outlined below.
 For a patient to be in the count $\bar{n}(t_1,t_2)$ they must be enrolled prior to time $\Omega - t_1$. Also, for a patient enrolled at time $0<u<\Omega$ the maximum time they would be observed for occurrence of an event would be $\Omega - u$.
 Thus,
 \begin{align}
-E\{\bar{n}(t_1,t_2)\}&=\int_0^{\Omega-{t_1}} g(u) 
+E\{\bar{n}(t_1,t_2)\}&=\int_0^{\Omega-{t_1}} g(u)
 P\{t_1<X\leq \min(t_2,\Omega-u), X\leq Y\} du\nonumber\\
 &=\int_0^{\Omega-t_2} g(u) P\{t_1<X\leq t_2, X\leq Y\} du+ \int_{\Omega-t_2}^{\Omega-t_1} g(u) P\{t_1< X\leq \Omega-u, X\leq Y\} du\nonumber\\
-&=G(\Omega-t_2)P\{t_1<X\leq t_2, X\leq Y\}+ 
+&=G(\Omega-t_2)P\{t_1<X\leq t_2, X\leq Y\}+
 \int_{\Omega-t_2}^{\Omega-t_1} g(u) P\{t_1< X\leq \Omega-u, X\leq Y\} du.\nonumber
 \end{align}
 
@@ -82,7 +81,7 @@ The model here is as follows:
 @LachinFoulkes have provided a general formulation for calculating the expected number of events over time in the scenario described above.
 However, we alter their algorithm to compute the expected number of events $E\{\bar n(t_1,t_2)\}$ in each follow-up period with a constant failure rate; this will later enable computing an average hazard ratio (@Kalbfleisch1981, @Schemper2009).
 
-We define a piecewise time-to-event and dropout random variables on the patient time scale. 
+We define a piecewise time-to-event and dropout random variables on the patient time scale.
 We assume $0=t_0<t_1<...<t_M=\infty$ and for $m=1,2,\ldots,M$.
 For $m=1,2,\ldots,M$, we assume $X_m>0$, $Y_m>0$ are random variables that are independent of the study entry time $U$.
 We let $X_m$ and $Y_m$ define $X$ and $Y$, respectively, on the interval $(t_{m-1},t_m]$, $m=1,2,\ldots,M$, as follows:
@@ -95,7 +94,7 @@ Y&=\sum_{m=1}^M \min(Y_m,t_m-t_{m-1})\prod_{j=1}^{m-1}I\{Y_j>t_j-t_{j-1}\}\label
 Here assume that $X_m$ and $Y_m$ are independent and exponentially distributed with failure rates $\lambda_m$ and $\eta_m$, respectively, $m=1,2,\ldots,M$.
 
 We now assume subjects enroll at a constant rate in each of $J$ intervals defined by $0=\omega_0<\omega_1<\ldots<\omega_J<\infty$.
-We denote the enrollment rates by  
+We denote the enrollment rates by
 \begin{equation}g(\omega)=\gamma_j\geq 0\label{eq:gj}\end{equation}
 for $\omega$ in the interval $(\omega_{j-1},\omega_j]$,  $j=0,1,2,\ldots,J$.
 We assume $\gamma_1>0$, but for $j>1$ we assume $\gamma_j\ge 0$.
@@ -107,10 +106,10 @@ and thus for $\omega\in [\omega_{j-1},\omega_j]$ that the expected enrollment by
 
 ## An example under the piecewise model
 
-We consider an example of this piecewise model assuming $J=3$, $\omega_j=1,2,7$ and $\gamma_j=3,2,0$ for $j=1,2,3$. 
+We consider an example of this piecewise model assuming $J=3$, $\omega_j=1,2,7$ and $\gamma_j=3,2,0$ for $j=1,2,3$.
 We assume $M=2$ with $t_m=4,\infty$, failure rates $\lambda_m=.03,.06$, and dropout rates $\eta_m=0.001,.002$.
 We plot all of these in the following plot with the enrollment rate axis on the right and the failure and dropout rate axis on the left.
-We plot $\omega$ in reverse order which is related to the integration in the equation for $E\{\bar{n}(t_1,t_2)\}$ above. 
+We plot $\omega$ in reverse order which is related to the integration in the equation for $E\{\bar{n}(t_1,t_2)\}$ above.
 We have also plotted a vertical dot-dashed line at each point where either the enrollment rate or a failure (and dropout) rate changes.
 
 ```{r,echo=FALSE}
@@ -206,7 +205,7 @@ Note that if $\lambda_m+\eta_m=0$, we have $d_m=0$.
 From above, we have
 
 \begin{align}
-\bar n_m&=G(t_M-t_m)P\{t_{m-1}<X\leq t_m, X\leq Y\}+ 
+\bar n_m&=G(t_M-t_m)P\{t_{m-1}<X\leq t_m, X\leq Y\}+
 \int_{t_M-t_m}^{t_M-t_{m-1}} g(u) P\{t_{m-1}< X\leq t_M-u, X\leq Y\} du\\
 &=G_{M+1-m}d_m+P\{\min(X,Y)>t_{m-1}\}
  \int_0^{t_m-t_{m-1}}g_{M+1-m}P\{X_m\le v, X_m\le Y_m\}dv\\

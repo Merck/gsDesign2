@@ -14,7 +14,6 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -28,8 +27,8 @@ library(gsDesign2)
 
 ## Introduction
 
-We demonstrate how to approximate arbitrary continuous survival distibutions with piecewise exponential approximations.
-This enables sample size computations for arbitrary survival models using software designed for the piecewise exponential distribution. 
+We demonstrate how to approximate arbitrary continuous survival distributions with piecewise exponential approximations.
+This enables sample size computations for arbitrary survival models using software designed for the piecewise exponential distribution.
 Three functions in particular are demonstrated:
 
 - `s2pwe()` translates an arbitrary survival distribution to piecewise exponential.
@@ -70,7 +69,7 @@ points(x = c(0:6), plnorm(c(0:6), meanlog = 0, sdlog = 2, lower.tail = FALSE), c
 text(x = c(5, 5), y = c(.5, .4), labels = c("Log-normal", "Piecewise Approximation (7 pts)"), col = 1:2, pos = 4)
 ```
 
-We considered the lognormal distribution due to the flexibility it allows for hazard rates over time; see, for example, [Wikipedia](https://en.wikipedia.org/wiki/Log-normal_distribution). 
+We considered the lognormal distribution due to the flexibility it allows for hazard rates over time; see, for example, [Wikipedia](https://en.wikipedia.org/wiki/Log-normal_distribution).
 
 ## Poisson mixture model
 
@@ -100,14 +99,14 @@ theta <- -log(.4)
 times <- 0:40
 plot(times, pPM(times, theta, lambda), type = "l", ylab = "Survival", xlab = "Time", log = "y")
 
-# Now compute piecewise expoential approximation
+# Now compute piecewise exponential approximation
 x <- seq(8, 40, 8)
 pmRates <- s2pwe(
   times = x,
   survival = pPM(x, theta = theta, lambda = lambda)
 )
 
-# Now plot the pieceise approximation using the 7-point approximation from above
+# Now plot the piecewise approximation using the 7-point approximation from above
 lines(c(0, x), ppwe(x = c(0, x), failRates = pmRates), col = 2)
 points(c(0, x), pPM(c(0, x), theta, lambda))
 ```
