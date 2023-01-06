@@ -28,39 +28,50 @@ NULL
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
 #' @param event Targeted event at each analysis
 #' @param analysis_time Minimum time of analysis
-#' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
+#' @param binding indicator of whether futility bound is binding;
+#' default of FALSE is recommended
 #' @param info_scale the information scale for calculation
 #' @param upper Function to compute upper bound
 #' @param upar Parameter passed to \code{upper()}
 #' @param lower Function to compute lower bound
 #' @param lpar Parameter passed to \code{lower()}
-#' @param test_upper indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-#' otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
+#' @param test_upper indicator of which analyses should include an upper
+#' (efficacy) bound; single value of TRUE (default) indicates all analyses;
+#' otherwise, a logical vector of the same length as \code{info} should
+#' indicate which analyses will have an efficacy bound
+#' @param test_lower indicator of which analyses should include an lower bound;
+#' single value of TRUE (default) indicates all analyses;
+#' single value FALSE indicated no lower bound; otherwise, a logical vector of
+#' the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+#' @param r Integer value controlling grid for numerical integration as in
+#' Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+#' Larger values provide larger number of grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
-#'    \item Calculate information and effect size based on AHR approximation using \code{gs_info_ahr()}.
-#'    \item Return a tibble of with columns Analysis, Bound, Z, Probability, theta,
-#'     Time, AHR, Events and  contains a row for each analysis and each bound.
+#'    \item Calculate information and effect size based on AHR approximation
+#'    using \code{gs_info_ahr()}.
+#'    \item Return a tibble of with columns Analysis, Bound, Z, Probability,
+#'    theta, Time, AHR, Events and  contains a row for each analysis
+#'    and each bound.
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return a \code{tibble} with columns \code{Analysis, Bound, Z, Probability, theta, Time, AHR, Events}.
+#' @return a \code{tibble} with columns \code{Analysis}, \code{Bound}, \code{Z},
+#' \code{Probability], \code{theta}, \code{Time}, \code{AHR}, \code{Events}.
 #' Contains a row for each analysis and each bound.
 #'
 #' @details
-#' Bound satisfy input upper bound specification in \code{upper, upar} and lower bound specification in \code{lower, lpar}.
-#' The \code{AHR()} function computes statistical information at targeted event times.
-#' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
+#' Bound satisfy input upper bound specification in \code{upper}, \code{upar},
+#' and lower bound specification in \code{lower}, \code{lpar}.
+#' \code{AHR()} computes statistical information at targeted event times.
+#' The \code{expected_time()} function is used to get events and average HR at
+#' targeted \code{analysis_time}.
 #'
 #' @export
 #'

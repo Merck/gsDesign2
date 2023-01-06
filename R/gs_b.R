@@ -17,14 +17,18 @@
 
 #' gs_b: Default boundary generation
 #'
-#' \code{gs_b()} is the simplest version of a function to be used with the \code{upper} and \code{lower}
+#' \code{gs_b()} is the simplest version of a function to be used with the
+#' \code{upper} and \code{lower}
 #' arguments in \code{gs_prob()},
 #' \code{gs_power_nph} and \code{gs_design_nph()};
-#' it simply returns the vector input in the input vector \code{Z} or, if \code{k} is specified \code{par[k]j} is returned.
-#' Note that if bounds need to change with changing information at analyses, \code{gs_b()} should not be used.
+#' it simply returns the vector input in the input vector \code{Z} or,
+#' if \code{k} is specified \code{par[k]j} is returned.
+#' Note that if bounds need to change with changing information at analyses,
+#' \code{gs_b()} should not be used.
 #' For instance, for spending function bounds use
 #'
-#' @param par For \code{gs_b()}, this is just Z-values for the boundaries; can include infinite values
+#' @param par For \code{gs_b()}, this is just Z-values for the boundaries;
+#' can include infinite values
 #' @param k is NULL (default), return \code{par}, else return \code{par[k]}
 #' @param ... further arguments passed to or from other methods
 #'
@@ -33,15 +37,18 @@
 #'  \itemize{
 #'    \item Validate if the input k is null as default.
 #'    \itemize{
-#'      \item If the input k is null as default, return the whole vector of Z-values of the boundaries.
-#'      \item If the input k is not null, return the corresponding boundary in the vector of Z-values.
+#'      \item If the input k is null as default, return the whole vector of
+#'      Z-values of the boundaries.
+#'      \item If the input k is not null, return the corresponding boundary
+#'      in the vector of Z-values.
 #'      }
 #'    \item Return a vector of boundaries.
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return returns the vector input \code{par} if \code{k} is NULL, otherwise, \code{par[k]}
+#' @return returns the vector input \code{par} if \code{k} is NULL,
+#' otherwise, \code{par[k]}
 #' @export
 #'
 #' @examples

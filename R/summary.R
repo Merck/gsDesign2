@@ -499,22 +499,46 @@ summary.gs_design <- function(object,
   # --------------------------------------------- #
   output <- output %>% select(x_decimals$col_vars)
   if ("Z" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at("Z", round, (x_decimals %>% filter(col_vars == "Z"))$col_decimals)
+    output <- output %>% dplyr::mutate_at(
+      "Z",
+      round,
+      (x_decimals %>% filter(col_vars == "Z"))$col_decimals
+    )
   }
   if ("~HR at bound" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at("~HR at bound", round, (x_decimals %>% filter(col_vars == "~HR at bound"))$col_decimals)
+    output <- output %>% dplyr::mutate_at(
+      "~HR at bound",
+      round,
+      (x_decimals %>% filter(col_vars == "~HR at bound"))$col_decimals
+    )
   }
   if ("~Risk difference at bound" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at("~Risk difference at bound", round, (x_decimals %>% filter(col_vars == "~Risk difference at bound"))$col_decimals)
+    output <- output %>% dplyr::mutate_at(
+      "~Risk difference at bound",
+      round,
+      (x_decimals %>% filter(col_vars == "~Risk difference at bound"))$col_decimals
+    )
   }
   if ("Nominal p" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at("Nominal p", round, (x_decimals %>% filter(col_vars == "Nominal p"))$col_decimals)
+    output <- output %>% dplyr::mutate_at(
+      "Nominal p",
+      round,
+      (x_decimals %>% filter(col_vars == "Nominal p"))$col_decimals
+    )
   }
   if ("Alternate hypothesis" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at("Alternate hypothesis", round, (x_decimals %>% filter(col_vars == "Alternate hypothesis"))$col_decimals)
+    output <- output %>% dplyr::mutate_at(
+      "Alternate hypothesis",
+      round,
+      (x_decimals %>% filter(col_vars == "Alternate hypothesis"))$col_decimals
+    )
   }
   if ("Null hypothesis" %in% colnames(output) & is.vector(output[["Null hypothesis"]], mode = "numeric")) {
-    output <- output %>% dplyr::mutate_at("Null hypothesis", round, (x_decimals %>% filter(col_vars == "Null hypothesis"))$col_decimals)
+    output <- output %>% dplyr::mutate_at(
+      "Null hypothesis",
+      round,
+      (x_decimals %>% filter(col_vars == "Null hypothesis"))$col_decimals
+    )
   }
 
   class(output) <- c(method, "gs_design", class(output))
