@@ -1,5 +1,5 @@
-#weighted log rank test with 3 options of weights
-test_that("Validate the function based on examples with individual functions",{
+# weighted log rank test with 3 options of weights
+test_that("Validate the function based on examples with individual functions", {
   # Enrollments
   enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
   # fail_rate
@@ -23,18 +23,18 @@ test_that("Validate the function based on examples with individual functions",{
   # Interim Analysis Time
   analysis_time <- c(12, 24, 36)
 
-  #create arms
+  # create arms
   # Define study design object in each arm
   gs_arm <- gsDesign2:::gs_create_arm(
     enroll_rate,
     fail_rate,
-    ratio = 2,      # Randomization ratio
+    ratio = 2, # Randomization ratio
     total_time = 36 # Total study duration
   )
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
 
-  #FH(0,1) example
+  # FH(0,1) example
   weight <- function(x, arm0, arm1) {
     gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 1)
   }
@@ -44,21 +44,21 @@ test_that("Validate the function based on examples with individual functions",{
     weight = weight
   )
   fh01 <- gs_info %>% dplyr::mutate_if(is.numeric, round, digits = 5)
-  
+
   N01 <- sum(enroll_rate$rate * enroll_rate$duration)
   n0 <- N01 / 2
   n1 <- N01 / 2
-  
+
   delta01 <- abs(sapply(analysis_time, function(x) {
     gsDesign2:::gs_delta_wlr(arm0, arm1, tmax = x, weight = weight)
   }))
   sigma201 <- abs(sapply(analysis_time, function(x) {
     gsDesign2:::gs_sigma2_wlr(arm0, arm1, tmax = x, weight = weight)
   }))
-  
+
   info01 <- N01 * sigma201
   theta01 <- delta01 / sigma201
-  
+
   evt01 <- gsDesign2:::prob_event.arm(arm0, tmax = analysis_time) * n0 +
     gsDesign2:::prob_event.arm(arm1, tmax = analysis_time) * n1
   # log_ahr <- sapply(analysis_time, function(t_k) {
@@ -71,12 +71,14 @@ test_that("Validate the function based on examples with individual functions",{
   #       normalization = TRUE
   #     )
   # })
-  
-  avehr <- gsDesign2::AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, ratio = ratio,
-                          total_duration = analysis_time)
-  
-  #FH(0,1)
-  expect_equal(object = as.numeric(fh01$N), expected = rep(N01,3), tolerance = 1)
+
+  avehr <- gsDesign2::AHR(
+    enroll_rate = enroll_rate, fail_rate = fail_rate, ratio = ratio,
+    total_duration = analysis_time
+  )
+
+  # FH(0,1)
+  expect_equal(object = as.numeric(fh01$N), expected = rep(N01, 3), tolerance = 1)
   expect_equal(object = as.numeric(fh01$Events), expected = evt01, tolerance = 1)
   expect_equal(object = as.numeric(fh01$delta), expected = -delta01, tolerance = .01)
   expect_equal(object = as.numeric(fh01$sigma2), expected = sigma201, tolerance = .01)

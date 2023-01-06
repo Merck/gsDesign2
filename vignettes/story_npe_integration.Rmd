@@ -145,7 +145,7 @@ We assume $\theta_1 = .5$, $\theta_3=1.5$.
 # Information for both null and alternative
 info <- c(1, 4)
 # information fraction
-timing <- info / max(info) 
+timing <- info / max(info)
 # Type I error
 alpha <- 0.025
 # Type II error (1 - power)
@@ -155,7 +155,7 @@ alphaspend <- alpha * timing^2
 # Cumulative beta-spending at IA, Final
 betaspend <- beta * timing^2
 # Average treatment effect at analyses
-theta <- c(1, 3)/2
+theta <- c(1, 3) / 2
 ```
 
 - Calculate interim bounds
@@ -166,16 +166,20 @@ b1 <- qnorm(alphaspend[1], lower.tail = FALSE)
 # Lower bound under alternate hypothesis
 a1 <- qnorm(betaspend[1], mean = sqrt(info[1]) * theta[1])
 # Compare probability of crossing vs target for bounds:
-cat("Upper bound =", b1, "Target spend =", alphaspend[1],
-    "Actual spend =", pnorm(b1, lower.tail=FALSE))
+cat(
+  "Upper bound =", b1, "Target spend =", alphaspend[1],
+  "Actual spend =", pnorm(b1, lower.tail = FALSE)
+)
 ```
 
 ```{r}
 # Lower bound under alternate hypothesis
 a1 <- qnorm(betaspend[1], mean = sqrt(info[1]) * theta[1])
 # Compare probability of crossing vs target for bounds:
-cat("Lower bound =", a1, "Target spend =", betaspend[1],
-    "Actual spend =", pnorm(a1, mean = sqrt(info[1]) * theta[1]))
+cat(
+  "Lower bound =", a1, "Target spend =", betaspend[1],
+  "Actual spend =", pnorm(a1, mean = sqrt(info[1]) * theta[1])
+)
 ```
 
 - Set up numerical integration grid for next (final) analysis
@@ -196,21 +200,25 @@ grid1_0 %>% head()
 The probability of not crossing a bound under the null hypothesis is computed as follows:
 
 ```{r}
-probH0continue <- sum(grid1_0$h) 
-cat("Probability of continuing trial under null hypothesis\n",
-    " Using numerical integration:", probH0continue, 
-    "\n  Using normal cdf:", pnorm(b1) - pnorm(a1), "\n")
+probH0continue <- sum(grid1_0$h)
+cat(
+  "Probability of continuing trial under null hypothesis\n",
+  " Using numerical integration:", probH0continue,
+  "\n  Using normal cdf:", pnorm(b1) - pnorm(a1), "\n"
+)
 ```
 
 We now set up numerical integration grid under the alternate hypothesis and the compute continuation probability.
 
 ```{r}
 grid1_1 <- h1(theta = theta[1], I = info[1], a = a1, b = b1)
-probH1continue <- sum(grid1_1$h) 
+probH1continue <- sum(grid1_1$h)
 h1mean <- sqrt(info[1]) * theta[1]
-cat("Probability of continuing trial under alternate hypothesis\n",
-    " Using numerical integration:", probH1continue, 
-    "\n  Using normal cdf:", pnorm(b1, mean = h1mean) - pnorm(a1, h1mean), "\n")
+cat(
+  "Probability of continuing trial under alternate hypothesis\n",
+  " Using numerical integration:", probH1continue,
+  "\n  Using normal cdf:", pnorm(b1, mean = h1mean) - pnorm(a1, h1mean), "\n"
+)
 ```
 
 - Compute initial iteration for analysis 2 bounds
@@ -227,7 +235,9 @@ b2_0 <- qnorm(spend0, lower.tail = FALSE)
 spend1 <- betaspend[2] - betaspend[1]
 a2_0 <- qnorm(spend1, mean = sqrt(info[2]) * theta[2])
 cat("Initial bound approximation for 2nd analysis\n (",
-    a2_0, ", ", b2_0,")\n", sep="")
+  a2_0, ", ", b2_0, ")\n",
+  sep = ""
+)
 ```
 
 - Compute actual boundary crossing probabilities with initial approximations
@@ -238,9 +248,11 @@ Under the null hypothesis, we need to update to the interval above `b2_0`.
 ```{r}
 # Upper rejection region grid under H0
 grid2_0 <- hupdate(theta = 0, I = info[2], a = b2_0, b = Inf, Im1 = info[1], gm1 = grid1_0)
-pupper_0 <- sum(grid2_0$h) 
-cat("Upper spending at analysis 2\n Target:", spend0, "\n Using initial bound approximation:",
-    pupper_0,"\n")
+pupper_0 <- sum(grid2_0$h)
+cat(
+  "Upper spending at analysis 2\n Target:", spend0, "\n Using initial bound approximation:",
+  pupper_0, "\n"
+)
 ```
 
 To get a first order Taylor's series approximation to update this bound, we need the derivative of the above probability with respect to the Z-value cutoff. This was given above as the subdensity computed in the grid.
@@ -255,15 +267,17 @@ pdiff <- spend0 - pupper_0
 # Taylor's series update
 b2_1 <- b2_0 - pdiff / dpdb2
 # Compute boundary crossing probability at updated bound
-cat("Original bound approximation:", b2_0, 
-    "\nUpdated bound approximation:", b2_1
-    )
+cat(
+  "Original bound approximation:", b2_0,
+  "\nUpdated bound approximation:", b2_1
+)
 grid2_0 <- hupdate(theta = 0, I = info[2], a = b2_1, b = Inf, Im1 = info[1], gm1 = grid1_0)
 pupper_1 <- sum(grid2_0$h)
-cat("\nOriginal boundary crossing probability:", pupper_0, 
-    "\nUpdated boundary crossing probability:", pupper_1,
-    "\nTarget:", spend0, "\n"
-    )
+cat(
+  "\nOriginal boundary crossing probability:", pupper_0,
+  "\nUpdated boundary crossing probability:", pupper_1,
+  "\nTarget:", spend0, "\n"
+)
 ```
 
 We see that the Taylor's series update has gotten us substantially closer to the targeted boundary probability.
@@ -271,8 +285,10 @@ We now update the lower bound in an analogous fashion.
 
 ```{r}
 # Lower rejection region grid under H1
-grid2_1 <- hupdate(theta = theta[2], I = info[2], a = -Inf, b = a2_0, 
-                   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1)
+grid2_1 <- hupdate(
+  theta = theta[2], I = info[2], a = -Inf, b = a2_0,
+  thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
+)
 plower_0 <- sum(grid2_1$h)
 # Last point in grid is at bound
 # Compute derivative
@@ -283,26 +299,32 @@ pdiff <- spend1 - plower_0
 # Taylor's series update
 a2_1 <- a2_0 + pdiff / dpda2
 # Compute boundary crossing probability at updated bound
-cat("Original bound approximation:", a2_0, 
-    "\nUpdated bound approximation:", a2_1)
+cat(
+  "Original bound approximation:", a2_0,
+  "\nUpdated bound approximation:", a2_1
+)
 
-grid2_1 <- hupdate(theta = theta[2], I = info[2], a = -Inf, b = a2_1, 
-                   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1)
-plower_1 <- sum(grid2_1$h) 
-cat("\nOriginal boundary crossing probability:", plower_0, 
-    "\nUpdated boundary crossing probability:", plower_1,
-    "\nTarget:", spend1, "\n"
-    )
+grid2_1 <- hupdate(
+  theta = theta[2], I = info[2], a = -Inf, b = a2_1,
+  thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
+)
+plower_1 <- sum(grid2_1$h)
+cat(
+  "\nOriginal boundary crossing probability:", plower_0,
+  "\nUpdated boundary crossing probability:", plower_1,
+  "\nTarget:", spend1, "\n"
+)
 ```
 
 - Confirm with `gs_power_npe()`
 
 ```{r, message = FALSE}
-gs_power_npe(theta = theta, theta1 = theta, info = info, binding = TRUE,
-             upper = gs_spending_bound,
-             upar = list(sf = gsDesign::sfPower, total_spend = 0.025, param = 2),
-             lower = gs_spending_bound,
-             lpar = list(sf = gsDesign::sfPower, total_spend = 0.1, param = 2)
+gs_power_npe(
+  theta = theta, theta1 = theta, info = info, binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfPower, total_spend = 0.025, param = 2),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfPower, total_spend = 0.1, param = 2)
 )
 ```
 

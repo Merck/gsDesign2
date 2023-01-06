@@ -54,9 +54,11 @@ Use Lan-DeMets spending approximation of O'Brien-Fleming bound as 50\%, 75\% and
 # information fraction
 IF <- c(.5, .75, 1)
 # Lan-DeMets spending approximation of O'Brien-Fleming
-par <- gsDesign::gsDesign(alpha = .025, k = length(IF), 
-                          test.type = 1, sfu = gsDesign::sfLDOF, 
-                          timing = IF)$upper$bound
+par <- gsDesign::gsDesign(
+  alpha = .025, k = length(IF),
+  test.type = 1, sfu = gsDesign::sfLDOF,
+  timing = IF
+)$upper$bound
 gs_b(par = par)
 ```
 
@@ -65,9 +67,9 @@ gs_b(par = par)
 
 `gs_b` is a short function with 2 key arguments: `par = ...` and `k = ...`
 ```{r, eval=FALSE}
-if(is.null(k)){
+if (is.null(k)) {
   return(par)
-}else{ 
+} else {
   return(par[k])
 }
 ```

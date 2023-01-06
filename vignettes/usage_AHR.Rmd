@@ -29,28 +29,36 @@ The piecewise exponential distribution allows a simple method to specify a distr
 
 ## Example 1: Un-stratified population
 ```{r}
-enroll_rate <- tibble(stratum = "All",
-                      duration = c(2, 10, 4, 4, 8),
-                      rate = c(5, 10, 0, 3, 6))
-fail_rate <- tibble(stratum = "All",
-                    duration = 1,
-                    fail_rate = c(.1, .2, .3, .4),
-                    hr = c(.9, .75, .8, .6),
-                    dropout_rate = .001)
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = c(2, 10, 4, 4, 8),
+  rate = c(5, 10, 0, 3, 6)
+)
+fail_rate <- tibble(
+  stratum = "All",
+  duration = 1,
+  fail_rate = c(.1, .2, .3, .4),
+  hr = c(.9, .75, .8, .6),
+  dropout_rate = .001
+)
 AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30)) %>% gt::gt()
 ```
 
 
 ## Example 2: Stratified population
 ```{r}
-enroll_rate <- tibble(stratum = c(rep("Low", 2), rep("High", 3)),
-                      duration = c(2, 10, 4, 4, 8),
-                      rate = c(5, 10, 0, 3, 6))
-fail_rate <- tibble(stratum = c(rep("Low", 2), rep("High", 2)),
-                    duration = 1,
-                    fail_rate = c(.1, .2, .3, .4),
-                    hr = c(.9, .75, .8, .6),
-                    dropout_rate = .001)
+enroll_rate <- tibble(
+  stratum = c(rep("Low", 2), rep("High", 3)),
+  duration = c(2, 10, 4, 4, 8),
+  rate = c(5, 10, 0, 3, 6)
+)
+fail_rate <- tibble(
+  stratum = c(rep("Low", 2), rep("High", 2)),
+  duration = 1,
+  fail_rate = c(.1, .2, .3, .4),
+  hr = c(.9, .75, .8, .6),
+  dropout_rate = .001
+)
 AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30)) %>% gt::gt()
 ```
 
@@ -58,14 +66,18 @@ AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30)
 
 Let's take the un-stratified population as an example, where the enrollment rate, failure rates and dropout rates are
 ```{r}
-enroll_rate <- tibble(stratum = "All",
-                      duration = c(2, 10, 4),
-                      rate = c(5, 10, 0))
-fail_rate <- tibble(stratum = "All",
-                    duration = 1,
-                    fail_rate = c(.1, .2),
-                    hr = c(.9, .75),
-                    dropout_rate = .001)
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = c(2, 10, 4),
+  rate = c(5, 10, 0)
+)
+fail_rate <- tibble(
+  stratum = "All",
+  duration = 1,
+  fail_rate = c(.1, .2),
+  hr = c(.9, .75),
+  dropout_rate = .001
+)
 
 ratio <- 2
 
@@ -130,33 +142,43 @@ Here the `t` column is the start of period, the `fail_rate` column is the failur
 
 **Step 6:** we combine the results together and output it.
 ```{r, message=FALSE}
-          # combine control and experimental
-events <- rbind(events_c %>% mutate(Treatment = "Control"),
-                events_e %>% mutate(Treatment = "Experimental")) %>%
-          arrange(t, Treatment) %>% 
-          ungroup() %>% 
-          # recompute HR, events, info by period
-          group_by(t) %>%
-          summarize(stratum = s, 
-                    info = (sum(1 / Events))^(-1),
-                    Events = sum(Events), 
-                    HR = last(failRate) / first(failRate)) %>% 
-          # compute info0
-          mutate(Time = td, 
-                 lnhr = log(HR), 
-                 info0 = Events * Qc * Qe) %>%
-          ungroup() %>% 
-          group_by(Time, stratum, HR) %>%
-          summarize(t = min(t), 
-                    Events = sum(Events), 
-                    info0 = sum(info0), 
-                    info = sum(info)) %>%
-          # pool time period together
-          group_by(Time) %>%
-          summarize(AHR = exp(sum(log(HR) * Events) / sum(Events)),
-                    Events = sum(Events),
-                    info = sum(info),
-                    info0 = sum(info0))
+# combine control and experimental
+events <- rbind(
+  events_c %>% mutate(Treatment = "Control"),
+  events_e %>% mutate(Treatment = "Experimental")
+) %>%
+  arrange(t, Treatment) %>%
+  ungroup() %>%
+  # recompute HR, events, info by period
+  group_by(t) %>%
+  summarize(
+    stratum = s,
+    info = (sum(1 / Events))^(-1),
+    Events = sum(Events),
+    HR = last(failRate) / first(failRate)
+  ) %>%
+  # compute info0
+  mutate(
+    Time = td,
+    lnhr = log(HR),
+    info0 = Events * Qc * Qe
+  ) %>%
+  ungroup() %>%
+  group_by(Time, stratum, HR) %>%
+  summarize(
+    t = min(t),
+    Events = sum(Events),
+    info0 = sum(info0),
+    info = sum(info)
+  ) %>%
+  # pool time period together
+  group_by(Time) %>%
+  summarize(
+    AHR = exp(sum(log(HR) * Events) / sum(Events)),
+    Events = sum(Events),
+    info = sum(info),
+    info0 = sum(info0)
+  )
 ```
 
 ```{r, echo=FALSE}
@@ -166,14 +188,18 @@ events
 
 Please note that, in the output, the `info` column is based on the following input.
 ```{r, eval=FALSE}
-enroll_rate <- tibble(stratum = "All",
-                      duration = c(2, 10, 4),
-                      rate = c(5, 10, 0))
-fail_rate <- tibble(stratum = "All",
-                    duration = 1,
-                    fail_rate = c(.1, .2),
-                    hr = c(.9, .75),
-                    dropout_rate = .001)
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = c(2, 10, 4),
+  rate = c(5, 10, 0)
+)
+fail_rate <- tibble(
+  stratum = "All",
+  duration = 1,
+  fail_rate = c(.1, .2),
+  hr = c(.9, .75),
+  dropout_rate = .001
+)
 ```
 If the alternative hypothesis $H_1$ is 
 $$

@@ -17,7 +17,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
 
@@ -85,23 +85,23 @@ The approach taken uses an average-hazard ratio approach for approximating treat
 
 ```{r}
 # control median
-m <- 12           
+m <- 12
 
-# enrollment rate 
+# enrollment rate
 enroll_rate <- tibble(
-  stratum = "All",       # single stratum
-  duration = 12,         # expected enrollment duration of 12 months
-  rate = 1               # here the rate is a ratio, which will be updated to achieve the desired sample size
-  )
+  stratum = "All", # single stratum
+  duration = 12, # expected enrollment duration of 12 months
+  rate = 1 # here the rate is a ratio, which will be updated to achieve the desired sample size
+)
 
 # failure rate
 fail_rate <- tibble(
-  stratum = "All", 
-  duration = c(4, 100),  # hazard ratio of 1 for the first 4 months and a hazard ratio of 0.6 thereafter
-  hr = c(1, .6), 
+  stratum = "All",
+  duration = c(4, 100), # hazard ratio of 1 for the first 4 months and a hazard ratio of 0.6 thereafter
+  hr = c(1, .6),
   fail_rate = log(2) / m, # exponential distribution
   dropout_rate = .001
-  )
+)
 ```
 
 # Fixed Design, Delayed Effect
@@ -114,18 +114,20 @@ We see that the average hazard ratio (AHR) under the above assumptions is 0.7026
 Z_025 <- qnorm(.975)
 
 # fixed design, single stratum
-# find sample size for 30 month trial under given 
+# find sample size for 30 month trial under given
 # enrollment and sample size assumptions
-xx <- gs_design_ahr(enroll_rate, 
-                    fail_rate, 
-                    analysis_time = 30,
-                    upar = Z_025, 
-                    lpar = Z_025)
+xx <- gs_design_ahr(enroll_rate,
+  fail_rate,
+  analysis_time = 30,
+  upar = Z_025,
+  lpar = Z_025
+)
 
 # get the summary table of the fixed design
 summary(xx,
-        analysis_vars = c("Time", "N", "Events", "AHR", "info_frac"),
-        analysis_decimals = c(0, 0, 0, 4, 4)) %>% as_gt()
+  analysis_vars = c("Time", "N", "Events", "AHR", "info_frac"),
+  analysis_decimals = c(0, 0, 0, 4, 4)
+) %>% as_gt()
 ```
 
 ## Power When Assumptions Design are Wrong
@@ -137,11 +139,11 @@ Here, we have assumed only the targeted events is required to do the final analy
 
 ```{r}
 # update the median of control arm
-am <- 10                           # alternate control median (the original is 12)
+am <- 10 # alternate control median (the original is 12)
 
-# update the failure rate table 
-fail_rate$duration[1] <- 6         # the original is 4
-fail_rate$fail_rate <- log(2) / am  # the original is log(2)/12
+# update the failure rate table
+fail_rate$duration[1] <- 6 # the original is 4
+fail_rate$fail_rate <- log(2) / am # the original is log(2)/12
 
 # get the targeted number of events
 target_events <- xx$analysis$Events
@@ -150,16 +152,17 @@ target_events <- xx$analysis$Events
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
-  # here we want to achieve the target events 
+  # here we want to achieve the target events
   # and set analysis_time as NULL
   # so the analysis_time will be calculated according to the target events
   event = target_events,
   analysis_time = NULL,
   upar = Z_025,
-  lpar = Z_025)
+  lpar = Z_025
+)
 
-yy %>% 
-  summary() %>% 
+yy %>%
+  summary() %>%
   as_gt()
 ```
 
@@ -173,16 +176,17 @@ Thus, the adaptation of event-based design based to also require adequate follow
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
-  # here we want to achieve the targeted events, 
+  # here we want to achieve the targeted events,
   # but also keep the 30 month as the analysis_time
   event = target_events,
   analysis_time = 30,
   upar = Z_025,
-  lpar = Z_025)
+  lpar = Z_025
+)
 
 # get the summary table of updated design
-yy %>% 
-  summary() %>% 
+yy %>%
+  summary() %>%
   as_gt()
 ```
 
@@ -193,7 +197,7 @@ If we analyze after 30 months, the power of the trial is 87\% with 288 events ex
 
 ```{r}
 # alternate control median
-am <- 16                          # the original is 12
+am <- 16 # the original is 12
 
 # update the failure rate
 fail_rate$fail_rate <- log(2) / am
@@ -203,15 +207,16 @@ fail_rate$duration[1] <- 4
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
-  # here we set analysisTime as 30 
+  # here we set analysisTime as 30
   # and calculate the corresponding number of events
   event = NULL,
   analysis_time = 30,
   upper = gs_b, upar = Z_025,
-  lower = gs_b, lpar = Z_025)
+  lower = gs_b, lpar = Z_025
+)
 
-yy %>% 
-  summary() %>% 
+yy %>%
+  summary() %>%
   as_gt()
 ```
 
@@ -225,15 +230,16 @@ Thus, for this example, the time cutoff alone would not have ensured sufficient 
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
-  # here we set trial duration as 30 month 
+  # here we set trial duration as 30 month
   # and keep the events as the target events
   event = target_events,
   analysis_time = 30,
   upar = Z_025,
-  lpar = Z_025) 
+  lpar = Z_025
+)
 
-yy %>% 
-  summary() %>% 
+yy %>%
+  summary() %>%
   as_gt()
 ```
 
@@ -262,16 +268,17 @@ At the time of design, we specify only the spending function when specifying the
 upar_design_IF <- list(
   # total_spend represents one-sided Type I error
   total_spend = 0.025,
-  # Spending function and associated 
+  # Spending function and associated
   # parameter (NULL, in this case)
-  sf = sfLDOF, 
+  sf = sfLDOF,
   param = NULL,
   # Do NOT specify spending time here as it will be set
   # by information fraction specified in call to gs_design_ahr()
   timing = NULL,
   # Do NOT specify maximum information here as it will be
   # set as the design maximum information
-  max_info = NULL)
+  max_info = NULL
+)
 ```
 
 **Spending approach 2:**
@@ -281,7 +288,7 @@ If we wished to use 22 and 30 months as calendar analysis times and use calendar
 # CF is for calendar fraction
 upar_design_CF <- upar_design_IF
 # Now switch spending time to calendar fraction
-upar_design_CF$timing <- c(22, 30)/30
+upar_design_CF$timing <- c(22, 30) / 30
 ```
 
 **Spending approach 3:**
@@ -307,7 +314,7 @@ This will be used regardless of what scenario we are using to compute power, but
 ```{r}
 # Copy original upper planned spending
 upar_planned_IF <- upar_design_IF
-# Interim and final spending time will always be the same, regardless of 
+# Interim and final spending time will always be the same, regardless of
 # expected events or calendar timing of analysis
 upar_planned_IF$timing <- c(0.8, 1)
 # We will reset planned maximum information later
@@ -323,47 +330,50 @@ The interim analysis is far enough into the trial that there is a substantial pr
 
 ```{r}
 # Control median
-m <- 12 
+m <- 12
 
 # Planned information fraction at interim(s) and final
 planned_IF <- c(.8, 1)
 
 # No futility bound
-lpar <- rep(-Inf, 2) 
+lpar <- rep(-Inf, 2)
 
 # enrollment rate
 enroll_rate <- tibble(
-  stratum = "All", 
-  duration = 12, 
-  rate = 1)
+  stratum = "All",
+  duration = 12,
+  rate = 1
+)
 
 # failure rate
 fail_rate <- tibble(
-  stratum = "All", 
-  duration = c(4, 100), 
-  hr = c(1, .6), 
-  fail_rate = log(2) / m, 
-  dropout_rate = .001)
+  stratum = "All",
+  duration = c(4, 100),
+  hr = c(1, .6),
+  fail_rate = log(2) / m,
+  dropout_rate = .001
+)
 
-# get the group sequential design model 
+# get the group sequential design model
 xx <- gs_design_ahr(
-  enroll_rate, 
-  fail_rate, 
-  # final analysis time set to targeted study duration; 
+  enroll_rate,
+  fail_rate,
+  # final analysis time set to targeted study duration;
   # analysis times before are 'small' to ensure use of information fraction for timing
-  analysis_time = c(1, 30), 
+  analysis_time = c(1, 30),
   # timing here matches what went into planned_IF above
   info_frac = planned_IF,
   # upper bound : spending approach 1
-  upper = gs_spending_bound, 
-  upar = upar_design_IF, 
+  upper = gs_spending_bound,
+  upar = upar_design_IF,
   # lower bound: no futility bound
-  lower = gs_b, 
-  lpar = lpar)
+  lower = gs_b,
+  lpar = lpar
+)
 
 # get the summary table
-xx %>% 
-  summary() %>% 
+xx %>%
+  summary() %>%
   as_gt()
 ```
 
@@ -385,22 +395,22 @@ We will not examine calendar-based spending further in this document.
 
 ```{r}
 yy <- gs_power_ahr(
-  enroll_rate = xx$enroll_rate, 
-  fail_rate = xx$fail_rate, 
+  enroll_rate = xx$enroll_rate,
+  fail_rate = xx$fail_rate,
   # Planned time will drive timing since information accrues faster
-  event = 1:2, 
+  event = 1:2,
   # Interim time rounded
-  analysis_time = c(22, 30), 
+  analysis_time = c(22, 30),
   # upper bound: use calendar fraction
-  upper = gs_spending_bound, 
-  upar = upar_design_CF, 
+  upper = gs_spending_bound,
+  upar = upar_design_CF,
   # lower bound: no futility bound
   lower = gs_b,
   lpar = lpar
-  ) 
+)
 
-yy %>% 
-  summary() %>% 
+yy %>%
+  summary() %>%
   as_gt()
 ```
 
@@ -445,7 +455,8 @@ upar_FHO <- list(
   total_spend = 0.025,
   sf = sfPower,
   param = 1,
-  timing = c((1:2)/250, (1:2)/25, 1))
+  timing = c((1:2) / 250, (1:2) / 25, 1)
+)
 
 FHO <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
@@ -459,10 +470,11 @@ FHO <- gs_power_ahr(
   # allocated will not be used
   test_upper = c(FALSE, FALSE, TRUE, TRUE, TRUE),
   lower = gs_b,
-  lpar = c(rep(qnorm(.05), 4), -Inf))
+  lpar = c(rep(qnorm(.05), 4), -Inf)
+)
 
-FHO %>% 
-  summary() %>% 
+FHO %>%
+  summary() %>%
   as_gt()
 ```
 
@@ -479,7 +491,7 @@ Thus, in this example it is valuable to limit spending at the interim analysis t
 
 ```{r}
 # Alternate control median
-am <- 10 
+am <- 10
 
 # Update the failure rate
 fail_rate$fail_rate <- log(2) / am
@@ -493,21 +505,21 @@ upar_actual_IF$max_info <- max_info0
 # compute power if actual information fraction relative to original
 # planned total is used
 yy <- gs_power_ahr(
-  enroll_rate = xx$enroll_rate, 
-  fail_rate = fail_rate, 
+  enroll_rate = xx$enroll_rate,
+  fail_rate = fail_rate,
   # Planned time will drive timing since information accrues faster
-  event = 1:2, 
+  event = 1:2,
   analysis_time = xx$analysis$Time,
-  upper = gs_spending_bound, 
-  upar = upar_actual_IF, 
+  upper = gs_spending_bound,
+  upar = upar_actual_IF,
   lower = gs_b,
   lpar = lpar
-  ) 
+)
 
-yy %>% 
-  summary() %>% 
-  filter(Bound == "Efficacy") %>% 
-  gt() %>% 
+yy %>%
+  summary() %>%
+  filter(Bound == "Efficacy") %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -516,17 +528,18 @@ There are multiple trials where delayed effects have been observed where this di
 
 ```{r}
 yz <- gs_power_ahr(
-  enroll_rate = xx$enroll_rate, 
-  fail_rate = fail_rate, 
+  enroll_rate = xx$enroll_rate,
+  fail_rate = fail_rate,
   event = xx$analysis$Events,
   analysis_time = xx$analysis$Time,
-  upper = gs_spending_bound, 
-  upar = upar_planned_IF, 
-  lpar = lpar) 
+  upper = gs_spending_bound,
+  upar = upar_planned_IF,
+  lpar = lpar
+)
 
-yz %>% 
-  summary() %>% 
-  gt() %>% 
+yz %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -538,7 +551,7 @@ First, we show the result using planned spending.
 
 ```{r}
 # Alternate control median
-am <- 16 
+am <- 16
 
 # Update the failure rate
 fail_rate$fail_rate <- log(2) / am
@@ -548,18 +561,19 @@ fail_rate$duration[1] <- 4
 # Start with spending based on planned information
 # which is greater than actual information
 yy <- gs_power_ahr(
-  enroll_rate = xx$enroll_rate, 
-  fail_rate = fail_rate, 
+  enroll_rate = xx$enroll_rate,
+  fail_rate = fail_rate,
   event = c(1, max(xx$analysis$Events)),
   analysis_time = xx$analysis$Time,
-  upper = gs_spending_bound, 
-  upar = upar_planned_IF, 
+  upper = gs_spending_bound,
+  upar = upar_planned_IF,
   lower = gs_b,
-  lpar = lpar) 
+  lpar = lpar
+)
 
-yy %>% 
-  summary() %>% 
-  gt() %>% 
+yy %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -567,18 +581,19 @@ Since the number of events was less than expected, if we had used the actual num
 
 ```{r}
 yz <- gs_power_ahr(
-  enroll_rate = xx$enroll_rate, 
-  fail_rate = fail_rate, 
+  enroll_rate = xx$enroll_rate,
+  fail_rate = fail_rate,
   event = c(1, max(xx$analysis$Events)),
   analysis_time = xx$analysis$Time,
-  upper = gs_spending_bound, 
-  upar = upar_actual_IF, 
+  upper = gs_spending_bound,
+  upar = upar_actual_IF,
   lower = gs_b,
-  lpar = lpar) 
+  lpar = lpar
+)
 
-yz %>% 
-  summary() %>% 
-  gt() %>% 
+yz %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -599,24 +614,26 @@ The only difference between failure rates in the two strata is the hazard ratio.
 For this case, we assume proportional hazards within negative (HR = 0.8) and positive (HR = 0.6) patients.
 
 ```{r}
-# we assume an exponential failure rate with a median of 12 
-# for the control group regardless of population. 
+# we assume an exponential failure rate with a median of 12
+# for the control group regardless of population.
 m <- 12
 
 # the enrollment rate of both subgroup and population is the same
 enroll_rate <- tibble(
-  stratum = c("Positive", "Negative"), 
-  duration = 12, 
-  rate = 20)
+  stratum = c("Positive", "Negative"),
+  duration = 12,
+  rate = 20
+)
 
-# the hazard ratio in the biomarker positive subgroup will be assumed to be 0.6, 
+# the hazard ratio in the biomarker positive subgroup will be assumed to be 0.6,
 # and in the negative population 0.8.
 fail_rate <- tibble(
-  stratum = c("Positive", "Negative"), 
+  stratum = c("Positive", "Negative"),
   hr = c(0.6, 0.8),
   duration = 100,
   fail_rate = log(2) / m,
-  dropout_rate = 0.001)
+  dropout_rate = 0.001
+)
 ```
 
 For illustrative purposes, we are choosing a strategy based on the possible feeling of much less certainty at study start as to whether there is any underlying benefit in the biomarker negative population.
@@ -633,13 +650,13 @@ In any case, we design first for the biomarker positive population with one-side
 # upper bound: spending based on information fraction
 upar_design_spend <- list(
   sf = gsDesign::sfLDOF, # spending function
-  total_spend = 0.0125,  # total alpha spend is now 0.0125 
-  timing = NULL,         # to select maximum planned information for information fraction
-  param = NULL          
-  )
+  total_spend = 0.0125, # total alpha spend is now 0.0125
+  timing = NULL, # to select maximum planned information for information fraction
+  param = NULL
+)
 
 # lower bound: no futility bound
-lpar <- rep(-Inf, 2)     # Z = -infinity for lower bound
+lpar <- rep(-Inf, 2) # Z = -infinity for lower bound
 
 # we will base the combined hypothesis design to ensure power in the biomarker subgroup
 positive <- gs_design_ahr(
@@ -647,21 +664,22 @@ positive <- gs_design_ahr(
   enroll_rate = enroll_rate %>% filter(stratum == "Positive"),
   fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # Following drives information fraction for interim
-  info_frac = c(.8, 1), 
+  info_frac = c(.8, 1),
   # Total study duration driven by final analysis_time value, i.e., 30
-  # Enter small increasing values before that 
+  # Enter small increasing values before that
   # so information fraction in planned_IF drives timing of interims
   analysis_time = c(1, 30),
   # upper bound
-  upper = gs_spending_bound, 
+  upper = gs_spending_bound,
   upar = upar_design_spend,
-  # lower lower 
-  lower = gs_b, 
-  lpar = lpar)
+  # lower lower
+  lower = gs_b,
+  lpar = lpar
+)
 
-positive %>% 
-  summary() %>% 
-  gt() %>% 
+positive %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -678,11 +696,12 @@ planned_enroll_rate <- enroll_rate %>% mutate(rate = rate * inflation_factor)
 planned_enroll_rate %>% gt()
 
 # Store overall enrollment rates for future use
-overall_enroll_rate <- planned_enroll_rate %>% 
+overall_enroll_rate <- planned_enroll_rate %>%
   summarize(
-    stratum = "All", 
-    duration = first(duration), 
-    rate = sum(rate))
+    stratum = "All",
+    duration = first(duration),
+    rate = sum(rate)
+  )
 
 overall_enroll_rate %>% gt()
 ```
@@ -696,34 +715,35 @@ While this does not make much difference here, we see that we have a very natura
 
 
 ```{r}
-# Set total spend for overall population, O'Brien-Fleming spending function, and 
+# Set total spend for overall population, O'Brien-Fleming spending function, and
 # same spending time as biomarker subgroup
 upar_overall_planned_IF <- list(
-  sf = gsDesign::sfLDOF,  # O'Brien-Fleming spending function
+  sf = gsDesign::sfLDOF, # O'Brien-Fleming spending function
   param = NULL,
-  total_spend = 0.0125,   # alpha
-  timing = c(.8, 1),      # same spending time as biomarker subgroup
-  max_info = NULL         # we will use actual final information as planned initially
-  )
+  total_spend = 0.0125, # alpha
+  timing = c(.8, 1), # same spending time as biomarker subgroup
+  max_info = NULL # we will use actual final information as planned initially
+)
 
 overall_planned_bounds <- gs_power_ahr(
   # enroll/failure rates
   enroll_rate = planned_enroll_rate,
   fail_rate = fail_rate,
-  # analysis time: the planed analysis time for biomarker positive population 
+  # analysis time: the planed analysis time for biomarker positive population
   analysis_time = positive$analysis$Time,
   # events will be determined by expected events at planned analysis times
-  event = NULL, 
+  event = NULL,
   # upper bound: planned spending times are specified the same as before
   upper = gs_spending_bound,
   upar = upar_overall_planned_IF,
-  # lower bound: no futility 
+  # lower bound: no futility
   lower = gs_b,
-  lpar = lpar) 
+  lpar = lpar
+)
 
-overall_planned_bounds %>% 
-  summary() %>% 
-  gt() %>% 
+overall_planned_bounds %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -749,27 +769,29 @@ While we think they are reasonable, the design planner should think carefully ab
 ## Setting spending alternatives
 
 # Using information (event)-based spending time relative to overall population plan
-# Set total spend for overall population, O'Brien-Fleming spending function. 
+# Set total spend for overall population, O'Brien-Fleming spending function.
 # For design information-spending, we set timing =  NULL and max_info to plan from above
 upar_overall_planned_IF <- list(
-  sf = gsDesign::sfLDOF,                        # O'Brien-Fleming spending function
-  total_spend = 0.0125,                         # alpha
-  max_info = max(overall_planned_bounds$info0), # we will use planned final information for 
-                                                # overall population from design to 
-                                                # compute information fraction relative to plan
+  sf = gsDesign::sfLDOF, # O'Brien-Fleming spending function
+  total_spend = 0.0125, # alpha
+  max_info = max(overall_planned_bounds$info0), # we will use planned final information for
+  # overall population from design to
+  # compute information fraction relative to plan
   param = NULL,
-  timing = planned_IF)
+  timing = planned_IF
+)
 
 # Using planned information fraction will demonstrate problems below.
-# Set total spend for overall population, O'Brien-Fleming spending function, and 
+# Set total spend for overall population, O'Brien-Fleming spending function, and
 # same spending time as biomarker subgroup
 upar_overall_actual_IF <- list(
-  sf = gsDesign::sfLDOF,                        # O'Brien-Fleming spending function
-  total_spend = 0.0125,                         # alpha
-  max_info = max(overall_planned_bounds$info0), # we will use planned final information 
-                                                # for overall population from design
+  sf = gsDesign::sfLDOF, # O'Brien-Fleming spending function
+  total_spend = 0.0125, # alpha
+  max_info = max(overall_planned_bounds$info0), # we will use planned final information
+  # for overall population from design
   param = NULL,
-  timing = NULL)
+  timing = NULL
+)
 ```
 
 ### Biomarker Subgroup Prevalence Higher than Planned
@@ -788,12 +810,12 @@ positive_60_enroll_rate <- rbind(
 
 # update the enrollment duration
 positive_60_enroll_rate$duration <- max(positive$analysis$N) /
-                                    overall_enroll_rate$rate / 
-                                    0.6
+  overall_enroll_rate$rate /
+  0.6
 
 # display the updated enrollment rate table
-positive_60_enroll_rate %>% 
-  gt() %>% 
+positive_60_enroll_rate %>%
+  gt() %>%
   fmt_number(columns = "rate", decimals = 1)
 ```
 
@@ -814,11 +836,12 @@ positive_60_power <- gs_power_ahr(
   upar = upar_design_spend,
   # lower bound
   lower = gs_b,
-  lpar = lpar) 
+  lpar = lpar
+)
 
-positive_60_power %>% 
-  summary() %>% 
-  gt() %>% 
+positive_60_power %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -840,11 +863,11 @@ gs_power_ahr(
   upper = gs_spending_bound,
   upar = upar_overall_planned_IF,
   # set lower bound: no futility
-  lower = gs_b, 
+  lower = gs_b,
   lpar = rep(-Inf, 2)
-  ) %>% 
-  summary() %>% 
-  gt() %>% 
+) %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -861,12 +884,12 @@ gs_power_ahr(
   # upper bound: use actual spending which uses less than complete alpha
   upper = gs_spending_bound,
   upar = upar_overall_actual_IF,
-  # lower bound: no futility 
-  lower = gs_b, 
+  # lower bound: no futility
+  lower = gs_b,
   lpar = lpar
-  ) %>% 
-  summary() %>% 
-  gt() %>% 
+) %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -883,12 +906,12 @@ positive_40_enroll_rate <- rbind(
 )
 
 # update the duration of enrollment table
-positive_40_enroll_rate$duration <- max(positive$analysis$N) / 
-                                    positive_40_enroll_rate$rate[1]
+positive_40_enroll_rate$duration <- max(positive$analysis$N) /
+  positive_40_enroll_rate$rate[1]
 
 # display the enrollment table
-positive_40_enroll_rate %>% 
-  gt() %>% 
+positive_40_enroll_rate %>%
+  gt() %>%
   fmt_number(columns = "rate", decimals = 1)
 ```
 
@@ -909,14 +932,15 @@ positive_40_power <- gs_power_ahr(
   analysis_time = NULL,
   # set upper bound
   upper = gs_spending_bound,
-  upar = upar_actual_IF, 
+  upar = upar_actual_IF,
   # set lower bound
   lower = gs_b,
-  lpar = rep(-Inf, 2))
+  lpar = rep(-Inf, 2)
+)
 
-positive_40_power %>% 
-  summary() %>% 
-  gt() %>% 
+positive_40_power %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -934,9 +958,10 @@ gs_power_ahr(
   upper = gs_spending_bound,
   upar = upar_overall_planned_IF,
   lower = gs_b,
-  lpar = rep(-Inf,2)) %>% 
-  summary() %>% 
-  gt() %>% 
+  lpar = rep(-Inf, 2)
+) %>%
+  summary() %>%
+  gt() %>%
   fmt_number(columns = 3:6, decimals = 4)
 ```
 

@@ -116,14 +116,16 @@ The hazard ratio of the experimental group versus control is 1 for the first 3 m
 enroll_rate <- tibble::tibble(
   stratum = "All", # Note: this is done differently for multiple strata; see below!
   duration = c(2, 2, 10),
-  rate = c(3, 6, 9))
+  rate = c(3, 6, 9)
+)
 
 fail_rate <- tibble::tibble(
   stratum = "All",
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
   hr = c(1, .55),
-  dropout_rate = .001)
+  dropout_rate = .001
+)
 
 total_duration <- 30
 ```
@@ -143,7 +145,8 @@ Recall that the parameterization here is in terms of $\log(HR)$, and, thus the i
 avehr <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  total_duration = as.numeric(total_duration))
+  total_duration = as.numeric(total_duration)
+)
 
 avehr %>% gt()
 ```
@@ -155,7 +158,8 @@ xx <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = as.numeric(total_duration),
-  simple = FALSE)
+  simple = FALSE
+)
 xx %>% gt()
 ```
 
@@ -194,7 +198,8 @@ enroll_rate$rate <- ceiling(target_event) / avehr$Events * enroll_rate$rate
 avehr <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  total_duration = as.numeric(total_duration))
+  total_duration = as.numeric(total_duration)
+)
 
 avehr %>% gt()
 ```
@@ -216,19 +221,20 @@ A key design consideration is selecting trial duration based on things like the 
 avehrtbl <- AHR(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  total_duration = 1:(total_duration + 10))
+  total_duration = 1:(total_duration + 10)
+)
 
 ggplot(avehrtbl, aes(x = Time, y = AHR)) +
   geom_line() +
   ylab("Average HR") +
   ggtitle("Average HR as a function of study duration") #+
-  #scale_x_continuous(breaks = seq(0, 48, 6))
+# scale_x_continuous(breaks = seq(0, 48, 6))
 
 ggplot(avehrtbl, aes(x = Time, y = Events)) +
   geom_line() +
   ylab("Expected events") +
   ggtitle("Expected event accumulation as a function of study duration") #+
-  #scale_x_continuous(breaks = seq(0, 48, 6))
+# scale_x_continuous(breaks = seq(0, 48, 6))
 ```
 
 ## Simulation to verify power
@@ -268,7 +274,7 @@ results1 %>%
     sdEvents = sd(Events), Events = mean(Events),
     HR = exp(mean(lnhr)), sdlnhr = sd(lnhr), info = 1 / sdlnhr^2
   ) %>%
-  gt() %>% 
+  gt() %>%
   fmt_number(column = 2:9, decimals = 3)
 ```
 
@@ -391,13 +397,13 @@ ggplot(avehrtbl, aes(x = Time, y = AHR)) +
   geom_line() +
   ylab("Average HR") +
   ggtitle("Average HR as a function of study duration") #+
-  #scale_x_continuous(breaks = seq(0, 48, 6))
+# scale_x_continuous(breaks = seq(0, 48, 6))
 
 ggplot(avehrtbl, aes(x = Time, y = Events)) +
   geom_line() +
   ylab("Expected events") +
   ggtitle("Expected event accumulation as a function of study duration") #+
-  #scale_x_continuous(breaks = seq(0, 48, 6))
+# scale_x_continuous(breaks = seq(0, 48, 6))
 ```
 
 ## Simulation to verify power
@@ -422,16 +428,16 @@ Once again, we see that the expected statistical information from the simulation
 
 ```{r simfix2, cache=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 results2 <- simtrial::simfix(
-    nsim = nsim,
-    block = block,
-    sampleSize = sampleSize,
-    strata = strata,
-    enroll_rate = er,
-    fail_rate = fail_rate,
-    total_duration = as.numeric(total_duration),
-    target_event = as.numeric(target_event),
-    timingType = 1:5
-  )
+  nsim = nsim,
+  block = block,
+  sampleSize = sampleSize,
+  strata = strata,
+  enroll_rate = er,
+  fail_rate = fail_rate,
+  total_duration = as.numeric(total_duration),
+  target_event = as.numeric(target_event),
+  timingType = 1:5
+)
 # save(results2, file = './fixtures/results2.Rdata') # Save data
 ```
 
@@ -445,7 +451,7 @@ results2 %>%
     sdEvents = sd(Events), Events = mean(Events),
     HR = exp(mean(lnhr)), sdlnhr = sd(lnhr), info = 1 / sdlnhr^2
   ) %>%
-  gt() %>% 
+  gt() %>%
   fmt_number(column = 2:9, decimals = 3)
 ```
 

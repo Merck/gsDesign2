@@ -51,10 +51,10 @@ The detailed introduction of this trial is listed as follows.
 -   The study was designed with approximately 80% power (Type II error $\beta = 1 - 0.8 = 0.2$) and 2.5% one-sided Type I error ($\alpha = 0.025$) to detect a reduction from a 15% event rate ($p_1 = 0.15$) in the control group to 10% ($p_2 = 0.1$) in the experimental group.
 
 ```{r}
-p0 <- 0.15     # assumed failure rate in control group
-p1 <- 0.10     # assumed failure rate in experimental group
+p0 <- 0.15 # assumed failure rate in control group
+p1 <- 0.10 # assumed failure rate in experimental group
 alpha <- 0.025 # type I error
-beta <- 0.2    # type II error for 80% power
+beta <- 0.2 # type II error for 80% power
 ```
 
 In this example, the parameter of interest is $\theta = p_1 - p_2$. We denote the alternate hypothesis as $$
@@ -182,28 +182,30 @@ We note that $\chi^2=Z^2_k$ is the $\chi^2$ test without continuity correction a
 We begin with developing a function `gs_info_binomial()` to calculate the statistical infomation discussed above.
 
 ```{r}
-gs_info_binomial <- function(p1, p2, xi1, n, delta = NULL){
+gs_info_binomial <- function(p1, p2, xi1, n, delta = NULL) {
   if (is.null(delta)) delta <- p1 - p2
   # Compute (constant) effect size at each analysis theta
   theta <- rep(p1 - p2, length(n))
   # compute null hypothesis rate, p0
   p0 <- xi1 * p1 + (1 - xi1) * p2
   # compute information based on p1, p2
-  info <-  n / (p1 * (1 - p1) / xi1 + p2 * (1 - p2) / (1 - xi1))
+  info <- n / (p1 * (1 - p1) / xi1 + p2 * (1 - p2) / (1 - xi1))
   # compute information based on null hypothesis rate of p0
-  info0 <- n / (p0 * (1 - p0)*(1 / xi1 + 1 / (1 - xi1)))
+  info0 <- n / (p0 * (1 - p0) * (1 / xi1 + 1 / (1 - xi1)))
   # compute information based on H1 rates of p1star, p2star
   p1star <- p0 + delta * xi1
   p2star <- p0 - delta * (1 - xi1)
-  info1 <-  n / (p1star * (1 - p1star) / xi1 + p2star * (1 - p2star) / (1 - xi1))
-  
-  out <- tibble(Analysis = 1:length(n),
-                n = n,
-                theta = theta,
-                theta1 = rep(delta, length(n)),
-                info = info,
-                info0 = info0,
-                info1 = info1)
+  info1 <- n / (p1star * (1 - p1star) / xi1 + p2star * (1 - p2star) / (1 - xi1))
+
+  out <- tibble(
+    Analysis = 1:length(n),
+    n = n,
+    theta = theta,
+    theta1 = rep(delta, length(n)),
+    info = info,
+    info0 = info0,
+    info1 = info1
+  )
   return(out)
 }
 ```
@@ -219,17 +221,17 @@ We can plug these into `gs_power_npe()` with the intended spending functions. We
 
 ```{r}
 gs_power_npe(
-  theta = h1$theta, 
-  theta1 = h1$theta, 
+  theta = h1$theta,
+  theta1 = h1$theta,
   info = h1$info,
-  info0 = h1$info0, 
+  info0 = h1$info0,
   info1 = h1$info1,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
-  ) %>% 
-  gt() %>% 
+) %>%
+  gt() %>%
   fmt_number(columns = 3:10, decimals = 4)
 ```
 
@@ -245,8 +247,8 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
-  ) %>% 
-  gt() %>% 
+) %>%
+  gt() %>%
   fmt_number(columns = 3:10, decimals = 4)
 ```
 

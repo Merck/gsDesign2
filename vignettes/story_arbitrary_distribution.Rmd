@@ -60,7 +60,8 @@ times <- seq(0, 12, .025)
 plot(times, plnorm(times, meanlog = 0, sdlog = 2, lower.tail = FALSE),
   log = "y", type = "l",
   main = "Lognormal Distribution vs. Piecewise Approximation", yaxt = "n",
-  ylab = "log(Survival)", col = 1)
+  ylab = "log(Survival)", col = 1
+)
 
 # Now plot the pieceise approximation using the 7-point approximation from above
 lines(times, ppwe(x = times, failRates = lnormRates), col = 2)
@@ -103,7 +104,8 @@ plot(times, pPM(times, theta, lambda), type = "l", ylab = "Survival", xlab = "Ti
 x <- seq(8, 40, 8)
 pmRates <- s2pwe(
   times = x,
-  survival = pPM(x, theta = theta, lambda = lambda))
+  survival = pPM(x, theta = theta, lambda = lambda)
+)
 
 # Now plot the pieceise approximation using the 7-point approximation from above
 lines(c(0, x), ppwe(x = c(0, x), failRates = pmRates), col = 2)
