@@ -7,12 +7,14 @@
 to_integer(x, ...)
 }
 \arguments{
-\item{x}{an object returned from \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo}}
+\item{x}{an object returned from \code{gs_design_ahr},
+\code{gs_design_wlr}, or \code{gs_design_combo}}
 
 \item{...}{additional arguments}
 }
 \value{
-a list similar to the output of \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo},
+a list similar to the output of \code{gs_design_ahr},
+\code{gs_design_wlr}, or \code{gs_design_combo},
 but the sample size is an integer
 }
 \description{

@@ -60,7 +60,8 @@ gs_design_wlr(
 
 \item{analysis_time}{Minimum time of analysis}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{indicator of whether futility bound is binding;
+default of FALSE is recommended}
 
 \item{upper}{Function to compute upper bound}
 
@@ -70,18 +71,25 @@ gs_design_wlr(
 
 \item{lpar}{Parameter passed to \code{lower()}}
 
-\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound}
+\item{test_upper}{indicator of which analyses should include an upper
+(efficacy) bound; single value of TRUE (default) indicates all analyses;
+otherwise, a logical vector of the same length as \code{info} should indicate
+which analyses will have an efficacy bound}
 
-\item{test_lower}{indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
+\item{test_lower}{indicator of which analyses should include an lower bound;
+single value of TRUE (default) indicates all analyses;
+single value FALSE indicated no lower bound; otherwise, a logical vector of
+the same length as \code{info} should indicate which analyses will have a
 lower bound}
 
-\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
+\item{h1_spending}{Indicator that lower bound to be set by spending
+under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound}
 
-\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+\item{r}{Integer value controlling grid for numerical integration as in
+Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of
+grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
@@ -112,60 +120,68 @@ library(tibble)
 library(gsDesign2)
 
 # set enrollment rates
-enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500/12)
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
 
 # set failure rates
 fail_rate <- tibble(
   stratum = "All",
   duration = c(4, 100),
-  fail_rate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),
-  dropout_rate = 0.001)
+  dropout_rate = 0.001
+)
 
 # -------------------------#
 #       example 1          #
 # ------------------------ #
-# Boundary is fixed 
+# Boundary is fixed
 x <- gsSurv(
-  k = 3, 
-  test.type = 4, 
-  alpha = 0.025, beta = 0.2, 
+  k = 3,
+  test.type = 4,
+  alpha = 0.025, beta = 0.2,
   astar = 0, timing = 1,
-  sfu = sfLDOF, sfupar = 0, 
-  sfl = sfLDOF, sflpar = 0, 
-  lambdaC = 0.1, 
-  hr = 0.6, hr0 = 1, 
+  sfu = sfLDOF, sfupar = 0,
+  sfl = sfLDOF, sflpar = 0,
+  lambdaC = 0.1,
+  hr = 0.6, hr0 = 1,
   eta = 0.01, gamma = 10,
   R = 12, S = NULL,
-  T = 36, minfup = 24, 
-  ratio = 1)
+  T = 36, minfup = 24,
+  ratio = 1
+)
 
 gs_design_wlr(
-  enroll_rate = enroll_rate, 
+  enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  ratio = 1, 
+  ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
   upper = gs_b,
   upar = x$upper$bound,
   lower = gs_b,
   lpar = x$lower$bound,
-  analysis_time = c(12, 24, 36))
+  analysis_time = c(12, 24, 36)
+)
 
 # -------------------------#
 #       example 2          #
 # ------------------------ #
 # Boundary derived by spending function
 gs_design_wlr(
-  enroll_rate = enroll_rate, 
+  enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  ratio = 1, 
+  ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)},
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-  analysis_time = c(12, 24, 36))
+  analysis_time = c(12, 24, 36)
+)
 
 }

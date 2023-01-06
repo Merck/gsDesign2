@@ -25,10 +25,10 @@ Derive spending bound for MaxCombo group sequential boundary
 
 # alpha-spending
 par <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
-gs_spending_combo(par, info = 1:3/3)
+gs_spending_combo(par, info = 1:3 / 3)
 
 # beta-spending
 par <- list(sf = gsDesign::sfLDOF, total_spend = 0.2)
-gs_spending_combo(par, info = 1:3/3)
+gs_spending_combo(par, info = 1:3 / 3)
 
 }

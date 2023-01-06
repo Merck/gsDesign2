@@ -51,7 +51,7 @@ x <- fixed_design(
   ),
   study_duration = 36
 )
-x \%>\% summary()            
+x \%>\% summary()
 
 # Lachin and Foulkes (uses gsDesign::nSurv())
 x <- fixed_design(
@@ -86,7 +86,7 @@ x <- fixed_design(
 )
 x \%>\% summary()
 
-# Milestone 
+# Milestone
 x <- fixed_design(
   "milestone",
   alpha = .025, power = .9,

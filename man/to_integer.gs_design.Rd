@@ -7,14 +7,17 @@
 \method{to_integer}{gs_design}(x, sample_size = TRUE, ...)
 }
 \arguments{
-\item{x}{an object returned from \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo}}
+\item{x}{an object returned from \code{gs_design_ahr},
+\code{gs_design_wlr}, or \code{gs_design_combo}}
 
-\item{sample_size}{\code{TRUE} or \code{FALSE}, indicting if to ceiling sample size to an even integer}
+\item{sample_size}{\code{TRUE} or \code{FALSE}, indicting if to ceiling
+sample size to an even integer}
 
 \item{...}{additional arguments}
 }
 \value{
-a list similar to the output of \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo},
+a list similar to the output of \code{gs_design_ahr},
+\code{gs_design_wlr}, or \code{gs_design_combo},
 but the sample size is an integer
 }
 \description{

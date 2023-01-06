@@ -46,16 +46,20 @@ library(gsDesign2)
 library(dplyr)
 
 # enrollment/failure rates
-enroll_rate <- tibble(stratum = "All",
-                      duration = 12,
-                      rate = 1)
-fail_rate <- tibble(stratum = "All", duration = c(4, 100),
-                    fail_rate = log(2) / 12,
-                    hr = c(1, .6),
-                    dropout_rate = .001)
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = 12,
+  rate = 1
+)
+fail_rate <- tibble(
+  stratum = "All", duration = c(4, 100),
+  fail_rate = log(2) / 12,
+  hr = c(1, .6),
+  dropout_rate = .001
+)
 
 # Information fraction
-info_frac <- (1:3)/3
+info_frac <- (1:3) / 3
 
 # Analysis times in months; first 2 will be ignored as info_frac will not be achieved
 analysis_time <- c(.01, .02, 36)
@@ -78,12 +82,16 @@ lower <- gs_spending_bound
 lpar <- list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 0, timing = NULL)
 
 # weight function in WLR
-wgt00 <- function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
-wgt05 <- function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)}
+wgt00 <- function(x, arm0, arm1) {
+  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
+}
+wgt05 <- function(x, arm0, arm1) {
+  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)
+}
 
 # test in COMBO
 fh_test <- rbind(
-  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3,analysis_time = c(12, 24, 36)),
+  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
 )
 
@@ -101,7 +109,8 @@ x_ahr <- gs_design_ahr(
   upper = upper,
   upar = upar,
   lower = lower,
-  lpar = lpar)
+  lpar = lpar
+)
 
 x_ahr \%>\% summary()
 x_ahr \%>\% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
@@ -133,14 +142,17 @@ x_combo <- gs_design_combo(
   ratio = 1,
   alpha = 0.025,
   beta = 0.2,
-  enroll_rate = tibble::tibble(stratum = "All", duration = 12, rate = 500/12),
-  fail_rate = tibble::tibble(stratum = "All", duration = c(4, 100),
-                             fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001),
+  enroll_rate = tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12),
+  fail_rate = tibble::tibble(
+    stratum = "All", duration = c(4, 100),
+    fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001
+  ),
   fh_test = fh_test,
   upper = gs_spending_combo,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_combo,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2))
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
 x_combo \%>\% summary()
 
 # ---------------------------- #
