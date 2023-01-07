@@ -2,7 +2,8 @@
 % Please edit documentation in R/gs_power_ahr.R
 \name{gs_power_ahr}
 \alias{gs_power_ahr}
-\title{Group sequential design power using average hazard ratio under non-proportional hazards}
+\title{Group sequential design power using average hazard ratio under
+non-proportional hazards}
 \usage{
 gs_power_ahr(
   enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
@@ -67,16 +68,17 @@ Normally \code{r} will not be changed by the user.}
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 }
 \value{
-a \code{tibble} with columns \code{Analysis}, \code{Bound}, \code{Z},
-\code{Probability], \code{theta}, \code{Time}, \code{AHR}, \code{Events}.
+A \code{tibble} with columns \code{Analysis}, \code{Bound}, \code{Z}, \code{Probability},
+\code{theta}, \code{Time}, \code{AHR}, \code{Events}.
 Contains a row for each analysis and each bound.
 }
 \description{
-Group sequential design power using average hazard ratio under non-proportional hazards
+Group sequential design power using average hazard ratio under
+non-proportional hazards
 }
 \details{
-Bound satisfy input upper bound specification in \code{upper}, \code{upar},
-and lower bound specification in \code{lower}, \code{lpar}.
+Bound satisfy input upper bound specification in
+\code{upper}, \code{upar}, and lower bound specification in \code{lower}, \code{lpar}.
 \code{AHR()} computes statistical information at targeted event times.
 The \code{expected_time()} function is used to get events and average HR at
 targeted \code{analysis_time}.
@@ -99,18 +101,16 @@ targeted \code{analysis_time}.
 library(gsDesign2)
 library(dplyr)
 
-# -------------------------#
-#       example 1          #
-# ------------------------ #
-# The default output of \code{gs_power_ahr} is driven by events, i.e.,
-# \code{event = c(30, 40, 50), analysis_time = NULL}
+# Example 1 -----------------------------------------------------------------
+# The default output of `gs_power_ahr()` is driven by events,
+# i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
+
 gs_power_ahr()
 
-# -------------------------#
-#       example 2          #
-# -------------------------#
-# 2-sided symmetric O'Brien-Fleming spending bound,
-# driven by analysis time, i.e., \code{event = NULL, analysis_time = c(12, 24, 36)}
+# Example 2 -----------------------------------------------------------------
+# 2-sided symmetric O'Brien-Fleming spending bound, driven by analysis time,
+# i.e., `event = NULL`, `analysis_time = c(12, 24, 36)`
+
 gs_power_ahr(
   analysis_time = c(12, 24, 36),
   event = NULL,
@@ -121,11 +121,10 @@ gs_power_ahr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 )
 
-# -------------------------#
-#       example 3          #
-# -------------------------#
-# 2-sided symmetric O'Brien-Fleming spending bound,
-# driven by event, i.e., \code{event = c(20, 50, 70), analysis_time = NULL}
+# Example 3 -----------------------------------------------------------------
+# 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
+# i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
+
 gs_power_ahr(
   analysis_time = NULL,
   event = c(20, 50, 70),
@@ -136,15 +135,14 @@ gs_power_ahr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 )
 
-# -------------------------#
-#       example 4          #
-# -------------------------#
+# Example 4 -----------------------------------------------------------------
 # 2-sided symmetric O'Brien-Fleming spending bound,
 # driven by both `event` and `analysis_time`, i.e.,
 # both `event` and `analysis_time` are not `NULL`,
 # then the analysis will driven by the maximal one, i.e.,
 # Time = max(analysis_time, calculated Time for targeted event)
 # Events = max(events, calculated events for targeted analysis_time)
+
 gs_power_ahr(
   analysis_time = c(12, 24, 36),
   event = c(30, 40, 50),
@@ -154,5 +152,4 @@ gs_power_ahr(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 )
-
 }
