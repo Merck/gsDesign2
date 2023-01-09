@@ -11,7 +11,8 @@ gs_info_ahr(
     log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   ratio = 1,
   event = NULL,
-  analysis_time = NULL
+  analysis_time = NULL,
+  interval = c(0.01, 100)
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ gs_info_ahr(
 \item{event}{Targeted minimum events at each analysis}
 
 \item{analysis_time}{Targeted minimum study duration at each analysis}
+
+\item{interval}{An interval that is presumed to include the time at which
+expected event count is equal to targeted event.}
 }
 \value{
 a \code{tibble} with columns \code{Analysis, Time, AHR, Events, theta, info, info0.}

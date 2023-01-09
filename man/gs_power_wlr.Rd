@@ -23,7 +23,8 @@ gs_power_wlr(
   info_scale = c(0, 1, 2),
   approx = "asymptotic",
   r = 18,
-  tol = 1e-06
+  tol = 1e-06,
+  interval = c(0.01, 100)
 )
 }
 \arguments{
@@ -82,6 +83,9 @@ grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+
+\item{interval}{An interval that is presumed to include the time at which
+expected event count is equal to targeted event.}
 }
 \description{
 Group sequential design power using weighted log rank test under non-proportional hazards
