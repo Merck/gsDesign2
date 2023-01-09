@@ -12,7 +12,7 @@ approximate information and effect size using an average hazard ratio model."><m
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,8 @@ approximate information and effect size using an average hazard ratio model.</p>
 <span>  event <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  analysis_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  weight <span class="op">=</span> <span class="va">wlr_weight_fh</span>,</span>
-<span>  approx <span class="op">=</span> <span class="st">"asymptotic"</span></span>
+<span>  approx <span class="op">=</span> <span class="st">"asymptotic"</span>,</span>
+<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -107,6 +108,11 @@ approximate information and effect size using an average hazard ratio model.</p>
 <dd><p>approximate estimation method for Z statistics</p><ul><li><p><code>"event driven"</code> = only work under proportional hazard model with log rank test</p></li>
 <li><p><code>"asymptotic"</code></p></li>
 </ul></dd>
+
+
+<dt>interval</dt>
+<dd><p>An interval that is presumed to include the time at which
+expected event count is equal to targeted event.</p></dd>
 
 </dl></div>
     <div class="section level2">
