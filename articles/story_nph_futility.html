@@ -122,8 +122,10 @@ with the enrollment and failure rate assumptions which <span class="citation">Ko
 <span><span class="co">## Control exponential with median of 12 mos</span></span>
 <span><span class="co">## Delayed effect with HR = 1 for 3 months and HR = .693 thereafter</span></span>
 <span><span class="co">## Censoring rate is 0</span></span>
-<span><span class="va">fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">100</span><span class="op">)</span>, </span>
-<span>                   fail_rate <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">12</span>, hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.693</span><span class="op">)</span>, dropout_rate <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  stratum <span class="op">=</span> <span class="st">"All"</span>, duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">100</span><span class="op">)</span>,</span>
+<span>  fail_rate <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">12</span>, hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.693</span><span class="op">)</span>, dropout_rate <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">## Study duration was 34.8 in Korn &amp; Freidlin Table 1</span></span>
 <span><span class="co">## We change to 34.86 here to obtain 512 expected events more precisely</span></span>
 <span><span class="va">study_duation</span> <span class="op">&lt;-</span> <span class="fl">34.86</span></span></code></pre></div>
@@ -132,23 +134,25 @@ Ideally, we would allow a targeted event count and variable follow-up in
 <code><a href="../reference/fixed_design.html">fixed_design()</a></code> so that the study duration will be computed
 automatically.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fixedevents</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fixed_design.html">fixed_design</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"AHR"</span>, alpha <span class="op">=</span> <span class="fl">0.025</span>, power <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>                            enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
-<span>                            fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
-<span>                            study_duation <span class="op">=</span> <span class="va">study_duation</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">fixedevents</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fixed_design.html">fixed_design</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="st">"AHR"</span>, alpha <span class="op">=</span> <span class="fl">0.025</span>, power <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
+<span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
+<span>  study_duation <span class="op">=</span> <span class="va">study_duation</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fixedevents</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">fixedevents</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Bound</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>footnote<span class="op">=</span><span class="st">"Power based on 512 events"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>footnote <span class="op">=</span> <span class="st">"Power based on 512 events"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, decimals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<div id="ctrdiwhvha" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="oxjhuxgyao" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ctrdiwhvha .gt_table {
+#oxjhuxgyao .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -173,7 +177,7 @@ automatically.</p>
   border-left-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_heading {
+#oxjhuxgyao .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -185,12 +189,12 @@ automatically.</p>
   border-right-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_caption {
+#oxjhuxgyao .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ctrdiwhvha .gt_title {
+#oxjhuxgyao .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -202,7 +206,7 @@ automatically.</p>
   border-bottom-width: 0;
 }
 
-#ctrdiwhvha .gt_subtitle {
+#oxjhuxgyao .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -214,13 +218,13 @@ automatically.</p>
   border-top-width: 0;
 }
 
-#ctrdiwhvha .gt_bottom_border {
+#oxjhuxgyao .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_col_headings {
+#oxjhuxgyao .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -235,7 +239,7 @@ automatically.</p>
   border-right-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_col_heading {
+#oxjhuxgyao .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -255,7 +259,7 @@ automatically.</p>
   overflow-x: hidden;
 }
 
-#ctrdiwhvha .gt_column_spanner_outer {
+#oxjhuxgyao .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -267,15 +271,15 @@ automatically.</p>
   padding-right: 4px;
 }
 
-#ctrdiwhvha .gt_column_spanner_outer:first-child {
+#oxjhuxgyao .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ctrdiwhvha .gt_column_spanner_outer:last-child {
+#oxjhuxgyao .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ctrdiwhvha .gt_column_spanner {
+#oxjhuxgyao .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -287,7 +291,7 @@ automatically.</p>
   width: 100%;
 }
 
-#ctrdiwhvha .gt_group_heading {
+#oxjhuxgyao .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -313,7 +317,7 @@ automatically.</p>
   text-align: left;
 }
 
-#ctrdiwhvha .gt_empty_group_heading {
+#oxjhuxgyao .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -328,15 +332,15 @@ automatically.</p>
   vertical-align: middle;
 }
 
-#ctrdiwhvha .gt_from_md > :first-child {
+#oxjhuxgyao .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ctrdiwhvha .gt_from_md > :last-child {
+#oxjhuxgyao .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ctrdiwhvha .gt_row {
+#oxjhuxgyao .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -355,7 +359,7 @@ automatically.</p>
   overflow-x: hidden;
 }
 
-#ctrdiwhvha .gt_stub {
+#oxjhuxgyao .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -368,7 +372,7 @@ automatically.</p>
   padding-right: 5px;
 }
 
-#ctrdiwhvha .gt_stub_row_group {
+#oxjhuxgyao .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -382,11 +386,11 @@ automatically.</p>
   vertical-align: top;
 }
 
-#ctrdiwhvha .gt_row_group_first td {
+#oxjhuxgyao .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ctrdiwhvha .gt_summary_row {
+#oxjhuxgyao .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -396,16 +400,16 @@ automatically.</p>
   padding-right: 5px;
 }
 
-#ctrdiwhvha .gt_first_summary_row {
+#oxjhuxgyao .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_first_summary_row.thick {
+#oxjhuxgyao .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ctrdiwhvha .gt_last_summary_row {
+#oxjhuxgyao .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -415,7 +419,7 @@ automatically.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_grand_summary_row {
+#oxjhuxgyao .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -425,7 +429,7 @@ automatically.</p>
   padding-right: 5px;
 }
 
-#ctrdiwhvha .gt_first_grand_summary_row {
+#oxjhuxgyao .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -435,11 +439,11 @@ automatically.</p>
   border-top-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_striped {
+#oxjhuxgyao .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ctrdiwhvha .gt_table_body {
+#oxjhuxgyao .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -448,7 +452,7 @@ automatically.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_footnotes {
+#oxjhuxgyao .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -462,7 +466,7 @@ automatically.</p>
   border-right-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_footnote {
+#oxjhuxgyao .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -471,7 +475,7 @@ automatically.</p>
   padding-right: 5px;
 }
 
-#ctrdiwhvha .gt_sourcenotes {
+#oxjhuxgyao .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -485,7 +489,7 @@ automatically.</p>
   border-right-color: #D3D3D3;
 }
 
-#ctrdiwhvha .gt_sourcenote {
+#oxjhuxgyao .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -493,64 +497,64 @@ automatically.</p>
   padding-right: 5px;
 }
 
-#ctrdiwhvha .gt_left {
+#oxjhuxgyao .gt_left {
   text-align: left;
 }
 
-#ctrdiwhvha .gt_center {
+#oxjhuxgyao .gt_center {
   text-align: center;
 }
 
-#ctrdiwhvha .gt_right {
+#oxjhuxgyao .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ctrdiwhvha .gt_font_normal {
+#oxjhuxgyao .gt_font_normal {
   font-weight: normal;
 }
 
-#ctrdiwhvha .gt_font_bold {
+#oxjhuxgyao .gt_font_bold {
   font-weight: bold;
 }
 
-#ctrdiwhvha .gt_font_italic {
+#oxjhuxgyao .gt_font_italic {
   font-style: italic;
 }
 
-#ctrdiwhvha .gt_super {
+#oxjhuxgyao .gt_super {
   font-size: 65%;
 }
 
-#ctrdiwhvha .gt_footnote_marks {
+#oxjhuxgyao .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ctrdiwhvha .gt_asterisk {
+#oxjhuxgyao .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ctrdiwhvha .gt_indent_1 {
+#oxjhuxgyao .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ctrdiwhvha .gt_indent_2 {
+#oxjhuxgyao .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ctrdiwhvha .gt_indent_3 {
+#oxjhuxgyao .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ctrdiwhvha .gt_indent_4 {
+#oxjhuxgyao .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ctrdiwhvha .gt_indent_5 {
+#oxjhuxgyao .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -603,19 +607,24 @@ is 88.44%. <span class="citation">Korn and Freidlin (2018)</span>
 computed 88.4% power for this design with 100,000 simulations which
 estimate the standard error for the power calculation to be 0.1%.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wieand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span>enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
-<span>                       upper <span class="op">=</span> <span class="va">gs_b</span>, upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                       lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
-<span>                       event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">wieand</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Group sequential design with futility only at interim analyses"</span>,</span>
-<span>        subtitle <span class="op">=</span> <span class="st">"Wieand futility rule stops if HR &gt; 1"</span><span class="op">)</span></span></code></pre></div>
-<div id="uwavrvkmel" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span><span class="va">wieand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
+<span>  upper <span class="op">=</span> <span class="va">gs_b</span>, upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>  event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">wieand</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Group sequential design with futility only at interim analyses"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Wieand futility rule stops if HR &gt; 1"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div id="rvjqsapsxi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uwavrvkmel .gt_table {
+#rvjqsapsxi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -640,7 +649,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-left-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_heading {
+#rvjqsapsxi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -652,12 +661,12 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_caption {
+#rvjqsapsxi .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uwavrvkmel .gt_title {
+#rvjqsapsxi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -669,7 +678,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-bottom-width: 0;
 }
 
-#uwavrvkmel .gt_subtitle {
+#rvjqsapsxi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -681,13 +690,13 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-top-width: 0;
 }
 
-#uwavrvkmel .gt_bottom_border {
+#rvjqsapsxi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_col_headings {
+#rvjqsapsxi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -702,7 +711,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_col_heading {
+#rvjqsapsxi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -722,7 +731,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   overflow-x: hidden;
 }
 
-#uwavrvkmel .gt_column_spanner_outer {
+#rvjqsapsxi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -734,15 +743,15 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 4px;
 }
 
-#uwavrvkmel .gt_column_spanner_outer:first-child {
+#rvjqsapsxi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uwavrvkmel .gt_column_spanner_outer:last-child {
+#rvjqsapsxi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uwavrvkmel .gt_column_spanner {
+#rvjqsapsxi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -754,7 +763,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   width: 100%;
 }
 
-#uwavrvkmel .gt_group_heading {
+#rvjqsapsxi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -780,7 +789,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   text-align: left;
 }
 
-#uwavrvkmel .gt_empty_group_heading {
+#rvjqsapsxi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -795,15 +804,15 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   vertical-align: middle;
 }
 
-#uwavrvkmel .gt_from_md > :first-child {
+#rvjqsapsxi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uwavrvkmel .gt_from_md > :last-child {
+#rvjqsapsxi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uwavrvkmel .gt_row {
+#rvjqsapsxi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -822,7 +831,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   overflow-x: hidden;
 }
 
-#uwavrvkmel .gt_stub {
+#rvjqsapsxi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -835,7 +844,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#uwavrvkmel .gt_stub_row_group {
+#rvjqsapsxi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -849,11 +858,11 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   vertical-align: top;
 }
 
-#uwavrvkmel .gt_row_group_first td {
+#rvjqsapsxi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uwavrvkmel .gt_summary_row {
+#rvjqsapsxi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -863,16 +872,16 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#uwavrvkmel .gt_first_summary_row {
+#rvjqsapsxi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_first_summary_row.thick {
+#rvjqsapsxi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uwavrvkmel .gt_last_summary_row {
+#rvjqsapsxi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -882,7 +891,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_grand_summary_row {
+#rvjqsapsxi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -892,7 +901,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#uwavrvkmel .gt_first_grand_summary_row {
+#rvjqsapsxi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -902,11 +911,11 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-top-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_striped {
+#rvjqsapsxi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uwavrvkmel .gt_table_body {
+#rvjqsapsxi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -915,7 +924,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_footnotes {
+#rvjqsapsxi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -929,7 +938,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_footnote {
+#rvjqsapsxi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -938,7 +947,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#uwavrvkmel .gt_sourcenotes {
+#rvjqsapsxi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -952,7 +961,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#uwavrvkmel .gt_sourcenote {
+#rvjqsapsxi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -960,64 +969,64 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#uwavrvkmel .gt_left {
+#rvjqsapsxi .gt_left {
   text-align: left;
 }
 
-#uwavrvkmel .gt_center {
+#rvjqsapsxi .gt_center {
   text-align: center;
 }
 
-#uwavrvkmel .gt_right {
+#rvjqsapsxi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uwavrvkmel .gt_font_normal {
+#rvjqsapsxi .gt_font_normal {
   font-weight: normal;
 }
 
-#uwavrvkmel .gt_font_bold {
+#rvjqsapsxi .gt_font_bold {
   font-weight: bold;
 }
 
-#uwavrvkmel .gt_font_italic {
+#rvjqsapsxi .gt_font_italic {
   font-style: italic;
 }
 
-#uwavrvkmel .gt_super {
+#rvjqsapsxi .gt_super {
   font-size: 65%;
 }
 
-#uwavrvkmel .gt_footnote_marks {
+#rvjqsapsxi .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#uwavrvkmel .gt_asterisk {
+#rvjqsapsxi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uwavrvkmel .gt_indent_1 {
+#rvjqsapsxi .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uwavrvkmel .gt_indent_2 {
+#rvjqsapsxi .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uwavrvkmel .gt_indent_3 {
+#rvjqsapsxi .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uwavrvkmel .gt_indent_4 {
+#rvjqsapsxi .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uwavrvkmel .gt_indent_5 {
+#rvjqsapsxi .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1105,24 +1114,29 @@ estimate the standard error for the power calculation to be 0.1%.</p>
 </h2>
 <p>Need to summarize here.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">betaspending</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span>enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, </span>
-<span>                             fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
-<span>                             upper <span class="op">=</span> <span class="va">gs_b</span>, </span>
-<span>                             upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                             lower <span class="op">=</span> <span class="va">gs_spending_bound</span>, </span>
-<span>                             lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
-<span>                             event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>                             test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">betaspending</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
+<span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
+<span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
+<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">betaspending</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"Group sequential design with futility only"</span>,</span>
-<span>                      subtitle<span class="op">=</span><span class="st">"Beta-spending futility bound"</span><span class="op">)</span></span></code></pre></div>
-<div id="srkifrjqet" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<span><span class="va">betaspending</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Group sequential design with futility only"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Beta-spending futility bound"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div id="fhcmkvncgc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#srkifrjqet .gt_table {
+#fhcmkvncgc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1147,7 +1161,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-left-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_heading {
+#fhcmkvncgc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1159,12 +1173,12 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_caption {
+#fhcmkvncgc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#srkifrjqet .gt_title {
+#fhcmkvncgc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1176,7 +1190,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-bottom-width: 0;
 }
 
-#srkifrjqet .gt_subtitle {
+#fhcmkvncgc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1188,13 +1202,13 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-top-width: 0;
 }
 
-#srkifrjqet .gt_bottom_border {
+#fhcmkvncgc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_col_headings {
+#fhcmkvncgc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1209,7 +1223,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_col_heading {
+#fhcmkvncgc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1229,7 +1243,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   overflow-x: hidden;
 }
 
-#srkifrjqet .gt_column_spanner_outer {
+#fhcmkvncgc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1241,15 +1255,15 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 4px;
 }
 
-#srkifrjqet .gt_column_spanner_outer:first-child {
+#fhcmkvncgc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#srkifrjqet .gt_column_spanner_outer:last-child {
+#fhcmkvncgc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#srkifrjqet .gt_column_spanner {
+#fhcmkvncgc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1261,7 +1275,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   width: 100%;
 }
 
-#srkifrjqet .gt_group_heading {
+#fhcmkvncgc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1287,7 +1301,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   text-align: left;
 }
 
-#srkifrjqet .gt_empty_group_heading {
+#fhcmkvncgc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1302,15 +1316,15 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   vertical-align: middle;
 }
 
-#srkifrjqet .gt_from_md > :first-child {
+#fhcmkvncgc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#srkifrjqet .gt_from_md > :last-child {
+#fhcmkvncgc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#srkifrjqet .gt_row {
+#fhcmkvncgc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1329,7 +1343,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   overflow-x: hidden;
 }
 
-#srkifrjqet .gt_stub {
+#fhcmkvncgc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1342,7 +1356,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#srkifrjqet .gt_stub_row_group {
+#fhcmkvncgc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1356,11 +1370,11 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   vertical-align: top;
 }
 
-#srkifrjqet .gt_row_group_first td {
+#fhcmkvncgc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#srkifrjqet .gt_summary_row {
+#fhcmkvncgc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1370,16 +1384,16 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#srkifrjqet .gt_first_summary_row {
+#fhcmkvncgc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_first_summary_row.thick {
+#fhcmkvncgc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#srkifrjqet .gt_last_summary_row {
+#fhcmkvncgc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1389,7 +1403,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_grand_summary_row {
+#fhcmkvncgc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1399,7 +1413,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#srkifrjqet .gt_first_grand_summary_row {
+#fhcmkvncgc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1409,11 +1423,11 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-top-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_striped {
+#fhcmkvncgc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#srkifrjqet .gt_table_body {
+#fhcmkvncgc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1422,7 +1436,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_footnotes {
+#fhcmkvncgc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1436,7 +1450,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_footnote {
+#fhcmkvncgc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1445,7 +1459,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#srkifrjqet .gt_sourcenotes {
+#fhcmkvncgc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1459,7 +1473,7 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   border-right-color: #D3D3D3;
 }
 
-#srkifrjqet .gt_sourcenote {
+#fhcmkvncgc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1467,64 +1481,64 @@ estimate the standard error for the power calculation to be 0.1%.</p>
   padding-right: 5px;
 }
 
-#srkifrjqet .gt_left {
+#fhcmkvncgc .gt_left {
   text-align: left;
 }
 
-#srkifrjqet .gt_center {
+#fhcmkvncgc .gt_center {
   text-align: center;
 }
 
-#srkifrjqet .gt_right {
+#fhcmkvncgc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#srkifrjqet .gt_font_normal {
+#fhcmkvncgc .gt_font_normal {
   font-weight: normal;
 }
 
-#srkifrjqet .gt_font_bold {
+#fhcmkvncgc .gt_font_bold {
   font-weight: bold;
 }
 
-#srkifrjqet .gt_font_italic {
+#fhcmkvncgc .gt_font_italic {
   font-style: italic;
 }
 
-#srkifrjqet .gt_super {
+#fhcmkvncgc .gt_super {
   font-size: 65%;
 }
 
-#srkifrjqet .gt_footnote_marks {
+#fhcmkvncgc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#srkifrjqet .gt_asterisk {
+#fhcmkvncgc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#srkifrjqet .gt_indent_1 {
+#fhcmkvncgc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#srkifrjqet .gt_indent_2 {
+#fhcmkvncgc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#srkifrjqet .gt_indent_3 {
+#fhcmkvncgc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#srkifrjqet .gt_indent_4 {
+#fhcmkvncgc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#srkifrjqet .gt_indent_5 {
+#fhcmkvncgc .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1631,18 +1645,20 @@ the summary of early expected events below that all events during the
 first 3 months on-study are expected prior to the first interim
 analysis.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/AHR.html">AHR</a></span><span class="op">(</span>enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
-<span>                          fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
-<span>                          total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">34</span>, <span class="fl">34.86</span><span class="op">)</span>,</span>
-<span>                          ratio <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                          simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/AHR.html">AHR</a></span><span class="op">(</span></span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
+<span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
+<span>  total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">34</span>, <span class="fl">34.86</span><span class="op">)</span>,</span>
+<span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  simple <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">event_accumulation</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="wivqpqqqeb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wjxexzezwo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#wivqpqqqeb .gt_table {
+#wjxexzezwo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1667,7 +1683,7 @@ analysis.</p>
   border-left-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_heading {
+#wjxexzezwo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1679,12 +1695,12 @@ analysis.</p>
   border-right-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_caption {
+#wjxexzezwo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wivqpqqqeb .gt_title {
+#wjxexzezwo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1696,7 +1712,7 @@ analysis.</p>
   border-bottom-width: 0;
 }
 
-#wivqpqqqeb .gt_subtitle {
+#wjxexzezwo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1708,13 +1724,13 @@ analysis.</p>
   border-top-width: 0;
 }
 
-#wivqpqqqeb .gt_bottom_border {
+#wjxexzezwo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_col_headings {
+#wjxexzezwo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1729,7 +1745,7 @@ analysis.</p>
   border-right-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_col_heading {
+#wjxexzezwo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1749,7 +1765,7 @@ analysis.</p>
   overflow-x: hidden;
 }
 
-#wivqpqqqeb .gt_column_spanner_outer {
+#wjxexzezwo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1761,15 +1777,15 @@ analysis.</p>
   padding-right: 4px;
 }
 
-#wivqpqqqeb .gt_column_spanner_outer:first-child {
+#wjxexzezwo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wivqpqqqeb .gt_column_spanner_outer:last-child {
+#wjxexzezwo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wivqpqqqeb .gt_column_spanner {
+#wjxexzezwo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1781,7 +1797,7 @@ analysis.</p>
   width: 100%;
 }
 
-#wivqpqqqeb .gt_group_heading {
+#wjxexzezwo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1807,7 +1823,7 @@ analysis.</p>
   text-align: left;
 }
 
-#wivqpqqqeb .gt_empty_group_heading {
+#wjxexzezwo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1822,15 +1838,15 @@ analysis.</p>
   vertical-align: middle;
 }
 
-#wivqpqqqeb .gt_from_md > :first-child {
+#wjxexzezwo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wivqpqqqeb .gt_from_md > :last-child {
+#wjxexzezwo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wivqpqqqeb .gt_row {
+#wjxexzezwo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1849,7 +1865,7 @@ analysis.</p>
   overflow-x: hidden;
 }
 
-#wivqpqqqeb .gt_stub {
+#wjxexzezwo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1862,7 +1878,7 @@ analysis.</p>
   padding-right: 5px;
 }
 
-#wivqpqqqeb .gt_stub_row_group {
+#wjxexzezwo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1876,11 +1892,11 @@ analysis.</p>
   vertical-align: top;
 }
 
-#wivqpqqqeb .gt_row_group_first td {
+#wjxexzezwo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wivqpqqqeb .gt_summary_row {
+#wjxexzezwo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1890,16 +1906,16 @@ analysis.</p>
   padding-right: 5px;
 }
 
-#wivqpqqqeb .gt_first_summary_row {
+#wjxexzezwo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_first_summary_row.thick {
+#wjxexzezwo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wivqpqqqeb .gt_last_summary_row {
+#wjxexzezwo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1909,7 +1925,7 @@ analysis.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_grand_summary_row {
+#wjxexzezwo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1919,7 +1935,7 @@ analysis.</p>
   padding-right: 5px;
 }
 
-#wivqpqqqeb .gt_first_grand_summary_row {
+#wjxexzezwo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1929,11 +1945,11 @@ analysis.</p>
   border-top-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_striped {
+#wjxexzezwo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wivqpqqqeb .gt_table_body {
+#wjxexzezwo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1942,7 +1958,7 @@ analysis.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_footnotes {
+#wjxexzezwo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1956,7 +1972,7 @@ analysis.</p>
   border-right-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_footnote {
+#wjxexzezwo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1965,7 +1981,7 @@ analysis.</p>
   padding-right: 5px;
 }
 
-#wivqpqqqeb .gt_sourcenotes {
+#wjxexzezwo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1979,7 +1995,7 @@ analysis.</p>
   border-right-color: #D3D3D3;
 }
 
-#wivqpqqqeb .gt_sourcenote {
+#wjxexzezwo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1987,64 +2003,64 @@ analysis.</p>
   padding-right: 5px;
 }
 
-#wivqpqqqeb .gt_left {
+#wjxexzezwo .gt_left {
   text-align: left;
 }
 
-#wivqpqqqeb .gt_center {
+#wjxexzezwo .gt_center {
   text-align: center;
 }
 
-#wivqpqqqeb .gt_right {
+#wjxexzezwo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wivqpqqqeb .gt_font_normal {
+#wjxexzezwo .gt_font_normal {
   font-weight: normal;
 }
 
-#wivqpqqqeb .gt_font_bold {
+#wjxexzezwo .gt_font_bold {
   font-weight: bold;
 }
 
-#wivqpqqqeb .gt_font_italic {
+#wjxexzezwo .gt_font_italic {
   font-style: italic;
 }
 
-#wivqpqqqeb .gt_super {
+#wjxexzezwo .gt_super {
   font-size: 65%;
 }
 
-#wivqpqqqeb .gt_footnote_marks {
+#wjxexzezwo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#wivqpqqqeb .gt_asterisk {
+#wjxexzezwo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wivqpqqqeb .gt_indent_1 {
+#wjxexzezwo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wivqpqqqeb .gt_indent_2 {
+#wjxexzezwo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wivqpqqqeb .gt_indent_3 {
+#wjxexzezwo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wivqpqqqeb .gt_indent_4 {
+#wjxexzezwo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wivqpqqqeb .gt_indent_5 {
+#wjxexzezwo .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2128,10 +2144,11 @@ analysis.</p>
 <p>We can look at the proportion of events after the first 3 months as
 follows:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>`Total events` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span>, <span class="st">"Proportion early"</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span> <span class="op">/</span>  <span class="va">`Total events`</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Time</span>, y <span class="op">=</span> <span class="va">`Proportion early`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>`Total events` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span>, <span class="st">"Proportion early"</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span> <span class="op">/</span> <span class="va">`Total events`</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Time</span>, y <span class="op">=</span> <span class="va">`Proportion early`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="story_nph_futility_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>For the <span class="citation">Korn and Freidlin (2018)</span> bound
 the targeted timing is when both 50% of events have occurred and at

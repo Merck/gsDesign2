@@ -95,7 +95,8 @@ Refer examples for its data structure.</p></dd>
 
 
 <dt>binding</dt>
-<dd><p>indicator of whether futility bound is binding; default of FALSE is recommended</p></dd>
+<dd><p>indicator of whether futility bound is binding;
+default of FALSE is recommended</p></dd>
 
 
 <dt>upper</dt>
@@ -141,16 +142,18 @@ Refer examples for its data structure.</p></dd>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  stratum <span class="op">=</span> <span class="st">"All"</span>, </span></span>
-<span class="r-in"><span>  duration <span class="op">=</span> <span class="fl">12</span>, </span></span>
-<span class="r-in"><span>  rate <span class="op">=</span> <span class="fl">500</span><span class="op">/</span><span class="fl">12</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  stratum <span class="op">=</span> <span class="st">"All"</span>,</span></span>
+<span class="r-in"><span>  duration <span class="op">=</span> <span class="fl">12</span>,</span></span>
+<span class="r-in"><span>  rate <span class="op">=</span> <span class="fl">500</span> <span class="op">/</span> <span class="fl">12</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  stratum <span class="op">=</span> <span class="st">"All"</span>,</span></span>
 <span class="r-in"><span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15</span>,  <span class="co"># median survival 15 month</span></span></span>
+<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15</span>, <span class="co"># median survival 15 month</span></span></span>
 <span class="r-in"><span>  hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.6</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  dropout_rate <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  dropout_rate <span class="op">=</span> <span class="fl">0.001</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fh_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0</span>, tau <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, test <span class="op">=</span> <span class="fl">1</span>, Analysis <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span>,</span></span>
@@ -162,13 +165,14 @@ Refer examples for its data structure.</p></dd>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
 <span class="r-in"><span><span class="co"># Minimal Information Fraction derived bound</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_combo</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, </span></span>
-<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>, </span></span>
+<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
+<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
 <span class="r-in"><span>  fh_test <span class="op">=</span> <span class="va">fh_test</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_combo</span>,</span></span>
-<span class="r-in"><span>  upar  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_combo</span>,</span></span>
-<span class="r-in"><span>  lpar  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -188,8 +192,8 @@ Refer examples for its data structure.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        1 Lower 3.269613e-04 0.000000e+00 -2.516527 9.940741e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        2 Upper 4.260145e-01 2.565830e-03  2.798651 2.565830e-03</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 Lower 8.468664e-02 0.000000e+00  1.237721 1.079098e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3 Upper 9.016061e-01 2.506784e-02  2.097176 1.798901e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 Lower 9.838521e-02 0.000000e+00  2.097176 1.798901e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3 Upper 9.015977e-01 2.499114e-02  2.097491 1.797508e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 Lower 9.840472e-02 0.000000e+00  2.097491 1.797508e-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis Time        N   Events event_frac       AHR</span>

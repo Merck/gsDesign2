@@ -132,7 +132,8 @@
 
 
 <dt>binding</dt>
-<dd><p>indicator of whether futility bound is binding; default of FALSE is recommended</p></dd>
+<dd><p>indicator of whether futility bound is binding;
+default of FALSE is recommended</p></dd>
 
 
 <dt>upper</dt>
@@ -152,24 +153,31 @@
 
 
 <dt>test_upper</dt>
-<dd><p>indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-otherwise, a logical vector of the same length as <code>info</code> should indicate which analyses will have an efficacy bound</p></dd>
+<dd><p>indicator of which analyses should include an upper
+(efficacy) bound; single value of TRUE (default) indicates all analyses;
+otherwise, a logical vector of the same length as <code>info</code> should indicate
+which analyses will have an efficacy bound</p></dd>
 
 
 <dt>test_lower</dt>
-<dd><p>indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as <code>info</code> should indicate which analyses will have a
+<dd><p>indicator of which analyses should include an lower bound;
+single value of TRUE (default) indicates all analyses;
+single value FALSE indicated no lower bound; otherwise, a logical vector of
+the same length as <code>info</code> should indicate which analyses will have a
 lower bound</p></dd>
 
 
 <dt>h1_spending</dt>
-<dd><p>Indicator that lower bound to be set by spending under alternate hypothesis (input <code>fail_rate</code>)
+<dd><p>Indicator that lower bound to be set by spending
+under alternate hypothesis (input <code>fail_rate</code>)
 if spending is used for lower bound</p></dd>
 
 
 <dt>r</dt>
-<dd><p>Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+<dd><p>Integer value controlling grid for numerical integration as in
+Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of
+grid points and greater accuracy.
 Normally <code>r</code> will not be changed by the user.</p></dd>
 
 
@@ -193,45 +201,50 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># set enrollment rates</span></span></span>
-<span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, duration <span class="op">=</span> <span class="fl">12</span>, rate <span class="op">=</span> <span class="fl">500</span><span class="op">/</span><span class="fl">12</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, duration <span class="op">=</span> <span class="fl">12</span>, rate <span class="op">=</span> <span class="fl">500</span> <span class="op">/</span> <span class="fl">12</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># set failure rates</span></span></span>
 <span class="r-in"><span><span class="va">fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  stratum <span class="op">=</span> <span class="st">"All"</span>,</span></span>
 <span class="r-in"><span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15</span>,  <span class="co"># median survival 15 month</span></span></span>
+<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15</span>, <span class="co"># median survival 15 month</span></span></span>
 <span class="r-in"><span>  hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.6</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  dropout_rate <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  dropout_rate <span class="op">=</span> <span class="fl">0.001</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># -------------------------#</span></span></span>
 <span class="r-in"><span><span class="co">#       example 1          #</span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
-<span class="r-in"><span><span class="co"># Boundary is fixed </span></span></span>
+<span class="r-in"><span><span class="co"># Boundary is fixed</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  k <span class="op">=</span> <span class="fl">3</span>, </span></span>
-<span class="r-in"><span>  test.type <span class="op">=</span> <span class="fl">4</span>, </span></span>
-<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>, </span></span>
+<span class="r-in"><span>  k <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  test.type <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
 <span class="r-in"><span>  astar <span class="op">=</span> <span class="fl">0</span>, timing <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>  sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="fl">0</span>, </span></span>
-<span class="r-in"><span>  sfl <span class="op">=</span> <span class="va">sfLDOF</span>, sflpar <span class="op">=</span> <span class="fl">0</span>, </span></span>
-<span class="r-in"><span>  lambdaC <span class="op">=</span> <span class="fl">0.1</span>, </span></span>
-<span class="r-in"><span>  hr <span class="op">=</span> <span class="fl">0.6</span>, hr0 <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>  sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  sfl <span class="op">=</span> <span class="va">sfLDOF</span>, sflpar <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  lambdaC <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
+<span class="r-in"><span>  hr <span class="op">=</span> <span class="fl">0.6</span>, hr0 <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>  eta <span class="op">=</span> <span class="fl">0.01</span>, gamma <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>  R <span class="op">=</span> <span class="fl">12</span>, S <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>  T <span class="op">=</span> <span class="fl">36</span>, minfup <span class="op">=</span> <span class="fl">24</span>, </span></span>
-<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  T <span class="op">=</span> <span class="fl">36</span>, minfup <span class="op">=</span> <span class="fl">24</span>,</span></span>
+<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">gs_design_wlr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, </span></span>
+<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
-<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
-<span class="r-in"><span>  weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">}</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span>,</span></span>
-<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
@@ -247,8 +260,10 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>   0.6        0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$weight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5588e4b4b048&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function(x, arm0, arm1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x560b085df9a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -278,7 +293,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5588e20171c8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x560b057ea5a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -294,7 +309,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5588e20171c8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x560b057ea5a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -362,16 +377,19 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
 <span class="r-in"><span><span class="co"># Boundary derived by spending function</span></span></span>
 <span class="r-in"><span><span class="fu">gs_design_wlr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, </span></span>
+<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
-<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
-<span class="r-in"><span>  weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">}</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
@@ -387,8 +405,10 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>   0.6        0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$weight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5588e4b4b048&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function(x, arm0, arm1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x560b085df9a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -538,7 +558,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5588e14452e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x560b05a440e8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -567,7 +587,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5588dd11c0d8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x560b037018d8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -704,7 +724,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5588e14452e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x560b05a440e8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -733,7 +753,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5588dd11c0d8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x560b037018d8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
