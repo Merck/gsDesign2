@@ -2,9 +2,11 @@ library(dplyr)
 library(gsDesign2)
 library(lrstat)
 
-my_enrollRates <- tibble::tibble(Stratum = "All",
-                                 duration = 12,
-                                 rate = 500 / 12)
+my_enrollRates <- tibble::tibble(
+  Stratum = "All",
+  duration = 12,
+  rate = 500 / 12
+)
 
 my_failRates <- tibble::tibble(
   Stratum = "All",
@@ -29,34 +31,36 @@ info_obj <-
     ratio = my_ratio,
     events = NULL,
     analysisTimes = my_analysisTimes,
-    weight = function(x, arm0, arm1){wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5, tau = -1)},
+    weight = function(x, arm0, arm1) {
+      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5, tau = -1)
+    },
     approx = "asymptotic"
   )
 
 lrsamplesize(
   beta = my_beta,
   kMax = length(my_analysisTimes),
-  informationRates =  info_obj$info0/info_obj$info0[nrow(info_obj)],
+  informationRates = info_obj$info0 / info_obj$info0[nrow(info_obj)],
   alpha = my_alpha,
   typeAlphaSpending = "sfOF",
   typeBetaSpending = "sfOF",
-  #enrollment
+  # enrollment
   allocationRatioPlanned = my_ratio,
   accrualDuration = max(my_enrollRates$duration),
   accrualTime = c(0, my_enrollRates$duration),
-  accrualIntensity = c(my_enrollRates$rate,0),
-  #hazard rates
+  accrualIntensity = c(my_enrollRates$rate, 0),
+  # hazard rates
   piecewiseSurvivalTime = c(0, my_failRates$duration[-nrow(my_failRates)]),
   lambda1 = with(my_failRates, failRate * hr),
   lambda2 = my_failRates$failRate,
-  #dropout; the two packages are flexible in different ways in this department
+  # dropout; the two packages are flexible in different ways in this department
   gamma1 = my_failRates$dropoutRate[1],
   gamma2 = my_failRates$dropoutRate[1],
-  #WLR test
+  # WLR test
   rho1 = 0,
   rho2 = 0.5,
   #
-  followupTime = 36-12
+  followupTime = 36 - 12
 )
 
 
@@ -65,11 +69,12 @@ my_wlr <- gsDesign2::gs_design_wlr(
   failRates = my_failRates,
   weight = function(x, arm0, arm1) {
     wlr_weight_fh(x,
-                  arm0,
-                  arm1,
-                  rho = 0,
-                  gamma = 0.5,
-                  tau = -1)
+      arm0,
+      arm1,
+      rho = 0,
+      gamma = 0.5,
+      tau = -1
+    )
   },
   analysisTimes = my_analysisTimes,
   alpha = my_alpha,
@@ -85,5 +90,6 @@ my_wlr <- gsDesign2::gs_design_wlr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
 
-my_wlr %>% summary() %>% as_gt()
-
+my_wlr %>%
+  summary() %>%
+  as_gt()

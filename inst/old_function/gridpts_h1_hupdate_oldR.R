@@ -61,40 +61,45 @@ NULL
 #'
 #' # approximate probability above .95 quantile (i.e., .05)
 #' gsDesign2:::gridpts_(a = qnorm(.95), b = Inf) %>% summarise(p05 = sum(w * dnorm(z)))
-gridpts_ <- function(r = 18, mu = 0, a = -Inf, b = Inf){
+gridpts_ <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
   # Define odd numbered grid points for real line
-  x <- c(mu - 3 - 4 * log(r / (1:(r - 1))),
-         mu - 3 + 3 * (0:(4 * r)) / 2 / r,
-         mu + 3 + 4 * log(r / (r - 1):1)
+  x <- c(
+    mu - 3 - 4 * log(r / (1:(r - 1))),
+    mu - 3 + 3 * (0:(4 * r)) / 2 / r,
+    mu + 3 + 4 * log(r / (r - 1):1)
   )
   # Trim points outside of [a, b] and include those points
   if (min(x) < a) x <- c(a, x[x > a])
   if (max(x) > b) x <- c(x[x < b], b)
   # If extreme, include only 1 point where density will be essentially 0
   m <- length(x)
-  if (m == 1) return(tibble::tibble(z=x, w=1))
-  
+  if (m == 1) {
+    return(tibble::tibble(z = x, w = 1))
+  }
+
   # Define even numbered grid points between the odd ones
-  y <- (x[2:m] + x[1:(m-1)]) / 2
-  
+  y <- (x[2:m] + x[1:(m - 1)]) / 2
+
   # Compute weights for odd numbered grid points
-  i <- 2:(m-1)
-  wodd <- c(x[2] - x[1],
-            (x[i + 1] - x[i - 1]),
-            x[m] - x[m - 1]) / 6
-  
-  weven <- 4 * (x[2:m] - x[1:(m-1)]) / 6
-  
+  i <- 2:(m - 1)
+  wodd <- c(
+    x[2] - x[1],
+    (x[i + 1] - x[i - 1]),
+    x[m] - x[m - 1]
+  ) / 6
+
+  weven <- 4 * (x[2:m] - x[1:(m - 1)]) / 6
+
   # Now combine odd- and even-numbered grid points with their
   # corresponding weights
-  z <- rep(0, 2*m - 1)
+  z <- rep(0, 2 * m - 1)
   z[2 * (1:m) - 1] <- x
-  z[2 * (1:(m-1))] <- y
+  z[2 * (1:(m - 1))] <- y
   w <- z
   w[2 * (1:m) - 1] <- wodd
-  w[2 * (1:(m-1))] <- weven
-  
-  return(tibble::tibble(z=z, w=w))
+  w[2 * (1:(m - 1))] <- weven
+
+  return(tibble::tibble(z = z, w = w))
 }
 
 
@@ -134,11 +139,11 @@ NULL
 #'
 #' # Replicate p-value of .0001 by numerical integration of tail
 #' gsDesign2:::h1_(a = qnorm(.9999)) %>% summarise(p = sum(h))
-h1_ <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf){
+h1_ <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
   # fix for binding message
   z <- w <- h <- NULL
   # compute drift at analysis 1
-  mu <- theta * sqrt(I);
+  mu <- theta * sqrt(I)
   g <- gridpts(r, mu, a, b)
   # compute deviation from drift
   x <- g$z - mu
@@ -181,19 +186,19 @@ NULL
 #' library(dplyr)
 #' # 2nd analysis with no interim bound and drift 0 should have mean 0, variance 1
 #' gsDesign2:::hupdate_() %>% summarise(mu = sum(z * h), var = sum((z - mu)^2 * h))
-#' 
+#'
 #' @noRd
-hupdate_ <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1()){
+hupdate_ <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1()) {
   # sqrt of change in information
   rtdelta <- sqrt(I - Im1)
   rtI <- sqrt(I)
   rtIm1 <- sqrt(Im1)
-  g <- gridpts(r = r, mu = theta * rtI, a= a, b = b)
+  g <- gridpts(r = r, mu = theta * rtI, a = a, b = b)
   # update integration
   mu <- theta * I - thetam1 * Im1
   h <- rep(0, length(g$z))
-  for(i in seq_along(g$z)){
-    x <- (g$z[i] * rtI - gm1$z * rtIm1 - mu ) / rtdelta
+  for (i in seq_along(g$z)) {
+    x <- (g$z[i] * rtI - gm1$z * rtIm1 - mu) / rtdelta
     h[i] <- sum(gm1$h * dnorm(x))
   }
   h <- h * g$w * rtI / rtdelta

@@ -6,22 +6,26 @@ test_that("fixed design", {
   rd0 <- 0
   ratio <- 1
   N <- 500
-  
-  x1 <- gsDesign::nBinomial(p1 = p1, 
-                            p2 = p2, 
-                            n = N,
-                            alpha = alpha, beta = beta,
-                            delta0 = rd0, ratio = ratio, sided = 1,
-                            outtype = 1, scale = "Difference")
-  
-  x2 <- gs_power_rd(p_c = tibble::tibble(stratum = "All", rate = p1),
-                    p_e = tibble::tibble(stratum = "All", rate = p2),
-                    n = tibble::tibble(stratum = "All",  n = N, analysis = 1),
-                    rd0 = rd0, ratio = 1, 
-                    upper = gs_b,
-                    lower = gs_b,
-                    upar = -qnorm(.025),
-                    lpar = -Inf)
-  
+
+  x1 <- gsDesign::nBinomial(
+    p1 = p1,
+    p2 = p2,
+    n = N,
+    alpha = alpha, beta = beta,
+    delta0 = rd0, ratio = ratio, sided = 1,
+    outtype = 1, scale = "Difference"
+  )
+
+  x2 <- gs_power_rd(
+    p_c = tibble::tibble(stratum = "All", rate = p1),
+    p_e = tibble::tibble(stratum = "All", rate = p2),
+    n = tibble::tibble(stratum = "All", n = N, analysis = 1),
+    rd0 = rd0, ratio = 1,
+    upper = gs_b,
+    lower = gs_b,
+    upar = -qnorm(.025),
+    lpar = -Inf
+  )
+
   expect_equal(x1, x2$bounds$Probability)
 })

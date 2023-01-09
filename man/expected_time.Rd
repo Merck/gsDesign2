@@ -51,26 +51,29 @@ where the enrollment, failure and dropout rates changes over time.
 }
 
 \examples{
-# ------------------------# 
+# ------------------------#
 #      Example 1          #
 # ------------------------#
 # default
 expected_time()
 
-# ------------------------# 
+# ------------------------#
 #      Example 2          #
 # ------------------------#
 # check that result matches a finding using AHR()
 # Start by deriving an expected event count
 enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-fail_rate <- tibble::tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18), 
-                            hr = c(.9,.6), dropout_rate = rep(.001, 2))
+fail_rate <- tibble::tibble(
+  stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+  hr = c(.9, .6), dropout_rate = rep(.001, 2)
+)
 total_duration <- 20
 xx <- AHR(enroll_rate, fail_rate, total_duration)
 xx
 
 # Next we check that the function confirms the timing of the final analysis.
-expected_time(enroll_rate, fail_rate, 
-        target_event = xx$Events, interval = c(.5, 1.5) * xx$Time)
+expected_time(enroll_rate, fail_rate,
+  target_event = xx$Events, interval = c(.5, 1.5) * xx$Time
+)
 
 }

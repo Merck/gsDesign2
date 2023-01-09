@@ -1,4 +1,5 @@
-#  Copyright (c) 2022 Merck Sharp & Dohme Corp. a subsidiary of Merck & Co., Inc., Rahway, NJ, USA.
+#  Copyright (c) 2023 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
 #
@@ -130,8 +131,10 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return A \code{list} with grid points in \code{z}, numerical integration weights in \code{w},
-#' and a normal density with mean \code{mu = theta * sqrt{I}} and variance 1 times the weight in \code{w}.
+#' @return A \code{list} with grid points in \code{z},
+#' numerical integration weights in \code{w},
+#' and a normal density with mean \code{mu = theta * sqrt{I}}
+#' and variance 1 times the weight in \code{w}.
 #'
 #' @examples
 #'

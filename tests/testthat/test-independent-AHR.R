@@ -1,56 +1,72 @@
 load("./fixtures/simulation_test_data.Rdata")
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
-  enroll_rate=tibble::tibble(stratum="All",
-                             duration=c(2,2,10),
-                             rate=c(3,6,9))
-  fail_rate=tibble::tibble(stratum="All",
-                           duration=c(3,100),
-                           fail_rate=log(2)/c(9,18),
-                           hr=c(.9,.6),
-                           dropout_rate=rep(.001,2))
-  actual <- AHR(enroll_rate = enroll_rate,
-                fail_rate = fail_rate,
-                total_duration=c(12, 24, 36))
+  enroll_rate <- tibble::tibble(
+    stratum = "All",
+    duration = c(2, 2, 10),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- tibble::tibble(
+    stratum = "All",
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    hr = c(.9, .6),
+    dropout_rate = rep(.001, 2)
+  )
+  actual <- AHR(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = c(12, 24, 36)
+  )
 
-  
+
   testthat::expect_true(all.equal(simulation_AHR1$AHR, actual$AHR, tolerance = 0.005))
   testthat::expect_true(all.equal(simulation_AHR1$Events, actual$Events, tolerance = 0.005))
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and single cutoff", {
-  enroll_rate=tibble::tibble(stratum="All",
-                             duration=c(2,2,10),
-                             rate=c(3,6,9))
-  fail_rate=tibble::tibble(stratum="All",
-                           duration=c(3,100),
-                           fail_rate=log(2)/c(9,18),
-                           hr=c(.9,.6),
-                           dropout_rate=rep(.001,2))
-  total_duration = 30
-  actual <- AHR(enroll_rate = enroll_rate,
-                fail_rate = fail_rate,
-                total_duration=total_duration)
+  enroll_rate <- tibble::tibble(
+    stratum = "All",
+    duration = c(2, 2, 10),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- tibble::tibble(
+    stratum = "All",
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    hr = c(.9, .6),
+    dropout_rate = rep(.001, 2)
+  )
+  total_duration <- 30
+  actual <- AHR(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = total_duration
+  )
   testthat::expect_true(all.equal(simulation_AHR2$AHR, actual$AHR, tolerance = 1e-3))
   testthat::expect_true(all.equal(simulation_AHR2$Events, actual$Events, tolerance = 2e-3))
-  
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
-  enroll_rate <- tibble::tibble(stratum = "All",
-                                duration = c(2, 2, 10),
-                                rate = c(3, 6, 9))
-  fail_rate <- tibble::tibble(stratum = "All",
-                              duration = c(3, Inf),
-                              fail_rate = log(2)/c(9, 18),
-                              hr = c(0.9, 0.6),
-                              dropout_rate = rep(0.001, 2))
+  enroll_rate <- tibble::tibble(
+    stratum = "All",
+    duration = c(2, 2, 10),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- tibble::tibble(
+    stratum = "All",
+    duration = c(3, Inf),
+    fail_rate = log(2) / c(9, 18),
+    hr = c(0.9, 0.6),
+    dropout_rate = rep(0.001, 2)
+  )
   total_duration <- c(15, 30)
-  
-  actual <- AHR(enroll_rate = enroll_rate,
-                fail_rate = fail_rate,
-                total_duration = total_duration)
+
+  actual <- AHR(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = total_duration
+  )
   testthat::expect_true(all.equal(simulation_AHR3$AHR, actual$AHR, tolerance = 5e-3))
   testthat::expect_true(all.equal(simulation_AHR3$Events, actual$Events, tolerance = 7e-3))
-  
 })

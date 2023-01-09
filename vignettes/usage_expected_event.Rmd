@@ -13,9 +13,8 @@ vignette: >
   %\VignetteIndexEntry{eEvents_df: compute expected number of events at 1 time point}
 ---
 
-
-```{r, essage=FALSE, echo=FALSE}
-knitr::opts_chunk$set(fig.width = 5, fig.height = 4, fig.align = 'center') 
+```{r, message=FALSE, echo=FALSE}
+knitr::opts_chunk$set(fig.width = 5, fig.height = 4, fig.align = "center")
 ```
 
 ```{r, message=FALSE, echo=FALSE}
@@ -30,102 +29,137 @@ library(gsDesign2)
 
 `eEvents_df()` computes expected number of events at a **given analysis time by strata** under the assumption of piecewise model:
 
-- piecewise constant enrollment rates 
+- piecewise constant enrollment rates
 - piecewise exponential failure rates
 - piecewise censoring rates.
 
 The above piecewise exponential distribution allows a simple method to specify a distribution and enrollment pattern where the enrollment, failure and dropout rates changes over time.
-
 
 Here the `df` in `eEvents_df()` is short for data frame, since its output is a data frame.
 
 # Use Cases
 
 ## Example 1: Single Enroll + Single Fail Period
+
 ```{r}
 enroll_rate <- tibble(duration = 10, rate = 10)
 fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- 22
 
-expected_event(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = total_duration, simple = FALSE)
+expected_event(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = total_duration,
+  simple = FALSE
+)
 ```
 
 ## Example 2: Multiple Enroll + Single Fail Period
+
 ```{r}
 enroll_rate <- tibble(duration = c(5, 5), rate = c(10, 20))
-fail_rate <- tibble(duration = 100, fail_rate = log(2)/6, dropout_rate = .01)
+fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- 22
 
-expected_event(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = total_duration, simple = FALSE)
+expected_event(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = total_duration,
+  simple = FALSE
+)
 ```
 
+## Example 3: Single Enroll + Multiple Fail Period
 
-## Example 3: Signle Enroll + Multiple Fail Period
 ```{r}
 enroll_rate <- tibble(duration = 10, rate = 10)
-fail_rate <- tibble(duration = c(20, 80), fail_rate = c(log(2)/6, log(2)/4), dropout_rate = .01)
+fail_rate <- tibble(
+  duration = c(20, 80),
+  fail_rate = c(log(2) / 6, log(2) / 4),
+  dropout_rate = .01
+)
 total_duration <- 22
 
-expected_event(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = total_duration, simple = FALSE)
+expected_event(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = total_duration,
+  simple = FALSE
+)
 ```
 
 ## Example 4: Multiple Duration
+
 ```{r}
 enroll_rate <- tibble(duration = 10, rate = 10)
 fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- c(2, 22)
 
-try(expected_event(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = total_duration, simple = FALSE))
+try(expected_event(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  total_duration = total_duration,
+  simple = FALSE
+))
 ```
-
-
 
 # Inner Logic of `eEvents_df()`
 
 **Step 1:** set the analysis time.
+
 ```{r}
 total_duration <- 50
 ```
 
 **Step 2:** set the enrollment rates.
+
 ```{r}
 enroll_rate <- tibble(duration = c(5, 5), rate = c(10, 20))
 
 # create a step function (sf) to define enrollment rates over time
 sf.enrollRate <- stepfun(c(0, cumsum(enroll_rate$duration)),
-                         c(0, enroll_rate$rate, 0),
-                         right = FALSE)
+  c(0, enroll_rate$rate, 0),
+  right = FALSE
+)
 
-plot(sf.enrollRate, 
-     xlab = "duration", ylab = "enrollment rates", 
-     main = "Piecewise enrollment rate over time", xlim = c(-0.01, 21))
+plot(sf.enrollRate,
+  xlab = "duration", ylab = "enrollment rates",
+  main = "Piecewise enrollment rate over time", xlim = c(-0.01, 21)
+)
 ```
 
 **Step 3:** set the failure rates and dropout rates.
+
 ```{r}
-fail_rate <- tibble(duration = c(20, 80), failRate = c(0.1, 0.2), dropout_rate = .01)
+fail_rate <- tibble(
+  duration = c(20, 80),
+  failRate = c(0.1, 0.2),
+  dropout_rate = .01
+)
 
 # get the time points where the failure rates change
 startFail <- c(0, cumsum(fail_rate$duration))
 
 # plot the piecewise failure rates
 sf.failRate <- stepfun(startFail,
-                       c(0, fail_rate$failRate, last(fail_rate$failRate)),
-                       right = FALSE)
-plot(sf.failRate, 
-     xlab = "duration", ylab = "failure rates", 
-     main = "Piecewise failure rate over time", xlim = c(-0.01, 101))
+  c(0, fail_rate$failRate, last(fail_rate$failRate)),
+  right = FALSE
+)
+plot(sf.failRate,
+  xlab = "duration", ylab = "failure rates",
+  main = "Piecewise failure rate over time", xlim = c(-0.01, 101)
+)
 
 # plot the piecewise dropout rate
 sf.dropoutRate <- stepfun(startFail,
-                          c(0, fail_rate$dropout_rate, last(fail_rate$dropout_rate)),
-                          right = FALSE)
-plot(sf.dropoutRate, 
-     xlab = "duration", ylab = "dropout rates", 
-     main = "Piecewise dropout rate over time", xlim = c(-0.01, 101))
+  c(0, fail_rate$dropout_rate, last(fail_rate$dropout_rate)),
+  right = FALSE
+)
+plot(sf.dropoutRate,
+  xlab = "duration", ylab = "dropout rates",
+  main = "Piecewise dropout rate over time", xlim = c(-0.01, 101)
+)
 ```
-
-
 
 Given the above piecewise enrollment rates, failure rates, dropout rates, the time line is divided into several parts:
 
@@ -136,157 +170,232 @@ Given the above piecewise enrollment rates, failure rates, dropout rates, the ti
 - $(50, \infty]$ (after the analysis time).
 
 ```{r, echo=FALSE}
-plot(sf.enrollRate, 
-     xlab = "time", ylab = "enrollment rates", 
-     lty = 1, col = "red", pch = 1,
-     main = "Piecewise enrollment, failure, dropout rate over time", xlim = c(-0.01, 101))
+plot(sf.enrollRate,
+  xlab = "time", ylab = "enrollment rates",
+  lty = 1, col = "red", pch = 1,
+  main = "Piecewise enrollment, failure, dropout rate over time", xlim = c(-0.01, 101)
+)
 
-plot(sf.failRate, 
-     xlab = "time", ylab = "failure rates", 
-     lty = 2, col = "blue", pch = 2,
-     xlim = c(-0.01, 101), add = TRUE)
+plot(sf.failRate,
+  xlab = "time", ylab = "failure rates",
+  lty = 2, col = "blue", pch = 2,
+  xlim = c(-0.01, 101), add = TRUE
+)
 
-plot(sf.dropoutRate, 
-     xlab = "time", ylab = "dropout rates", 
-     lty = 3, col = "green", pch = 3,
-     xlim = c(-0.01, 101), add = TRUE)
+plot(sf.dropoutRate,
+  xlab = "time", ylab = "dropout rates",
+  lty = 3, col = "green", pch = 3,
+  xlim = c(-0.01, 101), add = TRUE
+)
 
-legend(60, 20, c("enrollment rate", "failure rate", "dropout rate"), col = c("red", "blue", "green"),
-       lty = c(1, 2, 3), pch = c(1, 2, 3),
-       merge = TRUE, bg = "gray90")
+legend(60, 20, c("enrollment rate", "failure rate", "dropout rate"),
+  col = c("red", "blue", "green"),
+  lty = c(1, 2, 3), pch = c(1, 2, 3),
+  merge = TRUE, bg = "gray90"
+)
 ```
 
 Given the above sub-intervals, our objective is to calculate the expected number of events in each sub-intervals.
 
 **Step 4:** divide the time line for enrollments
+
 ```{r}
-df_1 <- tibble(startEnroll = c(0, cumsum(enroll_rate$duration)),
-               endFail = total_duration - startEnroll,
-               rate = c(enroll_rate$rate, 0)) 
+df_1 <- tibble(
+  startEnroll = c(0, cumsum(enroll_rate$duration)),
+  endFail = total_duration - startEnroll,
+  rate = c(enroll_rate$rate, 0)
+)
 ```
 
 ```{r, echo=FALSE}
-df_1 %>% 
+df_1 %>%
   gt() %>%
-  tab_header(title = "df_1") %>% 
-  tab_footnote(footnote = "The time when the enrollment starts.", locations = cells_column_labels("startEnroll")) %>%
-  tab_footnote(footnote = "The time from startEnroll to the analysis time.", locations = cells_column_labels("endFail")) %>% 
-  tab_footnote(footnote = "The enrollment rates", locations = cells_column_labels("rate"))
+  tab_header(title = "df_1") %>%
+  tab_footnote(
+    footnote = "The time when the enrollment starts.",
+    locations = cells_column_labels("startEnroll")
+  ) %>%
+  tab_footnote(
+    footnote = "The time from startEnroll to the analysis time.",
+    locations = cells_column_labels("endFail")
+  ) %>%
+  tab_footnote(
+    footnote = "The enrollment rates",
+    locations = cells_column_labels("rate")
+  )
 ```
 
 **Step 5:** divide the time line for failure \& dropout rates
+
 ```{r}
-df_2 <- tibble(endFail = cumsum(fail_rate$duration),
-               startEnroll = total_duration - endFail,
-               failRate = fail_rate$failRate,
-               dropoutRate = fail_rate$dropout_rate)
+df_2 <- tibble(
+  endFail = cumsum(fail_rate$duration),
+  startEnroll = total_duration - endFail,
+  failRate = fail_rate$failRate,
+  dropoutRate = fail_rate$dropout_rate
+)
 ```
 
 ```{r, echo=FALSE}
-df_2 %>% 
+df_2 %>%
   gt() %>%
-  tab_header(title = "df_2") %>% 
-  tab_footnote(footnote = "The time when the failure changes.", locations = cells_column_labels("endFail")) %>%
-  tab_footnote(footnote = "The time from endFail to the analysis time.", locations = cells_column_labels("startEnroll")) %>% 
-  tab_footnote(footnote = "The failure rates", locations = cells_column_labels("failRate")) %>% 
-  tab_footnote(footnote = "The dropout rates", locations = cells_column_labels("dropoutRate"))
+  tab_header(title = "df_2") %>%
+  tab_footnote(
+    footnote = "The time when the failure changes.",
+    locations = cells_column_labels("endFail")
+  ) %>%
+  tab_footnote(
+    footnote = "The time from endFail to the analysis time.",
+    locations = cells_column_labels("startEnroll")
+  ) %>%
+  tab_footnote(
+    footnote = "The failure rates",
+    locations = cells_column_labels("failRate")
+  ) %>%
+  tab_footnote(
+    footnote = "The dropout rates",
+    locations = cells_column_labels("dropoutRate")
+  )
 ```
 
 For the above `df_2`, one needs to discriminate if the analysis time (`total_duration = 50`) is beyond the total failure rate duration.
+
 ```{r}
 # if the analysis time is after the total failure rate duration
-if(sum(fail_rate$duration) < total_duration){
+if (sum(fail_rate$duration) < total_duration) {
   df_2 <- df_2[-nrow(df_2), ]
-}else{
+} else {
   df_2 <- df_2 %>% filter(startEnroll > 0)
 }
 ```
 
 ```{r, echo=FALSE}
-df_2 %>% 
+df_2 %>%
   gt() %>%
-  tab_header(title = "df_2", subtitle = "Updated by adjusting the analysis time and fail_rate duration") %>% 
-  tab_footnote(footnote = "The time when the failure changes.", locations = cells_column_labels("endFail")) %>%
-  tab_footnote(footnote = "The time from endFail to the analysis time.", locations = cells_column_labels("startEnroll")) %>% 
-  tab_footnote(footnote = "The failure rates", locations = cells_column_labels("failRate")) %>% 
-  tab_footnote(footnote = "The dropout rates", locations = cells_column_labels("dropoutRate"))
+  tab_header(
+    title = "df_2",
+    subtitle = "Updated by adjusting the analysis time and fail_rate duration"
+  ) %>%
+  tab_footnote(
+    footnote = "The time when the failure changes.",
+    locations = cells_column_labels("endFail")
+  ) %>%
+  tab_footnote(
+    footnote = "The time from endFail to the analysis time.",
+    locations = cells_column_labels("startEnroll")
+  ) %>%
+  tab_footnote(
+    footnote = "The failure rates",
+    locations = cells_column_labels("failRate")
+  ) %>%
+  tab_footnote(
+    footnote = "The dropout rates",
+    locations = cells_column_labels("dropoutRate")
+  )
 ```
 
-
 **Step 6:** divide the time line considering both the change points in enrollment, failure, dropout rates.
+
 ```{r}
 df <- full_join(df_1, df_2, by = c("startEnroll", "endFail")) %>% arrange(endFail)
 ```
 
 ```{r, echo=FALSE}
-df %>% 
-  gt() %>% 
-  tab_header(title = "df") %>% 
-  tab_footnote(footnote = "The time when the enrollment rate starts.", locations = cells_column_labels("startEnroll")) %>% 
-  tab_footnote(footnote = "The time when the failure rate ends. And startEnroll + endFail = 50", locations = cells_column_labels("endFail")) %>% 
-  tab_footnote(footnote = "The enrollment rates.", locations = cells_column_labels("rate")) 
+df %>%
+  gt() %>%
+  tab_header(title = "df") %>%
+  tab_footnote(
+    footnote = "The time when the enrollment rate starts.",
+    locations = cells_column_labels("startEnroll")
+  ) %>%
+  tab_footnote(
+    footnote = "The time when the failure rate ends. And startEnroll + endFail = 50",
+    locations = cells_column_labels("endFail")
+  ) %>%
+  tab_footnote(
+    footnote = "The enrollment rates.",
+    locations = cells_column_labels("rate")
+  )
 ```
 
 We find there are lots of `NA`, which can be imputed by the piecewise model.
 ```{r}
-df <- df %>% mutate(endEnroll = lag(startEnroll, default = as.numeric(total_duration)),
-                    startFail = lag(endFail, default = 0),
-                    duration = endEnroll - startEnroll,
-                    failRate = sf.failRate(startFail),
-                    dropoutRate = sf.dropoutRate(startFail),
-                    enrollRate = sf.enrollRate(startEnroll)) %>% 
-             select(-rate)
+df <- df %>%
+  mutate(
+    endEnroll = lag(startEnroll, default = as.numeric(total_duration)),
+    startFail = lag(endFail, default = 0),
+    duration = endEnroll - startEnroll,
+    failRate = sf.failRate(startFail),
+    dropoutRate = sf.dropoutRate(startFail),
+    enrollRate = sf.enrollRate(startEnroll)
+  ) %>%
+  select(-rate)
 ```
-
 
 ```{r, echo=FALSE}
-df %>% 
-  select(startEnroll, endEnroll, startFail, endFail, enrollRate, failRate, dropoutRate, duration) %>% 
-  arrange(startEnroll) %>% 
-  gt() %>% 
-  tab_footnote(footnote = "The time when the enrollment rate starts.", 
-               locations = cells_column_labels("startEnroll")) %>% 
-  tab_footnote(footnote = "The (startEnroll, endEnroll] forms the piecewise model of the enrollment rates",
-               locations = cells_column_labels("endEnroll")) %>% 
-  tab_footnote(footnote = "The time when the failure rate starts.", 
-               locations = cells_column_labels("startFail")) %>% 
-  tab_footnote(footnote = "The time when the failure rate ends. And startEnroll + endFail = 50. Besides, (startFail, endFail  ] forms the piecewise model of the enrollment rates.", 
-               locations = cells_column_labels("endFail")) %>% 
-  tab_footnote(footnote = "endEnroll - startEnroll",
-               locations = cells_column_labels("duration")) 
+df %>%
+  select(startEnroll, endEnroll, startFail, endFail, enrollRate, failRate, dropoutRate, duration) %>%
+  arrange(startEnroll) %>%
+  gt() %>%
+  tab_footnote(
+    footnote = "The time when the enrollment rate starts.",
+    locations = cells_column_labels("startEnroll")
+  ) %>%
+  tab_footnote(
+    footnote = "The (startEnroll, endEnroll] forms the piecewise model of the enrollment rates",
+    locations = cells_column_labels("endEnroll")
+  ) %>%
+  tab_footnote(
+    footnote = "The time when the failure rate starts.",
+    locations = cells_column_labels("startFail")
+  ) %>%
+  tab_footnote(
+    footnote = "The time when the failure rate ends. And startEnroll + endFail = 50. Besides, (startFail, endFail  ] forms the piecewise model of the enrollment rates.",
+    locations = cells_column_labels("endFail")
+  ) %>%
+  tab_footnote(
+    footnote = "endEnroll - startEnroll",
+    locations = cells_column_labels("duration")
+  )
 ```
 
-**Step 7:** compute the expected number of events in sub-intervals following the technical details in the vignette [``computing expected events by interval at risk''](https://merck.github.io/gsDesign2/articles/eEventsTheory.html) 
+**Step 7:** compute the expected number of events in sub-intervals following the technical details in the vignette [computing expected events by interval at risk](https://merck.github.io/gsDesign2/articles/eEventsTheory.html).
 
 ```{r}
-             # create 2 auxiliary variable for failure & dropout rate
-             # q: number of expected events in a sub-interval
-             # Q: cumulative product of q (pool all sub-intervals)
-df <- df %>% mutate(q = exp(-duration * (failRate + dropoutRate)),
-                    Q = lag(cumprod(q), default = 1)) %>%
-             arrange(desc(startFail)) %>%
-             # create another 2 auxiliary variable for enroll rate
-             # g: number of expected subjects in a sub-interval
-             # G: cumulative sum of g (pool all sub-intervals)
-             mutate(g = enrollRate * duration,
-                    G = lag(cumsum(g), default = 0)) %>%
-             arrange(startFail) %>%
-             # compute expected events as nbar in a sub-interval
-             mutate(d = ifelse(failRate == 0, 0, Q * (1 - q) * failRate / (failRate + dropoutRate)),
-                    nbar = ifelse(failRate == 0, 0, G * d + (failRate * Q * enrollRate) / (failRate + dropoutRate) * (duration - (1 - q) / (failRate + dropoutRate))))
-
+# Create 2 auxiliary variables for failure & dropout rate
+# q: number of expected events in a sub-interval
+# Q: cumulative product of q (pool all sub-intervals)
+df <- df %>%
+  mutate(
+    q = exp(-duration * (failRate + dropoutRate)),
+    Q = lag(cumprod(q), default = 1)
+  ) %>%
+  arrange(desc(startFail)) %>%
+  # Create another 2 auxiliary variables for enroll rate
+  # g: number of expected subjects in a sub-interval
+  # G: cumulative sum of g (pool all sub-intervals)
+  mutate(
+    g = enrollRate * duration,
+    G = lag(cumsum(g), default = 0)
+  ) %>%
+  arrange(startFail) %>%
+  # Compute expected events as nbar in a sub-interval
+  mutate(
+    d = ifelse(failRate == 0, 0, Q * (1 - q) * failRate / (failRate + dropoutRate)),
+    nbar = ifelse(failRate == 0, 0, G * d + (failRate * Q * enrollRate) / (failRate + dropoutRate) * (duration - (1 - q) / (failRate + dropoutRate)))
+  )
 ```
 
 **Step 8:**  output results
-```{R}
+
+```{r}
 sf.startFail <- stepfun(startFail, c(0, startFail), right = FALSE)
-df <- df %>% 
-  transmute(t = endFail, failRate = failRate, Events = nbar, startFail = sf.startFail(startFail)) %>% 
+df <- df %>%
+  transmute(t = endFail, failRate = failRate, Events = nbar, startFail = sf.startFail(startFail)) %>%
   group_by(startFail) %>%
   summarize(failRate = first(failRate), Events = sum(Events)) %>%
-  mutate(t = startFail) %>% 
+  mutate(t = startFail) %>%
   select("t", "failRate", "Events")
 
 df %>% gt()
 ```
-

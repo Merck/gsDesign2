@@ -44,43 +44,58 @@ NULL
 #' @return A `tibble` with `Time` (computed to match events in `targetEvents`), `AHR` (average hazard ratio),
 #' `Events` (`targetEvents` input), info (information under given scenarios),
 #' and info0 (information under related null hypothesis) for each value of `totalDuration` input;
-#' 
+#'
 #' @examples
 #' library(dplyr)
 #' library(gsDesign2)
-#' 
+#'
 #' # Example 1: default
 #' gsDesign2:::tEvents_()
-#' 
+#'
 #' # Example 2: check that result matches a finding using AHR()
 #' # Start by deriving an expected event count
 #' enrollRates <-
-#'   tibble::tibble(Stratum="All",
-#'                  duration=c(2,2,10),
-#'                  rate=c(3,6,9)*5)
-#' failRates=tibble::tibble(Stratum="All",duration=c(3,100),failRate=log(2)/c(9,18),
-#'                          hr=c(.9,.6),dropoutRate=rep(.001,2))
+#'   tibble::tibble(
+#'     Stratum = "All",
+#'     duration = c(2, 2, 10),
+#'     rate = c(3, 6, 9) * 5
+#'   )
+#' failRates <- tibble::tibble(
+#'   Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18),
+#'   hr = c(.9, .6), dropoutRate = rep(.001, 2)
+#' )
 #' totalDuration <- 20
-#' xx <- gsDesign2:::AHR_(enrollRates,failRates,totalDuration)
+#' xx <- gsDesign2:::AHR_(enrollRates, failRates, totalDuration)
 #' xx
 #' # Next we check that the function confirms the timing of the final analysis.
-#' gsDesign2:::tEvents_(enrollRates,failRates,targetEvents=xx$Events,interval=c(.5,1.5)*xx$Time)
-#' 
+#' gsDesign2:::tEvents_(enrollRates, failRates, targetEvents = xx$Events, interval = c(.5, 1.5) * xx$Time)
+#'
 #' @noRd
-tEvents_ <- function(enrollRates=tibble::tibble(Stratum="All",
-                                               duration=c(2, 2, 10),
-                                               rate=c(3, 6, 9) * 5),
-                    failRates=tibble::tibble(Stratum="All",
-                                             duration=c(3, 100),
-                                             failRate=log(2) / c(9, 18),
-                                             hr=c(.9, .6),
-                                             dropoutRate=rep(.001, 2)),
-                    targetEvents=150,
-                    ratio = 1,
-                    interval=c(.01, 100)
-){
-  res <- try(uniroot(function(x){AHR(enrollRates, failRates, x, ratio)$Events - targetEvents},
-                     interval))
-  if(inherits(res,"try-error")){stop("tEvents solution not found")}
+tEvents_ <- function(enrollRates = tibble::tibble(
+                       Stratum = "All",
+                       duration = c(2, 2, 10),
+                       rate = c(3, 6, 9) * 5
+                     ),
+                     failRates = tibble::tibble(
+                       Stratum = "All",
+                       duration = c(3, 100),
+                       failRate = log(2) / c(9, 18),
+                       hr = c(.9, .6),
+                       dropoutRate = rep(.001, 2)
+                     ),
+                     targetEvents = 150,
+                     ratio = 1,
+                     interval = c(.01, 100)) {
+  res <- try(
+    uniroot(
+      function(x) {
+        AHR(enrollRates, failRates, x, ratio)$Events - targetEvents
+      },
+      interval
+    )
+  )
+  if (inherits(res, "try-error")) {
+    stop("tEvents solution not found")
+  }
   AHR(enrollRates, failRates, res$root, ratio)
 }

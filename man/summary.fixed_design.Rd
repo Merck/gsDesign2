@@ -24,7 +24,8 @@ library(dplyr)
 enroll_rate <- tibble::tibble(
   stratum = "All",
   duration = 18,
-  rate = 20)
+  rate = 20
+)
 
 # Failure rates
 fail_rate <- tibble::tibble(
@@ -32,7 +33,8 @@ fail_rate <- tibble::tibble(
   duration = c(4, 100),
   fail_rate = log(2) / 12,
   hr = c(1, .6),
-  dropout_rate = .001)
+  dropout_rate = .001
+)
 
 # Study duration in months
 study_duration <- 36
@@ -57,7 +59,7 @@ fixed_design(
   fail_rate = fail_rate,
   study_duration = study_duration,
   ratio = ratio
-  ) \%>\% summary()
+) \%>\% summary()
 
 # ------------------------- #
 #        FH                 #
@@ -71,6 +73,6 @@ fixed_design(
   fail_rate = fail_rate,
   study_duration = study_duration,
   ratio = ratio
-  ) \%>\% summary()
+) \%>\% summary()
 
 }

@@ -1,4 +1,5 @@
-#  Copyright (c) 2022 Merck Sharp & Dohme Corp. a subsidiary of Merck & Co., Inc., Rahway, NJ, USA.
+#  Copyright (c) 2023 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
 #
@@ -30,46 +31,62 @@ NULL
 #' @param beta Type II error
 #' @param info_frac Targeted information fraction at each analysis
 #' @param analysis_time Minimum time of analysis
-#' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
+#' @param binding indicator of whether futility bound is binding;
+#' default of FALSE is recommended
 #' @param upper Function to compute upper bound
 #' @param upar Parameter passed to \code{upper()}
 #' @param lower Function to compute lower bound
 #' @param lpar Parameter passed to \code{lower()}
 #' @param info_scale the information scale for calculation
-#' @param h1_spending Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
+#' @param h1_spending Indicator that lower bound to be set by spending
+#' under alternate hypothesis (input \code{fail_rate})
 #' if spending is used for lower bound
-#' @param test_upper indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-#' otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
+#' @param test_upper indicator of which analyses should include an upper
+#' (efficacy) bound; single value of TRUE (default) indicates all analyses;
+#' otherwise, a logical vector of the same length as \code{info} should indicate
+#' which analyses will have an efficacy bound
+#' @param test_lower indicator of which analyses should include an lower bound;
+#' single value of TRUE (default) indicates all analyses;
+#' single value FALSE indicated no lower bound; otherwise, a logical vector of
+#' the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+#' @param r Integer value controlling grid for numerical integration as in
+#' Jennison and Turnbull (2000);
+#' default is 18, range is 1 to 80. Larger values provide larger number of
+#' grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
-#'    \item Validate if input analysis_time is a positive number or positive increasing sequence.
-#'    \item Validate if input info_frac is a positive number or positive increasing sequence
+#'    \item Validate if input analysis_time is a positive number or positive
+#'    increasing sequence.
+#'    \item Validate if input info_frac is a positive number or positive
+#'    increasing sequence
 #'    on (0, 1] with final value of 1.
-#'    \item Validate if input info_frac and analysis_time  have the same length if both have length > 1.
+#'    \item Validate if input info_frac and analysis_time  have the same
+#'    length if both have length > 1.
 #'    \item Get information at input analysis_time
 #'    \itemize{
-#'      \item Use \code{gs_info_ahr()} to get the information and effect size based on AHR approximation.
+#'      \item Use \code{gs_info_ahr()} to get the information and effect size
+#'      based on AHR approximation.
 #'      \item Extract the final event.
 #'      \item Check if input If needed for (any) interim analysis timing.
 #'    }
 #'    \item Add the analysis column to the information at input analysis_time.
-#'    \item Add the sample size column to the information at input analysis_time using \code{expected_accural()}.
-#'    \item Get sample size and bounds using \code{gs_design_npe()} and save them to bounds.
-#'    \item Add Time, Events, AHR, N that have already been calculated to the bounds.
+#'    \item Add the sample size column to the information at input analysis_time
+#'    using \code{expected_accural()}.
+#'    \item Get sample size and bounds using \code{gs_design_npe()} and
+#'    save them to bounds.
+#'    \item Add Time, Events, AHR, N that have already been calculated
+#'    to the bounds.
 #'    \item Return a list of design enrollment, failure rates, and bounds.
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
+#' @return a \code{tibble} with columns Analysis, Bound, Z, Probability,
+#' theta, Time, AHR, Events
 #'
 #' @details Need to be added
 #'

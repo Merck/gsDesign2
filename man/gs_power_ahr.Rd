@@ -2,7 +2,8 @@
 % Please edit documentation in R/gs_power_ahr.R
 \name{gs_power_ahr}
 \alias{gs_power_ahr}
-\title{Group sequential design power using average hazard ratio under non-proportional hazards}
+\title{Group sequential design power using average hazard ratio under
+non-proportional hazards}
 \usage{
 gs_power_ahr(
   enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
@@ -41,44 +42,56 @@ gs_power_ahr(
 
 \item{lpar}{Parameter passed to \code{lower()}}
 
-\item{test_lower}{indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
+\item{test_lower}{indicator of which analyses should include an lower bound;
+single value of TRUE (default) indicates all analyses;
+single value FALSE indicated no lower bound; otherwise, a logical vector of
+the same length as \code{info} should indicate which analyses will have a
 lower bound}
 
-\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound}
+\item{test_upper}{indicator of which analyses should include an upper
+(efficacy) bound; single value of TRUE (default) indicates all analyses;
+otherwise, a logical vector of the same length as \code{info} should
+indicate which analyses will have an efficacy bound}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{indicator of whether futility bound is binding;
+default of FALSE is recommended}
 
 \item{info_scale}{the information scale for calculation}
 
-\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+\item{r}{Integer value controlling grid for numerical integration as in
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 }
 \value{
-a \code{tibble} with columns \code{Analysis, Bound, Z, Probability, theta, Time, AHR, Events}.
+A \code{tibble} with columns \code{Analysis}, \code{Bound}, \code{Z}, \code{Probability},
+\code{theta}, \code{Time}, \code{AHR}, \code{Events}.
 Contains a row for each analysis and each bound.
 }
 \description{
-Group sequential design power using average hazard ratio under non-proportional hazards
+Group sequential design power using average hazard ratio under
+non-proportional hazards
 }
 \details{
-Bound satisfy input upper bound specification in \code{upper, upar} and lower bound specification in \code{lower, lpar}.
-The \code{AHR()} function computes statistical information at targeted event times.
-The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
+Bound satisfy input upper bound specification in
+\code{upper}, \code{upar}, and lower bound specification in \code{lower}, \code{lpar}.
+\code{AHR()} computes statistical information at targeted event times.
+The \code{expected_time()} function is used to get events and average HR at
+targeted \code{analysis_time}.
 }
 \section{Specification}{
 
 \if{latex}{
  \itemize{
-   \item Calculate information and effect size based on AHR approximation using \code{gs_info_ahr()}.
-   \item Return a tibble of with columns Analysis, Bound, Z, Probability, theta,
-    Time, AHR, Events and  contains a row for each analysis and each bound.
+   \item Calculate information and effect size based on AHR approximation
+   using \code{gs_info_ahr()}.
+   \item Return a tibble of with columns Analysis, Bound, Z, Probability,
+   theta, Time, AHR, Events and  contains a row for each analysis
+   and each bound.
   }
 }
 \if{html}{The contents of this section are shown in PDF user manual only.}
@@ -88,18 +101,16 @@ The \code{expected_time()} function is used to get events and average HR at targ
 library(gsDesign2)
 library(dplyr)
 
-# -------------------------#
-#       example 1          #
-# ------------------------ #
-# The default output of \code{gs_power_ahr} is driven by events, i.e.,
-# \code{event = c(30, 40, 50), analysis_time = NULL}
-gs_power_ahr() 
+# Example 1 -----------------------------------------------------------------
+# The default output of `gs_power_ahr()` is driven by events,
+# i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
 
-# -------------------------#
-#       example 2          #
-# -------------------------#
-# 2-sided symmetric O'Brien-Fleming spending bound, 
-# driven by analysis time, i.e., \code{event = NULL, analysis_time = c(12, 24, 36)}
+gs_power_ahr()
+
+# Example 2 -----------------------------------------------------------------
+# 2-sided symmetric O'Brien-Fleming spending bound, driven by analysis time,
+# i.e., `event = NULL`, `analysis_time = c(12, 24, 36)`
+
 gs_power_ahr(
   analysis_time = c(12, 24, 36),
   event = NULL,
@@ -107,13 +118,13 @@ gs_power_ahr(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)) 
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
 
-# -------------------------#
-#       example 3          #
-# -------------------------#
-# 2-sided symmetric O'Brien-Fleming spending bound,
-# driven by event, i.e., \code{event = c(20, 50, 70), analysis_time = NULL}
+# Example 3 -----------------------------------------------------------------
+# 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
+# i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
+
 gs_power_ahr(
   analysis_time = NULL,
   event = c(20, 50, 70),
@@ -121,17 +132,17 @@ gs_power_ahr(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL))
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
 
-# -------------------------#
-#       example 4          #
-# -------------------------#
+# Example 4 -----------------------------------------------------------------
 # 2-sided symmetric O'Brien-Fleming spending bound,
 # driven by both `event` and `analysis_time`, i.e.,
 # both `event` and `analysis_time` are not `NULL`,
 # then the analysis will driven by the maximal one, i.e.,
 # Time = max(analysis_time, calculated Time for targeted event)
 # Events = max(events, calculated events for targeted analysis_time)
+
 gs_power_ahr(
   analysis_time = c(12, 24, 36),
   event = c(30, 40, 50),
@@ -139,6 +150,6 @@ gs_power_ahr(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL))
-  
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
 }

@@ -15,8 +15,8 @@ vignette: |
   %\VignetteIndexEntry{Group sequential design for binary outcomes}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: 72
 ---
 
@@ -110,7 +110,7 @@ Simulation is used throughout to check the examples presented.
 -   $d$: an indicator whether is an outcome is failure (bad outcome) or
     response (good outcome), i.e., $$
     d
-    = 
+    =
     \left\{
     \begin{array}{lll}
       -1 & \text{if } p_{C,s} < p_{E,s} & \text{the control arm is better}\\
@@ -143,7 +143,7 @@ Simulation is used throughout to check the examples presented.
 
 -   $\delta_{s}$: the **planned** risk difference under $H_1$ at any
     $k$-th analysis of the $s$-th strata is denoted by $$
-    \delta_{s} = |p_{C,s} - p_{E,s}|. 
+    \delta_{s} = |p_{C,s} - p_{E,s}|.
     $$
 
 -   $\hat\delta_{s}$: estimation of risk difference with $$
@@ -154,9 +154,9 @@ Simulation is used throughout to check the examples presented.
 # Testing
 
 The test statistics at the $k$-th analysis is $$
-  Z_{k} 
-  = 
-  \frac{ 
+  Z_{k}
+  =
+  \frac{
     \sum_{s=1}^S \widehat w_{s,k} \; |\widehat \delta_{k,s} - \delta_{s}^{null} |
   }{
     \sqrt{\sum_{s=1}^S \widehat w_{s,k}^2 \widehat\sigma_{H_0,k,s}^2}
@@ -172,7 +172,7 @@ $\widehat\sigma^2_{k,s}$ in the following 3 subsections.
 
 A superiority design ($\delta_{s}^{null} = 0$) is to show that
 experimental group is superior to the control group above some
-thresholds. Its hypothesis is 
+thresholds. Its hypothesis is
 $$
   H_0: \delta_{s} = 0 \text{ vs. } H_1: \delta_{s} > 0, \; \forall k = 1, \ldots, K, s = 1, \ldots, S
 $$
@@ -181,13 +181,13 @@ $$
 
     -   Under the null hypothesis, we have $$
         \begin{array}{ll}
-        \sigma^2_{H_0,k,s} 
-        & = 
+        \sigma^2_{H_0,k,s}
+        & =
         \text{Var}(p_C - p_E | H_0)
         =
         p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right), \\
-        \widehat\sigma^2_{H_0,k,s} 
-        & = 
+        \widehat\sigma^2_{H_0,k,s}
+        & =
         \widehat{\text{Var}}(\hat p_C - \hat p_E | H_0)
         =
         \widehat p_{k,s}^{pool} \left(1 - \widehat p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right),
@@ -199,15 +199,15 @@ $$
 
     -   Under the alternative hypothesis, we have $$
         \begin{array}{ll}
-        \sigma_{H_1,k,s}^2 
-        & = 
+        \sigma_{H_1,k,s}^2
+        & =
         \text{Var}(p_C - p_E | H_1)
-        = 
+        =
         \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}} \\
-        \widehat\sigma_{H_1,k,s}^2 
-        & = 
+        \widehat\sigma_{H_1,k,s}^2
+        & =
         \widehat{\text{Var}}(\hat p_C - \hat p_E | H_1)
-        = 
+        =
         \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}
         \end{array}
         $$ where
@@ -226,10 +226,10 @@ $$
 
     -   Under the alternative hypothesis, we have $$
         \begin{array}{ll}
-        \theta_{H_1,k} 
+        \theta_{H_1,k}
         & = \frac{\sum_{s=1}^S w_{k,s} (p_{C,s} - p_{E,s})}{\sqrt{\sum_{s=1}^S w_{k,s}^2 \sigma_{H_1, k,s}^2}}\\
-        \widehat\theta_{H_1,k} 
-        & = 
+        \widehat\theta_{H_1,k}
+        & =
         \frac{
         \sum_{s=1}^S \widehat w_{k,s} (\widehat p_C - \widehat p_E)
         }{
@@ -250,19 +250,19 @@ $$
 
     -   Under the null hypothesis, we have $$
         \begin{array}{ll}
-        \mathcal I_{H0,k} 
-        & = 
-        \left[ 
-        \sum_{s=1}^S 
-        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} + 
-        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}} 
+        \mathcal I_{H0,k}
+        & =
+        \left[
+        \sum_{s=1}^S
+        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} +
+        w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
         \right]^{-1} \\
-        \widehat{\mathcal I}_{H0,k} 
-        & = 
-        \left[ 
-        \sum_{s=1}^S 
+        \widehat{\mathcal I}_{H0,k}
+        & =
+        \left[
+        \sum_{s=1}^S
         \widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}} +
-        \widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}} 
+        \widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}}
         \right]^{-1}
         \end{array}
         $$
@@ -270,18 +270,18 @@ $$
     -   Under the alternative hypothesis, we have $$
         \begin{array}{ll}
         \mathcal I_{H1,k}
-        = 
-        \left[ 
+        =
+        \left[
         \sum_{s=1}^S w_{k,s}^2 \frac{p_{C,k,s} (1 - p_{C,k,s})}{N_{C,k,s}}
         +
-        \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}} 
+        \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}}
         \right]^{-1}\\
-        \widehat{\mathcal I}_{H1,k} 
-        = 
-        \left[ 
+        \widehat{\mathcal I}_{H1,k}
+        =
+        \left[
         \sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{C,k,s} (1 - \widehat p_{C,k,s})}{\widehat N_{C,k,s}}
         +
-        \sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{\widehat N_{E,k,s}} 
+        \sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{\widehat N_{E,k,s}}
         \right]^{-1}
         \end{array}
         $$
@@ -291,15 +291,15 @@ $$
 The hypothesis of the super-superiority design is
 
 $$
-  H_0: \delta_{k,s} = \delta_{k,s}^{null} 
-  \;\; vs. \;\; 
+  H_0: \delta_{k,s} = \delta_{k,s}^{null}
+  \;\; vs. \;\;
   H_1: \delta > \delta_{k,s}^{null} \text{ with } \delta_{k,s}^{null} > 0.
-$$ 
+$$
 Here $\theta_{k,s_1}^{null} = \theta_{k,s_2}^{null}$ or
 $\theta_{k,s_1}^{null} \neq \theta_{k,s_2}^{null}$ for $s_1 \neq s_2$.
 
 Under the null hypothesis $\theta_{0,k,s} \neq 0$, the estimation of
-rates $\widehat p_{C0,k,s}, \widehat p_{E0,k,s}$ satisfy 
+rates $\widehat p_{C0,k,s}, \widehat p_{E0,k,s}$ satisfy
 $$
   \left\{
   \begin{array}{l}
@@ -307,8 +307,8 @@ $$
     \widehat p_{C0,k,s} + r\widehat p_{E0,k,s} = \widehat p_{C,k,s} + r\widehat p_{E,k,s} .
   \end{array}
   \right.
-$$ 
-Solving these 2 equations with 2 unknowns yields 
+$$
+Solving these 2 equations with 2 unknowns yields
 $$
   \left\{
   \begin{array}{l}
@@ -324,15 +324,15 @@ $$
 
 $$
   \hat\sigma^2_{H_0,k,s}
-  = 
+  =
   \frac{\widehat p_{C0,k,s}(1- \widehat p_{C0,k,s})}{N_{C,k,s}} + \frac{ \widehat p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}.
 $$
 
 -   Under $H_1$, we have
 
 $$
-  \widehat\sigma_{H_1,k,s}^2 
-  = 
+  \widehat\sigma_{H_1,k,s}^2
+  =
   \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}.
 $$
 
@@ -341,8 +341,8 @@ $$
     -   Under the null hypothesis, we have
 
 $$
-  \widehat \theta_{H_0,k} 
-  = 
+  \widehat \theta_{H_0,k}
+  =
   \frac{
     \sum_{s=1}^S w_{k,s} \delta_{s,k}^{null}
   }{
@@ -353,8 +353,8 @@ $$
 -   Under the alternative hypothesis, we have
 
 $$
-  \widehat \theta_{H_1} 
-  = 
+  \widehat \theta_{H_1}
+  =
   \frac{
     \sum_{s=1}^S w_{k,s} d_{k,s} \times (\widehat p_{C,k,s} - \widehat p_{E,k,s})
   }{
@@ -367,18 +367,18 @@ $$
     -   Under the null hypothesis, we have
 
 $$
-  \widehat{\mathcal I}_{H0,k} 
-  = 
-  \left[ 
-  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar p_{E0,s})}{N_{E,s}} 
+  \widehat{\mathcal I}_{H0,k}
+  =
+  \left[
+  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar p_{E0,s})}{N_{E,s}}
   \right]^{-1}.
 $$
 
 -   Under the alternative hypothesis, we have
 
 $$
-  \widehat{\mathcal I}_{H1,k} 
-  = 
+  \widehat{\mathcal I}_{H1,k}
+  =
   \left[
   \sum_{s=1}^S \left( w_{k,s}^2 \frac{\bar p_{C,k,s} (1 - \bar p_{C,k,s})}{N_{C,k,s}} + w_{k,s}^2 \frac{\bar p_{E,k,s} (1 - \bar p_{E,k,s})}{N_{E,k,s}} \right)
   \right]^{-1}.
@@ -401,33 +401,33 @@ As previously noted, we will consider weighting based on either
 inverse-variance weights (@MantelHaenszel) or strata sample size weights
 (@mehrotra2000minimum).
 
--   **Inverse-variance weights (INVAR):** 
+-   **Inverse-variance weights (INVAR):**
 $$
     w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}. \\
     \widehat w_{s,k} = \frac{1/\widehat\sigma^2_{s,k}}{\sum_{s=1}^S 1/\widehat\sigma^2_{s,k}}.
-$$ 
+$$
 where
     $\widehat\sigma_{s,k}^2 \in \{\widehat\sigma_{H_0, k,s}^2, \widehat\sigma_{H_1, k,s}^2 \}$
     depending on the infomation scale `info_scale = ...` in
     `gs_info_rd()`, `gs_power_rd()` and `gs_design_rd()`.
 
--   **Sample-Size Weights (SS):** 
+-   **Sample-Size Weights (SS):**
 $$
-    w_{s,k} 
+    w_{s,k}
     =
     \frac{
       (N_{C, s, k} \; N_{E, s, k}) / (N_{C, s, k} + N_{E, s, k})
     }{
       \sum_{s=1}^S (N_{C, s, k} \; N_{E, s, k}) / (N_{C, s, k} + N_{E, s, k})
     },\\
-    \widehat w_{s,k} 
+    \widehat w_{s,k}
     =
     \frac{
       (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) / (\widehat N_{C, s, k} + \widehat N_{E, s, k})
     }{
       \sum_{s=1}^S (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) / (\widehat N_{C, s, k} + \widehat N_{E, s, k})
     },
-$$ 
+$$
 where $N_{C,s,k}, N_{E,s,k}$ are the planned sample size of the $s$-th strata and $k$-th analysis of the control group and experimental group, respectively. And $\widehat N_{C,s,k}, \widehat N_{E,s,k}$ are the observed sample size of the $s$-th strata and $k$-th analysis of the control group and experimental group, respectively.
 
 # Simulations
@@ -456,19 +456,20 @@ xE <- rbinom(n = 20000, size = NE, prob = p)
 thetahat <- xC / NC - xE / NE
 # Standard error under H0
 pbar <- (xC + xE) / N
-se0 <- sqrt(pbar * (1 - pbar)*(1 / NC + 1 / NE))
+se0 <- sqrt(pbar * (1 - pbar) * (1 / NC + 1 / NE))
 # Z to test H0
 Z <- thetahat / se0
 x <- seq(-4, 4, .1)
 se0a <- sqrt(p * (1 - p) * (1 / NC + 1 / NE))
-y <- data.frame(Z = x, Density = dnorm(x = x, mean = 0, sd = 1)) 
+y <- data.frame(Z = x, Density = dnorm(x = x, mean = 0, sd = 1))
 
-ggplot() + 
+ggplot() +
   geom_histogram(data = data.frame(Z), aes(x = Z, y = ..density..), color = 1, fill = "white") +
   geom_line(data = y, aes(x = Z, y = Density), linetype = 1) +
   ylab("Density") +
   ggtitle("Binomial outcomes by simulation vs. asymptotic normal density",
-          subtitle = "Histogram of 20,000 simulations")
+    subtitle = "Histogram of 20,000 simulations"
+  )
 ```
 
 # Examples
@@ -500,58 +501,58 @@ N_e <- N_c * ratio
 ```
 
 Then we calculate the variance under $H_0$ and $H_1$. Their mathmatical
-formulation are shown as follows. 
+formulation are shown as follows.
 $$
   \begin{array}{ll}
-  \sigma^2_{H_0} 
+  \sigma^2_{H_0}
   =
   p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N_C} + \frac{1}{N_{E}} \right)
   =
   p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N \xi_C} + \frac{1}{N \xi_E} \right)
   \overset{r=1}{=}
   p^{pool} \left(1 - p^{pool} \right) \frac{4}{N} \\
-  \sigma^2_{H_1} 
+  \sigma^2_{H_1}
   =
   \frac{p_C \left(1 - p_C \right)}{N_C} +
   \frac{p_E \left(1 - p_E \right)}{N_E}
   =
   \frac{p_C \left(1 - p_C \right)}{N \xi_C} +
-  \frac{p_E \left(1 - p_E \right)}{N \xi_E} 
+  \frac{p_E \left(1 - p_E \right)}{N \xi_E}
   \overset{r=1}{=}
   \left[
     p_C \left(1 - p_C \right) +
     p_E \left(1 - p_E \right)
   \right] \frac{2}{N}
   \end{array}
-$$ 
+$$
 And their calculation results are
 
 ```{r}
-sigma_H0 <-  sqrt(p_pool*(1 - p_pool) * 4 / N)
-sigma_H1 <-  sqrt((p_c*(1 - p_c) + p_e*(1 - p_e)) * 2 / N)
+sigma_H0 <- sqrt(p_pool * (1 - p_pool) * 4 / N)
+sigma_H1 <- sqrt((p_c * (1 - p_c) + p_e * (1 - p_e)) * 2 / N)
 
-info_H0 <- 1/(sigma_H0^2)
-info_H1 <- 1/(sigma_H1^2)
+info_H0 <- 1 / (sigma_H0^2)
+info_H1 <- 1 / (sigma_H1^2)
 ```
 
 Next, we calculate the standarized treatment effect under $H_0$ and
-$H_1$, whose mathmatical formulation are 
+$H_1$, whose mathmatical formulation are
 $$
   \begin{array}{ll}
   \theta_{H_0} = 0; \\
   \theta_{H_1} = \frac{|p_c - p_e|}{\sigma_{H_1}}
   \end{array}.
-$$ 
+$$
 
 And their calculation results are
 
 ```{r}
 theta_H0 <- 0
-theta_H1 <- abs(p_c - p_e)/sigma_H1
+theta_H1 <- abs(p_c - p_e) / sigma_H1
 
 tibble::tribble(
-  ~N_c, ~N_e, ~p_c,    ~p_e,   ~theta_H1,    ~theta_H0,    ~info_H1,    ~info_H0,
-   N_c,  N_e,  p_c,     p_e,    theta_H1,     theta_H0,     info_H1,     info_H0,
+  ~N_c, ~N_e, ~p_c, ~p_e, ~theta_H1, ~theta_H0, ~info_H1, ~info_H0,
+  N_c, N_e, p_c, p_e, theta_H1, theta_H0, info_H1, info_H0,
 ) %>% gt::gt()
 ```
 
@@ -562,12 +563,13 @@ x <- gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .28),
   p_e = tibble::tibble(stratum = "All", rate = .4),
   n = tibble::tibble(stratum = "All", n = 1, analysis = 1),
-  rd0 = 0, 
+  rd0 = 0,
   ratio = 1,
-  weight = "un-stratified") 
+  weight = "un-stratified"
+)
 
-x %>% 
-  gt::gt() %>% 
+x %>%
+  gt::gt() %>%
   gt::fmt_number(columns = 5:8, decimals = 6)
 ```
 
@@ -577,47 +579,52 @@ calculate the sample size to achieve the 90% power.
 ```{r}
 # under info_scale = 0
 y_0 <- gs_design_npe(
-  theta = .4 - .28, 
-  info = x$info0, 
-  info0 = x$info0, 
+  theta = .4 - .28,
+  info = x$info0,
+  info0 = x$info0,
   info_scale = 0,
-  alpha = .025, 
+  alpha = .025,
   beta = .1,
-  upper = gs_b, 
+  upper = gs_b,
   lower = gs_b,
   upar = list(par = -qnorm(.025)),
-  lpar = list(par = -Inf))
+  lpar = list(par = -Inf)
+)
 
 # under info_scale = 1
 y_1 <- gs_design_npe(
-  theta = .4 - .28, 
-  info = x$info1, 
-  info0 = x$info0, 
+  theta = .4 - .28,
+  info = x$info1,
+  info0 = x$info0,
   info_scale = 1,
-  alpha = .025, 
+  alpha = .025,
   beta = .1,
-  upper = gs_b, 
+  upper = gs_b,
   lower = gs_b,
   upar = list(par = -qnorm(.025)),
-  lpar = list(par = -Inf))
+  lpar = list(par = -Inf)
+)
 
 # under info_scale = 2
 y_2 <- gs_design_npe(
-  theta = .4 - .28, 
-  info = x$info1, 
-  info0 = x$info0, 
+  theta = .4 - .28,
+  info = x$info1,
+  info0 = x$info0,
   info_scale = 2,
-  alpha = .025, 
+  alpha = .025,
   beta = .1,
-  upper = gs_b, 
+  upper = gs_b,
   lower = gs_b,
   upar = list(par = -qnorm(.025)),
-  lpar = list(par = -Inf))
+  lpar = list(par = -Inf)
+)
 
-tibble(`info_scale = 0` = y_0$info0[1] / x$info0[1],
-       `info_scale = 1` = y_1$info1[1] / x$info1[1],
-       `info_scale = 2` = y_2$info[1] / x$info1[1]) %>% 
-  gt::gt() %>% 
+tibble(
+  `info_scale = 0` = y_0$info0[1] / x$info0[1],
+  `info_scale = 1` = y_1$info1[1] / x$info1[1],
+  `info_scale = 2` = y_2$info[1] / x$info1[1]
+) %>%
+  gt::gt() %>%
   gt::tab_header(title = "The sample size calculated by gsDesign2 under 3 info_scale")
 ```
 
@@ -628,44 +635,47 @@ size given fixed power in one-step.
 z_info_scale_0 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .28),
   p_e = tibble::tibble(stratum = "All", rate = .4),
-  rd0 = 0, 
-  alpha = 0.025,   
-  beta = 0.1,   
+  rd0 = 0,
+  alpha = 0.025,
+  beta = 0.1,
   ratio = 1,
   weight = "un-stratified",
   upper = gs_b,
   lower = gs_b,
   upar = -qnorm(.025),
   lpar = -Inf,
-  info_scale = 0)  
+  info_scale = 0
+)
 
 z_info_scale_1 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .28),
   p_e = tibble::tibble(stratum = "All", rate = .4),
-  rd0 = 0, 
-  alpha = 0.025,   
-  beta = 0.1,   
+  rd0 = 0,
+  alpha = 0.025,
+  beta = 0.1,
   ratio = 1,
   weight = "un-stratified",
   upper = gs_b,
   lower = gs_b,
   upar = -qnorm(.025),
   lpar = -Inf,
-  info_scale = 1)
+  info_scale = 1
+)
 
 z_info_scale_2 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .28),
   p_e = tibble::tibble(stratum = "All", rate = .4),
-  rd0 = 0, 
-  alpha = 0.025,   
-  beta = 0.1,   
+  rd0 = 0,
+  alpha = 0.025,
+  beta = 0.1,
   ratio = 1,
   weight = "un-stratified",
   upper = gs_b,
   lower = gs_b,
   upar = -qnorm(.025),
   lpar = -Inf,
-  info_scale = 2)
+  info_scale = 2
+)
 ```
 
 ### `gsDesign`
@@ -682,22 +692,30 @@ knitr::include_graphics("./figures/east_n_fix.png")
 
 ### Summary
 ```{r}
-tibble::tibble(gsDesign2_info_scale_0 = z_info_scale_0$analysis$N,
-               gsDesign2_info_scale_1 = z_info_scale_1$analysis$N,
-               gsDesign2_info_scale_2 = z_info_scale_2$analysis$N,
-               gsDesign = x_gsDesign$n, 
-               EAST_unpool = 645, 
-               EAST_pool = 651) %>% 
-  gt::gt() %>% 
-  gt::tab_spanner(label = "gsDesign2",
-                  columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)) %>% 
-  gt::tab_spanner(label = "EAST",
-                  columns = c(EAST_unpool, EAST_pool)) %>% 
-  cols_label(gsDesign2_info_scale_0 = "info_scale = 0",
-             gsDesign2_info_scale_1 = "info_scale = 1",
-             gsDesign2_info_scale_2 = "info_scale = 2",
-             EAST_unpool = "un-pooled",
-             EAST_pool = "pooled")
+tibble::tibble(
+  gsDesign2_info_scale_0 = z_info_scale_0$analysis$N,
+  gsDesign2_info_scale_1 = z_info_scale_1$analysis$N,
+  gsDesign2_info_scale_2 = z_info_scale_2$analysis$N,
+  gsDesign = x_gsDesign$n,
+  EAST_unpool = 645,
+  EAST_pool = 651
+) %>%
+  gt::gt() %>%
+  gt::tab_spanner(
+    label = "gsDesign2",
+    columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)
+  ) %>%
+  gt::tab_spanner(
+    label = "EAST",
+    columns = c(EAST_unpool, EAST_pool)
+  ) %>%
+  cols_label(
+    gsDesign2_info_scale_0 = "info_scale = 0",
+    gsDesign2_info_scale_1 = "info_scale = 1",
+    gsDesign2_info_scale_2 = "info_scale = 2",
+    EAST_unpool = "un-pooled",
+    EAST_pool = "pooled"
+  )
 ```
 
 ## Unstratified Group Sequential Design {.tabset}
@@ -718,13 +736,13 @@ To calculate the sample size, one can use `gs_design_rd()`. The logic of
 x_gs <- gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
   p_e = tibble::tibble(stratum = "All", rate = .1),
-  n = tibble::tibble(stratum = "All", n = 1:3/3, analysis = 1:3),
-  rd0 = 0, 
+  n = tibble::tibble(stratum = "All", n = 1:3 / 3, analysis = 1:3),
+  rd0 = 0,
   ratio = 1,
   weight = "un-stratified"
 )
 
-x_gs %>% 
+x_gs %>%
   gt::gt() %>%
   gt::tab_header(title = "The statistical information of the group sequential design")
 ```
@@ -732,47 +750,52 @@ x_gs %>%
 ```{r}
 # info_scale = 0
 y_gs0 <- gs_design_npe(
-  theta = .05, 
-  info = x_gs$info0, 
-  info0 = x_gs$info0, 
+  theta = .05,
+  info = x_gs$info0,
+  info0 = x_gs$info0,
   info_scale = 0,
   alpha = .025, beta = .1, binding = FALSE,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = rep(-Inf, 3),
-  test_lower = FALSE)
+  test_lower = FALSE
+)
 
 # info_scale = 1
 y_gs1 <- gs_design_npe(
-  theta = .05, 
-  info = x_gs$info1, 
-  info0 = x_gs$info1, 
+  theta = .05,
+  info = x_gs$info1,
+  info0 = x_gs$info1,
   info_scale = 2,
   alpha = .025, beta = .1, binding = FALSE,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = rep(-Inf, 3),
-  test_lower = FALSE)
+  test_lower = FALSE
+)
 
 # info_scale = 2
 y_gs2 <- gs_design_npe(
-  theta = .05, 
-  info = x_gs$info1, 
-  info0 = x_gs$info0, 
+  theta = .05,
+  info = x_gs$info1,
+  info0 = x_gs$info0,
   info_scale = 2,
   alpha = .025, beta = .1, binding = FALSE,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = rep(-Inf, 3),
-  test_lower = FALSE)
+  test_lower = FALSE
+)
 
-tibble(`info_scale = 0` = y_gs0$info0 / x_gs$info0[3],
-       `info_scale = 1` = y_gs1$info1 / x_gs$info1[3],
-       `info_scale = 2` = y_gs2$info / x_gs$info1[3]) %>% 
-  gt::gt() %>% 
+tibble(
+  `info_scale = 0` = y_gs0$info0 / x_gs$info0[3],
+  `info_scale = 1` = y_gs1$info1 / x_gs$info1[3],
+  `info_scale = 2` = y_gs2$info / x_gs$info1[3]
+) %>%
+  gt::gt() %>%
   gt::tab_header(title = "The sample size calculated by `gsDesign2` under 3 info_scale", subtitle = "under group sequential design")
 ```
 
@@ -782,10 +805,10 @@ The above logic is implemented in `gs_design_rd()`.
 x_gsDesign2_info_scale_0 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
   p_e = tibble::tibble(stratum = "All", rate = .1),
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .1,                
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
   ratio = 1,
   weight = "un-stratified",
   upper = gs_b,
@@ -799,10 +822,10 @@ x_gsDesign2_info_scale_0 <- gs_design_rd(
 x_gsDesign2_info_scale_1 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
   p_e = tibble::tibble(stratum = "All", rate = .1),
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .1,                
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
   ratio = 1,
   weight = "un-stratified",
   upper = gs_b,
@@ -816,10 +839,10 @@ x_gsDesign2_info_scale_1 <- gs_design_rd(
 x_gsDesign2_info_scale_2 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
   p_e = tibble::tibble(stratum = "All", rate = .1),
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .1,                
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
   ratio = 1,
   weight = "un-stratified",
   upper = gs_b,
@@ -836,17 +859,18 @@ x_gsDesign2_info_scale_2 <- gs_design_rd(
 ```{r}
 n_fix <- nBinomial(
   # Control event rate
-  p1 = .15, 
+  p1 = .15,
   # Experimental event rate
-  p2 = .1, 
+  p2 = .1,
   # Null hypothesis event rate difference (control - experimental)
-  delta0 = 0, 
+  delta0 = 0,
   # 1-sided Type I error
-  alpha = .025, 
+  alpha = .025,
   # Type II error (1 - Power)
-  beta = .1, 
+  beta = .1,
   # Experimental/Control randomization ratio
-  ratio = 1) 
+  ratio = 1
+)
 
 cat("The sample size of fixed-design calculated by `gsDesign` is ", n_fix, ".\n")
 
@@ -854,13 +878,13 @@ x_gsDesign <- gsDesign(
   k = 3,
   test.type = 1,
   # 1-sided Type I error
-  alpha = .025, 
+  alpha = .025,
   # Type II error (1 - Power)
-  beta = .1,    
+  beta = .1,
   # If test.type = 5 or 6, this sets maximum spending for futility
   # under the null hypothesis. Otherwise, this is ignored.
   astar = 0,
-  timing = 1:3/3,
+  timing = 1:3 / 3,
   sfu = sfLDOF,
   sfupar = NULL,
   sfl = sfLDOF,
@@ -873,7 +897,8 @@ x_gsDesign <- gsDesign(
   delta0 = 0,
   endpoint = "Binomial",
   # Fixed design sample size from nBinomial above
-  n.fix = n_fix)
+  n.fix = n_fix
+)
 
 cat("The sample size calcuated by `gsDesign` is ", x_gsDesign$n.I, ".\n")
 
@@ -898,22 +923,30 @@ knitr::include_graphics("./figures/east_n_gs_pool.png")
 ### Summary
 
 ```{r}
-tibble::tibble(gsDesign2_info_scale_0 = x_gsDesign2_info_scale_0$analysis$N,
-               gsDesign2_info_scale_1 = x_gsDesign2_info_scale_1$analysis$N,
-               gsDesign2_info_scale_2 = x_gsDesign2_info_scale_2$analysis$N,
-               gsDesign = x_gsDesign$n.I,
-               EAST_unpool = c(617, 1233, 1850),
-               EAST_pool = c(619, 1238, 1857)) %>% 
-  gt::gt() %>% 
-  gt::tab_spanner(label = "gsDesign2",
-                  columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)) %>% 
-  gt::tab_spanner(label = "EAST",
-                  columns = c(EAST_unpool, EAST_pool)) %>% 
-  cols_label(gsDesign2_info_scale_0 = "info_scale = 0",
-             gsDesign2_info_scale_1 = "info_scale = 1",
-             gsDesign2_info_scale_2 = "info_scale = 2",
-             EAST_unpool = "un-pooled",
-             EAST_pool = "pooled")
+tibble::tibble(
+  gsDesign2_info_scale_0 = x_gsDesign2_info_scale_0$analysis$N,
+  gsDesign2_info_scale_1 = x_gsDesign2_info_scale_1$analysis$N,
+  gsDesign2_info_scale_2 = x_gsDesign2_info_scale_2$analysis$N,
+  gsDesign = x_gsDesign$n.I,
+  EAST_unpool = c(617, 1233, 1850),
+  EAST_pool = c(619, 1238, 1857)
+) %>%
+  gt::gt() %>%
+  gt::tab_spanner(
+    label = "gsDesign2",
+    columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)
+  ) %>%
+  gt::tab_spanner(
+    label = "EAST",
+    columns = c(EAST_unpool, EAST_pool)
+  ) %>%
+  cols_label(
+    gsDesign2_info_scale_0 = "info_scale = 0",
+    gsDesign2_info_scale_1 = "info_scale = 1",
+    gsDesign2_info_scale_2 = "info_scale = 2",
+    EAST_unpool = "un-pooled",
+    EAST_pool = "pooled"
+  )
 ```
 
 ## Stratified Group Sequential Design {.tabset}
@@ -925,193 +958,232 @@ In this example, we consider 3 strata in a group sequential design with
 
 ```{r, message=FALSE}
 ratio <- 1
-prevalence_ratio <- c(4, 5, 6) 
+prevalence_ratio <- c(4, 5, 6)
 p_c_by_stratum <- c(.3, .37, .6)
 p_e_by_stratum <- c(.25, .3, .5)
-  
+
 p_c <- tibble::tibble(stratum = c("S1", "S2", "S3"), rate = p_c_by_stratum)
 p_e <- tibble::tibble(stratum = c("S1", "S2", "S3"), rate = p_e_by_stratum)
 ratio_strata_c <- tibble::tibble(stratum = c("S1", "S2", "S3"), ratio = prevalence_ratio)
 ratio_strata_e <- ratio_strata_c
 
 N <- 1
-IF <- 1:3/3
-N_c <- N / (1 + ratio) 
-N_e <- ratio * N_c 
+IF <- 1:3 / 3
+N_c <- N / (1 + ratio)
+N_e <- ratio * N_c
 
-x <- p_c %>% 
-  rename(p_c = rate) %>% 
-  left_join(p_e) %>% 
-  rename(p_e = rate) %>% 
-  mutate(p_pool = (p_c + p_e) / 2) %>% 
-  mutate(xi_c = (ratio_strata_c %>% mutate(prop = ratio / sum(ratio)))$prop) %>% 
-  mutate(xi_e = (ratio_strata_e %>% mutate(prop = ratio / sum(ratio)))$prop) %>% 
+x <- p_c %>%
+  rename(p_c = rate) %>%
+  left_join(p_e) %>%
+  rename(p_e = rate) %>%
+  mutate(p_pool = (p_c + p_e) / 2) %>%
+  mutate(xi_c = (ratio_strata_c %>% mutate(prop = ratio / sum(ratio)))$prop) %>%
+  mutate(xi_e = (ratio_strata_e %>% mutate(prop = ratio / sum(ratio)))$prop) %>%
   mutate(N_c = N_c * xi_c, N_e = N_e * xi_e)
 
-x %>% 
-  gt::gt() %>% 
-  gt::fmt_number(columns = 4:8, decimals = 4) %>% 
-  gt::tab_footnote(footnote = "p_pool = (p_c * N_c + p_e * N_e) / (N_c * N_e).",
-                   locations = gt::cells_column_labels(columns = p_pool)) %>% 
-  gt::tab_footnote(footnote = "xi_c = sample size of a strata / sample size of the control arm.",
-                   locations = gt::cells_column_labels(columns = xi_c)) %>% 
-  gt::tab_footnote(footnote = "xi_e = sample size of a strata / sample size of the experimental arm.",
-                   locations = gt::cells_column_labels(columns = xi_e)) %>% 
-  gt::tab_footnote(footnote = "N_c = total sample size of the control arm.",
-                   locations = gt::cells_column_labels(columns = N_c)) %>% 
-  gt::tab_footnote(footnote = "N_e = total size of the experimental arm.",
-                   locations = gt::cells_column_labels(columns = N_e)) %>% 
+x %>%
+  gt::gt() %>%
+  gt::fmt_number(columns = 4:8, decimals = 4) %>%
+  gt::tab_footnote(
+    footnote = "p_pool = (p_c * N_c + p_e * N_e) / (N_c * N_e).",
+    locations = gt::cells_column_labels(columns = p_pool)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "xi_c = sample size of a strata / sample size of the control arm.",
+    locations = gt::cells_column_labels(columns = xi_c)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "xi_e = sample size of a strata / sample size of the experimental arm.",
+    locations = gt::cells_column_labels(columns = xi_e)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "N_c = total sample size of the control arm.",
+    locations = gt::cells_column_labels(columns = N_c)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "N_e = total size of the experimental arm.",
+    locations = gt::cells_column_labels(columns = N_e)
+  ) %>%
   gt::tab_header(title = "Stratified Example")
 ```
 
-First, we calculate the variance 
+First, we calculate the variance
 $$
   \left\{
   \begin{array}{ll}
-  \sigma^2_{H_0,k,s} 
+  \sigma^2_{H_0,k,s}
   & =
-  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) 
-  \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right) 
+  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
+  \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right)
   =
-  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) 
+  p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
   \left(\frac{1}{ \frac{\xi_s}{1+r} N_{k}} + \frac{1}{ \frac{r \xi_s}{1+r} N_{k}} \right) \\
-  \sigma_{H_1,k,s}^2 
-  & = 
-  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}} 
-  = 
-  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s} (1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}} 
+  \sigma_{H_1,k,s}^2
+  & =
+  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}}
+  =
+  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s} (1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}}
   \end{array}
   \right.
 $$
 
 ```{r, message=FALSE}
-x <- x %>% 
-  union_all(x) %>% 
-  union_all(x) %>% 
-  mutate(Analysis = rep(1:3, each = 3)) %>% 
-  left_join(tibble(Analysis = 1:3, IF = IF)) %>% 
-  mutate(N_c = N_c * IF, N_e = N_e * IF) %>% 
-  select(Analysis, stratum, p_c, p_pool, p_e, N_c, N_e, xi_c, xi_e) %>% 
-  mutate(sigma_H0 = sqrt(p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e)),
-         sigma_H1 = sqrt(p_c * (1 - p_c) / N_c + p_e * (1 - p_e) / N_e))
+x <- x %>%
+  union_all(x) %>%
+  union_all(x) %>%
+  mutate(Analysis = rep(1:3, each = 3)) %>%
+  left_join(tibble(Analysis = 1:3, IF = IF)) %>%
+  mutate(N_c = N_c * IF, N_e = N_e * IF) %>%
+  select(Analysis, stratum, p_c, p_pool, p_e, N_c, N_e, xi_c, xi_e) %>%
+  mutate(
+    sigma_H0 = sqrt(p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e)),
+    sigma_H1 = sqrt(p_c * (1 - p_c) / N_c + p_e * (1 - p_e) / N_e)
+  )
 
-x %>% 
-  gt() %>% 
-  gt::fmt_number(6:11, decimals = 4) %>% 
-  gt::tab_footnote(footnote = "sigma_H0 = the H0 sd per stratum per analysis.",
-                   locations = gt::cells_column_labels(columns = sigma_H0)) %>% 
-  gt::tab_footnote(footnote = "sigma_H1 = the H0 sd per stratum per analysis.",
-                   locations = gt::cells_column_labels(columns = sigma_H1))
+x %>%
+  gt() %>%
+  gt::fmt_number(6:11, decimals = 4) %>%
+  gt::tab_footnote(
+    footnote = "sigma_H0 = the H0 sd per stratum per analysis.",
+    locations = gt::cells_column_labels(columns = sigma_H0)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "sigma_H1 = the H0 sd per stratum per analysis.",
+    locations = gt::cells_column_labels(columns = sigma_H1)
+  )
 ```
 
 Second, we calculate the weight by using inverse variance
 
 $$
-  w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}. 
+  w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}.
 $$
 
 ```{r, message=FALSE}
-temp <- x %>% 
-  group_by(Analysis) %>% 
-  summarise(sum_invar_H0 = sum(1/sigma_H0^2),
-            sum_invar_H1 = sum(1/sigma_H1^2),
-            sum_ss = sum((N_c * N_e) / (N_c + N_e)))
+temp <- x %>%
+  group_by(Analysis) %>%
+  summarise(
+    sum_invar_H0 = sum(1 / sigma_H0^2),
+    sum_invar_H1 = sum(1 / sigma_H1^2),
+    sum_ss = sum((N_c * N_e) / (N_c + N_e))
+  )
 
-x <- x %>% 
-  left_join(temp) %>% 
-  mutate(weight_invar_H0 = 1/sigma_H0^2 / sum_invar_H0,
-         weight_invar_H1 = 1/sigma_H1^2 / sum_invar_H1,
-         weight_ss = (N_c * N_e) / (N_c + N_e) / sum_ss) %>% 
+x <- x %>%
+  left_join(temp) %>%
+  mutate(
+    weight_invar_H0 = 1 / sigma_H0^2 / sum_invar_H0,
+    weight_invar_H1 = 1 / sigma_H1^2 / sum_invar_H1,
+    weight_ss = (N_c * N_e) / (N_c + N_e) / sum_ss
+  ) %>%
   select(-c(sum_invar_H0, sum_invar_H1, sum_ss))
 
-x %>% 
-  gt() %>% 
-  fmt_number(6:14, decimals = 4) %>% 
-  gt::tab_footnote(footnote = "weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0.",
-                   locations = gt::cells_column_labels(columns = weight_invar_H0)) %>% 
-  gt::tab_footnote(footnote = "weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1.",
-                   locations = gt::cells_column_labels(columns = weight_invar_H1)) %>% 
-  gt::tab_footnote(footnote = "weight_ss = the weight per stratum per analysis calculated by SS.",
-                   locations = gt::cells_column_labels(columns = weight_ss))
+x %>%
+  gt() %>%
+  fmt_number(6:14, decimals = 4) %>%
+  gt::tab_footnote(
+    footnote = "weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0.",
+    locations = gt::cells_column_labels(columns = weight_invar_H0)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1.",
+    locations = gt::cells_column_labels(columns = weight_invar_H1)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "weight_ss = the weight per stratum per analysis calculated by SS.",
+    locations = gt::cells_column_labels(columns = weight_ss)
+  )
 ```
 
 Third, we calculate the weighted risk difference and weighted
-statistical information. 
+statistical information.
 $$
   \left\{
   \begin{array}{ll}
-    \delta_{H_0,k} 
+    \delta_{H_0,k}
     & = 0\\
-    \delta_{H_1,k} 
+    \delta_{H_1,k}
     & = \sum_{s=1}^S w_{k,s} |p_{C,s} - p_{E,s}|
   \end{array}
   \right. \\
   \left\{
   \begin{array}{ll}
-    \mathcal I_{H_0,k} 
-    & = 
-    \left[ 
-      \sum_{s=1}^S 
-      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} + 
-      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}} 
+    \mathcal I_{H_0,k}
+    & =
+    \left[
+      \sum_{s=1}^S
+      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{C, k, s}} +
+      w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
     \right]^{-1}\\
-    \mathcal I_{H_1,k}  
-    & = 
-    \left[ 
+    \mathcal I_{H_1,k}
+    & =
+    \left[
       \sum_{s=1}^S w_{k,s}^2 \frac{p_{C,k,s} (1 - p_{C,k,s})}{N_{C,k,s}}
       +
-      \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}} 
+      \sum_{s=1}^S w_{k,s}^2 \frac{p_{E,k,s} (1 - p_{E,k,s})}{N_{E,k,s}}
     \right]^{-1}
   \end{array}
   \right. \\
 $$
 
 ```{r}
-x <- x %>% 
-  group_by(Analysis) %>% 
-  summarise(rd_invar_H0 = sum(weight_invar_H0 * abs(p_c - p_e)),
-            rd_invar_H1 = sum(weight_invar_H1 * abs(p_c - p_e)),
-            rd_ss = sum(weight_ss * abs(p_c - p_e)),
-            rd0 = 0,
-            info_invar_H0 = 1 / sum(weight_invar_H0^2*p_c*(1-p_c)/N_c + weight_invar_H0^2*p_e*(1-p_e)/N_e),
-            info_invar_H1 = 1 / sum(weight_invar_H1^2*p_c*(1-p_c)/N_c + weight_invar_H1^2*p_e*(1-p_e)/N_e),
-            info_ss = 1 / sum(weight_ss^2*p_c*(1-p_c)/N_c + weight_ss^2*p_e*(1-p_e)/N_e),
-            info0_invar_H0 = 1 / sum(weight_invar_H0^2*p_pool*(1-p_pool)/N_c + weight_invar_H0^2*p_pool*(1-p_pool)/N_e),
-            info0_invar_H1 = 1 / sum(weight_invar_H1^2*p_pool*(1-p_pool)/N_c + weight_invar_H1^2*p_pool*(1-p_pool)/N_e),
-            info0_ss = 1 / sum(weight_ss^2*p_pool*(1-p_pool)/N_c + weight_ss^2*p_pool*(1-p_pool)/N_e)
-            ) 
+x <- x %>%
+  group_by(Analysis) %>%
+  summarise(
+    rd_invar_H0 = sum(weight_invar_H0 * abs(p_c - p_e)),
+    rd_invar_H1 = sum(weight_invar_H1 * abs(p_c - p_e)),
+    rd_ss = sum(weight_ss * abs(p_c - p_e)),
+    rd0 = 0,
+    info_invar_H0 = 1 / sum(weight_invar_H0^2 * p_c * (1 - p_c) / N_c + weight_invar_H0^2 * p_e * (1 - p_e) / N_e),
+    info_invar_H1 = 1 / sum(weight_invar_H1^2 * p_c * (1 - p_c) / N_c + weight_invar_H1^2 * p_e * (1 - p_e) / N_e),
+    info_ss = 1 / sum(weight_ss^2 * p_c * (1 - p_c) / N_c + weight_ss^2 * p_e * (1 - p_e) / N_e),
+    info0_invar_H0 = 1 / sum(weight_invar_H0^2 * p_pool * (1 - p_pool) / N_c + weight_invar_H0^2 * p_pool * (1 - p_pool) / N_e),
+    info0_invar_H1 = 1 / sum(weight_invar_H1^2 * p_pool * (1 - p_pool) / N_c + weight_invar_H1^2 * p_pool * (1 - p_pool) / N_e),
+    info0_ss = 1 / sum(weight_ss^2 * p_pool * (1 - p_pool) / N_c + weight_ss^2 * p_pool * (1 - p_pool) / N_e)
+  )
 ```
 
 
 ```{r}
-x %>% 
-  gt::gt() %>% 
-  fmt_number(c(2:4, 6:11), decimals = 6) %>% 
-  gt::tab_footnote(footnote = "info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.",
-                   locations = gt::cells_column_labels(columns = info_invar_H0)) %>% 
-  gt::tab_footnote(footnote = "info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.",
-                   locations = gt::cells_column_labels(columns = info_invar_H1)) %>% 
-  gt::tab_footnote(footnote = "info_ss = the statistical information under H1 per stratum per analysis calculated by SS.",
-                   locations = gt::cells_column_labels(columns = info_ss)) %>% 
-  gt::tab_footnote(footnote = "info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.",
-                   locations = gt::cells_column_labels(columns = info0_invar_H0)) %>% 
-  gt::tab_footnote(footnote = "info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.",
-                   locations = gt::cells_column_labels(columns = info0_invar_H1)) %>% 
-  gt::tab_footnote(footnote = "info0_ss = the statistical information under H0 per stratum per analysis calculated by SS.",
-                   locations = gt::cells_column_labels(columns = info0_ss))
+x %>%
+  gt::gt() %>%
+  fmt_number(c(2:4, 6:11), decimals = 6) %>%
+  gt::tab_footnote(
+    footnote = "info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.",
+    locations = gt::cells_column_labels(columns = info_invar_H0)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.",
+    locations = gt::cells_column_labels(columns = info_invar_H1)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "info_ss = the statistical information under H1 per stratum per analysis calculated by SS.",
+    locations = gt::cells_column_labels(columns = info_ss)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.",
+    locations = gt::cells_column_labels(columns = info0_invar_H0)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.",
+    locations = gt::cells_column_labels(columns = info0_invar_H1)
+  ) %>%
+  gt::tab_footnote(
+    footnote = "info0_ss = the statistical information under H0 per stratum per analysis calculated by SS.",
+    locations = gt::cells_column_labels(columns = info0_ss)
+  )
 ```
 
 ```{r}
-# ----------------------------------- # 
+# ----------------------------------- #
 #     sample size under H0            #
-# ----------------------------------- # 
+# ----------------------------------- #
 y_invar_H0 <- gs_design_npe(
   theta = x$rd_invar_H0,
-  info = x$info0_invar_H0, 
-  info0 = x$info0_invar_H0, 
+  info = x$info0_invar_H0,
+  info0 = x$info0_invar_H0,
   info_scale = 2,
-  alpha = 0.025,                  
-  beta = 0.2,                
+  alpha = 0.025,
+  beta = 0.2,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1121,11 +1193,11 @@ y_invar_H0 <- gs_design_npe(
 
 y_invar_H1 <- gs_design_npe(
   theta = x$rd_invar_H1,
-  info = x$info0_invar_H1, 
-  info0 = x$info0_invar_H1, 
+  info = x$info0_invar_H1,
+  info0 = x$info0_invar_H1,
   info_scale = 2,
-  alpha = 0.025,                  
-  beta = 0.2,                
+  alpha = 0.025,
+  beta = 0.2,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1135,11 +1207,11 @@ y_invar_H1 <- gs_design_npe(
 
 y_ss <- gs_design_npe(
   theta = x$rd_ss,
-  info = x$info0_ss, 
-  info0 = x$info0_ss, 
+  info = x$info0_ss,
+  info0 = x$info0_ss,
   info_scale = 2,
-  alpha = 0.025,                  
-  beta = 0.2,                
+  alpha = 0.025,
+  beta = 0.2,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1147,16 +1219,16 @@ y_ss <- gs_design_npe(
   test_lower = FALSE,
 )
 
-# ----------------------------------- # 
+# ----------------------------------- #
 #     sample size under H1            #
-# ----------------------------------- # 
+# ----------------------------------- #
 yy_invar_H0 <- gs_design_npe(
   theta = x$rd_invar_H0,
-  info = x$info_invar_H0, 
-  info0 = x$info0_invar_H0, 
+  info = x$info_invar_H0,
+  info0 = x$info0_invar_H0,
   info_scale = 2,
-  alpha = 0.025,                  
-  beta = 0.2,                
+  alpha = 0.025,
+  beta = 0.2,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1166,11 +1238,11 @@ yy_invar_H0 <- gs_design_npe(
 
 yy_invar_H1 <- gs_design_npe(
   theta = x$rd_invar_H1,
-  info = x$info_invar_H1, 
-  info0 = x$info0_invar_H1, 
+  info = x$info_invar_H1,
+  info0 = x$info0_invar_H1,
   info_scale = 2,
-  alpha = 0.025,                  
-  beta = 0.2,                
+  alpha = 0.025,
+  beta = 0.2,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1180,11 +1252,11 @@ yy_invar_H1 <- gs_design_npe(
 
 yy_ss <- gs_design_npe(
   theta = x$rd_ss,
-  info = x$info_ss, 
-  info0 = x$info0_ss, 
+  info = x$info_ss,
+  info0 = x$info0_ss,
   info_scale = 2,
-  alpha = 0.025,                  
-  beta = 0.2,                
+  alpha = 0.025,
+  beta = 0.2,
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1192,17 +1264,21 @@ yy_ss <- gs_design_npe(
   test_lower = FALSE,
 )
 
-ans_math <- tibble::tibble(`Weighting method` = rep(c("INVAR-H0", "INVAR-H1", "Sample Size"), 2),
-                           `Calculated under` = c(rep("H0", 3), rep("H1", 3)),
-                           `Sample size` = c(y_invar_H0$info[3] / x$info0_invar_H0[3], 
-                                             y_invar_H1$info[3] / x$info0_invar_H1[3], 
-                                             y_ss$info[3] / x$info0_ss[3],
-                                             yy_invar_H0$info[3] / x$info_invar_H0[3], 
-                                             yy_invar_H1$info[3] / x$info_invar_H1[3], 
-                                             yy_ss$info[3] / x$info_ss[3])) 
+ans_math <- tibble::tibble(
+  `Weighting method` = rep(c("INVAR-H0", "INVAR-H1", "Sample Size"), 2),
+  `Calculated under` = c(rep("H0", 3), rep("H1", 3)),
+  `Sample size` = c(
+    y_invar_H0$info[3] / x$info0_invar_H0[3],
+    y_invar_H1$info[3] / x$info0_invar_H1[3],
+    y_ss$info[3] / x$info0_ss[3],
+    yy_invar_H0$info[3] / x$info_invar_H0[3],
+    yy_invar_H1$info[3] / x$info_invar_H1[3],
+    yy_ss$info[3] / x$info_ss[3]
+  )
+)
 
-ans_math %>% 
-  gt::gt() %>% 
+ans_math %>%
+  gt::gt() %>%
   gt::tab_header(title = "Sample size calculated by INVAR and SS")
 ```
 
@@ -1213,10 +1289,10 @@ The above logic is implemented in `gs_design_rd()`.
 x_ss0 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .2,                    
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 4:6),
   weight = "ss",
@@ -1225,7 +1301,8 @@ x_ss0 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 0,
-  binding = FALSE) 
+  binding = FALSE
+)
 ```
 
 ```{r}
@@ -1233,10 +1310,10 @@ x_ss0 <- gs_design_rd(
 x_ss1 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .2,                    
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 4:6),
   weight = "ss",
@@ -1245,7 +1322,8 @@ x_ss1 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 1,
-  binding = FALSE) 
+  binding = FALSE
+)
 ```
 
 ```{r}
@@ -1253,10 +1331,10 @@ x_ss1 <- gs_design_rd(
 x_ss2 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .2,                    
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 4:6),
   weight = "ss",
@@ -1265,7 +1343,8 @@ x_ss2 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 2,
-  binding = FALSE) 
+  binding = FALSE
+)
 ```
 
 ```{r}
@@ -1273,10 +1352,10 @@ x_ss2 <- gs_design_rd(
 x_invar0 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .2,                    
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
   weight = "invar",
@@ -1285,7 +1364,8 @@ x_invar0 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 0,
-  binding = FALSE) 
+  binding = FALSE
+)
 ```
 
 ```{r}
@@ -1293,10 +1373,10 @@ x_invar0 <- gs_design_rd(
 x_invar1 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .2,                    
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
   weight = "invar",
@@ -1305,7 +1385,8 @@ x_invar1 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 1,
-  binding = FALSE) 
+  binding = FALSE
+)
 ```
 
 ```{r}
@@ -1313,10 +1394,10 @@ x_invar1 <- gs_design_rd(
 x_invar2 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
-  info_frac = 1:3/3,
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .2,                    
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
   weight = "invar",
@@ -1325,56 +1406,75 @@ x_invar2 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 2,
-  binding = FALSE) 
+  binding = FALSE
+)
 ```
 
 ```{r}
-ans <- tibble::tibble(INVAR0 = x_invar0$analysis$N[1:3],
-               INVAR1 = x_invar1$analysis$N[1:3],
-               INVAR2 = x_invar2$analysis$N[1:3],
-               SS0 = x_ss0$analysis$N[1:3],
-               SS1 = x_ss1$analysis$N[1:3],
-               SS2 = x_ss2$analysis$N[1:3]) 
-ans %>% 
-  gt::gt() %>% 
-  gt::tab_header(title = "Sample size calculated by INVAR and SS") %>% 
-  gt::tab_spanner(label = "Inverse variance weighting",
-                  columns = c(INVAR0, INVAR1, INVAR2)) %>% 
-  gt::tab_spanner(label = "Sample size wighting",
-                  columns = c(SS0, SS1, SS2)) %>% 
-  cols_label(INVAR0 = "info_scale = 0",
-             INVAR1 = "info_scale = 1",
-             INVAR2 = "info_scale = 2",
-             SS0 = "info_scale = 0",
-             SS1 = "info_scale = 1",
-             SS2 = "info_scale = 2")
+ans <- tibble::tibble(
+  INVAR0 = x_invar0$analysis$N[1:3],
+  INVAR1 = x_invar1$analysis$N[1:3],
+  INVAR2 = x_invar2$analysis$N[1:3],
+  SS0 = x_ss0$analysis$N[1:3],
+  SS1 = x_ss1$analysis$N[1:3],
+  SS2 = x_ss2$analysis$N[1:3]
+)
+ans %>%
+  gt::gt() %>%
+  gt::tab_header(title = "Sample size calculated by INVAR and SS") %>%
+  gt::tab_spanner(
+    label = "Inverse variance weighting",
+    columns = c(INVAR0, INVAR1, INVAR2)
+  ) %>%
+  gt::tab_spanner(
+    label = "Sample size wighting",
+    columns = c(SS0, SS1, SS2)
+  ) %>%
+  cols_label(
+    INVAR0 = "info_scale = 0",
+    INVAR1 = "info_scale = 1",
+    INVAR2 = "info_scale = 2",
+    SS0 = "info_scale = 0",
+    SS1 = "info_scale = 1",
+    SS2 = "info_scale = 2"
+  )
 ```
 
 ### Simulations
 
 
 ```{r}
-run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_H0 = TRUE, integration = "gs_power_npe"){
-  
+run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_H0 = TRUE, integration = "gs_power_npe") {
   ans <- NULL
-  
+
   N_S1 <- ceiling(N * prevalence_ratio[1] / sum(prevalence_ratio)) * IF
-  N_S2 <- ceiling(N * prevalence_ratio[2] / sum(prevalence_ratio)) * IF 
-  N_S3 <- ceiling(N * prevalence_ratio[3] / sum(prevalence_ratio)) * IF 
-  
+  N_S2 <- ceiling(N * prevalence_ratio[2] / sum(prevalence_ratio)) * IF
+  N_S3 <- ceiling(N * prevalence_ratio[3] / sum(prevalence_ratio)) * IF
+
   # begin the simulations
   for (simu in 1:n_sim) {
-    
     # set the random seed
     set.seed(simu)
-  
+
     # observations of 3 strata in FA
-    x_e_S1 <- lapply(diff(c(0, ceiling(N_S1/2))), function(x){rbinom(n = x, size = 1, prob = p_e$rate[1])})
-    x_e_S2 <- lapply(diff(c(0, ceiling(N_S2/2))), function(x){rbinom(n = x, size = 1, prob = p_e$rate[2])})
-    x_e_S3 <- lapply(diff(c(0, ceiling(N_S3/2))), function(x){rbinom(n = x, size = 1, prob = p_e$rate[3])})
-    x_c_S1 <- lapply(diff(c(0, ceiling(N_S1/2))), function(x){rbinom(n = x, size = 1, prob = p_c$rate[1])})
-    x_c_S2 <- lapply(diff(c(0, ceiling(N_S2/2))), function(x){rbinom(n = x, size = 1, prob = p_c$rate[2])})
-    x_c_S3 <- lapply(diff(c(0, ceiling(N_S3/2))), function(x){rbinom(n = x, size = 1, prob = p_c$rate[3])})
+    x_e_S1 <- lapply(diff(c(0, ceiling(N_S1 / 2))), function(x) {
+      rbinom(n = x, size = 1, prob = p_e$rate[1])
+    })
+    x_e_S2 <- lapply(diff(c(0, ceiling(N_S2 / 2))), function(x) {
+      rbinom(n = x, size = 1, prob = p_e$rate[2])
+    })
+    x_e_S3 <- lapply(diff(c(0, ceiling(N_S3 / 2))), function(x) {
+      rbinom(n = x, size = 1, prob = p_e$rate[3])
+    })
+    x_c_S1 <- lapply(diff(c(0, ceiling(N_S1 / 2))), function(x) {
+      rbinom(n = x, size = 1, prob = p_c$rate[1])
+    })
+    x_c_S2 <- lapply(diff(c(0, ceiling(N_S2 / 2))), function(x) {
+      rbinom(n = x, size = 1, prob = p_c$rate[2])
+    })
+    x_c_S3 <- lapply(diff(c(0, ceiling(N_S3 / 2))), function(x) {
+      rbinom(n = x, size = 1, prob = p_c$rate[3])
+    })
 
     # calculate the number of events at FA
     n_e_S1 <- cumsum(do.call(c, lapply(x_e_S1, sum)))
@@ -1385,166 +1485,183 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
     n_c_S3 <- cumsum(do.call(c, lapply(x_c_S3, sum)))
 
     # calculate the events rates
-    p_e_S1 <- n_e_S1 / (N_S1/2)
-    p_e_S2 <- n_e_S2 / (N_S2/2)
-    p_e_S3 <- n_e_S3 / (N_S3/2)
-    p_c_S1 <- n_c_S1 / (N_S1/2)
-    p_c_S2 <- n_c_S2 / (N_S2/2)
-    p_c_S3 <- n_c_S3 / (N_S3/2)
-  
+    p_e_S1 <- n_e_S1 / (N_S1 / 2)
+    p_e_S2 <- n_e_S2 / (N_S2 / 2)
+    p_e_S3 <- n_e_S3 / (N_S3 / 2)
+    p_c_S1 <- n_c_S1 / (N_S1 / 2)
+    p_c_S2 <- n_c_S2 / (N_S2 / 2)
+    p_c_S3 <- n_c_S3 / (N_S3 / 2)
+
     # calculate the variance per stratum per analysis
-    x <- tibble::tibble(analysis = rep(1:3, 3),
-                        statum = rep(c("S1", "S2", "S3"), each = 3),
-                        IF = rep(IF, 3),
-                        N_e = c(N_S1/2, N_S2/2, N_S3/2),
-                        N_c = N_e,
-                        n_e = c(n_e_S1, n_e_S2, n_e_S3),
-                        n_c = c(n_c_S1, n_c_S2, n_c_S3),
-                        p_e = c(p_e_S1, p_e_S2, p_e_S3),
-                        p_c = c(p_c_S1, p_c_S2, p_c_S3)
-                        )%>% 
-      mutate(p_pool = (n_c + n_e) / (N_c + N_e),
-             sigma_H0 = sqrt(p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e)),
-             sigma_H1 = sqrt(p_c * (1 - p_c) / N_c + p_e * (1 - p_e) / N_e))
+    x <- tibble::tibble(
+      analysis = rep(1:3, 3),
+      statum = rep(c("S1", "S2", "S3"), each = 3),
+      IF = rep(IF, 3),
+      N_e = c(N_S1 / 2, N_S2 / 2, N_S3 / 2),
+      N_c = N_e,
+      n_e = c(n_e_S1, n_e_S2, n_e_S3),
+      n_c = c(n_c_S1, n_c_S2, n_c_S3),
+      p_e = c(p_e_S1, p_e_S2, p_e_S3),
+      p_c = c(p_c_S1, p_c_S2, p_c_S3)
+    ) %>%
+      mutate(
+        p_pool = (n_c + n_e) / (N_c + N_e),
+        sigma_H0 = sqrt(p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e)),
+        sigma_H1 = sqrt(p_c * (1 - p_c) / N_c + p_e * (1 - p_e) / N_e)
+      )
     # calculate the sum of weights
-    sum_weight <- x %>% 
-      group_by(analysis) %>% 
-      summarize(sum_invar_H0 = sum(1/sigma_H0^2),
-                sum_invar_H1 = sum(1/sigma_H1^2),
-                sum_ss = sum((N_c * N_e) / (N_c + N_e))) %>% 
+    sum_weight <- x %>%
+      group_by(analysis) %>%
+      summarize(
+        sum_invar_H0 = sum(1 / sigma_H0^2),
+        sum_invar_H1 = sum(1 / sigma_H1^2),
+        sum_ss = sum((N_c * N_e) / (N_c + N_e))
+      ) %>%
       ungroup()
     # calculate the weight per stratum
     suppressMessages(
-    x <- x %>% 
-      left_join(sum_weight) %>% 
-      mutate(weight_invar_H0 = 1/sigma_H0^2 / sum_invar_H0,
-            weight_invar_H1 = 1/sigma_H1^2 / sum_invar_H1,
-            weight_ss = (N_c * N_e) / (N_c + N_e) / sum_ss) %>% 
-      select(-c(sum_invar_H0, sum_invar_H1, sum_ss)) %>% 
-      # calculated the weighted rd and info
-      group_by(analysis) %>% 
-      summarise(# weighted risk difference
-                rd_invar_H0 = sum(weight_invar_H0 * abs(p_c - p_e)),
-                rd_invar_H1 = sum(weight_invar_H1 * abs(p_c - p_e)),
-                rd_ss = sum(weight_ss * abs(p_c - p_e)),
-                rd0 = 0,
-                # weighted statistical information under H1
-                info_invar_H0 = 1 / sum(weight_invar_H0^2*p_c*(1-p_c)/N_c + weight_invar_H0^2*p_e*(1-p_e)/N_e),
-                info_invar_H1 = 1 / sum(weight_invar_H1^2*p_c*(1-p_c)/N_c + weight_invar_H1^2*p_e*(1-p_e)/N_e),
-                info_ss       = 1 / sum(weight_ss^2      *p_c*(1-p_c)/N_c + weight_ss^2      *p_e*(1-p_e)/N_e),
-                # weighted statistical information under H0
-                info0_invar_H0 = 1 / sum(weight_invar_H0^2*p_pool*(1-p_pool) * (1/N_c + 1/N_e)),
-                info0_invar_H1 = 1 / sum(weight_invar_H1^2*p_pool*(1-p_pool) * (1/N_c + 1/N_e)),
-                info0_ss       = 1 / sum(weight_ss^2      *p_pool*(1-p_pool) * (1/N_c + 1/N_e))) %>% 
-      ungroup()
+      x <- x %>%
+        left_join(sum_weight) %>%
+        mutate(
+          weight_invar_H0 = 1 / sigma_H0^2 / sum_invar_H0,
+          weight_invar_H1 = 1 / sigma_H1^2 / sum_invar_H1,
+          weight_ss = (N_c * N_e) / (N_c + N_e) / sum_ss
+        ) %>%
+        select(-c(sum_invar_H0, sum_invar_H1, sum_ss)) %>%
+        # calculated the weighted rd and info
+        group_by(analysis) %>%
+        summarise( # weighted risk difference
+          rd_invar_H0 = sum(weight_invar_H0 * abs(p_c - p_e)),
+          rd_invar_H1 = sum(weight_invar_H1 * abs(p_c - p_e)),
+          rd_ss = sum(weight_ss * abs(p_c - p_e)),
+          rd0 = 0,
+          # weighted statistical information under H1
+          info_invar_H0 = 1 / sum(weight_invar_H0^2 * p_c * (1 - p_c) / N_c + weight_invar_H0^2 * p_e * (1 - p_e) / N_e),
+          info_invar_H1 = 1 / sum(weight_invar_H1^2 * p_c * (1 - p_c) / N_c + weight_invar_H1^2 * p_e * (1 - p_e) / N_e),
+          info_ss = 1 / sum(weight_ss^2 * p_c * (1 - p_c) / N_c + weight_ss^2 * p_e * (1 - p_e) / N_e),
+          # weighted statistical information under H0
+          info0_invar_H0 = 1 / sum(weight_invar_H0^2 * p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e)),
+          info0_invar_H1 = 1 / sum(weight_invar_H1^2 * p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e)),
+          info0_ss = 1 / sum(weight_ss^2 * p_pool * (1 - p_pool) * (1 / N_c + 1 / N_e))
+        ) %>%
+        ungroup()
     )
-    
-    
+
+
     # calculate the power
-    if(integration == "gs_power_npe"){
-      res <- switch (weight_method,
-      "invar_H0" = {
-        gs_power_npe(theta = x$rd_invar_H0, 
-                     info = x$info_invar_H0, 
-                     info_scale = 2,
-                     binding = FALSE,
-                     upper = gs_b, 
-                     lower = gs_b, 
-                     upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                     lpar = c(qnorm(.1), rep(-Inf, 2)),
-                     test_upper = TRUE,
-                     test_lower = TRUE,
-                     r = 18,
-                     tol = 1e-6
-                    )
-      },
-      "invar_H1" = {
-        gs_power_npe(theta = x$rd_invar_H1, 
-                     info = x$info_invar_H1, 
-                     info_scale = 2,
-                     binding = FALSE,
-                     upper = gs_b, 
-                     lower = gs_b, 
-                     upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                     lpar = c(qnorm(.1), rep(-Inf, 2)),
-                     test_upper = TRUE,
-                     test_lower = TRUE,
-                     r = 18,
-                     tol = 1e-6
-                   ) 
-      },
-      "ss" = {
-        gs_power_npe(theta = x$rd_ss, 
-                     info = x$info_ss, 
-                     info_scale = 2,
-                     binding = FALSE,
-                     upper = gs_b, 
-                     lower = gs_b, 
-                     upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                     lpar = c(qnorm(.1), rep(-Inf, 2)),
-                     test_upper = TRUE,
-                     test_lower = TRUE,
-                     r = 18,
-                     tol = 1e-6
-                     )
-      }
+    if (integration == "gs_power_npe") {
+      res <- switch(weight_method,
+        "invar_H0" = {
+          gs_power_npe(
+            theta = x$rd_invar_H0,
+            info = x$info_invar_H0,
+            info_scale = 2,
+            binding = FALSE,
+            upper = gs_b,
+            lower = gs_b,
+            upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+            lpar = c(qnorm(.1), rep(-Inf, 2)),
+            test_upper = TRUE,
+            test_lower = TRUE,
+            r = 18,
+            tol = 1e-6
+          )
+        },
+        "invar_H1" = {
+          gs_power_npe(
+            theta = x$rd_invar_H1,
+            info = x$info_invar_H1,
+            info_scale = 2,
+            binding = FALSE,
+            upper = gs_b,
+            lower = gs_b,
+            upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+            lpar = c(qnorm(.1), rep(-Inf, 2)),
+            test_upper = TRUE,
+            test_lower = TRUE,
+            r = 18,
+            tol = 1e-6
+          )
+        },
+        "ss" = {
+          gs_power_npe(
+            theta = x$rd_ss,
+            info = x$info_ss,
+            info_scale = 2,
+            binding = FALSE,
+            upper = gs_b,
+            lower = gs_b,
+            upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+            lpar = c(qnorm(.1), rep(-Inf, 2)),
+            test_upper = TRUE,
+            test_lower = TRUE,
+            r = 18,
+            tol = 1e-6
+          )
+        }
       )
-      
-      ans_new <- tibble::tibble(simu_ID = simu, method = weight_method,
-                                power = res %>% filter(Bound == "Upper", Analysis == 3) %>% select(Probability) %>% unlist() %>% as.numeric())
+
+      ans_new <- tibble::tibble(
+        simu_ID = simu, method = weight_method,
+        power = res %>% filter(Bound == "Upper", Analysis == 3) %>% select(Probability) %>% unlist() %>% as.numeric()
+      )
     }
-    
-    if(integration == "pmvtnorm"){
-      
-      if(weight_method == "invar_H0"){
-        if(under_H0){
+
+    if (integration == "pmvtnorm") {
+      if (weight_method == "invar_H0") {
+        if (under_H0) {
           IF_sim <- x$info0_invar_H0 / x$info0_invar_H0[3]
           mean_sim <- x$rd_invar_H0 * sqrt(x$info0_invar_H0)
-          }else{
-            IF_sim <- x$info_invar_H1 / x$info_invar_H1[3]
-            mean_sim <- x$rd_invar_H1 * sqrt(x$info_invar_H1)
-          }
+        } else {
+          IF_sim <- x$info_invar_H1 / x$info_invar_H1[3]
+          mean_sim <- x$rd_invar_H1 * sqrt(x$info_invar_H1)
+        }
       }
-      
-      if(weight_method == "invar_H1"){
-        if(under_H0){
+
+      if (weight_method == "invar_H1") {
+        if (under_H0) {
           IF_sim <- x$info0_invar_H1 / x$info0_invar_H1[3]
           mean_sim <- x$rd_invar_H1 * sqrt(x$info0_invar_H1)
-          }else{
-            IF_sim <- x$info_invar_H1 / x$info_invar_H1[3]
-            mean_sim <- x$rd_invar_H1 * sqrt(x$info_invar_H1)
-          }
+        } else {
+          IF_sim <- x$info_invar_H1 / x$info_invar_H1[3]
+          mean_sim <- x$rd_invar_H1 * sqrt(x$info_invar_H1)
+        }
       }
-      
-      if(weight_method == "ss"){
-        
-        if(under_H0){
+
+      if (weight_method == "ss") {
+        if (under_H0) {
           IF_sim <- x$info0_ss / x$info0_ss[3]
           mean_sim <- x$rd_ss * sqrt(x$info0_ss)
-          }else{
-            IF_sim <- x$info_ss / x$info_ss[3]
-            mean_sim <- x$rd_ss * sqrt(x$info_ss)
-          }
+        } else {
+          IF_sim <- x$info_ss / x$info_ss[3]
+          mean_sim <- x$rd_ss * sqrt(x$info_ss)
+        }
       }
-      
-      p <- pmvnorm(lower = c(rep(-Inf, 3)),
-                   upper = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                   mean = mean_sim,
-                   corr = matrix(c(1,                         sqrt(IF_sim[1]/IF_sim[2]), sqrt(IF_sim[1]/IF_sim[3]),
-                                 sqrt(IF_sim[1]/IF_sim[2]), 1,                         sqrt(IF_sim[2]/IF_sim[3]),
-                                 sqrt(IF_sim[1]/IF_sim[3]), sqrt(IF_sim[2]/IF_sim[3]), 1), 
-                               nrow = 3, byrow = TRUE), 
-                   sigma = NULL,
-                   algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5), keepAttr = FALSE)
-      
+
+      p <- pmvnorm(
+        lower = c(rep(-Inf, 3)),
+        upper = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+        mean = mean_sim,
+        corr = matrix(
+          c(
+            1, sqrt(IF_sim[1] / IF_sim[2]), sqrt(IF_sim[1] / IF_sim[3]),
+            sqrt(IF_sim[1] / IF_sim[2]), 1, sqrt(IF_sim[2] / IF_sim[3]),
+            sqrt(IF_sim[1] / IF_sim[3]), sqrt(IF_sim[2] / IF_sim[3]), 1
+          ),
+          nrow = 3, byrow = TRUE
+        ),
+        sigma = NULL,
+        algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5), keepAttr = FALSE
+      )
+
       # summarize this simulation
-      ans_new <- tibble::tibble(simu_ID = simu, method = weight_method, power = 1- p)
+      ans_new <- tibble::tibble(simu_ID = simu, method = weight_method, power = 1 - p)
     }
-    
+
     ans <- rbind(ans, ans_new)
     print(simu)
   }
-  
+
   return(ans)
 }
 ```
@@ -1553,26 +1670,48 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
 ```{r, message=FALSE, eval=FALSE}
 n_sim <- 1e3
 # Run simulations
-ans_H0 <- do.call(cbind,
-                  lapply(list(list("ss_H0", ans$SS0),
-                              list("invar_H0", ans$INVAR0)),
-                         function(x){return(run_simulation(N = x[[2]],
-                                                           weight_method = x[[1]],
-                                                           n_sim = n_sim, prevalence_ratio = prevalence_ratio,
-                                                           IF = IF, under_H0 = TRUE, integration = "gs_power_npe"))}))
+ans_H0 <- do.call(
+  cbind,
+  lapply(
+    list(
+      list("ss_H0", ans$SS0),
+      list("invar_H0", ans$INVAR0)
+    ),
+    function(x) {
+      return(run_simulation(
+        N = x[[2]],
+        weight_method = x[[1]],
+        n_sim = n_sim, prevalence_ratio = prevalence_ratio,
+        IF = IF, under_H0 = TRUE, integration = "gs_power_npe"
+      ))
+    }
+  )
+)
 
-ans_H1 <- do.call(cbind,
-                  lapply(list(list("ss_H1", ans$SS1),
-                              list("invar_H1", ans$INVAR1)),
-                         function(x){return(run_simulation(N = x[[2]],
-                                                           weight_method = x[[1]],
-                                                           n_sim = n_sim, prevalence_ratio = prevalence_ratio,
-                                                           IF = IF, under_H0 = FALSE, integration = "gs_power_npe"))}))
+ans_H1 <- do.call(
+  cbind,
+  lapply(
+    list(
+      list("ss_H1", ans$SS1),
+      list("invar_H1", ans$INVAR1)
+    ),
+    function(x) {
+      return(run_simulation(
+        N = x[[2]],
+        weight_method = x[[1]],
+        n_sim = n_sim, prevalence_ratio = prevalence_ratio,
+        IF = IF, under_H0 = FALSE, integration = "gs_power_npe"
+      ))
+    }
+  )
+)
 
-ans <- tibble::tibble(simu_ID = rep(ans_H0$simu_ID, 2),
-                      ss = c(ans_H0[, 3], ans_H1[, 3]), 
-                      invar = c(ans_H0[, 6], ans_H1[, 6]),
-                      `calculated under` = c(rep("H0", n_sim), rep("H1", n_sim))) 
+ans <- tibble::tibble(
+  simu_ID = rep(ans_H0$simu_ID, 2),
+  ss = c(ans_H0[, 3], ans_H1[, 3]),
+  invar = c(ans_H0[, 6], ans_H1[, 6]),
+  `calculated under` = c(rep("H0", n_sim), rep("H1", n_sim))
+)
 
 save(ans, file = "./fixtures/rd_simu_power_gspowernpe_2_weight.Rdata")
 ```
@@ -1580,13 +1719,17 @@ save(ans, file = "./fixtures/rd_simu_power_gspowernpe_2_weight.Rdata")
 
 ```{r}
 load("./fixtures/rd_simu_power_gspowernpe_2_weight.Rdata")
-ans %>% 
-  group_by(`calculated under`) %>% 
-  summarize(`simulated power - ss` = mean(ss), 
-            `simulated power - invar` = mean(invar)) %>% 
-  gt::gt() %>% 
-  gt::tab_header(title = "Simulated power under different weightin methods",
-                 subtitle = "by gs_power_npe")
+ans %>%
+  group_by(`calculated under`) %>%
+  summarize(
+    `simulated power - ss` = mean(ss),
+    `simulated power - invar` = mean(invar)
+  ) %>%
+  gt::gt() %>%
+  gt::tab_header(
+    title = "Simulated power under different weightin methods",
+    subtitle = "by gs_power_npe"
+  )
 ```
 
 # Summary

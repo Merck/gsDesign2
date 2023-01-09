@@ -1,6 +1,6 @@
-#weighted log rank test with 3 options of weights
+# weighted log rank test with 3 options of weights
 
-test_that("Validate the function based on simple calculation",{
+test_that("Validate the function based on simple calculation", {
   enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
   fail_rate <- tibble::tibble(
     stratum = "All",
@@ -19,28 +19,28 @@ test_that("Validate the function based on simple calculation",{
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
 
-  #calculate theoretical results
-  #Tarone-Ware weight is the (N at risk)^factor
+  # calculate theoretical results
+  # Tarone-Ware weight is the (N at risk)^factor
 
-  wlrn<-(npsurvSS::psurv(1:36, arm0, lower.tail=F) *
-           npsurvSS::ploss(1:36, arm0, lower.tail=F) *
-           npsurvSS::paccr(pmin(arm0$accr_time, 36 - 1:36), arm0) +
-           npsurvSS::psurv(1:36, arm1, lower.tail=F) *
-           npsurvSS::ploss(1:36, arm1, lower.tail=F) *
-           npsurvSS::paccr(pmin(arm1$accr_time, 36 - 1:36), arm1)*2)^0.666
+  wlrn <- (npsurvSS::psurv(1:36, arm0, lower.tail = F) *
+    npsurvSS::ploss(1:36, arm0, lower.tail = F) *
+    npsurvSS::paccr(pmin(arm0$accr_time, 36 - 1:36), arm0) +
+    npsurvSS::psurv(1:36, arm1, lower.tail = F) *
+      npsurvSS::ploss(1:36, arm1, lower.tail = F) *
+      npsurvSS::paccr(pmin(arm1$accr_time, 36 - 1:36), arm1) * 2)^0.666
 
 
 
-  #calculate FH weights
-  survprob <- 1 - npsurvSS::psurv(1:36, arm0)/3 - npsurvSS::psurv(1:36, arm1)*2/3
-  fhwei <- survprob^0.666*(1-survprob)^0.888
+  # calculate FH weights
+  survprob <- 1 - npsurvSS::psurv(1:36, arm0) / 3 - npsurvSS::psurv(1:36, arm1) * 2 / 3
+  fhwei <- survprob^0.666 * (1 - survprob)^0.888
 
-  #FH
-  pckfhwei<-gsDesign2::wlr_weight_fh(x = 1:36, arm0, arm1, rho = 0.666, gamma = 0.888, tau = NULL)
-  #wlr_weight_1
-  FH00wt<-gsDesign2::wlr_weight_1(x = 1:36, arm0, arm1)
-  #wlr_weight_n()
-  pckwlrn<-gsDesign2::wlr_weight_n(x = 1:36, arm0, arm1, power = 0.666)
+  # FH
+  pckfhwei <- gsDesign2::wlr_weight_fh(x = 1:36, arm0, arm1, rho = 0.666, gamma = 0.888, tau = NULL)
+  # wlr_weight_1
+  FH00wt <- gsDesign2::wlr_weight_1(x = 1:36, arm0, arm1)
+  # wlr_weight_n()
+  pckwlrn <- gsDesign2::wlr_weight_n(x = 1:36, arm0, arm1, power = 0.666)
 
 
 

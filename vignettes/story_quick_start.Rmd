@@ -1,6 +1,5 @@
 ---
 title: "Quick start for NPH sample size and power"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_document:
     toc: true
@@ -26,7 +25,7 @@ knitr::opts_chunk$set(
 # Overview
 
 We provide simple examples for use of the **gsDesign2** package for deriving fixed and group sequential designs under non-proportional hazards.
-The piecewise model for enrollment, failure rates, dropout rates and changing hazard ratio over time allow great flexibility in design assumptions. 
+The piecewise model for enrollment, failure rates, dropout rates and changing hazard ratio over time allow great flexibility in design assumptions.
 Users are encouraged to suggest features that would be of immediate and long-term interest to add.
 
 Topics included here are:
@@ -48,11 +47,10 @@ Finally, while the final section provides current enhancement priorities, potent
 # Packages Used
 
 - The **gsDesign** package is used as a check for results under proportional hazards as well as a source from deriving bounds using spending functions.
-- The **gsDesign2** package provides 
+- The **gsDesign2** package provides
   + computations to compute expected event accumulation and average hazard ratio over time; these are key inputs to the group sequential distribution parameters.
   + implement group sequential distribution theory under non-proportional hazards and to derive a wide variety of boundary types for group sequential designs.
 - The **simtrial** package is used to verify design properties using simulation.
-
 
 ```{r, message=FALSE, warning=FALSE}
 library(gsDesign)
@@ -72,9 +70,10 @@ However, the fixed enrollment rate periods will remain unchanged.
 
 ```{r}
 enroll_rate <- tibble(
-  stratum = "All", 
-  duration = c(2, 2, 2, 6), 
-  rate = (1:4) / 4)
+  stratum = "All",
+  duration = c(2, 2, 2, 6),
+  rate = (1:4) / 4
+)
 
 enroll_rate %>% gt()
 ```
@@ -100,7 +99,8 @@ fail_rate <- tibble::tibble(
   duration = c(4, Inf),
   fail_rate = log(2) / medianSurv,
   hr = c(1, .6),
-  dropout_rate = .001)
+  dropout_rate = .001
+)
 
 fail_rate %>% gt()
 ```
@@ -112,22 +112,24 @@ Under the above enrollment, failure and dropout rate assumptions we now derive s
 
 ```{r}
 alpha <- .025
-beta <- .1                   # 1 - targeted power
+beta <- .1 # 1 - targeted power
 d <- fixed_design(
-  x = "AHR",                 # method for computing sample size
-  enroll_rate = enroll_rate, # Relative enrollment rates 
-  fail_rate = fail_rate,     # Failure rates from above
-  alpha = alpha,             # Type I error
-  power = 1 - beta,          # Type II error = 1 - power
-  study_duration = 36         # Planned trial duration
+  x = "AHR", # method for computing sample size
+  enroll_rate = enroll_rate, # Relative enrollment rates
+  fail_rate = fail_rate, # Failure rates from above
+  alpha = alpha, # Type I error
+  power = 1 - beta, # Type II error = 1 - power
+  study_duration = 36 # Planned trial duration
 )
 ```
 
 A quick summary of the targeted sample size is obtained below.
-Note that you would normally round up `N` up to an even number and `Events` to the next integer. 
+Note that you would normally round up `N` up to an even number and `Events` to the next integer.
 
 ```{r}
-d %>% summary() %>% as_gt()
+d %>%
+  summary() %>%
+  as_gt()
 ```
 
 
@@ -154,7 +156,7 @@ This is referred to as a non-binding bound since it is assumed the trial will no
 
 @LanDeMets developed the spending function method for deriving group sequential bounds.
 This involves use of a non-decreasing spending function $f(t)$ for $t\ge 0$ where $f(0)=0$ and $f(t)=\alpha$ for $t \ge 1$.
-Suppose for $K>0$ analyses are performed when proportion $t_1< t_2 <\ldots t_K=1$ of some planned statistical information (e.g., proportion of planned events for a time-to-event endpoint trial for proportion of observations for a binomial or normal endpoint). 
+Suppose for $K>0$ analyses are performed when proportion $t_1< t_2 <\ldots t_K=1$ of some planned statistical information (e.g., proportion of planned events for a time-to-event endpoint trial for proportion of observations for a binomial or normal endpoint).
 Bounds through the first $k$ analyses $1\le k\le K$ are recursively defined by the spending function and the multivariate normal distribution to satisfy
 
 $$
@@ -171,12 +173,13 @@ $$
 ```{r, echo=FALSE, fig.width=6.5}
 ggplot(
   data = tibble(t = (0:50) / 50, `f(t)` = 2 - 2 * pnorm(qnorm(1 - .0125) / sqrt(t))),
-  aes(x = t, y = `f(t)`)) +
+  aes(x = t, y = `f(t)`)
+) +
   geom_line()
 ```
 
 Suppose $K=3$ and $t_1=0.5$, $t_2 = 0.75$, $t_3 = 1$.
-We can use the assumptions above for a group sequential design with only an efficacy bound using the Lan-DeMets O'Brien-Fleming spending function for $\alpha = 0.025$ with 
+We can use the assumptions above for a group sequential design with only an efficacy bound using the Lan-DeMets O'Brien-Fleming spending function for $\alpha = 0.025$ with
 
 ```{r}
 design1s <- gs_design_ahr(
@@ -184,22 +187,24 @@ design1s <- gs_design_ahr(
   beta = beta,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  analysis_time = c(16, 26, 36),                           # Calendar time of planned analyses
-  upper = gs_spending_bound,                               # Spending function bound for efficacy
+  analysis_time = c(16, 26, 36), # Calendar time of planned analyses
+  upper = gs_spending_bound, # Spending function bound for efficacy
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # specify spending function and total Type I error
-  lower = gs_b, lpar = rep(-Inf, 3),                       # No futility bound
+  lower = gs_b, lpar = rep(-Inf, 3), # No futility bound
   info_scale = 2
 )
 ```
 
-Bounds at the 3 analyses are as follows. 
+Bounds at the 3 analyses are as follows.
 Note that expected sample size at time of each data cutoff for analysis is also here in `N`. We filter on the upper bound so that lower bounds with `Z = -Inf` are not shown.
 
 ```{r}
 design1s %>%
-  summary() %>% 
-  as_gt(title = "1-sided group sequential bound using AHR method",
-        subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound") 
+  summary() %>%
+  as_gt(
+    title = "1-sided group sequential bound using AHR method",
+    subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
+  )
 ```
 
 
@@ -207,16 +212,16 @@ gsDesign to replicate above bounds (this will not replicate sample size).
 
 ```{r, class.source = 'fold-show'}
 x <- gsDesign(k = 3, test.type = 1, timing = design1s$analysis$IF, sfu = sfLDOF)
-cat("gsDesign\n  Upper bound: ",x$upper$bound,
-    "\n  Cumulative boundary crossing probability (H0): ", cumsum(x$upper$prob[, 1]),
-    "\n  Timing (IF): ", x$timing,
-    "\ngs_design_ahr\n  Upper bound: ", design1s$bounds$Z,
-    "\n  Cumulative boundary crossing probability (H0): ", design1s$bounds$Probability0,
-    "\n  Timinng (IF): ", design1s$analysis$IF,
-    "\n")
+cat(
+  "gsDesign\n  Upper bound: ", x$upper$bound,
+  "\n  Cumulative boundary crossing probability (H0): ", cumsum(x$upper$prob[, 1]),
+  "\n  Timing (IF): ", x$timing,
+  "\ngs_design_ahr\n  Upper bound: ", design1s$bounds$Z,
+  "\n  Cumulative boundary crossing probability (H0): ", design1s$bounds$Probability0,
+  "\n  Timinng (IF): ", design1s$analysis$IF,
+  "\n"
+)
 ```
-
-
 
 ## Two-Sided Testing
 
@@ -232,30 +237,33 @@ design2ss <- gs_design_ahr(
   beta = beta,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  analysis_time = c(16, 26, 36),  #  Calendar analysis times
+  analysis_time = c(16, 26, 36), #  Calendar analysis times
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-  h1_spending = FALSE             # This specifies futility testing with spending under NULL
+  h1_spending = FALSE # This specifies futility testing with spending under NULL
 )
 ```
 
-
-Design bounds are confirmed with: 
+Design bounds are confirmed with:
 
 ```{r, message=FALSE}
-design2ss %>% 
-  summary() %>% 
-  as_gt(title = "2-sided symmetric group sequential bound using AHR method",
-        subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound")
+design2ss %>%
+  summary() %>%
+  as_gt(
+    title = "2-sided symmetric group sequential bound using AHR method",
+    subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
+  )
 ```
 
 The bounds can be plotted easily:
 
 ```{r, out.width = "50%"}
-ggplot(data = design2ss$analysis %>% left_join(design2ss$bounds, by = "Analysis"), 
-       aes(x = Events, y = Z, group = Bound)) +
+ggplot(
+  data = design2ss$analysis %>% left_join(design2ss$bounds, by = "Analysis"),
+  aes(x = Events, y = Z, group = Bound)
+) +
   geom_line(aes(linetype = Bound)) +
   geom_point() +
   ggtitle("2-sided symmetric bounds with O'Brien-Fleming-like spending")
@@ -277,11 +285,11 @@ design2sa <- gs_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   analysis_time = c(12, 16, 26, 36),
-  upper = gs_spending_bound, 
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),  # Same efficacy bound as before
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # Same efficacy bound as before
   test_lower = c(FALSE, TRUE, TRUE, TRUE), # Only test efficacy after IA1
-  lower = gs_b, 
-  lpar = c(rep(qnorm(.05),2), -Inf, -Inf)   # Fixed lower bound at first 2 analyses
+  lower = gs_b,
+  lpar = c(rep(qnorm(.05), 2), -Inf, -Inf) # Fixed lower bound at first 2 analyses
 )
 ```
 
@@ -289,11 +297,12 @@ We now have a slightly larger sample size to account for the possibility of an e
 Bounds are now:
 
 ```{r}
-design2sa %>% 
+design2sa %>%
   summary() %>%
-  as_gt(title = "2-sided asymmetric group sequential bound using AHR method",
-        subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound for efficacy, futility disaster check at IA1, IA2 only")
+  as_gt(
+    title = "2-sided asymmetric group sequential bound using AHR method",
+    subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound for efficacy, futility disaster check at IA1, IA2 only"
+  )
 ```
-
 
 # References

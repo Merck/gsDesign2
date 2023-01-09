@@ -6,4 +6,3 @@ test_that("gs_spending_bound() does not execute as expected", {
   expect_true(is.numeric(b2 <- gs_spending_bound(k = 2, theta = 0, hgm1 = hgm1_0)))
   expect_true(is.numeric(a2 <- gs_spending_bound(k = 2, theta = .1, hgm1 = hgm1_1, efficacy = FALSE)))
 })
-

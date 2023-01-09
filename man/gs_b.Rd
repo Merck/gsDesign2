@@ -7,21 +7,26 @@
 gs_b(par = NULL, k = NULL, ...)
 }
 \arguments{
-\item{par}{For \code{gs_b()}, this is just Z-values for the boundaries; can include infinite values}
+\item{par}{For \code{gs_b()}, this is just Z-values for the boundaries;
+can include infinite values}
 
 \item{k}{is NULL (default), return \code{par}, else return \code{par[k]}}
 
 \item{...}{further arguments passed to or from other methods}
 }
 \value{
-returns the vector input \code{par} if \code{k} is NULL, otherwise, \code{par[k]}
+returns the vector input \code{par} if \code{k} is NULL,
+otherwise, \code{par[k]}
 }
 \description{
-\code{gs_b()} is the simplest version of a function to be used with the \code{upper} and \code{lower}
+\code{gs_b()} is the simplest version of a function to be used with the
+\code{upper} and \code{lower}
 arguments in \code{gs_prob()},
 \code{gs_power_nph} and \code{gs_design_nph()};
-it simply returns the vector input in the input vector \code{Z} or, if \code{k} is specified \code{par[k]j} is returned.
-Note that if bounds need to change with changing information at analyses, \code{gs_b()} should not be used.
+it simply returns the vector input in the input vector \code{Z} or,
+if \code{k} is specified \code{par[k]j} is returned.
+Note that if bounds need to change with changing information at analyses,
+\code{gs_b()} should not be used.
 For instance, for spending function bounds use
 }
 \section{Specification}{
@@ -30,8 +35,10 @@ For instance, for spending function bounds use
  \itemize{
    \item Validate if the input k is null as default.
    \itemize{
-     \item If the input k is null as default, return the whole vector of Z-values of the boundaries.
-     \item If the input k is not null, return the corresponding boundary in the vector of Z-values.
+     \item If the input k is null as default, return the whole vector of
+     Z-values of the boundaries.
+     \item If the input k is not null, return the corresponding boundary
+     in the vector of Z-values.
      }
    \item Return a vector of boundaries.
   }
@@ -52,8 +59,10 @@ gs_b(par = 4:2, k = 2)
 # as 50\%, 75\% and 100\% of final spending
 # Information fraction
 IF <- c(.5, .75, 1)
-gs_b(par = gsDesign::gsDesign(alpha = .025, k = length(IF), 
-     test.type = 1, sfu = gsDesign::sfLDOF, 
-     timing = IF)$upper$bound)
-     
+gs_b(par = gsDesign::gsDesign(
+  alpha = .025, k = length(IF),
+  test.type = 1, sfu = gsDesign::sfLDOF,
+  timing = IF
+)$upper$bound)
+
 }

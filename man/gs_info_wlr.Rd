@@ -61,20 +61,23 @@ library(tibble)
 library(gsDesign2)
 
 # set enrollment rates
-enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500/12)
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
 
 # set failure rates
 fail_rate <- tibble(
   stratum = "All",
   duration = c(4, 100),
-  fail_rate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),
-  dropout_rate = 0.001)
+  dropout_rate = 0.001
+)
 
 # set the targeted number of events and analysis time
 event <- c(30, 40, 50)
 analysis_time <- c(10, 24, 30)
 
-gs_info_wlr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-            event = event, analysis_time = analysis_time)
+gs_info_wlr(
+  enroll_rate = enroll_rate, fail_rate = fail_rate,
+  event = event, analysis_time = analysis_time
+)
 }

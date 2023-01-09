@@ -90,14 +90,18 @@ AHR()
 AHR(total_duration = c(15, 30))
 
 # Stratified population
-enroll_rate <- tibble::tibble(stratum = c(rep("Low", 2), rep("High", 3)),
-                              duration = c(2, 10, 4, 4, 8),
-                              rate = c(5, 10, 0, 3, 6))
-fail_rate <- tibble::tibble(stratum = c(rep("Low", 2), rep("High", 2)),
-                            duration = 1,
-                            fail_rate = c(.1, .2, .3, .4),
-                            hr = c(.9, .75, .8, .6),
-                            dropout_rate = .001)
+enroll_rate <- tibble::tibble(
+  stratum = c(rep("Low", 2), rep("High", 3)),
+  duration = c(2, 10, 4, 4, 8),
+  rate = c(5, 10, 0, 3, 6)
+)
+fail_rate <- tibble::tibble(
+  stratum = c(rep("Low", 2), rep("High", 2)),
+  duration = 1,
+  fail_rate = c(.1, .2, .3, .4),
+  hr = c(.9, .75, .8, .6),
+  dropout_rate = .001
+)
 AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 
 # Same example, give results by strata and time period

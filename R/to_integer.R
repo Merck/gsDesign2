@@ -1,4 +1,5 @@
-#  Copyright (c) 2022 Merck Sharp & Dohme Corp. a subsidiary of Merck & Co., Inc., Rahway, NJ, USA.
+#  Copyright (c) 2023 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
 #
@@ -17,10 +18,12 @@
 
 #' S3 class method to round sample size to an even number for equal design.
 #'
-#' @param x an object returned from \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo}
+#' @param x an object returned from \code{gs_design_ahr},
+#' \code{gs_design_wlr}, or \code{gs_design_combo}
 #' @param ... additional arguments
 #'
-#' @return a list similar to the output of \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo},
+#' @return a list similar to the output of \code{gs_design_ahr},
+#' \code{gs_design_wlr}, or \code{gs_design_combo},
 #' but the sample size is an integer
 #' @export
 #'
@@ -31,10 +34,12 @@ to_integer <- function(x, ...) {
 #' This is the function to format the fixed design into integer sample size.
 #' @rdname to_integer.fixed_design
 #' @param x an object returned from \code{fixed_design}
-#' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling sample size to an even integer
+#' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling
+#' sample size to an even integer
 #' @param ... additional arguments
 #'
-#' @return a list similar to the output of \code{fixed_design}, but the sample size is an integer
+#' @return a list similar to the output of \code{fixed_design},
+#' but the sample size is an integer
 #'
 #' @export to_integer
 #' @exportS3Method
@@ -191,14 +196,16 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   return(ans)
 }
 
-
 #' This is the function to format group sequential design into interger sample size.
 #' @rdname to_integer.gs_design
-#' @param x an object returned from \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo}
-#' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling sample size to an even integer
+#' @param x an object returned from \code{gs_design_ahr},
+#' \code{gs_design_wlr}, or \code{gs_design_combo}
+#' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling
+#' sample size to an even integer
 #' @param ... additional arguments
 #'
-#' @return a list similar to the output of \code{gs_design_ahr}, \code{gs_design_wlr}, or \code{gs_design_combo},
+#' @return a list similar to the output of \code{gs_design_ahr},
+#' \code{gs_design_wlr}, or \code{gs_design_combo},
 #' but the sample size is an integer
 #'
 #' @export to_integer

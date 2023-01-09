@@ -31,7 +31,8 @@ Refer examples for its data structure.}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{indicator of whether futility bound is binding;
+default of FALSE is recommended}
 
 \item{upper}{Function to compute upper bound}
 
@@ -76,16 +77,18 @@ library(gsDesign2)
 library(tibble)
 
 enroll_rate <- tibble(
-  stratum = "All", 
-  duration = 12, 
-  rate = 500/12)
+  stratum = "All",
+  duration = 12,
+  rate = 500 / 12
+)
 
 fail_rate <- tibble(
   stratum = "All",
   duration = c(4, 100),
-  fail_rate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),
-  dropout_rate = 0.001)
+  dropout_rate = 0.001
+)
 
 fh_test <- rbind(
   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
@@ -97,12 +100,13 @@ fh_test <- rbind(
 # ------------------------ #
 # Minimal Information Fraction derived bound
 gs_power_combo(
-  enroll_rate = enroll_rate, 
-  fail_rate = fail_rate, 
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
   fh_test = fh_test,
   upper = gs_spending_combo,
-  upar  = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_combo,
-  lpar  = list(sf = gsDesign::sfLDOF, total_spend = 0.2)) 
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
 
 }

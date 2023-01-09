@@ -27,54 +27,56 @@ library(tibble)
 
 # Enrollment rate
 enroll_rate <- tibble(
-  stratum = "All", 
-  duration = 18, 
-  rate = 20)
+  stratum = "All",
+  duration = 18,
+  rate = 20
+)
 
 # Failure rates
 fail_rate <- tibble(
-  stratum = "All", 
-  duration = c(4, 100), 
+  stratum = "All",
+  duration = c(4, 100),
   fail_rate = log(2) / 12,
-  hr = c(1, .6), 
-  dropout_rate = .001)
+  hr = c(1, .6),
+  dropout_rate = .001
+)
 
 # Study duration in months
 study_duration <- 36
 
 # Experimental / Control randomization ratio
-ratio <- 1 
+ratio <- 1
 
 # 1-sided Type I error
-alpha <- 0.025 
+alpha <- 0.025
 
 # Type II error (1 - power)
-beta <- 0.1 
+beta <- 0.1
 
 # ------------------------- #
 #        AHR                #
 # ------------------------- #
-# under fixed power 
+# under fixed power
 fixed_design(
-  "ahr", 
-  alpha = alpha, power = 1 - beta, 
-  enroll_rate = enroll_rate, fail_rate = fail_rate, 
+  "ahr",
+  alpha = alpha, power = 1 - beta,
+  enroll_rate = enroll_rate, fail_rate = fail_rate,
   study_duration = study_duration, ratio = ratio
-  ) \%>\% 
-  summary() \%>\% 
+) \%>\%
+  summary() \%>\%
   as_gt()
-  
+
 # ------------------------- #
 #        FH                 #
 # ------------------------- #
 # under fixed power
 fixed_design(
-  "fh", 
-  alpha = alpha, power = 1 - beta, 
+  "fh",
+  alpha = alpha, power = 1 - beta,
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   study_duration = study_duration, ratio = ratio
-  ) \%>\% 
-  summary() \%>\% 
+) \%>\%
+  summary() \%>\%
   as_gt()
-  
+
 }

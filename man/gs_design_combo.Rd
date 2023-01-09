@@ -38,7 +38,8 @@ Refer examples for its data structure.}
 
 \item{beta}{Type II error}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{indicator of whether futility bound is binding;
+default of FALSE is recommended}
 
 \item{upper}{Function to compute upper bound}
 
@@ -68,44 +69,52 @@ library(gsDesign)
 library(tibble)
 
 enroll_rate <- tibble(
-  stratum = "All", 
-  duration = 12, 
-  rate = 500/12)
-  
+  stratum = "All",
+  duration = 12,
+  rate = 500 / 12
+)
+
 fail_rate <- tibble(
   stratum = "All",
   duration = c(4, 100),
-  fail_rate = log(2) / 15,  # median survival 15 month
+  fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),
-  dropout_rate = 0.001)
-  
-fh_test <- rbind( 
-  data.frame(rho = 0, gamma = 0, tau = -1,
-             test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
-  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1,
-             test = 2:3, Analysis = 3, analysis_time = 36))
+  dropout_rate = 0.001
+)
 
-x <- gsSurv( 
-  k = 3 , 
-  test.type = 4 , 
-  alpha = 0.025 ,
-  beta = 0.2 , 
-  astar = 0 , 
+fh_test <- rbind(
+  data.frame(
+    rho = 0, gamma = 0, tau = -1,
+    test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)
+  ),
+  data.frame(
+    rho = c(0, 0.5), gamma = 0.5, tau = -1,
+    test = 2:3, Analysis = 3, analysis_time = 36
+  )
+)
+
+x <- gsSurv(
+  k = 3,
+  test.type = 4,
+  alpha = 0.025,
+  beta = 0.2,
+  astar = 0,
   timing = 1,
-  sfu = sfLDOF , 
-  sfupar = 0, 
-  sfl = sfLDOF ,
-  sflpar = 0, 
+  sfu = sfLDOF,
+  sfupar = 0,
+  sfl = sfLDOF,
+  sflpar = 0,
   lambdaC = 0.1,
-  hr = 0.6, 
-  hr0 = 1, 
+  hr = 0.6,
+  hr0 = 1,
   eta = 0.01,
   gamma = 10,
-  R = 12, 
+  R = 12,
   S = NULL,
-  T = 36, 
-  minfup = 24, 
-  ratio = 1)
+  T = 36,
+  minfup = 24,
+  ratio = 1
+)
 
 # -------------------------#
 #       example 1          #
@@ -117,9 +126,10 @@ gs_design_combo(
   fh_test,
   alpha = 0.025, beta = 0.2,
   ratio = 1,
-  binding = FALSE,       
+  binding = FALSE,
   upar = x$upper$bound,
-  lpar = x$lower$bound)
+  lpar = x$lower$bound
+)
 
 # -------------------------#
 #       example 2          #
@@ -129,13 +139,14 @@ gs_design_combo(
   enroll_rate,
   fail_rate,
   fh_test,
-  alpha = 0.025, 
+  alpha = 0.025,
   beta = 0.2,
   ratio = 1,
-  binding = FALSE,                 
+  binding = FALSE,
   upper = gs_spending_combo,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),   # alpha spending
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # alpha spending
   lower = gs_spending_combo,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),     # beta spending
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
 )
+
 }

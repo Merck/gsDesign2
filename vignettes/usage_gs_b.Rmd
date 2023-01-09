@@ -22,53 +22,60 @@ library(gsDesign2)
 
 # Introduction of `gs_b()`
 
-`gs_b()` can be used to derive fixed boundary in fixed/group sequential design. It is usually used in the `upper = ...` and `lower = ...` arguments in 
-+ `gs_power_npe()`
-+ `gs_design_npe()`
-+ `gs_power_ahr()`
-+ `gs_design_ahr()`
-+ `gs_power_wlr()`
-+ `gs_design_wlr()`
-+ `gs_power_combo()`
-+ `gs_design_combo()`
+`gs_b()` can be used to derive fixed boundary in fixed/group sequential design. It is usually used in the `upper = ...` and `lower = ...` arguments in
+
+- `gs_power_npe()`
+- `gs_design_npe()`
+- `gs_power_ahr()`
+- `gs_design_ahr()`
+- `gs_power_wlr()`
+- `gs_design_wlr()`
+- `gs_power_combo()`
+- `gs_design_combo()`
 
 # Usage of `gs_b()`
 
 ## Example 1
+
 Assume it is a group sequential design with 3 analysis, one can input its upper bound as a vector `c(4, 3, 2)` by using `gs_b()` as follows.
+
 ```{r}
 gs_b(par = 4:2)
 ```
 
-
 ## Example 2
+
 In the above example, one can assign the upper bound at the second analysis by
+
 ```{r}
 gs_b(par = 4:2, k = 2)
 ```
 
 ## Example 3
-Generate an efficacy bound using a spending function. 
+
+Generate an efficacy bound using a spending function.
 Use Lan-DeMets spending approximation of O'Brien-Fleming bound as 50\%, 75\% and 100\% of final spending
+
 ```{r}
 # information fraction
 IF <- c(.5, .75, 1)
 # Lan-DeMets spending approximation of O'Brien-Fleming
-par <- gsDesign::gsDesign(alpha = .025, k = length(IF), 
-                          test.type = 1, sfu = gsDesign::sfLDOF, 
-                          timing = IF)$upper$bound
+par <- gsDesign::gsDesign(
+  alpha = .025, k = length(IF),
+  test.type = 1, sfu = gsDesign::sfLDOF,
+  timing = IF
+)$upper$bound
 gs_b(par = par)
 ```
 
-
 # Inner Logic of `gs_b()`
 
-`gs_b` is a short function with 2 key arguments: `par = ...` and `k = ...`
+`gs_b()` is a short function with 2 key arguments: `par = ...` and `k = ...`
+
 ```{r, eval=FALSE}
-if(is.null(k)){
+if (is.null(k)) {
   return(par)
-}else{ 
+} else {
   return(par[k])
 }
 ```
-

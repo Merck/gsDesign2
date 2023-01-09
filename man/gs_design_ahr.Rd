@@ -42,7 +42,8 @@ gs_design_ahr(
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{indicator of whether futility bound is binding;
+default of FALSE is recommended}
 
 \item{upper}{Function to compute upper bound}
 
@@ -52,26 +53,34 @@ gs_design_ahr(
 
 \item{lpar}{Parameter passed to \code{lower()}}
 
-\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
+\item{h1_spending}{Indicator that lower bound to be set by spending
+under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound}
 
-\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound}
+\item{test_upper}{indicator of which analyses should include an upper
+(efficacy) bound; single value of TRUE (default) indicates all analyses;
+otherwise, a logical vector of the same length as \code{info} should indicate
+which analyses will have an efficacy bound}
 
-\item{test_lower}{indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
+\item{test_lower}{indicator of which analyses should include an lower bound;
+single value of TRUE (default) indicates all analyses;
+single value FALSE indicated no lower bound; otherwise, a logical vector of
+the same length as \code{info} should indicate which analyses will have a
 lower bound}
 
 \item{info_scale}{the information scale for calculation}
 
-\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+\item{r}{Integer value controlling grid for numerical integration as in
+Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of
+grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 }
 \value{
-a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
+a \code{tibble} with columns Analysis, Bound, Z, Probability,
+theta, Time, AHR, Events
 }
 \description{
 Group sequential design using average hazard ratio under non-proportional hazards
@@ -83,20 +92,27 @@ Need to be added
 
 \if{latex}{
  \itemize{
-   \item Validate if input analysis_time is a positive number or positive increasing sequence.
-   \item Validate if input info_frac is a positive number or positive increasing sequence
+   \item Validate if input analysis_time is a positive number or positive
+   increasing sequence.
+   \item Validate if input info_frac is a positive number or positive
+   increasing sequence
    on (0, 1] with final value of 1.
-   \item Validate if input info_frac and analysis_time  have the same length if both have length > 1.
+   \item Validate if input info_frac and analysis_time  have the same
+   length if both have length > 1.
    \item Get information at input analysis_time
    \itemize{
-     \item Use \code{gs_info_ahr()} to get the information and effect size based on AHR approximation.
+     \item Use \code{gs_info_ahr()} to get the information and effect size
+     based on AHR approximation.
      \item Extract the final event.
      \item Check if input If needed for (any) interim analysis timing.
    }
    \item Add the analysis column to the information at input analysis_time.
-   \item Add the sample size column to the information at input analysis_time using \code{expected_accural()}.
-   \item Get sample size and bounds using \code{gs_design_npe()} and save them to bounds.
-   \item Add Time, Events, AHR, N that have already been calculated to the bounds.
+   \item Add the sample size column to the information at input analysis_time
+   using \code{expected_accural()}.
+   \item Get sample size and bounds using \code{gs_design_npe()} and
+   save them to bounds.
+   \item Add Time, Events, AHR, N that have already been calculated
+   to the bounds.
    \item Return a list of design enrollment, failure rates, and bounds.
   }
 }
@@ -139,7 +155,7 @@ gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 # driven by times
 gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 # driven by info_frac
-gs_design_ahr(info_frac = c(1/3, .8, 1), analysis_time = c(12, 25, 36))
+gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
 
 # ----------------- #
 #    example 6      #
@@ -152,7 +168,8 @@ gs_design_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-  h1_spending = FALSE)
+  h1_spending = FALSE
+)
 
 # 2-sided asymmetric design with O'Brien-Fleming upper spending
 # Pocock lower spending under H1 (NPH)
@@ -163,6 +180,7 @@ gs_design_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
-  h1_spending = TRUE)
-  
+  h1_spending = TRUE
+)
+
 }

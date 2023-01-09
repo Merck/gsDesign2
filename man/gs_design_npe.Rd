@@ -126,14 +126,14 @@ The bound specifications in \code{upper, lower, upar, lpar} will be used to ensu
 library(dplyr)
 library(gsDesign)
 
-# ---------------------------------# 
+# ---------------------------------#
 #         example 1                #
-# ---------------------------------# 
+# ---------------------------------#
 # Single analysis
 # Lachin book p 71 difference of proportions example
-pc <- .28            # Control response rate
-pe <- .40            # Experimental response rate
-p0 <- (pc + pe) / 2  # Ave response rate under H0
+pc <- .28 # Control response rate
+pe <- .40 # Experimental response rate
+p0 <- (pc + pe) / 2 # Ave response rate under H0
 
 # Information per increment of 1 in sample size
 info0 <- 1 / (p0 * (1 - p0) * 4)
@@ -144,9 +144,9 @@ info <- 1 / (pc * (1 - pc) * 2 + pe * (1 - pe) * 2)
 gs_design_npe(theta = pe - pc, info = info, info0 = info0)
 
 
-# ---------------------------------# 
+# ---------------------------------#
 #         example 2                #
-# ---------------------------------# 
+# ---------------------------------#
 # Fixed bound
 x <- gs_design_npe(
   theta = c(.1, .2, .3),
@@ -155,7 +155,8 @@ x <- gs_design_npe(
   upper = gs_b,
   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
   lower = gs_b,
-  lpar = c(-1, 0, 0))
+  lpar = c(-1, 0, 0)
+)
 x
 
 # Same upper bound; this represents non-binding Type I error and will total 0.025
@@ -165,11 +166,12 @@ gs_power_npe(
   upper = gs_b,
   upar = (x \%>\% filter(Bound == "Upper"))$Z,
   lower = gs_b,
-  lpar = rep(-Inf, 3))
+  lpar = rep(-Inf, 3)
+)
 
-# ---------------------------------# 
+# ---------------------------------#
 #         example 3                #
-# ---------------------------------# 
+# ---------------------------------#
 # Spending bound examples
 # Design with futility only at analysis 1; efficacy only at analyses 2, 3
 # Spending bound for efficacy; fixed bound for futility
@@ -183,8 +185,9 @@ gs_design_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_b,
   lpar = c(-1, -Inf, -Inf),
-  test_upper = c(FALSE, TRUE, TRUE))
-  
+  test_upper = c(FALSE, TRUE, TRUE)
+)
+
 # one can try `info_scale = 1` or `info_scale = 0` here
 gs_design_npe(
   theta = c(.1, .2, .3),
@@ -195,11 +198,12 @@ gs_design_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_b,
   lpar = c(-1, -Inf, -Inf),
-  test_upper = c(FALSE, TRUE, TRUE))
+  test_upper = c(FALSE, TRUE, TRUE)
+)
 
-# ---------------------------------# 
+# ---------------------------------#
 #         example 4                #
-# ---------------------------------# 
+# ---------------------------------#
 # Spending function bounds
 # 2-sided asymmetric bounds
 # Lower spending based on non-zero effect
@@ -210,11 +214,12 @@ gs_design_npe(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL))
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+)
 
-# ---------------------------------# 
+# ---------------------------------#
 #         example 5                #
-# ---------------------------------# 
+# ---------------------------------#
 # Two-sided symmetric spend, O'Brien-Fleming spending
 # Typically, 2-sided bounds are binding
 xx <- gs_design_npe(
@@ -224,7 +229,8 @@ xx <- gs_design_npe(
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL))
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
 xx
 
 # Re-use these bounds under alternate hypothesis
@@ -236,8 +242,9 @@ gs_power_npe(
   upper = gs_b,
   lower = gs_b,
   upar = (xx \%>\% filter(Bound == "Upper"))$Z,
-  lpar = -(xx \%>\% filter(Bound == "Upper"))$Z)
-  
+  lpar = -(xx \%>\% filter(Bound == "Upper"))$Z
+)
+
 }
 \author{
 Keaven Anderson \email{keaven_anderson@merck.com}

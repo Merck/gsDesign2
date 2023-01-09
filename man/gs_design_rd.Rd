@@ -97,9 +97,9 @@ gs_design_rd(
   p_c = tibble(stratum = "All", rate = .2),
   p_e = tibble(stratum = "All", rate = .15),
   info_frac = c(0.7, 1),
-  rd0 = 0, 
-  alpha = .025,                  
-  beta = .1,                    
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
   ratio = 1,
   stratum_prev = NULL,
   weight = "un-stratified",
@@ -108,7 +108,7 @@ gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
-  
+
 # ----------------- #
 #     example 2     #
 # ----------------- #
