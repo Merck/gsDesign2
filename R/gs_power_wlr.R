@@ -188,7 +188,8 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
                          info_scale = c(0, 1, 2),
                          approx = "asymptotic",
                          r = 18,
-                         tol = 1e-6) {
+                         tol = 1e-6,
+                         interval = c(.01, 100)) {
   # get the number of analysis
   K <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
@@ -208,7 +209,8 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
     ratio = ratio,
     event = event,
     weight = weight,
-    analysis_time = analysis_time
+    analysis_time = analysis_time,
+    interval = interval
   )
 
   # ---------------------------------------- #
