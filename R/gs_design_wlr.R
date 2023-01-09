@@ -19,6 +19,8 @@
 #' Group sequential design using weighted log-rank test under non-proportional hazards
 #'
 #' @import tibble tibble
+#' @importFrom dplyr all_of
+#' 
 #' @inheritParams gs_design_ahr
 #' @inheritParams gs_info_wlr
 #' @section Specification:
@@ -33,8 +35,6 @@
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @importFrom dplyr all_of
 #'
 #' @export
 #'
@@ -131,7 +131,8 @@ gs_design_wlr <- function(enroll_rate = tibble(
                           test_upper = TRUE,
                           test_lower = TRUE,
                           h1_spending = TRUE,
-                          r = 18, tol = 1e-6) {
+                          r = 18, tol = 1e-6,
+                          interval = c(.01, 100)) {
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
@@ -159,7 +160,8 @@ gs_design_wlr <- function(enroll_rate = tibble(
   # --------------------------------------------- #
   y <- gs_info_wlr(enroll_rate, fail_rate,
     ratio = ratio, event = NULL,
-    analysis_time = analysis_time, weight = weight, approx = approx
+    analysis_time = analysis_time, weight = weight, approx = approx,
+    interval = interval
   )
 
   finalEvents <- y$Events[nrow(y)]

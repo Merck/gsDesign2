@@ -60,7 +60,9 @@ NULL
 #' Larger values provide larger number of grid points and greater accuracy.
 #' Normally `r` will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
-#'
+#' @param interval An interval that is presumed to include the time at which
+#' expected event count is equal to targeted event.
+#' 
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -165,7 +167,8 @@ gs_power_ahr <- function(enroll_rate = tibble(
                          binding = FALSE,
                          info_scale = c(0, 1, 2),
                          r = 18,
-                         tol = 1e-6) {
+                         tol = 1e-6,
+                         interval = c(.01, 100)) {
   # Get the number of analysis
   K <- max(length(event), length(analysis_time), na.rm = TRUE)
 
@@ -185,7 +188,8 @@ gs_power_ahr <- function(enroll_rate = tibble(
   # Calculate the asymptotic variance and statistical information --------------
   x <- gs_info_ahr(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
-    ratio = ratio, event = event, analysis_time = analysis_time
+    ratio = ratio, event = event, analysis_time = analysis_time,
+    interval = interval
   )
 
   # Given the above statistical information, calculate the power ---------------

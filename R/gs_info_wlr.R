@@ -34,7 +34,9 @@
 #' @param approx approximate estimation method for Z statistics
 #' - `"event driven"` = only work under proportional hazard model with log rank test
 #' - `"asymptotic"`
-#'
+#' @param interval An interval that is presumed to include the time at which
+#' expected event count is equal to targeted event.
+#' 
 #' @return a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}
 #' \code{info, info0} contains statistical information under H1, H0, respectively.
 #' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
@@ -88,7 +90,9 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
                         event = NULL, # event at analyses
                         analysis_time = NULL, # Times of analyses
                         weight = wlr_weight_fh,
-                        approx = "asymptotic") {
+                        approx = "asymptotic",
+                        interval = c(.01, 100)
+                        ) {
   if (is.null(analysis_time) && is.null(event)) {
     stop("gs_info_wlr(): One of event and analysis_time must be a numeric value or vector with increasing values!")
   }
@@ -104,7 +108,8 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
       if (avehr$Events[i] < event[i]) {
         avehr[i, ] <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
-          ratio = ratio, target_event = event[i]
+          ratio = ratio, target_event = event[i],
+          interval = interval
         )
       }
     }
@@ -114,7 +119,8 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
         avehr,
         expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
-          ratio = ratio, target_event = event[i]
+          ratio = ratio, target_event = event[i],
+          interval = interval
         )
       )
     }

@@ -13,7 +13,8 @@ gs_info_wlr(
   event = NULL,
   analysis_time = NULL,
   weight = wlr_weight_fh,
-  approx = "asymptotic"
+  approx = "asymptotic",
+  interval = c(0.01, 100)
 )
 }
 \arguments{
@@ -40,6 +41,9 @@ gs_info_wlr(
 \item \code{"event driven"} = only work under proportional hazard model with log rank test
 \item \code{"asymptotic"}
 }}
+
+\item{interval}{An interval that is presumed to include the time at which
+expected event count is equal to targeted event.}
 }
 \value{
 a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}

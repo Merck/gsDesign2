@@ -24,7 +24,8 @@ gs_design_ahr(
   test_lower = TRUE,
   info_scale = c(0, 1, 2),
   r = 18,
-  tol = 1e-06
+  tol = 1e-06,
+  interval = c(0.01, 100)
 )
 }
 \arguments{
@@ -77,6 +78,9 @@ grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+
+\item{interval}{An interval that is presumed to include the time at which
+expected event count is equal to targeted event.}
 }
 \value{
 a \code{tibble} with columns Analysis, Bound, Z, Probability,
