@@ -527,7 +527,7 @@ as_gt.gs_design <- function(x,
   }
 
   ## if it is non-binding design
-  if (x_non_binding & (x_alpha < full_alpha)) {
+  if (x_non_binding && (x_alpha < full_alpha)) {
     x <- x %>%
       gt::tab_footnote(
         footnote = paste0(

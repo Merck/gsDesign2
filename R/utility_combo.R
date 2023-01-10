@@ -165,7 +165,7 @@ pmvnorm_combo <- function(lower,
   }
 
   # One test for all group or lower bound is -Inf.
-  if (all(n_test == 1) | all(lower == -Inf)) {
+  if (all(n_test == 1) || all(lower == -Inf)) {
     p <- mvtnorm::pmvnorm(
       lower = rep(lower, n_test),
       upper = rep(upper, n_test),
