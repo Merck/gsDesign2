@@ -1,0 +1,343 @@
+# Setup
+library(tictoc)
+library(dplyr)
+library(mvtnorm)
+library(gsDesign)
+library(tibble)
+
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = 12,
+  rate = 500 / 12
+)
+
+fail_rate <- tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15, # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001
+)
+
+fh_test <- rbind(
+  data.frame(
+    rho = 0, gamma = 0, tau = -1,
+    test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)
+  ),
+  data.frame(
+    rho = c(0, 0.5), gamma = 0.5, tau = -1,
+    test = 2:3, Analysis = 3, analysis_time = 36
+  )
+)
+
+x <- gsSurv(
+  k = 3,
+  test.type = 4,
+  alpha = 0.025,
+  beta = 0.2,
+  astar = 0,
+  timing = 1,
+  sfu = sfLDOF,
+  sfupar = 0,
+  sfl = sfLDOF,
+  sflpar = 0,
+  lambdaC = 0.1,
+  hr = 0.6,
+  hr0 = 1,
+  eta = 0.01,
+  gamma = 10,
+  R = 12,
+  S = NULL,
+  T = 36,
+  minfup = 24,
+  ratio = 1
+)
+
+
+# First approach: tictoc----
+
+# Starts the timer and stores the start time and the message on the stack.
+tictoc::tic()
+
+# Function run
+gs_design_combo(
+  enroll_rate,
+  fail_rate,
+  fh_test,
+  alpha = 0.025, beta = 0.2,
+  ratio = 1,
+  binding = FALSE,
+  upar = x$upper$bound,
+  lpar = x$lower$bound)
+
+# Notes the current timer and computes elapsed time since the matching call to tic()
+tictoc::toc()
+
+
+
+
+# Second Approach: proc.time()----
+
+# Start the clock!
+ptm <- proc.time()
+
+# Function run
+gs_design_combo(
+  enroll_rate,
+  fail_rate,
+  fh_test,
+  alpha = 0.025, beta = 0.2,
+  ratio = 1,
+  binding = FALSE,
+  upar = x$upper$bound,
+  lpar = x$lower$bound)
+
+
+# Stop the clock
+proc.time() - ptm
+
+
+# Start the clock!
+ptm <- proc.time()
+
+# Boundary derived by spending function
+gs_design_combo(
+  enroll_rate,
+  fail_rate,
+  fh_test,
+  alpha = 0.025,
+  beta = 0.2,
+  ratio = 1,
+  binding = FALSE,
+  upper = gs_spending_combo,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # alpha spending
+  lower = gs_spending_combo,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
+)
+
+# Stop the clock
+proc.time() - ptm
+
+# Result: > 5 seconds
+
+
+
+
+# Enrollment rate
+enroll_rate <- tibble::tibble(
+  stratum = "All",
+  duration = 18,
+  rate = 20
+)
+
+# Failure rates
+fail_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 12,
+  hr = c(1, .6),
+  dropout_rate = .001
+)
+
+# Study duration in months
+study_duration <- 36
+
+# Experimental / Control randomization ratio
+ratio <- 1
+
+# 1-sided Type I error
+alpha <- 0.025
+# Type II error (1 - power)
+beta <- 0.1
+
+# ------------------------- #
+#        AHR                #
+# ------------------------- #
+
+tic()
+
+# under fixed power
+fixed_design(
+  "ahr",
+  alpha = alpha,
+  power = 1 - beta,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  study_duration = study_duration,
+  ratio = ratio
+) %>% summary()
+
+toc()
+
+
+# ------------------------- #
+#        FH                 #
+# ------------------------- #
+# under fixed power
+
+tic()
+
+fixed_design(
+  "fh",
+  alpha = alpha,
+  power = 1 - beta,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  study_duration = study_duration,
+  ratio = ratio
+) %>% summary()
+
+toc()
+
+
+
+# enrollment/failure rates
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = 12,
+  rate = 1
+)
+fail_rate <- tibble(
+  stratum = "All", duration = c(4, 100),
+  fail_rate = log(2) / 12,
+  hr = c(1, .6),
+  dropout_rate = .001
+)
+
+# Information fraction
+info_frac <- (1:3) / 3
+
+# Analysis times in months; first 2 will be ignored as info_frac will not be achieved
+analysis_time <- c(.01, .02, 36)
+
+# Experimental / Control randomization ratio
+ratio <- 1
+
+# 1-sided Type I error
+alpha <- 0.025
+
+# Type II error (1 - power)
+beta <- .1
+
+# Upper bound
+upper <- gs_spending_bound
+upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+
+# Lower bound
+lower <- gs_spending_bound
+lpar <- list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 0, timing = NULL)
+
+# weight function in WLR
+wgt00 <- function(x, arm0, arm1) {
+  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
+}
+wgt05 <- function(x, arm0, arm1) {
+  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)
+}
+
+# test in COMBO
+fh_test <- rbind(
+  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
+  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
+)
+
+# ---------------------------- #
+#          ahr                 #
+# ---------------------------- #
+tic()
+
+x_ahr <- gs_design_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  info_frac = info_frac, # Information fraction
+  analysis_time = analysis_time,
+  ratio = ratio,
+  alpha = alpha,
+  beta = beta,
+  upper = upper,
+  upar = upar,
+  lower = lower,
+  lpar = lpar
+)
+
+x_ahr %>% summary()
+x_ahr %>% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
+x_ahr %>% summary(bound_names = c("A is better", "B is better"))
+
+toc()
+
+# ---------------------------- #
+#         wlr                  #
+# ---------------------------- #
+tic()
+
+x_wlr <- gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  weight = wgt05,
+  info_frac = NULL,
+  analysis_time = sort(unique(x_ahr$analysis$Time)),
+  ratio = ratio,
+  alpha = alpha,
+  beta = beta,
+  upper = upper,
+  upar = upar,
+  lower = lower,
+  lpar = lpar
+)
+x_wlr %>% summary()
+
+toc()
+
+# ---------------------------- #
+#         max combo            #
+# ---------------------------- #
+tic()
+
+x_combo <- gs_design_combo(
+  ratio = 1,
+  alpha = 0.025,
+  beta = 0.2,
+  enroll_rate = tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12),
+  fail_rate = tibble::tibble(
+    stratum = "All", duration = c(4, 100),
+    fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001
+  ),
+  fh_test = fh_test,
+  upper = gs_spending_combo,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_combo,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
+
+x_combo %>% summary()
+
+toc()
+
+# Result: 16.191 seconds
+
+# ---------------------------- #
+#      risk difference         #
+# ---------------------------- #
+
+tic()
+
+gs_design_rd(
+  p_c = tibble(stratum = "All", rate = .2),
+  p_e = tibble(stratum = "All", rate = .15),
+  info_frac = c(0.7, 1),
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
+  ratio = 1,
+  stratum_prev = NULL,
+  weight = "un-stratified",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign::gsDesign(
+    k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL
+  )$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+) %>% summary()
+
+toc()
