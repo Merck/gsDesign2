@@ -264,9 +264,9 @@ First, we sum the $\bar{n}_m$ values `sum(y$nbar)` to get `r round(sum(y$nbar),6
 Events <- gsDesign::eEvents(
   lambda = y$lambda,
   eta = y$eta,
-  gamma = y$gamma[length(y$gamma):1],
-  S = y$tdel[1:(length(y$tdel) - 1)],
-  R = y$tdel[(length(y$tdel):1)],
+  gamma = y$gamma[rev(seq_along(y$gamma))],
+  S = y$tdel[seq_len(length(y$tdel) - 1)],
+  R = y$tdel[rev(seq_along(y$tdel))],
   T = max(y$tm)
 )$d
 

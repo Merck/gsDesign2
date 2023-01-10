@@ -161,7 +161,7 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
   # ----------------------------#
   #    compute theta            #
   # ----------------------------#
-  avehr$Analysis <- 1:nrow(avehr)
+  avehr$Analysis <- seq_len(nrow(avehr))
   avehr$theta <- -log(avehr$AHR)
 
   # ----------------------------#

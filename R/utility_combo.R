@@ -94,8 +94,8 @@ gs_utility_combo <- function(enroll_rate,
 
   # Overall Correlation
   corr_combo <- diag(1, nrow = nrow(info))
-  for (i in 1:nrow(info)) {
-    for (j in 1:nrow(info)) {
+  for (i in seq_len(nrow(info))) {
+    for (j in seq_len(nrow(info))) {
       t1 <- as.numeric(info$Analysis[i])
       t2 <- as.numeric(info$Analysis[j])
       if (t1 <= t2) {
@@ -202,7 +202,7 @@ pmvnorm_combo <- function(lower,
     k <- length(lower2)
     test_ind <- split(matrix(c(1, -1), nrow = k, ncol = 2, byrow = TRUE), 1:k)
     test_ind <- expand.grid(test_ind)
-    test <- split(test_ind, 1:nrow(test_ind))
+    test <- split(test_ind, seq_len(nrow(test_ind)))
 
     p <- sapply(test, function(x) {
       lower_bound <- rep(c(lower1, rep(-Inf, k)), n_test)
@@ -237,7 +237,7 @@ get_combo_weight <- function(rho, gamma, tau) {
   stopifnot(length(rho) == length(tau))
 
   weight <- list()
-  for (i in 1:length(rho)) {
+  for (i in seq_along(rho)) {
     if (tau[i] == -1) {
       tmp_tau <- NULL
     } else {
@@ -299,7 +299,7 @@ gs_sigma2_combo <- function(arm0,
   gamma1 <- outer(gamma, gamma, function(x, y) (x + y) / 2)
 
   sigma2 <- rho1
-  for (i in 1:length(rho)) {
+  for (i in seq_along(rho)) {
     weight <- get_combo_weight(rho1[i, ], gamma1[i, ], tau)
 
     sigma2[i, ] <- sapply(weight, function(x) {
@@ -440,7 +440,7 @@ gs_bound <- function(alpha,
                      beta,
                      theta,
                      corr,
-                     analysis = 1:length(alpha),
+                     analysis = seq_along(alpha),
                      theta0 = rep(0, length(analysis)),
                      binding_lower_bound = FALSE,
                      algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),

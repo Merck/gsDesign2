@@ -71,7 +71,7 @@ nEvent <- function(followup) {
 test_Event <- function(enrollRates, failRates, totalDuration) {
   enrolltime <- c(0, cumsum(enrollRates$duration))
   Event <- 0
-  for (i in c(1:length(enrollRates$duration))) {
+  for (i in seq_along(enrollRates$duration)) {
     enrollmentstart <- 0
     enrollmentend <- enrollRates$duration[i]
     enrollrate <- enrollRates$rate[i]
