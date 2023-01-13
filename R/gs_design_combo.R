@@ -87,6 +87,7 @@
 #' #       example 1          #
 #' # ------------------------ #
 #' # User defined boundary
+#' 
 #' gs_design_combo(
 #'   enroll_rate,
 #'   fail_rate,

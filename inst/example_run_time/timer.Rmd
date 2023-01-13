@@ -1,8 +1,31 @@
+---
+title: "Example Runtime"
+output: html_document
+date: "2023-01-13"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+TODO:
+
+Create a 3 column table:
+First column: which R script
+Second column: which example
+Third column: elapsed time
+
+Only report those examples whose elapsed time > 5 seconds.
+
+```{r}
+# gs_design_combo()
+
 # Setup
 library(tictoc)
 library(dplyr)
 library(mvtnorm)
 library(gsDesign)
+library(gsDesign2)
 library(tibble)
 
 enroll_rate <- tibble(
@@ -118,7 +141,7 @@ gs_design_combo(
 # Stop the clock
 proc.time() - ptm
 
-# Result: > 5 seconds
+# Result: > 5 seconds (35 seconds)
 
 
 
@@ -287,6 +310,7 @@ x_wlr <- gs_design_wlr(
 )
 x_wlr %>% summary()
 
+
 toc()
 
 # ---------------------------- #
@@ -341,3 +365,5 @@ gs_design_rd(
 ) %>% summary()
 
 toc()
+
+```
