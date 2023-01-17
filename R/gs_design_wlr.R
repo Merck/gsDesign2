@@ -20,7 +20,7 @@
 #'
 #' @import tibble tibble
 #' @importFrom dplyr all_of
-#' 
+#'
 #' @inheritParams gs_design_ahr
 #' @inheritParams gs_info_wlr
 #' @section Specification:

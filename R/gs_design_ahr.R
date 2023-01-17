@@ -58,7 +58,7 @@ NULL
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' @param interval An interval that is presumed to include the time at which
 #' expected event count is equal to targeted event.
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
