@@ -62,6 +62,7 @@
 #' # -------------------------#
 #' #       example 1          #
 #' # ------------------------ #
+#' \dontrun{
 #' # fixed bounds and calculate the power for targeted number of events
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
@@ -80,7 +81,7 @@
 #'   lower = gs_b,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-#'
+#' }
 #' # -------------------------#
 #' #       example 2          #
 #' # ------------------------ #
@@ -129,6 +130,7 @@
 #' #       example 4          #
 #' # ------------------------ #
 #' # spending bounds and calculate the power for targeted number of events
+#' \dontrun{
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -139,7 +141,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
-#'
+#' }
 #' # -------------------------#
 #' #       example 5          #
 #' # ------------------------ #

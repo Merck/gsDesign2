@@ -124,8 +124,10 @@ NULL
 #' #    example 4      #
 #' # ----------------- #
 #' # Specified information fraction
+#' \dontrun{
 #' gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
-#'
+#' }
+#' 
 #' # ----------------- #
 #' #    example 5      #
 #' # ----------------- #
@@ -133,8 +135,10 @@ NULL
 #' # driven by times
 #' gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 #' # driven by info_frac
+#' \dontrun{
 #' gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
-#'
+#' }
+#' 
 #' # ----------------- #
 #' #    example 6      #
 #' # ----------------- #
