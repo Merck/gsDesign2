@@ -233,7 +233,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           fail_rate = fail_rate,
           ratio = ratio,
           analysis_time = study_duration,
-          event = ifelse(has_event, args$event, NULL)
+          event = if(has_event){args$event}else{NULL}
         )
       }
       ans <- tibble::tibble(
