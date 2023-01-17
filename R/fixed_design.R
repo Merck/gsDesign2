@@ -100,10 +100,10 @@
 #' )
 #' x %>% summary()
 fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "rmst", "milestone"),
-                         alpha = 0.025, 
-                         power = NULL, 
-                         ratio = 1, 
-                         study_duration = 36, 
+                         alpha = 0.025,
+                         power = NULL,
+                         ratio = 1,
+                         study_duration = 36,
                          ...) {
   # --------------------------------------------- #
   #     check inputs                              #

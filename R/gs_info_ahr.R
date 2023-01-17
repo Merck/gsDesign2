@@ -30,7 +30,7 @@ NULL
 #' @param analysis_time Targeted minimum study duration at each analysis
 #' @param interval An interval that is presumed to include the time at which
 #' expected event count is equal to targeted event.
-#' 
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -94,11 +94,10 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
                           hr = c(.9, .6),
                           dropout_rate = rep(.001, 2)
                         ),
-                        ratio = 1,            # Experimental:Control randomization ratio
-                        event = NULL,         # event at analyses
+                        ratio = 1, # Experimental:Control randomization ratio
+                        event = NULL, # event at analyses
                         analysis_time = NULL, # Times of analyses
-                        interval = c(.01, 100)
-) {
+                        interval = c(.01, 100)) {
   # ----------------------------#
   #    check input values       #
   # ----------------------------#

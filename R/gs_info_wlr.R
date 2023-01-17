@@ -36,7 +36,7 @@
 #' - `"asymptotic"`
 #' @param interval An interval that is presumed to include the time at which
 #' expected event count is equal to targeted event.
-#' 
+#'
 #' @return a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}
 #' \code{info, info0} contains statistical information under H1, H0, respectively.
 #' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
@@ -91,8 +91,7 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
                         analysis_time = NULL, # Times of analyses
                         weight = wlr_weight_fh,
                         approx = "asymptotic",
-                        interval = c(.01, 100)
-                        ) {
+                        interval = c(.01, 100)) {
   if (is.null(analysis_time) && is.null(event)) {
     stop("gs_info_wlr(): One of event and analysis_time must be a numeric value or vector with increasing values!")
   }
