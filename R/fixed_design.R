@@ -100,7 +100,11 @@
 #' )
 #' x %>% summary()
 fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "rmst", "milestone"),
-                         alpha = 0.025, power = NULL, ratio = 1, study_duration = 36, ...) {
+                         alpha = 0.025, 
+                         power = NULL, 
+                         ratio = 1, 
+                         study_duration = 36, 
+                         ...) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -113,7 +117,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
   has_tau <- "tau" %in% names(args)
   has_enroll_rate <- "enroll_rate" %in% names(args)
   has_fail_rate <- "fail_rate" %in% names(args)
-  has_N <- "n" %in% names(args)
+  has_event <- "event" %in% names(args)
+  has_n <- "n" %in% names(args)
 
   # ------------------------- #
   #     check inputs          #
@@ -160,7 +165,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
     if (!"rd0" %in% names(args)) {
       stop("fixed_design: rd0 is needed for RD!")
     }
-    if (is.null(power) && !has_N) {
+    if (is.null(power) && !has_n) {
       stop("fixed_design: sample size n = ... is needed for RD!")
     }
   }
@@ -200,7 +205,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
     } else {
       NULL
     },
-    n = if (has_N) {
+    n = if (has_n) {
       args$n
     } else {
       NULL
@@ -228,7 +233,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           fail_rate = fail_rate,
           ratio = ratio,
           analysis_time = study_duration,
-          event = NULL
+          event = ifelse(has_event, args$event, NULL)
         )
       }
       ans <- tibble::tibble(
