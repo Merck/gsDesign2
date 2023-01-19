@@ -190,6 +190,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
   } else {
     two_sided <- TRUE
   }
+  
   # Calculate the asymptotic variance and statistical information --------------
   x <- gs_info_ahr(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
