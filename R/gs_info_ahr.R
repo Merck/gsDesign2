@@ -65,7 +65,7 @@ NULL
 #' # ------------------------ #
 #' #       Example 1          #
 #' # ------------------------ #
-#' \dontrun{
+#' \donttest{
 #' # Only put in targeted events
 #' gs_info_ahr(event = c(30, 40, 50))
 #' }
@@ -79,13 +79,13 @@ NULL
 #' # ------------------------ #
 #' #       Example 3          #
 #' # ------------------------ #
-#' \dontrun{
+#' \donttest{
 #' # Some analysis times after time at which targeted event accrue
 #' # Check that both Time >= input analysis_time and event >= input event
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
 #' }
 #' 
-#' \dontrun{
+#' \donttest{
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
 #' }
 gs_info_ahr <- function(enroll_rate = tibble::tibble(

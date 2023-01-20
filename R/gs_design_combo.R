@@ -87,7 +87,7 @@
 #' #       example 1          #
 #' # ------------------------ #
 #' # User defined boundary
-#' \dontrun{
+#' \donttest{
 #' gs_design_combo(
 #'   enroll_rate,
 #'   fail_rate,
@@ -102,7 +102,7 @@
 #' # -------------------------#
 #' #       example 2          #
 #' # ------------------------ #
-#' \dontrun{
+#' \donttest{
 #' # Boundary derived by spending function
 #' gs_design_combo(
 #'   enroll_rate,

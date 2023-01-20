@@ -88,7 +88,7 @@ NULL
 #' # Example 1 -----------------------------------------------------------------
 #' # The default output of `gs_power_ahr()` is driven by events,
 #' # i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
-#' \dontrun{
+#' \donttest{
 #' gs_power_ahr()
 #' }
 #' # Example 2 -----------------------------------------------------------------
@@ -108,7 +108,7 @@ NULL
 #' # Example 3 -----------------------------------------------------------------
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
 #' # i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
-#' \dontrun{
+#' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = NULL,
 #'   event = c(20, 50, 70),
@@ -126,7 +126,7 @@ NULL
 #' # then the analysis will driven by the maximal one, i.e.,
 #' # Time = max(analysis_time, calculated Time for targeted event)
 #' # Events = max(events, calculated events for targeted analysis_time)
-#' \dontrun{
+#' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = c(12, 24, 36),
 #'   event = c(30, 40, 50),

@@ -53,7 +53,7 @@
 #' #       example 1          #
 #' # ------------------------ #
 #' # Minimal Information Fraction derived bound
-#' \dontrun{
+#' \donttest{
 #' gs_power_combo(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,

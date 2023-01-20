@@ -62,7 +62,7 @@
 #' # -------------------------#
 #' #       example 1          #
 #' # ------------------------ #
-#' \dontrun{
+#' \donttest{
 #' # fixed bounds and calculate the power for targeted number of events
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
@@ -130,7 +130,7 @@
 #' #       example 4          #
 #' # ------------------------ #
 #' # spending bounds and calculate the power for targeted number of events
-#' \dontrun{
+#' \donttest{
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
