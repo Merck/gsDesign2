@@ -2,18 +2,210 @@
 % Please edit documentation in R/as_gt.R
 \name{as_gt}
 \alias{as_gt}
-\title{S3 class method to get summary table into a gt table}
+\alias{as_gt.fixed_design}
+\alias{as_gt.gs_design}
+\title{S3 generic to get summary table into a gt table}
 \usage{
 as_gt(x, ...)
+
+\method{as_gt}{fixed_design}(x, title = NULL, footnote = NULL, ...)
+
+\method{as_gt}{gs_design}(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  colname_spanner = "Cumulative boundary crossing probability",
+  colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
+  footnote = NULL,
+  display_bound = c("Efficacy", "Futility"),
+  display_columns = NULL,
+  display_inf_bound = TRUE,
+  full_alpha = 0.025,
+  ...
+)
 }
 \arguments{
-\item{x}{a summary of fixed or group sequential design}
+\item{x}{an object returned by \code{summary_bound}}
 
 \item{...}{additional arguments}
+
+\item{title}{a string to specify the title of the gt table}
+
+\item{footnote}{a list containing \code{content}, \code{location}, and \code{attr}.
+the \code{content} is a vector of string to specify the footnote text;
+the \code{location} is a vector of string to specify the locations to put the superscript of the footnote index;
+the \code{attr} is a vector of string to specify the attributes of the footnotes, e.g., c("colname", "title", "subtitle", "analysis", "spanner");
+users can use the functions in the \code{gt} package to custom themselves.}
+
+\item{subtitle}{a string to specify the subtitle of the gt table}
+
+\item{colname_spanner}{a string to specify the spanner of the gt table}
+
+\item{colname_spannersub}{a vector of strings to specify the spanner details of the gt table}
+
+\item{display_bound}{a vector of strings specifying the label of the bounds. The default is \code{c("Efficacy", "Futility")}}
+
+\item{display_columns}{a vector of strings specifying the variables to be displayed in the summary table}
+
+\item{display_inf_bound}{a logic value (TRUE or FALSE) whether to display the +-inf bound}
+
+\item{full_alpha}{The full alpha used in the design, the default is 0.025.
+If the cumulative alpha for final analysis is less than the \code{full_alpha}
+when the futility bound is non-binding, a footnote will be displayed, saying
+the smaller value subtracts the probability of crossing a futility bound before
+crossing an efficacy bound at a later analysis under the null hypothesis.}
 }
 \value{
 a gt table
+
+a gt table
+
+a gt table summarizing the bounds table in group sequential designs
 }
 \description{
-S3 class method to get summary table into a gt table
+S3 generic to get summary table into a gt table
+
+This is the function to format the bounds summary table of fixed design into gt style.
+
+This is the function to format the bounds summary table into gt style.
+}
+\examples{
+library(dplyr)
+library(tibble)
+
+# Enrollment rate
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = 18,
+  rate = 20
+)
+
+# Failure rates
+fail_rate <- tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 12,
+  hr = c(1, .6),
+  dropout_rate = .001
+)
+
+# Study duration in months
+study_duration <- 36
+
+# Experimental / Control randomization ratio
+ratio <- 1
+
+# 1-sided Type I error
+alpha <- 0.025
+
+# Type II error (1 - power)
+beta <- 0.1
+
+# ------------------------- #
+#        AHR                #
+# ------------------------- #
+# under fixed power
+fixed_design(
+  "ahr",
+  alpha = alpha, power = 1 - beta,
+  enroll_rate = enroll_rate, fail_rate = fail_rate,
+  study_duration = study_duration, ratio = ratio
+) \%>\%
+  summary() \%>\%
+  as_gt()
+
+# ------------------------- #
+#        FH                 #
+# ------------------------- #
+# under fixed power
+fixed_design(
+  "fh",
+  alpha = alpha, power = 1 - beta,
+  enroll_rate = enroll_rate, fail_rate = fail_rate,
+  study_duration = study_duration, ratio = ratio
+) \%>\%
+  summary() \%>\%
+  as_gt()
+
+\dontrun{
+# the default output
+library(dplyr)
+
+gs_design_ahr() \%>\%
+  summary() \%>\%
+  as_gt()
+
+gs_power_ahr() \%>\%
+  summary() \%>\%
+  as_gt()
+
+gs_design_wlr() \%>\%
+  summary() \%>\%
+  as_gt()
+
+gs_power_wlr() \%>\%
+  summary() \%>\%
+  as_gt()
+
+
+gs_power_combo() \%>\%
+  summary() \%>\%
+  as_gt()
+
+gs_design_rd() \%>\%
+  summary() \%>\%
+  as_gt()
+
+gs_power_rd() \%>\%
+  summary() \%>\%
+  as_gt()
+
+# usage of title = ..., subtitle = ...
+# to edit the title/subtitle
+gs_power_wlr() \%>\%
+  summary() \%>\%
+  as_gt(
+    title = "Bound Summary",
+    subtitle = "from gs_power_wlr"
+  )
+
+# usage of colname_spanner = ..., colname_spannersub = ...
+# to edit the spanner and its sub-spanner
+gs_power_wlr() \%>\%
+  summary() \%>\%
+  as_gt(
+    colname_spanner = "Cumulative probability to cross boundaries",
+    colname_spannersub = c("under H1", "under H0")
+  )
+
+# usage of footnote = ...
+# to edit the footnote
+gs_power_wlr() \%>\%
+  summary() \%>\%
+  as_gt(
+    footnote = list(
+      content = c(
+        "approximate weighted hazard ratio to cross bound.",
+        "wAHR is the weighted AHR.",
+        "the crossing probability.",
+        "this table is generated by gs_power_wlr."
+      ),
+      location = c("~wHR at bound", NA, NA, NA),
+      attr = c("colname", "analysis", "spanner", "title")
+    )
+  )
+
+# usage of display_bound = ...
+# to either show efficacy bound or futility bound, or both(default)
+gs_power_wlr() \%>\%
+  summary() \%>\%
+  as_gt(display_bound = "Efficacy")
+
+# usage of display_columns = ...
+# to select the columns to display in the summary table
+gs_power_wlr() \%>\%
+  summary() \%>\%
+  as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
+}
+
 }
