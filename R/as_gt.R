@@ -40,7 +40,7 @@ as_gt <- function(x, ...) {
 #'
 #' @export as_gt
 #' @exportS3Method
-#' 
+#'
 #'
 #' @method as_gt fixed_design
 #'
