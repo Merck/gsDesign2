@@ -4,7 +4,7 @@
 \alias{as_gt}
 \alias{as_gt.fixed_design}
 \alias{as_gt.gs_design}
-\title{S3 generic to get summary table into a gt table}
+\title{Get summary table into a gt table}
 \usage{
 as_gt(x, ...)
 
@@ -63,11 +63,7 @@ a gt table
 a gt table summarizing the bounds table in group sequential designs
 }
 \description{
-S3 generic to get summary table into a gt table
-
-This is the function to format the bounds summary table of fixed design into gt style.
-
-This is the function to format the bounds summary table into gt style.
+\code{as_gt()}formats a summary table of a fixed or group sequential design into a gt table.
 }
 \examples{
 library(dplyr)

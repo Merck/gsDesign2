@@ -16,7 +16,9 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' S3 generic to get summary table into a gt table
+#' Get summary table into a gt table
+#' 
+#' @description `as_gt()`formats a summary table of a fixed or group sequential design into a gt table.
 #'
 #' @param x a summary of fixed or group sequential design
 #' @param ... additional arguments
@@ -28,7 +30,7 @@ as_gt <- function(x, ...) {
   UseMethod("as_gt", x)
 }
 
-#' This is the function to format the bounds summary table of fixed design into gt style.
+
 #' @rdname as_gt
 #'
 #' @param x a summary object of group sequential design
@@ -211,7 +213,8 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 }
 
 
-#' This is the function to format the bounds summary table into gt style.
+
+
 #' @rdname as_gt
 #'
 #' @param x an object returned by \code{summary_bound}
