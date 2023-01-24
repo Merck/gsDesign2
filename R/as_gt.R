@@ -17,7 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Get summary table into a gt table
-#' 
+#'
 #' @description `as_gt()`formats a summary table of a fixed or group sequential design into a gt table.
 #'
 #' @param x a summary of fixed or group sequential design
