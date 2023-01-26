@@ -1,0 +1,1227 @@
+---
+title: "Example Runtime"
+output: html_document
+date: "2023-01-13"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+gs_design_combo.R
+
+```{r}
+# Setup
+library(tictoc)
+library(dplyr)
+library(mvtnorm)
+library(gsDesign)
+library(gsDesign2)
+library(tibble)
+
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = 12,
+  rate = 500 / 12
+)
+
+fail_rate <- tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15, # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001
+)
+
+fh_test <- rbind(
+  data.frame(
+    rho = 0, gamma = 0, tau = -1,
+    test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)
+  ),
+  data.frame(
+    rho = c(0, 0.5), gamma = 0.5, tau = -1,
+    test = 2:3, Analysis = 3, analysis_time = 36
+  )
+)
+
+x <- gsSurv(
+  k = 3,
+  test.type = 4,
+  alpha = 0.025,
+  beta = 0.2,
+  astar = 0,
+  timing = 1,
+  sfu = sfLDOF,
+  sfupar = 0,
+  sfl = sfLDOF,
+  sflpar = 0,
+  lambdaC = 0.1,
+  hr = 0.6,
+  hr0 = 1,
+  eta = 0.01,
+  gamma = 10,
+  R = 12,
+  S = NULL,
+  T = 36,
+  minfup = 24,
+  ratio = 1
+)
+
+
+# Starts the timer and stores the start time and the message on the stack.
+tictoc::tic()
+
+# Function run
+gs_design_combo(
+  enroll_rate,
+  fail_rate,
+  fh_test,
+  alpha = 0.025, beta = 0.2,
+  ratio = 1,
+  binding = FALSE,
+  upar = x$upper$bound,
+  lpar = x$lower$bound)
+
+# Notes the current timer and computes elapsed time since the matching call to tic()
+tictoc::toc()
+
+# Result: > 5 seconds (10.8 seconds)
+
+# Start the clock!
+tictoc::tic()
+
+# Boundary derived by spending function
+gs_design_combo(
+  enroll_rate,
+  fail_rate,
+  fh_test,
+  alpha = 0.025,
+  beta = 0.2,
+  ratio = 1,
+  binding = FALSE,
+  upper = gs_spending_combo,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # alpha spending
+  lower = gs_spending_combo,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
+)
+
+# Stop the clock
+tictoc::toc()
+
+# Result: > 5 seconds (28.5 seconds)
+```
+
+
+gs_design_ahr.R
+
+```{r}
+library(gsDesign)
+library(gsDesign2)
+library(dplyr)
+
+tic()
+gs_design_ahr()
+toc()
+
+tic()
+gs_design_ahr(analysis_time = 40)
+toc()
+
+tic()
+gs_design_ahr(analysis_time = c(12, 24, 36))
+toc()
+
+tic()
+gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
+toc()
+# Result: 9.2 seconds
+
+tic()
+gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
+toc()
+
+tic()
+gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
+toc()
+#  Result: 10.4 
+
+
+tic()
+gs_design_ahr(
+  analysis_time = c(12, 24, 36),
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  h1_spending = FALSE
+)
+toc()
+
+tic()
+gs_design_ahr(
+  analysis_time = c(12, 24, 36),
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
+  h1_spending = TRUE
+)
+toc()
+
+```
+
+
+gs_design_npe.R
+
+```{r}
+library(dplyr)
+library(gsDesign)
+library(gsDesign2)
+
+# Single analysis
+# Lachin book p 71 difference of proportions example
+pc <- .28 # Control response rate
+pe <- .40 # Experimental response rate
+p0 <- (pc + pe) / 2 # Ave response rate under H0
+
+info0 <- 1 / (p0 * (1 - p0) * 4)
+info <- 1 / (pc * (1 - pc) * 2 + pe * (1 - pe) * 2)
+
+tic()
+gs_design_npe(theta = pe - pc, info = info, info0 = info0)
+toc()
+
+
+tic()
+x <- gs_design_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 80,
+  info0 = (1:3) * 80,
+  upper = gs_b,
+  upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
+  lower = gs_b,
+  lpar = c(-1, 0, 0)
+)
+x
+toc()
+
+
+tic()
+gs_power_npe(
+  theta = rep(0, 3),
+  info = (x %>% filter(Bound == "Upper"))$info,
+  upper = gs_b,
+  upar = (x %>% filter(Bound == "Upper"))$Z,
+  lower = gs_b,
+  lpar = rep(-Inf, 3)
+)
+toc()
+
+
+
+tic()
+gs_design_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  info0 = (1:3) * 40,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_b,
+  lpar = c(-1, -Inf, -Inf),
+  test_upper = c(FALSE, TRUE, TRUE)
+)
+toc()
+
+
+tic()
+gs_design_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  info0 = (1:3) * 30,
+  info_scale = 1,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_b,
+  lpar = c(-1, -Inf, -Inf),
+  test_upper = c(FALSE, TRUE, TRUE)
+)
+toc()
+
+
+tic()
+gs_design_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  info0 = (1:3) * 30,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+)
+toc()
+
+
+
+tic()
+xx <- gs_design_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
+xx
+toc()
+
+
+tic()
+gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  binding = TRUE,
+  upper = gs_b,
+  lower = gs_b,
+  upar = (xx %>% filter(Bound == "Upper"))$Z,
+  lpar = -(xx %>% filter(Bound == "Upper"))$Z
+)
+toc()
+```
+
+
+gs_design_rd.R
+
+```{r}
+tic()
+gs_design_rd(
+  p_c = tibble(stratum = "All", rate = .2),
+  p_e = tibble(stratum = "All", rate = .15),
+  info_frac = c(0.7, 1),
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
+  ratio = 1,
+  stratum_prev = NULL,
+  weight = "un-stratified",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+tic()
+gs_design_rd(
+  p_c = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    rate = c(.2, .25)
+  ),
+  p_e = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    rate = c(.15, .22)
+  ),
+  info_frac = c(0.7, 1),
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
+  ratio = 1,
+  stratum_prev = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    prevalence = c(.4, .6)
+  ),
+  weight = "ss",
+  upper = gs_spending_bound, lower = gs_b,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lpar = rep(-Inf, 2)
+)
+toc()
+```
+
+
+
+
+gs_design_wlr.R
+
+```{r}
+library(dplyr)
+library(mvtnorm)
+library(gsDesign)
+library(tibble)
+library(gsDesign2)
+
+# set enrollment rates
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
+# set failure rates
+fail_rate <- tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15, # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001
+)
+
+
+x <- gsSurv(
+  k = 3,
+  test.type = 4,
+  alpha = 0.025, beta = 0.2,
+  astar = 0, timing = 1,
+  sfu = sfLDOF, sfupar = 0,
+  sfl = sfLDOF, sflpar = 0,
+  lambdaC = 0.1,
+  hr = 0.6, hr0 = 1,
+  eta = 0.01, gamma = 10,
+  R = 12, S = NULL,
+  T = 36, minfup = 24,
+  ratio = 1
+)
+
+tic()
+gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025, beta = 0.2,
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
+  upper = gs_b,
+  upar = x$upper$bound,
+  lower = gs_b,
+  lpar = x$lower$bound,
+  analysis_time = c(12, 24, 36)
+)
+toc()
+
+
+tic()
+gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025, beta = 0.2,
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+  analysis_time = c(12, 24, 36)
+)
+toc()
+```
+
+
+gs_info_ahr.R
+
+```{r}
+library(gsDesign)
+library(gsDesign2)
+
+tic()
+gs_info_ahr(event = c(30, 40, 50))
+toc()
+# Result: 13.5 seconds
+
+tic()
+gs_info_ahr(analysis_time = c(18, 27, 36))
+toc()
+
+tic()
+gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
+toc()
+# Result: 5.8 seconds
+
+tic()
+gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
+toc()
+# Result: 10.1 seconds
+
+
+```
+
+
+gs_info_rd.R
+
+```{r}
+library(tibble)
+
+tic()
+gs_info_rd(
+  p_c = tibble(stratum = "All", rate = .15),
+  p_e = tibble(stratum = "All", rate = .1),
+  n = tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
+  rd0 = 0,
+  ratio = 1
+)
+toc()
+
+tic()
+gs_info_rd(
+  p_c = tibble(stratum = "All", rate = .2),
+  p_e = tibble(stratum = "All", rate = .15),
+  n = tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
+  rd0 = 0.005,
+  ratio = 1
+)
+toc()
+
+
+tic()
+gs_info_rd(
+  p_c = tibble(stratum = c("S1", "S2", "S3"), rate = c(.15, .2, .25)),
+  p_e = tibble(stratum = c("S1", "S2", "S3"), rate = c(.1, .16, .19)),
+  n = tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)
+  ),
+  rd0 = 0,
+  ratio = 1,
+  weight = "ss"
+)
+toc()
+
+
+
+tic()
+gs_info_rd(
+  p_c = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)
+  ),
+  rd0 = 0,
+  ratio = 1,
+  weight = "invar"
+)
+toc()
+
+
+
+tic()
+gs_info_rd(
+  p_c = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)
+  ),
+  rd0 = 0.02,
+  ratio = 1,
+  weight = "ss"
+)
+toc()
+
+
+tic()
+gs_info_rd(
+  p_c = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)
+  ),
+  rd0 = 0.02,
+  ratio = 1,
+  weight = "invar"
+)
+toc()
+
+
+tic()
+gs_info_rd(
+  p_c = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)
+  ),
+  rd0 = tibble(
+    stratum = c("S1", "S2", "S3"),
+    rd0 = c(0.01, 0.02, 0.03)
+  ),
+  ratio = 1,
+  weight = "invar"
+)
+toc()
+```
+
+
+
+
+gs_info_wlr.R
+
+```{r}
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
+
+fail_rate <- tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15, # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001
+)
+
+
+event <- c(30, 40, 50)
+analysis_time <- c(10, 24, 30)
+
+
+tic()
+gs_info_wlr(
+  enroll_rate = enroll_rate, fail_rate = fail_rate,
+  event = event, analysis_time = analysis_time
+)
+toc()
+```
+
+
+
+gs_power_ahr.R
+
+```{r}
+tic()
+gs_power_ahr()
+toc()
+# Result: 14.2 seconds
+
+tic()
+gs_power_ahr(
+  analysis_time = c(12, 24, 36),
+  event = NULL,
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
+toc()
+
+
+tic()
+gs_power_ahr(
+  analysis_time = NULL,
+  event = c(20, 50, 70),
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
+toc()
+# Result: 14.3 seconds
+
+
+tic()
+gs_power_ahr(
+  analysis_time = c(12, 24, 36),
+  event = c(30, 40, 50),
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
+toc()
+# Result: 7.1 seconds
+```
+
+
+
+gs_power_combo.R
+
+```{r}
+library(dplyr)
+library(mvtnorm)
+library(gsDesign)
+library(gsDesign2)
+library(tibble)
+
+
+enroll_rate <- tibble(
+  stratum = "All",
+  duration = 12,
+  rate = 500 / 12
+)
+fail_rate <- tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15, # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001
+)
+fh_test <- rbind(
+  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
+  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
+)
+
+
+tic()
+gs_power_combo(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  fh_test = fh_test,
+  upper = gs_spending_combo,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_combo,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
+toc()
+# Result: 8.5 seconds
+```
+
+
+
+gs_power_npe.R
+
+```{r}
+tic()
+gs_power_npe(theta = 0) %>% filter(Bound == "Upper")
+toc()
+
+
+tic()
+gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  upper = gs_b,
+  upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
+  lower = gs_b,
+  lpar = c(-1, 0, 0)
+)
+toc()
+
+
+tic()
+gs_power_npe(
+  theta = rep(0, 3),
+  info = (1:3) * 40,
+  upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
+  lpar = rep(-Inf, 3)
+) %>%
+  filter(Bound == "Upper")
+toc()
+
+
+tic()
+gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  upper = gs_b,
+  upar = c(Inf, 3, 2),
+  lower = gs_b,
+  lpar = c(qnorm(.1), -Inf, -Inf)
+)
+toc()
+
+
+
+tic()
+gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+)
+toc()
+
+
+
+tic()
+gs_power_npe(
+  theta = c(.15, .25, .35),
+  info = (1:3) * 40,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+)
+toc()
+
+
+
+
+
+x <- gs_power_npe(
+  theta = rep(0, 3),
+  info = (1:3) * 40,
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+)
+
+tic()
+# Re-use these bounds under alternate hypothesis
+# Always use binding = TRUE for power calculations
+gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  binding = TRUE,
+  upar = (x %>% filter(Bound == "Upper"))$Z,
+  lpar = -(x %>% filter(Bound == "Upper"))$Z
+)
+toc()
+```
+
+
+gs_power_rd.R
+
+```{r}
+tic()
+gs_power_rd(
+  p_c = tibble::tibble(
+    stratum = "All",
+    rate = .2
+  ),
+  p_e = tibble::tibble(
+    stratum = "All",
+    rate = .15
+  ),
+  n = tibble::tibble(
+    stratum = "All",
+    n = c(20, 40, 60),
+    analysis = 1:3
+  ),
+  rd0 = 0,
+  ratio = 1,
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+
+
+
+tic()
+gs_power_rd(
+  p_c = tibble::tibble(
+    stratum = "All",
+    rate = .2
+  ),
+  p_e = tibble::tibble(
+    stratum = "All",
+    rate = .15
+  ),
+  n = tibble::tibble(
+    stratum = "All",
+    n = c(20, 40, 60),
+    analysis = 1:3
+  ),
+  rd0 = 0.005,
+  ratio = 1,
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+
+
+
+tic()
+gs_power_rd(
+  p_c = tibble::tibble(
+    stratum = "All",
+    rate = .2
+  ),
+  p_e = tibble::tibble(
+    stratum = "All",
+    rate = .15
+  ),
+  n = tibble::tibble(
+    stratum = "All",
+    n = c(20, 40, 60),
+    analysis = 1:3
+  ),
+  rd0 = 0.005,
+  ratio = 1,
+  upper = gs_spending_bound,
+  lower = gs_b,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+
+
+
+
+tic()
+gs_power_rd(
+  p_c = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble::tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)
+  ),
+  rd0 = 0,
+  ratio = 1,
+  weight = "ss",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+tic()
+gs_power_rd(
+  p_c = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble::tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)
+  ),
+  rd0 = 0,
+  ratio = 1,
+  weight = "invar",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+
+tic()
+gs_power_rd(
+  p_c = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble::tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)
+  ),
+  rd0 = 0.02,
+  ratio = 1,
+  weight = "ss",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+tic()
+gs_power_rd(
+  p_c = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.15, .2, .25)
+  ),
+  p_e = tibble::tibble(
+    stratum = c("S1", "S2", "S3"),
+    rate = c(.1, .16, .19)
+  ),
+  n = tibble::tibble(
+    stratum = rep(c("S1", "S2", "S3"), each = 3),
+    analysis = rep(1:3, 3),
+    n = c(10, 20, 24, 18, 26, 30, 10, 20, 24)
+  ),
+  rd0 = 0.03,
+  ratio = 1,
+  weight = "invar",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+```
+
+
+gs_power_wlr.R
+
+```{r}
+library(tibble)
+library(gsDesign)
+library(gsDesign2)
+
+# set enrollment rates
+enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
+# set failure rates
+fail_rate <- tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 15, # median survival 15 month
+  hr = c(1, .6),
+  dropout_rate = 0.001
+)
+# set the targeted number of events and analysis time
+target_events <- c(30, 40, 50)
+target_analysisTime <- c(10, 24, 30)
+
+
+tic()
+gs_power_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  event = target_events,
+  analysis_time = NULL,
+  upper = gs_b,
+  upar = gsDesign(
+    k = length(target_events),
+    test.type = 1,
+    n.I = target_events,
+    maxn.IPlan = max(target_events),
+    sfu = sfLDOF,
+    sfupar = NULL
+  )$upper$bound,
+  lower = gs_b,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+# Results: 14.3 seconds
+
+
+
+tic()
+gs_power_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  event = NULL,
+  analysis_time = target_analysisTime,
+  upper = gs_b,
+  upar = gsDesign(
+    k = length(target_events),
+    test.type = 1,
+    n.I = target_events,
+    maxn.IPlan = max(target_events),
+    sfu = sfLDOF,
+    sfupar = NULL
+  )$upper$bound,
+  lower = gs_b,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+
+tic()
+gs_power_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  event = target_events,
+  analysis_time = target_analysisTime,
+  upper = gs_b,
+  upar = gsDesign(
+    k = length(target_events),
+    test.type = 1,
+    n.I = target_events,
+    maxn.IPlan = max(target_events),
+    sfu = sfLDOF,
+    sfupar = NULL
+  )$upper$bound,
+  lower = gs_b,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+toc()
+
+
+tic()
+gs_power_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  event = target_events,
+  analysis_time = NULL,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
+toc()
+# Result: 15 seconds
+
+
+tic()
+gs_power_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  event = NULL,
+  analysis_time = target_analysisTime,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
+toc()
+
+
+
+tic()
+gs_power_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  event = target_events,
+  analysis_time = target_analysisTime,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+)
+toc()
+
+
+```
+
+
+gs_spending_combo.R
+
+```{r}
+par <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
+
+tic()
+gs_spending_combo(par, info = 1:3 / 3)
+toc()
+
+par <- list(sf = gsDesign::sfLDOF, total_spend = 0.2)
+tic()
+gs_spending_combo(par, info = 1:3 / 3)
+toc()
+
+```
+
+
+
+summary.R 
+
+```{r}
+# Enrollment rate
+enroll_rate <- tibble::tibble(
+  stratum = "All",
+  duration = 18,
+  rate = 20
+)
+
+# Failure rates
+fail_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(4, 100),
+  fail_rate = log(2) / 12,
+  hr = c(1, .6),
+  dropout_rate = .001
+)
+
+# Study duration in months
+study_duration <- 36
+
+# Experimental / Control randomization ratio
+ratio <- 1
+
+# 1-sided Type I error
+alpha <- 0.025
+# Type II error (1 - power)
+beta <- 0.1
+
+# ------------------------- #
+#        AHR                #
+# ------------------------- #
+
+tic()
+
+# under fixed power
+fixed_design(
+  "ahr",
+  alpha = alpha,
+  power = 1 - beta,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  study_duration = study_duration,
+  ratio = ratio
+) %>% summary()
+
+toc()
+
+
+# ------------------------- #
+#        FH                 #
+# ------------------------- #
+# under fixed power
+
+tic()
+
+fixed_design(
+  "fh",
+  alpha = alpha,
+  power = 1 - beta,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  study_duration = study_duration,
+  ratio = ratio
+) %>% summary()
+
+toc()
+```
+
+
+
