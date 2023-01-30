@@ -99,6 +99,7 @@ fh_test <- rbind(
 #       example 1          #
 # ------------------------ #
 # Minimal Information Fraction derived bound
+\donttest{
 gs_power_combo(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -108,5 +109,5 @@ gs_power_combo(
   lower = gs_spending_combo,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
-
+}
 }
