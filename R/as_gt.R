@@ -18,12 +18,12 @@
 
 #' Get summary table into a gt table
 #'
-#' @description `as_gt()`formats a summary table of a fixed or group sequential design into a gt table.
+#' @description `as_gt()` formats a summary table of a fixed or group sequential design into a gt table.
 #'
 #' @param x a summary of fixed or group sequential design
 #' @param ... additional arguments
 #'
-#' @return a gt table
+#' @return A gt table
 #' @export
 #'
 as_gt <- function(x, ...) {
@@ -38,7 +38,6 @@ as_gt <- function(x, ...) {
 #' @param footnote footnotes to be displayed
 #' @param ... additional arguments
 #'
-#' @return a gt table
 #'
 #' @export as_gt
 #' @exportS3Method
@@ -237,7 +236,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #' @param display_inf_bound a logic value (TRUE or FALSE) whether to display the +-inf bound
 #' @param ... additional arguments
 #'
-#' @return a gt table summarizing the bounds table in group sequential designs
 #'
 #' @export as_gt
 #' @exportS3Method

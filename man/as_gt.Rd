@@ -56,14 +56,10 @@ the smaller value subtracts the probability of crossing a futility bound before
 crossing an efficacy bound at a later analysis under the null hypothesis.}
 }
 \value{
-a gt table
-
-a gt table
-
-a gt table summarizing the bounds table in group sequential designs
+A gt table
 }
 \description{
-\code{as_gt()}formats a summary table of a fixed or group sequential design into a gt table.
+\code{as_gt()} formats a summary table of a fixed or group sequential design into a gt table.
 }
 \examples{
 library(dplyr)
