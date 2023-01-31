@@ -103,7 +103,7 @@ as_gt <- function(x, ...) {
 #'   summary() %>%
 #'   as_gt()
 #'
-as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
+as_gt.fixed_design <- function(x, title = NULL, footnote = NULL) {
   # get the design method
   if ("ahr" %in% class(x)) {
     design_mtd <- "ahr"
@@ -332,8 +332,7 @@ as_gt.gs_design <- function(x,
                             display_bound = c("Efficacy", "Futility"),
                             display_columns = NULL,
                             display_inf_bound = TRUE,
-                            full_alpha = 0.025,
-                            ...) {
+                            full_alpha = 0.025) {
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
   x_non_binding <- "non-binding" %in% class(x)
