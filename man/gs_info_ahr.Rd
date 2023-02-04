@@ -69,21 +69,26 @@ library(gsDesign2)
 # ------------------------ #
 #       Example 1          #
 # ------------------------ #
+\donttest{
 # Only put in targeted events
 gs_info_ahr(event = c(30, 40, 50))
-
+}
 # ------------------------ #
 #       Example 2          #
 # ------------------------ #
+
 # Only put in targeted analysis times
 gs_info_ahr(analysis_time = c(18, 27, 36))
 
 # ------------------------ #
 #       Example 3          #
 # ------------------------ #
+\donttest{
 # Some analysis times after time at which targeted event accrue
 # Check that both Time >= input analysis_time and event >= input event
 gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
+}
+\donttest{
 gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
-
+}
 }
