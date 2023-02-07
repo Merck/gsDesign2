@@ -8,7 +8,7 @@
 \usage{
 as_gt(x, ...)
 
-\method{as_gt}{fixed_design}(x, title = NULL, footnote = NULL, ...)
+\method{as_gt}{fixed_design}(x, title = NULL, footnote = NULL)
 
 \method{as_gt}{gs_design}(
   x,
@@ -20,8 +20,7 @@ as_gt(x, ...)
   display_bound = c("Efficacy", "Futility"),
   display_columns = NULL,
   display_inf_bound = TRUE,
-  full_alpha = 0.025,
-  ...
+  full_alpha = 0.025
 )
 }
 \arguments{
