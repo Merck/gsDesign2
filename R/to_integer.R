@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' S3 class method to round sample size to an even number for equal design.
+#' Rounds sample size to an even number for equal design.
 #'
 #' @param x an object returned from \code{gs_design_ahr},
 #' \code{gs_design_wlr}, or \code{gs_design_combo}
@@ -31,8 +31,8 @@ to_integer <- function(x, ...) {
   UseMethod("to_integer", x)
 }
 
-#' This is the function to format the fixed design into integer sample size.
-#' @rdname to_integer.fixed_design
+
+#' @rdname to_integer
 #' @param x an object returned from \code{fixed_design}
 #' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling
 #' sample size to an even integer
@@ -196,8 +196,8 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   return(ans)
 }
 
-#' This is the function to format group sequential design into interger sample size.
-#' @rdname to_integer.gs_design
+
+#' @rdname to_integer
 #' @param x an object returned from \code{gs_design_ahr},
 #' \code{gs_design_wlr}, or \code{gs_design_combo}
 #' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling

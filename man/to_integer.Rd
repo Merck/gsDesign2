@@ -2,21 +2,87 @@
 % Please edit documentation in R/to_integer.R
 \name{to_integer}
 \alias{to_integer}
-\title{S3 class method to round sample size to an even number for equal design.}
+\alias{to_integer.fixed_design}
+\alias{to_integer.gs_design}
+\title{Rounds sample size to an even number for equal design.}
 \usage{
 to_integer(x, ...)
+
+\method{to_integer}{fixed_design}(x, sample_size = TRUE, ...)
+
+\method{to_integer}{gs_design}(x, sample_size = TRUE, ...)
 }
 \arguments{
 \item{x}{an object returned from \code{gs_design_ahr},
 \code{gs_design_wlr}, or \code{gs_design_combo}}
 
 \item{...}{additional arguments}
+
+\item{sample_size}{\code{TRUE} or \code{FALSE}, indicting if to ceiling
+sample size to an even integer}
 }
 \value{
 a list similar to the output of \code{gs_design_ahr},
 \code{gs_design_wlr}, or \code{gs_design_combo},
 but the sample size is an integer
+
+a list similar to the output of \code{fixed_design},
+but the sample size is an integer
+
+a list similar to the output of \code{gs_design_ahr},
+\code{gs_design_wlr}, or \code{gs_design_combo},
+but the sample size is an integer
 }
 \description{
-S3 class method to round sample size to an even number for equal design.
+Rounds sample size to an even number for equal design.
+}
+\examples{
+library(dplyr)
+library(tibble)
+library(gsDesign2)
+
+# Average hazard ratio
+x <- fixed_design("ahr",
+  alpha = .025, power = .9,
+  enroll_rate = tibble(stratum = "All", duration = 18, rate = 1),
+  fail_rate = tibble(
+    stratum = "All", duration = c(4, 100),
+    fail_rate = log(2) / 12, hr = c(1, .6),
+    dropout_rate = .001
+  ),
+  study_duration = 36
+)
+x \%>\% to_integer()
+
+# FH
+x <- fixed_design("fh",
+  alpha = 0.025, power = 0.9,
+  enroll_rate = tibble(stratum = "All", duration = 18, rate = 20),
+  fail_rate = tibble(
+    stratum = "All", duration = c(4, 100),
+    fail_rate = log(2) / 12, hr = c(1, .6),
+    dropout_rate = .001
+  ),
+  rho = 0.5, gamma = 0.5,
+  study_duration = 36, ratio = 1
+)
+x \%>\% to_integer()
+
+# MB
+x <- fixed_design("mb",
+  alpha = 0.025, power = 0.9,
+  enroll_rate = tibble(stratum = "All", duration = 18, rate = 20),
+  fail_rate = tibble(
+    stratum = "All", duration = c(4, 100),
+    fail_rate = log(2) / 12, hr = c(1, .6),
+    dropout_rate = .001
+  ),
+  tau = 4,
+  study_duration = 36, ratio = 1
+)
+x \%>\% to_integer()
+library(dplyr)
+gs_design_ahr() \%>\% to_integer()
+gs_design_wlr() \%>\% to_integer()
+
 }
