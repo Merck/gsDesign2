@@ -36,7 +36,6 @@ as_gt <- function(x, ...) {
 #' @param x a summary object of group sequential design
 #' @param title title to be displayed
 #' @param footnote footnotes to be displayed
-#' @param ... additional arguments
 #'
 #'
 #' @export as_gt
@@ -234,7 +233,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL) {
 #' @param display_bound a vector of strings specifying the label of the bounds. The default is \code{c("Efficacy", "Futility")}
 #' @param display_columns a vector of strings specifying the variables to be displayed in the summary table
 #' @param display_inf_bound a logic value (TRUE or FALSE) whether to display the +-inf bound
-#' @param ... additional arguments
 #'
 #'
 #' @export as_gt
