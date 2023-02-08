@@ -88,9 +88,9 @@ NULL
 #' # Example 1 -----------------------------------------------------------------
 #' # The default output of `gs_power_ahr()` is driven by events,
 #' # i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
-#'
+#' \donttest{
 #' gs_power_ahr()
-#'
+#' }
 #' # Example 2 -----------------------------------------------------------------
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by analysis time,
 #' # i.e., `event = NULL`, `analysis_time = c(12, 24, 36)`
@@ -108,7 +108,7 @@ NULL
 #' # Example 3 -----------------------------------------------------------------
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
 #' # i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
-#'
+#' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = NULL,
 #'   event = c(20, 50, 70),
@@ -118,7 +118,7 @@ NULL
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 #' )
-#'
+#' }
 #' # Example 4 -----------------------------------------------------------------
 #' # 2-sided symmetric O'Brien-Fleming spending bound,
 #' # driven by both `event` and `analysis_time`, i.e.,
@@ -126,7 +126,7 @@ NULL
 #' # then the analysis will driven by the maximal one, i.e.,
 #' # Time = max(analysis_time, calculated Time for targeted event)
 #' # Events = max(events, calculated events for targeted analysis_time)
-#'
+#' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = c(12, 24, 36),
 #'   event = c(30, 40, 50),
@@ -136,6 +136,7 @@ NULL
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 #' )
+#' }
 gs_power_ahr <- function(enroll_rate = tibble(
                            stratum = "All",
                            duration = c(2, 2, 10),
@@ -180,11 +181,17 @@ gs_power_ahr <- function(enroll_rate = tibble(
   }
 
   # Check if it is two-sided design or not
-  if (identical(lower, gs_b) && (!is.list(lpar))) {
-    two_sided <- ifelse(identical(lpar, rep(-Inf, K)), FALSE, TRUE)
+  if (identical(lower, gs_b) & (!is.list(lpar))) {
+    if (all(test_lower) == FALSE) {
+      two_sided <- FALSE
+      lpar <- rep(-Inf, K)
+    } else {
+      two_sided <- ifelse(identical(lpar, rep(-Inf, K)), FALSE, TRUE)
+    }
   } else {
     two_sided <- TRUE
   }
+
   # Calculate the asymptotic variance and statistical information --------------
   x <- gs_info_ahr(
     enroll_rate = enroll_rate, fail_rate = fail_rate,

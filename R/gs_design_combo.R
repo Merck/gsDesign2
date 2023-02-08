@@ -87,6 +87,7 @@
 #' #       example 1          #
 #' # ------------------------ #
 #' # User defined boundary
+#' \donttest{
 #' gs_design_combo(
 #'   enroll_rate,
 #'   fail_rate,
@@ -97,10 +98,11 @@
 #'   upar = x$upper$bound,
 #'   lpar = x$lower$bound
 #' )
-#'
+#' }
 #' # -------------------------#
 #' #       example 2          #
 #' # ------------------------ #
+#' \donttest{
 #' # Boundary derived by spending function
 #' gs_design_combo(
 #'   enroll_rate,
@@ -115,6 +117,7 @@
 #'   lower = gs_spending_combo,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
 #' )
+#' }
 #'
 gs_design_combo <- function(enroll_rate = tibble(
                               stratum = "All",

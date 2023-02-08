@@ -448,7 +448,13 @@ gs_bound <- function(alpha,
                      beta_bound = FALSE,
                      ...) {
   alpha <- c(alpha[1], diff(alpha))
-  beta <- c(beta[1], diff(beta))
+
+  if (all(is.infinite(beta))) {
+    beta <- beta
+  } else {
+    beta <- c(beta[1], diff(beta))
+  }
+
 
   lower <- NULL
   upper <- NULL
