@@ -11,10 +11,10 @@ tenFHcorr <- function(x = simPWSurv(n = 200) %>%
   rg2 <- tibble(rho = as.numeric(rhoave), gamma = as.numeric(gamave))
   rgu <- rg2 %>% unique()
   rgFH <- rg2 %>% left_join(tenFH(x, rgu, returnVariance = TRUE), by = c("rho" = "rho", "gamma" = "gamma"))
-  Z <- rgFH$Z[(0:(nrow(rg) - 1)) * nrow(rg) + 1:nrow(rg)]
+  Z <- rgFH$Z[(0:(nrow(rg) - 1)) * nrow(rg) + seq_len(nrow(rg))]
   c <- matrix(rgFH$Var, nrow = nrow(rg), byrow = TRUE)
   if (corr) c <- stats::cov2cor(c)
-  names(c) <- paste("V", 1:ncol(c), sep = "")
+  names(c) <- paste("V", seq_len(ncol(c)), sep = "")
   cbind(rg, Z, as_tibble(c))
 }
 
@@ -43,7 +43,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
 
   failRates0 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Control",
     duration = failRates$duration,
     rate = failRates$failRate
@@ -51,7 +51,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
 
   failRates1 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Experimental",
     duration = failRates$duration,
     rate = failRates$failRate * failRates$hr
@@ -59,7 +59,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
 
   dropoutRates0 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Control",
     duration = failRates$duration,
     rate = failRates$dropoutRate
@@ -67,7 +67,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
 
   dropoutRates1 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Experimental",
     duration = failRates$duration,
     rate = failRates$dropoutRate
@@ -102,7 +102,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
 
   # res <- bind_rows(lapply(time, foo, sim = sim)) # for example 2
   res <- NULL
-  for (t in 1:length(time)) {
+  for (t in seq_along(time)) {
     res <- bind_rows(res, foo(time[t], sim, rg = rg[[t]]))
   }
 
@@ -192,7 +192,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
 
   failRates0 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Control",
     duration = failRates$duration,
     rate = failRates$failRate
@@ -200,7 +200,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
 
   failRates1 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Experimental",
     duration = failRates$duration,
     rate = failRates$failRate * failRates$hr
@@ -208,7 +208,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
 
   dropoutRates0 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Control",
     duration = failRates$duration,
     rate = failRates$dropoutRate
@@ -216,7 +216,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
 
   dropoutRates1 <- tibble::tibble(
     Stratum = failRates$Stratum,
-    period = 1:nrow(failRates),
+    period = seq_len(nrow(failRates)),
     Treatment = "Experimental",
     duration = failRates$duration,
     rate = failRates$dropoutRate
@@ -253,7 +253,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
 
   # res <- bind_rows(lapply(time, foo, sim = sim)) # for example 2
   res <- NULL
-  for (t in 1:length(time)) {
+  for (t in seq_along(time)) {
     res <- bind_rows(res, foo(time[t], sim, rg = rg[[t]]))
   }
 

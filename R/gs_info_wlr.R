@@ -175,7 +175,7 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
   N <- tail(avehr$Events / p_event, 1) * p_subject
   theta <- (-delta) / sigma2_h1
   data.frame(
-    Analysis = 1:length(time),
+    Analysis = seq_along(time),
     Time = time,
     N = N,
     Events = avehr$Events,

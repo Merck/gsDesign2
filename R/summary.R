@@ -308,7 +308,7 @@ summary.gs_design <- function(object,
   #     prepare the columns decimals              #
   # --------------------------------------------- #
   if (method == "ahr") {
-    if (is.null(col_vars) & is.null(col_decimals)) {
+    if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
         col_vars = c("Analysis", "Bound", "Z", "~HR at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
@@ -319,7 +319,7 @@ summary.gs_design <- function(object,
   }
 
   if (method == "wlr") {
-    if (is.null(col_vars) & is.null(col_decimals)) {
+    if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
         col_vars = c("Analysis", "Bound", "Z", "~wHR at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
@@ -330,7 +330,7 @@ summary.gs_design <- function(object,
   }
 
   if (method == "combo") {
-    if (is.null(col_vars) & is.null(col_decimals)) {
+    if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
         col_vars = c("Analysis", "Bound", "Z", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4)
@@ -341,7 +341,7 @@ summary.gs_design <- function(object,
   }
 
   if (method == "rd") {
-    if (is.null(col_vars) & is.null(col_decimals)) {
+    if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
         col_vars = c("Analysis", "Bound", "Z", "~Risk difference at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
@@ -357,7 +357,7 @@ summary.gs_design <- function(object,
   # get the
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
-  if (is.null(analysis_vars) & is.null(analysis_decimals)) {
+  if (is.null(analysis_vars) && is.null(analysis_decimals)) {
     if (method %in% c("ahr", "wlr")) {
       analysis_vars <- c("Time", "N", "Events", "AHR", "info_frac")
       analysis_decimals <- c(1, 1, 1, 2, 2)
@@ -370,9 +370,9 @@ summary.gs_design <- function(object,
       analysis_vars <- c("N", "rd", "info_frac")
       analysis_decimals <- c(1, 4, 2)
     }
-  } else if (is.null(analysis_vars) & !is.null(analysis_decimals)) {
+  } else if (is.null(analysis_vars) && !is.null(analysis_decimals)) {
     stop("summary: please input analysis_vars and analysis_decimals in pairs!")
-  } else if (!is.null(analysis_vars) & is.null(analysis_decimals)) {
+  } else if (!is.null(analysis_vars) && is.null(analysis_decimals)) {
     stop("summary: please input analysis_vars and analysis_decimals in pairs!")
   }
 
@@ -534,7 +534,7 @@ summary.gs_design <- function(object,
       (x_decimals %>% filter(col_vars == "Alternate hypothesis"))$col_decimals
     )
   }
-  if ("Null hypothesis" %in% colnames(output) & is.vector(output[["Null hypothesis"]], mode = "numeric")) {
+  if ("Null hypothesis" %in% colnames(output) && is.vector(output[["Null hypothesis"]], mode = "numeric")) {
     output <- output %>% dplyr::mutate_at(
       "Null hypothesis",
       round,

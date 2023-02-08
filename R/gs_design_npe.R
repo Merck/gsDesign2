@@ -301,7 +301,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     check design type                         #
   # --------------------------------------------- #
-  if (identical(lower, gs_b) & (!is.list(lpar))) {
+  if (identical(lower, gs_b) && (!is.list(lpar))) {
     two_sided <- ifelse(identical(lpar, rep(-Inf, K)), FALSE, TRUE)
   } else {
     two_sided <- TRUE

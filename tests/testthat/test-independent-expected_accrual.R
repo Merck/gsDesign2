@@ -9,7 +9,7 @@ test_eAccrual <- function(x = 0:24,
   # maxlen=sum(enroll_rate$duration)
   # xvals1=xvals[xvals<=maxlen]
   eAc2 <- numeric(length(xvals))
-  for (t in 1:length(xvals)) {
+  for (t in seq_along(xvals)) {
     val <- xvals[t]
     if (val <= boundary[1]) {
       eAc2[t] <- val * rate[1]

@@ -172,7 +172,7 @@ gs_delta_wlr <- function(arm0,
   p0 <- 1 - p1
 
   if (approx == "event driven") {
-    if (sum(arm0$surv_shape != arm1$surv_shape) > 0 |
+    if (sum(arm0$surv_shape != arm1$surv_shape) > 0 ||
       length(unique(arm1$surv_scale / arm0$surv_scale)) > 1) {
       stop("gs_delta_wlr(): Hazard is not proportional over time.", call. = F)
     } else if (any(wlr_weight_fh(seq(0, tmax, length.out = 10), arm0, arm1) != "1")) {

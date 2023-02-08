@@ -413,7 +413,7 @@ to overall enrollment rates needed for `simtrial::simfix()`.
 ```{r, message=FALSE}
 er <- enroll_rate %>%
   group_by(stratum) %>%
-  mutate(period = 1:n()) %>%
+  mutate(period = seq_len(n())) %>%
   group_by(period) %>%
   summarise(rate = sum(rate), duration = last(duration))
 

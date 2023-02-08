@@ -197,7 +197,7 @@ gs_info_binomial <- function(p1, p2, xi1, n, delta = NULL) {
   info1 <- n / (p1star * (1 - p1star) / xi1 + p2star * (1 - p2star) / (1 - xi1))
 
   out <- tibble(
-    Analysis = 1:length(n),
+    Analysis = seq_along(n),
     n = n,
     theta = theta,
     theta1 = rep(delta, length(n)),

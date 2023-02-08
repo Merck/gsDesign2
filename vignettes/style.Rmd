@@ -46,7 +46,7 @@ All user-facing interactions should have a functional API.
 
 Function names, argument names, and variable names should use `snake_case`.
 
-```{r}
+```r
 # Good
 gs_design_ahr <- function(enroll_rates = ...) {}
 
@@ -61,7 +61,7 @@ as they are inherently, functions.
 One should still follow the S3 convention to use dot (`.`) to
 connect the method name and class name.
 
-```{r}
+```r
 # Good
 as_gt.gsDesign <- function(...) {}
 
@@ -85,7 +85,7 @@ and follows the conventions in R6.
 
 The input argument names and variable names should still use `snake_case`.
 
-```{r}
+```r
 # Good
 RangedDoubleOrNULL <- new_class(
   "RangedDoubleOrNULL",
@@ -152,7 +152,7 @@ In contrast, optional arguments should have a default value.
 
 Use lower case abbreviations or `snake_case` for the enumerated type arguments.
 
-```{r}
+```r
 # Bad
 f <- function(method = c("AHR", "WLR", ...)) {}
 
@@ -160,7 +160,7 @@ f <- function(method = c("AHR", "WLR", ...)) {}
 f <- function(method = c("ahr", "wlr", ...)) {}
 ```
 
-```{r}
+```r
 # Bad
 f <- function(approx = c("event driven", "asymptotic", "generalized schoenfeld", ...)) {}
 

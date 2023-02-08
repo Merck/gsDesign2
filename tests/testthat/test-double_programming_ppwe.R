@@ -9,7 +9,7 @@ test_ppwe <- function(x = 0:20,
   max.x <- max(x)
 
   if (length(x) <= maxlen) {
-    for (t in 1:length(xvals)) {
+    for (t in seq_along(xvals)) {
       val <- xvals[t]
       if (val <= boundary[1]) {
         H[t] <- val * rate[1]
@@ -23,7 +23,7 @@ test_ppwe <- function(x = 0:20,
   } else {
     boundary1 <- boundary
     boundary1[2] <- max.x
-    for (t in 1:length(xvals)) {
+    for (t in seq_along(xvals)) {
       val <- xvals[t]
       if (val <= boundary1[1]) {
         H[t] <- val * rate[1]
@@ -57,7 +57,7 @@ test_2_ppwe <- function(x = 0:20,
   rate <- failRates$rate
   xvals <- unique(c(x, boundary))
   H <- numeric(length(xvals))
-  for (t in 1:length(xvals)) {
+  for (t in seq_along(xvals)) {
     val <- xvals[t]
     if (val <= boundary[1]) {
       H[t] <- val * rate[1]

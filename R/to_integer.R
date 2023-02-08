@@ -98,7 +98,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   multiply_factor <- x$input$ratio + 1
   enroll_rate_new <- x$enroll_rate %>% mutate(rate = rate * ceiling(output_N / multiply_factor) * multiply_factor / output_N)
 
-  if (x$design == "ahr" & input_N != output_N) {
+  if ((x$design == "ahr") && (input_N != output_N)) {
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
@@ -124,7 +124,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     class(ans) <- c("fixed_design", class(ans))
-  } else if (x$design == "fh" & input_N != output_N) {
+  } else if ((x$design == "fh") && (input_N != output_N)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
@@ -156,7 +156,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     class(ans) <- c("fixed_design", class(ans))
-  } else if (x$design == "mb" & input_N != output_N) {
+  } else if ((x$design == "mb") && (input_N != output_N)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,

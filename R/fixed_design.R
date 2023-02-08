@@ -138,19 +138,19 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
   }
 
   # check test parameters, like rho, gamma, tau
-  if (has_rho & length(args$rho) > 1 & x %in% c("fh", "mb")) {
+  if (has_rho && length(args$rho) > 1 && x %in% c("fh", "mb")) {
     stop("fixed_design: multiple rho can not be used in Fleming-Harrington or Magirr-Burman method!")
   }
-  if (has_gamma & length(args$gamma) > 1 & x %in% c("fh", "mb")) {
+  if (has_gamma && length(args$gamma) > 1 && x %in% c("fh", "mb")) {
     stop("fixed_design: multiple gamma can not be used in Fleming-Harrington or Magirr-Burman method!")
   }
-  if (has_tau & length(args$tau) > 1 & x %in% c("fh", "mb")) {
+  if (has_tau && length(args$tau) > 1 && x %in% c("fh", "mb")) {
     stop("fixed_design: multiple tau can not be used in Fleming-Harrington or Magirr-Burman method!")
   }
-  if (has_tau & x == "fh") {
+  if (has_tau && x == "fh") {
     stop("fixed_design: tau is not needed for Fleming-Harrington (FH) method!")
   }
-  if (has_rho & has_gamma & x == "mb") {
+  if (has_rho && has_gamma && x == "mb") {
     stop("fixed_design: rho and gamma are not needed for Magirr-Burman (MB) method!")
   }
 

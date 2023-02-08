@@ -180,7 +180,7 @@ gs_design_combo <- function(enroll_rate = tibble(
   #     check design type                         #
   # --------------------------------------------- #
 
-  if (identical(lower, gs_b) & (!is.list(lpar))) {
+  if (identical(lower, gs_b) && (!is.list(lpar))) {
     two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
   } else {
     two_sided <- TRUE

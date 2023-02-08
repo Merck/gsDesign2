@@ -489,7 +489,7 @@ as_gt.gs_design <- function(x,
   # --------------------------------------------- #
   if (!is.null(footnote$content)) {
     if (length(footnote$content) != 0) {
-      for (i in 1:length(footnote$content)) {
+      for (i in seq_along(footnote$content)) {
         # if the footnotes is added on the colnames
         if (footnote$attr[i] == "colname") {
           x <- x %>%
@@ -527,7 +527,7 @@ as_gt.gs_design <- function(x,
   }
 
   ## if it is non-binding design
-  if (x_non_binding & (x_alpha < full_alpha)) {
+  if (x_non_binding && (x_alpha < full_alpha)) {
     x <- x %>%
       gt::tab_footnote(
         footnote = paste0(
