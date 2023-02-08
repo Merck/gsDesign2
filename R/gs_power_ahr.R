@@ -181,7 +181,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
   }
 
   # Check if it is two-sided design or not
-  if (identical(lower, gs_b) & (!is.list(lpar))) {
+  if (identical(lower, gs_b) && (!is.list(lpar))) {
     if (all(test_lower) == FALSE) {
       two_sided <- FALSE
       lpar <- rep(-Inf, K)
