@@ -8,15 +8,15 @@
 \usage{
 to_integer(x, ...)
 
-\method{to_integer}{fixed_design}(x, sample_size = TRUE, ...)
+\method{to_integer}{fixed_design}(x, sample_size = TRUE)
 
-\method{to_integer}{gs_design}(x, sample_size = TRUE, ...)
+\method{to_integer}{gs_design}(x, sample_size = TRUE)
 }
 \arguments{
 \item{x}{an object returned from \code{gs_design_ahr},
 \code{gs_design_wlr}, or \code{gs_design_combo}}
 
-\item{...}{additional arguments}
+\item{...}{Additional arguments}
 
 \item{sample_size}{\code{TRUE} or \code{FALSE}, indicting if to ceiling
 sample size to an even integer}

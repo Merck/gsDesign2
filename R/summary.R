@@ -20,7 +20,6 @@
 #' Summary for fixed design or group sequential design objects
 #'
 #' @param object A fixed design object returned by [fixed_design()]
-#' @param ... Additional arguments
 #'
 #' @return A data frame
 #'
@@ -85,7 +84,7 @@
 #'   ratio = ratio
 #' ) %>% summary()
 #'
-summary.fixed_design <- function(object, ...) {
+summary.fixed_design <- function(object) {
   x <- object
   x_design <- switch(x$design,
     "ahr" = {
@@ -137,7 +136,6 @@ summary.fixed_design <- function(object, ...) {
 #' @param col_vars The variables to be displayed
 #' @param col_decimals The decimals to be displayed for the displayed variables in `col_vars`
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
-#' @param ... Additional arguments
 #'
 #' @return A summary table
 #'
@@ -290,8 +288,7 @@ summary.gs_design <- function(object,
                               analysis_decimals = NULL,
                               col_vars = NULL,
                               col_decimals = NULL,
-                              bound_names = c("Efficacy", "Futility"),
-                              ...) {
+                              bound_names = c("Efficacy", "Futility")) {
   x <- object
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
   x_bounds <- x$bounds

@@ -20,7 +20,7 @@
 #'
 #' @param x an object returned from \code{gs_design_ahr},
 #' \code{gs_design_wlr}, or \code{gs_design_combo}
-#' @param ... additional arguments
+#' @param ... Additional arguments
 #'
 #' @return a list similar to the output of \code{gs_design_ahr},
 #' \code{gs_design_wlr}, or \code{gs_design_combo},
@@ -36,7 +36,6 @@ to_integer <- function(x, ...) {
 #' @param x an object returned from \code{fixed_design}
 #' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling
 #' sample size to an even integer
-#' @param ... additional arguments
 #'
 #' @return a list similar to the output of \code{fixed_design},
 #' but the sample size is an integer
@@ -91,7 +90,7 @@ to_integer <- function(x, ...) {
 #'   study_duration = 36, ratio = 1
 #' )
 #' x %>% to_integer()
-to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
+to_integer.fixed_design <- function(x, sample_size = TRUE) {
   output_N <- x$analysis$N
   input_N <- expected_accrual(time = x$analysis$Time, enroll_rate = x$input$enroll_rate)
 
@@ -202,7 +201,6 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' \code{gs_design_wlr}, or \code{gs_design_combo}
 #' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling
 #' sample size to an even integer
-#' @param ... additional arguments
 #'
 #' @return a list similar to the output of \code{gs_design_ahr},
 #' \code{gs_design_wlr}, or \code{gs_design_combo},
@@ -218,7 +216,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' gs_design_ahr() %>% to_integer()
 #' gs_design_wlr() %>% to_integer()
 #'
-to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
+to_integer.gs_design <- function(x, sample_size = TRUE) {
   multiply_factor <- x$input$ratio + 1
   enroll_rate <- x$enroll_rate
   enroll_rate_new <- enroll_rate %>% mutate(rate = rate * ceiling(x$analysis$N / multiply_factor) * multiply_factor / x$analysis$N)

@@ -5,7 +5,7 @@
 \alias{summary.gs_design}
 \title{Summary for fixed design or group sequential design objects}
 \usage{
-\method{summary}{fixed_design}(object, ...)
+\method{summary}{fixed_design}(object)
 
 \method{summary}{gs_design}(
   object,
@@ -13,14 +13,11 @@
   analysis_decimals = NULL,
   col_vars = NULL,
   col_decimals = NULL,
-  bound_names = c("Efficacy", "Futility"),
-  ...
+  bound_names = c("Efficacy", "Futility")
 )
 }
 \arguments{
 \item{object}{An object returned by \code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}}
-
-\item{...}{Additional arguments}
 
 \item{analysis_vars}{The variables to be put at the summary header of each analysis}
 
