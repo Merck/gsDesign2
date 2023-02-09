@@ -16,35 +16,27 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' S3 class method to round sample size to an even number for equal design.
+#' Rounds sample size to an even number for equal design
 #'
-#' @param x an object returned from \code{gs_design_ahr},
-#' \code{gs_design_wlr}, or \code{gs_design_combo}
-#' @param ... additional arguments
+#' @param x An object returned by [fixed_design()], [gs_design_ahr()],
+#'   [gs_design_wlr()], or [gs_design_combo()].
+#' @param ... Additional parameters (not used).
 #'
-#' @return a list similar to the output of \code{gs_design_ahr},
-#' \code{gs_design_wlr}, or \code{gs_design_combo},
-#' but the sample size is an integer
-#' @export
+#' @return A list similar to the output of [fixed_design()],
+#'   [gs_design_ahr()], [gs_design_wlr()], or [gs_design_combo()],
+#'   except the sample size is an integer.
 #'
+#' @export to_integer
 to_integer <- function(x, ...) {
   UseMethod("to_integer", x)
 }
 
-#' This is the function to format the fixed design into integer sample size.
-#' @rdname to_integer.fixed_design
-#' @param x an object returned from \code{fixed_design}
-#' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling
-#' sample size to an even integer
-#' @param ... additional arguments
+#' @rdname to_integer
 #'
-#' @return a list similar to the output of \code{fixed_design},
-#' but the sample size is an integer
+#' @param sample_size Logical, indicting if ceiling
+#'   sample size to an even integer.
 #'
-#' @export to_integer
-#' @exportS3Method
-#'
-#' @method to_integer fixed_design
+#' @export
 #'
 #' @examples
 #' library(dplyr)
@@ -91,6 +83,7 @@ to_integer <- function(x, ...) {
 #'   study_duration = 36, ratio = 1
 #' )
 #' x %>% to_integer()
+#'
 to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   output_N <- x$analysis$N
   input_N <- expected_accrual(time = x$analysis$Time, enroll_rate = x$input$enroll_rate)
@@ -196,28 +189,13 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   return(ans)
 }
 
-#' This is the function to format group sequential design into interger sample size.
-#' @rdname to_integer.gs_design
-#' @param x an object returned from \code{gs_design_ahr},
-#' \code{gs_design_wlr}, or \code{gs_design_combo}
-#' @param sample_size \code{TRUE} or \code{FALSE}, indicting if to ceiling
-#' sample size to an even integer
-#' @param ... additional arguments
+#' @rdname to_integer
 #'
-#' @return a list similar to the output of \code{gs_design_ahr},
-#' \code{gs_design_wlr}, or \code{gs_design_combo},
-#' but the sample size is an integer
-#'
-#' @export to_integer
-#' @exportS3Method
-#'
-#' @method to_integer gs_design
+#' @export
 #'
 #' @examples
-#' library(dplyr)
 #' gs_design_ahr() %>% to_integer()
 #' gs_design_wlr() %>% to_integer()
-#'
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   multiply_factor <- x$input$ratio + 1
   enroll_rate <- x$enroll_rate

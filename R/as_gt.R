@@ -16,32 +16,21 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' S3 class method to get summary table into a gt table
+#' Convert summary table of a fixed or group sequential design object to a gt object
 #'
-#' @param x a summary of fixed or group sequential design
-#' @param ... additional arguments
+#' @param x A summary object of a fixed or group sequential design.
+#' @param ... Additional arguments (not used).
 #'
-#' @return a gt table
+#' @return A `gt_tbl` object.
+#'
 #' @export
-#'
 as_gt <- function(x, ...) {
   UseMethod("as_gt", x)
 }
 
-#' This is the function to format the bounds summary table of fixed design into gt style.
-#' @rdname as_gt.fixed_design
+#' @rdname as_gt
 #'
-#' @param x a summary object of group sequential design
-#' @param title title to be displayed
-#' @param footnote footnotes to be displayed
-#' @param ... additional arguments
-#'
-#' @return a gt table
-#'
-#' @export as_gt
-#' @exportS3Method
-#'
-#' @method as_gt fixed_design
+#' @export
 #'
 #' @examples
 #' library(dplyr)
@@ -209,36 +198,32 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   return(ans)
 }
 
-
-#' This is the function to format the bounds summary table into gt style.
-#' @rdname as_gt.gs_design
+#' @rdname as_gt
 #'
-#' @param x an object returned by \code{summary_bound}
-#' @param title a string to specify the title of the gt table
-#' @param subtitle a string to specify the subtitle of the gt table
-#' @param colname_spanner a string to specify the spanner of the gt table
-#' @param colname_spannersub a vector of strings to specify the spanner details of the gt table
-#' @param footnote a list containing \code{content}, \code{location}, and \code{attr}.
-#'                 the \code{content} is a vector of string to specify the footnote text;
-#'                 the \code{location} is a vector of string to specify the locations to put the superscript of the footnote index;
-#'                 the \code{attr} is a vector of string to specify the attributes of the footnotes, e.g., c("colname", "title", "subtitle", "analysis", "spanner");
-#'                 users can use the functions in the \code{gt} package to custom themselves.
+#' @param title A string to specify the title of the gt table.
+#' @param subtitle A string to specify the subtitle of the gt table.
+#' @param colname_spanner A string to specify the spanner of the gt table.
+#' @param colname_spannersub A vector of strings to specify the spanner details of the gt table.
+#' @param footnote A list containing `content`, `location`, and `attr`.
+#'   `content` is a vector of string to specify the footnote text;
+#'   `location` is a vector of string to specify the locations to put the
+#'   superscript of the footnote index;
+#'   `attr` is a vector of string to specify the attributes of the footnotes,
+#'   for example, `c("colname", "title", "subtitle", "analysis", "spanner")`;
+#'   users can use the functions in the `gt` package to customize the table.
 #' @param full_alpha The full alpha used in the design, the default is 0.025.
-#'                   If the cumulative alpha for final analysis is less than the \code{full_alpha}
-#'                   when the futility bound is non-binding, a footnote will be displayed, saying
-#'                   the smaller value subtracts the probability of crossing a futility bound before
-#'                   crossing an efficacy bound at a later analysis under the null hypothesis.
-#' @param display_bound a vector of strings specifying the label of the bounds. The default is \code{c("Efficacy", "Futility")}
-#' @param display_columns a vector of strings specifying the variables to be displayed in the summary table
-#' @param display_inf_bound a logic value (TRUE or FALSE) whether to display the +-inf bound
-#' @param ... additional arguments
+#    If the cumulative alpha for final analysis is less than the `full_alpha`
+#'   when the futility bound is non-binding, a footnote will be displayed, saying
+#'   the smaller value subtracts the probability of crossing a futility bound before
+#'   crossing an efficacy bound at a later analysis under the null hypothesis.
+#' @param display_bound A vector of strings specifying the label of the bounds.
+#'   The default is `c("Efficacy", "Futility")`.
+#' @param display_columns A vector of strings specifying the variables to be
+#'   displayed in the summary table.
+#' @param display_inf_bound Logical, whether to display the +/-inf bound.
 #'
-#' @return a gt table summarizing the bounds table in group sequential designs
+#' @export
 #'
-#' @export as_gt
-#' @exportS3Method
-#'
-#' @method as_gt gs_design
 #' @examples
 #' \dontrun{
 #' # the default output
@@ -320,7 +305,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #'   summary() %>%
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 #' }
-#'
 as_gt.gs_design <- function(x,
                             title = NULL,
                             subtitle = NULL,
