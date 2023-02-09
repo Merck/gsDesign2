@@ -4,37 +4,30 @@
 \alias{to_integer}
 \alias{to_integer.fixed_design}
 \alias{to_integer.gs_design}
-\title{Rounds sample size to an even number for equal design.}
+\title{Rounds sample size to an even number for equal design}
 \usage{
 to_integer(x, ...)
 
-\method{to_integer}{fixed_design}(x, sample_size = TRUE)
+\method{to_integer}{fixed_design}(x, sample_size = TRUE, ...)
 
-\method{to_integer}{gs_design}(x, sample_size = TRUE)
+\method{to_integer}{gs_design}(x, sample_size = TRUE, ...)
 }
 \arguments{
-\item{x}{an object returned from \code{gs_design_ahr},
-\code{gs_design_wlr}, or \code{gs_design_combo}}
+\item{x}{An object returned by \code{\link[=fixed_design]{fixed_design()}}, \code{\link[=gs_design_ahr]{gs_design_ahr()}},
+\code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}.}
 
-\item{...}{Additional arguments}
+\item{...}{Additional parameters (not used).}
 
-\item{sample_size}{\code{TRUE} or \code{FALSE}, indicting if to ceiling
-sample size to an even integer}
+\item{sample_size}{Logical, indicting if ceiling
+sample size to an even integer.}
 }
 \value{
-a list similar to the output of \code{gs_design_ahr},
-\code{gs_design_wlr}, or \code{gs_design_combo},
-but the sample size is an integer
-
-a list similar to the output of \code{fixed_design},
-but the sample size is an integer
-
-a list similar to the output of \code{gs_design_ahr},
-\code{gs_design_wlr}, or \code{gs_design_combo},
-but the sample size is an integer
+A list similar to the output of \code{\link[=fixed_design]{fixed_design()}},
+\code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}},
+except the sample size is an integer.
 }
 \description{
-Rounds sample size to an even number for equal design.
+Rounds sample size to an even number for equal design
 }
 \examples{
 library(dplyr)
@@ -81,8 +74,7 @@ x <- fixed_design("mb",
   study_duration = 36, ratio = 1
 )
 x \%>\% to_integer()
-library(dplyr)
+
 gs_design_ahr() \%>\% to_integer()
 gs_design_wlr() \%>\% to_integer()
-
 }

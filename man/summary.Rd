@@ -5,7 +5,7 @@
 \alias{summary.gs_design}
 \title{Summary for fixed design or group sequential design objects}
 \usage{
-\method{summary}{fixed_design}(object)
+\method{summary}{fixed_design}(object, ...)
 
 \method{summary}{gs_design}(
   object,
@@ -13,26 +13,28 @@
   analysis_decimals = NULL,
   col_vars = NULL,
   col_decimals = NULL,
-  bound_names = c("Efficacy", "Futility")
+  bound_names = c("Efficacy", "Futility"),
+  ...
 )
 }
 \arguments{
-\item{object}{An object returned by \code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}}
+\item{object}{A design object returned by \code{\link[=fixed_design]{fixed_design()}},
+\code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}.}
 
-\item{analysis_vars}{The variables to be put at the summary header of each analysis}
+\item{...}{Additional parameters (not used).}
 
-\item{analysis_decimals}{The displayed number of digits of \code{analysis_vars}}
+\item{analysis_vars}{The variables to be put at the summary header of each analysis.}
 
-\item{col_vars}{The variables to be displayed}
+\item{analysis_decimals}{The displayed number of digits of \code{analysis_vars}.}
 
-\item{col_decimals}{The decimals to be displayed for the displayed variables in \code{col_vars}}
+\item{col_vars}{The variables to be displayed.}
+
+\item{col_decimals}{The decimals to be displayed for the displayed variables in \code{col_vars}.}
 
 \item{bound_names}{Names for bounds; default is \code{c("Efficacy", "Futility")}.}
 }
 \value{
-A data frame
-
-A summary table
+A summary table (data frame).
 }
 \description{
 Summary for fixed design or group sequential design objects

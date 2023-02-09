@@ -16,15 +16,17 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #' Summary for fixed design or group sequential design objects
 #'
-#' @param object A fixed design object returned by [fixed_design()]
+#' @param object A design object returned by [fixed_design()],
+#'   [gs_design_ahr()], [gs_design_wlr()], or [gs_design_combo()].
+#' @param ... Additional parameters (not used).
 #'
-#' @return A data frame
+#' @return A summary table (data frame).
 #'
-#' @method summary fixed_design
 #' @export
+#'
+#' @rdname summary
 #'
 #' @examples
 #' library(dplyr)
@@ -84,7 +86,7 @@
 #'   ratio = ratio
 #' ) %>% summary()
 #'
-summary.fixed_design <- function(object) {
+summary.fixed_design <- function(object, ...) {
   x <- object
   x_design <- switch(x$design,
     "ahr" = {
@@ -128,20 +130,16 @@ summary.fixed_design <- function(object) {
 }
 
 
-#' @rdname summary.fixed_design
+#' @rdname summary
 #'
-#' @param object An object returned by [gs_design_ahr()], [gs_design_wlr()], or [gs_design_combo()]
-#' @param analysis_vars The variables to be put at the summary header of each analysis
-#' @param analysis_decimals The displayed number of digits of `analysis_vars`
-#' @param col_vars The variables to be displayed
-#' @param col_decimals The decimals to be displayed for the displayed variables in `col_vars`
+#' @param analysis_vars The variables to be put at the summary header of each analysis.
+#' @param analysis_decimals The displayed number of digits of `analysis_vars`.
+#' @param col_vars The variables to be displayed.
+#' @param col_decimals The decimals to be displayed for the displayed variables in `col_vars`.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
-#'
-#' @return A summary table
 #'
 #' @importFrom dplyr all_of
 #'
-#' @method summary gs_design
 #' @export
 #'
 #' @examples
@@ -288,7 +286,8 @@ summary.gs_design <- function(object,
                               analysis_decimals = NULL,
                               col_vars = NULL,
                               col_decimals = NULL,
-                              bound_names = c("Efficacy", "Futility")) {
+                              bound_names = c("Efficacy", "Futility"),
+                              ...) {
   x <- object
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
   x_bounds <- x$bounds

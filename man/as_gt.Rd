@@ -4,11 +4,11 @@
 \alias{as_gt}
 \alias{as_gt.fixed_design}
 \alias{as_gt.gs_design}
-\title{Get summary table into a gt table}
+\title{Convert summary table of a fixed or group sequential design object to a gt object}
 \usage{
 as_gt(x, ...)
 
-\method{as_gt}{fixed_design}(x, title = NULL, footnote = NULL)
+\method{as_gt}{fixed_design}(x, title = NULL, footnote = NULL, ...)
 
 \method{as_gt}{gs_design}(
   x,
@@ -20,45 +20,49 @@ as_gt(x, ...)
   display_bound = c("Efficacy", "Futility"),
   display_columns = NULL,
   display_inf_bound = TRUE,
-  full_alpha = 0.025
+  full_alpha = 0.025,
+  ...
 )
 }
 \arguments{
-\item{x}{an object returned by \code{summary_bound}}
+\item{x}{A summary object of a fixed or group sequential design.}
 
-\item{...}{additional arguments}
+\item{...}{Additional arguments (not used).}
 
-\item{title}{a string to specify the title of the gt table}
+\item{title}{A string to specify the title of the gt table.}
 
-\item{footnote}{a list containing \code{content}, \code{location}, and \code{attr}.
-the \code{content} is a vector of string to specify the footnote text;
-the \code{location} is a vector of string to specify the locations to put the superscript of the footnote index;
-the \code{attr} is a vector of string to specify the attributes of the footnotes, e.g., c("colname", "title", "subtitle", "analysis", "spanner");
-users can use the functions in the \code{gt} package to custom themselves.}
+\item{footnote}{A list containing \code{content}, \code{location}, and \code{attr}.
+\code{content} is a vector of string to specify the footnote text;
+\code{location} is a vector of string to specify the locations to put the
+superscript of the footnote index;
+\code{attr} is a vector of string to specify the attributes of the footnotes,
+for example, \code{c("colname", "title", "subtitle", "analysis", "spanner")};
+users can use the functions in the \code{gt} package to customize the table.}
 
-\item{subtitle}{a string to specify the subtitle of the gt table}
+\item{subtitle}{A string to specify the subtitle of the gt table.}
 
-\item{colname_spanner}{a string to specify the spanner of the gt table}
+\item{colname_spanner}{A string to specify the spanner of the gt table.}
 
-\item{colname_spannersub}{a vector of strings to specify the spanner details of the gt table}
+\item{colname_spannersub}{A vector of strings to specify the spanner details of the gt table.}
 
-\item{display_bound}{a vector of strings specifying the label of the bounds. The default is \code{c("Efficacy", "Futility")}}
+\item{display_bound}{A vector of strings specifying the label of the bounds.
+The default is \code{c("Efficacy", "Futility")}.}
 
-\item{display_columns}{a vector of strings specifying the variables to be displayed in the summary table}
+\item{display_columns}{A vector of strings specifying the variables to be
+displayed in the summary table.}
 
-\item{display_inf_bound}{a logic value (TRUE or FALSE) whether to display the +-inf bound}
+\item{display_inf_bound}{Logical, whether to display the +/-inf bound.}
 
 \item{full_alpha}{The full alpha used in the design, the default is 0.025.
-If the cumulative alpha for final analysis is less than the \code{full_alpha}
 when the futility bound is non-binding, a footnote will be displayed, saying
 the smaller value subtracts the probability of crossing a futility bound before
 crossing an efficacy bound at a later analysis under the null hypothesis.}
 }
 \value{
-A gt table
+A \code{gt_tbl} object.
 }
 \description{
-\code{as_gt()} formats a summary table of a fixed or group sequential design into a gt table.
+Convert summary table of a fixed or group sequential design object to a gt object
 }
 \examples{
 library(dplyr)
@@ -198,5 +202,4 @@ gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 }
-
 }
