@@ -111,7 +111,8 @@ NULL
 #'   theta = rep(0, 3),
 #'   info = (1:3) * 40,
 #'   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-#'   lpar = rep(-Inf, 3)) %>%
+#'   lpar = rep(-Inf, 3)
+#' ) %>%
 #'   filter(bound == "upper")
 #'
 #' # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
@@ -167,7 +168,7 @@ NULL
 #'   lpar = -(x %>% filter(bound == "upper"))$z
 #' )
 gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
-                         info = 1, info0 = NULL, info1 = NULL,     # 3 info
+                         info = 1, info0 = NULL, info1 = NULL, # 3 info
                          info_scale = c(0, 1, 2),
                          upper = gs_b, upar = qnorm(.975),
                          lower = gs_b, lpar = -Inf,

@@ -161,7 +161,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
                            sfupar = NULL
                          )$upper$bound,
                          lower = gs_b,
-                         lpar = c(qnorm( .1), rep(-Inf, 2)),
+                         lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_lower = TRUE,
                          test_upper = TRUE,
                          ratio = 1,
