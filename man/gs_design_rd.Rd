@@ -13,7 +13,7 @@ gs_design_rd(
   beta = 0.1,
   ratio = 1,
   stratum_prev = NULL,
-  weight = c("un-stratified", "ss", "invar"),
+  weight = c("un-stratified", "ss", "invar-h1", "invar-h0"),
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
