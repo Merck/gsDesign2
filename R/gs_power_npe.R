@@ -73,7 +73,7 @@ NULL
 #'    \item Define vector a to be -Inf with length equal to the number of interim analysis.
 #'    \item Define vector b to be Inf with length equal to the number of interim analysis.
 #'    \item Define hgm1_0 and hgm1 to be NULL.
-#'    \item Define upperProb and lowerProb to be vectors of NA with length of the number of interim analysis.
+#'    \item Define upper_prob and lower_prob to be vectors of NA with length of the number of interim analysis.
 #'    \item Update lower and upper bounds using \code{gs_b()}.
 #'    \item If there are no interim analysis, compute proabilities of crossing upper and lower bounds
 #'    using \code{h1()}.
@@ -94,7 +94,7 @@ NULL
 #' library(dplyr)
 #'
 #' # Default (single analysis; Type I error controlled)
-#' gs_power_npe(theta = 0) %>% filter(Bound == "Upper")
+#' gs_power_npe(theta = 0) %>% filter(bound == "upper")
 #'
 #' # Fixed bound
 #' gs_power_npe(
@@ -111,9 +111,8 @@ NULL
 #'   theta = rep(0, 3),
 #'   info = (1:3) * 40,
 #'   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-#'   lpar = rep(-Inf, 3)
-#' ) %>%
-#'   filter(Bound == "Upper")
+#'   lpar = rep(-Inf, 3)) %>%
+#'   filter(bound == "upper")
 #'
 #' # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
 #' gs_power_npe(
@@ -164,11 +163,11 @@ NULL
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
 #'   binding = TRUE,
-#'   upar = (x %>% filter(Bound == "Upper"))$Z,
-#'   lpar = -(x %>% filter(Bound == "Upper"))$Z
+#'   upar = (x %>% filter(bound == "upper"))$z,
+#'   lpar = -(x %>% filter(bound == "upper"))$z
 #' )
 gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
-                         info = 1, info0 = NULL, info1 = NULL, # 3 info
+                         info = 1, info0 = NULL, info1 = NULL,     # 3 info
                          info_scale = c(0, 1, 2),
                          upper = gs_b, upar = qnorm(.975),
                          lower = gs_b, lpar = -Inf,
@@ -177,20 +176,20 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     check & set up parameters                 #
   # --------------------------------------------- #
-  K <- length(info)
-  if (length(theta) == 1 && K > 1) theta <- rep(theta, K)
+  n_analysis <- length(info)
+  if (length(theta) == 1 && n_analysis > 1) theta <- rep(theta, n_analysis)
   if (is.null(theta0)) {
-    theta0 <- rep(0, K)
+    theta0 <- rep(0, n_analysis)
   } else if (length(theta0) == 1) {
-    theta0 <- rep(theta0, K)
+    theta0 <- rep(theta0, n_analysis)
   }
   if (is.null(theta1)) {
     theta1 <- theta
   } else if (length(theta1) == 1) {
-    theta1 <- rep(theta1, K)
+    theta1 <- rep(theta1, n_analysis)
   }
-  if (length(test_upper) == 1 && K > 1) test_upper <- rep(test_upper, K)
-  if (length(test_lower) == 1 && K > 1) test_lower <- rep(test_lower, K)
+  if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
+  if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
 
   # --------------------------------------------- #
   #     set up info                               #
@@ -230,18 +229,18 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     initialization                            #
   # --------------------------------------------- #
-  a <- rep(-Inf, K)
-  b <- rep(Inf, K)
+  a <- rep(-Inf, n_analysis)
+  b <- rep(Inf, n_analysis)
   hgm1_0 <- NULL
   hgm1_1 <- NULL
   hgm1 <- NULL
-  upperProb <- rep(NA, K)
-  lowerProb <- rep(NA, K)
+  upper_prob <- rep(NA, n_analysis)
+  lower_prob <- rep(NA, n_analysis)
 
   # --------------------------------------------- #
   #     calculate crossing prob  under  H1        #
   # --------------------------------------------- #
-  for (k in 1:K) {
+  for (k in 1:n_analysis) {
     # compute/update lower/upper bound
     a[k] <- lower(
       k = k, par = lpar, hgm1 = hgm1_1, info = info1, r = r, tol = tol, test_bound = test_lower,
@@ -252,12 +251,12 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
     # if it is the first analysis
     if (k == 1) {
       # compute the probability to cross upper/lower bound
-      upperProb[1] <- if (b[1] < Inf) {
+      upper_prob[1] <- if (b[1] < Inf) {
         pnorm(sqrt(info[1]) * (theta[1] - b[1] / sqrt(info0[1])))
       } else {
         0
       }
-      lowerProb[1] <- if (a[1] > -Inf) {
+      lower_prob[1] <- if (a[1] > -Inf) {
         pnorm(-sqrt(info[1]) * (theta[1] - a[1] / sqrt(info0[1])))
       } else {
         0
@@ -272,7 +271,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       hgm1 <- h1(r = r, theta = theta[1], I = info[1], a = a[1], b = b[1])
     } else {
       # compute the probability to cross upper bound
-      upperProb[k] <- if (b[k] < Inf) {
+      upper_prob[k] <- if (b[k] < Inf) {
         sum(hupdate(
           theta = theta[k], thetam1 = theta[k - 1],
           I = info[k], Im1 = info[k - 1],
@@ -282,7 +281,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         0
       }
       # compute the probability to cross lower bound
-      lowerProb[k] <- if (a[k] > -Inf) {
+      lower_prob[k] <- if (a[k] > -Inf) {
         sum(hupdate(
           theta = theta[k], thetam1 = theta[k - 1],
           I = info[k], Im1 = info[k - 1],
@@ -293,7 +292,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       }
 
       # update the grids
-      if (k < K) {
+      if (k < n_analysis) {
         hgm1_0 <- hupdate(r = r, theta = theta0[k], I = info0[k], a = if (binding) {
           a[k]
         } else {
@@ -306,10 +305,10 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   }
 
   ans <- tibble::tibble(
-    Analysis = rep(1:K, 2),
-    Bound = c(rep("Upper", K), rep("Lower", K)),
-    Z = c(b, a),
-    Probability = c(cumsum(upperProb), cumsum(lowerProb)),
+    analysis = rep(1:n_analysis, 2),
+    bound = c(rep("upper", n_analysis), rep("lower", n_analysis)),
+    z = c(b, a),
+    probability = c(cumsum(upper_prob), cumsum(lower_prob)),
     theta = rep(theta, 2),
     theta1 = rep(theta1, 2),
     info_frac = rep(info / max(info), 2),
@@ -320,7 +319,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       info1 = rep(info1, 2)
     ) %>%
     # filter(abs(Z) < Inf) %>%
-    arrange(desc(Bound), Analysis)
+    arrange(desc(bound), analysis)
 
   return(ans)
 }

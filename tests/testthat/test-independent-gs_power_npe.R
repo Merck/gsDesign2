@@ -13,8 +13,8 @@ test_that("expect equal with mvtnorm for efficacy and futility bounds", {
     lpar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.02)
   )
 
-  test1 <- test %>% filter(Bound == "Upper")
-  test2 <- test %>% filter(Bound == "Lower")
+  test1 <- test %>% filter(bound == "upper")
+  test2 <- test %>% filter(bound == "lower")
 
   alpha.t <- 0.025
   b.ia <- gsDesign::sfLDOF(alpha = alpha.t, t = r)
@@ -33,8 +33,8 @@ test_that("expect equal with mvtnorm for efficacy and futility bounds", {
 
   pb <- 1 - pnorm(b$root)
 
-  expect_equal(object = test1$Z, expected = c(qnorm(1 - alpha.ia), b$root), tolerance = 0.001)
-  expect_equal(object = test1$Probability, expected = cumsum(c(b.ia$spend, pb)), tolerance = 0.001)
+  expect_equal(object = test1$z, expected = c(qnorm(1 - alpha.ia), b$root), tolerance = 0.001)
+  expect_equal(object = test1$probability, expected = cumsum(c(b.ia$spend, pb)), tolerance = 0.001)
 
   beta.t <- 0.02
   a.ia <- gsDesign::sfLDOF(alpha = beta.t, t = r)
@@ -53,8 +53,8 @@ test_that("expect equal with mvtnorm for efficacy and futility bounds", {
 
   pa <- pnorm(a$root)
 
-  expect_equal(object = test2$Z, expected = c(qnorm(beta.ia), a$root), tolerance = 0.001)
-  expect_equal(object = test2$Probability, expected = cumsum(c(a.ia$spend, pa)), tolerance = 0.001)
+  expect_equal(object = test2$z, expected = c(qnorm(beta.ia), a$root), tolerance = 0.001)
+  expect_equal(object = test2$probability, expected = cumsum(c(a.ia$spend, pa)), tolerance = 0.001)
 })
 
 
@@ -69,7 +69,7 @@ test_that("expect equal with gsDesign::gsProbability outcome for efficacy bounds
       upar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.025),
       lower = gs_b,
       lpar = rep(-Inf, 3)
-    ) %>% filter(Bound == "Upper")
+    ) %>% filter(bound == "upper")
 
   x3 <- gsDesign::gsProbability(
     k = 3,
@@ -80,6 +80,6 @@ test_that("expect equal with gsDesign::gsProbability outcome for efficacy bounds
   )
 
 
-  expect_equal(ifelse(is.infinite(test3$Z), 20, test3$Z), x3$upper$bound, tolerance = 0.0001)
-  expect_equal(test3$Probability, cumsum(x3$upper$prob), tolerance = 0.0001)
+  expect_equal(ifelse(is.infinite(test3$z), 20, test3$z), x3$upper$bound, tolerance = 0.0001)
+  expect_equal(test3$probability, cumsum(x3$upper$prob), tolerance = 0.0001)
 })
