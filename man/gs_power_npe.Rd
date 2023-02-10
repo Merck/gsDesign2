@@ -129,7 +129,8 @@ gs_power_npe(
   theta = rep(0, 3),
   info = (1:3) * 40,
   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-  lpar = rep(-Inf, 3)) \%>\%
+  lpar = rep(-Inf, 3)
+) \%>\%
   filter(bound == "upper")
 
 # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
