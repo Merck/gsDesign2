@@ -126,7 +126,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
   check_total_duration(total_duration)
-  
+
   if (length(total_duration) > 1) {
     stop("gsDesign2: total_duration in `events_df()` must be a numeric number!")
   }
@@ -141,9 +141,10 @@ expected_event <- function(enroll_rate = tibble::tibble(
   ## by piecewise enrollment rates
   df_1 <- tibble::tibble(
     start_enroll = c(0, cumsum(enroll_rate$duration)),
-    end_fail = total_duration - start_enroll) %>% 
+    end_fail = total_duration - start_enroll
+  ) %>%
     subset(end_fail > 0)
-  
+
   ## by piecewise failure & dropout rates
   df_2 <- tibble::tibble(
     end_fail = cumsum(fail_rate$duration),
@@ -151,7 +152,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
     fail_rate_var = fail_rate$fail_rate,
     dropout_rate_var = fail_rate$dropout_rate
   )
-  
+
   temp <- cumsum(fail_rate$duration)
   if (temp[length(temp)] < total_duration) {
     df_2 <- df_2[-nrow(df_2), ]
@@ -214,13 +215,14 @@ expected_event <- function(enroll_rate = tibble::tibble(
     # compute expected events as nbar in a sub-interval
     mutate(
       d = ifelse(fail_rate_var == 0, 0, big_q * (1 - q) * fail_rate_var / (fail_rate_var + dropout_rate_var)),
-      nbar = ifelse(fail_rate_var == 0, 
-                    0, 
-                    big_g * d + 
-                      (fail_rate_var * big_q * enroll_rate_var) / 
-                      (fail_rate_var + dropout_rate_var) * 
-                      (duration - (1 - q) / 
-                         (fail_rate_var + dropout_rate_var)))
+      nbar = ifelse(fail_rate_var == 0,
+        0,
+        big_g * d +
+          (fail_rate_var * big_q * enroll_rate_var) /
+            (fail_rate_var + dropout_rate_var) *
+            (duration - (1 - q) /
+              (fail_rate_var + dropout_rate_var))
+      )
     )
 
   # ----------------------------#
@@ -231,13 +233,17 @@ expected_event <- function(enroll_rate = tibble::tibble(
   } else {
     sf_start_fail <- stepfun(start_fail, c(0, start_fail), right = FALSE)
     ans <- df %>%
-      transmute(t = end_fail, 
-                fail_rate = fail_rate_var, 
-                event = nbar, 
-                start_fail = sf_start_fail(start_fail)) %>%
+      transmute(
+        t = end_fail,
+        fail_rate = fail_rate_var,
+        event = nbar,
+        start_fail = sf_start_fail(start_fail)
+      ) %>%
       group_by(start_fail) %>%
-      summarize(fail_rate = first(fail_rate), 
-                event = sum(event)) %>%
+      summarize(
+        fail_rate = first(fail_rate),
+        event = sum(event)
+      ) %>%
       mutate(t = start_fail) %>%
       select(t, fail_rate, event)
   }
