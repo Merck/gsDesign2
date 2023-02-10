@@ -22,7 +22,7 @@ NULL
 
 #' Average hazard ratio under non-proportional hazards (test version)
 #'
-#' \code{AHR()} provides a geometric average hazard ratio under
+#' \code{ahr()} provides a geometric average hazard ratio under
 #' various non-proportional hazards assumptions for either single or multiple strata studies.
 #' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern where the enrollment, failure and dropout rates changes over time.
@@ -34,7 +34,8 @@ NULL
 #' @param ratio ratio of experimental to control randomization.
 #' @param simple logical; if TRUE (default), for each value in input total_duration overall event count,
 #' statistical information and average hazard ratio are given;
-#' if FALSE, hazard ratio, expected events and statistical information are produced by stratum and underlying hazard ratio.
+#' if FALSE, hazard ratio, expected events and statistical information are 
+#' produced by stratum and underlying hazard ratio.
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -57,7 +58,8 @@ NULL
 #'      \item Compute the expected events in for each strata.
 #'        \itemize{
 #'          \item Combine the expected number of events of all stratification variables.
-#'          \item Recompute events, hazard ratio and information under the given scenario of the combined data for each strata.
+#'          \item Recompute events, hazard ratio and information under 
+#'          the given scenario of the combined data for each strata.
 #'          }
 #'        \item Combine the results for all time points by summarizing the results by adding up the number of events,
 #'       information under the null and the given scenarios.
@@ -66,7 +68,7 @@ NULL
 #'    of each value in total_duration if the input simple is true, or a tibble of hazard ratio,
 #'    expected events and statistical information  produced by stratum and
 #'    underlying hazard ratio if the input simple is false.
-#'    \item Calculation of \code{AHR} for different design scenarios, and the comparison to the
+#'    \item Calculation of \code{ahr} for different design scenarios, and the comparison to the
 #'    simulation studies are defined in vignette/AHRVignette.Rmd.
 #'   }
 #' }
@@ -80,11 +82,11 @@ NULL
 #'
 #' @examples
 #' # Example: default
-#' AHR()
+#' ahr()
 #'
 #' # Example: default with multiple analysis times (varying total_duration)
 #'
-#' AHR(total_duration = c(15, 30))
+#' ahr(total_duration = c(15, 30))
 #'
 #' # Stratified population
 #' enroll_rate <- tibble::tibble(
@@ -99,14 +101,14 @@ NULL
 #'   hr = c(.9, .75, .8, .6),
 #'   dropout_rate = .001
 #' )
-#' AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
+#' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 #'
 #' # Same example, give results by strata and time period
-#' AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30), simple = FALSE)
+#' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30), simple = FALSE)
 #'
 #' @export
 #'
-AHR <- function(enroll_rate = tibble::tibble(
+ahr <- function(enroll_rate = tibble::tibble(
                   stratum = "All",
                   duration = c(2, 2, 10),
                   rate = c(3, 6, 9)
@@ -129,20 +131,21 @@ AHR <- function(enroll_rate = tibble::tibble(
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
   check_total_duration(total_duration)
   check_ratio(ratio)
+  
   if (!is.logical(simple)) {
-    stop("gsDesign2: simple in `AHR()` must be logical")
+    stop("gsDesign2: simple in `ahr()` must be logical")
   }
 
   # compute proportion in each group
-  Qe <- ratio / (1 + ratio)
-  Qc <- 1 - Qe
+  q_e <- ratio / (1 + ratio)
+  q_c <- 1 - q_e
 
   # compute expected events by treatment group, stratum and time period
   ans <- NULL
   strata <- unique(enroll_rate$stratum)
 
   for (td in total_duration) {
-    events <- NULL
+    event <- NULL
 
     for (s in strata) {
       # subset to stratum
@@ -150,48 +153,54 @@ AHR <- function(enroll_rate = tibble::tibble(
       fail <- fail_rate %>% filter(stratum == s)
 
       # update enrollment rates
-      enroll_c <- enroll %>% mutate(rate = rate * Qc)
-      enroll_e <- enroll %>% mutate(rate = rate * Qe)
+      enroll_c <- enroll %>% mutate(rate = rate * q_c)
+      enroll_e <- enroll %>% mutate(rate = rate * q_e)
 
       # update failure rates
       fail_c <- fail
       fail_e <- fail %>% mutate(fail_rate = fail_rate * hr)
 
       # compute expected number of events
-      events_c <- expected_event(enroll_rate = enroll_c, fail_rate = fail_c, total_duration = td, simple = FALSE)
-      events_e <- expected_event(enroll_rate = enroll_e, fail_rate = fail_e, total_duration = td, simple = FALSE)
+      event_c <- expected_event(enroll_rate = enroll_c, 
+                                fail_rate = fail_c, 
+                                total_duration = td, 
+                                simple = FALSE)
+      event_e <- expected_event(enroll_rate = enroll_e, 
+                                fail_rate = fail_e, 
+                                total_duration = td, 
+                                simple = FALSE)
 
       # Combine control and experimental; by period recompute HR, events, information
-      events <- rbind(
-        events_c %>% mutate(Treatment = "Control"),
-        events_e %>% mutate(Treatment = "Experimental")
+      event <- rbind(
+        event_c %>% mutate(treatment = "control"),
+        event_e %>% mutate(treatment = "experimental")
       ) %>%
-        arrange(t, Treatment) %>%
+        arrange(t, treatment) %>%
         ungroup() %>%
         # recompute HR, events, info by period
         group_by(t) %>%
         summarize(
           stratum = s,
-          info = (sum(1 / Events))^(-1),
-          Events = sum(Events),
-          HR = last(failRate) / first(failRate)
+          info = (sum(1 / event))^(-1),
+          event = sum(event),
+          hr = last(fail_rate) / first(fail_rate)
         ) %>%
-        rbind(events)
+        rbind(event)
     }
 
     # summarize events in one stratum
-    ans_new <- events %>%
+    ans_new <- event %>%
       mutate(
-        Time = td,
-        lnhr = log(HR),
-        info0 = Events * Qc * Qe
+        time = td,
+        ln_hr = log(hr),
+        info0 = event * q_c * q_e
       ) %>%
       ungroup() %>%
       # pool strata together for each time period
-      group_by(Time, stratum, HR) %>%
+      group_by(time, stratum, hr) %>%
       summarize(
         t = min(t),
-        Events = sum(Events),
+        event = sum(event),
         info0 = sum(info0),
         info = sum(info)
       )
@@ -201,16 +210,16 @@ AHR <- function(enroll_rate = tibble::tibble(
   # output the results
   if (!simple) {
     ans <- ans %>%
-      select(Time, stratum, t, HR, Events, info, info0) %>%
-      group_by(Time, stratum) %>%
+      select(time, stratum, t, hr, event, info, info0) %>%
+      group_by(time, stratum) %>%
       arrange(t, .by_group = TRUE) %>%
       ungroup()
   } else {
     ans <- ans %>%
-      group_by(Time) %>%
+      group_by(time) %>%
       summarize(
-        AHR = exp(sum(log(HR) * Events) / sum(Events)),
-        Events = sum(Events),
+        ahr = exp(sum(log(hr) * event) / sum(event)),
+        event = sum(event),
         info = sum(info),
         info0 = sum(info0)
       ) %>%
