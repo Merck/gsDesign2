@@ -23,24 +23,24 @@ testthat::test_that("compare results with AHR in the situation of single analysi
   )
 
   testthat::expect_equal(
-    out$analysis %>% select(Time, AHR),
-    AHR(
+    out$analysis %>% select(time, ahr),
+    ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
-    ) %>% select(Time, AHR)
+    ) %>% select(time, ahr)
   )
 
   # update enroll_rate for AHR to make Events/info/info0 also match in outputs
-  enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(out$analysis$N / (duration %*% rate)))
+  enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(out$analysis$n / (duration %*% rate)))
 
   testthat::expect_equal(
-    out$analysis %>% select(Time, AHR, Events, info, info0),
-    AHR(
+    out$analysis %>% select(time, ahr, event, info, info0),
+    ahr(
       enroll_rate = enroll_rate1,
       fail_rate = fail_rate,
       total_duration = total_duration
-    ) %>% select(Time, AHR, Events, info, info0)
+    ) %>% select(time, ahr, event, info, info0)
   )
 })
 
@@ -67,27 +67,26 @@ testthat::test_that("compare results with gsDesign2::AHR in the situation with I
   )
 
   testthat::expect_equal(
-    out$analysis %>% select(Time, AHR) %>% dplyr::distinct(.keep_all = TRUE),
-    AHR(
+    out$analysis %>% select(time, ahr) %>% dplyr::distinct(.keep_all = TRUE),
+    ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
-    ) %>% select(Time, AHR)
+    ) %>% select(time, ahr)
   )
 
   # update enroll_rate for AHR to make Events/info/info0 also match in outputs
-  enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(max(out$analysis$N) / (duration %*% rate)))
-
+  enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(max(out$analysis$n) / (duration %*% rate)))
 
   testthat::expect_equal(
     out$analysis %>%
-      select(Time, AHR, Events, info, info0) %>%
+      select(time, ahr, event, info, info0) %>%
       dplyr::distinct(.keep_all = TRUE),
-    AHR(
+    ahr(
       enroll_rate = enroll_rate1,
       fail_rate = fail_rate,
       total_duration = total_duration
     ) %>%
-      select(Time, AHR, Events, info, info0)
+      select(time, ahr, event, info, info0)
   )
 })

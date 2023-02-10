@@ -229,25 +229,25 @@ gs_power_ahr <- function(enroll_rate = tibble(
   # Organize the outputs -------------------------------------------------------
   # summarize the bounds
   suppressMessages(
-    bounds <- y_h1 %>%
-      mutate(`~HR at bound` = exp(-Z / sqrt(info)), `Nominal p` = pnorm(-Z)) %>%
+    bound <- y_h1 %>%
+      mutate(`~hr at bound` = exp(-z / sqrt(info)), `nominal p` = pnorm(-z)) %>%
       left_join(
         y_h0 %>%
-          select(Analysis, Bound, Probability) %>%
-          dplyr::rename(Probability0 = Probability)
+          select(analysis, bound, probability) %>%
+          dplyr::rename(probability0 = probability)
       ) %>%
-      select(Analysis, Bound, Probability, Probability0, Z, `~HR at bound`, `Nominal p`) %>%
-      arrange(Analysis, desc(Bound))
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
+      arrange(analysis, desc(bound))
   )
   # summarize the analysis
   suppressMessages(
     analysis <- x %>%
-      select(Analysis, Time, Events, AHR) %>%
-      mutate(N = expected_accrual(time = x$Time, enroll_rate = enroll_rate)) %>%
-      left_join(y_h1 %>% select(Analysis, info, info_frac, theta) %>% unique()) %>%
-      left_join(y_h0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
-      select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>%
-      arrange(Analysis)
+      select(analysis, time, event, ahr) %>%
+      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
+      left_join(y_h1 %>% select(analysis, info, info_frac, theta) %>% unique()) %>%
+      left_join(y_h0 %>% select(analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
+      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
+      arrange(analysis)
   )
 
   # Get input parameter to output ----------------------------------------------
@@ -264,7 +264,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
     input = input,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    bounds = bounds %>% filter(!is.infinite(Z)),
+    bound = bound %>% filter(!is.infinite(z)),
     analysis = analysis
   )
 

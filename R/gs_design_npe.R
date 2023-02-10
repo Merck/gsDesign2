@@ -325,7 +325,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # for a fixed design, this is all you need.
   if (n_analysis == 1) {
     ans <- tibble(
-      analysis = 1, bound = "Upper", z = qnorm(1 - alpha),
+      analysis = 1, bound = "upper", z = qnorm(1 - alpha),
       probability = 1 - beta, probability0 = alpha, theta = theta,
       info = info * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
       info_frac = info / max(info)

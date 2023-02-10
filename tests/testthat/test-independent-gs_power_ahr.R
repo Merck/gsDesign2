@@ -73,7 +73,7 @@ testthat::test_that("under same number of events, compare the power", {
     test_lower = FALSE
   )
 
-  testthat::expect_equal(out$bounds$Probability[1:2], y$Efficacy[c(5, 10)], tolerance = 0.02)
+  testthat::expect_equal(out$bound$probability[1:2], y$Efficacy[c(5, 10)], tolerance = 0.02)
 })
 
 testthat::test_that("under same power setting, compare the number of events", {
@@ -103,5 +103,5 @@ testthat::test_that("under same power setting, compare the number of events", {
     test_lower = FALSE
   )
   # in case test fails, check whether caused by small tolerance
-  testthat::expect_equal(out$analysis$Events[1:2], x$n.I, tolerance = 0.02)
+  testthat::expect_equal(out$analysis$event[1:2], x$n.I, tolerance = 0.02)
 })
