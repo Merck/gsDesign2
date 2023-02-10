@@ -97,8 +97,8 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
                           hr = c(.9, .6),
                           dropout_rate = rep(.001, 2)
                         ),
-                        ratio = 1,            # experimental:Control randomization ratio
-                        event = NULL,         # event at analyses
+                        ratio = 1, # experimental:Control randomization ratio
+                        event = NULL, # event at analyses
                         analysis_time = NULL, # times of analyses
                         interval = c(.01, 100)) {
   # ----------------------------#
