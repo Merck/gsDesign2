@@ -103,7 +103,7 @@ expected_time <- function(enroll_rate = tibble::tibble(
   # ----------------------------#
   # find the difference between  `AHR()` and different values of total_duration
   foo <- function(x) {
-    ans <- AHR(
+    ans <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       total_duration = x, ratio = ratio
     )$Events - target_event
@@ -119,7 +119,7 @@ expected_time <- function(enroll_rate = tibble::tibble(
   if (inherits(res, "try-error")) {
     stop("expected_time(): solution not found!")
   } else {
-    ans <- AHR(
+    ans <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       total_duration = res$root, ratio = ratio
     )
