@@ -34,7 +34,7 @@ NULL
 #' @param ratio ratio of experimental to control randomization.
 #' @param simple logical; if TRUE (default), for each value in input total_duration overall event count,
 #' statistical information and average hazard ratio are given;
-#' if FALSE, hazard ratio, expected events and statistical information are 
+#' if FALSE, hazard ratio, expected events and statistical information are
 #' produced by stratum and underlying hazard ratio.
 #' @section Specification:
 #' \if{latex}{
@@ -58,7 +58,7 @@ NULL
 #'      \item Compute the expected events in for each strata.
 #'        \itemize{
 #'          \item Combine the expected number of events of all stratification variables.
-#'          \item Recompute events, hazard ratio and information under 
+#'          \item Recompute events, hazard ratio and information under
 #'          the given scenario of the combined data for each strata.
 #'          }
 #'        \item Combine the results for all time points by summarizing the results by adding up the number of events,
@@ -131,7 +131,7 @@ ahr <- function(enroll_rate = tibble::tibble(
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
   check_total_duration(total_duration)
   check_ratio(ratio)
-  
+
   if (!is.logical(simple)) {
     stop("gsDesign2: simple in `ahr()` must be logical")
   }
@@ -161,14 +161,18 @@ ahr <- function(enroll_rate = tibble::tibble(
       fail_e <- fail %>% mutate(fail_rate = fail_rate * hr)
 
       # compute expected number of events
-      event_c <- expected_event(enroll_rate = enroll_c, 
-                                fail_rate = fail_c, 
-                                total_duration = td, 
-                                simple = FALSE)
-      event_e <- expected_event(enroll_rate = enroll_e, 
-                                fail_rate = fail_e, 
-                                total_duration = td, 
-                                simple = FALSE)
+      event_c <- expected_event(
+        enroll_rate = enroll_c,
+        fail_rate = fail_c,
+        total_duration = td,
+        simple = FALSE
+      )
+      event_e <- expected_event(
+        enroll_rate = enroll_e,
+        fail_rate = fail_e,
+        total_duration = td,
+        simple = FALSE
+      )
 
       # Combine control and experimental; by period recompute HR, events, information
       event <- rbind(
