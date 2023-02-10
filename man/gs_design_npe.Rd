@@ -162,9 +162,9 @@ x
 # Same upper bound; this represents non-binding Type I error and will total 0.025
 gs_power_npe(
   theta = rep(0, 3),
-  info = (x \%>\% filter(Bound == "Upper"))$info,
+  info = (x \%>\% filter(bound == "upper"))$info,
   upper = gs_b,
-  upar = (x \%>\% filter(Bound == "Upper"))$Z,
+  upar = (x \%>\% filter(bound == "upper"))$z,
   lower = gs_b,
   lpar = rep(-Inf, 3)
 )
@@ -241,8 +241,8 @@ gs_power_npe(
   binding = TRUE,
   upper = gs_b,
   lower = gs_b,
-  upar = (xx \%>\% filter(Bound == "Upper"))$Z,
-  lpar = -(xx \%>\% filter(Bound == "Upper"))$Z
+  upar = (xx \%>\% filter(bound == "upper"))$z,
+  lpar = -(xx \%>\% filter(bound == "upper"))$z
 )
 
 }

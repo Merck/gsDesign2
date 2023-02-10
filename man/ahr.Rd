@@ -66,7 +66,7 @@ and enrollment pattern where the enrollment, failure and dropout rates changes o
      \item Compute the expected events in for each strata.
        \itemize{
          \item Combine the expected number of events of all stratification variables.
-         \item Recompute events, hazard ratio and information under 
+         \item Recompute events, hazard ratio and information under
          the given scenario of the combined data for each strata.
          }
        \item Combine the results for all time points by summarizing the results by adding up the number of events,

@@ -139,9 +139,9 @@ NULL
 #' # Same upper bound; this represents non-binding Type I error and will total 0.025
 #' gs_power_npe(
 #'   theta = rep(0, 3),
-#'   info = (x %>% filter(Bound == "Upper"))$info,
+#'   info = (x %>% filter(bound == "upper"))$info,
 #'   upper = gs_b,
-#'   upar = (x %>% filter(Bound == "Upper"))$Z,
+#'   upar = (x %>% filter(bound == "upper"))$z,
 #'   lower = gs_b,
 #'   lpar = rep(-Inf, 3)
 #' )
@@ -218,8 +218,8 @@ NULL
 #'   binding = TRUE,
 #'   upper = gs_b,
 #'   lower = gs_b,
-#'   upar = (xx %>% filter(Bound == "Upper"))$Z,
-#'   lpar = -(xx %>% filter(Bound == "Upper"))$Z
+#'   upar = (xx %>% filter(bound == "upper"))$z,
+#'   lpar = -(xx %>% filter(bound == "upper"))$z
 #' )
 #'
 gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
@@ -233,37 +233,37 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     check & set up parameters                 #
   # --------------------------------------------- #
-  K <- length(info)
+  n_analysis <- length(info)
 
   # check alpha & beta
   check_alpha_beta(alpha, beta)
 
   # check theta, theta0, theta1
   if (length(theta) == 1) {
-    theta <- rep(theta, K)
+    theta <- rep(theta, n_analysis)
   }
 
   if (is.null(theta1)) {
     theta1 <- theta
   } else if (length(theta1) == 1) {
-    theta1 <- rep(theta1, K)
+    theta1 <- rep(theta1, n_analysis)
   }
 
   if (is.null(theta0)) {
-    theta0 <- rep(0, K)
+    theta0 <- rep(0, n_analysis)
   } else if (length(theta0) == 1) {
-    theta0 <- rep(theta0, K)
+    theta0 <- rep(theta0, n_analysis)
   }
 
-  check_theta(theta, K)
-  check_theta(theta0, K)
-  check_theta(theta1, K)
+  check_theta(theta, n_analysis)
+  check_theta(theta0, n_analysis)
+  check_theta(theta1, n_analysis)
 
   # check test_upper & test_lower
-  if (length(test_upper) == 1 && K > 1) test_upper <- rep(test_upper, K)
-  if (length(test_lower) == 1 && K > 1) test_lower <- rep(test_lower, K)
-  check_test_upper(test_upper, K)
-  check_test_lower(test_lower, K)
+  if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
+  if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
+  check_test_upper(test_upper, n_analysis)
+  check_test_lower(test_lower, n_analysis)
 
   # --------------------------------------------- #
   #     set up info                               #
@@ -302,7 +302,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   #     check design type                         #
   # --------------------------------------------- #
   if (identical(lower, gs_b) && (!is.list(lpar))) {
-    two_sided <- ifelse(identical(lpar, rep(-Inf, K)), FALSE, TRUE)
+    two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
   } else {
     two_sided <- TRUE
   }
@@ -310,23 +310,23 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     initialization                            #
   # --------------------------------------------- #
-  a <- rep(-Inf, K) # bounds
-  b <- rep(Inf, K)
+  a <- rep(-Inf, n_analysis) # bounds
+  b <- rep(Inf, n_analysis)
   hgm1_0 <- NULL # numerical integration grids
   hgm1_1 <- NULL
-  upperProb <- rep(NA, K) # boundary crossing probabilities
-  lowerProb <- rep(NA, K)
+  upperProb <- rep(NA, n_analysis) # boundary crossing probabilities
+  lowerProb <- rep(NA, n_analysis)
 
   # --------------------------------------------- #
   #     fixed design                              #
   # --------------------------------------------- #
   # compute fixed sample size for desired power and Type I error.
-  min_x <- ((qnorm(alpha) / sqrt(info0[K]) + qnorm(beta) / sqrt(info[K])) / theta[K])^2
+  min_x <- ((qnorm(alpha) / sqrt(info0[n_analysis]) + qnorm(beta) / sqrt(info[n_analysis])) / theta[n_analysis])^2
   # for a fixed design, this is all you need.
-  if (K == 1) {
+  if (n_analysis == 1) {
     ans <- tibble(
-      Analysis = 1, Bound = "Upper", Z = qnorm(1 - alpha),
-      Probability = 1 - beta, Probability0 = alpha, theta = theta,
+      analysis = 1, bound = "Upper", z = qnorm(1 - alpha),
+      probability = 1 - beta, probability0 = alpha, theta = theta,
       info = info * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
       info_frac = info / max(info)
     )
@@ -345,7 +345,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
     lower = lower, lpar = lpar, test_lower = test_lower,
     binding = binding, r = r, tol = tol
   )
-  min_power <- (min_temp[min_temp$Bound == "Upper" & min_temp$Analysis == K, ])$Probability
+  min_power <- (min_temp[min_temp$bound == "upper" & min_temp$analysis == n_analysis, ])$probability
 
   # a flag indicates if max_x can be found
   flag <- FALSE
@@ -363,7 +363,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         lower = lower, lpar = lpar, test_lower = test_lower,
         binding = binding, r = r, tol = tol
       )
-      max_power <- (max_temp[max_temp$Bound == "Upper" & max_temp$Analysis == K, ])$Probability
+      max_power <- (max_temp[max_temp$bound == "upper" & max_temp$analysis == n_analysis, ])$probability
 
       if (max_power < 1 - beta) {
         min_x <- max_x
@@ -388,7 +388,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         lower = lower, lpar = lpar, test_lower = test_lower,
         binding = binding, r = r, tol = tol
       )
-      micro_power <- (micro_temp[micro_temp$Bound == "Upper" & micro_temp$Analysis == K, ])$Probability
+      micro_power <- (micro_temp[micro_temp$bound == "upper" & micro_temp$analysis == n_analysis, ])$probability
 
       if (micro_power > 1 - beta) {
         min_x <- micro_x
@@ -412,7 +412,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
     info = info, info0 = info0, info1 = info1, info_scale = info_scale,
     Zupper = upper, upar = upar, test_upper = test_upper,
     Zlower = lower, lpar = lpar, test_lower = test_lower,
-    beta = beta, K = K, binding = binding, r = r, tol = tol
+    beta = beta, n_analysis = n_analysis, binding = binding, r = r, tol = tol
   ))
   if (inherits(res, "try-error")) {
     stop("gs_design_npe(): Sample size solution not found!")
@@ -424,7 +424,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   #     return the output                         #
   # --------------------------------------------- #
   # calculate the probability under H1
-  ans_H1 <- gs_power_npe(
+  ans_h1 <- gs_power_npe(
     theta = theta, theta0 = theta0, theta1 = theta1,
     info = info * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
     info_scale = info_scale,
@@ -435,7 +435,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   )
 
   # calculate the probability under H0
-  ans_H0 <- gs_power_npe(
+  ans_h0 <- gs_power_npe(
     theta = 0, theta0 = theta0, theta1 = theta1,
     info = info0 * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
     info_scale = info_scale,
@@ -446,7 +446,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       lower
     },
     lpar = if (!two_sided) {
-      rep(-Inf, K)
+      rep(-Inf, n_analysis)
     } else {
       lpar
     },
@@ -456,12 +456,12 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 
   # combine probability under H0 and H1
   suppressMessages(
-    ans <- ans_H1 %>% full_join(ans_H0 %>% select(Analysis, Bound, Probability) %>% dplyr::rename(Probability0 = Probability))
+    ans <- ans_h1 %>% full_join(ans_h0 %>% select(analysis, bound, probability) %>% dplyr::rename(probability0 = probability))
   )
 
-  ans <- ans %>% select(Analysis, Bound, Z, Probability, Probability0, theta, info_frac, info, info0, info1)
+  ans <- ans %>% select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
 
-  ans <- ans %>% arrange(Analysis)
+  ans <- ans %>% arrange(analysis)
 
   return(ans)
 }
@@ -469,7 +469,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 
 ## Create a function that uses gs_power_npe to compute difference from targeted power
 ## for a given sample size inflation factor
-errbeta <- function(x = 1, K = 1,
+errbeta <- function(x = 1, n_analysis = 1,
                     beta = .1,
                     theta = .1, theta0 = 0, theta1 = .1,
                     info = 1, info0 = 1, info1 = 1, info_scale = 2,
@@ -485,7 +485,7 @@ errbeta <- function(x = 1, K = 1,
     binding = binding, r = r, tol = tol
   )
 
-  x_power <- (x_temp[x_temp$Bound == "Upper" & x_temp$Analysis == K, ])$Probability
+  x_power <- (x_temp[x_temp$bound == "upper" & x_temp$analysis == n_analysis, ])$probability
 
   ans <- 1 - beta - x_power
   return(ans)

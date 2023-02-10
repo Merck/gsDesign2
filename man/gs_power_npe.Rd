@@ -94,7 +94,7 @@ are not supported by \code{gs_power_npe()}.
    \item Define vector a to be -Inf with length equal to the number of interim analysis.
    \item Define vector b to be Inf with length equal to the number of interim analysis.
    \item Define hgm1_0 and hgm1 to be NULL.
-   \item Define upperProb and lowerProb to be vectors of NA with length of the number of interim analysis.
+   \item Define upper_prob and lower_prob to be vectors of NA with length of the number of interim analysis.
    \item Update lower and upper bounds using \code{gs_b()}.
    \item If there are no interim analysis, compute proabilities of crossing upper and lower bounds
    using \code{h1()}.
@@ -112,7 +112,7 @@ library(gsDesign2)
 library(dplyr)
 
 # Default (single analysis; Type I error controlled)
-gs_power_npe(theta = 0) \%>\% filter(Bound == "Upper")
+gs_power_npe(theta = 0) \%>\% filter(bound == "upper")
 
 # Fixed bound
 gs_power_npe(
@@ -129,9 +129,8 @@ gs_power_npe(
   theta = rep(0, 3),
   info = (1:3) * 40,
   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-  lpar = rep(-Inf, 3)
-) \%>\%
-  filter(Bound == "Upper")
+  lpar = rep(-Inf, 3)) \%>\%
+  filter(bound == "upper")
 
 # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
 gs_power_npe(
@@ -182,8 +181,8 @@ gs_power_npe(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   binding = TRUE,
-  upar = (x \%>\% filter(Bound == "Upper"))$Z,
-  lpar = -(x \%>\% filter(Bound == "Upper"))$Z
+  upar = (x \%>\% filter(bound == "upper"))$z,
+  lpar = -(x \%>\% filter(bound == "upper"))$z
 )
 }
 \author{
