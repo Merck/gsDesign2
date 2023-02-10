@@ -10,7 +10,7 @@ gs_power_rd(
   n = tibble::tibble(stratum = "All", n = c(40, 50, 60), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = c("un-stratified", "ss", "invar"),
+  weight = c("un-stratified", "ss", "invar-h1", "invar-h0"),
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,

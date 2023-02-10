@@ -91,7 +91,7 @@ NULL
 #'   ),
 #'   rd0 = 0,
 #'   ratio = 1,
-#'   weight = "invar"
+#'   weight = "invar-h1"
 #' )
 #'
 #' # --------------------- #
@@ -137,7 +137,7 @@ NULL
 #'   ),
 #'   rd0 = 0.02,
 #'   ratio = 1,
-#'   weight = "invar"
+#'   weight = "invar-h1"
 #' )
 #'
 #' # --------------------- #
@@ -164,7 +164,7 @@ NULL
 #'     rd0 = c(0.01, 0.02, 0.03)
 #'   ),
 #'   ratio = 1,
-#'   weight = "invar"
+#'   weight = "invar-h1"
 #' )
 #'
 gs_info_rd <- function(p_c = tibble::tibble(
@@ -182,7 +182,7 @@ gs_info_rd <- function(p_c = tibble::tibble(
                        ),
                        rd0 = 0,
                        ratio = 1,
-                       weight = c("un-stratified", "ss", "invar")) {
+                       weight = c("un-stratified", "ss", "invar-h1", "invar-h0")) {
   K <- max(n$analysis)
   weight <- match.arg(weight)
 
@@ -239,11 +239,18 @@ gs_info_rd <- function(p_c = tibble::tibble(
         mutate(weight_per_k_per_s = N_c * N_e / (N_c + N_e) / sum_ss) %>%
         select(-sum_ss)
     )
-  } else if (weight == "invar") {
+  } else if (weight == "invar-h0") {
     suppressMessages(
       tbl <- tbl %>%
         left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_inv_var_per_s = sum(1 / sigma2_H0_per_k_per_s))) %>%
         mutate(weight_per_k_per_s = 1 / sigma2_H0_per_k_per_s / sum_inv_var_per_s) %>%
+        select(-sum_inv_var_per_s)
+    )
+  } else if (weight == "invar-h1") {
+    suppressMessages(
+      tbl <- tbl %>%
+        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_inv_var_per_s = sum(1 / sigma2_H1_per_k_per_s))) %>%
+        mutate(weight_per_k_per_s = 1 / sigma2_H1_per_k_per_s / sum_inv_var_per_s) %>%
         select(-sum_inv_var_per_s)
     )
   }
@@ -257,8 +264,6 @@ gs_info_rd <- function(p_c = tibble::tibble(
       n = sum(n),
       rd = sum((p_c - p_e) * d * weight_per_k_per_s),
       rd0 = sum(rd0 * weight_per_k_per_s),
-      sigma2_H0 = sum((weight_per_k_per_s^2 * p_c0 * (1 - p_c0) +
-        weight_per_k_per_s^2 * p_e0 * (1 - p_e0) / ratio) * (1 + ratio)),
       sigma2_H0 = sum(if (sum(rd0 == 0) == 0) {
         weight_per_k_per_s^2 * p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / N_c + 1 / N_e)
       } else {

@@ -10,7 +10,7 @@ gs_info_rd(
   n = tibble::tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = c("un-stratified", "ss", "invar")
+  weight = c("un-stratified", "ss", "invar-h1", "invar-h0")
 )
 }
 \arguments{
@@ -92,7 +92,7 @@ gs_info_rd(
   ),
   rd0 = 0,
   ratio = 1,
-  weight = "invar"
+  weight = "invar-h1"
 )
 
 # --------------------- #
@@ -138,7 +138,7 @@ gs_info_rd(
   ),
   rd0 = 0.02,
   ratio = 1,
-  weight = "invar"
+  weight = "invar-h1"
 )
 
 # --------------------- #
@@ -165,7 +165,7 @@ gs_info_rd(
     rd0 = c(0.01, 0.02, 0.03)
   ),
   ratio = 1,
-  weight = "invar"
+  weight = "invar-h1"
 )
 
 }

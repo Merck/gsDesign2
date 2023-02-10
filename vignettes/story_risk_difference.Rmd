@@ -1358,7 +1358,7 @@ x_invar0 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar",
+  weight = "invar-h0",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1379,7 +1379,7 @@ x_invar1 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar",
+  weight = "invar-h0",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1400,7 +1400,7 @@ x_invar2 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar",
+  weight = "invar-h0",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1410,11 +1410,79 @@ x_invar2 <- gs_design_rd(
 )
 ```
 
+
+```{r}
+## inverse variance weighting + information scale = 0
+x_invar_h1_0 <- gs_design_rd(
+  p_c = p_c,
+  p_e = p_e,
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
+  ratio = 1,
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
+  weight = "invar-h1",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
+  info_scale = 0,
+  binding = FALSE
+)
+```
+
+```{r}
+## inverse variance weighting + information scale = 1
+x_invar_h1_1 <- gs_design_rd(
+  p_c = p_c,
+  p_e = p_e,
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
+  ratio = 1,
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
+  weight = "invar-h1",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
+  info_scale = 1,
+  binding = FALSE
+)
+```
+
+```{r}
+## inverse variance weighting + information scale = 2
+x_invar_h1_2 <- gs_design_rd(
+  p_c = p_c,
+  p_e = p_e,
+  info_frac = 1:3 / 3,
+  rd0 = 0,
+  alpha = .025,
+  beta = .2,
+  ratio = 1,
+  stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
+  weight = "invar-h1",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
+  info_scale = 2,
+  binding = FALSE
+)
+```
+
+
 ```{r}
 ans <- tibble::tibble(
-  INVAR0 = x_invar0$analysis$N[1:3],
-  INVAR1 = x_invar1$analysis$N[1:3],
-  INVAR2 = x_invar2$analysis$N[1:3],
+  `INVAR using variance under H0 with info_scale = 0` = x_invar0$analysis$N[1:3],
+  `INVAR using variance under H0 with info_scale = 1` = x_invar1$analysis$N[1:3],
+  `INVAR using variance under H0 with info_scale = 2` = x_invar2$analysis$N[1:3],
+  `INVAR using variance under H1 with info_scale = 0` = x_invar_h1_0$analysis$N[1:3],
+  `INVAR using variance under H1 with info_scale = 1` = x_invar_h1_1$analysis$N[1:3],
+  `INVAR using variance under H1 with info_scale = 2` = x_invar_h1_2$analysis$N[1:3],
   SS0 = x_ss0$analysis$N[1:3],
   SS1 = x_ss1$analysis$N[1:3],
   SS2 = x_ss2$analysis$N[1:3]
@@ -1423,17 +1491,28 @@ ans %>%
   gt::gt() %>%
   gt::tab_header(title = "Sample size calculated by INVAR and SS") %>%
   gt::tab_spanner(
-    label = "Inverse variance weighting",
-    columns = c(INVAR0, INVAR1, INVAR2)
+    label = "Inverse variance weighting with H0 variance",
+    columns = c("INVAR using variance under H0 with info_scale = 0", 
+                "INVAR using variance under H0 with info_scale = 1", 
+                "INVAR using variance under H0 with info_scale = 2")
   ) %>%
+  gt::tab_spanner(
+    label = "Inverse variance weighting with H1 variance",
+    columns = c("INVAR using variance under H1 with info_scale = 0", 
+                "INVAR using variance under H1 with info_scale = 1", 
+                "INVAR using variance under H1 with info_scale = 2")
+  ) %>% 
   gt::tab_spanner(
     label = "Sample size wighting",
     columns = c(SS0, SS1, SS2)
   ) %>%
   cols_label(
-    INVAR0 = "info_scale = 0",
-    INVAR1 = "info_scale = 1",
-    INVAR2 = "info_scale = 2",
+    `INVAR using variance under H0 with info_scale = 0` = "info_scale = 0",
+    `INVAR using variance under H0 with info_scale = 1` = "info_scale = 1",
+    `INVAR using variance under H0 with info_scale = 2` = "info_scale = 2",
+    `INVAR using variance under H1 with info_scale = 0` = "info_scale = 0",
+    `INVAR using variance under H1 with info_scale = 1` = "info_scale = 1",
+    `INVAR using variance under H1 with info_scale = 2` = "info_scale = 2",
     SS0 = "info_scale = 0",
     SS1 = "info_scale = 1",
     SS2 = "info_scale = 2"
@@ -1444,7 +1523,12 @@ ans %>%
 
 
 ```{r}
-run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_H0 = TRUE, integration = "gs_power_npe") {
+run_simulation <- function(N, weight_method, 
+                           n_sim, 
+                           prevalence_ratio, 
+                           IF, 
+                           under_H0 = TRUE, 
+                           integration = "gs_power_npe") {
   ans <- NULL
 
   N_S1 <- ceiling(N * prevalence_ratio[1] / sum(prevalence_ratio)) * IF
@@ -1606,8 +1690,11 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
         power = res %>% filter(Bound == "Upper", Analysis == 3) %>% select(Probability) %>% unlist() %>% as.numeric()
       )
     }
-
+    
     if (integration == "pmvtnorm") {
+      mean_sim <- NA
+      IF_sim <- NA
+      
       if (weight_method == "invar_H0") {
         if (under_H0) {
           IF_sim <- x$info0_invar_H0 / x$info0_invar_H0[3]
@@ -1674,15 +1761,15 @@ ans_H0 <- do.call(
   cbind,
   lapply(
     list(
-      list("ss_H0", ans$SS0),
-      list("invar_H0", ans$INVAR0)
+      list("ss", max(ans$SS0)),
+      list("invar_H0", max(ans$`INVAR using variance under H0 with info_scale = 0`))
     ),
     function(x) {
       return(run_simulation(
         N = x[[2]],
         weight_method = x[[1]],
         n_sim = n_sim, prevalence_ratio = prevalence_ratio,
-        IF = IF, under_H0 = TRUE, integration = "gs_power_npe"
+        IF = IF, under_H0 = TRUE, integration = "pmvtnorm"
       ))
     }
   )
@@ -1692,8 +1779,8 @@ ans_H1 <- do.call(
   cbind,
   lapply(
     list(
-      list("ss_H1", ans$SS1),
-      list("invar_H1", ans$INVAR1)
+      list("ss", ans$SS1),
+      list("invar_H1", ans$`INVAR using variance under H1 with info_scale = 1`)
     ),
     function(x) {
       return(run_simulation(

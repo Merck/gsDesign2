@@ -247,7 +247,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
                         ),
                         rd0 = 0,
                         ratio = 1,
-                        weight = c("un-stratified", "ss", "invar"),
+                        weight = c("un-stratified", "ss", "invar-h1", "invar-h0"),
                         upper = gs_b,
                         lower = gs_b,
                         upar = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
