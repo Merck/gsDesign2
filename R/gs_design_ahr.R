@@ -280,11 +280,14 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
 
   allout <- allout %>%
     # add `~hr at bound`, `hr generic` and `nominal p`
-    mutate("~hr at bound" = exp(-z / sqrt(info0)), 
-           "nominal p" = pnorm(-z)) %>%
+    mutate(
+      "~hr at bound" = exp(-z / sqrt(info0)),
+      "nominal p" = pnorm(-z)
+    ) %>%
     # Add `time`, `event`, `ahr`, `n` from gs_info_ahr call above
-    full_join(y %>% select(-c(info, info0, theta)), 
-              by = "analysis") %>%
+    full_join(y %>% select(-c(info, info0, theta)),
+      by = "analysis"
+    ) %>%
     # select variables to be output
     select(c(
       "analysis", "bound", "time", "n", "event", "z", "probability", "probability0", "ahr", "theta",
