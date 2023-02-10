@@ -47,7 +47,7 @@ x2 <- eEvents_df_(enrollRates, failRates, totalDuration, simple = TRUE)
 enrollRates <- tibble(duration = c(2, 1, 2), rate = c(5, 10, 20))
 failRates <- tibble(duration = c(1, 1, 1), fail_rate = c(.05, .02, .01), dropout_rate = .01)
 totalDuration <- 20
-x3 <- eEvents_df(enrollRates, failRates, totalDuration, simple = TRUE)
+x3 <- expected_event(enrollRates, failRates, totalDuration, simple = TRUE)
 
 tibble(
   method = c("gsDesign", "old version", "new version"),
@@ -61,7 +61,7 @@ tibble(
 enrollRates <- tibble(duration = c(1, 1, 8), rate = c(3, 2, 0))
 failRates <- tibble(duration = c(4, Inf), fail_rate = c(.03, .06), dropout_rate = c(.001, .002))
 totalDuration <- 7
-x <- eEvents_df(enrollRates, failRates, totalDuration, simple = FALSE) %>% data.frame()
+x <- expected_event(enrollRates, failRates, totalDuration, simple = FALSE) %>% data.frame()
 # expected checked with alternate calculations in gsSurvNPH vignette
 y <- data.frame(t = c(0, 4), failRate = c(0.03, 0.06), Events = c(0.5642911, 0.5194821))
 x %>%
