@@ -50,8 +50,8 @@ test_that("Validate the function based on examples with simulation results", {
   lrk_bnd <-
     lrk$bounds %>%
     dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(Analysis, Bound, Probability) %>%
-    tidyr::pivot_wider(names_from = Bound, values_from = Probability)
+    dplyr::select(analysis, bound, probability) %>%
+    tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # FH(0,1)
   fh01 <- gsDesign2::gs_design_wlr(
@@ -68,8 +68,8 @@ test_that("Validate the function based on examples with simulation results", {
   fh01_bnd <-
     fh01$bounds %>%
     dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(Analysis, Bound, Probability) %>%
-    tidyr::pivot_wider(names_from = Bound, values_from = Probability)
+    dplyr::select(analysis, bound, probability) %>%
+    tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # FH(0,0.5)
   fh0d5 <- gsDesign2::gs_design_wlr(
@@ -86,8 +86,8 @@ test_that("Validate the function based on examples with simulation results", {
   fh0d5_bnd <-
     fh0d5$bounds %>%
     dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(Analysis, Bound, Probability) %>%
-    tidyr::pivot_wider(names_from = Bound, values_from = Probability)
+    dplyr::select(analysis, bound, probability) %>%
+    tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # FH(0.5,0.5)
   fh5d5 <- gsDesign2::gs_design_wlr(
@@ -104,31 +104,31 @@ test_that("Validate the function based on examples with simulation results", {
   fh5d5_bnd <-
     fh5d5$bounds %>%
     dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(Analysis, Bound, Probability) %>%
-    tidyr::pivot_wider(names_from = Bound, values_from = Probability)
+    dplyr::select(analysis, bound, probability) %>%
+    tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # logrank part
-  expect_equal(object = as.numeric(lrk$analysis$N), expected = rep(386, 3), tolerance = 3)
-  expect_equal(object = as.numeric(lrk$analysis$Events), expected = c(82.77, 190.05, 255.61), tolerance = 3)
-  expect_equal(object = as.numeric(lrk$analysis$AHR), expected = c(0.87, 0.72, 0.69), tolerance = 0.3)
-  expect_equal(object = as.numeric(lrk_bnd$Upper), expected = c(0.00, 0.41, 0.80), tolerance = 0.3)
-  expect_equal(object = as.numeric(lrk_bnd$Lower), expected = c(0.07, 0.14, 0.20), tolerance = 0.3)
+  expect_equal(object = as.numeric(lrk$analysis$n), expected = rep(386, 3), tolerance = 3)
+  expect_equal(object = as.numeric(lrk$analysis$event), expected = c(82.77, 190.05, 255.61), tolerance = 3)
+  expect_equal(object = as.numeric(lrk$analysis$ahr), expected = c(0.87, 0.72, 0.69), tolerance = 0.3)
+  expect_equal(object = as.numeric(lrk_bnd$upper), expected = c(0.00, 0.41, 0.80), tolerance = 0.3)
+  expect_equal(object = as.numeric(lrk_bnd$lower), expected = c(0.07, 0.14, 0.20), tolerance = 0.3)
   # fh(0,1)
-  expect_equal(object = as.numeric(fh01$analysis$N), expected = rep(317, 3), tolerance = 3)
-  expect_equal(object = as.numeric(fh01$analysis$Events), expected = c(68.01, 156.13, 210.06), tolerance = 3)
-  expect_equal(object = as.numeric(fh01$analysis$AHR), expected = c(0.76, 0.65, 0.63), tolerance = 0.3)
-  expect_equal(object = as.numeric(fh01_bnd$Upper), expected = c(0.00, 0.45, 0.79), tolerance = 0.3)
-  expect_equal(object = as.numeric(fh01_bnd$Lower), expected = c(0.04, 0.12, 0.21), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh01$analysis$n), expected = rep(317, 3), tolerance = 3)
+  expect_equal(object = as.numeric(fh01$analysis$event), expected = c(68.01, 156.13, 210.06), tolerance = 3)
+  expect_equal(object = as.numeric(fh01$analysis$ahr), expected = c(0.76, 0.65, 0.63), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh01_bnd$upper), expected = c(0.00, 0.45, 0.79), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh01_bnd$lower), expected = c(0.04, 0.12, 0.21), tolerance = 0.3)
   # fh(0,0.5)
-  expect_equal(object = as.numeric(fh0d5$analysis$N), expected = rep(314, 3), tolerance = 3)
-  expect_equal(object = as.numeric(fh0d5$analysis$Events), expected = c(67.21, 154.43, 207.92), tolerance = 3)
-  expect_equal(object = as.numeric(fh0d5$analysis$AHR), expected = c(0.81, 0.67, 0.65), tolerance = 0.3)
-  expect_equal(object = as.numeric(fh0d5_bnd$Upper), expected = c(0.00, 0.44, 0.79), tolerance = 0.3)
-  expect_equal(object = as.numeric(fh0d5_bnd$Lower), expected = c(0.05, 0.12, 0.21), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh0d5$analysis$n), expected = rep(314, 3), tolerance = 3)
+  expect_equal(object = as.numeric(fh0d5$analysis$event), expected = c(67.21, 154.43, 207.92), tolerance = 3)
+  expect_equal(object = as.numeric(fh0d5$analysis$ahr), expected = c(0.81, 0.67, 0.65), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh0d5_bnd$upper), expected = c(0.00, 0.44, 0.79), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh0d5_bnd$lower), expected = c(0.05, 0.12, 0.21), tolerance = 0.3)
   # fh(0.5,0.5)
-  expect_equal(object = as.numeric(fh5d5$analysis$N), expected = rep(317, 3), tolerance = 3)
-  expect_equal(object = as.numeric(fh5d5$analysis$Events), expected = c(67.87, 155.86, 209.82), tolerance = 3)
-  expect_equal(object = as.numeric(fh5d5$analysis$AHR), expected = c(0.81, 0.68, 0.66), tolerance = 0.3)
-  expect_equal(object = as.numeric(fh5d5_bnd$Upper), expected = c(0.00, 0.43, 0.80), tolerance = 0.3)
-  expect_equal(object = as.numeric(fh5d5_bnd$Lower), expected = c(0.06, 0.12, 0.20), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh5d5$analysis$n), expected = rep(317, 3), tolerance = 3)
+  expect_equal(object = as.numeric(fh5d5$analysis$event), expected = c(67.87, 155.86, 209.82), tolerance = 3)
+  expect_equal(object = as.numeric(fh5d5$analysis$ahr), expected = c(0.81, 0.68, 0.66), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh5d5_bnd$upper), expected = c(0.00, 0.43, 0.80), tolerance = 0.3)
+  expect_equal(object = as.numeric(fh5d5_bnd$lower), expected = c(0.06, 0.12, 0.20), tolerance = 0.3)
 })
