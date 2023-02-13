@@ -48,10 +48,10 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
   fh01 <- gs_info %>% dplyr::mutate_if(is.numeric, round, digits = 5)
 
   up <- gsDesign::gsDesign(
-    k = length(fh01$Events),
+    k = length(fh01$event),
     test.type = 1,
-    n.I = fh01$Events,
-    maxn.IPlan = max(fh01$Events),
+    n.I = fh01$event,
+    maxn.IPlan = max(fh01$event),
     sfu = gsDesign::sfLDOF,
     sfupar = NULL
   )$upper$bound
@@ -64,12 +64,12 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
     upper = gsDesign2::gs_b,
     lower = gsDesign2::gs_b,
     upar = up,
-    lpar = c(qnorm(.1), rep(-Inf, length(fh01$Events) - 1)),
+    lpar = c(qnorm(.1), rep(-Inf, length(fh01$event) - 1)),
     test_upper = T,
     test_lower = T,
     r = 18,
     tol = 1e-6
-  ) %>% dplyr::arrange(Analysis, Bound)
+  ) %>% dplyr::arrange(analysis, bound)
 
   # output
   gspow <- gsDesign2::gs_power_wlr(
@@ -78,13 +78,13 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
     ratio = ratio, # Experimental:Control randomization ratio
     weight = weight,
     approx = "asymptotic",
-    event = fh01$Events, # Targeted events of analysis
+    event = fh01$event, # Targeted events of analysis
     analysis_time = NULL, # Targeted times of analysis
     binding = FALSE,
     upper = gsDesign2::gs_b, # Default is Lan-DeMets approximation of
     upar = up,
     lower = gsDesign2::gs_b,
-    lpar = c(qnorm(.1), rep(-Inf, length(fh01$Events) - 1)), # Futility only at IA1
+    lpar = c(qnorm(.1), rep(-Inf, length(fh01$event) - 1)), # Futility only at IA1
     test_upper = TRUE,
     test_lower = TRUE,
     r = 18,
@@ -92,16 +92,16 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
   )
 
   # tests
-  expect_equal(object = as.numeric(gspow$analysis$Time), expected = fh01$Time, tolerance = 0.0001)
-  expect_equal(object = as.numeric(gspow$analysis$Events), expected = fh01$Events, tolerance = 1)
+  expect_equal(object = as.numeric(gspow$analysis$time), expected = fh01$time, tolerance = 0.0001)
+  expect_equal(object = as.numeric(gspow$analysis$event), expected = fh01$event, tolerance = 1)
 
-  tt <- gspow$bounds %>% dplyr::arrange(Analysis, Bound)
+  tt <- gspow$bounds %>% dplyr::arrange(analysis, bound)
   tt1 <- npe %>%
-    dplyr::arrange(Analysis, Bound) %>%
-    dplyr::filter(Z > -999999)
-  expect_equal(object = as.numeric(tt$Z), expected = as.numeric(tt1$Z), tolerance = 0.1)
-  expect_equal(object = as.numeric(tt$Probability), expected = tt1$Probability, tolerance = 0.001)
-  expect_equal(object = as.numeric(gspow$analysis$AHR), expected = fh01$AHR, tolerance = 0.01)
+    dplyr::arrange(analysis, bound) %>%
+    dplyr::filter(z > -999999)
+  expect_equal(object = as.numeric(tt$z), expected = as.numeric(tt1$z), tolerance = 0.1)
+  expect_equal(object = as.numeric(tt$probability), expected = tt1$probability, tolerance = 0.001)
+  expect_equal(object = as.numeric(gspow$analysis$ahr), expected = fh01$ahr, tolerance = 0.01)
   expect_equal(object = as.numeric(gspow$analysis$theta), expected = fh01$theta, tolerance = 0.001)
   expect_equal(object = as.numeric(gspow$analysis$info), expected = fh01$info, tolerance = 0.001)
   expect_equal(object = as.numeric(gspow$analysis$info0), expected = fh01$info0, tolerance = 0.001)
