@@ -263,8 +263,10 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
       select(analysis, bound, z, probability) %>%
       dplyr::rename(probability0 = probability) %>%
       dplyr::left_join(x %>% select(analysis, event)) %>%
-      mutate(`~hr at bound` = gsDesign::zn2hr(z = z, n = event, ratio = ratio), 
-             `nominal p` = pnorm(-z)) %>%
+      mutate(
+        `~hr at bound` = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
+        `nominal p` = pnorm(-z)
+      ) %>%
       dplyr::left_join(y_h1 %>% select(analysis, bound, probability)) %>%
       select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
       arrange(analysis, desc(bound))

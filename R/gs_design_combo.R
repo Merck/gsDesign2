@@ -300,7 +300,7 @@ gs_design_combo <- function(enroll_rate = tibble(
     unlist() %>%
     as.numeric() %>%
     unique()
-  
+
   if (length(tmp) != 0) {
     ahr_dis <- utility$info_all %>%
       filter(test == tmp) %>%
