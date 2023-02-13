@@ -16,19 +16,20 @@ test_tEvents <- function(enrollRates = tibble::tibble(
   failRatesc <- failRates[, c("duration", "failRate", "dropoutRate")]
   failRatest <- failRatesc
   failRatest$failRate <- failRates$failRate * failRates$hr
+  
   eventc <- gsDesign2::expected_event(
     enroll_rate = enrollRates_1,
     fail_rate = failRatesc %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
     total_duration = td,
-    simple = FALSE
-  )
+    simple = FALSE)
+  
   eventt <- gsDesign2::expected_event(
     enroll_rate = enrollRates_1,
     fail_rate = failRatest %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
     total_duration = td,
-    simple = FALSE
-  )
-  totale <- sum(eventc$Events + eventt$Events)
+    simple = FALSE)
+  
+  totale <- sum(eventc$event + eventt$event)
   return(totale)
 }
 
@@ -49,7 +50,7 @@ fh_test <- rbind(
     gamma = 0,
     tau = -1,
     test = 1,
-    Analysis = 1:3,
+    analysis = 1:3,
     analysis_time = c(12, 24, 36)
   ),
   data.frame(
@@ -57,7 +58,7 @@ fh_test <- rbind(
     gamma = 0.5,
     tau = -1,
     test = 2:3,
-    Analysis = 3,
+    analysis = 3,
     analysis_time = 36
   )
 )
@@ -72,22 +73,22 @@ gs_power_combo_test1 <- gsDesign2::gs_power_combo(
 )
 
 test_that("calculate analysis number as planed", {
-  expect_equal(max(fh_test$Analysis), max(gs_power_combo_test1$analysis$Analysis))
+  expect_equal(max(fh_test$analysis), max(gs_power_combo_test1$analysis$analysis))
 })
 
 test_that("calculate analysisTimes as planed", {
-  expect_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test1$analysis$Time))
+  expect_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test1$analysis$time))
 })
 
 
-for (i in 1:max(fh_test$Analysis)) {
+for (i in 1:max(fh_test$analysis)) {
   test_that("calculate N and each analysis Events N as planed", {
     event <- test_tEvents(
       enrollRates = enrollRates,
       failRates = failRates,
       td = unique(fh_test$analysis_time)[i]
     )
-    expect_equal(event, unique(gs_power_combo_test1$analysis$Events)[i], tolerance = 0.01)
+    expect_equal(event, unique(gs_power_combo_test1$analysis$event)[i], tolerance = 0.01)
   })
 }
 
@@ -103,20 +104,20 @@ gs_power_combo_test2 <- gsDesign2::gs_power_combo(enrollRates %>% dplyr::rename(
 )
 
 test_that("calculate analysis number as planed", {
-  expect_equal(max(fh_test$Analysis), max(gs_power_combo_test2$analysis$Analysis))
+  expect_equal(max(fh_test$analysis), max(gs_power_combo_test2$analysis$analysis))
 })
 
 test_that("calculate analysisTimes as planed", {
-  expect_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test2$analysis$Time))
+  expect_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test2$analysis$time))
 })
 
-for (i in 1:max(fh_test$Analysis)) {
+for (i in 1:max(fh_test$analysis)) {
   test_that("calculate N and each analysis Events N as planed", {
     event <- test_tEvents(
       enrollRates = enrollRates,
       failRates = failRates,
       td = unique(fh_test$analysis_time)[i]
     )
-    expect_equal(event, unique(gs_power_combo_test2$analysis$Events)[i], tolerance = 0.01)
+    expect_equal(event, unique(gs_power_combo_test2$analysis$event)[i], tolerance = 0.01)
   })
 }

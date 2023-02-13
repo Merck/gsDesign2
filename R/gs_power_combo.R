@@ -45,8 +45,8 @@
 #' )
 #'
 #' fh_test <- rbind(
-#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
-#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
+#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)),
+#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 #' )
 #'
 #' # -------------------------#
@@ -151,7 +151,7 @@ gs_power_combo <- function(enroll_rate = tibble(
     alpha = upper(upar, info = min_info_frac),
     beta = lower(lpar, info = min_info_frac),
     analysis = info_fh$analysis,
-    theta = theta_fh * sqrt(n),
+    theta = theta_fh * sqrt(sample_size),
     corr = corr_fh,
     binding_lower_bound = binding,
     algorithm = algorithm,
@@ -166,7 +166,7 @@ gs_power_combo <- function(enroll_rate = tibble(
     upper_bound = bound$upper,
     lower_bound = bound$lower,
     analysis = info_fh$analysis,
-    theta = theta_fh * sqrt(n),
+    theta = theta_fh * sqrt(sample_size),
     corr = corr_fh,
     algorithm = algorithm, ...
   )
@@ -204,7 +204,7 @@ gs_power_combo <- function(enroll_rate = tibble(
   # --------------------------------------------- #
   #     get bounds to output                      #
   # --------------------------------------------- #
-  bounds <- db %>%
+  bound <- db %>%
     dplyr::mutate(`nominal p` = pnorm(z * (-1))) %>%
     dplyr::select(analysis, bound, probability, probability_null, z, `nominal p`) %>%
     dplyr::rename(probability0 = probability_null) %>%
@@ -231,7 +231,7 @@ gs_power_combo <- function(enroll_rate = tibble(
       enroll_rate,
       fail_rate,
       ratio,
-      event = unique(utility$info_all$Events),
+      event = unique(utility$info_all$event),
       analysis_time = unique(utility$info_all$Time),
       weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = -1)))
     )$ahr
@@ -245,7 +245,7 @@ gs_power_combo <- function(enroll_rate = tibble(
         unlist() %>%
         as.numeric()
     ) %>%
-    select(analysis, time, n, events, event_frac) %>%
+    select(analysis, time, n, event, event_frac) %>%
     unique() %>%
     mutate(ahr = ahr_dis) %>%
     mutate(
@@ -260,7 +260,7 @@ gs_power_combo <- function(enroll_rate = tibble(
   output <- list(
     enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
     fail_rate = fail_rate,
-    bounds = bounds,
+    bound = bound,
     analysis = analysis
   )
 
