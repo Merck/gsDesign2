@@ -99,12 +99,12 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
   # Obtain Analysis time
   avehr <- NULL
   if (!is.null(analysis_time)) {
-    avehr <- AHR(
+    avehr <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       ratio = ratio, total_duration = analysis_time
     )
     for (i in seq_along(event)) {
-      if (avehr$Events[i] < event[i]) {
+      if (avehr$event[i] < event[i]) {
         avehr[i, ] <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           ratio = ratio, target_event = event[i],
@@ -125,7 +125,7 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
     }
   }
 
-  time <- avehr$Time
+  time <- avehr$time
 
   # Create Arm object
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio)
@@ -172,18 +172,18 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
     sigma2_h0[i] <- gs_sigma2_wlr(arm_null, arm_null1, tmax = t, weight = weight, approx = approx)
   }
 
-  N <- tail(avehr$Events / p_event, 1) * p_subject
+  n <- tail(avehr$event / p_event, 1) * p_subject
   theta <- (-delta) / sigma2_h1
   data.frame(
-    Analysis = seq_along(time),
-    Time = time,
-    N = N,
-    Events = avehr$Events,
-    AHR = exp(num_log_ahr / dem_log_ahr),
+    analysis = seq_along(time),
+    time = time,
+    n = n,
+    event = avehr$event,
+    ahr = exp(num_log_ahr / dem_log_ahr),
     delta = delta,
     sigma2 = sigma2_h1,
     theta = theta,
-    info = sigma2_h1 * N,
-    info0 = sigma2_h0 * N
+    info = sigma2_h1 * n,
+    info0 = sigma2_h0 * n
   )
 }

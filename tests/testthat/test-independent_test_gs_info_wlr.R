@@ -72,14 +72,14 @@ test_that("Validate the function based on examples with individual functions", {
   #     )
   # })
 
-  avehr <- gsDesign2::AHR(
+  avehr <- gsDesign2::ahr(
     enroll_rate = enroll_rate, fail_rate = fail_rate, ratio = ratio,
     total_duration = analysis_time
   )
 
   # FH(0,1)
-  expect_equal(object = as.numeric(fh01$N), expected = rep(N01, 3), tolerance = 1)
-  expect_equal(object = as.numeric(fh01$Events), expected = evt01, tolerance = 1)
+  expect_equal(object = as.numeric(fh01$n), expected = rep(N01, 3), tolerance = 1)
+  expect_equal(object = as.numeric(fh01$event), expected = evt01, tolerance = 1)
   expect_equal(object = as.numeric(fh01$delta), expected = -delta01, tolerance = .01)
   expect_equal(object = as.numeric(fh01$sigma2), expected = sigma201, tolerance = .01)
   expect_equal(object = as.numeric(fh01$theta), expected = theta01, tolerance = .2)
