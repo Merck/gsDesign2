@@ -181,10 +181,12 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
                          binding = FALSE,
                          upper = gs_b,
                          lower = gs_b,
-                         upar = gsDesign(k = 3, test.type = 1, 
-                                         n.I = c(30, 40, 50), maxn.IPlan = 50, 
-                                         sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                         lpar = c(qnorm(.1), rep(- Inf, 2)),
+                         upar = gsDesign(
+                           k = 3, test.type = 1,
+                           n.I = c(30, 40, 50), maxn.IPlan = 50,
+                           sfu = sfLDOF, sfupar = NULL
+                         )$upper$bound,
+                         lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_upper = TRUE,
                          test_lower = TRUE,
                          ratio = 1,
@@ -267,7 +269,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
       dplyr::left_join(x %>% select(analysis, event)) %>%
       mutate(
         `~hr at bound` = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
-        `nominal p` = pnorm(- z)
+        `nominal p` = pnorm(-z)
       ) %>%
       dplyr::left_join(y_h1 %>% select(analysis, bound, probability)) %>%
       select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
@@ -282,10 +284,10 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
       select(analysis, time, event, ahr) %>%
       mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
       dplyr::left_join(y_h1 %>% select(analysis, info, info_frac, theta) %>% unique()) %>%
-      dplyr::left_join(y_h0 %>% 
-                         select(analysis, info, info_frac) %>% 
-                         dplyr::rename(info0 = info, info_frac0 = info_frac) %>% 
-                         unique()) %>%
+      dplyr::left_join(y_h0 %>%
+        select(analysis, info, info_frac) %>%
+        dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+        unique()) %>%
       select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
       arrange(analysis)
   )

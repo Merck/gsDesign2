@@ -161,7 +161,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
                            sfupar = NULL
                          )$upper$bound,
                          lower = gs_b,
-                         lpar = c(qnorm(.1), rep(- Inf, 2)),
+                         lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_lower = TRUE,
                          test_upper = TRUE,
                          ratio = 1,
@@ -184,9 +184,9 @@ gs_power_ahr <- function(enroll_rate = tibble(
   if (identical(lower, gs_b) && (!is.list(lpar))) {
     if (all(test_lower) == FALSE) {
       two_sided <- FALSE
-      lpar <- rep(- Inf, n_analysis)
+      lpar <- rep(-Inf, n_analysis)
     } else {
-      two_sided <- ifelse(identical(lpar, rep(- Inf, n_analysis)), FALSE, TRUE)
+      two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
     }
   } else {
     two_sided <- TRUE
@@ -218,7 +218,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
       lower
     },
     lpar = if (!two_sided) {
-      rep(- Inf, n_analysis)
+      rep(-Inf, n_analysis)
     } else {
       lpar
     },
@@ -230,7 +230,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
   # summarize the bounds
   suppressMessages(
     bound <- y_h1 %>%
-      mutate(`~hr at bound` = exp(- z / sqrt(info)), `nominal p` = pnorm(- z)) %>%
+      mutate(`~hr at bound` = exp(-z / sqrt(info)), `nominal p` = pnorm(-z)) %>%
       left_join(
         y_h0 %>%
           select(analysis, bound, probability) %>%
@@ -244,13 +244,13 @@ gs_power_ahr <- function(enroll_rate = tibble(
     analysis <- x %>%
       select(analysis, time, event, ahr) %>%
       mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
-      left_join(y_h1 %>% 
-                  select(analysis, info, info_frac, theta) %>% 
-                  unique()) %>%
-      left_join(y_h0 %>% 
-                  select(analysis, info, info_frac) %>% 
-                  dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
-                  unique()) %>%
+      left_join(y_h1 %>%
+        select(analysis, info, info_frac, theta) %>%
+        unique()) %>%
+      left_join(y_h0 %>%
+        select(analysis, info, info_frac) %>%
+        dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+        unique()) %>%
       select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
       arrange(analysis)
   )

@@ -333,8 +333,10 @@ summary.gs_design <- function(object,
   if (method == "rd") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "~Risk difference at bound", 
-                     "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c(
+          "Analysis", "Bound", "Z", "~Risk difference at bound",
+          "Nominal p", "Alternate hypothesis", "Null hypothesis"
+        ),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
       )
     } else {
@@ -477,18 +479,26 @@ summary.gs_design <- function(object,
 
 
   if (method == "ahr") {
-    output <- output %>% select(analysis, bound, z, 
-                                `~hr at bound`, `nominal p`, `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      analysis, bound, z,
+      `~hr at bound`, `nominal p`, `Alternate hypothesis`, `Null hypothesis`
+    )
   } else if (method == "wlr") {
-    output <- output %>% select(analysis, bound, z, 
-                                `~whr at bound`, `nominal p`, `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      analysis, bound, z,
+      `~whr at bound`, `nominal p`, `Alternate hypothesis`, `Null hypothesis`
+    )
   } else if (method == "combo") {
-    output <- output %>% select(analysis, bound, z, 
-                                `nominal p`, `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      analysis, bound, z,
+      `nominal p`, `Alternate hypothesis`, `Null hypothesis`
+    )
   } else if (method == "rd") {
-    output <- output %>% select(analysis, bound, Z, 
-                                `~risk difference at bound`, `Nominal p`, 
-                                `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      analysis, bound, Z,
+      `~risk difference at bound`, `Nominal p`,
+      `Alternate hypothesis`, `Null hypothesis`
+    )
   }
 
   # --------------------------------------------- #

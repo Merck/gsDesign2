@@ -27,7 +27,7 @@
 #' \if{latex}{
 #'  \itemize{
 #'    \item Validate if input analysis_time is a positive number or a positive increasing sequence.
-#'    \item Validate if input info_frac is a positive number 
+#'    \item Validate if input info_frac is a positive number
 #'    or positive increasing sequence on (0, 1] with final value of 1.
 #'    \item Validate if inputs info_frac and analysis_time  have the same length if both have length > 1.
 #'    \item Compute information at input analysis_time using \code{gs_info_wlr()}.
@@ -126,10 +126,12 @@ gs_design_wlr <- function(enroll_rate = tibble(
                           analysis_time = 36,
                           binding = FALSE,
                           upper = gs_b,
-                          upar = gsDesign(k = 3, test.type = 1, 
-                                          n.I = c(.25, .75, 1), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+                          upar = gsDesign(
+                            k = 3, test.type = 1,
+                            n.I = c(.25, .75, 1), sfu = sfLDOF, sfupar = NULL
+                          )$upper$bound,
                           lower = gs_b,
-                          lpar = c(qnorm(.1), - Inf, - Inf),
+                          lpar = c(qnorm(.1), -Inf, -Inf),
                           test_upper = TRUE,
                           test_lower = TRUE,
                           h1_spending = TRUE,
@@ -138,11 +140,11 @@ gs_design_wlr <- function(enroll_rate = tibble(
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
-  msg <- "gs_design_wlr(): analysis_time must be a 
+  msg <- "gs_design_wlr(): analysis_time must be a
   positive number or positive increasing sequence"
   if (!is.vector(analysis_time, mode = "numeric")) stop(msg)
   if (min(analysis_time - dplyr::lag(analysis_time, def = 0)) <= 0) stop(msg)
-  msg <- "gs_design_wlr(): info_frac must be a positive 
+  msg <- "gs_design_wlr(): info_frac must be a positive
   number or positive increasing sequence on (0, 1] with final value of 1"
   if (is.null(info_frac)) {
     info_frac <- 1
@@ -227,7 +229,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
       full_join(y %>% select(-c(info, info0, theta)), by = "analysis") %>%
       select(c(
         "analysis", "bound", "time", "n", "event", "z",
-        "probability", "probability0", "ahr", 
+        "probability", "probability0", "ahr",
         "theta", "info", "info0", "info_frac"
       )) %>%
       arrange(analysis, desc(bound))

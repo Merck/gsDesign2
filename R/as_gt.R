@@ -168,7 +168,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
         )
       },
       "lf" = {
-        "Power using Lachin and Foulkes method applied 
+        "Power using Lachin and Foulkes method applied
         using expected average hazard ratio (AHR) at time of planned analysis."
       },
       "rd" = {
@@ -359,17 +359,25 @@ as_gt.gs_design <- function(x,
   # set different default columns to display
   if (is.null(display_columns)) {
     if (method == "ahr") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", 
-                           "~HR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "~HR at bound", "Alternate hypothesis", "Null hypothesis"
+      )
     } else if (method == "wlr") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", 
-                           "~wHR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "~wHR at bound", "Alternate hypothesis", "Null hypothesis"
+      )
     } else if (method == "combo") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", 
-                           "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "Alternate hypothesis", "Null hypothesis"
+      )
     } else if (method == "rd") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", 
-                           "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis"
+      )
     }
   }
   # filter the columns to display as the output
@@ -520,13 +528,13 @@ as_gt.gs_design <- function(x,
       gt::tab_footnote(
         footnote = paste0(
           "Cumulative alpha for final analysis (", x_alpha,
-          ") is less than the full alpha (0.025) when 
+          ") is less than the full alpha (0.025) when
           the futility bound is non-binding. ",
-          "The smaller value subtracts the probability of 
+          "The smaller value subtracts the probability of
           crossing a futility bound before ",
-          " crossing an efficacy bound at 
+          " crossing an efficacy bound at
           a later analysis (0.025 - ",
-          full_alpha - x_alpha, " = ", x_alpha, 
+          full_alpha - x_alpha, " = ", x_alpha,
           ") under the null hypothesis."
         ),
         locations = gt::cells_body(

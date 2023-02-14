@@ -23,63 +23,63 @@ NULL
 
 #' Group sequential design computation with non-constant effect and information
 #'
-#' \code{gs_design_npe()} derives group sequential design size, 
+#' \code{gs_design_npe()} derives group sequential design size,
 #' bounds and boundary crossing probabilities based on proportionate
 #' information and effect size at analyses.
-#' It allows a non-constant treatment effect over time, 
+#' It allows a non-constant treatment effect over time,
 #' but also can be applied for the usual homogeneous effect size designs.
-#' It requires treatment effect and proportionate statistical information 
+#' It requires treatment effect and proportionate statistical information
 #' at each analysis as well as a method of deriving bounds, such as spending.
-#' The routine enables two things not available in the gsDesign package: 
+#' The routine enables two things not available in the gsDesign package:
 #' 1) non-constant effect, 2) more flexibility in boundary selection.
-#' For many applications, the non-proportional-hazards design function 
+#' For many applications, the non-proportional-hazards design function
 #' \code{gs_design_nph()} will be used; it calls this function.
-#' Initial bound types supported are 1) spending bounds, 
+#' Initial bound types supported are 1) spending bounds,
 #' 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
-#' The requirement is to have a boundary update method that 
+#' The requirement is to have a boundary update method that
 #' can each bound without knowledge of future bounds.
-#' As an example, bounds based on conditional power that 
+#' As an example, bounds based on conditional power that
 #' require knowledge of all future bounds are not supported by this routine;
 #' a more limited conditional power method will be demonstrated.
-#' Boundary family designs Wang-Tsiatis designs including 
+#' Boundary family designs Wang-Tsiatis designs including
 #' the original (non-spending-function-based) O'Brien-Fleming and Pocock designs
 #' are not supported by \code{gs_power_npe()}.
-#' @param theta natural parameter for group sequential design 
+#' @param theta natural parameter for group sequential design
 #' representing expected incremental drift at all analyses;
 #' used for power calculation
-#' @param theta0 natural parameter used for upper bound spending; 
+#' @param theta0 natural parameter used for upper bound spending;
 #' if \code{NULL}, this will be set to 0
-#' @param theta1 natural parameter used for lower bound spending; 
+#' @param theta1 natural parameter used for lower bound spending;
 #' if \code{NULL}, this will be set to \code{theta}
-#' which yields the usual beta-spending. 
+#' which yields the usual beta-spending.
 #' If set to 0, spending is 2-sided under null hypothesis.
-#' @param info proportionate statistical information at 
+#' @param info proportionate statistical information at
 #' all analyses for input \code{theta}
-#' @param info0 proportionate statistical information 
+#' @param info0 proportionate statistical information
 #' under null hypothesis, if different than alternative;
 #' impacts null hypothesis bound calculation
-#' @param info1 proportionate statistical information 
+#' @param info1 proportionate statistical information
 #' under alternate hypothesis;
 #' impacts null hypothesis bound calculation
 #' @param info_scale the information scale for calculation
 #' @param alpha One-sided Type I error
 #' @param beta Type II error
-#' @param binding indicator of whether futility bound is binding; 
+#' @param binding indicator of whether futility bound is binding;
 #' default of FALSE is recommended
 #' @param upper function to compute upper bound
 #' @param lower function to compare lower bound
 #' @param upar parameter to pass to function provided in \code{upper}
 #' @param lpar Parameter passed to function provided in \code{lower}
-#' @param test_upper indicator of which analyses should include 
+#' @param test_upper indicator of which analyses should include
 #' an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-#' otherwise, a logical vector of the same length as \code{info} should indicate 
+#' otherwise, a logical vector of the same length as \code{info} should indicate
 #' which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include an lower bound; 
+#' @param test_lower indicator of which analyses should include an lower bound;
 #' single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise, 
+#' single value FALSE indicated no lower bound; otherwise,
 #' a logical vector of the same length as \code{info} should indicate which analyses will have a
 #' lower bound
-#' @param r Integer value controlling grid for numerical integration 
+#' @param r Integer value controlling grid for numerical integration
 #' as in Jennison and Turnbull (2000);
 #' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
@@ -113,11 +113,11 @@ NULL
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @return a \code{tibble} with columns analysis, bound, z, probability,  theta, info, info0
-#' @details The inputs \code{info} and \code{info0} should be 
+#' @details The inputs \code{info} and \code{info0} should be
 #' vectors of the same length with increasing positive numbers.
-#' The design returned will change these by some constant scale 
+#' The design returned will change these by some constant scale
 #' factor to ensure the design has power \code{1 - beta}.
-#' The bound specifications in \code{upper, lower, upar, lpar} 
+#' The bound specifications in \code{upper, lower, upar, lpar}
 #' will be used to ensure Type I error and other boundary properties are as specified.
 #'
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}

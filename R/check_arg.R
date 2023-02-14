@@ -404,7 +404,7 @@ check_alpha_beta <- function(alpha, beta) {
 #'
 #' @noRd
 check_info_frac <- function(info_frac) {
-  msg <- "gs_design_ahr(): info_frac must be a positive 
+  msg <- "gs_design_ahr(): info_frac must be a positive
   number or positive increasing sequence on (0, 1] with final value of 1!"
   if (!is.vector(info_frac, mode = "numeric")) stop(msg)
   if (min(info_frac - dplyr::lag(info_frac, def = 0)) <= 0) stop(msg)

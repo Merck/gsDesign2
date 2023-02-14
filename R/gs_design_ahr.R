@@ -174,11 +174,13 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
                           info_frac = NULL, analysis_time = 36,
                           ratio = 1, binding = FALSE,
                           upper = gs_b,
-                          upar = gsDesign::gsDesign(k = 3, test.type = 1, 
-                                                    n.I = c(.25, .75, 1), 
-                                                    sfu = sfLDOF, sfupar = NULL)$upper$bound,
+                          upar = gsDesign::gsDesign(
+                            k = 3, test.type = 1,
+                            n.I = c(.25, .75, 1),
+                            sfu = sfLDOF, sfupar = NULL
+                          )$upper$bound,
                           lower = gs_b,
-                          lpar = c(qnorm(.1), - Inf, - Inf),
+                          lpar = c(qnorm(.1), -Inf, -Inf),
                           h1_spending = TRUE,
                           test_upper = TRUE,
                           test_lower = TRUE,
@@ -203,10 +205,10 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
   # --------------------------------------------- #
   check_analysis_time(analysis_time)
   check_info_frac(info_frac)
-  if ((length(analysis_time) > 1) && 
-      (length(info_frac) > 1) && 
-      (length(info_frac) != length(analysis_time))) {
-    stop("gs_design_ahr() info_frac and analysis_time 
+  if ((length(analysis_time) > 1) &&
+    (length(info_frac) > 1) &&
+    (length(info_frac) != length(analysis_time))) {
+    stop("gs_design_ahr() info_frac and analysis_time
          must have the same length if both have length > 1!")
   }
 
@@ -238,7 +240,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
             ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
             interval = c(.01, next_time)
           ) %>%
-            mutate(theta = - log(ahr), analysis = n_analysis - i),
+            mutate(theta = -log(ahr), analysis = n_analysis - i),
           y
         )
       } else if (info_frac[n_analysis - i] > i_falt[n_analysis - i]) {
@@ -286,16 +288,16 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
   allout <- allout %>%
     # add `~hr at bound`, `hr generic` and `nominal p`
     mutate(
-      "~hr at bound" = exp(- z / sqrt(info0)),
-      "nominal p" = pnorm(- z)
+      "~hr at bound" = exp(-z / sqrt(info0)),
+      "nominal p" = pnorm(-z)
     ) %>%
     # Add `time`, `event`, `ahr`, `n` from gs_info_ahr call above
-    full_join(y %>% select(- c(info, info0, theta)),
+    full_join(y %>% select(-c(info, info0, theta)),
       by = "analysis"
     ) %>%
     # select variables to be output
     select(c(
-      "analysis", "bound", "time", "n", "event", "z", 
+      "analysis", "bound", "time", "n", "event", "z",
       "probability", "probability0", "ahr", "theta",
       "info", "info0", "info_frac", "~hr at bound", "nominal p"
     )) %>%

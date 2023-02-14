@@ -109,7 +109,7 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
 
   if (is.null(analysis_time) && is.null(event)) {
-    stop("gs_info_ahr(): One of `event` and `analysis_time` 
+    stop("gs_info_ahr(): One of `event` and `analysis_time`
          must be a numeric value or vector with increasing values")
   }
 
@@ -124,7 +124,7 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
     if (K == 0) {
       K <- length(event)
     } else if (K != length(event)) {
-      stop("gs_info_ahr(): If both event and analysis_time 
+      stop("gs_info_ahr(): If both event and analysis_time
            specified, must have same length")
     }
   }
@@ -166,7 +166,7 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
   #    compute theta            #
   # ----------------------------#
   avehr$analysis <- seq_len(nrow(avehr))
-  avehr$theta <- - log(avehr$ahr)
+  avehr$theta <- -log(avehr$ahr)
 
   # ----------------------------#
   #    output results           #

@@ -21,7 +21,7 @@
 #' Computes fixed design sample size for many sample size methods.
 #' Returns a `tibble` with a basic summary
 #' @param method Sample size method; default is \code{"ahr"};
-#'          other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, 
+#'          other options include \code{"fh"}, \code{"mb"}, \code{"lf"},
 #'          \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.
 #' @param alpha One-sided Type I error (strictly between 0 and 1)
 #' @param power Power (`NULL` to compute power or strictly between 0 and `1 - alpha` otherwise)
@@ -221,7 +221,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
       if (!is.null(power)) {
         d <- gs_design_ahr(
           alpha = alpha, beta = 1 - power,
-          upar = qnorm(1 - alpha), lpar = - Inf,
+          upar = qnorm(1 - alpha), lpar = -Inf,
           enroll_rate = enroll_rate,
           fail_rate = fail_rate,
           ratio = ratio,
@@ -229,7 +229,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       } else {
         d <- gs_power_ahr(
-          upar = qnorm(1 - alpha), lpar = - Inf,
+          upar = qnorm(1 - alpha), lpar = -Inf,
           enroll_rate = enroll_rate,
           fail_rate = fail_rate,
           ratio = ratio,
@@ -273,7 +273,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
       if (!is.null(power)) {
         d <- gs_design_wlr(
           alpha = alpha, beta = 1 - power,
-          upar = qnorm(1 - alpha), lpar = - Inf,
+          upar = qnorm(1 - alpha), lpar = -Inf,
           enroll_rate = enroll_rate,
           fail_rate = fail_rate,
           ratio = ratio,
@@ -282,7 +282,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       } else {
         d <- gs_power_wlr(
-          upar = qnorm(1 - alpha), lpar = - Inf,
+          upar = qnorm(1 - alpha), lpar = -Inf,
           enroll_rate = enroll_rate,
           fail_rate = fail_rate,
           ratio = ratio,
@@ -346,14 +346,14 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           ratio = 1,
           weight = function(x, arm0, arm1) {
             wlr_weight_fh(x, arm0, arm1,
-              rho = - 1, gamma = 0,
+              rho = -1, gamma = 0,
               tau = ifelse(has_tau, args$tau, 6)
             )
           },
           upper = gs_b,
           upar = qnorm(1 - alpha),
           lower = gs_b,
-          lpar = - Inf,
+          lpar = -Inf,
           analysis_time = study_duration,
           event = NULL
         )
@@ -442,7 +442,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         tau = if (has_tau) {
           args$tau
         } else {
-          - 1
+          -1
         }
       ) %>%
         mutate(test = seq(1, length(rho)), analysis = 1, analysis_time = study_duration)
@@ -455,7 +455,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           fail_rate = fail_rate,
           fh_test = max_combo_test,
           upper = gs_b, upar = qnorm(1 - alpha),
-          lower = gs_b, lpar = - Inf
+          lower = gs_b, lpar = -Inf
         )
       } else {
         d <- gs_power_combo(
@@ -464,7 +464,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           fail_rate = fail_rate,
           fh_test = max_combo_test,
           upper = gs_b, upar = qnorm(1 - alpha),
-          lower = gs_b, lpar = - Inf
+          lower = gs_b, lpar = -Inf
         )
       }
 
@@ -496,7 +496,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           tau = if (has_tau) {
             args$tau
           } else {
-            c(- 1, - 1)
+            c(-1, -1)
           }
         )
       )
@@ -508,7 +508,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           p_e = tibble::tibble(stratum = "all", rate = args$p_e),
           alpha = alpha, beta = 1 - power, ratio = ratio,
           upper = gs_b, upar = qnorm(1 - alpha),
-          lower = gs_b, lpar = - Inf,
+          lower = gs_b, lpar = -Inf,
           rd0 = args$rd0, weight = "un-stratified"
         )
       } else {
@@ -517,7 +517,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           p_e = tibble::tibble(stratum = "all", rate = args$p_e),
           ratio = ratio,
           upper = gs_b, upar = qnorm(1 - alpha),
-          lower = gs_b, lpar = - Inf,
+          lower = gs_b, lpar = -Inf,
           n = tibble::tibble(stratum = "all", n = args$n, analysis = 1),
           rd0 = args$rd0, weight = "un-stratified"
         )
