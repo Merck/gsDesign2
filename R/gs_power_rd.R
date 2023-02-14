@@ -330,8 +330,10 @@ gs_power_rd <- function(p_c = tibble::tibble(
   # summarize the bounds
   suppressMessages(
     bound <- y_h1 %>%
-      mutate(`~risk difference at bound` = z / sqrt(info) / theta * (x$rd[1] - x$rd0[1]) + x$rd0[1], 
-             `nominal p` = pnorm(-z)) %>%
+      mutate(
+        `~risk difference at bound` = z / sqrt(info) / theta * (x$rd[1] - x$rd0[1]) + x$rd0[1],
+        `nominal p` = pnorm(-z)
+      ) %>%
       left_join(y_h0 %>% select(analysis, bound, probability) %>% dplyr::rename(probability0 = probability)) %>%
       select(analysis, bound, probability, probability0, z, `~risk difference at bound`, `nominal p`)
   )
