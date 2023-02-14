@@ -18,14 +18,14 @@ test_that("given sample size, the output power arrives at the target", {
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 36)
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
-  arm0$size <- x1$analysis$N / 2
-  arm1$size <- x1$analysis$N / 2
+  arm0$size <- x1$analysis$n / 2
+  arm1$size <- x1$analysis$n / 2
   x2 <- npsurvSS::power_two_arm(arm0, arm1,
     test = list(test = "rmst difference", milestone = arm0$total_time),
     alpha = 0.025
   )
 
-  expect_equal(x1$bounds$Probability, x2)
+  expect_equal(x1$bound$probability, x2)
 })
 
 test_that("given power, the output sample size arrives at the target power", {
@@ -51,9 +51,9 @@ test_that("given power, the output sample size arrives at the target power", {
 
   x2 <- npsurvSS::size_two_arm(arm0, arm1,
     alpha = 0.025,
-    power = x1$bounds$Probability,
+    power = x1$bound$probability,
     test = list(test = "rmst difference", milestone = arm0$total_time)
   )
 
-  expect_equal(x1$analysis$N, x2[["n"]])
+  expect_equal(x1$analysis$n, x2[["n"]])
 })
