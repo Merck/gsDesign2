@@ -20,7 +20,7 @@
 #'
 #' Computes fixed design sample size for many sample size methods.
 #' Returns a `tibble` with a basic summary
-#' @param method Sample size method; default is \code{"AHR"};
+#' @param method Sample size method; default is \code{"ahr"};
 #'          other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.
 #' @param alpha One-sided Type I error (strictly between 0 and 1)
 #' @param power Power (`NULL` to compute power or strictly between 0 and `1 - alpha` otherwise)
@@ -241,13 +241,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       }
       ans <- tibble::tibble(
-        Design = "ahr",
-        N = d$analysis$N,
-        Events = d$analysis$Events,
-        Time = d$analysis$Time,
-        Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
+        design = "ahr",
+        n = d$analysis$n,
+        event = d$analysis$event,
+        time = d$analysis$time,
+        bound = (d$bound %>% filter(bound == "upper"))$z,
         alpha = alpha,
-        Power = (d$bounds %>% filter(Bound == "Upper"))$Probability
+        power = (d$bound %>% filter(bound == "upper"))$probability
       )
 
       list(
@@ -291,13 +291,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       }
       ans <- tibble::tibble(
-        Design = "fh",
-        N = d$analysis$N,
-        Events = d$analysis$Events,
-        Time = d$analysis$Time,
-        Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
+        design = "fh",
+        n = d$analysis$n,
+        event = d$analysis$event,
+        time = d$analysis$time,
+        bound = (d$bound %>% filter(bound == "upper"))$z,
         alpha = alpha,
-        Power = (d$bounds %>% filter(Bound == "Upper"))$Probability
+        power = (d$bound %>% filter(bound == "upper"))$probability
       )
 
       list(
@@ -360,13 +360,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
       # get the output of MB
       ans <- tibble::tibble(
-        Design = "mb",
-        N = d$analysis$N,
-        Events = d$analysis$Events,
-        Time = d$analysis$Time,
-        Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
+        design = "mb",
+        n = d$analysis$n,
+        event = d$analysis$event,
+        time = d$analysis$time,
+        bound = (d$bound %>% filter(bound == "upper"))$z,
         alpha = alpha,
-        Power = (d$bounds %>% filter(Bound == "Upper"))$Probability
+        power = (d$bound %>% filter(bound == "upper"))$probability
       )
 
       list(
@@ -389,7 +389,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
       }
 
       # calculate the ahr as the hr in nSurv
-      dd <- AHR(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = study_duration, ratio = ratio)
+      dd <- ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = study_duration, ratio = ratio)
 
       # use nSuve to develop the design
       d <- gsDesign::nSurv(
@@ -398,7 +398,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         } else {
           1 - power
         },
-        ratio = ratio, hr = dd$AHR,
+        ratio = ratio, hr = dd$ahr,
         # fail_rate
         lambdaC = fail_rate$fail_rate,
         S = S, eta = fail_rate$dropout_rate,
@@ -408,13 +408,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
       )
 
       ans <- tibble::tibble(
-        Design = "lf",
-        N = d$n,
-        Events = d$d,
-        Time = d$T,
-        Bound = qnorm(1 - alpha),
+        design = "lf",
+        n = d$n,
+        event = d$d,
+        time = d$T,
+        bound = qnorm(1 - alpha),
         alpha = d$alpha,
-        Power = d$power
+        power = d$power
       )
 
       list(
@@ -444,7 +444,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           -1
         }
       ) %>%
-        mutate(test = seq(1, length(rho)), Analysis = 1, analysis_time = study_duration)
+        mutate(test = seq(1, length(rho)), analysis = 1, analysis_time = study_duration)
 
       # check if power is NULL or not
       if (!is.null(power)) {
@@ -469,13 +469,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
       # get the output of max combo
       ans <- tibble::tibble(
-        Design = "maxcombo",
-        N = d$analysis$N,
-        Events = d$analysis$Events,
-        Time = d$analysis$Time,
-        Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
+        design = "maxcombo",
+        n = d$analysis$n,
+        event = d$analysis$event,
+        time = d$analysis$time,
+        bound = (d$bound %>% filter(bound == "upper"))$z,
         alpha = alpha,
-        Power = (d$bounds %>% filter(Bound == "Upper"))$Probability
+        power = (d$bound %>% filter(bound == "upper"))$probability
       )
 
       list(
@@ -503,8 +503,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
     "rd" = {
       if (!is.null(power)) {
         d <- gs_design_rd(
-          p_c = tibble::tibble(stratum = "All", rate = args$p_c),
-          p_e = tibble::tibble(stratum = "All", rate = args$p_e),
+          p_c = tibble::tibble(stratum = "all", rate = args$p_c),
+          p_e = tibble::tibble(stratum = "all", rate = args$p_e),
           alpha = alpha, beta = 1 - power, ratio = ratio,
           upper = gs_b, upar = qnorm(1 - alpha),
           lower = gs_b, lpar = -Inf,
@@ -512,23 +512,23 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       } else {
         d <- gs_power_rd(
-          p_c = tibble::tibble(stratum = "All", rate = args$p_c),
-          p_e = tibble::tibble(stratum = "All", rate = args$p_e),
+          p_c = tibble::tibble(stratum = "all", rate = args$p_c),
+          p_e = tibble::tibble(stratum = "all", rate = args$p_e),
           ratio = ratio,
           upper = gs_b, upar = qnorm(1 - alpha),
           lower = gs_b, lpar = -Inf,
-          n = tibble::tibble(stratum = "All", n = args$n, analysis = 1),
+          n = tibble::tibble(stratum = "all", n = args$n, analysis = 1),
           rd0 = args$rd0, weight = "un-stratified"
         )
       }
 
       # get the output of max combo
       ans <- tibble::tibble(
-        Design = "rd",
-        N = d$analysis$N,
-        Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
+        design = "rd",
+        n = d$analysis$n,
+        bound = (d$bound %>% filter(bound == "upper"))$z,
         alpha = alpha,
-        Power = (d$bounds %>% filter(Bound == "Upper"))$Probability
+        power = (d$bound %>% filter(bound == "upper"))$probability
       )
 
       list(
@@ -557,13 +557,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
       # get the output
       ans <- tibble::tibble(
-        Design = "rmst",
-        N = d$analysis$N,
-        Events = d$analysis$Events,
-        Time = d$analysis$Time,
-        Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
+        design = "rmst",
+        n = d$analysis$n,
+        event = d$analysis$event,
+        time = d$analysis$time,
+        bound = (d$bound %>% filter(bound == "upper"))$z,
         alpha = alpha,
-        Power = (d$bounds %>% filter(Bound == "Upper"))$Probability
+        power = (d$bound %>% filter(bound == "upper"))$probability
       )
 
       list(
@@ -593,13 +593,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
       # get the output of max combo
       ans <- tibble::tibble(
-        Design = "milestone",
-        N = d$analysis$N,
-        Events = d$analysis$Events,
-        Time = d$analysis$Time,
-        Bound = (d$bounds %>% filter(Bound == "Upper"))$Z,
+        design = "milestone",
+        n = d$analysis$n,
+        event = d$analysis$event,
+        time = d$analysis$time,
+        bound = (d$bound %>% filter(bound == "upper"))$z,
         alpha = alpha,
-        Power = (d$bounds %>% filter(Bound == "Upper"))$Probability
+        power = (d$bound %>% filter(bound == "upper"))$probability
       )
 
       list(
