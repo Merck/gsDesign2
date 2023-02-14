@@ -197,8 +197,8 @@ summary.fixed_design <- function(object, ...) {
 #'
 #' # test in COMBO
 #' fh_test <- rbind(
-#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
-#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
+#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)),
+#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 #' )
 #'
 #' # ---------------------------- #
@@ -219,7 +219,7 @@ summary.fixed_design <- function(object, ...) {
 #' )
 #'
 #' x_ahr %>% summary()
-#' x_ahr %>% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
+#' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 #' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
 #'
 #' # ---------------------------- #
@@ -230,7 +230,7 @@ summary.fixed_design <- function(object, ...) {
 #'   fail_rate = fail_rate,
 #'   weight = wgt05,
 #'   info_frac = NULL,
-#'   analysis_time = sort(unique(x_ahr$analysis$Time)),
+#'   analysis_time = sort(unique(x_ahr$analysis$time)),
 #'   ratio = ratio,
 #'   alpha = alpha,
 #'   beta = beta,
@@ -300,7 +300,7 @@ summary.gs_design <- function(object,
   if (method == "ahr") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "~HR at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c("analysis", "bound", "z", "~hr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
       )
     } else {
@@ -311,7 +311,7 @@ summary.gs_design <- function(object,
   if (method == "wlr") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "~wHR at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c("analysis", "bound", "z", "~whr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
       )
     } else {
@@ -322,7 +322,7 @@ summary.gs_design <- function(object,
   if (method == "combo") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c("analysis", "bound", "z", "nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4)
       )
     } else {
@@ -334,8 +334,8 @@ summary.gs_design <- function(object,
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
         col_vars = c(
-          "Analysis", "Bound", "Z", "~Risk difference at bound",
-          "Nominal p", "Alternate hypothesis", "Null hypothesis"
+          "analysis", "bound", "z", "~risk difference at bound",
+          "nominal p", "Alternate hypothesis", "Null hypothesis"
         ),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
       )
@@ -475,7 +475,7 @@ summary.gs_design <- function(object,
     decimals = c(0, analysis_decimals),
     byvar = "analysis"
   ) %>%
-    dplyr::group_by(Analysis)
+    dplyr::group_by(analysis)
 
 
   if (method == "ahr") {
@@ -495,8 +495,8 @@ summary.gs_design <- function(object,
     )
   } else if (method == "rd") {
     output <- output %>% select(
-      analysis, bound, Z,
-      `~risk difference at bound`, `Nominal p`,
+      analysis, bound, z,
+      `~risk difference at bound`, `nominal p`,
       `Alternate hypothesis`, `Null hypothesis`
     )
   }
