@@ -108,8 +108,8 @@ NULL
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lpar = rep(-Inf, 2)
 #' )
-gs_design_rd <- function(p_c = tibble(stratum = "All", rate = .2),
-                         p_e = tibble(stratum = "All", rate = .15),
+gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
+                         p_e = tibble(stratum = "all", rate = .15),
                          info_frac = 1:3 / 3,
                          rd0 = 0,
                          alpha = .025,
@@ -224,37 +224,37 @@ gs_design_rd <- function(p_c = tibble(stratum = "All", rate = .2),
     mutate(
       rd = x_fix$rd,
       rd0 = rd0,
-      "~Risk difference at bound" = Z / sqrt(info) / theta * (rd - rd0) + rd0,
-      "Nominal p" = pnorm(-Z),
+      "~risk difference at bound" = z / sqrt(info) / theta * (rd - rd0) + rd0,
+      "nominal p" = pnorm(-z),
       info_frac0 = if (sum(!is.na(info0)) == 0) {
         NA
       } else {
         info0 / max(info0)
       },
-      N = (y_gs %>% filter(Bound == "Upper", Analysis == k))$info
+      n = (y_gs %>% filter(bound == "upper", analysis == k))$info
         / ifelse(info_scale == 0, x_fix$info0[1], x_fix$info1[1]) * info_frac
     ) %>%
-    select(c(Analysis, Bound, N, rd, rd0, Z, Probability, Probability0, info, info0, info_frac, info_frac0, `~Risk difference at bound`, `Nominal p`)) %>%
-    arrange(Analysis, desc(Bound))
+    select(c(analysis, bound, n, rd, rd0, z, probability, probability0, info, info0, info_frac, info_frac0, `~risk difference at bound`, `nominal p`)) %>%
+    arrange(analysis, desc(bound))
 
   # --------------------------------------------- #
   #     get bounds to output                      #
   # --------------------------------------------- #
-  bounds <- allout %>%
-    select(Analysis, Bound, Probability, Probability0, Z, `~Risk difference at bound`, `Nominal p`)
+  bound <- allout %>%
+    select(analysis, bound, probability, probability0, z, `~risk difference at bound`, `nominal p`)
 
   # --------------------------------------------- #
   #     get analysis summary to output            #
   # --------------------------------------------- #
   analysis <- allout %>%
-    filter(Bound == "Upper") %>%
-    select(Analysis, N, rd, rd0, info, info0, info_frac, info_frac0)
+    filter(bound == "upper") %>%
+    select(analysis, n, rd, rd0, info, info0, info_frac, info_frac0)
 
   # --------------------------------------------- #
   #     return the output                         #
   # --------------------------------------------- #
   ans <- list(
-    bounds = bounds %>% filter(!is.infinite(Z)),
+    bound = bound %>% filter(!is.infinite(z)),
     analysis = analysis
   )
 
