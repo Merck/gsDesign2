@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr filter select full_join mutate transmute group_by ungroup summarize arrange desc lag last lead "%>%"
+#' @importFrom dplyr filter select full_join mutate transmute 
+#' group_by ungroup summarize arrange desc lag last lead "%>%"
 #' @importFrom tibble tibble
 #' @importFrom stats stepfun
 NULL
@@ -50,8 +51,10 @@ NULL
 #'    \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
 #'    \item Validate if input simple is logical.
 #'    \item Define a tibble with the start opening for enrollment at zero and cumulative duration.
-#'    Add the event (or failure) time corresponding to the start of the enrollment. Finally, add the enrollment rate to the tibble
-#'    corresponding to the start and end (failure) time. This will be recursively used to calculate the expected
+#'    Add the event (or failure) time corresponding to the start of the enrollment. 
+#'    Finally, add the enrollment rate to the tibble
+#'    corresponding to the start and end (failure) time. 
+#'    This will be recursively used to calculate the expected
 #'    number of events later. For details, see vignette/eEventsTheory.Rmd
 #'    \item Define a tibble including the cumulative duration of failure rates, the corresponding start time of
 #'    the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd
@@ -67,8 +70,10 @@ NULL
 #'  }
 #' }
 #' @return
-#' The default when \code{simple=TRUE} is to return the total expected number of events as a real number.
-#' Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with the following variables for each period specified in 'fail_rate':
+#' The default when \code{simple=TRUE} is to return the total expected 
+#' number of events as a real number.
+#' Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with 
+#' the following variables for each period specified in 'fail_rate':
 #' \code{t} start of period,
 #' \code{fail_rate} failure rate during the period
 #' \code{Events} expected events during the period,
@@ -200,7 +205,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
     # q: number of expected events in a sub-interval
     # big_q: cumulative product of q (pool all sub-intervals)
     mutate(
-      q = exp(-duration * (fail_rate_var + dropout_rate_var)),
+      q = exp(- duration * (fail_rate_var + dropout_rate_var)),
       big_q = lag(cumprod(q), default = 1)
     ) %>%
     arrange(desc(start_fail)) %>%

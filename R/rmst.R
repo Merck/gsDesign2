@@ -76,7 +76,7 @@ fixed_design_size_rmst <- function(enroll_rate,
     bound = "upper",
     probability = 1 - beta,
     probability0 = alpha,
-    z = -qnorm(alpha)
+    z = - qnorm(alpha)
   )
 
   analysis <- tibble::tibble(
@@ -161,7 +161,7 @@ fixed_design_power_rmst <- function(enroll_rate,
     bound = "upper",
     probability = npsurv,
     probability0 = alpha,
-    z = -qnorm(alpha)
+    z = - qnorm(alpha)
   )
 
   analysis <- tibble::tibble(

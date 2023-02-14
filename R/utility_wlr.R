@@ -59,7 +59,7 @@ gs_create_arm <- function(enroll_rate,
   accr_param <- enroll_rate$rate * enroll_rate$duration / sum(enroll_rate$rate * enroll_rate$duration)
 
   surv_cure <- 0 # No cure proportion
-  surv_interval <- c(0, c(cumsum(utils::head(fail_rate$duration, -1)), Inf))
+  surv_interval <- c(0, c(cumsum(utils::head(fail_rate$duration, - 1)), Inf))
   surv_shape <- 1 # Exponential Distribution
   surv_scale0 <- fail_rate$fail_rate
   surv_scale1 <- fail_rate$hr * fail_rate$fail_rate
@@ -118,8 +118,8 @@ prob_risk <- function(arm, teval, tmax) {
     tmax <- arm$total_time
   }
 
-  npsurvSS::psurv(teval, arm, lower.tail = F) *
-    npsurvSS::ploss(teval, arm, lower.tail = F) *
+  npsurvSS::psurv(teval, arm, lower.tail = FALSE) *
+    npsurvSS::ploss(teval, arm, lower.tail = FALSE) *
     npsurvSS::paccr(pmin(arm$accr_time, tmax - teval), arm)
 }
 
@@ -132,7 +132,7 @@ dens_event <- function(arm, teval, tmax = NULL) {
   }
 
   npsurvSS::dsurv(teval, arm) *
-    npsurvSS::ploss(teval, arm, lower.tail = F) *
+    npsurvSS::ploss(teval, arm, lower.tail = FALSE) *
     npsurvSS::paccr(pmin(arm$accr_time, tmax - teval), arm)
 }
 
@@ -174,9 +174,9 @@ gs_delta_wlr <- function(arm0,
   if (approx == "event driven") {
     if (sum(arm0$surv_shape != arm1$surv_shape) > 0 ||
       length(unique(arm1$surv_scale / arm0$surv_scale)) > 1) {
-      stop("gs_delta_wlr(): Hazard is not proportional over time.", call. = F)
+      stop("gs_delta_wlr(): Hazard is not proportional over time.", call. = FALSE)
     } else if (any(wlr_weight_fh(seq(0, tmax, length.out = 10), arm0, arm1) != "1")) {
-      stop("gs_delta_wlr(): Weight must equal `1` when `approx = 'event_driven'.", call. = F)
+      stop("gs_delta_wlr(): Weight must equal `1` when `approx = 'event_driven'.", call. = FALSE)
     }
 
     theta <- c(arm0$surv_shape * log(arm1$surv_scale / arm0$surv_scale))[1] # log hazard ratio
@@ -213,7 +213,7 @@ gs_delta_wlr <- function(arm0,
       upper = tmax
     )$value
   } else {
-    stop("gs_delta_wlr(): Please specify a valid approximation for the mean.", call. = F)
+    stop("gs_delta_wlr(): Please specify a valid approximation for the mean.", call. = FALSE)
   }
 
   return(delta)
@@ -247,7 +247,7 @@ gs_sigma2_wlr <- function(arm0,
       upper = tmax
     )$value
   } else {
-    stop("gs_sigma2_wlr(): Please specify a valid approximation for the mean.", call. = F)
+    stop("gs_sigma2_wlr(): Please specify a valid approximation for the mean.", call. = FALSE)
   }
 
   return(sigma2)

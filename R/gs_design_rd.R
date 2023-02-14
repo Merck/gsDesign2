@@ -39,21 +39,27 @@ NULL
 #' @param upar Parameter passed to \code{upper()}
 #' @param lower Function to compute lower bound
 #' @param lpar Parameter passed to \code{lower()}
-#' @param test_upper indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-#' otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
-#' lower bound
-#' @param h1_spending Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
+#' @param test_upper indicator of which analyses should include an upper (efficacy) bound; 
+#' single value of TRUE (default) indicates all analyses;
+#' otherwise, a logical vector of the same length as \code{info} should indicate 
+#' which analyses will have an efficacy bound
+#' @param test_lower indicator of which analyses should include an lower bound; 
+#' single value of TRUE (default) indicates all analyses;
+#' single value FALSE indicated no lower bound; otherwise, 
+#' a logical vector of the same length as \code{info} should indicate which analyses 
+#' will have a lower bound
+#' @param h1_spending Indicator that lower bound to be set 
+#' by spending under alternate hypothesis (input \code{fail_rate})
 #' if spending is used for lower bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
+#' @param r Integer value controlling grid for numerical integration 
+#' as in Jennison and Turnbull (2000);
 #' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param info_scale the information scale for calculation
 #' @param weight the weighting scheme for stratified population
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #'
-#' @return a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
+#' @return a \code{tibble} with columns analysis, bound, z, probability, theta, time, ahr, event
 #' @details Need to be added
 #' @export
 #'
@@ -234,7 +240,8 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
       n = (y_gs %>% filter(bound == "upper", analysis == k))$info
         / ifelse(info_scale == 0, x_fix$info0[1], x_fix$info1[1]) * info_frac
     ) %>%
-    select(c(analysis, bound, n, rd, rd0, z, probability, probability0, info, info0, info_frac, info_frac0, `~risk difference at bound`, `nominal p`)) %>%
+    select(c(analysis, bound, n, rd, rd0, z, probability, probability0, 
+             info, info0, info_frac, info_frac0, `~risk difference at bound`, `nominal p`)) %>%
     arrange(analysis, desc(bound))
 
   # --------------------------------------------- #

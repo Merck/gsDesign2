@@ -23,40 +23,59 @@ NULL
 #' Group sequential bound computation with non-constant effect
 #'
 #' \code{gs_power_npe()} derives group sequential bounds and boundary crossing probabilities for a design.
-#' It allows a non-constant treatment effect over time, but also can be applied for the usual homogeneous effect size designs.
-#' It requires treatment effect and statistical information at each analysis as well as a method of deriving bounds, such as spending.
-#' The routine enables two things not available in the gsDesign package: 1) non-constant effect, 2) more flexibility in boundary selection.
-#' For many applications, the non-proportional-hazards design function \code{gs_design_nph()} will be used; it calls this function.
-#' Initial bound types supported are 1) spending bounds, 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
-#' The requirement is to have a boundary update method that can each bound without knowledge of future bounds.
-#' As an example, bounds based on conditional power that require knowledge of all future bounds are not supported by this routine;
+#' It allows a non-constant treatment effect over time, 
+#' but also can be applied for the usual homogeneous effect size designs.
+#' It requires treatment effect and statistical information at each analysis 
+#' as well as a method of deriving bounds, such as spending.
+#' The routine enables two things not available in the gsDesign package: 
+#' 1) non-constant effect, 2) more flexibility in boundary selection.
+#' For many applications, the non-proportional-hazards design function 
+#' \code{gs_design_nph()} will be used; it calls this function.
+#' Initial bound types supported are 1) spending bounds, 
+#' 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
+#' The requirement is to have a boundary update method that can 
+#' each bound without knowledge of future bounds.
+#' As an example, bounds based on conditional power that require 
+#' knowledge of all future bounds are not supported by this routine;
 #' a more limited conditional power method will be demonstrated.
-#' Boundary family designs Wang-Tsiatis designs including the original (non-spending-function-based) O'Brien-Fleming and Pocock designs
+#' Boundary family designs Wang-Tsiatis designs including the 
+#' original (non-spending-function-based) O'Brien-Fleming and Pocock designs
 #' are not supported by \code{gs_power_npe()}.
 #' @param theta natural parameter for group sequential design representing
 #' expected incremental drift at all analyses; used for power calculation
-#' @param theta0 natural parameter for null hypothesis, if needed for upper bound computation
-#' @param theta1 natural parameter for alternate hypothesis, if needed for lower bound computation
+#' @param theta0 natural parameter for null hypothesis, 
+#' if needed for upper bound computation
+#' @param theta1 natural parameter for alternate hypothesis, 
+#' if needed for lower bound computation
 #' @param info statistical information at all analyses for input \code{theta}
-#' @param info0 statistical information under null hypothesis, if different than \code{info};
+#' @param info0 statistical information under null hypothesis, 
+#' if different than \code{info};
 #' impacts null hypothesis bound calculation
-#' @param info1 statistical information under hypothesis used for futility bound calculation if different from
+#' @param info1 statistical information under hypothesis used for 
+#' futility bound calculation if different from
 #' \code{info}; impacts futility hypothesis bound calculation
-#' @param info_scale the information scale for calculation, default is 2, other options are 0 or 1.
-#' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
+#' @param info_scale the information scale for calculation, 
+#' default is 2, other options are 0 or 1.
+#' @param binding indicator of whether futility bound is binding; 
+#' default of FALSE is recommended
 #' @param upper function to compute upper bound
 #' @param lower function to compare lower bound
 #' @param upar parameter to pass to upper
 #' @param lpar parameter to pass to lower
-#' @param test_upper indicator of which analyses should include an upper (efficacy) bound;
+#' @param test_upper indicator of which analyses should include 
+#' an upper (efficacy) bound;
 #' single value of TRUE (default)  indicates all analyses; otherwise,
-#' a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound
+#' a logical vector of the same length as \code{info} should 
+#' indicate which analyses will have an efficacy bound
 #' @param test_lower indicator of which analyses should include a lower bound;
 #' single value of TRUE (default) indicates all analyses;
 #' single value FALSE indicated no lower bound; otherwise,
-#' a logical vector of the same length as \code{info} should indicate which analyses will have a lower bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+#' a logical vector of the same length as \code{info} should 
+#' indicate which analyses will have a lower bound
+#' @param r Integer value controlling grid for numerical 
+#' integration as in Jennison and Turnbull (2000);
+#' default is 18, range is 1 to 80. Larger values provide 
+#' larger number of grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
 #' @section Specification:
@@ -65,20 +84,30 @@ NULL
 #'    \item Extract the length of input info as the number of interim analysis.
 #'    \item Validate if input info0 is NULL, so set it equal to info.
 #'    \item Validate if the length of inputs info and info0 are the same.
-#'    \item Validate if input theta is a scalar, so replicate the value for all k interim analysis.
-#'    \item Validate if input theta1 is NULL and if it is a scalar. If it is NULL,
-#'    set it equal to input theta. If it is a scalar, replicate the value for all k interim analysis.
-#'    \item Validate if input test_upper is a scalar, so replicate the value for all k interim analysis.
-#'    \item Validate if input test_lower is a scalar, so replicate the value for all k interim analysis.
-#'    \item Define vector a to be -Inf with length equal to the number of interim analysis.
-#'    \item Define vector b to be Inf with length equal to the number of interim analysis.
+#'    \item Validate if input theta is a scalar, so replicate 
+#'    the value for all k interim analysis.
+#'    \item Validate if input theta1 is NULL and if it is a scalar.
+#'    If it is NULL, set it equal to input theta. If it is a scalar, 
+#'    replicate the value for all k interim analysis.
+#'    \item Validate if input test_upper is a scalar, 
+#'    so replicate the value for all k interim analysis.
+#'    \item Validate if input test_lower is a scalar, 
+#'    so replicate the value for all k interim analysis.
+#'    \item Define vector a to be -Inf with 
+#'    length equal to the number of interim analysis.
+#'    \item Define vector b to be Inf with 
+#'    length equal to the number of interim analysis.
 #'    \item Define hgm1_0 and hgm1 to be NULL.
-#'    \item Define upper_prob and lower_prob to be vectors of NA with length of the number of interim analysis.
+#'    \item Define upper_prob and lower_prob to be 
+#'    vectors of NA with length of the number of interim analysis.
 #'    \item Update lower and upper bounds using \code{gs_b()}.
-#'    \item If there are no interim analysis, compute proabilities of crossing upper and lower bounds
+#'    \item If there are no interim analysis, compute probabilities 
+#'    of crossing upper and lower bounds
 #'    using \code{h1()}.
-#'    \item Compute cross upper and lower bound probabilities using \code{hupdate()} and \code{h1()}.
-#'    \item Return a tibble of analysis number, Bounds, Z-values, Probability of crossing bounds,
+#'    \item Compute cross upper and lower bound probabilities 
+#'    using \code{hupdate()} and \code{h1()}.
+#'    \item Return a tibble of analysis number, bound, z-values, 
+#'    probability of crossing bounds,
 #'    theta, theta1, info, and info0.
 #'   }
 #' }
@@ -103,7 +132,7 @@ NULL
 #'   upper = gs_b,
 #'   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
 #'   lower = gs_b,
-#'   lpar = c(-1, 0, 0)
+#'   lpar = c(- 1, 0, 0)
 #' )
 #'
 #' # Same fixed efficacy bounds, no futility bound (i.e., non-binding bound), null hypothesis
@@ -171,7 +200,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                          info = 1, info0 = NULL, info1 = NULL, # 3 info
                          info_scale = c(0, 1, 2),
                          upper = gs_b, upar = qnorm(.975),
-                         lower = gs_b, lpar = -Inf,
+                         lower = gs_b, lpar = - Inf,
                          test_upper = TRUE, test_lower = TRUE, binding = FALSE,
                          r = 18, tol = 1e-6) {
   # --------------------------------------------- #
@@ -257,7 +286,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       } else {
         0
       }
-      lower_prob[1] <- if (a[1] > -Inf) {
+      lower_prob[1] <- if (a[1] > - Inf) {
         pnorm(-sqrt(info[1]) * (theta[1] - a[1] / sqrt(info0[1])))
       } else {
         0
@@ -282,11 +311,11 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         0
       }
       # compute the probability to cross lower bound
-      lower_prob[k] <- if (a[k] > -Inf) {
+      lower_prob[k] <- if (a[k] > - Inf) {
         sum(hupdate(
           theta = theta[k], thetam1 = theta[k - 1],
           I = info[k], Im1 = info[k - 1],
-          a = -Inf, b = a[k], gm1 = hgm1, r = r
+          a = - Inf, b = a[k], gm1 = hgm1, r = r
         )$h)
       } else {
         0
@@ -297,7 +326,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         hgm1_0 <- hupdate(r = r, theta = theta0[k], I = info0[k], a = if (binding) {
           a[k]
         } else {
-          -Inf
+          - Inf
         }, b = b[k], thetam1 = 0, Im1 = info0[k - 1], gm1 = hgm1_0)
         hgm1_1 <- hupdate(r = r, theta = theta1[k], I = info1[k], a = a[k], b = b[k], thetam1 = theta1[k - 1], Im1 = info1[k - 1], gm1 = hgm1_1)
         hgm1 <- hupdate(r = r, theta = theta[k], I = info[k], a = a[k], b = b[k], thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1)

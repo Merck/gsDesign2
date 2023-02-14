@@ -89,7 +89,8 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   input_N <- expected_accrual(time = x$analysis$Time, enroll_rate = x$input$enroll_rate)
 
   multiply_factor <- x$input$ratio + 1
-  enroll_rate_new <- x$enroll_rate %>% mutate(rate = rate * ceiling(output_N / multiply_factor) * multiply_factor / output_N)
+  enroll_rate_new <- x$enroll_rate %>% 
+    mutate(rate = rate * ceiling(output_N / multiply_factor) * multiply_factor / output_N)
 
   if ((x$design == "ahr") && (input_N != output_N)) {
     x_new <- gs_power_ahr(
@@ -98,7 +99,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       event = as.numeric(ceiling(x$analysis$Events)),
       analysis_time = NULL,
       ratio = x$input$ratio,
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf
     )
 
     analysis <- tibble::tibble(
@@ -124,7 +125,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       event = as.numeric(ceiling(x$analysis$Events)),
       analysis_time = NULL,
       ratio = x$input$ratio,
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf,
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf,
       weight = function(s, arm0, arm1) {
         wlr_weight_fh(s, arm0, arm1,
           rho = x$design_par$rho,
@@ -158,11 +159,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       ratio = x$input$ratio,
       weight = function(s, arm0, arm1) {
         wlr_weight_fh(s, arm0, arm1,
-          rho = -1, gamma = 0,
+          rho = - 1, gamma = 0,
           tau = x$design_par$tau
         )
       },
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf
     )
 
     analysis <- tibble::tibble(
@@ -199,7 +200,8 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   multiply_factor <- x$input$ratio + 1
   enroll_rate <- x$enroll_rate
-  enroll_rate_new <- enroll_rate %>% mutate(rate = rate * ceiling(x$analysis$N / multiply_factor) * multiply_factor / x$analysis$N)
+  enroll_rate_new <- enroll_rate %>% 
+    mutate(rate = rate * ceiling(x$analysis$N / multiply_factor) * multiply_factor / x$analysis$N)
 
   if ("ahr" %in% class(x)) {
     x_new <- gs_power_ahr(

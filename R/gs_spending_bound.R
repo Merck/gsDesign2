@@ -35,17 +35,23 @@ NULL
 #' \code{sf} (class spending function),
 #' \code{total_spend} (total spend),
 #' \code{param} (any parameters needed by the spending function \code{sf()}),
-#' \code{timing} (a vector containing values at which spending function is to be evaluated or NULL if information-based spending is used),
-#' \code{max_info} (when \code{timing} is NULL, this can be input as positive number to be used with \code{info} for information fraction at each analysis)
-#' @param hgm1 subdensity grid from h1 (k=2) or hupdate (k>2) for analysis k-1; if k=1, this is not used and may be NULL
+#' \code{timing} (a vector containing values at which spending function 
+#' is to be evaluated or NULL if information-based spending is used),
+#' \code{max_info} (when \code{timing} is NULL, this can be input as 
+#' positive number to be used with \code{info} for information fraction at each analysis)
+#' @param hgm1 subdensity grid from h1 (k=2) or hupdate (k>2) for analysis k-1; 
+#' if k=1, this is not used and may be NULL
 #' @param theta natural parameter used for lower bound only spending;
 #' represents average drift at each time of analysis at least up to analysis k;
 #' upper bound spending is always set under null hypothesis (theta = 0)
 #' @param info statistical information at all analyses, at least up to analysis k
 #' @param efficacy TRUE (default) for efficacy bound, FALSE otherwise
-#' @param test_bound a logical vector of the same length as \code{info} should indicate which analyses will have a bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+#' @param test_bound a logical vector of the same length as \code{info} 
+#' should indicate which analyses will have a bound
+#' @param r Integer value controlling grid for numerical integration 
+#' as in Jennison and Turnbull (2000);
+#' default is 18, range is 1 to 80. Larger values provide larger number of 
+#' grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for convergence (on Z-scale)
 #' @section Specification:
@@ -139,7 +145,7 @@ gs_spending_bound <- function(k = 1,
   if (!efficacy) {
     # If no spending, return -Inf for bound
     if (spend <= 0) {
-      return(-Inf)
+      return(- Inf)
     }
 
     # if theta not a vector, make it one
@@ -171,7 +177,9 @@ gs_spending_bound <- function(k = 1,
     # ---------------------------------------------------------------- #
     while (abs(adelta) > tol) {
       # get grid for rejection region
-      hg <- hupdate(theta = theta[k], I = info[k], a = -Inf, b = a, thetam1 = theta[k - 1], Im1 = info[k - 1], gm1 = hgm1, r = r)
+      hg <- hupdate(theta = theta[k], I = info[k], a = -Inf, 
+                    b = a, thetam1 = theta[k - 1], 
+                    Im1 = info[k - 1], gm1 = hgm1, r = r)
       i <- length(hg$h)
 
       # compute lower bound crossing (pik)
@@ -248,7 +256,7 @@ gs_spending_bound <- function(k = 1,
       if (bdelta > dpikdb) {
         bdelta <- 1
       } else if (bdelta < -dpikdb) {
-        bdelta <- -1
+        bdelta <- - 1
       } else {
         bdelta <- bdelta / dpikdb
       }

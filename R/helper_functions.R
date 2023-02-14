@@ -114,7 +114,7 @@ ppwe <- function(x = 0:20,
     duration = xvals - lag(xvals, default = 0),
     h = ratefn(xvals), # hazard rates at points (right continuous)
     H = cumsum(h * duration), # cumulative hazard
-    survival = exp(-H) # survival
+    survival = exp(- H) # survival
   )
   # return survival or cdf
   ind <- !is.na(match(xx$x, x))
@@ -147,7 +147,7 @@ NULL
 #'    \item Return the duration and rate by \code{s2pwe}
 #'  }
 #'  }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}#' @return A `tibble` with `duration` and 'rate'
+#' \if{html}{The contents of this section are shown in PDF user manual only.}
 #' @return A tibble containing the duration and rate.
 #' @examples
 #' # Example: arbitrary numbers
@@ -184,17 +184,21 @@ s2pwe <- function(times, survival) {
 
   # check that survival is positive, non-increasing, less than or equal to 1 and gt 0
   if (!min(survival) > 0) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive 
+         finite numbers less than or equal to 1 with at least 1 value < 1")
   }
   if (!max(survival) <= 1) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive 
+         finite numbers less than or equal to 1 with at least 1 value < 1")
   }
   if (!min(survival) < 1) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive 
+         finite numbers less than or equal to 1 with at least 1 value < 1")
   }
   if (len > 1) {
     if (!min(survival[2:len] - survival[1:(len - 1)]) <= 0) {
-      stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+      stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive 
+           finite numbers less than or equal to 1 with at least 1 value < 1")
     }
   }
 
