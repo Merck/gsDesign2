@@ -375,16 +375,16 @@ summary.gs_design <- function(object,
     dplyr::filter(dplyr::row_number() == 1) %>%
     dplyr::select(all_of(c("analysis", analysis_vars))) %>%
     dplyr::arrange(analysis)
-  
+
   if ("analysis" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(Analysis = analysis)
   }
-  
+
   if ("n" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(N = n)
     analysis_vars <- c(analysis_vars[analysis_vars != "n"], "N")
   }
-  
+
   if ("info_frac" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac)
     analysis_vars <- c(analysis_vars[analysis_vars != "info_frac"], "Information fraction")
@@ -473,29 +473,29 @@ summary.gs_design <- function(object,
     # bound details
     bound_summary_detail <- xy
   }
-  
-  if("analysis" %in% colnames(bound_summary_detail)){
+
+  if ("analysis" %in% colnames(bound_summary_detail)) {
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Analysis = analysis)
   }
-  if("bound" %in% colnames(bound_summary_detail)){
+  if ("bound" %in% colnames(bound_summary_detail)) {
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Bound = bound)
   }
-  if("z" %in% colnames(bound_summary_detail)){
+  if ("z" %in% colnames(bound_summary_detail)) {
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Z = z)
   }
-  if("nominal p" %in% colnames(bound_summary_detail)){
+  if ("nominal p" %in% colnames(bound_summary_detail)) {
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename("Nominal p" = "nominal p")
   }
-  if("~hr at bound" %in% colnames(bound_summary_detail)){
+  if ("~hr at bound" %in% colnames(bound_summary_detail)) {
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~HR at bound" = "~hr at bound")
   }
-  if("~whr at bound" %in% colnames(bound_summary_detail)){
+  if ("~whr at bound" %in% colnames(bound_summary_detail)) {
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~wHR at bound" = "~whr at bound")
   }
-  if("~risk difference at bound" %in% colnames(bound_summary_detail)){
+  if ("~risk difference at bound" %in% colnames(bound_summary_detail)) {
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~Risk difference at bound" = "~risk difference at bound")
   }
-   
+
   output <- table_ab(
     # A data frame to be show as the summary header
     # It has only ONE record for each value of `byvar`
@@ -535,35 +535,35 @@ summary.gs_design <- function(object,
   # --------------------------------------------- #
   #     set the decimals to display               #
   # --------------------------------------------- #
-  if("analysis" %in% x_decimals$col_vars){
+  if ("analysis" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "analysis", "Analysis", col_vars))
   }
-  
-  if("bound" %in% x_decimals$col_vars){
+
+  if ("bound" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "bound", "Bound", col_vars))
   }
-  
-  if("z" %in% x_decimals$col_vars){
+
+  if ("z" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "z", "Z", col_vars))
   }
-  
-  if("~risk difference at bound" %in% x_decimals$col_vars){
+
+  if ("~risk difference at bound" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "~risk difference at bound", "~Risk difference at bound", col_vars))
   }
-  
-  if("~hr at bound" %in% x_decimals$col_vars){
+
+  if ("~hr at bound" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "~hr at bound", "~HR at bound", col_vars))
   }
-  
-  if("~whr at bound" %in% x_decimals$col_vars){
+
+  if ("~whr at bound" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "~whr at bound", "~wHR at bound", col_vars))
   }
-  
-  if("nominal p" %in% x_decimals$col_vars){
+
+  if ("nominal p" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "nominal p", "Nominal p", col_vars))
   }
-  
-  
+
+
   output <- output %>% select(x_decimals$col_vars)
   if ("Z" %in% colnames(output)) {
     output <- output %>% dplyr::mutate_at(
