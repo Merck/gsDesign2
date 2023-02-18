@@ -107,9 +107,9 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       N = x_new$analysis$n,
       Events = x_new$analysis$event,
       Time = x_new$analysis$time,
-      Bound = (x_new$bounds %>% filter(bound == "upper"))$z,
+      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bounds %>% filter(bound == "upper"))$probability
+      Power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -171,9 +171,9 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       N = x_new$analysis$n,
       Events = x_new$analysis$event,
       Time = x_new$analysis$time,
-      Bound = (x_new$bounds %>% filter(bound == "upper"))$z,
+      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bounds %>% filter(bound == "upper"))$probability
+      Power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
