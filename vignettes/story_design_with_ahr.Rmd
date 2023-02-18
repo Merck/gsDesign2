@@ -216,7 +216,7 @@ hr <- do.call(
   lapply(
     c("PH", "Shorter delayed effect", "Longer delayed effect", "Crossing"),
     function(x) {
-      AHR(
+      ahr(
         enroll_rate = enroll_rate %>% filter(Scenario == x),
         fail_rate = fail_rate %>% filter(Scenario == x),
         total_duration = c(.001, seq(4, 44, 4))
@@ -227,7 +227,7 @@ hr <- do.call(
 ```
 
 ```{r, fig.width=3.5}
-ggplot(hr, aes(x = Time, y = AHR, col = Scenario)) +
+ggplot(hr, aes(x = time, y = ahr, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
   ggtitle("Average hazard ratio (AHR) by study duration",
@@ -239,7 +239,7 @@ The number of events for these 4 scenarios are shown below.
 Under the 3 NPH scenarios events accumulate faster than under the PH scenario both due to a lower control median and/or a delayed effect.
 
 ```{r, fig.width=3.5}
-ggplot(hr, aes(x = Time, y = `Events`, col = Scenario)) +
+ggplot(hr, aes(x = time, y = event, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
   ylab("Expected events per 100 enrolled") +
@@ -277,7 +277,7 @@ ss_ahr_fixed <- do.call(
         beta = .1
       )
       ans <- xx$analysis %>%
-        select(Time, N, Events, AHR) %>%
+        select(time, n, event, ahr) %>%
         mutate(Scenario = x)
       return(ans)
     }
@@ -314,7 +314,7 @@ do.call(
         alpha = .025,
         beta = .1
       )$analysis %>%
-        select(Time, N, Events, AHR) %>%
+        select(time, n, event, ahr) %>%
         mutate(Scenario = "Shorter delayed effect")
       return(ans)
     }
@@ -339,7 +339,7 @@ events_by_time_period <- NULL
 for (g in c("PH", "Shorter delayed effect", "Longer delayed effect", "Crossing")) {
   events_by_time_period <- rbind(
     events_by_time_period,
-    AHR(
+    ahr(
       enroll_rate = enroll_rate %>% filter(Scenario == g),
       fail_rate = fail_rate %>% filter(Scenario == g),
       total_duration = c(12, 20, 28, 36), simple = FALSE
@@ -361,8 +361,8 @@ hr1 <- tibble(t = c(0, 4, 6), hr1 = c(1, .6, .6))
 
 ahr_by_analysis <- events_by_time_period %>%
   full_join(hr1) %>%
-  group_by(Scenario, Time) %>%
-  summarize(AHR1 = exp(sum(Events * log(hr1)) / sum(Events)))
+  group_by(Scenario, time) %>%
+  summarize(AHR1 = exp(sum(event * log(hr1)) / sum(event)))
 
 ahr_by_analysis %>%
   pivot_wider(names_from = Scenario, values_from = AHR1) %>%
@@ -429,7 +429,7 @@ do.call(
   )
 ) %>%
   gt() %>%
-  fmt_number(columns = "Events", decimals = 1) %>%
+  fmt_number(columns = "event", decimals = 1) %>%
   fmt_number(columns = 5:10, decimals = 4)
 ```
 
