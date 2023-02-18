@@ -155,7 +155,7 @@ x_design_wlr <- gs_design_wlr(
   fail_rate = fail_rate,
   weight = wgt05,
   info_frac = NULL,
-  analysis_time = sort(unique(x_design_ahr$analysis$Time)),
+  analysis_time = sort(unique(x_design_ahr$analysis$time)),
   ratio = ratio,
   alpha = alpha,
   beta = beta,
@@ -212,7 +212,7 @@ For example
 ```{r}
 x_design_ahr %>%
   summary(
-    analysis_vars = c("N", "Events"),
+    analysis_vars = c("n", "event"),
     analysis_decimals = c(1, 1)
   ) %>%
   gt::gt() %>%
@@ -359,13 +359,13 @@ To get a bouns summary table, users can call `x$analysis`, where `x` is the obje
 For example, the bounds summary of the AHR/WLR design derivation is
 
 ```{r}
-x_design_ahr$bounds %>%
+x_design_ahr$bound %>%
   gt::gt() %>%
   gt::fmt_number(columns = c(3, 5:7), decimals = 4)
 ```
 
 ```{r}
-x_design_wlr$bounds %>%
+x_design_wlr$bound %>%
   gt::gt() %>%
   gt::fmt_number(columns = c(3, 5:7), decimals = 4)
 ```
