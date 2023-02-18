@@ -5,15 +5,15 @@
 \title{Group sequential design power under risk difference}
 \usage{
 gs_power_rd(
-  p_c = tibble::tibble(stratum = "All", rate = 0.2),
-  p_e = tibble::tibble(stratum = "All", rate = 0.15),
-  n = tibble::tibble(stratum = "All", n = c(40, 50, 60), analysis = 1:3),
+  p_c = tibble::tibble(stratum = "all", rate = 0.2),
+  p_e = tibble::tibble(stratum = "all", rate = 0.15),
+  n = tibble::tibble(stratum = "all", n = c(40, 50, 60), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
   weight = c("un-stratified", "ss", "invar"),
   upper = gs_b,
   lower = gs_b,
-  upar = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(0.1), rep(-Inf, 2)),
   info_scale = c(0, 1, 2),
   binding = FALSE,

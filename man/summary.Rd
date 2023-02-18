@@ -151,8 +151,8 @@ wgt05 <- function(x, arm0, arm1) {
 
 # test in COMBO
 fh_test <- rbind(
-  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
-  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
+  data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)),
+  data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 )
 
 # ---------------------------- #
@@ -173,7 +173,7 @@ x_ahr <- gs_design_ahr(
 )
 
 x_ahr \%>\% summary()
-x_ahr \%>\% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
+x_ahr \%>\% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 x_ahr \%>\% summary(bound_names = c("A is better", "B is better"))
 
 # ---------------------------- #
@@ -184,7 +184,7 @@ x_wlr <- gs_design_wlr(
   fail_rate = fail_rate,
   weight = wgt05,
   info_frac = NULL,
-  analysis_time = sort(unique(x_ahr$analysis$Time)),
+  analysis_time = sort(unique(x_ahr$analysis$time)),
   ratio = ratio,
   alpha = alpha,
   beta = beta,

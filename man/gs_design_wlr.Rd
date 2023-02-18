@@ -106,7 +106,8 @@ Group sequential design using weighted log-rank test under non-proportional haza
 \if{latex}{
  \itemize{
    \item Validate if input analysis_time is a positive number or a positive increasing sequence.
-   \item Validate if input info_frac is a positive number or positive increasing sequence on (0, 1] with final value of 1.
+   \item Validate if input info_frac is a positive number
+   or positive increasing sequence on (0, 1] with final value of 1.
    \item Validate if inputs info_frac and analysis_time  have the same length if both have length > 1.
    \item Compute information at input analysis_time using \code{gs_info_wlr()}.
    \item Compute sample size and bounds using \code{gs_design_npe()}.
