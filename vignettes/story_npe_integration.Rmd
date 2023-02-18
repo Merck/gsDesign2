@@ -192,7 +192,7 @@ The columns in the resulting table are
 ```{r}
 # Set up grid over continuation region
 # Null hypothesis
-grid1_0 <- h1(theta = 0, I = info[1], a = a1, b = b1)
+grid1_0 <- gsDesign2:::h1(theta = 0, I = info[1], a = a1, b = b1)
 grid1_0 %>% head()
 ```
 The probability of not crossing a bound under the null hypothesis is computed as follows:
@@ -209,7 +209,7 @@ cat(
 We now set up numerical integration grid under the alternate hypothesis and the compute continuation probability.
 
 ```{r}
-grid1_1 <- h1(theta = theta[1], I = info[1], a = a1, b = b1)
+grid1_1 <- gsDesign2:::h1(theta = theta[1], I = info[1], a = a1, b = b1)
 probH1continue <- sum(grid1_1$h)
 h1mean <- sqrt(info[1]) * theta[1]
 cat(
@@ -245,7 +245,7 @@ Under the null hypothesis, we need to update to the interval above `b2_0`.
 
 ```{r}
 # Upper rejection region grid under H0
-grid2_0 <- hupdate(theta = 0, I = info[2], a = b2_0, b = Inf, Im1 = info[1], gm1 = grid1_0)
+grid2_0 <- gsDesign2:::hupdate(theta = 0, I = info[2], a = b2_0, b = Inf, Im1 = info[1], gm1 = grid1_0)
 pupper_0 <- sum(grid2_0$h)
 cat(
   "Upper spending at analysis 2\n Target:", spend0, "\n Using initial bound approximation:",
@@ -283,7 +283,7 @@ We now update the lower bound in an analogous fashion.
 
 ```{r}
 # Lower rejection region grid under H1
-grid2_1 <- hupdate(
+grid2_1 <- gsDesign2:::hupdate(
   theta = theta[2], I = info[2], a = -Inf, b = a2_0,
   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
 )
@@ -302,7 +302,7 @@ cat(
   "\nUpdated bound approximation:", a2_1
 )
 
-grid2_1 <- hupdate(
+grid2_1 <- gsDesign2:::hupdate(
   theta = theta[2], I = info[2], a = -Inf, b = a2_1,
   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
 )
