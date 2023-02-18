@@ -185,7 +185,7 @@ ahr <- function(enroll_rate = tibble::tibble(
         group_by(t) %>%
         summarize(
           stratum = s,
-          info = (sum(1 / event)) ^ (- 1),
+          info = (sum(1 / event))^(-1),
           event = sum(event),
           hr = last(fail_rate) / first(fail_rate)
         ) %>%
