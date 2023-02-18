@@ -924,9 +924,9 @@ knitr::include_graphics("./figures/east_n_gs_pool.png")
 
 ```{r}
 tibble::tibble(
-  gsDesign2_info_scale_0 = x_gsDesign2_info_scale_0$analysis$N,
-  gsDesign2_info_scale_1 = x_gsDesign2_info_scale_1$analysis$N,
-  gsDesign2_info_scale_2 = x_gsDesign2_info_scale_2$analysis$N,
+  gsDesign2_info_scale_0 = x_gsDesign2_info_scale_0$analysis$n,
+  gsDesign2_info_scale_1 = x_gsDesign2_info_scale_1$analysis$n,
+  gsDesign2_info_scale_2 = x_gsDesign2_info_scale_2$analysis$n,
   gsDesign = x_gsDesign$n.I,
   EAST_unpool = c(617, 1233, 1850),
   EAST_pool = c(619, 1238, 1857)
@@ -1412,12 +1412,12 @@ x_invar2 <- gs_design_rd(
 
 ```{r}
 ans <- tibble::tibble(
-  INVAR0 = x_invar0$analysis$N[1:3],
-  INVAR1 = x_invar1$analysis$N[1:3],
-  INVAR2 = x_invar2$analysis$N[1:3],
-  SS0 = x_ss0$analysis$N[1:3],
-  SS1 = x_ss1$analysis$N[1:3],
-  SS2 = x_ss2$analysis$N[1:3]
+  INVAR0 = x_invar0$analysis$n[1:3],
+  INVAR1 = x_invar1$analysis$n[1:3],
+  INVAR2 = x_invar2$analysis$n[1:3],
+  SS0 = x_ss0$analysis$n[1:3],
+  SS1 = x_ss1$analysis$n[1:3],
+  SS2 = x_ss2$analysis$n[1:3]
 )
 ans %>%
   gt::gt() %>%
