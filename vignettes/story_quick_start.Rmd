@@ -211,14 +211,14 @@ design1s %>%
 gsDesign to replicate above bounds (this will not replicate sample size).
 
 ```{r, class.source = 'fold-show'}
-x <- gsDesign(k = 3, test.type = 1, timing = design1s$analysis$IF, sfu = sfLDOF)
+x <- gsDesign(k = 3, test.type = 1, timing = design1s$analysis$info_frac, sfu = sfLDOF)
 cat(
   "gsDesign\n  Upper bound: ", x$upper$bound,
   "\n  Cumulative boundary crossing probability (H0): ", cumsum(x$upper$prob[, 1]),
   "\n  Timing (IF): ", x$timing,
-  "\ngs_design_ahr\n  Upper bound: ", design1s$bounds$Z,
-  "\n  Cumulative boundary crossing probability (H0): ", design1s$bounds$Probability0,
-  "\n  Timinng (IF): ", design1s$analysis$IF,
+  "\ngs_design_ahr\n  Upper bound: ", design1s$bound$z,
+  "\n  Cumulative boundary crossing probability (H0): ", design1s$bound$probability0,
+  "\n  Timinng (IF): ", design1s$analysis$info_frac,
   "\n"
 )
 ```
@@ -261,10 +261,10 @@ The bounds can be plotted easily:
 
 ```{r, out.width = "50%"}
 ggplot(
-  data = design2ss$analysis %>% left_join(design2ss$bounds, by = "Analysis"),
-  aes(x = Events, y = Z, group = Bound)
+  data = design2ss$analysis %>% left_join(design2ss$bound, by = "Analysis"),
+  aes(x = event, y = z, group = bound)
 ) +
-  geom_line(aes(linetype = Bound)) +
+  geom_line(aes(linetype = bound)) +
   geom_point() +
   ggtitle("2-sided symmetric bounds with O'Brien-Fleming-like spending")
 ```
