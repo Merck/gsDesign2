@@ -50,7 +50,7 @@ gs_power_npe(
   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
   lpar = rep(-Inf, 3)
 ) %>%
-  filter(Bound == "Upper") %>%
+  filter(bound == "upper") %>%
   gt()
 ```
 
@@ -121,8 +121,8 @@ gs_power_npe(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   binding = TRUE,
-  upar = (x %>% filter(Bound == "Upper"))$Z,
-  lpar = -(x %>% filter(Bound == "Upper"))$Z
+  upar = (x %>% filter(bound == "upper"))$z,
+  lpar = -(x %>% filter(bound == "upper"))$z
 ) %>%
   gt()
 ```
