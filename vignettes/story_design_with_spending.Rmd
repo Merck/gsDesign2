@@ -87,7 +87,7 @@ In this section, we discuss how to drive the power, given a known sample size.
 First, we calculate the number of events and statistical information (both under H0 and H1) at targeted analysis times.
 
 ```{r}
-xx <- AHR(
+xx <- ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = analysis_time
@@ -103,7 +103,7 @@ Then, we can use `gs_info_ahr()` to calculate (1) the treatment effect (`theta`)
 yy <- gs_info_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  event = ceiling(xx$Events)
+  event = ceiling(xx$event)
 ) %>%
   mutate(timing = info0 / max(info0))
 
@@ -130,8 +130,8 @@ zz <- gs_power_npe(
 )
 
 zz %>%
-  filter(Bound == "Upper") %>%
-  select(Analysis, Bound, Z, Probability, info_frac) %>%
+  filter(bound == "upper") %>%
+  select(analysis, bound, z, probability, info_frac) %>%
   gt() %>%
   fmt_number(columns = 3:5, decimals = 4)
 ```
@@ -165,8 +165,8 @@ gs_power_npe(
   upar = qnorm(.975),
   lpar = -Inf
 ) %>%
-  filter(Bound == "Upper") %>%
-  select(Probability)
+  filter(bound == "upper") %>%
+  select(probability)
 ```
 
 ## Group Sequential Design
@@ -183,8 +183,8 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 ) %>%
-  filter(Bound == "Upper", Analysis == K) %>%
-  select(Probability) %>%
+  filter(bound == "upper", analysis == K) %>%
+  select(probability) %>%
   gt()
 ```
 
@@ -200,8 +200,8 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 ) %>%
-  filter(Bound == "Upper", Analysis == K) %>%
-  select(Probability) %>%
+  filter(bound == "upper", analysis == K) %>%
+  select(probability) %>%
   gt()
 ```
 
@@ -217,7 +217,7 @@ gs_design_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 ) %>%
-  filter(Bound == "Upper", Analysis == K) %>%
-  select(Probability) %>%
+  filter(bound == "upper", analysis == K) %>%
+  select(probability) %>%
   gt()
 ```
