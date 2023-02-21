@@ -235,7 +235,7 @@ gs_info_rd <- function(p_c = tibble::tibble(
   } else if (weight == "ss") {
     suppressMessages(
       tbl <- tbl %>%
-        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_ss = sum(n_c * n_e / (n_c + n_e)))) %>% 
+        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_ss = sum(n_c * n_e / (n_c + n_e)))) %>%
         mutate(weight_per_k_per_s = n_c * n_e / (n_c + n_e) / sum_ss) %>%
         select(-sum_ss)
     )
