@@ -153,7 +153,7 @@ NULL
 #' # Example: arbitrary numbers
 #' s2pwe(1:9, (9:1) / 10)
 #' # Example: lognormal
-#' s2pwe(c(1:6, 9), plnorm(c(1:6, 9), meanlog = 0, sdlog = 2, lower_tail = FALSE))
+#' s2pwe(c(1:6, 9), plnorm(c(1:6, 9), meanlog = 0, sdlog = 2, lower.tail = FALSE))
 #' @export
 s2pwe <- function(times, survival) {
   # check input values
