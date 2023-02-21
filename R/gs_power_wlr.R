@@ -171,9 +171,9 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
-gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2, 10), rate = c(3, 6, 9)),
                          fail_rate = tibble(
-                           stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+                           stratum = "all", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
                            hr = c(.9, .6), dropout_rate = rep(.001, 2)
                          ),
                          event = c(30, 40, 50),
@@ -181,7 +181,11 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
                          binding = FALSE,
                          upper = gs_b,
                          lower = gs_b,
-                         upar = gsDesign(k = 3, test.type = 1, n.I = c(30, 40, 50), maxn.IPlan = 50, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+                         upar = gsDesign(
+                           k = 3, test.type = 1,
+                           n.I = c(30, 40, 50), maxn.IPlan = 50,
+                           sfu = sfLDOF, sfupar = NULL
+                         )$upper$bound,
                          lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_upper = TRUE,
                          test_lower = TRUE,
@@ -193,7 +197,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
                          tol = 1e-6,
                          interval = c(.01, 100)) {
   # get the number of analysis
-  K <- max(length(event), length(analysis_time), na.rm = TRUE)
+  n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
   info_scale <- if (methods::missingArg(info_scale)) {
     2
@@ -219,7 +223,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
   #  given the above statistical information #
   #         calculate the power              #
   # ---------------------------------------- #
-  y_H1 <- gs_power_npe(
+  y_h1 <- gs_power_npe(
     theta = x$theta,
     info = x$info,
     info0 = x$info0,
@@ -236,7 +240,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
     tol = tol
   )
 
-  y_H0 <- gs_power_npe(
+  y_h0 <- gs_power_npe(
     theta = 0,
     theta0 = 0,
     theta1 = x$theta,
@@ -259,14 +263,17 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
   #     get bounds to output                      #
   # --------------------------------------------- #
   suppressMessages(
-    bounds <- y_H0 %>%
-      select(Analysis, Bound, Z, Probability) %>%
-      dplyr::rename(Probability0 = Probability) %>%
-      dplyr::left_join(x %>% select(Analysis, Events)) %>%
-      mutate(`~HR at bound` = gsDesign::zn2hr(z = Z, n = Events, ratio = ratio), `Nominal p` = pnorm(-Z)) %>%
-      dplyr::left_join(y_H1 %>% select(Analysis, Bound, Probability)) %>%
-      select(Analysis, Bound, Probability, Probability0, Z, `~HR at bound`, `Nominal p`) %>%
-      arrange(Analysis, desc(Bound))
+    bounds <- y_h0 %>%
+      select(analysis, bound, z, probability) %>%
+      dplyr::rename(probability0 = probability) %>%
+      dplyr::left_join(x %>% select(analysis, event)) %>%
+      mutate(
+        `~hr at bound` = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
+        `nominal p` = pnorm(-z)
+      ) %>%
+      dplyr::left_join(y_h1 %>% select(analysis, bound, probability)) %>%
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
+      arrange(analysis, desc(bound))
   )
 
   # --------------------------------------------- #
@@ -274,12 +281,15 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
   # --------------------------------------------- #
   suppressMessages(
     analysis <- x %>%
-      select(Analysis, Time, Events, AHR) %>%
-      mutate(N = expected_accrual(time = x$Time, enroll_rate = enroll_rate)) %>%
-      dplyr::left_join(y_H1 %>% select(Analysis, info, info_frac, theta) %>% unique()) %>%
-      dplyr::left_join(y_H0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
-      select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>%
-      arrange(Analysis)
+      select(analysis, time, event, ahr) %>%
+      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
+      dplyr::left_join(y_h1 %>% select(analysis, info, info_frac, theta) %>% unique()) %>%
+      dplyr::left_join(y_h0 %>%
+        select(analysis, info, info_frac) %>%
+        dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+        unique()) %>%
+      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
+      arrange(analysis)
   )
   # --------------------------------------------- #
   #     get input parameter to output             #
@@ -300,7 +310,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2
     input = input,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    bounds = bounds %>% filter(!is.infinite(Z)),
+    bounds = bounds %>% filter(!is.infinite(z)),
     analysis = analysis
   )
 

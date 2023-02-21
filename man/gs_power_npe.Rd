@@ -27,19 +27,24 @@ gs_power_npe(
 \item{theta}{natural parameter for group sequential design representing
 expected incremental drift at all analyses; used for power calculation}
 
-\item{theta0}{natural parameter for null hypothesis, if needed for upper bound computation}
+\item{theta0}{natural parameter for null hypothesis,
+if needed for upper bound computation}
 
-\item{theta1}{natural parameter for alternate hypothesis, if needed for lower bound computation}
+\item{theta1}{natural parameter for alternate hypothesis,
+if needed for lower bound computation}
 
 \item{info}{statistical information at all analyses for input \code{theta}}
 
-\item{info0}{statistical information under null hypothesis, if different than \code{info};
+\item{info0}{statistical information under null hypothesis,
+if different than \code{info};
 impacts null hypothesis bound calculation}
 
-\item{info1}{statistical information under hypothesis used for futility bound calculation if different from
+\item{info1}{statistical information under hypothesis used for
+futility bound calculation if different from
 \code{info}; impacts futility hypothesis bound calculation}
 
-\item{info_scale}{the information scale for calculation, default is 2, other options are 0 or 1.}
+\item{info_scale}{the information scale for calculation,
+default is 2, other options are 0 or 1.}
 
 \item{upper}{function to compute upper bound}
 
@@ -49,35 +54,51 @@ impacts null hypothesis bound calculation}
 
 \item{lpar}{parameter to pass to lower}
 
-\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound;
+\item{test_upper}{indicator of which analyses should include
+an upper (efficacy) bound;
 single value of TRUE (default)  indicates all analyses; otherwise,
-a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound}
+a logical vector of the same length as \code{info} should
+indicate which analyses will have an efficacy bound}
 
 \item{test_lower}{indicator of which analyses should include a lower bound;
 single value of TRUE (default) indicates all analyses;
 single value FALSE indicated no lower bound; otherwise,
-a logical vector of the same length as \code{info} should indicate which analyses will have a lower bound}
+a logical vector of the same length as \code{info} should
+indicate which analyses will have a lower bound}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{indicator of whether futility bound is binding;
+default of FALSE is recommended}
 
-\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+\item{r}{Integer value controlling grid for numerical
+integration as in Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide
+larger number of grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 }
 \description{
 \code{gs_power_npe()} derives group sequential bounds and boundary crossing probabilities for a design.
-It allows a non-constant treatment effect over time, but also can be applied for the usual homogeneous effect size designs.
-It requires treatment effect and statistical information at each analysis as well as a method of deriving bounds, such as spending.
-The routine enables two things not available in the gsDesign package: 1) non-constant effect, 2) more flexibility in boundary selection.
-For many applications, the non-proportional-hazards design function \code{gs_design_nph()} will be used; it calls this function.
-Initial bound types supported are 1) spending bounds, 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
-The requirement is to have a boundary update method that can each bound without knowledge of future bounds.
-As an example, bounds based on conditional power that require knowledge of all future bounds are not supported by this routine;
+It allows a non-constant treatment effect over time,
+but also can be applied for the usual homogeneous effect size designs.
+It requires treatment effect and statistical information at each analysis
+as well as a method of deriving bounds, such as spending.
+The routine enables two things not available in the gsDesign package:
+\enumerate{
+\item non-constant effect, 2) more flexibility in boundary selection.
+For many applications, the non-proportional-hazards design function
+\code{gs_design_nph()} will be used; it calls this function.
+Initial bound types supported are 1) spending bounds,
+\item fixed bounds, and 3) Haybittle-Peto-like bounds.
+The requirement is to have a boundary update method that can
+each bound without knowledge of future bounds.
+As an example, bounds based on conditional power that require
+knowledge of all future bounds are not supported by this routine;
 a more limited conditional power method will be demonstrated.
-Boundary family designs Wang-Tsiatis designs including the original (non-spending-function-based) O'Brien-Fleming and Pocock designs
+Boundary family designs Wang-Tsiatis designs including the
+original (non-spending-function-based) O'Brien-Fleming and Pocock designs
 are not supported by \code{gs_power_npe()}.
+}
 }
 \section{Specification}{
 
@@ -86,20 +107,30 @@ are not supported by \code{gs_power_npe()}.
    \item Extract the length of input info as the number of interim analysis.
    \item Validate if input info0 is NULL, so set it equal to info.
    \item Validate if the length of inputs info and info0 are the same.
-   \item Validate if input theta is a scalar, so replicate the value for all k interim analysis.
-   \item Validate if input theta1 is NULL and if it is a scalar. If it is NULL,
-   set it equal to input theta. If it is a scalar, replicate the value for all k interim analysis.
-   \item Validate if input test_upper is a scalar, so replicate the value for all k interim analysis.
-   \item Validate if input test_lower is a scalar, so replicate the value for all k interim analysis.
-   \item Define vector a to be -Inf with length equal to the number of interim analysis.
-   \item Define vector b to be Inf with length equal to the number of interim analysis.
+   \item Validate if input theta is a scalar, so replicate
+   the value for all k interim analysis.
+   \item Validate if input theta1 is NULL and if it is a scalar.
+   If it is NULL, set it equal to input theta. If it is a scalar,
+   replicate the value for all k interim analysis.
+   \item Validate if input test_upper is a scalar,
+   so replicate the value for all k interim analysis.
+   \item Validate if input test_lower is a scalar,
+   so replicate the value for all k interim analysis.
+   \item Define vector a to be -Inf with
+   length equal to the number of interim analysis.
+   \item Define vector b to be Inf with
+   length equal to the number of interim analysis.
    \item Define hgm1_0 and hgm1 to be NULL.
-   \item Define upperProb and lowerProb to be vectors of NA with length of the number of interim analysis.
+   \item Define upper_prob and lower_prob to be
+   vectors of NA with length of the number of interim analysis.
    \item Update lower and upper bounds using \code{gs_b()}.
-   \item If there are no interim analysis, compute proabilities of crossing upper and lower bounds
+   \item If there are no interim analysis, compute probabilities
+   of crossing upper and lower bounds
    using \code{h1()}.
-   \item Compute cross upper and lower bound probabilities using \code{hupdate()} and \code{h1()}.
-   \item Return a tibble of analysis number, Bounds, Z-values, Probability of crossing bounds,
+   \item Compute cross upper and lower bound probabilities
+   using \code{hupdate()} and \code{h1()}.
+   \item Return a tibble of analysis number, bound, z-values,
+   probability of crossing bounds,
    theta, theta1, info, and info0.
   }
 }
@@ -112,7 +143,7 @@ library(gsDesign2)
 library(dplyr)
 
 # Default (single analysis; Type I error controlled)
-gs_power_npe(theta = 0) \%>\% filter(Bound == "Upper")
+gs_power_npe(theta = 0) \%>\% filter(bound == "upper")
 
 # Fixed bound
 gs_power_npe(
@@ -131,7 +162,7 @@ gs_power_npe(
   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
   lpar = rep(-Inf, 3)
 ) \%>\%
-  filter(Bound == "Upper")
+  filter(bound == "upper")
 
 # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
 gs_power_npe(
@@ -182,8 +213,8 @@ gs_power_npe(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   binding = TRUE,
-  upar = (x \%>\% filter(Bound == "Upper"))$Z,
-  lpar = -(x \%>\% filter(Bound == "Upper"))$Z
+  upar = (x \%>\% filter(bound == "upper"))$z,
+  lpar = -(x \%>\% filter(bound == "upper"))$z
 )
 }
 \author{

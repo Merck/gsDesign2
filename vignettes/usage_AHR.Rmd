@@ -1,5 +1,5 @@
 ---
-title: "AHR: computes AHR under NPH assumptions and (stratified) populations"
+title: "ahr: computes AHR under NPH assumptions and (stratified) populations"
 output:
   rmarkdown::html_document:
     toc: true
@@ -20,12 +20,12 @@ library(dplyr)
 library(gsDesign2)
 ```
 
-# Introduction of `AHR()`
+# Introduction of `ahr()`
 
-`AHR()` provides a **geometric average hazard ratio** under various non-proportional hazards assumptions for either single or multiple strata studies.
+`ahr()` provides a **geometric average hazard ratio** under various non-proportional hazards assumptions for either single or multiple strata studies.
 The piecewise exponential distribution allows a simple method to specify a distribution and enrollment pattern where the enrollment, failure and dropout rates changes over time.
 
-# Usage of `AHR()`
+# Usage of `ahr()`
 
 ## Example 1: Un-stratified population
 
@@ -42,7 +42,7 @@ fail_rate <- tibble(
   hr = c(.9, .75, .8, .6),
   dropout_rate = .001
 )
-AHR(
+ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = c(15, 30)
@@ -64,14 +64,14 @@ fail_rate <- tibble(
   hr = c(.9, .75, .8, .6),
   dropout_rate = .001
 )
-AHR(
+ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = c(15, 30)
 ) %>% gt::gt()
 ```
 
-# Inner Logic of `AHR()`
+# Inner Logic of `ahr()`
 
 Let's take the un-stratified population as an example, where the enrollment rate, failure rates and dropout rates are
 
@@ -97,13 +97,13 @@ total_duration <- 30
 **Step 1:** compute proportion in each group
 
 ```{r}
-Qe <- ratio / (1 + ratio)
-Qc <- 1 - Qe
+q_e <- ratio / (1 + ratio)
+q_c <- 1 - q_e
 ```
 
 ```{r, echo=FALSE}
-cat("The proportion of the experimental arm is ", Qe, "\n")
-cat("The proportion of the control arm is ", Qc, "\n")
+cat("The proportion of the experimental arm is ", q_e, "\n")
+cat("The proportion of the control arm is ", q_c, "\n")
 ```
 
 To compute the expected events over different treatment group, stratum and time period, we iterate over `total_duration` and `Strata`.
@@ -125,8 +125,8 @@ fail <- fail_rate %>% filter(stratum == s)
 **Step 3:** we calculate the enrollment rates in experimental arm and control arm, respectively.
 
 ```{r}
-enroll_c <- enroll %>% mutate(rate = rate * Qc)
-enroll_e <- enroll %>% mutate(rate = rate * Qe)
+enroll_c <- enroll %>% mutate(rate = rate * q_c)
+enroll_e <- enroll %>% mutate(rate = rate * q_e)
 ```
 
 **Step 4:** we update the failure rate in the control and experimental arm.
@@ -170,22 +170,22 @@ Here the `t` column is the start of period, the `fail_rate` column is the failur
 events <- rbind(
   events_c %>% mutate(Treatment = "Control"),
   events_e %>% mutate(Treatment = "Experimental")
-) %>%
+  ) %>%
   arrange(t, Treatment) %>%
   ungroup() %>%
   # recompute HR, events, info by period
   group_by(t) %>%
   summarize(
     stratum = s,
-    info = (sum(1 / Events))^(-1),
-    Events = sum(Events),
-    HR = last(failRate) / first(failRate)
+    info = (sum(1 / event))^(- 1),
+    Events = sum(event),
+    HR = last(fail_rate) / first(fail_rate)
   ) %>%
   # compute info0
   mutate(
     Time = td,
     lnhr = log(HR),
-    info0 = Events * Qc * Qe
+    info0 = Events * q_c * q_e
   ) %>%
   ungroup() %>%
   group_by(Time, stratum, HR) %>%

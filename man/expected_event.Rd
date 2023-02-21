@@ -23,8 +23,10 @@ expected_event(
 a \code{tibble} as described below.}
 }
 \value{
-The default when \code{simple=TRUE} is to return the total expected number of events as a real number.
-Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with the following variables for each period specified in 'fail_rate':
+The default when \code{simple=TRUE} is to return the total expected
+number of events as a real number.
+Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with
+the following variables for each period specified in 'fail_rate':
 \code{t} start of period,
 \code{fail_rate} failure rate during the period
 \code{Events} expected events during the period,
@@ -60,8 +62,10 @@ maximize flexibility for a variety of purposes.
    \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
    \item Validate if input simple is logical.
    \item Define a tibble with the start opening for enrollment at zero and cumulative duration.
-   Add the event (or failure) time corresponding to the start of the enrollment. Finally, add the enrollment rate to the tibble
-   corresponding to the start and end (failure) time. This will be recursively used to calculate the expected
+   Add the event (or failure) time corresponding to the start of the enrollment.
+   Finally, add the enrollment rate to the tibble
+   corresponding to the start and end (failure) time.
+   This will be recursively used to calculate the expected
    number of events later. For details, see vignette/eEventsTheory.Rmd
    \item Define a tibble including the cumulative duration of failure rates, the corresponding start time of
    the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd

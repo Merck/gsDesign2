@@ -52,11 +52,11 @@
 #' fh_test <- rbind(
 #'   data.frame(
 #'     rho = 0, gamma = 0, tau = -1,
-#'     test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)
+#'     test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)
 #'   ),
 #'   data.frame(
 #'     rho = c(0, 0.5), gamma = 0.5, tau = -1,
-#'     test = 2:3, Analysis = 3, analysis_time = 36
+#'     test = 2:3, analysis = 3, analysis_time = 36
 #'   )
 #' )
 #'
@@ -132,8 +132,16 @@ gs_design_combo <- function(enroll_rate = tibble(
                               dropout_rate = 0.001
                             ),
                             fh_test = rbind(
-                              data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysisTimes = c(12, 24, 36)),
-                              data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysisTimes = 36)
+                              data.frame(
+                                rho = 0, gamma = 0, tau = -1,
+                                test = 1, analysis = 1:3,
+                                analysis_time = c(12, 24, 36)
+                              ),
+                              data.frame(
+                                rho = c(0, 0.5), gamma = 0.5, tau = -1,
+                                test = 2:3, analysis = 3,
+                                analysis_time = 36
+                              )
                             ),
                             ratio = 1,
                             alpha = 0.025,
@@ -146,22 +154,11 @@ gs_design_combo <- function(enroll_rate = tibble(
                             algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
                             n_upper_bound = 1e3,
                             ...) {
-  # --------------------------------------------- #
-  #     check input values                        #
-  # --------------------------------------------- #
-  # Currently only support user defined lower and upper bound
-  # stopifnot( identical(upper, gs_b) | identical(upper, gs_spending_combo) )
-  # stopifnot( identical(lower, gs_b) | identical(lower, gs_spending_combo) )
-
-  # --------------------------------------------- #
-  #     get the number of analysis/test           #
-  # --------------------------------------------- #
-  n_analysis <- length(unique(fh_test$Analysis))
+  # get the number of analysis/test
+  n_analysis <- length(unique(fh_test$analysis))
   n_test <- max(fh_test$test)
 
-  # --------------------------------------------- #
-  #     obtain utilities                          #
-  # --------------------------------------------- #
+  # obtain utilities
   utility <- gs_utility_combo(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
@@ -176,10 +173,7 @@ gs_design_combo <- function(enroll_rate = tibble(
   theta_fh <- utility$theta
   corr_fh <- utility$corr
 
-  # --------------------------------------------- #
-  #     check design type                         #
-  # --------------------------------------------- #
-
+  # check design type
   if (identical(lower, gs_b) && (!is.list(lpar))) {
     two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
   } else {
@@ -200,27 +194,27 @@ gs_design_combo <- function(enroll_rate = tibble(
     prob <- gs_prob_combo(
       upper_bound = bound$upper,
       lower_bound = bound$lower,
-      analysis = info_fh$Analysis,
+      analysis = info_fh$analysis,
       theta = theta_fh * sqrt(n),
       corr = corr_fh,
       algorithm = algorithm, ...
     )
 
-    max(subset(prob, Bound == "Upper")$Probability) - (1 - beta)
+    max(subset(prob, bound == "upper")$probability) - (1 - beta)
   }
 
   # Find sample size and bound
-  n <- max(info$N)
+  sample_size <- max(info$n)
   n0 <- 0
-  while ((abs(n - n0)) > 1e-2) {
-    n0 <- n
+  while ((abs(sample_size - n0)) > 1e-2) {
+    n0 <- sample_size
 
     # Obtain spending function
     bound <- gs_bound(
       alpha = upper(upar, info = min_info_frac),
       beta = lower(lpar, info = min_info_frac),
-      analysis = info_fh$Analysis,
-      theta = theta_fh * sqrt(n),
+      analysis = info_fh$analysis,
+      theta = theta_fh * sqrt(sample_size),
       corr = corr_fh,
       binding_lower_bound = binding,
       algorithm = algorithm,
@@ -230,15 +224,15 @@ gs_design_combo <- function(enroll_rate = tibble(
     )
 
 
-    n <- uniroot(foo, c(1, n_upper_bound), extendInt = "yes", beta = beta, ...)$root
+    sample_size <- uniroot(foo, c(1, n_upper_bound), extendInt = "yes", beta = beta, ...)$root
   }
 
   # Probability Cross Boundary
   prob <- gs_prob_combo(
     upper_bound = bound$upper,
     lower_bound = bound$lower,
-    analysis = info_fh$Analysis,
-    theta = theta_fh * sqrt(n),
+    analysis = info_fh$analysis,
+    theta = theta_fh * sqrt(sample_size),
     corr = corr_fh,
     algorithm = algorithm, ...
   )
@@ -251,49 +245,47 @@ gs_design_combo <- function(enroll_rate = tibble(
     } else {
       rep(-Inf, nrow(bound))
     },
-    analysis = info_fh$Analysis,
+    analysis = info_fh$analysis,
     theta = rep(0, nrow(info_fh)),
     corr = corr_fh,
     algorithm = algorithm, ...
   )
 
-  prob$Probability_Null <- prob_null$Probability
+  prob$probability_null <- prob_null$probability
 
   # Prepare output
   db <- merge(
-    data.frame(Analysis = 1:(nrow(prob) / 2), prob, Z = unlist(bound)),
+    data.frame(analysis = 1:(nrow(prob) / 2), prob, z = unlist(bound)),
     info_fh %>%
       tibble::as_tibble() %>%
-      select(Analysis, Time, N, Events) %>%
+      select(analysis, time, n, event) %>%
       unique()
   ) %>%
     # update sample size and events
     mutate(
-      Events = Events * n / max(N),
-      N = N * n / max(N)
+      event = event * sample_size / max(n),
+      n = n * sample_size / max(n)
     ) %>%
     # arrange the dataset by Upper bound first and then Lower bound
-    arrange(Analysis, desc(Bound))
+    arrange(analysis, desc(bound))
 
 
-  # out <- db[order(db$Bound, decreasing = TRUE), c("Analysis", "Bound", "Time", "N", "Events", "Z", "Probability", "Probability_Null")]
   out <- db %>%
-    dplyr::select(Analysis, Bound, Time, N, Events, Z, Probability, Probability_Null) %>%
-    dplyr::rename(Probability0 = Probability_Null) %>%
-    dplyr::mutate(`Nominal p` = pnorm(Z * (-1)))
+    dplyr::select(
+      analysis, bound, time, n, event, z,
+      probability, probability_null
+    ) %>%
+    dplyr::rename(probability0 = probability_null) %>%
+    dplyr::mutate(`nominal p` = pnorm(z * (-1)))
 
 
-  # --------------------------------------------- #
-  #     get bounds to output                      #
-  # --------------------------------------------- #
+  # get bounds to output
   bounds <- out %>%
     # rbind(out_H1, out_H0) %>%
-    select(Analysis, Bound, Probability, Probability0, Z, `Nominal p`) %>%
-    arrange(Analysis, desc(Bound))
+    select(analysis, bound, probability, probability0, z, `nominal p`) %>%
+    arrange(analysis, desc(bound))
 
-  # --------------------------------------------- #
-  #     get analysis summary to output            #
-  # --------------------------------------------- #
+  # get analysis summary to output
   # check if rho, gamma = 0 is included in fh_test
   tmp <- fh_test %>%
     filter(rho == 0 & gamma == 0 & tau == -1) %>%
@@ -301,45 +293,46 @@ gs_design_combo <- function(enroll_rate = tibble(
     unlist() %>%
     as.numeric() %>%
     unique()
+
   if (length(tmp) != 0) {
-    AHR_dis <- utility$info_all %>%
+    ahr_dis <- utility$info_all %>%
       filter(test == tmp) %>%
-      select(AHR) %>%
+      select(ahr) %>%
       unlist() %>%
       as.numeric()
   } else {
-    AHR_dis <- gs_info_wlr(
+    ahr_dis <- gs_info_wlr(
       enroll_rate,
       fail_rate,
       ratio,
-      event = unique(utility$info_all$Events),
-      analysis_time = unique(utility$info_all$Time),
+      event = unique(utility$info_all$event),
+      analysis_time = unique(utility$info_all$time),
       weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = -1)))
     )$AHR
   }
 
   analysis <- utility$info_all %>%
-    select(Analysis, test, Time, N, Events) %>%
+    select(analysis, test, time, n, event) %>%
     mutate(
       theta = utility$info_all$theta,
-      event_frac = Events / tapply(Events, test, function(x) max(x)) %>%
+      event_frac = event / tapply(event, test, function(x) max(x)) %>%
         unlist() %>%
         as.numeric()
     ) %>%
-    select(Analysis, Time, N, Events, event_frac) %>%
+    select(analysis, time, n, event, event_frac) %>%
     unique() %>%
-    mutate(AHR = AHR_dis) %>%
+    mutate(ahr = ahr_dis) %>%
     mutate(
-      N = N * n / max(info_fh$N),
-      Events = Events * n / max(info_fh$N)
+      n = n * sample_size / max(info_fh$n),
+      event = event * sample_size / max(info_fh$n)
     ) %>%
-    arrange(Analysis)
+    arrange(analysis)
 
   # --------------------------------------------- #
   #     output                                    #
   # --------------------------------------------- #
   output <- list(
-    enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$N) / sum(rate * duration)),
+    enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
     fail_rate = fail_rate,
     bounds = bounds,
     analysis = analysis

@@ -50,7 +50,7 @@ gs_power_grid <- function(n_analysis, r, tol, sf = gsDesign::sfLDOF, sfname = "O
     upper = gs_spending_bound,
     upar = list(sf = sf, total_spend = alpha, param = param, timing = NULL),
     lower = gs_b,
-    lpar = -rep(Inf, n_analysis),
+    lpar = - rep(Inf, n_analysis),
     test_upper = TRUE,
     test_lower = FALSE,
     binding = FALSE,
@@ -58,8 +58,8 @@ gs_power_grid <- function(n_analysis, r, tol, sf = gsDesign::sfLDOF, sfname = "O
     tol = tol
   )
   x %>%
-    filter(abs(Z) < Inf) %>%
-    transmute(sf = sfname, param = param, r = r, Analysis = Analysis, Z = Z, p = pnorm(-Z), tol = tol)
+    filter(abs(z) < Inf) %>%
+    transmute(sf = sfname, param = param, r = r, Analysis = analysis, Z = z, p = pnorm(- z), tol = tol)
 }
 ```
 
@@ -83,7 +83,7 @@ y <- mapply(
 ```{r}
 y %>%
   filter(Analysis == 5) %>%
-  select(-p) %>%
+  select(- p) %>%
   pivot_wider(names_from = tol, values_from = Z) %>%
   gt() %>%
   tab_header(
@@ -100,7 +100,7 @@ y %>%
 ```{r}
 y %>%
   filter(Analysis == 5) %>%
-  select(-Z) %>%
+  select(- Z) %>%
   pivot_wider(names_from = tol, values_from = p) %>%
   gt() %>%
   tab_header(

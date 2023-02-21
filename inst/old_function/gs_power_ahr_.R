@@ -104,7 +104,7 @@ gs_power_ahr_ <- function(enrollRates = tibble::tibble(
                           test_lower = TRUE,
                           r = 18,
                           tol = 1e-6) {
-  x <- gs_info_ahr(
+  x <- gs_info_ahr_(
     enrollRates = enrollRates,
     failRates = failRates,
     ratio = ratio,

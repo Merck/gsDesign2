@@ -87,7 +87,7 @@ gs_info_ahr(
 In this example, we both input `analysis_time = ...` and `event = ...`.
 In this case, one will see
 
-- the derived analysis time (`Time` column) $\geq$ input `analysis_time`
+- the derived analysis time (`time` column) $\geq$ input `analysis_time`
 - the derived number of event (`Events` column) $\geq$ input `event`
 
 ```{r}
@@ -137,12 +137,12 @@ fail_rate <- tibble(
 ratio <- 1
 analysis_time <- c(10, 15, 20)
 
-AHR(
+ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   ratio = ratio, total_duration = analysis_time
 ) %>%
-  mutate(theta = -log(AHR), Analysis = seq_along(analysis_time)) %>%
-  select(Analysis, Time, Events, AHR, theta, info, info0) %>%
+  mutate(theta = - log(ahr), Analysis = seq_along(analysis_time)) %>%
+  select(Analysis, time, event, ahr, theta, info, info0) %>%
   gt()
 ```
 
@@ -183,8 +183,8 @@ for (i in seq_along(events)) {
 }
 
 ans %>%
-  mutate(theta = -log(AHR), Analysis = seq_along(analysis_time)) %>%
-  select(Analysis, Time, Events, AHR, theta, info, info0) %>%
+  mutate(theta = - log(ahr), Analysis = seq_along(analysis_time)) %>%
+  select(Analysis, time, event, ahr, theta, info, info0) %>%
   gt()
 ```
 
@@ -202,8 +202,8 @@ gs_info_ahr(
 If both `analysis_time = ...` and `event = ...` are input, `gs_info_ahr()` uses both `AHR()` and `expected_time()`.
 In this way, it is guaranteed that
 
-- the derived number of event (`Events` column) $\geq$ input `event`
-- the derived analysis time (`Time` column) $\geq$ input `analysis_time`
+- the derived number of event (`event` column) $\geq$ input `event`
+- the derived analysis time (`time` column) $\geq$ input `analysis_time`
 
 ```{r}
 enroll_rate <- tibble(
@@ -225,14 +225,14 @@ events <- c(70, 150, 200)
 ans <- NULL
 
 # First, use `AHR()` to calculate the number of events at the input `analysis_time`
-ans <- AHR(
+ans <- ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   ratio = ratio, total_duration = analysis_time
 )
 
 # Second, compare if the events derived above meet the targeted number of events input in `events`
 for (i in seq_along(events)) {
-  if (ans$Events[i] < events[i]) {
+  if (ans$event[i] < events[i]) {
     ans[i, ] <- expected_time(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       ratio = ratio, target_event = events[i]
@@ -241,8 +241,8 @@ for (i in seq_along(events)) {
 }
 
 ans %>%
-  mutate(theta = -log(AHR), Analysis = seq_along(analysis_time)) %>%
-  select(Analysis, Time, Events, AHR, theta, info, info0) %>%
+  mutate(theta = - log(ahr), Analysis = seq_along(analysis_time)) %>%
+  select(Analysis, time, event, ahr, theta, info, info0) %>%
   gt()
 ```
 

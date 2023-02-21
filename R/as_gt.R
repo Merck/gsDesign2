@@ -156,19 +156,20 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
       "fh" = {
         paste0(
           "Power for Fleming-Harrington test ",
-          substr(x$Design, 19, nchar(x$Design)),
+          substr(x$design, 19, nchar(x$design)),
           " using method of Yung and Liu."
         )
       },
       "mb" = {
         paste0(
           "Power for ",
-          x$Design,
+          x$design,
           " computed with method of Yung and Liu."
         )
       },
       "lf" = {
-        "Power using Lachin and Foulkes method applied using expected average hazard ratio (AHR) at time of planned analysis."
+        "Power using Lachin and Foulkes method applied
+        using expected average hazard ratio (AHR) at time of planned analysis."
       },
       "rd" = {
         "Risk difference power without continuity correction using method of Farrington and Manning."
@@ -176,21 +177,20 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
       "maxcombo" = {
         paste0(
           "Power for MaxCombo test with Fleming-Harrington tests",
-          substr(x$Design, 9, nchar(x$Design)), "."
-          # paste(apply(do.call(rbind, x$design_par), 2 , paste , collapse = "," ), collapse = ") and ("),
+          substr(x$design, 9, nchar(x$design)), "."
         )
       },
       "milestone" = {
-        paste0("Power for ", x$Design, " computed with method of Yung and Liu.")
+        paste0("Power for ", x$design, " computed with method of Yung and Liu.")
       },
       "rmst" = {
-        paste0("Power for ", x$Design, " computed with method of Yung and Liu.")
+        paste0("Power for ", x$design, " computed with method of Yung and Liu.")
       }
     )
   }
 
   ans <- x %>%
-    dplyr::mutate(Design = design_mtd) %>%
+    dplyr::mutate(design = design_mtd) %>%
     gt::gt() %>%
     gt::tab_header(title = title) %>%
     gt::tab_footnote(footnote = footnote, locations = gt::cells_title(group = "title"))
@@ -359,13 +359,25 @@ as_gt.gs_design <- function(x,
   # set different default columns to display
   if (is.null(display_columns)) {
     if (method == "ahr") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~HR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "~HR at bound", "Alternate hypothesis", "Null hypothesis"
+      )
     } else if (method == "wlr") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~wHR at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "~wHR at bound", "Alternate hypothesis", "Null hypothesis"
+      )
     } else if (method == "combo") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "Alternate hypothesis", "Null hypothesis"
+      )
     } else if (method == "rd") {
-      display_columns <- c("Analysis", "Bound", "Z", "Nominal p", "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis")
+      display_columns <- c(
+        "Analysis", "Bound", "Z", "Nominal p",
+        "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis"
+      )
     }
   }
   # filter the columns to display as the output
@@ -385,8 +397,13 @@ as_gt.gs_design <- function(x,
   if (method == "ahr" && is.null(footnote)) {
     footnote <- list(
       content = c(
-        ifelse("~HR at bound" %in% display_columns, "Approximate hazard ratio to cross bound.", NA),
-        ifelse("Nominal p" %in% display_columns, "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA)
+        ifelse("~HR at bound" %in% display_columns,
+          "Approximate hazard ratio to cross bound.", NA
+        ),
+        ifelse("Nominal p" %in% display_columns,
+          "One-sided p-value for experimental vs control treatment.
+          Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        )
       ),
       location = c(
         ifelse("~HR at bound" %in% display_columns, "~HR at bound", NA),
@@ -402,8 +419,13 @@ as_gt.gs_design <- function(x,
   if (method == "wlr" && is.null(footnote)) {
     footnote <- list(
       content = c(
-        ifelse("~wHR at bound" %in% display_columns, "Approximate hazard ratio to cross bound.", NA),
-        ifelse("Nominal p" %in% display_columns, "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA),
+        ifelse("~wHR at bound" %in% display_columns,
+          "Approximate hazard ratio to cross bound.", NA
+        ),
+        ifelse("Nominal p" %in% display_columns,
+          "One-sided p-value for experimental vs control treatment.
+          Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        ),
         "wAHR is the weighted AHR."
       ),
       location = c(
@@ -422,7 +444,10 @@ as_gt.gs_design <- function(x,
   if (method == "combo" && is.null(footnote)) {
     footnote <- list(
       content = c(
-        ifelse("Nominal p" %in% display_columns, "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA),
+        ifelse("Nominal p" %in% display_columns,
+          "One-sided p-value for experimental vs control treatment.
+               Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        ),
         "EF is event fraction. AHR  is under regular weighted log rank test."
       ),
       location = c(
@@ -438,7 +463,10 @@ as_gt.gs_design <- function(x,
   }
   if (method == "rd" && is.null(footnote)) {
     footnote <- list(
-      content = c(ifelse("Nominal p" %in% display_columns, "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA)),
+      content = c(ifelse("Nominal p" %in% display_columns,
+        "One-sided p-value for experimental vs control treatment.
+                         Value < 0.5 favors experimental, > 0.5 favors control.", NA
+      )),
       location = c(ifelse("Nominal p" %in% display_columns, "Nominal p", NA)),
       attr = c(ifelse("Nominal p" %in% display_columns, "colname", NA))
     )
@@ -516,14 +544,19 @@ as_gt.gs_design <- function(x,
       gt::tab_footnote(
         footnote = paste0(
           "Cumulative alpha for final analysis (", x_alpha,
-          ") is less than the full alpha (0.025) when the futility bound is non-binding. ",
-          "The smaller value subtracts the probability of crossing a futility bound before ",
-          " crossing an efficacy bound at a later analysis (0.025 - ",
-          full_alpha - x_alpha, " = ", x_alpha, ") under the null hypothesis."
+          ") is less than the full alpha (0.025) when
+          the futility bound is non-binding. ",
+          "The smaller value subtracts the probability of
+          crossing a futility bound before ",
+          " crossing an efficacy bound at
+          a later analysis (0.025 - ",
+          full_alpha - x_alpha, " = ", x_alpha,
+          ") under the null hypothesis."
         ),
         locations = gt::cells_body(
           columns = colname_spannersub[2],
-          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & (x_old$Bound == display_bound[1])
+          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) &
+            (x_old$Bound == display_bound[1])
         )
       )
   }

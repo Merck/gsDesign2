@@ -65,12 +65,12 @@ NULL
 #'   hr = c(.9, .6), dropout_rate = rep(.001, 2)
 #' )
 #' total_duration <- 20
-#' xx <- AHR(enroll_rate, fail_rate, total_duration)
+#' xx <- ahr(enroll_rate, fail_rate, total_duration)
 #' xx
 #'
 #' # Next we check that the function confirms the timing of the final analysis.
 #' expected_time(enroll_rate, fail_rate,
-#'   target_event = xx$Events, interval = c(.5, 1.5) * xx$Time
+#'   target_event = xx$event, interval = c(.5, 1.5) * xx$time
 #' )
 #'
 #' @export
@@ -103,10 +103,10 @@ expected_time <- function(enroll_rate = tibble::tibble(
   # ----------------------------#
   # find the difference between  `AHR()` and different values of total_duration
   foo <- function(x) {
-    ans <- AHR(
+    ans <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       total_duration = x, ratio = ratio
-    )$Events - target_event
+    )$event - target_event
     return(ans)
   }
 
@@ -119,7 +119,7 @@ expected_time <- function(enroll_rate = tibble::tibble(
   if (inherits(res, "try-error")) {
     stop("expected_time(): solution not found!")
   } else {
-    ans <- AHR(
+    ans <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       total_duration = res$root, ratio = ratio
     )

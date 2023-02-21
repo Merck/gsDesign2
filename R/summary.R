@@ -124,7 +124,7 @@ summary.fixed_design <- function(object, ...) {
     }
   )
 
-  ans <- x$analysis %>% mutate(Design = x_design)
+  ans <- x$analysis %>% mutate(design = x_design)
   class(ans) <- c("fixed_design", x$design, class(ans))
   return(ans)
 }
@@ -197,8 +197,8 @@ summary.fixed_design <- function(object, ...) {
 #'
 #' # test in COMBO
 #' fh_test <- rbind(
-#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, Analysis = 1:3, analysis_time = c(12, 24, 36)),
-#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, Analysis = 3, analysis_time = 36)
+#'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)),
+#'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 #' )
 #'
 #' # ---------------------------- #
@@ -219,7 +219,7 @@ summary.fixed_design <- function(object, ...) {
 #' )
 #'
 #' x_ahr %>% summary()
-#' x_ahr %>% summary(analysis_vars = c("Time", "Events", "info_frac"), analysis_decimals = c(1, 0, 2))
+#' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 #' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
 #'
 #' # ---------------------------- #
@@ -230,7 +230,7 @@ summary.fixed_design <- function(object, ...) {
 #'   fail_rate = fail_rate,
 #'   weight = wgt05,
 #'   info_frac = NULL,
-#'   analysis_time = sort(unique(x_ahr$analysis$Time)),
+#'   analysis_time = sort(unique(x_ahr$analysis$time)),
 #'   ratio = ratio,
 #'   alpha = alpha,
 #'   beta = beta,
@@ -290,9 +290,9 @@ summary.gs_design <- function(object,
                               ...) {
   x <- object
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
-  x_bounds <- x$bounds
+  x_bound <- x$bound
   x_analysis <- x$analysis
-  K <- max(x_analysis$Analysis)
+  n_analysis <- max(x_analysis$analysis)
 
   # --------------------------------------------- #
   #     prepare the columns decimals              #
@@ -300,7 +300,7 @@ summary.gs_design <- function(object,
   if (method == "ahr") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "~HR at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c("analysis", "bound", "z", "~hr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
       )
     } else {
@@ -311,7 +311,7 @@ summary.gs_design <- function(object,
   if (method == "wlr") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "~wHR at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c("analysis", "bound", "z", "~whr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
       )
     } else {
@@ -322,7 +322,7 @@ summary.gs_design <- function(object,
   if (method == "combo") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c("analysis", "bound", "z", "nominal p", "Alternate hypothesis", "Null hypothesis"),
         col_decimals = c(NA, NA, 2, 4, 4, 4)
       )
     } else {
@@ -333,7 +333,10 @@ summary.gs_design <- function(object,
   if (method == "rd") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
-        col_vars = c("Analysis", "Bound", "Z", "~Risk difference at bound", "Nominal p", "Alternate hypothesis", "Null hypothesis"),
+        col_vars = c(
+          "analysis", "bound", "z", "~risk difference at bound",
+          "nominal p", "Alternate hypothesis", "Null hypothesis"
+        ),
         col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
       )
     } else {
@@ -349,15 +352,15 @@ summary.gs_design <- function(object,
   # (2) decimals to be displayed for the analysis variables in (3)
   if (is.null(analysis_vars) && is.null(analysis_decimals)) {
     if (method %in% c("ahr", "wlr")) {
-      analysis_vars <- c("Time", "N", "Events", "AHR", "info_frac")
+      analysis_vars <- c("time", "n", "event", "ahr", "info_frac")
       analysis_decimals <- c(1, 1, 1, 2, 2)
     }
     if (method == "combo") {
-      analysis_vars <- c("Time", "N", "Events", "AHR", "event_frac")
+      analysis_vars <- c("time", "n", "event", "ahr", "event_frac")
       analysis_decimals <- c(1, 1, 1, 2, 2)
     }
     if (method == "rd") {
-      analysis_vars <- c("N", "rd", "info_frac")
+      analysis_vars <- c("n", "rd", "info_frac")
       analysis_decimals <- c(1, 4, 2)
     }
   } else if (is.null(analysis_vars) && !is.null(analysis_decimals)) {
@@ -368,10 +371,19 @@ summary.gs_design <- function(object,
 
   # set the analysis summary header
   analyses <- x_analysis %>%
-    dplyr::group_by(Analysis) %>%
+    dplyr::group_by(analysis) %>%
     dplyr::filter(dplyr::row_number() == 1) %>%
-    dplyr::select(all_of(c("Analysis", analysis_vars))) %>%
-    dplyr::arrange(Analysis)
+    dplyr::select(all_of(c("analysis", analysis_vars))) %>%
+    dplyr::arrange(analysis)
+
+  if ("analysis" %in% names(analyses)) {
+    analyses <- analyses %>% dplyr::rename(Analysis = analysis)
+  }
+
+  if ("n" %in% names(analyses)) {
+    analyses <- analyses %>% dplyr::rename(N = n)
+    analysis_vars <- c(analysis_vars[analysis_vars != "n"], "N")
+  }
 
   if ("info_frac" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac)
@@ -389,27 +401,27 @@ summary.gs_design <- function(object,
   #         (2) null hypothesis table             #
   # --------------------------------------------- #
   # table A: a table under alternative hypothesis
-  xy <- x_bounds %>%
-    dplyr::rename("Alternate hypothesis" = Probability) %>%
-    dplyr::rename("Null hypothesis" = Probability0) %>%
+  xy <- x_bound %>%
+    dplyr::rename("Alternate hypothesis" = probability) %>%
+    dplyr::rename("Null hypothesis" = probability0) %>%
     # change Upper -> bound_names[1], e.g., Efficacy
     # change Lower -> bound_names[2], e.g., Futility
-    dplyr::mutate(Bound = dplyr::recode(Bound, "Upper" = bound_names[1], "Lower" = bound_names[2]))
+    dplyr::mutate(bound = dplyr::recode(bound, "upper" = bound_names[1], "lower" = bound_names[2]))
 
-  if ("Probability0" %in% colnames(x_bounds)) {
-    xy <- x_bounds %>%
-      dplyr::rename("Alternate hypothesis" = Probability) %>%
-      dplyr::rename("Null hypothesis" = Probability0)
+  if ("probability0" %in% colnames(x_bound)) {
+    xy <- x_bound %>%
+      dplyr::rename("Alternate hypothesis" = probability) %>%
+      dplyr::rename("Null hypothesis" = probability0)
   } else {
-    xy <- x_bounds %>%
-      dplyr::rename("Alternate hypothesis" = Probability) %>%
+    xy <- x_bound %>%
+      dplyr::rename("Alternate hypothesis" = probability) %>%
       tibble::add_column("Null hypothesis" = "-")
   }
   # change Upper -> bound_names[1], e.g., Efficacy
   # change Lower -> bound_names[2], e.g., Futility
   xy <- xy %>%
-    dplyr::mutate(Bound = dplyr::recode(Bound, "Upper" = bound_names[1], "Lower" = bound_names[2])) %>%
-    dplyr::arrange(Analysis, desc(Bound))
+    dplyr::mutate(bound = dplyr::recode(bound, "upper" = bound_names[1], "lower" = bound_names[2])) %>%
+    dplyr::arrange(analysis, desc(bound))
 
   # --------------------------------------------- #
   #             merge 2 tables:                   #
@@ -429,12 +441,12 @@ summary.gs_design <- function(object,
   if (method == "wlr") {
     # header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    if ("AHR" %in% analysis_vars) {
-      analysis_summary_header <- analysis_summary_header %>% dplyr::rename(wAHR = AHR)
+    if ("ahr" %in% analysis_vars) {
+      analysis_summary_header <- analysis_summary_header %>% dplyr::rename(wahr = ahr)
     }
     # bound details
-    if ("~HR at bound" %in% names(xy)) {
-      bound_summary_detail <- xy %>% dplyr::rename("~wHR at bound" = "~HR at bound")
+    if ("~hr at bound" %in% names(xy)) {
+      bound_summary_detail <- xy %>% dplyr::rename("~whr at bound" = "~hr at bound")
     } else {
       bound_summary_detail <- xy
     }
@@ -445,8 +457,8 @@ summary.gs_design <- function(object,
     # header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
     # bound details
-    if ("~HR at bound" %in% names(xy)) {
-      stop("summary: ~HR at bound can't be display!")
+    if ("~hr at bound" %in% names(xy)) {
+      stop("summary: ~hr at bound can't be display!")
     } else {
       bound_summary_detail <- xy
     }
@@ -460,6 +472,29 @@ summary.gs_design <- function(object,
       dplyr::rename("Risk difference" = rd)
     # bound details
     bound_summary_detail <- xy
+  }
+
+  if ("analysis" %in% colnames(bound_summary_detail)) {
+    bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Analysis = analysis)
+  }
+  if ("bound" %in% colnames(bound_summary_detail)) {
+    bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Bound = bound)
+  }
+  if ("z" %in% colnames(bound_summary_detail)) {
+    bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Z = z)
+  }
+  if ("nominal p" %in% colnames(bound_summary_detail)) {
+    bound_summary_detail <- bound_summary_detail %>% dplyr::rename("Nominal p" = "nominal p")
+  }
+  if ("~hr at bound" %in% colnames(bound_summary_detail)) {
+    bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~HR at bound" = "~hr at bound")
+  }
+  if ("~whr at bound" %in% colnames(bound_summary_detail)) {
+    bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~wHR at bound" = "~whr at bound")
+  }
+  if ("~risk difference at bound" %in% colnames(bound_summary_detail)) {
+    bound_summary_detail <- bound_summary_detail %>%
+      dplyr::rename("~Risk difference at bound" = "~risk difference at bound")
   }
 
   output <- table_ab(
@@ -476,18 +511,69 @@ summary.gs_design <- function(object,
 
 
   if (method == "ahr") {
-    output <- output %>% select(Analysis, Bound, Z, `~HR at bound`, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      Analysis, Bound, Z,
+      `~HR at bound`, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`
+    )
   } else if (method == "wlr") {
-    output <- output %>% select(Analysis, Bound, Z, `~wHR at bound`, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      Analysis, Bound, Z,
+      `~wHR at bound`, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`
+    )
   } else if (method == "combo") {
-    output <- output %>% select(Analysis, Bound, Z, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      Analysis, Bound, Z,
+      `Nominal p`, `Alternate hypothesis`, `Null hypothesis`
+    )
   } else if (method == "rd") {
-    output <- output %>% select(Analysis, Bound, Z, `~Risk difference at bound`, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`)
+    output <- output %>% select(
+      Analysis, Bound, Z,
+      `~Risk difference at bound`, `Nominal p`,
+      `Alternate hypothesis`, `Null hypothesis`
+    )
   }
 
   # --------------------------------------------- #
   #     set the decimals to display               #
   # --------------------------------------------- #
+  if ("analysis" %in% x_decimals$col_vars) {
+    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "analysis", "Analysis", col_vars))
+  }
+
+  if ("bound" %in% x_decimals$col_vars) {
+    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "bound", "Bound", col_vars))
+  }
+
+  if ("z" %in% x_decimals$col_vars) {
+    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "z", "Z", col_vars))
+  }
+
+  if ("~risk difference at bound" %in% x_decimals$col_vars) {
+    x_decimals <- x_decimals %>%
+      mutate(col_vars = dplyr::if_else(col_vars == "~risk difference at bound",
+        "~Risk difference at bound", col_vars
+      ))
+  }
+
+  if ("~hr at bound" %in% x_decimals$col_vars) {
+    x_decimals <- x_decimals %>%
+      mutate(col_vars = dplyr::if_else(col_vars == "~hr at bound",
+        "~HR at bound", col_vars
+      ))
+  }
+
+  if ("~whr at bound" %in% x_decimals$col_vars) {
+    x_decimals <- x_decimals %>%
+      mutate(col_vars = dplyr::if_else(col_vars == "~whr at bound",
+        "~wHR at bound", col_vars
+      ))
+  }
+
+  if ("nominal p" %in% x_decimals$col_vars) {
+    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "nominal p", "Nominal p", col_vars))
+  }
+
+
   output <- output %>% select(x_decimals$col_vars)
   if ("Z" %in% colnames(output)) {
     output <- output %>% dplyr::mutate_at(

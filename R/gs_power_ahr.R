@@ -171,7 +171,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
                          tol = 1e-6,
                          interval = c(.01, 100)) {
   # Get the number of analysis
-  K <- max(length(event), length(analysis_time), na.rm = TRUE)
+  n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
 
   # Get the info_scale
   info_scale <- if (methods::missingArg(info_scale)) {
@@ -184,9 +184,9 @@ gs_power_ahr <- function(enroll_rate = tibble(
   if (identical(lower, gs_b) && (!is.list(lpar))) {
     if (all(test_lower) == FALSE) {
       two_sided <- FALSE
-      lpar <- rep(-Inf, K)
+      lpar <- rep(-Inf, n_analysis)
     } else {
-      two_sided <- ifelse(identical(lpar, rep(-Inf, K)), FALSE, TRUE)
+      two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
     }
   } else {
     two_sided <- TRUE
@@ -200,7 +200,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
   )
 
   # Given the above statistical information, calculate the power ---------------
-  y_H1 <- gs_power_npe(
+  y_h1 <- gs_power_npe(
     theta = x$theta,
     info = x$info, info0 = x$info0, info1 = x$info, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
@@ -208,7 +208,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
     binding = binding, r = r, tol = tol
   )
 
-  y_H0 <- gs_power_npe(
+  y_h0 <- gs_power_npe(
     theta = 0, theta0 = 0, theta1 = x$theta,
     info = x$info0, info0 = x$info0, info1 = x$info, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
@@ -218,7 +218,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
       lower
     },
     lpar = if (!two_sided) {
-      rep(-Inf, K)
+      rep(-Inf, n_analysis)
     } else {
       lpar
     },
@@ -229,25 +229,30 @@ gs_power_ahr <- function(enroll_rate = tibble(
   # Organize the outputs -------------------------------------------------------
   # summarize the bounds
   suppressMessages(
-    bounds <- y_H1 %>%
-      mutate(`~HR at bound` = exp(-Z / sqrt(info)), `Nominal p` = pnorm(-Z)) %>%
+    bound <- y_h1 %>%
+      mutate(`~hr at bound` = exp(-z / sqrt(info)), `nominal p` = pnorm(-z)) %>%
       left_join(
-        y_H0 %>%
-          select(Analysis, Bound, Probability) %>%
-          dplyr::rename(Probability0 = Probability)
+        y_h0 %>%
+          select(analysis, bound, probability) %>%
+          dplyr::rename(probability0 = probability)
       ) %>%
-      select(Analysis, Bound, Probability, Probability0, Z, `~HR at bound`, `Nominal p`) %>%
-      arrange(Analysis, desc(Bound))
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
+      arrange(analysis, desc(bound))
   )
   # summarize the analysis
   suppressMessages(
     analysis <- x %>%
-      select(Analysis, Time, Events, AHR) %>%
-      mutate(N = expected_accrual(time = x$Time, enroll_rate = enroll_rate)) %>%
-      left_join(y_H1 %>% select(Analysis, info, info_frac, theta) %>% unique()) %>%
-      left_join(y_H0 %>% select(Analysis, info, info_frac) %>% dplyr::rename(info0 = info, info_frac0 = info_frac) %>% unique()) %>%
-      select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac, info_frac0) %>%
-      arrange(Analysis)
+      select(analysis, time, event, ahr) %>%
+      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
+      left_join(y_h1 %>%
+        select(analysis, info, info_frac, theta) %>%
+        unique()) %>%
+      left_join(y_h0 %>%
+        select(analysis, info, info_frac) %>%
+        dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+        unique()) %>%
+      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
+      arrange(analysis)
   )
 
   # Get input parameter to output ----------------------------------------------
@@ -264,7 +269,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
     input = input,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    bounds = bounds %>% filter(!is.infinite(Z)),
+    bound = bound %>% filter(!is.infinite(z)),
     analysis = analysis
   )
 

@@ -107,13 +107,13 @@ We will consider the following failure rate assumptions:
     - Hazard ratio of 1.5 for 4 months followed by a hazard ratio of 0.5.
 
 ```{r, }
-Month <- c(0, 4, 6, 44)
-duration <- Month - c(0, Month[1:3])
+month <- c(0, 4, 6, 44)
+duration <- month - c(0, month[1:3])
 control_rate <- log(2) / c(rep(16, 4), rep(14, 4), rep(14, 4))
 s <- tibble(
   Scenario = c(rep("PH", 4), rep("Delayed effect", 4), rep("Crossing", 4)),
   Treatment = rep("Control", 12),
-  Month = rep(Month, 3),
+  Month = rep(month, 3),
   duration = rep(duration, 3),
   rate = control_rate,
   hr = c(rep(.7, 4), c(1, 1, 1, .575), c(1.5, 1.5, .5, .5))
@@ -124,7 +124,7 @@ s <- rbind(
   s %>% mutate(Treatment = "Experimental", rate = rate * hr)
 ) %>%
   group_by(Scenario, Treatment) %>%
-  mutate(Survival = exp(-cumsum(duration * rate)))
+  mutate(Survival = exp(- cumsum(duration * rate)))
 ggplot(s, aes(x = Month, y = Survival, col = Scenario, lty = Treatment)) +
   geom_line() +
   scale_y_log10(breaks = (1:10) / 10, lim = c(.1, 1)) +
@@ -134,8 +134,8 @@ ggplot(s, aes(x = Month, y = Survival, col = Scenario, lty = Treatment)) +
 ```{r}
 # get 4 scenarios
 control_median <- c(14, 12, 12, 12)
-Month <- c(0, 4, 6, 44)
-duration <- Month - c(0, Month[1:3])
+month <- c(0, 4, 6, 44)
+duration <- month - c(0, month[1:3])
 # HR by time period for each scenario
 hr <- c(
   rep(.7, 4), # constant hazard ratio of 0.7
@@ -152,7 +152,7 @@ The survival curves for these 4 scenarios are shown below:
 s <- tibble(
   Scenario = c(rep("PH", 4), rep("Shorter delayed effect", 4), rep("Longer delayed effect", 4), rep("Crossing", 4)),
   Treatment = rep("Control", 16),
-  Month = rep(Month, 4), # Periods for constant HR
+  Month = rep(month, 4), # Periods for constant HR
   duration = rep(duration, 4),
   rate = log(2) / c(
     rep(control_median[1], 4),
@@ -164,9 +164,9 @@ s <- tibble(
 )
 
 # calculate the survival at each change point for each scenario
-s <- rbind(s, s %>% mutate(Treatment = "Experimental", rate = rate * hr)) %>%
+s <- rbind(s, s %>% mutate(Treatment = "Experimental", rate = rate * hr)) %>%  
   group_by(Scenario, Treatment) %>%
-  mutate(Survival = exp(-cumsum(duration * rate)))
+  mutate(Survival = exp(- cumsum(duration * rate)))
 ```
 
 ```{r, fig.width=3}
@@ -184,7 +184,7 @@ We note that under the *Shorter delayed effect* scenario, the average hazard rat
 
 ```{r}
 # Durations to be used in common for all failure rate scenarios
-dur <- Month[2:4] - Month[1:3]
+dur <- month[2:4] - month[1:3]
 
 # Set the failure table
 # We use exponential failure, proportional hazards
@@ -216,18 +216,18 @@ hr <- do.call(
   lapply(
     c("PH", "Shorter delayed effect", "Longer delayed effect", "Crossing"),
     function(x) {
-      AHR(
+      ahr(
         enroll_rate = enroll_rate %>% filter(Scenario == x),
         fail_rate = fail_rate %>% filter(Scenario == x),
-        total_duration = c(.001, seq(4, 44, 4))
-      ) %>% mutate(Scenario = x)
+        total_duration = c(.001, seq(4, 44, 4))) %>%  
+        mutate(Scenario = x)
     }
   )
 )
 ```
 
 ```{r, fig.width=3.5}
-ggplot(hr, aes(x = Time, y = AHR, col = Scenario)) +
+ggplot(hr, aes(x = time, y = ahr, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
   ggtitle("Average hazard ratio (AHR) by study duration",
@@ -239,7 +239,7 @@ The number of events for these 4 scenarios are shown below.
 Under the 3 NPH scenarios events accumulate faster than under the PH scenario both due to a lower control median and/or a delayed effect.
 
 ```{r, fig.width=3.5}
-ggplot(hr, aes(x = Time, y = `Events`, col = Scenario)) +
+ggplot(hr, aes(x = time, y = event, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
   ylab("Expected events per 100 enrolled") +
@@ -272,12 +272,12 @@ ss_ahr_fixed <- do.call(
         upper = gs_b,
         upar = qnorm(.975),
         lower = gs_b,
-        lpar = -Inf,
+        lpar = - Inf,
         alpha = .025,
         beta = .1
       )
       ans <- xx$analysis %>%
-        select(Time, N, Events, AHR) %>%
+        select(time, n, event, ahr) %>%
         mutate(Scenario = x)
       return(ans)
     }
@@ -310,11 +310,11 @@ do.call(
         fail_rate = fail_rate %>% filter(Scenario == "Shorter delayed effect"),
         analysis_time = x,
         upper = gs_b, upar = qnorm(.975),
-        lower = gs_b, lpar = -Inf,
+        lower = gs_b, lpar = - Inf,
         alpha = .025,
         beta = .1
       )$analysis %>%
-        select(Time, N, Events, AHR) %>%
+        select(time, n, event, ahr) %>%
         mutate(Scenario = "Shorter delayed effect")
       return(ans)
     }
@@ -339,11 +339,11 @@ events_by_time_period <- NULL
 for (g in c("PH", "Shorter delayed effect", "Longer delayed effect", "Crossing")) {
   events_by_time_period <- rbind(
     events_by_time_period,
-    AHR(
+    ahr(
       enroll_rate = enroll_rate %>% filter(Scenario == g),
       fail_rate = fail_rate %>% filter(Scenario == g),
-      total_duration = c(12, 20, 28, 36), simple = FALSE
-    ) %>% mutate(Scenario = g)
+      total_duration = c(12, 20, 28, 36), simple = FALSE) %>% 
+      mutate(Scenario = g)
   )
 }
 ```
@@ -361,8 +361,8 @@ hr1 <- tibble(t = c(0, 4, 6), hr1 = c(1, .6, .6))
 
 ahr_by_analysis <- events_by_time_period %>%
   full_join(hr1) %>%
-  group_by(Scenario, Time) %>%
-  summarize(AHR1 = exp(sum(Events * log(hr1)) / sum(Events)))
+  group_by(Scenario, time) %>%
+  summarize(AHR1 = exp(sum(event * log(hr1)) / sum(event)))
 
 ahr_by_analysis %>%
   pivot_wider(names_from = Scenario, values_from = AHR1) %>%
@@ -382,9 +382,9 @@ Interim analyses are planned after 12, 20, and 28 months.
 ```{r}
 analysis_time <- c(12, 20, 28, 36)
 upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL, theta = 0)
-lpar <- list(sf = gsDesign::sfHSD, total_spend = .1, param = -2, timing = NULL, theta = NULL)
+lpar <- list(sf = gsDesign::sfHSD, total_spend = .1, param = - 2, timing = NULL, theta = NULL)
 
-NPHasymmetric <- gs_design_ahr(
+nph_asymmetric <- gs_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   ratio = 1, alpha = .025, beta = 0.1,
@@ -398,7 +398,7 @@ NPHasymmetric <- gs_design_ahr(
   lpar = lpar
 )
 
-summary(NPHasymmetric) %>% as_gt()
+summary(nph_asymmetric) %>% as_gt()
 ```
 
 By scenario, we now wish to compute the adjusted expected futility bounds and the power implied.
@@ -409,10 +409,10 @@ do.call(
   lapply(
     c("PH", "Shorter delayed effect", "Longer delayed effect", "Crossing"),
     function(x) {
-      AHR1 <- (ahr_by_analysis %>% filter(Scenario == x))$AHR1
+      ahr1 <- (ahr_by_analysis %>% filter(Scenario == x))$AHR1
 
       lparx <- lpar
-      lparx$theta1 <- -log(AHR1)
+      lparx$theta1 <- - log(ahr1)
 
       yy <- gs_power_ahr(
         enroll_rate = enroll_rate %>% filter(Scenario == x),
@@ -429,7 +429,7 @@ do.call(
   )
 ) %>%
   gt() %>%
-  fmt_number(columns = "Events", decimals = 1) %>%
+  fmt_number(columns = "event", decimals = 1) %>%
   fmt_number(columns = 5:10, decimals = 4)
 ```
 
@@ -453,7 +453,7 @@ do.call(
         alpha = .025,
         beta = .1,
         upar = qnorm(.975),
-        lpar = -Inf,
+        lpar = - Inf,
         analysis_time = 44
       )$analysis %>%
         mutate(Scenario = x)
@@ -482,7 +482,7 @@ do.call(
         alpha = .025,
         beta = .1,
         upar = qnorm(.975),
-        lpar = -Inf,
+        lpar = - Inf,
         analysis_time = 44
       )$analysis %>%
         mutate(Scenario = x)

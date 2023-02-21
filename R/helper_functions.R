@@ -26,9 +26,9 @@ NULL
 #' \code{ppwe} computes the cumulative distribution function (CDF) or survival rate
 #' for a piecewise exponential distribution.
 #' @param x times at which distribution is to be computed.
-#' @param failRates Piecewise constant failure rates in `rate`,
+#' @param fail_rate Piecewise constant failure rates in `rate`,
 #' `duration` for each piecewise constant failure rate period.
-#' @param lower.tail Indicator of whether lower (TRUE) or upper tail (FALSE; default)
+#' @param lower_tail Indicator of whether lower (TRUE) or upper tail (FALSE; default)
 #' of CDF is to be computed.
 #' @details
 #' Suppose \eqn{\lambda_i} is the failure rate in the interval \eqn{(t_{i-1},t_i], i=1,2,\ldots,M} where
@@ -44,13 +44,13 @@ NULL
 #'    \item Validate if input failure rate is of type data.frame.
 #'    \item Validate if input failure rate contains duration column.
 #'    \item Validate if input failure rate contains rate column.
-#'    \item Validate if input lower.tail is logical.
+#'    \item Validate if input lower_tail is logical.
 #'    \item Convert rates to step function.
 #'    \item Add times where rates change to enrollment rates.
 #'    \item Make a tibble of the input time points x, duration, hazard rates at points,
 #'    cumulative hazard and survival.
 #'    \item Extract the expected cumulative or survival of piecewise exponential distribution.
-#'    \item If input lower.tail is true, return the cdf, else return the survival for \code{ppwe}
+#'    \item If input lower_tail is true, return the cdf, else return the survival for \code{ppwe}
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
@@ -70,8 +70,8 @@ NULL
 #' lines(Time, Survival, col = 2)
 #' @export
 ppwe <- function(x = 0:20,
-                 failRates = tibble::tibble(duration = c(3, 100), rate = log(2) / c(9, 18)),
-                 lower.tail = FALSE) {
+                 fail_rate = tibble::tibble(duration = c(3, 100), rate = log(2) / c(9, 18)),
+                 lower_tail = FALSE) {
   # check input values
   # check input enrollment rate assumptions
   if (!is.numeric(x)) {
@@ -85,29 +85,29 @@ ppwe <- function(x = 0:20,
   }
 
   # check input failure rate assumptions
-  if (!is.data.frame(failRates)) {
-    stop("gsDesign2: failRates in `ppwe()` must be a data.frame")
+  if (!is.data.frame(fail_rate)) {
+    stop("gsDesign2: fail_rate in `ppwe()` must be a data.frame")
   }
-  if (!max(names(failRates) == "duration") == 1) {
-    stop("gsDesign2: failRates in `ppwe()` column names must contain duration")
+  if (!max(names(fail_rate) == "duration") == 1) {
+    stop("gsDesign2: fail_rate in `ppwe()` column names must contain duration")
   }
-  if (!max(names(failRates) == "rate") == 1) {
-    stop("gsDesign2: failRates in `ppwe()` column names must contain rate")
+  if (!max(names(fail_rate) == "rate") == 1) {
+    stop("gsDesign2: fail_rate in `ppwe()` column names must contain rate")
   }
 
-  # check lower.tail
-  if (!is.logical(lower.tail)) {
-    stop("gsDesign2: lower.tail in `ppwe()` must be logical")
+  # check lower_tail
+  if (!is.logical(lower_tail)) {
+    stop("gsDesign2: lower_tail in `ppwe()` must be logical")
   }
 
   # convert rates to step function
   ratefn <- stepfun(
-    x = cumsum(failRates$duration),
-    y = c(failRates$rate, last(failRates$rate)),
+    x = cumsum(fail_rate$duration),
+    y = c(fail_rate$rate, last(fail_rate$rate)),
     right = TRUE
   )
-  # add times where rates change to failRates
-  xvals <- sort(unique(c(x, cumsum(failRates$duration))))
+  # add times where rates change to fail_rate
+  xvals <- sort(unique(c(x, cumsum(fail_rate$duration))))
   # make a tibble
   xx <- tibble::tibble(
     x = xvals,
@@ -119,7 +119,7 @@ ppwe <- function(x = 0:20,
   # return survival or cdf
   ind <- !is.na(match(xx$x, x))
   survival <- as.numeric(xx$survival[ind])
-  if (lower.tail) {
+  if (lower_tail) {
     return(1 - survival)
   } else {
     return(survival)
@@ -147,7 +147,7 @@ NULL
 #'    \item Return the duration and rate by \code{s2pwe}
 #'  }
 #'  }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}#' @return A `tibble` with `duration` and 'rate'
+#' \if{html}{The contents of this section are shown in PDF user manual only.}
 #' @return A tibble containing the duration and rate.
 #' @examples
 #' # Example: arbitrary numbers
@@ -184,17 +184,21 @@ s2pwe <- function(times, survival) {
 
   # check that survival is positive, non-increasing, less than or equal to 1 and gt 0
   if (!min(survival) > 0) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
+         finite numbers less than or equal to 1 with at least 1 value < 1")
   }
   if (!max(survival) <= 1) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
+         finite numbers less than or equal to 1 with at least 1 value < 1")
   }
   if (!min(survival) < 1) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
+         finite numbers less than or equal to 1 with at least 1 value < 1")
   }
   if (len > 1) {
     if (!min(survival[2:len] - survival[1:(len - 1)]) <= 0) {
-      stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive finite numbers less than or equal to 1 with at least 1 value < 1")
+      stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
+           finite numbers less than or equal to 1 with at least 1 value < 1")
     }
   }
 

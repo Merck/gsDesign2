@@ -68,12 +68,12 @@ fail_rate <- tibble::tibble(
   hr = c(.9, .6), dropout_rate = rep(.001, 2)
 )
 total_duration <- 20
-xx <- AHR(enroll_rate, fail_rate, total_duration)
+xx <- ahr(enroll_rate, fail_rate, total_duration)
 xx
 
 # Next we check that the function confirms the timing of the final analysis.
 expected_time(enroll_rate, fail_rate,
-  target_event = xx$Events, interval = c(.5, 1.5) * xx$Time
+  target_event = xx$event, interval = c(.5, 1.5) * xx$time
 )
 
 }

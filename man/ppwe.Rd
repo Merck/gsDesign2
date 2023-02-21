@@ -6,17 +6,17 @@
 \usage{
 ppwe(
   x = 0:20,
-  failRates = tibble::tibble(duration = c(3, 100), rate = log(2)/c(9, 18)),
-  lower.tail = FALSE
+  fail_rate = tibble::tibble(duration = c(3, 100), rate = log(2)/c(9, 18)),
+  lower_tail = FALSE
 )
 }
 \arguments{
 \item{x}{times at which distribution is to be computed.}
 
-\item{failRates}{Piecewise constant failure rates in \code{rate},
+\item{fail_rate}{Piecewise constant failure rates in \code{rate},
 \code{duration} for each piecewise constant failure rate period.}
 
-\item{lower.tail}{Indicator of whether lower (TRUE) or upper tail (FALSE; default)
+\item{lower_tail}{Indicator of whether lower (TRUE) or upper tail (FALSE; default)
 of CDF is to be computed.}
 }
 \value{
@@ -42,13 +42,13 @@ The survival at time \eqn{t} is then
    \item Validate if input failure rate is of type data.frame.
    \item Validate if input failure rate contains duration column.
    \item Validate if input failure rate contains rate column.
-   \item Validate if input lower.tail is logical.
+   \item Validate if input lower_tail is logical.
    \item Convert rates to step function.
    \item Add times where rates change to enrollment rates.
    \item Make a tibble of the input time points x, duration, hazard rates at points,
    cumulative hazard and survival.
    \item Extract the expected cumulative or survival of piecewise exponential distribution.
-   \item If input lower.tail is true, return the cdf, else return the survival for \code{ppwe}
+   \item If input lower_tail is true, return the cdf, else return the survival for \code{ppwe}
   }
 }
 \if{html}{The contents of this section are shown in PDF user manual only.}

@@ -85,17 +85,18 @@ to_integer <- function(x, ...) {
 #' x %>% to_integer()
 #'
 to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
-  output_N <- x$analysis$N
-  input_N <- expected_accrual(time = x$analysis$Time, enroll_rate = x$input$enroll_rate)
+  output_n <- x$analysis$n
+  input_n <- expected_accrual(time = x$analysis$time, enroll_rate = x$input$enroll_rate)
 
   multiply_factor <- x$input$ratio + 1
-  enroll_rate_new <- x$enroll_rate %>% mutate(rate = rate * ceiling(output_N / multiply_factor) * multiply_factor / output_N)
+  enroll_rate_new <- x$enroll_rate %>%
+    mutate(rate = rate * ceiling(output_n / multiply_factor) * multiply_factor / output_n)
 
-  if ((x$design == "ahr") && (input_N != output_N)) {
+  if ((x$design == "ahr") && (input_n != output_n)) {
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = as.numeric(ceiling(x$analysis$Events)),
+      event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf
@@ -103,12 +104,12 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 
     analysis <- tibble::tibble(
       Design = "ahr",
-      N = x_new$analysis$N,
-      Events = x_new$analysis$Events,
-      Time = x_new$analysis$Time,
-      Bound = (x_new$bounds %>% filter(Bound == "Upper"))$Z,
+      N = x_new$analysis$n,
+      Events = x_new$analysis$event,
+      Time = x_new$analysis$time,
+      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bounds %>% filter(Bound == "Upper"))$Probability
+      Power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -117,11 +118,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     class(ans) <- c("fixed_design", class(ans))
-  } else if ((x$design == "fh") && (input_N != output_N)) {
+  } else if ((x$design == "fh") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = as.numeric(ceiling(x$analysis$Events)),
+      event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf,
@@ -135,12 +136,12 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 
     analysis <- tibble::tibble(
       Design = "fh",
-      N = x_new$analysis$N,
-      Events = x_new$analysis$Events,
-      Time = x_new$analysis$Time,
-      Bound = (x_new$bounds %>% filter(Bound == "Upper"))$Z,
+      N = x_new$analysis$n,
+      Events = x_new$analysis$event,
+      Time = x_new$analysis$time,
+      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bounds %>% filter(Bound == "Upper"))$Probability
+      Power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -149,11 +150,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     class(ans) <- c("fixed_design", class(ans))
-  } else if ((x$design == "mb") && (input_N != output_N)) {
+  } else if ((x$design == "mb") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = as.numeric(ceiling(x$analysis$Events)),
+      event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
       weight = function(s, arm0, arm1) {
@@ -167,12 +168,12 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 
     analysis <- tibble::tibble(
       Design = "mb",
-      N = x_new$analysis$N,
-      Events = x_new$analysis$Events,
-      Time = x_new$analysis$Time,
-      Bound = (x_new$bounds %>% filter(Bound == "Upper"))$Z,
+      N = x_new$analysis$n,
+      Events = x_new$analysis$event,
+      Time = x_new$analysis$time,
+      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bounds %>% filter(Bound == "Upper"))$Probability
+      Power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -199,13 +200,14 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   multiply_factor <- x$input$ratio + 1
   enroll_rate <- x$enroll_rate
-  enroll_rate_new <- enroll_rate %>% mutate(rate = rate * ceiling(x$analysis$N / multiply_factor) * multiply_factor / x$analysis$N)
+  enroll_rate_new <- enroll_rate %>%
+    mutate(rate = rate * ceiling(x$analysis$n / multiply_factor) * multiply_factor / x$analysis$n)
 
   if ("ahr" %in% class(x)) {
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = as.numeric(ceiling(x$analysis$Events)),
+      event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = x$input$upper, upar = x$input$upar,
@@ -219,7 +221,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = as.numeric(ceiling(x$analysis$Events)),
+      event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = x$input$upper, upar = x$input$upar,

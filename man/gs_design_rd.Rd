@@ -5,8 +5,8 @@
 \title{Group sequential design using average hazard ratio under non-proportional hazards}
 \usage{
 gs_design_rd(
-  p_c = tibble(stratum = "All", rate = 0.2),
-  p_e = tibble(stratum = "All", rate = 0.15),
+  p_c = tibble(stratum = "all", rate = 0.2),
+  p_e = tibble(stratum = "all", rate = 0.15),
   info_frac = 1:3/3,
   rd0 = 0,
   alpha = 0.025,
@@ -56,28 +56,34 @@ Otherwise it is a tibble containing two columns (stratum and prevalence).}
 
 \item{lpar}{Parameter passed to \code{lower()}}
 
-\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound}
+\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound;
+single value of TRUE (default) indicates all analyses;
+otherwise, a logical vector of the same length as \code{info} should indicate
+which analyses will have an efficacy bound}
 
-\item{test_lower}{indicator of which analyses should include an lower bound; single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of the same length as \code{info} should indicate which analyses will have a
-lower bound}
+\item{test_lower}{indicator of which analyses should include an lower bound;
+single value of TRUE (default) indicates all analyses;
+single value FALSE indicated no lower bound; otherwise,
+a logical vector of the same length as \code{info} should indicate which analyses
+will have a lower bound}
 
 \item{info_scale}{the information scale for calculation}
 
 \item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
 
-\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
+\item{r}{Integer value controlling grid for numerical integration
+as in Jennison and Turnbull (2000);
 default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 
-\item{h1_spending}{Indicator that lower bound to be set by spending under alternate hypothesis (input \code{fail_rate})
+\item{h1_spending}{Indicator that lower bound to be set
+by spending under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound}
 }
 \value{
-a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
+a \code{tibble} with columns analysis, bound, z, probability, theta, time, ahr, event
 }
 \description{
 Group sequential design using average hazard ratio under non-proportional hazards
