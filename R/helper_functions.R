@@ -114,7 +114,7 @@ ppwe <- function(x = 0:20,
     duration = xvals - lag(xvals, default = 0),
     h = ratefn(xvals), # hazard rates at points (right continuous)
     H = cumsum(h * duration), # cumulative hazard
-    survival = exp(- H) # survival
+    survival = exp(-H) # survival
   )
   # return survival or cdf
   ind <- !is.na(match(xx$x, x))
@@ -205,7 +205,7 @@ s2pwe <- function(times, survival) {
   ans <- tibble::tibble(Times = times, Survival = survival) %>%
     mutate(
       duration = Times - lag(Times, default = 0),
-      H = - log(Survival),
+      H = -log(Survival),
       rate = (H - lag(H, default = 0)) / duration
     ) %>%
     select(duration, rate)

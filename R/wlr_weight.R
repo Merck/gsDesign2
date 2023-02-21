@@ -85,5 +85,5 @@ wlr_weight_n <- function(x, arm0, arm1, power = 1) {
 #' @rdname wlr_weight
 #' @export
 wlr_weight_mb <- function(x, arm0, arm1, tau = NULL, wmax = Inf) {
-  pmin(wmax, wlr_weight_fh(x, arm0, arm1, rho = - 1, gamma = 0, tau = tau))
+  pmin(wmax, wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau))
 }

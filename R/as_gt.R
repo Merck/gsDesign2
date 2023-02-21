@@ -397,10 +397,12 @@ as_gt.gs_design <- function(x,
   if (method == "ahr" && is.null(footnote)) {
     footnote <- list(
       content = c(
-        ifelse("~HR at bound" %in% display_columns, 
-               "Approximate hazard ratio to cross bound.", NA),
-        ifelse("Nominal p" %in% display_columns, 
-               "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA)
+        ifelse("~HR at bound" %in% display_columns,
+          "Approximate hazard ratio to cross bound.", NA
+        ),
+        ifelse("Nominal p" %in% display_columns,
+          "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        )
       ),
       location = c(
         ifelse("~HR at bound" %in% display_columns, "~HR at bound", NA),
@@ -416,10 +418,12 @@ as_gt.gs_design <- function(x,
   if (method == "wlr" && is.null(footnote)) {
     footnote <- list(
       content = c(
-        ifelse("~wHR at bound" %in% display_columns, 
-               "Approximate hazard ratio to cross bound.", NA),
-        ifelse("Nominal p" %in% display_columns, 
-               "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA),
+        ifelse("~wHR at bound" %in% display_columns,
+          "Approximate hazard ratio to cross bound.", NA
+        ),
+        ifelse("Nominal p" %in% display_columns,
+          "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        ),
         "wAHR is the weighted AHR."
       ),
       location = c(
@@ -438,9 +442,10 @@ as_gt.gs_design <- function(x,
   if (method == "combo" && is.null(footnote)) {
     footnote <- list(
       content = c(
-        ifelse("Nominal p" %in% display_columns, 
-               "One-sided p-value for experimental vs control treatment. 
-               Value < 0.5 favors experimental, > 0.5 favors control.", NA),
+        ifelse("Nominal p" %in% display_columns,
+          "One-sided p-value for experimental vs control treatment.
+               Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        ),
         "EF is event fraction. AHR  is under regular weighted log rank test."
       ),
       location = c(
@@ -456,9 +461,10 @@ as_gt.gs_design <- function(x,
   }
   if (method == "rd" && is.null(footnote)) {
     footnote <- list(
-      content = c(ifelse("Nominal p" %in% display_columns, 
-                         "One-sided p-value for experimental vs control treatment. 
-                         Value < 0.5 favors experimental, > 0.5 favors control.", NA)),
+      content = c(ifelse("Nominal p" %in% display_columns,
+        "One-sided p-value for experimental vs control treatment.
+                         Value < 0.5 favors experimental, > 0.5 favors control.", NA
+      )),
       location = c(ifelse("Nominal p" %in% display_columns, "Nominal p", NA)),
       attr = c(ifelse("Nominal p" %in% display_columns, "colname", NA))
     )
@@ -547,7 +553,7 @@ as_gt.gs_design <- function(x,
         ),
         locations = gt::cells_body(
           columns = colname_spannersub[2],
-          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & 
+          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) &
             (x_old$Bound == display_bound[1])
         )
       )

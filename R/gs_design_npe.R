@@ -252,7 +252,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                           info_scale = c(0, 1, 2),
                           alpha = 0.025, beta = .1,
                           upper = gs_b, upar = qnorm(.975),
-                          lower = gs_b, lpar = - Inf,
+                          lower = gs_b, lpar = -Inf,
                           test_upper = TRUE, test_lower = TRUE, binding = FALSE,
                           r = 18, tol = 1e-6) {
   # --------------------------------------------- #
@@ -327,7 +327,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   #     check design type                         #
   # --------------------------------------------- #
   if (identical(lower, gs_b) && (!is.list(lpar))) {
-    two_sided <- ifelse(identical(lpar, rep(- Inf, n_analysis)), FALSE, TRUE)
+    two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
   } else {
     two_sided <- TRUE
   }
@@ -335,7 +335,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     initialization                            #
   # --------------------------------------------- #
-  a <- rep(- Inf, n_analysis) # bounds
+  a <- rep(-Inf, n_analysis) # bounds
   b <- rep(Inf, n_analysis)
   hgm1_0 <- NULL # numerical integration grids
   hgm1_1 <- NULL
@@ -471,7 +471,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       lower
     },
     lpar = if (!two_sided) {
-      rep(- Inf, n_analysis)
+      rep(-Inf, n_analysis)
     } else {
       lpar
     },
@@ -481,10 +481,10 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 
   # combine probability under H0 and H1
   suppressMessages(
-    ans <- ans_h1 %>% 
-      full_join(ans_h0 %>% 
-                  select(analysis, bound, probability) %>% 
-                  dplyr::rename(probability0 = probability))
+    ans <- ans_h1 %>%
+      full_join(ans_h0 %>%
+        select(analysis, bound, probability) %>%
+        dplyr::rename(probability0 = probability))
   )
 
   ans <- ans %>% select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
@@ -502,7 +502,7 @@ errbeta <- function(x = 1, n_analysis = 1,
                     theta = .1, theta0 = 0, theta1 = .1,
                     info = 1, info0 = 1, info1 = 1, info_scale = 2,
                     Z_upper = gs_b, upar = qnorm(.975),
-                    Z_lower = gs_b, lpar = - Inf,
+                    Z_lower = gs_b, lpar = -Inf,
                     test_upper = TRUE, test_lower = TRUE,
                     binding = FALSE, r = 18, tol = 1e-6) {
   x_temp <- gs_power_npe(

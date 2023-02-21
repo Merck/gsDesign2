@@ -203,7 +203,7 @@ gs_info_rd <- function(p_c = tibble::tibble(
       mutate(
         n_e = n / (1 + ratio),
         n_c = n * ratio / (1 + ratio),
-        d = ifelse(p_c > p_e, 1, - 1),
+        d = ifelse(p_c > p_e, 1, -1),
         p_pool_per_k_per_s = (n_c * p_c + n_e * p_e) / n,
         p_e0 = (p_c + ratio * p_e - d * rd0) / (ratio + 1),
         p_c0 = p_e0 + d * rd0
@@ -235,18 +235,18 @@ gs_info_rd <- function(p_c = tibble::tibble(
   } else if (weight == "ss") {
     suppressMessages(
       tbl <- tbl %>%
-        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_ss = sum(n_c * n_e / (n_c + n_e)))) %>% 
+        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_ss = sum(n_c * n_e / (n_c + n_e)))) %>%
         mutate(weight_per_k_per_s = n_c * n_e / (n_c + n_e) / sum_ss) %>%
-        select(- sum_ss)
+        select(-sum_ss)
     )
   } else if (weight == "invar") {
     suppressMessages(
       tbl <- tbl %>%
-        left_join(tbl %>% 
-                    dplyr::group_by(analysis) %>% 
-                    summarize(sum_inv_var_per_s = sum(1 / sigma2_H0_per_k_per_s))) %>% 
+        left_join(tbl %>%
+          dplyr::group_by(analysis) %>%
+          summarize(sum_inv_var_per_s = sum(1 / sigma2_H0_per_k_per_s))) %>%
         mutate(weight_per_k_per_s = 1 / sigma2_H0_per_k_per_s / sum_inv_var_per_s) %>%
-        select(- sum_inv_var_per_s)
+        select(-sum_inv_var_per_s)
     )
   }
 
