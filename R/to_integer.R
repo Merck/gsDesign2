@@ -99,7 +99,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf
     )
 
     analysis <- tibble::tibble(
@@ -125,7 +125,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf,
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf,
       weight = function(s, arm0, arm1) {
         wlr_weight_fh(s, arm0, arm1,
           rho = x$design_par$rho,
@@ -159,11 +159,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       ratio = x$input$ratio,
       weight = function(s, arm0, arm1) {
         wlr_weight_fh(s, arm0, arm1,
-          rho = -1, gamma = 0,
+          rho = - 1, gamma = 0,
           tau = x$design_par$tau
         )
       },
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf
     )
 
     analysis <- tibble::tibble(

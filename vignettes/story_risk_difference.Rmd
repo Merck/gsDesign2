@@ -1553,7 +1553,7 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
           weight_invar_H1 = 1 / sigma_h1^2 / sum_invar_H1,
           weight_ss = (sample_size_c * sample_size_e) / (sample_size_c + sample_size_e) / sum_ss
         ) %>%
-        select(-c(sum_invar_H0, sum_invar_H1, sum_ss)) %>%
+        select(- c(sum_invar_H0, sum_invar_H1, sum_ss)) %>%
         # calculated the weighted rd and info
         group_by(analysis) %>%
         summarise( # weighted risk difference
@@ -1641,43 +1641,43 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
     if (integration == "pmvtnorm") {
       if (weight_method == "invar_H0") {
         if (under_H0) {
-          IF_sim <- x$info0_invar_H0 / x$info0_invar_H0[3]
+          info_frac_sim <- x$info0_invar_H0 / x$info0_invar_H0[3]
           mean_sim <- x$rd_invar_H0 * sqrt(x$info0_invar_H0)
         } else {
-          IF_sim <- x$info_invar_H1 / x$info_invar_H1[3]
+          info_frac_sim <- x$info_invar_H1 / x$info_invar_H1[3]
           mean_sim <- x$rd_invar_H1 * sqrt(x$info_invar_H1)
         }
       }
 
       if (weight_method == "invar_H1") {
         if (under_H0) {
-          IF_sim <- x$info0_invar_H1 / x$info0_invar_H1[3]
+          info_frac_sim <- x$info0_invar_H1 / x$info0_invar_H1[3]
           mean_sim <- x$rd_invar_H1 * sqrt(x$info0_invar_H1)
         } else {
-          IF_sim <- x$info_invar_H1 / x$info_invar_H1[3]
+          info_frac_sim <- x$info_invar_H1 / x$info_invar_H1[3]
           mean_sim <- x$rd_invar_H1 * sqrt(x$info_invar_H1)
         }
       }
 
       if (weight_method == "ss") {
         if (under_H0) {
-          IF_sim <- x$info0_ss / x$info0_ss[3]
+          info_frac_sim <- x$info0_ss / x$info0_ss[3]
           mean_sim <- x$rd_ss * sqrt(x$info0_ss)
         } else {
-          IF_sim <- x$info_ss / x$info_ss[3]
+          info_frac_sim <- x$info_ss / x$info_ss[3]
           mean_sim <- x$rd_ss * sqrt(x$info_ss)
         }
       }
 
       p <- pmvnorm(
-        lower = c(rep(-Inf, 3)),
+        lower = c(rep(- Inf, 3)),
         upper = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
         mean = mean_sim,
         corr = matrix(
           c(
-            1, sqrt(IF_sim[1] / IF_sim[2]), sqrt(IF_sim[1] / IF_sim[3]),
-            sqrt(IF_sim[1] / IF_sim[2]), 1, sqrt(IF_sim[2] / IF_sim[3]),
-            sqrt(IF_sim[1] / IF_sim[3]), sqrt(IF_sim[2] / IF_sim[3]), 1
+            1, sqrt(info_frac_sim[1] / info_frac_sim[2]), sqrt(info_frac_sim[1] / info_frac_sim[3]),
+            sqrt(info_frac_sim[1] / info_frac_sim[2]), 1, sqrt(info_frac_sim[2] / info_frac_sim[3]),
+            sqrt(info_frac_sim[1] / info_frac_sim[3]), sqrt(info_frac_sim[2] / info_frac_sim[3]), 1
           ),
           nrow = 3, byrow = TRUE
         ),
@@ -1701,7 +1701,7 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
 ```{r, message=FALSE, eval=FALSE}
 n_sim <- 1e3
 # Run simulations
-ans_H0 <- do.call(
+ans_h0 <- do.call(
   cbind,
   lapply(
     list(
@@ -1719,7 +1719,7 @@ ans_H0 <- do.call(
   )
 )
 
-ans_H1 <- do.call(
+ans_h1 <- do.call(
   cbind,
   lapply(
     list(
@@ -1738,9 +1738,9 @@ ans_H1 <- do.call(
 )
 
 ans <- tibble::tibble(
-  simu_ID = rep(ans_H0$simu_ID, 2),
-  ss = c(ans_H0[, 3], ans_H1[, 3]),
-  invar = c(ans_H0[, 6], ans_H1[, 6]),
+  simu_ID = rep(ans_h0$simu_ID, 2),
+  ss = c(ans_h0[, 3], ans_h1[, 3]),
+  invar = c(ans_h0[, 6], ans_h1[, 6]),
   `calculated under` = c(rep("H0", n_sim), rep("H1", n_sim))
 )
 

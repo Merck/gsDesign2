@@ -387,7 +387,10 @@ df <- df %>%
     d = ifelse(failRate == 0, 0, Q * (1 - q) * failRate / 
                  (failRate + dropoutRate)),
     nbar = ifelse(failRate == 0, 0, 
-                  G * d + (failRate * Q * enrollRate) / (failRate + dropoutRate) * (duration - (1 - q) / (failRate + dropoutRate)))
+                  G * d + 
+                    (failRate * Q * enrollRate) / 
+                    (failRate + dropoutRate) * 
+                    (duration - (1 - q) / (failRate + dropoutRate)))
   )
 ```
 

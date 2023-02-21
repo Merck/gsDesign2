@@ -94,11 +94,11 @@ gs_power_combo <- function(enroll_rate = tibble(
                            ),
                            fh_test = rbind(
                              data.frame(
-                               rho = 0, gamma = 0, tau = -1, test = 1,
+                               rho = 0, gamma = 0, tau = - 1, test = 1,
                                analysis = 1:3, analysis_time = c(12, 24, 36)
                              ),
                              data.frame(
-                               rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3,
+                               rho = c(0, 0.5), gamma = 0.5, tau = - 1, test = 2:3,
                                analysis = 3, analysis_time = 36
                              )
                            ),
@@ -107,7 +107,7 @@ gs_power_combo <- function(enroll_rate = tibble(
                            upper = gs_b,
                            upar = c(3, 2, 1),
                            lower = gs_b,
-                           lpar = c(-1, 0, 1),
+                           lpar = c(- 1, 0, 1),
                            algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
                            ...) {
   # Currently only support user defined lower and upper bound
@@ -177,7 +177,7 @@ gs_power_combo <- function(enroll_rate = tibble(
     lower_bound = if (binding) {
       bound$lower
     } else {
-      rep(-Inf, nrow(bound))
+      rep(- Inf, nrow(bound))
     },
     analysis = info_fh$analysis,
     theta = rep(0, nrow(info_fh)),
@@ -201,7 +201,7 @@ gs_power_combo <- function(enroll_rate = tibble(
   #     get bounds to output                      #
   # --------------------------------------------- #
   bound <- db %>%
-    dplyr::mutate(`nominal p` = pnorm(z * (-1))) %>%
+    dplyr::mutate(`nominal p` = pnorm(z * (- 1))) %>%
     dplyr::select(analysis, bound, probability, probability_null, z, `nominal p`) %>%
     dplyr::rename(probability0 = probability_null) %>%
     arrange(analysis, desc(bound))
@@ -211,7 +211,7 @@ gs_power_combo <- function(enroll_rate = tibble(
   # --------------------------------------------- #
   # check if rho, gamma = 0 is included in fh_test
   tmp <- fh_test %>%
-    filter(rho == 0 & gamma == 0 & tau == -1) %>%
+    filter(rho == 0 & gamma == 0 & tau == - 1) %>%
     select(test) %>%
     unlist() %>%
     as.numeric() %>%
@@ -228,8 +228,8 @@ gs_power_combo <- function(enroll_rate = tibble(
       fail_rate,
       ratio,
       event = unique(utility$info_all$event),
-      analysis_time = unique(utility$info_all$Time),
-      weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = -1)))
+      analysis_time = unique(utility$info_all$time),
+      weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = - 1)))
     )$ahr
   }
 

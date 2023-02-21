@@ -180,7 +180,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
                             sfu = sfLDOF, sfupar = NULL
                           )$upper$bound,
                           lower = gs_b,
-                          lpar = c(qnorm(.1), -Inf, -Inf),
+                          lpar = c(qnorm(.1), - Inf, - Inf),
                           h1_spending = TRUE,
                           test_upper = TRUE,
                           test_lower = TRUE,
@@ -244,7 +244,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
             ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
             interval = c(.01, next_time)
           ) %>%
-            mutate(theta = -log(ahr), analysis = n_analysis - i),
+            mutate(theta = - log(ahr), analysis = n_analysis - i),
           y
         )
       } else if (info_frac[n_analysis - i] > i_falt[n_analysis - i]) {
@@ -256,7 +256,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
         ) %>%
           dplyr::transmute(
             analysis = n_analysis - i, time,
-            event, ahr, theta = -log(ahr),
+            event, ahr, theta = - log(ahr),
             info, info0
           )
       }
@@ -296,11 +296,11 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
   allout <- allout %>%
     # add `~hr at bound`, `hr generic` and `nominal p`
     mutate(
-      "~hr at bound" = exp(-z / sqrt(info0)),
-      "nominal p" = pnorm(-z)
+      "~hr at bound" = exp(- z / sqrt(info0)),
+      "nominal p" = pnorm(- z)
     ) %>%
     # Add `time`, `event`, `ahr`, `n` from gs_info_ahr call above
-    full_join(y %>% select(-c(info, info0, theta)),
+    full_join(y %>% select(- c(info, info0, theta)),
       by = "analysis"
     ) %>%
     # select variables to be output

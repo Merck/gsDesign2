@@ -50,7 +50,7 @@ gs_info_combo <- function(enroll_rate = tibble(
                           analysis_time = NULL,
                           rho,
                           gamma,
-                          tau = rep(-1, length(rho)),
+                          tau = rep(- 1, length(rho)),
                           approx = "asymptotic") {
   weight <- get_combo_weight(rho, gamma, tau)
 

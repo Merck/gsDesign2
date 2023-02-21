@@ -145,7 +145,7 @@ gs_spending_bound <- function(k = 1,
   if (!efficacy) {
     # If no spending, return -Inf for bound
     if (spend <= 0) {
-      return(-Inf)
+      return(- Inf)
     }
 
     # if theta not a vector, make it one
@@ -178,7 +178,7 @@ gs_spending_bound <- function(k = 1,
     while (abs(adelta) > tol) {
       # get grid for rejection region
       hg <- hupdate(
-        theta = theta[k], I = info[k], a = -Inf,
+        theta = theta[k], I = info[k], a = - Inf,
         b = a, thetam1 = theta[k - 1],
         Im1 = info[k - 1], gm1 = hgm1, r = r
       )
@@ -191,8 +191,8 @@ gs_spending_bound <- function(k = 1,
 
       if (adelta > dplo) {
         adelta <- 1
-      } else if (adelta < -dplo) {
-        adelta <- -1
+      } else if (adelta < - dplo) {
+        adelta <- - 1
       } else {
         adelta <- adelta / dplo
       }
@@ -258,7 +258,7 @@ gs_spending_bound <- function(k = 1,
       if (bdelta > dpikdb) {
         bdelta <- 1
       } else if (bdelta < -dpikdb) {
-        bdelta <- -1
+        bdelta <- - 1
       } else {
         bdelta <- bdelta / dpikdb
       }

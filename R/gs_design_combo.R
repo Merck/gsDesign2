@@ -133,12 +133,12 @@ gs_design_combo <- function(enroll_rate = tibble(
                             ),
                             fh_test = rbind(
                               data.frame(
-                                rho = 0, gamma = 0, tau = -1,
+                                rho = 0, gamma = 0, tau = - 1,
                                 test = 1, analysis = 1:3,
                                 analysis_time = c(12, 24, 36)
                               ),
                               data.frame(
-                                rho = c(0, 0.5), gamma = 0.5, tau = -1,
+                                rho = c(0, 0.5), gamma = 0.5, tau = - 1,
                                 test = 2:3, analysis = 3,
                                 analysis_time = 36
                               )
@@ -150,7 +150,7 @@ gs_design_combo <- function(enroll_rate = tibble(
                             upper = gs_b,
                             upar = c(3, 2, 1),
                             lower = gs_b,
-                            lpar = c(-1, 0, 1),
+                            lpar = c(- 1, 0, 1),
                             algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
                             n_upper_bound = 1e3,
                             ...) {
@@ -175,7 +175,7 @@ gs_design_combo <- function(enroll_rate = tibble(
 
   # check design type
   if (identical(lower, gs_b) && (!is.list(lpar))) {
-    two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
+    two_sided <- ifelse(identical(lpar, rep(- Inf, n_analysis)), FALSE, TRUE)
   } else {
     two_sided <- TRUE
   }
@@ -243,7 +243,7 @@ gs_design_combo <- function(enroll_rate = tibble(
     lower_bound = if (two_sided) {
       bound$lower
     } else {
-      rep(-Inf, nrow(bound))
+      rep(- Inf, nrow(bound))
     },
     analysis = info_fh$analysis,
     theta = rep(0, nrow(info_fh)),
@@ -276,7 +276,7 @@ gs_design_combo <- function(enroll_rate = tibble(
       probability, probability_null
     ) %>%
     dplyr::rename(probability0 = probability_null) %>%
-    dplyr::mutate(`nominal p` = pnorm(z * (-1)))
+    dplyr::mutate(`nominal p` = pnorm(z * (- 1)))
 
 
   # get bounds to output
@@ -288,7 +288,7 @@ gs_design_combo <- function(enroll_rate = tibble(
   # get analysis summary to output
   # check if rho, gamma = 0 is included in fh_test
   tmp <- fh_test %>%
-    filter(rho == 0 & gamma == 0 & tau == -1) %>%
+    filter(rho == 0 & gamma == 0 & tau == - 1) %>%
     select(test) %>%
     unlist() %>%
     as.numeric() %>%
@@ -307,7 +307,7 @@ gs_design_combo <- function(enroll_rate = tibble(
       ratio,
       event = unique(utility$info_all$event),
       analysis_time = unique(utility$info_all$time),
-      weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = -1)))
+      weight = eval(parse(text = get_combo_weight(rho = 0, gamma = 0, tau = - 1)))
     )$AHR
   }
 

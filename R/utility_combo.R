@@ -165,7 +165,7 @@ pmvnorm_combo <- function(lower,
   }
 
   # One test for all group or lower bound is -Inf.
-  if (all(n_test == 1) || all(lower == -Inf)) {
+  if (all(n_test == 1) || all(lower == - Inf)) {
     p <- mvtnorm::pmvnorm(
       lower = rep(lower, n_test),
       upper = rep(upper, n_test),
@@ -200,7 +200,7 @@ pmvnorm_combo <- function(lower,
 
     # Combination of all possible test
     k <- length(lower2)
-    test_ind <- split(matrix(c(1, -1), nrow = k, ncol = 2, byrow = TRUE), 1:k)
+    test_ind <- split(matrix(c(1, - 1), nrow = k, ncol = 2, byrow = TRUE), 1:k)
     test_ind <- expand.grid(test_ind)
     test <- split(test_ind, seq_len(nrow(test_ind)))
 
@@ -238,7 +238,7 @@ get_combo_weight <- function(rho, gamma, tau) {
 
   weight <- list()
   for (i in seq_along(rho)) {
-    if (tau[i] == -1) {
+    if (tau[i] == - 1) {
       tmp_tau <- NULL
     } else {
       tmp_tau <- tau[i]
@@ -265,7 +265,7 @@ gs_delta_combo <- function(arm0,
                            tmax = NULL,
                            rho,
                            gamma,
-                           tau = rep(-1, length(rho)),
+                           tau = rep(- 1, length(rho)),
                            approx = "asymptotic",
                            normalization = FALSE) {
   stopifnot(length(tmax) == 1)
@@ -289,7 +289,7 @@ gs_sigma2_combo <- function(arm0,
                             tmax = NULL,
                             rho,
                             gamma,
-                            tau = rep(-1, length(rho)),
+                            tau = rep(- 1, length(rho)),
                             approx = "asymptotic") {
   stopifnot(length(tmax) == 1)
   stopifnot(length(rho) == length(gamma))
@@ -360,10 +360,10 @@ gs_prob_combo <- function(upper_bound,
 
     # Futility Bound
     if (k == 1) {
-      lower <- -Inf
+      lower <- - Inf
       upper <- lower_bound[k]
     } else {
-      lower <- c(lower_bound[1:(k - 1)], -Inf)
+      lower <- c(lower_bound[1:(k - 1)], - Inf)
       upper <- c(upper_bound[1:(k - 1)], lower_bound[k])
     }
 
@@ -458,7 +458,7 @@ gs_bound <- function(alpha,
 
   lower <- NULL
   upper <- NULL
-  .lower <- -Inf
+  .lower <- - Inf
 
   n_analysis <- length(unique(analysis))
 
@@ -469,7 +469,7 @@ gs_bound <- function(alpha,
       if (binding_lower_bound) {
         lower_bound <- c(lower, .lower)
       } else {
-        lower_bound <- c(rep(-Inf, k - 1), .lower)
+        lower_bound <- c(rep(- Inf, k - 1), .lower)
       }
       upper_bound <- c(upper, .upper)
 
@@ -489,9 +489,9 @@ gs_bound <- function(alpha,
       .lower <- sum(beta[1:k])
     } else {
       .lower <- uniroot(bound_fun,
-        .lower = -Inf, .prob = beta[k], .theta = theta,
+        .lower = - Inf, .prob = beta[k], .theta = theta,
         binding_lower_bound = TRUE,
-        interval = c(-20, 20), extendInt = "yes"
+        interval = c(- 20, 20), extendInt = "yes"
       )$root
     }
 
@@ -501,7 +501,7 @@ gs_bound <- function(alpha,
       .upper <- uniroot(bound_fun,
         .upper = Inf, .prob = alpha[k], .theta = theta0,
         binding_lower_bound = binding_lower_bound,
-        interval = c(-20, 20), extendInt = "yes"
+        interval = c(- 20, 20), extendInt = "yes"
       )$root
     }
 
