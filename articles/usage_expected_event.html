@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,9 +123,9 @@ data frame, since its output is a data frame.</p>
 <span>  simple <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
-<span><span class="co">##       t failRate Events</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     0    0.116   80.4</span></span></code></pre>
+<span><span class="co">##       t fail_rate event</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     0     0.116  80.4</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="example-2-multiple-enroll-single-fail-period">Example 2: Multiple Enroll + Single Fail Period<a class="anchor" aria-label="anchor" href="#example-2-multiple-enroll-single-fail-period"></a>
@@ -142,9 +142,9 @@ data frame, since its output is a data frame.</p>
 <span>  simple <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
-<span><span class="co">##       t failRate Events</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     0    0.116   119.</span></span></code></pre>
+<span><span class="co">##       t fail_rate event</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     0     0.116  119.</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="example-3-single-enroll-multiple-fail-period">Example 3: Single Enroll + Multiple Fail Period<a class="anchor" aria-label="anchor" href="#example-3-single-enroll-multiple-fail-period"></a>
@@ -165,10 +165,10 @@ data frame, since its output is a data frame.</p>
 <span>  simple <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">##       t failRate Events</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     0    0.116 80.2  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>    20    0.173  0.250</span></span></code></pre>
+<span><span class="co">##       t fail_rate  event</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     0     0.116 80.2  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>    20     0.173  0.250</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="example-4-multiple-duration">Example 4: Multiple Duration<a class="anchor" aria-label="anchor" href="#example-4-multiple-duration"></a>
@@ -199,14 +199,14 @@ data frame, since its output is a data frame.</p>
 <code class="sourceCode R"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># create a step function (sf) to define enrollment rates over time</span></span>
-<span><span class="va">sf.enrollRate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">enroll_rate</span><span class="op">$</span><span class="va">duration</span><span class="op">)</span><span class="op">)</span>,</span>
+<span><span class="va">sf_enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">enroll_rate</span><span class="op">$</span><span class="va">duration</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">enroll_rate</span><span class="op">$</span><span class="va">rate</span>, <span class="fl">0</span><span class="op">)</span>,</span>
 <span>  right <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sf.enrollRate</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sf_enroll_rate</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"duration"</span>, ylab <span class="op">=</span> <span class="st">"enrollment rates"</span>,</span>
-<span>  main <span class="op">=</span> <span class="st">"Piecewise enrollment rate over time"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>, <span class="fl">21</span><span class="op">)</span></span>
+<span>  main <span class="op">=</span> <span class="st">"Piecewise enrollment rate over time"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span> <span class="fl">0.01</span>, <span class="fl">21</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_expected_event_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;"></p>
 <p><strong>Step 3:</strong> set the failure rates and dropout rates.</p>
@@ -218,27 +218,27 @@ data frame, since its output is a data frame.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># get the time points where the failure rates change</span></span>
-<span><span class="va">startFail</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">fail_rate</span><span class="op">$</span><span class="va">duration</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">time_start_fail</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">fail_rate</span><span class="op">$</span><span class="va">duration</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plot the piecewise failure rates</span></span>
-<span><span class="va">sf.failRate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="va">startFail</span>,</span>
+<span><span class="va">sf_fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="va">time_start_fail</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">fail_rate</span><span class="op">$</span><span class="va">failRate</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">last</a></span><span class="op">(</span><span class="va">fail_rate</span><span class="op">$</span><span class="va">failRate</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  right <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sf.failRate</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sf_fail_rate</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"duration"</span>, ylab <span class="op">=</span> <span class="st">"failure rates"</span>,</span>
-<span>  main <span class="op">=</span> <span class="st">"Piecewise failure rate over time"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>, <span class="fl">101</span><span class="op">)</span></span>
+<span>  main <span class="op">=</span> <span class="st">"Piecewise failure rate over time"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span> <span class="fl">0.01</span>, <span class="fl">101</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_expected_event_files/figure-html/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot the piecewise dropout rate</span></span>
-<span><span class="va">sf.dropoutRate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="va">startFail</span>,</span>
+<span><span class="va">sf_dropout_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="va">time_start_fail</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">fail_rate</span><span class="op">$</span><span class="va">dropout_rate</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">last</a></span><span class="op">(</span><span class="va">fail_rate</span><span class="op">$</span><span class="va">dropout_rate</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  right <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sf.dropoutRate</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sf_dropout_rate</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"duration"</span>, ylab <span class="op">=</span> <span class="st">"dropout rates"</span>,</span>
-<span>  main <span class="op">=</span> <span class="st">"Piecewise dropout rate over time"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>, <span class="fl">101</span><span class="op">)</span></span>
+<span>  main <span class="op">=</span> <span class="st">"Piecewise dropout rate over time"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span> <span class="fl">0.01</span>, <span class="fl">101</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_expected_event_files/figure-html/unnamed-chunk-9-2.png" width="480" style="display: block; margin: auto;"></p>
 <p>Given the above piecewise enrollment rates, failure rates, dropout
@@ -270,12 +270,12 @@ expected number of events in each sub-intervals.</p>
 <span>  endFail <span class="op">=</span> <span class="va">total_duration</span> <span class="op">-</span> <span class="va">startEnroll</span>,</span>
 <span>  rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">enroll_rate</span><span class="op">$</span><span class="va">rate</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="jgozmedcff" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="enbnoezuyj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#jgozmedcff .gt_table {
+#enbnoezuyj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -300,7 +300,7 @@ expected number of events in each sub-intervals.</p>
   border-left-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_heading {
+#enbnoezuyj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -312,12 +312,12 @@ expected number of events in each sub-intervals.</p>
   border-right-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_caption {
+#enbnoezuyj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jgozmedcff .gt_title {
+#enbnoezuyj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -329,7 +329,7 @@ expected number of events in each sub-intervals.</p>
   border-bottom-width: 0;
 }
 
-#jgozmedcff .gt_subtitle {
+#enbnoezuyj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -341,13 +341,13 @@ expected number of events in each sub-intervals.</p>
   border-top-width: 0;
 }
 
-#jgozmedcff .gt_bottom_border {
+#enbnoezuyj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_col_headings {
+#enbnoezuyj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -362,7 +362,7 @@ expected number of events in each sub-intervals.</p>
   border-right-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_col_heading {
+#enbnoezuyj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -382,7 +382,7 @@ expected number of events in each sub-intervals.</p>
   overflow-x: hidden;
 }
 
-#jgozmedcff .gt_column_spanner_outer {
+#enbnoezuyj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -394,15 +394,15 @@ expected number of events in each sub-intervals.</p>
   padding-right: 4px;
 }
 
-#jgozmedcff .gt_column_spanner_outer:first-child {
+#enbnoezuyj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jgozmedcff .gt_column_spanner_outer:last-child {
+#enbnoezuyj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jgozmedcff .gt_column_spanner {
+#enbnoezuyj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -414,7 +414,7 @@ expected number of events in each sub-intervals.</p>
   width: 100%;
 }
 
-#jgozmedcff .gt_group_heading {
+#enbnoezuyj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -440,7 +440,7 @@ expected number of events in each sub-intervals.</p>
   text-align: left;
 }
 
-#jgozmedcff .gt_empty_group_heading {
+#enbnoezuyj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -455,15 +455,15 @@ expected number of events in each sub-intervals.</p>
   vertical-align: middle;
 }
 
-#jgozmedcff .gt_from_md > :first-child {
+#enbnoezuyj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jgozmedcff .gt_from_md > :last-child {
+#enbnoezuyj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jgozmedcff .gt_row {
+#enbnoezuyj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -482,7 +482,7 @@ expected number of events in each sub-intervals.</p>
   overflow-x: hidden;
 }
 
-#jgozmedcff .gt_stub {
+#enbnoezuyj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -495,7 +495,7 @@ expected number of events in each sub-intervals.</p>
   padding-right: 5px;
 }
 
-#jgozmedcff .gt_stub_row_group {
+#enbnoezuyj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -509,11 +509,11 @@ expected number of events in each sub-intervals.</p>
   vertical-align: top;
 }
 
-#jgozmedcff .gt_row_group_first td {
+#enbnoezuyj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jgozmedcff .gt_summary_row {
+#enbnoezuyj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -523,16 +523,16 @@ expected number of events in each sub-intervals.</p>
   padding-right: 5px;
 }
 
-#jgozmedcff .gt_first_summary_row {
+#enbnoezuyj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_first_summary_row.thick {
+#enbnoezuyj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jgozmedcff .gt_last_summary_row {
+#enbnoezuyj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -542,7 +542,7 @@ expected number of events in each sub-intervals.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_grand_summary_row {
+#enbnoezuyj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -552,7 +552,7 @@ expected number of events in each sub-intervals.</p>
   padding-right: 5px;
 }
 
-#jgozmedcff .gt_first_grand_summary_row {
+#enbnoezuyj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -562,11 +562,11 @@ expected number of events in each sub-intervals.</p>
   border-top-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_striped {
+#enbnoezuyj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jgozmedcff .gt_table_body {
+#enbnoezuyj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -575,7 +575,7 @@ expected number of events in each sub-intervals.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_footnotes {
+#enbnoezuyj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -589,7 +589,7 @@ expected number of events in each sub-intervals.</p>
   border-right-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_footnote {
+#enbnoezuyj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -598,7 +598,7 @@ expected number of events in each sub-intervals.</p>
   padding-right: 5px;
 }
 
-#jgozmedcff .gt_sourcenotes {
+#enbnoezuyj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -612,7 +612,7 @@ expected number of events in each sub-intervals.</p>
   border-right-color: #D3D3D3;
 }
 
-#jgozmedcff .gt_sourcenote {
+#enbnoezuyj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -620,64 +620,64 @@ expected number of events in each sub-intervals.</p>
   padding-right: 5px;
 }
 
-#jgozmedcff .gt_left {
+#enbnoezuyj .gt_left {
   text-align: left;
 }
 
-#jgozmedcff .gt_center {
+#enbnoezuyj .gt_center {
   text-align: center;
 }
 
-#jgozmedcff .gt_right {
+#enbnoezuyj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jgozmedcff .gt_font_normal {
+#enbnoezuyj .gt_font_normal {
   font-weight: normal;
 }
 
-#jgozmedcff .gt_font_bold {
+#enbnoezuyj .gt_font_bold {
   font-weight: bold;
 }
 
-#jgozmedcff .gt_font_italic {
+#enbnoezuyj .gt_font_italic {
   font-style: italic;
 }
 
-#jgozmedcff .gt_super {
+#enbnoezuyj .gt_super {
   font-size: 65%;
 }
 
-#jgozmedcff .gt_footnote_marks {
+#enbnoezuyj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#jgozmedcff .gt_asterisk {
+#enbnoezuyj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jgozmedcff .gt_indent_1 {
+#enbnoezuyj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jgozmedcff .gt_indent_2 {
+#enbnoezuyj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jgozmedcff .gt_indent_3 {
+#enbnoezuyj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jgozmedcff .gt_indent_4 {
+#enbnoezuyj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jgozmedcff .gt_indent_5 {
+#enbnoezuyj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -735,12 +735,12 @@ dropout rates</p>
 <span>  failRate <span class="op">=</span> <span class="va">fail_rate</span><span class="op">$</span><span class="va">failRate</span>,</span>
 <span>  dropoutRate <span class="op">=</span> <span class="va">fail_rate</span><span class="op">$</span><span class="va">dropout_rate</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="yhsjnlavzd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fbzhhkpslm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yhsjnlavzd .gt_table {
+#fbzhhkpslm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -765,7 +765,7 @@ dropout rates</p>
   border-left-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_heading {
+#fbzhhkpslm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -777,12 +777,12 @@ dropout rates</p>
   border-right-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_caption {
+#fbzhhkpslm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yhsjnlavzd .gt_title {
+#fbzhhkpslm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -794,7 +794,7 @@ dropout rates</p>
   border-bottom-width: 0;
 }
 
-#yhsjnlavzd .gt_subtitle {
+#fbzhhkpslm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -806,13 +806,13 @@ dropout rates</p>
   border-top-width: 0;
 }
 
-#yhsjnlavzd .gt_bottom_border {
+#fbzhhkpslm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_col_headings {
+#fbzhhkpslm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -827,7 +827,7 @@ dropout rates</p>
   border-right-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_col_heading {
+#fbzhhkpslm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -847,7 +847,7 @@ dropout rates</p>
   overflow-x: hidden;
 }
 
-#yhsjnlavzd .gt_column_spanner_outer {
+#fbzhhkpslm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -859,15 +859,15 @@ dropout rates</p>
   padding-right: 4px;
 }
 
-#yhsjnlavzd .gt_column_spanner_outer:first-child {
+#fbzhhkpslm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yhsjnlavzd .gt_column_spanner_outer:last-child {
+#fbzhhkpslm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yhsjnlavzd .gt_column_spanner {
+#fbzhhkpslm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -879,7 +879,7 @@ dropout rates</p>
   width: 100%;
 }
 
-#yhsjnlavzd .gt_group_heading {
+#fbzhhkpslm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -905,7 +905,7 @@ dropout rates</p>
   text-align: left;
 }
 
-#yhsjnlavzd .gt_empty_group_heading {
+#fbzhhkpslm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -920,15 +920,15 @@ dropout rates</p>
   vertical-align: middle;
 }
 
-#yhsjnlavzd .gt_from_md > :first-child {
+#fbzhhkpslm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yhsjnlavzd .gt_from_md > :last-child {
+#fbzhhkpslm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yhsjnlavzd .gt_row {
+#fbzhhkpslm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -947,7 +947,7 @@ dropout rates</p>
   overflow-x: hidden;
 }
 
-#yhsjnlavzd .gt_stub {
+#fbzhhkpslm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -960,7 +960,7 @@ dropout rates</p>
   padding-right: 5px;
 }
 
-#yhsjnlavzd .gt_stub_row_group {
+#fbzhhkpslm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -974,11 +974,11 @@ dropout rates</p>
   vertical-align: top;
 }
 
-#yhsjnlavzd .gt_row_group_first td {
+#fbzhhkpslm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yhsjnlavzd .gt_summary_row {
+#fbzhhkpslm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -988,16 +988,16 @@ dropout rates</p>
   padding-right: 5px;
 }
 
-#yhsjnlavzd .gt_first_summary_row {
+#fbzhhkpslm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_first_summary_row.thick {
+#fbzhhkpslm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yhsjnlavzd .gt_last_summary_row {
+#fbzhhkpslm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1007,7 +1007,7 @@ dropout rates</p>
   border-bottom-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_grand_summary_row {
+#fbzhhkpslm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1017,7 +1017,7 @@ dropout rates</p>
   padding-right: 5px;
 }
 
-#yhsjnlavzd .gt_first_grand_summary_row {
+#fbzhhkpslm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1027,11 +1027,11 @@ dropout rates</p>
   border-top-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_striped {
+#fbzhhkpslm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yhsjnlavzd .gt_table_body {
+#fbzhhkpslm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1040,7 +1040,7 @@ dropout rates</p>
   border-bottom-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_footnotes {
+#fbzhhkpslm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1054,7 +1054,7 @@ dropout rates</p>
   border-right-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_footnote {
+#fbzhhkpslm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1063,7 +1063,7 @@ dropout rates</p>
   padding-right: 5px;
 }
 
-#yhsjnlavzd .gt_sourcenotes {
+#fbzhhkpslm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1077,7 +1077,7 @@ dropout rates</p>
   border-right-color: #D3D3D3;
 }
 
-#yhsjnlavzd .gt_sourcenote {
+#fbzhhkpslm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1085,64 +1085,64 @@ dropout rates</p>
   padding-right: 5px;
 }
 
-#yhsjnlavzd .gt_left {
+#fbzhhkpslm .gt_left {
   text-align: left;
 }
 
-#yhsjnlavzd .gt_center {
+#fbzhhkpslm .gt_center {
   text-align: center;
 }
 
-#yhsjnlavzd .gt_right {
+#fbzhhkpslm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yhsjnlavzd .gt_font_normal {
+#fbzhhkpslm .gt_font_normal {
   font-weight: normal;
 }
 
-#yhsjnlavzd .gt_font_bold {
+#fbzhhkpslm .gt_font_bold {
   font-weight: bold;
 }
 
-#yhsjnlavzd .gt_font_italic {
+#fbzhhkpslm .gt_font_italic {
   font-style: italic;
 }
 
-#yhsjnlavzd .gt_super {
+#fbzhhkpslm .gt_super {
   font-size: 65%;
 }
 
-#yhsjnlavzd .gt_footnote_marks {
+#fbzhhkpslm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#yhsjnlavzd .gt_asterisk {
+#fbzhhkpslm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yhsjnlavzd .gt_indent_1 {
+#fbzhhkpslm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yhsjnlavzd .gt_indent_2 {
+#fbzhhkpslm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yhsjnlavzd .gt_indent_3 {
+#fbzhhkpslm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yhsjnlavzd .gt_indent_4 {
+#fbzhhkpslm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yhsjnlavzd .gt_indent_5 {
+#fbzhhkpslm .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1200,16 +1200,16 @@ failure rate duration.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># if the analysis time is after the total failure rate duration</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">fail_rate</span><span class="op">$</span><span class="va">duration</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">total_duration</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">df_2</span> <span class="op">&lt;-</span> <span class="va">df_2</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df_2</span><span class="op">)</span>, <span class="op">]</span></span>
+<span>  <span class="va">df_2</span> <span class="op">&lt;-</span> <span class="va">df_2</span><span class="op">[</span><span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df_2</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>  <span class="va">df_2</span> <span class="op">&lt;-</span> <span class="va">df_2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">startEnroll</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div id="htxpdxutwo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jkbdvtwwdk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#htxpdxutwo .gt_table {
+#jkbdvtwwdk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1234,7 +1234,7 @@ failure rate duration.</p>
   border-left-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_heading {
+#jkbdvtwwdk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1246,12 +1246,12 @@ failure rate duration.</p>
   border-right-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_caption {
+#jkbdvtwwdk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#htxpdxutwo .gt_title {
+#jkbdvtwwdk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1263,7 +1263,7 @@ failure rate duration.</p>
   border-bottom-width: 0;
 }
 
-#htxpdxutwo .gt_subtitle {
+#jkbdvtwwdk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1275,13 +1275,13 @@ failure rate duration.</p>
   border-top-width: 0;
 }
 
-#htxpdxutwo .gt_bottom_border {
+#jkbdvtwwdk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_col_headings {
+#jkbdvtwwdk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1296,7 +1296,7 @@ failure rate duration.</p>
   border-right-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_col_heading {
+#jkbdvtwwdk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1316,7 +1316,7 @@ failure rate duration.</p>
   overflow-x: hidden;
 }
 
-#htxpdxutwo .gt_column_spanner_outer {
+#jkbdvtwwdk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1328,15 +1328,15 @@ failure rate duration.</p>
   padding-right: 4px;
 }
 
-#htxpdxutwo .gt_column_spanner_outer:first-child {
+#jkbdvtwwdk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#htxpdxutwo .gt_column_spanner_outer:last-child {
+#jkbdvtwwdk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#htxpdxutwo .gt_column_spanner {
+#jkbdvtwwdk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1348,7 +1348,7 @@ failure rate duration.</p>
   width: 100%;
 }
 
-#htxpdxutwo .gt_group_heading {
+#jkbdvtwwdk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1374,7 +1374,7 @@ failure rate duration.</p>
   text-align: left;
 }
 
-#htxpdxutwo .gt_empty_group_heading {
+#jkbdvtwwdk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1389,15 +1389,15 @@ failure rate duration.</p>
   vertical-align: middle;
 }
 
-#htxpdxutwo .gt_from_md > :first-child {
+#jkbdvtwwdk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#htxpdxutwo .gt_from_md > :last-child {
+#jkbdvtwwdk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#htxpdxutwo .gt_row {
+#jkbdvtwwdk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1416,7 +1416,7 @@ failure rate duration.</p>
   overflow-x: hidden;
 }
 
-#htxpdxutwo .gt_stub {
+#jkbdvtwwdk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1429,7 +1429,7 @@ failure rate duration.</p>
   padding-right: 5px;
 }
 
-#htxpdxutwo .gt_stub_row_group {
+#jkbdvtwwdk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1443,11 +1443,11 @@ failure rate duration.</p>
   vertical-align: top;
 }
 
-#htxpdxutwo .gt_row_group_first td {
+#jkbdvtwwdk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#htxpdxutwo .gt_summary_row {
+#jkbdvtwwdk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1457,16 +1457,16 @@ failure rate duration.</p>
   padding-right: 5px;
 }
 
-#htxpdxutwo .gt_first_summary_row {
+#jkbdvtwwdk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_first_summary_row.thick {
+#jkbdvtwwdk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#htxpdxutwo .gt_last_summary_row {
+#jkbdvtwwdk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1476,7 +1476,7 @@ failure rate duration.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_grand_summary_row {
+#jkbdvtwwdk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1486,7 +1486,7 @@ failure rate duration.</p>
   padding-right: 5px;
 }
 
-#htxpdxutwo .gt_first_grand_summary_row {
+#jkbdvtwwdk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1496,11 +1496,11 @@ failure rate duration.</p>
   border-top-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_striped {
+#jkbdvtwwdk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#htxpdxutwo .gt_table_body {
+#jkbdvtwwdk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1509,7 +1509,7 @@ failure rate duration.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_footnotes {
+#jkbdvtwwdk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1523,7 +1523,7 @@ failure rate duration.</p>
   border-right-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_footnote {
+#jkbdvtwwdk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1532,7 +1532,7 @@ failure rate duration.</p>
   padding-right: 5px;
 }
 
-#htxpdxutwo .gt_sourcenotes {
+#jkbdvtwwdk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1546,7 +1546,7 @@ failure rate duration.</p>
   border-right-color: #D3D3D3;
 }
 
-#htxpdxutwo .gt_sourcenote {
+#jkbdvtwwdk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1554,64 +1554,64 @@ failure rate duration.</p>
   padding-right: 5px;
 }
 
-#htxpdxutwo .gt_left {
+#jkbdvtwwdk .gt_left {
   text-align: left;
 }
 
-#htxpdxutwo .gt_center {
+#jkbdvtwwdk .gt_center {
   text-align: center;
 }
 
-#htxpdxutwo .gt_right {
+#jkbdvtwwdk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#htxpdxutwo .gt_font_normal {
+#jkbdvtwwdk .gt_font_normal {
   font-weight: normal;
 }
 
-#htxpdxutwo .gt_font_bold {
+#jkbdvtwwdk .gt_font_bold {
   font-weight: bold;
 }
 
-#htxpdxutwo .gt_font_italic {
+#jkbdvtwwdk .gt_font_italic {
   font-style: italic;
 }
 
-#htxpdxutwo .gt_super {
+#jkbdvtwwdk .gt_super {
   font-size: 65%;
 }
 
-#htxpdxutwo .gt_footnote_marks {
+#jkbdvtwwdk .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#htxpdxutwo .gt_asterisk {
+#jkbdvtwwdk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#htxpdxutwo .gt_indent_1 {
+#jkbdvtwwdk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#htxpdxutwo .gt_indent_2 {
+#jkbdvtwwdk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#htxpdxutwo .gt_indent_3 {
+#jkbdvtwwdk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#htxpdxutwo .gt_indent_4 {
+#jkbdvtwwdk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#htxpdxutwo .gt_indent_5 {
+#jkbdvtwwdk .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1664,12 +1664,12 @@ failure rate duration.</p>
 change points in enrollment, failure, dropout rates.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">df_1</span>, <span class="va">df_2</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"startEnroll"</span>, <span class="st">"endFail"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">endFail</span><span class="op">)</span></span></code></pre></div>
-<div id="inporstkla" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gpsthflmvx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#inporstkla .gt_table {
+#gpsthflmvx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1694,7 +1694,7 @@ change points in enrollment, failure, dropout rates.</p>
   border-left-color: #D3D3D3;
 }
 
-#inporstkla .gt_heading {
+#gpsthflmvx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1706,12 +1706,12 @@ change points in enrollment, failure, dropout rates.</p>
   border-right-color: #D3D3D3;
 }
 
-#inporstkla .gt_caption {
+#gpsthflmvx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#inporstkla .gt_title {
+#gpsthflmvx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1723,7 +1723,7 @@ change points in enrollment, failure, dropout rates.</p>
   border-bottom-width: 0;
 }
 
-#inporstkla .gt_subtitle {
+#gpsthflmvx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1735,13 +1735,13 @@ change points in enrollment, failure, dropout rates.</p>
   border-top-width: 0;
 }
 
-#inporstkla .gt_bottom_border {
+#gpsthflmvx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#inporstkla .gt_col_headings {
+#gpsthflmvx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1756,7 +1756,7 @@ change points in enrollment, failure, dropout rates.</p>
   border-right-color: #D3D3D3;
 }
 
-#inporstkla .gt_col_heading {
+#gpsthflmvx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1776,7 +1776,7 @@ change points in enrollment, failure, dropout rates.</p>
   overflow-x: hidden;
 }
 
-#inporstkla .gt_column_spanner_outer {
+#gpsthflmvx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1788,15 +1788,15 @@ change points in enrollment, failure, dropout rates.</p>
   padding-right: 4px;
 }
 
-#inporstkla .gt_column_spanner_outer:first-child {
+#gpsthflmvx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#inporstkla .gt_column_spanner_outer:last-child {
+#gpsthflmvx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#inporstkla .gt_column_spanner {
+#gpsthflmvx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1808,7 +1808,7 @@ change points in enrollment, failure, dropout rates.</p>
   width: 100%;
 }
 
-#inporstkla .gt_group_heading {
+#gpsthflmvx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1834,7 +1834,7 @@ change points in enrollment, failure, dropout rates.</p>
   text-align: left;
 }
 
-#inporstkla .gt_empty_group_heading {
+#gpsthflmvx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1849,15 +1849,15 @@ change points in enrollment, failure, dropout rates.</p>
   vertical-align: middle;
 }
 
-#inporstkla .gt_from_md > :first-child {
+#gpsthflmvx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#inporstkla .gt_from_md > :last-child {
+#gpsthflmvx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#inporstkla .gt_row {
+#gpsthflmvx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1876,7 +1876,7 @@ change points in enrollment, failure, dropout rates.</p>
   overflow-x: hidden;
 }
 
-#inporstkla .gt_stub {
+#gpsthflmvx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1889,7 +1889,7 @@ change points in enrollment, failure, dropout rates.</p>
   padding-right: 5px;
 }
 
-#inporstkla .gt_stub_row_group {
+#gpsthflmvx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1903,11 +1903,11 @@ change points in enrollment, failure, dropout rates.</p>
   vertical-align: top;
 }
 
-#inporstkla .gt_row_group_first td {
+#gpsthflmvx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#inporstkla .gt_summary_row {
+#gpsthflmvx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1917,16 +1917,16 @@ change points in enrollment, failure, dropout rates.</p>
   padding-right: 5px;
 }
 
-#inporstkla .gt_first_summary_row {
+#gpsthflmvx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#inporstkla .gt_first_summary_row.thick {
+#gpsthflmvx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#inporstkla .gt_last_summary_row {
+#gpsthflmvx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1936,7 +1936,7 @@ change points in enrollment, failure, dropout rates.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#inporstkla .gt_grand_summary_row {
+#gpsthflmvx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1946,7 +1946,7 @@ change points in enrollment, failure, dropout rates.</p>
   padding-right: 5px;
 }
 
-#inporstkla .gt_first_grand_summary_row {
+#gpsthflmvx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1956,11 +1956,11 @@ change points in enrollment, failure, dropout rates.</p>
   border-top-color: #D3D3D3;
 }
 
-#inporstkla .gt_striped {
+#gpsthflmvx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#inporstkla .gt_table_body {
+#gpsthflmvx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1969,7 +1969,7 @@ change points in enrollment, failure, dropout rates.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#inporstkla .gt_footnotes {
+#gpsthflmvx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1983,7 +1983,7 @@ change points in enrollment, failure, dropout rates.</p>
   border-right-color: #D3D3D3;
 }
 
-#inporstkla .gt_footnote {
+#gpsthflmvx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1992,7 +1992,7 @@ change points in enrollment, failure, dropout rates.</p>
   padding-right: 5px;
 }
 
-#inporstkla .gt_sourcenotes {
+#gpsthflmvx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2006,7 +2006,7 @@ change points in enrollment, failure, dropout rates.</p>
   border-right-color: #D3D3D3;
 }
 
-#inporstkla .gt_sourcenote {
+#gpsthflmvx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2014,64 +2014,64 @@ change points in enrollment, failure, dropout rates.</p>
   padding-right: 5px;
 }
 
-#inporstkla .gt_left {
+#gpsthflmvx .gt_left {
   text-align: left;
 }
 
-#inporstkla .gt_center {
+#gpsthflmvx .gt_center {
   text-align: center;
 }
 
-#inporstkla .gt_right {
+#gpsthflmvx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#inporstkla .gt_font_normal {
+#gpsthflmvx .gt_font_normal {
   font-weight: normal;
 }
 
-#inporstkla .gt_font_bold {
+#gpsthflmvx .gt_font_bold {
   font-weight: bold;
 }
 
-#inporstkla .gt_font_italic {
+#gpsthflmvx .gt_font_italic {
   font-style: italic;
 }
 
-#inporstkla .gt_super {
+#gpsthflmvx .gt_super {
   font-size: 65%;
 }
 
-#inporstkla .gt_footnote_marks {
+#gpsthflmvx .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#inporstkla .gt_asterisk {
+#gpsthflmvx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#inporstkla .gt_indent_1 {
+#gpsthflmvx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#inporstkla .gt_indent_2 {
+#gpsthflmvx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#inporstkla .gt_indent_3 {
+#gpsthflmvx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#inporstkla .gt_indent_4 {
+#gpsthflmvx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#inporstkla .gt_indent_5 {
+#gpsthflmvx .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2141,19 +2141,19 @@ the piecewise model.</p>
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    endEnroll <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="va">startEnroll</span>, default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">total_duration</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    startFail <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="va">endFail</span>, default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    time_start_fail <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="va">endFail</span>, default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
 <span>    duration <span class="op">=</span> <span class="va">endEnroll</span> <span class="op">-</span> <span class="va">startEnroll</span>,</span>
-<span>    failRate <span class="op">=</span> <span class="fu">sf.failRate</span><span class="op">(</span><span class="va">startFail</span><span class="op">)</span>,</span>
-<span>    dropoutRate <span class="op">=</span> <span class="fu">sf.dropoutRate</span><span class="op">(</span><span class="va">startFail</span><span class="op">)</span>,</span>
-<span>    enrollRate <span class="op">=</span> <span class="fu">sf.enrollRate</span><span class="op">(</span><span class="va">startEnroll</span><span class="op">)</span></span>
+<span>    failRate <span class="op">=</span> <span class="fu">sf_fail_rate</span><span class="op">(</span><span class="va">time_start_fail</span><span class="op">)</span>,</span>
+<span>    dropoutRate <span class="op">=</span> <span class="fu">sf_dropout_rate</span><span class="op">(</span><span class="va">time_start_fail</span><span class="op">)</span>,</span>
+<span>    enrollRate <span class="op">=</span> <span class="fu">sf_enroll_rate</span><span class="op">(</span><span class="va">startEnroll</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">rate</span><span class="op">)</span></span></code></pre></div>
-<div id="cfvignniki" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span> <span class="va">rate</span><span class="op">)</span></span></code></pre></div>
+<div id="gurtfrlfez" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#cfvignniki .gt_table {
+#gurtfrlfez .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2178,7 +2178,7 @@ the piecewise model.</p>
   border-left-color: #D3D3D3;
 }
 
-#cfvignniki .gt_heading {
+#gurtfrlfez .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2190,12 +2190,12 @@ the piecewise model.</p>
   border-right-color: #D3D3D3;
 }
 
-#cfvignniki .gt_caption {
+#gurtfrlfez .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cfvignniki .gt_title {
+#gurtfrlfez .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2207,7 +2207,7 @@ the piecewise model.</p>
   border-bottom-width: 0;
 }
 
-#cfvignniki .gt_subtitle {
+#gurtfrlfez .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2219,13 +2219,13 @@ the piecewise model.</p>
   border-top-width: 0;
 }
 
-#cfvignniki .gt_bottom_border {
+#gurtfrlfez .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cfvignniki .gt_col_headings {
+#gurtfrlfez .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2240,7 +2240,7 @@ the piecewise model.</p>
   border-right-color: #D3D3D3;
 }
 
-#cfvignniki .gt_col_heading {
+#gurtfrlfez .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2260,7 +2260,7 @@ the piecewise model.</p>
   overflow-x: hidden;
 }
 
-#cfvignniki .gt_column_spanner_outer {
+#gurtfrlfez .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2272,15 +2272,15 @@ the piecewise model.</p>
   padding-right: 4px;
 }
 
-#cfvignniki .gt_column_spanner_outer:first-child {
+#gurtfrlfez .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cfvignniki .gt_column_spanner_outer:last-child {
+#gurtfrlfez .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cfvignniki .gt_column_spanner {
+#gurtfrlfez .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2292,7 +2292,7 @@ the piecewise model.</p>
   width: 100%;
 }
 
-#cfvignniki .gt_group_heading {
+#gurtfrlfez .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2318,7 +2318,7 @@ the piecewise model.</p>
   text-align: left;
 }
 
-#cfvignniki .gt_empty_group_heading {
+#gurtfrlfez .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2333,15 +2333,15 @@ the piecewise model.</p>
   vertical-align: middle;
 }
 
-#cfvignniki .gt_from_md > :first-child {
+#gurtfrlfez .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cfvignniki .gt_from_md > :last-child {
+#gurtfrlfez .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cfvignniki .gt_row {
+#gurtfrlfez .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2360,7 +2360,7 @@ the piecewise model.</p>
   overflow-x: hidden;
 }
 
-#cfvignniki .gt_stub {
+#gurtfrlfez .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2373,7 +2373,7 @@ the piecewise model.</p>
   padding-right: 5px;
 }
 
-#cfvignniki .gt_stub_row_group {
+#gurtfrlfez .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2387,11 +2387,11 @@ the piecewise model.</p>
   vertical-align: top;
 }
 
-#cfvignniki .gt_row_group_first td {
+#gurtfrlfez .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cfvignniki .gt_summary_row {
+#gurtfrlfez .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2401,16 +2401,16 @@ the piecewise model.</p>
   padding-right: 5px;
 }
 
-#cfvignniki .gt_first_summary_row {
+#gurtfrlfez .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cfvignniki .gt_first_summary_row.thick {
+#gurtfrlfez .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cfvignniki .gt_last_summary_row {
+#gurtfrlfez .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2420,7 +2420,7 @@ the piecewise model.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#cfvignniki .gt_grand_summary_row {
+#gurtfrlfez .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2430,7 +2430,7 @@ the piecewise model.</p>
   padding-right: 5px;
 }
 
-#cfvignniki .gt_first_grand_summary_row {
+#gurtfrlfez .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2440,11 +2440,11 @@ the piecewise model.</p>
   border-top-color: #D3D3D3;
 }
 
-#cfvignniki .gt_striped {
+#gurtfrlfez .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cfvignniki .gt_table_body {
+#gurtfrlfez .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2453,7 +2453,7 @@ the piecewise model.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#cfvignniki .gt_footnotes {
+#gurtfrlfez .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2467,7 +2467,7 @@ the piecewise model.</p>
   border-right-color: #D3D3D3;
 }
 
-#cfvignniki .gt_footnote {
+#gurtfrlfez .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2476,7 +2476,7 @@ the piecewise model.</p>
   padding-right: 5px;
 }
 
-#cfvignniki .gt_sourcenotes {
+#gurtfrlfez .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2490,7 +2490,7 @@ the piecewise model.</p>
   border-right-color: #D3D3D3;
 }
 
-#cfvignniki .gt_sourcenote {
+#gurtfrlfez .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2498,64 +2498,64 @@ the piecewise model.</p>
   padding-right: 5px;
 }
 
-#cfvignniki .gt_left {
+#gurtfrlfez .gt_left {
   text-align: left;
 }
 
-#cfvignniki .gt_center {
+#gurtfrlfez .gt_center {
   text-align: center;
 }
 
-#cfvignniki .gt_right {
+#gurtfrlfez .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cfvignniki .gt_font_normal {
+#gurtfrlfez .gt_font_normal {
   font-weight: normal;
 }
 
-#cfvignniki .gt_font_bold {
+#gurtfrlfez .gt_font_bold {
   font-weight: bold;
 }
 
-#cfvignniki .gt_font_italic {
+#gurtfrlfez .gt_font_italic {
   font-style: italic;
 }
 
-#cfvignniki .gt_super {
+#gurtfrlfez .gt_super {
   font-size: 65%;
 }
 
-#cfvignniki .gt_footnote_marks {
+#gurtfrlfez .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#cfvignniki .gt_asterisk {
+#gurtfrlfez .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cfvignniki .gt_indent_1 {
+#gurtfrlfez .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cfvignniki .gt_indent_2 {
+#gurtfrlfez .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cfvignniki .gt_indent_3 {
+#gurtfrlfez .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cfvignniki .gt_indent_4 {
+#gurtfrlfez .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cfvignniki .gt_indent_5 {
+#gurtfrlfez .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2565,7 +2565,7 @@ the piecewise model.</p>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='endEnroll&lt;sup class="gt_footnote_marks"&gt;2&lt;/sup&gt;'>endEnroll<sup class="gt_footnote_marks">2</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='startFail&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>startFail<sup class="gt_footnote_marks">3</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='time_start_fail&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>time_start_fail<sup class="gt_footnote_marks">3</sup>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='endFail&lt;sup class="gt_footnote_marks"&gt;4&lt;/sup&gt;'>endFail<sup class="gt_footnote_marks">4</sup>
 </th>
@@ -2579,7 +2579,7 @@ the piecewise model.</p>
 <tr>
 <td headers="startEnroll" class="gt_row gt_right">0</td>
 <td headers="endEnroll" class="gt_row gt_right">5</td>
-<td headers="startFail" class="gt_row gt_right">45</td>
+<td headers="time_start_fail" class="gt_row gt_right">45</td>
 <td headers="endFail" class="gt_row gt_right">50</td>
 <td headers="enrollRate" class="gt_row gt_right">10</td>
 <td headers="failRate" class="gt_row gt_right">0.2</td>
@@ -2589,7 +2589,7 @@ the piecewise model.</p>
 <tr>
 <td headers="startEnroll" class="gt_row gt_right">5</td>
 <td headers="endEnroll" class="gt_row gt_right">10</td>
-<td headers="startFail" class="gt_row gt_right">40</td>
+<td headers="time_start_fail" class="gt_row gt_right">40</td>
 <td headers="endFail" class="gt_row gt_right">45</td>
 <td headers="enrollRate" class="gt_row gt_right">20</td>
 <td headers="failRate" class="gt_row gt_right">0.2</td>
@@ -2599,7 +2599,7 @@ the piecewise model.</p>
 <tr>
 <td headers="startEnroll" class="gt_row gt_right">10</td>
 <td headers="endEnroll" class="gt_row gt_right">30</td>
-<td headers="startFail" class="gt_row gt_right">20</td>
+<td headers="time_start_fail" class="gt_row gt_right">20</td>
 <td headers="endFail" class="gt_row gt_right">40</td>
 <td headers="enrollRate" class="gt_row gt_right">0</td>
 <td headers="failRate" class="gt_row gt_right">0.2</td>
@@ -2609,7 +2609,7 @@ the piecewise model.</p>
 <tr>
 <td headers="startEnroll" class="gt_row gt_right">30</td>
 <td headers="endEnroll" class="gt_row gt_right">50</td>
-<td headers="startFail" class="gt_row gt_right">0</td>
+<td headers="time_start_fail" class="gt_row gt_right">0</td>
 <td headers="endFail" class="gt_row gt_right">20</td>
 <td headers="enrollRate" class="gt_row gt_right">0</td>
 <td headers="failRate" class="gt_row gt_right">0.1</td>
@@ -2632,7 +2632,10 @@ the piecewise model.</p>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="8">
-<sup class="gt_footnote_marks">4</sup> The time when the failure rate ends. And startEnroll + endFail = 50. Besides, (startFail, endFail  ] forms the piecewise model of the enrollment rates.</td>
+<sup class="gt_footnote_marks">4</sup> The time when the failure rate ends. 
+    And startEnroll + endFail = 50. 
+    Besides, (time_start_fail, endFail  ] forms 
+    the piecewise model of the enrollment rates.</td>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="8">
@@ -2650,10 +2653,10 @@ expected events by interval at risk</a>.</p>
 <span><span class="co"># Q: cumulative product of q (pool all sub-intervals)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">duration</span> <span class="op">*</span> <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span> <span class="va">duration</span> <span class="op">*</span> <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    Q <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>, default <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">startFail</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">time_start_fail</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Create another 2 auxiliary variables for enroll rate</span></span>
 <span>  <span class="co"># g: number of expected subjects in a sub-interval</span></span>
 <span>  <span class="co"># G: cumulative sum of g (pool all sub-intervals)</span></span>
@@ -2661,29 +2664,34 @@ expected events by interval at risk</a>.</p>
 <span>    g <span class="op">=</span> <span class="va">enrollRate</span> <span class="op">*</span> <span class="va">duration</span>,</span>
 <span>    G <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span>, default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">startFail</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">time_start_fail</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Compute expected events as nbar in a sub-interval</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">failRate</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">0</span>, <span class="va">Q</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">q</span><span class="op">)</span> <span class="op">*</span> <span class="va">failRate</span> <span class="op">/</span> <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    nbar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">failRate</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">0</span>, <span class="va">G</span> <span class="op">*</span> <span class="va">d</span> <span class="op">+</span> <span class="op">(</span><span class="va">failRate</span> <span class="op">*</span> <span class="va">Q</span> <span class="op">*</span> <span class="va">enrollRate</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">duration</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">q</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>    d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">failRate</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">0</span>, <span class="va">Q</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">q</span><span class="op">)</span> <span class="op">*</span> <span class="va">failRate</span> <span class="op">/</span> </span>
+<span>                 <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    nbar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">failRate</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">0</span>, </span>
+<span>                  <span class="va">G</span> <span class="op">*</span> <span class="va">d</span> <span class="op">+</span> </span>
+<span>                    <span class="op">(</span><span class="va">failRate</span> <span class="op">*</span> <span class="va">Q</span> <span class="op">*</span> <span class="va">enrollRate</span><span class="op">)</span> <span class="op">/</span> </span>
+<span>                    <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span> <span class="op">*</span> </span>
+<span>                    <span class="op">(</span><span class="va">duration</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">q</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">failRate</span> <span class="op">+</span> <span class="va">dropoutRate</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><strong>Step 8:</strong> output results</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sf.startFail</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="va">startFail</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">startFail</span><span class="op">)</span>, right <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sf_time_start_fail</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/stepfun.html" class="external-link">stepfun</a></span><span class="op">(</span><span class="va">time_start_fail</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">time_start_fail</span><span class="op">)</span>, right <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">transmute</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">endFail</span>, failRate <span class="op">=</span> <span class="va">failRate</span>, Events <span class="op">=</span> <span class="va">nbar</span>, startFail <span class="op">=</span> <span class="fu">sf.startFail</span><span class="op">(</span><span class="va">startFail</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">startFail</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">transmute</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">endFail</span>, failRate <span class="op">=</span> <span class="va">failRate</span>, Events <span class="op">=</span> <span class="va">nbar</span>, time_start_fail <span class="op">=</span> <span class="fu">sf_time_start_fail</span><span class="op">(</span><span class="va">time_start_fail</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">time_start_fail</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>failRate <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">failRate</span><span class="op">)</span>, Events <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">startFail</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">time_start_fail</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"t"</span>, <span class="st">"failRate"</span>, <span class="st">"Events"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="rscjmazcrn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="pxeqjflalr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rscjmazcrn .gt_table {
+#pxeqjflalr .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2708,7 +2716,7 @@ expected events by interval at risk</a>.</p>
   border-left-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_heading {
+#pxeqjflalr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2720,12 +2728,12 @@ expected events by interval at risk</a>.</p>
   border-right-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_caption {
+#pxeqjflalr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rscjmazcrn .gt_title {
+#pxeqjflalr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2737,7 +2745,7 @@ expected events by interval at risk</a>.</p>
   border-bottom-width: 0;
 }
 
-#rscjmazcrn .gt_subtitle {
+#pxeqjflalr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2749,13 +2757,13 @@ expected events by interval at risk</a>.</p>
   border-top-width: 0;
 }
 
-#rscjmazcrn .gt_bottom_border {
+#pxeqjflalr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_col_headings {
+#pxeqjflalr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2770,7 +2778,7 @@ expected events by interval at risk</a>.</p>
   border-right-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_col_heading {
+#pxeqjflalr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2790,7 +2798,7 @@ expected events by interval at risk</a>.</p>
   overflow-x: hidden;
 }
 
-#rscjmazcrn .gt_column_spanner_outer {
+#pxeqjflalr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2802,15 +2810,15 @@ expected events by interval at risk</a>.</p>
   padding-right: 4px;
 }
 
-#rscjmazcrn .gt_column_spanner_outer:first-child {
+#pxeqjflalr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rscjmazcrn .gt_column_spanner_outer:last-child {
+#pxeqjflalr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rscjmazcrn .gt_column_spanner {
+#pxeqjflalr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2822,7 +2830,7 @@ expected events by interval at risk</a>.</p>
   width: 100%;
 }
 
-#rscjmazcrn .gt_group_heading {
+#pxeqjflalr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2848,7 +2856,7 @@ expected events by interval at risk</a>.</p>
   text-align: left;
 }
 
-#rscjmazcrn .gt_empty_group_heading {
+#pxeqjflalr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2863,15 +2871,15 @@ expected events by interval at risk</a>.</p>
   vertical-align: middle;
 }
 
-#rscjmazcrn .gt_from_md > :first-child {
+#pxeqjflalr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rscjmazcrn .gt_from_md > :last-child {
+#pxeqjflalr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rscjmazcrn .gt_row {
+#pxeqjflalr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2890,7 +2898,7 @@ expected events by interval at risk</a>.</p>
   overflow-x: hidden;
 }
 
-#rscjmazcrn .gt_stub {
+#pxeqjflalr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2903,7 +2911,7 @@ expected events by interval at risk</a>.</p>
   padding-right: 5px;
 }
 
-#rscjmazcrn .gt_stub_row_group {
+#pxeqjflalr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2917,11 +2925,11 @@ expected events by interval at risk</a>.</p>
   vertical-align: top;
 }
 
-#rscjmazcrn .gt_row_group_first td {
+#pxeqjflalr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rscjmazcrn .gt_summary_row {
+#pxeqjflalr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2931,16 +2939,16 @@ expected events by interval at risk</a>.</p>
   padding-right: 5px;
 }
 
-#rscjmazcrn .gt_first_summary_row {
+#pxeqjflalr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_first_summary_row.thick {
+#pxeqjflalr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rscjmazcrn .gt_last_summary_row {
+#pxeqjflalr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2950,7 +2958,7 @@ expected events by interval at risk</a>.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_grand_summary_row {
+#pxeqjflalr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2960,7 +2968,7 @@ expected events by interval at risk</a>.</p>
   padding-right: 5px;
 }
 
-#rscjmazcrn .gt_first_grand_summary_row {
+#pxeqjflalr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2970,11 +2978,11 @@ expected events by interval at risk</a>.</p>
   border-top-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_striped {
+#pxeqjflalr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rscjmazcrn .gt_table_body {
+#pxeqjflalr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2983,7 +2991,7 @@ expected events by interval at risk</a>.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_footnotes {
+#pxeqjflalr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2997,7 +3005,7 @@ expected events by interval at risk</a>.</p>
   border-right-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_footnote {
+#pxeqjflalr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3006,7 +3014,7 @@ expected events by interval at risk</a>.</p>
   padding-right: 5px;
 }
 
-#rscjmazcrn .gt_sourcenotes {
+#pxeqjflalr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3020,7 +3028,7 @@ expected events by interval at risk</a>.</p>
   border-right-color: #D3D3D3;
 }
 
-#rscjmazcrn .gt_sourcenote {
+#pxeqjflalr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3028,64 +3036,64 @@ expected events by interval at risk</a>.</p>
   padding-right: 5px;
 }
 
-#rscjmazcrn .gt_left {
+#pxeqjflalr .gt_left {
   text-align: left;
 }
 
-#rscjmazcrn .gt_center {
+#pxeqjflalr .gt_center {
   text-align: center;
 }
 
-#rscjmazcrn .gt_right {
+#pxeqjflalr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rscjmazcrn .gt_font_normal {
+#pxeqjflalr .gt_font_normal {
   font-weight: normal;
 }
 
-#rscjmazcrn .gt_font_bold {
+#pxeqjflalr .gt_font_bold {
   font-weight: bold;
 }
 
-#rscjmazcrn .gt_font_italic {
+#pxeqjflalr .gt_font_italic {
   font-style: italic;
 }
 
-#rscjmazcrn .gt_super {
+#pxeqjflalr .gt_super {
   font-size: 65%;
 }
 
-#rscjmazcrn .gt_footnote_marks {
+#pxeqjflalr .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#rscjmazcrn .gt_asterisk {
+#pxeqjflalr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rscjmazcrn .gt_indent_1 {
+#pxeqjflalr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rscjmazcrn .gt_indent_2 {
+#pxeqjflalr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rscjmazcrn .gt_indent_3 {
+#pxeqjflalr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rscjmazcrn .gt_indent_4 {
+#pxeqjflalr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rscjmazcrn .gt_indent_5 {
+#pxeqjflalr .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

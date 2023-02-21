@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -205,13 +205,13 @@ months.</li>
 </li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Month</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">44</span><span class="op">)</span></span>
-<span><span class="va">duration</span> <span class="op">&lt;-</span> <span class="va">Month</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">Month</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">month</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">44</span><span class="op">)</span></span>
+<span><span class="va">duration</span> <span class="op">&lt;-</span> <span class="va">month</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">month</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">control_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  Scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"PH"</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Delayed effect"</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Crossing"</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="fl">12</span><span class="op">)</span>,</span>
-<span>  Month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">Month</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  Month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">month</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">duration</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  rate <span class="op">=</span> <span class="va">control_rate</span>,</span>
 <span>  hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">.7</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">.575</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="fl">.5</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
@@ -222,7 +222,7 @@ months.</li>
 <span>  <span class="va">s</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="st">"Experimental"</span>, rate <span class="op">=</span> <span class="va">rate</span> <span class="op">*</span> <span class="va">hr</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Scenario</span>, <span class="va">Treatment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Survival <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">duration</span> <span class="op">*</span> <span class="va">rate</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Survival <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">duration</span> <span class="op">*</span> <span class="va">rate</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">s</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Month</span>, y <span class="op">=</span> <span class="va">Survival</span>, col <span class="op">=</span> <span class="va">Scenario</span>, lty <span class="op">=</span> <span class="va">Treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span>, lim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -231,8 +231,8 @@ months.</li>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get 4 scenarios</span></span>
 <span><span class="va">control_median</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">12</span>, <span class="fl">12</span>, <span class="fl">12</span><span class="op">)</span></span>
-<span><span class="va">Month</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">44</span><span class="op">)</span></span>
-<span><span class="va">duration</span> <span class="op">&lt;-</span> <span class="va">Month</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">Month</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">month</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">44</span><span class="op">)</span></span>
+<span><span class="va">duration</span> <span class="op">&lt;-</span> <span class="va">month</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">month</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co"># HR by time period for each scenario</span></span>
 <span><span class="va">hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">.7</span>, <span class="fl">4</span><span class="op">)</span>, <span class="co"># constant hazard ratio of 0.7</span></span>
@@ -246,7 +246,7 @@ months.</li>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  Scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"PH"</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Shorter delayed effect"</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Longer delayed effect"</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Crossing"</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="fl">16</span><span class="op">)</span>,</span>
-<span>  Month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">Month</span>, <span class="fl">4</span><span class="op">)</span>, <span class="co"># Periods for constant HR</span></span>
+<span>  Month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">month</span>, <span class="fl">4</span><span class="op">)</span>, <span class="co"># Periods for constant HR</span></span>
 <span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">duration</span>, <span class="fl">4</span><span class="op">)</span>,</span>
 <span>  rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">control_median</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">4</span><span class="op">)</span>,</span>
@@ -258,9 +258,9 @@ months.</li>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># calculate the survival at each change point for each scenario</span></span>
-<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">s</span>, <span class="va">s</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="st">"Experimental"</span>, rate <span class="op">=</span> <span class="va">rate</span> <span class="op">*</span> <span class="va">hr</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">s</span>, <span class="va">s</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="st">"Experimental"</span>, rate <span class="op">=</span> <span class="va">rate</span> <span class="op">*</span> <span class="va">hr</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>  </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Scenario</span>, <span class="va">Treatment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Survival <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">duration</span> <span class="op">*</span> <span class="va">rate</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Survival <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">duration</span> <span class="op">*</span> <span class="va">rate</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot the survival curve</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">s</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Month</span>, y <span class="op">=</span> <span class="va">Survival</span>, col <span class="op">=</span> <span class="va">Scenario</span>, lty <span class="op">=</span> <span class="va">Treatment</span>, shape <span class="op">=</span> <span class="va">Treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -276,7 +276,7 @@ average hazard ratio approaches that of the <em>PH</em> scenario after a
 study duration of about 36 months.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Durations to be used in common for all failure rate scenarios</span></span>
-<span><span class="va">dur</span> <span class="op">&lt;-</span> <span class="va">Month</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op">-</span> <span class="va">Month</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
+<span><span class="va">dur</span> <span class="op">&lt;-</span> <span class="va">month</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op">-</span> <span class="va">month</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Set the failure table</span></span>
 <span><span class="co"># We use exponential failure, proportional hazards</span></span>
@@ -308,16 +308,16 @@ study duration of about 36 months.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PH"</span>, <span class="st">"Shorter delayed effect"</span>, <span class="st">"Longer delayed effect"</span>, <span class="st">"Crossing"</span><span class="op">)</span>,</span>
 <span>    <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/AHR.html">AHR</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="../reference/ahr.html">ahr</a></span><span class="op">(</span></span>
 <span>        enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span>,</span>
 <span>        fail_rate <span class="op">=</span> <span class="va">fail_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span>,</span>
-<span>        total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.001</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">44</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span>      <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span>        total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.001</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">44</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>  </span>
+<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Time</span>, y <span class="op">=</span> <span class="va">AHR</span>, col <span class="op">=</span> <span class="va">Scenario</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">ahr</span>, col <span class="op">=</span> <span class="va">Scenario</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">42</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Average hazard ratio (AHR) by study duration"</span>,</span>
@@ -328,7 +328,7 @@ study duration of about 36 months.</p>
 3 NPH scenarios events accumulate faster than under the PH scenario both
 due to a lower control median and/or a delayed effect.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Time</span>, y <span class="op">=</span> <span class="va">`Events`</span>, col <span class="op">=</span> <span class="va">Scenario</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">event</span>, col <span class="op">=</span> <span class="va">Scenario</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">42</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Expected events per 100 enrolled"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -369,12 +369,12 @@ month 36.</p>
 <span>        upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>        upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
 <span>        lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
-<span>        lpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>        lpar <span class="op">=</span> <span class="op">-</span> <span class="cn">Inf</span>,</span>
 <span>        alpha <span class="op">=</span> <span class="fl">.025</span>,</span>
 <span>        beta <span class="op">=</span> <span class="fl">.1</span></span>
 <span>      <span class="op">)</span></span>
 <span>      <span class="va">ans</span> <span class="op">&lt;-</span> <span class="va">xx</span><span class="op">$</span><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">N</span>, <span class="va">Events</span>, <span class="va">AHR</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">n</span>, <span class="va">event</span>, <span class="va">ahr</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
 <span>      <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
@@ -389,12 +389,12 @@ month 36.</p>
 <span>    title <span class="op">=</span> <span class="st">"Sample Size and Events Required by Scenario"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"36 Month Trial duration, 2.5% One-sided Type 1 Error, 90% Power"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="moyptzwoxo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="eqidjrholc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#moyptzwoxo .gt_table {
+#eqidjrholc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -419,7 +419,7 @@ month 36.</p>
   border-left-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_heading {
+#eqidjrholc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -431,12 +431,12 @@ month 36.</p>
   border-right-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_caption {
+#eqidjrholc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#moyptzwoxo .gt_title {
+#eqidjrholc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -448,7 +448,7 @@ month 36.</p>
   border-bottom-width: 0;
 }
 
-#moyptzwoxo .gt_subtitle {
+#eqidjrholc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -460,13 +460,13 @@ month 36.</p>
   border-top-width: 0;
 }
 
-#moyptzwoxo .gt_bottom_border {
+#eqidjrholc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_col_headings {
+#eqidjrholc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -481,7 +481,7 @@ month 36.</p>
   border-right-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_col_heading {
+#eqidjrholc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -501,7 +501,7 @@ month 36.</p>
   overflow-x: hidden;
 }
 
-#moyptzwoxo .gt_column_spanner_outer {
+#eqidjrholc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -513,15 +513,15 @@ month 36.</p>
   padding-right: 4px;
 }
 
-#moyptzwoxo .gt_column_spanner_outer:first-child {
+#eqidjrholc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#moyptzwoxo .gt_column_spanner_outer:last-child {
+#eqidjrholc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#moyptzwoxo .gt_column_spanner {
+#eqidjrholc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -533,7 +533,7 @@ month 36.</p>
   width: 100%;
 }
 
-#moyptzwoxo .gt_group_heading {
+#eqidjrholc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -559,7 +559,7 @@ month 36.</p>
   text-align: left;
 }
 
-#moyptzwoxo .gt_empty_group_heading {
+#eqidjrholc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -574,15 +574,15 @@ month 36.</p>
   vertical-align: middle;
 }
 
-#moyptzwoxo .gt_from_md > :first-child {
+#eqidjrholc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#moyptzwoxo .gt_from_md > :last-child {
+#eqidjrholc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#moyptzwoxo .gt_row {
+#eqidjrholc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -601,7 +601,7 @@ month 36.</p>
   overflow-x: hidden;
 }
 
-#moyptzwoxo .gt_stub {
+#eqidjrholc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -614,7 +614,7 @@ month 36.</p>
   padding-right: 5px;
 }
 
-#moyptzwoxo .gt_stub_row_group {
+#eqidjrholc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -628,11 +628,11 @@ month 36.</p>
   vertical-align: top;
 }
 
-#moyptzwoxo .gt_row_group_first td {
+#eqidjrholc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#moyptzwoxo .gt_summary_row {
+#eqidjrholc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -642,16 +642,16 @@ month 36.</p>
   padding-right: 5px;
 }
 
-#moyptzwoxo .gt_first_summary_row {
+#eqidjrholc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_first_summary_row.thick {
+#eqidjrholc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#moyptzwoxo .gt_last_summary_row {
+#eqidjrholc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -661,7 +661,7 @@ month 36.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_grand_summary_row {
+#eqidjrholc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -671,7 +671,7 @@ month 36.</p>
   padding-right: 5px;
 }
 
-#moyptzwoxo .gt_first_grand_summary_row {
+#eqidjrholc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -681,11 +681,11 @@ month 36.</p>
   border-top-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_striped {
+#eqidjrholc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#moyptzwoxo .gt_table_body {
+#eqidjrholc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -694,7 +694,7 @@ month 36.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_footnotes {
+#eqidjrholc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -708,7 +708,7 @@ month 36.</p>
   border-right-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_footnote {
+#eqidjrholc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -717,7 +717,7 @@ month 36.</p>
   padding-right: 5px;
 }
 
-#moyptzwoxo .gt_sourcenotes {
+#eqidjrholc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -731,7 +731,7 @@ month 36.</p>
   border-right-color: #D3D3D3;
 }
 
-#moyptzwoxo .gt_sourcenote {
+#eqidjrholc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -739,64 +739,64 @@ month 36.</p>
   padding-right: 5px;
 }
 
-#moyptzwoxo .gt_left {
+#eqidjrholc .gt_left {
   text-align: left;
 }
 
-#moyptzwoxo .gt_center {
+#eqidjrholc .gt_center {
   text-align: center;
 }
 
-#moyptzwoxo .gt_right {
+#eqidjrholc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#moyptzwoxo .gt_font_normal {
+#eqidjrholc .gt_font_normal {
   font-weight: normal;
 }
 
-#moyptzwoxo .gt_font_bold {
+#eqidjrholc .gt_font_bold {
   font-weight: bold;
 }
 
-#moyptzwoxo .gt_font_italic {
+#eqidjrholc .gt_font_italic {
   font-style: italic;
 }
 
-#moyptzwoxo .gt_super {
+#eqidjrholc .gt_super {
   font-size: 65%;
 }
 
-#moyptzwoxo .gt_footnote_marks {
+#eqidjrholc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#moyptzwoxo .gt_asterisk {
+#eqidjrholc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#moyptzwoxo .gt_indent_1 {
+#eqidjrholc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#moyptzwoxo .gt_indent_2 {
+#eqidjrholc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#moyptzwoxo .gt_indent_3 {
+#eqidjrholc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#moyptzwoxo .gt_indent_4 {
+#eqidjrholc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#moyptzwoxo .gt_indent_5 {
+#eqidjrholc .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -810,39 +810,39 @@ month 36.</p>
     </tr>
 </thead>
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Time">Time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="N">N</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Events">Events</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="AHR">AHR</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="time">time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="event">event</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ahr">ahr</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Scenario">Scenario</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">518</td>
-<td headers="Events" class="gt_row gt_right">332</td>
-<td headers="AHR" class="gt_row gt_right">0.700</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">518</td>
+<td headers="event" class="gt_row gt_right">332</td>
+<td headers="ahr" class="gt_row gt_right">0.700</td>
 <td headers="Scenario" class="gt_row gt_left">PH</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">476</td>
-<td headers="Events" class="gt_row gt_right">341</td>
-<td headers="AHR" class="gt_row gt_right">0.703</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">476</td>
+<td headers="event" class="gt_row gt_right">341</td>
+<td headers="ahr" class="gt_row gt_right">0.703</td>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">696</td>
-<td headers="Events" class="gt_row gt_right">504</td>
-<td headers="AHR" class="gt_row gt_right">0.749</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">696</td>
+<td headers="event" class="gt_row gt_right">504</td>
+<td headers="ahr" class="gt_row gt_right">0.749</td>
 <td headers="Scenario" class="gt_row gt_left">Longer delayed effect</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">760</td>
-<td headers="Events" class="gt_row gt_right">544</td>
-<td headers="AHR" class="gt_row gt_right">0.755</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">760</td>
+<td headers="event" class="gt_row gt_right">544</td>
+<td headers="ahr" class="gt_row gt_right">0.755</td>
 <td headers="Scenario" class="gt_row gt_left">Crossing</td>
 </tr>
 </tbody>
@@ -870,11 +870,11 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
 <span>        fail_rate <span class="op">=</span> <span class="va">fail_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="st">"Shorter delayed effect"</span><span class="op">)</span>,</span>
 <span>        analysis_time <span class="op">=</span> <span class="va">x</span>,</span>
 <span>        upper <span class="op">=</span> <span class="va">gs_b</span>, upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
-<span>        lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>        lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="op">-</span> <span class="cn">Inf</span>,</span>
 <span>        alpha <span class="op">=</span> <span class="fl">.025</span>,</span>
 <span>        beta <span class="op">=</span> <span class="fl">.1</span></span>
 <span>      <span class="op">)</span><span class="op">$</span><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">N</span>, <span class="va">Events</span>, <span class="va">AHR</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">n</span>, <span class="va">event</span>, <span class="va">ahr</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="st">"Shorter delayed effect"</span><span class="op">)</span></span>
 <span>      <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
@@ -887,12 +887,12 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
 <span>    title <span class="op">=</span> <span class="st">"Sample Size and Events Required by Trial Duration"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Delayed Effect of 4 Months, HR = 0.6 Thereafter; 90% Power"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="dajwuqwuny" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="xvivqrqryv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dajwuqwuny .gt_table {
+#xvivqrqryv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -917,7 +917,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-left-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_heading {
+#xvivqrqryv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -929,12 +929,12 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-right-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_caption {
+#xvivqrqryv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dajwuqwuny .gt_title {
+#xvivqrqryv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -946,7 +946,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-bottom-width: 0;
 }
 
-#dajwuqwuny .gt_subtitle {
+#xvivqrqryv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -958,13 +958,13 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-top-width: 0;
 }
 
-#dajwuqwuny .gt_bottom_border {
+#xvivqrqryv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_col_headings {
+#xvivqrqryv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -979,7 +979,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-right-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_col_heading {
+#xvivqrqryv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -999,7 +999,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   overflow-x: hidden;
 }
 
-#dajwuqwuny .gt_column_spanner_outer {
+#xvivqrqryv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1011,15 +1011,15 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   padding-right: 4px;
 }
 
-#dajwuqwuny .gt_column_spanner_outer:first-child {
+#xvivqrqryv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dajwuqwuny .gt_column_spanner_outer:last-child {
+#xvivqrqryv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dajwuqwuny .gt_column_spanner {
+#xvivqrqryv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1031,7 +1031,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   width: 100%;
 }
 
-#dajwuqwuny .gt_group_heading {
+#xvivqrqryv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1057,7 +1057,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   text-align: left;
 }
 
-#dajwuqwuny .gt_empty_group_heading {
+#xvivqrqryv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1072,15 +1072,15 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   vertical-align: middle;
 }
 
-#dajwuqwuny .gt_from_md > :first-child {
+#xvivqrqryv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dajwuqwuny .gt_from_md > :last-child {
+#xvivqrqryv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dajwuqwuny .gt_row {
+#xvivqrqryv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1099,7 +1099,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   overflow-x: hidden;
 }
 
-#dajwuqwuny .gt_stub {
+#xvivqrqryv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1112,7 +1112,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   padding-right: 5px;
 }
 
-#dajwuqwuny .gt_stub_row_group {
+#xvivqrqryv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1126,11 +1126,11 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   vertical-align: top;
 }
 
-#dajwuqwuny .gt_row_group_first td {
+#xvivqrqryv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dajwuqwuny .gt_summary_row {
+#xvivqrqryv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1140,16 +1140,16 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   padding-right: 5px;
 }
 
-#dajwuqwuny .gt_first_summary_row {
+#xvivqrqryv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_first_summary_row.thick {
+#xvivqrqryv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dajwuqwuny .gt_last_summary_row {
+#xvivqrqryv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1159,7 +1159,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_grand_summary_row {
+#xvivqrqryv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1169,7 +1169,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   padding-right: 5px;
 }
 
-#dajwuqwuny .gt_first_grand_summary_row {
+#xvivqrqryv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1179,11 +1179,11 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-top-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_striped {
+#xvivqrqryv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dajwuqwuny .gt_table_body {
+#xvivqrqryv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1192,7 +1192,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_footnotes {
+#xvivqrqryv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1206,7 +1206,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-right-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_footnote {
+#xvivqrqryv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1215,7 +1215,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   padding-right: 5px;
 }
 
-#dajwuqwuny .gt_sourcenotes {
+#xvivqrqryv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1229,7 +1229,7 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   border-right-color: #D3D3D3;
 }
 
-#dajwuqwuny .gt_sourcenote {
+#xvivqrqryv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1237,64 +1237,64 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
   padding-right: 5px;
 }
 
-#dajwuqwuny .gt_left {
+#xvivqrqryv .gt_left {
   text-align: left;
 }
 
-#dajwuqwuny .gt_center {
+#xvivqrqryv .gt_center {
   text-align: center;
 }
 
-#dajwuqwuny .gt_right {
+#xvivqrqryv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dajwuqwuny .gt_font_normal {
+#xvivqrqryv .gt_font_normal {
   font-weight: normal;
 }
 
-#dajwuqwuny .gt_font_bold {
+#xvivqrqryv .gt_font_bold {
   font-weight: bold;
 }
 
-#dajwuqwuny .gt_font_italic {
+#xvivqrqryv .gt_font_italic {
   font-style: italic;
 }
 
-#dajwuqwuny .gt_super {
+#xvivqrqryv .gt_super {
   font-size: 65%;
 }
 
-#dajwuqwuny .gt_footnote_marks {
+#xvivqrqryv .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#dajwuqwuny .gt_asterisk {
+#xvivqrqryv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dajwuqwuny .gt_indent_1 {
+#xvivqrqryv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dajwuqwuny .gt_indent_2 {
+#xvivqrqryv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dajwuqwuny .gt_indent_3 {
+#xvivqrqryv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dajwuqwuny .gt_indent_4 {
+#xvivqrqryv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dajwuqwuny .gt_indent_5 {
+#xvivqrqryv .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1308,39 +1308,39 @@ effect of 4 months followed by a hazard ratio of 0.6 thereafter.</p>
     </tr>
 </thead>
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Time">Time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="N">N</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Events">Events</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="AHR">AHR</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="time">time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="event">event</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ahr">ahr</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Scenario">Scenario</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="Time" class="gt_row gt_right">24</td>
-<td headers="N" class="gt_row gt_right">1,037</td>
-<td headers="Events" class="gt_row gt_right">522</td>
-<td headers="AHR" class="gt_row gt_right">0.752</td>
+<td headers="time" class="gt_row gt_right">24</td>
+<td headers="n" class="gt_row gt_right">1,037</td>
+<td headers="event" class="gt_row gt_right">522</td>
+<td headers="ahr" class="gt_row gt_right">0.752</td>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">30</td>
-<td headers="N" class="gt_row gt_right">623</td>
-<td headers="Events" class="gt_row gt_right">390</td>
-<td headers="AHR" class="gt_row gt_right">0.719</td>
+<td headers="time" class="gt_row gt_right">30</td>
+<td headers="n" class="gt_row gt_right">623</td>
+<td headers="event" class="gt_row gt_right">390</td>
+<td headers="ahr" class="gt_row gt_right">0.719</td>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">476</td>
-<td headers="Events" class="gt_row gt_right">341</td>
-<td headers="AHR" class="gt_row gt_right">0.703</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">476</td>
+<td headers="event" class="gt_row gt_right">341</td>
+<td headers="ahr" class="gt_row gt_right">0.703</td>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">42</td>
-<td headers="N" class="gt_row gt_right">404</td>
-<td headers="Events" class="gt_row gt_right">316</td>
-<td headers="AHR" class="gt_row gt_right">0.694</td>
+<td headers="time" class="gt_row gt_right">42</td>
+<td headers="n" class="gt_row gt_right">404</td>
+<td headers="event" class="gt_row gt_right">316</td>
+<td headers="ahr" class="gt_row gt_right">0.694</td>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 </tbody>
@@ -1358,11 +1358,11 @@ expected number of events in time periods of interest.</p>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">g</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PH"</span>, <span class="st">"Shorter delayed effect"</span>, <span class="st">"Longer delayed effect"</span>, <span class="st">"Crossing"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">events_by_time_period</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>    <span class="va">events_by_time_period</span>,</span>
-<span>    <span class="fu"><a href="../reference/AHR.html">AHR</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/ahr.html">ahr</a></span><span class="op">(</span></span>
 <span>      enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">g</span><span class="op">)</span>,</span>
 <span>      fail_rate <span class="op">=</span> <span class="va">fail_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">g</span><span class="op">)</span>,</span>
-<span>      total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">20</span>, <span class="fl">28</span>, <span class="fl">36</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">g</span><span class="op">)</span></span>
+<span>      total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">20</span>, <span class="fl">28</span>, <span class="fl">36</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">g</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Recall that our alternate hypothesis assumes no treatment effect
@@ -1386,19 +1386,19 @@ under the alternate hypothesis.</p>
 <span></span>
 <span><span class="va">ahr_by_analysis</span> <span class="op">&lt;-</span> <span class="va">events_by_time_period</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">hr1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Scenario</span>, <span class="va">Time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>AHR1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Events</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">hr1</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Events</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Scenario</span>, <span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>AHR1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">event</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">hr1</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">event</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ahr_by_analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">Scenario</span>, values_from <span class="op">=</span> <span class="va">AHR1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<div id="amzphcogig" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lbopotdwuu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#amzphcogig .gt_table {
+#lbopotdwuu .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1423,7 +1423,7 @@ under the alternate hypothesis.</p>
   border-left-color: #D3D3D3;
 }
 
-#amzphcogig .gt_heading {
+#lbopotdwuu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1435,12 +1435,12 @@ under the alternate hypothesis.</p>
   border-right-color: #D3D3D3;
 }
 
-#amzphcogig .gt_caption {
+#lbopotdwuu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#amzphcogig .gt_title {
+#lbopotdwuu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1452,7 +1452,7 @@ under the alternate hypothesis.</p>
   border-bottom-width: 0;
 }
 
-#amzphcogig .gt_subtitle {
+#lbopotdwuu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1464,13 +1464,13 @@ under the alternate hypothesis.</p>
   border-top-width: 0;
 }
 
-#amzphcogig .gt_bottom_border {
+#lbopotdwuu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#amzphcogig .gt_col_headings {
+#lbopotdwuu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1485,7 +1485,7 @@ under the alternate hypothesis.</p>
   border-right-color: #D3D3D3;
 }
 
-#amzphcogig .gt_col_heading {
+#lbopotdwuu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1505,7 +1505,7 @@ under the alternate hypothesis.</p>
   overflow-x: hidden;
 }
 
-#amzphcogig .gt_column_spanner_outer {
+#lbopotdwuu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1517,15 +1517,15 @@ under the alternate hypothesis.</p>
   padding-right: 4px;
 }
 
-#amzphcogig .gt_column_spanner_outer:first-child {
+#lbopotdwuu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#amzphcogig .gt_column_spanner_outer:last-child {
+#lbopotdwuu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#amzphcogig .gt_column_spanner {
+#lbopotdwuu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1537,7 +1537,7 @@ under the alternate hypothesis.</p>
   width: 100%;
 }
 
-#amzphcogig .gt_group_heading {
+#lbopotdwuu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1563,7 +1563,7 @@ under the alternate hypothesis.</p>
   text-align: left;
 }
 
-#amzphcogig .gt_empty_group_heading {
+#lbopotdwuu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1578,15 +1578,15 @@ under the alternate hypothesis.</p>
   vertical-align: middle;
 }
 
-#amzphcogig .gt_from_md > :first-child {
+#lbopotdwuu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#amzphcogig .gt_from_md > :last-child {
+#lbopotdwuu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#amzphcogig .gt_row {
+#lbopotdwuu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1605,7 +1605,7 @@ under the alternate hypothesis.</p>
   overflow-x: hidden;
 }
 
-#amzphcogig .gt_stub {
+#lbopotdwuu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1618,7 +1618,7 @@ under the alternate hypothesis.</p>
   padding-right: 5px;
 }
 
-#amzphcogig .gt_stub_row_group {
+#lbopotdwuu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1632,11 +1632,11 @@ under the alternate hypothesis.</p>
   vertical-align: top;
 }
 
-#amzphcogig .gt_row_group_first td {
+#lbopotdwuu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#amzphcogig .gt_summary_row {
+#lbopotdwuu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1646,16 +1646,16 @@ under the alternate hypothesis.</p>
   padding-right: 5px;
 }
 
-#amzphcogig .gt_first_summary_row {
+#lbopotdwuu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#amzphcogig .gt_first_summary_row.thick {
+#lbopotdwuu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#amzphcogig .gt_last_summary_row {
+#lbopotdwuu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1665,7 +1665,7 @@ under the alternate hypothesis.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#amzphcogig .gt_grand_summary_row {
+#lbopotdwuu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1675,7 +1675,7 @@ under the alternate hypothesis.</p>
   padding-right: 5px;
 }
 
-#amzphcogig .gt_first_grand_summary_row {
+#lbopotdwuu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1685,11 +1685,11 @@ under the alternate hypothesis.</p>
   border-top-color: #D3D3D3;
 }
 
-#amzphcogig .gt_striped {
+#lbopotdwuu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#amzphcogig .gt_table_body {
+#lbopotdwuu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1698,7 +1698,7 @@ under the alternate hypothesis.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#amzphcogig .gt_footnotes {
+#lbopotdwuu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1712,7 +1712,7 @@ under the alternate hypothesis.</p>
   border-right-color: #D3D3D3;
 }
 
-#amzphcogig .gt_footnote {
+#lbopotdwuu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1721,7 +1721,7 @@ under the alternate hypothesis.</p>
   padding-right: 5px;
 }
 
-#amzphcogig .gt_sourcenotes {
+#lbopotdwuu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1735,7 +1735,7 @@ under the alternate hypothesis.</p>
   border-right-color: #D3D3D3;
 }
 
-#amzphcogig .gt_sourcenote {
+#lbopotdwuu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1743,70 +1743,70 @@ under the alternate hypothesis.</p>
   padding-right: 5px;
 }
 
-#amzphcogig .gt_left {
+#lbopotdwuu .gt_left {
   text-align: left;
 }
 
-#amzphcogig .gt_center {
+#lbopotdwuu .gt_center {
   text-align: center;
 }
 
-#amzphcogig .gt_right {
+#lbopotdwuu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#amzphcogig .gt_font_normal {
+#lbopotdwuu .gt_font_normal {
   font-weight: normal;
 }
 
-#amzphcogig .gt_font_bold {
+#lbopotdwuu .gt_font_bold {
   font-weight: bold;
 }
 
-#amzphcogig .gt_font_italic {
+#lbopotdwuu .gt_font_italic {
   font-style: italic;
 }
 
-#amzphcogig .gt_super {
+#lbopotdwuu .gt_super {
   font-size: 65%;
 }
 
-#amzphcogig .gt_footnote_marks {
+#lbopotdwuu .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#amzphcogig .gt_asterisk {
+#lbopotdwuu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#amzphcogig .gt_indent_1 {
+#lbopotdwuu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#amzphcogig .gt_indent_2 {
+#lbopotdwuu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#amzphcogig .gt_indent_3 {
+#lbopotdwuu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#amzphcogig .gt_indent_4 {
+#lbopotdwuu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#amzphcogig .gt_indent_5 {
+#lbopotdwuu .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Time">Time</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="time">time</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Crossing">Crossing</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Longer delayed effect">Longer delayed effect</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="PH">PH</th>
@@ -1814,28 +1814,28 @@ under the alternate hypothesis.</p>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="Time" class="gt_row gt_right">12</td>
+<td headers="time" class="gt_row gt_right">12</td>
 <td headers="Crossing" class="gt_row gt_right">0.904</td>
 <td headers="Longer delayed effect" class="gt_row gt_right">0.949</td>
 <td headers="PH" class="gt_row gt_right">1.000</td>
 <td headers="Shorter delayed effect" class="gt_row gt_right">0.881</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">20</td>
+<td headers="time" class="gt_row gt_right">20</td>
 <td headers="Crossing" class="gt_row gt_right">0.822</td>
 <td headers="Longer delayed effect" class="gt_row gt_right">0.862</td>
 <td headers="PH" class="gt_row gt_right">1.000</td>
 <td headers="Shorter delayed effect" class="gt_row gt_right">0.793</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">28</td>
+<td headers="time" class="gt_row gt_right">28</td>
 <td headers="Crossing" class="gt_row gt_right">0.754</td>
 <td headers="Longer delayed effect" class="gt_row gt_right">0.784</td>
 <td headers="PH" class="gt_row gt_right">1.000</td>
 <td headers="Shorter delayed effect" class="gt_row gt_right">0.728</td>
 </tr>
 <tr>
-<td headers="Time" class="gt_row gt_right">36</td>
+<td headers="time" class="gt_row gt_right">36</td>
 <td headers="Crossing" class="gt_row gt_right">0.727</td>
 <td headers="Longer delayed effect" class="gt_row gt_right">0.749</td>
 <td headers="PH" class="gt_row gt_right">1.000</td>
@@ -1860,9 +1860,9 @@ after 12, 20, and 28 months.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analysis_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">20</span>, <span class="fl">28</span>, <span class="fl">36</span><span class="op">)</span></span>
 <span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span>, theta <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, timing <span class="op">=</span> <span class="cn">NULL</span>, theta <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">.1</span>, param <span class="op">=</span> <span class="op">-</span> <span class="fl">2</span>, timing <span class="op">=</span> <span class="cn">NULL</span>, theta <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">NPHasymmetric</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
+<span><span class="va">nph_asymmetric</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
 <span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>, alpha <span class="op">=</span> <span class="fl">.025</span>, beta <span class="op">=</span> <span class="fl">0.1</span>,</span>
@@ -1876,13 +1876,13 @@ after 12, 20, and 28 months.</p>
 <span>  lpar <span class="op">=</span> <span class="va">lpar</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">NPHasymmetric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="dmzxdkizxl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nph_asymmetric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div id="gcfheikrfg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dmzxdkizxl .gt_table {
+#gcfheikrfg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1907,7 +1907,7 @@ after 12, 20, and 28 months.</p>
   border-left-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_heading {
+#gcfheikrfg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1919,12 +1919,12 @@ after 12, 20, and 28 months.</p>
   border-right-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_caption {
+#gcfheikrfg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dmzxdkizxl .gt_title {
+#gcfheikrfg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1936,7 +1936,7 @@ after 12, 20, and 28 months.</p>
   border-bottom-width: 0;
 }
 
-#dmzxdkizxl .gt_subtitle {
+#gcfheikrfg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1948,13 +1948,13 @@ after 12, 20, and 28 months.</p>
   border-top-width: 0;
 }
 
-#dmzxdkizxl .gt_bottom_border {
+#gcfheikrfg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_col_headings {
+#gcfheikrfg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1969,7 +1969,7 @@ after 12, 20, and 28 months.</p>
   border-right-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_col_heading {
+#gcfheikrfg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1989,7 +1989,7 @@ after 12, 20, and 28 months.</p>
   overflow-x: hidden;
 }
 
-#dmzxdkizxl .gt_column_spanner_outer {
+#gcfheikrfg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2001,15 +2001,15 @@ after 12, 20, and 28 months.</p>
   padding-right: 4px;
 }
 
-#dmzxdkizxl .gt_column_spanner_outer:first-child {
+#gcfheikrfg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dmzxdkizxl .gt_column_spanner_outer:last-child {
+#gcfheikrfg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dmzxdkizxl .gt_column_spanner {
+#gcfheikrfg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2021,7 +2021,7 @@ after 12, 20, and 28 months.</p>
   width: 100%;
 }
 
-#dmzxdkizxl .gt_group_heading {
+#gcfheikrfg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2047,7 +2047,7 @@ after 12, 20, and 28 months.</p>
   text-align: left;
 }
 
-#dmzxdkizxl .gt_empty_group_heading {
+#gcfheikrfg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2062,15 +2062,15 @@ after 12, 20, and 28 months.</p>
   vertical-align: middle;
 }
 
-#dmzxdkizxl .gt_from_md > :first-child {
+#gcfheikrfg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dmzxdkizxl .gt_from_md > :last-child {
+#gcfheikrfg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dmzxdkizxl .gt_row {
+#gcfheikrfg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2089,7 +2089,7 @@ after 12, 20, and 28 months.</p>
   overflow-x: hidden;
 }
 
-#dmzxdkizxl .gt_stub {
+#gcfheikrfg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2102,7 +2102,7 @@ after 12, 20, and 28 months.</p>
   padding-right: 5px;
 }
 
-#dmzxdkizxl .gt_stub_row_group {
+#gcfheikrfg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2116,11 +2116,11 @@ after 12, 20, and 28 months.</p>
   vertical-align: top;
 }
 
-#dmzxdkizxl .gt_row_group_first td {
+#gcfheikrfg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dmzxdkizxl .gt_summary_row {
+#gcfheikrfg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2130,16 +2130,16 @@ after 12, 20, and 28 months.</p>
   padding-right: 5px;
 }
 
-#dmzxdkizxl .gt_first_summary_row {
+#gcfheikrfg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_first_summary_row.thick {
+#gcfheikrfg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dmzxdkizxl .gt_last_summary_row {
+#gcfheikrfg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2149,7 +2149,7 @@ after 12, 20, and 28 months.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_grand_summary_row {
+#gcfheikrfg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2159,7 +2159,7 @@ after 12, 20, and 28 months.</p>
   padding-right: 5px;
 }
 
-#dmzxdkizxl .gt_first_grand_summary_row {
+#gcfheikrfg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2169,11 +2169,11 @@ after 12, 20, and 28 months.</p>
   border-top-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_striped {
+#gcfheikrfg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dmzxdkizxl .gt_table_body {
+#gcfheikrfg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2182,7 +2182,7 @@ after 12, 20, and 28 months.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_footnotes {
+#gcfheikrfg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2196,7 +2196,7 @@ after 12, 20, and 28 months.</p>
   border-right-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_footnote {
+#gcfheikrfg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2205,7 +2205,7 @@ after 12, 20, and 28 months.</p>
   padding-right: 5px;
 }
 
-#dmzxdkizxl .gt_sourcenotes {
+#gcfheikrfg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2219,7 +2219,7 @@ after 12, 20, and 28 months.</p>
   border-right-color: #D3D3D3;
 }
 
-#dmzxdkizxl .gt_sourcenote {
+#gcfheikrfg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2227,64 +2227,64 @@ after 12, 20, and 28 months.</p>
   padding-right: 5px;
 }
 
-#dmzxdkizxl .gt_left {
+#gcfheikrfg .gt_left {
   text-align: left;
 }
 
-#dmzxdkizxl .gt_center {
+#gcfheikrfg .gt_center {
   text-align: center;
 }
 
-#dmzxdkizxl .gt_right {
+#gcfheikrfg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dmzxdkizxl .gt_font_normal {
+#gcfheikrfg .gt_font_normal {
   font-weight: normal;
 }
 
-#dmzxdkizxl .gt_font_bold {
+#gcfheikrfg .gt_font_bold {
   font-weight: bold;
 }
 
-#dmzxdkizxl .gt_font_italic {
+#gcfheikrfg .gt_font_italic {
   font-style: italic;
 }
 
-#dmzxdkizxl .gt_super {
+#gcfheikrfg .gt_super {
   font-size: 65%;
 }
 
-#dmzxdkizxl .gt_footnote_marks {
+#gcfheikrfg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#dmzxdkizxl .gt_asterisk {
+#gcfheikrfg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dmzxdkizxl .gt_indent_1 {
+#gcfheikrfg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dmzxdkizxl .gt_indent_2 {
+#gcfheikrfg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dmzxdkizxl .gt_indent_3 {
+#gcfheikrfg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dmzxdkizxl .gt_indent_4 {
+#gcfheikrfg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dmzxdkizxl .gt_indent_5 {
+#gcfheikrfg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2316,87 +2316,88 @@ after 12, 20, and 28 months.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11">Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11">Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Z" class="gt_row gt_right">-1.51</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Nominal p" class="gt_row gt_right">0.9350</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  ~HR at bound" class="gt_row gt_right">1.6006</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Alternate hypothesis" class="gt_row gt_right">0.0043</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Null hypothesis" class="gt_row gt_right">0.0650</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Z" class="gt_row gt_right">-1.51</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Nominal p" class="gt_row gt_right">0.9350</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  ~HR at bound" class="gt_row gt_right">1.6006</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Alternate hypothesis" class="gt_row gt_right">0.0043</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Null hypothesis" class="gt_row gt_right">0.0650</td>
 </tr>
 <tr>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Z" class="gt_row gt_right">6.47</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Nominal p" class="gt_row gt_right">0.0000</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  ~HR at bound" class="gt_row gt_right">0.1338</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Alternate hypothesis" class="gt_row gt_right">0.0000</td>
-<td headers="Analysis: 1 Time: 12 N: 237.6 Events: 41.4 AHR: 0.7 Information fraction: 0.11  Null hypothesis" class="gt_row gt_right">0.0000</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Z" class="gt_row gt_right">6.47</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Nominal p" class="gt_row gt_right">0.0000</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  ~HR at bound" class="gt_row gt_right">0.1338</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Alternate hypothesis" class="gt_row gt_right">0.0000</td>
+<td headers="Analysis: 1 time: 12 event: 41.4 ahr: 0.7 N: 237.58 Information fraction: 0.11  Null hypothesis" class="gt_row gt_right">0.0000</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35">Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35">Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">-0.24</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.5942</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">1.0433</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0163</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.4156</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Z" class="gt_row gt_right">-0.24</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.5942</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">1.0433</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0163</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.4156</td>
 </tr>
 <tr>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">3.59</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0002</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.5286</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0549</td>
-<td headers="Analysis: 2 Time: 20 N: 409.2 Events: 126.6 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Z" class="gt_row gt_right">3.59</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0002</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.5286</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0549</td>
+<td headers="Analysis: 2 time: 20 event: 126.6 ahr: 0.7 N: 409.17 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64">Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64">Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Z" class="gt_row gt_right">0.81</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Nominal p" class="gt_row gt_right">0.2090</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  ~HR at bound" class="gt_row gt_right">0.8982</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Alternate hypothesis" class="gt_row gt_right">0.0405</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Null hypothesis" class="gt_row gt_right">0.8017</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Z" class="gt_row gt_right">0.81</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Nominal p" class="gt_row gt_right">0.2090</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  ~HR at bound" class="gt_row gt_right">0.8982</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Alternate hypothesis" class="gt_row gt_right">0.0405</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Null hypothesis" class="gt_row gt_right">0.8017</td>
 </tr>
 <tr>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Z" class="gt_row gt_right">2.58</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Nominal p" class="gt_row gt_right">0.0050</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  ~HR at bound" class="gt_row gt_right">0.7105</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Alternate hypothesis" class="gt_row gt_right">0.5361</td>
-<td headers="Analysis: 3 Time: 28 N: 580.8 Events: 227.6 AHR: 0.7 Information fraction: 0.64  Null hypothesis" class="gt_row gt_right">0.0050</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Z" class="gt_row gt_right">2.58</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Nominal p" class="gt_row gt_right">0.0050</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  ~HR at bound" class="gt_row gt_right">0.7105</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Alternate hypothesis" class="gt_row gt_right">0.5361</td>
+<td headers="Analysis: 3 time: 28 event: 227.6 ahr: 0.7 N: 580.76 Information fraction: 0.64  Null hypothesis" class="gt_row gt_right">0.0050</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1">Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1">Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">1.99</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0234</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8102</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.1002</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.9766</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Z" class="gt_row gt_right">1.99</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0234</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8102</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.1002</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.9766</td>
 </tr>
 <tr>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">1.99</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0234</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8102</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9000</td>
-<td headers="Analysis: 4 Time: 36 N: 791.9 Events: 356.7 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Z" class="gt_row gt_right">1.99</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0234</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8102</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9000</td>
+<td headers="Analysis: 4 time: 36 event: 356.7 ahr: 0.7 N: 791.94 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
 <sup class="gt_footnote_marks">3</sup> 0.0234</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
 <tr>
 <td class="gt_footnote" colspan="6">
-<sup class="gt_footnote_marks">1</sup> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
+<sup class="gt_footnote_marks">1</sup> One-sided p-value for experimental vs control treatment.
+          Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
@@ -2404,7 +2405,10 @@ after 12, 20, and 28 months.</p>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
-<sup class="gt_footnote_marks">3</sup> Cumulative alpha for final analysis (0.0234) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before  crossing an efficacy bound at a later analysis (0.025 - 0.0016 = 0.0234) under the null hypothesis.</td>
+<sup class="gt_footnote_marks">3</sup> Cumulative alpha for final analysis (0.0234) is less than the full alpha (0.025) when
+          the futility bound is non-binding. The smaller value subtracts the probability of
+          crossing a futility bound before  crossing an efficacy bound at
+          a later analysis (0.025 - 0.0016 = 0.0234) under the null hypothesis.</td>
     </tr>
 </tfoot>
 </table>
@@ -2417,10 +2421,10 @@ bounds and the power implied.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PH"</span>, <span class="st">"Shorter delayed effect"</span>, <span class="st">"Longer delayed effect"</span>, <span class="st">"Crossing"</span><span class="op">)</span>,</span>
 <span>    <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">AHR1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">ahr_by_analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">AHR1</span></span>
+<span>      <span class="va">ahr1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">ahr_by_analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">AHR1</span></span>
 <span></span>
 <span>      <span class="va">lparx</span> <span class="op">&lt;-</span> <span class="va">lpar</span></span>
-<span>      <span class="va">lparx</span><span class="op">$</span><span class="va">theta1</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">AHR1</span><span class="op">)</span></span>
+<span>      <span class="va">lparx</span><span class="op">$</span><span class="va">theta1</span> <span class="op">&lt;-</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ahr1</span><span class="op">)</span></span>
 <span></span>
 <span>      <span class="va">yy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
 <span>        enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Scenario</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span>,</span>
@@ -2437,14 +2441,14 @@ bounds and the power implied.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="st">"Events"</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="st">"event"</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">10</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="thtdsfzqso" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lzhtfekckd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#thtdsfzqso .gt_table {
+#lzhtfekckd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2469,7 +2473,7 @@ bounds and the power implied.</p>
   border-left-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_heading {
+#lzhtfekckd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2481,12 +2485,12 @@ bounds and the power implied.</p>
   border-right-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_caption {
+#lzhtfekckd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#thtdsfzqso .gt_title {
+#lzhtfekckd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2498,7 +2502,7 @@ bounds and the power implied.</p>
   border-bottom-width: 0;
 }
 
-#thtdsfzqso .gt_subtitle {
+#lzhtfekckd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2510,13 +2514,13 @@ bounds and the power implied.</p>
   border-top-width: 0;
 }
 
-#thtdsfzqso .gt_bottom_border {
+#lzhtfekckd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_col_headings {
+#lzhtfekckd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2531,7 +2535,7 @@ bounds and the power implied.</p>
   border-right-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_col_heading {
+#lzhtfekckd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2551,7 +2555,7 @@ bounds and the power implied.</p>
   overflow-x: hidden;
 }
 
-#thtdsfzqso .gt_column_spanner_outer {
+#lzhtfekckd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2563,15 +2567,15 @@ bounds and the power implied.</p>
   padding-right: 4px;
 }
 
-#thtdsfzqso .gt_column_spanner_outer:first-child {
+#lzhtfekckd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#thtdsfzqso .gt_column_spanner_outer:last-child {
+#lzhtfekckd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#thtdsfzqso .gt_column_spanner {
+#lzhtfekckd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2583,7 +2587,7 @@ bounds and the power implied.</p>
   width: 100%;
 }
 
-#thtdsfzqso .gt_group_heading {
+#lzhtfekckd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2609,7 +2613,7 @@ bounds and the power implied.</p>
   text-align: left;
 }
 
-#thtdsfzqso .gt_empty_group_heading {
+#lzhtfekckd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2624,15 +2628,15 @@ bounds and the power implied.</p>
   vertical-align: middle;
 }
 
-#thtdsfzqso .gt_from_md > :first-child {
+#lzhtfekckd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#thtdsfzqso .gt_from_md > :last-child {
+#lzhtfekckd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#thtdsfzqso .gt_row {
+#lzhtfekckd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2651,7 +2655,7 @@ bounds and the power implied.</p>
   overflow-x: hidden;
 }
 
-#thtdsfzqso .gt_stub {
+#lzhtfekckd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2664,7 +2668,7 @@ bounds and the power implied.</p>
   padding-right: 5px;
 }
 
-#thtdsfzqso .gt_stub_row_group {
+#lzhtfekckd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2678,11 +2682,11 @@ bounds and the power implied.</p>
   vertical-align: top;
 }
 
-#thtdsfzqso .gt_row_group_first td {
+#lzhtfekckd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#thtdsfzqso .gt_summary_row {
+#lzhtfekckd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2692,16 +2696,16 @@ bounds and the power implied.</p>
   padding-right: 5px;
 }
 
-#thtdsfzqso .gt_first_summary_row {
+#lzhtfekckd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_first_summary_row.thick {
+#lzhtfekckd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#thtdsfzqso .gt_last_summary_row {
+#lzhtfekckd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2711,7 +2715,7 @@ bounds and the power implied.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_grand_summary_row {
+#lzhtfekckd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2721,7 +2725,7 @@ bounds and the power implied.</p>
   padding-right: 5px;
 }
 
-#thtdsfzqso .gt_first_grand_summary_row {
+#lzhtfekckd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2731,11 +2735,11 @@ bounds and the power implied.</p>
   border-top-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_striped {
+#lzhtfekckd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#thtdsfzqso .gt_table_body {
+#lzhtfekckd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2744,7 +2748,7 @@ bounds and the power implied.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_footnotes {
+#lzhtfekckd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2758,7 +2762,7 @@ bounds and the power implied.</p>
   border-right-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_footnote {
+#lzhtfekckd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2767,7 +2771,7 @@ bounds and the power implied.</p>
   padding-right: 5px;
 }
 
-#thtdsfzqso .gt_sourcenotes {
+#lzhtfekckd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2781,7 +2785,7 @@ bounds and the power implied.</p>
   border-right-color: #D3D3D3;
 }
 
-#thtdsfzqso .gt_sourcenote {
+#lzhtfekckd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2789,74 +2793,74 @@ bounds and the power implied.</p>
   padding-right: 5px;
 }
 
-#thtdsfzqso .gt_left {
+#lzhtfekckd .gt_left {
   text-align: left;
 }
 
-#thtdsfzqso .gt_center {
+#lzhtfekckd .gt_center {
   text-align: center;
 }
 
-#thtdsfzqso .gt_right {
+#lzhtfekckd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#thtdsfzqso .gt_font_normal {
+#lzhtfekckd .gt_font_normal {
   font-weight: normal;
 }
 
-#thtdsfzqso .gt_font_bold {
+#lzhtfekckd .gt_font_bold {
   font-weight: bold;
 }
 
-#thtdsfzqso .gt_font_italic {
+#lzhtfekckd .gt_font_italic {
   font-style: italic;
 }
 
-#thtdsfzqso .gt_super {
+#lzhtfekckd .gt_super {
   font-size: 65%;
 }
 
-#thtdsfzqso .gt_footnote_marks {
+#lzhtfekckd .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#thtdsfzqso .gt_asterisk {
+#lzhtfekckd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#thtdsfzqso .gt_indent_1 {
+#lzhtfekckd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#thtdsfzqso .gt_indent_2 {
+#lzhtfekckd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#thtdsfzqso .gt_indent_3 {
+#lzhtfekckd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#thtdsfzqso .gt_indent_4 {
+#lzhtfekckd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#thtdsfzqso .gt_indent_5 {
+#lzhtfekckd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Analysis">Analysis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Time">Time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="N">N</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Events">Events</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="AHR">AHR</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="analysis">analysis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="time">time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="event">event</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ahr">ahr</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="theta">theta</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info">info</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info0">info0</th>
@@ -2866,11 +2870,11 @@ bounds and the power implied.</p>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">12</td>
-<td headers="N" class="gt_row gt_right">60</td>
-<td headers="Events" class="gt_row gt_right">10.5</td>
-<td headers="AHR" class="gt_row gt_right">0.7000</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">12</td>
+<td headers="n" class="gt_row gt_right">60</td>
+<td headers="event" class="gt_row gt_right">10.5</td>
+<td headers="ahr" class="gt_row gt_right">0.7000</td>
 <td headers="theta" class="gt_row gt_right">0.3567</td>
 <td headers="info" class="gt_row gt_right">2.5533</td>
 <td headers="info0" class="gt_row gt_right">2.6161</td>
@@ -2879,11 +2883,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">PH</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">2</td>
-<td headers="Time" class="gt_row gt_right">20</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">31.8</td>
-<td headers="AHR" class="gt_row gt_right">0.7000</td>
+<td headers="analysis" class="gt_row gt_right">2</td>
+<td headers="time" class="gt_row gt_right">20</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">31.8</td>
+<td headers="ahr" class="gt_row gt_right">0.7000</td>
 <td headers="theta" class="gt_row gt_right">0.3567</td>
 <td headers="info" class="gt_row gt_right">7.7993</td>
 <td headers="info0" class="gt_row gt_right">7.9576</td>
@@ -2892,11 +2896,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">PH</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">3</td>
-<td headers="Time" class="gt_row gt_right">28</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">50.8</td>
-<td headers="AHR" class="gt_row gt_right">0.7000</td>
+<td headers="analysis" class="gt_row gt_right">3</td>
+<td headers="time" class="gt_row gt_right">28</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">50.8</td>
+<td headers="ahr" class="gt_row gt_right">0.7000</td>
 <td headers="theta" class="gt_row gt_right">0.3567</td>
 <td headers="info" class="gt_row gt_right">12.4964</td>
 <td headers="info0" class="gt_row gt_right">12.6892</td>
@@ -2905,11 +2909,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">PH</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">4</td>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">64.1</td>
-<td headers="AHR" class="gt_row gt_right">0.7000</td>
+<td headers="analysis" class="gt_row gt_right">4</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">64.1</td>
+<td headers="ahr" class="gt_row gt_right">0.7000</td>
 <td headers="theta" class="gt_row gt_right">0.3567</td>
 <td headers="info" class="gt_row gt_right">15.8446</td>
 <td headers="info0" class="gt_row gt_right">16.0303</td>
@@ -2918,11 +2922,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">PH</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">12</td>
-<td headers="N" class="gt_row gt_right">60</td>
-<td headers="Events" class="gt_row gt_right">14.0</td>
-<td headers="AHR" class="gt_row gt_right">0.8808</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">12</td>
+<td headers="n" class="gt_row gt_right">60</td>
+<td headers="event" class="gt_row gt_right">14.0</td>
+<td headers="ahr" class="gt_row gt_right">0.8808</td>
 <td headers="theta" class="gt_row gt_right">0.1269</td>
 <td headers="info" class="gt_row gt_right">3.4499</td>
 <td headers="info0" class="gt_row gt_right">3.4942</td>
@@ -2931,11 +2935,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">2</td>
-<td headers="Time" class="gt_row gt_right">20</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">39.5</td>
-<td headers="AHR" class="gt_row gt_right">0.7929</td>
+<td headers="analysis" class="gt_row gt_right">2</td>
+<td headers="time" class="gt_row gt_right">20</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">39.5</td>
+<td headers="ahr" class="gt_row gt_right">0.7929</td>
 <td headers="theta" class="gt_row gt_right">0.2321</td>
 <td headers="info" class="gt_row gt_right">9.6905</td>
 <td headers="info0" class="gt_row gt_right">9.8760</td>
@@ -2944,11 +2948,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">3</td>
-<td headers="Time" class="gt_row gt_right">28</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">58.9</td>
-<td headers="AHR" class="gt_row gt_right">0.7275</td>
+<td headers="analysis" class="gt_row gt_right">3</td>
+<td headers="time" class="gt_row gt_right">28</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">58.9</td>
+<td headers="ahr" class="gt_row gt_right">0.7275</td>
 <td headers="theta" class="gt_row gt_right">0.3181</td>
 <td headers="info" class="gt_row gt_right">14.4480</td>
 <td headers="info0" class="gt_row gt_right">14.7332</td>
@@ -2957,11 +2961,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">4</td>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">71.6</td>
-<td headers="AHR" class="gt_row gt_right">0.7032</td>
+<td headers="analysis" class="gt_row gt_right">4</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">71.6</td>
+<td headers="ahr" class="gt_row gt_right">0.7032</td>
 <td headers="theta" class="gt_row gt_right">0.3522</td>
 <td headers="info" class="gt_row gt_right">17.6301</td>
 <td headers="info0" class="gt_row gt_right">17.8976</td>
@@ -2970,11 +2974,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">12</td>
-<td headers="N" class="gt_row gt_right">60</td>
-<td headers="Events" class="gt_row gt_right">14.4</td>
-<td headers="AHR" class="gt_row gt_right">0.9495</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">12</td>
+<td headers="n" class="gt_row gt_right">60</td>
+<td headers="event" class="gt_row gt_right">14.4</td>
+<td headers="ahr" class="gt_row gt_right">0.9495</td>
 <td headers="theta" class="gt_row gt_right">0.0518</td>
 <td headers="info" class="gt_row gt_right">3.5860</td>
 <td headers="info0" class="gt_row gt_right">3.6055</td>
@@ -2983,11 +2987,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Longer delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">2</td>
-<td headers="Time" class="gt_row gt_right">20</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">40.7</td>
-<td headers="AHR" class="gt_row gt_right">0.8625</td>
+<td headers="analysis" class="gt_row gt_right">2</td>
+<td headers="time" class="gt_row gt_right">20</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">40.7</td>
+<td headers="ahr" class="gt_row gt_right">0.8625</td>
 <td headers="theta" class="gt_row gt_right">0.1479</td>
 <td headers="info" class="gt_row gt_right">10.0422</td>
 <td headers="info0" class="gt_row gt_right">10.1692</td>
@@ -2996,11 +3000,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Longer delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">3</td>
-<td headers="Time" class="gt_row gt_right">28</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">60.1</td>
-<td headers="AHR" class="gt_row gt_right">0.7835</td>
+<td headers="analysis" class="gt_row gt_right">3</td>
+<td headers="time" class="gt_row gt_right">28</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">60.1</td>
+<td headers="ahr" class="gt_row gt_right">0.7835</td>
 <td headers="theta" class="gt_row gt_right">0.2439</td>
 <td headers="info" class="gt_row gt_right">14.7861</td>
 <td headers="info0" class="gt_row gt_right">15.0221</td>
@@ -3009,11 +3013,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Longer delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">4</td>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">72.4</td>
-<td headers="AHR" class="gt_row gt_right">0.7487</td>
+<td headers="analysis" class="gt_row gt_right">4</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">72.4</td>
+<td headers="ahr" class="gt_row gt_right">0.7487</td>
 <td headers="theta" class="gt_row gt_right">0.2895</td>
 <td headers="info" class="gt_row gt_right">17.8840</td>
 <td headers="info0" class="gt_row gt_right">18.1125</td>
@@ -3022,11 +3026,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Longer delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">12</td>
-<td headers="N" class="gt_row gt_right">60</td>
-<td headers="Events" class="gt_row gt_right">15.8</td>
-<td headers="AHR" class="gt_row gt_right">1.2074</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">12</td>
+<td headers="n" class="gt_row gt_right">60</td>
+<td headers="event" class="gt_row gt_right">15.8</td>
+<td headers="ahr" class="gt_row gt_right">1.2074</td>
 <td headers="theta" class="gt_row gt_right">−0.1885</td>
 <td headers="info" class="gt_row gt_right">3.7638</td>
 <td headers="info0" class="gt_row gt_right">3.9617</td>
@@ -3035,11 +3039,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Crossing</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">2</td>
-<td headers="Time" class="gt_row gt_right">20</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">42.2</td>
-<td headers="AHR" class="gt_row gt_right">0.9844</td>
+<td headers="analysis" class="gt_row gt_right">2</td>
+<td headers="time" class="gt_row gt_right">20</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">42.2</td>
+<td headers="ahr" class="gt_row gt_right">0.9844</td>
 <td headers="theta" class="gt_row gt_right">0.0157</td>
 <td headers="info" class="gt_row gt_right">9.9118</td>
 <td headers="info0" class="gt_row gt_right">10.5546</td>
@@ -3048,11 +3052,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Crossing</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">3</td>
-<td headers="Time" class="gt_row gt_right">28</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">60.0</td>
-<td headers="AHR" class="gt_row gt_right">0.8173</td>
+<td headers="analysis" class="gt_row gt_right">3</td>
+<td headers="time" class="gt_row gt_right">28</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">60.0</td>
+<td headers="ahr" class="gt_row gt_right">0.8173</td>
 <td headers="theta" class="gt_row gt_right">0.2017</td>
 <td headers="info" class="gt_row gt_right">14.0482</td>
 <td headers="info0" class="gt_row gt_right">14.9960</td>
@@ -3061,11 +3065,11 @@ bounds and the power implied.</p>
 <td headers="Scenario" class="gt_row gt_left">Crossing</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">4</td>
-<td headers="Time" class="gt_row gt_right">36</td>
-<td headers="N" class="gt_row gt_right">100</td>
-<td headers="Events" class="gt_row gt_right">71.5</td>
-<td headers="AHR" class="gt_row gt_right">0.7549</td>
+<td headers="analysis" class="gt_row gt_right">4</td>
+<td headers="time" class="gt_row gt_right">36</td>
+<td headers="n" class="gt_row gt_right">100</td>
+<td headers="event" class="gt_row gt_right">71.5</td>
+<td headers="ahr" class="gt_row gt_right">0.7549</td>
 <td headers="theta" class="gt_row gt_right">0.2811</td>
 <td headers="info" class="gt_row gt_right">16.9053</td>
 <td headers="info0" class="gt_row gt_right">17.8842</td>
@@ -3099,7 +3103,7 @@ are summarized as follows.</p>
 <span>        alpha <span class="op">=</span> <span class="fl">.025</span>,</span>
 <span>        beta <span class="op">=</span> <span class="fl">.1</span>,</span>
 <span>        upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
-<span>        lpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>        lpar <span class="op">=</span> <span class="op">-</span> <span class="cn">Inf</span>,</span>
 <span>        analysis_time <span class="op">=</span> <span class="fl">44</span></span>
 <span>      <span class="op">)</span><span class="op">$</span><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
@@ -3126,7 +3130,7 @@ are summarized as follows.</p>
 <span>        alpha <span class="op">=</span> <span class="fl">.025</span>,</span>
 <span>        beta <span class="op">=</span> <span class="fl">.1</span>,</span>
 <span>        upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
-<span>        lpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>        lpar <span class="op">=</span> <span class="op">-</span> <span class="cn">Inf</span>,</span>
 <span>        analysis_time <span class="op">=</span> <span class="fl">44</span></span>
 <span>      <span class="op">)</span><span class="op">$</span><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Scenario <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
@@ -3135,12 +3139,12 @@ are summarized as follows.</p>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">6</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="egskjyygdh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lwmcvaotlm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#egskjyygdh .gt_table {
+#lwmcvaotlm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3165,7 +3169,7 @@ are summarized as follows.</p>
   border-left-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_heading {
+#lwmcvaotlm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3177,12 +3181,12 @@ are summarized as follows.</p>
   border-right-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_caption {
+#lwmcvaotlm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#egskjyygdh .gt_title {
+#lwmcvaotlm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3194,7 +3198,7 @@ are summarized as follows.</p>
   border-bottom-width: 0;
 }
 
-#egskjyygdh .gt_subtitle {
+#lwmcvaotlm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3206,13 +3210,13 @@ are summarized as follows.</p>
   border-top-width: 0;
 }
 
-#egskjyygdh .gt_bottom_border {
+#lwmcvaotlm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_col_headings {
+#lwmcvaotlm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3227,7 +3231,7 @@ are summarized as follows.</p>
   border-right-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_col_heading {
+#lwmcvaotlm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3247,7 +3251,7 @@ are summarized as follows.</p>
   overflow-x: hidden;
 }
 
-#egskjyygdh .gt_column_spanner_outer {
+#lwmcvaotlm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3259,15 +3263,15 @@ are summarized as follows.</p>
   padding-right: 4px;
 }
 
-#egskjyygdh .gt_column_spanner_outer:first-child {
+#lwmcvaotlm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#egskjyygdh .gt_column_spanner_outer:last-child {
+#lwmcvaotlm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#egskjyygdh .gt_column_spanner {
+#lwmcvaotlm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3279,7 +3283,7 @@ are summarized as follows.</p>
   width: 100%;
 }
 
-#egskjyygdh .gt_group_heading {
+#lwmcvaotlm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3305,7 +3309,7 @@ are summarized as follows.</p>
   text-align: left;
 }
 
-#egskjyygdh .gt_empty_group_heading {
+#lwmcvaotlm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3320,15 +3324,15 @@ are summarized as follows.</p>
   vertical-align: middle;
 }
 
-#egskjyygdh .gt_from_md > :first-child {
+#lwmcvaotlm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#egskjyygdh .gt_from_md > :last-child {
+#lwmcvaotlm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#egskjyygdh .gt_row {
+#lwmcvaotlm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3347,7 +3351,7 @@ are summarized as follows.</p>
   overflow-x: hidden;
 }
 
-#egskjyygdh .gt_stub {
+#lwmcvaotlm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3360,7 +3364,7 @@ are summarized as follows.</p>
   padding-right: 5px;
 }
 
-#egskjyygdh .gt_stub_row_group {
+#lwmcvaotlm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3374,11 +3378,11 @@ are summarized as follows.</p>
   vertical-align: top;
 }
 
-#egskjyygdh .gt_row_group_first td {
+#lwmcvaotlm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#egskjyygdh .gt_summary_row {
+#lwmcvaotlm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3388,16 +3392,16 @@ are summarized as follows.</p>
   padding-right: 5px;
 }
 
-#egskjyygdh .gt_first_summary_row {
+#lwmcvaotlm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_first_summary_row.thick {
+#lwmcvaotlm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#egskjyygdh .gt_last_summary_row {
+#lwmcvaotlm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3407,7 +3411,7 @@ are summarized as follows.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_grand_summary_row {
+#lwmcvaotlm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3417,7 +3421,7 @@ are summarized as follows.</p>
   padding-right: 5px;
 }
 
-#egskjyygdh .gt_first_grand_summary_row {
+#lwmcvaotlm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3427,11 +3431,11 @@ are summarized as follows.</p>
   border-top-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_striped {
+#lwmcvaotlm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#egskjyygdh .gt_table_body {
+#lwmcvaotlm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3440,7 +3444,7 @@ are summarized as follows.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_footnotes {
+#lwmcvaotlm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3454,7 +3458,7 @@ are summarized as follows.</p>
   border-right-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_footnote {
+#lwmcvaotlm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3463,7 +3467,7 @@ are summarized as follows.</p>
   padding-right: 5px;
 }
 
-#egskjyygdh .gt_sourcenotes {
+#lwmcvaotlm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3477,7 +3481,7 @@ are summarized as follows.</p>
   border-right-color: #D3D3D3;
 }
 
-#egskjyygdh .gt_sourcenote {
+#lwmcvaotlm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3485,74 +3489,74 @@ are summarized as follows.</p>
   padding-right: 5px;
 }
 
-#egskjyygdh .gt_left {
+#lwmcvaotlm .gt_left {
   text-align: left;
 }
 
-#egskjyygdh .gt_center {
+#lwmcvaotlm .gt_center {
   text-align: center;
 }
 
-#egskjyygdh .gt_right {
+#lwmcvaotlm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#egskjyygdh .gt_font_normal {
+#lwmcvaotlm .gt_font_normal {
   font-weight: normal;
 }
 
-#egskjyygdh .gt_font_bold {
+#lwmcvaotlm .gt_font_bold {
   font-weight: bold;
 }
 
-#egskjyygdh .gt_font_italic {
+#lwmcvaotlm .gt_font_italic {
   font-style: italic;
 }
 
-#egskjyygdh .gt_super {
+#lwmcvaotlm .gt_super {
   font-size: 65%;
 }
 
-#egskjyygdh .gt_footnote_marks {
+#lwmcvaotlm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#egskjyygdh .gt_asterisk {
+#lwmcvaotlm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#egskjyygdh .gt_indent_1 {
+#lwmcvaotlm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#egskjyygdh .gt_indent_2 {
+#lwmcvaotlm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#egskjyygdh .gt_indent_3 {
+#lwmcvaotlm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#egskjyygdh .gt_indent_4 {
+#lwmcvaotlm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#egskjyygdh .gt_indent_5 {
+#lwmcvaotlm .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Analysis">Analysis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Time">Time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="N">N</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Events">Events</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="AHR">AHR</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="analysis">analysis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="time">time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="event">event</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ahr">ahr</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="theta">theta</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info">info</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info0">info0</th>
@@ -3561,11 +3565,11 @@ are summarized as follows.</p>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">44</td>
-<td headers="N" class="gt_row gt_right">490.0869</td>
-<td headers="Events" class="gt_row gt_right">360.6618</td>
-<td headers="AHR" class="gt_row gt_right">0.6974</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">44</td>
+<td headers="n" class="gt_row gt_right">490.0869</td>
+<td headers="event" class="gt_row gt_right">360.6618</td>
+<td headers="ahr" class="gt_row gt_right">0.6974</td>
 <td headers="theta" class="gt_row gt_right">0.5587</td>
 <td headers="info" class="gt_row gt_right">32.80428</td>
 <td headers="info0" class="gt_row gt_right">34.23109</td>
@@ -3573,11 +3577,11 @@ are summarized as follows.</p>
 <td headers="Scenario" class="gt_row gt_left">PH</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">44</td>
-<td headers="N" class="gt_row gt_right">298.0746</td>
-<td headers="Events" class="gt_row gt_right">238.4018</td>
-<td headers="AHR" class="gt_row gt_right">0.6430</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">44</td>
+<td headers="n" class="gt_row gt_right">298.0746</td>
+<td headers="event" class="gt_row gt_right">238.4018</td>
+<td headers="ahr" class="gt_row gt_right">0.6430</td>
 <td headers="theta" class="gt_row gt_right">0.6602</td>
 <td headers="info" class="gt_row gt_right">23.15996</td>
 <td headers="info0" class="gt_row gt_right">24.75957</td>
@@ -3585,11 +3589,11 @@ are summarized as follows.</p>
 <td headers="Scenario" class="gt_row gt_left">Shorter delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">44</td>
-<td headers="N" class="gt_row gt_right">380.2982</td>
-<td headers="Events" class="gt_row gt_right">306.6089</td>
-<td headers="AHR" class="gt_row gt_right">0.6772</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">44</td>
+<td headers="n" class="gt_row gt_right">380.2982</td>
+<td headers="event" class="gt_row gt_right">306.6089</td>
+<td headers="ahr" class="gt_row gt_right">0.6772</td>
 <td headers="theta" class="gt_row gt_right">0.5797</td>
 <td headers="info" class="gt_row gt_right">30.26797</td>
 <td headers="info0" class="gt_row gt_right">31.94557</td>
@@ -3597,11 +3601,11 @@ are summarized as follows.</p>
 <td headers="Scenario" class="gt_row gt_left">Longer delayed effect</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_right">1</td>
-<td headers="Time" class="gt_row gt_right">44</td>
-<td headers="N" class="gt_row gt_right">258.3378</td>
-<td headers="Events" class="gt_row gt_right">204.8707</td>
-<td headers="AHR" class="gt_row gt_right">0.6216</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="time" class="gt_row gt_right">44</td>
+<td headers="n" class="gt_row gt_right">258.3378</td>
+<td headers="event" class="gt_row gt_right">204.8707</td>
+<td headers="ahr" class="gt_row gt_right">0.6216</td>
 <td headers="theta" class="gt_row gt_right">0.7138</td>
 <td headers="info" class="gt_row gt_right">19.76247</td>
 <td headers="info0" class="gt_row gt_right">21.21076</td>

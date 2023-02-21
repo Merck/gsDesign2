@@ -22,7 +22,7 @@ Algorithm is a simple extension of that in Chapter 19 of Jennison and Turnbull (
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,12 +100,15 @@ Algorithm is a simple extension of that in Chapter 19 of Jennison and Turnbull (
 <code>sf</code> (class spending function),
 <code>total_spend</code> (total spend),
 <code>param</code> (any parameters needed by the spending function <code>sf()</code>),
-<code>timing</code> (a vector containing values at which spending function is to be evaluated or NULL if information-based spending is used),
-<code>max_info</code> (when <code>timing</code> is NULL, this can be input as positive number to be used with <code>info</code> for information fraction at each analysis)</p></dd>
+<code>timing</code> (a vector containing values at which spending function
+is to be evaluated or NULL if information-based spending is used),
+<code>max_info</code> (when <code>timing</code> is NULL, this can be input as
+positive number to be used with <code>info</code> for information fraction at each analysis)</p></dd>
 
 
 <dt>hgm1</dt>
-<dd><p>subdensity grid from h1 (k=2) or hupdate (k&gt;2) for analysis k-1; if k=1, this is not used and may be NULL</p></dd>
+<dd><p>subdensity grid from h1 (k=2) or hupdate (k&gt;2) for analysis k-1;
+if k=1, this is not used and may be NULL</p></dd>
 
 
 <dt>theta</dt>
@@ -123,12 +126,15 @@ upper bound spending is always set under null hypothesis (theta = 0)</p></dd>
 
 
 <dt>test_bound</dt>
-<dd><p>a logical vector of the same length as <code>info</code> should indicate which analyses will have a bound</p></dd>
+<dd><p>a logical vector of the same length as <code>info</code>
+should indicate which analyses will have a bound</p></dd>
 
 
 <dt>r</dt>
-<dd><p>Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+<dd><p>Integer value controlling grid for numerical integration
+as in Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of
+grid points and greater accuracy.
 Normally <code>r</code> will not be changed by the user.</p></dd>
 
 

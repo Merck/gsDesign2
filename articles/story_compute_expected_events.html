@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -394,14 +394,14 @@ du\\
 computation of <span class="math inline">\(\bar n_m\)</span>, the
 expected events in each time interval.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">namesTem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">name_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"m"</span>, <span class="st">"tm"</span>, <span class="st">"lambda"</span>, <span class="st">"eta"</span>, <span class="st">"j"</span>, <span class="st">"omega"</span>, <span class="st">"gamma"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    tdel <span class="op">=</span> <span class="va">tm</span> <span class="op">-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="va">tm</span>, default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
-<span>    q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="op">(</span><span class="va">lambda</span> <span class="op">+</span> <span class="va">eta</span><span class="op">)</span> <span class="op">*</span> <span class="va">tdel</span><span class="op">)</span>,</span>
+<span>    q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span> <span class="op">(</span><span class="va">lambda</span> <span class="op">+</span> <span class="va">eta</span><span class="op">)</span> <span class="op">*</span> <span class="va">tdel</span><span class="op">)</span>,</span>
 <span>    Q <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>, default <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>    d <span class="op">=</span> <span class="va">Q</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">q</span><span class="op">)</span> <span class="op">*</span> <span class="va">lambda</span> <span class="op">/</span> <span class="op">(</span><span class="va">lambda</span> <span class="op">+</span> <span class="va">eta</span><span class="op">)</span>,</span>
 <span>    G <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">3</span>, <span class="fl">0</span><span class="op">)</span>,</span>
@@ -664,7 +664,7 @@ Events by time period
 the <span class="math inline">\(\bar{n}_m\)</span> values
 <code>sum(y$nbar)</code> to get 1.083773 and compare to:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Events</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/eEvents.html" class="external-link">eEvents</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">event</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/eEvents.html" class="external-link">eEvents</a></span><span class="op">(</span></span>
 <span>  lambda <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">lambda</span>,</span>
 <span>  eta <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">eta</span>,</span>
 <span>  gamma <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">gamma</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">gamma</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>,</span>
@@ -673,7 +673,7 @@ the <span class="math inline">\(\bar{n}_m\)</span> values
 <span>  T <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">tm</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">$</span><span class="va">d</span></span>
 <span></span>
-<span><span class="va">Events</span></span>
+<span><span class="va">event</span></span>
 <span><span class="co">#&gt; [1] 1.083773</span></span></code></pre></div>
 <p>Next, we examine by the periods defined by
 <code>fail_rate</code>:</p>
@@ -685,10 +685,10 @@ the <span class="math inline">\(\bar{n}_m\)</span> values
 <span>  simple <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">#&gt;       t failRate Events</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0     0.03  0.564</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     4     0.06  0.519</span></span></code></pre></div>
+<span><span class="co">#&gt;       t fail_rate event</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0      0.03 0.564</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     4      0.06 0.519</span></span></code></pre></div>
 <p>Now we group rows of <code>y</code> above into these same
 intervals.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -739,27 +739,26 @@ the targeted enrollment.</p>
 <span><span class="co">#' Cut a Dataset for Analysis at a Specified Date</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param x a time-to-event dataset, e.g., generated by \code{simPWSurv}</span></span>
-<span><span class="co">#' @param cutDate date relative to start of randomization (\code{cte} from input dataset)</span></span>
+<span><span class="co">#' @param cut_date date relative to start of randomization (\code{cte} from input dataset)</span></span>
 <span><span class="co">#' at which dataset is to be cut off for analysis</span></span>
 <span><span class="co">#' @return A dataset ready for survival analysis</span></span>
 <span><span class="co">#' @examples</span></span>
 <span><span class="co">#' # Use default enrollment and event rates and cut at calendar time 5 after start</span></span>
 <span><span class="co">#' # of randomization</span></span>
 <span><span class="co">#' library(dplyr)</span></span>
-<span><span class="co">#' simPWSurv(n = 20) %&gt;% cutData(5)</span></span>
-<span><span class="co">#' @export</span></span>
-<span><span class="va">cutData</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">cutDate</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="co">#' simPWSurv(n = 20) %&gt;% cut_data(5)</span></span>
+<span><span class="va">cut_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">cut_date</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">enrollTime</span> <span class="op">&lt;=</span> <span class="va">cutDate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">enrollTime</span> <span class="op">&lt;=</span> <span class="va">cut_date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>      tte <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">cte</span>, <span class="va">cutDate</span><span class="op">)</span> <span class="op">-</span> <span class="va">enrollTime</span>,</span>
-<span>      event <span class="op">=</span> <span class="va">fail</span> <span class="op">*</span> <span class="op">(</span><span class="va">cte</span> <span class="op">&lt;=</span> <span class="va">cutDate</span><span class="op">)</span></span>
+<span>      tte <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">cte</span>, <span class="va">cut_date</span><span class="op">)</span> <span class="op">-</span> <span class="va">enrollTime</span>,</span>
+<span>      event <span class="op">=</span> <span class="va">fail</span> <span class="op">*</span> <span class="op">(</span><span class="va">cte</span> <span class="op">&lt;=</span> <span class="va">cut_date</span><span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">tte</span>, <span class="va">event</span>, <span class="va">Stratum</span>, <span class="va">Treatment</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">yy</span> <span class="op">&lt;-</span> <span class="va">xx</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">cutData</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">cut_data</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">event</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>tcat <span class="op">=</span> <span class="fl">4</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">tte</span> <span class="op">&gt;</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Event by interval: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">yy</span><span class="op">$</span><span class="va">tcat</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span> <span class="op">*</span> <span class="fl">5</span>, <span class="st">"\n"</span><span class="op">)</span></span>

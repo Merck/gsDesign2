@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,19 +117,19 @@ boundary in group sequential design. It is usually used in the
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">info</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">10</span></span>
-<span><span class="va">IF</span> <span class="op">&lt;-</span> <span class="va">info</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span>
-<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">IF</span><span class="op">)</span></span>
+<span><span class="va">info_frac</span> <span class="op">&lt;-</span> <span class="va">info</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span>
+<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">info_frac</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 1st analysis</span></span>
 <span><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_spending_bound.html">gs_spending_bound</a></span><span class="op">(</span></span>
 <span>  k <span class="op">=</span> <span class="fl">1</span>, efficacy <span class="op">=</span> <span class="cn">FALSE</span>, theta <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">IF</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">info_frac</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
 <span>  hgm1 <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_spending_bound.html">gs_spending_bound</a></span><span class="op">(</span></span>
 <span>  k <span class="op">=</span> <span class="fl">1</span>, efficacy <span class="op">=</span> <span class="cn">TRUE</span>, theta <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">IF</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">info_frac</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
 <span>  hgm1 <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The (lower, upper) boundary at the 1st analysis is ("</span>, <span class="va">a1</span>, <span class="st">", "</span>, <span class="va">b1</span>, <span class="st">").\n"</span><span class="op">)</span></span></code></pre></div>
@@ -138,39 +138,17 @@ boundary in group sequential design. It is usually used in the
 <code class="sourceCode R"><span><span class="co"># 2nd analysis</span></span>
 <span><span class="va">a2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_spending_bound.html">gs_spending_bound</a></span><span class="op">(</span></span>
 <span>  k <span class="op">=</span> <span class="fl">2</span>, efficacy <span class="op">=</span> <span class="cn">FALSE</span>, theta <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">IF</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">info_frac</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
 <span>  hgm1 <span class="op">=</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">h1</span><span class="op">(</span>r <span class="op">=</span> <span class="fl">18</span>, theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">b2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_spending_bound.html">gs_spending_bound</a></span><span class="op">(</span></span>
 <span>  k <span class="op">=</span> <span class="fl">2</span>, efficacy <span class="op">=</span> <span class="cn">TRUE</span>, theta <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">IF</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, timing <span class="op">=</span> <span class="va">info_frac</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
 <span>  hgm1 <span class="op">=</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">h1</span><span class="op">(</span>r <span class="op">=</span> <span class="fl">18</span>, theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The upper boundary at the 2nd analysis is ("</span>, <span class="va">a2</span>, <span class="st">", "</span>, <span class="va">b2</span>, <span class="st">").\n"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## The upper boundary at the 2nd analysis is ( -2.511434 ,  2.511434 ).</span></span></code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># # 3rd analysis</span></span>
-<span><span class="co"># a3 &lt;- gs_spending_bound(</span></span>
-<span><span class="co">#   k = 2, efficacy = FALSE, theta = 0,</span></span>
-<span><span class="co">#   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = IF, param = NULL),</span></span>
-<span><span class="co">#   hgm1 = hupdate(</span></span>
-<span><span class="co">#     r = 18, theta = 0, I = info[2], a = a2, b = b2,</span></span>
-<span><span class="co">#     thetam1 = 0, Im1 = info[2],</span></span>
-<span><span class="co">#     gm1 = h1(r = 18, theta = 1, I = info[1], a = a1, b = b1)</span></span>
-<span><span class="co">#   )</span></span>
-<span><span class="co"># )</span></span>
-<span><span class="co">#</span></span>
-<span><span class="co"># b3 &lt;- gs_spending_bound(</span></span>
-<span><span class="co">#   k = 2, efficacy = TRUE, theta = 0,</span></span>
-<span><span class="co">#   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = IF, param = NULL),</span></span>
-<span><span class="co">#   hgm1 = hupdate(</span></span>
-<span><span class="co">#     r = 18, theta = 0, I = info[2], a = a2, b = b2,</span></span>
-<span><span class="co">#     thetam1 = 0, Im1 = info[2],</span></span>
-<span><span class="co">#     gm1 = h1(r = 18, theta = 0, I = info[1], a = a1, b = b1)</span></span>
-<span><span class="co">#   )</span></span>
-<span><span class="co"># )</span></span>
-<span><span class="co"># cat("The upper boundary at the 2nd analysis is (", a3, ", ", b3, ").\n")</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

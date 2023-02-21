@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,7 +123,7 @@ as clean a dataset as possible at the time of a database lock.</p>
 <span>    upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
 <span>    upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sf</span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="va">param</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
 <span>    lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
-<span>    lpar <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="va">n_analysis</span><span class="op">)</span>,</span>
+<span>    lpar <span class="op">=</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="va">n_analysis</span><span class="op">)</span>,</span>
 <span>    test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    test_lower <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    binding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -131,8 +131,8 @@ as clean a dataset as possible at the time of a database lock.</p>
 <span>    tol <span class="op">=</span> <span class="va">tol</span></span>
 <span>  <span class="op">)</span></span>
 <span>  <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span> <span class="op">&lt;</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">transmute</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sfname</span>, param <span class="op">=</span> <span class="va">param</span>, r <span class="op">=</span> <span class="va">r</span>, Analysis <span class="op">=</span> <span class="va">Analysis</span>, Z <span class="op">=</span> <span class="va">Z</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="op">-</span><span class="va">Z</span><span class="op">)</span>, tol <span class="op">=</span> <span class="va">tol</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="op">&lt;</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">transmute</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sfname</span>, param <span class="op">=</span> <span class="va">param</span>, r <span class="op">=</span> <span class="va">r</span>, Analysis <span class="op">=</span> <span class="va">analysis</span>, Z <span class="op">=</span> <span class="va">z</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="op">-</span> <span class="va">z</span><span class="op">)</span>, tol <span class="op">=</span> <span class="va">tol</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
@@ -152,7 +152,7 @@ as clean a dataset as possible at the time of a database lock.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Analysis</span> <span class="op">==</span> <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">p</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span> <span class="va">p</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">tol</span>, values_from <span class="op">=</span> <span class="va">Z</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span></span>
@@ -164,12 +164,12 @@ as clean a dataset as possible at the time of a database lock.</p>
 <span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1e-06"</span>, <span class="st">"1e-12"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
-<div id="ralwlyxbpx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jqppaipmhi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ralwlyxbpx .gt_table {
+#jqppaipmhi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -194,7 +194,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-left-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_heading {
+#jqppaipmhi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -206,12 +206,12 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_caption {
+#jqppaipmhi .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ralwlyxbpx .gt_title {
+#jqppaipmhi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -223,7 +223,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-bottom-width: 0;
 }
 
-#ralwlyxbpx .gt_subtitle {
+#jqppaipmhi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -235,13 +235,13 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-top-width: 0;
 }
 
-#ralwlyxbpx .gt_bottom_border {
+#jqppaipmhi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_col_headings {
+#jqppaipmhi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -256,7 +256,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_col_heading {
+#jqppaipmhi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -276,7 +276,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   overflow-x: hidden;
 }
 
-#ralwlyxbpx .gt_column_spanner_outer {
+#jqppaipmhi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -288,15 +288,15 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 4px;
 }
 
-#ralwlyxbpx .gt_column_spanner_outer:first-child {
+#jqppaipmhi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ralwlyxbpx .gt_column_spanner_outer:last-child {
+#jqppaipmhi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ralwlyxbpx .gt_column_spanner {
+#jqppaipmhi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -308,7 +308,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   width: 100%;
 }
 
-#ralwlyxbpx .gt_group_heading {
+#jqppaipmhi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -334,7 +334,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   text-align: left;
 }
 
-#ralwlyxbpx .gt_empty_group_heading {
+#jqppaipmhi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -349,15 +349,15 @@ as clean a dataset as possible at the time of a database lock.</p>
   vertical-align: middle;
 }
 
-#ralwlyxbpx .gt_from_md > :first-child {
+#jqppaipmhi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ralwlyxbpx .gt_from_md > :last-child {
+#jqppaipmhi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ralwlyxbpx .gt_row {
+#jqppaipmhi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -376,7 +376,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   overflow-x: hidden;
 }
 
-#ralwlyxbpx .gt_stub {
+#jqppaipmhi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -389,7 +389,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#ralwlyxbpx .gt_stub_row_group {
+#jqppaipmhi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -403,11 +403,11 @@ as clean a dataset as possible at the time of a database lock.</p>
   vertical-align: top;
 }
 
-#ralwlyxbpx .gt_row_group_first td {
+#jqppaipmhi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ralwlyxbpx .gt_summary_row {
+#jqppaipmhi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -417,16 +417,16 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#ralwlyxbpx .gt_first_summary_row {
+#jqppaipmhi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_first_summary_row.thick {
+#jqppaipmhi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ralwlyxbpx .gt_last_summary_row {
+#jqppaipmhi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -436,7 +436,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_grand_summary_row {
+#jqppaipmhi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -446,7 +446,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#ralwlyxbpx .gt_first_grand_summary_row {
+#jqppaipmhi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -456,11 +456,11 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-top-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_striped {
+#jqppaipmhi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ralwlyxbpx .gt_table_body {
+#jqppaipmhi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -469,7 +469,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_footnotes {
+#jqppaipmhi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -483,7 +483,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_footnote {
+#jqppaipmhi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -492,7 +492,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#ralwlyxbpx .gt_sourcenotes {
+#jqppaipmhi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -506,7 +506,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#ralwlyxbpx .gt_sourcenote {
+#jqppaipmhi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -514,64 +514,64 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#ralwlyxbpx .gt_left {
+#jqppaipmhi .gt_left {
   text-align: left;
 }
 
-#ralwlyxbpx .gt_center {
+#jqppaipmhi .gt_center {
   text-align: center;
 }
 
-#ralwlyxbpx .gt_right {
+#jqppaipmhi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ralwlyxbpx .gt_font_normal {
+#jqppaipmhi .gt_font_normal {
   font-weight: normal;
 }
 
-#ralwlyxbpx .gt_font_bold {
+#jqppaipmhi .gt_font_bold {
   font-weight: bold;
 }
 
-#ralwlyxbpx .gt_font_italic {
+#jqppaipmhi .gt_font_italic {
   font-style: italic;
 }
 
-#ralwlyxbpx .gt_super {
+#jqppaipmhi .gt_super {
   font-size: 65%;
 }
 
-#ralwlyxbpx .gt_footnote_marks {
+#jqppaipmhi .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ralwlyxbpx .gt_asterisk {
+#jqppaipmhi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ralwlyxbpx .gt_indent_1 {
+#jqppaipmhi .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ralwlyxbpx .gt_indent_2 {
+#jqppaipmhi .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ralwlyxbpx .gt_indent_3 {
+#jqppaipmhi .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ralwlyxbpx .gt_indent_4 {
+#jqppaipmhi .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ralwlyxbpx .gt_indent_5 {
+#jqppaipmhi .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -689,7 +689,7 @@ as clean a dataset as possible at the time of a database lock.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Analysis</span> <span class="op">==</span> <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Z</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span> <span class="va">Z</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">tol</span>, values_from <span class="op">=</span> <span class="va">p</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span></span>
@@ -701,12 +701,12 @@ as clean a dataset as possible at the time of a database lock.</p>
 <span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1e-06"</span>, <span class="st">"1e-12"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
-<div id="fpdoqfiwjj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="rginhdfnav" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#fpdoqfiwjj .gt_table {
+#rginhdfnav .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -731,7 +731,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-left-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_heading {
+#rginhdfnav .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -743,12 +743,12 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_caption {
+#rginhdfnav .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#fpdoqfiwjj .gt_title {
+#rginhdfnav .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -760,7 +760,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-bottom-width: 0;
 }
 
-#fpdoqfiwjj .gt_subtitle {
+#rginhdfnav .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -772,13 +772,13 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-top-width: 0;
 }
 
-#fpdoqfiwjj .gt_bottom_border {
+#rginhdfnav .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_col_headings {
+#rginhdfnav .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -793,7 +793,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_col_heading {
+#rginhdfnav .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -813,7 +813,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   overflow-x: hidden;
 }
 
-#fpdoqfiwjj .gt_column_spanner_outer {
+#rginhdfnav .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -825,15 +825,15 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 4px;
 }
 
-#fpdoqfiwjj .gt_column_spanner_outer:first-child {
+#rginhdfnav .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fpdoqfiwjj .gt_column_spanner_outer:last-child {
+#rginhdfnav .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fpdoqfiwjj .gt_column_spanner {
+#rginhdfnav .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -845,7 +845,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   width: 100%;
 }
 
-#fpdoqfiwjj .gt_group_heading {
+#rginhdfnav .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -871,7 +871,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   text-align: left;
 }
 
-#fpdoqfiwjj .gt_empty_group_heading {
+#rginhdfnav .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -886,15 +886,15 @@ as clean a dataset as possible at the time of a database lock.</p>
   vertical-align: middle;
 }
 
-#fpdoqfiwjj .gt_from_md > :first-child {
+#rginhdfnav .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fpdoqfiwjj .gt_from_md > :last-child {
+#rginhdfnav .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fpdoqfiwjj .gt_row {
+#rginhdfnav .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -913,7 +913,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   overflow-x: hidden;
 }
 
-#fpdoqfiwjj .gt_stub {
+#rginhdfnav .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -926,7 +926,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#fpdoqfiwjj .gt_stub_row_group {
+#rginhdfnav .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -940,11 +940,11 @@ as clean a dataset as possible at the time of a database lock.</p>
   vertical-align: top;
 }
 
-#fpdoqfiwjj .gt_row_group_first td {
+#rginhdfnav .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#fpdoqfiwjj .gt_summary_row {
+#rginhdfnav .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -954,16 +954,16 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#fpdoqfiwjj .gt_first_summary_row {
+#rginhdfnav .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_first_summary_row.thick {
+#rginhdfnav .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#fpdoqfiwjj .gt_last_summary_row {
+#rginhdfnav .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -973,7 +973,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_grand_summary_row {
+#rginhdfnav .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -983,7 +983,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#fpdoqfiwjj .gt_first_grand_summary_row {
+#rginhdfnav .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -993,11 +993,11 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-top-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_striped {
+#rginhdfnav .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fpdoqfiwjj .gt_table_body {
+#rginhdfnav .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1006,7 +1006,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_footnotes {
+#rginhdfnav .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1020,7 +1020,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_footnote {
+#rginhdfnav .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1029,7 +1029,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#fpdoqfiwjj .gt_sourcenotes {
+#rginhdfnav .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1043,7 +1043,7 @@ as clean a dataset as possible at the time of a database lock.</p>
   border-right-color: #D3D3D3;
 }
 
-#fpdoqfiwjj .gt_sourcenote {
+#rginhdfnav .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1051,64 +1051,64 @@ as clean a dataset as possible at the time of a database lock.</p>
   padding-right: 5px;
 }
 
-#fpdoqfiwjj .gt_left {
+#rginhdfnav .gt_left {
   text-align: left;
 }
 
-#fpdoqfiwjj .gt_center {
+#rginhdfnav .gt_center {
   text-align: center;
 }
 
-#fpdoqfiwjj .gt_right {
+#rginhdfnav .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fpdoqfiwjj .gt_font_normal {
+#rginhdfnav .gt_font_normal {
   font-weight: normal;
 }
 
-#fpdoqfiwjj .gt_font_bold {
+#rginhdfnav .gt_font_bold {
   font-weight: bold;
 }
 
-#fpdoqfiwjj .gt_font_italic {
+#rginhdfnav .gt_font_italic {
   font-style: italic;
 }
 
-#fpdoqfiwjj .gt_super {
+#rginhdfnav .gt_super {
   font-size: 65%;
 }
 
-#fpdoqfiwjj .gt_footnote_marks {
+#rginhdfnav .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#fpdoqfiwjj .gt_asterisk {
+#rginhdfnav .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#fpdoqfiwjj .gt_indent_1 {
+#rginhdfnav .gt_indent_1 {
   text-indent: 5px;
 }
 
-#fpdoqfiwjj .gt_indent_2 {
+#rginhdfnav .gt_indent_2 {
   text-indent: 10px;
 }
 
-#fpdoqfiwjj .gt_indent_3 {
+#rginhdfnav .gt_indent_3 {
   text-indent: 15px;
 }
 
-#fpdoqfiwjj .gt_indent_4 {
+#rginhdfnav .gt_indent_4 {
   text-indent: 20px;
 }
 
-#fpdoqfiwjj .gt_indent_5 {
+#rginhdfnav .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

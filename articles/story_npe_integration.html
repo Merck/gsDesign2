@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -301,7 +301,7 @@ can be used for numerical integration; we will demonstrate use below</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set up grid over continuation region</span></span>
 <span><span class="co"># Null hypothesis</span></span>
-<span><span class="va">grid1_0</span> <span class="op">&lt;-</span> <span class="fu">h1</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
+<span><span class="va">grid1_0</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">h1</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
 <span><span class="va">grid1_0</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $z</span></span>
 <span><span class="co">#&gt;   [1] -1.99770547 -1.95718607 -1.91666667 -1.87500000 -1.83333333 -1.79166667</span></span>
@@ -378,10 +378,10 @@ can be used for numerical integration; we will demonstrate use below</p>
 <p>The probability of not crossing a bound under the null hypothesis is
 computed as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">probH0continue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid1_0</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">prob_h0_continue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid1_0</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Probability of continuing trial under null hypothesis\n"</span>,</span>
-<span>  <span class="st">" Using numerical integration:"</span>, <span class="va">probH0continue</span>,</span>
+<span>  <span class="st">" Using numerical integration:"</span>, <span class="va">prob_h0_continue</span>,</span>
 <span>  <span class="st">"\n  Using normal cdf:"</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">a1</span><span class="op">)</span>, <span class="st">"\n"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Probability of continuing trial under null hypothesis</span></span>
@@ -390,12 +390,12 @@ computed as follows:</p>
 <p>We now set up numerical integration grid under the alternate
 hypothesis and the compute continuation probability.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">grid1_1</span> <span class="op">&lt;-</span> <span class="fu">h1</span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
-<span><span class="va">probH1continue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid1_1</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">grid1_1</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">h1</span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
+<span><span class="va">prob_h1_continue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid1_1</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
 <span><span class="va">h1mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Probability of continuing trial under alternate hypothesis\n"</span>,</span>
-<span>  <span class="st">" Using numerical integration:"</span>, <span class="va">probH1continue</span>,</span>
+<span>  <span class="st">" Using numerical integration:"</span>, <span class="va">prob_h1_continue</span>,</span>
 <span>  <span class="st">"\n  Using normal cdf:"</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">b1</span>, mean <span class="op">=</span> <span class="va">h1mean</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">a1</span>, <span class="va">h1mean</span><span class="op">)</span>, <span class="st">"\n"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Probability of continuing trial under alternate hypothesis</span></span>
@@ -430,7 +430,7 @@ we update our numerical integration grids. Under the null hypothesis, we
 need to update to the interval above <code>b2_0</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Upper rejection region grid under H0</span></span>
-<span><span class="va">grid2_0</span> <span class="op">&lt;-</span> <span class="fu">hupdate</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">b2_0</span>, b <span class="op">=</span> <span class="cn">Inf</span>, Im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_0</span><span class="op">)</span></span>
+<span><span class="va">grid2_0</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">b2_0</span>, b <span class="op">=</span> <span class="cn">Inf</span>, Im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_0</span><span class="op">)</span></span>
 <span><span class="va">pupper_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid2_0</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Upper spending at analysis 2\n Target:"</span>, <span class="va">spend0</span>, <span class="st">"\n Using initial bound approximation:"</span>,</span>
@@ -478,8 +478,8 @@ closer to the targeted boundary probability. We now update the lower
 bound in an analogous fashion.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lower rejection region grid under H1</span></span>
-<span><span class="va">grid2_1</span> <span class="op">&lt;-</span> <span class="fu">hupdate</span><span class="op">(</span></span>
-<span>  theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, b <span class="op">=</span> <span class="va">a2_0</span>,</span>
+<span><span class="va">grid2_1</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span></span>
+<span>  theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="op">-</span> <span class="cn">Inf</span>, b <span class="op">=</span> <span class="va">a2_0</span>,</span>
 <span>  thetam1 <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, Im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">plower_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid2_1</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
@@ -499,8 +499,8 @@ bound in an analogous fashion.</p>
 <span><span class="co">#&gt; Original bound approximation: 1.681989 </span></span>
 <span><span class="co">#&gt; Updated bound approximation: 1.702596</span></span>
 <span></span>
-<span><span class="va">grid2_1</span> <span class="op">&lt;-</span> <span class="fu">hupdate</span><span class="op">(</span></span>
-<span>  theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, b <span class="op">=</span> <span class="va">a2_1</span>,</span>
+<span><span class="va">grid2_1</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span></span>
+<span>  theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="op">-</span> <span class="cn">Inf</span>, b <span class="op">=</span> <span class="va">a2_1</span>,</span>
 <span>  thetam1 <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, Im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">plower_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid2_1</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
@@ -526,12 +526,12 @@ bound in an analogous fashion.</p>
 <span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfPower.html" class="external-link">sfPower</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 10</span></span></span>
-<span><span class="co">#&gt;   Analysis Bound     Z Probability theta theta1 info_frac  info info0 info1</span></span>
+<span><span class="co">#&gt;   analysis bound     z probability theta theta1 info_frac  info info0 info1</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1 Upper  2.96     0.007<span style="text-decoration: underline;">04</span>   0.5    0.5      0.25     1     1     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        2 Upper  1.98     0.845     1.5    1.5      1        4     4     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        1 Lower -<span style="color: #BB0000;">2.00</span>     0.006<span style="text-decoration: underline;">25</span>   0.5    0.5      0.25     1     1     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        2 Lower  1.70     0.100     1.5    1.5      1        4     4     4</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1 upper  2.96     0.007<span style="text-decoration: underline;">04</span>   0.5    0.5      0.25     1     1     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        2 upper  1.98     0.845     1.5    1.5      1        4     4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        1 lower -<span style="color: #BB0000;">2.00</span>     0.006<span style="text-decoration: underline;">25</span>   0.5    0.5      0.25     1     1     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        2 lower  1.70     0.100     1.5    1.5      1        4     4     4</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

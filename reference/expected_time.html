@@ -20,7 +20,7 @@ where the enrollment, failure and dropout rates changes over time."><meta proper
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@ where the enrollment, failure and dropout rates changes over time."><meta proper
     </div>
 
     <div class="ref-description section level2">
-    <p><code>expected_time()</code> is made to match input format with <code><a href="AHR.html">AHR()</a></code> and to solve for the
+    <p><code>expected_time()</code> is made to match input format with <code>AHR()</code> and to solve for the
 time at which the expected accumulated events is equal to an input target.
 Enrollment and failure rate distributions are specified as follows.
 The piecewise exponential distribution allows a simple method to specify a distribtuion
@@ -130,9 +130,9 @@ and info0 (information under related null hypothesis) for each value of <code>to
 <span class="r-in"><span><span class="co"># default</span></span></span>
 <span class="r-in"><span><span class="fu">expected_time</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Time   AHR Events  info info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  14.9 0.787   150.  36.9  37.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    time   ahr event  info info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  14.9 0.787  150.  36.9  37.5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------#</span></span></span>
 <span class="r-in"><span><span class="co">#      Example 2          #</span></span></span>
@@ -145,21 +145,21 @@ and info0 (information under related null hypothesis) for each value of <code>to
 <span class="r-in"><span>  hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.9</span>, <span class="fl">.6</span><span class="op">)</span>, dropout_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">.001</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">total_duration</span> <span class="op">&lt;-</span> <span class="fl">20</span></span></span>
-<span class="r-in"><span><span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="AHR.html">AHR</a></span><span class="op">(</span><span class="va">enroll_rate</span>, <span class="va">fail_rate</span>, <span class="va">total_duration</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="ahr.html">ahr</a></span><span class="op">(</span><span class="va">enroll_rate</span>, <span class="va">fail_rate</span>, <span class="va">total_duration</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">xx</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Time   AHR Events  info info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    20 0.738   208.  51.0  52.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    time   ahr event  info info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    20 0.738  208.  51.0  52.1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Next we check that the function confirms the timing of the final analysis.</span></span></span>
 <span class="r-in"><span><span class="fu">expected_time</span><span class="op">(</span><span class="va">enroll_rate</span>, <span class="va">fail_rate</span>,</span></span>
-<span class="r-in"><span>  target_event <span class="op">=</span> <span class="va">xx</span><span class="op">$</span><span class="va">Events</span>, interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">1.5</span><span class="op">)</span> <span class="op">*</span> <span class="va">xx</span><span class="op">$</span><span class="va">Time</span></span></span>
+<span class="r-in"><span>  target_event <span class="op">=</span> <span class="va">xx</span><span class="op">$</span><span class="va">event</span>, interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">1.5</span><span class="op">)</span> <span class="op">*</span> <span class="va">xx</span><span class="op">$</span><span class="va">time</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Time   AHR Events  info info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  20.0 0.738   208.  51.0  52.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    time   ahr event  info info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  20.0 0.738  208.  51.0  52.1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

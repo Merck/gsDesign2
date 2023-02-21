@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,12 +139,12 @@ spending approximation of O’Brien-Fleming bound as 50%, 75% and 100% of
 final spending</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># information fraction</span></span>
-<span><span class="va">IF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">info_frac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># Lan-DeMets spending approximation of O'Brien-Fleming</span></span>
 <span><span class="va">par</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span></span>
-<span>  alpha <span class="op">=</span> <span class="fl">.025</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">IF</span><span class="op">)</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">.025</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">info_frac</span><span class="op">)</span>,</span>
 <span>  test.type <span class="op">=</span> <span class="fl">1</span>, sfu <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>,</span>
-<span>  timing <span class="op">=</span> <span class="va">IF</span></span>
+<span>  timing <span class="op">=</span> <span class="va">info_frac</span></span>
 <span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span></span>
 <span><span class="fu"><a href="../reference/gs_b.html">gs_b</a></span><span class="op">(</span>par <span class="op">=</span> <span class="va">par</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 2.962588 2.359018 2.014084</span></span></code></pre>
