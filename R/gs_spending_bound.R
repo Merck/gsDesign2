@@ -257,8 +257,8 @@ gs_spending_bound <- function(k = 1,
 
       if (bdelta > dpikdb) {
         bdelta <- 1
-      } else if (bdelta < - dpikdb) {
-        bdelta <- - 1
+      } else if (bdelta < -dpikdb) {
+        bdelta <- -1
       } else {
         bdelta <- bdelta / dpikdb
       }
