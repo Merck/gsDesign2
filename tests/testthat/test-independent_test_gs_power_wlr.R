@@ -60,13 +60,13 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
     theta = fh01$theta,
     info = fh01$info,
     info0 = fh01$info0,
-    binding = F,
+    binding = FALSE,
     upper = gsDesign2::gs_b,
     lower = gsDesign2::gs_b,
     upar = up,
     lpar = c(qnorm(.1), rep(-Inf, length(fh01$event) - 1)),
-    test_upper = T,
-    test_lower = T,
+    test_upper = TRUE,
+    test_lower = TRUE,
     r = 18,
     tol = 1e-6
   ) %>% dplyr::arrange(analysis, bound)
