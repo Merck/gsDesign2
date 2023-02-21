@@ -21,7 +21,6 @@ testthat::test_that("results match if only put in targeted analysis times", {
       fail_rate = fail_rate,
       analysis_time = total_duration
     ) %>% select(time, ahr, event, info, info0),
-    
     ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,

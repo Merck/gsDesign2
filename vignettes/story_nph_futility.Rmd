@@ -43,7 +43,7 @@ enroll_rate <- tibble(stratum = "All", duration = 12, rate = 680 / 12)
 ## Censoring rate is 0
 fail_rate <- tibble(
   stratum = "All", duration = c(3, 100),
-  fail_rate = - log(.5) / 12, hr = c(1, .693), dropout_rate = 0
+  fail_rate = -log(.5) / 12, hr = c(1, .693), dropout_rate = 0
 )
 ## Study duration was 34.8 in Korn & Freidlin Table 1
 ## We change to 34.86 here to obtain 512 expected events more precisely
@@ -63,7 +63,7 @@ fixedevents <- fixed_design(
 
 fixedevents %>%
   summary() %>%
-  select(- bound) %>%
+  select(-bound) %>%
   as_gt(footnote = "Power based on 512 events") %>%
   fmt_number(columns = 3:4, decimals = 2) %>%
   fmt_number(columns = 5:6, decimals = 3)
@@ -83,7 +83,7 @@ In the last row under *Alternate hypothesis* below we see the power is 88.44%.
 wieand <- gs_power_ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   upper = gs_b, upar = c(rep(Inf, 2), qnorm(.975)),
-  lower = gs_b, lpar = c(0, 0, - Inf),
+  lower = gs_b, lpar = c(0, 0, -Inf),
   event = 512 * c(.5, .75, 1)
 )
 wieand %>%

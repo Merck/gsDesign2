@@ -333,7 +333,7 @@ m <- 12
 planned_info_frac <- c(.8, 1)
 
 # No futility bound
-lpar <- rep(- Inf, 2)
+lpar <- rep(-Inf, 2)
 
 # enrollment rate
 enroll_rate <- tibble(
@@ -466,7 +466,7 @@ fho <- gs_power_ahr(
   # allocated will not be used
   test_upper = c(FALSE, FALSE, TRUE, TRUE, TRUE),
   lower = gs_b,
-  lpar = c(rep(qnorm(.05), 4), - Inf)
+  lpar = c(rep(qnorm(.05), 4), -Inf)
 )
 
 fho %>%
@@ -651,7 +651,7 @@ upar_design_spend <- list(
 )
 
 # lower bound: no futility bound
-lpar <- rep(- Inf, 2) # Z = -infinity for lower bound
+lpar <- rep(-Inf, 2) # Z = -infinity for lower bound
 
 # we will base the combined hypothesis design to ensure power in the biomarker subgroup
 positive <- gs_design_ahr(
@@ -821,7 +821,7 @@ positive_60_power <- gs_power_ahr(
   enroll_rate = positive_60_enroll_rate %>% filter(stratum == "Positive"),
   fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # number of events
-  event = positive$analysis$event, 
+  event = positive$analysis$event,
   # analysis time will be calcuated to achieve the targeted events
   analysis_time = NULL,
   # upper bound
@@ -857,7 +857,7 @@ gs_power_ahr(
   upar = upar_overall_planned_info_frac,
   # set lower bound: no futility
   lower = gs_b,
-  lpar = rep(- Inf, 2)
+  lpar = rep(-Inf, 2)
 ) %>%
   summary() %>%
   gt() %>%
@@ -928,7 +928,7 @@ positive_40_power <- gs_power_ahr(
   upar = upar_actual_info_frac,
   # set lower bound
   lower = gs_b,
-  lpar = rep(- Inf, 2)
+  lpar = rep(-Inf, 2)
 )
 
 positive_40_power %>%
@@ -951,7 +951,7 @@ gs_power_ahr(
   upper = gs_spending_bound,
   upar = upar_overall_planned_info_frac,
   lower = gs_b,
-  lpar = rep(- Inf, 2)
+  lpar = rep(-Inf, 2)
 ) %>%
   summary() %>%
   gt() %>%
@@ -975,7 +975,7 @@ Where crossing survival curves or inferior survival curves may exist, this may b
 
 In addition to the delayed effect example, we considered an example testing in both a biomarker positive subgroup and the overall population.
 Using a common spending time for all hypotheses with a common interim analysis strategy as advocated by @FPG can be helpful to implement spending so that all hypotheses have adequate $\alpha$ to spend at the final analysis and also to ensure full utilization of $\alpha$-spending. We suggested again using the minimum of planned and actual spending at interim analysis. Spending can be based on a key hypothesis (e.g., the biomarker positive population) or the minimum spending time among all hypotheses being tested.
-Taking advantage of know correlations to ensure full $\alpha$ utilitization in multiple hypothesis testing is also more simply implemented with this strategy @AGZS2021unified.
+Taking advantage of know correlations to ensure full $\alpha$ utilization in multiple hypothesis testing is also more simply implemented with this strategy @AGZS2021unified.
 
 In summary, we have illustrated both the motivation and the illustration of the spending time approach through examples we have commonly encountered. Approaches suggested included an implementation of @FHO with a fixed incremental $\alpha$-spend at each interim analysis as well as the use of the minimum of planned and actual spending at interim analyses.
 

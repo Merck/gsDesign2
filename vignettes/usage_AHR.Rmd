@@ -170,14 +170,14 @@ Here the `t` column is the start of period, the `fail_rate` column is the failur
 events <- rbind(
   events_c %>% mutate(Treatment = "Control"),
   events_e %>% mutate(Treatment = "Experimental")
-  ) %>%
+) %>%
   arrange(t, Treatment) %>%
   ungroup() %>%
   # recompute HR, events, info by period
   group_by(t) %>%
   summarize(
     stratum = s,
-    info = (sum(1 / event))^(- 1),
+    info = (sum(1 / event))^(-1),
     Events = sum(event),
     HR = last(fail_rate) / first(fail_rate)
   ) %>%

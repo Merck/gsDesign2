@@ -291,7 +291,7 @@ fixed_design(
 In the above example, the MaxCombo parameters take the default value
 
 ```{r}
-data.frame(rho = c(0, 0), gamma = c(0, 0.5), tau = - 1) %>% gt()
+data.frame(rho = c(0, 0), gamma = c(0, 0.5), tau = -1) %>% gt()
 ```
 
 But users can always custom their `rho`, `gamma`, `tau` by
@@ -307,7 +307,7 @@ fixed_design(
   study_duration = study_duration,
   rho = c(0, 0.5, 0.5),
   gamma = c(0, 0, 0.5),
-  tau = c(- 1, 4, 6)
+  tau = c(-1, 4, 6)
 ) %>%
   summary() %>%
   as_gt()
@@ -340,7 +340,7 @@ fixed_design(
   study_duration = study_duration,
   rho = c(0, 0.5, 0.5),
   gamma = c(0, 0, 0.5),
-  tau = c(- 1, 4, 6)
+  tau = c(-1, 4, 6)
 ) %>%
   summary() %>%
   as_gt()
@@ -502,7 +502,7 @@ x_maxcombo <- fixed_design(
   study_duration = study_duration,
   rho = c(0, 0.5, 0.5),
   gamma = c(0, 0, 0.5),
-  tau = c(- 1, 4, 6)
+  tau = c(-1, 4, 6)
 )
 
 x_rmst <- fixed_design(
@@ -525,8 +525,10 @@ x_milestone <- fixed_design(
   tau = 30
 )
 
-rbind(summary(x_ahr), summary(x_fh), 
-      summary(x_mb), summary(x_lf), 
-      summary(x_maxcombo), summary(x_rmst), 
-      summary(x_milestone)) %>% gt()
+rbind(
+  summary(x_ahr), summary(x_fh),
+  summary(x_mb), summary(x_lf),
+  summary(x_maxcombo), summary(x_rmst),
+  summary(x_milestone)
+) %>% gt()
 ```

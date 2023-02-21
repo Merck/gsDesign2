@@ -226,7 +226,7 @@ names(x) <- c("m", "tm", "lambda", "eta", "j", "omega", "gamma")
 y <- x %>%
   mutate(
     tdel = tm - lag(tm, default = 0),
-    q = exp(- (lambda + eta) * tdel),
+    q = exp(-(lambda + eta) * tdel),
     Q = lag(cumprod(q), default = 1),
     d = Q * (1 - q) * lambda / (lambda + eta),
     G = c(5, 5, 3, 0),

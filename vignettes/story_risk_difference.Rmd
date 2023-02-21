@@ -459,7 +459,7 @@ pbar <- (x_c + x_e) / n
 se0 <- sqrt(pbar * (1 - pbar) * (1 / n_c + 1 / n_e))
 # Z to test H0
 z <- thetahat / se0
-x <- seq(- 4, 4, .1)
+x <- seq(-4, 4, .1)
 se0a <- sqrt(p * (1 - p) * (1 / n_c + 1 / n_e))
 y <- data.frame(z = x, Density = dnorm(x = x, mean = 0, sd = 1))
 
@@ -551,7 +551,7 @@ theta_h0 <- 0
 theta_h1 <- abs(p_c - p_e) / sigma_h1
 
 tibble::tribble(
-  ~ n_c, ~ n_e, ~ p_c, ~ p_e, ~ theta_h1, ~ theta_h0, ~ info_h1, ~ info_h0,
+  ~n_c, ~n_e, ~p_c, ~p_e, ~theta_h1, ~theta_h0, ~info_h1, ~info_h0,
   n_c, n_e, p_c, p_e, theta_h1, theta_h0, info_h1, info_h0,
 ) %>% gt::gt()
 ```
@@ -587,8 +587,8 @@ y_0 <- gs_design_npe(
   beta = .1,
   upper = gs_b,
   lower = gs_b,
-  upar = list(par = - qnorm(.025)),
-  lpar = list(par = - Inf)
+  upar = list(par = -qnorm(.025)),
+  lpar = list(par = -Inf)
 )
 
 # under info_scale = 1
@@ -601,8 +601,8 @@ y_1 <- gs_design_npe(
   beta = .1,
   upper = gs_b,
   lower = gs_b,
-  upar = list(par = - qnorm(.025)),
-  lpar = list(par = - Inf)
+  upar = list(par = -qnorm(.025)),
+  lpar = list(par = -Inf)
 )
 
 # under info_scale = 2
@@ -615,8 +615,8 @@ y_2 <- gs_design_npe(
   beta = .1,
   upper = gs_b,
   lower = gs_b,
-  upar = list(par = - qnorm(.025)),
-  lpar = list(par = - Inf)
+  upar = list(par = -qnorm(.025)),
+  lpar = list(par = -Inf)
 )
 
 tibble(
@@ -642,8 +642,8 @@ z_info_scale_0 <- gs_design_rd(
   weight = "un-stratified",
   upper = gs_b,
   lower = gs_b,
-  upar = - qnorm(.025),
-  lpar = - Inf,
+  upar = -qnorm(.025),
+  lpar = -Inf,
   info_scale = 0
 )
 
@@ -657,8 +657,8 @@ z_info_scale_1 <- gs_design_rd(
   weight = "un-stratified",
   upper = gs_b,
   lower = gs_b,
-  upar = - qnorm(.025),
-  lpar = - Inf,
+  upar = -qnorm(.025),
+  lpar = -Inf,
   info_scale = 1
 )
 
@@ -672,8 +672,8 @@ z_info_scale_2 <- gs_design_rd(
   weight = "un-stratified",
   upper = gs_b,
   lower = gs_b,
-  upar = - qnorm(.025),
-  lpar = - Inf,
+  upar = -qnorm(.025),
+  lpar = -Inf,
   info_scale = 2
 )
 ```
@@ -757,7 +757,7 @@ y_gs0 <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE
 )
 
@@ -770,7 +770,7 @@ y_gs1 <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE
 )
 
@@ -783,7 +783,7 @@ y_gs2 <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE
 )
 
@@ -793,8 +793,10 @@ tibble(
   `info_scale = 2` = y_gs2$info / x_gs$info1[3]
 ) %>%
   gt::gt() %>%
-  gt::tab_header(title = "The sample size calculated by `gsDesign2` under 3 info_scale", 
-                 subtitle = "under group sequential design")
+  gt::tab_header(
+    title = "The sample size calculated by `gsDesign2` under 3 info_scale",
+    subtitle = "under group sequential design"
+  )
 ```
 
 The above logic is implemented in `gs_design_rd()`.
@@ -812,7 +814,7 @@ x_gsdesign2_info_scale_0 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
   info_scale = 0
 )
@@ -829,7 +831,7 @@ x_gsdesign2_info_scale_1 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
   info_scale = 1
 )
@@ -846,7 +848,7 @@ x_gsdesign2_info_scale_2 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
   info_scale = 2
 )
@@ -975,8 +977,8 @@ x <- p_c %>%
   left_join(p_e) %>%
   rename(p_e = rate) %>%
   mutate(p_pool = (p_c + p_e) / 2) %>%
-  mutate(xi_c = (ratio_strata_c %>% mutate(prop = ratio / sum(ratio)))$prop) %>% 
-  mutate(xi_e = (ratio_strata_e %>% mutate(prop = ratio / sum(ratio)))$prop) %>% 
+  mutate(xi_c = (ratio_strata_c %>% mutate(prop = ratio / sum(ratio)))$prop) %>%
+  mutate(xi_e = (ratio_strata_e %>% mutate(prop = ratio / sum(ratio)))$prop) %>%
   mutate(n_c = n_c * xi_c, n_e = n_e * xi_e)
 
 x %>%
@@ -1073,7 +1075,7 @@ x <- x %>%
     weight_invar_H1 = 1 / sigma_h1^2 / sum_invar_H1,
     weight_ss = (n_c * n_e) / (n_c + n_e) / sum_ss
   ) %>%
-  select(- c(sum_invar_H0, sum_invar_H1, sum_ss))
+  select(-c(sum_invar_H0, sum_invar_H1, sum_ss))
 
 x %>%
   gt() %>%
@@ -1131,34 +1133,33 @@ x <- x %>%
     rd_invar_H1 = sum(weight_invar_H1 * abs(p_c - p_e)),
     rd_ss = sum(weight_ss * abs(p_c - p_e)),
     rd0 = 0,
-    info_invar_H0 = 1 / 
+    info_invar_H0 = 1 /
       sum(
-        weight_invar_H0^2 * p_c * (1 - p_c) / 
+        weight_invar_H0^2 * p_c * (1 - p_c) /
           n_c + weight_invar_H0^2 * p_e * (1 - p_e) / n_e
-        ),
-    info_invar_H1 = 1 / 
+      ),
+    info_invar_H1 = 1 /
       sum(
-        weight_invar_H1^2 * p_c * (1 - p_c) / 
+        weight_invar_H1^2 * p_c * (1 - p_c) /
           n_c + weight_invar_H1^2 * p_e * (1 - p_e) / n_e
-        ),
-    info_ss = 1 / 
+      ),
+    info_ss = 1 /
       sum(
         weight_ss^2 * p_c * (1 - p_c) / n_c + weight_ss^2 * p_e * (1 - p_e) / n_e
-        ),
-    info0_invar_H0 = 1 / 
+      ),
+    info0_invar_H0 = 1 /
       sum(
-        weight_invar_H0^2 * p_pool * (1 - p_pool) / n_c + 
+        weight_invar_H0^2 * p_pool * (1 - p_pool) / n_c +
           weight_invar_H0^2 * p_pool * (1 - p_pool) / n_e
-        ),
-    info0_invar_H1 = 1 / 
-      sum(weight_invar_H1^2 * p_pool * (1 - p_pool) / 
-            n_c + weight_invar_H1^2 * p_pool * (1 - p_pool) / n_e
-          ),
-    info0_ss = 1 / 
+      ),
+    info0_invar_H1 = 1 /
+      sum(weight_invar_H1^2 * p_pool * (1 - p_pool) /
+        n_c + weight_invar_H1^2 * p_pool * (1 - p_pool) / n_e),
+    info0_ss = 1 /
       sum(
-        weight_ss^2 * p_pool * (1 - p_pool) / n_c + 
-            weight_ss^2 * p_pool * (1 - p_pool) / n_e
-          )
+        weight_ss^2 * p_pool * (1 - p_pool) / n_c +
+          weight_ss^2 * p_pool * (1 - p_pool) / n_e
+      )
   )
 ```
 
@@ -1168,32 +1169,32 @@ x %>%
   gt::gt() %>%
   fmt_number(c(2:4, 6:11), decimals = 6) %>%
   gt::tab_footnote(
-    footnote = "info_invar_H0 = the statistical information under H1 
+    footnote = "info_invar_H0 = the statistical information under H1
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info_invar_H0)
   ) %>%
   gt::tab_footnote(
-    footnote = "info_invar_H1 = the statistical information under H1 
+    footnote = "info_invar_H1 = the statistical information under H1
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info_invar_H1)
   ) %>%
   gt::tab_footnote(
-    footnote = "info_ss = the statistical information under H1 
+    footnote = "info_ss = the statistical information under H1
     per stratum per analysis calculated by SS.",
     locations = gt::cells_column_labels(columns = info_ss)
   ) %>%
   gt::tab_footnote(
-    footnote = "info0_invar_H0 = the statistical information under H0 
+    footnote = "info0_invar_H0 = the statistical information under H0
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info0_invar_H0)
   ) %>%
   gt::tab_footnote(
-    footnote = "info0_invar_H1 = the statistical information under H0 
+    footnote = "info0_invar_H1 = the statistical information under H0
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info0_invar_H1)
   ) %>%
   gt::tab_footnote(
-    footnote = "info0_ss = the statistical information under H0 
+    footnote = "info0_ss = the statistical information under H0
     per stratum per analysis calculated by SS.",
     locations = gt::cells_column_labels(columns = info0_ss)
   )
@@ -1213,7 +1214,7 @@ y_invar_h0 <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
 )
 
@@ -1227,7 +1228,7 @@ y_invar_h1 <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
 )
 
@@ -1241,7 +1242,7 @@ y_ss <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
 )
 
@@ -1258,7 +1259,7 @@ yy_invar_h0 <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
 )
 
@@ -1272,7 +1273,7 @@ yy_invar_h1 <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
 )
 
@@ -1286,7 +1287,7 @@ yy_ss <- gs_design_npe(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = rep(- Inf, 3),
+  lpar = rep(-Inf, 3),
   test_lower = FALSE,
 )
 
@@ -1325,7 +1326,7 @@ x_ss0 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(- Inf, 2)),
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 0,
   binding = FALSE
 )
@@ -1346,7 +1347,7 @@ x_ss1 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(- Inf, 2)),
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 1,
   binding = FALSE
 )
@@ -1367,7 +1368,7 @@ x_ss2 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(- Inf, 2)),
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 2,
   binding = FALSE
 )
@@ -1388,7 +1389,7 @@ x_invar0 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(- Inf, 2)),
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 0,
   binding = FALSE
 )
@@ -1409,7 +1410,7 @@ x_invar1 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(- Inf, 2)),
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 1,
   binding = FALSE
 )
@@ -1430,7 +1431,7 @@ x_invar2 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(- Inf, 2)),
+  lpar = c(qnorm(.1), rep(-Inf, 2)),
   info_scale = 2,
   binding = FALSE
 )
@@ -1553,7 +1554,7 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
           weight_invar_H1 = 1 / sigma_h1^2 / sum_invar_H1,
           weight_ss = (sample_size_c * sample_size_e) / (sample_size_c + sample_size_e) / sum_ss
         ) %>%
-        select(- c(sum_invar_H0, sum_invar_H1, sum_ss)) %>%
+        select(-c(sum_invar_H0, sum_invar_H1, sum_ss)) %>%
         # calculated the weighted rd and info
         group_by(analysis) %>%
         summarise( # weighted risk difference
@@ -1562,15 +1563,15 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
           rd_ss = sum(weight_ss * abs(p_c - p_e)),
           rd0 = 0,
           # weighted statistical information under H1
-          info_invar_H0 = 1 / 
-            sum(weight_invar_H0^2 * p_c * (1 - p_c) / sample_size_c + 
-                  weight_invar_H0^2 * p_e * (1 - p_e) / sample_size_e),
-          info_invar_H1 = 1 / 
-            sum(weight_invar_H1^2 * p_c * (1 - p_c) / sample_size_c + 
-                  weight_invar_H1^2 * p_e * (1 - p_e) / sample_size_e),
-          info_ss = 1 / 
-            sum(weight_ss^2 * p_c * (1 - p_c) / sample_size_c + 
-                  weight_ss^2 * p_e * (1 - p_e) / sample_size_e),
+          info_invar_H0 = 1 /
+            sum(weight_invar_H0^2 * p_c * (1 - p_c) / sample_size_c +
+              weight_invar_H0^2 * p_e * (1 - p_e) / sample_size_e),
+          info_invar_H1 = 1 /
+            sum(weight_invar_H1^2 * p_c * (1 - p_c) / sample_size_c +
+              weight_invar_H1^2 * p_e * (1 - p_e) / sample_size_e),
+          info_ss = 1 /
+            sum(weight_ss^2 * p_c * (1 - p_c) / sample_size_c +
+              weight_ss^2 * p_e * (1 - p_e) / sample_size_e),
           # weighted statistical information under H0
           info0_invar_H0 = 1 / sum(weight_invar_H0^2 * p_pool * (1 - p_pool) * (1 / sample_size_e + 1 / sample_size_c)),
           info0_invar_H1 = 1 / sum(weight_invar_H1^2 * p_pool * (1 - p_pool) * (1 / sample_size_e + 1 / sample_size_c)),
@@ -1591,7 +1592,7 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
             upper = gs_b,
             lower = gs_b,
             upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-            lpar = c(qnorm(.1), rep(- Inf, 2)),
+            lpar = c(qnorm(.1), rep(-Inf, 2)),
             test_upper = TRUE,
             test_lower = TRUE,
             r = 18,
@@ -1607,7 +1608,7 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
             upper = gs_b,
             lower = gs_b,
             upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-            lpar = c(qnorm(.1), rep(- Inf, 2)),
+            lpar = c(qnorm(.1), rep(-Inf, 2)),
             test_upper = TRUE,
             test_lower = TRUE,
             r = 18,
@@ -1623,7 +1624,7 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
             upper = gs_b,
             lower = gs_b,
             upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-            lpar = c(qnorm(.1), rep(- Inf, 2)),
+            lpar = c(qnorm(.1), rep(-Inf, 2)),
             test_upper = TRUE,
             test_lower = TRUE,
             r = 18,
@@ -1670,7 +1671,7 @@ run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac,
       }
 
       p <- pmvnorm(
-        lower = c(rep(- Inf, 3)),
+        lower = c(rep(-Inf, 3)),
         upper = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
         mean = mean_sim,
         corr = matrix(

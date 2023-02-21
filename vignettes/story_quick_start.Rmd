@@ -190,7 +190,7 @@ design1s <- gs_design_ahr(
   analysis_time = c(16, 26, 36), # Calendar time of planned analyses
   upper = gs_spending_bound, # Spending function bound for efficacy
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # specify spending function and total Type I error
-  lower = gs_b, lpar = rep(- Inf, 3), # No futility bound
+  lower = gs_b, lpar = rep(-Inf, 3), # No futility bound
   info_scale = 2
 )
 ```
@@ -289,7 +289,7 @@ design2sa <- gs_design_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # Same efficacy bound as before
   test_lower = c(FALSE, TRUE, TRUE, TRUE), # Only test efficacy after IA1
   lower = gs_b,
-  lpar = c(rep(qnorm(.05), 2), - Inf, - Inf) # Fixed lower bound at first 2 analyses
+  lpar = c(rep(qnorm(.05), 2), -Inf, -Inf) # Fixed lower bound at first 2 analyses
 )
 ```
 
@@ -301,7 +301,7 @@ design2sa %>%
   summary() %>%
   as_gt(
     title = "2-sided asymmetric group sequential bound using AHR method",
-    subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound 
+    subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound
     for efficacy, futility disaster check at IA1, IA2 only"
   )
 ```
