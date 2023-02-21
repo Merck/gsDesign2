@@ -97,13 +97,13 @@ total_duration <- 30
 **Step 1:** compute proportion in each group
 
 ```{r}
-Qe <- ratio / (1 + ratio)
-Qc <- 1 - Qe
+q_e <- ratio / (1 + ratio)
+q_c <- 1 - q_e
 ```
 
 ```{r, echo=FALSE}
-cat("The proportion of the experimental arm is ", Qe, "\n")
-cat("The proportion of the control arm is ", Qc, "\n")
+cat("The proportion of the experimental arm is ", q_e, "\n")
+cat("The proportion of the control arm is ", q_c, "\n")
 ```
 
 To compute the expected events over different treatment group, stratum and time period, we iterate over `total_duration` and `Strata`.
@@ -125,8 +125,8 @@ fail <- fail_rate %>% filter(stratum == s)
 **Step 3:** we calculate the enrollment rates in experimental arm and control arm, respectively.
 
 ```{r}
-enroll_c <- enroll %>% mutate(rate = rate * Qc)
-enroll_e <- enroll %>% mutate(rate = rate * Qe)
+enroll_c <- enroll %>% mutate(rate = rate * q_c)
+enroll_e <- enroll %>% mutate(rate = rate * q_e)
 ```
 
 **Step 4:** we update the failure rate in the control and experimental arm.
@@ -177,7 +177,7 @@ events <- rbind(
   group_by(t) %>%
   summarize(
     stratum = s,
-    info = (sum(1 / event))^(-1),
+    info = (sum(1 / event))^(- 1),
     Events = sum(event),
     HR = last(fail_rate) / first(fail_rate)
   ) %>%
@@ -185,7 +185,7 @@ events <- rbind(
   mutate(
     Time = td,
     lnhr = log(HR),
-    info0 = Events * Qc * Qe
+    info0 = Events * q_c * q_e
   ) %>%
   ungroup() %>%
   group_by(Time, stratum, HR) %>%

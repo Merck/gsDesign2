@@ -131,7 +131,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
                             n.I = c(.25, .75, 1), sfu = sfLDOF, sfupar = NULL
                           )$upper$bound,
                           lower = gs_b,
-                          lpar = c(qnorm(.1), -Inf, -Inf),
+                          lpar = c(qnorm(.1), - Inf, - Inf),
                           test_upper = TRUE,
                           test_lower = TRUE,
                           h1_spending = TRUE,
@@ -188,7 +188,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
             target_event = info_frac[n_analysis - i] * final_event,
             ratio = ratio, interval = c(.01, next_time)
           ) %>%
-            mutate(theta = -log(ahr), analysis = n_analysis - i),
+            mutate(theta = - log(ahr), analysis = n_analysis - i),
           y
         )
       } else if (info_frac[n_analysis - i] > if_alt[n_analysis - i]) {
@@ -196,7 +196,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
           target_event = IF[n_analysis - i] * final_event,
           ratio = ratio, interval = c(.01, next_time)
         ) %>%
-          dplyr::transmute(analysis = n_analysis - i, time, event, ahr, theta = -log(ahr), info, info0)
+          dplyr::transmute(analysis = n_analysis - i, time, event, ahr, theta = - log(ahr), info, info0)
       }
       next_time <- y$time[n_analysis - i]
     }
@@ -226,7 +226,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
       lower = lower, lpar = lpar, test_lower = test_lower,
       r = r, tol = tol
     ) %>%
-      full_join(y %>% select(-c(info, info0, theta)), by = "analysis") %>%
+      full_join(y %>% select(- c(info, info0, theta)), by = "analysis") %>% 
       select(c(
         "analysis", "bound", "time", "n", "event", "z",
         "probability", "probability0", "ahr",
@@ -236,14 +236,15 @@ gs_design_wlr <- function(enroll_rate = tibble(
   )
 
   # calculate sample size and event
-  inflac_fct <- (allout %>% filter(analysis == n_analysis, bound == "upper"))$info / (y %>% filter(analysis == n_analysis))$info
+  inflac_fct <- (allout %>% filter(analysis == n_analysis, bound == "upper"))$info / 
+    (y %>% filter(analysis == n_analysis))$info
   allout$event <- allout$event * inflac_fct
   allout$n <- allout$n * inflac_fct
 
   # add `~hr at bound` and `nominal p`
   allout <- allout %>% mutate(
     "~hr at bound" = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
-    "nominal p" = pnorm(-z)
+    "nominal p" = pnorm(- z)
   )
 
   # --------------------------------------------- #

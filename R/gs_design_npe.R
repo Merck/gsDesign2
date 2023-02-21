@@ -252,7 +252,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                           info_scale = c(0, 1, 2),
                           alpha = 0.025, beta = .1,
                           upper = gs_b, upar = qnorm(.975),
-                          lower = gs_b, lpar = -Inf,
+                          lower = gs_b, lpar = - Inf,
                           test_upper = TRUE, test_lower = TRUE, binding = FALSE,
                           r = 18, tol = 1e-6) {
   # --------------------------------------------- #
@@ -327,7 +327,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   #     check design type                         #
   # --------------------------------------------- #
   if (identical(lower, gs_b) && (!is.list(lpar))) {
-    two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
+    two_sided <- ifelse(identical(lpar, rep(- Inf, n_analysis)), FALSE, TRUE)
   } else {
     two_sided <- TRUE
   }
@@ -335,12 +335,12 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     initialization                            #
   # --------------------------------------------- #
-  a <- rep(-Inf, n_analysis) # bounds
+  a <- rep(- Inf, n_analysis) # bounds
   b <- rep(Inf, n_analysis)
   hgm1_0 <- NULL # numerical integration grids
   hgm1_1 <- NULL
-  upperProb <- rep(NA, n_analysis) # boundary crossing probabilities
-  lowerProb <- rep(NA, n_analysis)
+  upper_prob <- rep(NA, n_analysis) # boundary crossing probabilities
+  lower_prob <- rep(NA, n_analysis)
 
   # --------------------------------------------- #
   #     fixed design                              #
@@ -435,8 +435,8 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
     lower = min_x, upper = max_x,
     theta = theta, theta0 = theta0, theta1 = theta1,
     info = info, info0 = info0, info1 = info1, info_scale = info_scale,
-    Zupper = upper, upar = upar, test_upper = test_upper,
-    Zlower = lower, lpar = lpar, test_lower = test_lower,
+    Z_upper = upper, upar = upar, test_upper = test_upper,
+    Z_lower = lower, lpar = lpar, test_lower = test_lower,
     beta = beta, n_analysis = n_analysis, binding = binding, r = r, tol = tol
   ))
   if (inherits(res, "try-error")) {
@@ -471,7 +471,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       lower
     },
     lpar = if (!two_sided) {
-      rep(-Inf, n_analysis)
+      rep(- Inf, n_analysis)
     } else {
       lpar
     },
@@ -481,7 +481,10 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 
   # combine probability under H0 and H1
   suppressMessages(
-    ans <- ans_h1 %>% full_join(ans_h0 %>% select(analysis, bound, probability) %>% dplyr::rename(probability0 = probability))
+    ans <- ans_h1 %>% 
+      full_join(ans_h0 %>% 
+                  select(analysis, bound, probability) %>% 
+                  dplyr::rename(probability0 = probability))
   )
 
   ans <- ans %>% select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
@@ -498,15 +501,15 @@ errbeta <- function(x = 1, n_analysis = 1,
                     beta = .1,
                     theta = .1, theta0 = 0, theta1 = .1,
                     info = 1, info0 = 1, info1 = 1, info_scale = 2,
-                    Zupper = gs_b, upar = qnorm(.975),
-                    Zlower = gs_b, lpar = -Inf,
+                    Z_upper = gs_b, upar = qnorm(.975),
+                    Z_lower = gs_b, lpar = - Inf,
                     test_upper = TRUE, test_lower = TRUE,
                     binding = FALSE, r = 18, tol = 1e-6) {
   x_temp <- gs_power_npe(
     theta = theta, theta0 = theta0, theta1 = theta1,
     info = info * x, info0 = info0 * x, info1 = info1 * x, info_scale = info_scale,
-    upper = Zupper, upar = upar, test_upper = test_upper,
-    lower = Zlower, lpar = lpar, test_lower = test_lower,
+    upper = Z_upper, upar = upar, test_upper = test_upper,
+    lower = Z_lower, lpar = lpar, test_lower = test_lower,
     binding = binding, r = r, tol = tol
   )
 

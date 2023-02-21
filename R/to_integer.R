@@ -85,21 +85,21 @@ to_integer <- function(x, ...) {
 #' x %>% to_integer()
 #'
 to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
-  output_N <- x$analysis$n
-  input_N <- expected_accrual(time = x$analysis$time, enroll_rate = x$input$enroll_rate)
+  output_n <- x$analysis$n
+  input_n <- expected_accrual(time = x$analysis$time, enroll_rate = x$input$enroll_rate)
 
   multiply_factor <- x$input$ratio + 1
   enroll_rate_new <- x$enroll_rate %>%
-    mutate(rate = rate * ceiling(output_N / multiply_factor) * multiply_factor / output_N)
+    mutate(rate = rate * ceiling(output_n / multiply_factor) * multiply_factor / output_n)
 
-  if ((x$design == "ahr") && (input_N != output_N)) {
+  if ((x$design == "ahr") && (input_n != output_n)) {
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
       event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf
     )
 
     analysis <- tibble::tibble(
@@ -118,14 +118,14 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     class(ans) <- c("fixed_design", class(ans))
-  } else if ((x$design == "fh") && (input_N != output_N)) {
+  } else if ((x$design == "fh") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
       event = as.numeric(ceiling(x$analysis$event)),
       analysis_time = NULL,
       ratio = x$input$ratio,
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf,
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf,
       weight = function(s, arm0, arm1) {
         wlr_weight_fh(s, arm0, arm1,
           rho = x$design_par$rho,
@@ -150,7 +150,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     class(ans) <- c("fixed_design", class(ans))
-  } else if ((x$design == "mb") && (input_N != output_N)) {
+  } else if ((x$design == "mb") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
@@ -159,11 +159,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       ratio = x$input$ratio,
       weight = function(s, arm0, arm1) {
         wlr_weight_fh(s, arm0, arm1,
-          rho = -1, gamma = 0,
+          rho = - 1, gamma = 0,
           tau = x$design_par$tau
         )
       },
-      upar = qnorm(1 - x$input$alpha), lpar = -Inf
+      upar = qnorm(1 - x$input$alpha), lpar = - Inf
     )
 
     analysis <- tibble::tibble(

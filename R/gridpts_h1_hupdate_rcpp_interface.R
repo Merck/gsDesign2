@@ -64,7 +64,7 @@ NULL
 #' g <- gridpts(a = qnorm(.95), b = Inf)
 #' sum(g$w * dnorm(g$z))
 #' @noRd
-gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
+gridpts <- function(r = 18, mu = 0, a = - Inf, b = Inf) {
   .gridptsRcpp(r = r, mu = mu, a = a, b = b)
 }
 
@@ -104,7 +104,7 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #' g <- h1(a = qnorm(.9999))
 #' sum(g$h)
 #' @noRd
-h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
+h1 <- function(r = 18, theta = 0, I = 1, a = - Inf, b = Inf) {
   .h1Rcpp(r = r, theta = theta, I = I, a = a, b = b)
 }
 
@@ -143,6 +143,6 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 #' mu <- sum(g$z * g$h)
 #' var <- sum((g$z - mu)^2 * g$h)
 #' @noRd
-hupdate <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1()) {
+hupdate <- function(r = 18, theta = 0, I = 2, a = - Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1()) {
   .hupdateRcpp(r = r, theta = theta, I = I, a = a, b = b, thetam1 = thetam1, Im1 = Im1, gm1 = gm1)
 }

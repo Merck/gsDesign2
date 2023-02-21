@@ -493,7 +493,8 @@ summary.gs_design <- function(object,
     bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~wHR at bound" = "~whr at bound")
   }
   if ("~risk difference at bound" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~Risk difference at bound" = "~risk difference at bound")
+    bound_summary_detail <- bound_summary_detail %>% 
+      dplyr::rename("~Risk difference at bound" = "~risk difference at bound")
   }
 
   output <- table_ab(
@@ -548,15 +549,21 @@ summary.gs_design <- function(object,
   }
 
   if ("~risk difference at bound" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "~risk difference at bound", "~Risk difference at bound", col_vars))
+    x_decimals <- x_decimals %>% 
+      mutate(col_vars = dplyr::if_else(col_vars == "~risk difference at bound", 
+                                       "~Risk difference at bound", col_vars))
   }
 
   if ("~hr at bound" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "~hr at bound", "~HR at bound", col_vars))
+    x_decimals <- x_decimals %>% 
+      mutate(col_vars = dplyr::if_else(col_vars == "~hr at bound", 
+                                       "~HR at bound", col_vars))
   }
 
   if ("~whr at bound" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "~whr at bound", "~wHR at bound", col_vars))
+    x_decimals <- x_decimals %>% 
+      mutate(col_vars = dplyr::if_else(col_vars == "~whr at bound", 
+                                       "~wHR at bound", col_vars))
   }
 
   if ("nominal p" %in% x_decimals$col_vars) {

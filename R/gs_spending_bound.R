@@ -145,7 +145,7 @@ gs_spending_bound <- function(k = 1,
   if (!efficacy) {
     # If no spending, return -Inf for bound
     if (spend <= 0) {
-      return(-Inf)
+      return(- Inf)
     }
 
     # if theta not a vector, make it one
@@ -162,8 +162,8 @@ gs_spending_bound <- function(k = 1,
 
     # Extremes for numerical integration
     mu <- theta[k] * sqrt(info[k])
-    EXTREMElow <- mu - 3 - 4 * log(r)
-    EXTREMEhi <- mu + 3 + 4 * log(r)
+    extreme_low <- mu - 3 - 4 * log(r)
+    extreme_high <- mu + 3 + 4 * log(r)
 
     # iterate to convergence as in gsbound.c from gsDesign
     adelta <- 1
@@ -178,7 +178,7 @@ gs_spending_bound <- function(k = 1,
     while (abs(adelta) > tol) {
       # get grid for rejection region
       hg <- hupdate(
-        theta = theta[k], I = info[k], a = -Inf,
+        theta = theta[k], I = info[k], a = - Inf,
         b = a, thetam1 = theta[k - 1],
         Im1 = info[k - 1], gm1 = hgm1, r = r
       )
@@ -191,18 +191,18 @@ gs_spending_bound <- function(k = 1,
 
       if (adelta > dplo) {
         adelta <- 1
-      } else if (adelta < -dplo) {
-        adelta <- -1
+      } else if (adelta < - dplo) {
+        adelta <- - 1
       } else {
         adelta <- adelta / dplo
       }
 
       a <- a + adelta
 
-      if (a > EXTREMEhi) {
-        a <- EXTREMEhi
-      } else if (a < EXTREMElow) {
-        a <- EXTREMElow
+      if (a > extreme_high) {
+        a <- extreme_high
+      } else if (a < extreme_low) {
+        a <- extreme_low
       }
 
       if (abs(adelta) < tol) {
@@ -237,8 +237,8 @@ gs_spending_bound <- function(k = 1,
 
     # Extremes for numerical integration
     mu <- theta[k] * sqrt(info[k])
-    EXTREMElow <- mu - 3 - 4 * log(r)
-    EXTREMEhi <- mu + 3 + 4 * log(r)
+    extreme_low <- mu - 3 - 4 * log(r)
+    extreme_high <- mu + 3 + 4 * log(r)
 
     # initial values
     bdelta <- 1
@@ -258,7 +258,7 @@ gs_spending_bound <- function(k = 1,
       if (bdelta > dpikdb) {
         bdelta <- 1
       } else if (bdelta < -dpikdb) {
-        bdelta <- -1
+        bdelta <- - 1
       } else {
         bdelta <- bdelta / dpikdb
       }
@@ -266,10 +266,10 @@ gs_spending_bound <- function(k = 1,
       # update upper boundary by Newton-Raphson method
       b <- b - bdelta
 
-      if (b > EXTREMEhi) {
-        b <- EXTREMEhi
-      } else if (b < EXTREMElow) {
-        b <- EXTREMElow
+      if (b > extreme_high) {
+        b <- extreme_high
+      } else if (b < extreme_low) {
+        b <- extreme_low
       }
 
       if (abs(bdelta) < tol) {

@@ -160,7 +160,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
 
   temp <- cumsum(fail_rate$duration)
   if (temp[length(temp)] < total_duration) {
-    df_2 <- df_2[-nrow(df_2), ]
+    df_2 <- df_2[- nrow(df_2), ]
   } else {
     df_2 <- df_2[df_2$start_enroll > 0, ]
   }
@@ -185,11 +185,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
     right = FALSE
   )
 
-  # ----------------------------#
-  #    combine sub-intervals    #
-  #          from               #
-  #  enroll + failure + dropout #
-  # ----------------------------#
+  # combine sub-intervals from enroll + failure + dropout #
   # impute the NA by step functions
   df <- full_join(df_1, df_2, by = c("start_enroll", "end_fail")) %>%
     arrange(end_fail) %>%
@@ -205,7 +201,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
     # q: number of expected events in a sub-interval
     # big_q: cumulative product of q (pool all sub-intervals)
     mutate(
-      q = exp(-duration * (fail_rate_var + dropout_rate_var)),
+      q = exp(- duration * (fail_rate_var + dropout_rate_var)),
       big_q = lag(cumprod(q), default = 1)
     ) %>%
     arrange(desc(start_fail)) %>%

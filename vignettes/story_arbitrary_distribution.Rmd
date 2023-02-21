@@ -38,15 +38,15 @@ Three functions in particular are demonstrated:
 ## Lognormal approximation
 
 We demonstrate `s2pwe()` by approximating the lognormal distribution with piecewise exponential failure rates.
-Note that when the resulting `lnormRates` is used, the final piecewise exponential `duration` is extended.
+Note that when the resulting `log_normal_rate` is used, the final piecewise exponential `duration` is extended.
 That is, we have arbitrarily approximated with 6 piecewise exponential rates for a duration of 1 unit of time (say, month) followed by a final rate which extends to infinity.
 
 ```{r, message=FALSE, warning=FALSE}
-lnormRates <- s2pwe(
+log_normal_rate <- s2pwe(
   times = c(1:6, 9),
   survival = plnorm(c(1:6, 9), meanlog = 0, sdlog = 2, lower.tail = FALSE)
 )
-lnormRates
+log_normal_rate
 ```
 
 We compare the resulting approximation to the actual lognormal survival using `ppwe()` to compute survival probabilities $P\{T>t\}$. For a better approximation, use a larger number of points. We plot with a log scale on the y-axis since the piecewise exponential survival from `ppwe()` is piecewise linear on this scale.
@@ -63,7 +63,7 @@ plot(times, plnorm(times, meanlog = 0, sdlog = 2, lower.tail = FALSE),
 )
 
 # Now plot the pieceise approximation using the 7-point approximation from above
-lines(times, ppwe(x = times, failRates = lnormRates), col = 2)
+lines(times, ppwe(x = times, failRates = log_normal_rate), col = 2)
 # Finally, add point markers at the points used in the approximation
 points(x = c(0:6), plnorm(c(0:6), meanlog = 0, sdlog = 2, lower.tail = FALSE), col = 1)
 text(x = c(5, 5), y = c(.5, .4), labels = c("Log-normal", "Piecewise Approximation (7 pts)"), col = 1:2, pos = 4)
@@ -86,7 +86,7 @@ Note that we set the default of `lower.tail=FALSE` so that the survival function
 
 ```{r}
 pPM <- function(x, theta, lambda, lower.tail = FALSE) {
-  exp(-theta * (1 - exp(-lambda * x)))
+  exp(- theta * (1 - exp(- lambda * x)))
 }
 ```
 
@@ -95,19 +95,19 @@ We set $\theta = -\log(.4)$ to obtain a cure rate of 0.4. we then overlay with t
 
 ```{r, fig.width=6.5, fig.height=4}
 lambda <- log(2) / 10
-theta <- -log(.4)
+theta <- - log(.4)
 times <- 0:40
 plot(times, pPM(times, theta, lambda), type = "l", ylab = "Survival", xlab = "Time", log = "y")
 
 # Now compute piecewise exponential approximation
 x <- seq(8, 40, 8)
-pmRates <- s2pwe(
+pm_rate <- s2pwe(
   times = x,
   survival = pPM(x, theta = theta, lambda = lambda)
 )
 
 # Now plot the piecewise approximation using the 7-point approximation from above
-lines(c(0, x), ppwe(x = c(0, x), failRates = pmRates), col = 2)
+lines(c(0, x), ppwe(x = c(0, x), failRates = pm_rate), col = 2)
 points(c(0, x), pPM(c(0, x), theta, lambda))
 ```
 
@@ -122,8 +122,8 @@ $$\lambda = -\log\left(\frac{\theta - \log(c_1)}{\theta}\right)/t_1.$$
 We compute $\theta$ and $\lambda$ values with a cure rate of 0.4 and a survival rate of 0.6 at 30 months:
 
 ```{r}
-theta <- -log(0.4)
-lambda <- -log((theta + log(.6)) / theta) / 30
+theta <- - log(0.4)
+lambda <- - log((theta + log(.6)) / theta) / 30
 ```
 
 We confirm the survival at time 30:

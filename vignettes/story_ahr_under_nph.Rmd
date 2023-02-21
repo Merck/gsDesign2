@@ -207,8 +207,8 @@ We also compute sample size, rounding up to the nearest even integer.
 
 ```{r}
 # round up sample size in both treatment groups
-sampleSize <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
-sampleSize
+sample_size <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
+sample_size
 ```
 
 ## Average hazard ratio and expected event accumulation over time
@@ -226,14 +226,12 @@ avehrtbl <- ahr(
 ggplot(avehrtbl, aes(x = time, y = ahr)) +
   geom_line() +
   ylab("Average HR") +
-  ggtitle("Average HR as a function of study duration") #+
-# scale_x_continuous(breaks = seq(0, 48, 6))
+  ggtitle("Average HR as a function of study duration") 
 
 ggplot(avehrtbl, aes(x = time, y = event)) +
   geom_line() +
   ylab("Expected events") +
-  ggtitle("Expected event accumulation as a function of study duration") #+
-# scale_x_continuous(breaks = seq(0, 48, 6))
+  ggtitle("Expected event accumulation as a function of study duration") 
 ```
 
 ## Simulation to verify power
@@ -249,7 +247,7 @@ One difference from the `gsDesign2::ahr()` parameterization in `simtrial::simfix
 results1 <- simtrial::simfix(
   nsim = nsim,
   block = block,
-  sampleSize = sampleSize,
+  sampleSize = sample_size,
   strata = strata,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -375,8 +373,8 @@ ahr(
 The targeted sample size, rounding up to an even integer, is:
 
 ```{r}
-sampleSize <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
-sampleSize
+sample_size <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
+sample_size
 ```
 
 ## Average HR and expected event accumulation over time
@@ -395,14 +393,12 @@ avehrtbl <- ahr(
 ggplot(avehrtbl, aes(x = time, y = ahr)) +
   geom_line() +
   ylab("Average HR") +
-  ggtitle("Average HR as a function of study duration") #+
-# scale_x_continuous(breaks = seq(0, 48, 6))
+  ggtitle("Average HR as a function of study duration") 
 
 ggplot(avehrtbl, aes(x = time, y = event)) +
   geom_line() +
   ylab("Expected events") +
-  ggtitle("Expected event accumulation as a function of study duration") #+
-# scale_x_continuous(breaks = seq(0, 48, 6))
+  ggtitle("Expected event accumulation as a function of study duration") 
 ```
 
 ## Simulation to verify power
@@ -428,7 +424,7 @@ Once again, we see that the expected statistical information from the simulation
 results2 <- simtrial::simfix(
   nsim = nsim,
   block = block,
-  sampleSize = sampleSize,
+  sampleSize = sample_size,
   strata = strata,
   enroll_rate = er,
   fail_rate = fail_rate,

@@ -42,7 +42,7 @@ Here we set up enrollment, failure and dropout rates along with assumptions for 
 In this example, we assume there are 4 analysis (3 interim analysis + 1 final analysis), and they are conducted after 18, 24, 30, 36 months after the trail starts.
 
 ```{r}
-K <- 4
+n_analysis <- 4
 analysis_time <- c(18, 24, 30, 36)
 ```
 
@@ -99,7 +99,6 @@ xx %>% gt()
 Then, we can use `gs_info_ahr()` to calculate (1) the treatment effect (`theta`), (2) AHR, (3) the statistical information (both under H0 and H1) under the targeted number of events.
 
 ```{r}
-# Events <- ceiling(xx$Events)
 yy <- gs_info_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -123,10 +122,10 @@ zz <- gs_power_npe(
   info0 = yy$info0,
   # set the upper bound
   upper = gs_b,
-  upar = gsDesign(k = K, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$upper$bound,
+  upar = gsDesign(k = n_analysis, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$upper$bound,
   # set the lower bound
   lower = gs_b,
-  lpar = gsDesign(k = K, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$lower$bound
+  lpar = gsDesign(k = n_analysis, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$lower$bound
 )
 
 zz %>%
@@ -151,7 +150,7 @@ target_power <- 0.9
 If we were using a fixed design, we would approximate the sample size as follows:
 
 ```{r}
-minx <- ((qnorm(.025) / sqrt(zz$info0[K]) + qnorm(1 - target_power) / sqrt(zz$info[K])) / zz$theta[K])^2
+minx <- ((qnorm(.025) / sqrt(zz$info0[n_analysis]) + qnorm(1 - target_power) / sqrt(zz$info[n_analysis])) / zz$theta[n_analysis])^2
 minx
 ```
 
@@ -159,11 +158,11 @@ If we inflate the enrollment rates by `minx` and use a fixed design, we will see
 
 ```{r}
 gs_power_npe(
-  theta = yy$theta[K],
-  info = yy$info[K] * minx,
-  info0 = yy$info0[K] * minx,
+  theta = yy$theta[n_analysis],
+  info = yy$info[n_analysis] * minx,
+  info0 = yy$info0[n_analysis] * minx,
   upar = qnorm(.975),
-  lpar = -Inf
+  lpar = - Inf
 ) %>%
   filter(bound == "upper") %>%
   select(probability)
@@ -183,7 +182,7 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 ) %>%
-  filter(bound == "upper", analysis == K) %>%
+  filter(bound == "upper", analysis == n_analysis) %>%
   select(probability) %>%
   gt()
 ```
@@ -200,7 +199,7 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 ) %>%
-  filter(bound == "upper", analysis == K) %>%
+  filter(bound == "upper", analysis == n_analysis) %>%
   select(probability) %>%
   gt()
 ```
@@ -217,7 +216,7 @@ gs_design_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 ) %>%
-  filter(bound == "upper", analysis == K) %>%
+  filter(bound == "upper", analysis == n_analysis) %>%
   select(probability) %>%
   gt()
 ```

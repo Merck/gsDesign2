@@ -198,10 +198,10 @@ grid1_0 %>% head()
 The probability of not crossing a bound under the null hypothesis is computed as follows:
 
 ```{r}
-probH0continue <- sum(grid1_0$h)
+prob_h0_continue <- sum(grid1_0$h)
 cat(
   "Probability of continuing trial under null hypothesis\n",
-  " Using numerical integration:", probH0continue,
+  " Using numerical integration:", prob_h0_continue,
   "\n  Using normal cdf:", pnorm(b1) - pnorm(a1), "\n"
 )
 ```
@@ -210,11 +210,11 @@ We now set up numerical integration grid under the alternate hypothesis and the 
 
 ```{r}
 grid1_1 <- gsDesign2:::h1(theta = theta[1], I = info[1], a = a1, b = b1)
-probH1continue <- sum(grid1_1$h)
+prob_h1_continue <- sum(grid1_1$h)
 h1mean <- sqrt(info[1]) * theta[1]
 cat(
   "Probability of continuing trial under alternate hypothesis\n",
-  " Using numerical integration:", probH1continue,
+  " Using numerical integration:", prob_h1_continue,
   "\n  Using normal cdf:", pnorm(b1, mean = h1mean) - pnorm(a1, h1mean), "\n"
 )
 ```
@@ -284,7 +284,7 @@ We now update the lower bound in an analogous fashion.
 ```{r}
 # Lower rejection region grid under H1
 grid2_1 <- gsDesign2:::hupdate(
-  theta = theta[2], I = info[2], a = -Inf, b = a2_0,
+  theta = theta[2], I = info[2], a = - Inf, b = a2_0,
   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
 )
 plower_0 <- sum(grid2_1$h)
@@ -303,7 +303,7 @@ cat(
 )
 
 grid2_1 <- gsDesign2:::hupdate(
-  theta = theta[2], I = info[2], a = -Inf, b = a2_1,
+  theta = theta[2], I = info[2], a = - Inf, b = a2_1,
   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
 )
 plower_1 <- sum(grid2_1$h)
