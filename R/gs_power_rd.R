@@ -251,7 +251,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
                         upper = gs_b,
                         lower = gs_b,
                         upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                        lpar = c(qnorm(.1), rep(-Inf, 2)),
+                        lpar = c(qnorm(.1), rep(- Inf, 2)),
                         info_scale = c(0, 1, 2),
                         binding = FALSE,
                         test_upper = TRUE,
@@ -332,7 +332,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
     bound <- y_h1 %>%
       mutate(
         `~risk difference at bound` = z / sqrt(info) / theta * (x$rd[1] - x$rd0[1]) + x$rd0[1],
-        `nominal p` = pnorm(-z)
+        `nominal p` = pnorm(- z)
       ) %>%
       left_join(y_h0 %>% select(analysis, bound, probability) %>% dplyr::rename(probability0 = probability)) %>%
       select(analysis, bound, probability, probability0, z, `~risk difference at bound`, `nominal p`)

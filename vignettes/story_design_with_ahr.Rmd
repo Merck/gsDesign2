@@ -164,7 +164,7 @@ s <- tibble(
 )
 
 # calculate the survival at each change point for each scenario
-s <- rbind(s, s %>% mutate(Treatment = "Experimental", rate = rate * hr)) %>% 
+s <- rbind(s, s %>% mutate(Treatment = "Experimental", rate = rate * hr)) %>%  
   group_by(Scenario, Treatment) %>%
   mutate(Survival = exp(- cumsum(duration * rate)))
 ```

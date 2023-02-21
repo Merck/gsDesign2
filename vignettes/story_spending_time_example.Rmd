@@ -108,7 +108,7 @@ We see that the average hazard ratio (AHR) under the above assumptions is 0.7026
 
 ```{r}
 # bounds for fixed design are just a fixed bound for nominal p = 0.025, 1-sided
-Z_025 <- qnorm(.975)
+z_025 <- qnorm(.975)
 
 # fixed design, single stratum
 # find sample size for 30 month trial under given
@@ -116,8 +116,8 @@ Z_025 <- qnorm(.975)
 xx <- gs_design_ahr(enroll_rate,
   fail_rate,
   analysis_time = 30,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 # get the summary table of the fixed design
@@ -154,8 +154,8 @@ yy <- gs_power_ahr(
   # so the analysis_time will be calculated according to the target events
   event = target_events,
   analysis_time = NULL,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 yy %>%
@@ -177,8 +177,8 @@ yy <- gs_power_ahr(
   # but also keep the 30 month as the analysis_time
   event = target_events,
   analysis_time = 30,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 # get the summary table of updated design
@@ -208,8 +208,8 @@ yy <- gs_power_ahr(
   # and calculate the corresponding number of events
   event = NULL,
   analysis_time = 30,
-  upper = gs_b, upar = Z_025,
-  lower = gs_b, lpar = Z_025
+  upper = gs_b, upar = z_025,
+  lower = gs_b, lpar = z_025
 )
 
 yy %>%
@@ -231,8 +231,8 @@ yy <- gs_power_ahr(
   # and keep the events as the target events
   event = target_events,
   analysis_time = 30,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 yy %>%
@@ -466,7 +466,7 @@ fho <- gs_power_ahr(
   # allocated will not be used
   test_upper = c(FALSE, FALSE, TRUE, TRUE, TRUE),
   lower = gs_b,
-  lpar = c(rep(qnorm(.05), 4), -Inf)
+  lpar = c(rep(qnorm(.05), 4), - Inf)
 )
 
 fho %>%

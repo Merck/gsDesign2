@@ -435,8 +435,8 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
     lower = min_x, upper = max_x,
     theta = theta, theta0 = theta0, theta1 = theta1,
     info = info, info0 = info0, info1 = info1, info_scale = info_scale,
-    Z_upper = upper, upar = upar, test_upper = test_upper,
-    Z_lower = lower, lpar = lpar, test_lower = test_lower,
+    z_upper = upper, upar = upar, test_upper = test_upper,
+    z_lower = lower, lpar = lpar, test_lower = test_lower,
     beta = beta, n_analysis = n_analysis, binding = binding, r = r, tol = tol
   ))
   if (inherits(res, "try-error")) {
@@ -501,15 +501,15 @@ errbeta <- function(x = 1, n_analysis = 1,
                     beta = .1,
                     theta = .1, theta0 = 0, theta1 = .1,
                     info = 1, info0 = 1, info1 = 1, info_scale = 2,
-                    Z_upper = gs_b, upar = qnorm(.975),
-                    Z_lower = gs_b, lpar = -Inf,
+                    z_upper = gs_b, upar = qnorm(.975),
+                    z_lower = gs_b, lpar = -Inf,
                     test_upper = TRUE, test_lower = TRUE,
                     binding = FALSE, r = 18, tol = 1e-6) {
   x_temp <- gs_power_npe(
     theta = theta, theta0 = theta0, theta1 = theta1,
     info = info * x, info0 = info0 * x, info1 = info1 * x, info_scale = info_scale,
-    upper = Z_upper, upar = upar, test_upper = test_upper,
-    lower = Z_lower, lpar = lpar, test_lower = test_lower,
+    upper = z_upper, upar = upar, test_upper = test_upper,
+    lower = z_lower, lpar = lpar, test_lower = test_lower,
     binding = binding, r = r, tol = tol
   )
 

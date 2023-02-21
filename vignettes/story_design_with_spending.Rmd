@@ -150,7 +150,8 @@ target_power <- 0.9
 If we were using a fixed design, we would approximate the sample size as follows:
 
 ```{r}
-minx <- ((qnorm(.025) / sqrt(zz$info0[n_analysis]) + qnorm(1 - target_power) / sqrt(zz$info[n_analysis])) / zz$theta[n_analysis])^2
+minx <- ((qnorm(.025) / sqrt(zz$info0[n_analysis]) + 
+            qnorm(1 - target_power) / sqrt(zz$info[n_analysis])) / zz$theta[n_analysis])^2
 minx
 ```
 

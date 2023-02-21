@@ -1168,27 +1168,33 @@ x %>%
   gt::gt() %>%
   fmt_number(c(2:4, 6:11), decimals = 6) %>%
   gt::tab_footnote(
-    footnote = "info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.",
+    footnote = "info_invar_H0 = the statistical information under H1 
+    per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info_invar_H0)
   ) %>%
   gt::tab_footnote(
-    footnote = "info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.",
+    footnote = "info_invar_H1 = the statistical information under H1 
+    per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info_invar_H1)
   ) %>%
   gt::tab_footnote(
-    footnote = "info_ss = the statistical information under H1 per stratum per analysis calculated by SS.",
+    footnote = "info_ss = the statistical information under H1 
+    per stratum per analysis calculated by SS.",
     locations = gt::cells_column_labels(columns = info_ss)
   ) %>%
   gt::tab_footnote(
-    footnote = "info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.",
+    footnote = "info0_invar_H0 = the statistical information under H0 
+    per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info0_invar_H0)
   ) %>%
   gt::tab_footnote(
-    footnote = "info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.",
+    footnote = "info0_invar_H1 = the statistical information under H0 
+    per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info0_invar_H1)
   ) %>%
   gt::tab_footnote(
-    footnote = "info0_ss = the statistical information under H0 per stratum per analysis calculated by SS.",
+    footnote = "info0_ss = the statistical information under H0 
+    per stratum per analysis calculated by SS.",
     locations = gt::cells_column_labels(columns = info0_ss)
   )
 ```
@@ -1319,7 +1325,7 @@ x_ss0 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(-Inf, 2)),
+  lpar = c(qnorm(.1), rep(- Inf, 2)),
   info_scale = 0,
   binding = FALSE
 )
@@ -1382,7 +1388,7 @@ x_invar0 <- gs_design_rd(
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-  lpar = c(qnorm(.1), rep(-Inf, 2)),
+  lpar = c(qnorm(.1), rep(- Inf, 2)),
   info_scale = 0,
   binding = FALSE
 )
@@ -1464,12 +1470,12 @@ ans %>%
 
 
 ```{r}
-run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_H0 = TRUE, integration = "gs_power_npe") {
+run_simulation <- function(n, weight_method, n_sim, prevalence_ratio, info_frac, integration = "gs_power_npe") {
   ans <- NULL
 
-  N_S1 <- ceiling(N * prevalence_ratio[1] / sum(prevalence_ratio)) * IF
-  N_S2 <- ceiling(N * prevalence_ratio[2] / sum(prevalence_ratio)) * IF
-  N_S3 <- ceiling(N * prevalence_ratio[3] / sum(prevalence_ratio)) * IF
+  n_s1 <- ceiling(n * prevalence_ratio[1] / sum(prevalence_ratio)) * info_frac
+  n_s2 <- ceiling(n * prevalence_ratio[2] / sum(prevalence_ratio)) * info_frac
+  n_s3 <- ceiling(n * prevalence_ratio[3] / sum(prevalence_ratio)) * info_frac
 
   # begin the simulations
   for (simu in 1:n_sim) {
@@ -1477,57 +1483,57 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
     set.seed(simu)
 
     # observations of 3 strata in FA
-    x_e_S1 <- lapply(diff(c(0, ceiling(N_S1 / 2))), function(x) {
+    x_e_s1 <- lapply(diff(c(0, ceiling(n_s1 / 2))), function(x) {
       rbinom(n = x, size = 1, prob = p_e$rate[1])
     })
-    x_e_S2 <- lapply(diff(c(0, ceiling(N_S2 / 2))), function(x) {
+    x_e_s2 <- lapply(diff(c(0, ceiling(n_s2 / 2))), function(x) {
       rbinom(n = x, size = 1, prob = p_e$rate[2])
     })
-    x_e_S3 <- lapply(diff(c(0, ceiling(N_S3 / 2))), function(x) {
+    x_e_s3 <- lapply(diff(c(0, ceiling(n_s3 / 2))), function(x) {
       rbinom(n = x, size = 1, prob = p_e$rate[3])
     })
-    x_c_S1 <- lapply(diff(c(0, ceiling(N_S1 / 2))), function(x) {
+    x_c_s1 <- lapply(diff(c(0, ceiling(n_s1 / 2))), function(x) {
       rbinom(n = x, size = 1, prob = p_c$rate[1])
     })
-    x_c_S2 <- lapply(diff(c(0, ceiling(N_S2 / 2))), function(x) {
+    x_c_s2 <- lapply(diff(c(0, ceiling(n_s2 / 2))), function(x) {
       rbinom(n = x, size = 1, prob = p_c$rate[2])
     })
-    x_c_S3 <- lapply(diff(c(0, ceiling(N_S3 / 2))), function(x) {
+    x_c_s3 <- lapply(diff(c(0, ceiling(n_s3 / 2))), function(x) {
       rbinom(n = x, size = 1, prob = p_c$rate[3])
     })
 
     # calculate the number of events at FA
-    n_e_S1 <- cumsum(do.call(c, lapply(x_e_S1, sum)))
-    n_e_S2 <- cumsum(do.call(c, lapply(x_e_S2, sum)))
-    n_e_S3 <- cumsum(do.call(c, lapply(x_e_S3, sum)))
-    n_c_S1 <- cumsum(do.call(c, lapply(x_c_S1, sum)))
-    n_c_S2 <- cumsum(do.call(c, lapply(x_c_S2, sum)))
-    n_c_S3 <- cumsum(do.call(c, lapply(x_c_S3, sum)))
+    n_e_s1 <- cumsum(do.call(c, lapply(x_e_s1, sum)))
+    n_e_s2 <- cumsum(do.call(c, lapply(x_e_s2, sum)))
+    n_e_s3 <- cumsum(do.call(c, lapply(x_e_s3, sum)))
+    n_c_s1 <- cumsum(do.call(c, lapply(x_c_s1, sum)))
+    n_c_s2 <- cumsum(do.call(c, lapply(x_c_s2, sum)))
+    n_c_s3 <- cumsum(do.call(c, lapply(x_c_s3, sum)))
 
     # calculate the events rates
-    p_e_S1 <- n_e_S1 / (N_S1 / 2)
-    p_e_S2 <- n_e_S2 / (N_S2 / 2)
-    p_e_S3 <- n_e_S3 / (N_S3 / 2)
-    p_c_S1 <- n_c_S1 / (N_S1 / 2)
-    p_c_S2 <- n_c_S2 / (N_S2 / 2)
-    p_c_S3 <- n_c_S3 / (N_S3 / 2)
+    p_e_s1 <- n_e_s1 / (n_s1 / 2)
+    p_e_s2 <- n_e_s2 / (n_s2 / 2)
+    p_e_s3 <- n_e_s3 / (n_s3 / 2)
+    p_c_s1 <- n_c_s1 / (n_s1 / 2)
+    p_c_s2 <- n_c_s2 / (n_s2 / 2)
+    p_c_s3 <- n_c_s3 / (n_s3 / 2)
 
     # calculate the variance per stratum per analysis
     x <- tibble::tibble(
       analysis = rep(1:3, 3),
       statum = rep(c("S1", "S2", "S3"), each = 3),
-      IF = rep(IF, 3),
-      n_e = c(N_S1 / 2, N_S2 / 2, N_S3 / 2),
-      n_c = n_e,
-      n_e = c(n_e_S1, n_e_S2, n_e_S3),
-      n_c = c(n_c_S1, n_c_S2, n_c_S3),
-      p_e = c(p_e_S1, p_e_S2, p_e_S3),
-      p_c = c(p_c_S1, p_c_S2, p_c_S3)
+      IF = rep(info_frac, 3),
+      sample_size_e = c(n_s1 / 2, n_s2 / 2, n_s3 / 2),
+      sample_size_c = n_e,
+      n_e = c(n_e_s1, n_e_s2, n_e_s3),
+      n_c = c(n_c_s1, n_c_s2, n_c_s3),
+      p_e = c(p_e_s1, p_e_s2, p_e_s3),
+      p_c = c(p_c_s1, p_c_s2, p_c_s3)
     ) %>%
       mutate(
-        p_pool = (n_c + n_e) / (n_c + n_e),
-        sigma_h0 = sqrt(p_pool * (1 - p_pool) * (1 / n_c + 1 / n_e)),
-        sigma_h1 = sqrt(p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e)
+        p_pool = (n_c + n_e) / (sample_size_c + sample_size_e),
+        sigma_h0 = sqrt(p_pool * (1 - p_pool) * (1 / sample_size_c + 1 / sample_size_e)),
+        sigma_h1 = sqrt(p_c * (1 - p_c) / sample_size_c + p_e * (1 - p_e) / sample_size_e)
       )
     # calculate the sum of weights
     sum_weight <- x %>%
@@ -1535,7 +1541,7 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
       summarize(
         sum_invar_H0 = sum(1 / sigma_h0^2),
         sum_invar_H1 = sum(1 / sigma_h1^2),
-        sum_ss = sum((n_c * n_e) / (n_c + n_e))
+        sum_ss = sum((sample_size_e * sample_size_c) / (sample_size_e + sample_size_c))
       ) %>%
       ungroup()
     # calculate the weight per stratum
@@ -1545,7 +1551,7 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
         mutate(
           weight_invar_H0 = 1 / sigma_h0^2 / sum_invar_H0,
           weight_invar_H1 = 1 / sigma_h1^2 / sum_invar_H1,
-          weight_ss = (n_c * n_e) / (n_c + n_e) / sum_ss
+          weight_ss = (sample_size_c * sample_size_e) / (sample_size_c + sample_size_e) / sum_ss
         ) %>%
         select(-c(sum_invar_H0, sum_invar_H1, sum_ss)) %>%
         # calculated the weighted rd and info
@@ -1556,17 +1562,22 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
           rd_ss = sum(weight_ss * abs(p_c - p_e)),
           rd0 = 0,
           # weighted statistical information under H1
-          info_invar_H0 = 1 / sum(weight_invar_H0^2 * p_c * (1 - p_c) / n_c + weight_invar_H0^2 * p_e * (1 - p_e) / n_e),
-          info_invar_H1 = 1 / sum(weight_invar_H1^2 * p_c * (1 - p_c) / n_c + weight_invar_H1^2 * p_e * (1 - p_e) / n_e),
-          info_ss = 1 / sum(weight_ss^2 * p_c * (1 - p_c) / n_c + weight_ss^2 * p_e * (1 - p_e) / n_e),
+          info_invar_H0 = 1 / 
+            sum(weight_invar_H0^2 * p_c * (1 - p_c) / sample_size_c + 
+                  weight_invar_H0^2 * p_e * (1 - p_e) / sample_size_e),
+          info_invar_H1 = 1 / 
+            sum(weight_invar_H1^2 * p_c * (1 - p_c) / sample_size_c + 
+                  weight_invar_H1^2 * p_e * (1 - p_e) / sample_size_e),
+          info_ss = 1 / 
+            sum(weight_ss^2 * p_c * (1 - p_c) / sample_size_c + 
+                  weight_ss^2 * p_e * (1 - p_e) / sample_size_e),
           # weighted statistical information under H0
-          info0_invar_H0 = 1 / sum(weight_invar_H0^2 * p_pool * (1 - p_pool) * (1 / n_c + 1 / n_e)),
-          info0_invar_H1 = 1 / sum(weight_invar_H1^2 * p_pool * (1 - p_pool) * (1 / n_c + 1 / n_e)),
-          info0_ss = 1 / sum(weight_ss^2 * p_pool * (1 - p_pool) * (1 / n_c + 1 / n_e))
+          info0_invar_H0 = 1 / sum(weight_invar_H0^2 * p_pool * (1 - p_pool) * (1 / sample_size_e + 1 / sample_size_c)),
+          info0_invar_H1 = 1 / sum(weight_invar_H1^2 * p_pool * (1 - p_pool) * (1 / sample_size_e + 1 / sample_size_c)),
+          info0_ss = 1 / sum(weight_ss^2 * p_pool * (1 - p_pool) * (1 / sample_size_e + 1 / sample_size_c))
         ) %>%
         ungroup()
     )
-
 
     # calculate the power
     if (integration == "gs_power_npe") {
@@ -1580,7 +1591,7 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
             upper = gs_b,
             lower = gs_b,
             upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-            lpar = c(qnorm(.1), rep(-Inf, 2)),
+            lpar = c(qnorm(.1), rep(- Inf, 2)),
             test_upper = TRUE,
             test_lower = TRUE,
             r = 18,
@@ -1596,7 +1607,7 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
             upper = gs_b,
             lower = gs_b,
             upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-            lpar = c(qnorm(.1), rep(-Inf, 2)),
+            lpar = c(qnorm(.1), rep(- Inf, 2)),
             test_upper = TRUE,
             test_lower = TRUE,
             r = 18,
@@ -1612,7 +1623,7 @@ run_simulation <- function(N, weight_method, n_sim, prevalence_ratio, IF, under_
             upper = gs_b,
             lower = gs_b,
             upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-            lpar = c(qnorm(.1), rep(-Inf, 2)),
+            lpar = c(qnorm(.1), rep(- Inf, 2)),
             test_upper = TRUE,
             test_lower = TRUE,
             r = 18,
@@ -1699,10 +1710,10 @@ ans_H0 <- do.call(
     ),
     function(x) {
       return(run_simulation(
-        N = x[[2]],
+        n = x[[2]],
         weight_method = x[[1]],
         n_sim = n_sim, prevalence_ratio = prevalence_ratio,
-        IF = IF, under_H0 = TRUE, integration = "gs_power_npe"
+        info_frac = IF, integration = "gs_power_npe"
       ))
     }
   )
@@ -1717,10 +1728,10 @@ ans_H1 <- do.call(
     ),
     function(x) {
       return(run_simulation(
-        N = x[[2]],
+        n = x[[2]],
         weight_method = x[[1]],
         n_sim = n_sim, prevalence_ratio = prevalence_ratio,
-        IF = IF, under_H0 = FALSE, integration = "gs_power_npe"
+        info_frac = IF, integration = "gs_power_npe"
       ))
     }
   )
