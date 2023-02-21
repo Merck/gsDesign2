@@ -88,8 +88,8 @@ testthat::test_that("ppwe is incorrect when there are 2-step fail rates", {
   testthat::expect_equal(
     gsDesign2::ppwe(
       x = 0:20,
-      failRates = tibble::tibble(duration = c(13, 100), rate = log(12) / c(9, 18)),
-      lower.tail = FALSE
+      fail_rate = tibble::tibble(duration = c(13, 100), rate = log(12) / c(9, 18)),
+      lower_tail = FALSE
     ),
     test_ppwe(
       x = 0:20,
@@ -103,8 +103,8 @@ testthat::test_that("ppwe is incorrect if varable x is longer than the max durat
   testthat::expect_equal(
     gsDesign2::ppwe(
       x = 0:80,
-      failRates = tibble::tibble(duration = c(13, 50), rate = log(4) / c(19, 9)),
-      lower.tail = FALSE
+      fail_rate = tibble::tibble(duration = c(13, 50), rate = log(4) / c(19, 9)),
+      lower_tail = FALSE
     ),
     test_ppwe(
       x = 0:80,
@@ -119,8 +119,8 @@ testthat::test_that("ppwe is incorrect when there are 3-step fail rates", {
   testthat::expect_equal(
     gsDesign2::ppwe(
       x = 0:20,
-      failRates = tibble::tibble(duration = c(3, 20, 100), rate = log(12) / c(9, 12, 18)),
-      lower.tail = FALSE
+      fail_rate = tibble::tibble(duration = c(3, 20, 100), rate = log(12) / c(9, 12, 18)),
+      lower_tail = FALSE
     ),
     test_2_ppwe(
       x = 0:20,
