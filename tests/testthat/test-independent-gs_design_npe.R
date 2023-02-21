@@ -163,7 +163,9 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=5 b
       upar = list(sf = sfu, total_spend = alpha, param = sfupar),
       lower = gs_spending_bound,
       lpar = list(sf = sfl, total_spend = astar, param = sflpar)
-    ) %>% filter(bound == "lower"))$probability,
+    ) %>%
+      filter(bound == "lower")
+    )$probability,
     sfl(alpha = astar, t = timing, param = sflpar)$spend
   )
 })
@@ -203,7 +205,9 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=6 b
       upar = list(sf = sfu, total_spend = alpha, param = sfupar),
       lower = gs_spending_bound,
       lpar = list(sf = sfl, total_spend = astar, param = sflpar)
-    ) %>% filter(bound == "lower"))$probability,
+    ) %>%
+      filter(bound == "lower")
+    )$probability,
     sfl(alpha = astar, t = timing, param = sflpar)$spend
   )
 })
