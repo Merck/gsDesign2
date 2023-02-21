@@ -66,6 +66,7 @@ For the above scenarios, we investigate the power, sample size and events under 
 - `mc4_test`: The Max Combo test including 4 WLR tests, i.e., $\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0, \tau = -1)\}$.
 - `mb_6`: The Magirr-Burman with $\rho=-1, \gamma=0, \tau = 6$ test with fixed study duration $\in\{20, 24, 28, \ldots, 60\}$.
 
+
 We then compute power for the logrank test.
 The general summary is that the Fleming-Harrington test has a meaningful power gain relative to logrank regardless of the study durations evaluated.
 
@@ -155,7 +156,7 @@ for (trial_duration in seq(24, 60, 4)) {
     fail_rate = fail_rate,
     ratio = 1,
     weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = - 1, gamma = 0, tau = 20)
+      wlr_weight_fh(x, arm0, arm1, rho = - 1, gamma = 0, tau = 15)
     },
     upar = qnorm(.975),
     lpar = - Inf,
@@ -299,7 +300,7 @@ for (trial_duration in seq(20, 60, 4)) {
     fail_rate = fail_rate,
     ratio = 1,
     weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = - 1, gamma = 0, tau = 6)
+      wlr_weight_fh(x, arm0, arm1, rho = - 1, gamma = 0, tau = 15)
     },
     upar = qnorm(.975),
     lpar = - Inf,
