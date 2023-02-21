@@ -200,7 +200,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                          info = 1, info0 = NULL, info1 = NULL, # 3 info
                          info_scale = c(0, 1, 2),
                          upper = gs_b, upar = qnorm(.975),
-                         lower = gs_b, lpar = - Inf,
+                         lower = gs_b, lpar = -Inf,
                          test_upper = TRUE, test_lower = TRUE, binding = FALSE,
                          r = 18, tol = 1e-6) {
   # --------------------------------------------- #
@@ -259,7 +259,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   # --------------------------------------------- #
   #     initialization                            #
   # --------------------------------------------- #
-  a <- rep(- Inf, n_analysis)
+  a <- rep(-Inf, n_analysis)
   b <- rep(Inf, n_analysis)
   hgm1_0 <- NULL
   hgm1_1 <- NULL
@@ -286,8 +286,8 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       } else {
         0
       }
-      lower_prob[1] <- if (a[1] > - Inf) {
-        pnorm(- sqrt(info[1]) * (theta[1] - a[1] / sqrt(info0[1])))
+      lower_prob[1] <- if (a[1] > -Inf) {
+        pnorm(-sqrt(info[1]) * (theta[1] - a[1] / sqrt(info0[1])))
       } else {
         0
       }
@@ -295,7 +295,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       hgm1_0 <- h1(r = r, theta = theta0[1], I = info0[1], a = if (binding) {
         a[1]
       } else {
-        - Inf
+        -Inf
       }, b = b[1])
       hgm1_1 <- h1(r = r, theta = theta1[1], I = info1[1], a = a[1], b = b[1])
       hgm1 <- h1(r = r, theta = theta[1], I = info[1], a = a[1], b = b[1])
@@ -311,11 +311,11 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         0
       }
       # compute the probability to cross lower bound
-      lower_prob[k] <- if (a[k] > - Inf) {
+      lower_prob[k] <- if (a[k] > -Inf) {
         sum(hupdate(
           theta = theta[k], thetam1 = theta[k - 1],
           I = info[k], Im1 = info[k - 1],
-          a = - Inf, b = a[k], gm1 = hgm1, r = r
+          a = -Inf, b = a[k], gm1 = hgm1, r = r
         )$h)
       } else {
         0
@@ -326,7 +326,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         hgm1_0 <- hupdate(r = r, theta = theta0[k], I = info0[k], a = if (binding) {
           a[k]
         } else {
-          - Inf
+          -Inf
         }, b = b[k], thetam1 = 0, Im1 = info0[k - 1], gm1 = hgm1_0)
         hgm1_1 <- hupdate(
           r = r, theta = theta1[k], I = info1[k],

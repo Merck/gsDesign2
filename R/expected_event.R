@@ -160,7 +160,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
 
   temp <- cumsum(fail_rate$duration)
   if (temp[length(temp)] < total_duration) {
-    df_2 <- df_2[- nrow(df_2), ]
+    df_2 <- df_2[-nrow(df_2), ]
   } else {
     df_2 <- df_2[df_2$start_enroll > 0, ]
   }
@@ -201,7 +201,7 @@ expected_event <- function(enroll_rate = tibble::tibble(
     # q: number of expected events in a sub-interval
     # big_q: cumulative product of q (pool all sub-intervals)
     mutate(
-      q = exp(- duration * (fail_rate_var + dropout_rate_var)),
+      q = exp(-duration * (fail_rate_var + dropout_rate_var)),
       big_q = lag(cumprod(q), default = 1)
     ) %>%
     arrange(desc(start_fail)) %>%
