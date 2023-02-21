@@ -401,7 +401,7 @@ as_gt.gs_design <- function(x,
           "Approximate hazard ratio to cross bound.", NA
         ),
         ifelse("Nominal p" %in% display_columns,
-          "One-sided p-value for experimental vs control treatment. 
+          "One-sided p-value for experimental vs control treatment.
           Value < 0.5 favors experimental, > 0.5 favors control.", NA
         )
       ),
@@ -423,7 +423,7 @@ as_gt.gs_design <- function(x,
           "Approximate hazard ratio to cross bound.", NA
         ),
         ifelse("Nominal p" %in% display_columns,
-          "One-sided p-value for experimental vs control treatment. 
+          "One-sided p-value for experimental vs control treatment.
           Value < 0.5 favors experimental, > 0.5 favors control.", NA
         ),
         "wAHR is the weighted AHR."
