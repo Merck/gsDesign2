@@ -126,7 +126,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
                          upper = gs_b,
                          lower = gs_b,
                          upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                         lpar = c(qnorm(.1), rep(-Inf, 2)),
+                         lpar = c(qnorm(.1), rep(- Inf, 2)),
                          test_upper = TRUE,
                          test_lower = TRUE,
                          info_scale = c(0, 1, 2),
@@ -231,7 +231,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
       rd = x_fix$rd,
       rd0 = rd0,
       "~risk difference at bound" = z / sqrt(info) / theta * (rd - rd0) + rd0,
-      "nominal p" = pnorm(-z),
+      "nominal p" = pnorm(- z),
       info_frac0 = if (sum(!is.na(info0)) == 0) {
         NA
       } else {

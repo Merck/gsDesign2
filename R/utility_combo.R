@@ -116,7 +116,7 @@ gs_utility_combo <- function(enroll_rate,
   info_fh <- subset(info_fh, !is.na(gamma))
 
   # Effect size
-  theta_fh <- (-info_fh$delta) / sqrt(info_fh$sigma2)
+  theta_fh <- (- info_fh$delta) / sqrt(info_fh$sigma2)
 
   list(info_all = info, info = info_fh, theta = theta_fh, corr = corr_fh)
 }
@@ -205,7 +205,7 @@ pmvnorm_combo <- function(lower,
     test <- split(test_ind, seq_len(nrow(test_ind)))
 
     p <- sapply(test, function(x) {
-      lower_bound <- rep(c(lower1, rep(-Inf, k)), n_test)
+      lower_bound <- rep(c(lower1, rep(- Inf, k)), n_test)
       upper_bound <- rep(c(upper1, ifelse(x == 1, upper2, lower2)), n_test)
 
       p_bound <- mvtnorm::pmvnorm(
