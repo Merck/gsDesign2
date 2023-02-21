@@ -25,12 +25,44 @@ test_that("check fail_rate", {
   expect_error(check_fail_rate(tibble::tibble(duration = c(10, 20), fail_rate = c(2, -4), dropout_rate = 0.01)))
 
   # check of column `hr`
-  expect_error(check_fail_rate(tibble::tibble(duration = c(10, 20), fail_rate = c(0.02, 0.04), dropout_rate = 0.01, hr = "a")))
-  expect_error(check_fail_rate(tibble::tibble(duration = c(10, 20), fail_rate = c(2, -4), dropout_rate = 0.01, hr = -1)))
+  expect_error(
+    check_fail_rate(
+      tibble::tibble(
+        duration = c(10, 20),
+        fail_rate = c(0.02, 0.04),
+        dropout_rate = 0.01, hr = "a"
+      )
+    )
+  )
+  expect_error(
+    check_fail_rate(
+      tibble::tibble(
+        duration = c(10, 20),
+        fail_rate = c(2, -4),
+        dropout_rate = 0.01, hr = -1
+      )
+    )
+  )
 
   # check of column `dropoutRate`
-  expect_error(check_fail_rate(tibble::tibble(duration = c(10, 20), fail_rate = c(0.02, 0.04), dropout_rate = "a", hr = 0.6)))
-  expect_error(check_fail_rate(tibble::tibble(duration = c(10, 20), fail_rate = c(2, -4), dropout_rate = -1, hr = 0.6)))
+  expect_error(
+    check_fail_rate(
+      tibble::tibble(
+        duration = c(10, 20),
+        fail_rate = c(0.02, 0.04),
+        dropout_rate = "a", hr = 0.6
+      )
+    )
+  )
+  expect_error(
+    check_fail_rate(
+      tibble::tibble(
+        duration = c(10, 20),
+        fail_rate = c(2, -4),
+        dropout_rate = -1, hr = 0.6
+      )
+    )
+  )
 })
 
 test_that("check enrollments and fail_rate together", {

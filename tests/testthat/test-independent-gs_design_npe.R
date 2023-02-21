@@ -116,13 +116,23 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=4 b
   expect_equal(gsd$n.I, (gsdv %>% filter(bound == "upper"))$info, tolerance = .04)
 
   # compare crossing boundaries probability under null hypothesis (theta = 0)
-  expect_equal(gsdv$probability0,
-    gsDesign::gsBoundSummary(gsd) %>% subset(Value == "P(Cross) if delta=0") %>% select(Efficacy, Futility) %>% t() %>% as.numeric(),
+  expect_equal(
+    gsdv$probability0,
+    gsDesign::gsBoundSummary(gsd) %>%
+      subset(Value == "P(Cross) if delta=0") %>%
+      select(Efficacy, Futility) %>%
+      t() %>%
+      as.numeric(),
     tolerance = .0001
   )
 
-  expect_equal(gsdv$probability,
-    gsDesign::gsBoundSummary(gsd) %>% subset(Value == "P(Cross) if delta=1") %>% select(Efficacy, Futility) %>% t() %>% as.numeric(),
+  expect_equal(
+    gsdv$probability,
+    gsDesign::gsBoundSummary(gsd) %>%
+      subset(Value == "P(Cross) if delta=1") %>%
+      select(Efficacy, Futility) %>%
+      t() %>%
+      as.numeric(),
     tolerance = .0001
   )
 })
@@ -150,7 +160,7 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=5 b
 
   # compare statistical information
   # While tolerance should not be problematic, it seems large
-  expect_equal(gsd$n.I, (gsdv %>% filter(bound == "upper"))$info, tolerance = .04) # While tolerance should not be problematic, it seems large
+  expect_equal(gsd$n.I, (gsdv %>% filter(bound == "upper"))$info, tolerance = .04)
 
   # compare crossing boundaries probability under null hypothesis (theta = 0)
   expect_equal((gsdv %>% filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
@@ -195,7 +205,11 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=6 b
   expect_equal(gsd$n.I, (gsdv %>% filter(bound == "upper"))$info, tolerance = .04)
 
   # compare crossing boundaries probability under null hypothesis (theta = 0)
-  expect_equal((gsdv %>% filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend, tolerance = 1e-5)
+  expect_equal(
+    (gsdv %>% filter(bound == "upper"))$probability0,
+    sfu(alpha = alpha, t = timing, param = sfupar)$spend,
+    tolerance = 1e-5
+  )
   expect_equal(
     (gs_power_npe(
       theta = 0, info = (gsdv %>% filter(bound == "upper"))$info,

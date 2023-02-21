@@ -146,9 +146,17 @@ for (i in 1:max(fh_test$analysis)) {
 }
 
 testthat::test_that("calculate probability under alternative", {
-  expect_equal(1 - beta, max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability), tolerance = 0.0001)
+  expect_equal(
+    1 - beta,
+    max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability),
+    tolerance = 0.0001
+  )
 })
 
 testthat::test_that("calculate probability under null", {
-  expect_equal(alpha, max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability0), tolerance = 0.1) ## NEAD REVISED THE TOLERANCE AFTER YILONNG FIXED THE BINDING BUG IN MAXCOMBO
+  expect_equal(
+    alpha,
+    max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability0),
+    tolerance = 0.1 # NEED TO REVISE THE TOLERANCE AFTER YILONG FIXED THE BINDING BUG IN MAXCOMBO
+  )
 })

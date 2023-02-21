@@ -22,10 +22,28 @@ ratio <- 1
 
 test_that("input checking", {
   # miss enroll_rate
-  expect_error(fixed_design("ahr", alpha = 0.025, power = 0.9, fail_rate = fail_rate, study_duration = study_duration, ratio = ratio))
+  expect_error(
+    fixed_design(
+      "ahr",
+      alpha = 0.025,
+      power = 0.9,
+      fail_rate = fail_rate,
+      study_duration = study_duration,
+      ratio = ratio
+    )
+  )
 
   # miss fail_rate
-  expect_error(fixed_design("ahr", alpha = 0.025, power = 0.9, enroll_rate = enroll_rate, study_duration = study_duration, ratio = ratio))
+  expect_error(
+    fixed_design(
+      "ahr",
+      alpha = 0.025,
+      power = 0.9,
+      enroll_rate = enroll_rate,
+      study_duration = study_duration,
+      ratio = ratio
+    )
+  )
 
   # multiple rho for FH/MB
   expect_error(fixed_design("fh",

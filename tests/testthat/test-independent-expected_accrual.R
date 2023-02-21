@@ -96,7 +96,12 @@ testthat::test_that("expect_accrua fail to identify a non-dataframe input", {
 
 testthat::test_that("expect_accrua fail to identify a non-dataframe input", {
   enroll_rate <- tibble::tibble(duration = c(3, 3, 18), freqs = c(5, 10, 20))
-  expect_error(expect_message(expected_accrual(enroll_rate = enroll_rate), "gsDesign2: enroll_rate in `expected_accrual()` column names must contain rate"))
+  expect_error(
+    expect_message(
+      expected_accrual(enroll_rate = enroll_rate),
+      "gsDesign2: enroll_rate in `expected_accrual()` column names must contain rate"
+    )
+  )
 })
 
 
