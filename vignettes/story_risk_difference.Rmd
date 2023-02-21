@@ -977,8 +977,16 @@ x <- p_c %>%
   left_join(p_e) %>%
   rename(p_e = rate) %>%
   mutate(p_pool = (p_c + p_e) / 2) %>%
-  mutate(xi_c = (ratio_strata_c %>% mutate(prop = ratio / sum(ratio)))$prop) %>%
-  mutate(xi_e = (ratio_strata_e %>% mutate(prop = ratio / sum(ratio)))$prop) %>%
+  mutate(
+    xi_c = (
+      ratio_strata_c %>% mutate(prop = ratio / sum(ratio))
+    )$prop
+  ) %>%
+  mutate(
+    xi_e = (
+      ratio_strata_e %>% mutate(prop = ratio / sum(ratio))
+    )$prop
+  ) %>%
   mutate(n_c = n_c * xi_c, n_e = n_e * xi_e)
 
 x %>%
