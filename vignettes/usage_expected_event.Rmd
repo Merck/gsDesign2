@@ -124,7 +124,7 @@ sf_enroll_rate <- stepfun(c(0, cumsum(enroll_rate$duration)),
 
 plot(sf_enroll_rate,
   xlab = "duration", ylab = "enrollment rates",
-  main = "Piecewise enrollment rate over time", xlim = c(- 0.01, 21)
+  main = "Piecewise enrollment rate over time", xlim = c(-0.01, 21)
 )
 ```
 
@@ -147,7 +147,7 @@ sf_fail_rate <- stepfun(time_start_fail,
 )
 plot(sf_fail_rate,
   xlab = "duration", ylab = "failure rates",
-  main = "Piecewise failure rate over time", xlim = c(- 0.01, 101)
+  main = "Piecewise failure rate over time", xlim = c(-0.01, 101)
 )
 
 # plot the piecewise dropout rate
@@ -157,7 +157,7 @@ sf_dropout_rate <- stepfun(time_start_fail,
 )
 plot(sf_dropout_rate,
   xlab = "duration", ylab = "dropout rates",
-  main = "Piecewise dropout rate over time", xlim = c(- 0.01, 101)
+  main = "Piecewise dropout rate over time", xlim = c(-0.01, 101)
 )
 ```
 
@@ -173,19 +173,19 @@ Given the above piecewise enrollment rates, failure rates, dropout rates, the ti
 plot(sf_enroll_rate,
   xlab = "time", ylab = "enrollment rates",
   lty = 1, col = "red", pch = 1,
-  main = "Piecewise enrollment, failure, dropout rate over time", xlim = c(- 0.01, 101)
+  main = "Piecewise enrollment, failure, dropout rate over time", xlim = c(-0.01, 101)
 )
 
 plot(sf_fail_rate,
   xlab = "time", ylab = "failure rates",
   lty = 2, col = "blue", pch = 2,
-  xlim = c(- 0.01, 101), add = TRUE
+  xlim = c(-0.01, 101), add = TRUE
 )
 
 plot(sf_dropout_rate,
   xlab = "time", ylab = "dropout rates",
   lty = 3, col = "green", pch = 3,
-  xlim = c(- 0.01, 101), add = TRUE
+  xlim = c(-0.01, 101), add = TRUE
 )
 
 legend(60, 20, c("enrollment rate", "failure rate", "dropout rate"),
@@ -263,7 +263,7 @@ For the above `df_2`, one needs to discriminate if the analysis time (`total_dur
 ```{r}
 # if the analysis time is after the total failure rate duration
 if (sum(fail_rate$duration) < total_duration) {
-  df_2 <- df_2[- nrow(df_2), ]
+  df_2 <- df_2[-nrow(df_2), ]
 } else {
   df_2 <- df_2 %>% filter(startEnroll > 0)
 }
@@ -329,7 +329,7 @@ df <- df %>%
     dropoutRate = sf_dropout_rate(time_start_fail),
     enrollRate = sf_enroll_rate(startEnroll)
   ) %>%
-  select(- rate)
+  select(-rate)
 ```
 
 ```{r, echo=FALSE}
@@ -350,9 +350,9 @@ df %>%
     locations = cells_column_labels("time_start_fail")
   ) %>%
   tab_footnote(
-    footnote = "The time when the failure rate ends. 
-    And startEnroll + endFail = 50. 
-    Besides, (time_start_fail, endFail  ] forms 
+    footnote = "The time when the failure rate ends.
+    And startEnroll + endFail = 50.
+    Besides, (time_start_fail, endFail  ] forms
     the piecewise model of the enrollment rates.",
     locations = cells_column_labels("endFail")
   ) %>%
@@ -370,7 +370,7 @@ df %>%
 # Q: cumulative product of q (pool all sub-intervals)
 df <- df %>%
   mutate(
-    q = exp(- duration * (failRate + dropoutRate)),
+    q = exp(-duration * (failRate + dropoutRate)),
     Q = lag(cumprod(q), default = 1)
   ) %>%
   arrange(desc(time_start_fail)) %>%
@@ -384,13 +384,16 @@ df <- df %>%
   arrange(time_start_fail) %>%
   # Compute expected events as nbar in a sub-interval
   mutate(
-    d = ifelse(failRate == 0, 0, Q * (1 - q) * failRate / 
-                 (failRate + dropoutRate)),
-    nbar = ifelse(failRate == 0, 0, 
-                  G * d + 
-                    (failRate * Q * enrollRate) / 
-                    (failRate + dropoutRate) * 
-                    (duration - (1 - q) / (failRate + dropoutRate)))
+    d = ifelse(
+      failRate == 0,
+      0,
+      Q * (1 - q) * failRate / (failRate + dropoutRate)
+    ),
+    nbar = ifelse(
+      failRate == 0,
+      0,
+      G * d + (failRate * Q * enrollRate) / (failRate + dropoutRate) * (duration - (1 - q) / (failRate + dropoutRate))
+    )
   )
 ```
 

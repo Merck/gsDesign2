@@ -24,7 +24,7 @@ test_that("test wlr_weight_n", {
 
   expect_equal(
     gsDesign2::wlr_weight_n(x = analysis_time, arm0 = arm0, arm1 = arm1, power = 2),
-    (2 * (0.5 * gsDesign2:::prob_risk(arm0, analysis_time, total_time) + 
-            0.5 * gsDesign2:::prob_risk(arm1, analysis_time, total_time)))^2
+    (2 * (0.5 * gsDesign2:::prob_risk(arm0, analysis_time, total_time) +
+      0.5 * gsDesign2:::prob_risk(arm1, analysis_time, total_time)))^2
   )
 })

@@ -16,19 +16,21 @@ test_tEvents <- function(enrollRates = tibble::tibble(
   failRatesc <- failRates[, c("duration", "failRate", "dropoutRate")]
   failRatest <- failRatesc
   failRatest$failRate <- failRates$failRate * failRates$hr
-  
+
   eventc <- gsDesign2::expected_event(
     enroll_rate = enrollRates_1,
     fail_rate = failRatesc %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
     total_duration = td,
-    simple = FALSE)
-  
+    simple = FALSE
+  )
+
   eventt <- gsDesign2::expected_event(
     enroll_rate = enrollRates_1,
     fail_rate = failRatest %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
     total_duration = td,
-    simple = FALSE)
-  
+    simple = FALSE
+  )
+
   totale <- sum(eventc$event + eventt$event)
   return(totale)
 }

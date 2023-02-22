@@ -21,7 +21,6 @@ testthat::test_that("results match if only put in targeted analysis times", {
       fail_rate = fail_rate,
       analysis_time = total_duration
     ) %>% select(time, ahr, event, info, info0),
-    
     ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
@@ -100,9 +99,11 @@ testthat::test_that("results match if put in both analysis time and targeted eve
     )
   )
 
-  # since above test is based on the output "Time", here is to check whether the output "Time" is reasonable
+  # since above test is based on the output "Time",
+  # here is to check whether the output "Time" is reasonable
 
-  # either being equal to the corresponding element in the input analysis_time or at the time point when targeted event number achieved
+  # either being equal to the corresponding element in the input
+  # analysis_time or at the time point when targeted event number achieved
   testthat::expect_equal(
     max((1 - (out1$time == analysis_time)) * (1 - (round(out1$event) == round(event)))),
     0

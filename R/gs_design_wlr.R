@@ -226,7 +226,10 @@ gs_design_wlr <- function(enroll_rate = tibble(
       lower = lower, lpar = lpar, test_lower = test_lower,
       r = r, tol = tol
     ) %>%
-      full_join(y %>% select(-c(info, info0, theta)), by = "analysis") %>%
+      full_join(
+        y %>% select(-c(info, info0, theta)),
+        by = "analysis"
+      ) %>%
       select(c(
         "analysis", "bound", "time", "n", "event", "z",
         "probability", "probability0", "ahr",

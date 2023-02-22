@@ -3,9 +3,63 @@ linters:
       # "No visible binding for global variable"
       object_usage_linter = NULL,
       # "Line should not be more than 80 characters"
-      line_length_linter(120)
+      line_length_linter(120),
+      # "Functions should have cyclomatic complexity of less than 15"
+      cyclocomp_linter(100)
     )
 exclusions:
     list(
-      "inst/"
+      "inst/",
+      "R/gridpts_h1_hupdate_rcpp_interface.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/fixtures/simu_test_gs_design_combo.R" = list(
+        object_name_linter = Inf,
+        commented_code_linter = Inf
+      ),
+      "tests/testthat/test-double_programming_ppwe.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent_test_gs_design_wlr.R" = list(
+        commented_code_linter = Inf
+      ),
+      "tests/testthat/test-independent_test_gs_info_wlr.R" = list(
+        object_name_linter = Inf,
+        commented_code_linter = Inf
+      ),
+      "tests/testthat/test-independent_test_wlr_weight.R" = list(
+        object_name_linter = Inf,
+        commented_code_linter = Inf
+      ),
+      "tests/testthat/test-independent-expected_accrual.R" = list(
+        object_name_linter = Inf,
+        commented_code_linter = Inf
+      ),
+      "tests/testthat/test-independent-expected_event.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-expected_time.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-gs_b.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-gs_design_combo.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-gs_design_npe.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-gs_power_combo.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-gs_power_npe.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-h1.R" = list(
+        object_name_linter = Inf
+      ),
+      "tests/testthat/test-independent-hupdate.R" = list(
+        object_name_linter = Inf
+      )
     )

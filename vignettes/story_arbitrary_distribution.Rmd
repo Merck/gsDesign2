@@ -86,7 +86,7 @@ Note that we set the default of `lower.tail=FALSE` so that the survival function
 
 ```{r}
 p_pm <- function(x, theta, lambda, lower_tail = FALSE) {
-  exp(- theta * (1 - exp(- lambda * x)))
+  exp(-theta * (1 - exp(-lambda * x)))
 }
 ```
 
@@ -95,7 +95,7 @@ We set $\theta = -\log(.4)$ to obtain a cure rate of 0.4. we then overlay with t
 
 ```{r, fig.width=6.5, fig.height=4}
 lambda <- log(2) / 10
-theta <- - log(.4)
+theta <- -log(.4)
 times <- 0:40
 plot(times, p_pm(times, theta, lambda), type = "l", ylab = "Survival", xlab = "Time", log = "y")
 
@@ -122,8 +122,8 @@ $$\lambda = -\log\left(\frac{\theta - \log(c_1)}{\theta}\right)/t_1.$$
 We compute $\theta$ and $\lambda$ values with a cure rate of 0.4 and a survival rate of 0.6 at 30 months:
 
 ```{r}
-theta <- - log(0.4)
-lambda <- - log((theta + log(.6)) / theta) / 30
+theta <- -log(0.4)
+lambda <- -log((theta + log(.6)) / theta) / 30
 ```
 
 We confirm the survival at time 30:
