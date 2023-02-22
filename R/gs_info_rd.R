@@ -26,7 +26,7 @@ NULL
 #' @param n sample size
 #' @param rd0 the risk difference under H0
 #' @param ratio Experimental:Control randomization ratio
-#' @param weight weigting method, either "un-stratified" or "ss" or "invar"
+#' @param weight weighting method, either "un-stratified" or "ss" or "invar"
 #' @export
 #' @examples
 #' library(tibble)

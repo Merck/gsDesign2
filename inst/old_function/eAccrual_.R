@@ -83,7 +83,7 @@ eAccrual_ <- function(x = 0:24,
                        rate=ratefn(xvals), # enrollment rates at points (right continuous)
                        eAccrual=cumsum(rate*duration) # expected accrual
   )
-  # return survival or cdf
+  # return survival or CDF
   ind <- !is.na(match(xx$x,x))
   return(as.numeric(xx$eAccrual[ind]))
 }

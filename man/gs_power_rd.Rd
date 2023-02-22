@@ -34,7 +34,7 @@ gs_power_rd(
 
 \item{ratio}{experimental:control randomization ratio}
 
-\item{weight}{weigting method, either "un-stratified" or "ss" or "invar"}
+\item{weight}{weighting method, either "un-stratified" or "ss" or "invar"}
 
 \item{upper}{function to compute upper bound}
 

@@ -39,7 +39,7 @@ NULL
 #' is to be evaluated or NULL if information-based spending is used),
 #' \code{max_info} (when \code{timing} is NULL, this can be input as
 #' positive number to be used with \code{info} for information fraction at each analysis)
-#' @param hgm1 subdensity grid from h1 (k=2) or hupdate (k>2) for analysis k-1;
+#' @param hgm1 subdensity grid from `h1()` (k=2) or `hupdate()` (k>2) for analysis k-1;
 #' if k=1, this is not used and may be NULL
 #' @param theta natural parameter used for lower bound only spending;
 #' represents average drift at each time of analysis at least up to analysis k;

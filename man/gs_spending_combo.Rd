@@ -18,7 +18,7 @@ positive number to be used with \code{info} for information fraction at each ana
 
 \item{info}{statistical information at all analyses, at least up to analysis k}
 
-\item{...}{additional parameters transfered to \code{par$sf}.}
+\item{...}{additional parameters passed to \code{par$sf}.}
 }
 \description{
 Derive spending bound for MaxCombo group sequential boundary

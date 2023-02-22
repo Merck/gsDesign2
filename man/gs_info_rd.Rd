@@ -24,7 +24,7 @@ gs_info_rd(
 
 \item{ratio}{Experimental:Control randomization ratio}
 
-\item{weight}{weigting method, either "un-stratified" or "ss" or "invar"}
+\item{weight}{weighting method, either "un-stratified" or "ss" or "invar"}
 }
 \description{
 Information and effect size under risk difference

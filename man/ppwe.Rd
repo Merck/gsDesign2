@@ -30,7 +30,7 @@ for a piecewise exponential distribution.
 Suppose \eqn{\lambda_i} is the failure rate in the interval \eqn{(t_{i-1},t_i], i=1,2,\ldots,M} where
 \eqn{0=t_0<t_i\ldots,t_M=\infty}. The cumulative hazard function at an arbitrary time \eqn{t>0} is then:
 
-\deqn{\Lambda(t)=\sum_{i=1}^M \delta(t\le t_i)(\min(t,t_i)-t_{i-1})\lambda_i.}
+\deqn{\Lambda(t)=\sum_{i=1}^M \delta(t\leq t_i)(\min(t,t_i)-t_{i-1})\lambda_i.}
 The survival at time \eqn{t} is then
 \deqn{S(t)=\exp(-\Lambda(t)).}
 }
@@ -48,7 +48,7 @@ The survival at time \eqn{t} is then
    \item Make a tibble of the input time points x, duration, hazard rates at points,
    cumulative hazard and survival.
    \item Extract the expected cumulative or survival of piecewise exponential distribution.
-   \item If input lower_tail is true, return the cdf, else return the survival for \code{ppwe}
+   \item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
   }
 }
 \if{html}{The contents of this section are shown in PDF user manual only.}
