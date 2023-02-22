@@ -26,11 +26,7 @@ NULL
 #' @param n sample size
 #' @param rd0 the risk difference under H0
 #' @param ratio Experimental:Control randomization ratio
-<<<<<<< HEAD
-#' @param weight weigting method, either "unstratified" or "ss" or "invar"
-=======
-#' @param weight weighting method, either "un-stratified" or "ss" or "invar"
->>>>>>> bdccd7e49cb0e250fb443af7c1fedfa1ea918e7d
+#' @param weight weighting method, either "unstratified" or "ss" or "invar"
 #' @export
 #' @examples
 #' library(tibble)
@@ -186,7 +182,7 @@ gs_info_rd <- function(p_c = tibble::tibble(
                        ),
                        rd0 = 0,
                        ratio = 1,
-                       weight = c("un-stratified", "ss", "invar")) {
+                       weight = c("unstratified", "ss", "invar_h0", "invar_h1")) {
   n_analysis <- max(n$analysis)
   weight <- match.arg(weight)
 

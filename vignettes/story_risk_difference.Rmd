@@ -32,7 +32,6 @@ library(knitr)
 library(gsDesign)
 library(gsDesign2)
 library(gt)
-library(mvtnorm)
 ```
 
 # Overview
@@ -565,7 +564,7 @@ x <- gs_info_rd(
   n = tibble::tibble(stratum = "All", n = 1, analysis = 1),
   rd0 = 0,
   ratio = 1,
-  weight = "un-stratified"
+  weight = "unstratified"
 )
 
 x %>%
@@ -639,7 +638,7 @@ z_info_scale_0 <- gs_design_rd(
   alpha = 0.025,
   beta = 0.1,
   ratio = 1,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = -qnorm(.025),
@@ -654,7 +653,7 @@ z_info_scale_1 <- gs_design_rd(
   alpha = 0.025,
   beta = 0.1,
   ratio = 1,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = -qnorm(.025),
@@ -669,7 +668,7 @@ z_info_scale_2 <- gs_design_rd(
   alpha = 0.025,
   beta = 0.1,
   ratio = 1,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = -qnorm(.025),
@@ -739,7 +738,7 @@ x_gs <- gs_info_rd(
   n = tibble::tibble(stratum = "All", n = 1:3 / 3, analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = "un-stratified"
+  weight = "unstratified"
 )
 
 x_gs %>%
@@ -810,7 +809,7 @@ x_gsdesign2_info_scale_0 <- gs_design_rd(
   alpha = .025,
   beta = .1,
   ratio = 1,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -827,7 +826,7 @@ x_gsdesign2_info_scale_1 <- gs_design_rd(
   alpha = .025,
   beta = .1,
   ratio = 1,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -844,7 +843,7 @@ x_gsdesign2_info_scale_2 <- gs_design_rd(
   alpha = .025,
   beta = .1,
   ratio = 1,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1391,7 +1390,7 @@ x_invar0 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar-h0",
+  weight = "invar_h0",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1412,7 +1411,7 @@ x_invar1 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar-h0",
+  weight = "invar_h0",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1433,7 +1432,7 @@ x_invar2 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar-h0",
+  weight = "invar_h0",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1455,7 +1454,7 @@ x_invar_h1_0 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar-h1",
+  weight = "invar_h1",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1476,7 +1475,7 @@ x_invar_h1_1 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar-h1",
+  weight = "invar_h1",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1497,7 +1496,7 @@ x_invar_h1_2 <- gs_design_rd(
   beta = .2,
   ratio = 1,
   stratum_prev = tibble::tibble(stratum = c("S1", "S2", "S3"), prevalence = 1:3),
-  weight = "invar-h1",
+  weight = "invar_h1",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -1515,34 +1514,25 @@ ans <- tibble::tibble(
   INVAR2 = x_invar2$analysis$n[1:3],
   SS0 = x_ss0$analysis$n[1:3],
   SS1 = x_ss1$analysis$n[1:3],
-  SS2 = x_ss2$analysis$n[1:3]
-)
+  SS2 = x_ss2$analysis$n[1:3])
+
 ans %>%
   gt::gt() %>%
   gt::tab_header(title = "Sample size calculated by INVAR and SS") %>%
   gt::tab_spanner(
-    label = "Inverse variance weighting with H0 variance",
-    columns = c("INVAR using variance under H0 with info_scale = 0", 
-                "INVAR using variance under H0 with info_scale = 1", 
-                "INVAR using variance under H0 with info_scale = 2")
+    label = "Inverse variance weighting ",
+    columns = c("INVAR0", 
+                "INVAR1", 
+                "INVAR2")
   ) %>%
-  gt::tab_spanner(
-    label = "Inverse variance weighting with H1 variance",
-    columns = c("INVAR using variance under H1 with info_scale = 0", 
-                "INVAR using variance under H1 with info_scale = 1", 
-                "INVAR using variance under H1 with info_scale = 2")
-  ) %>% 
   gt::tab_spanner(
     label = "Sample size wighting",
     columns = c(SS0, SS1, SS2)
   ) %>%
   cols_label(
-    `INVAR using variance under H0 with info_scale = 0` = "info_scale = 0",
-    `INVAR using variance under H0 with info_scale = 1` = "info_scale = 1",
-    `INVAR using variance under H0 with info_scale = 2` = "info_scale = 2",
-    `INVAR using variance under H1 with info_scale = 0` = "info_scale = 0",
-    `INVAR using variance under H1 with info_scale = 1` = "info_scale = 1",
-    `INVAR using variance under H1 with info_scale = 2` = "info_scale = 2",
+    INVAR0 = "info_scale = 0",
+    INVAR1 = "info_scale = 1",
+    INVAR2 = "info_scale = 2",
     SS0 = "info_scale = 0",
     SS1 = "info_scale = 1",
     SS2 = "info_scale = 2"
