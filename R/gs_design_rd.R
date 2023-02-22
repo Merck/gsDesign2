@@ -32,7 +32,7 @@ NULL
 #' @param beta Type II error
 #' @param ratio Experimental:Control randomization ratio (not yet implemented)
 #' @param stratum_prev randomization ratio of different stratum.
-#' If it is un-stratified design then \code{NULL}.
+#' If it is unstratified design then \code{NULL}.
 #' Otherwise it is a tibble containing two columns (stratum and prevalence).
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param upper Function to compute upper bound
@@ -64,7 +64,7 @@ NULL
 #' # ----------------- #
 #' #    example 1      #
 #' #------------------ #
-#' # un-stratified group sequential design
+#' # unstratified group sequential design
 #' gs_design_rd(
 #'   p_c = tibble(stratum = "All", rate = .2),
 #'   p_e = tibble(stratum = "All", rate = .15),
@@ -74,7 +74,7 @@ NULL
 #'   beta = .1,
 #'   ratio = 1,
 #'   stratum_prev = NULL,
-#'   weight = "un-stratified",
+#'   weight = "unstratified",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -116,7 +116,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "All", rate = .2),
                          beta = .1,
                          ratio = 1,
                          stratum_prev = NULL,
-                         weight = c("un-stratified", "ss", "invar-h1", "invar-h0"),
+                         weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
                          upper = gs_b,
                          lower = gs_b,
                          upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -137,7 +137,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "All", rate = .2),
     match.arg(as.character(info_scale), choices = 0:2)
   }
   weight <- if (methods::missingArg(weight)) {
-    "un-stratified"
+    "unstratified"
   } else {
     match.arg(weight)
   }

@@ -28,7 +28,7 @@
 #' @param lower function to compare lower bound
 #' @param lpar parameter to pass to lower
 #' @param info_scale the information scale for calculation
-#' @param weight weigting method, either "un-stratified" or "ss" or "invar"
+#' @param weight weigting method, either "unstratified" or "ss" or "invar"
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param test_upper indicator of which analyses should include an upper (efficacy) bound;
 #' single value of TRUE (default)  indicates all analyses; otherwise,
@@ -52,7 +52,7 @@
 #' # --------------------- #
 #' library(gsDesign)
 #'
-#' # un-stratified case with H0: rd0 = 0
+#' # unstratified case with H0: rd0 = 0
 #' gs_power_rd(
 #'   p_c = tibble::tibble(
 #'     stratum = "All",
@@ -78,7 +78,7 @@
 #' # --------------------- #
 #' #      example 2        #
 #' # --------------------- #
-#' # un-stratified case with H0: rd0 != 0
+#' # unstratified case with H0: rd0 != 0
 #' gs_power_rd(
 #'   p_c = tibble::tibble(
 #'     stratum = "All",
@@ -171,7 +171,7 @@
 #'   ),
 #'   rd0 = 0,
 #'   ratio = 1,
-#'   weight = "invar-h1",
+#'   weight = "invar_h1",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -225,7 +225,7 @@
 #'   ),
 #'   rd0 = 0.03,
 #'   ratio = 1,
-#'   weight = "invar-h1",
+#'   weight = "invar_h1",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -247,7 +247,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
                         ),
                         rd0 = 0,
                         ratio = 1,
-                        weight = c("un-stratified", "ss", "invar-h1", "invar-h0"),
+                        weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
                         upper = gs_b,
                         lower = gs_b,
                         upar = gsDesign(k = length(N), test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -268,7 +268,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
   }
   # get the weighting scheme
   weight <- if (methods::missingArg(weight)) {
-    "un-stratified"
+    "unstratified"
   } else {
     match.arg(weight)
   }
