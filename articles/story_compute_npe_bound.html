@@ -95,24 +95,24 @@
 treatment effects over time. This can be useful for situations such as
 an assumed non-proportional hazards model as laid out in
 <code>vignette("NPEbackground", package="gsDesign2")</code>. In general,
-we assume <span class="math inline">\(K\ge 1\)</span> analyses with
+we assume <span class="math inline">\(K \geq 1\)</span> analyses with
 statistical information <span class="math inline">\(\mathcal{I}_k\)</span> and information fraction
 <span class="math inline">\(t_k=\mathcal{I}_k/\mathcal{I}_k\)</span> at
-analysis <span class="math inline">\(k\)</span>, <span class="math inline">\(1\le k\le K\)</span>. We denote the null
+analysis <span class="math inline">\(k\)</span>, <span class="math inline">\(1\leq k\leq K\)</span>. We denote the null
 hypothesis <span class="math inline">\(H_{0}\)</span>: <span class="math inline">\(\theta(t)=0\)</span> and an alternate hypothesis
 <span class="math inline">\(H_1\)</span>: <span class="math inline">\(\theta(t)=\theta_1(t)\)</span> for <span class="math inline">\(t&gt; 0\)</span> where <span class="math inline">\(t\)</span> represents the information fraction for
 a study. While a study is planned to stop at information fraction <span class="math inline">\(t=1\)</span>, we define <span class="math inline">\(\theta(t)\)</span> for <span class="math inline">\(t&gt;0\)</span> since a trial can overrun its
 planned statistical information at the final analysis. As before, we use
 a shorthand notation in to have <span class="math inline">\(\theta\)</span> represent <span class="math inline">\(\theta()\)</span>, <span class="math inline">\(\theta=0\)</span> to represent <span class="math inline">\(\theta(t)\equiv 0\)</span> for all <span class="math inline">\(t\)</span> and <span class="math inline">\(\theta_1\)</span> to represent <span class="math inline">\(\theta_i(t_k)\)</span>, the effect size at
-analysis <span class="math inline">\(k\)</span>, <span class="math inline">\(1\le k\le K\)</span>.</p>
+analysis <span class="math inline">\(k\)</span>, <span class="math inline">\(1\leq k\leq K\)</span>.</p>
 <p>For our purposes, <span class="math inline">\(H_0\)</span> will
 represent no treatment difference, but it could represent a
-non-inferiority hypothesis. Recall that we assume <span class="math inline">\(K\)</span> analyses and bounds <span class="math inline">\(-\infty \le a_k&lt; b_k&lt;\le \infty\)</span> for
-<span class="math inline">\(1\le k &lt; K\)</span> and <span class="math inline">\(-\infty \le a_K\le b_K&lt;\infty\)</span>. We
+non-inferiority hypothesis. Recall that we assume <span class="math inline">\(K\)</span> analyses and bounds <span class="math inline">\(-\infty \leq a_k&lt; b_k&lt;\leq \infty\)</span>
+for <span class="math inline">\(1\leq k &lt; K\)</span> and <span class="math inline">\(-\infty \leq a_K\leq b_K&lt;\infty\)</span>. We
 denote the probability of crossing the upper boundary at analysis <span class="math inline">\(k\)</span> without previously crossing a bound
 by</p>
 <p><span class="math display">\[\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq
-b_{k}\}\cap_{j=1}^{k-1}\{a_{j}\le Z_{j}&lt; b_{j}\}),\]</span> <span class="math inline">\(k=1,2,\ldots,K.\)</span> The total probability of
+b_{k}\}\cap_{j=1}^{k-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),\]</span> <span class="math inline">\(k=1,2,\ldots,K.\)</span> The total probability of
 crossing an upper bound prior to crossing a lower bound is denoted
 by</p>
 <p><span class="math display">\[\alpha(\theta)\equiv\sum_{k=1}^K\alpha_k(\theta).\]</span></p>
@@ -134,10 +134,10 @@ more often we will consider non-binding Type I error calculations, <span class="
 <p>We denote the probability of crossing a lower bound at analysis <span class="math inline">\(k\)</span> without previously crossing any bound
 by</p>
 <p><span class="math display">\[\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt;
-a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\le Z_{j}&lt; b_{j}\}).\]</span></p>
-<p>Efficacy bounds <span class="math inline">\(b_k\)</span>, <span class="math inline">\(1\le k\le K\)</span>, for a group sequential
+a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).\]</span></p>
+<p>Efficacy bounds <span class="math inline">\(b_k\)</span>, <span class="math inline">\(1\leq k\leq K\)</span>, for a group sequential
 design will be derived to control Type I at some level <span class="math inline">\(\alpha=\alpha(0)\)</span>.</p>
-<p>Lower bounds <span class="math inline">\(a_k\)</span>, <span class="math inline">\(1\le k\le K\)</span> may be used to control
+<p>Lower bounds <span class="math inline">\(a_k\)</span>, <span class="math inline">\(1\leq k\leq K\)</span> may be used to control
 boundary crossing probabilities under either the null hypothesis
 (2-sided testing), the alternate hypothesis or some other hypothesis
 (futility testing).</p>
@@ -255,7 +255,7 @@ for <span class="math inline">\(\beta\)</span>-spending or some
 arbitrary <span class="math inline">\(\theta_1\)</span> otherwise. We
 note that for a one-sided design we let <span class="math inline">\(\beta_k(\theta)=0\)</span> so that <span class="math inline">\(a_k=-\infty, k=1,\cdots,K\)</span>. For
 <code>test.type=3, 4</code> we let <span class="math inline">\(\theta=\theta_a\)</span>, while for
-<code>test.type=5, 6</code> <span class="math inline">\(\theta\ge
+<code>test.type=5, 6</code> <span class="math inline">\(\theta \geq
 0\)</span> is arbitrary. We note that asymmetric <span class="math inline">\(\alpha\)</span>-spending bounds can be derived
 using <code>test.type &gt; 2</code> and <span class="math inline">\(\theta=0.\)</span></p>
 </div>
@@ -275,9 +275,9 @@ all <span class="math inline">\(t\)</span>. The value of <span class="math inlin
 <p>We assume there is interest in stopping early if there is good
 evidence to reject one hypothesis in favor of the other.</p>
 <p>If <span class="math inline">\(a_k= -\infty\)</span> at analysis
-<span class="math inline">\(k\)</span> for some <span class="math inline">\(1\le k\le K\)</span> then the alternate hypothesis
-cannot be rejected at analysis <span class="math inline">\(k\)</span>;
-i.e., there is no futility bound at analysis <span class="math inline">\(k\)</span>. For <span class="math inline">\(k=1,2,\ldots,K\)</span>, the trial is stopped at
+<span class="math inline">\(k\)</span> for some <span class="math inline">\(1\leq k\leq K\)</span> then the alternate
+hypothesis cannot be rejected at analysis <span class="math inline">\(k\)</span>; i.e., there is no futility bound at
+analysis <span class="math inline">\(k\)</span>. For <span class="math inline">\(k=1,2,\ldots,K\)</span>, the trial is stopped at
 analysis <span class="math inline">\(k\)</span> to reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(a_j&lt;Z_j&lt; b_j\)</span>, <span class="math inline">\(j=1,2,\dots,i-1\)</span> and <span class="math inline">\(Z_k\geq b_k\)</span>. If the trial continues until
 stage <span class="math inline">\(k\)</span> without crossing a bound
 and <span class="math inline">\(Z_k\leq a_k\)</span> then <span class="math inline">\(H_1\)</span> is rejected in favor of <span class="math inline">\(H_0\)</span>, <span class="math inline">\(k=1,2,\ldots,K\)</span>. Note that if <span class="math inline">\(a_K&lt; b_K\)</span> there is the possibility of

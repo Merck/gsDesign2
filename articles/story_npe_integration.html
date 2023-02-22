@@ -103,7 +103,7 @@ derive boundaries for group sequential designs.</p>
 <h3 id="asymptotic-normal-and-boundary-crossing-probabilities">Asymptotic normal and boundary crossing probabilities<a class="anchor" aria-label="anchor" href="#asymptotic-normal-and-boundary-crossing-probabilities"></a>
 </h3>
 <p>We assume <span class="math inline">\(Z_1,\cdots,Z_K\)</span> has a
-multivariate normal distribution with variance for <span class="math inline">\(1\le k\le K\)</span> of <span class="math display">\[\hbox{Var}(Z_k) = 1\]</span> and the expected
+multivariate normal distribution with variance for <span class="math inline">\(1\leq k\leq K\)</span> of <span class="math display">\[\hbox{Var}(Z_k) = 1\]</span> and the expected
 value is</p>
 <p><span class="math display">\[E(Z_{k})=
 \sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .\]</span></p>
@@ -115,12 +115,12 @@ value is</p>
 the upper boundary at analysis <span class="math inline">\(k\)</span>
 without previously crossing a bound by</p>
 <p><span class="math display">\[\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq
-b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\le Z_{j}&lt; b_{j}\}),\]</span> <span class="math inline">\(k=1,2,\ldots,K.\)</span></p>
+b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),\]</span> <span class="math inline">\(k=1,2,\ldots,K.\)</span></p>
 <p>Next, we consider analogous notation for the lower bound. For <span class="math inline">\(k=1,2,\ldots,K\)</span> denote the probability of
 crossing a lower bound at analysis <span class="math inline">\(k\)</span> without previously crossing any bound
 by</p>
 <p><span class="math display">\[\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt;
-a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\le Z_{j}&lt; b_{j}\}).\]</span> For
+a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).\]</span> For
 symmetric testing for analysis <span class="math inline">\(k\)</span> we
 would have <span class="math inline">\(a_k= - b_k\)</span>, <span class="math inline">\(\beta_k(0)=\alpha_k(0),\)</span> <span class="math inline">\(k=1,2,\ldots,K\)</span>. The total lower boundary
 crossing probability for a trial is denoted by <span class="math display">\[\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).\]</span>
@@ -136,22 +136,22 @@ is not desired. Obviously, for each <span class="math inline">\(k\)</span>, we w
 <h3 id="recursive-algorithms-for-numerical-integration">Recursive algorithms for numerical integration<a class="anchor" aria-label="anchor" href="#recursive-algorithms-for-numerical-integration"></a>
 </h3>
 <p>We now provide a small update to the algorithm of Chapter 19 of <span class="citation">Jennison and Turnbull (1999)</span> to do the numerical
-integration required to compute the boundary crossing probabilites of
+integration required to compute the boundary crossing probabilities of
 the previous section and also identifying group sequential boundaries
 satisfying desired characteristics. The key to these calculations is the
-conditional power identitity in equation (1) above which allows building
+conditional power identity in equation (1) above which allows building
 recursive numerical integration identities to enable simple, efficient
 numerical integration.</p>
 <p>We define</p>
-<p><span class="math display">\[g_1(z;\theta) = \frac{d}{dz}P(Z_1\le z)
+<p><span class="math display">\[g_1(z;\theta) = \frac{d}{dz}P(Z_1\leq z)
 = \phi\left(z -
 \sqrt{\mathcal{I}_1}\theta(t_1)\right)\tag{2}\]</span></p>
 <p>and for <span class="math inline">\(k=2,3,\ldots K\)</span> we
 recursively define the subdensity function</p>
 <p><span class="math display">\[\begin{align}
-g_k(z; \theta) &amp;= \frac{d}{dz}P_\theta(\{Z_k\le
-z\}\cap_{j=1}^{k-1}\{a_j\le Z_j&lt;b_j\}) \\
-&amp;=\int_{a_{k-1}}^{b_{k-1}}\frac{d}{dz}P_\theta(\{Z_k\le z
+g_k(z; \theta) &amp;= \frac{d}{dz}P_\theta(\{Z_k\leq
+z\}\cap_{j=1}^{k-1}\{a_j\leq Z_j&lt;b_j\}) \\
+&amp;=\int_{a_{k-1}}^{b_{k-1}}\frac{d}{dz}P_\theta(\{Z_k\leq z
 |Z_{k-1}=z_{k-1}\})g_{k-1}(z_{k-1}; \theta)dz_{k-1}\\
 &amp;=\int_{a_{k-1}}^{b_{k-1}}f_k(z_{k-1},z;\theta)g_{k-1}(z_{k-1};
 \theta)dz_{k-1}.\tag{3}
@@ -159,9 +159,9 @@ z\}\cap_{j=1}^{k-1}\{a_j\le Z_j&lt;b_j\}) \\
 <p>The bottom line notation here is the same as on p. 347 in <span class="citation">Jennison and Turnbull (1999)</span>. However, <span class="math inline">\(f_k()\)</span> here takes a slightly different
 form.</p>
 <p><span class="math display">\[\begin{align}
-f_k(z_{k-1},z;\theta) &amp;=\frac{d}{dz}P_\theta(\{Z_k\le z
+f_k(z_{k-1},z;\theta) &amp;=\frac{d}{dz}P_\theta(\{Z_k\leq z
 |Z_{k-1}=z_{k-1}\})\\
-&amp;=\frac{d}{dz}P_\theta(B_k - B_{k-1} \le
+&amp;=\frac{d}{dz}P_\theta(B_k - B_{k-1} \leq
 z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}})\\
 &amp;=\frac{d}{dz}\Phi\left(\frac{z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}}-\sqrt{\mathcal{I}_K}(t_k\theta(t_k)-
 t_{k-1}\theta(t_{k-1}))}{\sqrt{t_k-t_{k-1}}}\right)\\
@@ -382,11 +382,11 @@ computed as follows:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Probability of continuing trial under null hypothesis\n"</span>,</span>
 <span>  <span class="st">" Using numerical integration:"</span>, <span class="va">prob_h0_continue</span>,</span>
-<span>  <span class="st">"\n  Using normal cdf:"</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">a1</span><span class="op">)</span>, <span class="st">"\n"</span></span>
+<span>  <span class="st">"\n  Using normal CDF:"</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">a1</span><span class="op">)</span>, <span class="st">"\n"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Probability of continuing trial under null hypothesis</span></span>
 <span><span class="co">#&gt;   Using numerical integration: 0.9755632 </span></span>
-<span><span class="co">#&gt;   Using normal cdf: 0.9755632</span></span></code></pre></div>
+<span><span class="co">#&gt;   Using normal CDF: 0.9755632</span></span></code></pre></div>
 <p>We now set up numerical integration grid under the alternate
 hypothesis and the compute continuation probability.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -396,11 +396,11 @@ hypothesis and the compute continuation probability.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Probability of continuing trial under alternate hypothesis\n"</span>,</span>
 <span>  <span class="st">" Using numerical integration:"</span>, <span class="va">prob_h1_continue</span>,</span>
-<span>  <span class="st">"\n  Using normal cdf:"</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">b1</span>, mean <span class="op">=</span> <span class="va">h1mean</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">a1</span>, <span class="va">h1mean</span><span class="op">)</span>, <span class="st">"\n"</span></span>
+<span>  <span class="st">"\n  Using normal CDF:"</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">b1</span>, mean <span class="op">=</span> <span class="va">h1mean</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">a1</span>, <span class="va">h1mean</span><span class="op">)</span>, <span class="st">"\n"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Probability of continuing trial under alternate hypothesis</span></span>
 <span><span class="co">#&gt;   Using numerical integration: 0.986709 </span></span>
-<span><span class="co">#&gt;   Using normal cdf: 0.986709</span></span></code></pre></div>
+<span><span class="co">#&gt;   Using normal CDF: 0.986709</span></span></code></pre></div>
 <ul>
 <li>Compute initial iteration for analysis 2 bounds</li>
 </ul>

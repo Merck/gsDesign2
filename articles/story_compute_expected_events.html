@@ -120,7 +120,7 @@ denote the (independent) study time of entry for the patient. We assume
 the triplet <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, <span class="math inline">\(U\)</span>
 are independent.</p>
 <p>We will consider a single treatment group and stratum and assume
-subjects enroll according to a Poisson process with entry rate <span class="math inline">\(g(\omega)\geq 0\)</span> for <span class="math inline">\(0\le \omega\)</span>. The expected number of
+subjects enroll according to a Poisson process with entry rate <span class="math inline">\(g(\omega)\geq 0\)</span> for <span class="math inline">\(0 \leq \omega\)</span>. The expected number of
 subjects enrolled by study time <span class="math inline">\(\omega\)</span> is simply</p>
 <p><span class="math display">\[\begin{equation}
 G(\omega)=\int_0^\omega g(u)du.
@@ -134,13 +134,13 @@ counts we consider here is:</p>
 <li>
 <span class="math inline">\(\bar{N}(t)\)</span> : the number of
 patients with events at or before being on study for at least a duration
-<span class="math inline">\(0&lt;t \le \Omega\)</span> at time of data
+<span class="math inline">\(0&lt;t \leq \Omega\)</span> at time of data
 cutoff at study time <span class="math inline">\(\Omega\)</span>.</li>
 <li>
 <span class="math inline">\(\bar{n}(t_1,t_2)\equiv
 E\{\bar{N}(t_2)-\bar{N}(t_1)\}\)</span> : the number of patients with
 events in the interval <span class="math inline">\((t_1,t_2]\)</span>,
-<span class="math inline">\(0\le t_1&lt; t_2\le \Omega\)</span>.</li>
+<span class="math inline">\(0\leq t_1&lt; t_2\leq \Omega\)</span>.</li>
 </ul>
 <p>We will focus on the the expected value of <span class="math inline">\(\bar{n}(t_1,t_2)\)</span> due to its usefulness in
 computing an average hazard ratio under the piecewise model outlined
@@ -193,7 +193,7 @@ Y&amp;=\sum_{m=1}^M
 distributed with failure rates <span class="math inline">\(\lambda_m\)</span> and <span class="math inline">\(\eta_m\)</span>, respectively, <span class="math inline">\(m=1,2,\ldots,M\)</span>.</p>
 <p>We now assume subjects enroll at a constant rate in each of <span class="math inline">\(J\)</span> intervals defined by <span class="math inline">\(0=\omega_0&lt;\omega_1&lt;\ldots&lt;\omega_J&lt;\infty\)</span>.
 We denote the enrollment rates by <span class="math display">\[\begin{equation}g(\omega)=\gamma_j\geq
-0\label{eq:gj}\end{equation}\]</span> for <span class="math inline">\(\omega\)</span> in the interval <span class="math inline">\((\omega_{j-1},\omega_j]\)</span>, <span class="math inline">\(j=0,1,2,\ldots,J\)</span>. We assume <span class="math inline">\(\gamma_1&gt;0\)</span>, but for <span class="math inline">\(j&gt;1\)</span> we assume <span class="math inline">\(\gamma_j\ge 0\)</span>. Letting <span class="math inline">\(G_0=0\)</span> we recursively define for <span class="math inline">\(j=1,\ldots,J\)</span></p>
+0\label{eq:gj}\end{equation}\]</span> for <span class="math inline">\(\omega\)</span> in the interval <span class="math inline">\((\omega_{j-1},\omega_j]\)</span>, <span class="math inline">\(j=0,1,2,\ldots,J\)</span>. We assume <span class="math inline">\(\gamma_1&gt;0\)</span>, but for <span class="math inline">\(j&gt;1\)</span> we assume <span class="math inline">\(\gamma_j \geq 0\)</span>. Letting <span class="math inline">\(G_0=0\)</span> we recursively define for <span class="math inline">\(j=1,\ldots,J\)</span></p>
 <p><span class="math display">\[\begin{equation}G_j=G(\omega_j)=G_{j-1}+\gamma_j(\omega_j-\omega_{j-1})\label{eq:Gj}\end{equation}\]</span>
 and thus for <span class="math inline">\(\omega\in
 [\omega_{j-1},\omega_j]\)</span> that the expected enrollment by study
@@ -367,11 +367,12 @@ intermediate probability calculations for use in calculating <span class="math i
 q_m&amp;=P\{\min(X_m,Y_m)&gt;t_m-t_{m-1}\}=\exp^{-(\lambda_m+\eta_m)(t_m-t_{m-1})}
 \label{eq:qm}\\
 Q_m&amp;=P\{\min(X,Y)&gt;t_m\}=\prod_{j=1}^m q_j\label{eq:Qm}\\
-d_m&amp;=P\{t_{m-1}&lt;X\le t_m,X\le Y\}\\
-&amp;=P\{\min(X,Y)&gt;t_{m-1}\}\cdot P\{0&lt;\min (X_m,Y_m)\le
-t_m-t_{m-1},X_m\le Y_m\}\\
-&amp;=P\{\min(X,Y)&gt;t_{m-1}\}\cdot P\{0&lt;\min (X_m,Y_m)\le
-t_m-t_{m-1}\}\cdot P\{X_m\le Y_m|0&lt;\min (X_m,Y_m)\le t_m-t_{m-1}\}\\
+d_m&amp;=P\{t_{m-1}&lt;X\leq t_m,X\leq Y\}\\
+&amp;=P\{\min(X,Y)&gt;t_{m-1}\}\cdot P\{0&lt;\min (X_m,Y_m)\leq
+t_m-t_{m-1},X_m\leq Y_m\}\\
+&amp;=P\{\min(X,Y)&gt;t_{m-1}\}\cdot P\{0&lt;\min (X_m,Y_m)\leq
+t_m-t_{m-1}\}\cdot P\{X_m\leq Y_m|0&lt;\min (X_m,Y_m)\leq
+t_m-t_{m-1}\}\\
 &amp;=Q_{m-1}(1-e^{-(\lambda_m+\eta_m)(t_m-t_{m-1})})
 \frac{\lambda_m}{\lambda_m+\eta_m}\\
 \bar n_m&amp;=E\{\bar n(t_{m-1},t_m)\}
@@ -382,7 +383,7 @@ t_m-t_{m-1}\}\cdot P\{X_m\le Y_m|0&lt;\min (X_m,Y_m)\le t_m-t_{m-1}\}\\
 \int_{t_M-t_m}^{t_M-t_{m-1}} g(u) P\{t_{m-1}&lt; X\leq t_M-u, X\leq Y\}
 du\\
 &amp;=G_{M+1-m}d_m+P\{\min(X,Y)&gt;t_{m-1}\}
-\int_0^{t_m-t_{m-1}}g_{M+1-m}P\{X_m\le v, X_m\le Y_m\}dv\\
+\int_0^{t_m-t_{m-1}}g_{M+1-m}P\{X_m\leq v, X_m\leq Y_m\}dv\\
 &amp;=G_{M+1-m}d_m  + \frac{Q_{m-1}g_{M+1-m}\lambda_m}{\lambda_m+\eta_m}
 \int_0^{t_m-t_{m-1}}\left(1-\exp^{-(\lambda_m+\eta_m)v}\right)dv\\
 &amp;=G_{M+1-m}d_m  + \frac{Q_{m-1}g_{M+1-m}\lambda_m}{\lambda_m+\eta_m}

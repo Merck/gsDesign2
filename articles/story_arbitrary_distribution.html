@@ -174,12 +174,12 @@ allows for hazard rates over time; see, for example, <a href="https://en.wikiped
 <p>We consider a Poisson mixture model to incorporate a cure model into
 sample size planning. The form of the survival function for this is</p>
 <p><span class="math display">\[S(t)=\exp(-\theta F_0(t))\]</span> for
-<span class="math inline">\(t\ge 0\)</span> where <span class="math inline">\(F_0(t)\)</span> is a continuous cumulative
+<span class="math inline">\(t \geq 0\)</span> where <span class="math inline">\(F_0(t)\)</span> is a continuous cumulative
 distribution function for a non-negative random variable with <span class="math inline">\(F_0(0)=0\)</span> and <span class="math inline">\(F_0(t)\uparrow 1\)</span> as <span class="math inline">\(t\uparrow \infty\)</span>. We note that as <span class="math inline">\(t\uparrow \infty\)</span>, <span class="math inline">\(S(t)\downarrow \exp(-\theta)=c\)</span> where we
 will refer to <span class="math inline">\(c\)</span> as the cure rate.
 The function <code>p_pm()</code> assumes <span class="math inline">\(F_0(t)=1-\exp(-\lambda t)\)</span> is an
 exponential cumulative distribution function resulting in the survival
-distribution for <span class="math inline">\(t\ge 0\)</span>:</p>
+distribution for <span class="math inline">\(t \geq 0\)</span>:</p>
 <p><span class="math display">\[S(t; \theta, \lambda) =
 \exp(-\theta(1-\exp(-\lambda t))).\]</span> Note that we set the default
 of <code>lower.tail=FALSE</code> so that the survival function
