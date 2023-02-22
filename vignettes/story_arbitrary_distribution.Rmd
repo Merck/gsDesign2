@@ -77,9 +77,9 @@ We consider a Poisson mixture model to incorporate a cure model into sample size
 The form of the survival function for this is
 
 $$S(t)=\exp(-\theta F_0(t))$$
-for $t\ge 0$ where $F_0(t)$ is a continuous cumulative distribution function for a non-negative random variable with $F_0(0)=0$ and $F_0(t)\uparrow 1$ as $t\uparrow \infty$.
+for $t \geq 0$ where $F_0(t)$ is a continuous cumulative distribution function for a non-negative random variable with $F_0(0)=0$ and $F_0(t)\uparrow 1$ as $t\uparrow \infty$.
 We note that as $t\uparrow \infty$, $S(t)\downarrow \exp(-\theta)=c$ where we will refer to $c$ as the cure rate.
-The function `p_pm()` assumes $F_0(t)=1-\exp(-\lambda t)$ is an exponential cumulative distribution function resulting in the survival distribution for $t\ge 0$:
+The function `p_pm()` assumes $F_0(t)=1-\exp(-\lambda t)$ is an exponential cumulative distribution function resulting in the survival distribution for $t \geq 0$:
 
 $$S(t; \theta, \lambda) = \exp(-\theta(1-\exp(-\lambda t))).$$
 Note that we set the default of `lower.tail=FALSE` so that the survival function computation is the default:

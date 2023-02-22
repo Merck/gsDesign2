@@ -24,7 +24,7 @@ NULL
 #' \code{tEvents()} is made to match input format with \code{AHR()} and to solve for the
 #' time at which the expected accumulated events is equal to an input target.
 #' Enrollment and failure rate distributions are specified as follows.
-#' The piecewise exponential distribution allows a simple method to specify a distribtuion
+#' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern
 #' where the enrollment, failure and dropout rates changes over time.
 #' @param enrollRates Piecewise constant enrollment rates by stratum and time period.

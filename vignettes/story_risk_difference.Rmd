@@ -408,7 +408,7 @@ $$
 $$
 where
     $\widehat\sigma_{s,k}^2 \in \{\widehat\sigma_{H_0, k,s}^2, \widehat\sigma_{H_1, k,s}^2 \}$
-    depending on the infomation scale `info_scale = ...` in
+    depending on the information scale `info_scale = ...` in
     `gs_info_rd()`, `gs_power_rd()` and `gs_design_rd()`.
 
 -   **Sample-Size Weights (SS):**
@@ -500,7 +500,7 @@ n_c <- n / (1 + ratio)
 n_e <- n_c * ratio
 ```
 
-Then we calculate the variance under $H_0$ and $H_1$. Their mathmatical
+Then we calculate the variance under $H_0$ and $H_1$. Their mathematical
 formulation are shown as follows.
 $$
   \begin{array}{ll}
@@ -535,8 +535,8 @@ info_h0 <- 1 / (sigma_h0^2)
 info_h1 <- 1 / (sigma_h1^2)
 ```
 
-Next, we calculate the standarized treatment effect under $H_0$ and
-$H_1$, whose mathmatical formulation are
+Next, we calculate the standardized treatment effect under $H_0$ and
+$H_1$, whose mathematical formulation are
 $$
   \begin{array}{ll}
   \theta_{H_0} = 0; \\
@@ -556,7 +556,7 @@ tibble::tribble(
 ) %>% gt::gt()
 ```
 
-The above logic is implemented in teh function `gs_info_rd()`.
+The above logic is implemented in the function `gs_info_rd()`.
 
 ```{r}
 x <- gs_info_rd(

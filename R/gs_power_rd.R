@@ -28,7 +28,7 @@
 #' @param lower function to compare lower bound
 #' @param lpar parameter to pass to lower
 #' @param info_scale the information scale for calculation
-#' @param weight weigting method, either "un-stratified" or "ss" or "invar"
+#' @param weight weighting method, either "un-stratified" or "ss" or "invar"
 #' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
 #' @param test_upper indicator of which analyses should include an upper (efficacy) bound;
 #' single value of TRUE (default)  indicates all analyses; otherwise,
