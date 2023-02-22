@@ -8,7 +8,6 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Test of the function gs_power_npe}
@@ -17,17 +16,19 @@ vignette: >
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r, echo=FALSE, message=FALSE}
 library(gt)
 library(dplyr)
 library(tibble)
 library(testthat)
 library(gsDesign)
-# library(gsDesign2)
 devtools::load_all()
+
+setwd("./..")
+my_path <- "./old_function/"
+source_files <- list.files(my_path, "*.R$")
+sapply(paste0(my_path, source_files), source)
 ```
+
 
 # Test 1: Examples from spec
 
@@ -36,13 +37,13 @@ devtools::load_all()
 The default of `gs_power_npe` is a single analysis with type I error controlled.
 
 ```{r}
-x1 <- gs_power_npe(theta = 0) %>% filter(Bound == "Upper")
-x2 <- gsDesign2:::gs_power_npe_(theta = 0) %>% filter(Bound == "Upper")
+x1 <- gs_power_npe(theta = 0) %>% filter(bound == "upper")
+x2 <- gs_power_npe_(theta = 0) %>% filter(Bound == "Upper")
 ```
 
 ```{r, echo=FALSE}
 x1 %>%
-  union_all(x2) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   mutate(`Computated from` = c("new version", "old version")) %>%
   gt() %>%
   tab_style(
@@ -75,7 +76,7 @@ x2 <- gs_power_npe_(
 
 ```{r, echo=FALSE}
 x1 %>%
-  union_all(x2) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -103,7 +104,7 @@ x2 <- gs_power_npe_(
 
 ```{r, echo=FALSE}
 x1 %>%
-  union_all(x2) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -135,7 +136,7 @@ x2 <- gs_power_npe_(
 
 ```{r, echo=FALSE}
 x1 %>%
-  union_all(x2) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -168,7 +169,7 @@ x2 <- gs_power_npe_(
 
 ```{r, echo=FALSE}
 x1 %>%
-  union_all(x2) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -200,7 +201,7 @@ x2 <- gs_power_npe_(
 
 ```{r, echo=FALSE}
 x1 %>%
-  union_all(x2) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -236,7 +237,7 @@ x2 <- gs_power_npe_(
 
 ```{r, echo=FALSE}
 x1 %>%
-  union_all(x2) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -253,22 +254,22 @@ xx1 <- gs_power_npe(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   binding = TRUE,
-  upar = (x1 %>% filter(Bound == "Upper"))$Z,
-  lpar = -(x1 %>% filter(Bound == "Upper"))$Z
+  upar = (x1 %>% filter(bound == "upper"))$z,
+  lpar = -(x1 %>% filter(bound == "upper"))$z
 ) %>% mutate(`Computated from` = "new version")
 
 xx2 <- gs_power_npe_(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   binding = TRUE,
-  upar = (x1 %>% filter(Bound == "Upper"))$Z,
-  lpar = -(x1 %>% filter(Bound == "Upper"))$Z
+  upar = (x1 %>% filter(bound == "upper"))$z,
+  lpar = -(x1 %>% filter(bound == "upper"))$z
 ) %>% mutate(`Computated from` = "old version")
 ```
 
 ```{r, echo=FALSE}
 xx1 %>%
-  union_all(xx2) %>%
+  union_all(xx2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -323,9 +324,9 @@ x2 <- gs_power_npe_(
 x1_a %>%
   union_all(x1_b) %>%
   union_all(x1_c) %>%
-  union_all(x2) %>%
-  arrange(Analysis) %>%
-  group_by(Analysis, Bound) %>%
+  union_all(x2 %>% rename(bound = Bound, probability = Probability, z = Z, analysis = Analysis)) %>%
+  arrange(analysis) %>%
+  group_by(analysis, bound) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -345,12 +346,11 @@ x <- gs_power_npe(
   binding = FALSE, r = r,
   upper = gs_b, # gs_spending_bound,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF)$upper$bound,
-  # list(par = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.025)),
   lower = gs_b,
   lpar = rep(-Inf, 3)
-) %>% filter(Bound == "Upper")
+) %>% filter(bound == "upper")
 
-y <- gsDesign2:::gs_power_npe_(
+y <- gs_power_npe_(
   theta = 0,
   info = (1:3) * 400,
   binding = FALSE, r = r,
@@ -374,12 +374,12 @@ tibble(
   `Calculated from` = rep(c("new version", "old version", "gsDesign"), each = 3),
   Analysis = rep(1:3, 3),
   `upper bound` = c(
-    x %>% filter(Bound == "Upper") %>% select(Z) %>% unlist() %>% as.numeric(),
+    x %>% filter(bound == "upper") %>% select(z) %>% unlist() %>% as.numeric(),
     y %>% filter(Bound == "Upper") %>% select(Z) %>% unlist() %>% as.numeric(),
     z$upper$bound
   ),
   `upper prob` = c(
-    x %>% filter(Bound == "Upper") %>% select(Probability) %>% unlist() %>% as.numeric(),
+    x %>% filter(bound == "upper") %>% select(probability) %>% unlist() %>% as.numeric(),
     y %>% filter(Bound == "Upper") %>% select(Probability) %>% unlist() %>% as.numeric(),
     cumsum(z$upper$prob)
   )
@@ -408,8 +408,8 @@ test <- gs_power_npe(
   lpar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.02)
 )
 
-test1 <- test %>% filter(Bound == "Upper")
-test2 <- test %>% filter(Bound == "Lower")
+test1 <- test %>% filter(bound == "upper")
+test2 <- test %>% filter(bound == "lower")
 
 alpha.t <- 0.025
 b.ia <- gsDesign::sfLDOF(alpha = alpha.t, t = r)
@@ -429,12 +429,12 @@ b <- uniroot(Pb, c(1.96, 4), alpha.t = alpha.t, alpha.ia = alpha.ia, r = r)
 pb <- 1 - pnorm(b$root)
 
 expect_equal(
-  object = test1$Z,
+  object = test1$z,
   expected = c(qnorm(1 - alpha.ia), b$root),
   tolerance = 0.001
 )
 expect_equal(
-  object = test1$Probability,
+  object = test1$probability,
   expected = cumsum(c(b.ia$spend, pb)),
   tolerance = 0.001
 )
@@ -457,12 +457,12 @@ a <- uniroot(Pa, c(-4, 1.96), beta.t = beta.t, beta.ia = beta.ia, r = r)
 pa <- pnorm(a$root)
 
 expect_equal(
-  object = test2$Z,
+  object = test2$z,
   expected = c(qnorm(beta.ia), a$root),
   tolerance = 0.001
 )
 expect_equal(
-  object = test2$Probability,
+  object = test2$probability,
   expected = cumsum(c(a.ia$spend, pa)),
   tolerance = 0.001
 )
@@ -480,7 +480,7 @@ x <- gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.025),
   lower = gs_b,
   lpar = rep(-Inf, 3)
-) %>% filter(Bound == "Upper")
+) %>% filter(bound == "upper")
 
 y <- gs_power_npe(
   theta = .1,
@@ -489,7 +489,7 @@ y <- gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.025),
   lower = gs_b,
   lpar = rep(-Inf, 3)
-) %>% filter(Bound == "Upper")
+) %>% filter(bound == "upper")
 
 z <- gsDesign::gsProbability(
   k = 3, theta = .1,
@@ -504,19 +504,19 @@ tibble(
   `Calculated from` = rep(c("new version", "old version", "gsDesign"), each = 3),
   Analysis = rep(1:3, 3),
   `upper bound` = c(
-    x %>% filter(Bound == "Upper") %>% select(Z) %>% unlist() %>% as.numeric(),
-    y %>% filter(Bound == "Upper") %>% select(Z) %>% unlist() %>% as.numeric(),
+    x %>% filter(bound == "upper") %>% select(z) %>% unlist() %>% as.numeric(),
+    y %>% filter(bound == "upper") %>% select(z) %>% unlist() %>% as.numeric(),
     z$upper$bound
   ),
   `upper prob` = c(
     x %>%
-      filter(Bound == "Upper") %>%
-      select(Probability) %>%
+      filter(bound == "upper") %>%
+      select(probability) %>%
       unlist() %>%
       as.numeric(),
     y %>%
-      filter(Bound == "Upper") %>%
-      select(Probability) %>%
+      filter(bound == "upper") %>%
+      select(probability) %>%
       unlist() %>%
       as.numeric(),
     cumsum(z$upper$prob)

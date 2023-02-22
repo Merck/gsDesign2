@@ -72,7 +72,7 @@ gs_utility_combo <- function(enroll_rate,
     gamma = u_fh_test$gamma
   )
 
-  # Correlation between test
+  # Correlation between tests
   corr_test <- with(
     u_fh_test,
     lapply(analysis_time, function(tmax) {
@@ -96,8 +96,8 @@ gs_utility_combo <- function(enroll_rate,
   corr_combo <- diag(1, nrow = nrow(info))
   for (i in seq_len(nrow(info))) {
     for (j in seq_len(nrow(info))) {
-      t1 <- as.numeric(info$Analysis[i])
-      t2 <- as.numeric(info$Analysis[j])
+      t1 <- as.numeric(info$analysis[i])
+      t2 <- as.numeric(info$analysis[j])
       if (t1 <= t2) {
         test1 <- as.numeric(info$test[i])
         test2 <- as.numeric(info$test[j])
@@ -108,10 +108,10 @@ gs_utility_combo <- function(enroll_rate,
   }
 
   # Sample size
-  n <- max(info$N)
+  n <- max(info$n)
 
   # Restricted to actual analysis
-  info_fh <- merge(info, fh_test, all = TRUE)
+  info_fh <- info %>% left_join(fh_test %>% dplyr::rename(time = analysis_time), by = c("test", "analysis", "time"))
   corr_fh <- corr_combo[!is.na(info_fh$gamma), !is.na(info_fh$gamma)]
   info_fh <- subset(info_fh, !is.na(gamma))
 
@@ -376,8 +376,8 @@ gs_prob_combo <- function(upper_bound,
   }
 
   data.frame(
-    Bound = rep(c("Upper", "Lower"), each = n_analysis),
-    Probability = c(cumsum(p), cumsum(q))
+    bound = rep(c("upper", "lower"), each = n_analysis),
+    probability = c(cumsum(p), cumsum(q))
   )
 }
 

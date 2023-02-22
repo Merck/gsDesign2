@@ -92,12 +92,12 @@ We assume a hazard ratio of $1$ for $4$ months, followed by a hazard ratio of $0
 Finally, we assume a low $0.001$ exponential dropout rate per month for both treatment groups.
 
 ```{r}
-medianSurv <- 12
+median_surv <- 12
 
 fail_rate <- tibble::tibble(
   stratum = "All",
   duration = c(4, Inf),
-  fail_rate = log(2) / medianSurv,
+  fail_rate = log(2) / median_surv,
   hr = c(1, .6),
   dropout_rate = .001
 )
@@ -155,9 +155,9 @@ This is referred to as a non-binding bound since it is assumed the trial will no
 ## Simple Efficacy Bound Definition
 
 @LanDeMets developed the spending function method for deriving group sequential bounds.
-This involves use of a non-decreasing spending function $f(t)$ for $t\ge 0$ where $f(0)=0$ and $f(t)=\alpha$ for $t \ge 1$.
+This involves use of a non-decreasing spending function $f(t)$ for $t \geq 0$ where $f(0)=0$ and $f(t)=\alpha$ for $t \geq 1$.
 Suppose for $K>0$ analyses are performed when proportion $t_1< t_2 <\ldots t_K=1$ of some planned statistical information (e.g., proportion of planned events for a time-to-event endpoint trial for proportion of observations for a binomial or normal endpoint).
-Bounds through the first $k$ analyses $1\le k\le K$ are recursively defined by the spending function and the multivariate normal distribution to satisfy
+Bounds through the first $k$ analyses $1\leq k\leq K$ are recursively defined by the spending function and the multivariate normal distribution to satisfy
 
 $$
   f(t_k) = 1 - P_0(\cap_{j=1}^k Z_j < b_j).
@@ -211,14 +211,14 @@ design1s %>%
 gsDesign to replicate above bounds (this will not replicate sample size).
 
 ```{r, class.source = 'fold-show'}
-x <- gsDesign(k = 3, test.type = 1, timing = design1s$analysis$IF, sfu = sfLDOF)
+x <- gsDesign(k = 3, test.type = 1, timing = design1s$analysis$info_frac, sfu = sfLDOF)
 cat(
   "gsDesign\n  Upper bound: ", x$upper$bound,
   "\n  Cumulative boundary crossing probability (H0): ", cumsum(x$upper$prob[, 1]),
   "\n  Timing (IF): ", x$timing,
-  "\ngs_design_ahr\n  Upper bound: ", design1s$bounds$Z,
-  "\n  Cumulative boundary crossing probability (H0): ", design1s$bounds$Probability0,
-  "\n  Timinng (IF): ", design1s$analysis$IF,
+  "\ngs_design_ahr\n  Upper bound: ", design1s$bound$z,
+  "\n  Cumulative boundary crossing probability (H0): ", design1s$bound$probability0,
+  "\n  Timinng (IF): ", design1s$analysis$info_frac,
   "\n"
 )
 ```
@@ -261,10 +261,10 @@ The bounds can be plotted easily:
 
 ```{r, out.width = "50%"}
 ggplot(
-  data = design2ss$analysis %>% left_join(design2ss$bounds, by = "Analysis"),
-  aes(x = Events, y = Z, group = Bound)
+  data = design2ss$analysis %>% left_join(design2ss$bound, by = "analysis"),
+  aes(x = event, y = z, group = bound)
 ) +
-  geom_line(aes(linetype = Bound)) +
+  geom_line(aes(linetype = bound)) +
   geom_point() +
   ggtitle("2-sided symmetric bounds with O'Brien-Fleming-like spending")
 ```
@@ -301,7 +301,8 @@ design2sa %>%
   summary() %>%
   as_gt(
     title = "2-sided asymmetric group sequential bound using AHR method",
-    subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound for efficacy, futility disaster check at IA1, IA2 only"
+    subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound
+    for efficacy, futility disaster check at IA1, IA2 only"
   )
 ```
 

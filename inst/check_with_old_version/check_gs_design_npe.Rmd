@@ -22,6 +22,13 @@ library(gt)
 devtools::load_all()
 ```
 
+```{r, warning=FALSE, message=FALSE}
+setwd("./..")
+my_path <- "./old_function/"
+source_files <- list.files(my_path, "*.R$")
+sapply(paste0(my_path, source_files), source)
+```
+
 # Test 1: verify by `gs_power_npe` {.tabset}
 
 ## new version
@@ -42,8 +49,8 @@ The power is 0.9. If we re-use these bounds under alternate hypothesis, then we 
 ```{r}
 gs_power_npe(
   theta = c(.1, .2, .3), info = (1:3) * 40,
-  upper = gs_b, upar = (x %>% filter(Bound == "Upper"))$Z,
-  lower = gs_b, lpar = -(x %>% filter(Bound == "Upper"))$Z,
+  upper = gs_b, upar = (x %>% filter(bound == "upper"))$z,
+  lower = gs_b, lpar = -(x %>% filter(bound == "upper"))$z,
   binding = TRUE # Always use binding = TRUE for power calculations
 ) %>% gt()
 ```
@@ -92,7 +99,10 @@ x1_a <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = 
 x1_b <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = 1) %>% mutate(`Computated from` = "new version", `Info scale` = 1)
 x1_c <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = 2) %>% mutate(`Computated from` = "new version", `Info scale` = 2)
 
-x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) %>% mutate(`Computated from` = "old version")
+x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) %>% 
+  mutate(`Computated from` = "old version") %>% 
+  rename(analysis = Analysis,
+         bound = Bound, z = Z, probability = Probability)
 ```
 
 ```{r, echo=FALSE}
@@ -130,12 +140,15 @@ x1_c <- gs_design_npe(
   upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
   lower = gs_b, lpar = c(-1, 0, 0)
 ) %>% mutate(`Computated from` = "new version", `Info scale` = 2)
+
 x2 <- gs_design_npe_(
   theta = c(.1, .2, .3),
   info = (1:3) * 80,
   upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-  lower = gs_b, lpar = c(-1, 0, 0)
-) %>% mutate(`Computated from` = "old version")
+  lower = gs_b, lpar = c(-1, 0, 0)) %>% 
+  mutate(`Computated from` = "old version") %>% 
+  rename(analysis = Analysis,
+         bound = Bound, z = Z, probability = Probability)
 ```
 
 ```{r, echo=FALSE}
@@ -143,8 +156,8 @@ x1_a %>%
   union_all(x1_b) %>%
   union_all(x1_c) %>%
   union_all(x2) %>%
-  arrange(Analysis) %>%
-  group_by(Analysis, Bound) %>%
+  arrange(analysis) %>%
+  group_by(analysis, bound) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -173,12 +186,15 @@ x1_c <- gs_design_npe(
   upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
   lower = gs_b, lpar = c(-1, 0, 0)
 ) %>% mutate(`Computated from` = "new version", `Info scale` = 2)
+
 x2 <- gs_design_npe_(
   theta = c(.1, .2, .3),
   info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5,
   upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-  lower = gs_b, lpar = c(-1, 0, 0)
-) %>% mutate(`Computated from` = "old version")
+  lower = gs_b, lpar = c(-1, 0, 0)) %>% 
+  mutate(`Computated from` = "old version") %>% 
+  rename(analysis = Analysis,
+         bound = Bound, z = Z, probability = Probability)
 ```
 
 ```{r, echo=FALSE}
@@ -186,8 +202,8 @@ x1_a %>%
   union_all(x1_b) %>%
   union_all(x1_c) %>%
   union_all(x2) %>%
-  arrange(Analysis) %>%
-  group_by(Analysis, Bound) %>%
+  arrange(analysis) %>%
+  group_by(analysis, bound) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -227,8 +243,10 @@ x2 <- gs_design_npe_(
   info = (1:3) * 40, info0 = (1:3) * 40,
   upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_b, lpar = c(-1, -Inf, -Inf),
-  test_upper = c(FALSE, TRUE, TRUE)
-) %>% mutate(`Computated from` = "old version", `Info scale` = 0)
+  test_upper = c(FALSE, TRUE, TRUE)) %>% 
+  mutate(`Computated from` = "old version", `Info scale` = 0) %>% 
+  rename(analysis = Analysis,
+         bound = Bound, z = Z, probability = Probability)
 ```
 
 ```{r}
@@ -236,8 +254,8 @@ x1_a %>%
   union_all(x1_b) %>%
   union_all(x1_c) %>%
   union_all(x2) %>%
-  arrange(Analysis) %>%
-  group_by(Analysis, Bound) %>%
+  arrange(analysis) %>%
+  group_by(analysis, bound) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -282,7 +300,9 @@ x2 <- gs_design_npe_(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
-) %>% mutate(`Computated from` = "old version")
+) %>% mutate(`Computated from` = "old version") %>% 
+  rename(analysis = Analysis,
+         bound = Bound, z = Z, probability = Probability)
 ```
 
 ```{r, echo=FALSE}
@@ -290,8 +310,8 @@ x1_a %>%
   union_all(x1_b) %>%
   union_all(x1_c) %>%
   union_all(x2) %>%
-  arrange(Analysis) %>%
-  group_by(Analysis, Bound) %>%
+  arrange(analysis) %>%
+  group_by(analysis, bound) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),
@@ -340,7 +360,9 @@ x2 <- gs_design_npe_(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
-) %>% mutate(`Computated from` = "old version")
+) %>% mutate(`Computated from` = "old version") %>% 
+  rename(analysis = Analysis,
+         bound = Bound, z = Z, probability = Probability)
 ```
 
 ```{r, echo=FALSE}
@@ -348,8 +370,8 @@ x1_a %>%
   union_all(x1_b) %>%
   union_all(x1_c) %>%
   union_all(x2) %>%
-  arrange(Analysis) %>%
-  group_by(Analysis, Bound) %>%
+  arrange(analysis) %>%
+  group_by(analysis, bound) %>%
   gt() %>%
   tab_style(
     style = list(cell_fill(color = "#d3edeb")),

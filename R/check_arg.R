@@ -300,24 +300,24 @@ check_info <- function(info) {
 #' A function to check the arguments \code{theta} used in `gs_power_npe` or `gs_design_npe` in gsDesign2
 #'
 #' @param theta  treatment effect
-#' @param K number of total analysis
+#' @param n_analysis number of total analysis
 #'
 #' @return TURE or FALSE
 #'
 #' @examples
-#' check_theta(theta = rep(0.5, 3), K = 3)
+#' check_theta(theta = rep(0.5, 3), n_analysis = 3)
 #'
 #' @noRd
-check_theta <- function(theta, K) {
+check_theta <- function(theta, n_analysis) {
   if (!is.vector(theta, mode = "numeric")) {
     stop("gs_design_npe() or gs_power_npe(): theta must be a real vector!")
   }
 
-  if (length(theta) != K) {
+  if (length(theta) != n_analysis) {
     stop("gs_design_npe() or gs_power_npe(): if length(theta) > 1, must be same as info!")
   }
 
-  if (theta[K] < 0) {
+  if (theta[n_analysis] < 0) {
     stop("gs_design_npe() or gs_power_npe(): final effect size must be > 0!")
   }
 }
@@ -325,7 +325,7 @@ check_theta <- function(theta, K) {
 #' A function to check the arguments \code{test_upper} used in `gs_power_npe` or `gs_design_npe` in gsDesign2
 #'
 #' @param test_upper  test upper or lower
-#' @param K number of total analysis
+#' @param n_analysis number of total analysis
 #'
 #' @return TURE or FALSE
 #'
@@ -334,13 +334,13 @@ check_theta <- function(theta, K) {
 #' check_test_upper(test_upper, 1)
 #'
 #' @noRd
-check_test_upper <- function(test_upper, K) {
+check_test_upper <- function(test_upper, n_analysis) {
   ## Check test_upper and test_lower are logical and correct length
   if (!is.vector(test_upper, mode = "logical")) {
     stop("gs_design_npe() or gs_power_npe(): test_upper must be logical!")
   }
 
-  if (!(length(test_upper) == 1 || length(test_upper) == K)) {
+  if (!(length(test_upper) == 1 || length(test_upper) == n_analysis)) {
     stop("gs_design_npe() or gs_power_npe(): test_upper must be length 1 or same length as info!")
   }
 
@@ -353,7 +353,7 @@ check_test_upper <- function(test_upper, K) {
 #' A function to check the arguments \code{text_lower} used in `gs_power_npe` or `gs_design_npe` in gsDesign2
 #'
 #' @param test_lower  test upper or lower
-#' @param K number of total analysis
+#' @param n_analysis number of total analysis
 #'
 #' @return TURE or FALSE
 #'
@@ -362,13 +362,13 @@ check_test_upper <- function(test_upper, K) {
 #' check_test_lower(test_lower, 1)
 #'
 #' @noRd
-check_test_lower <- function(test_lower, K) {
+check_test_lower <- function(test_lower, n_analysis) {
   ## Check test_upper and test_lower are logical and correct length
   if (!is.vector(test_lower, mode = "logical")) {
     stop("gs_design_npe() or gs_power_npe(): test_lower must be logical!")
   }
 
-  if (!(length(test_lower) == 1 || length(test_lower) == K)) {
+  if (!(length(test_lower) == 1 || length(test_lower) == n_analysis)) {
     stop("gs_design_npe() or gs_power_npe(): test_lower must be length 1 or same length as info!")
   }
 }
@@ -404,7 +404,8 @@ check_alpha_beta <- function(alpha, beta) {
 #'
 #' @noRd
 check_info_frac <- function(info_frac) {
-  msg <- "gs_design_ahr(): info_frac must be a positive number or positive increasing sequence on (0, 1] with final value of 1"
+  msg <- "gs_design_ahr(): info_frac must be a positive
+  number or positive increasing sequence on (0, 1] with final value of 1!"
   if (!is.vector(info_frac, mode = "numeric")) stop(msg)
   if (min(info_frac - dplyr::lag(info_frac, def = 0)) <= 0) stop(msg)
   if (max(info_frac) != 1) stop(msg)

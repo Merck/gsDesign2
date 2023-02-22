@@ -55,7 +55,7 @@ Ideally, we would allow a targeted event count and variable follow-up in `fixed_
 
 ```{r}
 fixedevents <- fixed_design(
-  x = "AHR", alpha = 0.025, power = NULL,
+  x = "ahr", alpha = 0.025, power = NULL,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   study_duation = study_duation
@@ -63,7 +63,7 @@ fixedevents <- fixed_design(
 
 fixedevents %>%
   summary() %>%
-  select(-Bound) %>%
+  select(-bound) %>%
   as_gt(footnote = "Power based on 512 events") %>%
   fmt_number(columns = 3:4, decimals = 2) %>%
   fmt_number(columns = 5:6, decimals = 3)
@@ -77,7 +77,7 @@ This is implemented here by requiring a trend in favor of control with a directi
 A fixed bound is specified with the 'gs_b()` function for `upper` and `lower` and its correspoinding parameters `upar` for the upper (efficacy) bound and `lpar` for the lower (futility) bound.
 The final efficacy bound is for a 1-sided nominal p-value of 0.025; the futility bound lowers this to 0.0247 as noted in the lower-right-hand corner of the table below.
 In the last row under *Alternate hypothesis* below we see the power is 88.44%.
-@kornfreidlin2018 computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884)/100000),4),'%',sep='')`.
+@kornfreidlin2018 computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884) / 100000), 4), "%", sep = "")`.
 
 ```{r}
 wieand <- gs_power_ahr(
@@ -135,7 +135,7 @@ We consider monthly accumulation of events through the 34.86 months planned tria
 We note in the summary of early expected events below that all events during the first 3 months on-study are expected prior to the first interim analysis.
 
 ```{r}
-event_accumulation <- AHR(
+event_accumulation <- ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = c(1:34, 34.86),
@@ -149,9 +149,9 @@ We can look at the proportion of events after the first 3 months as follows:
 
 ```{r}
 event_accumulation %>%
-  group_by(Time) %>%
-  summarize(`Total events` = sum(Events), "Proportion early" = first(Events) / `Total events`) %>%
-  ggplot(aes(x = Time, y = `Proportion early`)) +
+  group_by(time) %>%
+  summarize(`Total events` = sum(event), "Proportion early" = first(event) / `Total events`) %>%
+  ggplot(aes(x = time, y = `Proportion early`)) +
   geom_line()
 ```
 

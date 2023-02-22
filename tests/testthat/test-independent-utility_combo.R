@@ -204,10 +204,10 @@ p_futility <- gsDesign2:::pmvnorm_combo(
   corr = corr
 )
 test_that("p efficacy", {
-  expect_equal(prob$Probability[1], p_efficacy[1], tolerance = 0.001)
+  expect_equal(prob$probability[1], p_efficacy[1], tolerance = 0.001)
 })
 test_that("p futility", {
-  expect_equal(prob$Probability[2], p_futility[1], tolerance = 0.001)
+  expect_equal(prob$probability[2], p_futility[1], tolerance = 0.001)
 })
 
 ####### 2 analysis scenario#####
@@ -286,16 +286,16 @@ p_futility_2 <- gsDesign2:::pmvnorm_combo(
   corr = corr
 )
 test_that("p efficacy1", {
-  expect_equal(prob$Probability[1], p_efficacy_1[1], tolerance = 0.001)
+  expect_equal(prob$probability[1], p_efficacy_1[1], tolerance = 0.001)
 })
 test_that("p futility1", {
-  expect_equal(prob$Probability[3], p_futility_1[1], tolerance = 0.001)
+  expect_equal(prob$probability[3], p_futility_1[1], tolerance = 0.001)
 })
 test_that("p efficacy2", {
-  expect_equal(prob$Probability[2], p_efficacy_1[1] + p_efficacy_2[1], tolerance = 0.001)
+  expect_equal(prob$probability[2], p_efficacy_1[1] + p_efficacy_2[1], tolerance = 0.001)
 })
 test_that("p futility2", {
-  expect_equal(prob$Probability[4], p_futility_1[1] + p_futility_2[1], tolerance = 0.001)
+  expect_equal(prob$probability[4], p_futility_1[1] + p_futility_2[1], tolerance = 0.001)
 })
 
 # test pmvtnorm_combo
@@ -379,7 +379,7 @@ fh_test <- rbind(data.frame(
   gamma = 0,
   tau = -1,
   test = 1,
-  Analysis = 1:3,
+  analysis = 1:3,
   analysis_time = analysis_time
 ))
 gs_arm <- gsDesign2:::gs_create_arm(enroll_rate,
@@ -450,7 +450,7 @@ fh_test <- rbind(data.frame(
   gamma = gamma,
   tau = tau,
   test = 1:3,
-  Analysis = 1,
+  analysis = 1,
   analysis_time = analysis_time
 ))
 gs_arm <- gsDesign2:::gs_create_arm(enroll_rate,

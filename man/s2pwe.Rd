@@ -30,7 +30,7 @@ to a piecewise exponential approximation
    \item Return the duration and rate by \code{s2pwe}
  }
  }
-\if{html}{The contents of this section are shown in PDF user manual only.}#' @return A \code{tibble} with \code{duration} and 'rate'
+\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

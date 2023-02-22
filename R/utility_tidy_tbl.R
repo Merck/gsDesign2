@@ -81,10 +81,8 @@ table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_
   # Now merge with table_b
   ab <- left_join(astring, table_b, by = byvar) %>%
     select(-one_of(!!byvar)) %>%
-    # select(-!!byvar) %>%
     dplyr::rename(!!aname := !!"_alab")
   return(ab)
-  # return(ab %>% group_by(!!aname)) # This grouping is not working
 }
 
 #' From https://github.com/sashahafner/jumbled/blob/master/rounddf.R

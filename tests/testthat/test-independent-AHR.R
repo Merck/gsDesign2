@@ -13,15 +13,14 @@ testthat::test_that("AHR results are consistent with simulation results for sing
     hr = c(.9, .6),
     dropout_rate = rep(.001, 2)
   )
-  actual <- AHR(
+  actual <- ahr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     total_duration = c(12, 24, 36)
   )
 
-
-  testthat::expect_true(all.equal(simulation_AHR1$AHR, actual$AHR, tolerance = 0.005))
-  testthat::expect_true(all.equal(simulation_AHR1$Events, actual$Events, tolerance = 0.005))
+  testthat::expect_true(all.equal(simulation_AHR1$AHR, actual$ahr, tolerance = 0.005))
+  testthat::expect_true(all.equal(simulation_AHR1$Events, actual$event, tolerance = 0.005))
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and single cutoff", {
@@ -38,13 +37,13 @@ testthat::test_that("AHR results are consistent with simulation results for sing
     dropout_rate = rep(.001, 2)
   )
   total_duration <- 30
-  actual <- AHR(
+  actual <- ahr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     total_duration = total_duration
   )
-  testthat::expect_true(all.equal(simulation_AHR2$AHR, actual$AHR, tolerance = 1e-3))
-  testthat::expect_true(all.equal(simulation_AHR2$Events, actual$Events, tolerance = 2e-3))
+  testthat::expect_true(all.equal(simulation_AHR2$AHR, actual$ahr, tolerance = 1e-3))
+  testthat::expect_true(all.equal(simulation_AHR2$Events, actual$event, tolerance = 2e-3))
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
@@ -62,11 +61,11 @@ testthat::test_that("AHR results are consistent with simulation results for sing
   )
   total_duration <- c(15, 30)
 
-  actual <- AHR(
+  actual <- ahr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     total_duration = total_duration
   )
-  testthat::expect_true(all.equal(simulation_AHR3$AHR, actual$AHR, tolerance = 5e-3))
-  testthat::expect_true(all.equal(simulation_AHR3$Events, actual$Events, tolerance = 7e-3))
+  testthat::expect_true(all.equal(simulation_AHR3$AHR, actual$ahr, tolerance = 5e-3))
+  testthat::expect_true(all.equal(simulation_AHR3$Events, actual$event, tolerance = 7e-3))
 })

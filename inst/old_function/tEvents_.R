@@ -1,5 +1,4 @@
-#  Copyright (c) 2022 Merck Sharp & Dohme Corp., a subsidiary of
-#  Merck & Co., Inc., Rahway, NJ, USA.
+#  Copyright (c) 2022 Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
 #
@@ -24,7 +23,7 @@ NULL
 #' \code{tEvents()} is made to match input format with \code{AHR()} and to solve for the
 #' time at which the expected accumulated events is equal to an input target.
 #' Enrollment and failure rate distributions are specified as follows.
-#' The piecewise exponential distribution allows a simple method to specify a distribtuion
+#' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern
 #' where the enrollment, failure and dropout rates changes over time.
 #' @param enrollRates Piecewise constant enrollment rates by stratum and time period.
@@ -41,57 +40,41 @@ NULL
 #'    \item Return a tibble with a single row with the output from `AHR()` got the specified output.
 #'    }
 #'  }
-#'
 #' @return A `tibble` with `Time` (computed to match events in `targetEvents`), `AHR` (average hazard ratio),
 #' `Events` (`targetEvents` input), info (information under given scenarios),
 #' and info0 (information under related null hypothesis) for each value of `totalDuration` input;
-#'
 #' @examples
 #' # Example 1: default
-#' gsDesign2:::tEvents_()
-#'
+#' tEvents_()
 #' # Example 2: check that result matches a finding using AHR()
 #' # Start by deriving an expected event count
 #' enrollRates <-
-#'   tibble::tibble(
-#'     Stratum = "All",
-#'     duration = c(2, 2, 10),
-#'     rate = c(3, 6, 9) * 5
-#'   )
-#' failRates <- tibble::tibble(
-#'   Stratum = "All", duration = c(3, 100), failRate = log(2) / c(9, 18),
-#'   hr = c(.9, .6), dropoutRate = rep(.001, 2)
-#' )
+#'   tibble::tibble(Stratum="All",
+#'                  duration=c(2,2,10),
+#'                  rate=c(3,6,9)*5)
+#' failRates=tibble::tibble(Stratum="All",duration=c(3,100),failRate=log(2)/c(9,18),
+#'                          hr=c(.9,.6),dropoutRate=rep(.001,2))
 #' totalDuration <- 20
-#' xx <- AHR(enrollRates, failRates, totalDuration)
+#' xx <- AHR_(enrollRates,failRates,totalDuration)
 #' xx
 #' # Next we check that the function confirms the timing of the final analysis.
-#' gsDesign2:::tEvents_(enrollRates, failRates, targetEvents = xx$Events, interval = c(.5, 1.5) * xx$Time)
+#' tEvents_(enrollRates,failRates,targetEvents=xx$Events,interval=c(.5,1.5)*xx$Time)
+#' @export
 #'
-#' @noRd
-tEvents_ <- function(enrollRates = tibble::tibble(
-                       Stratum = "All",
-                       duration = c(2, 2, 10),
-                       rate = c(3, 6, 9) * 5
-                     ),
-                     failRates = tibble::tibble(
-                       Stratum = "All",
-                       duration = c(3, 100),
-                       failRate = log(2) / c(9, 18),
-                       hr = c(.9, .6),
-                       dropoutRate = rep(.001, 2)
-                     ),
-                     targetEvents = 150,
-                     ratio = 1,
-                     interval = c(.01, 100)) {
-  res <- try(uniroot(
-    function(x) {
-      AHR_(enrollRates, failRates, x, ratio)$Events - targetEvents
-    },
-    interval
-  ))
-  if (inherits(res, "try-error")) {
-    stop("tEvents solution not found")
-  }
+tEvents_ <- function(enrollRates=tibble::tibble(Stratum="All",
+                                               duration=c(2, 2, 10),
+                                               rate=c(3, 6, 9) * 5),
+                    failRates=tibble::tibble(Stratum="All",
+                                             duration=c(3, 100),
+                                             failRate=log(2) / c(9, 18),
+                                             hr=c(.9, .6),
+                                             dropoutRate=rep(.001, 2)),
+                    targetEvents=150,
+                    ratio = 1,
+                    interval=c(.01, 100)
+){
+  res <- try(uniroot(function(x){AHR_(enrollRates, failRates, x, ratio)$Events - targetEvents},
+                     interval))
+  if(inherits(res,"try-error")){stop("tEvents solution not found")}
   AHR_(enrollRates, failRates, res$root, ratio)
 }

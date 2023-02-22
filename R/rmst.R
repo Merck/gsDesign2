@@ -71,26 +71,26 @@ fixed_design_size_rmst <- function(enroll_rate,
       tau
     })
   )
-  bounds <- tibble::tibble(
-    Analysis = 1,
-    Bound = "Upper",
-    Probability = 1 - beta,
-    Probability0 = alpha,
-    Z = -qnorm(alpha)
+  bound <- tibble::tibble(
+    analysis = 1,
+    bound = "upper",
+    probability = 1 - beta,
+    probability0 = alpha,
+    z = -qnorm(alpha)
   )
 
   analysis <- tibble::tibble(
-    Analysis = 1,
-    Time = analysis_time,
-    N = npsurv[["n"]],
-    Events = npsurv[["d"]]
+    analysis = 1,
+    time = analysis_time,
+    n = npsurv[["n"]],
+    event = npsurv[["d"]]
   )
 
 
   res <- list(
     enroll_rate = enroll_rate %>% mutate(rate = rate * npsurv[["n"]] / n),
     fail_rate = fail_rate,
-    bounds = bounds,
+    bound = bound,
     analysis = analysis
   )
 
@@ -156,25 +156,25 @@ fixed_design_power_rmst <- function(enroll_rate,
     })
   )
 
-  bounds <- tibble::tibble(
-    Analysis = 1,
-    Bound = "Upper",
-    Probability = npsurv,
-    Probability0 = alpha,
-    Z = -qnorm(alpha)
+  bound <- tibble::tibble(
+    analysis = 1,
+    bound = "upper",
+    probability = npsurv,
+    probability0 = alpha,
+    z = -qnorm(alpha)
   )
 
   analysis <- tibble::tibble(
-    Analysis = 1,
-    Time = analysis_time,
-    N = n,
-    Events = d
+    analysis = 1,
+    time = analysis_time,
+    n = n,
+    event = d
   )
 
   res <- list(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    bounds = bounds,
+    bound = bound,
     analysis = analysis
   )
 

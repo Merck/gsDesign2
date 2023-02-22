@@ -83,25 +83,23 @@ NULL
 #' # Some analysis times after time at which targeted event accrue
 #' # Check that both Time >= input analysis_time and event >= input event
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
-#' }
-#' \donttest{
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
 #' }
 gs_info_ahr <- function(enroll_rate = tibble::tibble(
-                          stratum = "All",
+                          stratum = "all",
                           duration = c(2, 2, 10),
                           rate = c(3, 6, 9)
                         ),
                         fail_rate = tibble::tibble(
-                          stratum = "All",
+                          stratum = "all",
                           duration = c(3, 100),
                           fail_rate = log(2) / c(9, 18),
                           hr = c(.9, .6),
                           dropout_rate = rep(.001, 2)
                         ),
-                        ratio = 1, # Experimental:Control randomization ratio
+                        ratio = 1, # experimental:Control randomization ratio
                         event = NULL, # event at analyses
-                        analysis_time = NULL, # Times of analyses
+                        analysis_time = NULL, # times of analyses
                         interval = c(.01, 100)) {
   # ----------------------------#
   #    check input values       #
@@ -111,21 +109,23 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
 
   if (is.null(analysis_time) && is.null(event)) {
-    stop("gs_info_ahr(): One of `event` and `analysis_time` must be a numeric value or vector with increasing values")
+    stop("gs_info_ahr(): One of `event` and `analysis_time`
+         must be a numeric value or vector with increasing values")
   }
 
-  K <- 0
+  n_analysis <- 0
   if (!is.null(analysis_time)) {
     check_analysis_time(analysis_time)
-    K <- length(analysis_time)
+    n_analysis <- length(analysis_time)
   }
 
   if (!is.null(event)) {
     check_event(event)
-    if (K == 0) {
-      K <- length(event)
-    } else if (K != length(event)) {
-      stop("gs_info_ahr(): If both event and analysis_time specified, must have same length")
+    if (n_analysis == 0) {
+      n_analysis <- length(event)
+    } else if (n_analysis != length(event)) {
+      stop("gs_info_ahr(): If both event and analysis_time
+           specified, must have same length")
     }
   }
 
@@ -135,13 +135,13 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
   avehr <- NULL
   if (!is.null(analysis_time)) {
     # calculate AHR, Events, info, info0 given the analysis_time
-    avehr <- AHR(
+    avehr <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       ratio = ratio, total_duration = analysis_time
     )
     # check if the output Events is larger enough than the targeted events
     for (i in seq_along(event)) {
-      if (avehr$Events[i] < event[i]) {
+      if (avehr$event[i] < event[i]) {
         avehr[i, ] <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           ratio = ratio, target_event = event[i],
@@ -165,12 +165,12 @@ gs_info_ahr <- function(enroll_rate = tibble::tibble(
   # ----------------------------#
   #    compute theta            #
   # ----------------------------#
-  avehr$Analysis <- seq_len(nrow(avehr))
-  avehr$theta <- -log(avehr$AHR)
+  avehr$analysis <- seq_len(nrow(avehr))
+  avehr$theta <- -log(avehr$ahr)
 
   # ----------------------------#
   #    output results           #
   # ----------------------------#
-  ans <- avehr %>% dplyr::transmute(Analysis, Time, Events, AHR, theta, info, info0)
+  ans <- avehr %>% dplyr::transmute(analysis, time, event, ahr, theta, info, info0)
   return(ans)
 }

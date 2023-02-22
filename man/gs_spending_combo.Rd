@@ -11,12 +11,14 @@ gs_spending_combo(par = NULL, info = NULL, ...)
 \code{sf} (class spending function),
 \code{total_spend} (total spend),
 \code{param} (any parameters needed by the spending function \code{sf()}),
-\code{timing} (a vector containing values at which spending function is to be evaluated or NULL if information-based spending is used),
-\code{max_info} (when \code{timing} is NULL, this can be input as positive number to be used with \code{info} for information fraction at each analysis)}
+\code{timing} (a vector containing values at which spending function
+is to be evaluated or NULL if information-based spending is used),
+\code{max_info} (when \code{timing} is NULL, this can be input as
+positive number to be used with \code{info} for information fraction at each analysis)}
 
 \item{info}{statistical information at all analyses, at least up to analysis k}
 
-\item{...}{additional parameters transfered to \code{par$sf}.}
+\item{...}{additional parameters passed to \code{par$sf}.}
 }
 \description{
 Derive spending bound for MaxCombo group sequential boundary

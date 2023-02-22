@@ -5,9 +5,9 @@
 \title{Information and effect size under risk difference}
 \usage{
 gs_info_rd(
-  p_c = tibble::tibble(stratum = "All", rate = 0.2),
-  p_e = tibble::tibble(stratum = "All", rate = 0.15),
-  n = tibble::tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
+  p_c = tibble::tibble(stratum = "all", rate = 0.2),
+  p_e = tibble::tibble(stratum = "all", rate = 0.15),
+  n = tibble::tibble(stratum = "all", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
   weight = c("un-stratified", "ss", "invar-h1", "invar-h0")
@@ -24,7 +24,7 @@ gs_info_rd(
 
 \item{ratio}{Experimental:Control randomization ratio}
 
-\item{weight}{weigting method, either "un-stratified" or "ss" or "invar"}
+\item{weight}{weighting method, either "un-stratified" or "ss" or "invar"}
 }
 \description{
 Information and effect size under risk difference

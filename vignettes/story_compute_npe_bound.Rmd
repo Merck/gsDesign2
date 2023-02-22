@@ -26,17 +26,17 @@ knitr::opts_chunk$set(
 
 We consider group sequential designs with possibly non-constant treatment effects over time.
 This can be useful for situations such as an assumed non-proportional hazards model as laid out in `vignette("NPEbackground", package="gsDesign2")`.
-In general, we assume $K\ge 1$ analyses with statistical information $\mathcal{I}_k$ and information fraction $t_k=\mathcal{I}_k/\mathcal{I}_k$ at analysis $k$, $1\le k\le K$.
+In general, we assume $K \geq 1$ analyses with statistical information $\mathcal{I}_k$ and information fraction $t_k=\mathcal{I}_k/\mathcal{I}_k$ at analysis $k$, $1\leq k\leq K$.
 We denote the null hypothesis $H_{0}$: $\theta(t)=0$ and an alternate hypothesis $H_1$: $\theta(t)=\theta_1(t)$ for $t> 0$ where $t$ represents the information fraction for a study.
 While a study is planned to stop at information fraction $t=1$, we define $\theta(t)$ for $t>0$ since a trial can overrun its planned statistical information at the final analysis.
 As before, we use a shorthand notation in to have $\theta$ represent $\theta()$, $\theta=0$ to represent
-$\theta(t)\equiv 0$ for all $t$ and $\theta_1$ to represent $\theta_i(t_k)$, the effect size at analysis $k$, $1\le k\le K$.
+$\theta(t)\equiv 0$ for all $t$ and $\theta_1$ to represent $\theta_i(t_k)$, the effect size at analysis $k$, $1\leq k\leq K$.
 
 For our purposes, $H_0$ will represent no treatment difference, but it could represent a non-inferiority hypothesis.
-Recall that we assume $K$ analyses and bounds $-\infty \le a_k< b_k<\le \infty$ for $1\le k < K$ and $-\infty \le a_K\le b_K<\infty$.
+Recall that we assume $K$ analyses and bounds $-\infty \leq a_k< b_k<\leq \infty$ for $1\leq k < K$ and $-\infty \leq a_K\leq b_K<\infty$.
 We denote the probability of crossing the upper boundary at analysis $k$ without previously crossing a bound by
 
-$$\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{k-1}\{a_{j}\le Z_{j}< b_{j}\}),$$
+$$\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{k-1}\{a_{j}\leq Z_{j}< b_{j}\}),$$
 $k=1,2,\ldots,K.$
 The total probability of crossing an upper bound prior to crossing a lower bound is denoted by
 
@@ -57,11 +57,11 @@ For Type I error, we may be interested in $\alpha(0)$ for binding lower bounds, 
 
 We denote the probability of crossing a lower bound at analysis $k$ without previously crossing any bound by
 
-$$\beta_{k}(\theta)=P_{\theta}((Z_{k}< a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\le Z_{j}< b_{j}\}).$$
+$$\beta_{k}(\theta)=P_{\theta}((Z_{k}< a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}< b_{j}\}).$$
 
-Efficacy bounds $b_k$, $1\le k\le K$, for a group sequential design will be derived to control Type I at some level $\alpha=\alpha(0)$.
+Efficacy bounds $b_k$, $1\leq k\leq K$, for a group sequential design will be derived to control Type I at some level $\alpha=\alpha(0)$.
 
-Lower bounds $a_k$, $1\le k\le K$ may be used to control boundary crossing probabilities under either the null hypothesis (2-sided testing), the alternate hypothesis or some other hypothesis (futility testing).
+Lower bounds $a_k$, $1\leq k\leq K$ may be used to control boundary crossing probabilities under either the null hypothesis (2-sided testing), the alternate hypothesis or some other hypothesis (futility testing).
 
 Thus, we may consider up to 3 values of $\theta(t)$:
 
@@ -106,7 +106,7 @@ This can be reduced to just two types distinguishing by whether or not lower bou
 In this second table we have used $\theta=0$ to derive the upper bound to control Type I error in all cases.
 We have chosen some arbitrary $\theta$ which could be 0 for any other `test.type`, $\theta_a$ for $\beta$-spending or some arbitrary $\theta_1$ otherwise.
 We note that for a one-sided design we let $\beta_k(\theta)=0$ so that $a_k=-\infty, k=1,\cdots,K$.
-For `test.type=3, 4` we let $\theta=\theta_a$, while for `test.type=5, 6` $\theta\ge 0$ is arbitrary.
+For `test.type=3, 4` we let $\theta=\theta_a$, while for `test.type=5, 6` $\theta \geq 0$ is arbitrary.
 We note that asymmetric $\alpha$-spending bounds can be derived using `test.type > 2` and $\theta=0.$
 
 ## Two-sided testing and design
@@ -118,7 +118,7 @@ The value of $\theta(t)$ will be referred to as the (standardized) treatment eff
 
 We assume there is interest in stopping early if there is good evidence to reject one hypothesis in favor of the other.
 
-If $a_k= -\infty$ at analysis $k$ for some $1\le k\le K$ then the alternate hypothesis cannot be rejected at analysis $k$; i.e., there is no futility bound at analysis $k$.
+If $a_k= -\infty$ at analysis $k$ for some $1\leq k\leq K$ then the alternate hypothesis cannot be rejected at analysis $k$; i.e., there is no futility bound at analysis $k$.
 For $k=1,2,\ldots,K$, the trial is stopped at analysis $k$ to reject $H_0$ if $a_j<Z_j< b_j$, $j=1,2,\dots,i-1$ and $Z_k\geq b_k$.
 If the trial continues until stage $k$ without crossing a bound and $Z_k\leq a_k$ then $H_1$ is rejected in favor of $H_0$, $k=1,2,\ldots,K$.
 Note that if $a_K< b_K$ there is the possibility of completing the trial without rejecting $H_0$ or $H_1$ unless $a_K=b_K.$

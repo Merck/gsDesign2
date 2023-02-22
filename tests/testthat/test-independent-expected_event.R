@@ -24,16 +24,18 @@ test_that("data frame returned from expected_event not as expected", {
   enrollRates <- tibble::tibble(duration = c(1, 1, 8), rate = c(3, 2, 0))
   failRates <- tibble::tibble(duration = c(4, Inf), failRate = c(.03, .06), dropoutRate = c(.001, .002))
   totalDuration <- 7
-  xx <- expected_event(enrollRates,
+  xx <- expected_event(
+    enrollRates,
     failRates %>% rename(fail_rate = failRate, dropout_rate = dropoutRate),
     totalDuration,
     simple = FALSE
-  ) %>% data.frame()
+  ) %>%
+    data.frame()
   # expected checked with alternate calculations in gsSurvNPH vignette
   expected <- data.frame(
     t = c(0, 4),
-    failRate = c(0.03, 0.06),
-    Events = c(0.5642911, 0.5194821)
+    fail_rate = c(0.03, 0.06),
+    event = c(0.5642911, 0.5194821)
   )
   testthat::expect_equal(xx, expected)
 })

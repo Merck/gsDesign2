@@ -39,7 +39,7 @@ GitHub release in August 2022.
 
 GitHub release in May 2022.
 
-- Supports the Biometrical Journal paper "A unified framework for weighted parametric group sequential design" by Keaven M. Anderson, Zifang Guo, Jing Zhao, and Linda Z. Sun.
+- Supports the _Biometrical Journal_ paper "A unified framework for weighted parametric group sequential design" by Keaven M. Anderson, Zifang Guo, Jing Zhao, and Linda Z. Sun.
 
 # gsDesign2 0.1.0
 

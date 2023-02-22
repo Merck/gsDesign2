@@ -30,7 +30,7 @@ test_tEvents <- function(enrollRates = tibble::tibble(
     total_duration = td,
     simple = FALSE
   )
-  totale <- sum(eventc$Events + eventt$Events)
+  totale <- sum(eventc$event + eventt$event)
   return(totale)
 }
 
@@ -59,11 +59,11 @@ testthat::test_that("expected_time does not equal to eEvent_df's result", {
   )
 
   testthat::expect_equal(
-    t1$Events,
+    t1$event,
     test_tEvents(
       enrollRates = enrollRates,
       failRates = failRates,
-      td = t1$Time
+      td = t1$time
     )
   )
 })
@@ -91,13 +91,13 @@ testthat::test_that("expected_time does not euqal to AHR's result", {
   )
 
   testthat::expect_equal(
-    t1$Events,
-    AHR(
+    t1$event,
+    ahr(
       enroll_rate = enrollRates %>% dplyr::rename(stratum = Stratum),
       fail_rate = failRates %>% dplyr::rename(stratum = Stratum, fail_rate = failRate, dropout_rate = dropoutRate),
-      total_duration = t1$Time,
+      total_duration = t1$time,
       ratio = 1,
       simple = TRUE
-    )$Events
+    )$event
   )
 })

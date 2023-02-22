@@ -26,7 +26,7 @@ NULL
 #' \code{eEvents_df} computes expected events over time and by strata
 #' under the assumption of piecewise constant enrollment rates and piecewise
 #' exponential failure and censoring rates.
-#' The piecewise exponential distribution allows a simple method to specify a distribtuion
+#' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern
 #' where the enrollment, failure and dropout rates changes over time.
 #' While the main purpose may be to generate a trial that can be analyzed at a single point in time or

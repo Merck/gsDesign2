@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 )
 options(width = 58)
 
-devtools::load_all()
+library(gsDesign2)
 ```
 
 # Introduction
@@ -45,7 +45,7 @@ For an individual, let $X>0$ denote the patient time until an event and $Y>0$ de
 We also let $U$ denote the (independent) study time of entry for the patient.
 We assume the triplet $X$, $Y$, $U$ are independent.
 
-We will consider a single treatment group and stratum and assume subjects enroll according to a Poisson process with entry rate $g(\omega)\geq 0$ for $0\le \omega$.
+We will consider a single treatment group and stratum and assume subjects enroll according to a Poisson process with entry rate $g(\omega)\geq 0$ for $0 \leq \omega$.
 The expected number of subjects enrolled by study time $\omega$ is simply
 
 \begin{equation}
@@ -55,8 +55,8 @@ G(\omega)=\int_0^\omega g(u)du.
 Analysis of time-to-event data is done using the time from enrollment until the patient has an event, drops out, or is censored prior having an event at the time of a data cutoff; we will consider the data cutoff to be fixed at time $\Omega$.
 The key counts we consider here is:
 
-- $\bar{N}(t)$ : the number of patients with events at or before being on study for at least a duration $0<t \le \Omega$ at time of data cutoff at study time $\Omega$.
-- $\bar{n}(t_1,t_2)\equiv E\{\bar{N}(t_2)-\bar{N}(t_1)\}$ : the number of patients with events in the interval $(t_1,t_2]$, $0\le t_1< t_2\le \Omega$.
+- $\bar{N}(t)$ : the number of patients with events at or before being on study for at least a duration $0<t \leq \Omega$ at time of data cutoff at study time $\Omega$.
+- $\bar{n}(t_1,t_2)\equiv E\{\bar{N}(t_2)-\bar{N}(t_1)\}$ : the number of patients with events in the interval $(t_1,t_2]$, $0\leq t_1< t_2\leq \Omega$.
 
 We will focus on the the expected value of $\bar{n}(t_1,t_2)$ due to its usefulness in computing an average hazard ratio under the piecewise model outlined below.
 For a patient to be in the count $\bar{n}(t_1,t_2)$ they must be enrolled prior to time $\Omega - t_1$. Also, for a patient enrolled at time $0<u<\Omega$ the maximum time they would be observed for occurrence of an event would be $\Omega - u$.
@@ -97,7 +97,7 @@ We now assume subjects enroll at a constant rate in each of $J$ intervals define
 We denote the enrollment rates by
 \begin{equation}g(\omega)=\gamma_j\geq 0\label{eq:gj}\end{equation}
 for $\omega$ in the interval $(\omega_{j-1},\omega_j]$,  $j=0,1,2,\ldots,J$.
-We assume $\gamma_1>0$, but for $j>1$ we assume $\gamma_j\ge 0$.
+We assume $\gamma_1>0$, but for $j>1$ we assume $\gamma_j \geq 0$.
 Letting $G_0=0$ we recursively define for $j=1,\ldots,J$
 
 \begin{equation}G_j=G(\omega_j)=G_{j-1}+\gamma_j(\omega_j-\omega_{j-1})\label{eq:Gj}\end{equation}
@@ -126,9 +126,9 @@ fail_rate <- c(.03, .06)
 dropout_rate <- c(.001, .002)
 multiplier <- 3 / max(fail_rate)
 pfail_rate <- fail_rate * multiplier
-pdropRates <- dropout_rate * multiplier
+p_drop_rate <- dropout_rate * multiplier
 sfunfail <- stepfun(4, pfail_rate)
-sfundrop <- stepfun(4, pdropRates)
+sfundrop <- stepfun(4, p_drop_rate)
 
 plot(sfunfail,
   xval = c(0, 4, 7), do.points = FALSE, main = NULL,
@@ -150,7 +150,6 @@ mtext(
 )
 mtext(side = 4, "Enrollment rate       ", col = 2)
 
-# text("Enrollment at rate of 3 and 2 for one month each\nwith no further enrollment",x=2,y=1,pos=4,col="red")
 lines(x = c(4, 4), y = c(0, 3), lty = 4)
 lines(x = c(5, 5), y = c(0, 3), col = "red", lty = 4)
 lines(x = c(6, 6), y = c(0, 3), col = "red", lty = 4)
@@ -193,9 +192,9 @@ We define for $m=1,\ldots,M$ intermediate probability calculations for use in ca
 \begin{align}
 q_m&=P\{\min(X_m,Y_m)>t_m-t_{m-1}\}=\exp^{-(\lambda_m+\eta_m)(t_m-t_{m-1})} \label{eq:qm}\\
 Q_m&=P\{\min(X,Y)>t_m\}=\prod_{j=1}^m q_j\label{eq:Qm}\\
-d_m&=P\{t_{m-1}<X\le t_m,X\le Y\}\\
-&=P\{\min(X,Y)>t_{m-1}\}\cdot P\{0<\min (X_m,Y_m)\le t_m-t_{m-1},X_m\le Y_m\}\\
-&=P\{\min(X,Y)>t_{m-1}\}\cdot P\{0<\min (X_m,Y_m)\le t_m-t_{m-1}\}\cdot P\{X_m\le Y_m|0<\min (X_m,Y_m)\le t_m-t_{m-1}\}\\
+d_m&=P\{t_{m-1}<X\leq t_m,X\leq Y\}\\
+&=P\{\min(X,Y)>t_{m-1}\}\cdot P\{0<\min (X_m,Y_m)\leq t_m-t_{m-1},X_m\leq Y_m\}\\
+&=P\{\min(X,Y)>t_{m-1}\}\cdot P\{0<\min (X_m,Y_m)\leq t_m-t_{m-1}\}\cdot P\{X_m\leq Y_m|0<\min (X_m,Y_m)\leq t_m-t_{m-1}\}\\
 &=Q_{m-1}(1-e^{-(\lambda_m+\eta_m)(t_m-t_{m-1})})
 \frac{\lambda_m}{\lambda_m+\eta_m}\\
 \bar n_m&=E\{\bar n(t_{m-1},t_m)\}
@@ -208,7 +207,7 @@ From above, we have
 \bar n_m&=G(t_M-t_m)P\{t_{m-1}<X\leq t_m, X\leq Y\}+
 \int_{t_M-t_m}^{t_M-t_{m-1}} g(u) P\{t_{m-1}< X\leq t_M-u, X\leq Y\} du\\
 &=G_{M+1-m}d_m+P\{\min(X,Y)>t_{m-1}\}
- \int_0^{t_m-t_{m-1}}g_{M+1-m}P\{X_m\le v, X_m\le Y_m\}dv\\
+ \int_0^{t_m-t_{m-1}}g_{M+1-m}P\{X_m\leq v, X_m\leq Y_m\}dv\\
 &=G_{M+1-m}d_m  + \frac{Q_{m-1}g_{M+1-m}\lambda_m}{\lambda_m+\eta_m}
  \int_0^{t_m-t_{m-1}}\left(1-\exp^{-(\lambda_m+\eta_m)v}\right)dv\\
 &=G_{M+1-m}d_m  + \frac{Q_{m-1}g_{M+1-m}\lambda_m}{\lambda_m+\eta_m}
@@ -220,7 +219,7 @@ From above, we have
 We now add $q_m$, $Q_m$, and $d_m$ to the calculations above to enable computation of $\bar n_m$, the expected events in each time interval.
 
 ```{r,results='markup',warning=FALSE}
-namesTem <- names(x)
+name_tem <- names(x)
 
 names(x) <- c("m", "tm", "lambda", "eta", "j", "omega", "gamma")
 
@@ -261,7 +260,7 @@ We check the above for the total number of events using the **gsDesign** functio
 First, we sum the $\bar{n}_m$ values `sum(y$nbar)` to get `r round(sum(y$nbar),6)` and compare to:
 
 ```{r,warning=FALSE}
-Events <- gsDesign::eEvents(
+event <- gsDesign::eEvents(
   lambda = y$lambda,
   eta = y$eta,
   gamma = y$gamma[rev(seq_along(y$gamma))],
@@ -270,7 +269,7 @@ Events <- gsDesign::eEvents(
   T = max(y$tm)
 )$d
 
-Events
+event
 ```
 
 Next, we examine by the periods defined by `fail_rate`:
@@ -336,21 +335,20 @@ Now we confirm the expected events in each follow-up interval given the targeted
 #' Cut a Dataset for Analysis at a Specified Date
 #'
 #' @param x a time-to-event dataset, e.g., generated by \code{simPWSurv}
-#' @param cutDate date relative to start of randomization (\code{cte} from input dataset)
+#' @param cut_date date relative to start of randomization (\code{cte} from input dataset)
 #' at which dataset is to be cut off for analysis
 #' @return A dataset ready for survival analysis
 #' @examples
 #' # Use default enrollment and event rates and cut at calendar time 5 after start
 #' # of randomization
 #' library(dplyr)
-#' simPWSurv(n = 20) %>% cutData(5)
-#' @export
-cutData <- function(x, cutDate) {
+#' simPWSurv(n = 20) %>% cut_data(5)
+cut_data <- function(x, cut_date) {
   x %>%
-    filter(enrollTime <= cutDate) %>%
+    filter(enrollTime <= cut_date) %>%
     mutate(
-      tte = pmin(cte, cutDate) - enrollTime,
-      event = fail * (cte <= cutDate)
+      tte = pmin(cte, cut_date) - enrollTime,
+      event = fail * (cte <= cut_date)
     ) %>%
     select(tte, event, Stratum, Treatment)
 }
@@ -358,7 +356,7 @@ cutData <- function(x, cutDate) {
 
 ```{r,warning=FALSE}
 yy <- xx %>%
-  cutData(7) %>%
+  cut_data(7) %>%
   filter(event == 1) %>%
   mutate(tcat = 4 + (tte > 4) + (tte > 5) + (tte > 6))
 cat("Event by interval: ", table(yy$tcat) / nsim * 5, "\n")

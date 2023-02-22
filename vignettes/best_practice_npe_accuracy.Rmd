@@ -58,8 +58,8 @@ gs_power_grid <- function(n_analysis, r, tol, sf = gsDesign::sfLDOF, sfname = "O
     tol = tol
   )
   x %>%
-    filter(abs(Z) < Inf) %>%
-    transmute(sf = sfname, param = param, r = r, Analysis = Analysis, Z = Z, p = pnorm(-Z), tol = tol)
+    filter(abs(z) < Inf) %>%
+    transmute(sf = sfname, param = param, r = r, Analysis = analysis, Z = z, p = pnorm(-z), tol = tol)
 }
 ```
 
