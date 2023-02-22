@@ -35,7 +35,7 @@ This vignettes generalize computational algorithms provided in Chapter 19 of @JT
 
 ## Asymptotic normal and boundary crossing probabilities
 
-We assume $Z_1,\cdots,Z_K$ has a multivariate normal distribution with variance for $1\le k\le K$ of
+We assume $Z_1,\cdots,Z_K$ has a multivariate normal distribution with variance for $1\leq k\leq K$ of
 $$\hbox{Var}(Z_k) = 1$$
 and the expected value is
 
@@ -46,13 +46,13 @@ $$E(Z_{k})= \sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .$$
 We use a shorthand notation in this section to have $\theta$ represent $\theta()$ and $\theta=0$ to represent $\theta(t)\equiv 0$ for all $t$.
 We denote the probability of crossing the upper boundary at analysis $k$ without previously crossing a bound by
 
-$$\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\le Z_{j}< b_{j}\}),$$
+$$\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\leq Z_{j}< b_{j}\}),$$
 $k=1,2,\ldots,K.$
 
 Next, we consider analogous notation for the lower bound. For $k=1,2,\ldots,K$
 denote the probability of crossing a lower bound at analysis $k$ without previously crossing any bound by
 
-$$\beta_{k}(\theta)=P_{\theta}((Z_{k}< a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\le Z_{j}< b_{j}\}).$$
+$$\beta_{k}(\theta)=P_{\theta}((Z_{k}< a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}< b_{j}\}).$$
 For symmetric testing for analysis $k$ we would have $a_k= - b_k$, $\beta_k(0)=\alpha_k(0),$ $k=1,2,\ldots,K$.
 The total lower boundary crossing probability for a trial is denoted by
 $$\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).$$
@@ -62,18 +62,18 @@ Obviously, for each $k$, we want either $a_k>-\infty$ or $b_k<\infty$.
 
 ## Recursive algorithms for numerical integration
 
-We now provide a small update to the algorithm of Chapter 19 of @JTBook to do the numerical integration required to compute the boundary crossing probabilites of the previous section and also identifying group sequential boundaries satisfying desired characteristics.
-The key to these calculations is the conditional power identitity in equation (1) above which allows building recursive numerical integration identities to enable simple, efficient numerical integration.
+We now provide a small update to the algorithm of Chapter 19 of @JTBook to do the numerical integration required to compute the boundary crossing probabilities of the previous section and also identifying group sequential boundaries satisfying desired characteristics.
+The key to these calculations is the conditional power identity in equation (1) above which allows building recursive numerical integration identities to enable simple, efficient numerical integration.
 
 We define
 
-$$g_1(z;\theta) = \frac{d}{dz}P(Z_1\le z) = \phi\left(z - \sqrt{\mathcal{I}_1}\theta(t_1)\right)\tag{2}$$
+$$g_1(z;\theta) = \frac{d}{dz}P(Z_1\leq z) = \phi\left(z - \sqrt{\mathcal{I}_1}\theta(t_1)\right)\tag{2}$$
 
 and for $k=2,3,\ldots K$ we recursively define the subdensity function
 
 $$\begin{align}
-g_k(z; \theta) &= \frac{d}{dz}P_\theta(\{Z_k\le z\}\cap_{j=1}^{k-1}\{a_j\le Z_j<b_j\}) \\
- &=\int_{a_{k-1}}^{b_{k-1}}\frac{d}{dz}P_\theta(\{Z_k\le z |Z_{k-1}=z_{k-1}\})g_{k-1}(z_{k-1}; \theta)dz_{k-1}\\
+g_k(z; \theta) &= \frac{d}{dz}P_\theta(\{Z_k\leq z\}\cap_{j=1}^{k-1}\{a_j\leq Z_j<b_j\}) \\
+ &=\int_{a_{k-1}}^{b_{k-1}}\frac{d}{dz}P_\theta(\{Z_k\leq z |Z_{k-1}=z_{k-1}\})g_{k-1}(z_{k-1}; \theta)dz_{k-1}\\
  &=\int_{a_{k-1}}^{b_{k-1}}f_k(z_{k-1},z;\theta)g_{k-1}(z_{k-1}; \theta)dz_{k-1}.\tag{3}
  \end{align}$$
 
@@ -81,8 +81,8 @@ The bottom line notation here is the same as on p. 347 in @JTBook.
 However, $f_k()$ here takes a slightly different form.
 
 $$\begin{align}
-f_k(z_{k-1},z;\theta) &=\frac{d}{dz}P_\theta(\{Z_k\le z |Z_{k-1}=z_{k-1}\})\\
- &=\frac{d}{dz}P_\theta(B_k - B_{k-1} \le z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}})\\
+f_k(z_{k-1},z;\theta) &=\frac{d}{dz}P_\theta(\{Z_k\leq z |Z_{k-1}=z_{k-1}\})\\
+ &=\frac{d}{dz}P_\theta(B_k - B_{k-1} \leq z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}})\\
  &=\frac{d}{dz}\Phi\left(\frac{z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}}-\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_{k-1}\theta(t_{k-1}))}{\sqrt{t_k-t_{k-1}}}\right)\\
  &=\frac{\sqrt{t_k}}{\sqrt{t_k-t_{k-1}}}\phi\left(\frac{z\sqrt{t_k}-z_{k-1}\sqrt{t_{k-1}}-\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_{k-1}\theta(t_{k-1}))}{\sqrt{t_k-t_{k-1}}}\right)\\
  &=\frac{\sqrt{\mathcal{I}_k}}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\phi\left(\frac{z\sqrt{\mathcal{I}_k}-z_{k-1}\sqrt{\mathcal{I}_{k-1}}-(\mathcal{I}_k\theta(t_k)- \mathcal{I}_{k-1}\theta(t_{k-1}))}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{3}
@@ -192,30 +192,30 @@ The columns in the resulting table are
 ```{r}
 # Set up grid over continuation region
 # Null hypothesis
-grid1_0 <- h1(theta = 0, I = info[1], a = a1, b = b1)
+grid1_0 <- gsDesign2:::h1(theta = 0, I = info[1], a = a1, b = b1)
 grid1_0 %>% head()
 ```
 The probability of not crossing a bound under the null hypothesis is computed as follows:
 
 ```{r}
-probH0continue <- sum(grid1_0$h)
+prob_h0_continue <- sum(grid1_0$h)
 cat(
   "Probability of continuing trial under null hypothesis\n",
-  " Using numerical integration:", probH0continue,
-  "\n  Using normal cdf:", pnorm(b1) - pnorm(a1), "\n"
+  " Using numerical integration:", prob_h0_continue,
+  "\n  Using normal CDF:", pnorm(b1) - pnorm(a1), "\n"
 )
 ```
 
 We now set up numerical integration grid under the alternate hypothesis and the compute continuation probability.
 
 ```{r}
-grid1_1 <- h1(theta = theta[1], I = info[1], a = a1, b = b1)
-probH1continue <- sum(grid1_1$h)
+grid1_1 <- gsDesign2:::h1(theta = theta[1], I = info[1], a = a1, b = b1)
+prob_h1_continue <- sum(grid1_1$h)
 h1mean <- sqrt(info[1]) * theta[1]
 cat(
   "Probability of continuing trial under alternate hypothesis\n",
-  " Using numerical integration:", probH1continue,
-  "\n  Using normal cdf:", pnorm(b1, mean = h1mean) - pnorm(a1, h1mean), "\n"
+  " Using numerical integration:", prob_h1_continue,
+  "\n  Using normal CDF:", pnorm(b1, mean = h1mean) - pnorm(a1, h1mean), "\n"
 )
 ```
 
@@ -245,7 +245,7 @@ Under the null hypothesis, we need to update to the interval above `b2_0`.
 
 ```{r}
 # Upper rejection region grid under H0
-grid2_0 <- hupdate(theta = 0, I = info[2], a = b2_0, b = Inf, Im1 = info[1], gm1 = grid1_0)
+grid2_0 <- gsDesign2:::hupdate(theta = 0, I = info[2], a = b2_0, b = Inf, Im1 = info[1], gm1 = grid1_0)
 pupper_0 <- sum(grid2_0$h)
 cat(
   "Upper spending at analysis 2\n Target:", spend0, "\n Using initial bound approximation:",
@@ -283,7 +283,7 @@ We now update the lower bound in an analogous fashion.
 
 ```{r}
 # Lower rejection region grid under H1
-grid2_1 <- hupdate(
+grid2_1 <- gsDesign2:::hupdate(
   theta = theta[2], I = info[2], a = -Inf, b = a2_0,
   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
 )
@@ -302,7 +302,7 @@ cat(
   "\nUpdated bound approximation:", a2_1
 )
 
-grid2_1 <- hupdate(
+grid2_1 <- gsDesign2:::hupdate(
   theta = theta[2], I = info[2], a = -Inf, b = a2_1,
   thetam1 = theta[1], Im1 = info[1], gm1 = grid1_1
 )

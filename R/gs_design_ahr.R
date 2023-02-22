@@ -165,16 +165,20 @@ NULL
 #'   h1_spending = TRUE
 #' )
 #'
-gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2, 10), rate = c(3, 6, 9)),
                           fail_rate = tibble(
-                            stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+                            stratum = "all", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
                             hr = c(.9, .6), dropout_rate = rep(.001, 2)
                           ),
                           alpha = 0.025, beta = 0.1,
                           info_frac = NULL, analysis_time = 36,
                           ratio = 1, binding = FALSE,
                           upper = gs_b,
-                          upar = gsDesign::gsDesign(k = 3, test.type = 1, n.I = c(.25, .75, 1), sfu = sfLDOF, sfupar = NULL)$upper$bound,
+                          upar = gsDesign::gsDesign(
+                            k = 3, test.type = 1,
+                            n.I = c(.25, .75, 1),
+                            sfu = sfLDOF, sfupar = NULL
+                          )$upper$bound,
                           lower = gs_b,
                           lpar = c(qnorm(.1), -Inf, -Inf),
                           h1_spending = TRUE,
@@ -201,51 +205,62 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
   # --------------------------------------------- #
   check_analysis_time(analysis_time)
   check_info_frac(info_frac)
-  if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) {
-    stop("gs_design_ahr() info_frac and analysis_time must have the same length if both have length > 1!")
+  if ((length(analysis_time) > 1) &&
+    (length(info_frac) > 1) &&
+    (length(info_frac) != length(analysis_time))) {
+    stop("gs_design_ahr() info_frac and analysis_time
+         must have the same length if both have length > 1!")
   }
 
   # --------------------------------------------- #
   #     get information at input analysis_time    #
   # --------------------------------------------- #
-  y <- gs_info_ahr(enroll_rate, fail_rate, ratio = ratio, event = NULL, analysis_time = analysis_time, interval = interval)
+  y <- gs_info_ahr(enroll_rate, fail_rate,
+    ratio = ratio, event = NULL,
+    analysis_time = analysis_time,
+    interval = interval
+  )
 
-  finalEvents <- y$Events[nrow(y)]
-  IFalt <- y$Events / finalEvents
+  final_event <- y$event[nrow(y)]
+  i_falt <- y$event / final_event
 
   # --------------------------------------------- #
   #     check if info_frac needed for IA timing   #
   # --------------------------------------------- #
-  K <- max(length(analysis_time), length(info_frac))
-  nextTime <- max(analysis_time)
+  n_analysis <- max(length(analysis_time), length(info_frac))
+  next_time <- max(analysis_time)
   # if info_frac is not provided by the users
   if (length(info_frac) == 1) {
-    info_frac <- IFalt
+    info_frac <- i_falt
   } else {
     # if there are >= 2 analysis
-    IFindx <- info_frac[1:(K - 1)]
-    for (i in seq_along(IFindx)) {
+    if_indx <- info_frac[1:(n_analysis - 1)]
+    for (i in seq_along(if_indx)) {
       # if ...
-      if (length(IFalt) == 1) {
+      if (length(i_falt) == 1) {
         y <- rbind(
           expected_time(
             enroll_rate = enroll_rate, fail_rate = fail_rate,
-            ratio = ratio, target_event = info_frac[K - i] * finalEvents,
-            interval = c(.01, nextTime)
+            ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
+            interval = c(.01, next_time)
           ) %>%
-            mutate(theta = -log(AHR), Analysis = K - i),
+            mutate(theta = -log(ahr), analysis = n_analysis - i),
           y
         )
-      } else if (info_frac[K - i] > IFalt[K - i]) {
+      } else if (info_frac[n_analysis - i] > i_falt[n_analysis - i]) {
         # if the planned info_frac > info_frac under H1
-        y[K - i, ] <- expected_time(
+        y[n_analysis - i, ] <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
-          ratio = ratio, target_event = info_frac[K - i] * finalEvents,
-          interval = c(.01, nextTime)
+          ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
+          interval = c(.01, next_time)
         ) %>%
-          dplyr::transmute(Analysis = K - i, Time, Events, AHR, theta = -log(AHR), info, info0)
+          dplyr::transmute(
+            analysis = n_analysis - i, time,
+            event, ahr, theta = -log(ahr),
+            info, info0
+          )
       }
-      nextTime <- y$Time[K - i]
+      next_time <- y$time[n_analysis - i]
     }
   }
 
@@ -253,8 +268,8 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
   # 1) analysis NO.
   # 2) the accrual sample size, i.e., `N`
   # 3) `theta1` and `info1`
-  y$Analysis <- 1:K
-  y$N <- expected_accrual(time = y$Time, enroll_rate = enroll_rate)
+  y$analysis <- 1:n_analysis
+  y$n <- expected_accrual(time = y$time, enroll_rate = enroll_rate)
   if (h1_spending) {
     theta1 <- y$theta
     info1 <- y$info
@@ -279,35 +294,45 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
   )
 
   allout <- allout %>%
-    # add `~HR at bound`, `HR generic` and `Nominal p`
-    mutate("~HR at bound" = exp(-Z / sqrt(info0)), "Nominal p" = pnorm(-Z)) %>%
-    # Add `Time`, `Events`, `AHR`, `N` from gs_info_ahr call above
-    full_join(y %>% select(-c(info, info0, theta)), by = "Analysis") %>%
+    # add `~hr at bound`, `hr generic` and `nominal p`
+    mutate(
+      "~hr at bound" = exp(-z / sqrt(info0)),
+      "nominal p" = pnorm(-z)
+    ) %>%
+    # Add `time`, `event`, `ahr`, `n` from gs_info_ahr call above
+    full_join(y %>% select(-c(info, info0, theta)),
+      by = "analysis"
+    ) %>%
     # select variables to be output
     select(c(
-      "Analysis", "Bound", "Time", "N", "Events", "Z", "Probability", "Probability0", "AHR", "theta",
-      "info", "info0", "info_frac", "~HR at bound", "Nominal p"
+      "analysis", "bound", "time", "n", "event", "z",
+      "probability", "probability0", "ahr", "theta",
+      "info", "info0", "info_frac", "~hr at bound", "nominal p"
     )) %>%
     # arrange the output table
-    arrange(Analysis, desc(Bound))
+    arrange(analysis, desc(bound))
 
-  inflac_fct <- (allout %>% filter(Analysis == K, Bound == "Upper"))$info / (y %>% filter(Analysis == K))$info
-  allout$Events <- allout$Events * inflac_fct
-  allout$N <- allout$N * inflac_fct
+  inflac_fct <- (allout %>% filter(analysis == n_analysis, bound == "upper"))$info /
+    (y %>% filter(analysis == n_analysis))$info
+  allout$event <- allout$event * inflac_fct
+  allout$n <- allout$n * inflac_fct
 
   # --------------------------------------------- #
   #     get bounds to output                      #
   # --------------------------------------------- #
-  bounds <- allout %>%
-    select(all_of(c("Analysis", "Bound", "Probability", "Probability0", "Z", "~HR at bound", "Nominal p"))) %>%
-    arrange(Analysis, desc(Bound))
+  bound <- allout %>%
+    select(all_of(c(
+      "analysis", "bound", "probability", "probability0",
+      "z", "~hr at bound", "nominal p"
+    ))) %>%
+    arrange(analysis, desc(bound))
   # --------------------------------------------- #
   #     get analysis summary to output            #
   # --------------------------------------------- #
   analysis <- allout %>%
-    select(Analysis, Time, N, Events, AHR, theta, info, info0, info_frac) %>%
+    select(analysis, time, n, event, ahr, theta, info, info0, info_frac) %>%
     unique() %>%
-    arrange(Analysis)
+    arrange(analysis)
   # --------------------------------------------- #
   #     get input parameter to output             #
   # --------------------------------------------- #
@@ -329,7 +354,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "All", duration = c(2, 
     input = input,
     enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
     fail_rate = fail_rate,
-    bounds = bounds %>% filter(!is.infinite(Z)),
+    bound = bound %>% filter(!is.infinite(z)),
     analysis = analysis
   )
 

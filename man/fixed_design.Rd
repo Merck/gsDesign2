@@ -14,8 +14,9 @@ fixed_design(
 )
 }
 \arguments{
-\item{method}{Sample size method; default is \code{"AHR"};
-other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.}
+\item{method}{Sample size method; default is \code{"ahr"};
+other options include \code{"fh"}, \code{"mb"}, \code{"lf"},
+\code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.}
 
 \item{alpha}{One-sided Type I error (strictly between 0 and 1)}
 

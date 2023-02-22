@@ -28,7 +28,7 @@ fh_test <- rbind(
     gamma = 0,
     tau = -1,
     test = 1,
-    Analysis = 1:3,
+    analysis = 1:3,
     analysis_time = c(12, 24, 36)
   ),
   data.frame(
@@ -36,7 +36,7 @@ fh_test <- rbind(
     gamma = 0.5,
     tau = -1,
     test = 2:3,
-    Analysis = 3,
+    analysis = 3,
     analysis_time = 36
   )
 )
@@ -76,6 +76,7 @@ gs_design_combo_test1 <- gs_design_combo(enrollRates,
   upar = x$upper$bound,
   lpar = x$lower$bound
 )
+
 #### Boundary derived by spending function testing
 gs_design_combo_test2 <- gs_design_combo(enrollRates,
   failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
@@ -120,18 +121,18 @@ test_tEvents <- function(enrollRates = tibble::tibble(
     total_duration = td,
     simple = FALSE
   )
-  totale <- sum(eventc$Events + eventt$Events)
+  totale <- sum(eventc$event + eventt$event)
   return(totale)
 }
 
 testthat::test_that("calculate analysis number as planed", {
-  expect_equal(max(fh_test$Analysis), max(gs_design_combo_test2$analysis$Analysis))
+  expect_equal(max(fh_test$analysis), max(gs_design_combo_test2$analysis$analysis))
 })
 testthat::test_that("calculate analysisTimes as planed", {
-  expect_equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$Time))
+  expect_equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$time))
 })
 
-for (i in 1:max(fh_test$Analysis)) {
+for (i in 1:max(fh_test$analysis)) {
   testthat::test_that("calculate N and each analysis Events N as planed", {
     event <- test_tEvents(
       enrollRates = enrollRates,
@@ -139,15 +140,23 @@ for (i in 1:max(fh_test$Analysis)) {
       td = unique(fh_test$analysis_time)[i]
     )
     enrollsum <- enrollRates$duration * enrollRates$rate
-    N <- max(gs_design_combo_test2$analysis$N)
-    expect_equal(event * N / enrollsum, unique(gs_design_combo_test2$analysis$Events)[i], tolerance = 0.01)
+    N <- max(gs_design_combo_test2$analysis$n)
+    expect_equal(event * N / enrollsum, unique(gs_design_combo_test2$analysis$event)[i], tolerance = 0.01)
   })
 }
 
 testthat::test_that("calculate probability under alternative", {
-  expect_equal(1 - beta, max((gs_design_combo_test2$bounds %>% filter(Bound == "Upper"))$Probability), tolerance = 0.0001)
+  expect_equal(
+    1 - beta,
+    max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability),
+    tolerance = 0.0001
+  )
 })
 
 testthat::test_that("calculate probability under null", {
-  expect_equal(alpha, max((gs_design_combo_test2$bounds %>% filter(Bound == "Upper"))$Probability0), tolerance = 0.1) ## NEAD REVISED THE TOLERANCE AFTER YILONNG FIXED THE BINDING BUG IN MAXCOMBO
+  expect_equal(
+    alpha,
+    max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability0),
+    tolerance = 0.1 # NEED TO REVISE THE TOLERANCE AFTER YILONG FIXED THE BINDING BUG IN MAXCOMBO
+  )
 })

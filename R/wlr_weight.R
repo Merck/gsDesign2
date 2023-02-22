@@ -18,7 +18,7 @@
 
 #' Weight Function of Weighted Log-rank Test
 #'
-#' * `wlr_weight_fh` is Fleming-Harriongton, FH(rho, gamma) weight function.
+#' * `wlr_weight_fh` is Fleming-Harrington, FH(rho, gamma) weight function.
 #' * `wlr_weight_1`  is constant for log rank test
 #' * `wlr_weight_power` is Gehan-Breslow and Tarone-Ware weight function.
 #' * `wlr_weight_mb` is  Magirr (2021) weight function.
@@ -39,7 +39,7 @@
 #'    \item Compute the proportion of size in the two arms.
 #'    \item If the input tau is specified, define time up to the cut off time tau.
 #'    \item Compute the CDF using the proportion of the size in the two arms and \code{npsruvSS::psurv()}.
-#'    \item Return the Fleming-Harriongton weights for weighted Log-rank test.
+#'    \item Return the Fleming-Harrington weights for weighted Log-rank test.
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}

@@ -174,7 +174,7 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
   # end check input values
   ################################################################################
   # Get information at input analysisTimes
-  y <- gs_info_ahr(enrollRates, failRates, ratio = ratio, events = NULL, analysisTimes = analysisTimes)
+  y <- gs_info_ahr_(enrollRates, failRates, ratio = ratio, events = NULL, analysisTimes = analysisTimes)
   finalEvents <- y$Events[nrow(y)]
   IFalt <- y$Events / finalEvents
   # Check if IF needed for (any) IA timing
@@ -188,7 +188,7 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
       if (length(IFalt) == 1) {
         y <-
           rbind(
-            tEvents(enrollRates, failRates,
+            tEvents_(enrollRates, failRates,
               targetEvents = IF[K - i] * finalEvents, ratio = ratio,
               interval = c(.01, nextTime)
             ) %>% mutate(theta = -log(AHR), Analysis = K - i),
@@ -196,7 +196,7 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
           )
       } else if (IF[K - i] > IFalt[K - i]) {
         y[K - i, ] <-
-          tEvents(enrollRates, failRates,
+          tEvents_(enrollRates, failRates,
             targetEvents = IF[K - i] * finalEvents, ratio = ratio,
             interval = c(.01, nextTime)
           ) %>%
@@ -206,7 +206,7 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
     }
   }
   y$Analysis <- 1:K
-  y$N <- eAccrual(x = y$Time, enrollRates = enrollRates)
+  y$N <- eAccrual_(x = y$Time, enrollRates = enrollRates)
   if (h1_spending) {
     theta1 <- y$theta
     info1 <- y$info

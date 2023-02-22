@@ -26,7 +26,11 @@ NULL
 #' @param n sample size
 #' @param rd0 the risk difference under H0
 #' @param ratio Experimental:Control randomization ratio
+<<<<<<< HEAD
 #' @param weight weigting method, either "unstratified" or "ss" or "invar"
+=======
+#' @param weight weighting method, either "un-stratified" or "ss" or "invar"
+>>>>>>> bdccd7e49cb0e250fb443af7c1fedfa1ea918e7d
 #' @export
 #' @examples
 #' library(tibble)
@@ -168,22 +172,22 @@ NULL
 #' )
 #'
 gs_info_rd <- function(p_c = tibble::tibble(
-                         stratum = "All",
+                         stratum = "all",
                          rate = .2
                        ),
                        p_e = tibble::tibble(
-                         stratum = "All",
+                         stratum = "all",
                          rate = .15
                        ),
                        n = tibble::tibble(
-                         stratum = "All",
+                         stratum = "all",
                          n = c(100, 200, 300),
                          analysis = 1:3
                        ),
                        rd0 = 0,
                        ratio = 1,
-                       weight = c("unstratified", "ss", "invar_h1", "invar_h0")) {
-  K <- max(n$analysis)
+                       weight = c("un-stratified", "ss", "invar")) {
+  n_analysis <- max(n$analysis)
   weight <- match.arg(weight)
 
   # -------------------------------------------------#
@@ -198,13 +202,13 @@ gs_info_rd <- function(p_c = tibble::tibble(
       left_join(if ("data.frame" %in% class(rd0)) {
         rd0
       } else {
-        tibble::tibble(analysis = 1:K, rd0 = rd0)
+        tibble::tibble(analysis = 1:n_analysis, rd0 = rd0)
       }) %>%
       mutate(
-        N_e = n / (1 + ratio),
-        N_c = n * ratio / (1 + ratio),
+        n_e = n / (1 + ratio),
+        n_c = n * ratio / (1 + ratio),
         d = ifelse(p_c > p_e, 1, -1),
-        p_pool_per_k_per_s = (N_c * p_c + N_e * p_e) / n,
+        p_pool_per_k_per_s = (n_c * p_c + n_e * p_e) / n,
         p_e0 = (p_c + ratio * p_e - d * rd0) / (ratio + 1),
         p_c0 = p_e0 + d * rd0
       )
@@ -217,13 +221,13 @@ gs_info_rd <- function(p_c = tibble::tibble(
   # -------------------------------------------------#
   if (is.numeric(rd0) && rd0 == 0) {
     tbl <- tbl %>% mutate(
-      sigma2_H0_per_k_per_s = p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / N_c + 1 / N_e),
-      sigma2_H1_per_k_per_s = p_c * (1 - p_c) / N_c + p_e * (1 - p_e) / N_e
+      sigma2_H0_per_k_per_s = p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / n_c + 1 / n_e),
+      sigma2_H1_per_k_per_s = p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e
     )
   } else if ("data.frame" %in% class(rd0) || rd0 != 0) {
     tbl <- tbl %>% mutate(
-      sigma2_H0_per_k_per_s = p_c0 * (1 - p_c0) / N_c + p_e0 * (1 - p_e0) / N_e,
-      sigma2_H1_per_k_per_s = p_c * (1 - p_c) / N_c + p_e * (1 - p_e) / N_e
+      sigma2_H0_per_k_per_s = p_c0 * (1 - p_c0) / n_c + p_e0 * (1 - p_e0) / n_e,
+      sigma2_H1_per_k_per_s = p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e
     )
   }
 
@@ -235,14 +239,22 @@ gs_info_rd <- function(p_c = tibble::tibble(
   } else if (weight == "ss") {
     suppressMessages(
       tbl <- tbl %>%
-        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_ss = sum(N_c * N_e / (N_c + N_e)))) %>%
-        mutate(weight_per_k_per_s = N_c * N_e / (N_c + N_e) / sum_ss) %>%
+        left_join(
+          tbl %>%
+            dplyr::group_by(analysis) %>%
+            summarize(sum_ss = sum(n_c * n_e / (n_c + n_e)))
+        ) %>%
+        mutate(weight_per_k_per_s = n_c * n_e / (n_c + n_e) / sum_ss) %>%
         select(-sum_ss)
     )
   } else if (weight == "invar_h0") {
     suppressMessages(
       tbl <- tbl %>%
-        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_inv_var_per_s = sum(1 / sigma2_H0_per_k_per_s))) %>%
+        left_join(
+          tbl %>%
+            dplyr::group_by(analysis) %>%
+            summarize(sum_inv_var_per_s = sum(1 / sigma2_H0_per_k_per_s))
+        ) %>%
         mutate(weight_per_k_per_s = 1 / sigma2_H0_per_k_per_s / sum_inv_var_per_s) %>%
         select(-sum_inv_var_per_s)
     )
@@ -265,11 +277,11 @@ gs_info_rd <- function(p_c = tibble::tibble(
       rd = sum((p_c - p_e) * d * weight_per_k_per_s),
       rd0 = sum(rd0 * weight_per_k_per_s),
       sigma2_H0 = sum(if (sum(rd0 == 0) == 0) {
-        weight_per_k_per_s^2 * p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / N_c + 1 / N_e)
+        weight_per_k_per_s^2 * p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / n_c + 1 / n_e)
       } else {
-        weight_per_k_per_s^2 * p_c0 * (1 - p_c0) / N_c + weight_per_k_per_s^2 * p_e0 * (1 - p_e0) / N_e
+        weight_per_k_per_s^2 * p_c0 * (1 - p_c0) / n_c + weight_per_k_per_s^2 * p_e0 * (1 - p_e0) / n_e
       }),
-      sigma2_H1 = sum(weight_per_k_per_s^2 * p_c * (1 - p_c) / N_c + weight_per_k_per_s^2 * p_e * (1 - p_e) / N_e)
+      sigma2_H1 = sum(weight_per_k_per_s^2 * p_c * (1 - p_c) / n_c + weight_per_k_per_s^2 * p_e * (1 - p_e) / n_e)
     ) %>%
     mutate(
       theta1 = rd / sqrt(sigma2_H1),
@@ -280,6 +292,5 @@ gs_info_rd <- function(p_c = tibble::tibble(
     dplyr::ungroup() %>%
     select(analysis, n, rd, rd0, theta1, theta0, info1, info0)
 
-  ans <- ans %>% dplyr::rename(Analysis = analysis, N = n)
   return(ans)
 }

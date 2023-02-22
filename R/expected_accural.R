@@ -159,7 +159,7 @@ expected_accrual <- function(time = 0:24,
 
 
 
-  # return survival or cdf
+  # return survival or CDF
   if (n_strata == 1) {
     ind <- !is.na(match(xx$x, time))
     ans <- as.numeric(xx$eAccrual[ind])

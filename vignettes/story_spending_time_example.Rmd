@@ -61,7 +61,7 @@ Two specific spending approaches are suggested here:
 
 This document is fairly long in that it demonstrates a number of scenarios relevant to the spending time concept.
 The layout is intended to make it as easy as possibly to focus on the individual examples for those not interested in the full review.
-Code is available to unhide for those interested in implementation.
+Code blocks can be unfolded for those interested in implementation.
 Rather than bog down the conceptual discussion with implementation details, we have tried to provide sufficient comments in the code to guide implementation for those who are interested in that.
 
 # Delayed effect scenario
@@ -108,7 +108,7 @@ We see that the average hazard ratio (AHR) under the above assumptions is 0.7026
 
 ```{r}
 # bounds for fixed design are just a fixed bound for nominal p = 0.025, 1-sided
-Z_025 <- qnorm(.975)
+z_025 <- qnorm(.975)
 
 # fixed design, single stratum
 # find sample size for 30 month trial under given
@@ -116,13 +116,13 @@ Z_025 <- qnorm(.975)
 xx <- gs_design_ahr(enroll_rate,
   fail_rate,
   analysis_time = 30,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 # get the summary table of the fixed design
 summary(xx,
-  analysis_vars = c("Time", "N", "Events", "AHR", "info_frac"),
+  analysis_vars = c("time", "n", "event", "ahr", "info_frac"),
   analysis_decimals = c(0, 0, 0, 4, 4)
 ) %>% as_gt()
 ```
@@ -143,7 +143,7 @@ fail_rate$duration[1] <- 6 # the original is 4
 fail_rate$fail_rate <- log(2) / am # the original is log(2)/12
 
 # get the targeted number of events
-target_events <- xx$analysis$Events
+target_events <- xx$analysis$event
 
 # update the design and calculate the power under the targeted events
 yy <- gs_power_ahr(
@@ -154,8 +154,8 @@ yy <- gs_power_ahr(
   # so the analysis_time will be calculated according to the target events
   event = target_events,
   analysis_time = NULL,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 yy %>%
@@ -177,8 +177,8 @@ yy <- gs_power_ahr(
   # but also keep the 30 month as the analysis_time
   event = target_events,
   analysis_time = 30,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 # get the summary table of updated design
@@ -208,8 +208,8 @@ yy <- gs_power_ahr(
   # and calculate the corresponding number of events
   event = NULL,
   analysis_time = 30,
-  upper = gs_b, upar = Z_025,
-  lower = gs_b, lpar = Z_025
+  upper = gs_b, upar = z_025,
+  lower = gs_b, lpar = z_025
 )
 
 yy %>%
@@ -231,8 +231,8 @@ yy <- gs_power_ahr(
   # and keep the events as the target events
   event = target_events,
   analysis_time = 30,
-  upar = Z_025,
-  lpar = Z_025
+  upar = z_025,
+  lpar = z_025
 )
 
 yy %>%
@@ -262,7 +262,7 @@ At the time of design, we specify only the spending function when specifying the
 
 ```{r}
 # Spending for design with planned information fraction (IF)
-upar_design_IF <- list(
+upar_design_if <- list(
   # total_spend represents one-sided Type I error
   total_spend = 0.025,
   # Spending function and associated
@@ -283,9 +283,9 @@ If we wished to use 22 and 30 months as calendar analysis times and use calendar
 
 ```{r}
 # CF is for calendar fraction
-upar_design_CF <- upar_design_IF
+upar_design_cf <- upar_design_if
 # Now switch spending time to calendar fraction
-upar_design_CF$timing <- c(22, 30) / 30
+upar_design_cf$timing <- c(22, 30) / 30
 ```
 
 **Spending approach 3:**
@@ -294,13 +294,13 @@ It is critical to set the maximum planned information to update the information 
 
 ```{r}
 # We now need to change max_info from spending as specified for design
-upar_actual_IF <- upar_design_IF
+upar_actual_info_frac <- upar_design_if
 # Note that we still have timing = NULL, unchanged from information-based design
-upar_actual_IF <- NULL
+upar_actual_info_frac <- NULL
 # Replace NULL maximum information with planned maximum null hypothesis
 # information from design
 # This max will be updated for each planned design later
-upar_actual_IF$max_info <- 100
+upar_actual_info_frac$max_info <- 100
 ```
 
 **Spending approach 4:**
@@ -310,10 +310,10 @@ This will be used regardless of what scenario we are using to compute power, but
 
 ```{r}
 # Copy original upper planned spending
-upar_planned_IF <- upar_design_IF
+upar_planned_info_frac <- upar_design_if
 # Interim and final spending time will always be the same, regardless of
 # expected events or calendar timing of analysis
-upar_planned_IF$timing <- c(0.8, 1)
+upar_planned_info_frac$timing <- c(0.8, 1)
 # We will reset planned maximum information later
 ```
 
@@ -330,7 +330,7 @@ The interim analysis is far enough into the trial that there is a substantial pr
 m <- 12
 
 # Planned information fraction at interim(s) and final
-planned_IF <- c(.8, 1)
+planned_info_frac <- c(.8, 1)
 
 # No futility bound
 lpar <- rep(-Inf, 2)
@@ -358,11 +358,11 @@ xx <- gs_design_ahr(
   # final analysis time set to targeted study duration;
   # analysis times before are 'small' to ensure use of information fraction for timing
   analysis_time = c(1, 30),
-  # timing here matches what went into planned_IF above
-  info_frac = planned_IF,
+  # timing here matches what went into planned_info_frac above
+  info_frac = planned_info_frac,
   # upper bound : spending approach 1
   upper = gs_spending_bound,
-  upar = upar_design_IF,
+  upar = upar_design_if,
   # lower bound: no futility bound
   lower = gs_b,
   lpar = lpar
@@ -400,7 +400,7 @@ yy <- gs_power_ahr(
   analysis_time = c(22, 30),
   # upper bound: use calendar fraction
   upper = gs_spending_bound,
-  upar = upar_design_CF,
+  upar = upar_design_cf,
   # lower bound: no futility bound
   lower = gs_b,
   lpar = lpar
@@ -447,20 +447,20 @@ A clinical trial study team should have a complete discussion of futility bound 
 # setting timing variable the the cumulative proportion of spending at each analysis.
 # There will be no efficacy testing at IA1 or IA2.
 # Thus, incremental spend, which will be unused, is set very small for these analyses.
-upar_FHO <- list(
+upar_fho <- list(
   total_spend = 0.025,
   sf = sfPower,
   param = 1,
   timing = c((1:2) / 250, (1:2) / 25, 1)
 )
 
-FHO <- gs_power_ahr(
+fho <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = xx$fail_rate,
   event = NULL,
   analysis_time = seq(6, 30, 6),
   upper = gs_spending_bound,
-  upar = upar_FHO,
+  upar = upar_fho,
   # No efficacy testing at IA1 or IA2
   # Thus, the small alpha the spending function would have
   # allocated will not be used
@@ -469,7 +469,7 @@ FHO <- gs_power_ahr(
   lpar = c(rep(qnorm(.05), 4), -Inf)
 )
 
-FHO %>%
+fho %>%
   summary() %>%
   as_gt()
 ```
@@ -495,8 +495,8 @@ fail_rate$duration[1] <- 6
 
 # Set planned maximum information from planned design
 max_info0 <- max(xx$analysis$info)
-upar_actual_IF <- upar_design_IF
-upar_actual_IF$max_info <- max_info0
+upar_actual_info_frac <- upar_design_if
+upar_actual_info_frac$max_info <- max_info0
 
 # compute power if actual information fraction relative to original
 # planned total is used
@@ -505,9 +505,9 @@ yy <- gs_power_ahr(
   fail_rate = fail_rate,
   # Planned time will drive timing since information accrues faster
   event = 1:2,
-  analysis_time = xx$analysis$Time,
+  analysis_time = xx$analysis$time,
   upper = gs_spending_bound,
-  upar = upar_actual_IF,
+  upar = upar_actual_info_frac,
   lower = gs_b,
   lpar = lpar
 )
@@ -527,9 +527,9 @@ yz <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
   event = xx$analysis$Events,
-  analysis_time = xx$analysis$Time,
+  analysis_time = xx$analysis$time,
   upper = gs_spending_bound,
-  upar = upar_planned_IF,
+  upar = upar_planned_info_frac,
   lpar = lpar
 )
 
@@ -559,10 +559,10 @@ fail_rate$duration[1] <- 4
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
-  event = c(1, max(xx$analysis$Events)),
-  analysis_time = xx$analysis$Time,
+  event = c(1, max(xx$analysis$event)),
+  analysis_time = xx$analysis$time,
   upper = gs_spending_bound,
-  upar = upar_planned_IF,
+  upar = upar_planned_info_frac,
   lower = gs_b,
   lpar = lpar
 )
@@ -579,10 +579,10 @@ Since the number of events was less than expected, if we had used the actual num
 yz <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
-  event = c(1, max(xx$analysis$Events)),
-  analysis_time = xx$analysis$Time,
+  event = c(1, max(xx$analysis$event)),
+  analysis_time = xx$analysis$time,
   upper = gs_spending_bound,
-  upar = upar_actual_IF,
+  upar = upar_actual_info_frac,
   lower = gs_b,
   lpar = lpar
 )
@@ -662,7 +662,7 @@ positive <- gs_design_ahr(
   info_frac = c(.8, 1),
   # Total study duration driven by final analysis_time value, i.e., 30
   # Enter small increasing values before that
-  # so information fraction in planned_IF drives timing of interims
+  # so information fraction in planned_info_frac drives timing of interims
   analysis_time = c(1, 30),
   # upper bound
   upper = gs_spending_bound,
@@ -711,7 +711,7 @@ While this does not make much difference here, we see that we have a very natura
 ```{r}
 # Set total spend for overall population, O'Brien-Fleming spending function, and
 # same spending time as biomarker subgroup
-upar_overall_planned_IF <- list(
+upar_overall_planned_info_frac <- list(
   sf = gsDesign::sfLDOF, # O'Brien-Fleming spending function
   param = NULL,
   total_spend = 0.0125, # alpha
@@ -724,12 +724,12 @@ overall_planned_bounds <- gs_power_ahr(
   enroll_rate = planned_enroll_rate,
   fail_rate = fail_rate,
   # analysis time: the planed analysis time for biomarker positive population
-  analysis_time = positive$analysis$Time,
+  analysis_time = positive$analysis$time,
   # events will be determined by expected events at planned analysis times
   event = NULL,
   # upper bound: planned spending times are specified the same as before
   upper = gs_spending_bound,
-  upar = upar_overall_planned_IF,
+  upar = upar_overall_planned_info_frac,
   # lower bound: no futility
   lower = gs_b,
   lpar = lpar
@@ -764,20 +764,20 @@ While we think they are reasonable, the design planner should think carefully ab
 # Using information (event)-based spending time relative to overall population plan
 # Set total spend for overall population, O'Brien-Fleming spending function.
 # For design information-spending, we set timing =  NULL and max_info to plan from above
-upar_overall_planned_IF <- list(
+upar_overall_planned_info_frac <- list(
   sf = gsDesign::sfLDOF, # O'Brien-Fleming spending function
   total_spend = 0.0125, # alpha
   max_info = max(overall_planned_bounds$info0), # we will use planned final information for
   # overall population from design to
   # compute information fraction relative to plan
   param = NULL,
-  timing = planned_IF
+  timing = planned_info_frac
 )
 
 # Using planned information fraction will demonstrate problems below.
 # Set total spend for overall population, O'Brien-Fleming spending function, and
 # same spending time as biomarker subgroup
-upar_overall_actual_IF <- list(
+upar_overall_actual_info_frac <- list(
   sf = gsDesign::sfLDOF, # O'Brien-Fleming spending function
   total_spend = 0.0125, # alpha
   max_info = max(overall_planned_bounds$info0), # we will use planned final information
@@ -802,7 +802,7 @@ positive_60_enroll_rate <- rbind(
 )
 
 # update the enrollment duration
-positive_60_enroll_rate$duration <- max(positive$analysis$N) /
+positive_60_enroll_rate$duration <- max(positive$analysis$n) /
   overall_enroll_rate$rate /
   0.6
 
@@ -821,7 +821,7 @@ positive_60_power <- gs_power_ahr(
   enroll_rate = positive_60_enroll_rate %>% filter(stratum == "Positive"),
   fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # number of events
-  event = positive$analysis$Events, # positive$bounds$Events[1:K],
+  event = positive$analysis$event,
   # analysis time will be calcuated to achieve the targeted events
   analysis_time = NULL,
   # upper bound
@@ -851,10 +851,10 @@ gs_power_ahr(
   fail_rate = fail_rate,
   # set evnets and analysis time
   event = NULL,
-  analysis_time = positive_60_power$analysis$Time,
+  analysis_time = positive_60_power$analysis$time,
   # set upper bound: use planned spending in spite of lower overall information
   upper = gs_spending_bound,
-  upar = upar_overall_planned_IF,
+  upar = upar_overall_planned_info_frac,
   # set lower bound: no futility
   lower = gs_b,
   lpar = rep(-Inf, 2)
@@ -873,10 +873,10 @@ gs_power_ahr(
   fail_rate = fail_rate,
   # set evnets and analysis time
   event = NULL,
-  analysis_time = positive_60_power$analysis$Time,
+  analysis_time = positive_60_power$analysis$time,
   # upper bound: use actual spending which uses less than complete alpha
   upper = gs_spending_bound,
-  upar = upar_overall_actual_IF,
+  upar = upar_overall_actual_info_frac,
   # lower bound: no futility
   lower = gs_b,
   lpar = lpar
@@ -899,7 +899,7 @@ positive_40_enroll_rate <- rbind(
 )
 
 # update the duration of enrollment table
-positive_40_enroll_rate$duration <- max(positive$analysis$N) /
+positive_40_enroll_rate$duration <- max(positive$analysis$n) /
   positive_40_enroll_rate$rate[1]
 
 # display the enrollment table
@@ -913,19 +913,19 @@ positive_40_enroll_rate %>%
 Now we can compute the power for the biomarker positive group with the targeted events.
 
 ```{r}
-upar_actual_IF$total_spend <- 0.0125
-upar_actual_IF$max_info <- max(positive$analysis$info)
+upar_actual_info_frac$total_spend <- 0.0125
+upar_actual_info_frac$max_info <- max(positive$analysis$info)
 
 positive_40_power <- gs_power_ahr(
   # set enrollment/failure rate
   enroll_rate = positive_40_enroll_rate %>% filter(stratum == "Positive"),
   fail_rate = fail_rate %>% filter(stratum == "Positive"),
   # set events/analysis time
-  event = positive$analysis$Events,
+  event = positive$analysis$event,
   analysis_time = NULL,
   # set upper bound
   upper = gs_spending_bound,
-  upar = upar_actual_IF,
+  upar = upar_actual_info_frac,
   # set lower bound
   lower = gs_b,
   lpar = rep(-Inf, 2)
@@ -947,9 +947,9 @@ gs_power_ahr(
   enroll_rate = positive_40_enroll_rate,
   fail_rate = fail_rate,
   event = 1:2,
-  analysis_time = positive_40_power$analysis$Time,
+  analysis_time = positive_40_power$analysis$time,
   upper = gs_spending_bound,
-  upar = upar_overall_planned_IF,
+  upar = upar_overall_planned_info_frac,
   lower = gs_b,
   lpar = rep(-Inf, 2)
 ) %>%
@@ -975,7 +975,7 @@ Where crossing survival curves or inferior survival curves may exist, this may b
 
 In addition to the delayed effect example, we considered an example testing in both a biomarker positive subgroup and the overall population.
 Using a common spending time for all hypotheses with a common interim analysis strategy as advocated by @FPG can be helpful to implement spending so that all hypotheses have adequate $\alpha$ to spend at the final analysis and also to ensure full utilization of $\alpha$-spending. We suggested again using the minimum of planned and actual spending at interim analysis. Spending can be based on a key hypothesis (e.g., the biomarker positive population) or the minimum spending time among all hypotheses being tested.
-Taking advantage of know correlations to ensure full $\alpha$ utilitization in multiple hypothesis testing is also more simply implemented with this strategy @AGZS2021unified.
+Taking advantage of know correlations to ensure full $\alpha$ utilization in multiple hypothesis testing is also more simply implemented with this strategy @AGZS2021unified.
 
 In summary, we have illustrated both the motivation and the illustration of the spending time approach through examples we have commonly encountered. Approaches suggested included an implementation of @FHO with a fixed incremental $\alpha$-spend at each interim analysis as well as the use of the minimum of planned and actual spending at interim analyses.
 

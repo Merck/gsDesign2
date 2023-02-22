@@ -20,8 +20,8 @@ testthat::test_that("results match if only put in targeted analysis times", {
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       analysis_time = total_duration
-    ) %>% select(Time, AHR, Events, info, info0),
-    AHR(
+    ) %>% select(time, ahr, event, info, info0),
+    ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
@@ -47,21 +47,21 @@ testthat::test_that("results match if only put in targeted events", {
 
   out1 <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, event = event)
 
-  total_duration <- out1$Time
+  total_duration <- out1$time
 
   testthat::expect_equal(
-    out1 %>% select(Time, AHR, Events, info, info0),
-    AHR(
+    out1 %>% select(time, ahr, event, info, info0),
+    ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
     )
   )
 
-  # since above test is based on the output "Time", here is to check whether the output "Time" is reasonable
+  # since above test is based on the output "time", here is to check whether the output "Time" is reasonable
 
   # "Time" should be at the time points when targeted event numbers are achieved
-  testthat::expect_equal(round(out1$Events), round(event))
+  testthat::expect_equal(round(out1$event), round(event))
 })
 
 
@@ -88,28 +88,30 @@ testthat::test_that("results match if put in both analysis time and targeted eve
     analysis_time = analysis_time
   )
 
-  total_duration <- out1$Time
+  total_duration <- out1$time
 
   testthat::expect_equal(
-    out1 %>% select(Time, AHR, Events, info, info0),
-    AHR(
+    out1 %>% select(time, ahr, event, info, info0),
+    ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
     )
   )
 
-  # since above test is based on the output "Time", here is to check whether the output "Time" is reasonable
+  # since above test is based on the output "Time",
+  # here is to check whether the output "Time" is reasonable
 
-  # either being equal to the corresponding element in the input analysis_time or at the time point when targeted event number achieved
+  # either being equal to the corresponding element in the input
+  # analysis_time or at the time point when targeted event number achieved
   testthat::expect_equal(
-    max((1 - (out1$Time == analysis_time)) * (1 - (round(out1$Events) == round(event)))),
+    max((1 - (out1$time == analysis_time)) * (1 - (round(out1$event) == round(event)))),
     0
   )
 
   # "Time" >= input analysis_time
-  testthat::expect_gte(max(out1$Time - analysis_time), 0)
+  testthat::expect_gte(max(out1$time - analysis_time), 0)
 
   # "Events" >= input events
-  testthat::expect_gte(max(round(out1$Events) - round(event)), 0)
+  testthat::expect_gte(max(round(out1$event) - round(event)), 0)
 })

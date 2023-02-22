@@ -36,7 +36,7 @@ and info0 (information under related null hypothesis) for each value of \code{to
 \code{expected_time()} is made to match input format with \code{AHR()} and to solve for the
 time at which the expected accumulated events is equal to an input target.
 Enrollment and failure rate distributions are specified as follows.
-The piecewise exponential distribution allows a simple method to specify a distribtuion
+The piecewise exponential distribution allows a simple method to specify a distribution
 and enrollment pattern
 where the enrollment, failure and dropout rates changes over time.
 }
@@ -68,12 +68,12 @@ fail_rate <- tibble::tibble(
   hr = c(.9, .6), dropout_rate = rep(.001, 2)
 )
 total_duration <- 20
-xx <- AHR(enroll_rate, fail_rate, total_duration)
+xx <- ahr(enroll_rate, fail_rate, total_duration)
 xx
 
 # Next we check that the function confirms the timing of the final analysis.
 expected_time(enroll_rate, fail_rate,
-  target_event = xx$Events, interval = c(.5, 1.5) * xx$Time
+  target_event = xx$event, interval = c(.5, 1.5) * xx$time
 )
 
 }

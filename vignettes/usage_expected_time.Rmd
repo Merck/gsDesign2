@@ -74,18 +74,18 @@ fail_rate <- tibble(
 )
 ratio <- 1
 
-x <- AHR(
+x <- ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   ratio = ratio, total_duration = 20
 )
-cat("The number of events by 20 months is ", x$Events, ".\n")
+cat("The number of events by 20 months is ", x$event, ".\n")
 
 y <- expected_time(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
-  ratio = ratio, target_event = x$Events
+  ratio = ratio, target_event = x$event
 )
 
-cat("The time to get ", x$Events, " is ", y$Time, "months.\n")
+cat("The time to get ", x$event, " is ", y$time, "months.\n")
 ```
 
 # Inner Logic of `expected_time()`
@@ -96,10 +96,10 @@ The inner logic of `expected_time()` is to uniroot `AHR()` on `total_duration`.
 
 ```{r}
 foo <- function(x) {
-  ans <- AHR(
+  ans <- ahr(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     total_duration = x, ratio = ratio
-  )$Events - target_event
+  )$event - target_event
   return(ans)
 }
 ```
@@ -127,9 +127,9 @@ cat("The difference between `targetEvents = 200` and the events after 30 months 
 ```{r}
 res <- uniroot(foo, interval = c(0.01, 100))
 
-ans <- AHR(
+ans <- ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   total_duration = res$root, ratio = ratio
 )
-cat("After ", ans$Time, " months, there will be ", target_event, " events .\n")
+cat("After ", ans$time, " months, there will be ", target_event, " events .\n")
 ```

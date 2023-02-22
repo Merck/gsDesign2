@@ -25,5 +25,5 @@ test_that("fixed design", {
     lpar = -Inf
   )
 
-  expect_equal(x1, x2$analysis$N)
+  expect_equal(x1, x2$analysis$n)
 })

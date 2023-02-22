@@ -24,10 +24,13 @@ gs_spending_bound(
 \code{sf} (class spending function),
 \code{total_spend} (total spend),
 \code{param} (any parameters needed by the spending function \code{sf()}),
-\code{timing} (a vector containing values at which spending function is to be evaluated or NULL if information-based spending is used),
-\code{max_info} (when \code{timing} is NULL, this can be input as positive number to be used with \code{info} for information fraction at each analysis)}
+\code{timing} (a vector containing values at which spending function
+is to be evaluated or NULL if information-based spending is used),
+\code{max_info} (when \code{timing} is NULL, this can be input as
+positive number to be used with \code{info} for information fraction at each analysis)}
 
-\item{hgm1}{subdensity grid from h1 (k=2) or hupdate (k>2) for analysis k-1; if k=1, this is not used and may be NULL}
+\item{hgm1}{subdensity grid from \code{h1()} (k=2) or \code{hupdate()} (k>2) for analysis k-1;
+if k=1, this is not used and may be NULL}
 
 \item{theta}{natural parameter used for lower bound only spending;
 represents average drift at each time of analysis at least up to analysis k;
@@ -37,10 +40,13 @@ upper bound spending is always set under null hypothesis (theta = 0)}
 
 \item{efficacy}{TRUE (default) for efficacy bound, FALSE otherwise}
 
-\item{test_bound}{a logical vector of the same length as \code{info} should indicate which analyses will have a bound}
+\item{test_bound}{a logical vector of the same length as \code{info}
+should indicate which analyses will have a bound}
 
-\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
+\item{r}{Integer value controlling grid for numerical integration
+as in Jennison and Turnbull (2000);
+default is 18, range is 1 to 80. Larger values provide larger number of
+grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for convergence (on Z-scale)}

@@ -19,7 +19,7 @@
 #' Derive spending bound for MaxCombo group sequential boundary
 #'
 #' @inheritParams gs_spending_bound
-#' @param ... additional parameters transfered to `par$sf`.
+#' @param ... additional parameters passed to `par$sf`.
 #'
 #' @examples
 #'
