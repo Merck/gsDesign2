@@ -509,7 +509,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           alpha = alpha, beta = 1 - power, ratio = ratio,
           upper = gs_b, upar = qnorm(1 - alpha),
           lower = gs_b, lpar = -Inf,
-          rd0 = args$rd0, weight = "un-stratified"
+          rd0 = args$rd0, weight = "unstratified"
         )
       } else {
         d <- gs_power_rd(
@@ -519,7 +519,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           upper = gs_b, upar = qnorm(1 - alpha),
           lower = gs_b, lpar = -Inf,
           n = tibble::tibble(stratum = "all", n = args$n, analysis = 1),
-          rd0 = args$rd0, weight = "un-stratified"
+          rd0 = args$rd0, weight = "unstratified"
         )
       }
 

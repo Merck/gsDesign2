@@ -13,7 +13,7 @@ gs_design_rd(
   beta = 0.1,
   ratio = 1,
   stratum_prev = NULL,
-  weight = c("un-stratified", "ss", "invar"),
+  weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -43,7 +43,7 @@ gs_design_rd(
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
 \item{stratum_prev}{randomization ratio of different stratum.
-If it is un-stratified design then \code{NULL}.
+If it is unstratified design then \code{NULL}.
 Otherwise it is a tibble containing two columns (stratum and prevalence).}
 
 \item{weight}{the weighting scheme for stratified population}
@@ -98,7 +98,7 @@ library(gsDesign)
 # ----------------- #
 #    example 1      #
 #------------------ #
-# un-stratified group sequential design
+# unstratified group sequential design
 gs_design_rd(
   p_c = tibble(stratum = "All", rate = .2),
   p_e = tibble(stratum = "All", rate = .15),
@@ -108,7 +108,7 @@ gs_design_rd(
   beta = .1,
   ratio = 1,
   stratum_prev = NULL,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,

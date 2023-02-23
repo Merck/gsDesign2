@@ -10,7 +10,7 @@ gs_power_rd(
   n = tibble::tibble(stratum = "all", n = c(40, 50, 60), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = c("un-stratified", "ss", "invar"),
+  weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -75,7 +75,7 @@ Group sequential design power under risk difference
 # --------------------- #
 library(gsDesign)
 
-# un-stratified case with H0: rd0 = 0
+# unstratified case with H0: rd0 = 0
 gs_power_rd(
   p_c = tibble::tibble(
     stratum = "All",
@@ -101,7 +101,7 @@ gs_power_rd(
 # --------------------- #
 #      example 2        #
 # --------------------- #
-# un-stratified case with H0: rd0 != 0
+# unstratified case with H0: rd0 != 0
 gs_power_rd(
   p_c = tibble::tibble(
     stratum = "All",
@@ -194,7 +194,7 @@ gs_power_rd(
   ),
   rd0 = 0,
   ratio = 1,
-  weight = "invar",
+  weight = "invar_h1",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -248,7 +248,7 @@ gs_power_rd(
   ),
   rd0 = 0.03,
   ratio = 1,
-  weight = "invar",
+  weight = "invar_h1",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
