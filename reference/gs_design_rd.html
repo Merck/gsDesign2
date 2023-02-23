@@ -66,7 +66,7 @@
 <span>  beta <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  stratum_prev <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"un-stratified"</span>, <span class="st">"ss"</span>, <span class="st">"invar"</span><span class="op">)</span>,</span>
+<span>  weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"unstratified"</span>, <span class="st">"ss"</span>, <span class="st">"invar_h1"</span>, <span class="st">"invar_h0"</span><span class="op">)</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>  upar <span class="op">=</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span>
@@ -113,7 +113,7 @@
 
 <dt>stratum_prev</dt>
 <dd><p>randomization ratio of different stratum.
-If it is un-stratified design then <code>NULL</code>.
+If it is unstratified design then <code>NULL</code>.
 Otherwise it is a tibble containing two columns (stratum and prevalence).</p></dd>
 
 
@@ -196,7 +196,7 @@ if spending is used for lower bound</p></dd>
 <span class="r-in"><span><span class="co"># ----------------- #</span></span></span>
 <span class="r-in"><span><span class="co">#    example 1      #</span></span></span>
 <span class="r-in"><span><span class="co">#------------------ #</span></span></span>
-<span class="r-in"><span><span class="co"># un-stratified group sequential design</span></span></span>
+<span class="r-in"><span><span class="co"># unstratified group sequential design</span></span></span>
 <span class="r-in"><span><span class="fu">gs_design_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  p_e <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.15</span><span class="op">)</span>,</span></span>
@@ -206,7 +206,7 @@ if spending is used for lower bound</p></dd>
 <span class="r-in"><span>  beta <span class="op">=</span> <span class="fl">.1</span>,</span></span>
 <span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>  stratum_prev <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>  weight <span class="op">=</span> <span class="st">"un-stratified"</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="st">"unstratified"</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>

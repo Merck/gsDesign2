@@ -63,7 +63,7 @@
 <span>  n <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"all"</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">50</span>, <span class="fl">60</span><span class="op">)</span>, analysis <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span>
 <span>  rd0 <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"un-stratified"</span>, <span class="st">"ss"</span>, <span class="st">"invar"</span><span class="op">)</span>,</span>
+<span>  weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"unstratified"</span>, <span class="st">"ss"</span>, <span class="st">"invar_h1"</span>, <span class="st">"invar_h0"</span><span class="op">)</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>  upar <span class="op">=</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span>
@@ -164,7 +164,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># un-stratified case with H0: rd0 = 0</span></span></span>
+<span class="r-in"><span><span class="co"># unstratified case with H0: rd0 = 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    stratum <span class="op">=</span> <span class="st">"All"</span>,</span></span>
@@ -210,7 +210,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
 <span class="r-in"><span><span class="co">#      example 2        #</span></span></span>
 <span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co"># un-stratified case with H0: rd0 != 0</span></span></span>
+<span class="r-in"><span><span class="co"># unstratified case with H0: rd0 != 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    stratum <span class="op">=</span> <span class="st">"All"</span>,</span></span>
@@ -363,7 +363,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rd0 <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>  weight <span class="op">=</span> <span class="st">"invar"</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="st">"invar_h1"</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
@@ -384,7 +384,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     n     rd   rd0 theta1 theta0  info info0 info_frac info_frac0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1    38 0.047<span style="text-decoration: underline;">7</span>     0  0.394      0  68.2  67.9     0.483      0.483</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2    66 0.048<span style="text-decoration: underline;">7</span>     0  0.533      0 119.  119.      0.845      0.845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2    66 0.048<span style="text-decoration: underline;">8</span>     0  0.533      0 119.  119.      0.845      0.845</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3    78 0.048<span style="text-decoration: underline;">9</span>     0  0.581      0 141.  141.      1          1    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -457,7 +457,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rd0 <span class="op">=</span> <span class="fl">0.03</span>,</span></span>
 <span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>  weight <span class="op">=</span> <span class="st">"invar"</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="st">"invar_h1"</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
@@ -467,7 +467,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0     z ~risk difference at bo…¹ nomin…²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper    0.000<span style="text-decoration: underline;">443</span>     0.000<span style="text-decoration: underline;">267</span>  3.71                   0.196  1.04<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper    0.000<span style="text-decoration: underline;">443</span>     0.000<span style="text-decoration: underline;">267</span>  3.71                   0.197  1.04<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper    0.024<span style="text-decoration: underline;">0</span>       0.014<span style="text-decoration: underline;">5</span>    2.51                   0.113  6.01<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3 upper    0.080<span style="text-decoration: underline;">3</span>       0.051<span style="text-decoration: underline;">8</span>    1.99                   0.090<span style="text-decoration: underline;">6</span> 2.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        1 lower    0.046<span style="text-decoration: underline;">7</span>       0.063<span style="text-decoration: underline;">2</span>   -<span style="color: #BB0000;">1.28</span>                  -<span style="color: #BB0000;">0.027</span><span style="color: #BB0000; text-decoration: underline;">5</span> 9   <span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span></span>
@@ -478,7 +478,7 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     n     rd   rd0 theta1 theta0  info info0 info_frac info_frac0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1    38 0.047<span style="text-decoration: underline;">7</span>  0.03  0.394  0.247  68.2  67.9     0.483      0.483</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2    66 0.048<span style="text-decoration: underline;">7</span>  0.03  0.533  0.327 119.  119.      0.845      0.845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2    66 0.048<span style="text-decoration: underline;">8</span>  0.03  0.533  0.327 119.  119.      0.845      0.845</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3    78 0.048<span style="text-decoration: underline;">9</span>  0.03  0.581  0.356 141.  141.      1          1    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
