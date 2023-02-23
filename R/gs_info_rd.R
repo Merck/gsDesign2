@@ -257,7 +257,11 @@ gs_info_rd <- function(p_c = tibble::tibble(
   } else if (weight == "invar_h1") {
     suppressMessages(
       tbl <- tbl %>%
-        left_join(tbl %>% dplyr::group_by(analysis) %>% summarize(sum_inv_var_per_s = sum(1 / sigma2_H1_per_k_per_s))) %>%
+        left_join(
+          tbl %>%
+            dplyr::group_by(analysis) %>%
+            summarize(sum_inv_var_per_s = sum(1 / sigma2_H1_per_k_per_s))
+        ) %>%
         mutate(weight_per_k_per_s = 1 / sigma2_H1_per_k_per_s / sum_inv_var_per_s) %>%
         select(-sum_inv_var_per_s)
     )

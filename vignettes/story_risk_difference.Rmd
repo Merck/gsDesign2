@@ -1514,19 +1514,22 @@ ans <- tibble::tibble(
   INVAR2 = x_invar2$analysis$n[1:3],
   SS0 = x_ss0$analysis$n[1:3],
   SS1 = x_ss1$analysis$n[1:3],
-  SS2 = x_ss2$analysis$n[1:3])
+  SS2 = x_ss2$analysis$n[1:3]
+)
 
 ans %>%
   gt::gt() %>%
   gt::tab_header(title = "Sample size calculated by INVAR and SS") %>%
   gt::tab_spanner(
     label = "Inverse variance weighting ",
-    columns = c("INVAR0", 
-                "INVAR1", 
-                "INVAR2")
+    columns = c(
+      "INVAR0",
+      "INVAR1",
+      "INVAR2"
+    )
   ) %>%
   gt::tab_spanner(
-    label = "Sample size wighting",
+    label = "Sample size weighting",
     columns = c(SS0, SS1, SS2)
   ) %>%
   cols_label(
