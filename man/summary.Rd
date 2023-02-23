@@ -227,7 +227,7 @@ gs_design_rd(
   beta = .1,
   ratio = 1,
   stratum_prev = NULL,
-  weight = "un-stratified",
+  weight = "unstratified",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign::gsDesign(
