@@ -10,7 +10,7 @@ gs_info_rd(
   n = tibble::tibble(stratum = "all", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = c("un-stratified", "ss", "invar-h1", "invar-h0")
+  weight = c("unstratified", "ss", "invar_h0", "invar_h1")
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ gs_info_rd(
 
 \item{ratio}{Experimental:Control randomization ratio}
 
-\item{weight}{weighting method, either "un-stratified" or "ss" or "invar"}
+\item{weight}{weighting method, either "unstratified" or "ss" or "invar"}
 }
 \description{
 Information and effect size under risk difference
@@ -34,7 +34,7 @@ library(tibble)
 # --------------------- #
 #      example 1        #
 # --------------------- #
-# un-stratified case with H0: rd0 = 0
+# unstratified case with H0: rd0 = 0
 gs_info_rd(
   p_c = tibble(stratum = "All", rate = .15),
   p_e = tibble(stratum = "All", rate = .1),
@@ -46,7 +46,7 @@ gs_info_rd(
 # --------------------- #
 #      example 2        #
 # --------------------- #
-# un-stratified case with H0: rd0 != 0
+# unstratified case with H0: rd0 != 0
 gs_info_rd(
   p_c = tibble(stratum = "All", rate = .2),
   p_e = tibble(stratum = "All", rate = .15),
@@ -92,7 +92,7 @@ gs_info_rd(
   ),
   rd0 = 0,
   ratio = 1,
-  weight = "invar-h1"
+  weight = "invar_h1"
 )
 
 # --------------------- #
@@ -138,7 +138,7 @@ gs_info_rd(
   ),
   rd0 = 0.02,
   ratio = 1,
-  weight = "invar-h1"
+  weight = "invar_h1"
 )
 
 # --------------------- #
@@ -165,7 +165,7 @@ gs_info_rd(
     rd0 = c(0.01, 0.02, 0.03)
   ),
   ratio = 1,
-  weight = "invar-h1"
+  weight = "invar_h1"
 )
 
 }
