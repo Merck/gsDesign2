@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Futility Bounds at Design and Analysis Under Non-proportional Hazards}
@@ -25,14 +25,14 @@ library(ggplot2)
 # Overview
 
 We set up futility bounds under a non-proportional hazards assumption.
-We consider methods presented by @kornfreidlin2018 for setting such bounds and then consider an alternate futility bound based on $\beta-$spending under a delayed or crossing treatment effect to simplify implementation.
+We consider methods presented by @korn2018interim for setting such bounds and then consider an alternate futility bound based on $\beta-$spending under a delayed or crossing treatment effect to simplify implementation.
 Finally, we show how to update this $\beta-$spending bound based on blinded interim data.
-We will consider an example to reproduce a line of @kornfreidlin2018 Table 1 with the alternative futility bounds considered.
+We will consider an example to reproduce a line of @korn2018interim Table 1 with the alternative futility bounds considered.
 
 ## Initial design set-up for fixed analysis
 
-@kornfreidlin2018 considered delayed effect scenarios and proposed a futility bound that is a modification of an earlier method proposed by @wieand.
-We begin with the enrollment and failure rate assumptions which @kornfreidlin2018 based on an example by @ttchen2013.
+@korn2018interim considered delayed effect scenarios and proposed a futility bound that is a modification of an earlier method proposed by @wieand1994stopping.
+We begin with the enrollment and failure rate assumptions which @korn2018interim based on an example by @chen2013statistical.
 
 ```{r}
 # Enrollment assumed to be 680 patients over 12 months with no ramp-up
@@ -71,13 +71,13 @@ fixedevents %>%
 
 # Modified Wieand futility bound
 
-The @wieand rule recommends stopping after 50% of planned events accrue if the observed HR > 1.
+The @wieand1994stopping rule recommends stopping after 50% of planned events accrue if the observed HR > 1.
 kornfreidlin2018 modified this by adding a second interim analysis after 75% of planned events and stop if the observed HR > 1
 This is implemented here by requiring a trend in favor of control with a direction $Z$-bound at 0 resulting in the *Nominal p* bound being 0.5 for interim analyses in the table below.
 A fixed bound is specified with the 'gs_b()` function for `upper` and `lower` and its correspoinding parameters `upar` for the upper (efficacy) bound and `lpar` for the lower (futility) bound.
 The final efficacy bound is for a 1-sided nominal p-value of 0.025; the futility bound lowers this to 0.0247 as noted in the lower-right-hand corner of the table below.
 In the last row under *Alternate hypothesis* below we see the power is 88.44%.
-@kornfreidlin2018 computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884) / 100000), 4), "%", sep = "")`.
+@korn2018interim computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884) / 100000), 4), "%", sep = "")`.
 
 ```{r}
 wieand <- gs_power_ahr(
@@ -124,7 +124,7 @@ A classical $\beta-$spending bound would assume a constant treatment effect over
 
 # Korn and Freidlin futility bound
 
-The @kornfreidlin2018 futility bound is set *when at least 50% of the expected events have occurred and at least two thirds of the observed events have occurred later than 3 months from randomization*.
+The @korn2018interim futility bound is set *when at least 50% of the expected events have occurred and at least two thirds of the observed events have occurred later than 3 months from randomization*.
 The expected timing for this is demonstrated below.
 
 ## Accumulation of events by time interval
@@ -155,11 +155,11 @@ event_accumulation %>%
   geom_line()
 ```
 
-For the @kornfreidlin2018 bound the targeted timing is when both 50% of events have occurred and at least 2/3 are more than 3 months after enrollment with 3 months being the delayed effect period.
+For the @korn2018interim bound the targeted timing is when both 50% of events have occurred and at least 2/3 are more than 3 months after enrollment with 3 months being the delayed effect period.
 We see above that about 1/3 of events are still within 3 months of enrollment at month 20.
 
 ## Korn and Freidlin bound
 
-The bound proposed by @kornfreidlin2018
+The bound proposed by @korn2018interim
 
 # References

@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: >
   %\VignetteIndexEntry{Power evaluation with spending bounds}
   %\VignetteEncoding{UTF-8}
@@ -35,7 +35,7 @@ This vignette covers how to compute power or Type I error for a design derived w
 
 # Scenario for Consideration
 
-We consider a scenario largely based on the CAPTURE study (@CAPTURE) where the primary endpoint was a composite of death, acute myocardial infarction or the need for recurrent percutaneous intervention within 30 days of randomization.
+We consider a scenario largely based on the CAPTURE study (@capture1997randomised) where the primary endpoint was a composite of death, acute myocardial infarction or the need for recurrent percutaneous intervention within 30 days of randomization.
 
 The detailed introduction of this trial is listed as follows.
 
@@ -60,7 +60,7 @@ In this example, the parameter of interest is $\theta = p_1 - p_2$. We denote th
   H_1: \theta = \theta_1= p_1^1 - p_2^1 = 0.15 - 0.10 = 0.05
 $$ and the null hypothesis $$
   H_0: \theta = \theta_0 = 0 = p_1^0 - p_2^0
-$$ where $p^0_1 = p^0_2= (p_1^1+p_2^1)/2 = 0.125$ as laid out in @LachinBook.
+$$ where $p^0_1 = p^0_2= (p_1^1+p_2^1)/2 = 0.125$ as laid out in @lachin2009biostatistical.
 
 We note that had we considered a success outcome such as objective response in an oncology study, we would let $p_1$ denote the experimental group and $p_2$ the control group response rate. Thus, we always set up the notation so the $p_1>p_2$ represents superiority for the experimental group.
 
@@ -145,7 +145,7 @@ $$ for any $k = 1, 2, \ldots, K$.
 
 ## Testing Statistics
 
-Testing, as recommended by @LachinBook, is done with the large sample test with the null hypothesis variance estimate and without continuity correction: $$
+Testing, as recommended by @lachin2009biostatistical, is done with the large sample test with the null hypothesis variance estimate and without continuity correction: $$
 Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
 $$
 which is asymptotically $\text{Normal}(0,1)$ if $p_1 = p_2$ and $\text{Normal}(0, \sigma_{0k}^2/\sigma_k^2)$ more generally for any $p_1, p_2$ and $k = 1, 2, \ldots, K$.
@@ -174,7 +174,7 @@ $$
 $$
 We also note by definition that $\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal I_{0k}.$ Based on an input $p_1, p_2, n_k, \xi_1, \xi_2 = 1-\xi_1$ we will compute $\theta, \mathcal{I}_k, \mathcal{I}_{0k}$ for any $k = 1, 2, \ldots, K$.
 
-We note that $\chi^2=Z^2_k$ is the $\chi^2$ test without continuity correction as recommended by @CCmyth. Note finally that this extends in a straightforward way the non-inferiority test of @FarringtonManning if the null hypothesis is $\theta = p_1 - p_2 - \delta = 0$ for some non-inferiority margin $\delta > 0$; $\delta < 0$ would correspond to what is referred to as super-superiority @Chan2002, requiring that experimental therapy has been shown to be superior to control by at least a margin $-\delta>0$.
+We note that $\chi^2=Z^2_k$ is the $\chi^2$ test without continuity correction as recommended by @gordon1996myth. Note finally that this extends in a straightforward way the non-inferiority test of @farrington1990test if the null hypothesis is $\theta = p_1 - p_2 - \delta = 0$ for some non-inferiority margin $\delta > 0$; $\delta < 0$ would correspond to what is referred to as super-superiority @chan2002power, requiring that experimental therapy has been shown to be superior to control by at least a margin $-\delta>0$.
 
 # Power Calculations
 

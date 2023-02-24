@@ -10,7 +10,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: ggsd.bib
+bibliography: gsDesign2.bib
 vignette: |
   %\VignetteIndexEntry{Group sequential design for binary outcomes}
   %\VignetteEncoding{UTF-8}
@@ -48,10 +48,10 @@ issues to consider:
 -   Fixed and group sequential designs.
 
 For single stratum designs, we focus on sample size or power using the
-method of @FarringtonManning for a trial to test the difference between
+method of @farrington1990test for a trial to test the difference between
 two binomial event rates. The routine can be used for a test of
 superiority, non-inferiority or super-superiority. For a design that
-tests for superiority, the methods are consistent with those of @FTU,
+tests for superiority, the methods are consistent with those of @fleiss1980simple,
 but without the continuity correction. Methods for sample size and power
 are the same as `gsDesign::nBinomial()` when testing on the
 risk-difference scale for a single stratum. This is also consistent with
@@ -60,9 +60,9 @@ superiority designs.
 
 For trials with multiple strata, testing for a risk difference is often
 done by weighting each stratum according to the inverse of the variance
-(@MantelHaenszel). Since risk differences may also be assumed to be
+(@mantel1959statistical). Since risk differences may also be assumed to be
 different for different strata, we will also explore weighting by strata
-sample sizes as in @Mehrotra2000.
+sample sizes as in @mehrotra2000minimum.
 
 The focus here is for sample sizes that are large enough for asymptotic
 theory to work well without continuity corrections. The concepts are
@@ -239,7 +239,7 @@ $$
 
 -   **Standardized information per analysis:**
 
-    @LachinBook or @Lachin1981 provide fixed sample size calculations
+    @lachin2009biostatistical or @lachin1981introduction provide fixed sample size calculations
     based on the values $\psi_0$ under the null hypothesis and $\psi_1$
     under the alternate hypothesis. Here we propose using the same
     variance calculations to compute statistical information for a group
@@ -397,7 +397,7 @@ numbers.
 # Weighting Options
 
 As previously noted, we will consider weighting based on either
-inverse-variance weights (@MantelHaenszel) or strata sample size weights
+inverse-variance weights (@mantel1959statistical) or strata sample size weights
 (@mehrotra2000minimum).
 
 -   **Inverse-variance weights (INVAR):**

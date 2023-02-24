@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: |
   %\VignetteIndexEntry{Numerical integration for NPES}
   %\VignetteEncoding{UTF-8}
@@ -31,7 +31,7 @@ devtools::load_all()
 We have provided asymptotic distribution theory and notation for group sequential boundaries in
 `vignette("NPEbackground", package="gsDesign2")`.
 
-This vignettes generalize computational algorithms provided in Chapter 19 of @JTBook that are used to compute boundary crossing probabilities as well as derive boundaries for group sequential designs.
+This vignettes generalize computational algorithms provided in Chapter 19 of @jennison1999group that are used to compute boundary crossing probabilities as well as derive boundaries for group sequential designs.
 
 ## Asymptotic normal and boundary crossing probabilities
 
@@ -62,7 +62,7 @@ Obviously, for each $k$, we want either $a_k>-\infty$ or $b_k<\infty$.
 
 ## Recursive algorithms for numerical integration
 
-We now provide a small update to the algorithm of Chapter 19 of @JTBook to do the numerical integration required to compute the boundary crossing probabilities of the previous section and also identifying group sequential boundaries satisfying desired characteristics.
+We now provide a small update to the algorithm of Chapter 19 of @jennison1999group to do the numerical integration required to compute the boundary crossing probabilities of the previous section and also identifying group sequential boundaries satisfying desired characteristics.
 The key to these calculations is the conditional power identity in equation (1) above which allows building recursive numerical integration identities to enable simple, efficient numerical integration.
 
 We define
@@ -77,7 +77,7 @@ g_k(z; \theta) &= \frac{d}{dz}P_\theta(\{Z_k\leq z\}\cap_{j=1}^{k-1}\{a_j\leq Z_
  &=\int_{a_{k-1}}^{b_{k-1}}f_k(z_{k-1},z;\theta)g_{k-1}(z_{k-1}; \theta)dz_{k-1}.\tag{3}
  \end{align}$$
 
-The bottom line notation here is the same as on p. 347 in @JTBook.
+The bottom line notation here is the same as on p. 347 in @jennison1999group.
 However, $f_k()$ here takes a slightly different form.
 
 $$\begin{align}
@@ -88,10 +88,10 @@ f_k(z_{k-1},z;\theta) &=\frac{d}{dz}P_\theta(\{Z_k\leq z |Z_{k-1}=z_{k-1}\})\\
  &=\frac{\sqrt{\mathcal{I}_k}}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\phi\left(\frac{z\sqrt{\mathcal{I}_k}-z_{k-1}\sqrt{\mathcal{I}_{k-1}}-(\mathcal{I}_k\theta(t_k)- \mathcal{I}_{k-1}\theta(t_{k-1}))}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{3}
 \end{align}$$
 
-We have worked towards this last line due to its comparability to equation (19.4) on p. 347 of @JTBook which assumes $\theta(t_k)=\theta$ for some constant $\theta$; we re-write that equation slightly here as:
+We have worked towards this last line due to its comparability to equation (19.4) on p. 347 of @jennison1999group which assumes $\theta(t_k)=\theta$ for some constant $\theta$; we re-write that equation slightly here as:
 
 $$f_k(z_{k-1},z;\theta) = \frac{\sqrt{\mathcal{I}_k}}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\phi\left(\frac{z\sqrt{\mathcal{I}_k}-z_{k-1}\sqrt{\mathcal{I}_{k-1}}-\theta(\mathcal{I}_k- \mathcal{I}_{k-1})}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{4}$$
-This is really the only difference in the computational algorithm for boundary crossing probabilities from the @JTBook algorithm.
+This is really the only difference in the computational algorithm for boundary crossing probabilities from the @jennison1999group algorithm.
 Using the above recursive approach we can compute for $k=1,2,\ldots,K$
 
 $$\alpha_{k}(\theta)=\int_{b_k}^\infty g_k(z;\theta)dz\tag{5}$$
@@ -125,7 +125,7 @@ However, $a_k$ computed analogously will often use a non-zero $\theta$ to enable
 
 ## Numerical integration
 
-The numerical integration required to compute boundary probabilities and derive boundaries is the same as that defined in section 19.3 of @JTBook. The single change is the replacement of the non-proportional effect size assumption of equation (3) above replacing the equivalent of equation (4) used for a constant effect size as in @JTBook.
+The numerical integration required to compute boundary probabilities and derive boundaries is the same as that defined in section 19.3 of @jennison1999group. The single change is the replacement of the non-proportional effect size assumption of equation (3) above replacing the equivalent of equation (4) used for a constant effect size as in @jennison1999group.
 
 ### Demonstrating calculations
 

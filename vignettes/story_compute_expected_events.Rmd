@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: >
   %\VignetteIndexEntry{Computing expected events by interval at risk}
   %\VignetteEngine{knitr::rmarkdown}
@@ -31,8 +31,8 @@ library(gsDesign2)
 
 # Introduction
 
-This document derives an algorithm for computing expected events observed for a model with piecewise constant enrollment, failure and dropout rates similar to @LachinFoulkes.
-Specifically, we design this to enable computation of an _average hazard ratio_ which we will use elsewhere to approximate sample size for fixed or group sequential designs under a non-proportional hazards assumption (@Kalbfleisch1981, @Schemper2009).
+This document derives an algorithm for computing expected events observed for a model with piecewise constant enrollment, failure and dropout rates similar to @lachin1986evaluation.
+Specifically, we design this to enable computation of an _average hazard ratio_ which we will use elsewhere to approximate sample size for fixed or group sequential designs under a non-proportional hazards assumption (@kalbfleisch1981estimation, @schemper2009estimation).
 The expected events calculation outlined here is implemented in the function `expected_event()`.
 
 # General formulation and notation
@@ -78,8 +78,8 @@ The model here is as follows:
 - Piecewise exponential censoring rates allow changing dropout rates over time.
 - A fixed study duration.
 
-@LachinFoulkes have provided a general formulation for calculating the expected number of events over time in the scenario described above.
-However, we alter their algorithm to compute the expected number of events $E\{\bar n(t_1,t_2)\}$ in each follow-up period with a constant failure rate; this will later enable computing an average hazard ratio (@Kalbfleisch1981, @Schemper2009).
+@lachin1986evaluation has provided a general formulation for calculating the expected number of events over time in the scenario described above.
+However, we alter their algorithm to compute the expected number of events $E\{\bar n(t_1,t_2)\}$ in each follow-up period with a constant failure rate; this will later enable computing an average hazard ratio (@kalbfleisch1981estimation, @schemper2009estimation).
 
 We define a piecewise time-to-event and dropout random variables on the patient time scale.
 We assume $0=t_0<t_1<...<t_M=\infty$ and for $m=1,2,\ldots,M$.
