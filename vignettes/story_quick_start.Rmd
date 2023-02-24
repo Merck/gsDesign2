@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: |
   %\VignetteIndexEntry{Quick start for NPH sample size and power}
   %\VignetteEngine{knitr::rmarkdown}
@@ -142,7 +142,7 @@ d$enroll_rate %>% gt()
 # Group Sequential Design
 
 We will not go into detail for group sequential designs here.
-In brief, however, a sequence of tests $Z_1, Z_2,\ldots, Z_K$ that follow a multivariate normal distribution are performed to test if a new treatment is better than control (@JTBook).
+In brief, however, a sequence of tests $Z_1, Z_2,\ldots, Z_K$ that follow a multivariate normal distribution are performed to test if a new treatment is better than control (@jennison1999group).
 We assume $Z_k > 0$ is favorable for the experimental treatment.
 Generally Type I error for this set of tests will be controlled under the null hypothesis of no treatment difference by a sequence of bounds $b_1, b_2,\ldots,b_K$ such that for a chosen Type I error $\alpha > 0$ we have
 
@@ -154,7 +154,7 @@ This is referred to as a non-binding bound since it is assumed the trial will no
 
 ## Simple Efficacy Bound Definition
 
-@LanDeMets developed the spending function method for deriving group sequential bounds.
+@lan1983discrete developed the spending function method for deriving group sequential bounds.
 This involves use of a non-decreasing spending function $f(t)$ for $t \geq 0$ where $f(0)=0$ and $f(t)=\alpha$ for $t \geq 1$.
 Suppose for $K>0$ analyses are performed when proportion $t_1< t_2 <\ldots t_K=1$ of some planned statistical information (e.g., proportion of planned events for a time-to-event endpoint trial for proportion of observations for a binomial or normal endpoint).
 Bounds through the first $k$ analyses $1\leq k\leq K$ are recursively defined by the spending function and the multivariate normal distribution to satisfy
@@ -164,7 +164,7 @@ $$
 $$
 For this quick start, we will only illustrate this type of efficacy bound.
 
-Perhaps the most common spending function for this approach is the @LanDeMets approximation to the O'Brien-Fleming bound with
+Perhaps the most common spending function for this approach is the @lan1983discrete approximation to the O'Brien-Fleming bound with
 
 $$
   f(t) = 2-2\Phi\left(\frac{\Phi^{-1}(1-\alpha/2)}{t^{1/2}}\right).

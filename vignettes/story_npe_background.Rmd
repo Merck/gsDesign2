@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: >
   %\VignetteIndexEntry{Non-proportional effect size in group sequential design}
   %\VignetteEncoding{UTF-8}
@@ -29,15 +29,15 @@ devtools::load_all()
 ## Overview
 
 The acronym NPES is short for non-proportional effect size.
-While it is motivated primarily by a use for when designing a time-to-event trial under non-proportional hazards (NPH), we have simplified and generalized the concept here. The model is likely to be useful for rank-based survival tests beyond the logrank test that will be considered initially by @Tsiatis.
+While it is motivated primarily by a use for when designing a time-to-event trial under non-proportional hazards (NPH), we have simplified and generalized the concept here. The model is likely to be useful for rank-based survival tests beyond the logrank test that will be considered initially by @tsiatis1982repeated.
 It could also be useful in other situations where treatment effect may vary over time in a trial for some reason.
-We generalize the framework of Chapter 2 of @PLWBook to incorporate the possibility of the treatment effect changing during the course of a trial in some systematic way.
+We generalize the framework of Chapter 2 of @proschan2006statistical to incorporate the possibility of the treatment effect changing during the course of a trial in some systematic way.
 This vignettes addresses distribution theory and initial technical issues around computing
 
 - boundary crossing probabilities
 - bounds satisfying targeted boundary crossing probabilities
 
-This is then applied to generalize computational algorithms provided in Chapter 19 of @JTBook that are used to compute boundary crossing probabilities as well as boundaries for group sequential designs.
+This is then applied to generalize computational algorithms provided in Chapter 19 of @jennison1999group that are used to compute boundary crossing probabilities as well as boundaries for group sequential designs.
 Additional specifics around boundary computation, power and sample size are provided in a separate vignette.
 
 ## The probability model
@@ -45,21 +45,21 @@ Additional specifics around boundary computation, power and sample size are prov
 ### The continuous model and E-process
 
 We consider a simple example here to motivate distribution theory that is quite general and applies across many situations.
-For instance @PLWBook immediately suggest paired observations, time-to-event and binary outcomes as endpoints where the theory is applicable.
+For instance, @proschan2006statistical immediately suggest paired observations, time-to-event and binary outcomes as endpoints where the theory is applicable.
 
 We assume for a given integer $N>0$ that $X_{i}$ are independent, $i=1,2,\ldots$.
 For some integer $K\leq N$ we assume we will perform analysis $K$ times after $0<n_1<n_2,\ldots ,n_K = N$ observations are available for analysis.
 Note that we have not confined $n\leq N$, but $N$ can be considered the final planned sample size.
-@PLWBook refer to the estimation or E-process which we extend here to
+@proschan2006statistical refer to the estimation or E-process which we extend here to
 
 $$\hat{\theta}_k = \frac{\sum_{i=1}^{n_k} X_{i}}{n_k}\equiv \bar X_{k}.$$
-While @PLWBook have used $\delta$ instead of $\theta$ in our notation, we stick more closely to the notation of @JTBook where $\theta$ is used.
+While @proschan2006statistical has used $\delta$ instead of $\theta$ in our notation, we stick more closely to the notation of @jennison1999group where $\theta$ is used.
 For our example, we see $\hat{\theta}_k\equiv\bar X_k$ represents the sample average at analysis $k$, $1\leq k\leq K$.
 With a survival endpoint, $\hat\theta_k$ would typically represent a Cox model coefficient representing the logarithm of the hazard ratio for experimental vs control treatment and $n_k$ would represent the planned number of events at analysis $k$, $1\leq k\leq K.$
 Denoting $t_k=n_k/N$, we assume that for some real-valued function $\theta(t)$ for $t \geq 0$ we have for $1\leq k\leq K$
 
 $$E(\hat{\theta}_k) =\theta(t_k) =E(\bar X_k).$$
-In the models of @PLWBook and @JTBook we would have $\theta(t)$ equal to some constant $\theta$.
+In the models of @proschan2006statistical and @jennison1999group we would have $\theta(t)$ equal to some constant $\theta$.
 We assume further that for $i=1,2,\ldots$
 $$\hbox{Var}(X_{i})=1.$$
 The sample average variance under this assumption is for $1\leq k\leq K$
@@ -72,7 +72,7 @@ $t_k=\mathcal{I}_k/\mathcal{I}_K.$
 
 ### Z-process
 
-The Z-process is commonly used (e.g., @JTBook) and will be used below to extend the computational algorithm in Chapter 19 of @JTBook by defining equivalently in the first and second lines below for $k=1,\ldots,K$
+The Z-process is commonly used (e.g., @jennison1999group) and will be used below to extend the computational algorithm in Chapter 19 of @jennison1999group by defining equivalently in the first and second lines below for $k=1,\ldots,K$
 
 $$Z_{k} = \frac{\hat\theta_k}{\sqrt{\hbox{Var}(\hat\theta_k)}}= \sqrt{\mathcal{I}_k}\hat\theta_k= \sqrt{n_k}\bar X_k.$$
 
@@ -127,7 +127,7 @@ Because of independence of the sequence $X_i$, $i=1,2,\ldots$, we  immediately h
 $$\hbox{Cov}(B_j,B_k) = \hbox{Var}(B_j) = t_j.$$
 This leads further to
 $$\hbox{Corr}(B_j,B_k)=\frac{t_j}{\sqrt{t_jt_k}}=\sqrt{t_j/t_k}=\hbox{Corr}(Z_j,Z_k)=\hbox{Cov}(Z_j,Z_k)$$
-which is the covariance structure in the so-called *canonical form* of @JTBook.
+which is the covariance structure in the so-called *canonical form* of @jennison1999group.
 For our example, we have
 $$B_k=\frac{1}{\sqrt N}\sum_{i=1}^{n_k}X_i$$
 and
@@ -143,7 +143,7 @@ Because of independence of the sequence $X_i$, $i=1,2,\ldots$, we  immediately h
 $$\hbox{Cov}(B_j,B_k) = \hbox{Var}(B_j) = t_j/t_k =\mathcal{I}_j/\mathcal{I}_k.$$
 This leads to
 $$\mathcal{I}_j/\mathcal{I}_k=\sqrt{t_j/t_k}=\hbox{Corr}(B_j,B_k)=\hbox{Corr}(Z_j,Z_k)=\hbox{Cov}(Z_j,Z_k)$$
-which is the covariance structure in the so-called *canonical form* of @JTBook.
+which is the covariance structure in the so-called *canonical form* of @jennison1999group.
 The independence of $B_j$ and
 $$B_k-B_j=\sum_{i=n_j + 1}^{n_k}X_i/(\sqrt N\sigma)$$
 is obvious for this example.

@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: >
   %\VignetteIndexEntry{Spending time examples}
   %\VignetteEncoding{UTF-8}
@@ -48,16 +48,16 @@ In this document, we outline three examples to demonstrate these issues:
 - For a trial examining an outcome in a biomarker positive and overall populations, we show the importance of considering how the design reacts to incorrect design assumptions on biomarker prevalence.
 
 For the group sequential design options, we demonstrate that the concept of spending time is an effective way to adapt.
-Traditionally @LanDeMets, spending has been done according to targeting a specific number of events for an outcome at the end of the trial.
-However, for delayed treatment effect scenarios there is substantial literature (e.g., @NPHWG2020sim, @NPHWG2021Design) documenting the importance of adequate follow-up duration in addition to requiring an adequate number of events under the traditional proportional hazards assumption.
+Traditionally @lan1983discrete, spending has been done according to targeting a specific number of events for an outcome at the end of the trial.
+However, for delayed treatment effect scenarios there is substantial literature (e.g., @lin2020alternative, @roychoudhury2021robust) documenting the importance of adequate follow-up duration in addition to requiring an adequate number of events under the traditional proportional hazards assumption.
 
 While other approaches could be taken, we have found the spending time approach generalizes well for addressing a variety of scenarios.
-The fact that spending does not need to correspond to information fraction was perhaps first raised by @LanDeMets1989 where calendar-time spending was discussed.
-However, we note that @PLWBook have raised other scenarios where spending alternatives are considered.
+The fact that spending does not need to correspond to information fraction was perhaps first raised by @lan1989group where calendar-time spending was discussed.
+However, we note that @proschan2006statistical has raised other scenarios where spending alternatives are considered.
 Two specific spending approaches are suggested here:
 
 - Spending according to the minimum of planned and observed event counts. This is suggested for the delayed effect examples.
-- Spending with a common spending time across multiple hypotheses; e.g., in the multiple population example, spending in the overall population at the same rate as in the biomarker positive subgroup regardless of event counts over time in the overall population. This is consistent with @FPG as applied when multiple experimental treatments are compared to a common control. Spending time in this case corresponds to the approach of @FHO where fixed incremental spending is set for a potentially variable number of interim analyses.
+- Spending with a common spending time across multiple hypotheses; e.g., in the multiple population example, spending in the overall population at the same rate as in the biomarker positive subgroup regardless of event counts over time in the overall population. This is consistent with @follmann1994monitoring as applied when multiple experimental treatments are compared to a common control. Spending time in this case corresponds to the approach of @fleming1984designs where fixed incremental spending is set for a potentially variable number of interim analyses.
 
 This document is fairly long in that it demonstrates a number of scenarios relevant to the spending time concept.
 The layout is intended to make it as easy as possibly to focus on the individual examples for those not interested in the full review.
@@ -78,7 +78,7 @@ Following are the common assumptions:
 - A delayed effect for the experimental group compared to control, with a hazard ratio of 1 for the first 4 months and a hazard ratio of 0.6 thereafter.
 
 The restrictions on constant control failure rate, only two hazard ratio time intervals and constant enrollment are not required, but simplify the example.
-The approach taken uses an average-hazard ratio approach for approximating treatment effect as in @Mukhopadhyay2020 and the asymptotic group sequential theory of @Tsiatis.
+The approach taken uses an average-hazard ratio approach for approximating treatment effect as in @mukhopadhyay2020statistical and the asymptotic group sequential theory of @tsiatis1982repeated.
 
 ```{r}
 # control median
@@ -251,7 +251,7 @@ Requiring both will retain both power and important treatment benefit characteri
 
 We extend the above design to detect a delayed effect to a group sequential design with a single interim analysis after 80% of the final planned events have accrued.
 We will assume the final analysis will require both the targeted trial duration and events based on the fixed design based on the evaluations above.
-We assume the efficacy bound uses the @LanDeMets spending function approximating an O'Brien-Fleming bound.
+We assume the efficacy bound uses the @lan1983discrete spending function approximating an O'Brien-Fleming bound.
 No futility bound is planned, with the exception of a demonstration for one scenario.
 The interim analysis is far enough into the trial so that there is a substantial probability of stopping early under design assumptions.
 
@@ -378,8 +378,8 @@ xx %>%
 
 We consider two alternate approaches to demonstrate the spending time concept that may be helpful in practice.
 However, skipping the following two subsections can be done if these are not of interest.
-The first demonstrates calendar spending as in @LanDeMets1989.
-The second is a basically the method of @FHO where a fixed incremental spend is used for a potentially variable number of interim analyses, with the final bound computed based on the unspent one-sided Type I error assigned to a hypothesis.
+The first demonstrates calendar spending as in @lan1989group.
+The second is a basically the method of @fleming1984designs where a fixed incremental spend is used for a potentially variable number of interim analyses, with the final bound computed based on the unspent one-sided Type I error assigned to a hypothesis.
 
 ### Calendar spending
 
@@ -413,7 +413,7 @@ yy %>%
 
 ### Fixed incremental spend with a variable number of analyses
 
-As noted, this method was proposed by @FHO.
+As noted, this method was proposed by @fleming1984designs.
 The general strategy demonstrated is to do an interim analyses every 6 months until a both a final targeted follow-up time and cumulative number of events is achieved.
 Once efficacy analyses start, a fixed incremental spend of 0.001 is used at each interim.
 When the criteria for final analysis is met, the remaining $\alpha$ is spent.
@@ -601,7 +601,7 @@ In summary, using the minimum of planned and actual spending to adapt the design
 
 ## Assumptions
 
-We consider a simple case where we use the method of @MaurerBretz2013 to test both in the overall population and in a biomarker subgroup for the same endpoint.
+We consider a simple case where we use the method of @maurer2013multiple to test both in the overall population and in a biomarker subgroup for the same endpoint.
 We assume an exponential failure rate with a median of 12 for the control group regardless of population.
 The hazard ratio in the biomarker positive subgroup will be assumed to be 0.6, and in the negative population 0.8.
 We assume the biomarker positive group represents half of the population, meaning that enrollment rates will be assumed to be the same in negative and positive patients.
@@ -966,17 +966,17 @@ We suggested two overall findings when planning and executing a trial with a pot
 - Do not over-spend Type I error at interim analyses by using event-based spending.
 This helps to ensure the least stringent bounds are at the final analysis when the most complete risk-benefit assessment can be made.
 We gave two options to this:
-    - Use a fixed, small incremental $\alpha$-spend at each interim such as proposed by @FHO with a variable number of interim analyses to ensure adequate follow-up.
+    - Use a fixed, small incremental $\alpha$-spend at each interim such as proposed by @fleming1984designs with a variable number of interim analyses to ensure adequate follow-up.
     - Use the minimum of planned and actual spending at interim analyses.
 
-When implementing the @FHO approach, we also suggested a simple approach to futility that may be quite useful practically in a scenario with a potentially delayed onset of treatment effect.
+When implementing the @fleming1984designs approach, we also suggested a simple approach to futility that may be quite useful practically in a scenario with a potentially delayed onset of treatment effect.
 This basically looks for evidence of a favorable control group effect relative to experimental by setting a nominal p-value cutoff at a 1-sided 0.05 level for early interim futility analyses.
 Where crossing survival curves or inferior survival curves may exist, this may be a useful way to ensure continuing a trial is ethical; this approach is perhaps most useful when the experimental treatment is replacing components of the control treatment or in a case where add-on treatment may be toxic or potentially have other detrimental effects.
 
 In addition to the delayed effect example, we considered an example testing in both a biomarker positive subgroup and the overall population.
-Using a common spending time for all hypotheses with a common interim analysis strategy as advocated by @FPG can be helpful to implement spending so that all hypotheses have adequate $\alpha$ to spend at the final analysis and also to ensure full utilization of $\alpha$-spending. We suggested again using the minimum of planned and actual spending at interim analysis. Spending can be based on a key hypothesis (e.g., the biomarker positive population) or the minimum spending time among all hypotheses being tested.
-Taking advantage of know correlations to ensure full $\alpha$ utilization in multiple hypothesis testing is also more simply implemented with this strategy @AGZS2021unified.
+Using a common spending time for all hypotheses with a common interim analysis strategy as advocated by @follmann1994monitoring can be helpful to implement spending so that all hypotheses have adequate $\alpha$ to spend at the final analysis and also to ensure full utilization of $\alpha$-spending. We suggested again using the minimum of planned and actual spending at interim analysis. Spending can be based on a key hypothesis (e.g., the biomarker positive population) or the minimum spending time among all hypotheses being tested.
+Taking advantage of know correlations to ensure full $\alpha$ utilization in multiple hypothesis testing is also more simply implemented with this strategy @anderson2022unified.
 
-In summary, we have illustrated both the motivation and the illustration of the spending time approach through examples we have commonly encountered. Approaches suggested included an implementation of @FHO with a fixed incremental $\alpha$-spend at each interim analysis as well as the use of the minimum of planned and actual spending at interim analyses.
+In summary, we have illustrated both the motivation and the illustration of the spending time approach through examples we have commonly encountered. Approaches suggested included an implementation of @fleming1984designs with a fixed incremental $\alpha$-spend at each interim analysis as well as the use of the minimum of planned and actual spending at interim analyses.
 
 ## References

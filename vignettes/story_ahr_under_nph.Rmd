@@ -8,7 +8,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-bibliography: "ggsd.bib"
+bibliography: "gsDesign2.bib"
 vignette: >
   %\VignetteIndexEntry{Average hazard ratio and sample size under non-proportional hazards}
   %\VignetteEngine{knitr::rmarkdown}
@@ -85,10 +85,10 @@ ratio <- 1
 
 We load packages needed below.
 
-- **gsDesign** is used for its implementation of the @Schoenfeld1981 approximation to compute the number of events required to power a trial under the proportional hazards assumption.
+- **gsDesign** is used for its implementation of the @schoenfeld1981asymptotic approximation to compute the number of events required to power a trial under the proportional hazards assumption.
 - **dplyr** and **tibble** to work with tabular data and the 'data wrangling' approach to coding.
 - **simtrial** to enable simulations.
-- **survival** to enable Cox proportional hazards estimation of the (average) hazard ratio for each simulation to compare with the approximation provided by the `gsDesign2::ahr()` routine that computes an expected average hazard ratio for the trial (@Kalbfleisch1981, @Schemper2009).
+- **survival** to enable Cox proportional hazards estimation of the (average) hazard ratio for each simulation to compare with the approximation provided by the `gsDesign2::ahr()` routine that computes an expected average hazard ratio for the trial (@kalbfleisch1981estimation, @schemper2009estimation).
 - Hidden underneath this is the `gsDesign2::eEvents_df()` routine that provides expected event counts for each period and stratum where the hazard ratio differs. This is the basic calculation used in the `gsDesign2::ahr()` routine.
 
 ```{r libraries, message=FALSE, warning=FALSE}
@@ -174,7 +174,7 @@ xx %>%
 
 ## Deriving the design
 
-With this average hazard ratio, we use the call for `gsDesign::nEvents()` which uses the @Schoenfeld1981 approximation to derive a targeted number of events.
+With this average hazard ratio, we use the call for `gsDesign::nEvents()` which uses the @schoenfeld1981asymptotic approximation to derive a targeted number of events.
 All you need for this is the average hazard ratio from above, the randomization ratio (experimental/control), Type I error and Type II error (1 - power).
 
 ```{r}
