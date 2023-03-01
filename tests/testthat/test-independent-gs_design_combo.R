@@ -157,6 +157,6 @@ testthat::test_that("calculate probability under null", {
   expect_equal(
     alpha,
     max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability0),
-    tolerance = 0.005 # NEED TO REVISE THE TOLERANCE AFTER YILONG FIXED THE BINDING BUG IN MAXCOMBO
+    tolerance = 0.005
   )
 })
