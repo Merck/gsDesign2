@@ -126,27 +126,27 @@ summary.fixed_design <- function(object, ...) {
 
   ans <- x$analysis %>% mutate(design = x_design)
   ans <- ans %>% rename(Design = design)
-  
+
   if ("n" %in% names(ans)) {
     ans <- ans %>% dplyr::rename(N = n)
   }
-  
+
   if ("event" %in% names(ans)) {
     ans <- ans %>% dplyr::rename(Event = event)
   }
-  
+
   if ("Time" %in% names(ans)) {
     ans <- ans %>% dplyr::rename(Time = time)
   }
-  
+
   if ("bound" %in% names(ans)) {
     ans <- ans %>% dplyr::rename(Bound = bound)
   }
-  
+
   if ("power" %in% names(ans)) {
     ans <- ans %>% dplyr::rename(Power = power)
   }
-  
+
   class(ans) <- c("fixed_design", x$design, class(ans))
   return(ans)
 }
@@ -401,17 +401,17 @@ summary.gs_design <- function(object,
   if ("analysis" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(Analysis = analysis)
   }
-  
+
   if ("time" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(Time = time)
     analysis_vars <- c(analysis_vars[analysis_vars != "time"], "Time")
   }
-  
+
   if ("event" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(Event = event)
     analysis_vars <- c(analysis_vars[analysis_vars != "event"], "Event")
   }
-  
+
   if ("ahr" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(AHR = ahr)
     analysis_vars <- c(analysis_vars[analysis_vars != "ahr"], "AHR")
