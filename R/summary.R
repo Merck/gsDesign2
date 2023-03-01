@@ -125,7 +125,7 @@ summary.fixed_design <- function(object, ...) {
   )
 
   ans <- x$analysis %>% mutate(design = x_design)
-  ans <- ans %>% rename(Design = design)
+  ans <- ans %>% dplyr::rename(Design = design)
 
   if ("n" %in% names(ans)) {
     ans <- ans %>% dplyr::rename(N = n)
