@@ -1,26 +1,37 @@
 ---
 title: "Quick start for NPH sample size and power"
 output:
-  rmarkdown::html_document:
+  rmarkdown::html_vignette:
+    css: "custom.css"
     toc: true
-    toc_float: true
-    toc_depth: 2
     number_sections: true
     highlight: "textmate"
-    css: "custom.css"
 bibliography: "gsDesign2.bib"
-vignette: |
+vignette: >
   %\VignetteIndexEntry{Quick start for NPH sample size and power}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  dev = "png",
+  dpi = 96,
+  fig.retina = 1,
+  fig.width = 7.2916667,
+  fig.asp = 0.618,
+  fig.align = "center",
+  out.width = "80%"
 )
 ```
+
+::::: {.callout}
+Please see <https://merck.github.io/gsDesign2/articles/>
+for the full set of articles.\
+This vignette is only a quick start guide.
+:::::
 
 # Overview
 
@@ -44,7 +55,7 @@ Topics included here are:
 All of these items are discussed briefly to enable a quick start for early adopters while also suggesting the ultimate possibilities that the software enables.
 Finally, while the final section provides current enhancement priorities, potential topic-related enhancements are discussed throughout the document.
 
-# Packages Used
+# Packages used
 
 - The **gsDesign** package is used as a check for results under proportional hazards as well as a source from deriving bounds using spending functions.
 - The **gsDesign2** package provides
@@ -61,7 +72,7 @@ library(gt)
 library(ggplot2)
 ```
 
-# Enrollment Rates
+# Enrollment rates
 
 Piecewise constant enrollment rates are input in a tabular format.
 Here we assume enrollment will ramp-up with $25\%$, $50\%$, and $75\%$ of the final enrollment rate for $2$ months each followed by a steady state $100\%$ enrollment for another $6$ months.
@@ -78,7 +89,7 @@ enroll_rate <- tibble(
 enroll_rate %>% gt()
 ```
 
-# Failure and Dropout Rates
+# Failure and dropout rates
 
 Constant failure and dropout rates are specified by study period and stratum; we consider a single stratum here.
 A hazard ratio is provided for treatment/control hazard rate for each period and stratum.
@@ -105,7 +116,7 @@ fail_rate <- tibble::tibble(
 fail_rate %>% gt()
 ```
 
-# Fixed Design
+# Fixed design
 
 Under the above enrollment, failure and dropout rate assumptions we now derive sample size for a trial targeted to complete in 36 months with no interim analysis, $90\%$ power and $2.5\%$ Type I error.
 
@@ -114,7 +125,7 @@ Under the above enrollment, failure and dropout rate assumptions we now derive s
 alpha <- .025
 beta <- .1 # 1 - targeted power
 d <- fixed_design(
-  x = "AHR", # method for computing sample size
+  x = "AHR", # Method for computing sample size
   enroll_rate = enroll_rate, # Relative enrollment rates
   fail_rate = fail_rate, # Failure rates from above
   alpha = alpha, # Type I error
@@ -139,7 +150,7 @@ The enrollment rates for each period have been increased proportionately to size
 d$enroll_rate %>% gt()
 ```
 
-# Group Sequential Design
+# Group sequential design
 
 We will not go into detail for group sequential designs here.
 In brief, however, a sequence of tests $Z_1, Z_2,\ldots, Z_K$ that follow a multivariate normal distribution are performed to test if a new treatment is better than control (@jennison1999group).
@@ -152,7 +163,7 @@ $$
 Where $P_0()$ refers to a probability under the null hypothesis.
 This is referred to as a non-binding bound since it is assumed the trial will not be stopped early for futility if some $Z_k$ is small.
 
-## Simple Efficacy Bound Definition
+## Simple efficacy bound definition
 
 @lan1983discrete developed the spending function method for deriving group sequential bounds.
 This involves use of a non-decreasing spending function $f(t)$ for $t \geq 0$ where $f(0)=0$ and $f(t)=\alpha$ for $t \geq 1$.
@@ -170,7 +181,7 @@ $$
   f(t) = 2-2\Phi\left(\frac{\Phi^{-1}(1-\alpha/2)}{t^{1/2}}\right).
 $$
 
-```{r, echo=FALSE, fig.width=6.5}
+```{r, echo=FALSE}
 ggplot(
   data = tibble(t = (0:50) / 50, `f(t)` = 2 - 2 * pnorm(qnorm(1 - .0125) / sqrt(t))),
   aes(x = t, y = `f(t)`)
@@ -189,7 +200,7 @@ design1s <- gs_design_ahr(
   fail_rate = fail_rate,
   analysis_time = c(16, 26, 36), # Calendar time of planned analyses
   upper = gs_spending_bound, # Spending function bound for efficacy
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # specify spending function and total Type I error
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), # Specify spending function and total Type I error
   lower = gs_b, lpar = rep(-Inf, 3), # No futility bound
   info_scale = 2
 )
@@ -223,7 +234,7 @@ cat(
 )
 ```
 
-## Two-Sided Testing
+## Two-sided testing
 
 We will consider both symmetric and asymmetric 2-sided designs.
 
@@ -259,7 +270,7 @@ design2ss %>%
 
 The bounds can be plotted easily:
 
-```{r, out.width = "50%"}
+```{r}
 ggplot(
   data = design2ss$analysis %>% left_join(design2ss$bound, by = "analysis"),
   aes(x = event, y = z, group = bound)
