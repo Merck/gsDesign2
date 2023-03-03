@@ -261,7 +261,8 @@ The following summarizes outcomes by the data cutoff chosen. Regardless of cutof
 The statistical information computed in the simulation is computed as one over the simulation variance of the Cox regression coefficient for treatment (i.e., the log hazard ratio).
 
 ```{r summary1, message=FALSE, warning=FALSE}
-load("./fixtures/results1.Rdata") # loading the data previously saved
+# Loading the data saved previously
+results1 <- readRDS("fixtures/results1.rds")
 results1$Positive <- results1$Z <= qnorm(.025)
 results1 %>%
   group_by(cut) %>%
@@ -434,7 +435,7 @@ results2 <- simtrial::simfix(
 ```
 
 ```{r summary2,warning=FALSE,message=FALSE}
-load("./fixtures/results2.Rdata")
+results2 <- readRDS("fixtures/results2.rds")
 results2$Positive <- (pnorm(results2$Z) <= .025)
 results2 %>%
   group_by(cut) %>%

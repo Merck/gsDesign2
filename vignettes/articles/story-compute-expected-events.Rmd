@@ -317,11 +317,11 @@ xx <- simtrial::simPWSurv(
   )
 )
 
-save(xx, file = "./fixtures/compute_expected_events.Rdata")
+saveRDS(xx, file = "fixtures/compute_expected_events.rds", compress = "xz")
 ```
 
 ```{r}
-load("./fixtures/compute_expected_events.Rdata")
+xx <- readRDS("fixtures/compute_expected_events.rds")
 ecat <- 1 + (xx$enrollTime > 1) + (xx$enrollTime > 2)
 cat("Enrollment pattern: ", table(ecat) / nsim)
 ```
