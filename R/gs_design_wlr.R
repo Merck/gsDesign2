@@ -18,7 +18,7 @@
 
 #' Group sequential design using weighted log-rank test under non-proportional hazards
 #'
-#' @import tibble tibble
+#' @importFrom tibble tibble
 #' @importFrom dplyr all_of
 #'
 #' @inheritParams gs_design_ahr

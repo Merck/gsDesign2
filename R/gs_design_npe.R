@@ -16,11 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @import tibble tibble
-#' @importFrom stats qnorm uniroot
-#' @import Rcpp
-NULL
-
 #' Group sequential design computation with non-constant effect and information
 #'
 #' \code{gs_design_npe()} derives group sequential design size,
@@ -44,6 +39,14 @@ NULL
 #' Boundary family designs Wang-Tsiatis designs including
 #' the original (non-spending-function-based) O'Brien-Fleming and Pocock designs
 #' are not supported by \code{gs_power_npe()}.
+#'
+#' @details The inputs \code{info} and \code{info0} should be
+#' vectors of the same length with increasing positive numbers.
+#' The design returned will change these by some constant scale
+#' factor to ensure the design has power \code{1 - beta}.
+#' The bound specifications in \code{upper, lower, upar, lpar}
+#' will be used to ensure Type I error and other boundary properties are as specified.
+#'
 #' @param theta natural parameter for group sequential design
 #' representing expected incremental drift at all analyses;
 #' used for power calculation
@@ -84,6 +87,9 @@ NULL
 #' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
 #' Normally \code{r} will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale)
+#'
+#' @return a \code{tibble} with columns analysis, bound, z, probability,  theta, info, info0
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -112,15 +118,10 @@ NULL
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return a \code{tibble} with columns analysis, bound, z, probability,  theta, info, info0
-#' @details The inputs \code{info} and \code{info0} should be
-#' vectors of the same length with increasing positive numbers.
-#' The design returned will change these by some constant scale
-#' factor to ensure the design has power \code{1 - beta}.
-#' The bound specifications in \code{upper, lower, upar, lpar}
-#' will be used to ensure Type I error and other boundary properties are as specified.
-#'
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
+#'
+#' @importFrom tibble tibble
+#' @importFrom stats qnorm uniroot
 #'
 #' @export
 #'
