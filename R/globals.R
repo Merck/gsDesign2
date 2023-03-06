@@ -19,95 +19,92 @@
 utils::globalVariables(
   unique(
     c(
-      # From `AHR()`
-      c(
-        "stratum", "rate", "hr", "Treatment", "Events", "failRate", "HR",
-        "Time", "info0", "info"
-      ),
+      # From `ahr()`
+      c("stratum", "rate", "hr", "treatment", "time", "info0", "info"),
       # From `as_gt.gs_design()`
       c("Bound", "Alternate hypothesis", "Null hypothesis", "Analysis"),
       # From `expected_accrual()`
       c("stratum", "rate", "duration"),
       # From `expected_event()`
       c(
-        "startEnroll", "endFail", "endEnroll", "duration", "failRate",
-        "dropoutRate", "enrollRate", "g", "Q", "G", "d", "nbar", "Events"
+        "start_enroll", "end_fail", "end_enroll", "duration", "fail_rate_var",
+        "dropout_rate_var", "enroll_rate_var", "g", "big_q", "big_g", "d", "nbar", "event"
       ),
       # From `fixed_design()`
-      c("Bound", "rate", "rho"),
+      c("bound", "rate", "rho"),
       # From `fixed_design_size_rmst()`
       c("rate"),
       # From `gs_design_ahr()`
-      c(
-        "Time", "Events", "info", "info0", "Z", "theta", "Analysis",
-        "Bound", "N", "rate"
-      ),
+      c("time", "event", "info", "info0", "z", "theta", "n", "rate"),
       # From `gs_design_combo()`
       c(
-        "Bound", "Analysis", "Time", "N", "Events", "Bound", "Z",
-        "Probability", "Probability_Null", "Probability0", "Nominal p",
-        "rho", "tau", "test", "event_frac", "rate", "duration"
+        "time", "n", "event", "z", "probability", "probability_null",
+        "probability0", "nominal p", "rho", "tau", "test", "event_frac",
+        "rate", "duration"
       ),
       # From `gs_design_npe()`
-      c("Analysis", "Bound", "Probability", "Z", "Probability0", "info_frac"),
+      c("analysis", "bound", "probability", "z", "probability0", "info_frac"),
       # From `gs_design_rd()`
       c(
-        "prevalence", "Z", "info", "theta", "rd", "info0", "Bound",
-        "Analysis", "N", "Probability", "Probability0", "info_frac0",
-        "~Risk difference at bound", "Nominal p"
+        "prevalence", "z", "info", "theta", "rd", "info0", "n",
+        "probability", "probability0", "info_frac0",
+        "~risk difference at bound", "nominal p"
       ),
       # From `gs_design_wlr()`
       c(
-        "IF", "Time", "Events", "info", "info0", "theta", "Analysis",
-        "Bound", "Z", "N", "rate"
+        "IF", "time", "event", "info", "info0", "theta", "bound",
+        "z", "n", "rate"
       ),
       # From `gs_info_ahr()`
-      c("Analysis", "Time", "Events", "theta", "info", "info0"),
+      c("analysis", "time", "theta", "info", "info0"),
       # From `gs_info_rd()`
       c(
-        "rate", "N_c", "N_e", "d", "p_e0", "p_pool_per_k_per_s", "p_c0",
+        "rate", "n_c", "n_e", "d", "p_e0", "p_pool_per_k_per_s", "p_c0",
         "analysis", "sum_ss", "sigma2_H0_per_k_per_s", "sum_inv_var_per_s",
-        "weight_per_k_per_s", "rd", "sigma2_H1", "sigma2_H0", "theta1",
-        "theta0", "info1", "info0"
+        "sigma2_H1_per_k_per_s", "weight_per_k_per_s", "rd",
+        "sigma2_H1", "sigma2_H0", "theta1", "theta0", "info1", "info0"
       ),
       # From `gs_power_ahr()`
       c(
-        "Z", "info", "Analysis", "Bound", "Probability", "Probability0",
-        "~HR at bound", "Nominal p", "Time", "Events", "info_frac",
-        "theta", "N", "info0", "info_frac0"
+        "z", "info", "probability", "probability0",
+        "~hr at bound", "nominal p", "time", "info_frac",
+        "theta", "n", "info0", "info_frac0"
       ),
       # From `gs_power_combo()`
       c(
-        "Analysis", "Time", "N", "Events", "Bound", "Z", "Probability",
-        "Probability_Null", "Nominal p", "rho", "tau", "test",
-        "event_frac", "rate", "duration"
+        "time", "n", "event", "z", "probability", "probability_null",
+        "nominal p", "rho", "tau", "test", "event_frac", "rate", "duration"
       ),
       # From `gs_power_npe()`
-      c("Bound", "Analysis"),
+      c("bound", "analysis"),
       # From `gs_power_rd()`
       c(
-        "N", "Z", "info", "theta", "Analysis", "Bound", "Probability",
-        "Probability0", "~Risk difference at bound", "Nominal p", "rd",
+        "z", "info", "theta", "probability", "probability0",
+        "~risk difference at bound", "nominal p", "rd",
         "theta1", "theta0", "info_frac", "info0", "info_frac0"
       ),
       # From `gs_power_wlr()`
       c(
-        "Analysis", "Bound", "Z", "Probability", "Events", "Probability0",
-        "~HR at bound", "Nominal p", "Time", "info", "info_frac", "theta",
-        "N", "info0", "info_frac0"
+        "bound", "z", "probability", "probability0",
+        "~hr at bound", "nominal p", "time", "info", "info_frac", "theta",
+        "n", "info0", "info_frac0"
       ),
       # From `ppwe()`
       c("h", "duration", "H"),
       # From `s2pwe()`
       c("Times", "Survival", "H", "duration", "rate"),
+      # From `summary.fixed_design()`
+      c("design", "n", "event", "time", "bound", "power"),
       # From `summary.gs_design()`
       c(
-        "Analysis", "info_frac", "event_frac", "Probability", "Probability0",
-        "Bound", "rd", "Z", "~HR at bound", "Nominal p", "Alternate hypothesis",
-        "Null hypothesis", "~wHR at bound", "~Risk difference at bound"
+        "analysis", "time", "event", "n", "info_frac", "event_frac",
+        "probability", "probability0", "bound", "rd", "z",
+        "Analysis", "Bound", "Z", "~HR at bound", "Nominal p",
+        "Alternate hypothesis", "Null hypothesis", "~wHR at bound",
+        "~Risk difference at bound"
       ),
       # From `to_integer.fixed_design()`
-      c("rate", "Bound"),
+      c("rate", "bound"),
       # From `to_integer.gs_design()`
       c("rate")
     )
