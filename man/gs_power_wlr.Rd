@@ -87,6 +87,10 @@ Normally \code{r} will not be changed by the user.}
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
 }
+\value{
+a \code{list} with input parameters, enrollment rate,
+analysis and bound.
+}
 \description{
 Group sequential design power using weighted log rank test under non-proportional hazards
 }
@@ -151,6 +155,7 @@ gs_power_wlr(
 #       example 2          #
 # ------------------------ #
 # fixed bounds and calculate the power for targeted analysis time
+\donttest{
 gs_power_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -168,11 +173,12 @@ gs_power_wlr(
   lower = gs_b,
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
-
+}
 # -------------------------#
 #       example 3          #
 # ------------------------ #
 # fixed bounds and calculate the power for targeted analysis time & number of events
+\donttest{
 gs_power_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -190,7 +196,7 @@ gs_power_wlr(
   lower = gs_b,
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
-
+}
 # -------------------------#
 #       example 4          #
 # ------------------------ #
@@ -211,6 +217,7 @@ gs_power_wlr(
 #       example 5          #
 # ------------------------ #
 # spending bounds and calculate the power for targeted analysis time
+\donttest{
 gs_power_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -221,11 +228,12 @@ gs_power_wlr(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
-
+}
 # -------------------------#
 #       example 6          #
 # ------------------------ #
 # spending bounds and calculate the power for targeted analysis time & number of events
+\donttest{
 gs_power_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -236,4 +244,5 @@ gs_power_wlr(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
+}
 }

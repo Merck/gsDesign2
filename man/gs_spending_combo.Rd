@@ -20,11 +20,13 @@ positive number to be used with \code{info} for information fraction at each ana
 
 \item{...}{additional parameters passed to \code{par$sf}.}
 }
+\value{
+a \code{vector} shows the alpha spending per analysis.
+}
 \description{
 Derive spending bound for MaxCombo group sequential boundary
 }
 \examples{
-
 # alpha-spending
 par <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 gs_spending_combo(par, info = 1:3 / 3)

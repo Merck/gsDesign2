@@ -52,7 +52,7 @@ NULL
 #' #      Example 1          #
 #' # ------------------------#
 #' # default
-#' expected_time()
+#' \donttest{expected_time()}
 #'
 #' # ------------------------#
 #' #      Example 2          #
@@ -69,10 +69,11 @@ NULL
 #' xx
 #'
 #' # Next we check that the function confirms the timing of the final analysis.
+#' \donttest{
 #' expected_time(enroll_rate, fail_rate,
 #'   target_event = xx$event, interval = c(.5, 1.5) * xx$time
 #' )
-#'
+#' }
 #' @export
 #'
 expected_time <- function(enroll_rate = tibble::tibble(

@@ -88,9 +88,9 @@ NULL
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return a \code{tibble} with columns Analysis, Bound, Z, Probability,
-#' theta, Time, AHR, Events
-#'
+#' @return a \code{list} with input parameters, enrollment rate, 
+#' analysis and bound.
+#' 
 #' @details Need to be added
 #'
 #' @importFrom dplyr all_of
@@ -143,6 +143,7 @@ NULL
 #' #    example 6      #
 #' # ----------------- #
 #' # 2-sided symmetric design with O'Brien-Fleming spending
+#' \donttest{
 #' gs_design_ahr(
 #'   analysis_time = c(12, 24, 36),
 #'   binding = TRUE,
@@ -152,9 +153,10 @@ NULL
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   h1_spending = FALSE
 #' )
-#'
+#' }
 #' # 2-sided asymmetric design with O'Brien-Fleming upper spending
 #' # Pocock lower spending under H1 (NPH)
+#' \donttest{
 #' gs_design_ahr(
 #'   analysis_time = c(12, 24, 36),
 #'   binding = TRUE,
@@ -164,7 +166,7 @@ NULL
 #'   lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
 #'   h1_spending = TRUE
 #' )
-#'
+#' }
 gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2, 10), rate = c(3, 6, 9)),
                           fail_rate = tibble(
                             stratum = "all", duration = c(3, 100), fail_rate = log(2) / c(9, 18),

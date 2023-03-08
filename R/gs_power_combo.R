@@ -80,6 +80,8 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @export
+#' @return a \code{list} with input parameters, enrollment rate, 
+#' analysis and bound.
 gs_power_combo <- function(enroll_rate = tibble(
                              stratum = "all",
                              duration = 12,

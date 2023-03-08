@@ -83,8 +83,8 @@ Normally \code{r} will not be changed by the user.}
 expected event count is equal to targeted event.}
 }
 \value{
-a \code{tibble} with columns Analysis, Bound, Z, Probability,
-theta, Time, AHR, Events
+a \code{list} with input parameters, enrollment rate,
+analysis and bound.
 }
 \description{
 Group sequential design using average hazard ratio under non-proportional hazards
@@ -169,6 +169,7 @@ gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
 #    example 6      #
 # ----------------- #
 # 2-sided symmetric design with O'Brien-Fleming spending
+\donttest{
 gs_design_ahr(
   analysis_time = c(12, 24, 36),
   binding = TRUE,
@@ -178,9 +179,10 @@ gs_design_ahr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   h1_spending = FALSE
 )
-
+}
 # 2-sided asymmetric design with O'Brien-Fleming upper spending
 # Pocock lower spending under H1 (NPH)
+\donttest{
 gs_design_ahr(
   analysis_time = c(12, 24, 36),
   binding = TRUE,
@@ -190,5 +192,5 @@ gs_design_ahr(
   lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
   h1_spending = TRUE
 )
-
+}
 }

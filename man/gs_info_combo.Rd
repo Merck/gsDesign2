@@ -36,6 +36,15 @@ gs_info_combo(
 
 \item{approx}{Approximation method}
 }
+\value{
+a \code{tibble} with columns as test index, analysis index, analysis
+time, sample size, number of events, ahr, delta, sigma2, theta, and statistical
+information.
+}
 \description{
 Information and effect size for max combo test
+}
+\examples{
+ 
+gs_info_combo(rho = c(0, 0.5), gamma = c(0.5, 0), analysis_time = c(12, 24))
 }

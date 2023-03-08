@@ -21,8 +21,8 @@
 #' @inheritParams gs_spending_bound
 #' @param ... additional parameters passed to `par$sf`.
 #'
+#' @return a \code{vector} shows the alpha spending per analysis.
 #' @examples
-#'
 #' # alpha-spending
 #' par <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 #' gs_spending_combo(par, info = 1:3 / 3)

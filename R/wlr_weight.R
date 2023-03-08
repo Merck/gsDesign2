@@ -47,6 +47,27 @@
 #' @name wlr_weight
 
 #' @rdname wlr_weight
+#' @return a \code{vector} of weights
+#' @examples 
+#' enroll_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
+#' 
+#' fail_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6),
+#'   dropout_rate = rep(.001, 2)
+#' )
+#' 
+#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' arm0 <- gs_arm$arm0
+#' arm1 <- gs_arm$arm1
+#' 
+#' wlr_weight_fh(1:3, arm0, arm1, rho = 0, gamma = 0, tau = NULL)
 #' @export
 wlr_weight_fh <- function(x, arm0, arm1, rho = 0, gamma = 0, tau = NULL) {
   n <- arm0$size + arm1$size
@@ -66,12 +87,54 @@ wlr_weight_fh <- function(x, arm0, arm1, rho = 0, gamma = 0, tau = NULL) {
 }
 
 #' @rdname wlr_weight
+#' @return a \code{vector} of weights
+#' @examples 
+#' enroll_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
+#' 
+#' fail_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6),
+#'   dropout_rate = rep(.001, 2)
+#' )
+#' 
+#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' arm0 <- gs_arm$arm0
+#' arm1 <- gs_arm$arm1
+#' 
+#' wlr_weight_1(1:3, arm0, arm1)
 #' @export
 wlr_weight_1 <- function(x, arm0, arm1) {
   1
 }
 
 #' @rdname wlr_weight
+#' @return a \code{vector} of weights
+#' @examples 
+#' enroll_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
+#' 
+#' fail_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6),
+#'   dropout_rate = rep(.001, 2)
+#' )
+#' 
+#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' arm0 <- gs_arm$arm0
+#' arm1 <- gs_arm$arm1
+#' 
+#' wlr_weight_n(1:3, arm0, arm1, power = 2)
 #' @export
 wlr_weight_n <- function(x, arm0, arm1, power = 1) {
   n <- arm0$size + arm1$size
@@ -83,6 +146,27 @@ wlr_weight_n <- function(x, arm0, arm1, power = 1) {
 }
 
 #' @rdname wlr_weight
+#' @return a \code{vector} of weights
+#' @examples 
+#' enroll_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
+#' 
+#' fail_rate <- tibble::tibble(
+#'   stratum = "All",
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6),
+#'   dropout_rate = rep(.001, 2)
+#' )
+#' 
+#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' arm0 <- gs_arm$arm0
+#' arm1 <- gs_arm$arm1
+#' 
+#' wlr_weight_mb(1:3, arm0, arm1, tau = -1, wmax = 1.2)
 #' @export
 wlr_weight_mb <- function(x, arm0, arm1, tau = NULL, wmax = Inf) {
   pmin(wmax, wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau))

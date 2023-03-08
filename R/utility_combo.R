@@ -140,7 +140,6 @@ gs_utility_combo <- function(enroll_rate,
 #'
 #'   $$Pr( lower < max(G) < upper )$$
 #'
-#' @export
 pmvnorm_combo <- function(lower,
                           upper,
                           group,

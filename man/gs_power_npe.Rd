@@ -77,6 +77,12 @@ Normally \code{r} will not be changed by the user.}
 
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
 }
+\value{
+a \code{tibble} with columns as analysis index, bounds, z,
+crossing probability, theta (standardized treatment effect), theta1
+(standardized treatment effect under alternative hypothesis),
+information fraction, and statistical information.
+}
 \description{
 \code{gs_power_npe()} derives group sequential bounds and boundary crossing probabilities for a design.
 It allows a non-constant treatment effect over time,

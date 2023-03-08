@@ -44,6 +44,7 @@ to_integer <- function(x, ...) {
 #' library(gsDesign2)
 #'
 #' # Average hazard ratio
+#' \donttest{
 #' x <- fixed_design("ahr",
 #'   alpha = .025, power = .9,
 #'   enroll_rate = tibble(stratum = "All", duration = 18, rate = 1),
@@ -55,7 +56,7 @@ to_integer <- function(x, ...) {
 #'   study_duration = 36
 #' )
 #' x %>% to_integer()
-#'
+#' 
 #' # FH
 #' x <- fixed_design("fh",
 #'   alpha = 0.025, power = 0.9,
@@ -83,7 +84,7 @@ to_integer <- function(x, ...) {
 #'   study_duration = 36, ratio = 1
 #' )
 #' x %>% to_integer()
-#'
+#' }
 to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   output_n <- x$analysis$n
   input_n <- expected_accrual(time = x$analysis$time, enroll_rate = x$input$enroll_rate)
@@ -195,8 +196,8 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' @export
 #'
 #' @examples
-#' gs_design_ahr() %>% to_integer()
-#' gs_design_wlr() %>% to_integer()
+#' \donttest{gs_design_ahr() %>% to_integer()}
+#' \donttest{gs_design_wlr() %>% to_integer()}
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   multiply_factor <- x$input$ratio + 1
   enroll_rate <- x$enroll_rate

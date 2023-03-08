@@ -58,6 +58,10 @@ default of FALSE is recommended}
 
 \item{...}{additional parameters transfer to \code{mvtnorm::pmvnorm}}
 }
+\value{
+a \code{list} with input parameters, enrollment rate,
+analysis and bound.
+}
 \description{
 Group sequential design using MaxCombo test under non-proportional hazards
 }

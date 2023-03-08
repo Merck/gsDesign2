@@ -98,6 +98,10 @@ Normally \code{r} will not be changed by the user.}
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
 }
+\value{
+a \code{list} with input parameters, enrollment rate,
+analysis and bound.
+}
 \description{
 Group sequential design using weighted log-rank test under non-proportional hazards
 }

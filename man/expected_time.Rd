@@ -55,7 +55,7 @@ where the enrollment, failure and dropout rates changes over time.
 #      Example 1          #
 # ------------------------#
 # default
-expected_time()
+\donttest{expected_time()}
 
 # ------------------------#
 #      Example 2          #
@@ -72,8 +72,9 @@ xx <- ahr(enroll_rate, fail_rate, total_duration)
 xx
 
 # Next we check that the function confirms the timing of the final analysis.
+\donttest{
 expected_time(enroll_rate, fail_rate,
   target_event = xx$event, interval = c(.5, 1.5) * xx$time
 )
-
+}
 }
