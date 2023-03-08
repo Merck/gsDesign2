@@ -56,7 +56,7 @@
 #' and `HR` is returned instead of `AHR`
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(simtrial)
 #' library(survival)
 #' ahr_blinded(

@@ -225,7 +225,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # the default output
 #' library(dplyr)
 #'
