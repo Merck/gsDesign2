@@ -88,9 +88,9 @@ NULL
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return a \code{list} with input parameters, enrollment rate, 
+#' @return a \code{list} with input parameters, enrollment rate,
 #' analysis and bound.
-#' 
+#'
 #' @details Need to be added
 #'
 #' @importFrom dplyr all_of

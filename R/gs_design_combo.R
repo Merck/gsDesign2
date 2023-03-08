@@ -27,7 +27,7 @@
 #' @importFrom mvtnorm GenzBretz
 #'
 #' @export
-#' @return a \code{list} with input parameters, enrollment rate, 
+#' @return a \code{list} with input parameters, enrollment rate,
 #' analysis and bound.
 #' @examples
 #' # The example is slow to run

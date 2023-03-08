@@ -56,7 +56,7 @@ to_integer <- function(x, ...) {
 #'   study_duration = 36
 #' )
 #' x %>% to_integer()
-#' 
+#'
 #' # FH
 #' x <- fixed_design("fh",
 #'   alpha = 0.025, power = 0.9,
@@ -196,8 +196,12 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' @export
 #'
 #' @examples
-#' \donttest{gs_design_ahr() %>% to_integer()}
-#' \donttest{gs_design_wlr() %>% to_integer()}
+#' \donttest{
+#' gs_design_ahr() %>% to_integer()
+#' }
+#' \donttest{
+#' gs_design_wlr() %>% to_integer()
+#' }
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   multiply_factor <- x$input$ratio + 1
   enroll_rate <- x$enroll_rate

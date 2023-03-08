@@ -37,7 +37,7 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @export
-#' @return a \code{list} with input parameters, enrollment rate, 
+#' @return a \code{list} with input parameters, enrollment rate,
 #' analysis and bound.
 #' @examples
 #' library(tibble)

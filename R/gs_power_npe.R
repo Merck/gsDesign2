@@ -116,9 +116,9 @@ NULL
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
 #'
 #' @export
-#' @return a \code{tibble} with columns as analysis index, bounds, z, 
-#' crossing probability, theta (standardized treatment effect), theta1 
-#' (standardized treatment effect under alternative hypothesis), 
+#' @return a \code{tibble} with columns as analysis index, bounds, z,
+#' crossing probability, theta (standardized treatment effect), theta1
+#' (standardized treatment effect under alternative hypothesis),
 #' information fraction, and statistical information.
 #' @examples
 #' library(gsDesign)

@@ -52,7 +52,9 @@ NULL
 #' #      Example 1          #
 #' # ------------------------#
 #' # default
-#' \donttest{expected_time()}
+#' \donttest{
+#' expected_time()
+#' }
 #'
 #' # ------------------------#
 #' #      Example 2          #

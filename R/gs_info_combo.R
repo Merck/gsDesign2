@@ -32,10 +32,10 @@
 #' @param approx Approximation method
 #'
 #' @export
-#' @return a \code{tibble} with columns as test index, analysis index, analysis 
-#' time, sample size, number of events, ahr, delta, sigma2, theta, and statistical 
+#' @return a \code{tibble} with columns as test index, analysis index, analysis
+#' time, sample size, number of events, ahr, delta, sigma2, theta, and statistical
 #' information.
-#' @examples  
+#' @examples
 #' gs_info_combo(rho = c(0, 0.5), gamma = c(0.5, 0), analysis_time = c(12, 24))
 gs_info_combo <- function(enroll_rate = tibble(
                             stratum = "All",

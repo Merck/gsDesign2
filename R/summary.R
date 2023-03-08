@@ -240,7 +240,7 @@ summary.fixed_design <- function(object, ...) {
 #'   lower = lower,
 #'   lpar = lpar
 #' )
-#' 
+#'
 #' x_ahr %>% summary()
 #' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 #' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
