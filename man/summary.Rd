@@ -198,7 +198,7 @@ x_wlr <- gs_design_wlr(
 x_wlr \%>\% summary()
 }
 # ---------------------------- #
-#         max combo            #
+#         MaxCombo             #
 # ---------------------------- #
 \donttest{
 x_combo <- gs_design_combo(

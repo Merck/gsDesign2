@@ -266,7 +266,7 @@ summary.fixed_design <- function(object, ...) {
 #' x_wlr %>% summary()
 #' }
 #' # ---------------------------- #
-#' #         max combo            #
+#' #         MaxCombo             #
 #' # ---------------------------- #
 #' \donttest{
 #' x_combo <- gs_design_combo(

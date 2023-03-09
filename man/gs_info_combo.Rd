@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_info_combo.R
 \name{gs_info_combo}
 \alias{gs_info_combo}
-\title{Information and effect size for max combo test}
+\title{Information and effect size for MaxCombo test}
 \usage{
 gs_info_combo(
   enroll_rate = tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9)),
@@ -42,7 +42,7 @@ analysis time, sample size, number of events, ahr, delta,
 sigma2, theta, and statistical information.
 }
 \description{
-Information and effect size for max combo test
+Information and effect size for MaxCombo test
 }
 \examples{
 gs_info_combo(rho = c(0, 0.5), gamma = c(0.5, 0), analysis_time = c(12, 24))

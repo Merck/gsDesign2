@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Information and effect size for max combo test
+#' Information and effect size for MaxCombo test
 #'
 #' @param enroll_rate Enrollment rates.
 #' @param fail_rate Failure and dropout rates.

@@ -61,9 +61,9 @@ For the above scenarios, we investigate the power, sample size and events under 
 
 - `fh_05`: The Fleming-Harrington with $\rho=0, \gamma=0.5$ test to obtain power of 85\% given 1-sided Type I error of 0.025.
 - `fh_00`: The regular logrank test with $\rho=0, \gamma=0$ under fixed study duration $\in\{20, 24, 28, \ldots, 60\}$.
-- `mc2_test`: The Max Combo test including 2 WLR tests, i.e., $\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1)\}$.
-- `mc2_test`: The Max Combo test including 3 WLR tests, i.e., $\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1)\}$.
-- `mc4_test`: The Max Combo test including 4 WLR tests, i.e., $\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0, \tau = -1)\}$.
+- `mc2_test`: The MaxCombo test including 2 WLR tests, i.e., $\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1)\}$.
+- `mc2_test`: The MaxCombo test including 3 WLR tests, i.e., $\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1)\}$.
+- `mc4_test`: The MaxCombo test including 4 WLR tests, i.e., $\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0, \tau = -1)\}$.
 - `mb_6`: The Magirr-Burman with $\rho=-1, \gamma=0, \tau = 6$ test with fixed study duration $\in\{20, 24, 28, \ldots, 60\}$.
 
 
@@ -102,7 +102,7 @@ for (trial_duration in seq(24, 60, 4)) {
     event = .1
   )
 
-  # Max combo test 1
+  # MaxCombo test 1
   mc2_test <- data.frame(
     rho = 0, gamma = c(0, .5), tau = -1,
     test = 1:2, analysis = 1, analysis_time = trial_duration
@@ -118,7 +118,7 @@ for (trial_duration in seq(24, 60, 4)) {
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.01)
   )
 
-  # Max combo test 2
+  # MaxCombo test 2
   mc3_test <- data.frame(
     rho = c(0, 0, .5), gamma = c(0, .5, .5), tau = -1,
     test = 1:3, analysis = 1, analysis_time = trial_duration
@@ -134,7 +134,7 @@ for (trial_duration in seq(24, 60, 4)) {
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.01)
   )
 
-  # Max combo test
+  # MaxCombo test
   mc4_test <- data.frame(
     rho = c(0, 0, .5, .5), gamma = c(0, .5, .5, 0), tau = -1,
     test = 1:4, analysis = 1, analysis_time = trial_duration
@@ -169,7 +169,7 @@ for (trial_duration in seq(24, 60, 4)) {
     N = fh_05$analysis$n[1],
     Events = fh_05$analysi$event[1],
     `Events/N` = Events / N,
-    # We use the AHR from regular WLR as the AHR of different max combo test
+    # We use the AHR from regular WLR as the AHR of different MaxCombo test
     AHR = as.numeric(fh_00$analysis$ahr[1]),
     `FH(0, 0.5) power` = fh_05$bound$probability[1],
     `FH(0, 0) power` = fh_00$bound$probability[1],
@@ -248,7 +248,7 @@ for (trial_duration in seq(20, 60, 4)) {
     event = .1
   )
 
-  # Max combo test
+  # MaxCombo test
   mc2_test <- data.frame(
     rho = 0, gamma = c(0, .5), tau = -1,
     test = 1:2, analysis = 1, analysis_time = trial_duration
@@ -263,7 +263,7 @@ for (trial_duration in seq(20, 60, 4)) {
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.01)
   )
 
-  # Max combo test
+  # MaxCombo test
   mc3_test <- data.frame(
     rho = c(0, 0, .5), gamma = c(0, .5, .5), tau = -1,
     test = 1:3, analysis = 1, analysis_time = trial_duration
@@ -279,7 +279,7 @@ for (trial_duration in seq(20, 60, 4)) {
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.01)
   )
 
-  # Max combo test
+  # MaxCombo test
   mc4_test <- data.frame(
     rho = c(0, 0, .5, .5), gamma = c(0, .5, .5, 0), tau = -1,
     test = 1:4, analysis = 1, analysis_time = trial_duration
@@ -313,7 +313,7 @@ for (trial_duration in seq(20, 60, 4)) {
     N = fh_05$analysis$n[1],
     Events = fh_05$analysi$event[1],
     `Events/N` = Events / N,
-    # We use the AHR from regular WLR as the AHR of different max combo test
+    # We use the AHR from regular WLR as the AHR of different MaxCombo test
     AHR = as.numeric(fh_00$analysis$ahr[1]),
     `FH(0, 0.5) power` = fh_05$bound$probability[1],
     `FH(0, 0) power` = fh_00$bound$probability[1],

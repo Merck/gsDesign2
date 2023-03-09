@@ -431,7 +431,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
       )
     },
     "maxcombo" = {
-      # organize the tests in max combo
+      # organize the tests in MaxCombo
       max_combo_test <- data.frame(
         rho = if (has_rho) {
           args$rho
@@ -472,7 +472,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       }
 
-      # get the output of max combo
+      # get the output of MaxCombo
       ans <- tibble::tibble(
         design = "maxcombo",
         n = d$analysis$n,
@@ -527,7 +527,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       }
 
-      # get the output of max combo
+      # get the output of MaxCombo
       ans <- tibble::tibble(
         design = "rd",
         n = d$analysis$n,
@@ -596,7 +596,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         )
       }
 
-      # get the output of max combo
+      # get the output of MaxCombo
       ans <- tibble::tibble(
         design = "milestone",
         n = d$analysis$n,
