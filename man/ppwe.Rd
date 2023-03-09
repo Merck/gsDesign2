@@ -11,24 +11,26 @@ ppwe(
 )
 }
 \arguments{
-\item{x}{times at which distribution is to be computed.}
+\item{x}{Times at which distribution is to be computed.}
 
 \item{fail_rate}{Piecewise constant failure rates in \code{rate},
 \code{duration} for each piecewise constant failure rate period.}
 
-\item{lower_tail}{Indicator of whether lower (TRUE) or upper tail (FALSE; default)
-of CDF is to be computed.}
+\item{lower_tail}{Indicator of whether lower (\code{TRUE}) or upper tail
+(\code{FALSE}; default) of CDF is to be computed.}
 }
 \value{
-A vector with cumulative distribution function or survival values
+A vector with cumulative distribution function or survival values.
 }
 \description{
-\code{ppwe} computes the cumulative distribution function (CDF) or survival rate
+Computes the cumulative distribution function (CDF) or survival rate
 for a piecewise exponential distribution.
 }
 \details{
-Suppose \eqn{\lambda_i} is the failure rate in the interval \eqn{(t_{i-1},t_i], i=1,2,\ldots,M} where
-\eqn{0=t_0<t_i\ldots,t_M=\infty}. The cumulative hazard function at an arbitrary time \eqn{t>0} is then:
+Suppose \eqn{\lambda_i} is the failure rate in the interval
+\eqn{(t_{i-1},t_i], i=1,2,\ldots,M} where
+\eqn{0=t_0<t_i\ldots,t_M=\infty}.
+The cumulative hazard function at an arbitrary time \eqn{t>0} is then:
 
 \deqn{\Lambda(t)=\sum_{i=1}^M \delta(t\leq t_i)(\min(t,t_i)-t_{i-1})\lambda_i.}
 The survival at time \eqn{t} is then

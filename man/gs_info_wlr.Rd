@@ -18,56 +18,58 @@ gs_info_wlr(
 )
 }
 \arguments{
-\item{enroll_rate}{enrollment rates}
+\item{enroll_rate}{Enrollment rates.}
 
-\item{fail_rate}{failure and dropout rates}
+\item{fail_rate}{Failure and dropout rates.}
 
-\item{ratio}{Experimental:Control randomization ratio}
+\item{ratio}{Experimental:Control randomization ratio.}
 
-\item{event}{Targeted minimum events at each analysis}
+\item{event}{Targeted minimum events at each analysis.}
 
-\item{analysis_time}{Targeted minimum study duration at each analysis}
+\item{analysis_time}{Targeted minimum study duration at each analysis.}
 
-\item{weight}{weight of weighted log rank test
+\item{weight}{Weight of weighted log rank test:
 \itemize{
-\item \code{"1"}= unweighted,
-\item \code{"n"}= Gehan-Breslow,
-\item \code{"sqrtN"}= Tarone-Ware,
-\item \code{"FH_p[a]_q[b]"}= Fleming-Harrington with p=a and q=b
+\item \code{"1"} = unweighted.
+\item \code{"n"} = Gehan-Breslow.
+\item \code{"sqrtN"} = Tarone-Ware.
+\item \code{"FH_p[a]_q[b]"} = Fleming-Harrington with p=a and q=b.
 }}
 
-\item{approx}{approximate estimation method for Z statistics
+\item{approx}{Approximate estimation method for Z statistics.
 \itemize{
-\item \code{"event driven"} = only work under proportional hazard model with log rank test
-\item \code{"asymptotic"}
+\item \code{"event driven"} = only work under proportional hazard model with log rank test.
+\item \code{"asymptotic"}.
 }}
 
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
 }
 \value{
-a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}
-\code{info, info0} contains statistical information under H1, H0, respectively.
-For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
-required to accrue the targeted \code{event[k]}.
-\code{AHR} is expected average hazard ratio at each analysis.
+A tibble with columns Analysis, Time, N, Events, AHR, delta, sigma2,
+theta, info, info0.
+\code{info} and \code{info0} contain statistical information under H1, H0, respectively.
+For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the
+expected time required to accrue the targeted \code{event[k]}.
+\code{AHR} is the expected average hazard ratio at each analysis.
 }
 \description{
 Based on piecewise enrollment rate, failure rate, and dropout rates computes
 approximate information and effect size using an average hazard ratio model.
 }
 \details{
-The \code{AHR()} function computes statistical information at targeted event times.
-The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
+The \code{\link[=ahr]{ahr()}} function computes statistical information at targeted event times.
+The \code{\link[=expected_time]{expected_time()}} function is used to get events and average HR at
+targeted \code{analysis_time}.
 }
 \examples{
 library(tibble)
 library(gsDesign2)
 
-# set enrollment rates
+# Set enrollment rates
 enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
 
-# set failure rates
+# Set failure rates
 fail_rate <- tibble(
   stratum = "All",
   duration = c(4, 100),
@@ -76,7 +78,7 @@ fail_rate <- tibble(
   dropout_rate = 0.001
 )
 
-# set the targeted number of events and analysis time
+# Set the targeted number of events and analysis time
 event <- c(30, 40, 50)
 analysis_time <- c(10, 24, 30)
 

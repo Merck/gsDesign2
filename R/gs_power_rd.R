@@ -18,31 +18,36 @@
 
 #' Group sequential design power under risk difference
 #'
-#' @param p_c rate at the control group
-#' @param p_e rate at the experimental group
-#' @param n sample size
-#' @param rd0 treatment effect under super-superiority designs, the default is 0
-#' @param ratio experimental:control randomization ratio
-#' @param upper function to compute upper bound
-#' @param upar parameter to pass to upper
-#' @param lower function to compare lower bound
-#' @param lpar parameter to pass to lower
-#' @param info_scale the information scale for calculation
-#' @param weight weighting method, either "un-stratified" or "ss" or "invar"
-#' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
-#' @param test_upper indicator of which analyses should include an upper (efficacy) bound;
-#' single value of TRUE (default)  indicates all analyses; otherwise,
-#' a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include a lower bound;
-#' single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise,
-#' a logical vector of the same length as \code{info} should indicate which analyses will have a lower bound
-#' @param r Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
-#' Normally \code{r} will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale)
+#' @param p_c Rate at the control group.
+#' @param p_e Rate at the experimental group.
+#' @param n Sample size.
+#' @param rd0 Treatment effect under super-superiority designs, the default is 0.
+#' @param ratio Experimental:control randomization ratio.
+#' @param upper Function to compute upper bound.
+#' @param upar Parameters passed to `upper`.
+#' @param lower Function to compare lower bound.
+#' @param lpar Parameters passed to `lower`.
+#' @param info_scale The information scale for calculation.
+#' @param weight Weighting method, can be `"unstratified"`, `"ss"`,
+#'   "invar_h1", or "invar_h0".
+#' @param binding Indicator of whether futility bound is binding;
+#'   default of `FALSE` is recommended.
+#' @param test_upper Indicator of which analyses should include an upper
+#'   (efficacy) bound; single value of `TRUE` (default)  indicates all analyses;
+#'   otherwise, a logical vector of the same length as `info` should indicate
+#'   which analyses will have an efficacy bound.
+#' @param test_lower Indicator of which analyses should include a lower bound;
+#'   single value of `TRUE` (default) indicates all analyses;
+#'   single value `FALSE` indicated no lower bound; otherwise,
+#'   a logical vector of the same length as `info` should indicate which
+#'   analyses will have a lower bound.
+#' @param r Integer value controlling grid for numerical integration as in
+#'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+#'   Larger values provide larger number of grid points and greater accuracy.
+#'   Normally, `r` will not be changed by the user.
+#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
-#' @return a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
+#' @return A tibble with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events.
 #'
 #' @export
 #'
@@ -231,7 +236,6 @@
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-#'
 gs_power_rd <- function(p_c = tibble::tibble(
                           stratum = "all",
                           rate = .2

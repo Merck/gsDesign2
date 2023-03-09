@@ -20,40 +20,46 @@
 #' @importFrom gsDesign gsDesign sfLDOF
 #' @importFrom stats qnorm
 NULL
+
 #' Derive spending bound for group sequential boundary
 #'
-#' Computes one bound at a time based on spending under given distributional assumptions.
-#' While user specifies \code{gs_spending_bound()} for use with other functions,
-#' it is not intended for use on its own.
-#' Most important user specifications are made through a list provided to functions using \code{gs_spending_bound()}.
-#' Function uses numerical integration and Newton-Raphson iteration to derive an individual bound for a group sequential
-#' design that satisfies a targeted boundary crossing probability.
-#' Algorithm is a simple extension of that in Chapter 19 of Jennison and Turnbull (2000).
+#' Computes one bound at a time based on spending under given distributional
+#' assumptions. While user specifies `gs_spending_bound()` for use with other
+#' functions, it is not intended for use on its own.
+#' Most important user specifications are made through a list provided to
+#' functions using `gs_spending_bound()`.
+#' Function uses numerical integration and Newton-Raphson iteration to derive
+#' an individual bound for a group sequential design that satisfies a
+#' targeted boundary crossing probability. Algorithm is a simple extension of
+#' that in Chapter 19 of Jennison and Turnbull (2000).
 #'
-#' @param k analysis for which bound is to be computed
-#' @param par a list with the following items:
-#' \code{sf} (class spending function),
-#' \code{total_spend} (total spend),
-#' \code{param} (any parameters needed by the spending function \code{sf()}),
-#' \code{timing} (a vector containing values at which spending function
-#' is to be evaluated or NULL if information-based spending is used),
-#' \code{max_info} (when \code{timing} is NULL, this can be input as
-#' positive number to be used with \code{info} for information fraction at each analysis)
-#' @param hgm1 subdensity grid from `h1()` (k=2) or `hupdate()` (k>2) for analysis k-1;
-#' if k=1, this is not used and may be NULL
-#' @param theta natural parameter used for lower bound only spending;
-#' represents average drift at each time of analysis at least up to analysis k;
-#' upper bound spending is always set under null hypothesis (theta = 0)
-#' @param info statistical information at all analyses, at least up to analysis k
-#' @param efficacy TRUE (default) for efficacy bound, FALSE otherwise
-#' @param test_bound a logical vector of the same length as \code{info}
-#' should indicate which analyses will have a bound
+#' @param k Analysis for which bound is to be computed.
+#' @param par A list with the following items:
+#'   - `sf` (class spending function).
+#'   - `total_spend` (total spend).
+#'   - `param` (any parameters needed by the spending function `sf()`).
+#'   - `timing` (a vector containing values at which spending function
+#'   is to be evaluated or `NULL` if information-based spending is used).
+#'   - `max_info` (when `timing` is `NULL`, this can be input as positive number
+#'   to be used with `info` for information fraction at each analysis).
+#' @param hgm1 Subdensity grid from `h1()` (k=2) or `hupdate()` (k>2)
+#'   for analysis k-1; if k=1, this is not used and may be `NULL`.
+#' @param theta Natural parameter used for lower bound only spending;
+#'   represents average drift at each time of analysis at least up to analysis k;
+#'   upper bound spending is always set under null hypothesis (theta = 0).
+#' @param info Statistical information at all analyses, at least up to analysis k.
+#' @param efficacy `TRUE` (default) for efficacy bound, `FALSE` otherwise.
+#' @param test_bound A logical vector of the same length as `info`
+#'   should indicate which analyses will have a bound.
 #' @param r Integer value controlling grid for numerical integration
-#' as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of
-#' grid points and greater accuracy.
-#' Normally \code{r} will not be changed by the user.
-#' @param tol Tolerance parameter for convergence (on Z-scale)
+#'   as in Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+#'   Larger values provide larger number of grid points and greater accuracy.
+#'   Normally `r` will not be changed by the user.
+#' @param tol Tolerance parameter for convergence (on Z-scale).
+#'
+#' @return Returns a numeric bound (possibly infinite) or, upon failure,
+#'   generates an error message.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -70,11 +76,46 @@ NULL
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return returns a numeric bound (possibly infinite) or, upon failure, generates an error message.
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
-#' @references Jennison C and Turnbull BW (2000), \emph{Group Sequential
-#' Methods with Applications to Clinical Trials}. Boca Raton: Chapman and Hall.
+#'
+#' @references Jennison C and Turnbull BW (2000),
+#' \emph{Group Sequential Methods with Applications to Clinical Trials}.
+#' Boca Raton: Chapman and Hall.
+#'
 #' @export
+#'
+#' @examples
+#' info <- (1:3) * 10
+#' info_frac <- info / max(info)
+#' k <- length(info_frac)
+#'
+#' # 1st analysis
+#' a1 <- gs_spending_bound(
+#'   k = 1, efficacy = FALSE, theta = 0,
+#'   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
+#'   hgm1 = NULL
+#' )
+#'
+#' b1 <- gs_spending_bound(
+#'   k = 1, efficacy = TRUE, theta = 0,
+#'   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
+#'   hgm1 = NULL
+#' )
+#' cat("The (lower, upper) boundary at the 1st analysis is (", a1, ", ", b1, ").\n")
+#'
+#' # 2nd analysis
+#' a2 <- gs_spending_bound(
+#'   k = 2, efficacy = FALSE, theta = 0,
+#'   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
+#'   hgm1 = gsDesign2:::h1(r = 18, theta = 0, I = info[1], a = a1, b = b1)
+#' )
+#'
+#' b2 <- gs_spending_bound(
+#'   k = 2, efficacy = TRUE, theta = 0,
+#'   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
+#'   hgm1 = gsDesign2:::h1(r = 18, theta = 0, I = info[1], a = a1, b = b1)
+#' )
+#' cat("The upper boundary at the 2nd analysis is (", a2, ", ", b2, ").\n")
 gs_spending_bound <- function(k = 1,
                               par = list(
                                 sf = gsDesign::sfLDOF,

@@ -10,16 +10,17 @@ expected_accrual(
 )
 }
 \arguments{
-\item{time}{times at which enrollment is to be computed.}
+\item{time}{Times at which enrollment is to be computed.}
 
-\item{enroll_rate}{Piecewise constant enrollment rates expressed as a \code{tibble} with
-\code{duration} for each piecewise constant period and the \code{rate} of enrollment for that period.}
+\item{enroll_rate}{Piecewise constant enrollment rates expressed as a tibble
+with \code{duration} for each piecewise constant period and
+the \code{rate} of enrollment for that period.}
 }
 \value{
 A vector with expected cumulative enrollment for the specified \code{times}.
 }
 \description{
-\code{expected_accrual()} computes the expected cumulative enrollment (accrual)
+Computes the expected cumulative enrollment (accrual)
 given a set of piecewise constant enrollment rates and times.
 }
 \section{Specification}{
@@ -71,5 +72,4 @@ expected_accrual(
     rate = c(30, 30)
   )
 )
-
 }

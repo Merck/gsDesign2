@@ -17,28 +17,37 @@ wlr_weight_n(x, arm0, arm1, power = 1)
 wlr_weight_mb(x, arm0, arm1, tau = NULL, wmax = Inf)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
-\item{arm0}{an "arm" object defined in \code{npsurvSS} package}
+\item{arm0}{An \code{arm} object defined in the npsurvSS package.}
 
-\item{arm1}{an "arm" object defined in \code{npsurvSS} package}
+\item{arm1}{An \code{arm} object defined in the npsurvSS package.}
 
-\item{rho}{A scalar parameter that controls the type of test}
+\item{rho}{A scalar parameter that controls the type of test.}
 
-\item{gamma}{A scalar parameter that controls the type of test}
+\item{gamma}{A scalar parameter that controls the type of test.}
 
-\item{tau}{A scalar parameter of the cut-off time for modest weighted log rank test}
+\item{tau}{A scalar parameter of the cut-off time for modest weighted log rank test.}
 
-\item{power}{A scalar parameter that controls the power of the weight function}
+\item{power}{A scalar parameter that controls the power of the weight function.}
 
-\item{wmax}{A scalar parameter of the cut-off weight for modest weighted log rank test}
+\item{wmax}{A scalar parameter of the cut-off weight for modest weighted log rank test.}
+}
+\value{
+A vector of weights.
+
+A vector of weights.
+
+A vector of weights.
+
+A vector of weights.
 }
 \description{
 \itemize{
 \item \code{wlr_weight_fh} is Fleming-Harrington, FH(rho, gamma) weight function.
-\item \code{wlr_weight_1}  is constant for log rank test
+\item \code{wlr_weight_1}  is constant for log rank test.
 \item \code{wlr_weight_power} is Gehan-Breslow and Tarone-Ware weight function.
-\item \code{wlr_weight_mb} is  Magirr (2021) weight function.
+\item \code{wlr_weight_mb} is Magirr (2021) weight function.
 }
 }
 \section{Specification}{
@@ -55,3 +64,81 @@ wlr_weight_mb(x, arm0, arm1, tau = NULL, wmax = Inf)
 \if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
+\examples{
+enroll_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9)
+)
+
+fail_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(3, 100),
+  fail_rate = log(2) / c(9, 18),
+  hr = c(.9, .6),
+  dropout_rate = rep(.001, 2)
+)
+
+gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+arm0 <- gs_arm$arm0
+arm1 <- gs_arm$arm1
+
+wlr_weight_fh(1:3, arm0, arm1, rho = 0, gamma = 0, tau = NULL)
+enroll_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9)
+)
+
+fail_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(3, 100),
+  fail_rate = log(2) / c(9, 18),
+  hr = c(.9, .6),
+  dropout_rate = rep(.001, 2)
+)
+
+gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+arm0 <- gs_arm$arm0
+arm1 <- gs_arm$arm1
+
+wlr_weight_1(1:3, arm0, arm1)
+enroll_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9)
+)
+
+fail_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(3, 100),
+  fail_rate = log(2) / c(9, 18),
+  hr = c(.9, .6),
+  dropout_rate = rep(.001, 2)
+)
+
+gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+arm0 <- gs_arm$arm0
+arm1 <- gs_arm$arm1
+
+wlr_weight_n(1:3, arm0, arm1, power = 2)
+enroll_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9)
+)
+
+fail_rate <- tibble::tibble(
+  stratum = "All",
+  duration = c(3, 100),
+  fail_rate = log(2) / c(9, 18),
+  hr = c(.9, .6),
+  dropout_rate = rep(.001, 2)
+)
+
+gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+arm0 <- gs_arm$arm0
+arm1 <- gs_arm$arm1
+
+wlr_weight_mb(1:3, arm0, arm1, tau = -1, wmax = 1.2)
+}

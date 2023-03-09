@@ -14,17 +14,25 @@ gs_info_rd(
 )
 }
 \arguments{
-\item{p_c}{rate at the control group}
+\item{p_c}{Rate at the control group.}
 
-\item{p_e}{rate at the experimental group}
+\item{p_e}{Rate at the experimental group.}
 
-\item{n}{sample size}
+\item{n}{Sample size.}
 
-\item{rd0}{the risk difference under H0}
+\item{rd0}{The risk difference under H0.}
 
-\item{ratio}{Experimental:Control randomization ratio}
+\item{ratio}{Experimental:Control randomization ratio.}
 
-\item{weight}{weighting method, either "unstratified" or "ss" or "invar"}
+\item{weight}{Weighting method, can be \code{"unstratified"}, \code{"ss"},
+\code{"invar_h0"}, or "invar_h1".}
+}
+\value{
+A tibble with columns as analysis index, sample size,
+risk difference, risk difference under null hypothesis, theta1
+(standardized treatment effect under alternative hypothesis),
+theta0 (standardized treatment effect under null hypothesis),
+and statistical information.
 }
 \description{
 Information and effect size under risk difference

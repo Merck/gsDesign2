@@ -16,33 +16,34 @@ gs_info_ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{enrollment rates}
+\item{enroll_rate}{Enrollment rates.}
 
-\item{fail_rate}{failure and dropout rates}
+\item{fail_rate}{Failure and dropout rates.}
 
-\item{ratio}{Experimental:Control randomization ratio}
+\item{ratio}{Experimental:Control randomization ratio.}
 
-\item{event}{Targeted minimum events at each analysis}
+\item{event}{Targeted minimum events at each analysis.}
 
-\item{analysis_time}{Targeted minimum study duration at each analysis}
+\item{analysis_time}{Targeted minimum study duration at each analysis.}
 
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
 }
 \value{
-a \code{tibble} with columns \code{Analysis, Time, AHR, Events, theta, info, info0.}
-\code{info, info0} contains statistical information under H1, H0, respectively.
-For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
-required to accrue the targeted \code{event[k]}.
-\code{AHR} is expected average hazard ratio at each analysis.
+A tibble with columns Analysis, Time, AHR, Events, theta, info, info0.
+\code{info}, and \code{info0} contain statistical information under H1, H0, respectively.
+For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the
+expected time required to accrue the targeted \code{event[k]}.
+\code{AHR} is the expected average hazard ratio at each analysis.
 }
 \description{
 Based on piecewise enrollment rate, failure rate, and dropout rates computes
 approximate information and effect size using an average hazard ratio model.
 }
 \details{
-The \code{AHR()} function computes statistical information at targeted event times.
-The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
+The \code{\link[=ahr]{ahr()}} function computes statistical information at targeted
+event times. The \code{\link[=expected_time]{expected_time()}} function is used to get events and
+average HR at targeted \code{analysis_time}.
 }
 \section{Specification}{
 

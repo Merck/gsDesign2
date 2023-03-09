@@ -27,13 +27,16 @@
 #' Lower limit of integration can be `-Inf` and upper limit of integration can be `Inf`.
 #'
 #' @details
-#' Jennison and Turnbull (p 350) claim accuracy of `10e-6` with `r=16`.
+#' Jennison and Turnbull (p 350) claims accuracy of `10e-6` with `r=16`.
 #' The numerical integration grid spreads out at the tail to enable accurate tail probability calculations.
 #'
 #' @param r Integer, at least 2; default of 18 recommended by Jennison and Turnbull.
 #' @param mu Mean of normal distribution (scalar) under consideration.
 #' @param a Lower limit of integration (scalar).
 #' @param b Upper limit of integration (scalar `> a`).
+#'
+#' @return A list with grid points in `z` and numerical integration weights in `w`.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -47,8 +50,6 @@
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @return A list with grid points in `z` and numerical integration weights in `w`.
 #'
 #' @noRd
 #'
@@ -66,13 +67,17 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 
 #' Initialize numerical integration for group sequential design
 #'
-#' Compute grid points for first interim analysis in a group sequential design
+#' Compute grid points for first interim analysis in a group sequential design.
 #'
 #' @param r Integer, at least 2; default of 18 recommended by Jennison and Turnbull.
 #' @param theta Drift parameter for first analysis.
 #' @param I Information at first analysis.
 #' @param a Lower limit of integration (scalar).
 #' @param b Upper limit of integration (scalar `> a`).
+#'
+#' @return A list with grid points in `z`, numerical integration weights in `w`,
+#'   and a normal density with mean `mu = theta * sqrt{I}`
+#'   and variance 1 times the weight in `h`.
 #'
 #' @details
 #' Mean for standard normal distribution under consideration is `mu = theta * sqrt(I)`.
@@ -87,9 +92,6 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @return A list with grid points in `z`, numerical integration weights in `w`,
-#' and a normal density with mean `mu = theta * sqrt{I}` and variance 1 times the weight in `h`.
 #'
 #' @noRd
 #'
@@ -108,14 +110,14 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 
 #' Update numerical integration for group sequential design
 #'
-#' Update grid points for numerical integration from one analysis to the next
+#' Update grid points for numerical integration from one analysis to the next.
 #'
 #' @param r Integer, at least 2; default of 18 recommended by Jennison and Turnbull.
 #' @param theta Drift parameter for current analysis.
 #' @param I Information at current analysis.
 #' @param a Lower limit of integration (scalar).
 #' @param b Upper limit of integration (scalar `> a`).
-#' @param thetam1  Drift parameter for previous analysis.
+#' @param thetam1 Drift parameter for previous analysis.
 #' @param Im1 Information at previous analysis.
 #' @param gm1 Numerical integration grid from [h1()] or previous run of [hupdate()].
 #' @section Specification:
@@ -130,9 +132,9 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @return A list with grid points in `z`,
-#' numerical integration weights in `w`,
-#' a normal density with mean `mu = theta * sqrt{I}`
-#' and variance 1 times the weight in `h`.
+#'   numerical integration weights in `w`,
+#'   a normal density with mean `mu = theta * sqrt{I}`
+#'   and variance 1 times the weight in `h`.
 #'
 #' @noRd
 #'

@@ -17,10 +17,10 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' One-to-many table merge for presentation
-#' @description
+#'
 #' A table is desired based on a one-to-many mapping.
 #' The data frame in `table_a` maps into `table_b` with the by variable `by_a`
-#' Examples show how to use with the *gt* package for printing a compact combined table.
+#' Examples show how to use with the gt package for printing a compact combined table.
 #'
 #' @param table_a A data frame with one record for each value of `byvar`.
 #' @param table_b A data frame with one or more records for each value of `byvar`.
@@ -29,12 +29,14 @@
 #' @param aname The text label for the index `byvar`
 #'
 #' @return A data frame merging data frames `table_a` and `table_b` with the name from
-#' `aname` and a character string concatenating variables from `table_a` (appropriately rounded).
-#' The columns of `table_b` are also included. This is intended for use with gt() grouping by
-#' rows in a.
+#'   `aname` and a character string concatenating variables from `table_a` (appropriately rounded).
+#'   The columns of `table_b` are also included. This is intended for use with `gt()` grouping by
+#'   rows in a.
 #'
 #' @importFrom rlang :=
 #' @importFrom dplyr all_of one_of
+#'
+#' @noRd
 #'
 #' @examples
 #' library(dplyr)
@@ -60,8 +62,6 @@
 #'     "Note that footnotes cannot be made for individual variables in the row groups generated using table a.",
 #'     cells_row_groups(groups = 2)
 #'   )
-#'
-#' @noRd
 table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_a)[1]) {
   # Convert tibbles to data frames, if needed
   if (tibble::is_tibble(table_a)) table_a <- data.frame(table_a, check.names = FALSE)

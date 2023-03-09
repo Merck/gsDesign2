@@ -29,68 +29,66 @@ gs_design_ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{enrollment rates}
+\item{enroll_rate}{Enrollment rates.}
 
-\item{fail_rate}{failure and dropout rates}
+\item{fail_rate}{Failure and dropout rates.}
 
-\item{alpha}{One-sided Type I error}
+\item{alpha}{One-sided Type I error.}
 
-\item{beta}{Type II error}
+\item{beta}{Type II error.}
 
-\item{info_frac}{Targeted information fraction at each analysis}
+\item{info_frac}{Targeted information fraction at each analysis.}
 
-\item{analysis_time}{Minimum time of analysis}
+\item{analysis_time}{Minimum time of analysis.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
+\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 
-\item{binding}{indicator of whether futility bound is binding;
-default of FALSE is recommended}
+\item{binding}{Indicator of whether futility bound is binding;
+default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound}
+\item{upper}{Function to compute upper bound.}
 
-\item{upar}{Parameter passed to \code{upper()}}
+\item{upar}{Parameters passed to \code{upper}.}
 
-\item{lower}{Function to compute lower bound}
+\item{lower}{Function to compute lower bound.}
 
-\item{lpar}{Parameter passed to \code{lower()}}
+\item{lpar}{Parameters passed to \code{lower}.}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})
-if spending is used for lower bound}
+if spending is used for lower bound.}
 
-\item{test_upper}{indicator of which analyses should include an upper
-(efficacy) bound; single value of TRUE (default) indicates all analyses;
+\item{test_upper}{Indicator of which analyses should include an upper
+(efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
 otherwise, a logical vector of the same length as \code{info} should indicate
-which analyses will have an efficacy bound}
+which analyses will have an efficacy bound.}
 
-\item{test_lower}{indicator of which analyses should include an lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of
-the same length as \code{info} should indicate which analyses will have a
-lower bound}
+\item{test_lower}{Indicator of which analyses should include an lower bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value \code{FALSE} indicated no lower bound; otherwise, a logical vector
+of the same length as \code{info} should indicate which analyses will have a
+lower bound.}
 
-\item{info_scale}{the information scale for calculation}
+\item{info_scale}{The information scale for calculation.}
 
 \item{r}{Integer value controlling grid for numerical integration as in
-Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of
-grid points and greater accuracy.
-Normally \code{r} will not be changed by the user.}
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
 
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
 }
 \value{
-a \code{tibble} with columns Analysis, Bound, Z, Probability,
-theta, Time, AHR, Events
+A list with input parameters, enrollment rate, analysis, and bound.
 }
 \description{
 Group sequential design using average hazard ratio under non-proportional hazards
 }
 \details{
-Need to be added
+To be added.
 }
 \section{Specification}{
 
@@ -169,6 +167,7 @@ gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
 #    example 6      #
 # ----------------- #
 # 2-sided symmetric design with O'Brien-Fleming spending
+\donttest{
 gs_design_ahr(
   analysis_time = c(12, 24, 36),
   binding = TRUE,
@@ -178,9 +177,10 @@ gs_design_ahr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   h1_spending = FALSE
 )
-
+}
 # 2-sided asymmetric design with O'Brien-Fleming upper spending
 # Pocock lower spending under H1 (NPH)
+\donttest{
 gs_design_ahr(
   analysis_time = c(12, 24, 36),
   binding = TRUE,
@@ -190,5 +190,5 @@ gs_design_ahr(
   lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
   h1_spending = TRUE
 )
-
+}
 }

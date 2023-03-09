@@ -26,42 +26,47 @@ NULL
 #' non-proportional hazards
 #'
 #' Group sequential design power using average hazard ratio under
-#' non-proportional hazards
+#' non-proportional hazards.
 #'
-#' @details Bound satisfy input upper bound specification in
-#' `upper`, `upar`, and lower bound specification in `lower`, `lpar`.
-#' `AHR()` computes statistical information at targeted event times.
-#' The `expected_time()` function is used to get events and average HR at
-#' targeted `analysis_time`.
-#'
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure and dropout rates
-#' @param ratio Experimental:Control randomization ratio (not yet implemented)
-#' @param event Targeted event at each analysis
-#' @param analysis_time Minimum time of analysis
-#' @param binding indicator of whether futility bound is binding;
-#' default of FALSE is recommended
-#' @param info_scale the information scale for calculation
-#' @param upper Function to compute upper bound
-#' @param upar Parameter passed to `upper()`
-#' @param lower Function to compute lower bound
-#' @param lpar Parameter passed to `lower()`
-#' @param test_upper indicator of which analyses should include an upper
-#' (efficacy) bound; single value of TRUE (default) indicates all analyses;
-#' otherwise, a logical vector of the same length as `info` should
-#' indicate which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include an lower bound;
-#' single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise, a logical vector of
-#' the same length as `info` should indicate which analyses will have a
-#' lower bound
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure and dropout rates.
+#' @param ratio Experimental:Control randomization ratio (not yet implemented).
+#' @param event Targeted event at each analysis.
+#' @param analysis_time Minimum time of analysis.
+#' @param binding Indicator of whether futility bound is binding;
+#'   default of `FALSE` is recommended.
+#' @param info_scale The information scale for calculation.
+#' @param upper Function to compute upper bound.
+#' @param upar Parameters passed to `upper`.
+#' @param lower Function to compute lower bound.
+#' @param lpar Parameters passed to `lower`.
+#' @param test_upper Indicator of which analyses should include an upper
+#'   (efficacy) bound; single value of `TRUE` (default) indicates all analyses;
+#'   otherwise, a logical vector of the same length as `info` should
+#'   indicate which analyses will have an efficacy bound.
+#' @param test_lower Indicator of which analyses should include an lower bound;
+#'   single value of `TRUE` (default) indicates all analyses;
+#'   single value of `FALSE` indicated no lower bound;
+#'   otherwise, a logical vector of the same length as `info` should indicate
+#'   which analyses will have a lower bound.
 #' @param r Integer value controlling grid for numerical integration as in
-#' Jennison and Turnbull (2000); default is 18, range is 1 to 80.
-#' Larger values provide larger number of grid points and greater accuracy.
-#' Normally `r` will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale)
+#'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+#'   Larger values provide larger number of grid points and greater accuracy.
+#'   Normally, `r` will not be changed by the user.
+#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #' @param interval An interval that is presumed to include the time at which
-#' expected event count is equal to targeted event.
+#'   expected event count is equal to targeted event.
+#'
+#' @return A tibble with columns `Analysis`, `Bound`, `Z`, `Probability`,
+#'   `theta`, `Time`, `AHR`, `Events`.
+#'   Contains a row for each analysis and each bound.
+#'
+#' @details
+#' Bound satisfy input upper bound specification in
+#' `upper`, `upar`, and lower bound specification in `lower`, `lpar`.
+#' [ahr()] computes statistical information at targeted event times.
+#' The [expected_time()] function is used to get events and average HR at
+#' targeted `analysis_time`.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -74,10 +79,6 @@ NULL
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @return A `tibble` with columns `Analysis`, `Bound`, `Z`, `Probability`,
-#' `theta`, `Time`, `AHR`, `Events`.
-#' Contains a row for each analysis and each bound.
 #'
 #' @export
 #'

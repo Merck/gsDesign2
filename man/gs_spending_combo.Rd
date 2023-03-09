@@ -7,24 +7,28 @@
 gs_spending_combo(par = NULL, info = NULL, ...)
 }
 \arguments{
-\item{par}{a list with the following items:
-\code{sf} (class spending function),
-\code{total_spend} (total spend),
-\code{param} (any parameters needed by the spending function \code{sf()}),
-\code{timing} (a vector containing values at which spending function
-is to be evaluated or NULL if information-based spending is used),
-\code{max_info} (when \code{timing} is NULL, this can be input as
-positive number to be used with \code{info} for information fraction at each analysis)}
+\item{par}{A list with the following items:
+\itemize{
+\item \code{sf} (class spending function).
+\item \code{total_spend} (total spend).
+\item \code{param} (any parameters needed by the spending function \code{sf()}).
+\item \code{timing} (a vector containing values at which spending function
+is to be evaluated or \code{NULL} if information-based spending is used).
+\item \code{max_info} (when \code{timing} is \code{NULL}, this can be input as positive number
+to be used with \code{info} for information fraction at each analysis).
+}}
 
-\item{info}{statistical information at all analyses, at least up to analysis k}
+\item{info}{Statistical information at all analyses, at least up to analysis k.}
 
-\item{...}{additional parameters passed to \code{par$sf}.}
+\item{...}{Additional parameters passed to \code{par$sf}.}
+}
+\value{
+A vector of the alpha spending per analysis.
 }
 \description{
 Derive spending bound for MaxCombo group sequential boundary
 }
 \examples{
-
 # alpha-spending
 par <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 gs_spending_combo(par, info = 1:3 / 3)
@@ -32,5 +36,4 @@ gs_spending_combo(par, info = 1:3 / 3)
 # beta-spending
 par <- list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 gs_spending_combo(par, info = 1:3 / 3)
-
 }

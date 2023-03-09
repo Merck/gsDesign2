@@ -8,26 +8,24 @@ gs_b(par = NULL, k = NULL, ...)
 }
 \arguments{
 \item{par}{For \code{gs_b()}, this is just Z-values for the boundaries;
-can include infinite values}
+can include infinite values.}
 
-\item{k}{is NULL (default), return \code{par}, else return \code{par[k]}}
+\item{k}{Is \code{NULL} (default), return \code{par}, else return \code{par[k]}.}
 
-\item{...}{further arguments passed to or from other methods}
+\item{...}{Further arguments passed to or from other methods.}
 }
 \value{
-returns the vector input \code{par} if \code{k} is NULL,
-otherwise, \code{par[k]}
+Returns the vector input \code{par} if \code{k} is \code{NULL}, otherwise, \code{par[k]}.
 }
 \description{
 \code{gs_b()} is the simplest version of a function to be used with the
-\code{upper} and \code{lower}
-arguments in \code{gs_prob()},
-\code{gs_power_nph} and \code{gs_design_nph()};
+\code{upper} and \code{lower} arguments in \code{gs_prob()},
+\code{gs_power_nph()} and \code{gs_design_nph()};
 it simply returns the vector input in the input vector \code{Z} or,
-if \code{k} is specified \code{par[k]j} is returned.
+if \code{k} is specified, \verb{par[k]j} is returned.
 Note that if bounds need to change with changing information at analyses,
 \code{gs_b()} should not be used.
-For instance, for spending function bounds use
+For instance, for spending function bounds use.
 }
 \section{Specification}{
 
@@ -47,7 +45,6 @@ For instance, for spending function bounds use
 }
 
 \examples{
-
 # Simple: enter a vector of length 3 for bound
 gs_b(par = 4:2)
 
@@ -64,5 +61,4 @@ gs_b(par = gsDesign::gsDesign(
   test.type = 1, sfu = gsDesign::sfLDOF,
   timing = IF
 )$upper$bound)
-
 }

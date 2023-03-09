@@ -18,20 +18,21 @@
 
 #' gs_b: Default boundary generation
 #'
-#' \code{gs_b()} is the simplest version of a function to be used with the
-#' \code{upper} and \code{lower}
-#' arguments in \code{gs_prob()},
-#' \code{gs_power_nph} and \code{gs_design_nph()};
-#' it simply returns the vector input in the input vector \code{Z} or,
-#' if \code{k} is specified \code{par[k]j} is returned.
+#' `gs_b()` is the simplest version of a function to be used with the
+#' `upper` and `lower` arguments in `gs_prob()`,
+#' `gs_power_nph()` and `gs_design_nph()`;
+#' it simply returns the vector input in the input vector `Z` or,
+#' if `k` is specified, `par[k]j` is returned.
 #' Note that if bounds need to change with changing information at analyses,
-#' \code{gs_b()} should not be used.
-#' For instance, for spending function bounds use
+#' `gs_b()` should not be used.
+#' For instance, for spending function bounds use.
 #'
-#' @param par For \code{gs_b()}, this is just Z-values for the boundaries;
-#' can include infinite values
-#' @param k is NULL (default), return \code{par}, else return \code{par[k]}
-#' @param ... further arguments passed to or from other methods
+#' @param par For `gs_b()`, this is just Z-values for the boundaries;
+#'   can include infinite values.
+#' @param k Is `NULL` (default), return `par`, else return `par[k]`.
+#' @param ... Further arguments passed to or from other methods.
+#'
+#' @return Returns the vector input `par` if `k` is `NULL`, otherwise, `par[k]`.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -48,12 +49,9 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return returns the vector input \code{par} if \code{k} is NULL,
-#' otherwise, \code{par[k]}
 #' @export
 #'
 #' @examples
-#'
 #' # Simple: enter a vector of length 3 for bound
 #' gs_b(par = 4:2)
 #'
@@ -70,7 +68,6 @@
 #'   test.type = 1, sfu = gsDesign::sfLDOF,
 #'   timing = IF
 #' )$upper$bound)
-#'
 gs_b <- function(par = NULL, k = NULL, ...) {
   if (is.null(k)) {
     return(par)

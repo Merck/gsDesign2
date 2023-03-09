@@ -9,14 +9,14 @@ s2pwe(times, survival)
 \arguments{
 \item{times}{Positive increasing times at which survival distribution is provided.}
 
-\item{survival}{Survival (1 - cumulative distribution function) at specified \code{times}}
+\item{survival}{Survival (1 - cumulative distribution function) at specified \code{times}.}
 }
 \value{
 A tibble containing the duration and rate.
 }
 \description{
-\code{s2pwe} converts a discrete set of points from an arbitrary survival distribution
-to a piecewise exponential approximation
+Converts a discrete set of points from an arbitrary survival distribution
+to a piecewise exponential approximation.
 }
 \section{Specification}{
 

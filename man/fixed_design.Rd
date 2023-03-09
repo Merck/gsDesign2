@@ -14,26 +14,28 @@ fixed_design(
 )
 }
 \arguments{
-\item{method}{Sample size method; default is \code{"ahr"};
-other options include \code{"fh"}, \code{"mb"}, \code{"lf"},
-\code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.}
+\item{method}{Sample size method. Default is \code{"ahr"}.
+Other options include \code{"fh"}, \code{"mb"}, \code{"lf"}, \code{"rd"},
+\code{"maxcombo"}, \code{"milestone"}.}
 
-\item{alpha}{One-sided Type I error (strictly between 0 and 1)}
+\item{alpha}{One-sided Type I error (strictly between 0 and 1).}
 
-\item{power}{Power (\code{NULL} to compute power or strictly between 0 and \code{1 - alpha} otherwise)}
+\item{power}{Power (\code{NULL} to compute power or strictly between 0
+and \code{1 - alpha} otherwise).}
 
-\item{ratio}{Experimental:Control randomization ratio}
+\item{ratio}{Experimental:Control randomization ratio.}
 
-\item{study_duration}{study duration}
+\item{study_duration}{Study duration.}
 
-\item{...}{additional arguments like \code{enroll_rate}, \code{fail_rate}, \code{rho}, \code{gamma}, \code{tau}}
+\item{...}{Additional arguments like \code{enroll_rate}, \code{fail_rate},
+\code{rho}, \code{gamma}, \code{tau}.}
 }
 \value{
-a table
+A table.
 }
 \description{
 Computes fixed design sample size for many sample size methods.
-Returns a \code{tibble} with a basic summary
+Returns a tibble with a basic summary.
 }
 \examples{
 library(dplyr)

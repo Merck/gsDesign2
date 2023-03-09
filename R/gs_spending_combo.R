@@ -19,10 +19,13 @@
 #' Derive spending bound for MaxCombo group sequential boundary
 #'
 #' @inheritParams gs_spending_bound
-#' @param ... additional parameters passed to `par$sf`.
+#' @param ... Additional parameters passed to `par$sf`.
+#'
+#' @return A vector of the alpha spending per analysis.
+#'
+#' @export
 #'
 #' @examples
-#'
 #' # alpha-spending
 #' par <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 #' gs_spending_combo(par, info = 1:3 / 3)
@@ -30,8 +33,6 @@
 #' # beta-spending
 #' par <- list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' gs_spending_combo(par, info = 1:3 / 3)
-#'
-#' @export
 gs_spending_combo <- function(par = NULL, info = NULL, ...) {
   par$sf(par$total_spend, info, ...)$spend
 }

@@ -19,17 +19,25 @@
 #' @importFrom tibble tibble
 #' @importFrom dplyr lag
 NULL
+
 #' Information and effect size based on AHR approximation
 #'
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
 #' approximate information and effect size using an average hazard ratio model.
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure and dropout rates
-#' @param ratio Experimental:Control randomization ratio
-#' @param event Targeted minimum events at each analysis
-#' @param analysis_time Targeted minimum study duration at each analysis
+#'
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure and dropout rates.
+#' @param ratio Experimental:Control randomization ratio.
+#' @param event Targeted minimum events at each analysis.
+#' @param analysis_time Targeted minimum study duration at each analysis.
 #' @param interval An interval that is presumed to include the time at which
-#' expected event count is equal to targeted event.
+#'   expected event count is equal to targeted event.
+#'
+#' @return A tibble with columns Analysis, Time, AHR, Events, theta, info, info0.
+#'   `info`, and `info0` contain statistical information under H1, H0, respectively.
+#'   For analysis `k`, `Time[k]` is the maximum of `analysis_time[k]` and the
+#'   expected time required to accrue the targeted `event[k]`.
+#'   `AHR` is the expected average hazard ratio at each analysis.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -47,14 +55,10 @@ NULL
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return a \code{tibble} with columns \code{Analysis, Time, AHR, Events, theta, info, info0.}
-#' \code{info, info0} contains statistical information under H1, H0, respectively.
-#' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
-#' required to accrue the targeted \code{event[k]}.
-#' \code{AHR} is expected average hazard ratio at each analysis.
-#'
-#' @details The \code{AHR()} function computes statistical information at targeted event times.
-#' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
+#' @details
+#' The [ahr()] function computes statistical information at targeted
+#' event times. The [expected_time()] function is used to get events and
+#' average HR at targeted `analysis_time`.
 #'
 #' @export
 #'

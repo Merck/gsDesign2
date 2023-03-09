@@ -89,7 +89,6 @@ as_gt <- function(x, ...) {
 #' ) %>%
 #'   summary() %>%
 #'   as_gt()
-#'
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   # get the design method
   if ("ahr" %in% class(x)) {
@@ -132,7 +131,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
         "Fixed Design of Risk Difference under Farrington-Manning Method"
       },
       "maxcombo" = {
-        "Fixed Design under Max Combo Method"
+        "Fixed Design under MaxCombo Method"
       },
       "milestone" = {
         "Fixed Design under Milestone Method"
@@ -335,7 +334,7 @@ as_gt.gs_design <- function(x,
     title <- "Bound summary for WLR design"
   }
   if (method == "combo" && is.null(title)) {
-    title <- "Bound summary for Max Combo design"
+    title <- "Bound summary for MaxCombo design"
   }
 
   if (method == "rd" && is.null(title)) {
@@ -350,7 +349,7 @@ as_gt.gs_design <- function(x,
     subtitle <- "WLR approximation of ~wHR at bound"
   }
   if (method == "combo" && is.null(subtitle)) {
-    subtitle <- "Max Combo approximation"
+    subtitle <- "MaxCombo approximation"
   }
   if (method == "rd" && is.null(subtitle)) {
     subtitle <- "measured by risk difference"

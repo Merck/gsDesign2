@@ -15,10 +15,10 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Create "npsurvSS" arm object
+#' Create npsurvSS arm object
 #'
-#' @param total_time total analysis time
 #' @inheritParams gs_info_ahr
+#' @param total_time Total analysis time.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -111,7 +111,7 @@ gs_create_arm <- function(enroll_rate,
 
 
 #' For a subject in the provided arm, calculate the probability he or
-#' she is observed to be at risk at time=teval after enrollment.
+#' she is observed to be at risk at `time=teval` after enrollment.
 #' @noRd
 prob_risk <- function(arm, teval, tmax) {
   if (is.null(tmax)) {
@@ -124,7 +124,7 @@ prob_risk <- function(arm, teval, tmax) {
 }
 
 #' For a subject in the provided arm, calculate the density of event
-#' at time=teval after enrollment.
+#' at `time=teval` after enrollment.
 #' @noRd
 dens_event <- function(arm, teval, tmax = NULL) {
   if (is.null(tmax)) {
@@ -137,13 +137,13 @@ dens_event <- function(arm, teval, tmax = NULL) {
 }
 
 #' For a subject in the provided arm, calculate the probability he or
-#' she is observed to have experienced an event by time=teval after enrollment.
+#' she is observed to have experienced an event by `time=teval` after enrollment.
 #' @noRd
 prob_event <- function(arm, tmin = 0, tmax = arm$total_time) {
   UseMethod("prob_event", arm)
 }
 
-#' prob_event for arm of class "arm"
+#' prob_event for arm of class `arm`
 #' @noRd
 prob_event.arm <- function(arm, tmin = 0, tmax = arm$total_time) {
   l <- length(tmax)

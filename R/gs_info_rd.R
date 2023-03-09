@@ -19,15 +19,25 @@
 #' @importFrom tibble tibble
 #' @importFrom dplyr lag
 NULL
+
 #' Information and effect size under risk difference
 #'
-#' @param p_c rate at the control group
-#' @param p_e rate at the experimental group
-#' @param n sample size
-#' @param rd0 the risk difference under H0
-#' @param ratio Experimental:Control randomization ratio
-#' @param weight weighting method, either "unstratified" or "ss" or "invar"
+#' @param p_c Rate at the control group.
+#' @param p_e Rate at the experimental group.
+#' @param n Sample size.
+#' @param rd0 The risk difference under H0.
+#' @param ratio Experimental:Control randomization ratio.
+#' @param weight Weighting method, can be `"unstratified"`, `"ss"`,
+#'   `"invar_h0"`, or "invar_h1".
+#'
+#' @return A tibble with columns as analysis index, sample size,
+#'   risk difference, risk difference under null hypothesis, theta1
+#'   (standardized treatment effect under alternative hypothesis),
+#'   theta0 (standardized treatment effect under null hypothesis),
+#'   and statistical information.
+#'
 #' @export
+#'
 #' @examples
 #' library(tibble)
 #' # --------------------- #

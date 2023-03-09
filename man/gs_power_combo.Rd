@@ -22,32 +22,35 @@ gs_power_combo(
 )
 }
 \arguments{
-\item{enroll_rate}{enrollment rates}
+\item{enroll_rate}{Enrollment rates.}
 
-\item{fail_rate}{failure and dropout rates}
+\item{fail_rate}{Failure and dropout rates.}
 
-\item{fh_test}{a data frame to summarize the test in each analysis.
-Refer examples for its data structure.}
+\item{fh_test}{A data frame to summarize the test in each analysis.
+See examples for its data structure.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
+\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 
-\item{binding}{indicator of whether futility bound is binding;
-default of FALSE is recommended}
+\item{binding}{Indicator of whether futility bound is binding;
+default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound}
+\item{upper}{Function to compute upper bound.}
 
-\item{upar}{Parameter passed to \code{upper()}}
+\item{upar}{Parameters passed to \code{upper}.}
 
-\item{lower}{Function to compute lower bound}
+\item{lower}{Function to compute lower bound.}
 
-\item{lpar}{Parameter passed to \code{lower()}}
+\item{lpar}{Parameters passed to \code{lower}.}
 
 \item{algorithm}{ an object of class \code{\link[mvtnorm]{GenzBretz}},
                     \code{\link[mvtnorm]{Miwa}} or \code{\link[mvtnorm]{TVPACK}}
                     specifying both the algorithm to be used as well as
                     the associated hyper parameters.}
 
-\item{...}{additional parameters transfer to \code{mvtnorm::pmvnorm}}
+\item{...}{Additional parameters passed to \link[mvtnorm:pmvnorm]{mvtnorm::pmvnorm}.}
+}
+\value{
+A list with input parameters, enrollment rate, analysis, and bound.
 }
 \description{
 Group sequential design power using MaxCombo test under non-proportional hazards

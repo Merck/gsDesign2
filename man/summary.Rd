@@ -158,6 +158,7 @@ fh_test <- rbind(
 # ---------------------------- #
 #          ahr                 #
 # ---------------------------- #
+\donttest{
 x_ahr <- gs_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -175,10 +176,11 @@ x_ahr <- gs_design_ahr(
 x_ahr \%>\% summary()
 x_ahr \%>\% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 x_ahr \%>\% summary(bound_names = c("A is better", "B is better"))
-
+}
 # ---------------------------- #
 #         wlr                  #
 # ---------------------------- #
+\donttest{
 x_wlr <- gs_design_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -194,10 +196,11 @@ x_wlr <- gs_design_wlr(
   lpar = lpar
 )
 x_wlr \%>\% summary()
-
+}
 # ---------------------------- #
-#         max combo            #
+#         MaxCombo             #
 # ---------------------------- #
+\donttest{
 x_combo <- gs_design_combo(
   ratio = 1,
   alpha = 0.025,
@@ -214,10 +217,11 @@ x_combo <- gs_design_combo(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
 x_combo \%>\% summary()
-
+}
 # ---------------------------- #
 #      risk difference         #
 # ---------------------------- #
+\donttest{
 gs_design_rd(
   p_c = tibble(stratum = "All", rate = .2),
   p_e = tibble(stratum = "All", rate = .15),
@@ -235,4 +239,5 @@ gs_design_rd(
   )$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
 ) \%>\% summary()
+}
 }

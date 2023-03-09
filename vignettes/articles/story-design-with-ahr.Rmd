@@ -106,7 +106,7 @@ We will consider the following failure rate assumptions:
     - Control group has exponential failure rate with a median of 10 months.
     - Hazard ratio of 1.5 for 4 months followed by a hazard ratio of 0.5.
 
-```{r, }
+```{r}
 month <- c(0, 4, 6, 44)
 duration <- month - c(0, month[1:3])
 control_rate <- log(2) / c(rep(16, 4), rep(14, 4), rep(14, 4))
@@ -172,7 +172,7 @@ s <- rbind(
   mutate(Survival = exp(-cumsum(duration * rate)))
 ```
 
-```{r, fig.width=3}
+```{r}
 # plot the survival curve
 ggplot(s, aes(x = Month, y = Survival, col = Scenario, lty = Treatment, shape = Treatment)) +
   geom_line() +
@@ -230,7 +230,7 @@ hr <- do.call(
 )
 ```
 
-```{r, fig.width=3.5}
+```{r}
 ggplot(hr, aes(x = time, y = ahr, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
@@ -242,7 +242,7 @@ ggplot(hr, aes(x = time, y = ahr, col = Scenario)) +
 The number of events for these 4 scenarios are shown below.
 Under the 3 NPH scenarios events accumulate faster than under the PH scenario both due to a lower control median and/or a delayed effect.
 
-```{r, fig.width=3.5}
+```{r}
 ggplot(hr, aes(x = time, y = event, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +

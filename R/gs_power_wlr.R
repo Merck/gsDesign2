@@ -18,10 +18,6 @@
 
 #' Group sequential design power using weighted log rank test under non-proportional hazards
 #'
-#' @importFrom tibble tibble
-#' @importFrom gsDesign gsDesign
-#' @importFrom dplyr left_join
-#'
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_ahr
 #'
@@ -36,7 +32,14 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
+#' @importFrom tibble tibble
+#' @importFrom gsDesign gsDesign
+#' @importFrom dplyr left_join
+#'
 #' @export
+#'
+#' @return A list with input parameters, enrollment rate,
+#' analysis, and bound.
 #'
 #' @examples
 #' library(tibble)
@@ -86,6 +89,7 @@
 #' #       example 2          #
 #' # ------------------------ #
 #' # fixed bounds and calculate the power for targeted analysis time
+#' \donttest{
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -103,11 +107,12 @@
 #'   lower = gs_b,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-#'
+#' }
 #' # -------------------------#
 #' #       example 3          #
 #' # ------------------------ #
 #' # fixed bounds and calculate the power for targeted analysis time & number of events
+#' \donttest{
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -125,7 +130,7 @@
 #'   lower = gs_b,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-#'
+#' }
 #' # -------------------------#
 #' #       example 4          #
 #' # ------------------------ #
@@ -146,6 +151,7 @@
 #' #       example 5          #
 #' # ------------------------ #
 #' # spending bounds and calculate the power for targeted analysis time
+#' \donttest{
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -156,11 +162,12 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
-#'
+#' }
 #' # -------------------------#
 #' #       example 6          #
 #' # ------------------------ #
 #' # spending bounds and calculate the power for targeted analysis time & number of events
+#' \donttest{
 #' gs_power_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -171,6 +178,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
+#' }
 gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2, 10), rate = c(3, 6, 9)),
                          fail_rate = tibble(
                            stratum = "all", duration = c(3, 100), fail_rate = log(2) / c(9, 18),

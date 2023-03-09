@@ -35,6 +35,7 @@ library(tibble)
 library(gsDesign2)
 
 # Average hazard ratio
+\donttest{
 x <- fixed_design("ahr",
   alpha = .025, power = .9,
   enroll_rate = tibble(stratum = "All", duration = 18, rate = 1),
@@ -74,7 +75,11 @@ x <- fixed_design("mb",
   study_duration = 36, ratio = 1
 )
 x \%>\% to_integer()
-
+}
+\donttest{
 gs_design_ahr() \%>\% to_integer()
+}
+\donttest{
 gs_design_wlr() \%>\% to_integer()
+}
 }
