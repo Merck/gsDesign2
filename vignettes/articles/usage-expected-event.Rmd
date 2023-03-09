@@ -1,5 +1,5 @@
 ---
-title: "eEvents_df: compute expected number of events at 1 time point"
+title: "expected_event: compute expected number of events at 1 time point"
 output:
   rmarkdown::html_document:
     toc: true
@@ -10,7 +10,7 @@ output:
     css: "custom.css"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{eEvents_df: compute expected number of events at 1 time point}
+  %\VignetteIndexEntry{expected_event: compute expected number of events at 1 time point}
 ---
 
 ```{r, message=FALSE, echo=FALSE}
@@ -25,9 +25,9 @@ library(testthat)
 library(gsDesign2)
 ```
 
-# Introduction of `eEvents_df`
+# Introduction of `expected_event()`
 
-`eEvents_df()` computes expected number of events at a **given analysis time by strata** under the assumption of piecewise model:
+`expected_event()` computes expected number of events at a **given analysis time by strata** under the assumption of piecewise model:
 
 - piecewise constant enrollment rates
 - piecewise exponential failure rates
@@ -35,7 +35,7 @@ library(gsDesign2)
 
 The above piecewise exponential distribution allows a simple method to specify a distribution and enrollment pattern where the enrollment, failure and dropout rates changes over time.
 
-Here the `df` in `eEvents_df()` is short for data frame, since its output is a data frame.
+Here the `df` in `expected_event()` is short for data frame, since its output is a data frame.
 
 # Use Cases
 
@@ -103,7 +103,7 @@ try(expected_event(
 ))
 ```
 
-# Inner Logic of `eEvents_df()`
+# Inner Logic of `expected_event()`
 
 **Step 1:** set the analysis time.
 
