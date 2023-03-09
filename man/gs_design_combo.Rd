@@ -29,8 +29,8 @@ gs_design_combo(
 
 \item{fail_rate}{failure and dropout rates}
 
-\item{fh_test}{a data frame to summarize the test in each analysis.
-Refer examples for its data structure.}
+\item{fh_test}{A data frame to summarize the test in each analysis.
+See examples for its data structure.}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
@@ -54,13 +54,13 @@ default of FALSE is recommended}
                     specifying both the algorithm to be used as well as
                     the associated hyper parameters.}
 
-\item{n_upper_bound}{a numeric value of upper limit of sample size}
+\item{n_upper_bound}{A numeric value of upper limit of sample size.}
 
-\item{...}{additional parameters transfer to \code{mvtnorm::pmvnorm}}
+\item{...}{Additional parameters passed to \link[mvtnorm:pmvnorm]{mvtnorm::pmvnorm}.}
 }
 \value{
-a \code{list} with input parameters, enrollment rate,
-analysis and bound.
+A list with input parameters, enrollment rate,
+analysis, and bound.
 }
 \description{
 Group sequential design using MaxCombo test under non-proportional hazards
@@ -155,5 +155,4 @@ gs_design_combo(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
 )
 }
-
 }

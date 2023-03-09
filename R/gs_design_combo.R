@@ -17,18 +17,22 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Group sequential design using MaxCombo test under non-proportional hazards
-#' @importFrom tibble tibble
 #'
 #' @inheritParams gs_design_ahr
-#' @inheritParams pmvnorm_combo
-#' @param fh_test a data frame to summarize the test in each analysis.
-#'                Refer examples for its data structure.
-#' @param n_upper_bound a numeric value of upper limit of sample size
+#' @inheritParams mvtnorm::pmvnorm
+#' @param fh_test A data frame to summarize the test in each analysis.
+#'   See examples for its data structure.
+#' @param n_upper_bound A numeric value of upper limit of sample size.
+#' @param ... Additional parameters passed to [mvtnorm::pmvnorm].
+#'
+#' @return A list with input parameters, enrollment rate,
+#' analysis, and bound.
+#'
 #' @importFrom mvtnorm GenzBretz
+#' @importFrom tibble tibble
 #'
 #' @export
-#' @return a \code{list} with input parameters, enrollment rate,
-#' analysis and bound.
+#'
 #' @examples
 #' # The example is slow to run
 #' library(dplyr)
@@ -119,7 +123,6 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
 #' )
 #' }
-#'
 gs_design_combo <- function(enroll_rate = tibble(
                               stratum = "All",
                               duration = 12,

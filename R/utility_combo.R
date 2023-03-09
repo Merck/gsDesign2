@@ -125,21 +125,23 @@ gs_utility_combo <- function(enroll_rate,
 #' Multivariate Normal Distribution for Multivariate Maximum Statistics
 #'
 #' Computes the distribution function of the multivariate normal distribution
-#' with maximum statistics for arbitrary limits and correlation matrices
-#' @importFrom mvtnorm GenzBretz
-#' @inheritParams mvtnorm::pmvnorm
-#'
-#' @param group the vector of test statistics group.
-#' @param ... additional parameters transfer to `mvtnorm::pmvnorm`
+#' with maximum statistics for arbitrary limits and correlation matrices.
 #'
 #' @details
-#' Let $Z = {Z_ij}$ be a multivariate normal distribution.
-#' Here i is a group indicator and j is a within group statistics indicator.
-#' Let G_i = max({Z_ij}) for all test within one group.
-#' This program are calculating the probability
+#' Let \eqn{Z = {Z_{ij}}} be a multivariate normal distribution.
+#' Here, \eqn{i} is a group indicator, \eqn{j} is a within group statistics
+#' indicator. Let \eqn{G_i = \max({Z_{ij}})} for all test within one group.
+#' This program calculates the probability
+#' \deqn{\Pr( \text{lower} < \max(G) < \text{upper} ).}
 #'
-#'   $$Pr( lower < max(G) < upper )$$
+#' @inheritParams mvtnorm::pmvnorm
 #'
+#' @param group The vector of test statistics group.
+#' @param ... Additional parameters passed to [mvtnorm::pmvnorm].
+#'
+#' @importFrom mvtnorm GenzBretz
+#'
+#' @noRd
 pmvnorm_combo <- function(lower,
                           upper,
                           group,

@@ -26,8 +26,8 @@ gs_power_combo(
 
 \item{fail_rate}{failure and dropout rates}
 
-\item{fh_test}{a data frame to summarize the test in each analysis.
-Refer examples for its data structure.}
+\item{fh_test}{A data frame to summarize the test in each analysis.
+See examples for its data structure.}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
 
@@ -47,11 +47,11 @@ default of FALSE is recommended}
                     specifying both the algorithm to be used as well as
                     the associated hyper parameters.}
 
-\item{...}{additional parameters transfer to \code{mvtnorm::pmvnorm}}
+\item{...}{Additional parameters passed to \link[mvtnorm:pmvnorm]{mvtnorm::pmvnorm}.}
 }
 \value{
-a \code{list} with input parameters, enrollment rate,
-analysis and bound.
+A list with input parameters, enrollment rate,
+analysis, and bound.
 }
 \description{
 Group sequential design power using MaxCombo test under non-proportional hazards

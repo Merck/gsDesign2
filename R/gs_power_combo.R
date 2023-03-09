@@ -17,11 +17,31 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Group sequential design power using MaxCombo test under non-proportional hazards
+#'
+#' @inheritParams gs_design_combo
+#'
+#' @return A list with input parameters, enrollment rate,
+#' analysis, and bound.
+#'
+#' @section Specification:
+#' \if{latex}{
+#'  \itemize{
+#'    \item Validate if lower and upper bounds have been specified.
+#'    \item Extract info, info_fh, theta_fh and corr_fh from utility.
+#'    \item Extract sample size via the maximum sample size of info.
+#'    \item Calculate information fraction either for fixed or group sequential design.
+#'    \item Compute spending function using \code{gs_bound()}.
+#'    \item Compute probability of crossing bounds under the null and alternative
+#'     hypotheses using \code{gs_prob_combo()}.
+#'    \item Export required information for boundary and crossing probability
+#'   }
+#' }
+#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
 #' @importFrom mvtnorm GenzBretz
 #' @importFrom tibble tibble
 #'
-#' @inheritParams gs_design_combo
-#' @inheritParams pmvnorm_combo
+#' @export
 #'
 #' @examples
 #' library(dplyr)
@@ -64,24 +84,6 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
 #' }
-#' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if lower and upper bounds have been specified.
-#'    \item Extract info, info_fh, theta_fh and corr_fh from utility.
-#'    \item Extract sample size via the maximum sample size of info.
-#'    \item Calculate information fraction either for fixed or group sequential design.
-#'    \item Compute spending function using \code{gs_bound()}.
-#'    \item Compute probability of crossing bounds under the null and alternative
-#'     hypotheses using \code{gs_prob_combo()}.
-#'    \item Export required information for boundary and crossing probability
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @export
-#' @return a \code{list} with input parameters, enrollment rate,
-#' analysis and bound.
 gs_power_combo <- function(enroll_rate = tibble(
                              stratum = "all",
                              duration = 12,
