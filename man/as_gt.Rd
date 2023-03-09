@@ -121,7 +121,7 @@ fixed_design(
 ) \%>\%
   summary() \%>\%
   as_gt()
-\dontrun{
+\donttest{
 # the default output
 library(dplyr)
 
