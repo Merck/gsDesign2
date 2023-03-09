@@ -17,8 +17,10 @@ expected_time(
 \arguments{
 \item{enroll_rate}{Piecewise constant enrollment rates by stratum and time period.}
 
-\item{fail_rate}{Piecewise constant control group failure rates, duration for each piecewise constant period,
-hazard ratio for experimental vs control, and dropout rates by stratum and time period.}
+\item{fail_rate}{Piecewise constant control group failure rates,
+duration for each piecewise constant period,
+hazard ratio for experimental vs control,
+and dropout rates by stratum and time period.}
 
 \item{target_event}{The targeted number of events to be achieved.}
 
@@ -28,12 +30,14 @@ hazard ratio for experimental vs control, and dropout rates by stratum and time 
 expected event count is equal to \code{target_event}.}
 }
 \value{
-A \code{tibble} with \code{Time} (computed to match events in \code{target_event}), \code{AHR} (average hazard ratio),
-\code{Events} (\code{target_event} input), info (information under given scenarios),
-and info0 (information under related null hypothesis) for each value of \code{total_duration} input;
+A tibble with \code{Time} (computed to match events in \code{target_event}),
+\code{AHR} (average hazard ratio), \code{Events} (\code{target_event} input),
+\code{info} (information under given scenarios), and \code{info0}
+(information under related null hypothesis) for each value of
+\code{total_duration} input.
 }
 \description{
-\code{expected_time()} is made to match input format with \code{AHR()} and to solve for the
+\code{expected_time()} is made to match input format with \code{\link[=ahr]{ahr()}} and to solve for the
 time at which the expected accumulated events is equal to an input target.
 Enrollment and failure rate distributions are specified as follows.
 The piecewise exponential distribution allows a simple method to specify a distribution
@@ -55,7 +59,9 @@ where the enrollment, failure and dropout rates changes over time.
 #      Example 1          #
 # ------------------------#
 # default
-\donttest{expected_time()}
+\donttest{
+expected_time()
+}
 
 # ------------------------#
 #      Example 2          #

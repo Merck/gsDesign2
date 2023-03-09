@@ -18,10 +18,6 @@
 
 #' Group sequential design power using weighted log rank test under non-proportional hazards
 #'
-#' @importFrom tibble tibble
-#' @importFrom gsDesign gsDesign
-#' @importFrom dplyr left_join
-#'
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_ahr
 #'
@@ -36,9 +32,15 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
+#' @importFrom tibble tibble
+#' @importFrom gsDesign gsDesign
+#' @importFrom dplyr left_join
+#'
 #' @export
-#' @return a \code{list} with input parameters, enrollment rate,
-#' analysis and bound.
+#'
+#' @return A list with input parameters, enrollment rate,
+#' analysis, and bound.
+#'
 #' @examples
 #' library(tibble)
 #' library(gsDesign)

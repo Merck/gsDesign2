@@ -18,11 +18,9 @@
 
 #' Group sequential design using weighted log-rank test under non-proportional hazards
 #'
-#' @importFrom tibble tibble
-#' @importFrom dplyr all_of
-#'
 #' @inheritParams gs_design_ahr
 #' @inheritParams gs_info_wlr
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -37,9 +35,12 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
+#' @importFrom tibble tibble
+#' @importFrom dplyr all_of
+#'
 #' @export
-#' @return a \code{list} with input parameters, enrollment rate,
-#' analysis and bound.
+#' @return A list with input parameters, enrollment rate, analysis, and bound.
+#'
 #' @examples
 #' library(dplyr)
 #' library(mvtnorm)
@@ -111,7 +112,6 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
 #'   analysis_time = c(12, 24, 36)
 #' )
-#'
 gs_design_wlr <- function(enroll_rate = tibble(
                             stratum = "All", duration = c(2, 2, 10),
                             rate = c(3, 6, 9)

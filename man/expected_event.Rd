@@ -13,28 +13,30 @@ expected_event(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates; see details and examples}
+\item{enroll_rate}{Enrollment rates; see details and examples.}
 
-\item{fail_rate}{Failure rates and dropout rates by period}
+\item{fail_rate}{Failure rates and dropout rates by period.}
 
-\item{total_duration}{Total follow-up from start of enrollment to data cutoff}
+\item{total_duration}{Total follow-up from start of enrollment to data cutoff.}
 
-\item{simple}{If default (TRUE), return numeric expected number of events, otherwise
-a \code{tibble} as described below.}
+\item{simple}{If default (\code{TRUE}), return numeric expected number of events,
+otherwise a tibble as described below.}
 }
 \value{
-The default when \code{simple=TRUE} is to return the total expected
+The default when \code{simple = TRUE} is to return the total expected
 number of events as a real number.
-Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with
-the following variables for each period specified in 'fail_rate':
-\code{t} start of period,
-\code{fail_rate} failure rate during the period
-\code{Events} expected events during the period,
+Otherwise, when \code{simple = FALSE}, a tibble is returned with
+the following variables for each period specified in \code{fail_rate}:
+\itemize{
+\item \code{t}: start of period.
+\item \code{fail_rate}: failure rate during the period.
+\item \code{Events}: expected events during the period.
+}
 
-The records in the returned \code{tibble} correspond to the input \code{tibble} \code{fail_rate}.
+The records in the returned tibble correspond to the input tibble \code{fail_rate}.
 }
 \description{
-\code{expected_event} computes expected events over time and by strata
+Computes expected events over time and by strata
 under the assumption of piecewise constant enrollment rates and piecewise
 exponential failure and censoring rates.
 The piecewise exponential distribution allows a simple method to specify a distribution

@@ -19,17 +19,21 @@
 #' Fixed design sample size
 #'
 #' Computes fixed design sample size for many sample size methods.
-#' Returns a `tibble` with a basic summary
-#' @param method Sample size method; default is \code{"ahr"};
-#'          other options include \code{"fh"}, \code{"mb"}, \code{"lf"},
-#'          \code{"rd"}, \code{"maxcombo"}, \code{"milestone"}.
-#' @param alpha One-sided Type I error (strictly between 0 and 1)
-#' @param power Power (`NULL` to compute power or strictly between 0 and `1 - alpha` otherwise)
-#' @param ratio Experimental:Control randomization ratio
-#' @param study_duration study duration
-#' @param ... additional arguments like \code{enroll_rate}, \code{fail_rate}, \code{rho}, \code{gamma}, \code{tau}
+#' Returns a tibble with a basic summary.
 #'
-#' @return a table
+#' @param method Sample size method. Default is `"ahr"`.
+#'   Other options include `"fh"`, `"mb"`, `"lf"`, `"rd"`,
+#'   `"maxcombo"`, `"milestone"`.
+#' @param alpha One-sided Type I error (strictly between 0 and 1).
+#' @param power Power (`NULL` to compute power or strictly between 0
+#'   and `1 - alpha` otherwise).
+#' @param ratio Experimental:Control randomization ratio.
+#' @param study_duration Study duration.
+#' @param ... Additional arguments like `enroll_rate`, `fail_rate`,
+#'   `rho`, `gamma`, `tau`.
+#'
+#' @return A table.
+#'
 #' @export
 #'
 #' @examples

@@ -24,43 +24,47 @@ NULL
 
 #' Group sequential design using average hazard ratio under non-proportional hazards
 #'
-#' @param p_c rate at the control group
-#' @param p_e rate at the experimental group
-#' @param info_frac statistical information fraction
-#' @param rd0 treatment effect under super-superiority designs, the default is 0
-#' @param alpha One-sided Type I error
-#' @param beta Type II error
-#' @param ratio Experimental:Control randomization ratio (not yet implemented)
-#' @param stratum_prev randomization ratio of different stratum.
-#' If it is unstratified design then \code{NULL}.
-#' Otherwise it is a tibble containing two columns (stratum and prevalence).
-#' @param binding indicator of whether futility bound is binding; default of FALSE is recommended
-#' @param upper Function to compute upper bound
-#' @param upar Parameter passed to \code{upper()}
-#' @param lower Function to compute lower bound
-#' @param lpar Parameter passed to \code{lower()}
-#' @param test_upper indicator of which analyses should include an upper (efficacy) bound;
-#' single value of TRUE (default) indicates all analyses;
-#' otherwise, a logical vector of the same length as \code{info} should indicate
-#' which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include an lower bound;
-#' single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise,
-#' a logical vector of the same length as \code{info} should indicate which analyses
-#' will have a lower bound
-#' @param h1_spending Indicator that lower bound to be set
-#' by spending under alternate hypothesis (input \code{fail_rate})
-#' if spending is used for lower bound
+#' @param p_c Rate at the control group.
+#' @param p_e Rate at the experimental group.
+#' @param info_frac Statistical information fraction.
+#' @param rd0 Treatment effect under super-superiority designs, the default is 0.
+#' @param alpha One-sided Type I error.
+#' @param beta Type II error.
+#' @param ratio Experimental:Control randomization ratio (not yet implemented).
+#' @param stratum_prev Randomization ratio of different stratum.
+#'   If it is unstratified design then `NULL`.
+#'   Otherwise it is a tibble containing two columns (stratum and prevalence).
+#' @param binding Indicator of whether futility bound is binding;
+#'   default of `FALSE` is recommended.
+#' @param upper Function to compute upper bound.
+#' @param upar Parameters passed to `upper`.
+#' @param lower Function to compute lower bound.
+#' @param lpar Parameters passed to `lower`.
+#' @param test_upper Indicator of which analyses should include an upper
+#'   (efficacy) bound; single value of `TRUE` (default) indicates all analyses;
+#'   otherwise, a logical vector of the same length as `info` should indicate
+#'   which analyses will have an efficacy bound.
+#' @param test_lower Indicator of which analyses should include an lower bound;
+#'   single value of `TRUE` (default) indicates all analyses;
+#'   single value of `FALSE` indicates no lower bound; otherwise,
+#'   a logical vector of the same length as `info` should indicate which
+#'   analyses will have a lower bound.
+#' @param h1_spending Indicator that lower bound to be set by
+#'   spending under alternate hypothesis (input `fail_rate`)
+#'   if spending is used for lower bound.
 #' @param r Integer value controlling grid for numerical integration
-#' as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
-#' Normally \code{r} will not be changed by the user.
-#' @param info_scale the information scale for calculation
-#' @param weight the weighting scheme for stratified population
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale)
+#'   as in Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+#'   Larger values provide larger number of grid points and greater accuracy.
+#'   Normally, `r` will not be changed by the user.
+#' @param info_scale The information scale for calculation.
+#' @param weight The weighting scheme for stratified population.
+#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
-#' @return a \code{tibble} with columns analysis, bound, z, probability, theta, time, ahr, event
-#' @details Need to be added
+#' @return A tibble with columns analysis, bound, z, probability, theta, time, ahr, event.
+#'
+#' @details
+#' To be added.
+#'
 #' @export
 #'
 #' @examples

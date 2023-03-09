@@ -16,19 +16,18 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' A function to check the arguments \code{enroll_rate} used in gsDesign2
+#' A function to check the arguments `enroll_rate` used in gsDesign2
 #'
-#' @param enroll_rate enrollment rates
+#' @param enroll_rate Enrollment rates.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #'
 #' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
 #' check_enroll_rate(enroll_rate)
-#'
-#' @noRd
-#'
 check_enroll_rate <- function(enroll_rate) {
   # --------------------------- #
   #   check the duration column #
@@ -66,22 +65,21 @@ check_enroll_rate <- function(enroll_rate) {
 
 
 
-#' A function to check the arguments \code{fail_rate} used in gsDesign2
+#' A function to check the arguments `fail_rate` used in gsDesign2
 #'
-#' @param fail_rate failure rates
+#' @param fail_rate Failure rates.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
-#'
 #' fail_rate <- tibble::tibble(
 #'   stratum = "All", duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18), hr = c(.9, .6),
 #'   dropout_rate = rep(.001, 2)
 #' )
 #' check_fail_rate(fail_rate)
-#'
-#' @noRd
 check_fail_rate <- function(fail_rate) {
   # --------------------------- #
   #   check the duration column #
@@ -154,14 +152,16 @@ check_fail_rate <- function(fail_rate) {
 
 
 
-#' A function to check the arguments \code{enroll_rate} and \code{fail_rate} used in gsDesign2
+#' A function to check the arguments `enroll_rate` and `fail_rate` used in gsDesign2
 #'
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure rates
-#' @return TURE or FALSE
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure rates.
+#'
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
-#'
 #' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
 #' fail_rate <- tibble::tibble(
 #'   stratum = "All", duration = c(3, 100),
@@ -169,9 +169,6 @@ check_fail_rate <- function(fail_rate) {
 #'   dropout_rate = rep(.001, 2)
 #' )
 #' check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-#'
-#' @noRd
-#'
 check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
   if ("stratum" %in% colnames(enroll_rate) && "stratum" %in% colnames(fail_rate)) {
     strata_enroll <- unique(enroll_rate$stratum)
@@ -185,11 +182,13 @@ check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
 }
 
 
-#' A function to check the arguments \code{analysis_time} used in gsDesign2
+#' A function to check the arguments `analysis_time` used in gsDesign2
 #'
-#' @param analysis_time analysis time
+#' @param analysis_time Analysis time.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' analysis_time <- 20
@@ -197,8 +196,6 @@ check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
 #'
 #' analysis_time <- c(20, 30)
 #' check_analysis_time(analysis_time)
-#'
-#' @noRd
 check_analysis_time <- function(analysis_time) {
   cond1 <- !is.numeric(analysis_time)
   cond2 <- !is.vector(analysis_time)
@@ -209,11 +206,13 @@ check_analysis_time <- function(analysis_time) {
 }
 
 
-#' A function to check the arguments \code{events} used in gsDesign2
+#' A function to check the arguments `events` used in gsDesign2
 #'
-#' @param events number of events
+#' @param events Number of events.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' event <- 20
@@ -221,8 +220,6 @@ check_analysis_time <- function(analysis_time) {
 #'
 #' event <- c(20, 30)
 #' check_event(events)
-#'
-#' @noRd
 check_event <- function(event) {
   cond1 <- !is.numeric(event)
   cond2 <- !is.vector(event)
@@ -232,11 +229,13 @@ check_event <- function(event) {
   }
 }
 
-#' A function to check the arguments \code{total_duration} used in gsDesign2
+#' A function to check the arguments `total_duration` used in gsDesign2
 #'
-#' @param totalDuration total duration
+#' @param totalDuration Total duration.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' total_duration <- 36
@@ -244,8 +243,6 @@ check_event <- function(event) {
 #'
 #' total_duration <- c(36, 48)
 #' check_total_duration(total_duration)
-#'
-#' @noRd
 check_total_duration <- function(total_duration) {
   if (!is.numeric(total_duration)) {
     stop("The input argument `total_duration` must be a non-empty vector of positive numbers!")
@@ -256,17 +253,17 @@ check_total_duration <- function(total_duration) {
   }
 }
 
-#' A function to check the arguments \code{ratio} used in gsDesign2
+#' A function to check the arguments `ratio` used in gsDesign2
 #'
-#' @param ratio  randomization ratio
+#' @param ratio Randomization ratio.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' ratio <- 1
 #' check_ratio(ratio)
-#'
-#' @noRd
 check_ratio <- function(ratio) {
   if (!is.numeric(ratio)) {
     stop("The input argument `ratio` must be a numerical number!")
@@ -277,17 +274,18 @@ check_ratio <- function(ratio) {
   }
 }
 
-#' A function to check the arguments \code{info} used in `gs_power_npe` or `gs_design_npe` in gsDesign2
+#' A function to check the arguments `info` used in `gs_power_npe()`
+#' or `gs_design_npe()` in gsDesign2
 #'
-#' @param info statistical information
+#' @param info Statistical information.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' info <- 1:3
 #' check_info(info)
-#'
-#' @noRd
 check_info <- function(info) {
   if (!is.vector(info, mode = "numeric")) {
     stop("gs_design_npe() or gs_power_npe(): info must be specified numeric vector!")
@@ -297,17 +295,18 @@ check_info <- function(info) {
   }
 }
 
-#' A function to check the arguments \code{theta} used in `gs_power_npe` or `gs_design_npe` in gsDesign2
+#' A function to check the arguments `theta` used in `gs_power_npe()`
+#' or `gs_design_npe()` in gsDesign2
 #'
-#' @param theta  treatment effect
-#' @param n_analysis number of total analysis
+#' @param theta Treatment effect.
+#' @param n_analysis Number of total analysis.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' check_theta(theta = rep(0.5, 3), n_analysis = 3)
-#'
-#' @noRd
 check_theta <- function(theta, n_analysis) {
   if (!is.vector(theta, mode = "numeric")) {
     stop("gs_design_npe() or gs_power_npe(): theta must be a real vector!")
@@ -322,18 +321,19 @@ check_theta <- function(theta, n_analysis) {
   }
 }
 
-#' A function to check the arguments \code{test_upper} used in `gs_power_npe` or `gs_design_npe` in gsDesign2
+#' A function to check the arguments `test_upper` used in `gs_power_npe()`
+#' or `gs_design_npe()` in gsDesign2
 #'
-#' @param test_upper  test upper or lower
-#' @param n_analysis number of total analysis
+#' @param test_upper Test upper or lower.
+#' @param n_analysis Number of total analysis.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' test_upper <- TRUE
 #' check_test_upper(test_upper, 1)
-#'
-#' @noRd
 check_test_upper <- function(test_upper, n_analysis) {
   ## Check test_upper and test_lower are logical and correct length
   if (!is.vector(test_upper, mode = "logical")) {
@@ -350,18 +350,19 @@ check_test_upper <- function(test_upper, n_analysis) {
   }
 }
 
-#' A function to check the arguments \code{text_lower} used in `gs_power_npe` or `gs_design_npe` in gsDesign2
+#' A function to check the arguments `text_lower` used in `gs_power_npe`
+#' or `gs_design_npe()` in gsDesign2
 #'
-#' @param test_lower  test upper or lower
-#' @param n_analysis number of total analysis
+#' @param test_lower Test upper or lower.
+#' @param n_analysis Number of total analysis.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' test_lower <- TRUE
 #' check_test_lower(test_lower, 1)
-#'
-#' @noRd
 check_test_lower <- function(test_lower, n_analysis) {
   ## Check test_upper and test_lower are logical and correct length
   if (!is.vector(test_lower, mode = "logical")) {
@@ -373,19 +374,19 @@ check_test_lower <- function(test_lower, n_analysis) {
   }
 }
 
-#' A function to check the arguments \code{alpha} and \code{beta} in gsDesign2
+#' A function to check the arguments `alpha` and `beta` in gsDesign2
 #'
-#' @param alpha type I error
-#' @param beta  type II error
+#' @param alpha Type I error.
+#' @param beta Type II error.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' alpha <- 0.025
 #' beta <- 0.2
 #' check_alpha_beta(alpha, beta)
-#'
-#' @noRd
 check_alpha_beta <- function(alpha, beta) {
   if (!is.numeric(alpha)) stop("alpha must be numeric!")
   if (!is.numeric(beta)) stop("beta must be numeric!")
@@ -393,16 +394,16 @@ check_alpha_beta <- function(alpha, beta) {
   if (alpha <= 0 || 1 - beta <= alpha || beta <= 0) stop("must have 0 < alpha < 1 - beta < 1!")
 }
 
-#' A function to check the arguments \code{IF} in gsDesign2
+#' A function to check the arguments `IF` in gsDesign2
 #'
-#' @param info_frac statistical informational fraction
+#' @param info_frac Statistical informational fraction.
 #'
-#' @return TURE or FALSE
+#' @return `TRUE` or `FALSE`.
+#'
+#' @noRd
 #'
 #' @examples
 #' check_info_frac(1:3 / 3)
-#'
-#' @noRd
 check_info_frac <- function(info_frac) {
   msg <- "gs_design_ahr(): info_frac must be a positive
   number or positive increasing sequence on (0, 1] with final value of 1!"

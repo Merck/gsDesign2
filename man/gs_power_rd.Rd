@@ -24,47 +24,52 @@ gs_power_rd(
 )
 }
 \arguments{
-\item{p_c}{rate at the control group}
+\item{p_c}{Rate at the control group.}
 
-\item{p_e}{rate at the experimental group}
+\item{p_e}{Rate at the experimental group.}
 
-\item{n}{sample size}
+\item{n}{Sample size.}
 
-\item{rd0}{treatment effect under super-superiority designs, the default is 0}
+\item{rd0}{Treatment effect under super-superiority designs, the default is 0.}
 
-\item{ratio}{experimental:control randomization ratio}
+\item{ratio}{Experimental:control randomization ratio.}
 
-\item{weight}{weighting method, either "un-stratified" or "ss" or "invar"}
+\item{weight}{Weighting method, can be \code{"unstratified"}, \code{"ss"},
+"invar_h1", or "invar_h0".}
 
-\item{upper}{function to compute upper bound}
+\item{upper}{Function to compute upper bound.}
 
-\item{lower}{function to compare lower bound}
+\item{lower}{Function to compare lower bound.}
 
-\item{upar}{parameter to pass to upper}
+\item{upar}{Parameters passed to \code{upper}.}
 
-\item{lpar}{parameter to pass to lower}
+\item{lpar}{Parameters passed to \code{lower}.}
 
-\item{info_scale}{the information scale for calculation}
+\item{info_scale}{The information scale for calculation.}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{Indicator of whether futility bound is binding;
+default of \code{FALSE} is recommended.}
 
-\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound;
-single value of TRUE (default)  indicates all analyses; otherwise,
-a logical vector of the same length as \code{info} should indicate which analyses will have an efficacy bound}
+\item{test_upper}{Indicator of which analyses should include an upper
+(efficacy) bound; single value of \code{TRUE} (default)  indicates all analyses;
+otherwise, a logical vector of the same length as \code{info} should indicate
+which analyses will have an efficacy bound.}
 
-\item{test_lower}{indicator of which analyses should include a lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise,
-a logical vector of the same length as \code{info} should indicate which analyses will have a lower bound}
+\item{test_lower}{Indicator of which analyses should include a lower bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value \code{FALSE} indicated no lower bound; otherwise,
+a logical vector of the same length as \code{info} should indicate which
+analyses will have a lower bound.}
 
-\item{r}{Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
-Normally \code{r} will not be changed by the user.}
+\item{r}{Integer value controlling grid for numerical integration as in
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
 }
 \value{
-a \code{tibble} with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events
+A tibble with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events.
 }
 \description{
 Group sequential design power under risk difference
@@ -254,5 +259,4 @@ gs_power_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
-
 }

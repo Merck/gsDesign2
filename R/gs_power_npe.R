@@ -22,7 +22,7 @@ NULL
 
 #' Group sequential bound computation with non-constant effect
 #'
-#' \code{gs_power_npe()} derives group sequential bounds and boundary crossing probabilities for a design.
+#' Derives group sequential bounds and boundary crossing probabilities for a design.
 #' It allows a non-constant treatment effect over time,
 #' but also can be applied for the usual homogeneous effect size designs.
 #' It requires treatment effect and statistical information at each analysis
@@ -30,7 +30,7 @@ NULL
 #' The routine enables two things not available in the gsDesign package:
 #' 1) non-constant effect, 2) more flexibility in boundary selection.
 #' For many applications, the non-proportional-hazards design function
-#' \code{gs_design_nph()} will be used; it calls this function.
+#' `gs_design_nph()` will be used; it calls this function.
 #' Initial bound types supported are 1) spending bounds,
 #' 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
 #' The requirement is to have a boundary update method that can
@@ -40,44 +40,50 @@ NULL
 #' a more limited conditional power method will be demonstrated.
 #' Boundary family designs Wang-Tsiatis designs including the
 #' original (non-spending-function-based) O'Brien-Fleming and Pocock designs
-#' are not supported by \code{gs_power_npe()}.
-#' @param theta natural parameter for group sequential design representing
-#' expected incremental drift at all analyses; used for power calculation
-#' @param theta0 natural parameter for null hypothesis,
-#' if needed for upper bound computation
-#' @param theta1 natural parameter for alternate hypothesis,
-#' if needed for lower bound computation
-#' @param info statistical information at all analyses for input \code{theta}
-#' @param info0 statistical information under null hypothesis,
-#' if different than \code{info};
-#' impacts null hypothesis bound calculation
-#' @param info1 statistical information under hypothesis used for
-#' futility bound calculation if different from
-#' \code{info}; impacts futility hypothesis bound calculation
-#' @param info_scale the information scale for calculation,
-#' default is 2, other options are 0 or 1.
-#' @param binding indicator of whether futility bound is binding;
-#' default of FALSE is recommended
-#' @param upper function to compute upper bound
-#' @param lower function to compare lower bound
-#' @param upar parameter to pass to upper
-#' @param lpar parameter to pass to lower
-#' @param test_upper indicator of which analyses should include
-#' an upper (efficacy) bound;
-#' single value of TRUE (default)  indicates all analyses; otherwise,
-#' a logical vector of the same length as \code{info} should
-#' indicate which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include a lower bound;
-#' single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise,
-#' a logical vector of the same length as \code{info} should
-#' indicate which analyses will have a lower bound
-#' @param r Integer value controlling grid for numerical
-#' integration as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide
-#' larger number of grid points and greater accuracy.
-#' Normally \code{r} will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale)
+#' are not supported by `gs_power_npe()`.
+#'
+#' @param theta Natural parameter for group sequential design representing
+#'   expected incremental drift at all analyses; used for power calculation.
+#' @param theta0 Natural parameter for null hypothesis,
+#'   if needed for upper bound computation.
+#' @param theta1 Natural parameter for alternate hypothesis,
+#'   if needed for lower bound computation.
+#' @param info Statistical information at all analyses for input `theta`.
+#' @param info0 Statistical information under null hypothesis,
+#'   if different than `info`;
+#'   impacts null hypothesis bound calculation.
+#' @param info1 Statistical information under hypothesis used for
+#'   futility bound calculation if different from
+#'   `info`; impacts futility hypothesis bound calculation.
+#' @param info_scale The information scale for calculation,
+#'   default is 2, other options are 0 or 1.
+#' @param binding Indicator of whether futility bound is binding;
+#'   default of `FALSE` is recommended.
+#' @param upper Function to compute upper bound.
+#' @param lower Function to compare lower bound.
+#' @param upar Parameters passed to `upper`.
+#' @param lpar parameters passed to `lower`.
+#' @param test_upper Indicator of which analyses should include
+#'   an upper (efficacy) bound;
+#'   single value of `TRUE` (default) indicates all analyses; otherwise,
+#'   a logical vector of the same length as `info` should
+#'   indicate which analyses will have an efficacy bound.
+#' @param test_lower Indicator of which analyses should include a lower bound;
+#'   single value of `TRUE` (default) indicates all analyses;
+#'   single value of `FALSE` indicated no lower bound; otherwise,
+#'   a logical vector of the same length as `info` should
+#'   indicate which analyses will have a lower bound.
+#' @param r Integer value controlling grid for numerical integration as in
+#'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+#'   Larger values provide larger number of grid points and greater accuracy.
+#'   Normally, `r` will not be changed by the user.
+#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
+#'
+#' @return A tibble with columns as analysis index, bounds, z,
+#'   crossing probability, theta (standardized treatment effect),
+#'   theta1 (standardized treatment effect under alternative hypothesis),
+#'   information fraction, and statistical information.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -116,10 +122,7 @@ NULL
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
 #'
 #' @export
-#' @return a \code{tibble} with columns as analysis index, bounds, z,
-#' crossing probability, theta (standardized treatment effect), theta1
-#' (standardized treatment effect under alternative hypothesis),
-#' information fraction, and statistical information.
+#'
 #' @examples
 #' library(gsDesign)
 #' library(gsDesign2)

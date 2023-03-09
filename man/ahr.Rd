@@ -17,28 +17,32 @@ ahr(
 \arguments{
 \item{enroll_rate}{Piecewise constant enrollment rates by stratum and time period.}
 
-\item{fail_rate}{Piecewise constant control group failure rates, duration for each piecewise constant period,
+\item{fail_rate}{Piecewise constant control group failure rates, duration
+for each piecewise constant period,
 hazard ratio for experimental vs control, and dropout rates by stratum and time period.}
 
 \item{total_duration}{Total follow-up from start of enrollment to data cutoff;
 this can be a single value or a vector of positive numbers.}
 
-\item{ratio}{ratio of experimental to control randomization.}
+\item{ratio}{Ratio of experimental to control randomization.}
 
-\item{simple}{logical; if TRUE (default), for each value in input total_duration overall event count,
+\item{simple}{Logical; if \code{TRUE} (default), for each value in input
+\code{total_duration} overall event count,
 statistical information and average hazard ratio are given;
-if FALSE, hazard ratio, expected events and statistical information are
+if \code{FALSE}, hazard ratio, expected events, and statistical information are
 produced by stratum and underlying hazard ratio.}
 }
 \value{
-A \code{tibble} with \code{Time} (from \code{total_duration}), \code{AHR} (average hazard ratio),
-\code{Events} (expected number of events), info (information under given scenarios),
-and info0 (information under related null hypothesis) for each value of \code{total_duration} input;
-if \code{simple=FALSE}, \code{stratum} and \code{t} (beginning of each constant HR period) are also returned
-and \code{HR} is returned instead of \code{AHR}
+A tibble with \code{Time} (from \code{total_duration}),
+\code{AHR} (average hazard ratio), \code{Events} (expected number of events),
+\code{info} (information under given scenarios), \code{and} info0
+(information under related null hypothesis) for each value of
+\code{total_duration} input; if \code{simple = FALSE}, \code{stratum} and \code{t}
+(beginning of each constant HR period) are also returned and
+\code{HR} is returned instead of \code{AHR}.
 }
 \description{
-\code{ahr()} provides a geometric average hazard ratio under
+Provides a geometric average hazard ratio under
 various non-proportional hazards assumptions for either single or multiple strata studies.
 The piecewise exponential distribution allows a simple method to specify a distribution
 and enrollment pattern where the enrollment, failure and dropout rates changes over time.
@@ -108,5 +112,4 @@ ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30)
 
 # Same example, give results by strata and time period
 ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30), simple = FALSE)
-
 }

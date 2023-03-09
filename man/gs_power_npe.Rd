@@ -24,67 +24,66 @@ gs_power_npe(
 )
 }
 \arguments{
-\item{theta}{natural parameter for group sequential design representing
-expected incremental drift at all analyses; used for power calculation}
+\item{theta}{Natural parameter for group sequential design representing
+expected incremental drift at all analyses; used for power calculation.}
 
-\item{theta0}{natural parameter for null hypothesis,
-if needed for upper bound computation}
+\item{theta0}{Natural parameter for null hypothesis,
+if needed for upper bound computation.}
 
-\item{theta1}{natural parameter for alternate hypothesis,
-if needed for lower bound computation}
+\item{theta1}{Natural parameter for alternate hypothesis,
+if needed for lower bound computation.}
 
-\item{info}{statistical information at all analyses for input \code{theta}}
+\item{info}{Statistical information at all analyses for input \code{theta}.}
 
-\item{info0}{statistical information under null hypothesis,
+\item{info0}{Statistical information under null hypothesis,
 if different than \code{info};
-impacts null hypothesis bound calculation}
+impacts null hypothesis bound calculation.}
 
-\item{info1}{statistical information under hypothesis used for
+\item{info1}{Statistical information under hypothesis used for
 futility bound calculation if different from
-\code{info}; impacts futility hypothesis bound calculation}
+\code{info}; impacts futility hypothesis bound calculation.}
 
-\item{info_scale}{the information scale for calculation,
+\item{info_scale}{The information scale for calculation,
 default is 2, other options are 0 or 1.}
 
-\item{upper}{function to compute upper bound}
+\item{upper}{Function to compute upper bound.}
 
-\item{upar}{parameter to pass to upper}
+\item{upar}{Parameters passed to \code{upper}.}
 
-\item{lower}{function to compare lower bound}
+\item{lower}{Function to compare lower bound.}
 
-\item{lpar}{parameter to pass to lower}
+\item{lpar}{parameters passed to \code{lower}.}
 
-\item{test_upper}{indicator of which analyses should include
+\item{test_upper}{Indicator of which analyses should include
 an upper (efficacy) bound;
-single value of TRUE (default)  indicates all analyses; otherwise,
+single value of \code{TRUE} (default) indicates all analyses; otherwise,
 a logical vector of the same length as \code{info} should
-indicate which analyses will have an efficacy bound}
+indicate which analyses will have an efficacy bound.}
 
-\item{test_lower}{indicator of which analyses should include a lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise,
+\item{test_lower}{Indicator of which analyses should include a lower bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value of \code{FALSE} indicated no lower bound; otherwise,
 a logical vector of the same length as \code{info} should
-indicate which analyses will have a lower bound}
+indicate which analyses will have a lower bound.}
 
-\item{binding}{indicator of whether futility bound is binding;
-default of FALSE is recommended}
+\item{binding}{Indicator of whether futility bound is binding;
+default of \code{FALSE} is recommended.}
 
-\item{r}{Integer value controlling grid for numerical
-integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide
-larger number of grid points and greater accuracy.
-Normally \code{r} will not be changed by the user.}
+\item{r}{Integer value controlling grid for numerical integration as in
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
 }
 \value{
-a \code{tibble} with columns as analysis index, bounds, z,
-crossing probability, theta (standardized treatment effect), theta1
-(standardized treatment effect under alternative hypothesis),
+A tibble with columns as analysis index, bounds, z,
+crossing probability, theta (standardized treatment effect),
+theta1 (standardized treatment effect under alternative hypothesis),
 information fraction, and statistical information.
 }
 \description{
-\code{gs_power_npe()} derives group sequential bounds and boundary crossing probabilities for a design.
+Derives group sequential bounds and boundary crossing probabilities for a design.
 It allows a non-constant treatment effect over time,
 but also can be applied for the usual homogeneous effect size designs.
 It requires treatment effect and statistical information at each analysis

@@ -20,8 +20,7 @@
 #'
 #' @inheritParams gs_design_combo
 #'
-#' @return A list with input parameters, enrollment rate,
-#' analysis, and bound.
+#' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
 #' @section Specification:
 #' \if{latex}{

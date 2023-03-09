@@ -76,6 +76,10 @@ x <- fixed_design("mb",
 )
 x \%>\% to_integer()
 }
-\donttest{gs_design_ahr() \%>\% to_integer()}
-\donttest{gs_design_wlr() \%>\% to_integer()}
+\donttest{
+gs_design_ahr() \%>\% to_integer()
+}
+\donttest{
+gs_design_wlr() \%>\% to_integer()
+}
 }

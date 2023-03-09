@@ -23,12 +23,15 @@ NULL
 
 #' Piecewise constant expected accrual
 #'
-#' \code{expected_accrual()} computes the expected cumulative enrollment (accrual)
+#' Computes the expected cumulative enrollment (accrual)
 #' given a set of piecewise constant enrollment rates and times.
 #'
-#' @param time times at which enrollment is to be computed.
-#' @param enroll_rate Piecewise constant enrollment rates expressed as a `tibble` with
-#' `duration` for each piecewise constant period and the `rate` of enrollment for that period.
+#' @param time Times at which enrollment is to be computed.
+#' @param enroll_rate Piecewise constant enrollment rates expressed as a tibble
+#'   with `duration` for each piecewise constant period and
+#'   the `rate` of enrollment for that period.
+#'
+#' @return A vector with expected cumulative enrollment for the specified `times`.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -48,7 +51,7 @@ NULL
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return A vector with expected cumulative enrollment for the specified `times`.
+#' @export
 #'
 #' @examples
 #' library(tibble)
@@ -79,9 +82,6 @@ NULL
 #'     rate = c(30, 30)
 #'   )
 #' )
-#'
-#' @export
-#'
 expected_accrual <- function(time = 0:24,
                              enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))) {
   # check input value

@@ -28,68 +28,67 @@ gs_power_wlr(
 )
 }
 \arguments{
-\item{enroll_rate}{enrollment rates}
+\item{enroll_rate}{Enrollment rates.}
 
-\item{fail_rate}{failure and dropout rates}
+\item{fail_rate}{Failure and dropout rates.}
 
-\item{event}{Targeted event at each analysis}
+\item{event}{Targeted event at each analysis.}
 
-\item{analysis_time}{Minimum time of analysis}
+\item{analysis_time}{Minimum time of analysis.}
 
-\item{binding}{indicator of whether futility bound is binding;
-default of FALSE is recommended}
+\item{binding}{Indicator of whether futility bound is binding;
+default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound}
+\item{upper}{Function to compute upper bound.}
 
-\item{lower}{Function to compute lower bound}
+\item{lower}{Function to compute lower bound.}
 
-\item{upar}{Parameter passed to \code{upper()}}
+\item{upar}{Parameters passed to \code{upper}.}
 
-\item{lpar}{Parameter passed to \code{lower()}}
+\item{lpar}{Parameters passed to \code{lower}.}
 
-\item{test_upper}{indicator of which analyses should include an upper
-(efficacy) bound; single value of TRUE (default) indicates all analyses;
+\item{test_upper}{Indicator of which analyses should include an upper
+(efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
 otherwise, a logical vector of the same length as \code{info} should indicate
-which analyses will have an efficacy bound}
+which analyses will have an efficacy bound.}
 
-\item{test_lower}{indicator of which analyses should include an lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of
-the same length as \code{info} should indicate which analyses will have a
-lower bound}
+\item{test_lower}{Indicator of which analyses should include an lower bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value \code{FALSE} indicated no lower bound; otherwise, a logical vector
+of the same length as \code{info} should indicate which analyses will have a
+lower bound.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
+\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 
-\item{weight}{weight of weighted log rank test
+\item{weight}{Weight of weighted log rank test:
 \itemize{
-\item \code{"1"}= unweighted,
-\item \code{"n"}= Gehan-Breslow,
-\item \code{"sqrtN"}= Tarone-Ware,
-\item \code{"FH_p[a]_q[b]"}= Fleming-Harrington with p=a and q=b
+\item \code{"1"} = unweighted.
+\item \code{"n"} = Gehan-Breslow.
+\item \code{"sqrtN"} = Tarone-Ware.
+\item \code{"FH_p[a]_q[b]"} = Fleming-Harrington with p=a and q=b.
 }}
 
-\item{info_scale}{the information scale for calculation}
+\item{info_scale}{The information scale for calculation.}
 
-\item{approx}{approximate estimation method for Z statistics
+\item{approx}{Approximate estimation method for Z statistics.
 \itemize{
-\item \code{"event driven"} = only work under proportional hazard model with log rank test
-\item \code{"asymptotic"}
+\item \code{"event driven"} = only work under proportional hazard model with log rank test.
+\item \code{"asymptotic"}.
 }}
 
 \item{r}{Integer value controlling grid for numerical integration as in
-Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of
-grid points and greater accuracy.
-Normally \code{r} will not be changed by the user.}
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
 
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
 }
 \value{
-a \code{list} with input parameters, enrollment rate,
-analysis and bound.
+A list with input parameters, enrollment rate,
+analysis, and bound.
 }
 \description{
 Group sequential design power using weighted log rank test under non-proportional hazards

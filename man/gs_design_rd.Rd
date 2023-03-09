@@ -28,68 +28,69 @@ gs_design_rd(
 )
 }
 \arguments{
-\item{p_c}{rate at the control group}
+\item{p_c}{Rate at the control group.}
 
-\item{p_e}{rate at the experimental group}
+\item{p_e}{Rate at the experimental group.}
 
-\item{info_frac}{statistical information fraction}
+\item{info_frac}{Statistical information fraction.}
 
-\item{rd0}{treatment effect under super-superiority designs, the default is 0}
+\item{rd0}{Treatment effect under super-superiority designs, the default is 0.}
 
-\item{alpha}{One-sided Type I error}
+\item{alpha}{One-sided Type I error.}
 
-\item{beta}{Type II error}
+\item{beta}{Type II error.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented)}
+\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 
-\item{stratum_prev}{randomization ratio of different stratum.
+\item{stratum_prev}{Randomization ratio of different stratum.
 If it is unstratified design then \code{NULL}.
 Otherwise it is a tibble containing two columns (stratum and prevalence).}
 
-\item{weight}{the weighting scheme for stratified population}
+\item{weight}{The weighting scheme for stratified population.}
 
-\item{upper}{Function to compute upper bound}
+\item{upper}{Function to compute upper bound.}
 
-\item{lower}{Function to compute lower bound}
+\item{lower}{Function to compute lower bound.}
 
-\item{upar}{Parameter passed to \code{upper()}}
+\item{upar}{Parameters passed to \code{upper}.}
 
-\item{lpar}{Parameter passed to \code{lower()}}
+\item{lpar}{Parameters passed to \code{lower}.}
 
-\item{test_upper}{indicator of which analyses should include an upper (efficacy) bound;
-single value of TRUE (default) indicates all analyses;
+\item{test_upper}{Indicator of which analyses should include an upper
+(efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
 otherwise, a logical vector of the same length as \code{info} should indicate
-which analyses will have an efficacy bound}
+which analyses will have an efficacy bound.}
 
-\item{test_lower}{indicator of which analyses should include an lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise,
-a logical vector of the same length as \code{info} should indicate which analyses
-will have a lower bound}
+\item{test_lower}{Indicator of which analyses should include an lower bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value of \code{FALSE} indicates no lower bound; otherwise,
+a logical vector of the same length as \code{info} should indicate which
+analyses will have a lower bound.}
 
-\item{info_scale}{the information scale for calculation}
+\item{info_scale}{The information scale for calculation.}
 
-\item{binding}{indicator of whether futility bound is binding; default of FALSE is recommended}
+\item{binding}{Indicator of whether futility bound is binding;
+default of \code{FALSE} is recommended.}
 
 \item{r}{Integer value controlling grid for numerical integration
-as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
-Normally \code{r} will not be changed by the user.}
+as in Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale)}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
 
-\item{h1_spending}{Indicator that lower bound to be set
-by spending under alternate hypothesis (input \code{fail_rate})
-if spending is used for lower bound}
+\item{h1_spending}{Indicator that lower bound to be set by
+spending under alternate hypothesis (input \code{fail_rate})
+if spending is used for lower bound.}
 }
 \value{
-a \code{tibble} with columns analysis, bound, z, probability, theta, time, ahr, event
+A tibble with columns analysis, bound, z, probability, theta, time, ahr, event.
 }
 \description{
 Group sequential design using average hazard ratio under non-proportional hazards
 }
 \details{
-Need to be added
+To be added.
 }
 \examples{
 library(tibble)

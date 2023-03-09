@@ -18,50 +18,54 @@ gs_spending_bound(
 )
 }
 \arguments{
-\item{k}{analysis for which bound is to be computed}
+\item{k}{Analysis for which bound is to be computed.}
 
-\item{par}{a list with the following items:
-\code{sf} (class spending function),
-\code{total_spend} (total spend),
-\code{param} (any parameters needed by the spending function \code{sf()}),
-\code{timing} (a vector containing values at which spending function
-is to be evaluated or NULL if information-based spending is used),
-\code{max_info} (when \code{timing} is NULL, this can be input as
-positive number to be used with \code{info} for information fraction at each analysis)}
+\item{par}{A list with the following items:
+\itemize{
+\item \code{sf} (class spending function).
+\item \code{total_spend} (total spend).
+\item \code{param} (any parameters needed by the spending function \code{sf()}).
+\item \code{timing} (a vector containing values at which spending function
+is to be evaluated or \code{NULL} if information-based spending is used).
+\item \code{max_info} (when \code{timing} is \code{NULL}, this can be input as positive number
+to be used with \code{info} for information fraction at each analysis).
+}}
 
-\item{hgm1}{subdensity grid from \code{h1()} (k=2) or \code{hupdate()} (k>2) for analysis k-1;
-if k=1, this is not used and may be NULL}
+\item{hgm1}{Subdensity grid from \code{h1()} (k=2) or \code{hupdate()} (k>2)
+for analysis k-1; if k=1, this is not used and may be \code{NULL}.}
 
-\item{theta}{natural parameter used for lower bound only spending;
+\item{theta}{Natural parameter used for lower bound only spending;
 represents average drift at each time of analysis at least up to analysis k;
-upper bound spending is always set under null hypothesis (theta = 0)}
+upper bound spending is always set under null hypothesis (theta = 0).}
 
-\item{info}{statistical information at all analyses, at least up to analysis k}
+\item{info}{Statistical information at all analyses, at least up to analysis k.}
 
-\item{efficacy}{TRUE (default) for efficacy bound, FALSE otherwise}
+\item{efficacy}{\code{TRUE} (default) for efficacy bound, \code{FALSE} otherwise.}
 
-\item{test_bound}{a logical vector of the same length as \code{info}
-should indicate which analyses will have a bound}
+\item{test_bound}{A logical vector of the same length as \code{info}
+should indicate which analyses will have a bound.}
 
 \item{r}{Integer value controlling grid for numerical integration
-as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of
-grid points and greater accuracy.
+as in Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
 Normally \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for convergence (on Z-scale)}
+\item{tol}{Tolerance parameter for convergence (on Z-scale).}
 }
 \value{
-returns a numeric bound (possibly infinite) or, upon failure, generates an error message.
+Returns a numeric bound (possibly infinite) or, upon failure,
+generates an error message.
 }
 \description{
-Computes one bound at a time based on spending under given distributional assumptions.
-While user specifies \code{gs_spending_bound()} for use with other functions,
-it is not intended for use on its own.
-Most important user specifications are made through a list provided to functions using \code{gs_spending_bound()}.
-Function uses numerical integration and Newton-Raphson iteration to derive an individual bound for a group sequential
-design that satisfies a targeted boundary crossing probability.
-Algorithm is a simple extension of that in Chapter 19 of Jennison and Turnbull (2000).
+Computes one bound at a time based on spending under given distributional
+assumptions. While user specifies \code{gs_spending_bound()} for use with other
+functions, it is not intended for use on its own.
+Most important user specifications are made through a list provided to
+functions using \code{gs_spending_bound()}.
+Function uses numerical integration and Newton-Raphson iteration to derive
+an individual bound for a group sequential design that satisfies a
+targeted boundary crossing probability. Algorithm is a simple extension of
+that in Chapter 19 of Jennison and Turnbull (2000).
 }
 \section{Specification}{
 
@@ -115,8 +119,9 @@ b2 <- gs_spending_bound(
 cat("The upper boundary at the 2nd analysis is (", a2, ", ", b2, ").\n")
 }
 \references{
-Jennison C and Turnbull BW (2000), \emph{Group Sequential
-Methods with Applications to Clinical Trials}. Boca Raton: Chapman and Hall.
+Jennison C and Turnbull BW (2000),
+\emph{Group Sequential Methods with Applications to Clinical Trials}.
+Boca Raton: Chapman and Hall.
 }
 \author{
 Keaven Anderson \email{keaven_anderson@merck.com}

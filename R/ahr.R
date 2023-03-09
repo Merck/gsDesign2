@@ -22,20 +22,32 @@ NULL
 
 #' Average hazard ratio under non-proportional hazards (test version)
 #'
-#' \code{ahr()} provides a geometric average hazard ratio under
+#' Provides a geometric average hazard ratio under
 #' various non-proportional hazards assumptions for either single or multiple strata studies.
 #' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern where the enrollment, failure and dropout rates changes over time.
+#'
 #' @param enroll_rate Piecewise constant enrollment rates by stratum and time period.
-#' @param fail_rate Piecewise constant control group failure rates, duration for each piecewise constant period,
+#' @param fail_rate Piecewise constant control group failure rates, duration
+#'   for each piecewise constant period,
 #' hazard ratio for experimental vs control, and dropout rates by stratum and time period.
 #' @param total_duration Total follow-up from start of enrollment to data cutoff;
-#' this can be a single value or a vector of positive numbers.
-#' @param ratio ratio of experimental to control randomization.
-#' @param simple logical; if TRUE (default), for each value in input total_duration overall event count,
-#' statistical information and average hazard ratio are given;
-#' if FALSE, hazard ratio, expected events and statistical information are
-#' produced by stratum and underlying hazard ratio.
+#'   this can be a single value or a vector of positive numbers.
+#' @param ratio Ratio of experimental to control randomization.
+#' @param simple Logical; if `TRUE` (default), for each value in input
+#'   `total_duration` overall event count,
+#'   statistical information and average hazard ratio are given;
+#'   if `FALSE`, hazard ratio, expected events, and statistical information are
+#'   produced by stratum and underlying hazard ratio.
+#'
+#' @return A tibble with `Time` (from `total_duration`),
+#'   `AHR` (average hazard ratio), `Events` (expected number of events),
+#'   `info` (information under given scenarios), `and` info0
+#'   (information under related null hypothesis) for each value of
+#'   `total_duration` input; if `simple = FALSE`, `stratum` and `t`
+#'   (beginning of each constant HR period) are also returned and
+#'   `HR` is returned instead of `AHR`.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -74,11 +86,7 @@ NULL
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return A `tibble` with `Time` (from `total_duration`), `AHR` (average hazard ratio),
-#' `Events` (expected number of events), info (information under given scenarios),
-#' and info0 (information under related null hypothesis) for each value of `total_duration` input;
-#' if `simple=FALSE`, `stratum` and `t` (beginning of each constant HR period) are also returned
-#' and `HR` is returned instead of `AHR`
+#' @export
 #'
 #' @examples
 #' # Example: default
@@ -105,9 +113,6 @@ NULL
 #'
 #' # Same example, give results by strata and time period
 #' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30), simple = FALSE)
-#'
-#' @export
-#'
 ahr <- function(enroll_rate = tibble::tibble(
                   stratum = "All",
                   duration = c(2, 2, 10),

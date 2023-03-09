@@ -18,7 +18,7 @@
 
 #' Group sequential design computation with non-constant effect and information
 #'
-#' \code{gs_design_npe()} derives group sequential design size,
+#' Derives group sequential design size,
 #' bounds and boundary crossing probabilities based on proportionate
 #' information and effect size at analyses.
 #' It allows a non-constant treatment effect over time,
@@ -28,7 +28,7 @@
 #' The routine enables two things not available in the gsDesign package:
 #' 1) non-constant effect, 2) more flexibility in boundary selection.
 #' For many applications, the non-proportional-hazards design function
-#' \code{gs_design_nph()} will be used; it calls this function.
+#' `gs_design_nph()` will be used; it calls this function.
 #' Initial bound types supported are 1) spending bounds,
 #' 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
 #' The requirement is to have a boundary update method that
@@ -38,57 +38,58 @@
 #' a more limited conditional power method will be demonstrated.
 #' Boundary family designs Wang-Tsiatis designs including
 #' the original (non-spending-function-based) O'Brien-Fleming and Pocock designs
-#' are not supported by \code{gs_power_npe()}.
+#' are not supported by [gs_power_npe()].
 #'
-#' @details The inputs \code{info} and \code{info0} should be
+#' @param theta Natural parameter for group sequential design
+#'   representing expected incremental drift at all analyses;
+#'   used for power calculation.
+#' @param theta0 Natural parameter used for upper bound spending;
+#'   if `NULL`, this will be set to 0.
+#' @param theta1 Natural parameter used for lower bound spending;
+#'   if `NULL`, this will be set to `theta`
+#'   which yields the usual beta-spending.
+#'   If set to 0, spending is 2-sided under null hypothesis.
+#' @param info Proportionate statistical information at
+#'   all analyses for input `theta`.
+#' @param info0 Proportionate statistical information
+#'   under null hypothesis, if different than alternative;
+#'   impacts null hypothesis bound calculation.
+#' @param info1 Proportionate statistical information
+#'   under alternate hypothesis;
+#'   impacts null hypothesis bound calculation.
+#' @param info_scale The information scale for calculation.
+#' @param alpha One-sided Type I error.
+#' @param beta Type II error.
+#' @param binding Indicator of whether futility bound is binding;
+#'   default of `FALSE` is recommended.
+#' @param upper Function to compute upper bound.
+#' @param lower Function to compare lower bound.
+#' @param upar Parameters passed to the function provided in `upper`.
+#' @param lpar Parameters passed to the function provided in `lower`.
+#' @param test_upper Indicator of which analyses should include
+#'   an upper (efficacy) bound; single value of `TRUE` (default) indicates
+#'   all analyses; otherwise, a logical vector of the same length as `info`
+#'   should indicate which analyses will have an efficacy bound.
+#' @param test_lower Indicator of which analyses should include an lower bound;
+#'   single value of `TRUE` (default) indicates all analyses;
+#'   single value `FALSE` indicates no lower bound; otherwise,
+#'   a logical vector of the same length as `info` should indicate which
+#'   analyses will have a lower bound.
+#' @param r Integer value controlling grid for numerical integration
+#'   as in Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+#'   Larger values provide larger number of grid points and greater accuracy.
+#'   Normally `r` will not be changed by the user.
+#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
+#'
+#' @return A tibble with columns analysis, bound, z, probability, theta, info, info0.
+#'
+#' @details
+#' The inputs `info` and `info0` should be
 #' vectors of the same length with increasing positive numbers.
 #' The design returned will change these by some constant scale
-#' factor to ensure the design has power \code{1 - beta}.
-#' The bound specifications in \code{upper, lower, upar, lpar}
+#' factor to ensure the design has power `1 - beta`.
+#' The bound specifications in `upper`, `lower`, `upar`, `lpar`
 #' will be used to ensure Type I error and other boundary properties are as specified.
-#'
-#' @param theta natural parameter for group sequential design
-#' representing expected incremental drift at all analyses;
-#' used for power calculation
-#' @param theta0 natural parameter used for upper bound spending;
-#' if \code{NULL}, this will be set to 0
-#' @param theta1 natural parameter used for lower bound spending;
-#' if \code{NULL}, this will be set to \code{theta}
-#' which yields the usual beta-spending.
-#' If set to 0, spending is 2-sided under null hypothesis.
-#' @param info proportionate statistical information at
-#' all analyses for input \code{theta}
-#' @param info0 proportionate statistical information
-#' under null hypothesis, if different than alternative;
-#' impacts null hypothesis bound calculation
-#' @param info1 proportionate statistical information
-#' under alternate hypothesis;
-#' impacts null hypothesis bound calculation
-#' @param info_scale the information scale for calculation
-#' @param alpha One-sided Type I error
-#' @param beta Type II error
-#' @param binding indicator of whether futility bound is binding;
-#' default of FALSE is recommended
-#' @param upper function to compute upper bound
-#' @param lower function to compare lower bound
-#' @param upar parameter to pass to function provided in \code{upper}
-#' @param lpar Parameter passed to function provided in \code{lower}
-#' @param test_upper indicator of which analyses should include
-#' an upper (efficacy) bound; single value of TRUE (default) indicates all analyses;
-#' otherwise, a logical vector of the same length as \code{info} should indicate
-#' which analyses will have an efficacy bound
-#' @param test_lower indicator of which analyses should include an lower bound;
-#' single value of TRUE (default) indicates all analyses;
-#' single value FALSE indicated no lower bound; otherwise,
-#' a logical vector of the same length as \code{info} should indicate which analyses will have a
-#' lower bound
-#' @param r Integer value controlling grid for numerical integration
-#' as in Jennison and Turnbull (2000);
-#' default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
-#' Normally \code{r} will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale)
-#'
-#' @return a \code{tibble} with columns analysis, bound, z, probability,  theta, info, info0
 #'
 #' @section Specification:
 #' \if{latex}{

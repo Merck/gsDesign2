@@ -89,7 +89,6 @@ as_gt <- function(x, ...) {
 #' ) %>%
 #'   summary() %>%
 #'   as_gt()
-#'
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   # get the design method
   if ("ahr" %in% class(x)) {

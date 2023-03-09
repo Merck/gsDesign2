@@ -17,37 +17,37 @@ wlr_weight_n(x, arm0, arm1, power = 1)
 wlr_weight_mb(x, arm0, arm1, tau = NULL, wmax = Inf)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
-\item{arm0}{an "arm" object defined in \code{npsurvSS} package}
+\item{arm0}{An \code{arm} object defined in the npsurvSS package.}
 
-\item{arm1}{an "arm" object defined in \code{npsurvSS} package}
+\item{arm1}{An \code{arm} object defined in the npsurvSS package.}
 
-\item{rho}{A scalar parameter that controls the type of test}
+\item{rho}{A scalar parameter that controls the type of test.}
 
-\item{gamma}{A scalar parameter that controls the type of test}
+\item{gamma}{A scalar parameter that controls the type of test.}
 
-\item{tau}{A scalar parameter of the cut-off time for modest weighted log rank test}
+\item{tau}{A scalar parameter of the cut-off time for modest weighted log rank test.}
 
-\item{power}{A scalar parameter that controls the power of the weight function}
+\item{power}{A scalar parameter that controls the power of the weight function.}
 
-\item{wmax}{A scalar parameter of the cut-off weight for modest weighted log rank test}
+\item{wmax}{A scalar parameter of the cut-off weight for modest weighted log rank test.}
 }
 \value{
-a \code{vector} of weights
+A vector of weights.
 
-a \code{vector} of weights
+A vector of weights.
 
-a \code{vector} of weights
+A vector of weights.
 
-a \code{vector} of weights
+A vector of weights.
 }
 \description{
 \itemize{
 \item \code{wlr_weight_fh} is Fleming-Harrington, FH(rho, gamma) weight function.
-\item \code{wlr_weight_1}  is constant for log rank test
+\item \code{wlr_weight_1}  is constant for log rank test.
 \item \code{wlr_weight_power} is Gehan-Breslow and Tarone-Ware weight function.
-\item \code{wlr_weight_mb} is  Magirr (2021) weight function.
+\item \code{wlr_weight_mb} is Magirr (2021) weight function.
 }
 }
 \section{Specification}{

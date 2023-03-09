@@ -23,20 +23,27 @@ NULL
 
 #' Piecewise exponential cumulative distribution function
 #'
-#' \code{ppwe} computes the cumulative distribution function (CDF) or survival rate
+#' Computes the cumulative distribution function (CDF) or survival rate
 #' for a piecewise exponential distribution.
-#' @param x times at which distribution is to be computed.
+#'
+#' @param x Times at which distribution is to be computed.
 #' @param fail_rate Piecewise constant failure rates in `rate`,
-#' `duration` for each piecewise constant failure rate period.
-#' @param lower_tail Indicator of whether lower (TRUE) or upper tail (FALSE; default)
-#' of CDF is to be computed.
+#'   `duration` for each piecewise constant failure rate period.
+#' @param lower_tail Indicator of whether lower (`TRUE`) or upper tail
+#'   (`FALSE`; default) of CDF is to be computed.
+#'
+#' @return A vector with cumulative distribution function or survival values.
+#'
 #' @details
-#' Suppose \eqn{\lambda_i} is the failure rate in the interval \eqn{(t_{i-1},t_i], i=1,2,\ldots,M} where
-#' \eqn{0=t_0<t_i\ldots,t_M=\infty}. The cumulative hazard function at an arbitrary time \eqn{t>0} is then:
+#' Suppose \eqn{\lambda_i} is the failure rate in the interval
+#' \eqn{(t_{i-1},t_i], i=1,2,\ldots,M} where
+#' \eqn{0=t_0<t_i\ldots,t_M=\infty}.
+#' The cumulative hazard function at an arbitrary time \eqn{t>0} is then:
 #'
 #' \deqn{\Lambda(t)=\sum_{i=1}^M \delta(t\leq t_i)(\min(t,t_i)-t_{i-1})\lambda_i.}
 #' The survival at time \eqn{t} is then
 #' \deqn{S(t)=\exp(-\Lambda(t)).}
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -54,7 +61,9 @@ NULL
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#' @return A vector with cumulative distribution function or survival values
+#'
+#' @export
+#'
 #' @examples
 #' # Example: default
 #' ppwe(seq(0:10))
@@ -68,12 +77,11 @@ NULL
 #' Time <- seq(0, 10, .25)
 #' Survival <- ppwe(Time, fr)
 #' lines(Time, Survival, col = 2)
-#' @export
 ppwe <- function(x = 0:20,
                  fail_rate = tibble::tibble(duration = c(3, 100), rate = log(2) / c(9, 18)),
                  lower_tail = FALSE) {
-  # check input values
-  # check input enrollment rate assumptions
+  # Check input values
+  # Check input enrollment rate assumptions
   if (!is.numeric(x)) {
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
@@ -95,20 +103,20 @@ ppwe <- function(x = 0:20,
     stop("gsDesign2: fail_rate in `ppwe()` column names must contain rate")
   }
 
-  # check lower_tail
+  # Check lower_tail
   if (!is.logical(lower_tail)) {
     stop("gsDesign2: lower_tail in `ppwe()` must be logical")
   }
 
-  # convert rates to step function
+  # Convert rates to step function
   ratefn <- stepfun(
     x = cumsum(fail_rate$duration),
     y = c(fail_rate$rate, last(fail_rate$rate)),
     right = TRUE
   )
-  # add times where rates change to fail_rate
+  # Add times where rates change to fail_rate
   xvals <- sort(unique(c(x, cumsum(fail_rate$duration))))
-  # make a tibble
+  # Make a tibble
   xx <- tibble::tibble(
     x = xvals,
     duration = xvals - lag(xvals, default = 0),
@@ -116,7 +124,7 @@ ppwe <- function(x = 0:20,
     H = cumsum(h * duration), # cumulative hazard
     survival = exp(-H) # survival
   )
-  # return survival or CDF
+  # Return survival or CDF
   ind <- !is.na(match(xx$x, x))
   survival <- as.numeric(xx$survival[ind])
   if (lower_tail) {
@@ -132,10 +140,14 @@ NULL
 
 #' Approximate survival distribution with piecewise exponential distribution
 #'
-#' \code{s2pwe} converts a discrete set of points from an arbitrary survival distribution
-#' to a piecewise exponential approximation
+#' Converts a discrete set of points from an arbitrary survival distribution
+#' to a piecewise exponential approximation.
+#'
 #' @param times Positive increasing times at which survival distribution is provided.
-#' @param survival Survival (1 - cumulative distribution function) at specified `times`
+#' @param survival Survival (1 - cumulative distribution function) at specified `times`.
+#'
+#' @return A tibble containing the duration and rate.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -148,16 +160,17 @@ NULL
 #'  }
 #'  }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#' @return A tibble containing the duration and rate.
+#'
+#' @export
+#'
 #' @examples
 #' # Example: arbitrary numbers
 #' s2pwe(1:9, (9:1) / 10)
 #' # Example: lognormal
 #' s2pwe(c(1:6, 9), plnorm(c(1:6, 9), meanlog = 0, sdlog = 2, lower.tail = FALSE))
-#' @export
 s2pwe <- function(times, survival) {
-  # check input values
-  # check that times are positive, ordered, unique and finite numbers
+  # Check input values
+  # Check that times are positive, ordered, unique and finite numbers
   if (!is.numeric(times)) {
     stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")
   }
@@ -174,7 +187,7 @@ s2pwe <- function(times, survival) {
     stop("gsDesign2: times in `s2pwe()`must be increasing positive finite numbers")
   }
 
-  # check that survival is numeric and same length as times
+  # Check that survival is numeric and same length as times
   if (!is.numeric(survival)) {
     stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")
   }
@@ -182,7 +195,7 @@ s2pwe <- function(times, survival) {
     stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")
   }
 
-  # check that survival is positive, non-increasing, less than or equal to 1 and gt 0
+  # Check that survival is positive, non-increasing, less than or equal to 1 and gt 0
   if (!min(survival) > 0) {
     stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
          finite numbers less than or equal to 1 with at least 1 value < 1")

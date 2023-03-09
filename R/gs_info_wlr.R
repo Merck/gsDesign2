@@ -16,35 +16,38 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #' Information and effect size for Weighted Log-rank test
 #'
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
 #' approximate information and effect size using an average hazard ratio model.
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure and dropout rates
-#' @param ratio Experimental:Control randomization ratio
-#' @param event Targeted minimum events at each analysis
-#' @param analysis_time Targeted minimum study duration at each analysis
-#' @param weight weight of weighted log rank test
-#' - `"1"`= unweighted,
-#' - `"n"`= Gehan-Breslow,
-#' - `"sqrtN"`= Tarone-Ware,
-#' - `"FH_p[a]_q[b]"`= Fleming-Harrington with p=a and q=b
-#' @param approx approximate estimation method for Z statistics
-#' - `"event driven"` = only work under proportional hazard model with log rank test
-#' - `"asymptotic"`
+#'
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure and dropout rates.
+#' @param ratio Experimental:Control randomization ratio.
+#' @param event Targeted minimum events at each analysis.
+#' @param analysis_time Targeted minimum study duration at each analysis.
+#' @param weight Weight of weighted log rank test:
+#'   - `"1"` = unweighted.
+#'   - `"n"` = Gehan-Breslow.
+#'   - `"sqrtN"` = Tarone-Ware.
+#'   - `"FH_p[a]_q[b]"` = Fleming-Harrington with p=a and q=b.
+#' @param approx Approximate estimation method for Z statistics.
+#'   - `"event driven"` = only work under proportional hazard model with log rank test.
+#'   - `"asymptotic"`.
 #' @param interval An interval that is presumed to include the time at which
-#' expected event count is equal to targeted event.
+#'   expected event count is equal to targeted event.
 #'
-#' @return a \code{tibble} with columns \code{Analysis, Time, N, Events, AHR, delta, sigma2, theta, info, info0.}
-#' \code{info, info0} contains statistical information under H1, H0, respectively.
-#' For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the expected time
-#' required to accrue the targeted \code{event[k]}.
-#' \code{AHR} is expected average hazard ratio at each analysis.
+#' @return A tibble with columns Analysis, Time, N, Events, AHR, delta, sigma2,
+#'   theta, info, info0.
+#'   `info` and `info0` contain statistical information under H1, H0, respectively.
+#'   For analysis `k`, `Time[k]` is the maximum of `analysis_time[k]` and the
+#'   expected time required to accrue the targeted `event[k]`.
+#'   `AHR` is the expected average hazard ratio at each analysis.
 #'
-#' @details The \code{AHR()} function computes statistical information at targeted event times.
-#' The \code{expected_time()} function is used to get events and average HR at targeted \code{analysis_time}.
+#' @details
+#' The [ahr()] function computes statistical information at targeted event times.
+#' The [expected_time()] function is used to get events and average HR at
+#' targeted `analysis_time`.
 #'
 #' @importFrom utils tail
 #'
@@ -54,10 +57,10 @@
 #' library(tibble)
 #' library(gsDesign2)
 #'
-#' # set enrollment rates
+#' # Set enrollment rates
 #' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
 #'
-#' # set failure rates
+#' # Set failure rates
 #' fail_rate <- tibble(
 #'   stratum = "All",
 #'   duration = c(4, 100),
@@ -66,7 +69,7 @@
 #'   dropout_rate = 0.001
 #' )
 #'
-#' # set the targeted number of events and analysis time
+#' # Set the targeted number of events and analysis time
 #' event <- c(30, 40, 50)
 #' analysis_time <- c(10, 24, 30)
 #'

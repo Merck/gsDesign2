@@ -18,11 +18,11 @@
 
 #' @importFrom mvtnorm GenzBretz
 #'
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure and dropout rates
-#' @param ratio Experimental:Control randomization ratio (not yet implemented)
-#' @param fh_test weighting tests
-#' @param algorithm numerical algorithms
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure and dropout rates.
+#' @param ratio Experimental:Control randomization ratio (not yet implemented).
+#' @param fh_test Weighting tests.
+#' @param algorithm Numerical algorithms.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -227,10 +227,11 @@ pmvnorm_combo <- function(lower,
 }
 
 
-#' Create weight in max combo test
-#' @param rho weighting parameter
-#' @param gamma weighting parameter
-#' @param tau weighting parameter
+#' Create weight in MaxCombo test
+#'
+#' @param rho Weighting parameter.
+#' @param gamma Weighting parameter.
+#' @param tau Weighting parameter.
 #'
 #' @noRd
 get_combo_weight <- function(rho, gamma, tau) {
@@ -259,7 +260,8 @@ get_combo_weight <- function(rho, gamma, tau) {
   weight
 }
 
-#' Compute delta in max combo test
+#' Compute delta in MaxCombo test
+#'
 #' @noRd
 gs_delta_combo <- function(arm0,
                            arm1,
@@ -283,7 +285,8 @@ gs_delta_combo <- function(arm0,
   delta
 }
 
-#' Compute delta in max combo test
+#' Compute delta in MaxCombo test
+#'
 #' @noRd
 gs_sigma2_combo <- function(arm0,
                             arm1,
@@ -318,11 +321,11 @@ gs_sigma2_combo <- function(arm0,
 #' MaxCombo Group sequential boundary crossing probabilities
 #'
 #' @inheritParams pmvnorm_combo
-#' @param upper_bound a numeric vector of upper bound
-#' @param lower_bound a numeric vector of lower bound
-#' @param analysis an integer vector of the interim analysis index
-#' @param theta a numeric vector of effect size under alternative hypothesis
-#' @param corr a matrix of correlation matrix
+#' @param upper_bound A numeric vector of upper bound.
+#' @param lower_bound A numeric vector of lower bound.
+#' @param analysis An integer vector of the interim analysis index.
+#' @param theta A numeric vector of effect size under alternative hypothesis.
+#' @param corr A matrix of correlation matrix.
 #'
 #' @importFrom mvtnorm GenzBretz
 #'
@@ -383,19 +386,17 @@ gs_prob_combo <- function(upper_bound,
 }
 
 
-#' Lower and Upper Bound of Group Sequential Design
+#' Lower and upper bound of group sequential design
 #'
-#' @importFrom mvtnorm GenzBretz
-#'
-#' @param alpha a numeric vector of cumulative allocated alpha in each interim analysis
-#' @param beta  a numeric vector of cumulative allocated beta in each interim analysis
-#' @param theta a numeric vector of effect size under alternative.
-#' @param corr  a matrix of correlation matrix
-#' @param analysis a numeric vector of interim analysis indicator. Default is 1:length(alpha).
-#' @param theta0 a numeric vector of effect size under null hypothesis. Default is 0.
-#' @param binding_lower_bound a logical value to indicate binding lower bound.
-#' @param alpha_bound logical value to indicate if alpha is Type I error or upper bound. Default is FALSE.
-#' @param beta_bound logical value to indicate if beta is Type II error or lower bound. Default is FALSE.
+#' @param alpha A numeric vector of cumulative allocated alpha in each interim analysis.
+#' @param beta A numeric vector of cumulative allocated beta in each interim analysis.
+#' @param theta A numeric vector of effect size under alternative.
+#' @param corr A matrix of correlation matrix.
+#' @param analysis A numeric vector of interim analysis indicator. Default is `1:length(alpha)`.
+#' @param theta0 A numeric vector of effect size under null hypothesis. Default is 0.
+#' @param binding_lower_bound A logical value to indicate binding lower bound.
+#' @param alpha_bound Logical value to indicate if alpha is Type I error or upper bound. Default is `FALSE`.
+#' @param beta_bound Logical value to indicate if beta is Type II error or lower bound. Default is `FALSE`.
 #' @inheritParams pmvnorm_combo
 #'
 #' @section Specification:
@@ -410,6 +411,8 @@ gs_prob_combo <- function(upper_bound,
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
+#' @importFrom mvtnorm GenzBretz
 #'
 #' @examples
 #' library(gsDesign)

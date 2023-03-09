@@ -24,7 +24,7 @@ NULL
 
 #' Expected events observed under piecewise exponential model
 #'
-#' \code{expected_event} computes expected events over time and by strata
+#' Computes expected events over time and by strata
 #' under the assumption of piecewise constant enrollment rates and piecewise
 #' exponential failure and censoring rates.
 #' The piecewise exponential distribution allows a simple method to specify a distribution
@@ -35,11 +35,22 @@ NULL
 #' The intent is to enable sample size calculations under non-proportional hazards assumptions
 #' for stratified populations.
 #'
-#' @param enroll_rate Enrollment rates; see details and examples
-#' @param fail_rate Failure rates and dropout rates by period
-#' @param total_duration Total follow-up from start of enrollment to data cutoff
-#' @param simple If default (TRUE), return numeric expected number of events, otherwise
-#' a \code{tibble} as described below.
+#' @param enroll_rate Enrollment rates; see details and examples.
+#' @param fail_rate Failure rates and dropout rates by period.
+#' @param total_duration Total follow-up from start of enrollment to data cutoff.
+#' @param simple If default (`TRUE`), return numeric expected number of events,
+#'   otherwise a tibble as described below.
+#'
+#' @return The default when `simple = TRUE` is to return the total expected
+#'   number of events as a real number.
+#'   Otherwise, when `simple = FALSE`, a tibble is returned with
+#'   the following variables for each period specified in `fail_rate`:
+#'   - `t`: start of period.
+#'   - `fail_rate`: failure rate during the period.
+#'   - `Events`: expected events during the period.
+#'
+#'   The records in the returned tibble correspond to the input tibble `fail_rate`.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -69,21 +80,13 @@ NULL
 #'    \item Return \code{expected_event}
 #'  }
 #' }
-#' @return
-#' The default when \code{simple=TRUE} is to return the total expected
-#' number of events as a real number.
-#' Otherwise, when \code{simple=FALSE} a \code{tibble} is returned with
-#' the following variables for each period specified in 'fail_rate':
-#' \code{t} start of period,
-#' \code{fail_rate} failure rate during the period
-#' \code{Events} expected events during the period,
-#'
-#' The records in the returned \code{tibble} correspond to the input \code{tibble} \code{fail_rate}.
 #'
 #' @details
 #' More periods will generally be supplied in output than those that are input.
 #' The intent is to enable expected event calculations in a tidy format to
 #' maximize flexibility for a variety of purposes.
+#'
+#' @export
 #'
 #' @examples
 #' library(tibble)
@@ -112,7 +115,6 @@ NULL
 #'   fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
 #'   total_duration = 22, simple = FALSE
 #' )
-#' @export
 expected_event <- function(enroll_rate = tibble::tibble(
                              duration = c(2, 2, 10),
                              rate = c(3, 6, 9)

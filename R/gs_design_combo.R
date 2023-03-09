@@ -25,8 +25,7 @@
 #' @param n_upper_bound A numeric value of upper limit of sample size.
 #' @param ... Additional parameters passed to [mvtnorm::pmvnorm].
 #'
-#' @return A list with input parameters, enrollment rate,
-#' analysis, and bound.
+#' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
 #' @importFrom mvtnorm GenzBretz
 #' @importFrom tibble tibble

@@ -17,24 +17,26 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Information and effect size for max combo test
+#'
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure and dropout rates.
+#' @param ratio Experimental:Control randomization ratio (not yet implemented).
+#' @param event Targeted events at each analysis.
+#' @param analysis_time Minimum time of analysis.
+#' @param rho Weighting parameters.
+#' @param gamma Weighting parameters.
+#' @param tau Weighting parameters.
+#' @param approx Approximation method.
+#'
+#' @return A tibble with columns as test index, analysis index,
+#'   analysis time, sample size, number of events, ahr, delta,
+#'   sigma2, theta, and statistical information.
+#'
 #' @importFrom mvtnorm GenzBretz
 #' @importFrom tibble tibble
-#' @importFrom tibble tibble
-#'
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure and dropout rates
-#' @param ratio Experimental:Control randomization ratio (not yet implemented)
-#' @param event Targeted events at each analysis
-#' @param analysis_time Minimum time of analysis
-#' @param rho Weighting parameters
-#' @param gamma Weighting parameters
-#' @param tau Weighting parameters
-#' @param approx Approximation method
 #'
 #' @export
-#' @return a \code{tibble} with columns as test index, analysis index, analysis
-#' time, sample size, number of events, ahr, delta, sigma2, theta, and statistical
-#' information.
+#'
 #' @examples
 #' gs_info_combo(rho = c(0, 0.5), gamma = c(0.5, 0), analysis_time = c(12, 24))
 gs_info_combo <- function(enroll_rate = tibble(

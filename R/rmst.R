@@ -18,23 +18,28 @@
 
 #' Sample Size Calculation based on RMST method
 #'
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure and dropout rates
-#' @param analysis_time Minimum time of analysis
-#' @param ratio Experimental:Control randomization ratio
-#' @param alpha One-sided Type I error (strictly between 0 and 1)
-#' @param beta  Power (`NULL` to compute power or strictly between 0 and `1 - alpha` otherwise)
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure and dropout rates.
+#' @param analysis_time Minimum time of analysis.
+#' @param ratio Experimental:Control randomization ratio.
+#' @param alpha One-sided Type I error (strictly between 0 and 1).
+#' @param beta Power (`NULL` to compute power or strictly between
+#'   0 and `1 - alpha` otherwise).
 #' @param test A string specifies the type of statistical test.
-#'             Default is \code{"survival difference"} (a Kaplan-Meier based test).
-#'             One can also set it as \code{"rmst difference"} (another Kaplan-Meier based test)
-#' @param tau desired milestone for \code{test = "survival difference"} or \code{test = "rmst difference"}
-#' @return a list with \code{enroll_rate}, \code{fail_rate}, \code{bounds}, \code{analysis} and \code{design}
+#'   Default is `"survival difference"` (a Kaplan-Meier based test).
+#'   One can also set it as `"rmst difference"` (another Kaplan-Meier based test).
+#' @param tau Desired milestone for `test = "survival difference"` or
+#'   `test = "rmst difference"`.
+#'
+#' @return A list with `enroll_rate`, `fail_rate`, `bounds`, `analysis`, and `design`.
+#'
+#' @noRd
 #'
 #' @examples
-#' # set enrollment rates
+#' # Set enrollment rates
 #' enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
 #'
-#' # set failure rates
+#' # Set failure rates
 #' fail_rate <- tibble::tibble(
 #'   stratum = "All",
 #'   duration = c(4, 100),
@@ -46,8 +51,6 @@
 #' fixed_design_size_rmst(enroll_rate, fail_rate, analysis_time = 36)
 #' fixed_design_size_rmst(enroll_rate, fail_rate, analysis_time = 36, beta = 1 - 0.887)
 #' fixed_design_size_rmst(enroll_rate, fail_rate, analysis_time = 36, tau = 18)
-#'
-#' @noRd
 fixed_design_size_rmst <- function(enroll_rate,
                                    fail_rate,
                                    analysis_time,
@@ -100,21 +103,24 @@ fixed_design_size_rmst <- function(enroll_rate,
 
 #' Power calculation based on RMST method
 #'
-#' @param enroll_rate enrollment rates
-#' @param fail_rate failure and dropout rates
-#' @param analysis_time Minimum time of analysis
-#' @param ratio Experimental:Control randomization ratio
-#' @param alpha One-sided Type I error (strictly between 0 and 1)
+#' @param enroll_rate Enrollment rates.
+#' @param fail_rate Failure and dropout rates.
+#' @param analysis_time Minimum time of analysis.
+#' @param ratio Experimental:Control randomization ratio.
+#' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param test A string specifies the type of statistical test.
-#'             Default is \code{"survival difference"} (a Kaplan-Meier based test).
-#'             One can also set it as \code{"rmst difference"} (another Kaplan-Meier based test)
-#' @param tau desired milestone for \code{test = "survival difference"} or \code{test = "rmst difference"}
+#'   Default is `"survival difference"` (a Kaplan-Meier based test).
+#'   One can also set it as `"rmst difference"` (another Kaplan-Meier based test).
+#' @param tau Desired milestone for `test = "survival difference"` or
+#'   `test = "rmst difference"`.
+#'
+#' @noRd
 #'
 #' @examples
-#' # set enrollment rates
+#' # Set enrollment rates
 #' enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
 #'
-#' # set failure rates
+#' # Set failure rates
 #' fail_rate <- tibble::tibble(
 #'   stratum = "All",
 #'   duration = c(4, 100),
@@ -125,8 +131,6 @@ fixed_design_size_rmst <- function(enroll_rate,
 #'
 #' fixed_design_power_rmst(enroll_rate, fail_rate, analysis_time = 36)
 #' fixed_design_power_rmst(enroll_rate, fail_rate, analysis_time = 36, tau = 18)
-#'
-#' @noRd
 fixed_design_power_rmst <- function(enroll_rate,
                                     fail_rate,
                                     analysis_time,
