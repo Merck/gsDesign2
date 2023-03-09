@@ -171,7 +171,7 @@ gs_delta_wlr <- function(arm0,
   p1 <- arm1$size / (arm0$size + arm1$size)
   p0 <- 1 - p1
 
-  if (approx == "event driven") {
+  if (approx == "event_driven") {
     if (sum(arm0$surv_shape != arm1$surv_shape) > 0 ||
       length(unique(arm1$surv_scale / arm0$surv_scale)) > 1) {
       stop("gs_delta_wlr(): Hazard is not proportional over time.", call. = FALSE)
@@ -194,7 +194,7 @@ gs_delta_wlr <- function(arm0,
       lower = 0,
       upper = tmax, rel.tol = 1e-5
     )$value
-  } else if (approx == "generalized schoenfeld") {
+  } else if (approx == "generalized_schoenfeld") {
     delta <- stats::integrate(
       function(x) {
         if (normalization) {
@@ -232,10 +232,10 @@ gs_sigma2_wlr <- function(arm0,
   p1 <- arm1$size / (arm0$size + arm1$size)
   p0 <- 1 - p1
 
-  if (approx == "event driven") {
+  if (approx == "event_driven") {
     nu <- p0 * prob_event(arm0, tmax = tmax) + p1 * prob_event(arm1, tmax = tmax)
     sigma2 <- p0 * p1 * nu
-  } else if (approx %in% c("asymptotic", "generalized schoenfeld")) {
+  } else if (approx %in% c("asymptotic", "generalized_schoenfeld")) {
     sigma2 <- stats::integrate(
       function(x) {
         weight(x, arm0, arm1)^2 *

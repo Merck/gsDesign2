@@ -32,7 +32,7 @@
 #'   - `"sqrtN"` = Tarone-Ware.
 #'   - `"FH_p[a]_q[b]"` = Fleming-Harrington with p=a and q=b.
 #' @param approx Approximate estimation method for Z statistics.
-#'   - `"event driven"` = only work under proportional hazard model with log rank test.
+#'   - `"event_driven"` = only work under proportional hazard model with log rank test.
 #'   - `"asymptotic"`.
 #' @param interval An interval that is presumed to include the time at which
 #'   expected event count is equal to targeted event.
@@ -168,7 +168,7 @@ gs_info_wlr <- function(enroll_rate = tibble::tibble(
     num_log_ahr[i] <- gs_delta_wlr(arm01, arm11, tmax = t, weight = weight, approx = approx)
     dem_log_ahr[i] <- gs_delta_wlr(arm01, arm11,
       tmax = t, weight = weight,
-      approx = "generalized schoenfeld", normalization = TRUE
+      approx = "generalized_schoenfeld", normalization = TRUE
     )
 
     sigma2_h1[i] <- gs_sigma2_wlr(arm0, arm1, tmax = t, weight = weight, approx = approx)

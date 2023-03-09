@@ -38,7 +38,7 @@ gs_info_wlr(
 
 \item{approx}{Approximate estimation method for Z statistics.
 \itemize{
-\item \code{"event driven"} = only work under proportional hazard model with log rank test.
+\item \code{"event_driven"} = only work under proportional hazard model with log rank test.
 \item \code{"asymptotic"}.
 }}
 
