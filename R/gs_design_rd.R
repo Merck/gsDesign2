@@ -272,7 +272,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
 
   class(ans) <- c("rd", "gs_design", class(ans))
   if (!binding) {
-    class(ans) <- c("non-binding", class(ans))
+    class(ans) <- c("non_binding", class(ans))
   }
 
   return(ans)

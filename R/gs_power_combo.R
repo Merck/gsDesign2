@@ -265,7 +265,7 @@ gs_power_combo <- function(enroll_rate = tibble(
 
   class(output) <- c("combo", "gs_design", class(output))
   if (!binding) {
-    class(output) <- c("non-binding", class(output))
+    class(output) <- c("non_binding", class(output))
   }
 
   return(output)

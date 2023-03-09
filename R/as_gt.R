@@ -317,7 +317,7 @@ as_gt.gs_design <- function(x,
                             ...) {
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
-  x_non_binding <- "non-binding" %in% class(x)
+  x_non_binding <- "non_binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x) {
     return(as.numeric(substring(x, 11, 11)))
   }) %>% unlist()
