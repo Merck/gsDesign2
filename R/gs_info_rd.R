@@ -16,10 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom tibble tibble
-#' @importFrom dplyr lag
-NULL
-
 #' Information and effect size under risk difference
 #'
 #' @param p_c Rate at the control group.
@@ -35,6 +31,8 @@ NULL
 #'   (standardized treatment effect under alternative hypothesis),
 #'   theta0 (standardized treatment effect under null hypothesis),
 #'   and statistical information.
+#'
+#' @importFrom tibble tibble
 #'
 #' @export
 #'

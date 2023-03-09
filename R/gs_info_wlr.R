@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Information and effect size for Weighted Log-rank test
+#' Information and effect size for weighted log-rank test
 #'
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
 #' approximate information and effect size using an average hazard ratio model.

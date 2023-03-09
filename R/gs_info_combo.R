@@ -32,7 +32,6 @@
 #'   analysis time, sample size, number of events, ahr, delta,
 #'   sigma2, theta, and statistical information.
 #'
-#' @importFrom mvtnorm GenzBretz
 #' @importFrom tibble tibble
 #'
 #' @export

@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom tibble tibble
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#' @importFrom dplyr mutate full_join select arrange desc
-NULL
-
 #' Group sequential design using average hazard ratio under non-proportional hazards
 #'
 #' @param p_c Rate at the control group.
@@ -64,6 +58,11 @@ NULL
 #'
 #' @details
 #' To be added.
+#'
+#' @importFrom tibble tibble
+#' @importFrom gsDesign gsDesign sfLDOF
+#' @importFrom stats qnorm
+#' @importFrom dplyr mutate select arrange desc
 #'
 #' @export
 #'

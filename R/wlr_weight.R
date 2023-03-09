@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Weight Function of Weighted Log-rank Test
+#' Weight functions for weighted log-rank test
 #'
 #' * `wlr_weight_fh` is Fleming-Harrington, FH(rho, gamma) weight function.
 #' * `wlr_weight_1`  is constant for log rank test.

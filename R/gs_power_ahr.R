@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom tibble tibble
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#' @importFrom dplyr select arrange desc right_join
-NULL
-
 #' Group sequential design power using average hazard ratio under
 #' non-proportional hazards
 #'
@@ -79,6 +73,11 @@ NULL
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
+#' @importFrom tibble tibble
+#' @importFrom gsDesign gsDesign sfLDOF
+#' @importFrom stats qnorm
+#' @importFrom dplyr select arrange desc
 #'
 #' @export
 #'

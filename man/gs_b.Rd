@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_b.R
 \name{gs_b}
 \alias{gs_b}
-\title{gs_b: Default boundary generation}
+\title{Default boundary generation}
 \usage{
 gs_b(par = NULL, k = NULL, ...)
 }

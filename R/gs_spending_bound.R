@@ -16,11 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr summarize
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-NULL
-
 #' Derive spending bound for group sequential boundary
 #'
 #' Computes one bound at a time based on spending under given distributional
@@ -81,6 +76,9 @@ NULL
 #' @references Jennison C and Turnbull BW (2000),
 #' \emph{Group Sequential Methods with Applications to Clinical Trials}.
 #' Boca Raton: Chapman and Hall.
+#'
+#' @importFrom gsDesign gsDesign sfLDOF
+#' @importFrom stats qnorm
 #'
 #' @export
 #'

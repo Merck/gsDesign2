@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_info_wlr.R
 \name{gs_info_wlr}
 \alias{gs_info_wlr}
-\title{Information and effect size for Weighted Log-rank test}
+\title{Information and effect size for weighted log-rank test}
 \usage{
 gs_info_wlr(
   enroll_rate = tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,

@@ -16,10 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom tibble tibble
-#' @importFrom dplyr lag
-NULL
-
 #' Information and effect size based on AHR approximation
 #'
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
@@ -59,6 +55,8 @@ NULL
 #' The [ahr()] function computes statistical information at targeted
 #' event times. The [expected_time()] function is used to get events and
 #' average HR at targeted `analysis_time`.
+#'
+#' @importFrom tibble tibble
 #'
 #' @export
 #'
