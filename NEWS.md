@@ -1,3 +1,21 @@
+# gsDesign2 1.0.5
+
+CRAN release in March 2023.
+
+## Breaking changes
+
+- Passes lintr check for the entire package (#150, #151, #171).
+- Improve the documentation (#161, #163, #168, #176)
+
+## Bug fixes
+
+- `check_fail_rate()` when only 1 number in fail_rate > 0 (#132).
+- `gs_power_ahr()` when study duration > 48 months (#141).
+- `fixed_design()` for event-based design (#143).
+- `gs_design_combo()` when test only applies to part of the analysis (#148).
+- `gs_info_rd()` for variance calculation (#153).
+- `summary()` for capitalized first letter in the summary header (#164).
+
 # gsDesign2 1.0.0
 
 GitHub release in December 2022.
