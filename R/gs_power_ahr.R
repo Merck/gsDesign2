@@ -275,7 +275,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
 
   class(ans) <- c("ahr", "gs_design", class(ans))
   if (!binding) {
-    class(ans) <- c("non-binding", class(ans))
+    class(ans) <- c("non_binding", class(ans))
   }
 
   return(ans)

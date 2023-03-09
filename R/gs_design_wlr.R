@@ -288,7 +288,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
 
   class(ans) <- c("wlr", "gs_design", class(ans))
   if (!binding) {
-    class(ans) <- c("non-binding", class(ans))
+    class(ans) <- c("non_binding", class(ans))
   }
 
   return(ans)

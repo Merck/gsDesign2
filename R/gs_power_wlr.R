@@ -334,7 +334,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
 
   class(ans) <- c("wlr", "gs_design", class(ans))
   if (!binding) {
-    class(ans) <- c("non-binding", class(ans))
+    class(ans) <- c("non_binding", class(ans))
   }
 
   return(ans)
