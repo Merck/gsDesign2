@@ -88,12 +88,25 @@
 
     
     
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
 <p>We have provided asymptotic distribution theory and notation for
 group sequential boundaries in
-<code>vignette("NPEbackground", package="gsDesign2")</code>.</p>
+<code>vignettes/articles/story-npe-background.Rmd</code>.</p>
 <p>This vignettes generalize computational algorithms provided in
 Chapter 19 of <span class="citation">Jennison and Turnbull (1999)</span>
 that are used to compute boundary crossing probabilities as well as
@@ -248,7 +261,7 @@ t_2=1\)</span> for the interim and final, respectively. We assume <span class="m
 <ul>
 <li>Set up overall study parameters</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Information for both null and alternative</span></span>
 <span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co"># information fraction</span></span>
@@ -266,7 +279,7 @@ t_2=1\)</span> for the interim and final, respectively. We assume <span class="m
 <ul>
 <li>Calculate interim bounds</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Upper bound under null hypothesis</span></span>
 <span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="va">alphaspend</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co"># Lower bound under alternate hypothesis</span></span>
@@ -277,7 +290,7 @@ t_2=1\)</span> for the interim and final, respectively. We assume <span class="m
 <span>  <span class="st">"Actual spend ="</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">b1</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Upper bound = 2.955167 Target spend = 0.0015625 Actual spend = 0.0015625</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lower bound under alternate hypothesis</span></span>
 <span><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="va">betaspend</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co"># Compare probability of crossing vs target for bounds:</span></span>
@@ -298,7 +311,7 @@ grid; recall that each interim test statistic is normally distributed
 with variance 1 - <code>w</code> - weights for numerical integration -
 <code>h</code> - weights <code>w</code> times the normal density that
 can be used for numerical integration; we will demonstrate use below</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set up grid over continuation region</span></span>
 <span><span class="co"># Null hypothesis</span></span>
 <span><span class="va">grid1_0</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">h1</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
@@ -377,7 +390,7 @@ can be used for numerical integration; we will demonstrate use below</p>
 <span><span class="co">#&gt; [121] 3.249917e-05</span></span></code></pre></div>
 <p>The probability of not crossing a bound under the null hypothesis is
 computed as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prob_h0_continue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid1_0</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Probability of continuing trial under null hypothesis\n"</span>,</span>
@@ -389,7 +402,7 @@ computed as follows:</p>
 <span><span class="co">#&gt;   Using normal CDF: 0.9755632</span></span></code></pre></div>
 <p>We now set up numerical integration grid under the alternate
 hypothesis and the compute continuation probability.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">grid1_1</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">h1</span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">a1</span>, b <span class="op">=</span> <span class="va">b1</span><span class="op">)</span></span>
 <span><span class="va">prob_h1_continue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid1_1</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
 <span><span class="va">h1mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
@@ -406,7 +419,7 @@ hypothesis and the compute continuation probability.</p>
 </ul>
 <p>The initial estimate of the second analysis bounds are computed the
 same way as the actual first analysis bounds.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Upper bound under null hypothesis</span></span>
 <span><span class="co"># incremental spend</span></span>
 <span><span class="va">spend0</span> <span class="op">&lt;-</span> <span class="va">alphaspend</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="va">alphaspend</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
@@ -428,7 +441,7 @@ approximations</li>
 <p>To get actual boundary crossing probabilities at the second analysis,
 we update our numerical integration grids. Under the null hypothesis, we
 need to update to the interval above <code>b2_0</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Upper rejection region grid under H0</span></span>
 <span><span class="va">grid2_0</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">b2_0</span>, b <span class="op">=</span> <span class="cn">Inf</span>, Im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_0</span><span class="op">)</span></span>
 <span><span class="va">pupper_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid2_0</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
@@ -447,7 +460,7 @@ in <code>w</code> and that weight times the subdensity in
 <code>h</code>. Thus, to get the subdensity at the bound, which is the
 estimated derivative in the boundary crossing probability, we
 compute:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># First point in grid is at bound</span></span>
 <span><span class="co"># Compute derivative</span></span>
 <span><span class="va">dpdb2</span> <span class="op">&lt;-</span> <span class="va">grid2_0</span><span class="op">$</span><span class="va">h</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">grid2_0</span><span class="op">$</span><span class="va">w</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
@@ -462,7 +475,7 @@ compute:</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Original bound approximation: 1.987428 </span></span>
 <span><span class="co">#&gt; Updated bound approximation: 1.977726</span></span>
-<span><span class="va">grid2_0</span> <span class="op">&lt;-</span> <span class="fu">hupdate</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">b2_1</span>, b <span class="op">=</span> <span class="cn">Inf</span>, Im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_0</span><span class="op">)</span></span>
+<span><span class="va">grid2_0</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">b2_1</span>, b <span class="op">=</span> <span class="cn">Inf</span>, Im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_0</span><span class="op">)</span></span>
 <span><span class="va">pupper_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid2_0</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"\nOriginal boundary crossing probability:"</span>, <span class="va">pupper_0</span>,</span>
@@ -476,7 +489,7 @@ compute:</p>
 <p>We see that the Taylor’s series update has gotten us substantially
 closer to the targeted boundary probability. We now update the lower
 bound in an analogous fashion.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lower rejection region grid under H1</span></span>
 <span><span class="va">grid2_1</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, I <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, b <span class="op">=</span> <span class="va">a2_0</span>,</span>
@@ -517,7 +530,7 @@ bound in an analogous fashion.</p>
 <li>Confirm with <code><a href="../reference/gs_power_npe.html">gs_power_npe()</a></code>
 </li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_power_npe.html">gs_power_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">theta</span>, theta1 <span class="op">=</span> <span class="va">theta</span>, info <span class="op">=</span> <span class="va">info</span>, binding <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
