@@ -6,7 +6,7 @@
 \alias{wlr_weight_1}
 \alias{wlr_weight_n}
 \alias{wlr_weight_mb}
-\title{Weight Function of Weighted Log-rank Test}
+\title{Weight functions for weighted log-rank test}
 \usage{
 wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0, tau = NULL)
 

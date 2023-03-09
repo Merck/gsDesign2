@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom mvtnorm GenzBretz
+#' MaxCombo group sequential utility
 #'
 #' @param enroll_rate Enrollment rates.
 #' @param fail_rate Failure and dropout rates.
@@ -41,6 +41,8 @@
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
+#' @importFrom mvtnorm GenzBretz
 #'
 #' @noRd
 gs_utility_combo <- function(enroll_rate,
@@ -318,7 +320,7 @@ gs_sigma2_combo <- function(arm0,
   sigma2
 }
 
-#' MaxCombo Group sequential boundary crossing probabilities
+#' MaxCombo group sequential boundary crossing probabilities
 #'
 #' @inheritParams pmvnorm_combo
 #' @param upper_bound A numeric vector of upper bound.

@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr filter select full_join mutate transmute
-#' group_by ungroup summarize arrange desc lag last lead "%>%"
-#' @importFrom tibble tibble
-#' @importFrom stats stepfun
-NULL
-
 #' Expected events observed under piecewise exponential model
 #'
 #' Computes expected events over time and by strata
@@ -85,6 +79,11 @@ NULL
 #' More periods will generally be supplied in output than those that are input.
 #' The intent is to enable expected event calculations in a tidy format to
 #' maximize flexibility for a variety of purposes.
+#'
+#' @importFrom dplyr select full_join mutate transmute
+#' group_by summarize arrange desc lag last "%>%"
+#' @importFrom tibble tibble
+#' @importFrom stats stepfun
 #'
 #' @export
 #'

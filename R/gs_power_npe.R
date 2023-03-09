@@ -16,10 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom tibble tibble
-#' @importFrom stats qnorm pnorm
-NULL
-
 #' Group sequential bound computation with non-constant effect
 #'
 #' Derives group sequential bounds and boundary crossing probabilities for a design.
@@ -120,6 +116,9 @@ NULL
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
+#'
+#' @importFrom tibble tibble
+#' @importFrom stats qnorm pnorm
 #'
 #' @export
 #'

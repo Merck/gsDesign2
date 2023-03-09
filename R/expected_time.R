@@ -16,9 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom stats uniroot
-NULL
-
 #' Predict time at which a targeted event count is achieved
 #'
 #' `expected_time()` is made to match input format with [ahr()] and to solve for the
@@ -51,6 +48,8 @@ NULL
 #'    \item Return a tibble with a single row with the output from `AHR()` got the specified output.
 #'    }
 #'  }
+#'
+#' @importFrom stats uniroot
 #'
 #' @export
 #'

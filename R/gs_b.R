@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' gs_b: Default boundary generation
+#' Default boundary generation
 #'
 #' `gs_b()` is the simplest version of a function to be used with the
 #' `upper` and `lower` arguments in `gs_prob()`,

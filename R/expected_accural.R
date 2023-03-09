@@ -16,11 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr last lag lead
-#' @importFrom tibble tibble
-#' @importFrom stats stepfun
-NULL
-
 #' Piecewise constant expected accrual
 #'
 #' Computes the expected cumulative enrollment (accrual)
@@ -50,6 +45,10 @@ NULL
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
+#' @importFrom dplyr lag lead
+#' @importFrom tibble tibble
+#' @importFrom stats stepfun
 #'
 #' @export
 #'

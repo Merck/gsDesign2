@@ -16,11 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr last
-#' @importFrom tibble tibble
-#' @importFrom stats stepfun
-NULL
-
 #' Piecewise exponential cumulative distribution function
 #'
 #' Computes the cumulative distribution function (CDF) or survival rate
@@ -61,6 +56,10 @@ NULL
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
+#' @importFrom dplyr last
+#' @importFrom tibble tibble
+#' @importFrom stats stepfun
 #'
 #' @export
 #'
@@ -134,10 +133,6 @@ ppwe <- function(x = 0:20,
   }
 }
 
-#' @importFrom dplyr lag select "%>%"
-#' @importFrom  tibble tibble
-NULL
-
 #' Approximate survival distribution with piecewise exponential distribution
 #'
 #' Converts a discrete set of points from an arbitrary survival distribution
@@ -160,6 +155,9 @@ NULL
 #'  }
 #'  }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
+#' @importFrom dplyr lag select "%>%"
+#' @importFrom tibble tibble
 #'
 #' @export
 #'
