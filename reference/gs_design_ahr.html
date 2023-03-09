@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,89 +85,88 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>enroll_rate</dt>
-<dd><p>enrollment rates</p></dd>
+<dd><p>Enrollment rates.</p></dd>
 
 
 <dt>fail_rate</dt>
-<dd><p>failure and dropout rates</p></dd>
+<dd><p>Failure and dropout rates.</p></dd>
 
 
 <dt>alpha</dt>
-<dd><p>One-sided Type I error</p></dd>
+<dd><p>One-sided Type I error.</p></dd>
 
 
 <dt>beta</dt>
-<dd><p>Type II error</p></dd>
+<dd><p>Type II error.</p></dd>
 
 
 <dt>info_frac</dt>
-<dd><p>Targeted information fraction at each analysis</p></dd>
+<dd><p>Targeted information fraction at each analysis.</p></dd>
 
 
 <dt>analysis_time</dt>
-<dd><p>Minimum time of analysis</p></dd>
+<dd><p>Minimum time of analysis.</p></dd>
 
 
 <dt>ratio</dt>
-<dd><p>Experimental:Control randomization ratio (not yet implemented)</p></dd>
+<dd><p>Experimental:Control randomization ratio (not yet implemented).</p></dd>
 
 
 <dt>binding</dt>
-<dd><p>indicator of whether futility bound is binding;
-default of FALSE is recommended</p></dd>
+<dd><p>Indicator of whether futility bound is binding;
+default of <code>FALSE</code> is recommended.</p></dd>
 
 
 <dt>upper</dt>
-<dd><p>Function to compute upper bound</p></dd>
+<dd><p>Function to compute upper bound.</p></dd>
 
 
 <dt>upar</dt>
-<dd><p>Parameter passed to <code>upper()</code></p></dd>
+<dd><p>Parameters passed to <code>upper</code>.</p></dd>
 
 
 <dt>lower</dt>
-<dd><p>Function to compute lower bound</p></dd>
+<dd><p>Function to compute lower bound.</p></dd>
 
 
 <dt>lpar</dt>
-<dd><p>Parameter passed to <code>lower()</code></p></dd>
+<dd><p>Parameters passed to <code>lower</code>.</p></dd>
 
 
 <dt>h1_spending</dt>
 <dd><p>Indicator that lower bound to be set by spending
 under alternate hypothesis (input <code>fail_rate</code>)
-if spending is used for lower bound</p></dd>
+if spending is used for lower bound.</p></dd>
 
 
 <dt>test_upper</dt>
-<dd><p>indicator of which analyses should include an upper
-(efficacy) bound; single value of TRUE (default) indicates all analyses;
+<dd><p>Indicator of which analyses should include an upper
+(efficacy) bound; single value of <code>TRUE</code> (default) indicates all analyses;
 otherwise, a logical vector of the same length as <code>info</code> should indicate
-which analyses will have an efficacy bound</p></dd>
+which analyses will have an efficacy bound.</p></dd>
 
 
 <dt>test_lower</dt>
-<dd><p>indicator of which analyses should include an lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of
-the same length as <code>info</code> should indicate which analyses will have a
-lower bound</p></dd>
+<dd><p>Indicator of which analyses should include an lower bound;
+single value of <code>TRUE</code> (default) indicates all analyses;
+single value <code>FALSE</code> indicated no lower bound; otherwise, a logical vector
+of the same length as <code>info</code> should indicate which analyses will have a
+lower bound.</p></dd>
 
 
 <dt>info_scale</dt>
-<dd><p>the information scale for calculation</p></dd>
+<dd><p>The information scale for calculation.</p></dd>
 
 
 <dt>r</dt>
 <dd><p>Integer value controlling grid for numerical integration as in
-Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of
-grid points and greater accuracy.
-Normally <code>r</code> will not be changed by the user.</p></dd>
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, <code>r</code> will not be changed by the user.</p></dd>
 
 
 <dt>tol</dt>
-<dd><p>Tolerance parameter for boundary convergence (on Z-scale)</p></dd>
+<dd><p>Tolerance parameter for boundary convergence (on Z-scale).</p></dd>
 
 
 <dt>interval</dt>
@@ -179,12 +178,11 @@ expected event count is equal to targeted event.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a <code>tibble</code> with columns Analysis, Bound, Z, Probability,
-theta, Time, AHR, Events</p>
+<p>A list with input parameters, enrollment rate, analysis, and bound.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Need to be added</p>
+    <p>To be added.</p>
     </div>
     <div class="section level2">
     <h2 id="specification">Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
@@ -245,7 +243,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -261,7 +259,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -365,7 +363,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -381,7 +379,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -485,7 +483,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -501,7 +499,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -611,7 +609,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -627,7 +625,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -738,7 +736,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -754,7 +752,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -860,7 +858,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -876,7 +874,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -944,6 +942,7 @@ theta, Time, AHR, Events</p>
 <span class="r-in"><span><span class="co">#    example 6      #</span></span></span>
 <span class="r-in"><span><span class="co"># ----------------- #</span></span></span>
 <span class="r-in"><span><span class="co"># 2-sided symmetric design with O'Brien-Fleming spending</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">gs_design_ahr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
@@ -1114,7 +1113,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1143,7 +1142,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1286,7 +1285,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1315,7 +1314,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1386,9 +1385,10 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ahr"       "gs_design" "list"     </span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># 2-sided asymmetric design with O'Brien-Fleming upper spending</span></span></span>
 <span class="r-in"><span><span class="co"># Pocock lower spending under H1 (NPH)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">gs_design_ahr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
@@ -1559,7 +1559,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1588,7 +1588,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1731,7 +1731,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1747,7 +1747,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d5e9a7b0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524f6f4a70&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1818,7 +1818,7 @@ theta, Time, AHR, Events</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ahr"       "gs_design" "list"     </span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

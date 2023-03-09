@@ -12,7 +12,7 @@ approximate information and effect size using an average hazard ratio model."><m
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,23 +75,23 @@ approximate information and effect size using an average hazard ratio model.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>enroll_rate</dt>
-<dd><p>enrollment rates</p></dd>
+<dd><p>Enrollment rates.</p></dd>
 
 
 <dt>fail_rate</dt>
-<dd><p>failure and dropout rates</p></dd>
+<dd><p>Failure and dropout rates.</p></dd>
 
 
 <dt>ratio</dt>
-<dd><p>Experimental:Control randomization ratio</p></dd>
+<dd><p>Experimental:Control randomization ratio.</p></dd>
 
 
 <dt>event</dt>
-<dd><p>Targeted minimum events at each analysis</p></dd>
+<dd><p>Targeted minimum events at each analysis.</p></dd>
 
 
 <dt>analysis_time</dt>
-<dd><p>Targeted minimum study duration at each analysis</p></dd>
+<dd><p>Targeted minimum study duration at each analysis.</p></dd>
 
 
 <dt>interval</dt>
@@ -103,18 +103,17 @@ expected event count is equal to targeted event.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a <code>tibble</code> with columns <code>Analysis, Time, AHR, Events, theta, info, info0.</code></p>
-
-
-<p><code>info, info0</code> contains statistical information under H1, H0, respectively.
-For analysis <code>k</code>, <code>Time[k]</code> is the maximum of <code>analysis_time[k]</code> and the expected time
-required to accrue the targeted <code>event[k]</code>.
-<code>AHR</code> is expected average hazard ratio at each analysis.</p>
+<p>A tibble with columns Analysis, Time, AHR, Events, theta, info, info0.
+<code>info</code>, and <code>info0</code> contain statistical information under H1, H0, respectively.
+For analysis <code>k</code>, <code>Time[k]</code> is the maximum of <code>analysis_time[k]</code> and the
+expected time required to accrue the targeted <code>event[k]</code>.
+<code>AHR</code> is the expected average hazard ratio at each analysis.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The <code>AHR()</code> function computes statistical information at targeted event times.
-The <code><a href="expected_time.html">expected_time()</a></code> function is used to get events and average HR at targeted <code>analysis_time</code>.</p>
+    <p>The <code><a href="ahr.html">ahr()</a></code> function computes statistical information at targeted
+event times. The <code><a href="expected_time.html">expected_time()</a></code> function is used to get events and
+average HR at targeted <code>analysis_time</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="specification">Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,89 +84,88 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>enroll_rate</dt>
-<dd><p>enrollment rates</p></dd>
+<dd><p>Enrollment rates.</p></dd>
 
 
 <dt>fail_rate</dt>
-<dd><p>failure and dropout rates</p></dd>
+<dd><p>Failure and dropout rates.</p></dd>
 
 
 <dt>event</dt>
-<dd><p>Targeted event at each analysis</p></dd>
+<dd><p>Targeted event at each analysis.</p></dd>
 
 
 <dt>analysis_time</dt>
-<dd><p>Minimum time of analysis</p></dd>
+<dd><p>Minimum time of analysis.</p></dd>
 
 
 <dt>binding</dt>
-<dd><p>indicator of whether futility bound is binding;
-default of FALSE is recommended</p></dd>
+<dd><p>Indicator of whether futility bound is binding;
+default of <code>FALSE</code> is recommended.</p></dd>
 
 
 <dt>upper</dt>
-<dd><p>Function to compute upper bound</p></dd>
+<dd><p>Function to compute upper bound.</p></dd>
 
 
 <dt>lower</dt>
-<dd><p>Function to compute lower bound</p></dd>
+<dd><p>Function to compute lower bound.</p></dd>
 
 
 <dt>upar</dt>
-<dd><p>Parameter passed to <code>upper()</code></p></dd>
+<dd><p>Parameters passed to <code>upper</code>.</p></dd>
 
 
 <dt>lpar</dt>
-<dd><p>Parameter passed to <code>lower()</code></p></dd>
+<dd><p>Parameters passed to <code>lower</code>.</p></dd>
 
 
 <dt>test_upper</dt>
-<dd><p>indicator of which analyses should include an upper
-(efficacy) bound; single value of TRUE (default) indicates all analyses;
+<dd><p>Indicator of which analyses should include an upper
+(efficacy) bound; single value of <code>TRUE</code> (default) indicates all analyses;
 otherwise, a logical vector of the same length as <code>info</code> should indicate
-which analyses will have an efficacy bound</p></dd>
+which analyses will have an efficacy bound.</p></dd>
 
 
 <dt>test_lower</dt>
-<dd><p>indicator of which analyses should include an lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise, a logical vector of
-the same length as <code>info</code> should indicate which analyses will have a
-lower bound</p></dd>
+<dd><p>Indicator of which analyses should include an lower bound;
+single value of <code>TRUE</code> (default) indicates all analyses;
+single value <code>FALSE</code> indicated no lower bound; otherwise, a logical vector
+of the same length as <code>info</code> should indicate which analyses will have a
+lower bound.</p></dd>
 
 
 <dt>ratio</dt>
-<dd><p>Experimental:Control randomization ratio (not yet implemented)</p></dd>
+<dd><p>Experimental:Control randomization ratio (not yet implemented).</p></dd>
 
 
 <dt>weight</dt>
-<dd><p>weight of weighted log rank test</p><ul><li><p><code>"1"</code>= unweighted,</p></li>
-<li><p><code>"n"</code>= Gehan-Breslow,</p></li>
-<li><p><code>"sqrtN"</code>= Tarone-Ware,</p></li>
-<li><p><code>"FH_p[a]_q[b]"</code>= Fleming-Harrington with p=a and q=b</p></li>
+<dd><p>Weight of weighted log rank test:</p><ul><li><p><code>"1"</code> = unweighted.</p></li>
+<li><p><code>"n"</code> = Gehan-Breslow.</p></li>
+<li><p><code>"sqrtN"</code> = Tarone-Ware.</p></li>
+<li><p><code>"FH_p[a]_q[b]"</code> = Fleming-Harrington with p=a and q=b.</p></li>
 </ul></dd>
 
 
 <dt>info_scale</dt>
-<dd><p>the information scale for calculation</p></dd>
+<dd><p>The information scale for calculation.</p></dd>
 
 
 <dt>approx</dt>
-<dd><p>approximate estimation method for Z statistics</p><ul><li><p><code>"event driven"</code> = only work under proportional hazard model with log rank test</p></li>
-<li><p><code>"asymptotic"</code></p></li>
+<dd><p>Approximate estimation method for Z statistics.</p><ul><li><p><code>"event driven"</code> = only work under proportional hazard model with log rank test.</p></li>
+<li><p><code>"asymptotic"</code>.</p></li>
 </ul></dd>
 
 
 <dt>r</dt>
 <dd><p>Integer value controlling grid for numerical integration as in
-Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of
-grid points and greater accuracy.
-Normally <code>r</code> will not be changed by the user.</p></dd>
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, <code>r</code> will not be changed by the user.</p></dd>
 
 
 <dt>tol</dt>
-<dd><p>Tolerance parameter for boundary convergence (on Z-scale)</p></dd>
+<dd><p>Tolerance parameter for boundary convergence (on Z-scale).</p></dd>
 
 
 <dt>interval</dt>
@@ -174,6 +173,13 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 expected event count is equal to targeted event.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>A list with input parameters, enrollment rate,
+analysis, and bound.</p>
+    </div>
     <div class="section level2">
     <h2 id="specification">Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
     
@@ -261,7 +267,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -280,7 +286,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -304,7 +310,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7c8ca18&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524d873588&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -359,6 +365,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-in"><span><span class="co">#       example 2          #</span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
 <span class="r-in"><span><span class="co"># fixed bounds and calculate the power for targeted analysis time</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_wlr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
@@ -412,7 +419,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -431,7 +438,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -455,7 +462,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7c8ca18&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524d873588&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -505,11 +512,12 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non-binding" "wlr"         "gs_design"   "list"       </span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># -------------------------#</span></span></span>
 <span class="r-in"><span><span class="co">#       example 3          #</span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
 <span class="r-in"><span><span class="co"># fixed bounds and calculate the power for targeted analysis time &amp; number of events</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_wlr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
@@ -563,7 +571,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -582,7 +590,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d352d218&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524b79da50&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -606,7 +614,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7c8ca18&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524d873588&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -656,7 +664,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non-binding" "wlr"         "gs_design"   "list"       </span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># -------------------------#</span></span></span>
 <span class="r-in"><span><span class="co">#       example 4          #</span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
@@ -828,7 +836,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -857,7 +865,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -997,7 +1005,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1026,7 +1034,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1051,7 +1059,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7c8ca18&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524d873588&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -1108,6 +1116,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-in"><span><span class="co">#       example 5          #</span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
 <span class="r-in"><span><span class="co"># spending bounds and calculate the power for targeted analysis time</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_wlr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
@@ -1274,7 +1283,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1303,7 +1312,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1443,7 +1452,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1472,7 +1481,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1497,7 +1506,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7c8ca18&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524d873588&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -1549,11 +1558,12 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non-binding" "wlr"         "gs_design"   "list"       </span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># -------------------------#</span></span></span>
 <span class="r-in"><span><span class="co">#       example 6          #</span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------ #</span></span></span>
 <span class="r-in"><span><span class="co"># spending bounds and calculate the power for targeted analysis time &amp; number of events</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_wlr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
@@ -1720,7 +1730,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1749,7 +1759,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1889,7 +1899,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7a0eb08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524eb09440&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1918,7 +1928,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d70adc60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x565246df12b8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1943,7 +1953,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5601d7c8ca18&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56524d873588&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -1995,6 +2005,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non-binding" "wlr"         "gs_design"   "list"       </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

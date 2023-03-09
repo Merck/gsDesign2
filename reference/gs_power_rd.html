@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,81 +80,86 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>p_c</dt>
-<dd><p>rate at the control group</p></dd>
+<dd><p>Rate at the control group.</p></dd>
 
 
 <dt>p_e</dt>
-<dd><p>rate at the experimental group</p></dd>
+<dd><p>Rate at the experimental group.</p></dd>
 
 
 <dt>n</dt>
-<dd><p>sample size</p></dd>
+<dd><p>Sample size.</p></dd>
 
 
 <dt>rd0</dt>
-<dd><p>treatment effect under super-superiority designs, the default is 0</p></dd>
+<dd><p>Treatment effect under super-superiority designs, the default is 0.</p></dd>
 
 
 <dt>ratio</dt>
-<dd><p>experimental:control randomization ratio</p></dd>
+<dd><p>Experimental:control randomization ratio.</p></dd>
 
 
 <dt>weight</dt>
-<dd><p>weighting method, either "un-stratified" or "ss" or "invar"</p></dd>
+<dd><p>Weighting method, can be <code>"unstratified"</code>, <code>"ss"</code>,
+"invar_h1", or "invar_h0".</p></dd>
 
 
 <dt>upper</dt>
-<dd><p>function to compute upper bound</p></dd>
+<dd><p>Function to compute upper bound.</p></dd>
 
 
 <dt>lower</dt>
-<dd><p>function to compare lower bound</p></dd>
+<dd><p>Function to compare lower bound.</p></dd>
 
 
 <dt>upar</dt>
-<dd><p>parameter to pass to upper</p></dd>
+<dd><p>Parameters passed to <code>upper</code>.</p></dd>
 
 
 <dt>lpar</dt>
-<dd><p>parameter to pass to lower</p></dd>
+<dd><p>Parameters passed to <code>lower</code>.</p></dd>
 
 
 <dt>info_scale</dt>
-<dd><p>the information scale for calculation</p></dd>
+<dd><p>The information scale for calculation.</p></dd>
 
 
 <dt>binding</dt>
-<dd><p>indicator of whether futility bound is binding; default of FALSE is recommended</p></dd>
+<dd><p>Indicator of whether futility bound is binding;
+default of <code>FALSE</code> is recommended.</p></dd>
 
 
 <dt>test_upper</dt>
-<dd><p>indicator of which analyses should include an upper (efficacy) bound;
-single value of TRUE (default)  indicates all analyses; otherwise,
-a logical vector of the same length as <code>info</code> should indicate which analyses will have an efficacy bound</p></dd>
+<dd><p>Indicator of which analyses should include an upper
+(efficacy) bound; single value of <code>TRUE</code> (default)  indicates all analyses;
+otherwise, a logical vector of the same length as <code>info</code> should indicate
+which analyses will have an efficacy bound.</p></dd>
 
 
 <dt>test_lower</dt>
-<dd><p>indicator of which analyses should include a lower bound;
-single value of TRUE (default) indicates all analyses;
-single value FALSE indicated no lower bound; otherwise,
-a logical vector of the same length as <code>info</code> should indicate which analyses will have a lower bound</p></dd>
+<dd><p>Indicator of which analyses should include a lower bound;
+single value of <code>TRUE</code> (default) indicates all analyses;
+single value <code>FALSE</code> indicated no lower bound; otherwise,
+a logical vector of the same length as <code>info</code> should indicate which
+analyses will have a lower bound.</p></dd>
 
 
 <dt>r</dt>
-<dd><p>Integer value controlling grid for numerical integration as in Jennison and Turnbull (2000);
-default is 18, range is 1 to 80. Larger values provide larger number of grid points and greater accuracy.
-Normally <code>r</code> will not be changed by the user.</p></dd>
+<dd><p>Integer value controlling grid for numerical integration as in
+Jennison and Turnbull (2000); default is 18, range is 1 to 80.
+Larger values provide larger number of grid points and greater accuracy.
+Normally, <code>r</code> will not be changed by the user.</p></dd>
 
 
 <dt>tol</dt>
-<dd><p>Tolerance parameter for boundary convergence (on Z-scale)</p></dd>
+<dd><p>Tolerance parameter for boundary convergence (on Z-scale).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a <code>tibble</code> with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events</p>
+<p>A tibble with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events.</p>
     </div>
 
     <div class="section level2">
@@ -483,7 +488,6 @@ Normally <code>r</code> will not be changed by the user.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non-binding" "rd"          "gs_design"   "list"       </span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

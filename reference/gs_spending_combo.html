@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,29 +63,34 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>par</dt>
-<dd><p>a list with the following items:
-<code>sf</code> (class spending function),
-<code>total_spend</code> (total spend),
-<code>param</code> (any parameters needed by the spending function <code>sf()</code>),
-<code>timing</code> (a vector containing values at which spending function
-is to be evaluated or NULL if information-based spending is used),
-<code>max_info</code> (when <code>timing</code> is NULL, this can be input as
-positive number to be used with <code>info</code> for information fraction at each analysis)</p></dd>
+<dd><p>A list with the following items:</p><ul><li><p><code>sf</code> (class spending function).</p></li>
+<li><p><code>total_spend</code> (total spend).</p></li>
+<li><p><code>param</code> (any parameters needed by the spending function <code>sf()</code>).</p></li>
+<li><p><code>timing</code> (a vector containing values at which spending function
+is to be evaluated or <code>NULL</code> if information-based spending is used).</p></li>
+<li><p><code>max_info</code> (when <code>timing</code> is <code>NULL</code>, this can be input as positive number
+to be used with <code>info</code> for information fraction at each analysis).</p></li>
+</ul></dd>
 
 
 <dt>info</dt>
-<dd><p>statistical information at all analyses, at least up to analysis k</p></dd>
+<dd><p>Statistical information at all analyses, at least up to analysis k.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>additional parameters passed to <code>par$sf</code>.</p></dd>
+<dd><p>Additional parameters passed to <code>par$sf</code>.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>A vector of the alpha spending per analysis.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># alpha-spending</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># alpha-spending</span></span></span>
 <span class="r-in"><span><span class="va">par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">gs_spending_combo</span><span class="op">(</span><span class="va">par</span>, info <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001035057 0.0060483891 0.0250000000</span>
@@ -94,7 +99,6 @@ positive number to be used with <code>info</code> for information fraction at ea
 <span class="r-in"><span><span class="va">par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">gs_spending_combo</span><span class="op">(</span><span class="va">par</span>, info <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02643829 0.11651432 0.20000000</span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
