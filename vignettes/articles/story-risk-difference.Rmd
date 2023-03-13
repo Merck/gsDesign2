@@ -20,12 +20,14 @@ editor_options:
     wrap: 72
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
 
+```{r, message=FALSE, warning=FALSE}
 library(tibble)
 library(dplyr)
 library(knitr)
@@ -438,7 +440,7 @@ $r=1, d = 1, p_C=p_E=0.125, N=200$. We then compute $\sigma$ as
 size the normal density fits quite well other than some flatness in the
 middle.
 
-```{r, message = FALSE}
+```{r, message=FALSE}
 # Hypothesized failure rate
 p <- .125
 #  Other parameters
@@ -685,7 +687,7 @@ x_gsdesign <- gsDesign::nBinomial(p1 = .28, p2 = .4, delta0 = 0, alpha = .025, s
 
 ### EAST
 
-```{r label = EastFix, echo = FALSE, fig.cap = "Sample size calculated by EAST", out.width = '90%'}
+```{r EastFix, echo=FALSE, fig.cap="Sample size calculated by EAST", out.width="90%"}
 knitr::include_graphics("figures/east-n-fix.png")
 ```
 
@@ -906,15 +908,15 @@ gsBoundSummary(x_gsdesign, digits = 4, ddigits = 2, tdigits = 1)
 
 ### EAST
 
-```{r label = EastGs, echo = FALSE, fig.cap = "Sample size calculated by EAST", out.width = '90%'}
+```{r EastGs, echo=FALSE, fig.cap="Sample size calculated by EAST", out.width="90%"}
 knitr::include_graphics("figures/east-n-gs.png")
 ```
 
-```{r label = EastGsUnpool, echo = FALSE, fig.cap = "Sample size calculated by EAST", out.width = '90%'}
+```{r EastGsUnpool, echo=FALSE, fig.cap="Sample size calculated by EAST", out.width="90%"}
 knitr::include_graphics("figures/east-n-gs-unpool.png")
 ```
 
-```{r label = EastGsPool, echo = FALSE, fig.cap = "Sample size calculated by EAST", out.width = '90%'}
+```{r EastGsPool, echo=FALSE, fig.cap="Sample size calculated by EAST", out.width="90%"}
 knitr::include_graphics("figures/east-n-gs-pool.png")
 ```
 
