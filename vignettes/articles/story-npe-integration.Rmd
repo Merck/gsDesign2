@@ -15,14 +15,14 @@ vignette: |
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(tibble)
 library(dplyr)
 library(knitr)
@@ -319,7 +319,7 @@ cat(
 
 - Confirm with `gs_power_npe()`
 
-```{r, message = FALSE}
+```{r, message=FALSE}
 gs_power_npe(
   theta = theta, theta1 = theta, info = info, binding = TRUE,
   upper = gs_spending_bound,
