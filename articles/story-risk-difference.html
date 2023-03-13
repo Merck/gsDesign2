@@ -88,6 +88,13 @@
 
     
     
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/" class="external-link">gt</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -547,7 +554,7 @@ outcomes to the standard normal density. Assume <span class="math inline">\(r=1,
 compute <span class="math inline">\(\sigma\)</span> as 0.047. Even for
 this <em>not huge</em> sample size the normal density fits quite well
 other than some flatness in the middle.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Hypothesized failure rate</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">.125</span></span>
 <span><span class="co">#  Other parameters</span></span>
@@ -580,7 +587,7 @@ other than some flatness in the middle.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(density)` instead.</span></span></code></pre></div>
-<p><img src="story-risk-difference_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="story-risk-difference_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
@@ -601,7 +608,7 @@ we would like to calculate the sample size to achieve the 90% power.</p>
 <code>gsDesign2</code><a class="anchor" aria-label="anchor" href="#gsdesign2"></a>
 </h4>
 <p>First, we set the parameters.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_c</span> <span class="op">&lt;-</span> <span class="fl">.28</span></span>
 <span><span class="va">p_e</span> <span class="op">&lt;-</span> <span class="fl">.4</span></span>
 <span><span class="va">p_pool</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">p_c</span> <span class="op">+</span> <span class="va">p_e</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
@@ -636,7 +643,7 @@ shown as follows. <span class="math display">\[
   \right] \frac{2}{N}
   \end{array}
 \]</span> And their calculation results are</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sigma_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">p_pool</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_pool</span><span class="op">)</span> <span class="op">*</span> <span class="fl">4</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span></span>
 <span><span class="va">sigma_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">p_c</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_c</span><span class="op">)</span> <span class="op">+</span> <span class="va">p_e</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_e</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span></span>
 <span></span>
@@ -650,7 +657,7 @@ shown as follows. <span class="math display">\[
   \end{array}.
 \]</span></p>
 <p>And their calculation results are</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">theta_h0</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span><span class="va">theta_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">p_c</span> <span class="op">-</span> <span class="va">p_e</span><span class="op">)</span> <span class="op">/</span> <span class="va">sigma_h1</span></span>
 <span></span>
@@ -1094,7 +1101,7 @@ shown as follows. <span class="math display">\[
 </div>
 <p>The above logic is implemented in the function
 <code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_info_rd.html">gs_info_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.28</span><span class="op">)</span>,</span>
 <span>  p_e <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span>,</span>
@@ -1544,7 +1551,7 @@ shown as follows. <span class="math display">\[
 <p>By plugging the <code>theta</code> and <code>info</code> above into
 <code><a href="../reference/gs_design_npe.html">gs_design_npe()</a></code>, one can calculate the sample size to
 achieve the 90% power.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># under info_scale = 0</span></span>
 <span><span class="va">y_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.4</span> <span class="op">-</span> <span class="fl">.28</span>,</span>
@@ -2023,7 +2030,7 @@ achieve the 90% power.</p>
 </div>
 <p>The above logic is implement in <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> to
 calculate the sample size given fixed power in one-step.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">z_info_scale_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.28</span><span class="op">)</span>,</span>
 <span>  p_e <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span>,</span>
@@ -2086,7 +2093,7 @@ Sample size calculated by EAST
 <div class="section level4">
 <h4 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  gsDesign2_info_scale_0 <span class="op">=</span> <span class="va">z_info_scale_0</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span>,</span>
 <span>  gsDesign2_info_scale_1 <span class="op">=</span> <span class="va">z_info_scale_1</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span>,</span>
@@ -2569,7 +2576,7 @@ we would like to calculate the sample size to achieve the 90% power.</p>
 <p>To calculate the sample size, one can use
 <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>. The logic of <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> is
 to calculate the sample size of fixed design first.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_gs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_info_rd.html">gs_info_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.15</span><span class="op">)</span>,</span>
 <span>  p_e <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span>,</span>
@@ -3041,7 +3048,7 @@ to calculate the sample size of fixed design first.</p>
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y_gs0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.05</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x_gs</span><span class="op">$</span><span class="va">info0</span>,</span>
@@ -3551,7 +3558,7 @@ to calculate the sample size of fixed design first.</p>
 </table>
 </div>
 <p>The above logic is implemented in <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x_gsdesign2_info_scale_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.15</span><span class="op">)</span>,</span>
 <span>  p_e <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span>,</span>
@@ -3607,7 +3614,7 @@ to calculate the sample size of fixed design first.</p>
 <h4 id="gsdesign-1">
 <code>gsDesign</code><a class="anchor" aria-label="anchor" href="#gsdesign-1"></a>
 </h4>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_fix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/varBinomial.html" class="external-link">nBinomial</a></span><span class="op">(</span></span>
 <span>  <span class="co"># Control event rate</span></span>
 <span>  p1 <span class="op">=</span> <span class="fl">.15</span>,</span>
@@ -3695,7 +3702,7 @@ Sample size calculated by EAST
 <div class="section level4">
 <h4 id="summary-1">Summary<a class="anchor" aria-label="anchor" href="#summary-1"></a>
 </h4>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  gsDesign2_info_scale_0 <span class="op">=</span> <span class="va">x_gsdesign2_info_scale_0</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span>,</span>
 <span>  gsDesign2_info_scale_1 <span class="op">=</span> <span class="va">x_gsdesign2_info_scale_1</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span>,</span>
@@ -4185,7 +4192,7 @@ Sample size calculated by EAST
 </h3>
 <p>In this example, we consider 3 strata in a group sequential design
 with 3 analyses.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">prevalence_ratio</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">p_c_by_stratum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.3</span>, <span class="fl">.37</span>, <span class="fl">.6</span><span class="op">)</span></span>
@@ -4749,7 +4756,7 @@ p_{E,s})}{N_{E,k,s}}
   \end{array}
   \right.
 \]</span></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/setops.html" class="external-link">union_all</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/setops.html" class="external-link">union_all</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -5335,7 +5342,7 @@ p_{E,s})}{N_{E,k,s}}
 <p><span class="math display">\[
   w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}.
 \]</span></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Analysis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
@@ -5991,7 +5998,7 @@ statistical information. <span class="math display">\[
   \end{array}
   \right. \\
 \]</span></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Analysis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
@@ -6027,7 +6034,7 @@ statistical information. <span class="math display">\[
 <span>          <span class="va">weight_ss</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">p_pool</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_pool</span><span class="op">)</span> <span class="op">/</span> <span class="va">n_e</span></span>
 <span>      <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">6</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -6567,7 +6574,7 @@ statistical information. <span class="math display">\[
 </tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ----------------------------------- #</span></span>
 <span><span class="co">#     sample size under H0            #</span></span>
 <span><span class="co"># ----------------------------------- #</span></span>
@@ -7129,7 +7136,7 @@ statistical information. <span class="math display">\[
 </table>
 </div>
 <p>The above logic is implemented in <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## sample size weighting + information scale = 0</span></span>
 <span><span class="va">x_ss0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7148,7 +7155,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## sample size weighting + information scale = 1</span></span>
 <span><span class="va">x_ss1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7167,7 +7174,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## sample size weighting + information scale = 2</span></span>
 <span><span class="va">x_ss2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7186,7 +7193,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = 0</span></span>
 <span><span class="va">x_invar0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7205,7 +7212,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = 1</span></span>
 <span><span class="va">x_invar1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7224,7 +7231,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = 2</span></span>
 <span><span class="va">x_invar2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7243,7 +7250,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = 0</span></span>
 <span><span class="va">x_invar_h1_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7262,7 +7269,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = 1</span></span>
 <span><span class="va">x_invar_h1_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7281,7 +7288,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = 2</span></span>
 <span><span class="va">x_invar_h1_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7300,7 +7307,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  INVAR0 <span class="op">=</span> <span class="va">x_invar0</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>
 <span>  INVAR1 <span class="op">=</span> <span class="va">x_invar1</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>

@@ -88,6 +88,8 @@
 
     
     
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -208,7 +210,7 @@ and the failure and dropout rate axis on the left. We plot <span class="math inl
 to the integration in the equation for <span class="math inline">\(E\{\bar{n}(t_1,t_2)\}\)</span> above. We have also
 plotted a vertical dot-dashed line at each point where either the
 enrollment rate or a failure (and dropout) rate changes.</p>
-<p><img src="story-compute-expected-events_files/figure-html/unnamed-chunk-2-1.png" width="624"></p>
+<p><img src="story-compute-expected-events_files/figure-html/unnamed-chunk-3-1.png" width="624"></p>
 </div>
 <div class="section level3">
 <h3 id="organizing-calculations-under-the-piecewise-model">Organizing calculations under the piecewise model<a class="anchor" aria-label="anchor" href="#organizing-calculations-under-the-piecewise-model"></a>
@@ -394,7 +396,7 @@ du\\
 <p>We now add <span class="math inline">\(q_m\)</span>, <span class="math inline">\(Q_m\)</span>, and <span class="math inline">\(d_m\)</span> to the calculations above to enable
 computation of <span class="math inline">\(\bar n_m\)</span>, the
 expected events in each time interval.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">name_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"m"</span>, <span class="st">"tm"</span>, <span class="st">"lambda"</span>, <span class="st">"eta"</span>, <span class="st">"j"</span>, <span class="st">"omega"</span>, <span class="st">"gamma"</span><span class="op">)</span></span>
@@ -664,7 +666,7 @@ Events by time period
 <strong>gsDesign</strong> function <code><a href="https://keaven.github.io/gsDesign/reference/eEvents.html" class="external-link">eEvents()</a></code>. First, we sum
 the <span class="math inline">\(\bar{n}_m\)</span> values
 <code>sum(y$nbar)</code> to get 1.083773 and compare to:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">event</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/eEvents.html" class="external-link">eEvents</a></span><span class="op">(</span></span>
 <span>  lambda <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">lambda</span>,</span>
 <span>  eta <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">eta</span>,</span>
@@ -678,7 +680,7 @@ the <span class="math inline">\(\bar{n}_m\)</span> values
 <span><span class="co">#&gt; [1] 1.083773</span></span></code></pre></div>
 <p>Next, we examine by the periods defined by
 <code>fail_rate</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expected_event.html">expected_event</a></span><span class="op">(</span></span>
 <span>  enroll_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">3</span><span class="op">)</span>, fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.03</span>, <span class="fl">.06</span><span class="op">)</span>, dropout_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.001</span>, <span class="fl">.002</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -692,7 +694,7 @@ the <span class="math inline">\(\bar{n}_m\)</span> values
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     4      0.06 0.519</span></span></code></pre></div>
 <p>Now we group rows of <code>y</code> above into these same
 intervals.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -708,9 +710,9 @@ intervals.</p>
 <p>Finally, we approximate specific numbers using simulation. First, we
 simulate a large dataset and confirm the simulation has the targeted
 enrollment pattern.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">1e6</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">1e6</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu">simPWSurv</span><span class="op">(</span></span>
 <span>  n <span class="op">=</span> <span class="va">nsim</span>,</span>
 <span>  block <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"xx"</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -726,14 +728,14 @@ enrollment pattern.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">xx</span>, file <span class="op">=</span> <span class="st">"fixtures/compute_expected_events.rds"</span>, compress <span class="op">=</span> <span class="st">"xz"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"fixtures/compute_expected_events.rds"</span><span class="op">)</span></span>
 <span><span class="va">ecat</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">enrollTime</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Enrollment pattern: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">ecat</span><span class="op">)</span> <span class="op">/</span> <span class="va">nsim</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Enrollment pattern:  0.599697 0.399995 0.000308</span></span></code></pre></div>
 <p>Now we confirm the expected events in each follow-up interval given
 the targeted enrollment.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' This function is borrowed from Merck/simtrial.</span></span>
 <span><span class="co">#' We copy it here to make gsDesign2 self-contained.</span></span>
 <span><span class="co">#'</span></span>
@@ -757,7 +759,7 @@ the targeted enrollment.</p>
 <span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">tte</span>, <span class="va">event</span>, <span class="va">Stratum</span>, <span class="va">Treatment</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">yy</span> <span class="op">&lt;-</span> <span class="va">xx</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">cut_data</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">event</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
