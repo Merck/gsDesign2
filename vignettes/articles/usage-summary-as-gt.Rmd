@@ -97,10 +97,10 @@ lpar <- list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 0, timing = NULL)
 
 # Fleming-Harrington (FH) weight functions for weighted logrank (WLR)
 wgt00 <- function(x, arm0, arm1) { # Equal weighting for logrank
-  gsDesign2:::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
+  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
 }
 wgt05 <- function(x, arm0, arm1) { # Early downweighting with FH(0,.5)
-  gsDesign2:::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)
+  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)
 }
 
 # Both of above tests for MaxCombo: logrank and FH(0,.5)
