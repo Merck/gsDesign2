@@ -57,7 +57,7 @@ fail_rate <- tibble::tibble(
   hr = c(.9, .6),
   dropout_rate = rep(.001, 2)
 )
-arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 1e6)
+arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 1e6)
 delta <- gsDesign2:::gs_delta_combo(
   arm0 = arm$arm0, arm1 = arm$arm1,
   tmax = 30, rho = rho, gamma = gamma, tau = rep(-1, length(rho)),
@@ -161,7 +161,7 @@ fail_rate <- tibble::tibble(
   hr = c(.9, .6),
   dropout_rate = rep(.001, 2)
 )
-arm <- gsDesign2:::gs_create_arm(
+arm <- gs_create_arm(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   ratio = 1,
@@ -228,7 +228,7 @@ fail_rate <- tibble::tibble(
   hr = c(.9, .6),
   dropout_rate = rep(.001, 2)
 )
-arm <- gsDesign2:::gs_create_arm(
+arm <- gs_create_arm(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   ratio = 1,
@@ -319,7 +319,7 @@ fail_rate <- tibble::tibble(
   hr = c(.9, .6),
   dropout_rate = rep(.001, 2)
 )
-arm <- gsDesign2:::gs_create_arm(
+arm <- gs_create_arm(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   ratio = 1,
@@ -382,7 +382,7 @@ fh_test <- rbind(data.frame(
   analysis = 1:3,
   analysis_time = analysis_time
 ))
-gs_arm <- gsDesign2:::gs_create_arm(enroll_rate,
+gs_arm <- gs_create_arm(enroll_rate,
   fail_rate,
   ratio = 1, # Randomization ratio
   total_time = max(analysis_time)
@@ -453,7 +453,8 @@ fh_test <- rbind(data.frame(
   analysis = 1,
   analysis_time = analysis_time
 ))
-gs_arm <- gsDesign2:::gs_create_arm(enroll_rate,
+gs_arm <- gs_create_arm(
+  enroll_rate,
   fail_rate,
   ratio = 1, # Randomization ratio
   total_time = max(analysis_time)

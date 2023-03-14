@@ -9,7 +9,7 @@ test_that("hupdate() returns results as expected ", {
   # in order to continue to IA2
   null.01 <- h1(
     theta = gstry$theta[1],
-    I = gstry$n.I[1],
+    info = gstry$n.I[1],
     a = gstry$lower$bound[1],
     b = gstry$upper$bound[1]
   )
@@ -17,8 +17,8 @@ test_that("hupdate() returns results as expected ", {
   upper.null.02 <- sum(hupdate(
     theta = gstry$theta[1],
     thetam1 = gstry$theta[1],
-    I = gstry$n.I[2],
-    Im1 = gstry$n.I[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
     gm1 = null.01,
     a = gstry$upper$bound[2],
     b = Inf
@@ -27,8 +27,8 @@ test_that("hupdate() returns results as expected ", {
   lower.null.02 <- sum(hupdate(
     theta = gstry$theta[1],
     thetam1 = gstry$theta[1],
-    I = gstry$n.I[2],
-    Im1 = gstry$n.I[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
     gm1 = null.01,
     a = -Inf,
     b = gstry$lower$bound[2]
@@ -36,7 +36,7 @@ test_that("hupdate() returns results as expected ", {
 
   alt.01 <- h1(
     theta = gstry$theta[2],
-    I = gstry$n.I[1],
+    info = gstry$n.I[1],
     a = gstry$lower$bound[1],
     b = gstry$upper$bound[1]
   )
@@ -44,8 +44,8 @@ test_that("hupdate() returns results as expected ", {
   upper.alt.02 <- sum(hupdate(
     theta = gstry$theta[2],
     thetam1 = gstry$theta[2],
-    I = gstry$n.I[2],
-    Im1 = gstry$n.I[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
     gm1 = alt.01,
     a = gstry$upper$bound[2],
     b = Inf
@@ -54,8 +54,8 @@ test_that("hupdate() returns results as expected ", {
   lower.alt.02 <- sum(hupdate(
     theta = gstry$theta[2],
     thetam1 = gstry$theta[2],
-    I = gstry$n.I[2],
-    Im1 = gstry$n.I[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
     gm1 = alt.01,
     a = -Inf,
     b = gstry$lower$bound[2]
@@ -73,7 +73,7 @@ test_that("hupdate() returns results as expected ", {
   expect_equal(object = as.numeric(c(upper.null.02, upper.alt.02)), expected = x$upper$prob[2, ], tolerance = 0.0001)
   # problem with below code on extreme case:
   # hupdate(theta = gstry$theta[1], thetam1= gstry$theta[1],
-  #     I=gstry$n.I[1]+0.00000000000001,Im1=gstry$n.I[1],gm1=null.01,
+  #     info=gstry$n.I[1]+0.00000000000001,im1=gstry$n.I[1],gm1=null.01,
   #     a = gstry$upper$bound[2],b=Inf) %>% summarise(p = sum(h))
 })
 
@@ -86,7 +86,7 @@ test_that("hupdate() returns probability almost zero for extreme case", {
   )
   null.01 <- h1(
     theta = gstry$theta[1],
-    I = gstry$n.I[1],
+    info = gstry$n.I[1],
     a = gstry$lower$bound[1],
     b = gstry$upper$bound[1]
   )
@@ -95,8 +95,8 @@ test_that("hupdate() returns probability almost zero for extreme case", {
   poor.02 <- sum(hupdate(
     theta = -8,
     thetam1 = gstry$theta[1],
-    I = gstry$n.I[2],
-    Im1 = gstry$n.I[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
     gm1 = null.01,
     a = gstry$upper$bound[2],
     b = Inf
@@ -106,8 +106,8 @@ test_that("hupdate() returns probability almost zero for extreme case", {
   high.02 <- sum(hupdate(
     theta = gstry$theta[2],
     thetam1 = gstry$theta[2],
-    I = gstry$n.I[2],
-    Im1 = gstry$n.I[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
     gm1 = null.01,
     a = -Inf,
     b = -8

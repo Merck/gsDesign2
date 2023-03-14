@@ -1,4 +1,4 @@
-load("./fixtures/simulation_test_data.Rdata")
+load("fixtures/simulation_test_data.Rdata")
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
   enroll_rate <- tibble::tibble(

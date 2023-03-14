@@ -108,13 +108,13 @@ cat("The (lower, upper) boundary at the 1st analysis is (", a1, ", ", b1, ").\n"
 a2 <- gs_spending_bound(
   k = 2, efficacy = FALSE, theta = 0,
   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
-  hgm1 = gsDesign2:::h1(r = 18, theta = 0, I = info[1], a = a1, b = b1)
+  hgm1 = h1(r = 18, theta = 0, info = info[1], a = a1, b = b1)
 )
 
 b2 <- gs_spending_bound(
   k = 2, efficacy = TRUE, theta = 0,
   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
-  hgm1 = gsDesign2:::h1(r = 18, theta = 0, I = info[1], a = a1, b = b1)
+  hgm1 = h1(r = 18, theta = 0, info = info[1], a = a1, b = b1)
 )
 cat("The upper boundary at the 2nd analysis is (", a2, ", ", b2, ").\n")
 }

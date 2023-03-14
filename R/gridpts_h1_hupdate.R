@@ -51,7 +51,7 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @noRd
+#' @export
 #'
 #' @examples
 #' # Approximate variance of standard normal (i.e., 1)
@@ -71,7 +71,7 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #'
 #' @param r Integer, at least 2; default of 18 recommended by Jennison and Turnbull.
 #' @param theta Drift parameter for first analysis.
-#' @param I Information at first analysis.
+#' @param info Information at first analysis.
 #' @param a Lower limit of integration (scalar).
 #' @param b Upper limit of integration (scalar `> a`).
 #'
@@ -93,19 +93,19 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @noRd
+#' @export
 #'
 #' @examples
 #' # Replicate variance of 1, mean of 35
-#' g <- h1(theta = 5, I = 49)
+#' g <- h1(theta = 5, info = 49)
 #' mu <- sum(g$z * g$h)
 #' var <- sum((g$z - mu)^2 * g$h)
 #'
 #' # Replicate p-value of 0.0001 by numerical integration of tail
 #' g <- h1(a = qnorm(0.9999))
 #' sum(g$h)
-h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
-  h1_rcpp(r = r, theta = theta, I = I, a = a, b = b)
+h1 <- function(r = 18, theta = 0, info = 1, a = -Inf, b = Inf) {
+  h1_rcpp(r = r, theta = theta, I = info, a = a, b = b)
 }
 
 #' Update numerical integration for group sequential design
@@ -114,12 +114,18 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 #'
 #' @param r Integer, at least 2; default of 18 recommended by Jennison and Turnbull.
 #' @param theta Drift parameter for current analysis.
-#' @param I Information at current analysis.
+#' @param info Information at current analysis.
 #' @param a Lower limit of integration (scalar).
 #' @param b Upper limit of integration (scalar `> a`).
 #' @param thetam1 Drift parameter for previous analysis.
-#' @param Im1 Information at previous analysis.
+#' @param im1 Information at previous analysis.
 #' @param gm1 Numerical integration grid from [h1()] or previous run of [hupdate()].
+#'
+#' @return A list with grid points in `z`,
+#'   numerical integration weights in `w`,
+#'   a normal density with mean `mu = theta * sqrt{I}`
+#'   and variance 1 times the weight in `h`.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -131,18 +137,13 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @return A list with grid points in `z`,
-#'   numerical integration weights in `w`,
-#'   a normal density with mean `mu = theta * sqrt{I}`
-#'   and variance 1 times the weight in `h`.
-#'
-#' @noRd
+#' @export
 #'
 #' @examples
 #' # 2nd analysis with no interim bound and drift 0 should have mean 0, variance 1
 #' g <- hupdate()
 #' mu <- sum(g$z * g$h)
 #' var <- sum((g$z - mu)^2 * g$h)
-hupdate <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1()) {
-  hupdate_rcpp(r = r, theta = theta, I = I, a = a, b = b, thetam1 = thetam1, Im1 = Im1, gm1 = gm1)
+hupdate <- function(r = 18, theta = 0, info = 2, a = -Inf, b = Inf, thetam1 = 0, im1 = 1, gm1 = h1()) {
+  hupdate_rcpp(r = r, theta = theta, I = info, a = a, b = b, thetam1 = thetam1, Im1 = im1, gm1 = gm1)
 }

@@ -67,7 +67,7 @@
 #'   dropout_rate = rep(.001, 2)
 #' )
 #'
-#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 #' arm0 <- gs_arm$arm0
 #' arm1 <- gs_arm$arm1
 #'
@@ -110,7 +110,7 @@ wlr_weight_fh <- function(x, arm0, arm1, rho = 0, gamma = 0, tau = NULL) {
 #'   dropout_rate = rep(.001, 2)
 #' )
 #'
-#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 #' arm0 <- gs_arm$arm0
 #' arm1 <- gs_arm$arm1
 #'
@@ -140,7 +140,7 @@ wlr_weight_1 <- function(x, arm0, arm1) {
 #'   dropout_rate = rep(.001, 2)
 #' )
 #'
-#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 #' arm0 <- gs_arm$arm0
 #' arm1 <- gs_arm$arm1
 #'
@@ -175,7 +175,7 @@ wlr_weight_n <- function(x, arm0, arm1, power = 1) {
 #'   dropout_rate = rep(.001, 2)
 #' )
 #'
-#' gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 #' arm0 <- gs_arm$arm0
 #' arm1 <- gs_arm$arm1
 #'

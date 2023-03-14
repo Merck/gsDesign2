@@ -1,5 +1,5 @@
-load("./fixtures/sim_gsd_pMaxCombo_exp1_H0_test.Rdata")
-load("./fixtures/sim_gsd_pMaxCombo_exp1_H1_test.Rdata")
+load("fixtures/sim_gsd_pMaxCombo_exp1_H0_test.Rdata")
+load("fixtures/sim_gsd_pMaxCombo_exp1_H1_test.Rdata")
 
 ratio <- 1
 algorithm <- GenzBretz(

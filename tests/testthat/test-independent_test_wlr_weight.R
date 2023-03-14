@@ -10,7 +10,7 @@ test_that("Validate the function based on simple calculation", {
     dropout_rate = 0.001
   )
   # Define study design object in each arm
-  gs_arm <- gsDesign2:::gs_create_arm(
+  gs_arm <- gs_create_arm(
     enroll_rate,
     fail_rate,
     ratio = 2, # Randomization ratio

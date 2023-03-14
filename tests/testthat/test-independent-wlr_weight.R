@@ -18,7 +18,7 @@ test_that("test wlr_weight_n", {
   total_time <- 36
   analysis_time <- 12
 
-  arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = total_time)
+  arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = total_time)
   arm0 <- arm$arm0
   arm1 <- arm$arm1
 
