@@ -1,3 +1,12 @@
+# gsDesign2 1.0.6
+
+## Improvements
+
+- Export functions `gridpts()`, `h1()`, `hupdate()`, and `gs_create_arm()`
+  to avoid the use of `:::` in code examples.
+- Fix the write path issue by moving the test fixture generation script to
+  `data-raw/` which is not included in the package.
+
 # gsDesign2 1.0.5
 
 First submission to CRAN in March 2023.
