@@ -51,8 +51,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @noRd
-#'
 #' @examples
 #' # Approximate variance of standard normal (i.e., 1)
 #' g <- gridpts()
@@ -93,8 +91,6 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @noRd
-#'
 #' @examples
 #' # Replicate variance of 1, mean of 35
 #' g <- h1(theta = 5, I = 49)
@@ -120,6 +116,12 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 #' @param thetam1 Drift parameter for previous analysis.
 #' @param Im1 Information at previous analysis.
 #' @param gm1 Numerical integration grid from [h1()] or previous run of [hupdate()].
+#'
+#' @return A list with grid points in `z`,
+#'   numerical integration weights in `w`,
+#'   a normal density with mean `mu = theta * sqrt{I}`
+#'   and variance 1 times the weight in `h`.
+#'
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
@@ -130,13 +132,6 @@ h1 <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @return A list with grid points in `z`,
-#'   numerical integration weights in `w`,
-#'   a normal density with mean `mu = theta * sqrt{I}`
-#'   and variance 1 times the weight in `h`.
-#'
-#' @noRd
 #'
 #' @examples
 #' # 2nd analysis with no interim bound and drift 0 should have mean 0, variance 1
