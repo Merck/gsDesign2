@@ -14,7 +14,7 @@ non-proportional hazards."><meta property="og:image" content="https://merck.gith
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -228,7 +228,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34b4453c8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c73d45390&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -244,7 +244,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34b4453c8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c73d45390&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -391,8 +391,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], I = info[k], a = -Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], Im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
@@ -440,8 +440,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, I = info[k], a = b, b = Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
@@ -472,7 +472,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34dc58b20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c74034558&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -501,7 +501,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d346b84b08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c6ee868f0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -563,8 +563,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], I = info[k], a = -Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], Im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
@@ -612,8 +612,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, I = info[k], a = b, b = Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
@@ -644,7 +644,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34dc58b20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c74034558&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -673,7 +673,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d346b84b08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c6ee868f0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -829,8 +829,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], I = info[k], a = -Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], Im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
@@ -878,8 +878,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, I = info[k], a = b, b = Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
@@ -910,7 +910,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34dc58b20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c74034558&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -939,7 +939,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d346b84b08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c6ee868f0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1001,8 +1001,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], I = info[k], a = -Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], Im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
@@ -1050,8 +1050,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, I = info[k], a = b, b = Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
@@ -1082,7 +1082,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34dc58b20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c74034558&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1111,7 +1111,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d346b84b08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c6ee868f0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1271,8 +1271,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], I = info[k], a = -Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], Im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
@@ -1320,8 +1320,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, I = info[k], a = b, b = Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
@@ -1352,7 +1352,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34dc58b20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c74034558&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1381,7 +1381,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d346b84b08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c6ee868f0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1443,8 +1443,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], I = info[k], a = -Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], Im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
@@ -1492,8 +1492,8 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, I = info[k], a = b, b = Inf, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
@@ -1524,7 +1524,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d34dc58b20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c74034558&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1553,7 +1553,7 @@ targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d346b84b08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x564c6ee868f0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
