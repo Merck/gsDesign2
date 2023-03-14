@@ -79,7 +79,7 @@ fail_rate <- tibble::tibble(
   dropout_rate = rep(.001, 2)
 )
 
-gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
@@ -98,7 +98,7 @@ fail_rate <- tibble::tibble(
   dropout_rate = rep(.001, 2)
 )
 
-gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
@@ -117,7 +117,7 @@ fail_rate <- tibble::tibble(
   dropout_rate = rep(.001, 2)
 )
 
-gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
@@ -136,7 +136,7 @@ fail_rate <- tibble::tibble(
   dropout_rate = rep(.001, 2)
 )
 
-gs_arm <- gsDesign2:::gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
