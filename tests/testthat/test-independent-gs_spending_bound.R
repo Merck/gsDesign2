@@ -27,7 +27,7 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
   b <- gs_spending_bound()
   hgm1_0 <- h1(
     theta = 0,
-    I = info[1],
+    info = info[1],
     a = a,
     b = b
   )
@@ -39,10 +39,10 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
   )
   hgm2_0 <- hupdate(
     theta = 0,
-    I = info[2],
+    info = info[2],
     a = a,
     b = b2,
-    Im1 = info[1],
+    im1 = info[1],
     gm1 = hgm1_0
   )
   b3 <- gs_spending_bound(
@@ -61,7 +61,7 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
     efficacy = FALSE,
     info = info
   )
-  hgm1_1 <- h1(theta = x$theta[2], I = info[1], a = a, b = b)
+  hgm1_1 <- h1(theta = x$theta[2], info = info[1], a = a, b = b)
 
   a2 <- gs_spending_bound(
     k = 2,
@@ -74,10 +74,10 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
 
   hgm2_1 <- hupdate(
     theta = x$theta[2],
-    I = info[2],
+    info = info[2],
     a = a2,
     b = b2,
-    Im1 = info[1],
+    im1 = info[1],
     gm1 = hgm1_1,
     thetam1 = x$theta[2]
   )
@@ -131,7 +131,7 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
   )
   hgm1_0 <- h1(
     theta = 0,
-    I = info[1],
+    info = info[1],
     a = a,
     b = b
   )
@@ -143,10 +143,10 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
   )
   hgm2_0 <- hupdate(
     theta = 0,
-    I = info[2],
+    info = info[2],
     a = a,
     b = b2,
-    Im1 = info[1],
+    im1 = info[1],
     gm1 = hgm1_0
   )
   b3 <- gs_spending_bound(
@@ -166,7 +166,7 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
     info = info
   )
 
-  hgm1_1 <- h1(theta = y$theta[2], I = info[1], a = a, b = b)
+  hgm1_1 <- h1(theta = y$theta[2], info = info[1], a = a, b = b)
 
   a2 <- gs_spending_bound(
     k = 2,
@@ -179,10 +179,10 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
 
   hgm2_1 <- hupdate(
     theta = y$theta[2],
-    I = info[2],
+    info = info[2],
     a = a2,
     b = b2,
-    Im1 = info[1],
+    im1 = info[1],
     gm1 = hgm1_1,
     thetam1 = y$theta[2]
   )
