@@ -297,19 +297,19 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
         0
       }
       # update the grids
-      hgm1_0 <- h1(r = r, theta = theta0[1], I = info0[1], a = if (binding) {
+      hgm1_0 <- h1(r = r, theta = theta0[1], info = info0[1], a = if (binding) {
         a[1]
       } else {
         -Inf
       }, b = b[1])
-      hgm1_1 <- h1(r = r, theta = theta1[1], I = info1[1], a = a[1], b = b[1])
-      hgm1 <- h1(r = r, theta = theta[1], I = info[1], a = a[1], b = b[1])
+      hgm1_1 <- h1(r = r, theta = theta1[1], info = info1[1], a = a[1], b = b[1])
+      hgm1 <- h1(r = r, theta = theta[1], info = info[1], a = a[1], b = b[1])
     } else {
       # compute the probability to cross upper bound
       upper_prob[k] <- if (b[k] < Inf) {
         sum(hupdate(
           theta = theta[k], thetam1 = theta[k - 1],
-          I = info[k], Im1 = info[k - 1],
+          info = info[k], im1 = info[k - 1],
           a = b[k], b = Inf, gm1 = hgm1, r = r
         )$h)
       } else {
@@ -319,7 +319,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
       lower_prob[k] <- if (a[k] > -Inf) {
         sum(hupdate(
           theta = theta[k], thetam1 = theta[k - 1],
-          I = info[k], Im1 = info[k - 1],
+          info = info[k], im1 = info[k - 1],
           a = -Inf, b = a[k], gm1 = hgm1, r = r
         )$h)
       } else {
@@ -328,20 +328,20 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 
       # update the grids
       if (k < n_analysis) {
-        hgm1_0 <- hupdate(r = r, theta = theta0[k], I = info0[k], a = if (binding) {
+        hgm1_0 <- hupdate(r = r, theta = theta0[k], info = info0[k], a = if (binding) {
           a[k]
         } else {
           -Inf
-        }, b = b[k], thetam1 = 0, Im1 = info0[k - 1], gm1 = hgm1_0)
+        }, b = b[k], thetam1 = 0, im1 = info0[k - 1], gm1 = hgm1_0)
         hgm1_1 <- hupdate(
-          r = r, theta = theta1[k], I = info1[k],
+          r = r, theta = theta1[k], info = info1[k],
           a = a[k], b = b[k], thetam1 = theta1[k - 1],
-          Im1 = info1[k - 1], gm1 = hgm1_1
+          im1 = info1[k - 1], gm1 = hgm1_1
         )
         hgm1 <- hupdate(
-          r = r, theta = theta[k], I = info[k],
+          r = r, theta = theta[k], info = info[k],
           a = a[k], b = b[k], thetam1 = theta[k - 1],
-          Im1 = info[k - 1], gm1 = hgm1
+          im1 = info[k - 1], gm1 = hgm1
         )
       }
     }

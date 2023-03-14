@@ -4,14 +4,14 @@
 \alias{h1}
 \title{Initialize numerical integration for group sequential design}
 \usage{
-h1(r = 18, theta = 0, I = 1, a = -Inf, b = Inf)
+h1(r = 18, theta = 0, info = 1, a = -Inf, b = Inf)
 }
 \arguments{
 \item{r}{Integer, at least 2; default of 18 recommended by Jennison and Turnbull.}
 
 \item{theta}{Drift parameter for first analysis.}
 
-\item{I}{Information at first analysis.}
+\item{info}{Information at first analysis.}
 
 \item{a}{Lower limit of integration (scalar).}
 
@@ -43,7 +43,7 @@ Mean for standard normal distribution under consideration is \code{mu = theta * 
 
 \examples{
 # Replicate variance of 1, mean of 35
-g <- h1(theta = 5, I = 49)
+g <- h1(theta = 5, info = 49)
 mu <- sum(g$z * g$h)
 var <- sum((g$z - mu)^2 * g$h)
 

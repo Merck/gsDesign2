@@ -105,13 +105,13 @@
 #' a2 <- gs_spending_bound(
 #'   k = 2, efficacy = FALSE, theta = 0,
 #'   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
-#'   hgm1 = gsDesign2:::h1(r = 18, theta = 0, I = info[1], a = a1, b = b1)
+#'   hgm1 = h1(r = 18, theta = 0, info = info[1], a = a1, b = b1)
 #' )
 #'
 #' b2 <- gs_spending_bound(
 #'   k = 2, efficacy = TRUE, theta = 0,
 #'   par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = info_frac, param = NULL),
-#'   hgm1 = gsDesign2:::h1(r = 18, theta = 0, I = info[1], a = a1, b = b1)
+#'   hgm1 = h1(r = 18, theta = 0, info = info[1], a = a1, b = b1)
 #' )
 #' cat("The upper boundary at the 2nd analysis is (", a2, ", ", b2, ").\n")
 gs_spending_bound <- function(k = 1,
@@ -217,9 +217,9 @@ gs_spending_bound <- function(k = 1,
     while (abs(adelta) > tol) {
       # get grid for rejection region
       hg <- hupdate(
-        theta = theta[k], I = info[k], a = -Inf,
+        theta = theta[k], info = info[k], a = -Inf,
         b = a, thetam1 = theta[k - 1],
-        Im1 = info[k - 1], gm1 = hgm1, r = r
+        im1 = info[k - 1], gm1 = hgm1, r = r
       )
       i <- length(hg$h)
 
@@ -285,7 +285,7 @@ gs_spending_bound <- function(k = 1,
 
     while (abs(bdelta) > tol) {
       # sub-density for final analysis in rejection region
-      hg <- hupdate(theta = 0, I = info[k], a = b, b = Inf, thetam1 = 0, Im1 = info[k - 1], gm1 = hgm1, r = r)
+      hg <- hupdate(theta = 0, info = info[k], a = b, b = Inf, thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)
 
       # compute probability of crossing bound
       pik <- sum(hg$h)

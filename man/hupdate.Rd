@@ -7,11 +7,11 @@
 hupdate(
   r = 18,
   theta = 0,
-  I = 2,
+  info = 2,
   a = -Inf,
   b = Inf,
   thetam1 = 0,
-  Im1 = 1,
+  im1 = 1,
   gm1 = h1()
 )
 }
@@ -20,7 +20,7 @@ hupdate(
 
 \item{theta}{Drift parameter for current analysis.}
 
-\item{I}{Information at current analysis.}
+\item{info}{Information at current analysis.}
 
 \item{a}{Lower limit of integration (scalar).}
 
@@ -28,7 +28,7 @@ hupdate(
 
 \item{thetam1}{Drift parameter for previous analysis.}
 
-\item{Im1}{Information at previous analysis.}
+\item{im1}{Information at previous analysis.}
 
 \item{gm1}{Numerical integration grid from \code{\link[=h1]{h1()}} or previous run of \code{\link[=hupdate]{hupdate()}}.}
 }
