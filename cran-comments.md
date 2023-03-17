@@ -1,4 +1,4 @@
-# gsDesign2 1.0.6
+# gsDesign2 1.0.7
 
 ## Resubmission
 
