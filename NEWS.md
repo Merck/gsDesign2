@@ -1,3 +1,13 @@
+# gsDesign2 1.0.7
+
+## Improvements
+
+- Move imported dependencies from `Suggests` to `Imports`.
+- Remove redundant dependencies from `Suggests`.
+- Update the GitHub Actions workflows to their latest versions from upstream.
+- Add a rule to `.gitattributes` for GitHub Linguist to keep the repository's
+  language statistics accurate.
+
 # gsDesign2 1.0.6
 
 ## Improvements
