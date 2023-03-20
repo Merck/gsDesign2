@@ -24,7 +24,13 @@ features are encouraged as this is still a young package.
 
 ## Installation
 
-You can install gsDesign2 with:
+Install the released version of gsDesign2 from CRAN:
+
+``` r
+install.packages("gsDesign2")
+```
+
+Or install the development version from GitHub with:
 
 ``` r
 remotes::install_github("Merck/gsDesign2")
