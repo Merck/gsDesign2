@@ -105,8 +105,11 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install gsDesign2 with:</p>
+<p>Install the released version of gsDesign2 from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"gsDesign2"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version from GitHub with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Merck/gsDesign2"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -116,7 +119,7 @@
 <h3 id="step-1-specifying-enrollment-and-failure-rates">Step 1: specifying enrollment and failure rates<a class="anchor" aria-label="anchor" href="#step-1-specifying-enrollment-and-failure-rates"></a>
 </h3>
 <p>This is a basic example which shows you how to solve a common problem. We assume there is a 4 month delay in treatment effect. Specifically, we assume a hazard ratio of 1 for 4 months and 0.6 thereafter. For this example we assume an exponential failure rate and low exponential dropout rate. The <code>enrollRates</code> specification indicates an expected enrollment duration of 12 months with exponential inter-arrival times.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -140,7 +143,7 @@
 <span>  dropout_rate <span class="op">=</span> <span class="fl">.001</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The resulting failure rate specification is the following table. As many rows and strata as needed can be specified to approximate whatever patterns you wish.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fail_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -206,7 +209,7 @@ Inf
 <h3 id="step-2-derive-a-fixed-design-with-no-interim-analyses">Step 2: derive a fixed design with no interim analyses<a class="anchor" aria-label="anchor" href="#step-2-derive-a-fixed-design-with-no-interim-analyses"></a>
 </h3>
 <p>Computing a fixed sample size design with 2.5% one-sided Type I error and 90% power. We specify a trial duration of 36 months with <code>analysisTimes</code>. Enrollment duration is the sum of <code>enrollRates$duration</code>. We used the <code><a href="reference/fixed_design.html">fixed_design()</a></code> routine since there is a single analysis:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fixed_design.html">fixed_design</a></span><span class="op">(</span></span>
 <span>  method <span class="op">=</span> <span class="st">"ahr"</span>,</span>
 <span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
@@ -217,7 +220,7 @@ Inf
 <span>  ratio <span class="op">=</span> <span class="fl">1</span> <span class="co"># Experimental/control randomization ratio</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The input enrollment rates have now been scaled to achieve power:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fd</span><span class="op">$</span><span class="va">enroll_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/as_raw_html.html" class="external-link">as_raw_html</a></span><span class="op">(</span>inline_css <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -248,7 +251,7 @@ All
 </table>
 </div>
 <p>The failure and dropout rates remain unchanged from what was input. The summary is obtained below. The columns are Design (sample size derivation method), N (sample size; generally you will round up to an even number), Events (generally you will round up), Bound (Z value for efficacy; this is the inverse normal from 1 - alpha), alpha (1-sided alpha level for testing), Power (power corresponding to enrollment, failure rate and trial targeted events).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fd</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -325,7 +328,7 @@ ahr
 </h3>
 <p>We provide a simple example for a group sequential design that demonstrates a couple of features not available in the <em>gsDesign</em> package. The first is specifying analysis times by calendar time rather than information fraction. The second is not having an efficacy and futility bound at each analysis. This is in addition to having methods for non-proportional hazards as demonstrated in the fixed design above and again here.</p>
 <p>We use an O’Brien-Fleming spending function to derive our efficacy bounds at 24 and 36 months. For futility, we simply require a nominally significant trend in the wrong direction (p&lt;0.1) after 8 months, a trend in favor of experimental treatment after 14 months (<span class="math inline"><em>Z</em> &gt; 0</span>) and no bound later (<span class="math inline"><em>Z</em> =  − ∞</span>). Thus, we have two efficacy analyses and two separate, earlier futility analysis. Power is set to 80% due to the somewhat aggressive futility bounds that are used for safety (analysis 1 half way through enrollment) and proof of concept (analysis 2). Such aggressive futility bounds may be desirable when a previous proof of concept for experimental treatment has not been established; essentially, this becomes a Phase II/III design with an interim evaluation of appropriate efficacy trends before completing the trial.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gsd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
 <span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
@@ -341,7 +344,7 @@ ahr
 <span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Now we summarize the derived design. The summary table is further described in vignette <em>Summarize group sequential designs in nice gt tables</em>. Note that the design trend in favor of experimental treatment is very minor at 8 months due to the delayed effect assumption used (see AHR at analysis 1 in table). The design trend at 16 months is somewhat more favorable when we are looking for HR &lt; 1 (favoring experimental treatment) for a proof of concept. Actual bounds and timing selected for a trial are situation dependent, but we hope the suggestions here are provocative for what might be considered.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gsd</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
