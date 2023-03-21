@@ -44,12 +44,12 @@ This is a basic example which shows you how to solve a common problem.
 We assume there is a 4 month delay in treatment effect. Specifically, we
 assume a hazard ratio of 1 for 4 months and 0.6 thereafter. For this
 example we assume an exponential failure rate and low exponential
-dropout rate. The `enrollRates` specification indicates an expected
+dropout rate. The `enroll_rate` specification indicates an expected
 enrollment duration of 12 months with exponential inter-arrival times.
 
 ``` r
-library(gsDesign)
 library(gsDesign2)
+library(gsDesign)
 library(dplyr)
 library(gt)
 
@@ -114,9 +114,9 @@ fail_rate %>%
 
 Computing a fixed sample size design with 2.5% one-sided Type I error
 and 90% power. We specify a trial duration of 36 months with
-`analysisTimes`. Enrollment duration is the sum of
-`enrollRates$duration`. We used the `fixed_design()` routine since there
-is a single analysis:
+`analysis_time`. Enrollment duration is the sum of
+`enroll_rate$duration`. We used `fixed_design()` since there is a single
+analysis:
 
 ``` r
 fd <- fixed_design(
@@ -158,12 +158,16 @@ fd$enroll_rate %>%
 </div>
 
 The failure and dropout rates remain unchanged from what was input. The
-summary is obtained below. The columns are Design (sample size
-derivation method), N (sample size; generally you will round up to an
-even number), Events (generally you will round up), Bound (Z value for
-efficacy; this is the inverse normal from 1 - alpha), alpha (1-sided
-alpha level for testing), Power (power corresponding to enrollment,
-failure rate and trial targeted events).
+summary is obtained below. The columns are:
+
+- `Design`: sample size derivation method.
+- `N`: sample size; generally you will round up to an even number.
+- `Event`: generally you will round up.
+- `Bound`: Z value for efficacy; this is the inverse normal from 1 -
+  alpha.
+- `alpha`: 1-sided alpha level for testing.
+- `Power`: power corresponding to enrollment, failure rate, and trial
+  targeted events.
 
 ``` r
 fd %>%
@@ -213,16 +217,16 @@ fd %>%
 ### Step 3: group sequential design
 
 We provide a simple example for a group sequential design that
-demonstrates a couple of features not available in the *gsDesign*
-package. The first is specifying analysis times by calendar time rather
-than information fraction. The second is not having an efficacy and
-futility bound at each analysis. This is in addition to having methods
-for non-proportional hazards as demonstrated in the fixed design above
-and again here.
+demonstrates a couple of features not available in the gsDesign package.
+The first is specifying analysis times by calendar time rather than
+information fraction. The second is not having an efficacy and futility
+bound at each analysis. This is in addition to having methods for
+non-proportional hazards as demonstrated in the fixed design above and
+again here.
 
 We use an O’Brien-Fleming spending function to derive our efficacy
 bounds at 24 and 36 months. For futility, we simply require a nominally
-significant trend in the wrong direction (p\<0.1) after 8 months, a
+significant trend in the wrong direction ($p < 0.1$) after 8 months, a
 trend in favor of experimental treatment after 14 months ($Z > 0$) and
 no bound later ($Z = -\infty$). Thus, we have two efficacy analyses and
 two separate, earlier futility analysis. Power is set to 80% due to the
@@ -251,7 +255,7 @@ gsd <- gs_design_ahr(
 ```
 
 Now we summarize the derived design. The summary table is further
-described in vignette *Summarize group sequential designs in nice gt
+described in the vignette *Summarize group sequential designs in gt
 tables*. Note that the design trend in favor of experimental treatment
 is very minor at 8 months due to the delayed effect assumption used (see
 AHR at analysis 1 in table). The design trend at 16 months is somewhat
