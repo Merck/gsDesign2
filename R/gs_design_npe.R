@@ -57,7 +57,7 @@
 #' @param info1 Proportionate statistical information
 #'   under alternate hypothesis;
 #'   impacts null hypothesis bound calculation.
-#' @param info_scale The information scale for calculation. Options are \code{0,1,2}. 
+#' @param info_scale The information scale for calculation. Options are \code{0,1,2}.
 #' If set as 0, then variance under null hypothesis is used.
 #' If set as 1, then variance under alternative hypothesis is used.
 #' If set as 2 (default), then variance under both null and alternative hypothesis are used.
