@@ -29,10 +29,10 @@
 #' @param analysis_time Minimum time of analysis.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
-#' @param info_scale The information scale for calculation. Options are \code{0,1,2}.
-#' If set as 0, then variance under null hypothesis is used.
-#' If set as 1, then variance under alternative hypothesis is used.
-#' If set as 2 (default), then variance under both null and alternative hypothesis are used.
+#' @param info_scale Information scale for calculation. Options are:
+#'   - `0`: variance under null hypothesis is used.
+#'   - `1`: variance under alternative hypothesis is used.
+#'   - `2` (default): variance under both null and alternative hypotheses is used.
 #' @param upper Function to compute upper bound.
 #' @param upar Parameters passed to `upper`.
 #' @param lower Function to compute lower bound.
