@@ -31,7 +31,10 @@
 #' @param upar Parameters passed to `upper`.
 #' @param lower Function to compute lower bound.
 #' @param lpar Parameters passed to `lower`.
-#' @param info_scale The information scale for calculation.
+#' @param info_scale The information scale for calculation. Options are \code{0,1,2}. 
+#' If set as 0, then variance under null hypothesis is used.
+#' If set as 1, then variance under alternative hypothesis is used.
+#' If set as 2 (default), then variance under both null and alternative hypothesis are used.
 #' @param h1_spending Indicator that lower bound to be set by spending
 #'   under alternate hypothesis (input `fail_rate`)
 #'   if spending is used for lower bound.

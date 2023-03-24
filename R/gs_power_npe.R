@@ -51,8 +51,10 @@
 #' @param info1 Statistical information under hypothesis used for
 #'   futility bound calculation if different from
 #'   `info`; impacts futility hypothesis bound calculation.
-#' @param info_scale The information scale for calculation,
-#'   default is 2, other options are 0 or 1.
+#' @param info_scale The information scale for calculation. Options are \code{0,1,2}. 
+#' If set as 0, then variance under null hypothesis is used.
+#' If set as 1, then variance under alternative hypothesis is used.
+#' If set as 2 (default), then variance under both null and alternative hypothesis are used.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param upper Function to compute upper bound.

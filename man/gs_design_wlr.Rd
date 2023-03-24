@@ -57,7 +57,10 @@ gs_design_wlr(
 
 \item{info_frac}{Targeted information fraction at each analysis.}
 
-\item{info_scale}{The information scale for calculation.}
+\item{info_scale}{The information scale for calculation. Options are \code{0,1,2}.
+If set as 0, then variance under null hypothesis is used.
+If set as 1, then variance under alternative hypothesis is used.
+If set as 2 (default), then variance under both null and alternative hypothesis are used.}
 
 \item{analysis_time}{Minimum time of analysis.}
 

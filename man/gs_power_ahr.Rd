@@ -59,7 +59,10 @@ indicate which analyses will have an efficacy bound.}
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
-\item{info_scale}{The information scale for calculation.}
+\item{info_scale}{The information scale for calculation. Options are \code{0,1,2}.
+If set as 0, then variance under null hypothesis is used.
+If set as 1, then variance under alternative hypothesis is used.
+If set as 2 (default), then variance under both null and alternative hypothesis are used.}
 
 \item{r}{Integer value controlling grid for numerical integration as in
 Jennison and Turnbull (2000); default is 18, range is 1 to 80.
