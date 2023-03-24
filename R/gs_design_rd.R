@@ -229,15 +229,15 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
   # --------------------------------------------- #
   #     get statistical information               #
   # --------------------------------------------- #
-  inflac_fct <- if(info_scale == 0){
+  inflac_fct <- if (info_scale == 0) {
     (y_gs %>% filter(bound == "upper", analysis == k))$info0 / x_fix$info0[1]
-  }else if (info_scale == 1){
+  } else if (info_scale == 1) {
     (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info1[1]
-  }else if(info_scale == 2){
+  } else if (info_scale == 2) {
     (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info0[1]
   }
-  
-  
+
+
   allout <- y_gs %>%
     mutate(
       rd = x_fix$rd,
