@@ -254,7 +254,7 @@
 #'
 gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                           info = 1, info0 = NULL, info1 = NULL, # 3 info
-                          info_scale = c(0, 1, 2),
+                          info_scale = c(2, 0, 1),
                           alpha = 0.025, beta = .1,
                           upper = gs_b, upar = qnorm(.975),
                           lower = gs_b, lpar = -Inf,
@@ -307,11 +307,8 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   }
 
   # set up info_scale
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
+  info_scale <- match.arg(as.character(info_scale))
+  
   if (info_scale == 0) {
     info <- info0
     info1 <- info0

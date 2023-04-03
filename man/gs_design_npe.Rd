@@ -11,7 +11,7 @@ gs_design_npe(
   info = 1,
   info0 = NULL,
   info1 = NULL,
-  info_scale = c(0, 1, 2),
+  info_scale = c(2, 0, 1),
   alpha = 0.025,
   beta = 0.1,
   upper = gs_b,

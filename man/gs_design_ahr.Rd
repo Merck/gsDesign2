@@ -22,7 +22,7 @@ gs_design_ahr(
   h1_spending = TRUE,
   test_upper = TRUE,
   test_lower = TRUE,
-  info_scale = c(0, 1, 2),
+  info_scale = c(2, 0, 1),
   r = 18,
   tol = 1e-06,
   interval = c(0.01, 100)

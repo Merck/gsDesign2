@@ -259,7 +259,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
                         lower = gs_b,
                         upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
                         lpar = c(qnorm(.1), rep(-Inf, 2)),
-                        info_scale = c(0, 1, 2),
+                        info_scale = c(2, 0, 1),
                         binding = FALSE,
                         test_upper = TRUE,
                         test_lower = TRUE,
@@ -268,11 +268,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
   # get the number of analysis
   n_analysis <- max(n$analysis)
   # get the info_scale
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
+  info_scale <- match.arg(as.character(info_scale))
   # get the weighting scheme
   weight <- if (methods::missingArg(weight)) {
     "unstratified"

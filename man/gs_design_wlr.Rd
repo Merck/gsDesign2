@@ -14,7 +14,7 @@ gs_design_wlr(
   beta = 0.1,
   ratio = 1,
   info_frac = NULL,
-  info_scale = c(0, 1, 2),
+  info_scale = c(2, 0, 1),
   analysis_time = 36,
   binding = FALSE,
   upper = gs_b,

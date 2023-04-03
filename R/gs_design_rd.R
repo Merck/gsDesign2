@@ -135,7 +135,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
                          lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_upper = TRUE,
                          test_lower = TRUE,
-                         info_scale = c(0, 1, 2),
+                         info_scale = c(2, 0, 1),
                          binding = FALSE,
                          r = 18,
                          tol = 1e-6,
@@ -143,11 +143,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
+  info_scale <- match.arg(as.character(info_scale))
   weight <- if (methods::missingArg(weight)) {
     "unstratified"
   } else {

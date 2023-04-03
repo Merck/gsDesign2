@@ -169,20 +169,16 @@ gs_power_ahr <- function(enroll_rate = tibble(
                          test_upper = TRUE,
                          ratio = 1,
                          binding = FALSE,
-                         info_scale = c(0, 1, 2),
+                         info_scale = c(2, 0, 1),
                          r = 18,
                          tol = 1e-6,
                          interval = c(.01, 100)) {
   # Get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
-
+  
   # Get the info_scale
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
-
+  info_scale <- match.arg(as.character(info_scale))
+  
   # Check if it is two-sided design or not
   if (identical(lower, gs_b) && (!is.list(lpar))) {
     if (all(test_lower) == FALSE) {

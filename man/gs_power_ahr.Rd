@@ -20,7 +20,7 @@ gs_power_ahr(
   test_upper = TRUE,
   ratio = 1,
   binding = FALSE,
-  info_scale = c(0, 1, 2),
+  info_scale = c(2, 0, 1),
   r = 18,
   tol = 1e-06,
   interval = c(0.01, 100)

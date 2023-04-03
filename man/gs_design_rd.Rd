@@ -20,7 +20,7 @@ gs_design_rd(
   lpar = c(qnorm(0.1), rep(-Inf, 2)),
   test_upper = TRUE,
   test_lower = TRUE,
-  info_scale = c(0, 1, 2),
+  info_scale = c(2, 0, 1),
   binding = FALSE,
   r = 18,
   tol = 1e-06,

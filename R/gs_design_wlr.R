@@ -123,7 +123,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
                           ),
                           weight = wlr_weight_fh, approx = "asymptotic",
                           alpha = 0.025, beta = 0.1, ratio = 1,
-                          info_frac = NULL, info_scale = c(0, 1, 2),
+                          info_frac = NULL, info_scale = c(2, 0, 1),
                           analysis_time = 36,
                           binding = FALSE,
                           upper = gs_b,
@@ -156,11 +156,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
   msg <- "gs_design_wlr(): info_frac and analysis_time must have the same length if both have length > 1"
   if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) stop(msg)
   # get the info_scale
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
+  info_scale <- match.arg(as.character(info_scale))
 
   # --------------------------------------------- #
   #     get information at input analysis_time    #
