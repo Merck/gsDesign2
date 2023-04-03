@@ -195,7 +195,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
   if (is.null(info_frac)) {
     info_frac <- 1
   }
-  info_scale <- match.arg(as.character(info_scale))
+  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
 
   # --------------------------------------------- #
   #     check inputs                              #

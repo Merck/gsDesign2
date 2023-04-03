@@ -143,7 +143,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
-  info_scale <- match.arg(as.character(info_scale))
+  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
   weight <- if (methods::missingArg(weight)) {
     "unstratified"
   } else {

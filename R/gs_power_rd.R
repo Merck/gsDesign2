@@ -268,7 +268,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
   # get the number of analysis
   n_analysis <- max(n$analysis)
   # get the info_scale
-  info_scale <- match.arg(as.character(info_scale))
+  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
   # get the weighting scheme
   weight <- if (methods::missingArg(weight)) {
     "unstratified"

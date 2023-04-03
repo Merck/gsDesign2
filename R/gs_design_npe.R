@@ -307,7 +307,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   }
 
   # set up info_scale
-  info_scale <- match.arg(as.character(info_scale))
+  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
 
   if (info_scale == 0) {
     info <- info0

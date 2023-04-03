@@ -156,7 +156,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
   msg <- "gs_design_wlr(): info_frac and analysis_time must have the same length if both have length > 1"
   if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) stop(msg)
   # get the info_scale
-  info_scale <- match.arg(as.character(info_scale))
+  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
 
   # --------------------------------------------- #
   #     get information at input analysis_time    #

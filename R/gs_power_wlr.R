@@ -207,7 +207,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
   # get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
-  info_scale <- match.arg(as.character(info_scale))
+  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
 
   # ---------------------------------------- #
   #    calculate the asymptotic variance     #
