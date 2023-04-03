@@ -67,10 +67,12 @@ single value of \code{FALSE} indicates no lower bound; otherwise,
 a logical vector of the same length as \code{info} should indicate which
 analyses will have a lower bound.}
 
-\item{info_scale}{The information scale for calculation. Options are \code{0,1,2}.
-If set as 0, then variance under null hypothesis is used.
-If set as 1, then variance under alternative hypothesis is used.
-If set as 2 (default), then variance under both null and alternative hypothesis are used.}
+\item{info_scale}{Information scale for calculation. Options are:
+\itemize{
+\item \code{0}: variance under null hypothesis is used.
+\item \code{1}: variance under alternative hypothesis is used.
+\item \code{2} (default): variance under both null and alternative hypotheses is used.
+}}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
