@@ -242,7 +242,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 
   # set up info_scale
   info_scale <- match.arg(as.character(info_scale))
-  
+
   if (info_scale == 0) {
     info <- info0
     info1 <- info0
