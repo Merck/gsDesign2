@@ -237,7 +237,6 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
     (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info0[1]
   }
 
-
   allout <- y_gs %>%
     mutate(
       rd = x_fix$rd,
