@@ -1,0 +1,126 @@
+---
+title: "Integer designs"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+# bibliography: "example.bib"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Integer designs}
+---
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png"
+)
+options(width = 58)
+```
+
+```{r, message=FALSE}
+library(gsDesign)
+library(gsDesign2)
+library(tibble)
+library(dplyr)
+library(gt)
+```
+
+# Unstratified design
+
+## Binary outcome
+```{r}
+x <- gs_design_rd(
+  p_c = tibble(stratum = "All", rate = .2),
+  p_e = tibble(stratum = "All", rate = .15),
+  info_frac = c(0.5, 0.8, 1),
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
+  ratio = 1,
+  stratum_prev = NULL,
+  weight = "unstratified",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+
+x %>% summary() %>% as_gt()
+```
+
+```{r}
+xi <- x %>% to_integer()
+
+xi %>% summary() %>% as_gt()
+```
+
+Note that in the original design, the sample size is `r x$analysis$n`, and in the integer design, the sample size is updated to `r xi$analysis$n`. For the 2 interim analysis, we floor to the closet multiplier of 2, since the randomization ratio is `r x$input$ratio`. At the final analysis, we ceiling the sample size from `r dplyr::last(x$analysis$n)` to `r dplyr::last(xi$analysis$n)` and also make sure the integer sample size is a multiplier of 2.
+
+Please also note that, since the sample size is rounded, the power of the new design also changes a little bit, i.e., from `r x$bound %>% filter(bound == "upper") %>% arrange(desc(analysis)) %>% filter(row_number() == 1) %>% select(probability) %>% unlist() %>% as.numeric()` to `r xi$bound %>% filter(bound == "upper") %>% arrange(desc(analysis)) %>% filter(row_number() == 1) %>% select(probability) %>% unlist() %>% as.numeric()`.
+
+## Survival outcome
+```{r}
+x <- gs_design_ahr(analysis_time = c(12, 24, 36))
+xi <- x %>% to_integer()
+```
+
+Notice that with the integer design, the (i) number of events, (ii) sample size, (iii) power, (iv) information fraction will be different.
+
+```{r}
+tibble(
+  Design = rep(c("Original design", "Integer design"), each = 3),
+  Events = c(x$analysis$event,  xi$analysis$event),
+  `Sample size` = c(x$analysis$n, xi$analysis$n),
+  `Information fraction` = c(x$analysis$info_frac, xi$analysis$info_frac),
+  Power = c((x$bound %>% filter(bound == "upper"))$probability, (xi$bound %>% filter(bound == "upper"))$probability)
+) %>% 
+  group_by(Design) %>% 
+  gt() %>% 
+  tab_header(title = "Comparision between the original/integer design",
+             subtitle = "on survival endpoints") %>% 
+  fmt_number(columns = 2:5, decimals = 4)
+```
+
+
+# Stratified design
+
+```{r}
+y <- gs_design_rd(
+  p_c = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    rate = c(.2, .25)
+    ),
+  p_e = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    rate = c(.15, .22)
+    ),
+  info_frac = c(0.7, 1),
+  rd0 = 0,
+  alpha = .025,
+  beta = .1,
+  ratio = 1,
+  stratum_prev = tibble(
+    stratum = c("biomarker positive", "biomarker negative"),
+    prevalence = c(.4, .6)
+    ),
+  weight = "ss",
+  upper = gs_spending_bound, lower = gs_b,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lpar = rep(-Inf, 2)
+  )
+
+y %>% summary() %>% as_gt()
+```
+
+```{r}
+yi <- y %>% to_integer()
+
+yi %>% summary() %>% as_gt()
+```
+
+Note that in the original design, the sample size is `r y$analysis$n`, and in the integer design, the sample size is updated to `r yi$analysis$n`. For the 2 interim analysis, we floor to the closet multiplier of 2, since the randomization ratio is `r y$input$ratio`. At the final analysis, we ceiling the sample size from `r dplyr::last(y$analysis$n)` to `r dplyr::last(yi$analysis$n)` and also make sure the integer sample size is a multiplier of 2.

@@ -203,16 +203,24 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' gs_design_wlr() %>% to_integer()
 #' }
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
+  
+  n_analysis <- length(x$analysis$analysis)
   multiply_factor <- x$input$ratio + 1
-  enroll_rate <- x$enroll_rate
-  enroll_rate_new <- enroll_rate %>%
-    mutate(rate = rate * ceiling(x$analysis$n / multiply_factor) * multiply_factor / x$analysis$n)
 
   if ("ahr" %in% class(x)) {
+    
+    event <- x$analysis$event
+    event_new <- c(floor(event[1 : (n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
+    
+    sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
+    enroll_rate <- x$enroll_rate
+    enroll_rate_new <- enroll_rate %>%
+      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
+    
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = as.numeric(ceiling(x$analysis$event)),
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = x$input$upper, upar = x$input$upar,
@@ -223,10 +231,19 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol
     )
   } else if ("wlr" %in% class(x)) {
+    
+    event <- x$analysis$event
+    event_new <- c(floor(event[1 : (n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
+    
+    sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
+    enroll_rate <- x$enroll_rate
+    enroll_rate_new <- enroll_rate %>%
+      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
+    
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = as.numeric(ceiling(x$analysis$event)),
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = x$input$upper, upar = x$input$upar,
@@ -237,6 +254,49 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
       weight = x$input$weight,
       approx = x$input$approx
+    )
+  } else if ("rd" %in% class(x)){
+    n_stratum <- length(x$input$p_c$stratum)
+    
+    sample_size_new <- tibble(analysis = 1 : n_analysis,
+                              n = c(floor(x$analysis$n[1 : (n_analysis - 1)] / multiply_factor), 
+                                    ceiling(x$analysis$n[n_analysis] / multiply_factor)) * multiply_factor 
+                              )
+    if(n_stratum == 1){
+      suppressMessages(
+      tbl_n <- tibble(analysis = rep(1:n_analysis, each = n_stratum), 
+                      stratum = rep(x$input$p_c$stratum, n_analysis)) %>% 
+        left_join(sample_size_new) 
+      )
+    } else{
+      suppressMessages(
+      tbl_n <- tibble(analysis = rep(1:n_analysis, each = n_stratum), 
+                      stratum = rep(x$input$p_c$stratum, n_analysis)) %>% 
+        left_join(x$input$stratum_prev) %>% 
+        left_join(sample_size_new) %>% 
+        mutate(n_new = prevalence * n) %>% 
+        select(-c(n, prevalence)) %>% 
+        dplyr::rename(n = n_new)
+      )
+    }
+    
+    x_new <- gs_power_rd(
+      p_c = x$input$p_c,
+      p_e = x$input$p_e,
+      n = tbl_n,
+      rd0 = x$input$rd0,
+      ratio = x$input$ratio,
+      weight = x$input$weight,
+      upper = x$input$upper,
+      lower = x$input$lower,
+      upar = x$input$upar,
+      lpar = x$input$lpar,
+      info_scale = x$input$info_scale,
+      binding = x$input$binding,
+      test_upper = x$input$test_upper,
+      test_lower = x$input$test_lower,
+      r = x$input$r,
+      tol = x$input$tol
     )
   } else {
     message("The input object is not applicatable to get an integer sample size.")
