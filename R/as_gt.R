@@ -543,7 +543,7 @@ as_gt.gs_design <- function(x,
       gt::tab_footnote(
         footnote = paste0(
           "Cumulative alpha for final analysis (", x_alpha,
-          ") is less than the full alpha (", full_alpha,") when
+          ") is less than the full alpha (", full_alpha, ") when
           the futility bound is non-binding. ",
           "The smaller value subtracts the probability of
           crossing a futility bound before ",
