@@ -248,7 +248,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
       info, info0, info_frac, info_frac0, `~risk difference at bound`, `nominal p`
     )) %>%
     arrange(analysis, desc(bound))
-  
+
   # --------------------------------------------- #
   #     get input parameters to output            #
   # --------------------------------------------- #
@@ -261,7 +261,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
     h1_spending = h1_spending,
     binding = binding, info_scale = info_scale, r = r, tol = tol
   )
-  
+
   # --------------------------------------------- #
   #     get bounds to output                      #
   # --------------------------------------------- #
