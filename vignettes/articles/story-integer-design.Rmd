@@ -96,7 +96,7 @@ tibble(
   Z = c((x$bound %>% filter(bound == "upper"))$z, (xi$bound %>% filter(bound == "upper"))$z),
   `Information fraction` = c(x$analysis$info_frac, xi$analysis$info_frac),
   Power = c((x$bound %>% filter(bound == "upper"))$probability, (xi$bound %>% filter(bound == "upper"))$probability)
-) %>% 
+  ) %>% 
   group_by(Design) %>% 
   gt() %>% 
   tab_header(title = "Comparison between the original/integer design",
@@ -136,7 +136,7 @@ x <- gs_design_rd(
 xi <- x %>% to_integer()
 ```
 
-Note that in the original design, the sample size is `r y$analysis$n`, and in the integer design, the sample size is updated to `r yi$analysis$n`. For the 2 interim analysis, we floor to the closet multiplier of 2, since the randomization ratio is `r y$input$ratio`. At the final analysis, we ceiling the sample size from `r dplyr::last(y$analysis$n)` to `r dplyr::last(yi$analysis$n)` and also make sure the integer sample size is a multiplier of 2.
+Note that in the original design, the sample size is `r x$analysis$n`, and in the integer design, the sample size is updated to `r xi$analysis$n`. For the 2 interim analysis, we floor to the closet multiplier of 2, since the randomization ratio is `r x$input$ratio`. At the final analysis, we ceiling the sample size from `r dplyr::last(x$analysis$n)` to `r dplyr::last(xi$analysis$n)` and also make sure the integer sample size is a multiplier of 2.
 
 ```{r}
 tibble(
