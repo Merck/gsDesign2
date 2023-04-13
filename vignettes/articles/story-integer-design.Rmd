@@ -79,11 +79,11 @@ tibble(
   `Sample size` = c(x$analysis$n, xi$analysis$n),
   `Information fraction` = c(x$analysis$info_frac, xi$analysis$info_frac),
   Power = c((x$bound %>% filter(bound == "upper"))$probability, (xi$bound %>% filter(bound == "upper"))$probability)
-) %>% 
-  group_by(Design) %>% 
-  gt() %>% 
+) %>%
+  group_by(Design) %>%
+  gt() %>%
   tab_header(title = "Comparision between the original/integer design",
-             subtitle = "on survival endpoints") %>% 
+             subtitle = "on survival endpoints") %>%
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
