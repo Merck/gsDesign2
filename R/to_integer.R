@@ -216,7 +216,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       upar_new <- x$input$upar
       upar_new$timing <- event_new / max(event_new)
     } else {
-      upar_new <- upar
+      upar_new <- x$input$upar
     }
     
     enroll_rate <- x$enroll_rate
@@ -246,7 +246,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       upar_new <- x$input$upar
       upar_new$timing <- event_new / max(event_new)
     } else {
-      upar_new <- upar
+      upar_new <- x$input$upar
     }
     
     enroll_rate <- x$enroll_rate
