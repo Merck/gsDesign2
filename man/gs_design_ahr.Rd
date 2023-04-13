@@ -22,7 +22,7 @@ gs_design_ahr(
   h1_spending = TRUE,
   test_upper = TRUE,
   test_lower = TRUE,
-  info_scale = c(2, 0, 1),
+  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
   r = 18,
   tol = 1e-06,
   interval = c(0.01, 100)
@@ -36,8 +36,6 @@ gs_design_ahr(
 \item{alpha}{One-sided Type I error.}
 
 \item{beta}{Type II error.}
-
-\item{info_frac}{Targeted information fraction at each analysis.}
 
 \item{analysis_time}{Minimum time of analysis.}
 

@@ -20,7 +20,7 @@ gs_power_ahr(
   test_upper = TRUE,
   ratio = 1,
   binding = FALSE,
-  info_scale = c(2, 0, 1),
+  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
   r = 18,
   tol = 1e-06,
   interval = c(0.01, 100)
@@ -61,9 +61,9 @@ default of \code{FALSE} is recommended.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
-\item \code{0}: variance under null hypothesis is used.
-\item \code{1}: variance under alternative hypothesis is used.
-\item \code{2} (default): variance under both null and alternative hypotheses is used.
+\item \code{h0-info}: variance under null hypothesis is used.
+\item \code{h1-info}: variance under alternative hypothesis is used.
+\item \code{h0-h1-info} (default): variance under both null and alternative hypotheses is used.
 }}
 
 \item{r}{Integer value controlling grid for numerical integration as in

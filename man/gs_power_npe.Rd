@@ -11,7 +11,7 @@ gs_power_npe(
   info = 1,
   info0 = NULL,
   info1 = NULL,
-  info_scale = c(2, 0, 1),
+  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
   upper = gs_b,
   upar = qnorm(0.975),
   lower = gs_b,
@@ -45,9 +45,9 @@ futility bound calculation if different from
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
-\item \code{0}: variance under null hypothesis is used.
-\item \code{1}: variance under alternative hypothesis is used.
-\item \code{2} (default): variance under both null and alternative hypotheses is used.
+\item \code{h0-info}: variance under null hypothesis is used.
+\item \code{h1-info}: variance under alternative hypothesis is used.
+\item \code{h0-h1-info} (default): variance under both null and alternative hypotheses is used.
 }}
 
 \item{upper}{Function to compute upper bound.}

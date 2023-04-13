@@ -20,7 +20,7 @@ gs_power_wlr(
   test_lower = TRUE,
   ratio = 1,
   weight = wlr_weight_fh,
-  info_scale = c(2, 0, 1),
+  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
   approx = "asymptotic",
   r = 18,
   tol = 1e-06,

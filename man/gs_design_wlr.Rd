@@ -14,7 +14,7 @@ gs_design_wlr(
   beta = 0.1,
   ratio = 1,
   info_frac = NULL,
-  info_scale = c(2, 0, 1),
+  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
   analysis_time = 36,
   binding = FALSE,
   upper = gs_b,
@@ -54,8 +54,6 @@ gs_design_wlr(
 \item{beta}{Type II error.}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
-
-\item{info_frac}{Targeted information fraction at each analysis.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
