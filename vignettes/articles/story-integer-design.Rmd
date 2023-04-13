@@ -45,28 +45,44 @@ x <- gs_design_rd(
   ratio = 1,
   stratum_prev = NULL,
   weight = "unstratified",
-  upper = gs_b,
+  upper = gs_spending_bound,
   lower = gs_b,
-  upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF)$upper$bound,
-  lpar = c(qnorm(.1), rep(-Inf, 2))
+  upar = list(sf = gsDesign::sfLDOF, timing = c(0.5, 0.8, 1), total_spend = 0.025, param = NULL),
+  lpar = rep(-Inf, 3)
 )
 
-x %>% summary() %>% as_gt()
-```
-
-```{r}
 xi <- x %>% to_integer()
-
-xi %>% summary() %>% as_gt()
 ```
 
 Note that in the original design, the sample size is `r x$analysis$n`, and in the integer design, the sample size is updated to `r xi$analysis$n`. For the 2 interim analysis, we floor to the closet multiplier of 2, since the randomization ratio is `r x$input$ratio`. At the final analysis, we ceiling the sample size from `r dplyr::last(x$analysis$n)` to `r dplyr::last(xi$analysis$n)` and also make sure the integer sample size is a multiplier of 2.
 
 Please also note that, since the sample size is rounded, the power of the new design also changes a little bit, i.e., from `r x$bound %>% filter(bound == "upper") %>% arrange(desc(analysis)) %>% filter(row_number() == 1) %>% select(probability) %>% unlist() %>% as.numeric()` to `r xi$bound %>% filter(bound == "upper") %>% arrange(desc(analysis)) %>% filter(row_number() == 1) %>% select(probability) %>% unlist() %>% as.numeric()`.
 
+```{r}
+tibble(
+  Design = rep(c("Original design", "Integer design"), each = 3),
+  `Sample size` = c(x$analysis$n, xi$analysis$n),
+  Z = c((x$bound %>% filter(bound == "upper"))$z, (xi$bound %>% filter(bound == "upper"))$z),
+  `Information fraction` = c(x$analysis$info_frac, xi$analysis$info_frac),
+  Power = c((x$bound %>% filter(bound == "upper"))$probability, (xi$bound %>% filter(bound == "upper"))$probability)
+  ) %>% 
+  group_by(Design) %>% 
+  gt() %>% 
+  tab_header(title = "Comparison between the original/integer design",
+             subtitle = "on binary endpoints (unstratified design)") %>% 
+  fmt_number(columns = 2:5, decimals = 4)
+```
+
+
 ## Survival outcome
 ```{r}
-x <- gs_design_ahr(analysis_time = c(12, 24, 36))
+x <- gs_design_ahr(
+  analysis_time = c(12, 24, 36),
+  upper = gs_spending_bound,
+  lower = gs_b,
+  upar = list(sf = gsDesign::sfLDOF, timing = 1:3/3, total_spend = 0.025, param = NULL),
+  lpar = rep(-Inf, 3)
+  )
 xi <- x %>% to_integer()
 ```
 
@@ -77,13 +93,14 @@ tibble(
   Design = rep(c("Original design", "Integer design"), each = 3),
   Events = c(x$analysis$event,  xi$analysis$event),
   `Sample size` = c(x$analysis$n, xi$analysis$n),
+  Z = c((x$bound %>% filter(bound == "upper"))$z, (xi$bound %>% filter(bound == "upper"))$z),
   `Information fraction` = c(x$analysis$info_frac, xi$analysis$info_frac),
   Power = c((x$bound %>% filter(bound == "upper"))$probability, (xi$bound %>% filter(bound == "upper"))$probability)
 ) %>% 
   group_by(Design) %>% 
   gt() %>% 
-  tab_header(title = "Comparision between the original/integer design",
-             subtitle = "on survival endpoints") %>% 
+  tab_header(title = "Comparison between the original/integer design",
+             subtitle = "on survival endpoints (unstratified design)") %>% 
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
@@ -91,7 +108,7 @@ tibble(
 # Stratified design
 
 ```{r}
-y <- gs_design_rd(
+x <- gs_design_rd(
   p_c = tibble(
     stratum = c("biomarker positive", "biomarker negative"),
     rate = c(.2, .25)
@@ -110,18 +127,30 @@ y <- gs_design_rd(
     prevalence = c(.4, .6)
     ),
   weight = "ss",
-  upper = gs_spending_bound, lower = gs_b,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  upper = gs_spending_bound, 
+  lower = gs_b,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = c(0.7, 1)),
   lpar = rep(-Inf, 2)
   )
 
-y %>% summary() %>% as_gt()
-```
-
-```{r}
-yi <- y %>% to_integer()
-
-yi %>% summary() %>% as_gt()
+xi <- x %>% to_integer()
 ```
 
 Note that in the original design, the sample size is `r y$analysis$n`, and in the integer design, the sample size is updated to `r yi$analysis$n`. For the 2 interim analysis, we floor to the closet multiplier of 2, since the randomization ratio is `r y$input$ratio`. At the final analysis, we ceiling the sample size from `r dplyr::last(y$analysis$n)` to `r dplyr::last(yi$analysis$n)` and also make sure the integer sample size is a multiplier of 2.
+
+```{r}
+tibble(
+  Design = rep(c("Original design", "Integer design"), each = 2),
+  `Sample size` = c(x$analysis$n, xi$analysis$n),
+  Z = c((x$bound %>% filter(bound == "upper"))$z, (xi$bound %>% filter(bound == "upper"))$z),
+  `Information fraction` = c(x$analysis$info_frac, xi$analysis$info_frac),
+  Power = c((x$bound %>% filter(bound == "upper"))$probability, (xi$bound %>% filter(bound == "upper"))$probability)
+  ) %>% 
+  group_by(Design) %>% 
+  gt() %>% 
+  tab_header(title = "Comparison between the original/integer design",
+             subtitle = "on binary endpoints (unstratified design)") %>% 
+  fmt_number(columns = 2:5, decimals = 4)
+```
+
+
