@@ -28,9 +28,9 @@
 #' @param lower Function to compare lower bound.
 #' @param lpar Parameters passed to `lower`.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `0`: variance under null hypothesis is used.
-#'   - `1`: variance under alternative hypothesis is used.
-#'   - `2` (default): variance under both null and alternative hypotheses is used.
+#'   - `h0-info`: variance under null hypothesis is used.
+#'   - `h1-info`: variance under alternative hypothesis is used.
+#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
 #' @param weight Weighting method, can be `"unstratified"`, `"ss"`,
 #'   "invar_h1", or "invar_h0".
 #' @param binding Indicator of whether futility bound is binding;
@@ -259,7 +259,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
                         lower = gs_b,
                         upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
                         lpar = c(qnorm(.1), rep(-Inf, 2)),
-                        info_scale = c(2, 0, 1),
+                        info_scale = c("h0-h1-info", "h0-info", "h1-info"),
                         binding = FALSE,
                         test_upper = TRUE,
                         test_lower = TRUE,
@@ -268,7 +268,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
   # get the number of analysis
   n_analysis <- max(n$analysis)
   # get the info_scale
-  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
+  info_scale <- match.arg(info_scale)
   # get the weighting scheme
   weight <- if (methods::missingArg(weight)) {
     "unstratified"

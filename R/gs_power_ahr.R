@@ -30,9 +30,9 @@
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `0`: variance under null hypothesis is used.
-#'   - `1`: variance under alternative hypothesis is used.
-#'   - `2` (default): variance under both null and alternative hypotheses is used.
+#'   - `h0-info`: variance under null hypothesis is used.
+#'   - `h1-info`: variance under alternative hypothesis is used.
+#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
 #' @param upper Function to compute upper bound.
 #' @param upar Parameters passed to `upper`.
 #' @param lower Function to compute lower bound.
@@ -169,7 +169,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
                          test_upper = TRUE,
                          ratio = 1,
                          binding = FALSE,
-                         info_scale = c(2, 0, 1),
+                         info_scale = c("h0-h1-info", "h0-info", "h1-info"),
                          r = 18,
                          tol = 1e-6,
                          interval = c(.01, 100)) {
@@ -177,7 +177,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
 
   # Get the info_scale
-  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
+  info_scale <- match.arg(info_scale)
 
   # Check if it is two-sided design or not
   if (identical(lower, gs_b) && (!is.list(lpar))) {

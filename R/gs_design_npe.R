@@ -58,9 +58,9 @@
 #'   under alternate hypothesis;
 #'   impacts null hypothesis bound calculation.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `0`: variance under null hypothesis is used.
-#'   - `1`: variance under alternative hypothesis is used.
-#'   - `2` (default): variance under both null and alternative hypotheses is used.
+#'   - `h0-info`: variance under null hypothesis is used.
+#'   - `h1-info`: variance under alternative hypothesis is used.
+#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
 #' @param binding Indicator of whether futility bound is binding;
@@ -195,12 +195,12 @@
 #'   test_upper = c(FALSE, TRUE, TRUE)
 #' )
 #'
-#' # one can try `info_scale = 1` or `info_scale = 0` here
+#' # one can try `info_scale = h1-info` or `info_scale = h0-info` here
 #' gs_design_npe(
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
 #'   info0 = (1:3) * 30,
-#'   info_scale = 1,
+#'   info_scale = "h1-info",
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_b,
@@ -254,7 +254,7 @@
 #'
 gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                           info = 1, info0 = NULL, info1 = NULL, # 3 info
-                          info_scale = c(2, 0, 1),
+                          info_scale = c("h0-h1-info", "h0-info", "h1-info"),
                           alpha = 0.025, beta = .1,
                           upper = gs_b, upar = qnorm(.975),
                           lower = gs_b, lpar = -Inf,
@@ -307,7 +307,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   }
 
   # set up info_scale
-  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
+  info_scale <- match.arg(info_scale)
 
   if (info_scale == 0) {
     info <- info0

@@ -51,9 +51,9 @@
 #'   Larger values provide larger number of grid points and greater accuracy.
 #'   Normally, `r` will not be changed by the user.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `0`: variance under null hypothesis is used.
-#'   - `1`: variance under alternative hypothesis is used.
-#'   - `2` (default): variance under both null and alternative hypotheses is used.
+#'   - `h0-info`: variance under null hypothesis is used.
+#'   - `h1-info`: variance under alternative hypothesis is used.
+#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
 #' @param weight The weighting scheme for stratified population.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
@@ -135,7 +135,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
                          lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_upper = TRUE,
                          test_lower = TRUE,
-                         info_scale = c(2, 0, 1),
+                         info_scale = c("h0-h1-info", "h0-info", "h1-info"),
                          binding = FALSE,
                          r = 18,
                          tol = 1e-6,
@@ -143,7 +143,8 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
-  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
+  info_scale <- match.arg(info_scale)
+  
   weight <- if (methods::missingArg(weight)) {
     "unstratified"
   } else {

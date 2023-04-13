@@ -23,7 +23,10 @@
 #' @param ratio Experimental:Control randomization ratio (not yet implemented).
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
-#' @param info_frac Targeted information fraction at each analysis.
+#' @param info_scale Information scale for calculation. Options are:
+#'   - `h0-info`: variance under null hypothesis is used.
+#'   - `h1-info`: variance under alternative hypothesis is used.
+#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
 #' @param analysis_time Minimum time of analysis.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
@@ -185,7 +188,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
                           h1_spending = TRUE,
                           test_upper = TRUE,
                           test_lower = TRUE,
-                          info_scale = c(2, 0, 1),
+                          info_scale = c("h0-h1-info", "h0-info", "h1-info"),
                           r = 18,
                           tol = 1e-6,
                           interval = c(.01, 100)) {
@@ -195,8 +198,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
   if (is.null(info_frac)) {
     info_frac <- 1
   }
-  info_scale <- match.arg(as.character(info_scale), choices = 0:2)
-
+  info_scale <- match.arg(info_scale)
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
