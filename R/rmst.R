@@ -60,10 +60,10 @@ fixed_design_size_rmst <- function(enroll_rate,
                                    test = c("survival_difference", "rmst_difference"),
                                    tau = NULL) {
   test <- match.arg(test)
-  
-  if(test == "survival_difference"){
+
+  if (test == "survival_difference") {
     test <- "survival differnce"
-  } else if(test == "rmst_difference"){
+  } else if (test == "rmst_difference") {
     test <- "rmst difference"
   }
 
@@ -147,10 +147,10 @@ fixed_design_power_rmst <- function(enroll_rate,
                                     test = c("survival_difference", "rmst_difference"),
                                     tau = NULL) {
   test <- match.arg(test)
-  
-  if(test == "survival_difference"){
+
+  if (test == "survival_difference") {
     test <- "survival differnce"
-  } else if(test == "rmst_difference"){
+  } else if (test == "rmst_difference") {
     test <- "rmst difference"
   }
 
