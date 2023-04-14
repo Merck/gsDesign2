@@ -69,7 +69,7 @@ tibble(
   group_by(Design) %>%
   gt() %>%
   tab_header(title = "Comparison between the original/integer design",
-             subtitle = "on binary endpoints (unstratified design)") %>% 
+             subtitle = "on binary endpoints (unstratified design)") %>%
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
@@ -79,7 +79,7 @@ x <- gs_design_ahr(
   analysis_time = c(12, 24, 36),
   upper = gs_spending_bound,
   lower = gs_b,
-  upar = list(sf = gsDesign::sfLDOF, timing = 1:3/3, total_spend = 0.025, param = NULL),
+  upar = list(sf = gsDesign::sfLDOF, timing = 1:3 / 3, total_spend = 0.025, param = NULL),
   lpar = rep(-Inf, 3)
   )
 xi <- x %>% to_integer()
@@ -99,7 +99,7 @@ tibble(
   group_by(Design) %>%
   gt() %>%
   tab_header(title = "Comparison between the original/integer design",
-             subtitle = "on survival endpoints (unstratified design)") %>% 
+             subtitle = "on survival endpoints (unstratified design)") %>%
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
@@ -126,7 +126,7 @@ x <- gs_design_rd(
     prevalence = c(.4, .6)
     ),
   weight = "ss",
-  upper = gs_spending_bound, 
+  upper = gs_spending_bound,
   lower = gs_b,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = c(0.7, 1)),
   lpar = rep(-Inf, 2)
@@ -148,7 +148,7 @@ tibble(
   group_by(Design) %>%
   gt() %>%
   tab_header(title = "Comparison between the original/integer design",
-             subtitle = "on binary endpoints (unstratified design)") %>% 
+             subtitle = "on binary endpoints (unstratified design)") %>%
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
