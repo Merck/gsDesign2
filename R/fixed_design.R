@@ -472,8 +472,16 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         lambdaC = lambda_cc,
         S = ss, eta = etaa,
         # enroll_rate
-        gamma = gammaa, R = if(n_stratum == 1){rr}else{rr[, 1]},
-        T = study_duration, minfup = study_duration - sum(if(n_stratum == 1){rr}else{rr[, 1]})
+        gamma = gammaa, R = if (n_stratum == 1) {
+          rr
+        } else {
+          rr[, 1]
+        },
+        T = study_duration, minfup = study_duration - sum(if (n_stratum == 1) {
+          rr
+        } else {
+          rr[, 1]
+        })
       )
 
       ans <- tibble::tibble(
