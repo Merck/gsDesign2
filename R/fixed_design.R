@@ -583,7 +583,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           alpha = alpha, beta = 1 - power, ratio = ratio,
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           analysis_time = study_duration,
-          test = "survival difference",
+          test = "survival_difference",
           tau = ifelse(has_tau, args$tau, study_duration)
         )
       } else {
@@ -591,7 +591,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           alpha = alpha, ratio = ratio,
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           analysis_time = study_duration,
-          test = "survival difference",
+          test = "survival_difference",
           tau = ifelse(has_tau, args$tau, study_duration)
         )
       }
