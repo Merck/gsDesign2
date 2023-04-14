@@ -383,13 +383,13 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
       # check if it is stratum
       n_stratum1 <- length(unique(enroll_rate$stratum))
       n_stratum2 <- length(unique(fail_rate$stratum))
-      if(n_stratum1 != n_stratum2){
+      if (n_stratum1 != n_stratum2) {
         stop("The number of strata does not match in the enrollment/failrate.")
-      } else{
+      } else {
         n_stratum <- n_stratum1
       }
-      
-      
+
+
       if (n_stratum == 1) {
         m <- length(fail_rate$fail_rate)
         lambda_cc <- fail_rate$fail_rate
@@ -403,47 +403,58 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         }
       } else {
         warning("Lachin-Foulkes is not recommended for stratified designs!")
-        
-        temp <- fail_rate %>% group_by(stratum) %>% summarise(n_duration = n())
+
+        temp <- fail_rate %>%
+          group_by(stratum) %>%
+          summarise(n_duration = n())
         # calculate the S: duration of piecewise constant event rates
-        if(all(temp$n_duration == 1)){
+        if (all(temp$n_duration == 1)) {
           ss <- cbind(NULL, NULL)
         } else {
           stratified_duration <- fail_rate %>%
             select(stratum, duration) %>%
             tidyr::pivot_wider(names_from = stratum, values_from = duration, values_fn = list)
-           
-          ss <- do.call(cbind, lapply(stratified_duration, function(x){x %>% unlist()})) %>% as.matrix()
+
+          ss <- do.call(cbind, lapply(stratified_duration, function(x) {
+            x %>% unlist()
+          })) %>% as.matrix()
         }
-        
+
         # calculate the lambdaC: event hazard rates for the control group
-        stratified_lambdac  <- fail_rate %>%
+        stratified_lambdac <- fail_rate %>%
           select(stratum, fail_rate) %>%
           tidyr::pivot_wider(names_from = stratum, values_from = fail_rate, values_fn = list)
-        
-        lambda_cc <- do.call(cbind, lapply(stratified_lambdac, function(x){x %>% unlist()})) %>% as.matrix()
-        
+
+        lambda_cc <- do.call(cbind, lapply(stratified_lambdac, function(x) {
+          x %>% unlist()
+        })) %>% as.matrix()
+
         # calculate the eta: dropout hazard rates for the control group
         stratified_eta <- fail_rate %>%
           select(stratum, dropout_rate) %>%
           tidyr::pivot_wider(names_from = stratum, values_from = dropout_rate, values_fn = list)
-        
-        etaa <- do.call(cbind, lapply(stratified_eta, function(x){x %>% unlist()})) %>% as.matrix()
-        
+
+        etaa <- do.call(cbind, lapply(stratified_eta, function(x) {
+          x %>% unlist()
+        })) %>% as.matrix()
+
         # calculate the gamma: rates of entry by time period (rows) and strata (columns)
         stratified_enroll_rate <- enroll_rate %>%
           select(stratum, rate) %>%
           tidyr::pivot_wider(names_from = stratum, values_from = rate, values_fn = list)
-        
-        gammaa <- do.call(cbind, lapply(stratified_enroll_rate, function(x){x %>% unlist()})) %>% as.matrix()
-        
+
+        gammaa <- do.call(cbind, lapply(stratified_enroll_rate, function(x) {
+          x %>% unlist()
+        })) %>% as.matrix()
+
         # calculate the R: duration of time periods for recruitment rates specified in rows of gamma
         stratified_enroll_duration <- enroll_rate %>%
           select(stratum, duration) %>%
           tidyr::pivot_wider(names_from = stratum, values_from = duration, values_fn = list)
-        
-        rr <- do.call(cbind, lapply(stratified_enroll_duration, function(x){x %>% unlist()})) %>% as.matrix()
-        
+
+        rr <- do.call(cbind, lapply(stratified_enroll_duration, function(x) {
+          x %>% unlist()
+        })) %>% as.matrix()
       }
 
       # calculate the ahr as the hr in nSurv
