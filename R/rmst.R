@@ -66,7 +66,7 @@ fixed_design_size_rmst <- function(enroll_rate,
   } else if(test == "rmst_difference"){
     test <- "rmst difference"
   }
-  
+
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = ratio, total_time = analysis_time)
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
@@ -153,7 +153,7 @@ fixed_design_power_rmst <- function(enroll_rate,
   } else if(test == "rmst_difference"){
     test <- "rmst difference"
   }
-  
+
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = ratio, total_time = analysis_time)
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
