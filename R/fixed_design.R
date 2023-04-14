@@ -389,7 +389,6 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         n_stratum <- n_stratum1
       }
 
-
       if (n_stratum == 1) {
         m <- length(fail_rate$fail_rate)
         lambda_cc <- fail_rate$fail_rate
@@ -417,7 +416,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
           ss <- do.call(cbind, lapply(stratified_duration, function(x) {
             x %>% unlist()
-          })) %>% as.matrix()
+          })) %>%
+            as.matrix()
         }
 
         # calculate the lambdaC: event hazard rates for the control group
@@ -427,7 +427,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
         lambda_cc <- do.call(cbind, lapply(stratified_lambdac, function(x) {
           x %>% unlist()
-        })) %>% as.matrix()
+        })) %>%
+          as.matrix()
 
         # calculate the eta: dropout hazard rates for the control group
         stratified_eta <- fail_rate %>%
@@ -436,7 +437,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
         etaa <- do.call(cbind, lapply(stratified_eta, function(x) {
           x %>% unlist()
-        })) %>% as.matrix()
+        })) %>%
+          as.matrix()
 
         # calculate the gamma: rates of entry by time period (rows) and strata (columns)
         stratified_enroll_rate <- enroll_rate %>%
@@ -445,7 +447,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
         gammaa <- do.call(cbind, lapply(stratified_enroll_rate, function(x) {
           x %>% unlist()
-        })) %>% as.matrix()
+        })) %>%
+          as.matrix()
 
         # calculate the R: duration of time periods for recruitment rates specified in rows of gamma
         stratified_enroll_duration <- enroll_rate %>%
@@ -454,7 +457,8 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
         rr <- do.call(cbind, lapply(stratified_enroll_duration, function(x) {
           x %>% unlist()
-        })) %>% as.matrix()
+        })) %>%
+          as.matrix()
       }
 
       # calculate the ahr as the hr in nSurv
