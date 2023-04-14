@@ -61,6 +61,12 @@ fixed_design_size_rmst <- function(enroll_rate,
                                    tau = NULL) {
   test <- match.arg(test)
   
+  if(test == "survival_difference"){
+    test <- "survival differnce"
+  } else if(test == "rmst_difference"){
+    test <- "rmst difference"
+  }
+  
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = ratio, total_time = analysis_time)
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
@@ -141,6 +147,12 @@ fixed_design_power_rmst <- function(enroll_rate,
                                     test = c("survival_difference", "rmst_difference"),
                                     tau = NULL) {
   test <- match.arg(test)
+  
+  if(test == "survival_difference"){
+    test <- "survival differnce"
+  } else if(test == "rmst_difference"){
+    test <- "rmst difference"
+  }
   
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = ratio, total_time = analysis_time)
   arm0 <- gs_arm[["arm0"]]
