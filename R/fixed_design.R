@@ -689,4 +689,5 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
   class(y) <- c("fixed_design", class(y))
   return(y)
+  
 }
