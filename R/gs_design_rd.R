@@ -86,7 +86,7 @@
 #'   weight = "unstratified",
 #'   upper = gs_b,
 #'   lower = gs_b,
-#'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+#'   upar = gsDesign(k = 2, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #'
@@ -257,6 +257,19 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
     arrange(analysis, desc(bound))
 
   # --------------------------------------------- #
+  #     get input parameters to output            #
+  # --------------------------------------------- #
+  input <- list(
+    p_c = p_c, p_e = p_e,
+    info_frac = info_frac, rd0 = rd0, alpha = alpha, beta = beta,
+    ratio = ratio, stratum_prev = stratum_prev, weight = weight,
+    upper = upper, upar = upar, test_upper = test_upper,
+    lower = lower, lpar = lpar, test_lower = test_lower,
+    h1_spending = h1_spending,
+    binding = binding, info_scale = info_scale, r = r, tol = tol
+  )
+
+  # --------------------------------------------- #
   #     get bounds to output                      #
   # --------------------------------------------- #
   bound <- allout %>%
@@ -273,6 +286,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
   #     return the output                         #
   # --------------------------------------------- #
   ans <- list(
+    input = input,
     bound = bound %>% filter(!is.infinite(z)),
     analysis = analysis
   )
