@@ -578,12 +578,12 @@ By plugging the `theta` and `info` above into `gs_design_npe()`, one can
 calculate the sample size to achieve the 90% power.
 
 ```{r}
-# under info_scale = 0
+# under info_scale = "h0_info"
 y_0 <- gs_design_npe(
   theta = .4 - .28,
   info = x$info0,
   info0 = x$info0,
-  info_scale = 0,
+  info_scale = "h0_info",
   alpha = .025,
   beta = .1,
   upper = gs_b,
@@ -592,12 +592,12 @@ y_0 <- gs_design_npe(
   lpar = list(par = -Inf)
 )
 
-# under info_scale = 1
+# under info_scale = "h1_info"
 y_1 <- gs_design_npe(
   theta = .4 - .28,
   info = x$info1,
   info0 = x$info0,
-  info_scale = 1,
+  info_scale = "h1_info",
   alpha = .025,
   beta = .1,
   upper = gs_b,
@@ -606,12 +606,12 @@ y_1 <- gs_design_npe(
   lpar = list(par = -Inf)
 )
 
-# under info_scale = 2
+# under info_scale = "h0_h1_info"
 y_2 <- gs_design_npe(
   theta = .4 - .28,
   info = x$info1,
   info0 = x$info0,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = .025,
   beta = .1,
   upper = gs_b,
@@ -621,9 +621,9 @@ y_2 <- gs_design_npe(
 )
 
 tibble(
-  `info_scale = 0` = y_0$info0[1] / x$info0[1],
-  `info_scale = 1` = y_1$info1[1] / x$info1[1],
-  `info_scale = 2` = y_2$info[1] / x$info1[1]
+  `info_scale = "h0_info"` = y_0$info0[1] / x$info0[1],
+  `info_scale = "h1_info"` = y_1$info1[1] / x$info1[1],
+  `info_scale = "h0_h1_info"` = y_2$info[1] / x$info1[1]
 ) %>%
   gt::gt() %>%
   gt::tab_header(title = "The sample size calculated by gsDesign2 under 3 info_scale")
@@ -645,7 +645,7 @@ z_info_scale_0 <- gs_design_rd(
   lower = gs_b,
   upar = -qnorm(.025),
   lpar = -Inf,
-  info_scale = 0
+  info_scale = "h0_info"
 )
 
 z_info_scale_1 <- gs_design_rd(
@@ -660,7 +660,7 @@ z_info_scale_1 <- gs_design_rd(
   lower = gs_b,
   upar = -qnorm(.025),
   lpar = -Inf,
-  info_scale = 1
+  info_scale = "h1_info"
 )
 
 z_info_scale_2 <- gs_design_rd(
@@ -675,7 +675,7 @@ z_info_scale_2 <- gs_design_rd(
   lower = gs_b,
   upar = -qnorm(.025),
   lpar = -Inf,
-  info_scale = 2
+  info_scale = "h0_h1_info"
 )
 ```
 
@@ -711,9 +711,9 @@ tibble::tibble(
     columns = c(EAST_unpool, EAST_pool)
   ) %>%
   cols_label(
-    gsDesign2_info_scale_0 = "info_scale = 0",
-    gsDesign2_info_scale_1 = "info_scale = 1",
-    gsDesign2_info_scale_2 = "info_scale = 2",
+    gsDesign2_info_scale_0 = "info_scale = \"h0_info\"",
+    gsDesign2_info_scale_1 = "info_scale = \"h1_info\"",
+    gsDesign2_info_scale_2 = "info_scale = \"h0_h1_info\"",
     EAST_unpool = "un-pooled",
     EAST_pool = "pooled"
   )
@@ -753,7 +753,7 @@ y_gs0 <- gs_design_npe(
   theta = .05,
   info = x_gs$info0,
   info0 = x_gs$info0,
-  info_scale = 0,
+  info_scale = "h0_info",
   alpha = .025, beta = .1, binding = FALSE,
   upper = gs_b,
   lower = gs_b,
@@ -766,7 +766,7 @@ y_gs1 <- gs_design_npe(
   theta = .05,
   info = x_gs$info1,
   info0 = x_gs$info1,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = .025, beta = .1, binding = FALSE,
   upper = gs_b,
   lower = gs_b,
@@ -779,7 +779,7 @@ y_gs2 <- gs_design_npe(
   theta = .05,
   info = x_gs$info1,
   info0 = x_gs$info0,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = .025, beta = .1, binding = FALSE,
   upper = gs_b,
   lower = gs_b,
@@ -789,9 +789,9 @@ y_gs2 <- gs_design_npe(
 )
 
 tibble(
-  `info_scale = 0` = y_gs0$info0 / x_gs$info0[3],
-  `info_scale = 1` = y_gs1$info1 / x_gs$info1[3],
-  `info_scale = 2` = y_gs2$info / x_gs$info1[3]
+  `info_scale = "h0_info"` = y_gs0$info0 / x_gs$info0[3],
+  `info_scale = "h1_info"` = y_gs1$info1 / x_gs$info1[3],
+  `info_scale = "h0_h1_info"` = y_gs2$info / x_gs$info1[3]
 ) %>%
   gt::gt() %>%
   gt::tab_header(
@@ -817,7 +817,7 @@ x_gsdesign2_info_scale_0 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = rep(-Inf, 3),
   test_lower = FALSE,
-  info_scale = 0
+  info_scale = "h0_info"
 )
 
 x_gsdesign2_info_scale_1 <- gs_design_rd(
@@ -834,7 +834,7 @@ x_gsdesign2_info_scale_1 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = rep(-Inf, 3),
   test_lower = FALSE,
-  info_scale = 1
+  info_scale = "h1_info"
 )
 
 x_gsdesign2_info_scale_2 <- gs_design_rd(
@@ -851,7 +851,7 @@ x_gsdesign2_info_scale_2 <- gs_design_rd(
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = rep(-Inf, 3),
   test_lower = FALSE,
-  info_scale = 2
+  info_scale = "h0_h1_info"
 )
 ```
 
@@ -942,9 +942,9 @@ tibble::tibble(
     columns = c(EAST_unpool, EAST_pool)
   ) %>%
   cols_label(
-    gsDesign2_info_scale_0 = "info_scale = 0",
-    gsDesign2_info_scale_1 = "info_scale = 1",
-    gsDesign2_info_scale_2 = "info_scale = 2",
+    gsDesign2_info_scale_0 = "info_scale = \"h0_info\"",
+    gsDesign2_info_scale_1 = "info_scale = \"h1_info\"",
+    gsDesign2_info_scale_2 = "info_scale = \"h0_h1_info\"",
     EAST_unpool = "un-pooled",
     EAST_pool = "pooled"
   )
@@ -1215,7 +1215,7 @@ y_invar_h0 <- gs_design_npe(
   theta = x$rd_invar_H0,
   info = x$info0_invar_H0,
   info0 = x$info0_invar_H0,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = 0.025,
   beta = 0.2,
   upper = gs_b,
@@ -1229,7 +1229,7 @@ y_invar_h1 <- gs_design_npe(
   theta = x$rd_invar_H1,
   info = x$info0_invar_H1,
   info0 = x$info0_invar_H1,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = 0.025,
   beta = 0.2,
   upper = gs_b,
@@ -1243,7 +1243,7 @@ y_ss <- gs_design_npe(
   theta = x$rd_ss,
   info = x$info0_ss,
   info0 = x$info0_ss,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = 0.025,
   beta = 0.2,
   upper = gs_b,
@@ -1260,7 +1260,7 @@ yy_invar_h0 <- gs_design_npe(
   theta = x$rd_invar_H0,
   info = x$info_invar_H0,
   info0 = x$info0_invar_H0,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = 0.025,
   beta = 0.2,
   upper = gs_b,
@@ -1274,7 +1274,7 @@ yy_invar_h1 <- gs_design_npe(
   theta = x$rd_invar_H1,
   info = x$info_invar_H1,
   info0 = x$info0_invar_H1,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = 0.025,
   beta = 0.2,
   upper = gs_b,
@@ -1288,7 +1288,7 @@ yy_ss <- gs_design_npe(
   theta = x$rd_ss,
   info = x$info_ss,
   info0 = x$info0_ss,
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   alpha = 0.025,
   beta = 0.2,
   upper = gs_b,
@@ -1319,7 +1319,7 @@ ans_math %>%
 The above logic is implemented in `gs_design_rd()`.
 
 ```{r}
-## sample size weighting + information scale = 0
+## sample size weighting + information scale = "h0_info"
 x_ss0 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1334,13 +1334,13 @@ x_ss0 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 0,
+  info_scale = "h0_info",
   binding = FALSE
 )
 ```
 
 ```{r}
-## sample size weighting + information scale = 1
+## sample size weighting + information scale = "h1_info"
 x_ss1 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1355,13 +1355,13 @@ x_ss1 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 1,
+  info_scale = "h1_info",
   binding = FALSE
 )
 ```
 
 ```{r}
-## sample size weighting + information scale = 2
+## sample size weighting + information scale = "h0_h1_info"
 x_ss2 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1376,13 +1376,13 @@ x_ss2 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   binding = FALSE
 )
 ```
 
 ```{r}
-## inverse variance weighting + information scale = 0
+## inverse variance weighting + information scale = "h0_info"
 x_invar0 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1397,13 +1397,13 @@ x_invar0 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 0,
+  info_scale = "h0_info",
   binding = FALSE
 )
 ```
 
 ```{r}
-## inverse variance weighting + information scale = 1
+## inverse variance weighting + information scale = "h1_info"
 x_invar1 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1418,13 +1418,13 @@ x_invar1 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 1,
+  info_scale = "h1_info",
   binding = FALSE
 )
 ```
 
 ```{r}
-## inverse variance weighting + information scale = 2
+## inverse variance weighting + information scale = "h0_h1_info"
 x_invar2 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1439,14 +1439,14 @@ x_invar2 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   binding = FALSE
 )
 ```
 
 
 ```{r}
-## inverse variance weighting + information scale = 0
+## inverse variance weighting + information scale = "h0_info"
 x_invar_h1_0 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1461,13 +1461,13 @@ x_invar_h1_0 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 0,
+  info_scale = "h0_info",
   binding = FALSE
 )
 ```
 
 ```{r}
-## inverse variance weighting + information scale = 1
+## inverse variance weighting + information scale = "h1_info"
 x_invar_h1_1 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1482,13 +1482,13 @@ x_invar_h1_1 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 1,
+  info_scale = "h1_info",
   binding = FALSE
 )
 ```
 
 ```{r}
-## inverse variance weighting + information scale = 2
+## inverse variance weighting + information scale = "h0_h1_info"
 x_invar_h1_2 <- gs_design_rd(
   p_c = p_c,
   p_e = p_e,
@@ -1503,11 +1503,10 @@ x_invar_h1_2 <- gs_design_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2)),
-  info_scale = 2,
+  info_scale = "h0_h1_info",
   binding = FALSE
 )
 ```
-
 
 ```{r}
 ans <- tibble::tibble(
@@ -1535,12 +1534,12 @@ ans %>%
     columns = c(SS0, SS1, SS2)
   ) %>%
   cols_label(
-    INVAR0 = "info_scale = 0",
-    INVAR1 = "info_scale = 1",
-    INVAR2 = "info_scale = 2",
-    SS0 = "info_scale = 0",
-    SS1 = "info_scale = 1",
-    SS2 = "info_scale = 2"
+    INVAR0 = "info_scale = \"h0_info\"",
+    INVAR1 = "info_scale = \"h1_info\"",
+    INVAR2 = "info_scale = \"h0_h1_info\"",
+    SS0 = "info_scale = \"h0_info\"",
+    SS1 = "info_scale = \"h1_info\"",
+    SS2 = "info_scale = \"h0_h1_info\""
   )
 ```
 

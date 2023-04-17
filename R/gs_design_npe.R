@@ -57,7 +57,10 @@
 #' @param info1 Proportionate statistical information
 #'   under alternate hypothesis;
 #'   impacts null hypothesis bound calculation.
-#' @param info_scale The information scale for calculation.
+#' @param info_scale Information scale for calculation. Options are:
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
 #' @param binding Indicator of whether futility bound is binding;
@@ -193,12 +196,12 @@
 #'   test_upper = c(FALSE, TRUE, TRUE)
 #' )
 #'
-#' # one can try `info_scale = 1` or `info_scale = 0` here
+#' # one can try `info_scale = "h1_info"` or `info_scale = "h0_info"` here
 #' gs_design_npe(
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
 #'   info0 = (1:3) * 30,
-#'   info_scale = 1,
+#'   info_scale = "h1_info",
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_b,
@@ -252,7 +255,7 @@
 #'
 gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                           info = 1, info0 = NULL, info1 = NULL, # 3 info
-                          info_scale = c(0, 1, 2),
+                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                           alpha = 0.025, beta = .1,
                           upper = gs_b, upar = qnorm(.975),
                           lower = gs_b, lpar = -Inf,
@@ -305,16 +308,13 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   }
 
   # set up info_scale
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
-  if (info_scale == 0) {
+  info_scale <- match.arg(info_scale)
+
+  if (info_scale == "h0_info") {
     info <- info0
     info1 <- info0
   }
-  if (info_scale == 1) {
+  if (info_scale == "h1_info") {
     info <- info1
     info0 <- info1
   }
@@ -509,7 +509,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 errbeta <- function(x = 1, n_analysis = 1,
                     beta = .1,
                     theta = .1, theta0 = 0, theta1 = .1,
-                    info = 1, info0 = 1, info1 = 1, info_scale = 2,
+                    info = 1, info0 = 1, info1 = 1, info_scale = "h0_h1_info",
                     z_upper = gs_b, upar = qnorm(.975),
                     z_lower = gs_b, lpar = -Inf,
                     test_upper = TRUE, test_lower = TRUE,

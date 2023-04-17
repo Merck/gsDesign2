@@ -50,7 +50,10 @@
 #'   as in Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 #'   Larger values provide larger number of grid points and greater accuracy.
 #'   Normally, `r` will not be changed by the user.
-#' @param info_scale The information scale for calculation.
+#' @param info_scale Information scale for calculation. Options are:
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param weight The weighting scheme for stratified population.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
@@ -132,7 +135,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
                          lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_upper = TRUE,
                          test_lower = TRUE,
-                         info_scale = c(0, 1, 2),
+                         info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          binding = FALSE,
                          r = 18,
                          tol = 1e-6,
@@ -140,11 +143,8 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
+  info_scale <- match.arg(info_scale)
+
   weight <- if (methods::missingArg(weight)) {
     "unstratified"
   } else {
@@ -229,11 +229,11 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
   # --------------------------------------------- #
   #     get statistical information               #
   # --------------------------------------------- #
-  inflac_fct <- if (info_scale == 0) {
+  inflac_fct <- if (info_scale == "h0_info") {
     (y_gs %>% filter(bound == "upper", analysis == k))$info0 / x_fix$info0[1]
-  } else if (info_scale == 1) {
+  } else if (info_scale == "h1_info") {
     (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info1[1]
-  } else if (info_scale == 2) {
+  } else if (info_scale == "h0_h1_info") {
     (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info0[1]
   }
 

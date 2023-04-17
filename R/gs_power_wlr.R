@@ -199,7 +199,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
                          test_lower = TRUE,
                          ratio = 1,
                          weight = wlr_weight_fh,
-                         info_scale = c(0, 1, 2),
+                         info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          approx = "asymptotic",
                          r = 18,
                          tol = 1e-6,
@@ -207,11 +207,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
   # get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
-  info_scale <- if (methods::missingArg(info_scale)) {
-    2
-  } else {
-    match.arg(as.character(info_scale), choices = 0:2)
-  }
+  info_scale <- match.arg(info_scale)
 
   # ---------------------------------------- #
   #    calculate the asymptotic variance     #

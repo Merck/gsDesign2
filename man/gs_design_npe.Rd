@@ -11,7 +11,7 @@ gs_design_npe(
   info = 1,
   info0 = NULL,
   info1 = NULL,
-  info_scale = c(0, 1, 2),
+  info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   alpha = 0.025,
   beta = 0.1,
   upper = gs_b,
@@ -49,7 +49,12 @@ impacts null hypothesis bound calculation.}
 under alternate hypothesis;
 impacts null hypothesis bound calculation.}
 
-\item{info_scale}{The information scale for calculation.}
+\item{info_scale}{Information scale for calculation. Options are:
+\itemize{
+\item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_info"}: variance under null hypothesis is used.
+\item \code{"h1_info"}: variance under alternative hypothesis is used.
+}}
 
 \item{alpha}{One-sided Type I error.}
 
@@ -216,12 +221,12 @@ gs_design_npe(
   test_upper = c(FALSE, TRUE, TRUE)
 )
 
-# one can try `info_scale = 1` or `info_scale = 0` here
+# one can try `info_scale = "h1_info"` or `info_scale = "h0_info"` here
 gs_design_npe(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   info0 = (1:3) * 30,
-  info_scale = 1,
+  info_scale = "h1_info",
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_b,

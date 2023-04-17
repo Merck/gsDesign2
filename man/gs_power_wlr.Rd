@@ -20,7 +20,7 @@ gs_power_wlr(
   test_lower = TRUE,
   ratio = 1,
   weight = wlr_weight_fh,
-  info_scale = c(0, 1, 2),
+  info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   approx = "asymptotic",
   r = 18,
   tol = 1e-06,
@@ -68,7 +68,12 @@ lower bound.}
 \item \code{"FH_p[a]_q[b]"} = Fleming-Harrington with p=a and q=b.
 }}
 
-\item{info_scale}{The information scale for calculation.}
+\item{info_scale}{Information scale for calculation. Options are:
+\itemize{
+\item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_info"}: variance under null hypothesis is used.
+\item \code{"h1_info"}: variance under alternative hypothesis is used.
+}}
 
 \item{approx}{Approximate estimation method for Z statistics.
 \itemize{

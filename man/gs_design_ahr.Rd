@@ -22,7 +22,7 @@ gs_design_ahr(
   h1_spending = TRUE,
   test_upper = TRUE,
   test_lower = TRUE,
-  info_scale = c(0, 1, 2),
+  info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   r = 18,
   tol = 1e-06,
   interval = c(0.01, 100)
@@ -69,7 +69,12 @@ single value \code{FALSE} indicated no lower bound; otherwise, a logical vector
 of the same length as \code{info} should indicate which analyses will have a
 lower bound.}
 
-\item{info_scale}{The information scale for calculation.}
+\item{info_scale}{Information scale for calculation. Options are:
+\itemize{
+\item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_info"}: variance under null hypothesis is used.
+\item \code{"h1_info"}: variance under alternative hypothesis is used.
+}}
 
 \item{r}{Integer value controlling grid for numerical integration as in
 Jennison and Turnbull (2000); default is 18, range is 1 to 80.
