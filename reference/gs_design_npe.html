@@ -127,7 +127,7 @@ are not supported by <code><a href="gs_power_npe.html">gs_power_npe()</a></code>
 <span>  info <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  info1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.025</span>,</span>
 <span>  beta <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
@@ -180,7 +180,10 @@ impacts null hypothesis bound calculation.</p></dd>
 
 
 <dt>info_scale</dt>
-<dd><p>The information scale for calculation.</p></dd>
+<dd><p>Information scale for calculation. Options are:</p><ul><li><p><code>"h0_h1_info"</code> (default): variance under both null and alternative hypotheses is used.</p></li>
+<li><p><code>"h0_info"</code>: variance under null hypothesis is used.</p></li>
+<li><p><code>"h1_info"</code>: variance under alternative hypothesis is used.</p></li>
+</ul></dd>
 
 
 <dt>alpha</dt>
@@ -366,12 +369,12 @@ will be used to ensure Type I error and other boundary properties are as specifi
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        3 lower -<span style="color: #BB0000;">Inf</span>         0.047<span style="text-decoration: underline;">7</span>      0.159     0.3     1     134.  134. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: info1 &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># one can try `info_scale = 1` or `info_scale = 0` here</span></span></span>
+<span class="r-in"><span><span class="co"># one can try `info_scale = "h1_info"` or `info_scale = "h0_info"` here</span></span></span>
 <span class="r-in"><span><span class="fu">gs_design_npe</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  info0 <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">30</span>,</span></span>
-<span class="r-in"><span>  info_scale <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  info_scale <span class="op">=</span> <span class="st">"h1_info"</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>

@@ -68,7 +68,7 @@
 <span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>  upar <span class="op">=</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span>
 <span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  test_lower <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -121,7 +121,10 @@
 
 
 <dt>info_scale</dt>
-<dd><p>The information scale for calculation.</p></dd>
+<dd><p>Information scale for calculation. Options are:</p><ul><li><p><code>"h0_h1_info"</code> (default): variance under both null and alternative hypotheses is used.</p></li>
+<li><p><code>"h0_info"</code>: variance under null hypothesis is used.</p></li>
+<li><p><code>"h1_info"</code>: variance under alternative hypothesis is used.</p></li>
+</ul></dd>
 
 
 <dt>binding</dt>

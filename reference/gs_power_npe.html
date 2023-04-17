@@ -121,7 +121,7 @@ are not supported by <code>gs_power_npe()</code>.</p></li>
 <span>  info <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  info1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span><span class="op">)</span>,</span>
 <span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
@@ -168,8 +168,10 @@ futility bound calculation if different from
 
 
 <dt>info_scale</dt>
-<dd><p>The information scale for calculation,
-default is 2, other options are 0 or 1.</p></dd>
+<dd><p>Information scale for calculation. Options are:</p><ul><li><p><code>"h0_h1_info"</code> (default): variance under both null and alternative hypotheses is used.</p></li>
+<li><p><code>"h0_info"</code>: variance under null hypothesis is used.</p></li>
+<li><p><code>"h1_info"</code>: variance under alternative hypothesis is used.</p></li>
+</ul></dd>
 
 
 <dt>upper</dt>
