@@ -241,7 +241,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
         info0 / max(info0)
       },
       n = (y_gs %>% filter(bound == "upper", analysis == k))$info
-        / ifelse(info_scale == 0, x_fix$info0[1], x_fix$info1[1]) * info_frac
+        / ifelse(info_scale == "h0_info", x_fix$info0[1], x_fix$info1[1]) * info_frac
     ) %>%
     select(c(
       analysis, bound, n, rd, rd0, z, probability, probability0,
