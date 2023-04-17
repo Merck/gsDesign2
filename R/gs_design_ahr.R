@@ -23,10 +23,7 @@
 #' @param ratio Experimental:Control randomization ratio (not yet implemented).
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
-#' @param info_scale Information scale for calculation. Options are:
-#'   - `h0-info`: variance under null hypothesis is used.
-#'   - `h1-info`: variance under alternative hypothesis is used.
-#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
+#' @param info_frac Targeted information fraction at each analysis.
 #' @param analysis_time Minimum time of analysis.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
@@ -35,9 +32,9 @@
 #' @param lower Function to compute lower bound.
 #' @param lpar Parameters passed to `lower`.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `0`: variance under null hypothesis is used.
-#'   - `1`: variance under alternative hypothesis is used.
-#'   - `2` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param h1_spending Indicator that lower bound to be set by spending
 #'   under alternate hypothesis (input `fail_rate`)
 #'   if spending is used for lower bound.
@@ -188,7 +185,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
                           h1_spending = TRUE,
                           test_upper = TRUE,
                           test_lower = TRUE,
-                          info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                           r = 18,
                           tol = 1e-6,
                           interval = c(.01, 100)) {
@@ -199,6 +196,7 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
     info_frac <- 1
   }
   info_scale <- match.arg(info_scale)
+
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #

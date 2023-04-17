@@ -14,7 +14,7 @@ gs_design_wlr(
   beta = 0.1,
   ratio = 1,
   info_frac = NULL,
-  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+  info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   analysis_time = 36,
   binding = FALSE,
   upper = gs_b,
@@ -55,11 +55,13 @@ gs_design_wlr(
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 
+\item{info_frac}{Targeted information fraction at each analysis.}
+
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
-\item \code{0}: variance under null hypothesis is used.
-\item \code{1}: variance under alternative hypothesis is used.
-\item \code{2} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_info"}: variance under null hypothesis is used.
+\item \code{"h1_info"}: variance under alternative hypothesis is used.
 }}
 
 \item{analysis_time}{Minimum time of analysis.}

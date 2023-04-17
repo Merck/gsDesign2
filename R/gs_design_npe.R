@@ -58,9 +58,9 @@
 #'   under alternate hypothesis;
 #'   impacts null hypothesis bound calculation.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `h0-info`: variance under null hypothesis is used.
-#'   - `h1-info`: variance under alternative hypothesis is used.
-#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
 #' @param binding Indicator of whether futility bound is binding;
@@ -195,12 +195,12 @@
 #'   test_upper = c(FALSE, TRUE, TRUE)
 #' )
 #'
-#' # one can try `info_scale = h1-info` or `info_scale = h0-info` here
+#' # one can try `info_scale = "h1_info"` or `info_scale = "h0_info"` here
 #' gs_design_npe(
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
 #'   info0 = (1:3) * 30,
-#'   info_scale = "h1-info",
+#'   info_scale = "h1_info",
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_b,
@@ -254,7 +254,7 @@
 #'
 gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                           info = 1, info0 = NULL, info1 = NULL, # 3 info
-                          info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                           alpha = 0.025, beta = .1,
                           upper = gs_b, upar = qnorm(.975),
                           lower = gs_b, lpar = -Inf,
@@ -502,7 +502,7 @@ gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
 errbeta <- function(x = 1, n_analysis = 1,
                     beta = .1,
                     theta = .1, theta0 = 0, theta1 = .1,
-                    info = 1, info0 = 1, info1 = 1, info_scale = 2,
+                    info = 1, info0 = 1, info1 = 1, info_scale = "h0_h1_info",
                     z_upper = gs_b, upar = qnorm(.975),
                     z_lower = gs_b, lpar = -Inf,
                     test_upper = TRUE, test_lower = TRUE,

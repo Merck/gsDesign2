@@ -20,7 +20,7 @@ gs_power_wlr(
   test_lower = TRUE,
   ratio = 1,
   weight = wlr_weight_fh,
-  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+  info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   approx = "asymptotic",
   r = 18,
   tol = 1e-06,
@@ -70,9 +70,9 @@ lower bound.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
-\item \code{0}: variance under null hypothesis is used.
-\item \code{1}: variance under alternative hypothesis is used.
-\item \code{2} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_info"}: variance under null hypothesis is used.
+\item \code{"h1_info"}: variance under alternative hypothesis is used.
 }}
 
 \item{approx}{Approximate estimation method for Z statistics.

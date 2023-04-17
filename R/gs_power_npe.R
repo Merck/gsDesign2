@@ -52,9 +52,9 @@
 #'   futility bound calculation if different from
 #'   `info`; impacts futility hypothesis bound calculation.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `h0-info`: variance under null hypothesis is used.
-#'   - `h1-info`: variance under alternative hypothesis is used.
-#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param upper Function to compute upper bound.
@@ -205,7 +205,7 @@
 #' )
 gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                          info = 1, info0 = NULL, info1 = NULL, # 3 info
-                         info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                         info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          upper = gs_b, upar = qnorm(.975),
                          lower = gs_b, lpar = -Inf,
                          test_upper = TRUE, test_lower = TRUE, binding = FALSE,

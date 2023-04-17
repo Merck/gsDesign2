@@ -124,7 +124,7 @@ gs_design_wlr <- function(enroll_rate = tibble(
                           weight = wlr_weight_fh, approx = "asymptotic",
                           alpha = 0.025, beta = 0.1, ratio = 1,
                           info_frac = NULL,
-                          info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                           analysis_time = 36,
                           binding = FALSE,
                           upper = gs_b,

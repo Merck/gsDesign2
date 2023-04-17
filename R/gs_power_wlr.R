@@ -199,7 +199,7 @@ gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2
                          test_lower = TRUE,
                          ratio = 1,
                          weight = wlr_weight_fh,
-                         info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                         info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          approx = "asymptotic",
                          r = 18,
                          tol = 1e-6,

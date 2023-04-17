@@ -15,7 +15,7 @@ gs_power_rd(
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(0.1), rep(-Inf, 2)),
-  info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+  info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   binding = FALSE,
   test_upper = TRUE,
   test_lower = TRUE,
@@ -47,9 +47,9 @@ gs_power_rd(
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
-\item \code{h0-info}: variance under null hypothesis is used.
-\item \code{h1-info}: variance under alternative hypothesis is used.
-\item \code{h0-h1-info} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_info"}: variance under null hypothesis is used.
+\item \code{"h1_info"}: variance under alternative hypothesis is used.
 }}
 
 \item{binding}{Indicator of whether futility bound is binding;

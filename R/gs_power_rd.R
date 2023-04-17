@@ -28,9 +28,9 @@
 #' @param lower Function to compare lower bound.
 #' @param lpar Parameters passed to `lower`.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `h0-info`: variance under null hypothesis is used.
-#'   - `h1-info`: variance under alternative hypothesis is used.
-#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param weight Weighting method, can be `"unstratified"`, `"ss"`,
 #'   "invar_h1", or "invar_h0".
 #' @param binding Indicator of whether futility bound is binding;
@@ -259,7 +259,7 @@ gs_power_rd <- function(p_c = tibble::tibble(
                         lower = gs_b,
                         upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
                         lpar = c(qnorm(.1), rep(-Inf, 2)),
-                        info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                        info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                         binding = FALSE,
                         test_upper = TRUE,
                         test_lower = TRUE,

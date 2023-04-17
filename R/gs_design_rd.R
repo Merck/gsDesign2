@@ -51,9 +51,9 @@
 #'   Larger values provide larger number of grid points and greater accuracy.
 #'   Normally, `r` will not be changed by the user.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `h0-info`: variance under null hypothesis is used.
-#'   - `h1-info`: variance under alternative hypothesis is used.
-#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param weight The weighting scheme for stratified population.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
@@ -135,7 +135,7 @@ gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
                          lpar = c(qnorm(.1), rep(-Inf, 2)),
                          test_upper = TRUE,
                          test_lower = TRUE,
-                         info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                         info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          binding = FALSE,
                          r = 18,
                          tol = 1e-6,

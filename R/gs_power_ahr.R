@@ -30,9 +30,9 @@
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param info_scale Information scale for calculation. Options are:
-#'   - `h0-info`: variance under null hypothesis is used.
-#'   - `h1-info`: variance under alternative hypothesis is used.
-#'   - `h0-h1-info` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param upper Function to compute upper bound.
 #' @param upar Parameters passed to `upper`.
 #' @param lower Function to compute lower bound.
@@ -169,7 +169,7 @@ gs_power_ahr <- function(enroll_rate = tibble(
                          test_upper = TRUE,
                          ratio = 1,
                          binding = FALSE,
-                         info_scale = c("h0-h1-info", "h0-info", "h1-info"),
+                         info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          r = 18,
                          tol = 1e-6,
                          interval = c(.01, 100)) {
