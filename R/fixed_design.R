@@ -381,16 +381,84 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
     },
     "lf" = {
       # check if it is stratum
-      if (length(unique(enroll_rate$stratum)) != 1 | length(unique(fail_rate$stratum)) != 1) {
-        warning("Lachin-Foulkes is not recommended for stratified designs!")
+      n_stratum1 <- length(unique(enroll_rate$stratum))
+      n_stratum2 <- length(unique(fail_rate$stratum))
+      if (n_stratum1 != n_stratum2) {
+        stop("The number of strata does not match in the enrollment/failrate.")
+      } else {
+        n_stratum <- n_stratum1
       }
 
-      # calculate the S: duration of piecewise constant event rates
-      m <- length(fail_rate$fail_rate)
-      if (m == 1) {
-        ss <- NULL
+      if (n_stratum == 1) {
+        m <- length(fail_rate$fail_rate)
+        lambda_cc <- fail_rate$fail_rate
+        etaa <- fail_rate$dropout_rate
+        gammaa <- enroll_rate$rate
+        rr <- enroll_rate$duration
+        if (m == 1) {
+          ss <- NULL
+        } else {
+          ss <- fail_rate$duration[1:(m - 1)]
+        }
       } else {
-        ss <- fail_rate$duration[1:(m - 1)]
+        warning("Lachin-Foulkes is not recommended for stratified designs!")
+
+        temp <- fail_rate %>%
+          group_by(stratum) %>%
+          summarise(n_duration = n())
+        # calculate the S: duration of piecewise constant event rates
+        if (all(temp$n_duration == 1)) {
+          ss <- cbind(NULL, NULL)
+        } else {
+          stratified_duration <- fail_rate %>%
+            select(stratum, duration) %>%
+            tidyr::pivot_wider(names_from = stratum, values_from = duration, values_fn = list)
+
+          ss <- do.call(cbind, lapply(stratified_duration, function(x) {
+            x %>% unlist()
+          })) %>%
+            as.matrix()
+        }
+
+        # calculate the lambdaC: event hazard rates for the control group
+        stratified_lambdac <- fail_rate %>%
+          select(stratum, fail_rate) %>%
+          tidyr::pivot_wider(names_from = stratum, values_from = fail_rate, values_fn = list)
+
+        lambda_cc <- do.call(cbind, lapply(stratified_lambdac, function(x) {
+          x %>% unlist()
+        })) %>%
+          as.matrix()
+
+        # calculate the eta: dropout hazard rates for the control group
+        stratified_eta <- fail_rate %>%
+          select(stratum, dropout_rate) %>%
+          tidyr::pivot_wider(names_from = stratum, values_from = dropout_rate, values_fn = list)
+
+        etaa <- do.call(cbind, lapply(stratified_eta, function(x) {
+          x %>% unlist()
+        })) %>%
+          as.matrix()
+
+        # calculate the gamma: rates of entry by time period (rows) and strata (columns)
+        stratified_enroll_rate <- enroll_rate %>%
+          select(stratum, rate) %>%
+          tidyr::pivot_wider(names_from = stratum, values_from = rate, values_fn = list)
+
+        gammaa <- do.call(cbind, lapply(stratified_enroll_rate, function(x) {
+          x %>% unlist()
+        })) %>%
+          as.matrix()
+
+        # calculate the R: duration of time periods for recruitment rates specified in rows of gamma
+        stratified_enroll_duration <- enroll_rate %>%
+          select(stratum, duration) %>%
+          tidyr::pivot_wider(names_from = stratum, values_from = duration, values_fn = list)
+
+        rr <- do.call(cbind, lapply(stratified_enroll_duration, function(x) {
+          x %>% unlist()
+        })) %>%
+          as.matrix()
       }
 
       # calculate the ahr as the hr in nSurv
@@ -405,11 +473,19 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
         },
         ratio = ratio, hr = dd$ahr,
         # fail_rate
-        lambdaC = fail_rate$fail_rate,
-        S = ss, eta = fail_rate$dropout_rate,
+        lambdaC = lambda_cc,
+        S = ss, eta = etaa,
         # enroll_rate
-        gamma = enroll_rate$rate, R = enroll_rate$duration,
-        T = study_duration, minfup = study_duration - sum(enroll_rate$duration)
+        gamma = gammaa, R = if (n_stratum == 1) {
+          rr
+        } else {
+          rr[, 1]
+        },
+        T = study_duration, minfup = study_duration - sum(if (n_stratum == 1) {
+          rr
+        } else {
+          rr[, 1]
+        })
       )
 
       ans <- tibble::tibble(
@@ -547,7 +623,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           alpha = alpha, beta = 1 - power, ratio = ratio,
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           analysis_time = study_duration,
-          test = "rmst difference",
+          test = "rmst_difference",
           tau = ifelse(has_tau, args$tau, study_duration)
         )
       } else {
@@ -555,7 +631,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           alpha = alpha, ratio = ratio,
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           analysis_time = study_duration,
-          test = "rmst difference",
+          test = "rmst_difference",
           tau = ifelse(has_tau, args$tau, study_duration)
         )
       }
@@ -583,7 +659,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           alpha = alpha, beta = 1 - power, ratio = ratio,
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           analysis_time = study_duration,
-          test = "survival difference",
+          test = "survival_difference",
           tau = ifelse(has_tau, args$tau, study_duration)
         )
       } else {
@@ -591,7 +667,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
           alpha = alpha, ratio = ratio,
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           analysis_time = study_duration,
-          test = "survival difference",
+          test = "survival_difference",
           tau = ifelse(has_tau, args$tau, study_duration)
         )
       }
@@ -614,6 +690,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
       )
     }
   )
+
 
   class(y) <- c("fixed_design", class(y))
   return(y)

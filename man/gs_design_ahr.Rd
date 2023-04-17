@@ -196,4 +196,30 @@ gs_design_ahr(
   h1_spending = TRUE
 )
 }
+
+# ----------------- #
+#    example 7      #
+# ----------------- #
+\donttest{
+gs_design_ahr(
+  alpha = 0.0125,
+  analysis_time = c(12, 24, 36),
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.0125, param = NULL, timing = NULL),
+  lower = gs_b,
+  lpar = rep(-Inf, 3)
+)
+
+gs_design_ahr(
+  alpha = 0.0125,
+  analysis_time = c(12, 24, 36),
+  upper = gs_b,
+  upar = gsDesign::gsDesign(
+    k = 3, test.type = 1, n.I = c(.25, .75, 1),
+    sfu = sfLDOF, sfupar = NULL, alpha = 0.0125
+  )$upper$bound,
+  lower = gs_b,
+  lpar = rep(-Inf, 3)
+)
+}
 }

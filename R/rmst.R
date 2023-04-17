@@ -26,8 +26,8 @@
 #' @param beta Power (`NULL` to compute power or strictly between
 #'   0 and `1 - alpha` otherwise).
 #' @param test A string specifies the type of statistical test.
-#'   Default is `"survival difference"` (a Kaplan-Meier based test).
-#'   One can also set it as `"rmst difference"` (another Kaplan-Meier based test).
+#'   - `"survival difference"` (default): a Kaplan-Meier based test.
+#'   -`"rmst difference"`: another Kaplan-Meier based test.
 #' @param tau Desired milestone for `test = "survival difference"` or
 #'   `test = "rmst difference"`.
 #'
@@ -57,8 +57,16 @@ fixed_design_size_rmst <- function(enroll_rate,
                                    ratio = 1,
                                    alpha = 0.025,
                                    beta = 0.1,
-                                   test = "rmst difference",
+                                   test = c("survival_difference", "rmst_difference"),
                                    tau = NULL) {
+  test <- match.arg(test)
+
+  if (test == "survival_difference") {
+    test <- "survival difference"
+  } else if (test == "rmst_difference") {
+    test <- "rmst difference"
+  }
+
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = ratio, total_time = analysis_time)
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
@@ -109,8 +117,8 @@ fixed_design_size_rmst <- function(enroll_rate,
 #' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param test A string specifies the type of statistical test.
-#'   Default is `"survival difference"` (a Kaplan-Meier based test).
-#'   One can also set it as `"rmst difference"` (another Kaplan-Meier based test).
+#'   - `"survival difference"` (default): a Kaplan-Meier based test.
+#'   - `"rmst difference"`: another Kaplan-Meier based test.
 #' @param tau Desired milestone for `test = "survival difference"` or
 #'   `test = "rmst difference"`.
 #'
@@ -136,8 +144,16 @@ fixed_design_power_rmst <- function(enroll_rate,
                                     analysis_time,
                                     ratio = 1,
                                     alpha = 0.025,
-                                    test = "rmst difference",
+                                    test = c("survival_difference", "rmst_difference"),
                                     tau = NULL) {
+  test <- match.arg(test)
+
+  if (test == "survival_difference") {
+    test <- "survival difference"
+  } else if (test == "rmst_difference") {
+    test <- "rmst difference"
+  }
+
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = ratio, total_time = analysis_time)
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]

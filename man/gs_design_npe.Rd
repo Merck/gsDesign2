@@ -181,11 +181,12 @@ gs_design_npe(theta = pe - pc, info = info, info0 = info0)
 # ---------------------------------#
 # Fixed bound
 x <- gs_design_npe(
+  alpha = 0.0125,
   theta = c(.1, .2, .3),
   info = (1:3) * 80,
   info0 = (1:3) * 80,
   upper = gs_b,
-  upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
+  upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF, alpha = 0.0125)$upper$bound,
   lower = gs_b,
   lpar = c(-1, 0, 0)
 )

@@ -166,6 +166,32 @@
 #'   h1_spending = TRUE
 #' )
 #' }
+#'
+#' # ----------------- #
+#' #    example 7      #
+#' # ----------------- #
+#' \donttest{
+#' gs_design_ahr(
+#'   alpha = 0.0125,
+#'   analysis_time = c(12, 24, 36),
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.0125, param = NULL, timing = NULL),
+#'   lower = gs_b,
+#'   lpar = rep(-Inf, 3)
+#' )
+#'
+#' gs_design_ahr(
+#'   alpha = 0.0125,
+#'   analysis_time = c(12, 24, 36),
+#'   upper = gs_b,
+#'   upar = gsDesign::gsDesign(
+#'     k = 3, test.type = 1, n.I = c(.25, .75, 1),
+#'     sfu = sfLDOF, sfupar = NULL, alpha = 0.0125
+#'   )$upper$bound,
+#'   lower = gs_b,
+#'   lpar = rep(-Inf, 3)
+#' )
+#' }
 gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2, 10), rate = c(3, 6, 9)),
                           fail_rate = tibble(
                             stratum = "all", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
@@ -209,6 +235,20 @@ gs_design_ahr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 
          must have the same length if both have length > 1!")
   }
 
+  # --------------------------------------------- #
+  #     check if alpha is same as alpha spending  #
+  # --------------------------------------------- #
+  if (identical(upper, gs_spending_bound)) {
+    if (!is.null(upar$total_spend)) {
+      if (methods::missingArg(alpha)) {
+        alpha <- upar$total_spend
+      } else {
+        if (alpha != upar$total_spend) {
+          stop("gs_design_ahr(): the input alpha and the spending alpha is not consistent.")
+        }
+      }
+    }
+  }
   # --------------------------------------------- #
   #     get information at input analysis_time    #
   # --------------------------------------------- #
