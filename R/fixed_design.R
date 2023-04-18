@@ -405,7 +405,7 @@ fixed_design <- function(method = c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "
 
         temp <- fail_rate %>%
           group_by(stratum) %>%
-          summarise(n_duration = n())
+          summarize(n_duration = n())
         # calculate the S: duration of piecewise constant event rates
         if (all(temp$n_duration == 1)) {
           ss <- cbind(NULL, NULL)
