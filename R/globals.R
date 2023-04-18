@@ -31,7 +31,7 @@ utils::globalVariables(
         "dropout_rate_var", "enroll_rate_var", "g", "big_q", "big_g", "d", "nbar", "event"
       ),
       # From `fixed_design()`
-      c("bound", "rate", "rho"),
+      c("dropout_rate", "bound", "rate", "rho"),
       # From `fixed_design_size_rmst()`
       c("rate"),
       # From `gs_design_ahr()`
@@ -106,7 +106,7 @@ utils::globalVariables(
       # From `to_integer.fixed_design()`
       c("rate", "bound"),
       # From `to_integer.gs_design()`
-      c("rate")
+      c("rate", "n_new")
     )
   )
 )
