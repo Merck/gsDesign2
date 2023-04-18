@@ -10,6 +10,8 @@
 coverage](https://codecov.io/gh/Merck/gsDesign2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/gsDesign2?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gsDesign2)](https://CRAN.R-project.org/package=gsDesign2)
+[![CRAN
+Downloads](https://cranlogs.r-pkg.org/badges/gsDesign2)](https://cran.r-project.org/package=gsDesign2)
 <!-- badges: end -->
 
 ## Objective
@@ -82,11 +84,11 @@ fail_rate %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="fhrqooclbo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="iohtwzwbzu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
-  <table class="gt_table">
-  &#10;  <thead class="gt_col_headings">
-    <tr>
+  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="stratum">stratum</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="duration">duration</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="fail_rate">fail_rate</th>
@@ -138,11 +140,11 @@ fd$enroll_rate %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="fmviewnlnx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="zlyydwofsx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
-  <table class="gt_table">
-  &#10;  <thead class="gt_col_headings">
-    <tr>
+  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="stratum">stratum</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="duration">duration</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="rate">rate</th>
@@ -176,16 +178,14 @@ fd %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="vutjnceoeo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="sujaevgdsp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
-  <table class="gt_table">
-  <thead class="gt_header">
-    <tr>
-      <td colspan="8" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Fixed Design under AHR Method<sup class="gt_footnote_marks">1</sup></td>
+  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="8" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Fixed Design under AHR Method<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></td>
     </tr>
-    &#10;  </thead>
-  <thead class="gt_col_headings">
-    <tr>
+    &#10;    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Design">Design</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="N">N</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Event">Event</th>
@@ -208,7 +208,7 @@ fd %>%
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="8"><sup class="gt_footnote_marks">1</sup> Power computed with average hazard ratio method.</td>
+      <td class="gt_footnote" colspan="8"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> Power computed with average hazard ratio method.</td>
     </tr>
   </tfoot>
 </table>
@@ -271,28 +271,26 @@ gsd %>%
   as_raw_html(inline_css = FALSE)
 ```
 
-<div id="ufjprzgkuv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="imumolcnny" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
-  <table class="gt_table">
-  <thead class="gt_header">
-    <tr>
+  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
       <td colspan="6" class="gt_heading gt_title gt_font_normal" style>Bound summary for AHR design</td>
     </tr>
-    <tr>
+    <tr class="gt_heading">
       <td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>AHR approximations of ~HR at bound</td>
     </tr>
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
+    <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal p&lt;sup class=&quot;gt_footnote_marks&quot;&gt;1&lt;/sup&gt;">Nominal p<sup class="gt_footnote_marks">1</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="~HR at bound&lt;sup class=&quot;gt_footnote_marks&quot;&gt;2&lt;/sup&gt;">~HR at bound<sup class="gt_footnote_marks">2</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal p&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="~HR at bound&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/span&gt;">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span></th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
         <span class="gt_column_spanner">Cumulative boundary crossing probability</span>
       </th>
     </tr>
-    <tr>
+    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate hypothesis">Alternate hypothesis</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null hypothesis">Null hypothesis</th>
     </tr>
@@ -333,18 +331,18 @@ gsd %>%
 <td headers="Analysis: 4 Time: 36 Event: 309.5 AHR: 0.7 N: 418.66 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0219</td>
 <td headers="Analysis: 4 Time: 36 Event: 309.5 AHR: 0.7 N: 418.66 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7951</td>
 <td headers="Analysis: 4 Time: 36 Event: 309.5 AHR: 0.7 N: 418.66 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8000</td>
-<td headers="Analysis: 4 Time: 36 Event: 309.5 AHR: 0.7 N: 418.66 Information fraction: 1  Null hypothesis" class="gt_row gt_right"><sup class="gt_footnote_marks">3</sup> 0.0244</td></tr>
+<td headers="Analysis: 4 Time: 36 Event: 309.5 AHR: 0.7 N: 418.66 Information fraction: 1  Null hypothesis" class="gt_row gt_right"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0244</td></tr>
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">1</sup> One-sided p-value for experimental vs control treatment.
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment.
           Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
     </tr>
     <tr>
-      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">2</sup> Approximate hazard ratio to cross bound.</td>
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
     </tr>
     <tr>
-      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">3</sup> Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when
           the futility bound is non-binding. The smaller value subtracts the probability of
           crossing a futility bound before  crossing an efficacy bound at
           a later analysis (0.025 - 6e-04 = 0.0244) under the null hypothesis.</td>
