@@ -515,8 +515,5 @@ gs_bound <- function(alpha,
     upper <- c(upper, .upper)
   }
 
-  # Ensure final analysis bound are the same
-  lower[n_analysis] <- upper[n_analysis]
-
   data.frame(upper = upper, lower = lower)
 }
