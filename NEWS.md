@@ -1,3 +1,16 @@
+# gsDesign2 1.0.8
+
+## Improvements
+
+- Update the calculation of upper/lower bounds at the final analysis in max combo tests.
+- Correct the `fixed_design` function in the application of `rmst`.
+- Update the `fixed_design` function in the application of stratified design when using the Lachin and Foulkes method.
+- Update the `info_scale` arguments from `c(0,1,2)` to `c("h0_h1_info", "h0_info", "h1_info")` to make it more informative. 
+- Fix the calculation of the futility bounds in `gs_power_ahr`.
+- Add a CRAN download badge in the GitHub readme dashboard to show the monthly download of `gsDesign2`.
+- Add missing global functions/variables.
+- Fix outdated argument names and use canonical style for text elements in README. 
+
 # gsDesign2 1.0.7
 
 ## Improvements
