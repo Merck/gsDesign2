@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Group sequential design power under risk difference
+#' Group sequential design power of binary outcome measuring in risk difference
 #'
 #' @param p_c Rate at the control group.
 #' @param p_e Rate at the experimental group.
@@ -50,7 +50,7 @@
 #'   Normally, `r` will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
-#' @return A tibble with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events.
+#' @return A list with input parameter, analysis, and bound.
 #'
 #' @export
 #'

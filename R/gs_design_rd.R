@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Group sequential design using average hazard ratio under non-proportional hazards
+#' Group sequential design of binary outcome measuring in risk difference
 #'
 #' @param p_c Rate at the control group.
 #' @param p_e Rate at the experimental group.
@@ -57,7 +57,7 @@
 #' @param weight The weighting scheme for stratified population.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
-#' @return A tibble with columns analysis, bound, z, probability, theta, time, ahr, event.
+#' @return A list with input parameters, analysis, and bound.
 #'
 #' @details
 #' To be added.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_power_rd.R
 \name{gs_power_rd}
 \alias{gs_power_rd}
-\title{Group sequential design power under risk difference}
+\title{Group sequential design power of binary outcome measuring in risk difference}
 \usage{
 gs_power_rd(
   p_c = tibble::tibble(stratum = "all", rate = 0.2),
@@ -74,10 +74,10 @@ Normally, \code{r} will not be changed by the user.}
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
 }
 \value{
-A tibble with columns Analysis, Bound, Z, Probability, theta, Time, AHR, Events.
+A list with input parameter, analysis, and bound.
 }
 \description{
-Group sequential design power under risk difference
+Group sequential design power of binary outcome measuring in risk difference
 }
 \examples{
 # --------------------- #
