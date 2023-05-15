@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_design_rd.R
 \name{gs_design_rd}
 \alias{gs_design_rd}
-\title{Group sequential design using average hazard ratio under non-proportional hazards}
+\title{Group sequential design of binary outcome measuring in risk difference}
 \usage{
 gs_design_rd(
   p_c = tibble(stratum = "all", rate = 0.2),
@@ -89,10 +89,10 @@ spending under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound.}
 }
 \value{
-A tibble with columns analysis, bound, z, probability, theta, time, ahr, event.
+A list with input parameters, analysis, and bound.
 }
 \description{
-Group sequential design using average hazard ratio under non-proportional hazards
+Group sequential design of binary outcome measuring in risk difference
 }
 \details{
 To be added.
