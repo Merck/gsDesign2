@@ -51,7 +51,7 @@
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
 #' @return A list with input parameter, analysis, and bound.
-#' 
+#'
 #' @export
 #'
 #' @examples
