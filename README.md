@@ -342,10 +342,7 @@ gsd %>%
       <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
     </tr>
     <tr>
-      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when
-          the futility bound is non-binding. The smaller value subtracts the probability of
-          crossing a futility bound before  crossing an efficacy bound at
-          a later analysis (0.025 - 6e-04 = 0.0244) under the null hypothesis.</td>
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0006 = 0.0244) under the null hypothesis.</td>
     </tr>
   </tfoot>
 </table>
