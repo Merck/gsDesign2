@@ -109,7 +109,7 @@ expected_time <- function(enroll_rate = tibble::tibble(
   #    build a help function    #
   # ----------------------------#
   # find the difference between  `AHR()` and different values of total_duration
-  foo <- function(x) {
+  ahr_diff <- function(x) {
     ans <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       total_duration = x, ratio = ratio
@@ -121,7 +121,7 @@ expected_time <- function(enroll_rate = tibble::tibble(
   #       uniroot AHR()         #
   #    over total_duration      #
   # ----------------------------#
-  res <- try(uniroot(foo, interval))
+  res <- try(uniroot(ahr_diff, interval))
 
   if (inherits(res, "try-error")) {
     stop("expected_time(): solution not found!")

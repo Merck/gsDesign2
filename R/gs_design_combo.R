@@ -192,7 +192,7 @@ gs_design_combo <- function(enroll_rate = tibble(
   }
 
   # Function to calculate power
-  foo <- function(n, beta, ...) {
+  get_combo_power <- function(n, beta, ...) {
     # Probability Cross Boundary
     prob <- gs_prob_combo(
       upper_bound = bound$upper,
@@ -227,7 +227,7 @@ gs_design_combo <- function(enroll_rate = tibble(
     )
 
 
-    sample_size <- uniroot(foo, c(1, n_upper_bound), extendInt = "yes", beta = beta, ...)$root
+    sample_size <- uniroot(get_combo_power, c(1, n_upper_bound), extendInt = "yes", beta = beta, ...)$root
   }
 
   # Probability Cross Boundary
