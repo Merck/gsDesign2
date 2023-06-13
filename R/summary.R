@@ -409,32 +409,32 @@ summary.gs_design <- function(object,
 
   if ("time" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(Time = time)
-    analysis_vars <- c(analysis_vars[analysis_vars != "time"], "Time")
+    analysis_vars <- replace(analysis_vars, analysis_vars == "time", "Time")
   }
 
   if ("event" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(Event = event)
-    analysis_vars <- c(analysis_vars[analysis_vars != "event"], "Event")
+    analysis_vars <- replace(analysis_vars, analysis_vars == "event", "Event")
   }
 
   if ("ahr" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(AHR = ahr)
-    analysis_vars <- c(analysis_vars[analysis_vars != "ahr"], "AHR")
+    analysis_vars <- replace(analysis_vars, analysis_vars == "ahr", "AHR")
   }
 
   if ("n" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(N = n)
-    analysis_vars <- c(analysis_vars[analysis_vars != "n"], "N")
+    analysis_vars <- replace(analysis_vars, analysis_vars == "n", "N")
   }
 
   if ("info_frac" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac)
-    analysis_vars <- c(analysis_vars[analysis_vars != "info_frac"], "Information fraction")
+    analysis_vars <- replace(analysis_vars, analysis_vars == "info_frac", "Information fraction")
   }
 
   if ("event_frac" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(`Event fraction` = event_frac)
-    analysis_vars <- c(analysis_vars[analysis_vars != "event_frac"], "Event fraction")
+    analysis_vars <- replace(analysis_vars, analysis_vars == "event_frac", "Event fraction")
   }
 
   # --------------------------------------------- #
