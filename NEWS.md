@@ -1,3 +1,16 @@
+# gsDesign2 1.0.9
+
+## Improvements
+
+- Add CRAN download badge (#215)
+- Update documentation of `gs_design_rd` (#220)
+- Format footnote numbers using decimal notation (#222).
+- Split C++ functions into individual cpp and header files (#224).
+
+## Bug fixes
+
+- Fix the digits display in `summary()` (#231).
+
 # gsDesign2 1.0.8
 
 ## Improvements
