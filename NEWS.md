@@ -2,8 +2,8 @@
 
 ## Improvements
 
-- Add CRAN download badge (#215)
-- Update documentation of `gs_design_rd` (#220)
+- Add CRAN download counts badge (#215).
+- Update documentation of `gs_design_rd()` (#220).
 - Format footnote numbers using decimal notation (#222).
 - Split C++ functions into individual cpp and header files (#224).
 
