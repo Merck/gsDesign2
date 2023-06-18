@@ -120,8 +120,8 @@
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lpar = rep(-Inf, 2)
 #' )
-gs_design_rd <- function(p_c = tibble(stratum = "all", rate = .2),
-                         p_e = tibble(stratum = "all", rate = .15),
+gs_design_rd <- function(p_c = tibble(stratum = "All", rate = .2),
+                         p_e = tibble(stratum = "All", rate = .15),
                          info_frac = 1:3 / 3,
                          rd0 = 0,
                          alpha = .025,

@@ -240,15 +240,15 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 gs_power_rd <- function(p_c = tibble::tibble(
-                          stratum = "all",
+                          stratum = "All",
                           rate = .2
                         ),
                         p_e = tibble::tibble(
-                          stratum = "all",
+                          stratum = "All",
                           rate = .15
                         ),
                         n = tibble::tibble(
-                          stratum = "all",
+                          stratum = "All",
                           n = c(40, 50, 60),
                           analysis = 1:3
                         ),

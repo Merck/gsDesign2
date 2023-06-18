@@ -176,15 +176,15 @@
 #' )
 #'
 gs_info_rd <- function(p_c = tibble::tibble(
-                         stratum = "all",
+                         stratum = "All",
                          rate = .2
                        ),
                        p_e = tibble::tibble(
-                         stratum = "all",
+                         stratum = "All",
                          rate = .15
                        ),
                        n = tibble::tibble(
-                         stratum = "all",
+                         stratum = "All",
                          n = c(100, 200, 300),
                          analysis = 1:3
                        ),

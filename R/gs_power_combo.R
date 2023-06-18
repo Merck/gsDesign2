@@ -87,7 +87,7 @@ gs_power_combo <- function(enroll_rate = define_enroll_rate(
                              rate = 500 / 12
                            ),
                            fail_rate = tibble(
-                             stratum = "all",
+                             stratum = "All",
                              duration = c(4, 100),
                              fail_rate = log(2) / 15,
                              hr = c(1, .6),

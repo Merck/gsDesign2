@@ -5,8 +5,8 @@
 \title{Group sequential design of binary outcome measuring in risk difference}
 \usage{
 gs_design_rd(
-  p_c = tibble(stratum = "all", rate = 0.2),
-  p_e = tibble(stratum = "all", rate = 0.15),
+  p_c = tibble(stratum = "All", rate = 0.2),
+  p_e = tibble(stratum = "All", rate = 0.15),
   info_frac = 1:3/3,
   rd0 = 0,
   alpha = 0.025,
