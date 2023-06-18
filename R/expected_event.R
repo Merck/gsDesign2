@@ -41,7 +41,7 @@
 #'   the following variables for each period specified in `fail_rate`:
 #'   - `t`: start of period.
 #'   - `fail_rate`: failure rate during the period.
-#'   - `Events`: expected events during the period.
+#'   - `event`: expected events during the period.
 #'
 #'   The records in the returned tibble correspond to the input tibble `fail_rate`.
 #'

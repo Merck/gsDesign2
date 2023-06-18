@@ -30,7 +30,7 @@ the following variables for each period specified in \code{fail_rate}:
 \itemize{
 \item \code{t}: start of period.
 \item \code{fail_rate}: failure rate during the period.
-\item \code{Events}: expected events during the period.
+\item \code{event}: expected events during the period.
 }
 
 The records in the returned tibble correspond to the input tibble \code{fail_rate}.
