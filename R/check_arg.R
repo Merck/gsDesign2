@@ -107,7 +107,6 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
   if (!"enroll_rate" %in% class(enroll_rate)) {
-    
     msg <- c(
       "Please use `define_enroll_rate` to specify `enroll_rate` argument.",
       "We will enforse the requirement from next version"
@@ -124,10 +123,10 @@ check_enroll_rate <- function(enroll_rate) {
       enroll_rate$rate, 
       enroll_rate$stratum
     )
-  }
-  
-  enroll_rate
 
+  }
+
+  enroll_rate
 }
 
 
