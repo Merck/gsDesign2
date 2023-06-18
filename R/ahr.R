@@ -23,7 +23,7 @@
 #' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern where the enrollment, failure and dropout rates changes over time.
 #'
-#' @param enroll_rate An `enroll_rate` data frame with or without stratum created by `define_enroll_rate`. 
+#' @param enroll_rate An `enroll_rate` data frame with or without stratum created by `define_enroll_rate`.
 #' @param fail_rate Piecewise constant control group failure rates, duration
 #'   for each piecewise constant period,
 #' hazard ratio for experimental vs control, and dropout rates by stratum and time period.
