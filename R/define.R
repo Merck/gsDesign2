@@ -32,10 +32,9 @@
 #'   rate = c(3, 6, 9)
 #' )
 define_enroll_rate <- function(
-    duration, 
-    rate, 
-    stratum = rep("All", length(duration))
-) {
+    duration,
+    rate,
+    stratum = rep("All", length(duration))) {
   # Length of variables
   l <- unique(c(length(duration), length(rate), length(stratum)))
 
