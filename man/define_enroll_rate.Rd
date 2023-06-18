@@ -2,23 +2,24 @@
 % Please edit documentation in R/define.R
 \name{define_enroll_rate}
 \alias{define_enroll_rate}
-\title{Define Enrollment Rate}
+\title{Define enrollment rate}
 \usage{
 define_enroll_rate(duration, rate)
 }
 \arguments{
-\item{duration}{a numeric vector of piecewise study duration interval.}
+\item{duration}{A numeric vector of piecewise study duration interval.}
 
-\item{rate}{a numeric vector of enrollment rate in each \code{duration}.}
+\item{rate}{A numeric vector of enrollment rate in each \code{duration}.}
+}
+\value{
+A data frame of enrollment rates.
 }
 \description{
-Define Enrollment Rate
+Define enrollment rate
 }
 \examples{
-
 define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )
-
 }

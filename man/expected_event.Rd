@@ -13,7 +13,7 @@ expected_event(
 )
 }
 \arguments{
-\item{enroll_rate}{A \code{enroll_rate} data frame created by \code{define_enroll_rate}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
 \item{fail_rate}{Failure rates and dropout rates by period.}
 
