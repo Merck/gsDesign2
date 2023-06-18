@@ -51,30 +51,30 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
   if (is.null(arg)) {
     return(NULL)
   }
-  
+
   if (any(class(arg) %in% "matrix")) arg <- as.vector(arg)
-  
+
   check <- list()
   message <- list()
-  
+
   if (!is.null(type)) {
     check[["type"]] <- any(class(arg) %in% type) & (!is.null(class(arg)))
     message[["type"]] <- paste("The argument type did not match:", paste(type, collapse = "/"))
   }
-  
+
   if (!is.null(length)) {
     check[["length"]] <- all(length(arg) %in% length) & (!is.null(length(arg)))
     message[["length"]] <- paste("The argument length is not", paste(length, collapse = ", "))
   }
-  
+
   if (!is.null(dim)) {
     check[["dim"]] <- all(dim(arg) == dim) & (!is.null(dim(arg)))
     message[["dim"]] <- paste("The argument dimension is not", paste(dim, collapse = ","))
   }
-  
+
   check <- unlist(check)
   message <- unlist(message)
-  
+
   if (!all(unlist(check))) {
     stop(paste(message[!check], collapse = "\n"))
   } else {
