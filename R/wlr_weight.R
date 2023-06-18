@@ -53,8 +53,7 @@
 #' @export
 #'
 #' @examples
-#' enroll_rate <- tibble::tibble(
-#'   stratum = "All",
+#' enroll_rate <- define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
@@ -96,8 +95,7 @@ wlr_weight_fh <- function(x, arm0, arm1, rho = 0, gamma = 0, tau = NULL) {
 #' @export
 #'
 #' @examples
-#' enroll_rate <- tibble::tibble(
-#'   stratum = "All",
+#' enroll_rate <- define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
@@ -126,8 +124,7 @@ wlr_weight_1 <- function(x, arm0, arm1) {
 #' @export
 #'
 #' @examples
-#' enroll_rate <- tibble::tibble(
-#'   stratum = "All",
+#' enroll_rate <- define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
@@ -161,8 +158,7 @@ wlr_weight_n <- function(x, arm0, arm1, power = 1) {
 #' @export
 #'
 #' @examples
-#' enroll_rate <- tibble::tibble(
-#'   stratum = "All",
+#' enroll_rate <- define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )

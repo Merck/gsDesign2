@@ -23,7 +23,7 @@
 #' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern where the enrollment, failure and dropout rates changes over time.
 #'
-#' @param enroll_rate Piecewise constant enrollment rates by stratum and time period.
+#' @param enroll_rate An `enroll_rate` data frame with or without stratum created by `define_enroll_rate`. 
 #' @param fail_rate Piecewise constant control group failure rates, duration
 #'   for each piecewise constant period,
 #' hazard ratio for experimental vs control, and dropout rates by stratum and time period.
@@ -96,7 +96,7 @@
 #' ahr(total_duration = c(15, 30))
 #'
 #' # Stratified population
-#' enroll_rate <- tibble::tibble(
+#' enroll_rate <- define_enroll_rate(
 #'   stratum = c(rep("Low", 2), rep("High", 3)),
 #'   duration = c(2, 10, 4, 4, 8),
 #'   rate = c(5, 10, 0, 3, 6)
@@ -112,8 +112,7 @@
 #'
 #' # Same example, give results by strata and time period
 #' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30), simple = FALSE)
-ahr <- function(enroll_rate = tibble::tibble(
-                  stratum = "All",
+ahr <- function(enroll_rate = define_enroll_rate(
                   duration = c(2, 2, 10),
                   rate = c(3, 6, 9)
                 ),

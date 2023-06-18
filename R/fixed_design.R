@@ -43,7 +43,7 @@
 #' x <- fixed_design(
 #'   "ahr",
 #'   alpha = .025, power = .9,
-#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
 #'   fail_rate = tibble::tibble(
 #'     stratum = "All",
 #'     duration = c(4, 100),
@@ -59,7 +59,7 @@
 #' x <- fixed_design(
 #'   "lf",
 #'   alpha = .025, power = .9,
-#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
 #'   fail_rate = tibble::tibble(
 #'     stratum = "All",
 #'     duration = 100,
@@ -75,7 +75,7 @@
 #' x <- fixed_design(
 #'   "rmst",
 #'   alpha = .025, power = .9,
-#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
 #'   fail_rate = tibble::tibble(
 #'     stratum = "All",
 #'     duration = 100,
@@ -92,7 +92,7 @@
 #' x <- fixed_design(
 #'   "milestone",
 #'   alpha = .025, power = .9,
-#'   enroll_rate = tibble::tibble(stratum = "All", duration = 18, rate = 1),
+#'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
 #'   fail_rate = tibble::tibble(
 #'     stratum = "All",
 #'     duration = 100,

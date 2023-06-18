@@ -5,8 +5,7 @@
 \title{Average hazard ratio under non-proportional hazards (test version)}
 \usage{
 ahr(
-  enroll_rate = tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6,
-    9)),
+  enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
   fail_rate = tibble::tibble(stratum = "All", duration = c(3, 100), fail_rate =
     log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   total_duration = 30,
@@ -15,7 +14,7 @@ ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{Piecewise constant enrollment rates by stratum and time period.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
 
 \item{fail_rate}{Piecewise constant control group failure rates, duration
 for each piecewise constant period,
@@ -96,7 +95,7 @@ ahr()
 ahr(total_duration = c(15, 30))
 
 # Stratified population
-enroll_rate <- tibble::tibble(
+enroll_rate <- define_enroll_rate(
   stratum = c(rep("Low", 2), rep("High", 3)),
   duration = c(2, 10, 4, 4, 8),
   rate = c(5, 10, 0, 3, 6)

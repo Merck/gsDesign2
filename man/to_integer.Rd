@@ -38,7 +38,7 @@ library(gsDesign2)
 \donttest{
 x <- fixed_design("ahr",
   alpha = .025, power = .9,
-  enroll_rate = tibble(stratum = "All", duration = 18, rate = 1),
+  enroll_rate = define_enroll_rate(duration = 18, rate = 1),
   fail_rate = tibble(
     stratum = "All", duration = c(4, 100),
     fail_rate = log(2) / 12, hr = c(1, .6),
@@ -51,7 +51,7 @@ x \%>\% to_integer()
 # FH
 x <- fixed_design("fh",
   alpha = 0.025, power = 0.9,
-  enroll_rate = tibble(stratum = "All", duration = 18, rate = 20),
+  enroll_rate = define_enroll_rate(duration = 18, rate = 20),
   fail_rate = tibble(
     stratum = "All", duration = c(4, 100),
     fail_rate = log(2) / 12, hr = c(1, .6),
@@ -65,7 +65,7 @@ x \%>\% to_integer()
 # MB
 x <- fixed_design("mb",
   alpha = 0.025, power = 0.9,
-  enroll_rate = tibble(stratum = "All", duration = 18, rate = 20),
+  enroll_rate = define_enroll_rate(duration = 18, rate = 20),
   fail_rate = tibble(
     stratum = "All", duration = c(4, 100),
     fail_rate = log(2) / 12, hr = c(1, .6),

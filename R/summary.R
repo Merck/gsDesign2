@@ -32,8 +32,7 @@
 #' library(dplyr)
 #'
 #' # Enrollment rate
-#' enroll_rate <- tibble::tibble(
-#'   stratum = "All",
+#' enroll_rate <- define_enroll_rate(
 #'   duration = 18,
 #'   rate = 20
 #' )
@@ -274,8 +273,8 @@ summary.fixed_design <- function(object, ...) {
 #'   alpha = 0.025,
 #'   beta = 0.2,
 #'   enroll_rate = tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12),
-#'   fail_rate = tibble::tibble(
-#'     stratum = "All", duration = c(4, 100),
+#'   fail_rate = define_enroll_rate(
+#'     duration = c(4, 100),
 #'     fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001
 #'   ),
 #'   fh_test = fh_test,

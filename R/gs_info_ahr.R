@@ -87,8 +87,7 @@
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
 #' }
-gs_info_ahr <- function(enroll_rate = tibble::tibble(
-                          stratum = "all",
+gs_info_ahr <- function(enroll_rate = define_enroll_rate(
                           duration = c(2, 2, 10),
                           rate = c(3, 6, 9)
                         ),

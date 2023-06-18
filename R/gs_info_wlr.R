@@ -21,7 +21,7 @@
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
 #' approximate information and effect size using an average hazard ratio model.
 #'
-#' @param enroll_rate Enrollment rates.
+#' @inheritParams ahr
 #' @param fail_rate Failure and dropout rates.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param event Targeted minimum events at each analysis.
@@ -58,7 +58,7 @@
 #' library(gsDesign2)
 #'
 #' # Set enrollment rates
-#' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
+#' enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
 #'
 #' # Set failure rates
 #' fail_rate <- tibble(
@@ -77,8 +77,7 @@
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   event = event, analysis_time = analysis_time
 #' )
-gs_info_wlr <- function(enroll_rate = tibble::tibble(
-                          stratum = "All",
+gs_info_wlr <- function(enroll_rate = define_enroll_rate(
                           duration = c(2, 2, 10),
                           rate = c(3, 6, 9)
                         ),

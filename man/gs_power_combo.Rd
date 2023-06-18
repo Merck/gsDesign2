@@ -5,7 +5,7 @@
 \title{Group sequential design power using MaxCombo test under non-proportional hazards}
 \usage{
 gs_power_combo(
-  enroll_rate = tibble(stratum = "all", duration = 12, rate = 500/12),
+  enroll_rate = define_enroll_rate(duration = 12, rate = 500/12),
   fail_rate = tibble(stratum = "all", duration = c(4, 100), fail_rate = log(2)/15, hr =
     c(1, 0.6), dropout_rate = 0.001),
   fh_test = rbind(data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3,
@@ -79,8 +79,7 @@ library(gsDesign)
 library(gsDesign2)
 library(tibble)
 
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = 12,
   rate = 500 / 12
 )
