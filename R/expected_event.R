@@ -29,7 +29,7 @@
 #' The intent is to enable sample size calculations under non-proportional hazards assumptions
 #' for stratified populations.
 #'
-#' @param enroll_rate A `enroll_rate` data frame created by `define_enroll_rate`.
+#' @param enroll_rate An `enroll_rate` data frame created by [define_enroll_rate()].
 #' @param fail_rate Failure rates and dropout rates by period.
 #' @param total_duration Total follow-up from start of enrollment to data cutoff.
 #' @param simple If default (`TRUE`), return numeric expected number of events,
