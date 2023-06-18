@@ -173,7 +173,7 @@ expected_accrual <- function(time = 0:24,
         as.numeric(xx[[i]]$eAccrual[ind[[i]]])
       }
     )
-    ans <- ans %>% purrr::reduce(`+`)
+    ans <- Reduce(`+`, ans)
   }
 
   return(ans)
