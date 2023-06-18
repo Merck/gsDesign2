@@ -14,7 +14,7 @@ define_enroll_rate(duration, rate, stratum = rep("All", length(duration)))
 \item{stratum}{A character vector of stratum name.}
 }
 \value{
-A data frame of enrollment rates.
+An \code{enroll_rate} data frame.
 }
 \description{
 Define enrollment rate

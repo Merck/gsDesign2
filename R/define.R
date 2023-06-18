@@ -22,7 +22,7 @@
 #' @param rate A numeric vector of enrollment rate in each `duration`.
 #' @param stratum A character vector of stratum name.
 #'
-#' @return A data frame of enrollment rates.
+#' @return An `enroll_rate` data frame.
 #'
 #' @export
 #'
