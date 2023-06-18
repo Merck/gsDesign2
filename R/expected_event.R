@@ -29,7 +29,7 @@
 #' The intent is to enable sample size calculations under non-proportional hazards assumptions
 #' for stratified populations.
 #'
-#' @param enroll_rate Enrollment rates; see details and examples.
+#' @param enroll_rate An `enroll_rate` data frame created by [define_enroll_rate()].
 #' @param fail_rate Failure rates and dropout rates by period.
 #' @param total_duration Total follow-up from start of enrollment to data cutoff.
 #' @param simple If default (`TRUE`), return numeric expected number of events,
@@ -41,7 +41,7 @@
 #'   the following variables for each period specified in `fail_rate`:
 #'   - `t`: start of period.
 #'   - `fail_rate`: failure rate during the period.
-#'   - `Events`: expected events during the period.
+#'   - `event`: expected events during the period.
 #'
 #'   The records in the returned tibble correspond to the input tibble `fail_rate`.
 #'
@@ -102,7 +102,7 @@
 #'
 #' # Single time period example
 #' expected_event(
-#'   enroll_rate = tibble(duration = 10, rate = 10),
+#'   enroll_rate = define_enroll_rate(duration = 10, rate = 10),
 #'   fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
 #'   total_duration = 22,
 #'   simple = FALSE
@@ -110,11 +110,11 @@
 #'
 #' # Single time period example, multiple enrollment periods
 #' expected_event(
-#'   enroll_rate = tibble(duration = c(5, 5), rate = c(10, 20)),
+#'   enroll_rate = define_enroll_rate(duration = c(5, 5), rate = c(10, 20)),
 #'   fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
 #'   total_duration = 22, simple = FALSE
 #' )
-expected_event <- function(enroll_rate = tibble::tibble(
+expected_event <- function(enroll_rate = define_enroll_rate(
                              duration = c(2, 2, 10),
                              rate = c(3, 6, 9)
                            ),

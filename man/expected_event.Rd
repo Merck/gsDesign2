@@ -5,7 +5,7 @@
 \title{Expected events observed under piecewise exponential model}
 \usage{
 expected_event(
-  enroll_rate = tibble::tibble(duration = c(2, 2, 10), rate = c(3, 6, 9)),
+  enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
   fail_rate = tibble::tibble(duration = c(3, 100), fail_rate = log(2)/c(9, 18),
     dropout_rate = rep(0.001, 2)),
   total_duration = 25,
@@ -13,7 +13,7 @@ expected_event(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates; see details and examples.}
+\item{enroll_rate}{An \code{enroll_rate} data frame created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
 \item{fail_rate}{Failure rates and dropout rates by period.}
 
@@ -30,7 +30,7 @@ the following variables for each period specified in \code{fail_rate}:
 \itemize{
 \item \code{t}: start of period.
 \item \code{fail_rate}: failure rate during the period.
-\item \code{Events}: expected events during the period.
+\item \code{event}: expected events during the period.
 }
 
 The records in the returned tibble correspond to the input tibble \code{fail_rate}.
@@ -99,7 +99,7 @@ expected_event(total_duration = .5)
 
 # Single time period example
 expected_event(
-  enroll_rate = tibble(duration = 10, rate = 10),
+  enroll_rate = define_enroll_rate(duration = 10, rate = 10),
   fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
   total_duration = 22,
   simple = FALSE
@@ -107,7 +107,7 @@ expected_event(
 
 # Single time period example, multiple enrollment periods
 expected_event(
-  enroll_rate = tibble(duration = c(5, 5), rate = c(10, 20)),
+  enroll_rate = define_enroll_rate(duration = c(5, 5), rate = c(10, 20)),
   fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
   total_duration = 22, simple = FALSE
 )

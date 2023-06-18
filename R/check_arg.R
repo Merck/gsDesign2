@@ -16,6 +16,72 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#' Check argument type, length, and dimension
+#'
+#' @param arg An argument to be checked.
+#' @param type A character vector of candidate argument type.
+#' @param length A numeric value of argument length or `NULL`.
+#' @param dim A numeric vector of argument dimension or `NULL`.
+#'
+#' @return Detailed error message for failed checks.
+#'
+#' @noRd
+#'
+#' @details
+#' If `type`, `length`, or `dim` is `NULL`, the corresponding check
+#' will not be executed.
+#'
+#' @section Specification:
+#' \if{latex}{
+#'  \itemize{
+#'    \item Check if arg is NULL.
+#'    \item Extract the type, length and dim information from arg.
+#'    \item Compare with target values and report error message if it does not match.
+#'  }
+#'  }
+#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
+#' @examples
+#' tbl <- as.data.frame(matrix(1:9, nrow = 3))
+#' check_args(arg = tbl, type = c("data.frame"))
+#'
+#' vec <- c("a", "b", "c")
+#' check_args(arg = vec, type = c("character"), length = c(2, 4))
+check_args <- function(arg, type, length = NULL, dim = NULL) {
+  if (is.null(arg)) {
+    return(NULL)
+  }
+
+  if (any(class(arg) %in% "matrix")) arg <- as.vector(arg)
+
+  check <- list()
+  message <- list()
+
+  if (!is.null(type)) {
+    check[["type"]] <- any(class(arg) %in% type) & (!is.null(class(arg)))
+    message[["type"]] <- paste("The argument type did not match:", paste(type, collapse = "/"))
+  }
+
+  if (!is.null(length)) {
+    check[["length"]] <- all(length(arg) %in% length) & (!is.null(length(arg)))
+    message[["length"]] <- paste("The argument length is not", paste(length, collapse = ", "))
+  }
+
+  if (!is.null(dim)) {
+    check[["dim"]] <- all(dim(arg) == dim) & (!is.null(dim(arg)))
+    message[["dim"]] <- paste("The argument dimension is not", paste(dim, collapse = ","))
+  }
+
+  check <- unlist(check)
+  message <- unlist(message)
+
+  if (!all(unlist(check))) {
+    stop(paste(message[!check], collapse = "\n"))
+  } else {
+    return(NULL)
+  }
+}
+
 #' A function to check the arguments `enroll_rate` used in gsDesign2
 #'
 #' @param enroll_rate Enrollment rates.
@@ -29,6 +95,10 @@
 #' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
+  if (!"enroll_rate" %in% class(enroll_rate)) {
+    warning("Please use `define_enroll_rate()` to specify the `enroll_rate` argument.")
+    warning("We will enforce this requirement from the next version.")
+  }
   # --------------------------- #
   #   check the duration column #
   # --------------------------- #
