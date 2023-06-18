@@ -29,7 +29,7 @@ For the enrollment in the first 3 months, it is exactly $3 \times 5 = 15$.
 ```{r}
 expected_accrual(
   time = 3,
-  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 ```
 
@@ -38,7 +38,7 @@ For the enrollment in the first 6 months, it is exactly $3 \times 5 + 3 \times 1
 ```{r}
 expected_accrual(
   time = 6,
-  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 ```
 
@@ -47,7 +47,7 @@ For the enrollment in the first 24 months, it is exactly $3 \times 5 + 3 \times 
 ```{r}
 expected_accrual(
   time = 24,
-  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 ```
 
@@ -56,7 +56,7 @@ For the enrollment after 24 months, it is the same as that from the 24 months, s
 ```{r}
 expected_accrual(
   time = 25,
-  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 ```
 
@@ -65,7 +65,7 @@ Instead of compute the enrolled subjects one time point by one time point, we ca
 ```{r}
 expected_accrual(
   time = c(3, 6, 24, 25),
-  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 ```
 

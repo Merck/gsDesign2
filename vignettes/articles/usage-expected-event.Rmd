@@ -42,7 +42,7 @@ Here the `df` in `expected_event()` is short for data frame, since its output is
 ## Example 1: Single Enroll + Single Fail Period
 
 ```{r}
-enroll_rate <- tibble(duration = 10, rate = 10)
+enroll_rate <- define_enroll_rate(duration = 10, rate = 10)
 fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- 22
 
@@ -57,7 +57,7 @@ expected_event(
 ## Example 2: Multiple Enroll + Single Fail Period
 
 ```{r}
-enroll_rate <- tibble(duration = c(5, 5), rate = c(10, 20))
+enroll_rate <- define_enroll_rate(duration = c(5, 5), rate = c(10, 20))
 fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- 22
 
@@ -72,7 +72,7 @@ expected_event(
 ## Example 3: Single Enroll + Multiple Fail Period
 
 ```{r}
-enroll_rate <- tibble(duration = 10, rate = 10)
+enroll_rate <- define_enroll_rate(duration = 10, rate = 10)
 fail_rate <- tibble(
   duration = c(20, 80),
   fail_rate = c(log(2) / 6, log(2) / 4),
@@ -91,7 +91,7 @@ expected_event(
 ## Example 4: Multiple Duration
 
 ```{r}
-enroll_rate <- tibble(duration = 10, rate = 10)
+enroll_rate <- define_enroll_rate(duration = 10, rate = 10)
 fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- c(2, 22)
 
@@ -114,7 +114,7 @@ total_duration <- 50
 **Step 2:** set the enrollment rates.
 
 ```{r}
-enroll_rate <- tibble(duration = c(5, 5), rate = c(10, 20))
+enroll_rate <- define_enroll_rate(duration = c(5, 5), rate = c(10, 20))
 
 # create a step function (sf) to define enrollment rates over time
 sf_enroll_rate <- stepfun(c(0, cumsum(enroll_rate$duration)),

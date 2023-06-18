@@ -30,7 +30,7 @@ The piecewise exponential distribution allows a simple method to specify a distr
 ## Example 1: Un-stratified population
 
 ```{r}
-enroll_rate <- tibble(
+enroll_rate <- define_enroll_rate(
   stratum = "All",
   duration = c(2, 10, 4, 4, 8),
   rate = c(5, 10, 0, 3, 6)
@@ -52,7 +52,7 @@ ahr(
 ## Example 2: Stratified population
 
 ```{r}
-enroll_rate <- tibble(
+enroll_rate <- define_enroll_rate(
   stratum = c(rep("Low", 2), rep("High", 3)),
   duration = c(2, 10, 4, 4, 8),
   rate = c(5, 10, 0, 3, 6)
@@ -76,8 +76,7 @@ ahr(
 Let's take the un-stratified population as an example, where the enrollment rate, failure rates and dropout rates are
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 10, 4),
   rate = c(5, 10, 0)
 )
@@ -213,8 +212,7 @@ events
 Please note that, in the output, the `info` column is based on the following input.
 
 ```{r, eval=FALSE}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 10, 4),
   rate = c(5, 10, 0)
 )
