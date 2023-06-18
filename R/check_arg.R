@@ -91,8 +91,19 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #' @noRd
 #'
 #' @examples
-#'
-#' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
+#' 
+#' # proper definition
+#' enroll_rate <- define_enroll_rate(
+#'   duration = c(2, 2, 10), 
+#'   rate = c(3, 6, 9)
+#' )
+#' check_enroll_rate(enroll_rate)
+#' 
+#' # off-label use
+#' enroll_rate <- data.frame(
+#'   duration = c(2, 2, 10), 
+#'   rate = c(3, 6, 9)
+#' )
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
   if (!"enroll_rate" %in% class(enroll_rate)) {
@@ -104,7 +115,15 @@ check_enroll_rate <- function(enroll_rate) {
     msg <- paste(msg, collapse = "\n")
     warning(msg)
     
-    enroll_rate <- define_enroll_rate(enroll_rate$duration, enroll_rate$rate)
+    if(! "stratum" %in% names(enroll_rate)){
+      enroll_rate$stratum <- rep("All", nrow(enroll_rate))
+    }
+    
+    enroll_rate <- define_enroll_rate(
+      enroll_rate$duration, 
+      enroll_rate$rate, 
+      enroll_rate$stratum
+    )
   }
   
   enroll_rate

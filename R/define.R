@@ -20,6 +20,7 @@
 #'
 #' @param duration A numeric vector of piecewise study duration interval.
 #' @param rate A numeric vector of enrollment rate in each `duration`.
+#' @param stratum A character vector of stratum name.
 #'
 #' @return A data frame of enrollment rates.
 #'
@@ -30,16 +31,22 @@
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
-define_enroll_rate <- function(duration, rate) {
+define_enroll_rate <- function(
+    duration, 
+    rate, 
+    stratum = rep("All", length(duration))
+) {
   # Length of variables
-  l <- unique(c(length(duration), length(rate)))
+  l <- unique(c(length(duration), length(rate), length(stratum)))
 
   if (length(l) > 1) stop("Length of duration and rate must be the same.")
 
   check_args(duration, length = l, type = c("numeric", "integer"))
   check_args(rate, length = l, type = c("numeric", "integer"))
+  check_args(stratum, length = l, type = c("character"))
 
   df <- data.frame(
+    stratum = stratum,
     duration = duration,
     rate = rate
   )
