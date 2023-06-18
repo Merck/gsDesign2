@@ -96,41 +96,19 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
   if (!"enroll_rate" %in% class(enroll_rate)) {
-    warning("Please use `define_enroll_rate` to specify `enroll_rate` argument.")
-    warning("We will enforse the requirement from next version")
+    
+    msg <- c(
+      "Please use `define_enroll_rate` to specify `enroll_rate` argument.",
+      "We will enforse the requirement from next version"
+    )
+    msg <- paste(msg, collapse = "\n")
+    warning(msg)
+    
+    enroll_rate <- define_enroll_rate(enroll_rate$duration, enroll_rate$rate)
   }
-  # --------------------------- #
-  #   check the duration column #
-  # --------------------------- #
-  if (!"duration" %in% colnames(enroll_rate)) {
-    stop("The enroll_rate is a tibble which contains a column called `duration`!")
-  }
-  # the duration is numerical values
-  if (!is.numeric(enroll_rate$duration)) {
-    stop("The `duration`column in enroll_rate should be numeric!")
-  }
+  
+  enroll_rate
 
-  # the duration is positive numbers
-  if (sum(!enroll_rate$duration > 0) != 0) {
-    stop("The `duration` column in enroll_rate should be positive numbers!")
-  }
-
-  # --------------------------- #
-  #   check the rate column     #
-  # --------------------------- #
-  if (!"rate" %in% colnames(enroll_rate)) {
-    stop("The enroll_rate is a tibble which contains a column called `rate`!")
-  }
-
-  # the rate is numerical values
-  if (!is.numeric(enroll_rate$rate)) {
-    stop("The `rate`column in enroll_rate should be numeric!")
-  }
-
-  # the rate is positive numbers
-  if (sum(!enroll_rate$rate >= 0) != 0) {
-    stop("The `rate` column in enroll_rate should be positive numbers!")
-  }
 }
 
 

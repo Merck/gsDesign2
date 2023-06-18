@@ -27,6 +27,11 @@ define_enroll_rate <- function(
   check_args(duration, length = l, type = c("numeric", "integer"))
   check_args(rate, length = l, type = c("numeric", "integer"))
 
+  # the rate is positive numbers
+  if (any(rate < 0)) {
+    stop("The enrollment rate, `rate`, can not be negative number.")
+  }
+  
   df <- data.frame(
     duration = duration,
     rate = rate
