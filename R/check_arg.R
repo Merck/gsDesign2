@@ -84,7 +84,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 
 #' A function to check the arguments `enroll_rate` used in gsDesign2
 #'
-#' @param enroll_rate Enrollment rates.
+#' @inheritParams ahr
 #'
 #' @return `TRUE` or `FALSE`.
 #'
