@@ -95,7 +95,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
-  if(! "enroll_rate" %in% class(enroll_rate)){
+  if (!"enroll_rate" %in% class(enroll_rate)) {
     warning("Please use `define_enroll_rate` to specify `enroll_rate` argument.")
     warning("We will enforse the requirement from next version")
   }
