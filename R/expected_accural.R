@@ -174,7 +174,6 @@ expected_accrual <- function(time = 0:24,
       }
     )
     ans <- Reduce(`+`, ans)
-
   }
 
   return(ans)
