@@ -35,7 +35,7 @@ as_gt <- function(x, ...) {
 #' @examples
 #' library(dplyr)
 #' library(tibble)
-#' 
+#'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
 #'   duration = 18,
