@@ -174,7 +174,6 @@ expected_accrual <- function(time = 0:24,
       }
     )
     ans <- apply(do.call(cbind, ans), 1, sum)
-
   }
 
   return(ans)
