@@ -91,17 +91,17 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #' @noRd
 #'
 #' @examples
-#' 
+#'
 #' # proper definition
 #' enroll_rate <- define_enroll_rate(
-#'   duration = c(2, 2, 10), 
+#'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
 #' check_enroll_rate(enroll_rate)
-#' 
+#'
 #' # off-label use
 #' enroll_rate <- data.frame(
-#'   duration = c(2, 2, 10), 
+#'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
 #' check_enroll_rate(enroll_rate)
@@ -113,17 +113,16 @@ check_enroll_rate <- function(enroll_rate) {
     )
     msg <- paste(msg, collapse = "\n")
     warning(msg)
-    
-    if(! "stratum" %in% names(enroll_rate)){
+
+    if (!"stratum" %in% names(enroll_rate)) {
       enroll_rate$stratum <- rep("All", nrow(enroll_rate))
     }
-    
+
     enroll_rate <- define_enroll_rate(
-      enroll_rate$duration, 
-      enroll_rate$rate, 
+      enroll_rate$duration,
+      enroll_rate$rate,
       enroll_rate$stratum
     )
-
   }
 
   enroll_rate
