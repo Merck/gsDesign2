@@ -50,7 +50,6 @@
 #'
 #' @examples
 #' enroll_rate <- define_enroll_rate(
-#'   stratum = "All",
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
