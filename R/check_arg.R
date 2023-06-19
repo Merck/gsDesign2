@@ -170,11 +170,11 @@ check_fail_rate <- function(fail_rate) {
     )
     msg <- paste(msg, collapse = "\n")
     warning(msg)
-    
+
     if (!"hr" %in% names(fail_rate)) {
       fail_rate$hr <- rep(1, nrow(fail_rate))
     }
-    
+
     if (!"stratum" %in% names(fail_rate)) {
       fail_rate$stratum <- rep("All", nrow(fail_rate))
     }
