@@ -2,7 +2,7 @@ library(dplyr)
 
 test_that("expected events is different from gsDesign::eEvents and expected_event", {
   enrollRates <- tibble::tibble(duration = c(2, 1, 2), rate = c(5, 10, 20))
-  failRates <- tibble::tibble(duration = c(1, 1, 1), failRate = c(.05, .02, .01), dropoutRate = .01)
+  failRates <- tibble::tibble(duration = c(1, 1, 1), failRate = c(.05, .02, .01), hr = 1, dropoutRate = .01)
   totalDuration <- 20
   testthat::expect_equal(
     expected_event(enrollRates,
@@ -22,7 +22,7 @@ test_that("expected events is different from gsDesign::eEvents and expected_even
 test_that("data frame returned from expected_event not as expected", {
   # test case from gsSurvNPH
   enrollRates <- tibble::tibble(duration = c(1, 1, 8), rate = c(3, 2, 0))
-  failRates <- tibble::tibble(duration = c(4, Inf), failRate = c(.03, .06), dropoutRate = c(.001, .002))
+  failRates <- tibble::tibble(duration = c(4, Inf), failRate = c(.03, .06), dropoutRate = c(.001, .002), hr = 1)
   totalDuration <- 7
   xx <- expected_event(
     enrollRates,
@@ -99,7 +99,8 @@ enrollRates <- tibble::tibble(
 failRates <- tibble::tibble(
   duration = c(10, 20, 10),
   failRate = log(2) / c(5, 10, 5),
-  dropoutRate = c(0.1, 0.2, 0)
+  dropoutRate = c(0.1, 0.2, 0),
+  hr = 1
 )
 totalDuration <- 5
 simple <- TRUE
@@ -143,7 +144,8 @@ testthat::test_that("expected events is different from double-programmed vs expe
   failRates <- tibble::tibble(
     duration = c(10, 20, 10),
     failRate = log(2) / c(5, 10, 5),
-    dropoutRate = c(0.1, 0.2, 0)
+    dropoutRate = c(0.1, 0.2, 0),
+    hr = 1
   )
   totalDuration <- 80
   testthat::expect_equal(
