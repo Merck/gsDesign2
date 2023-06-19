@@ -8,7 +8,7 @@ define_fail_rate(
   duration,
   fail_rate,
   dropout_rate,
-  hr,
+  hr = rep(1, length(duration)),
   stratum = rep("All", length(duration))
 )
 }
@@ -31,7 +31,7 @@ Define fail rate
 }
 \examples{
 
-# define enroll rate without stratum 
+# define enroll rate without stratum
 define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
@@ -39,7 +39,7 @@ define_fail_rate(
   dropout_rate = rep(.001, 2)
 )
 
-# define enroll rate with stratum 
+# define enroll rate with stratum
 define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),

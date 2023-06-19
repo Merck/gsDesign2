@@ -107,7 +107,7 @@ define_fail_rate <- function(
     duration,
     fail_rate,
     dropout_rate,
-    hr,
+    hr = rep(1, length(duration)),
     stratum = rep("All", length(duration))) {
   # Length of variables
   l <- unique(c(
