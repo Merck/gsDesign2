@@ -97,6 +97,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
+#' 
 #' check_enroll_rate(enroll_rate)
 #'
 #' # off-label use
@@ -104,6 +105,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
+#' 
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
   if (!"enroll_rate" %in% class(enroll_rate)) {
@@ -139,80 +141,53 @@ check_enroll_rate <- function(enroll_rate) {
 #' @noRd
 #'
 #' @examples
+#' 
+#' # proper definition
+#' fail_rate <- define_fail_rate(
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18), 
+#'   dropout_rate = rep(.001, 2),
+#'   hr = c(.9, .6)
+#' )
+#' 
+#' check_fail_rate(fail_rate)
+#' 
+#' # off-label use
 #' fail_rate <- tibble::tibble(
-#'   stratum = "All", duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18), hr = c(.9, .6),
+#'   stratum = "All", 
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18), 
+#'   hr = c(.9, .6),
 #'   dropout_rate = rep(.001, 2)
 #' )
+#' 
 #' check_fail_rate(fail_rate)
 check_fail_rate <- function(fail_rate) {
-  # --------------------------- #
-  #   check the duration column #
-  # --------------------------- #
-  if (!"duration" %in% colnames(fail_rate)) {
-    stop("The fail_rate is a tibble which contains a column called `duration`!")
-  }
-  # the duration is numerical values
-  if (!is.numeric(fail_rate$duration)) {
-    stop("The `duration`column in fail_rate should be numeric!")
-  }
-
-  # the duration is positive numbers
-  if (sum(!fail_rate$duration > 0) != 0) {
-    stop("The `duration` column in fail_rate should be positive numbers!")
-  }
-
-  # -----------------------------#
-  #   check the fail_rate column #
-  # ---------------------------- #
-  if (!"fail_rate" %in% colnames(fail_rate)) {
-    stop("The fail_rate is a tibble which contains a column called `fail_rate`!")
-  }
-
-  # the rates are fail_rate values
-  if (!is.numeric(fail_rate$fail_rate)) {
-    stop("The `fail_rate`column in fail_rate should be numeric!")
-  }
-
-  # the rates are positive numbers
-  if (any(fail_rate$fail_rate < 0)) {
-    stop("The `fail_rate` column in fail_rate should be positive numbers!")
-  }
-
-  # at least 1 rate is positive
-  if (all(fail_rate$fail_rate <= 0)) {
-    stop("The `fail_rate` column in fail_rate should have at least one positive number!")
-  }
-
-  # --------------------------- #
-  #   check the hr column       #
-  # --------------------------- #
-  if ("hr" %in% colnames(fail_rate)) {
-    if (!is.numeric(fail_rate$hr)) {
-      stop("The `hr`column in fail_rate should be numeric!")
+  
+  if (!"fail_rate" %in% class(fail_rate)) {
+    msg <- c(
+      "Please use `define_fail_rate` to specify `fail_rate` argument.",
+      "We will enforse the requirement from next version"
+    )
+    msg <- paste(msg, collapse = "\n")
+    warning(msg)
+    
+    if (!"stratum" %in% names(fail_rate)) {
+      fail_rate$stratum <- rep("All", nrow(fail_rate))
     }
-
-    if (sum(!fail_rate$hr > 0) != 0) {
-      stop("The `hr` column in fail_rate should be positive numbers!")
-    }
+    
+    fail_rate <- define_fail_rate(
+      fail_rate$duration,
+      fail_rate$fail_rate,
+      fail_rate$dropout_rate, 
+      fail_rate$hr,
+      fail_rate$stratum
+    )
+    
   }
-
-  # --------------------------- #
-  # check the dropout_rate column#
-  # --------------------------- #
-  if (!"dropout_rate" %in% colnames(fail_rate)) {
-    stop("The fail_rate is a tibble which contains a column called `dropout_rate`!")
-  }
-
-  # the rate is numerical values
-  if (!is.numeric(fail_rate$dropout_rate)) {
-    stop("The `dropout_rate`column in fail_rate should be numeric!")
-  }
-
-  # the rate is positive numbers
-  if (sum(!fail_rate$dropout_rate >= 0) != 0) {
-    stop("The `dropout_rate` column in fail_rate should be positive numbers!")
-  }
+  
+  fail_rate
+  
 }
 
 
