@@ -105,7 +105,7 @@ library(gsDesign2)
 library(dplyr)
 
 # enrollment/failure rates
-enroll_rate <- tibble(
+enroll_rate <- define_enroll_rate(
   stratum = "All",
   duration = 12,
   rate = 1
@@ -204,8 +204,9 @@ x_combo <- gs_design_combo(
   ratio = 1,
   alpha = 0.025,
   beta = 0.2,
-  enroll_rate = tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12),
-  fail_rate = define_enroll_rate(
+  enroll_rate = define_enroll_rate(duration = 12, rate = 500 / 12),
+  fail_rate = tibble::tibble(
+    stratum = "All",
     duration = c(4, 100),
     fail_rate = log(2) / 15, hr = c(1, .6), dropout_rate = .001
   ),
