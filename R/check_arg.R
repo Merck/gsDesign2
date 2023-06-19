@@ -97,7 +97,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
-#' 
+#'
 #' check_enroll_rate(enroll_rate)
 #'
 #' # off-label use
@@ -105,7 +105,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
-#' 
+#'
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
   if (!"enroll_rate" %in% class(enroll_rate)) {
@@ -141,29 +141,28 @@ check_enroll_rate <- function(enroll_rate) {
 #' @noRd
 #'
 #' @examples
-#' 
+#'
 #' # proper definition
 #' fail_rate <- define_fail_rate(
 #'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18), 
+#'   fail_rate = log(2) / c(9, 18),
 #'   dropout_rate = rep(.001, 2),
 #'   hr = c(.9, .6)
 #' )
-#' 
+#'
 #' check_fail_rate(fail_rate)
-#' 
+#'
 #' # off-label use
 #' fail_rate <- tibble::tibble(
-#'   stratum = "All", 
+#'   stratum = "All",
 #'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18), 
+#'   fail_rate = log(2) / c(9, 18),
 #'   hr = c(.9, .6),
 #'   dropout_rate = rep(.001, 2)
 #' )
-#' 
+#'
 #' check_fail_rate(fail_rate)
 check_fail_rate <- function(fail_rate) {
-  
   if (!"fail_rate" %in% class(fail_rate)) {
     msg <- c(
       "Please use `define_fail_rate` to specify `fail_rate` argument.",
@@ -171,23 +170,21 @@ check_fail_rate <- function(fail_rate) {
     )
     msg <- paste(msg, collapse = "\n")
     warning(msg)
-    
+
     if (!"stratum" %in% names(fail_rate)) {
       fail_rate$stratum <- rep("All", nrow(fail_rate))
     }
-    
+
     fail_rate <- define_fail_rate(
       fail_rate$duration,
       fail_rate$fail_rate,
-      fail_rate$dropout_rate, 
+      fail_rate$dropout_rate,
       fail_rate$hr,
       fail_rate$stratum
     )
-    
   }
-  
+
   fail_rate
-  
 }
 
 

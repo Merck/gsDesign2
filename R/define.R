@@ -86,16 +86,16 @@ define_enroll_rate <- function(
 #' @export
 #'
 #' @examples
-#' 
-#' # define enroll rate without stratum 
+#'
+#' # define enroll rate without stratum
 #' define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
 #'   hr = c(.9, .6),
 #'   dropout_rate = rep(.001, 2)
 #' )
-#' 
-#' # define enroll rate with stratum 
+#'
+#' # define enroll rate with stratum
 #' define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
@@ -107,41 +107,41 @@ define_fail_rate <- function(
     duration,
     fail_rate,
     dropout_rate,
-    hr, 
+    hr,
     stratum = rep("All", length(duration))) {
   # Length of variables
   l <- unique(c(
-    length(duration), 
-    length(fail_rate), 
+    length(duration),
+    length(fail_rate),
     length(dropout_rate),
-    length(hr), 
+    length(hr),
     length(stratum)
   ))
-  
+
   if (length(l) > 1) stop("define_fail_rate: length of input arguments must be the same.")
-  
+
   check_args(duration, length = l, type = c("numeric", "integer"))
   check_args(fail_rate, length = l, type = c("numeric", "integer"))
   check_args(dropout_rate, length = l, type = c("numeric", "integer"))
   check_args(hr, length = l, type = c("numeric", "integer"))
   check_args(stratum, length = l, type = c("character"))
-  
+
   if (any(duration < 0)) {
     stop("define_fail_rate: enrollment duration `duration` can not be negative")
   }
-  
+
   if (any(fail_rate < 0)) {
     stop("define_fail_rate: failure rate `fail_rate` can not be negative")
   }
-  
+
   if (any(dropout_rate < 0)) {
     stop("define_fail_rate: failure rate `fail_rate` can not be negative")
   }
-  
+
   if (any(hr < 0)) {
     stop("define_fail_rate: hazard ratio `hr` can not be negative")
   }
-  
+
   df <- data.frame(
     stratum = stratum,
     duration = duration,
@@ -149,8 +149,8 @@ define_fail_rate <- function(
     dropout_rate = dropout_rate,
     hr = hr
   )
-  
+
   class(df) <- c("fail_rate", class(df))
-  
+
   df
 }
