@@ -27,14 +27,14 @@
 #' @export
 #'
 #' @examples
-#' 
-#' # define enroll rate without stratum 
+#'
+#' # define enroll rate without stratum
 #' define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
-#' 
-#' # define enroll rate with stratum 
+#'
+#' # define enroll rate with stratum
 #' define_enroll_rate(
 #'   stratum = c("low", "low", "high"),
 #'   duration = c(2, 2, 10),
@@ -47,18 +47,18 @@ define_enroll_rate <- function(
   # Length of variables
   l <- unique(c(length(duration), length(rate), length(stratum)))
 
-  if (length(l) > 1) stop("Length of duration and rate must be the same.")
+  if (length(l) > 1) stop("define_enroll_rate: length of input arguments must be the same.")
 
   check_args(duration, length = l, type = c("numeric", "integer"))
   check_args(rate, length = l, type = c("numeric", "integer"))
   check_args(stratum, length = l, type = c("character"))
 
-  if (any(rate < 0)) {
-    stop("Enrollment rate `rate` can not be negative")
+  if (any(duration < 0)) {
+    stop("define_enroll_rate: enrollment duration `duration` can not be negative")
   }
 
-  if (any(duration < 0)) {
-    stop("Enrollment duration `duration` can not be negative")
+  if (any(rate < 0)) {
+    stop("define_enroll_rate: enrollment rate `rate` can not be negative")
   }
 
   df <- data.frame(
