@@ -91,46 +91,40 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #' @noRd
 #'
 #' @examples
+#' # Proper definition
+#' enroll_rate <- define_enroll_rate(
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
+#' check_enroll_rate(enroll_rate)
 #'
-#' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
+#' # Non-standard use
+#' enroll_rate <- data.frame(
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
   if (!"enroll_rate" %in% class(enroll_rate)) {
-    warning("Please use `define_enroll_rate()` to specify the `enroll_rate` argument.")
-    warning("We will enforce this requirement from the next version.")
-  }
-  # --------------------------- #
-  #   check the duration column #
-  # --------------------------- #
-  if (!"duration" %in% colnames(enroll_rate)) {
-    stop("The enroll_rate is a tibble which contains a column called `duration`!")
-  }
-  # the duration is numerical values
-  if (!is.numeric(enroll_rate$duration)) {
-    stop("The `duration`column in enroll_rate should be numeric!")
+    msg <- c(
+      "Please use `define_enroll_rate()` to specify the `enroll_rate` argument.",
+      "We will enforce this requirement from the next version."
+    )
+    msg <- paste(msg, collapse = "\n")
+    warning(msg)
+
+    if (!"stratum" %in% names(enroll_rate)) {
+      enroll_rate$stratum <- rep("All", nrow(enroll_rate))
+    }
+
+    enroll_rate <- define_enroll_rate(
+      enroll_rate$duration,
+      enroll_rate$rate,
+      enroll_rate$stratum
+    )
   }
 
-  # the duration is positive numbers
-  if (sum(!enroll_rate$duration > 0) != 0) {
-    stop("The `duration` column in enroll_rate should be positive numbers!")
-  }
-
-  # --------------------------- #
-  #   check the rate column     #
-  # --------------------------- #
-  if (!"rate" %in% colnames(enroll_rate)) {
-    stop("The enroll_rate is a tibble which contains a column called `rate`!")
-  }
-
-  # the rate is numerical values
-  if (!is.numeric(enroll_rate$rate)) {
-    stop("The `rate`column in enroll_rate should be numeric!")
-  }
-
-  # the rate is positive numbers
-  if (sum(!enroll_rate$rate >= 0) != 0) {
-    stop("The `rate` column in enroll_rate should be positive numbers!")
-  }
+  enroll_rate
 }
 
 
