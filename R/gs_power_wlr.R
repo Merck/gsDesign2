@@ -47,7 +47,7 @@
 #' library(gsDesign2)
 #'
 #' # set enrollment rates
-#' enroll_rate <- tibble(stratum = "All", duration = 12, rate = 500 / 12)
+#' enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
 #'
 #' # set failure rates
 #' fail_rate <- tibble(
@@ -179,9 +179,9 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
 #' }
-gs_power_wlr <- function(enroll_rate = tibble(stratum = "all", duration = c(2, 2, 10), rate = c(3, 6, 9)),
+gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
                          fail_rate = tibble(
-                           stratum = "all", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
+                           stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
                            hr = c(.9, .6), dropout_rate = rep(.001, 2)
                          ),
                          event = c(30, 40, 50),

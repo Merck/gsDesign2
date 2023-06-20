@@ -18,7 +18,7 @@
 
 #' MaxCombo group sequential utility
 #'
-#' @param enroll_rate Enrollment rates.
+#' @inheritParams ahr
 #' @param fail_rate Failure and dropout rates.
 #' @param ratio Experimental:Control randomization ratio (not yet implemented).
 #' @param fh_test Weighting tests.

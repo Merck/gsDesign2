@@ -41,8 +41,7 @@ The aforementioned calculation is based on piecewise model:
 
 In this example, we only input the target number of events by `event = ...`, and derive the time when these events will be arrived.
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )
@@ -64,8 +63,7 @@ gs_info_ahr(
 In this example, we only input the analysis time by `analysis_time = ...`, and derive the number of events at these analysis time.
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )
@@ -91,8 +89,9 @@ In this case, one will see
 - the derived number of event (`Events` column) $\geq$ input `event`
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5
+enroll_rate <- define_enroll_rate(
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9) * 5
 )
 fail_rate <- tibble(
   stratum = "All", duration = c(3, 100),
@@ -124,8 +123,7 @@ To explain the inner logic of `gs_info_ahr()`, we discuss 3 scenario.
 If only `analysis_time = ...` is input, essentially, `gs_info_ahr()` uses `AHR()` to calculate the number of events at these `analysis_time`.
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )
@@ -160,8 +158,7 @@ gs_info_ahr(
 If only `event = ...` is input, essentially, `gs_info_ahr()` uses `expected_time()` to calculate the time when these events will be arrived.
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )
@@ -206,8 +203,7 @@ In this way, it is guaranteed that
 - the derived analysis time (`time` column) $\geq$ input `analysis_time`
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )

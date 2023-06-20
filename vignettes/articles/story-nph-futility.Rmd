@@ -36,7 +36,7 @@ We begin with the enrollment and failure rate assumptions which @korn2018interim
 
 ```{r}
 # Enrollment assumed to be 680 patients over 12 months with no ramp-up
-enroll_rate <- tibble(stratum = "All", duration = 12, rate = 680 / 12)
+enroll_rate <- define_enroll_rate(duration = 12, rate = 680 / 12)
 # Failure rates
 ## Control exponential with median of 12 mos
 ## Delayed effect with HR = 1 for 3 months and HR = .693 thereafter

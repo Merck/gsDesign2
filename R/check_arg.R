@@ -84,7 +84,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 
 #' A function to check the arguments `enroll_rate` used in gsDesign2
 #'
-#' @param enroll_rate Enrollment rates.
+#' @inheritParams ahr
 #'
 #' @return `TRUE` or `FALSE`.
 #'
@@ -226,7 +226,7 @@ check_fail_rate <- function(fail_rate) {
 #' @noRd
 #'
 #' @examples
-#' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9))
+#' enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9))
 #' fail_rate <- tibble::tibble(
 #'   stratum = "All", duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18), hr = c(.9, .6),

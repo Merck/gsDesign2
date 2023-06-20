@@ -49,8 +49,7 @@
 #' library(gsDesign2)
 #' library(tibble)
 #'
-#' enroll_rate <- tibble(
-#'   stratum = "All",
+#' enroll_rate <- define_enroll_rate(
 #'   duration = 12,
 #'   rate = 500 / 12
 #' )
@@ -83,13 +82,12 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
 #' }
-gs_power_combo <- function(enroll_rate = tibble(
-                             stratum = "all",
+gs_power_combo <- function(enroll_rate = define_enroll_rate(
                              duration = 12,
                              rate = 500 / 12
                            ),
                            fail_rate = tibble(
-                             stratum = "all",
+                             stratum = "All",
                              duration = c(4, 100),
                              fail_rate = log(2) / 15,
                              hr = c(1, .6),

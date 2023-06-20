@@ -20,7 +20,16 @@ An \code{enroll_rate} data frame.
 Define enrollment rate
 }
 \examples{
+
+# define enroll rate without stratum
 define_enroll_rate(
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9)
+)
+
+# define enroll rate with stratum
+define_enroll_rate(
+  stratum = c("low", "low", "high"),
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )

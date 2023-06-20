@@ -13,8 +13,9 @@ test_that("given sample size, the output power arrives at the target", {
 
   # output from gsDesign2
   x1 <- gsDesign2:::fixed_design_size_rmst(enroll_rate, fail_rate,
-                                           ratio = 1, analysis_time = 36,
-                                           alpha = 0.025, test = "rmst_difference")
+    ratio = 1, analysis_time = 36,
+    alpha = 0.025, test = "rmst_difference"
+  )
 
   # output from npsurvSS
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 36)
@@ -46,8 +47,9 @@ test_that("given power, the output sample size arrives at the target power", {
 
   # output from gsDesign2
   x1 <- fixed_design_power_rmst(enroll_rate, fail_rate,
-                                analysis_time = 36,
-                                test = "rmst_difference")
+    analysis_time = 36,
+    test = "rmst_difference"
+  )
 
   # output from npsurvSS
   gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 36)

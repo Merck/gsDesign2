@@ -48,8 +48,7 @@ Create npsurvSS arm object
 }
 
 \examples{
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )

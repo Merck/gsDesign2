@@ -278,7 +278,7 @@ Next, we examine by the periods defined by `fail_rate`:
 
 ```{r}
 expected_event(
-  enroll_rate = tibble(duration = c(1, 1), rate = c(3, 2)),
+  enroll_rate = define_enroll_rate(duration = c(1, 1), rate = c(3, 2)),
   fail_rate = tibble(duration = c(4, 3), fail_rate = c(.03, .06), dropout_rate = c(.001, .002)),
   total_duration = 7,
   simple = FALSE
@@ -308,7 +308,7 @@ nsim <- 1e6
 xx <- simtrial::simPWSurv(
   n = nsim,
   block = (rep("xx", 4)),
-  enroll_rate = tibble(rate = c(3, 2) * nsim / 5, duration = c(1, 1)),
+  enroll_rate = define_enroll_rate(rate = c(3, 2) * nsim / 5, duration = c(1, 1)),
   fail_rate = tibble(
     stratum = "All", period = 1:2, Treatment = "xx",
     rate = c(.03, .06), duration = c(4, Inf)

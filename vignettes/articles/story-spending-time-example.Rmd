@@ -88,8 +88,7 @@ The approach taken uses an average-hazard ratio approach for approximating treat
 m <- 12
 
 # enrollment rate
-enroll_rate <- tibble(
-  stratum = "All", # single stratum
+enroll_rate <- define_enroll_rate(
   duration = 12, # expected enrollment duration of 12 months
   rate = 1 # here the rate is a ratio, which will be updated to achieve the desired sample size
 )
@@ -339,8 +338,7 @@ planned_info_frac <- c(.8, 1)
 lpar <- rep(-Inf, 2)
 
 # enrollment rate
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = 12,
   rate = 1
 )

@@ -65,8 +65,7 @@ A vector of weights.
 }
 
 \examples{
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )
@@ -84,8 +83,7 @@ arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
 wlr_weight_fh(1:3, arm0, arm1, rho = 0, gamma = 0, tau = NULL)
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )
@@ -103,8 +101,7 @@ arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
 wlr_weight_1(1:3, arm0, arm1)
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )
@@ -122,8 +119,7 @@ arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
 wlr_weight_n(1:3, arm0, arm1, power = 2)
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )

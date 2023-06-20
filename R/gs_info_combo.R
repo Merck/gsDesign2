@@ -38,8 +38,7 @@
 #'
 #' @examples
 #' gs_info_combo(rho = c(0, 0.5), gamma = c(0.5, 0), analysis_time = c(12, 24))
-gs_info_combo <- function(enroll_rate = tibble(
-                            stratum = "All",
+gs_info_combo <- function(enroll_rate = define_enroll_rate(
                             duration = c(2, 2, 10),
                             rate = c(3, 6, 9)
                           ),

@@ -69,8 +69,7 @@ library(dplyr)
 library(tibble)
 
 # Enrollment rate
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = 18,
   rate = 20
 )

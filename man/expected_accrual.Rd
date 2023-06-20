@@ -6,15 +6,13 @@
 \usage{
 expected_accrual(
   time = 0:24,
-  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
 )
 }
 \arguments{
 \item{time}{Times at which enrollment is to be computed.}
 
-\item{enroll_rate}{Piecewise constant enrollment rates expressed as a tibble
-with \code{duration} for each piecewise constant period and
-the \code{rate} of enrollment for that period.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
 }
 \value{
 A vector with expected cumulative enrollment for the specified \code{times}.
@@ -52,23 +50,26 @@ expected_accrual()
 # Example 2: unstratified design
 expected_accrual(
   time = c(5, 10, 20),
-  enroll_rate = tibble(duration = c(3, 3, 18), rate = c(5, 10, 20))
+  enroll_rate = define_enroll_rate(
+    duration = c(3, 3, 18),
+    rate = c(5, 10, 20)
+  )
 )
 
 expected_accrual(
   time = c(5, 10, 20),
-  enroll_rate = tibble(
-    duration = c(3, 3, 18), rate = c(5, 10, 20),
-    stratum = "All"
+  enroll_rate = define_enroll_rate(
+    duration = c(3, 3, 18),
+    rate = c(5, 10, 20),
   )
 )
 
 # Example 3: stratified design
 expected_accrual(
   time = c(24, 30, 40),
-  enroll_rate = tibble(
+  enroll_rate = define_enroll_rate(
     stratum = c("subgroup", "complement"),
-    duration = 33,
+    duration = c(33, 33),
     rate = c(30, 30)
   )
 )

@@ -25,7 +25,7 @@
 #' and enrollment pattern
 #' where the enrollment, failure and dropout rates changes over time.
 #'
-#' @param enroll_rate Piecewise constant enrollment rates by stratum and time period.
+#' @inheritParams ahr
 #' @param fail_rate Piecewise constant control group failure rates,
 #'   duration for each piecewise constant period,
 #'   hazard ratio for experimental vs control,
@@ -67,7 +67,7 @@
 #' # ------------------------#
 #' # check that result matches a finding using AHR()
 #' # Start by deriving an expected event count
-#' enroll_rate <- tibble::tibble(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+#' enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
 #' fail_rate <- tibble::tibble(
 #'   stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
 #'   hr = c(.9, .6), dropout_rate = rep(.001, 2)
@@ -82,8 +82,7 @@
 #'   target_event = xx$event, interval = c(.5, 1.5) * xx$time
 #' )
 #' }
-expected_time <- function(enroll_rate = tibble::tibble(
-                            stratum = "All",
+expected_time <- function(enroll_rate = define_enroll_rate(
                             duration = c(2, 2, 10),
                             rate = c(3, 6, 9) * 5
                           ),

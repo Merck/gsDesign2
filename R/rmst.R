@@ -18,7 +18,7 @@
 
 #' Sample Size Calculation based on RMST method
 #'
-#' @param enroll_rate Enrollment rates.
+#' @inheritParams ahr
 #' @param fail_rate Failure and dropout rates.
 #' @param analysis_time Minimum time of analysis.
 #' @param ratio Experimental:Control randomization ratio.
@@ -37,7 +37,7 @@
 #'
 #' @examples
 #' # Set enrollment rates
-#' enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
+#' enroll_rate <- define_enroll_rate(stratum = "All", duration = 12, rate = 500 / 12)
 #'
 #' # Set failure rates
 #' fail_rate <- tibble::tibble(
@@ -126,7 +126,7 @@ fixed_design_size_rmst <- function(enroll_rate,
 #'
 #' @examples
 #' # Set enrollment rates
-#' enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
+#' enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
 #'
 #' # Set failure rates
 #' fail_rate <- tibble::tibble(

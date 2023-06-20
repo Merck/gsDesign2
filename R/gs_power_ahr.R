@@ -22,7 +22,7 @@
 #' Group sequential design power using average hazard ratio under
 #' non-proportional hazards.
 #'
-#' @param enroll_rate Enrollment rates.
+#' @inheritParams ahr
 #' @param fail_rate Failure and dropout rates.
 #' @param ratio Experimental:Control randomization ratio (not yet implemented).
 #' @param event Targeted event at each analysis.
@@ -140,8 +140,7 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 #' )
 #' }
-gs_power_ahr <- function(enroll_rate = tibble(
-                           stratum = "All",
+gs_power_ahr <- function(enroll_rate = define_enroll_rate(
                            duration = c(2, 2, 10),
                            rate = c(3, 6, 9)
                          ),

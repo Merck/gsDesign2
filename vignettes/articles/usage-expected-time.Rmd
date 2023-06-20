@@ -35,8 +35,7 @@ It is designed as a twins to `AHR()`: it matches input/output format with `AHR()
 ## Example 1
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )
@@ -61,8 +60,7 @@ x %>% gt()
 In this example, we verify `expected_time()` by `AHR()`.
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )
@@ -105,8 +103,7 @@ foo <- function(x) {
 ```
 
 ```{r}
-enroll_rate <- tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9) * 5
 )
