@@ -45,11 +45,11 @@ define_enroll_rate <- function(
   check_args(stratum, length = l, type = c("character"))
 
   if (any(rate < 0)) {
-    stop("Enrollment rate `rate` can not be negative")
+    stop("Enrollment rate `rate` can't be negative.")
   }
 
   if (any(duration < 0)) {
-    stop("Enrollment duration `duration` can not be negative")
+    stop("Enrollment duration `duration` can't be negative.")
   }
 
   df <- data.frame(
