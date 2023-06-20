@@ -108,21 +108,17 @@
 <span>  time <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  enroll_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">18</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in check_enroll_rate(enroll_rate): Please use `define_enroll_rate()` to specify the `enroll_rate` argument.</span></span>
-<span><span class="co">## We will enforce this requirement from the next version.</span></span></code></pre>
 <pre><code><span><span class="co">## [1] 15</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
 <p>For the enrollment in the first 6 months, it is exactly <span class="math inline">\(3 \times 5 + 3 \times 10 = 45\)</span>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expected_accrual.html">expected_accrual</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  enroll_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">18</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in check_enroll_rate(enroll_rate): Please use `define_enroll_rate()` to specify the `enroll_rate` argument.</span></span>
-<span><span class="co">## We will enforce this requirement from the next version.</span></span></code></pre>
 <pre><code><span><span class="co">## [1] 45</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -130,13 +126,11 @@
 </h3>
 <p>For the enrollment in the first 24 months, it is exactly <span class="math inline">\(3 \times 5 + 3 \times 10 + 18 * 20 =
 405\)</span>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expected_accrual.html">expected_accrual</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="fl">24</span>,</span>
 <span>  enroll_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">18</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in check_enroll_rate(enroll_rate): Please use `define_enroll_rate()` to specify the `enroll_rate` argument.</span></span>
-<span><span class="co">## We will enforce this requirement from the next version.</span></span></code></pre>
 <pre><code><span><span class="co">## [1] 405</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -144,13 +138,11 @@
 </h3>
 <p>For the enrollment after 24 months, it is the same as that from the
 24 months, since the enrollment is stopped.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expected_accrual.html">expected_accrual</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="fl">25</span>,</span>
 <span>  enroll_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">18</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in check_enroll_rate(enroll_rate): Please use `define_enroll_rate()` to specify the `enroll_rate` argument.</span></span>
-<span><span class="co">## We will enforce this requirement from the next version.</span></span></code></pre>
 <pre><code><span><span class="co">## [1] 405</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -158,13 +150,11 @@
 </h3>
 <p>Instead of compute the enrolled subjects one time point by one time
 point, we can also compute it once.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expected_accrual.html">expected_accrual</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">24</span>, <span class="fl">25</span><span class="op">)</span>,</span>
 <span>  enroll_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">18</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in check_enroll_rate(enroll_rate): Please use `define_enroll_rate()` to specify the `enroll_rate` argument.</span></span>
-<span><span class="co">## We will enforce this requirement from the next version.</span></span></code></pre>
 <pre><code><span><span class="co">## [1]  15  45 405 405</span></span></code></pre>
 </div>
 </div>
