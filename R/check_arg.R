@@ -91,8 +91,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #' @noRd
 #'
 #' @examples
-#'
-#' # proper definition
+#' # Proper definition
 #' enroll_rate <- define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
@@ -100,7 +99,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #'
 #' check_enroll_rate(enroll_rate)
 #'
-#' # off-label use
+#' # Non-standard use
 #' enroll_rate <- data.frame(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
@@ -110,8 +109,8 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 check_enroll_rate <- function(enroll_rate) {
   if (!"enroll_rate" %in% class(enroll_rate)) {
     msg <- c(
-      "Please use `define_enroll_rate` to specify `enroll_rate` argument.",
-      "We will enforse the requirement from next version"
+      "Please use `define_enroll_rate()` to specify the `enroll_rate` argument.",
+      "We will enforce this requirement from the next version."
     )
     msg <- paste(msg, collapse = "\n")
     warning(msg)
