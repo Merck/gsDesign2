@@ -141,7 +141,7 @@ check_enroll_rate <- function(enroll_rate) {
 #'
 #' @examples
 #'
-#' # proper definition
+#' # Proper definition
 #' fail_rate <- define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
@@ -151,7 +151,7 @@ check_enroll_rate <- function(enroll_rate) {
 #'
 #' check_fail_rate(fail_rate)
 #'
-#' # off-label use
+#' # Non-standard use
 #' fail_rate <- tibble::tibble(
 #'   stratum = "All",
 #'   duration = c(3, 100),
