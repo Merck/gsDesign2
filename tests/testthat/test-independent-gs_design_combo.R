@@ -1,6 +1,6 @@
 # load("fixtures/sim_gsd_pMaxCombo_exp1_H0_test.Rdata")
 # load("fixtures/sim_gsd_pMaxCombo_exp1_H1_test.Rdata")
-# 
+#
 # ratio <- 1
 # algorithm <- GenzBretz(
 #   maxpts = 1e5,
@@ -13,7 +13,7 @@
 #   duration = 12,
 #   rate = 500 / 12
 # )
-# 
+#
 # failRates <- tibble::tibble(
 #   stratum = "All",
 #   duration = c(4, 100),
@@ -21,7 +21,7 @@
 #   hr = c(1, .6),
 #   dropoutRate = 0.001
 # )
-# 
+#
 # fh_test <- rbind(
 #   data.frame(
 #     rho = 0,
@@ -40,7 +40,7 @@
 #     analysis_time = 36
 #   )
 # )
-# 
+#
 # x <- gsDesign::gsSurv(
 #   k = 3,
 #   test.type = 4,
@@ -63,8 +63,8 @@
 #   minfup = 24,
 #   ratio = 1
 # )
-# 
-# 
+#
+#
 # # User defined boundary
 # gs_design_combo_test1 <- gs_design_combo(enrollRates,
 #   failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
@@ -76,7 +76,7 @@
 #   upar = x$upper$bound,
 #   lpar = x$lower$bound
 # )
-# 
+#
 # #### Boundary derived by spending function testing
 # gs_design_combo_test2 <- gs_design_combo(enrollRates,
 #   failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
@@ -90,7 +90,7 @@
 #   lower = gs_spending_combo,
 #   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
 # )
-# 
+#
 # test_tEvents <- function(enrollRates = tibble::tibble(
 #                            stratum = "All",
 #                            duration = c(2, 2, 10),
@@ -124,14 +124,14 @@
 #   totale <- sum(eventc$event + eventt$event)
 #   return(totale)
 # }
-# 
+#
 # testthat::test_that("calculate analysis number as planed", {
 #   expect_equal(max(fh_test$analysis), max(gs_design_combo_test2$analysis$analysis))
 # })
 # testthat::test_that("calculate analysisTimes as planed", {
 #   expect_equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$time))
 # })
-# 
+#
 # for (i in 1:max(fh_test$analysis)) {
 #   testthat::test_that("calculate N and each analysis Events N as planed", {
 #     event <- test_tEvents(
@@ -144,7 +144,7 @@
 #     expect_equal(event * N / enrollsum, unique(gs_design_combo_test2$analysis$event)[i], tolerance = 0.01)
 #   })
 # }
-# 
+#
 # testthat::test_that("calculate probability under alternative", {
 #   expect_equal(
 #     1 - beta,
@@ -152,7 +152,7 @@
 #     tolerance = 0.0001
 #   )
 # })
-# 
+#
 # testthat::test_that("calculate probability under null", {
 #   expect_equal(
 #     alpha,

@@ -4,7 +4,7 @@
 #     duration = c(2, 2, 10),
 #     rate = c(3, 6, 9) * 5
 #   )
-# 
+#
 #   failRates <- tibble::tibble(
 #     Stratum = "All",
 #     duration = c(3, 100),
@@ -14,14 +14,14 @@
 #   )
 #   targetEvents <- 150
 #   interval <- c(.01, 100)
-# 
+#
 #   t1 <- expected_time(
 #     enroll_rate = enrollRates %>% dplyr::rename(stratum = Stratum),
 #     fail_rate = failRates %>% dplyr::rename(stratum = Stratum, fail_rate = failRate, dropout_rate = dropoutRate),
 #     target_event = targetEvents,
 #     interval = interval
 #   )
-# 
+#
 #   testthat::expect_equal(
 #     t1$event,
 #     test_tEvents(
@@ -31,7 +31,7 @@
 #     )
 #   )
 # })
-# 
+#
 # testthat::test_that("expected_time does not euqal to AHR's result", {
 #   enrollRates <- tibble::tibble(
 #     Stratum = "All",
@@ -53,7 +53,7 @@
 #     target_event = targetEvents,
 #     interval = interval
 #   )
-# 
+#
 #   testthat::expect_equal(
 #     t1$event,
 #     ahr(
