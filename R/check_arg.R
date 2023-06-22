@@ -107,7 +107,7 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #'
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
-  if (!"enroll_rate" %in% class(enroll_rate)) {
+  if (!("enroll_rate" %in% class(enroll_rate))) {
     msg <- c(
       "Please use `define_enroll_rate()` to specify the `enroll_rate` argument.",
       "We will enforce this requirement from the next version."
@@ -115,7 +115,7 @@ check_enroll_rate <- function(enroll_rate) {
     msg <- paste(msg, collapse = "\n")
     warning(msg)
 
-    if (!"stratum" %in% names(enroll_rate)) {
+    if (!("stratum" %in% names(enroll_rate))) {
       enroll_rate$stratum <- rep("All", nrow(enroll_rate))
     }
 
@@ -140,7 +140,6 @@ check_enroll_rate <- function(enroll_rate) {
 #' @noRd
 #'
 #' @examples
-#'
 #' # Proper definition
 #' fail_rate <- define_fail_rate(
 #'   duration = c(3, 100),
@@ -162,19 +161,19 @@ check_enroll_rate <- function(enroll_rate) {
 #'
 #' check_fail_rate(fail_rate)
 check_fail_rate <- function(fail_rate) {
-  if (!"fail_rate" %in% class(fail_rate)) {
+  if (!("fail_rate" %in% class(fail_rate))) {
     msg <- c(
-      "Please use `define_fail_rate` to specify `fail_rate` argument.",
-      "We will enforse the requirement from next version"
+      "Please use `define_fail_rate()` to specify the `fail_rate` argument.",
+      "We will enforce the requirement from the next version."
     )
     msg <- paste(msg, collapse = "\n")
     warning(msg)
 
-    if (!"hr" %in% names(fail_rate)) {
+    if (!("hr" %in% names(fail_rate))) {
       fail_rate$hr <- rep(1, nrow(fail_rate))
     }
 
-    if (!"stratum" %in% names(fail_rate)) {
+    if (!("stratum" %in% names(fail_rate))) {
       fail_rate$stratum <- rep("All", nrow(fail_rate))
     }
 

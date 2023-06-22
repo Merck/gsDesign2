@@ -71,7 +71,6 @@ define_enroll_rate <- function(
   df
 }
 
-
 #' Define fail rate
 #'
 #' @param duration A numeric vector of piecewise study duration interval.
@@ -80,13 +79,12 @@ define_enroll_rate <- function(
 #' @param hr A numeric vector of hazard ratio.
 #' @param stratum A character vector of stratum name.
 #'
-#' @return An `fail_rate` data frame.
+#' @return A `fail_rate` data frame.
 #'
 #' @export
 #'
 #' @examples
-#'
-#' # define enroll rate without stratum
+#' # Define enroll rate without stratum
 #' define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
@@ -94,7 +92,7 @@ define_enroll_rate <- function(
 #'   dropout_rate = rep(.001, 2)
 #' )
 #'
-#' # define enroll rate with stratum
+#' # Define enroll rate with stratum
 #' define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
