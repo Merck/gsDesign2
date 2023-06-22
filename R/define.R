@@ -27,14 +27,13 @@
 #' @export
 #'
 #' @examples
-#'
-#' # define enroll rate without stratum
+#' # Define enroll rate without stratum
 #' define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
 #'
-#' # define enroll rate with stratum
+#' # Define enroll rate with stratum
 #' define_enroll_rate(
 #'   stratum = c("low", "low", "high"),
 #'   duration = c(2, 2, 10),
@@ -54,11 +53,11 @@ define_enroll_rate <- function(
   check_args(stratum, length = l, type = c("character"))
 
   if (any(duration < 0)) {
-    stop("define_enroll_rate: enrollment duration `duration` can not be negative")
+    stop("define_enroll_rate: enrollment duration `duration` can't be negative.")
   }
 
   if (any(rate < 0)) {
-    stop("define_enroll_rate: enrollment rate `rate` can not be negative")
+    stop("define_enroll_rate: enrollment rate `rate` can't be negative.")
   }
 
   df <- data.frame(
@@ -127,19 +126,19 @@ define_fail_rate <- function(
   check_args(stratum, length = l, type = c("character"))
 
   if (any(duration < 0)) {
-    stop("define_fail_rate: enrollment duration `duration` can not be negative")
+    stop("define_fail_rate: enrollment duration `duration` can't be negative.")
   }
 
   if (any(fail_rate < 0)) {
-    stop("define_fail_rate: failure rate `fail_rate` can not be negative")
+    stop("define_fail_rate: failure rate `fail_rate` can't be negative.")
   }
 
   if (any(dropout_rate < 0)) {
-    stop("define_fail_rate: failure rate `fail_rate` can not be negative")
+    stop("define_fail_rate: failure rate `fail_rate` can't be negative.")
   }
 
   if (any(hr < 0)) {
-    stop("define_fail_rate: hazard ratio `hr` can not be negative")
+    stop("define_fail_rate: hazard ratio `hr` can't be negative.")
   }
 
   df <- data.frame(
