@@ -1,17 +1,18 @@
-# directly compare the results of expected_time with expected_event.
-test_tEvents <- function(enrollRates = tibble::tibble(
-  Stratum = "All",
-  duration = c(2, 2, 10),
-  rate = c(3, 6, 9) * 5
-),
-failRates = tibble::tibble(
-  Stratum = "All",
-  duration = c(3, 100),
-  failRate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropoutRate = rep(.001, 2)
-),
-td = 14.9) {
+# Compare the results of `expected_time()` with `expected_event()` directly
+test_tEvents <- function(
+    enrollRates = tibble::tibble(
+      Stratum = "All",
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9) * 5
+    ),
+    failRates = tibble::tibble(
+      Stratum = "All",
+      duration = c(3, 100),
+      failRate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropoutRate = rep(.001, 2)
+    ),
+    td = 14.9) {
   enrollRates_1 <- enrollRates
   enrollRates_1$rate <- enrollRates$rate / 2
   failRatesc <- failRates[, c("duration", "failRate", "dropoutRate")]

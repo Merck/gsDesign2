@@ -64,8 +64,7 @@ x <- gsDesign::gsSurv(
   ratio = 1
 )
 
-
-# User defined boundary
+# User-defined boundary
 gs_design_combo_test1 <- gs_design_combo(
   enroll_rate = enrollRates,
   fail_rate = failRates %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
@@ -93,19 +92,20 @@ gs_design_combo_test2 <- gs_design_combo(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2), # beta spending
 )
 
-test_tEvents <- function(enrollRates = tibble::tibble(
-                           stratum = "All",
-                           duration = c(2, 2, 10),
-                           rate = c(3, 6, 9) * 5
-                         ),
-                         failRates = tibble::tibble(
-                           stratum = "All",
-                           duration = c(3, 100),
-                           failRate = log(2) / c(9, 18),
-                           hr = c(.9, .6),
-                           dropoutRate = rep(.001, 2)
-                         ),
-                         td = 15) {
+test_tEvents <- function(
+    enrollRates = tibble::tibble(
+      stratum = "All",
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9) * 5
+    ),
+    failRates = tibble::tibble(
+      stratum = "All",
+      duration = c(3, 100),
+      failRate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropoutRate = rep(.001, 2)
+    ),
+    td = 15) {
   enrollRates_1 <- enrollRates
   enrollRates_1$rate <- enrollRates$rate / 2
   failRatesc <- failRates[, c("duration", "failRate", "dropoutRate")]
@@ -127,15 +127,15 @@ test_tEvents <- function(enrollRates = tibble::tibble(
   return(totale)
 }
 
-testthat::test_that("calculate analysis number as planed", {
+testthat::test_that("calculate analysis number as planned", {
   expect_equal(max(fh_test$analysis), max(gs_design_combo_test2$analysis$analysis))
 })
-testthat::test_that("calculate analysisTimes as planed", {
+testthat::test_that("calculate analysisTimes as planned", {
   expect_equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$time))
 })
 
 for (i in 1:max(fh_test$analysis)) {
-  testthat::test_that("calculate N and each analysis Events N as planed", {
+  testthat::test_that("calculate N and each analysis Events N as planned", {
     event <- test_tEvents(
       enrollRates = enrollRates,
       failRates = failRates,
