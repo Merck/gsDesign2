@@ -17,7 +17,7 @@ expected_event(
 
 \item{fail_rate}{Failure rates and dropout rates by period.}
 
-\item{total_duration}{Total follow-up from start of enrollment to data cutoff.}
+\item{total_duration}{A positive number specifying the total follow-up from start of enrollment to data cutoff.}
 
 \item{simple}{If default (\code{TRUE}), return numeric expected number of events,
 otherwise a tibble as described below.}
