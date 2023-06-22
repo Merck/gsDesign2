@@ -17,7 +17,6 @@ td = 14.9) {
   failRatesc <- failRates[, c("duration", "failRate", "dropoutRate")]
   failRatest <- failRatesc
   failRatest$failRate <- failRates$failRate * failRates$hr
-  
   eventc <- expected_event(
     enroll_rate = enrollRates_1 %>% dplyr::rename(stratum = Stratum),
     fail_rate = failRatesc %>% dplyr::rename(fail_rate = failRate, dropout_rate = dropoutRate),
