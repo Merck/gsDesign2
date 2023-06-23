@@ -24,14 +24,13 @@ define_fail_rate(
 \item{stratum}{A character vector of stratum name.}
 }
 \value{
-An \code{fail_rate} data frame.
+A \code{fail_rate} data frame.
 }
 \description{
 Define fail rate
 }
 \examples{
-
-# define enroll rate without stratum
+# Define enroll rate without stratum
 define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
@@ -39,7 +38,7 @@ define_fail_rate(
   dropout_rate = rep(.001, 2)
 )
 
-# define enroll rate with stratum
+# Define enroll rate with stratum
 define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
