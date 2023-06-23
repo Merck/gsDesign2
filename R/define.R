@@ -45,6 +45,14 @@ define_enroll_rate <- function(
     rate,
     stratum = "All"
 ) {
+  
+  if(is.null(duration)){
+    stop("define_enroll_rate: duration variable is NULL")
+  }
+  
+  if(is.null(rate)){
+    stop("define_enroll_rate: rate variable is NULL")
+  }
 
   check_args(duration, type = c("numeric", "integer"))
   check_args(rate, type = c("numeric", "integer"))
@@ -108,6 +116,18 @@ define_fail_rate <- function(
     stratum = "All"
 ) {
 
+  if(is.null(duration)){
+    stop("define_enroll_rate: duration variable is NULL")
+  }
+  
+  if(is.null(fail_rate)){
+    stop("define_enroll_rate: fail_rate variable is NULL")
+  }
+  
+  if(is.null(dropout_rate)){
+    stop("define_enroll_rate: dropout_rate variable is NULL")
+  }
+  
   check_args(duration, type = c("numeric", "integer"))
   check_args(fail_rate, type = c("numeric", "integer"))
   check_args(dropout_rate, type = c("numeric", "integer"))
