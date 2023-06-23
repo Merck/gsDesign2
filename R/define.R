@@ -43,15 +43,12 @@
 define_enroll_rate <- function(
     duration,
     rate,
-    stratum = rep("All", length(duration))) {
-  # Length of variables
-  l <- unique(c(length(duration), length(rate), length(stratum)))
+    stratum = "All"
+) {
 
-  if (length(l) > 1) stop("define_enroll_rate: length of input arguments must be the same.")
-
-  check_args(duration, length = l, type = c("numeric", "integer"))
-  check_args(rate, length = l, type = c("numeric", "integer"))
-  check_args(stratum, length = l, type = c("character"))
+  check_args(duration, type = c("numeric", "integer"))
+  check_args(rate, type = c("numeric", "integer"))
+  check_args(stratum, type = c("character"))
 
   if (any(duration < 0)) {
     stop("define_enroll_rate: enrollment duration `duration` can not be negative")
@@ -61,7 +58,7 @@ define_enroll_rate <- function(
     stop("define_enroll_rate: enrollment rate `rate` can not be negative")
   }
 
-  df <- data.frame(
+  df <- tibble::tibble(
     stratum = stratum,
     duration = duration,
     rate = rate
@@ -92,7 +89,7 @@ define_enroll_rate <- function(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
 #'   hr = c(.9, .6),
-#'   dropout_rate = rep(.001, 2)
+#'   dropout_rate = .001
 #' )
 #'
 #' # define enroll rate with stratum
@@ -100,31 +97,22 @@ define_enroll_rate <- function(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
 #'   hr = c(.9, .6),
-#'   dropout_rate = rep(.001, 2),
+#'   dropout_rate = .001,
 #'   stratum = c("low", "high")
 #' )
 define_fail_rate <- function(
     duration,
     fail_rate,
     dropout_rate,
-    hr = rep(1, length(duration)),
-    stratum = rep("All", length(duration))) {
-  # Length of variables
-  l <- unique(c(
-    length(duration),
-    length(fail_rate),
-    length(dropout_rate),
-    length(hr),
-    length(stratum)
-  ))
+    hr = 1,
+    stratum = "All"
+) {
 
-  if (length(l) > 1) stop("define_fail_rate: length of input arguments must be the same.")
-
-  check_args(duration, length = l, type = c("numeric", "integer"))
-  check_args(fail_rate, length = l, type = c("numeric", "integer"))
-  check_args(dropout_rate, length = l, type = c("numeric", "integer"))
-  check_args(hr, length = l, type = c("numeric", "integer"))
-  check_args(stratum, length = l, type = c("character"))
+  check_args(duration, type = c("numeric", "integer"))
+  check_args(fail_rate, type = c("numeric", "integer"))
+  check_args(dropout_rate, type = c("numeric", "integer"))
+  check_args(hr, type = c("numeric", "integer"))
+  check_args(stratum, type = c("character"))
 
   if (any(duration < 0)) {
     stop("define_fail_rate: enrollment duration `duration` can not be negative")
@@ -142,7 +130,7 @@ define_fail_rate <- function(
     stop("define_fail_rate: hazard ratio `hr` can not be negative")
   }
 
-  df <- data.frame(
+  df <- tibble::tibble(
     stratum = stratum,
     duration = duration,
     fail_rate = fail_rate,
