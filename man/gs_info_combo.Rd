@@ -18,9 +18,9 @@ gs_info_combo(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum created by \code{define_fail_rate}.}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 

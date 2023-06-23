@@ -14,13 +14,9 @@ expected_time(
 )
 }
 \arguments{
-\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
-created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
 
-\item{fail_rate}{Piecewise constant control group failure rates,
-duration for each piecewise constant period,
-hazard ratio for experimental vs control,
-and dropout rates by stratum and time period.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum created by \code{define_fail_rate}.}
 
 \item{target_event}{The targeted number of events to be achieved.}
 

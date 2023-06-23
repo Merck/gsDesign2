@@ -13,12 +13,11 @@ expected_event(
 )
 }
 \arguments{
-\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
-created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
 
-\item{fail_rate}{Failure rates and dropout rates by period.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum created by \code{define_fail_rate}.}
 
-\item{total_duration}{A positive number specifying the total follow-up from start of enrollment to data cutoff.}
+\item{total_duration}{Total follow-up from start of enrollment to data cutoff.}
 
 \item{simple}{If default (\code{TRUE}), return numeric expected number of events,
 otherwise a tibble as described below.}
