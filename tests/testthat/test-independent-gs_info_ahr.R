@@ -12,7 +12,6 @@ fail_rate <- define_fail_rate(
 # Test 1: independent test using AHR to check outputs of gs_info_ahr ####
 
 testthat::test_that("results match if only put in targeted analysis times", {
-
   total_duration <- c(18, 27, 36)
 
   testthat::expect_equal(
@@ -31,7 +30,6 @@ testthat::test_that("results match if only put in targeted analysis times", {
 
 
 testthat::test_that("results match if only put in targeted events", {
-
   event <- c(30, 40, 50)
 
   out1 <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, event = event)
@@ -55,7 +53,6 @@ testthat::test_that("results match if only put in targeted events", {
 
 
 testthat::test_that("results match if put in both analysis time and targeted events", {
- 
   event <- c(30, 40, 50)
   analysis_time <- c(16, 19, 26)
 

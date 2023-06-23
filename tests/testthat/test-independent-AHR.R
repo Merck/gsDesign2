@@ -13,7 +13,6 @@ fail_rate <- define_fail_rate(
 )
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
-
   actual <- ahr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
@@ -25,7 +24,6 @@ testthat::test_that("AHR results are consistent with simulation results for sing
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and single cutoff", {
-
   total_duration <- 30
   actual <- ahr(
     enroll_rate = enroll_rate,
@@ -37,7 +35,6 @@ testthat::test_that("AHR results are consistent with simulation results for sing
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
-
   total_duration <- c(15, 30)
 
   actual <- ahr(

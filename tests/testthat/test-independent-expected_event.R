@@ -25,7 +25,7 @@ test_that("data frame returned from expected_event not as expected", {
   enroll_rate <- define_enroll_rate(duration = c(1, 1, 8), rate = c(3, 2, 0))
   fail_rate <- define_fail_rate(duration = c(4, Inf), fail_rate = c(.03, .06), dropout_rate = c(.001, .002), hr = 1)
   total_duration <- 7
-  
+
   xx <- expected_event(
     enroll_rate,
     fail_rate,
@@ -121,7 +121,7 @@ testthat::test_that(
       expected_event(
         enroll_rate,
         fail_rate,
-        total_duration, 
+        total_duration,
         simple
       )
     )
@@ -137,7 +137,7 @@ testthat::test_that("expected events is different from double-programmed vs expe
     expected_event(
       enroll_rate,
       fail_rate,
-      total_duration, 
+      total_duration,
       simple
     )
   )
@@ -156,18 +156,18 @@ testthat::test_that("expected events is different from double-programmed vs expe
     dropout_rate = c(0.1, 0.2, 0),
     hr = 1
   )
-  
+
   fail_rate$failRate <- fail_rate$fail_rate
   fail_rate$dropoutRate <- fail_rate$dropout_rate
   failRates <- fail_rate
-  
+
   total_duration <- 80
   testthat::expect_equal(
     test_Event(enroll_rate, fail_rate, total_duration),
     expected_event(
       enroll_rate,
       fail_rate,
-      total_duration, 
+      total_duration,
       simple
     )
   )

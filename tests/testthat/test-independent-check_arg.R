@@ -34,7 +34,7 @@ test_that("check fail_rate", {
       )
     )
   ))
-  
+
   expect_warning(expect_error(
     check_fail_rate(
       tibble::tibble(
@@ -43,8 +43,7 @@ test_that("check fail_rate", {
         dropout_rate = 0.01, hr = -1
       )
     )
-  )
-  )
+  ))
 
   # check of column `dropoutRate`
   expect_warning(expect_error(
@@ -56,7 +55,7 @@ test_that("check fail_rate", {
       )
     )
   ))
-  
+
   expect_warning(expect_error(
     check_fail_rate(
       tibble::tibble(

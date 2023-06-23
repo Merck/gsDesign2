@@ -202,7 +202,7 @@ check_fail_rate <- function(fail_rate) {
 #' enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9))
 #' fail_rate <- define_fail_rate(
 #'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18), 
+#'   fail_rate = log(2) / c(9, 18),
 #'   dropout_rate = .001,
 #'   hr = c(.9, .6)
 #' )

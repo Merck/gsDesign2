@@ -21,7 +21,6 @@ t1 <- expected_time(
 )
 
 testthat::test_that("expected_time equal to test_event result", {
-
   testthat::expect_equal(
     t1$event,
     test_event(
@@ -30,11 +29,9 @@ testthat::test_that("expected_time equal to test_event result", {
       td = t1$time
     )
   )
-}
-)
+})
 
 testthat::test_that("expected_time euqal to AHR's result", {
-
   testthat::expect_equal(
     t1$event,
     ahr(
