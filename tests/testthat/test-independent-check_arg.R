@@ -17,12 +17,22 @@ test_that("check fail_rate", {
   expect_error(check_fail_rate(tibble::tibble(fail_rate = c(0.2, 0.4), duration = c(10, 20))))
 
   # check of column `duration`
-  expect_error(check_fail_rate(tibble::tibble(fail_rate = c(2, 4), duration = c("a", "b"), dropout_rate = 0.01)))
-  expect_error(check_fail_rate(tibble::tibble(fail_rate = c(2, 4), duration = c(10, -20), dropout_rate = 0.01)))
+  expect_error(check_fail_rate(
+    tibble::tibble(fail_rate = c(2, 4), duration = c("a", "b"), dropout_rate = 0.01)
+  ))
+
+  expect_error(check_fail_rate(
+    tibble::tibble(fail_rate = c(2, 4), duration = c(10, -20), dropout_rate = 0.01)
+  ))
 
   # check of column `fail_rate`
-  expect_error(check_fail_rate(tibble::tibble(duration = c(10, 20), fail_rate = c("a", "b"), dropout_rate = 0.01)))
-  expect_error(check_fail_rate(tibble::tibble(duration = c(10, 20), fail_rate = c(2, -4), dropout_rate = 0.01)))
+  expect_error(check_fail_rate(
+    tibble::tibble(duration = c(10, 20), fail_rate = c("a", "b"), dropout_rate = 0.01)
+  ))
+
+  expect_error(check_fail_rate(
+    tibble::tibble(duration = c(10, 20), fail_rate = c(2, -4), dropout_rate = 0.01)
+  ))
 
   # check of column `hr`
   expect_error(
