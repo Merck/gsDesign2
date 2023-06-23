@@ -24,9 +24,7 @@
 #' and enrollment pattern where the enrollment, failure and dropout rates changes over time.
 #'
 #' @param enroll_rate An `enroll_rate` data frame with or without stratum created by `define_enroll_rate`.
-#' @param fail_rate Piecewise constant control group failure rates, duration
-#'   for each piecewise constant period,
-#' hazard ratio for experimental vs control, and dropout rates by stratum and time period.
+#' @param fail_rate A `fail_rate` data frame with or without stratum created by `define_fail_rate`.
 #' @param total_duration Total follow-up from start of enrollment to data cutoff;
 #'   this can be a single value or a vector of positive numbers.
 #' @param ratio Ratio of experimental to control randomization.
@@ -104,8 +102,8 @@
 #'   stratum = c(rep("Low", 2), rep("High", 2)),
 #'   duration = 1,
 #'   fail_rate = c(.1, .2, .3, .4),
-#'   hr = c(.9, .75, .8, .6),
-#'   dropout_rate = .001
+#'   dropout_rate = .001,
+#'   hr = c(.9, .75, .8, .6)
 #' )
 #' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 #'

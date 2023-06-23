@@ -18,8 +18,7 @@
 
 #' Information and effect size for MaxCombo test
 #'
-#' @param enroll_rate Enrollment rates.
-#' @param fail_rate Failure and dropout rates.
+#' @inheritParams ahr
 #' @param ratio Experimental:Control randomization ratio (not yet implemented).
 #' @param event Targeted events at each analysis.
 #' @param analysis_time Minimum time of analysis.

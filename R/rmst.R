@@ -19,7 +19,6 @@
 #' Sample Size Calculation based on RMST method
 #'
 #' @inheritParams ahr
-#' @param fail_rate Failure and dropout rates.
 #' @param analysis_time Minimum time of analysis.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
@@ -110,8 +109,7 @@ fixed_design_size_rmst <- function(enroll_rate,
 
 #' Power calculation based on RMST method
 #'
-#' @param enroll_rate Enrollment rates.
-#' @param fail_rate Failure and dropout rates.
+#' @inheritParams ahr
 #' @param analysis_time Minimum time of analysis.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
@@ -128,8 +126,7 @@ fixed_design_size_rmst <- function(enroll_rate,
 #' enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
 #'
 #' # Set failure rates
-#' fail_rate <- tibble::tibble(
-#'   stratum = "All",
+#' fail_rate <- define_fail_rate(
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15, # median survival 15 month
 #'   hr = c(1, .6),

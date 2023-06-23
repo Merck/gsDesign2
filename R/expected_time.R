@@ -26,10 +26,6 @@
 #' where the enrollment, failure and dropout rates changes over time.
 #'
 #' @inheritParams ahr
-#' @param fail_rate Piecewise constant control group failure rates,
-#'   duration for each piecewise constant period,
-#'   hazard ratio for experimental vs control,
-#'   and dropout rates by stratum and time period.
 #' @param target_event The targeted number of events to be achieved.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param interval An interval that is presumed to include the time at which

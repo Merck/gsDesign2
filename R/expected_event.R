@@ -30,7 +30,6 @@
 #' for stratified populations.
 #'
 #' @inheritParams ahr
-#' @param fail_rate Failure rates and dropout rates by period.
 #' @param total_duration Total follow-up from start of enrollment to data cutoff.
 #' @param simple If default (`TRUE`), return numeric expected number of events,
 #'   otherwise a tibble as described below.

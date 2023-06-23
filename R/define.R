@@ -78,7 +78,7 @@ define_enroll_rate <- function(
 #' @param hr A numeric vector of hazard ratio.
 #' @param stratum A character vector of stratum name.
 #'
-#' @return An `fail_rate` data frame.
+#' @return A `fail_rate` data frame.
 #'
 #' @export
 #'
