@@ -1,13 +1,11 @@
 # Test 1: compare results with AHR ####
 
 testthat::test_that("compare results with AHR in the situation of single analysis", {
-  enroll_rate <- tibble::tibble(
-    stratum = "All",
+  enroll_rate <- define_enroll_rate(
     duration = c(2, 2, 10),
     rate = c(3, 6, 9)
   )
-  fail_rate <- tibble::tibble(
-    stratum = "All",
+  fail_rate <- define_fail_rate(
     duration = c(3, 100),
     fail_rate = log(2) / c(9, 18),
     hr = c(0.9, 0.6),

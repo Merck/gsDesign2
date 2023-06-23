@@ -1,14 +1,13 @@
 # weighted log rank test with 3 options of weights
 test_that("Validate the function based on examples with individual functions", {
   # Enrollments
-  enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
+  enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
   # fail_rate
-  fail_rate <- tibble::tibble(
-    stratum = "All",
+  fail_rate <- define_fail_rate(
     duration = c(4, 100),
     fail_rate = log(2) / 15, # Median survival 15 months
-    hr = c(1, .6), # Delay effect after 4 months
-    dropout_rate = 0.001
+    dropout_rate = 0.001,
+    hr = c(1, .6) # Delay effect after 4 months
   )
   ## Randomization Ratio is 1:1
   ratio <- 1

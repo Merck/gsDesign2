@@ -118,12 +118,11 @@ enroll_rate <- define_enroll_rate(
   rate = c(3, 6, 9)
 )
 
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(1, .55),
-  dropout_rate = .001
+  dropout_rate = .001,
+  hr = c(1, .55)
 )
 
 total_duration <- 30
@@ -306,12 +305,12 @@ enroll_rate <- define_enroll_rate(
   rate = c((1:4) / 3, (1:4) / 2, (1:4) / 6)
 )
 
-fail_rate <- tibble::tibble(
+fail_rate <- define_fail_rate(
   stratum = c("High", "Moderate", "Low"),
   duration = 100,
   fail_rate = log(2) / c(6, 9, 100),
-  hr = c(1.2, 1 / 3, 1),
-  dropout_rate = .001
+  dropout_rate = .001,
+  hr = c(1.2, 1 / 3, 1)
 )
 
 total_duration <- 36

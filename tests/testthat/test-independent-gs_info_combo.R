@@ -1,17 +1,15 @@
 rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 30),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 info_combo <- gsDesign2::gs_info_combo(
   enroll_rate = enroll_rate,
