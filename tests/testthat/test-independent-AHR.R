@@ -1,11 +1,10 @@
 load("fixtures/simulation_test_data.Rdata")
 
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
+fail_rate <- define_fail_rate(
   stratum = "All",
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
