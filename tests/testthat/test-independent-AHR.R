@@ -47,17 +47,15 @@ testthat::test_that("AHR results are consistent with simulation results for sing
 })
 
 testthat::test_that("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
-  enroll_rate <- tibble::tibble(
-    stratum = "All",
+  enroll_rate <- define_enroll_rate(
     duration = c(2, 2, 10),
     rate = c(3, 6, 9)
   )
-  fail_rate <- tibble::tibble(
-    stratum = "All",
+  fail_rate <- define_fail_rate(
     duration = c(3, Inf),
     fail_rate = log(2) / c(9, 18),
-    hr = c(0.9, 0.6),
-    dropout_rate = rep(0.001, 2)
+    dropout_rate = rep(0.001, 2),
+    hr = c(0.9, 0.6)
   )
   total_duration <- c(15, 30)
 
