@@ -107,7 +107,7 @@ gs_power_combo <- function(enroll_rate = define_enroll_rate(
                            lpar = c(-1, 0, 1),
                            algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
                            ...) {
-  # Currently only support user defined lower and upper bound
+  # Currently only support user-defined lower and upper bound
   stopifnot(identical(upper, gs_b) | identical(upper, gs_spending_combo))
   stopifnot(identical(lower, gs_b) | identical(lower, gs_spending_combo))
 

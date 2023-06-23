@@ -26,7 +26,7 @@ fh_test <- rbind(
   )
 )
 
-# User defined bound
+# User-defined bound
 gs_power_combo_test1 <- gsDesign2::gs_power_combo(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -35,17 +35,17 @@ gs_power_combo_test1 <- gsDesign2::gs_power_combo(
   lower = gs_b, lpar = c(-1, 0, 1)
 )
 
-test_that("calculate analysis number as planed", {
+test_that("calculate analysis number as planned", {
   expect_equal(max(fh_test$analysis), max(gs_power_combo_test1$analysis$analysis))
 })
 
-test_that("calculate analysisTimes as planed", {
+test_that("calculate analysisTimes as planned", {
   expect_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test1$analysis$time))
 })
 
 
 for (i in 1:max(fh_test$analysis)) {
-  test_that("calculate N and each analysis Events N as planed", {
+  test_that("calculate N and each analysis Events N as planned", {
     event <- test_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
@@ -67,16 +67,16 @@ gs_power_combo_test2 <- gsDesign2::gs_power_combo(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
 
-test_that("calculate analysis number as planed", {
+test_that("calculate analysis number as planned", {
   expect_equal(max(fh_test$analysis), max(gs_power_combo_test2$analysis$analysis))
 })
 
-test_that("calculate analysisTimes as planed", {
+test_that("calculate analysisTimes as planned", {
   expect_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test2$analysis$time))
 })
 
 for (i in 1:max(fh_test$analysis)) {
-  test_that("calculate N and each analysis Events N as planed", {
+  test_that("calculate N and each analysis Events N as planned", {
     event <- test_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,

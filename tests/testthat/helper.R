@@ -1,6 +1,4 @@
-test_event <- function(enroll_rate,
-                       fail_rate,
-                       td = 15) {
+test_event <- function(enroll_rate, fail_rate, td = 15) {
   enroll_rate_1 <- enroll_rate
   enroll_rate_1$rate <- enroll_rate$rate / 2
 

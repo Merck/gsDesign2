@@ -14,12 +14,14 @@ ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
+created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
-\item{fail_rate}{A \code{fail_rate} data frame with or without stratum created by \code{define_fail_rate}.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum
+created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 
-\item{total_duration}{Total follow-up from start of enrollment to data cutoff;
-this can be a single value or a vector of positive numbers.}
+\item{total_duration}{Total follow-up from start of enrollment to data
+cutoff; this can be a single value or a vector of positive numbers.}
 
 \item{ratio}{Ratio of experimental to control randomization.}
 

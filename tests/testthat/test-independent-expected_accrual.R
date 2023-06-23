@@ -1,5 +1,4 @@
-test_eAccrual <- function(x,
-                          enroll_rate) {
+test_eAccrual <- function(x, enroll_rate) {
   boundary <- cumsum(enroll_rate$duration)
   rate <- enroll_rate$rate
   xvals <- unique(c(x, boundary))

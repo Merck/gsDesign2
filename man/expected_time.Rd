@@ -14,9 +14,11 @@ expected_time(
 )
 }
 \arguments{
-\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
+created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
-\item{fail_rate}{A \code{fail_rate} data frame with or without stratum created by \code{define_fail_rate}.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum
+created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 
 \item{target_event}{The targeted number of events to be achieved.}
 
@@ -66,9 +68,9 @@ expected_time()
 # Start by deriving an expected event count
 enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
 fail_rate <- define_fail_rate(
-  duration = c(3, 100), 
+  duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6), 
+  hr = c(.9, .6),
   dropout_rate = .001
 )
 total_duration <- 20

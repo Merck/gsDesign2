@@ -119,7 +119,7 @@ x <- gsSurv(
 # -------------------------#
 #       example 1          #
 # ------------------------ #
-# User defined boundary
+# User-defined boundary
 \donttest{
 gs_design_combo(
   enroll_rate,
