@@ -4,13 +4,7 @@
 \alias{define_fail_rate}
 \title{Define fail rate}
 \usage{
-define_fail_rate(
-  duration,
-  fail_rate,
-  dropout_rate,
-  hr = rep(1, length(duration)),
-  stratum = rep("All", length(duration))
-)
+define_fail_rate(duration, fail_rate, dropout_rate, hr = 1, stratum = "All")
 }
 \arguments{
 \item{duration}{A numeric vector of piecewise study duration interval.}
@@ -36,7 +30,7 @@ define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
   hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = .001
 )
 
 # define enroll rate with stratum
@@ -44,7 +38,7 @@ define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
   hr = c(.9, .6),
-  dropout_rate = rep(.001, 2),
+  dropout_rate = .001,
   stratum = c("low", "high")
 )
 }

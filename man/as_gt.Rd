@@ -75,8 +75,7 @@ enroll_rate <- define_enroll_rate(
 )
 
 # Failure rates
-fail_rate <- tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100),
   fail_rate = log(2) / 12,
   hr = c(1, .6),

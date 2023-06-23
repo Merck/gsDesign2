@@ -4,7 +4,7 @@
 \alias{define_enroll_rate}
 \title{Define enrollment rate}
 \usage{
-define_enroll_rate(duration, rate, stratum = rep("All", length(duration)))
+define_enroll_rate(duration, rate, stratum = "All")
 }
 \arguments{
 \item{duration}{A numeric vector of piecewise study duration interval.}

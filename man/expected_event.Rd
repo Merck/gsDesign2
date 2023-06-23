@@ -6,8 +6,8 @@
 \usage{
 expected_event(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  fail_rate = tibble::tibble(duration = c(3, 100), fail_rate = log(2)/c(9, 18),
-    dropout_rate = rep(0.001, 2)),
+  fail_rate = define_fail_rate(duration = c(3, 100), fail_rate = log(2)/c(9, 18),
+    dropout_rate = 0.001),
   total_duration = 25,
   simple = TRUE
 )
@@ -85,7 +85,6 @@ maximize flexibility for a variety of purposes.
 }
 
 \examples{
-library(tibble)
 library(gsDesign2)
 
 # Default arguments, simple output (total event count only)
@@ -100,7 +99,7 @@ expected_event(total_duration = .5)
 # Single time period example
 expected_event(
   enroll_rate = define_enroll_rate(duration = 10, rate = 10),
-  fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
+  fail_rate = define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
   total_duration = 22,
   simple = FALSE
 )
@@ -108,7 +107,7 @@ expected_event(
 # Single time period example, multiple enrollment periods
 expected_event(
   enroll_rate = define_enroll_rate(duration = c(5, 5), rate = c(10, 20)),
-  fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
+  fail_rate = define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
   total_duration = 22, simple = FALSE
 )
 }

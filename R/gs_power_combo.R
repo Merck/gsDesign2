@@ -38,7 +38,6 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @importFrom mvtnorm GenzBretz
-#' @importFrom tibble tibble
 #'
 #' @export
 #'
@@ -47,15 +46,13 @@
 #' library(mvtnorm)
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(tibble)
 #'
 #' enroll_rate <- define_enroll_rate(
 #'   duration = 12,
 #'   rate = 500 / 12
 #' )
 #'
-#' fail_rate <- tibble(
-#'   stratum = "All",
+#' fail_rate <- define_fail_rate(
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15, # median survival 15 month
 #'   hr = c(1, .6),
@@ -86,8 +83,7 @@ gs_power_combo <- function(enroll_rate = define_enroll_rate(
                              duration = 12,
                              rate = 500 / 12
                            ),
-                           fail_rate = tibble(
-                             stratum = "All",
+                           fail_rate = define_fail_rate(
                              duration = c(4, 100),
                              fail_rate = log(2) / 15,
                              hr = c(1, .6),

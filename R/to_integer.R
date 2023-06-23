@@ -40,7 +40,6 @@ to_integer <- function(x, ...) {
 #'
 #' @examples
 #' library(dplyr)
-#' library(tibble)
 #' library(gsDesign2)
 #'
 #' # Average hazard ratio
@@ -48,8 +47,8 @@ to_integer <- function(x, ...) {
 #' x <- fixed_design("ahr",
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
-#'   fail_rate = tibble(
-#'     stratum = "All", duration = c(4, 100),
+#'   fail_rate = define_fail_rate(
+#'     duration = c(4, 100),
 #'     fail_rate = log(2) / 12, hr = c(1, .6),
 #'     dropout_rate = .001
 #'   ),
@@ -61,9 +60,10 @@ to_integer <- function(x, ...) {
 #' x <- fixed_design("fh",
 #'   alpha = 0.025, power = 0.9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
-#'   fail_rate = tibble(
-#'     stratum = "All", duration = c(4, 100),
-#'     fail_rate = log(2) / 12, hr = c(1, .6),
+#'   fail_rate = define_fail_rate(
+#'     duration = c(4, 100),
+#'     fail_rate = log(2) / 12, 
+#'     hr = c(1, .6),
 #'     dropout_rate = .001
 #'   ),
 #'   rho = 0.5, gamma = 0.5,
@@ -75,8 +75,8 @@ to_integer <- function(x, ...) {
 #' x <- fixed_design("mb",
 #'   alpha = 0.025, power = 0.9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
-#'   fail_rate = tibble(
-#'     stratum = "All", duration = c(4, 100),
+#'   fail_rate = define_fail_rate(
+#'     duration = c(4, 100),
 #'     fail_rate = log(2) / 12, hr = c(1, .6),
 #'     dropout_rate = .001
 #'   ),
@@ -271,7 +271,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   } else if ("rd" %in% class(x)) {
     n_stratum <- length(x$input$p_c$stratum)
 
-    sample_size_new <- tibble(
+    sample_size_new <- tibble::tibble(
       analysis = 1:n_analysis,
       n = c(
         floor(x$analysis$n[1:(n_analysis - 1)] / multiply_factor),
@@ -288,7 +288,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
 
     if (n_stratum == 1) {
       suppressMessages(
-        tbl_n <- tibble(
+        tbl_n <- tibble::tibble(
           analysis = rep(1:n_analysis, each = n_stratum),
           stratum = rep(x$input$p_c$stratum, n_analysis)
         ) %>%
@@ -296,7 +296,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       )
     } else {
       suppressMessages(
-        tbl_n <- tibble(
+        tbl_n <- tibble::tibble(
           analysis = rep(1:n_analysis, each = n_stratum),
           stratum = rep(x$input$p_c$stratum, n_analysis)
         ) %>%

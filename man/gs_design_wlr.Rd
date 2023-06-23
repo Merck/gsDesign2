@@ -128,15 +128,13 @@ Group sequential design using weighted log-rank test under non-proportional haza
 library(dplyr)
 library(mvtnorm)
 library(gsDesign)
-library(tibble)
 library(gsDesign2)
 
 # set enrollment rates
 enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
 
 # set failure rates
-fail_rate <- tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100),
   fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),

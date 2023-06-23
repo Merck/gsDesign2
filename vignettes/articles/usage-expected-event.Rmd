@@ -43,7 +43,7 @@ Here the `df` in `expected_event()` is short for data frame, since its output is
 
 ```{r}
 enroll_rate <- define_enroll_rate(duration = 10, rate = 10)
-fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
+fail_rate <- define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- 22
 
 expected_event(
@@ -58,7 +58,7 @@ expected_event(
 
 ```{r}
 enroll_rate <- define_enroll_rate(duration = c(5, 5), rate = c(10, 20))
-fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
+fail_rate <- define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- 22
 
 expected_event(
@@ -73,7 +73,7 @@ expected_event(
 
 ```{r}
 enroll_rate <- define_enroll_rate(duration = 10, rate = 10)
-fail_rate <- tibble(
+fail_rate <- define_fail_rate(
   duration = c(20, 80),
   fail_rate = c(log(2) / 6, log(2) / 4),
   dropout_rate = .01
@@ -92,7 +92,7 @@ expected_event(
 
 ```{r}
 enroll_rate <- define_enroll_rate(duration = 10, rate = 10)
-fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
+fail_rate <- define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
 total_duration <- c(2, 22)
 
 try(expected_event(
@@ -131,7 +131,7 @@ plot(sf_enroll_rate,
 **Step 3:** set the failure rates and dropout rates.
 
 ```{r}
-fail_rate <- tibble(
+fail_rate <- define_fail_rate(
   duration = c(20, 80),
   failRate = c(0.1, 0.2),
   dropout_rate = .01

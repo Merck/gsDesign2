@@ -112,7 +112,6 @@ Group sequential design power using weighted log rank test under non-proportiona
 }
 
 \examples{
-library(tibble)
 library(gsDesign)
 library(gsDesign2)
 
@@ -120,8 +119,7 @@ library(gsDesign2)
 enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
 
 # set failure rates
-fail_rate <- tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100),
   fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),
