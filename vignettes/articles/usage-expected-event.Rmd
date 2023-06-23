@@ -1,5 +1,6 @@
 ---
 title: "expected_event: compute expected number of events at 1 time point"
+author: "Yujie Zhao"
 output:
   rmarkdown::html_document:
     toc: true
@@ -86,21 +87,6 @@ expected_event(
   total_duration = total_duration,
   simple = FALSE
 )
-```
-
-## Example 4: Multiple Duration
-
-```{r}
-enroll_rate <- define_enroll_rate(duration = 10, rate = 10)
-fail_rate <- tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01)
-total_duration <- c(2, 22)
-
-try(expected_event(
-  enroll_rate = enroll_rate,
-  fail_rate = fail_rate,
-  total_duration = total_duration,
-  simple = FALSE
-))
 ```
 
 # Inner Logic of `expected_event()`

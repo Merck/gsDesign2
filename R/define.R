@@ -27,14 +27,13 @@
 #' @export
 #'
 #' @examples
-#'
-#' # define enroll rate without stratum
+#' # Define enroll rate without stratum
 #' define_enroll_rate(
 #'   duration = c(2, 2, 10),
 #'   rate = c(3, 6, 9)
 #' )
 #'
-#' # define enroll rate with stratum
+#' # Define enroll rate with stratum
 #' define_enroll_rate(
 #'   stratum = c("low", "low", "high"),
 #'   duration = c(2, 2, 10),
@@ -59,11 +58,11 @@ define_enroll_rate <- function(
   check_args(stratum, type = c("character"))
 
   if (any(duration < 0)) {
-    stop("define_enroll_rate: enrollment duration `duration` can not be negative")
+    stop("define_enroll_rate: enrollment duration `duration` can't be negative.")
   }
 
   if (any(rate < 0)) {
-    stop("define_enroll_rate: enrollment rate `rate` can not be negative")
+    stop("define_enroll_rate: enrollment rate `rate` can't be negative.")
   }
 
   df <- tibble::tibble(
@@ -77,7 +76,6 @@ define_enroll_rate <- function(
   df
 }
 
-
 #' Define fail rate
 #'
 #' @param duration A numeric vector of piecewise study duration interval.
@@ -86,13 +84,12 @@ define_enroll_rate <- function(
 #' @param hr A numeric vector of hazard ratio.
 #' @param stratum A character vector of stratum name.
 #'
-#' @return An `fail_rate` data frame.
+#' @return A `fail_rate` data frame.
 #'
 #' @export
 #'
 #' @examples
-#'
-#' # define enroll rate without stratum
+#' # Define enroll rate without stratum
 #' define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
@@ -100,7 +97,7 @@ define_enroll_rate <- function(
 #'   dropout_rate = .001
 #' )
 #'
-#' # define enroll rate with stratum
+#' # Define enroll rate with stratum
 #' define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
@@ -135,19 +132,19 @@ define_fail_rate <- function(
   check_args(stratum, type = c("character"))
 
   if (any(duration < 0)) {
-    stop("define_fail_rate: enrollment duration `duration` can not be negative")
+    stop("define_fail_rate: enrollment duration `duration` can't be negative.")
   }
 
   if (any(fail_rate < 0)) {
-    stop("define_fail_rate: failure rate `fail_rate` can not be negative")
+    stop("define_fail_rate: failure rate `fail_rate` can't be negative.")
   }
 
   if (any(dropout_rate < 0)) {
-    stop("define_fail_rate: failure rate `fail_rate` can not be negative")
+    stop("define_fail_rate: failure rate `fail_rate` can't be negative.")
   }
 
   if (any(hr < 0)) {
-    stop("define_fail_rate: hazard ratio `hr` can not be negative")
+    stop("define_fail_rate: hazard ratio `hr` can't be negative.")
   }
 
   df <- tibble::tibble(

@@ -14,7 +14,8 @@ expected_time(
 )
 }
 \arguments{
-\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
+created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
 \item{fail_rate}{Piecewise constant control group failure rates,
 duration for each piecewise constant period,
