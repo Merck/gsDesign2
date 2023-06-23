@@ -81,7 +81,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Canonical joint distribution of Z-score and B-values under null and alternative hypothesis</h1>
                         <h4 data-toc-skip class="author">Yujie Zhao,
-Yilong Zhang and Keaven M. Anderson</h4>
+Yilong Zhang, and Keaven M. Anderson</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/vignettes/articles/story-canonical-h0-h1.Rmd" class="external-link"><code>vignettes/articles/story-canonical-h0-h1.Rmd</code></a></small>
@@ -91,7 +91,8 @@ Yilong Zhang and Keaven M. Anderson</h4>
     
     
 <p>When applying the AHR test in the time-to-event endpoint at the <span class="math inline">\(k\)</span>-th analysis, we build the standardized
-treatment effect as the test statistics in <span class="citation">Proschan, Lan, and Wittes (2006)</span>: <span class="math display">\[
+treatment effect as the test statistics in <span class="citation">Proschan, Lan, and Wittes (2006)</span>:</p>
+<p><span class="math display">\[
   Z_k
   =
   \frac{
@@ -99,10 +100,9 @@ treatment effect as the test statistics in <span class="citation">Proschan, Lan,
   }{
     \sqrt{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}
   },
-\]</span> where <span class="math inline">\(d_k\)</span> is the total
-number of events at analysis <span class="math inline">\(k\)</span>.
-Here <span class="math inline">\(\Delta_i = O_i - E_i\)</span> with
-<span class="math inline">\(O_i\)</span> is the indicator that the <span class="math inline">\(i\)</span>-th event occurred in the experimental
+\]</span></p>
+<p>where <span class="math inline">\(d_k\)</span> is the total number of
+events at analysis <span class="math inline">\(k\)</span>. Here, <span class="math inline">\(\Delta_i = O_i - E_i\)</span> with <span class="math inline">\(O_i\)</span> is the indicator that the <span class="math inline">\(i\)</span>-th event occurred in the experimental
 arm, and <span class="math inline">\(E_i = m_{i,1}/(m_{i,0} +
 m_{i,1})\)</span> as the null expectation of <span class="math inline">\(O_i\)</span> given <span class="math inline">\(m_{i,0}\)</span> and <span class="math inline">\(m_{i,1}\)</span>. The numbers <span class="math inline">\(m_{i,0}\)</span> and <span class="math inline">\(m_{i,1}\)</span> refer to the number of at-risk
 subjects prior to the <span class="math inline">\(i\)</span>-th death in
@@ -115,26 +115,29 @@ Unconditionally, <span class="math inline">\(\Delta_i\)</span> are mean
 conditioned on <span class="math inline">\(d_k\)</span>, we have <span class="math inline">\(\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)) =
 E(\sum_{i=1}^{d_k} V_i\)</span>).</p>
 <p>In this vignette, we discuss the statistical information.
-Matmatically, it is the inverse of the variance, depending on whether it
-is under null or alternative hypothesis: <span class="math display">\[
+Mathematically, it is the inverse of the variance, depending on whether
+it is under null or alternative hypothesis:</p>
+<p><span class="math display">\[
   \begin{array}{c}
     \mathcal I_{k, H_0} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
 H_0), \\
     \mathcal I_{k, H_1} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
 H_1).
   \end{array}
-\]</span> The ratio between two statistical information under the null
-hypothesis is called <em>information fraction</em>: <span class="math display">\[
+\]</span></p>
+<p>The ratio between two statistical information under the null
+hypothesis is called <strong>information fraction</strong>:</p>
+<p><span class="math display">\[
   t_k = \frac{\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
 H_0)}{\text{Var}(\sum_{i=1}^{d_K} \Delta_i | H_0)}
   \approx
   \frac{d_k/4}{d_K / 4}
   =
   d_k /d_K,
-\]</span> In the rest of this vignette, we will discuss the value of
-<span class="math inline">\(\mathcal I_{k, H_0}, \mathcal I_{k,
-H_1}\)</span>. To derive these statistical information, we introduce the
-B-values: <span class="math display">\[
+\]</span></p>
+<p>In the rest of this vignette, we will discuss the value of <span class="math inline">\(\mathcal I_{k, H_0}, \mathcal I_{k, H_1}\)</span>.
+To derive these statistical information, we introduce the B-values:</p>
+<p><span class="math display">\[
   B_k
   =
   \frac{
@@ -159,15 +162,17 @@ B-values: <span class="math display">\[
   }_{\sqrt{t_k}}
   =
   \sqrt{t_k} Z_k,
-\]</span> As depicted in Section 2.1.3 of <span class="citation">Proschan, Lan, and Wittes (2006)</span>, the stochastic
-process formulation presented in <span class="citation">Harrington,
-Fleming, and Green (1984)</span> and <span class="citation">Tsiatis
-(1982)</span> provides insights that sequence of B-values, denoted as
-<span class="math inline">\({B_1, \ldots, B_K}\)</span> with follows a
-multivariate normal distributionbehaves asymptotically like Brownian
-motion.</p>
+\]</span></p>
+<p>As depicted in Section 2.1.3 of <span class="citation">Proschan, Lan,
+and Wittes (2006)</span>, the stochastic process formulation presented
+in <span class="citation">Harrington, Fleming, and Green (1984)</span>
+and <span class="citation">Tsiatis (1982)</span> provides insights that
+sequence of B-values, denoted as <span class="math inline">\({B_1,
+\ldots, B_K}\)</span> with follows a multivariate normal distribution
+behaves asymptotically like Brownian motion.</p>
 <p>For 2 B-values (<span class="math inline">\(B_i, B_j\)</span> with
-<span class="math inline">\(i \leq j\)</span>), we have <span class="math display">\[
+<span class="math inline">\(i \leq j\)</span>), we have</p>
+<p><span class="math display">\[
   \begin{eqnarray}
     \text{Cov}(B_i, B_j)
     &amp; = &amp;
@@ -239,7 +244,8 @@ t_k\)</span>.</li>
 t_i\)</span> for any <span class="math inline">\(1 \leq i \leq j \leq
 K\)</span>.</li>
 </ul>
-<p>The derivation of the last 2 statement is <span class="math display">\[
+<p>The derivation of the last 2 statement is</p>
+<p><span class="math display">\[
   \begin{eqnarray}
   \text{Var}(B_k\;|\; H_0)
   &amp; = &amp;
@@ -297,7 +303,8 @@ I_{k, H_0} / \mathcal I_{k, H_1}\)</span>.</li>
 <span class="math inline">\(\text{Cov}(B_i, B_j \;|\; H_1) = t_i \;
 \mathcal I_{i, H_0}/\mathcal I_{i, H_1}\)</span> for any <span class="math inline">\(1 \leq i \leq j \leq K\)</span>.</li>
 </ul>
-<p>The last statment is derived as <span class="math display">\[
+<p>The last statement is derived as</p>
+<p><span class="math display">\[
   \begin{eqnarray}
     \text{Cov}(B_i, B_j \;|\; H_1)
     &amp; = &amp;
@@ -349,7 +356,8 @@ I_{k, H_0} / \mathcal I_{k, H_1}\)</span>.</li>
 H_1}}\)</span> for any <span class="math inline">\(1 \leq i \leq j \leq
 K\)</span>.</li>
 </ul>
-<p>The last statement is because <span class="math display">\[
+<p>The last statement is because</p>
+<p><span class="math display">\[
   \begin{eqnarray}
     \text{Cov}(Z_i, Z_j \;|\; H_1)
     &amp; = &amp;
@@ -359,7 +367,7 @@ K\)</span>.</li>
     \text{Cov}(B_i, B_j)  \\
     &amp; = &amp;
     \frac{1}{\sqrt{t_i t_j}} \text{Var}(B_i) \\
-    &amp; = &amp;  
+    &amp; = &amp;
     \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i,
 H_1}}
   \end{eqnarray}
@@ -429,7 +437,7 @@ H_0}/\mathcal I_{i, H_1}\)</span></td>
 </table>
 </div>
 <div class="section level2">
-<h2 class="unnumbered" id="references">references<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-harrington1984procedures" class="csl-entry">

@@ -96,7 +96,8 @@ for stratified populations.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>enroll_rate</dt>
-<dd><p>An <code>enroll_rate</code> data frame with or without stratum created by <code>define_enroll_rate</code>.</p></dd>
+<dd><p>An <code>enroll_rate</code> data frame with or without stratum
+created by <code><a href="define_enroll_rate.html">define_enroll_rate()</a></code>.</p></dd>
 
 
 <dt>fail_rate</dt>
@@ -144,14 +145,14 @@ maximize flexibility for a variety of purposes.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Default arguments, simple output (total event count only)</span></span></span>
 <span class="r-in"><span><span class="fu">expected_event</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate` to specify `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforse the requirement from next version</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 57.3537</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Event count by time period</span></span></span>
 <span class="r-in"><span><span class="fu">expected_event</span><span class="op">(</span>simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate` to specify `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforse the requirement from next version</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       t fail_rate event</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -160,8 +161,8 @@ maximize flexibility for a variety of purposes.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Early cutoff</span></span></span>
 <span class="r-in"><span><span class="fu">expected_event</span><span class="op">(</span>total_duration <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate` to specify `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforse the requirement from next version</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02850923</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Single time period example</span></span></span>
@@ -171,8 +172,8 @@ maximize flexibility for a variety of purposes.</p>
 <span class="r-in"><span>  total_duration <span class="op">=</span> <span class="fl">22</span>,</span></span>
 <span class="r-in"><span>  simple <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate` to specify `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforse the requirement from next version</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       t fail_rate event</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -184,8 +185,8 @@ maximize flexibility for a variety of purposes.</p>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fl">100</span>, fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">6</span>, dropout_rate <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  total_duration <span class="op">=</span> <span class="fl">22</span>, simple <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate` to specify `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforse the requirement from next version</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       t fail_rate event</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
