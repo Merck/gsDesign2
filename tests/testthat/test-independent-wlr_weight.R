@@ -3,17 +3,15 @@ test_that("test wlr_weight_1", {
 })
 
 test_that("test wlr_weight_n", {
-  enroll_rate <- tibble::tibble(
-    stratum = "All",
+  enroll_rate <- define_enroll_rate(
     duration = c(2, 2, 30),
     rate = c(3, 6, 9)
   )
-  fail_rate <- tibble::tibble(
-    stratum = "All",
+  fail_rate <- define_fail_rate(
     duration = c(3, 100),
     fail_rate = log(2) / c(9, 18),
-    hr = c(.9, .6),
-    dropout_rate = rep(.001, 2)
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
   )
   total_time <- 36
   analysis_time <- 12

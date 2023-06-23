@@ -65,8 +65,7 @@ We will later assume a similar ramp-up period with 24 months expected enrollment
 
 ```{r}
 # Set the enrollment table of totally 24 month
-enroll24 <- tibble(
-  stratum = rep("All", 4), # un-stratified
+enroll24 <- define_enroll_rate(
   duration = c(rep(2, 3), 18), # 6 month ramp-up of enrollment, 24 months enrollment time target
   rate = 1:4 # ratio of the enrollment rate
 )
@@ -74,8 +73,7 @@ enroll24 <- tibble(
 enroll24$rate <- enroll24$rate * 100 / sum(enroll24$duration * enroll24$rate)
 
 # Set the enrollment table for 18 month expected enrollment
-enroll18 <- tibble(
-  stratum = rep("All", 4), # un-stratified
+enroll18 <- define_enroll_rate(
   duration = c(rep(2, 3), 12), # 6 month ramp-up of enrollment, 18 months enrollment time target
   rate = 1:4 # ratio of the enrollment rate
 )

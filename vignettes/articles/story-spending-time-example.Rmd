@@ -95,8 +95,7 @@ enroll_rate <- define_enroll_rate(
 )
 
 # failure rate
-fail_rate <- tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100), # hazard ratio of 1 for the first 4 months and a hazard ratio of 0.6 thereafter
   hr = c(1, .6),
   fail_rate = log(2) / m, # exponential distribution
@@ -345,8 +344,7 @@ enroll_rate <- define_enroll_rate(
 )
 
 # failure rate
-fail_rate <- tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100),
   hr = c(1, .6),
   fail_rate = log(2) / m,
@@ -616,7 +614,7 @@ For this case, we assume proportional hazards within negative (HR = 0.8) and pos
 m <- 12
 
 # the enrollment rate of both subgroup and population is the same
-enroll_rate <- tibble(
+enroll_rate <- define_enroll_rate(
   stratum = c("Positive", "Negative"),
   duration = 12,
   rate = 20
@@ -624,7 +622,7 @@ enroll_rate <- tibble(
 
 # the hazard ratio in the biomarker positive subgroup will be assumed to be 0.6,
 # and in the negative population 0.8.
-fail_rate <- tibble(
+fail_rate <- define_fail_rate(
   stratum = c("Positive", "Negative"),
   hr = c(0.6, 0.8),
   duration = 100,

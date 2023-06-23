@@ -6,8 +6,8 @@
 \usage{
 gs_info_combo(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
-  fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
-    hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
+  fail_rate = define_fail_rate(duration = c(3, 100), fail_rate = log(2)/c(9, 18), hr =
+    c(0.9, 0.6), dropout_rate = 0.001),
   ratio = 1,
   event = NULL,
   analysis_time = NULL,
@@ -18,9 +18,9 @@ gs_info_combo(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum created by \code{define_fail_rate}.}
 
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 

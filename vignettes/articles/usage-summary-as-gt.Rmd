@@ -27,7 +27,6 @@ knitr::opts_chunk$set(
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
-library(tibble)
 library(gt)
 library(gsDesign2)
 ```
@@ -66,8 +65,7 @@ enroll_rate <- define_enroll_rate(
   rate = 1
 )
 
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100),
   fail_rate = log(2) / 12,
   hr = c(1, .6),

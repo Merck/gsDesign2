@@ -45,17 +45,15 @@ rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
 
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 30),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 1e6)
 delta <- gsDesign2:::gs_delta_combo(
@@ -103,17 +101,15 @@ for (i in 1:4) {
 rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 30),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 info_combo <- gsDesign2:::gs_info_combo(
   enroll_rate = enroll_rate,
@@ -149,17 +145,15 @@ upper <- 0.4
 rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 30),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 arm <- gs_create_arm(
   enroll_rate = enroll_rate,
@@ -216,17 +210,15 @@ upper <- c(0.3, 0.4)
 rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 30),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 arm <- gs_create_arm(
   enroll_rate = enroll_rate,
@@ -307,17 +299,16 @@ rho <- c(1, 1, 0, 0)
 gamma <- c(0, 1, 0, 1)
 tau <- c(-1, -1, -1, -1)
 
-enroll_rate <- tibble::tibble(
+enroll_rate <- define_enroll_rate(
   stratum = "All",
   duration = c(2, 2, 10),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 arm <- gs_create_arm(
   enroll_rate = enroll_rate,
@@ -360,17 +351,15 @@ test_that("pmvnorm_comb calculate p for One test for all group or lower bound is
 
 # test gs_utility_combo
 ##### log-rank multiple analysis#####
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 30),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 analysis_time <- c(12, 24, 36)
 n_analysis <- length(analysis_time)
@@ -428,17 +417,15 @@ test_that("gs_utility_combo output correct correlation matrix as gs_info_combo",
 
 
 ##### multiple test analysis#####
-enroll_rate <- tibble::tibble(
-  stratum = "All",
+enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 30),
   rate = c(3, 6, 9)
 )
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
-  dropout_rate = rep(.001, 2)
+  dropout_rate = rep(.001, 2),
+  hr = c(.9, .6)
 )
 analysis_time <- 36
 n_analysis <- length(analysis_time)

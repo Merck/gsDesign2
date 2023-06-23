@@ -67,8 +67,7 @@ Moreover, we assume the hazard ratio (HR) of the first 3 month is 0.9 and therea
 We also assume the the survival time follow a piecewise exponential distribution with a median of 8 month for the first 3 months and 14 month thereafter.
 
 ```{r}
-fail_rate <- tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(8, 14),
   hr = c(.9, .6),

@@ -30,8 +30,7 @@
 #' for stratified populations.
 #'
 #' @inheritParams ahr
-#' @param fail_rate Failure rates and dropout rates by period.
-#' @param total_duration A positive number specifying the total follow-up from start of enrollment to data cutoff.
+#' @param total_duration Total follow-up from start of enrollment to data cutoff.
 #' @param simple If default (`TRUE`), return numeric expected number of events,
 #'   otherwise a tibble as described below.
 #'
@@ -82,13 +81,10 @@
 #'
 #' @importFrom dplyr select full_join mutate transmute
 #' group_by summarize arrange desc lag last "%>%"
-#' @importFrom tibble tibble
-#' @importFrom stats stepfun
 #'
 #' @export
 #'
 #' @examples
-#' library(tibble)
 #' library(gsDesign2)
 #'
 #' # Default arguments, simple output (total event count only)
@@ -103,7 +99,7 @@
 #' # Single time period example
 #' expected_event(
 #'   enroll_rate = define_enroll_rate(duration = 10, rate = 10),
-#'   fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
+#'   fail_rate = define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
 #'   total_duration = 22,
 #'   simple = FALSE
 #' )
@@ -111,17 +107,17 @@
 #' # Single time period example, multiple enrollment periods
 #' expected_event(
 #'   enroll_rate = define_enroll_rate(duration = c(5, 5), rate = c(10, 20)),
-#'   fail_rate = tibble(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
+#'   fail_rate = define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
 #'   total_duration = 22, simple = FALSE
 #' )
 expected_event <- function(enroll_rate = define_enroll_rate(
                              duration = c(2, 2, 10),
                              rate = c(3, 6, 9)
                            ),
-                           fail_rate = tibble::tibble(
+                           fail_rate = define_fail_rate(
                              duration = c(3, 100),
                              fail_rate = log(2) / c(9, 18),
-                             dropout_rate = rep(.001, 2)
+                             dropout_rate = .001
                            ),
                            total_duration = 25,
                            simple = TRUE) {
@@ -170,18 +166,18 @@ expected_event <- function(enroll_rate = define_enroll_rate(
   # create 3 step functions (sf)#
   # ----------------------------#
   # Step function to define enrollment rates over time
-  sf_enroll_rate <- stepfun(c(0, cumsum(enroll_rate$duration)),
+  sf_enroll_rate <- stats::stepfun(c(0, cumsum(enroll_rate$duration)),
     c(0, enroll_rate$rate, 0),
     right = FALSE
   )
   # step function to define failure rates over time
   start_fail <- c(0, cumsum(fail_rate$duration))
-  sf_fail_rate <- stepfun(start_fail,
+  sf_fail_rate <- stats::stepfun(start_fail,
     c(0, fail_rate$fail_rate, last(fail_rate$fail_rate)),
     right = FALSE
   )
   # step function to define dropout rates over time
-  sf_dropout_rate <- stepfun(start_fail,
+  sf_dropout_rate <- stats::stepfun(start_fail,
     c(0, fail_rate$dropout_rate, last(fail_rate$dropout_rate)),
     right = FALSE
   )
@@ -233,7 +229,7 @@ expected_event <- function(enroll_rate = define_enroll_rate(
   if (simple) {
     ans <- as.numeric(sum(df$nbar))
   } else {
-    sf_start_fail <- stepfun(start_fail, c(0, start_fail), right = FALSE)
+    sf_start_fail <- stats::stepfun(start_fail, c(0, start_fail), right = FALSE)
     ans <- df %>%
       transmute(
         t = end_fail,

@@ -58,7 +58,6 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @importFrom dplyr last
-#' @importFrom tibble tibble
 #' @importFrom stats stepfun
 #'
 #' @export
