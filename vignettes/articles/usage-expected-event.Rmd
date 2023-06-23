@@ -20,7 +20,6 @@ knitr::opts_chunk$set(fig.width = 5, fig.height = 4, fig.align = "center")
 
 ```{r, message=FALSE, warning=FALSE}
 library(gt)
-library(tibble)
 library(dplyr)
 library(testthat)
 library(gsDesign2)
@@ -119,7 +118,7 @@ plot(sf_enroll_rate,
 ```{r}
 fail_rate <- define_fail_rate(
   duration = c(20, 80),
-  failRate = c(0.1, 0.2),
+  fail_rate = c(0.1, 0.2),
   dropout_rate = .01
 )
 
@@ -128,7 +127,7 @@ time_start_fail <- c(0, cumsum(fail_rate$duration))
 
 # plot the piecewise failure rates
 sf_fail_rate <- stepfun(time_start_fail,
-  c(0, fail_rate$failRate, last(fail_rate$failRate)),
+  c(0, fail_rate$fail_rate, last(fail_rate$fail_rate)),
   right = FALSE
 )
 plot(sf_fail_rate,
@@ -217,7 +216,7 @@ df_1 %>%
 df_2 <- tibble(
   endFail = cumsum(fail_rate$duration),
   startEnroll = total_duration - endFail,
-  failRate = fail_rate$failRate,
+  failRate = fail_rate$fail_rate,
   dropoutRate = fail_rate$dropout_rate
 )
 ```
