@@ -59,8 +59,8 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gs_design_combo</span><span class="op">(</span></span>
 <span>  enroll_rate <span class="op">=</span> <span class="fu"><a href="define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fl">12</span>, rate <span class="op">=</span> <span class="fl">500</span><span class="op">/</span><span class="fl">12</span><span class="op">)</span>,</span>
-<span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">100</span><span class="op">)</span>, fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fl">15</span>, hr <span class="op">=</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.6</span><span class="op">)</span>, dropout_rate <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>  fail_rate <span class="op">=</span> <span class="fu"><a href="define_fail_rate.html">define_fail_rate</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">100</span><span class="op">)</span>, fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fl">15</span>, hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,</span>
+<span>    <span class="fl">0.6</span><span class="op">)</span>, dropout_rate <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>,</span>
 <span>  fh_test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0</span>, tau <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, test <span class="op">=</span> <span class="fl">1</span>, analysis <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span>
 <span>    analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>, gamma <span class="op">=</span> <span class="fl">0.5</span>, tau <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
 <span>    test <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, analysis <span class="op">=</span> <span class="fl">3</span>, analysis_time <span class="op">=</span> <span class="fl">36</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -154,15 +154,13 @@ default of <code>FALSE</code> is recommended.</p></dd>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://mvtnorm.R-forge.R-project.org" class="external-link">mvtnorm</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  duration <span class="op">=</span> <span class="fl">12</span>,</span></span>
 <span class="r-in"><span>  rate <span class="op">=</span> <span class="fl">500</span> <span class="op">/</span> <span class="fl">12</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  stratum <span class="op">=</span> <span class="st">"All"</span>,</span></span>
+<span class="r-in"><span><span class="va">fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_fail_rate.html">define_fail_rate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15</span>, <span class="co"># median survival 15 month</span></span></span>
 <span class="r-in"><span>  hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.6</span><span class="op">)</span>,</span></span>
@@ -218,48 +216,6 @@ default of <code>FALSE</code> is recommended.</p></dd>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -268,25 +224,25 @@ default of <code>FALSE</code> is recommended.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate    hr dropout_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>   1          0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>   0.6        0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bounds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0          z    nominal p</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper 0.002057051 0.0001035057  3.7103029 0.0001035057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        1 lower 0.140692714 0.4066436377 -0.2361874 0.5933563623</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2 upper 0.469136035 0.0060406872  2.5114070 0.0060125477</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower 0.185581614 0.8846152138  1.1703638 0.1209273043</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3 upper 0.799998847 0.0254979889  1.9929702 0.0231323552</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 lower 0.199993309 0.9745014867  1.9929702 0.0231323552</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper 0.002057026 0.0001035057  3.7103029 0.0001035057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        1 lower 0.140693546 0.4066436377 -0.2361874 0.5933563623</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2 upper 0.469131858 0.0060406872  2.5114070 0.0060125477</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower 0.185583426 0.8846152138  1.1703638 0.1209273043</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3 upper 0.799998964 0.0254908467  1.9929702 0.0231323552</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 lower 0.200001823 0.9745036281  1.9929702 0.0231323552</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis time        n     event event_frac       ahr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1   12 444.8095  95.53997  0.3241690 0.8418858</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2   24 444.8095 219.09837  0.7434051 0.7164215</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3   36 444.8095 294.72270  1.0000000 0.6831740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1   12 444.8056  95.53913  0.3241690 0.8418858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2   24 444.8056 219.09643  0.7434051 0.7164215</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3   36 444.8056 294.72009  1.0000000 0.6831740</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding" "combo"       "gs_design"   "list"       </span>
@@ -309,48 +265,6 @@ default of <code>FALSE</code> is recommended.</p></dd>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_combo</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, <span class="co"># beta spending</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use `define_fail_rate()` to specify the `fail_rate` argument.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> We will enforce the requirement from the next version.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -359,25 +273,25 @@ default of <code>FALSE</code> is recommended.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate    hr dropout_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>   1          0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>   0.6        0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bounds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound  probability probability0          z    nominal p</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper 2.087523e-08 3.299865e-10  6.1753973 3.299865e-10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        1 lower 3.269550e-04 3.302862e-03 -2.7160936 9.966971e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2 upper 2.203135e-01 2.565830e-03  2.7986508 2.565830e-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower 8.468339e-02 7.431535e-01  0.6530952 2.568474e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3 upper 8.000008e-01 2.372792e-02  2.0972004 1.798792e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 lower 1.999906e-01 9.762887e-01  2.0971602 1.798970e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound  probability probability0         z    nominal p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper 2.088248e-08 3.299865e-10  6.175397 3.299865e-10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        1 lower 3.269645e-04 3.303552e-03 -2.716024 9.966964e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2 upper 2.203668e-01 2.565830e-03  2.798651 2.565830e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower 8.468697e-02 7.432188e-01  0.653298 2.567821e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3 upper 8.000008e-01 2.371660e-02  2.097445 1.797712e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 lower 2.000049e-01 9.762894e-01  2.097461 1.797639e-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis time        n     event event_frac       ahr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1   12 301.2397  64.70282  0.3241690 0.8418858</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2   24 301.2397 148.38064  0.7434051 0.7164215</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3   36 301.2397 199.59593  1.0000000 0.6831740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1   12 301.2931  64.71429  0.3241690 0.8418858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2   24 301.2931 148.40694  0.7434051 0.7164215</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3   36 301.2931 199.63130  1.0000000 0.6831740</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding" "combo"       "gs_design"   "list"       </span>
