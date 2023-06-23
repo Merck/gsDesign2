@@ -12,7 +12,8 @@ expected_accrual(
 \arguments{
 \item{time}{Times at which enrollment is to be computed.}
 
-\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum created by \code{define_enroll_rate}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
+created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 }
 \value{
 A vector with expected cumulative enrollment for the specified \code{times}.
