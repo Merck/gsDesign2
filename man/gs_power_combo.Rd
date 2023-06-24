@@ -6,8 +6,8 @@
 \usage{
 gs_power_combo(
   enroll_rate = define_enroll_rate(duration = 12, rate = 500/12),
-  fail_rate = tibble(stratum = "All", duration = c(4, 100), fail_rate = log(2)/15, hr =
-    c(1, 0.6), dropout_rate = 0.001),
+  fail_rate = define_fail_rate(duration = c(4, 100), fail_rate = log(2)/15, hr = c(1,
+    0.6), dropout_rate = 0.001),
   fh_test = rbind(data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3,
     analysis_time = c(12, 24, 36)), data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1,
     test = 2:3, analysis = 3, analysis_time = 36)),
@@ -77,15 +77,13 @@ library(dplyr)
 library(mvtnorm)
 library(gsDesign)
 library(gsDesign2)
-library(tibble)
 
 enroll_rate <- define_enroll_rate(
   duration = 12,
   rate = 500 / 12
 )
 
-fail_rate <- tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100),
   fail_rate = log(2) / 15, # median survival 15 month
   hr = c(1, .6),

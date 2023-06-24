@@ -38,7 +38,6 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @importFrom mvtnorm GenzBretz
-#' @importFrom tibble tibble
 #'
 #' @export
 #'
@@ -47,15 +46,13 @@
 #' library(mvtnorm)
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(tibble)
 #'
 #' enroll_rate <- define_enroll_rate(
 #'   duration = 12,
 #'   rate = 500 / 12
 #' )
 #'
-#' fail_rate <- tibble(
-#'   stratum = "All",
+#' fail_rate <- define_fail_rate(
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15, # median survival 15 month
 #'   hr = c(1, .6),
@@ -86,8 +83,7 @@ gs_power_combo <- function(enroll_rate = define_enroll_rate(
                              duration = 12,
                              rate = 500 / 12
                            ),
-                           fail_rate = tibble(
-                             stratum = "All",
+                           fail_rate = define_fail_rate(
                              duration = c(4, 100),
                              fail_rate = log(2) / 15,
                              hr = c(1, .6),
@@ -111,7 +107,7 @@ gs_power_combo <- function(enroll_rate = define_enroll_rate(
                            lpar = c(-1, 0, 1),
                            algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
                            ...) {
-  # Currently only support user defined lower and upper bound
+  # Currently only support user-defined lower and upper bound
   stopifnot(identical(upper, gs_b) | identical(upper, gs_spending_combo))
   stopifnot(identical(lower, gs_b) | identical(lower, gs_spending_combo))
 

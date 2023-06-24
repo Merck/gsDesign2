@@ -117,9 +117,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @author Keaven Anderson \email{keaven_anderson@@merck.com}
-#'
-#' @importFrom tibble tibble
 #' @importFrom stats qnorm pnorm
 #'
 #' @export

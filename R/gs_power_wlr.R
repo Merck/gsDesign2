@@ -32,7 +32,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom tibble tibble
 #' @importFrom gsDesign gsDesign sfLDOF
 #' @importFrom dplyr left_join
 #'
@@ -42,7 +41,6 @@
 #' analysis, and bound.
 #'
 #' @examples
-#' library(tibble)
 #' library(gsDesign)
 #' library(gsDesign2)
 #'
@@ -50,8 +48,7 @@
 #' enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
 #'
 #' # set failure rates
-#' fail_rate <- tibble(
-#'   stratum = "All",
+#' fail_rate <- define_fail_rate(
 #'   duration = c(4, 100),
 #'   fail_rate = log(2) / 15, # median survival 15 month
 #'   hr = c(1, .6),

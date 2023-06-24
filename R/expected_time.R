@@ -26,10 +26,6 @@
 #' where the enrollment, failure and dropout rates changes over time.
 #'
 #' @inheritParams ahr
-#' @param fail_rate Piecewise constant control group failure rates,
-#'   duration for each piecewise constant period,
-#'   hazard ratio for experimental vs control,
-#'   and dropout rates by stratum and time period.
 #' @param target_event The targeted number of events to be achieved.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param interval An interval that is presumed to include the time at which
@@ -68,9 +64,11 @@
 #' # check that result matches a finding using AHR()
 #' # Start by deriving an expected event count
 #' enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
-#' fail_rate <- tibble::tibble(
-#'   stratum = "All", duration = c(3, 100), fail_rate = log(2) / c(9, 18),
-#'   hr = c(.9, .6), dropout_rate = rep(.001, 2)
+#' fail_rate <- define_fail_rate(
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6),
+#'   dropout_rate = .001
 #' )
 #' total_duration <- 20
 #' xx <- ahr(enroll_rate, fail_rate, total_duration)
@@ -86,7 +84,7 @@ expected_time <- function(enroll_rate = define_enroll_rate(
                             duration = c(2, 2, 10),
                             rate = c(3, 6, 9) * 5
                           ),
-                          fail_rate = tibble::tibble(
+                          fail_rate = define_fail_rate(
                             stratum = "All",
                             duration = c(3, 100),
                             fail_rate = log(2) / c(9, 18),

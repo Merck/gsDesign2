@@ -1,18 +1,17 @@
+enroll_rate <- define_enroll_rate(
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9)
+)
+fail_rate <- define_fail_rate(
+  duration = c(3, 100),
+  fail_rate = log(2) / c(9, 18),
+  hr = c(0.9, 0.6),
+  dropout_rate = 0.001
+)
+
 # Test 1: independent test using AHR to check outputs of gs_info_ahr ####
 
 testthat::test_that("results match if only put in targeted analysis times", {
-  enroll_rate <- tibble::tibble(
-    stratum = "All",
-    duration = c(2, 2, 10),
-    rate = c(3, 6, 9)
-  )
-  fail_rate <- tibble::tibble(
-    stratum = "All",
-    duration = c(3, 100),
-    fail_rate = log(2) / c(9, 18),
-    hr = c(0.9, 0.6),
-    dropout_rate = rep(0.001, 2)
-  )
   total_duration <- c(18, 27, 36)
 
   testthat::expect_equal(
@@ -31,18 +30,6 @@ testthat::test_that("results match if only put in targeted analysis times", {
 
 
 testthat::test_that("results match if only put in targeted events", {
-  enroll_rate <- tibble::tibble(
-    stratum = "All",
-    duration = c(2, 2, 10),
-    rate = c(3, 6, 9)
-  )
-  fail_rate <- tibble::tibble(
-    stratum = "All",
-    duration = c(3, 100),
-    fail_rate = log(2) / c(9, 18),
-    hr = c(0.9, 0.6),
-    dropout_rate = rep(0.001, 2)
-  )
   event <- c(30, 40, 50)
 
   out1 <- gs_info_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, event = event)
@@ -66,18 +53,6 @@ testthat::test_that("results match if only put in targeted events", {
 
 
 testthat::test_that("results match if put in both analysis time and targeted events", {
-  enroll_rate <- tibble::tibble(
-    stratum = "All",
-    duration = c(2, 2, 10),
-    rate = c(3, 6, 9)
-  )
-  fail_rate <- tibble::tibble(
-    stratum = "All",
-    duration = c(3, 100),
-    fail_rate = log(2) / c(9, 18),
-    hr = c(0.9, 0.6),
-    dropout_rate = rep(0.001, 2)
-  )
   event <- c(30, 40, 50)
   analysis_time <- c(16, 19, 26)
 

@@ -44,8 +44,7 @@
 #'   "ahr",
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
-#'   fail_rate = tibble::tibble(
-#'     stratum = "All",
+#'   fail_rate = define_fail_rate(
 #'     duration = c(4, 100),
 #'     fail_rate = log(2) / 12,
 #'     hr = c(1, .6),
@@ -60,8 +59,7 @@
 #'   "lf",
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
-#'   fail_rate = tibble::tibble(
-#'     stratum = "All",
+#'   fail_rate = define_fail_rate(
 #'     duration = 100,
 #'     fail_rate = log(2) / 12,
 #'     hr = .7,
@@ -76,8 +74,7 @@
 #'   "rmst",
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
-#'   fail_rate = tibble::tibble(
-#'     stratum = "All",
+#'   fail_rate = define_fail_rate(
 #'     duration = 100,
 #'     fail_rate = log(2) / 12,
 #'     hr = .7,
@@ -93,8 +90,7 @@
 #'   "milestone",
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
-#'   fail_rate = tibble::tibble(
-#'     stratum = "All",
+#'   fail_rate = define_fail_rate(
 #'     duration = 100,
 #'     fail_rate = log(2) / 12,
 #'     hr = .7,

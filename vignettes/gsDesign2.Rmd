@@ -104,8 +104,7 @@ Finally, we assume a low $0.001$ exponential dropout rate per month for both tre
 ```{r}
 median_surv <- 12
 
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, Inf),
   fail_rate = log(2) / median_surv,
   hr = c(1, .6),

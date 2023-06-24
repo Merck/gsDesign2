@@ -42,9 +42,11 @@ enroll_rate <- define_enroll_rate(duration = 12, rate = 680 / 12)
 ## Control exponential with median of 12 mos
 ## Delayed effect with HR = 1 for 3 months and HR = .693 thereafter
 ## Censoring rate is 0
-fail_rate <- tibble(
-  stratum = "All", duration = c(3, 100),
-  fail_rate = -log(.5) / 12, hr = c(1, .693), dropout_rate = 0
+fail_rate <- define_fail_rate(
+  duration = c(3, 100),
+  fail_rate = -log(.5) / 12,
+  hr = c(1, .693),
+  dropout_rate = 0
 )
 ## Study duration was 34.8 in Korn & Freidlin Table 1
 ## We change to 34.86 here to obtain 512 expected events more precisely

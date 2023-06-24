@@ -49,8 +49,7 @@ enroll_rate <- define_enroll_rate(
 )
 
 # Failure rates
-fail_rate <- tibble::tibble(
-  stratum = "All",
+fail_rate <- define_fail_rate(
   duration = c(4, 100),
   fail_rate = log(2) / 12,
   hr = c(1, .6),
@@ -99,7 +98,6 @@ fixed_design(
 # ---------------------------- #
 #     design parameters        #
 # ---------------------------- #
-library(tibble)
 library(gsDesign)
 library(gsDesign2)
 library(dplyr)
@@ -110,8 +108,8 @@ enroll_rate <- define_enroll_rate(
   duration = 12,
   rate = 1
 )
-fail_rate <- tibble(
-  stratum = "All", duration = c(4, 100),
+fail_rate <- define_fail_rate(
+  duration = c(4, 100),
   fail_rate = log(2) / 12,
   hr = c(1, .6),
   dropout_rate = .001
@@ -223,8 +221,8 @@ x_combo \%>\% summary()
 # ---------------------------- #
 \donttest{
 gs_design_rd(
-  p_c = tibble(stratum = "All", rate = .2),
-  p_e = tibble(stratum = "All", rate = .15),
+  p_c = tibble::tibble(stratum = "All", rate = .2),
+  p_e = tibble::tibble(stratum = "All", rate = .15),
   info_frac = c(0.7, 1),
   rd0 = 0,
   alpha = .025,

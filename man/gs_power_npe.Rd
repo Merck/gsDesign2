@@ -226,6 +226,3 @@ gs_power_npe(
   lpar = -(x \%>\% filter(bound == "upper"))$z
 )
 }
-\author{
-Keaven Anderson \email{keaven_anderson@merck.com}
-}

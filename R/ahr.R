@@ -25,11 +25,10 @@
 #'
 #' @param enroll_rate An `enroll_rate` data frame with or without stratum
 #'   created by [define_enroll_rate()].
-#' @param fail_rate Piecewise constant control group failure rates, duration
-#'   for each piecewise constant period,
-#' hazard ratio for experimental vs control, and dropout rates by stratum and time period.
-#' @param total_duration Total follow-up from start of enrollment to data cutoff;
-#'   this can be a single value or a vector of positive numbers.
+#' @param fail_rate A `fail_rate` data frame with or without stratum
+#'   created by [define_fail_rate()].
+#' @param total_duration Total follow-up from start of enrollment to data
+#'   cutoff; this can be a single value or a vector of positive numbers.
 #' @param ratio Ratio of experimental to control randomization.
 #' @param simple Logical; if `TRUE` (default), for each value in input
 #'   `total_duration` overall event count,
@@ -84,7 +83,6 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @importFrom dplyr filter mutate group_by summarize ungroup first last "%>%"
-#' @importFrom tibble tibble
 #'
 #' @export
 #'
@@ -102,12 +100,12 @@
 #'   duration = c(2, 10, 4, 4, 8),
 #'   rate = c(5, 10, 0, 3, 6)
 #' )
-#' fail_rate <- tibble::tibble(
+#' fail_rate <- define_fail_rate(
 #'   stratum = c(rep("Low", 2), rep("High", 2)),
 #'   duration = 1,
 #'   fail_rate = c(.1, .2, .3, .4),
-#'   hr = c(.9, .75, .8, .6),
-#'   dropout_rate = .001
+#'   dropout_rate = .001,
+#'   hr = c(.9, .75, .8, .6)
 #' )
 #' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 #'
@@ -117,12 +115,11 @@ ahr <- function(enroll_rate = define_enroll_rate(
                   duration = c(2, 2, 10),
                   rate = c(3, 6, 9)
                 ),
-                fail_rate = tibble::tibble(
-                  stratum = "All",
+                fail_rate = define_fail_rate(
                   duration = c(3, 100),
                   fail_rate = log(2) / c(9, 18),
                   hr = c(.9, .6),
-                  dropout_rate = rep(.001, 2)
+                  dropout_rate = .001
                 ),
                 total_duration = 30,
                 ratio = 1,

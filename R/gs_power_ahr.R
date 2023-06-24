@@ -144,8 +144,7 @@ gs_power_ahr <- function(enroll_rate = define_enroll_rate(
                            duration = c(2, 2, 10),
                            rate = c(3, 6, 9)
                          ),
-                         fail_rate = tibble(
-                           stratum = "All",
+                         fail_rate = define_fail_rate(
                            duration = c(3, 100),
                            fail_rate = log(2) / c(9, 18),
                            hr = c(.9, .6),
