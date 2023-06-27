@@ -55,24 +55,24 @@ The survival at time \eqn{t} is then
 
 \examples{
 
-# plot a survival function with 2 different sets of time values
+# Plot a survival function with 2 different sets of time values
 # to demonstrate plot precision corresponding to input parameters.
 
 x1 <- seq(0, 10, 10 / pi)
-duration = c(3, 3, 1)
-rate = c(.2, .1, .005)
+duration <- c(3, 3, 1)
+rate <- c(.2, .1, .005)
 
 survival <- ppwe(
-  x = x1, 
-  duration = duration, 
+  x = x1,
+  duration = duration,
   rate = rate
 )
 plot(x1, survival, type = "l", ylim = c(0, 1))
 
 x2 <- seq(0, 10, .25)
 survival <- ppwe(
-  x = x2, 
-  duration = duration, 
+  x = x2,
+  duration = duration,
   rate = rate
 )
 lines(x2, survival, col = 2)

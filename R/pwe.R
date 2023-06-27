@@ -61,7 +61,7 @@
 #'
 #' @examples
 #'
-#' # plot a survival function with 2 different sets of time values
+#' # Plot a survival function with 2 different sets of time values
 #' # to demonstrate plot precision corresponding to input parameters.
 #'
 #' x1 <- seq(0, 10, 10 / pi)
@@ -82,12 +82,8 @@
 #'   rate = rate
 #' )
 #' lines(x2, survival, col = 2)
-ppwe <- function(x,
-                 duration,
-                 rate,
-                 lower_tail = FALSE) {
+ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   # Check input values
-
   check_args(x, type = c("numeric", "integer"))
   check_args(duration, type = c("numeric", "integer"))
   check_args(rate, type = c("numeric", "integer"))
@@ -101,10 +97,7 @@ ppwe <- function(x,
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
 
-  fail_rate <- tibble(
-    duration = duration,
-    rate = rate
-  )
+  fail_rate <- tibble(duration = duration, rate = rate)
 
   # Convert rates to step function
   ratefn <- stats::stepfun(
@@ -114,6 +107,7 @@ ppwe <- function(x,
   )
   # Add times where rates change to fail_rate
   xvals <- sort(unique(c(x, cumsum(fail_rate$duration))))
+
   # Make a tibble
   xx <- tibble::tibble(
     x = xvals,
@@ -122,6 +116,7 @@ ppwe <- function(x,
     H = cumsum(h * duration), # cumulative hazard
     survival = exp(-H) # survival
   )
+
   # Return survival or CDF
   ind <- !is.na(match(xx$x, x))
   survival <- as.numeric(xx$survival[ind])
