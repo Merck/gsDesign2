@@ -64,7 +64,12 @@ plot(times, plnorm(times, meanlog = 0, sdlog = 2, lower.tail = FALSE),
 )
 
 # Now plot the pieceise approximation using the 7-point approximation from above
-lines(times, ppwe(x = times, fail_rate = log_normal_rate), col = 2)
+lines(
+  times,
+  ppwe(x = times, duration = log_normal_rate$duration, rate = log_normal_rate$rate),
+  col = 2
+)
+
 # Finally, add point markers at the points used in the approximation
 points(x = c(0:6), plnorm(c(0:6), meanlog = 0, sdlog = 2, lower.tail = FALSE), col = 1)
 text(x = c(5, 5), y = c(.5, .4), labels = c("Log-normal", "Piecewise Approximation (7 pts)"), col = 1:2, pos = 4)
@@ -108,7 +113,11 @@ pm_rate <- s2pwe(
 )
 
 # Now plot the piecewise approximation using the 7-point approximation from above
-lines(c(0, x), ppwe(x = c(0, x), fail_rate = pm_rate), col = 2)
+lines(
+  c(0, x),
+  ppwe(x = c(0, x), duration = pm_rate$duration, rate = pm_rate$rate),
+  col = 2
+)
 points(c(0, x), p_pm(c(0, x), theta, lambda))
 ```
 
