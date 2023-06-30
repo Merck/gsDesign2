@@ -49,7 +49,7 @@ for a piecewise exponential distribution."><meta property="og:image" content="ht
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Piecewise exponential cumulative distribution function</h1>
-      <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/R/helper_functions.R" class="external-link"><code>R/helper_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/R/pwe.R" class="external-link"><code>R/pwe.R</code></a></small>
       <div class="d-none name"><code>ppwe.Rd</code></div>
     </div>
 
@@ -60,11 +60,7 @@ for a piecewise exponential distribution.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ppwe</span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span>,</span>
-<span>  fail_rate <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">100</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">18</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  lower_tail <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ppwe</span><span class="op">(</span><span class="va">x</span>, <span class="va">duration</span>, <span class="va">rate</span>, lower_tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -73,9 +69,12 @@ for a piecewise exponential distribution.</p>
 <dd><p>Times at which distribution is to be computed.</p></dd>
 
 
-<dt>fail_rate</dt>
-<dd><p>Piecewise constant failure rates in <code>rate</code>,
-<code>duration</code> for each piecewise constant failure rate period.</p></dd>
+<dt>duration</dt>
+<dd><p>A numeric vector of time duration.</p></dd>
+
+
+<dt>rate</dt>
+<dd><p>A numeric vector of event rate.</p></dd>
 
 
 <dt>lower_tail</dt>
@@ -108,20 +107,28 @@ $$S(t)=\exp(-\Lambda(t)).$$</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example: default</span></span></span>
-<span class="r-in"><span><span class="fu">ppwe</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.9258747 0.8572440 0.7937005 0.7637176 0.7348672 0.7071068 0.6803950</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 0.6546923 0.6299605 0.6061630 0.5832645</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example: plot a survival function with 2 different sets of time values</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot a survival function with 2 different sets of time values</span></span></span>
 <span class="r-in"><span><span class="co"># to demonstrate plot precision corresponding to input parameters.</span></span></span>
-<span class="r-in"><span><span class="va">fr</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.1</span>, <span class="fl">.005</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">10</span> <span class="op">/</span> <span class="va">pi</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Survival</span> <span class="op">&lt;-</span> <span class="fu">ppwe</span><span class="op">(</span><span class="va">Time</span>, <span class="va">fr</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">Survival</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">.25</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Survival</span> <span class="op">&lt;-</span> <span class="fu">ppwe</span><span class="op">(</span><span class="va">Time</span>, <span class="va">fr</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">Survival</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">10</span> <span class="op">/</span> <span class="va">pi</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">duration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.1</span>, <span class="fl">.005</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">survival</span> <span class="op">&lt;-</span> <span class="fu">ppwe</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x1</span>,</span></span>
+<span class="r-in"><span>  duration <span class="op">=</span> <span class="va">duration</span>,</span></span>
+<span class="r-in"><span>  rate <span class="op">=</span> <span class="va">rate</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">survival</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">.25</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">survival</span> <span class="op">&lt;-</span> <span class="fu">ppwe</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x2</span>,</span></span>
+<span class="r-in"><span>  duration <span class="op">=</span> <span class="va">duration</span>,</span></span>
+<span class="r-in"><span>  rate <span class="op">=</span> <span class="va">rate</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">x2</span>, <span class="va">survival</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ppwe-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
