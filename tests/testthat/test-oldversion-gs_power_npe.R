@@ -160,20 +160,30 @@ test_that("Two-sided symmetric spend, O'Brien-Fleming spending",{
 
 ## Test 8: 
 test_that("Re-use these bounds under alternate hypothesis - Always use binding = TRUE for power calculations",{
+  x <- gs_power_npe(
+    theta = rep(0, 3),
+    info = (1:3) * 40,
+    binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  ) %>% select(-info_frac)
+  
   x1 <- gs_power_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 40,
     binding = TRUE,
-    upar = (x1 %>% filter(bound == "upper"))$z,
-    lpar = -(x1 %>% filter(bound == "upper"))$z
+    upar = (x %>% filter(bound == "upper"))$z,
+    lpar = -(x %>% filter(bound == "upper"))$z
   ) %>% select(-info_frac)
   
   x2 <- gs_power_npe_(
     theta = c(.1, .2, .3),
     info = (1:3) * 40,
     binding = TRUE,
-    upar = (x1 %>% filter(bound == "upper"))$z,
-    lpar = -(x1 %>% filter(bound == "upper"))$z
+    upar = (x %>% filter(bound == "upper"))$z,
+    lpar = -(x %>% filter(bound == "upper"))$z
   ) %>% 
     rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>% 
     mutate(bound = tolower(bound))
