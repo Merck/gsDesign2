@@ -15,7 +15,6 @@ test_that("default parameter", {
   expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
-  
 })
 
 test_that("calendar based cut", {
@@ -28,7 +27,6 @@ test_that("calendar based cut", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   )
-  
   x2 <- gs_power_ahr_(
     analysisTimes = c(12, 24, 36),
     events = NULL,
@@ -38,7 +36,6 @@ test_that("calendar based cut", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   )
-  
   expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"])
   expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"])
   expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"])
@@ -47,7 +44,6 @@ test_that("calendar based cut", {
   expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
-  
   expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"])
   expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"])
   expect_equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"])
@@ -56,7 +52,6 @@ test_that("calendar based cut", {
   expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"])
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Lower"])
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Lower"])
-  
 })
 
 test_that("event based cut", {
@@ -69,7 +64,6 @@ test_that("event based cut", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   )
-  
   x2 <- gs_power_ahr_(
     analysisTimes = NULL,
     events = c(20, 50, 70),
@@ -79,7 +73,6 @@ test_that("event based cut", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   )
-  
   expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"])
   expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"])
   expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"])
@@ -88,7 +81,6 @@ test_that("event based cut", {
   expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
-  
   expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"])
   expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"])
   expect_equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"])
@@ -97,7 +89,6 @@ test_that("event based cut", {
   expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"])
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Lower"])
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Lower"])
-  
 })
 
 test_that("calendar + event based cut", {
@@ -110,7 +101,6 @@ test_that("calendar + event based cut", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   )
-  
   x2 <- gs_power_ahr_(
     analysisTimes = c(12, 24, 36),
     events = c(30, 40, 50),
@@ -120,7 +110,6 @@ test_that("calendar + event based cut", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   )
-  
   expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"])
   expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"])
   expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"])
@@ -129,7 +118,6 @@ test_that("calendar + event based cut", {
   expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
-  
   expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"])
   expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"])
   expect_equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"])
@@ -138,5 +126,4 @@ test_that("calendar + event based cut", {
   expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"])
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Lower"])
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Lower"])
-  
 })
