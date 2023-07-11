@@ -95,7 +95,6 @@ test_that("fixed design with 3 equal info", {
     select(-c(theta1, info1)) %>%
     arrange(analysis, bound)
   expect_equal(x1_c, x2)
-  
 })
 
 test_that("fixed design with 3 unequal info", {
@@ -171,7 +170,7 @@ test_that("futility at IA1; efficacy only at IA2 +FA", {
     test_upper = c(FALSE, TRUE, TRUE)) %>%
     rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
     mutate(bound = tolower(bound)) %>%
-    select(-c(theta1, info1))%>%
+    select(- c(theta1, info1)) %>%
     arrange(analysis, bound)
   expect_equal(x1_c, x2)
 })

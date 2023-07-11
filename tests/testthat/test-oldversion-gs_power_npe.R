@@ -126,7 +126,7 @@ test_that("Same bounds, but power under different theta", {
   expect_equal(x1, x2)
 })
 
-test_that("Two-sided symmetric spend, O'Brien-Fleming spending",{
+test_that("Two-sided symmetric spend, O'Brien-Fleming spending", {
   x1 <- gs_power_npe(
     theta = rep(0, 3),
     info = (1:3) * 40,
@@ -151,9 +151,7 @@ test_that("Two-sided symmetric spend, O'Brien-Fleming spending",{
   expect_equal(x1, x2)
 })
 
-
-## Test 8: 
-test_that("Re-use these bounds under alternate hypothesis - Always use binding = TRUE for power calculations",{
+test_that("Re-use these bounds under alternate hypothesis - Always use binding = TRUE for power calculations", {
   x <- gs_power_npe(
     theta = rep(0, 3),
     info = (1:3) * 40,
@@ -236,7 +234,6 @@ test_that("Developer Tests 1-sided test", {
     binding = FALSE, r = r,
     upper = gs_b, # gs_spending_bound,
     upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF)$upper$bound,
-    # list(par = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.025)),
     lower = gs_b,
     lpar = rep(-Inf, 3)
   ) %>%
@@ -250,7 +247,7 @@ test_that("Developer Tests 1-sided test", {
   )
   expect_equal(x, y)
   expect_equal(x$z[x$bound == "upper"], z$upper$bound)
-  expect_equal(x$probability[x$bound == "upper"], z$upper$prob%>% cumsum())
+  expect_equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob))
 })
 
 test_that("Independent Tests - Expect equal with mvtnorm for efficacy and futility bounds", {
@@ -268,47 +265,47 @@ test_that("Independent Tests - Expect equal with mvtnorm for efficacy and futili
   )
   test1 <- test %>% filter(bound == "upper")
   test2 <- test %>% filter(bound == "lower")
-  alpha.t <- 0.025
-  b.ia <- gsDesign::sfLDOF(alpha = alpha.t, t = r)
-  alpha.ia <- b.ia$spend
-  Pb <- function(alpha.t, alpha.ia, r, b) {
+  alpha_t <- 0.025
+  b_ia <- gsDesign::sfLDOF(alpha = alpha_t, t = r)
+  alpha_ia <- b_ia$spend
+  prob_b <- function(alpha_t, alpha_ia, r, b) {
     temp <- mvtnorm::pmvnorm(
       lower = c(-Inf, b),
-      upper = c(qnorm(1 - alpha.ia), Inf),
+      upper = c(qnorm(1 - alpha_ia), Inf),
       corr = rbind(c(1, sqrt(r)), c(sqrt(r), 1))
     )
-    return(alpha.t - alpha.ia - temp)
+    return(alpha_t - alpha_ia - temp)
   }
-  b <- uniroot(Pb, c(1.96, 4), alpha.t = alpha.t, alpha.ia = alpha.ia, r = r)
+  b <- uniroot(prob_b, c(1.96, 4), alpha_t = alpha_t, alpha_ia = alpha_ia, r = r)
   pb <- 1 - pnorm(b$root)
   expect_equal(
     object = test1$z,
-    expected = c(qnorm(1 - alpha.ia), b$root),
+    expected = c(qnorm(1 - alpha_ia), b$root),
     tolerance = 0.001)
   expect_equal(
     object = test1$probability,
-    expected = cumsum(c(b.ia$spend, pb)),
+    expected = cumsum(c(b_ia$spend, pb)),
     tolerance = 0.001)
-  beta.t <- 0.02
-  a.ia <- gsDesign::sfLDOF(alpha = beta.t, t = r)
-  beta.ia <- a.ia$spend
-  Pa <- function(beta.t, beta.ia, r, a) {
+  beta_t <- 0.02
+  a_ia <- gsDesign::sfLDOF(alpha = beta_t, t = r)
+  beta_ia <- a_ia$spend
+  prob_a <- function(beta_t, beta_ia, r, a) {
     temp <- mvtnorm::pmvnorm(
-      lower = c(-Inf, qnorm(beta.ia)),
+      lower = c(-Inf, qnorm(beta_ia)),
       upper = c(a, Inf),
       corr = rbind(c(1, sqrt(r)), c(sqrt(r), 1))
     )
-    return(beta.t - beta.ia - temp)
+    return(beta_t - beta_ia - temp)
   }
-  a <- uniroot(Pa, c(-4, 1.96), beta.t = beta.t, beta.ia = beta.ia, r = r)
+  a <- uniroot(prob_a, c(-4, 1.96), beta_t = beta_t, beta_ia = beta_ia, r = r)
   pa <- pnorm(a$root)
   expect_equal(
     object = test2$z,
-    expected = c(qnorm(beta.ia), a$root),
+    expected = c(qnorm(beta_ia), a$root),
     tolerance = 0.001)
   expect_equal(
     object = test2$probability,
-    expected = cumsum(c(a.ia$spend, pa)),
+    expected = cumsum(c(a_ia$spend, pa)),
     tolerance = 0.001)
 })
 
