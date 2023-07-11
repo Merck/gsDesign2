@@ -35,7 +35,7 @@ test_that("verify by gs_power_npe", {
     upper = gs_b, upar = (x %>% filter(Bound == "Upper"))$Z,
     lower = gs_b, lpar = -(x %>% filter(Bound == "Upper"))$Z,
     binding = TRUE # Always use binding = TRUE for power calculations
-  ) 
+  )
   expect_equal(y$Probability [y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 1e-2)
 })
 
@@ -48,9 +48,12 @@ test_that("examples in spec - Lachin book p71", {
   info <- 1 / (pc * (1 - pc) * 2 + pe * (1 - pe) * 2)
   # Result should round up to next even number = 652
   # Divide information needed under H1 by information per patient added
-  x1_a <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h0_info") %>% select(-c(info_frac, probability0, info1))
-  x1_b <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h1_info") %>% select(-c(info_frac, probability0, info1))
-  x1_c <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h0_h1_info") %>% select(-c(info_frac, probability0, info1))
+  x1_a <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h0_info") %>%
+    select(-c(info_frac, probability0, info1))
+  x1_b <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h1_info") %>%
+    select(-c(info_frac, probability0, info1))
+  x1_c <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h0_h1_info") %>%
+    select(-c(info_frac, probability0, info1))
   x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) %>%
     rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
     mutate(bound = tolower(bound))
@@ -63,21 +66,24 @@ test_that("fixed design with 3 equal info", {
     info = (1:3) * 80, info_scale = "h0_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x1_b <- gs_design_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info_scale = "h1_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x1_c <- gs_design_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info_scale = "h0_h1_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x2 <- gs_design_npe_(
     theta = c(.1, .2, .3),
@@ -98,28 +104,31 @@ test_that("fixed design with 3 unequal info", {
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5, info_scale = "h0_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x1_b <- gs_design_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5, info_scale = "h1_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x1_c <- gs_design_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5, info_scale = "h0_h1_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x2 <- gs_design_npe_(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5,
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-    lower = gs_b, lpar = c(-1, 0, 0)) %>% 
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>% 
+    lower = gs_b, lpar = c(-1, 0, 0)) %>%
+    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
     mutate(bound = tolower(bound)) %>%
     select(-c(theta1, info1)) %>%
     arrange(analysis, bound)
@@ -133,7 +142,8 @@ test_that("futility at IA1; efficacy only at IA2 +FA", {
     upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_b, lpar = c(-1, -Inf, -Inf),
     test_upper = c(FALSE, TRUE, TRUE)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x1_b <- gs_design_npe(
     theta = c(.1, .2, .3),
@@ -141,7 +151,8 @@ test_that("futility at IA1; efficacy only at IA2 +FA", {
     upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_b, lpar = c(-1, -Inf, -Inf),
     test_upper = c(FALSE, TRUE, TRUE)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x1_c <- gs_design_npe(
     theta = c(.1, .2, .3),
@@ -149,7 +160,8 @@ test_that("futility at IA1; efficacy only at IA2 +FA", {
     upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_b, lpar = c(-1, -Inf, -Inf),
     test_upper = c(FALSE, TRUE, TRUE)
-  ) %>% select(-c(info_frac, probability0, info1)) %>%
+  ) %>%
+    select(-c(info_frac, probability0, info1)) %>%
     arrange(analysis, bound)
   x2 <- gs_design_npe_(
     theta = c(.1, .2, .3),
