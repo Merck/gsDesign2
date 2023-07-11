@@ -21,7 +21,6 @@ test_that("time to targeted events", {
     ratio = ratio,
     target_event = x$Events)
   expect_equal(20, y$time)
-  
 })
 
 test_that("default", {
@@ -46,7 +45,7 @@ test_that("time to targeted events by new/old version", {
     enrollRates = enroll_rate %>% rename(Stratum = stratum),
     failRates = fail_rate %>% rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     ratio = ratio,
-    targetEvents = 200) %>% 
+    targetEvents = 200) %>%
     rename(time = Time, ahr = AHR, event = Events)
   expect_equal(x1, x2)
 })

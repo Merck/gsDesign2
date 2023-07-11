@@ -6,7 +6,6 @@ library(dplyr)
 
 test_that("verify by gs_power_npe", {
   beta <- 0.1
-  
   # new version
   x <- gs_design_npe(
     theta = c(.1, .2, .3), info = (1:3) * 40, beta = 0.1,
@@ -21,8 +20,8 @@ test_that("verify by gs_power_npe", {
     upper = gs_b, upar = (x %>% filter(bound == "upper"))$z,
     lower = gs_b, lpar = -(x %>% filter(bound == "upper"))$z,
     binding = TRUE # Always use binding = TRUE for power calculations
-  ) 
-  expect_equal(y$probability[y$analysis == 3 & y$bound == "upper"], 1-beta, tolerance = 1e-2)
+  )
+  expect_equal(y$probability[y$analysis == 3 & y$bound == "upper"], 1 - beta, tolerance = 1e-2)
   # old version
   x <- gs_design_npe_(
     theta = c(.1, .2, .3), info = (1:3) * 40, beta = 0.1,
@@ -37,7 +36,7 @@ test_that("verify by gs_power_npe", {
     lower = gs_b, lpar = -(x %>% filter(Bound == "Upper"))$Z,
     binding = TRUE # Always use binding = TRUE for power calculations
   ) 
-  expect_equal(y$Probability [y$Analysis == 3 & y$Bound == "Upper"], 1-beta, tolerance = 1e-2)
+  expect_equal(y$Probability [y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 1e-2)
 })
 
 test_that("examples in spec - Lachin book p71", {
@@ -52,7 +51,7 @@ test_that("examples in spec - Lachin book p71", {
   x1_a <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h0_info") %>% select(-c(info_frac, probability0, info1))
   x1_b <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h1_info") %>% select(-c(info_frac, probability0, info1))
   x1_c <- gs_design_npe(theta = pe - pc, info = info, info0 = info0, info_scale = "h0_h1_info") %>% select(-c(info_frac, probability0, info1))
-  x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) %>% 
+  x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) %>%
     rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
     mutate(bound = tolower(bound))
   expect_equal(x1_c, x2)
