@@ -22,8 +22,8 @@
 #' for a piecewise exponential distribution.
 #'
 #' @param x Times at which distribution is to be computed.
-#' @param fail_rate Piecewise constant failure rates in `rate`,
-#'   `duration` for each piecewise constant failure rate period.
+#' @param duration A numeric vector of time duration.
+#' @param rate A numeric vector of event rate.
 #' @param lower_tail Indicator of whether lower (`TRUE`) or upper tail
 #'   (`FALSE`; default) of CDF is to be computed.
 #'
@@ -57,32 +57,39 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr last
-#' @importFrom stats stepfun
-#'
 #' @export
 #'
 #' @examples
-#' # Example: default
-#' ppwe(seq(0:10))
 #'
-#' # Example: plot a survival function with 2 different sets of time values
+#' # Plot a survival function with 2 different sets of time values
 #' # to demonstrate plot precision corresponding to input parameters.
-#' fr <- tibble::tibble(duration = c(3, 3, 1), rate = c(.2, .1, .005))
-#' Time <- seq(0, 10, 10 / pi)
-#' Survival <- ppwe(Time, fr)
-#' plot(Time, Survival, type = "l", ylim = c(0, 1))
-#' Time <- seq(0, 10, .25)
-#' Survival <- ppwe(Time, fr)
-#' lines(Time, Survival, col = 2)
-ppwe <- function(x = 0:20,
-                 fail_rate = tibble::tibble(duration = c(3, 100), rate = log(2) / c(9, 18)),
-                 lower_tail = FALSE) {
+#'
+#' x1 <- seq(0, 10, 10 / pi)
+#' duration <- c(3, 3, 1)
+#' rate <- c(.2, .1, .005)
+#'
+#' survival <- ppwe(
+#'   x = x1,
+#'   duration = duration,
+#'   rate = rate
+#' )
+#' plot(x1, survival, type = "l", ylim = c(0, 1))
+#'
+#' x2 <- seq(0, 10, .25)
+#' survival <- ppwe(
+#'   x = x2,
+#'   duration = duration,
+#'   rate = rate
+#' )
+#' lines(x2, survival, col = 2)
+ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   # Check input values
+  check_args(x, type = c("numeric", "integer"))
+  check_args(duration, type = c("numeric", "integer"))
+  check_args(rate, type = c("numeric", "integer"))
+  check_args(lower_tail, length = 1, type = "logical")
+
   # Check input enrollment rate assumptions
-  if (!is.numeric(x)) {
-    stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
-  }
   if (!min(x) >= 0) {
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
@@ -90,30 +97,17 @@ ppwe <- function(x = 0:20,
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
 
-  # check input failure rate assumptions
-  if (!is.data.frame(fail_rate)) {
-    stop("gsDesign2: fail_rate in `ppwe()` must be a data.frame")
-  }
-  if (!max(names(fail_rate) == "duration") == 1) {
-    stop("gsDesign2: fail_rate in `ppwe()` column names must contain duration")
-  }
-  if (!max(names(fail_rate) == "rate") == 1) {
-    stop("gsDesign2: fail_rate in `ppwe()` column names must contain rate")
-  }
-
-  # Check lower_tail
-  if (!is.logical(lower_tail)) {
-    stop("gsDesign2: lower_tail in `ppwe()` must be logical")
-  }
+  fail_rate <- tibble(duration = duration, rate = rate)
 
   # Convert rates to step function
-  ratefn <- stepfun(
+  ratefn <- stats::stepfun(
     x = cumsum(fail_rate$duration),
-    y = c(fail_rate$rate, last(fail_rate$rate)),
+    y = c(fail_rate$rate, fail_rate$rate[nrow(fail_rate)]),
     right = TRUE
   )
   # Add times where rates change to fail_rate
   xvals <- sort(unique(c(x, cumsum(fail_rate$duration))))
+
   # Make a tibble
   xx <- tibble::tibble(
     x = xvals,
@@ -122,6 +116,7 @@ ppwe <- function(x = 0:20,
     H = cumsum(h * duration), # cumulative hazard
     survival = exp(-H) # survival
   )
+
   # Return survival or CDF
   ind <- !is.na(match(xx$x, x))
   survival <- as.numeric(xx$survival[ind])

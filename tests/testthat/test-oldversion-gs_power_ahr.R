@@ -1,0 +1,129 @@
+my_path <- paste0(system.file(package = "gsDesign2"), "/old_function/")
+source_files <- list.files(my_path, "*.R$")
+sapply(paste0(my_path, source_files), source)
+
+library(dplyr)
+
+test_that("default parameter", {
+  x1 <- gs_power_ahr()
+  x2 <- gs_power_ahr_()
+  expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"])
+  expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"])
+  expect_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$Probability[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
+})
+
+test_that("calendar based cut", {
+  x1 <- gs_power_ahr(
+    analysis_time = c(12, 24, 36),
+    event = NULL,
+    binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  )
+  x2 <- gs_power_ahr_(
+    analysisTimes = c(12, 24, 36),
+    events = NULL,
+    binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  )
+  expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"])
+  expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"])
+  expect_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$Probability[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"])
+  expect_equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"])
+  expect_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$Probability[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$info, x2$info[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Lower"])
+})
+
+test_that("event based cut", {
+  x1 <- gs_power_ahr(
+    analysis_time = NULL,
+    event = c(20, 50, 70),
+    binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  )
+  x2 <- gs_power_ahr_(
+    analysisTimes = NULL,
+    events = c(20, 50, 70),
+    binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  )
+  expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"])
+  expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"])
+  expect_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$Probability[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"])
+  expect_equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"])
+  expect_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$Probability[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$info, x2$info[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Lower"])
+})
+
+test_that("calendar + event based cut", {
+  x1 <- gs_power_ahr(
+    analysis_time = c(12, 24, 36),
+    event = c(30, 40, 50),
+    binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  )
+  x2 <- gs_power_ahr_(
+    analysisTimes = c(12, 24, 36),
+    events = c(30, 40, 50),
+    binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  )
+  expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"])
+  expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"])
+  expect_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$Probability[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info, x2$info[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"])
+  expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"])
+  expect_equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"])
+  expect_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$Probability[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$info, x2$info[x2$Bound == "Lower"])
+  expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Lower"])
+})
