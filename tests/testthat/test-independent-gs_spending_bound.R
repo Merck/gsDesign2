@@ -25,7 +25,7 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
   a <- -Inf
   b <- Inf
   b <- gs_spending_bound()
-  hgm1_0 <- h1(
+  hgm1_0 <- gsDesign2:::h1(
     theta = 0,
     info = info[1],
     a = a,
@@ -37,7 +37,7 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
     hgm1 = hgm1_0,
     info = info
   )
-  hgm2_0 <- hupdate(
+  hgm2_0 <- gsDesign2:::hupdate(
     theta = 0,
     info = info[2],
     a = a,
@@ -61,7 +61,7 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
     efficacy = FALSE,
     info = info
   )
-  hgm1_1 <- h1(theta = x$theta[2], info = info[1], a = a, b = b)
+  hgm1_1 <- gsDesign2:::h1(theta = x$theta[2], info = info[1], a = a, b = b)
 
   a2 <- gs_spending_bound(
     k = 2,
@@ -72,7 +72,7 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
     info = info
   )
 
-  hgm2_1 <- hupdate(
+  hgm2_1 <- gsDesign2:::hupdate(
     theta = x$theta[2],
     info = info[2],
     a = a2,
@@ -129,7 +129,7 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
     hgm1 = NULL,
     info = info
   )
-  hgm1_0 <- h1(
+  hgm1_0 <- gsDesign2:::h1(
     theta = 0,
     info = info[1],
     a = a,
@@ -141,7 +141,7 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
     hgm1 = hgm1_0,
     info = info
   )
-  hgm2_0 <- hupdate(
+  hgm2_0 <- gsDesign2:::hupdate(
     theta = 0,
     info = info[2],
     a = a,
@@ -166,7 +166,7 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
     info = info
   )
 
-  hgm1_1 <- h1(theta = y$theta[2], info = info[1], a = a, b = b)
+  hgm1_1 <- gsDesign2:::h1(theta = y$theta[2], info = info[1], a = a, b = b)
 
   a2 <- gs_spending_bound(
     k = 2,
@@ -177,7 +177,7 @@ test_that("compare gs_spending_bound with gsDesign results with unequal IA timin
     info = info
   )
 
-  hgm2_1 <- hupdate(
+  hgm2_1 <- gsDesign2:::hupdate(
     theta = y$theta[2],
     info = info[2],
     a = a2,
