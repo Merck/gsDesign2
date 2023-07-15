@@ -255,15 +255,15 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
         0
       }
 
-      hgm1_0 <- h1(r = r, theta = 0, info = info0[1], a = if (binding) {
+      hgm1_0 <- h1_(r = r, theta = 0, info = info0[1], a = if (binding) {
         a[1]
       } else {
         -Inf
       }, b = b[1])
 
-      hgm1_1 <- h1(r = r, theta = theta1[1], info = info1[1], a = a[1], b = b[1])
+      hgm1_1 <- h1_(r = r, theta = theta1[1], info = info1[1], a = a[1], b = b[1])
 
-      hgm1 <- h1(r = r, theta = theta[1], info = info[1], a = a[1], b = b[1])
+      hgm1 <- h1_(r = r, theta = theta[1], info = info[1], a = a[1], b = b[1])
     } else {
       # Cross upper bound
       upperProb[k] <- if (b[k] < Inf) {
