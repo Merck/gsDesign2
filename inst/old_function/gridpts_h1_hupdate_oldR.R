@@ -144,7 +144,7 @@ h1_ <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
   z <- w <- h <- NULL
   # compute drift at analysis 1
   mu <- theta * sqrt(I)
-  g <- gridpts(r, mu, a, b)
+  g <- gsDesign2:::gridpts(r, mu, a, b)
   # compute deviation from drift
   x <- g$z - mu
   # compute standard normal density, multiply by grid weight and return
@@ -193,7 +193,7 @@ hupdate_ <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, I
   rtdelta <- sqrt(I - Im1)
   rtI <- sqrt(I)
   rtIm1 <- sqrt(Im1)
-  g <- gridpts(r = r, mu = theta * rtI, a = a, b = b)
+  g <- gsDesign2:::gridpts(r = r, mu = theta * rtI, a = a, b = b)
   # update integration
   mu <- theta * I - thetam1 * Im1
   h <- rep(0, length(g$z))
