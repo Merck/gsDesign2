@@ -188,7 +188,7 @@ NULL
 #' gsDesign2:::hupdate_() %>% summarise(mu = sum(z * h), var = sum((z - mu)^2 * h))
 #'
 #' @noRd
-hupdate_ <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = h1_()) {
+hupdate_ <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = gsDesign2:::h1()) {
   # sqrt of change in information
   rtdelta <- sqrt(I - Im1)
   rtI <- sqrt(I)
