@@ -270,7 +270,7 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
         # hupdate(r = r, theta = theta[k], info = info[k], a = b[k], b = Inf,
         #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) %>%
         #   summarise(sum(h)) %>% as.numeric()
-        sum(hupdate(
+        sum(gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = b[k], b = Inf,
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1
         )$h)
@@ -282,7 +282,7 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
         # hupdate(r = r, theta = theta[k], info = info[k], a = -Inf, b = a[k],
         #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) %>%
         #   summarise(sum(h)) %>% as.numeric()
-        sum(hupdate(
+        sum(gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = -Inf, b = a[k],
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1
         )$h)
