@@ -79,7 +79,7 @@
 #'
 #' @importFrom gsDesign gsDesign sfLDOF
 #' @importFrom stats qnorm
-#' 
+#'
 #' @examples
 #' info <- (1:3) * 10
 #' info_frac <- info / max(info)
@@ -112,7 +112,7 @@
 #' #    hgm1 = gsDesign2:::h1(r = 18, theta = 0, info = info[1], a = a1, b = b1)
 #' # )
 #' # cat("The upper boundary at the 2nd analysis is (", a2, ", ", b2, ").\n")
-#' 
+#'
 #' @export
 gs_spending_bound <- function(k = 1,
                               par = list(

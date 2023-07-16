@@ -5,8 +5,8 @@ sapply(paste0(my_path, source_files), source)
 library(dplyr)
 
 test_that("Default (N(0,1)) - approximate variance of standard normal (i.e., 1)", {
-  x1 <- gridpts_(mu = 0, a = -20, b = 20, r = 18)  # gsDesign2 old version
-  x2 <- gsDesign2:::gridpts(mu = 0, a = -20, b = 20, r = 18)   # gsDesign2 latest version
+  x1 <- gridpts_(mu = 0, a = -20, b = 20, r = 18) # gsDesign2 old version
+  x2 <- gsDesign2:::gridpts(mu = 0, a = -20, b = 20, r = 18) # gsDesign2 latest version
   expect_equal(x1$z, x2$z)
   expect_equal(x1$w, x2$w)
 })
