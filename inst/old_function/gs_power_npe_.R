@@ -302,13 +302,13 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
         )
         # hgm1_1 <- hupdate(r = r, theta = theta1[k], info = info1[k], a = a[k], b = b[k],
         #                   thetam1 = theta1[k-1], im1 = info1[k-1], gm1 = hgm1_1)
-        hgm1_1 <- gsDesign2:::(
+        hgm1_1 <- gsDesign2:::hupdate(
           r = r, theta = theta1[k], info = info1[k], a = a[k], b = b[k],
           thetam1 = theta1[k - 1], im1 = info1[k - 1], gm1 = hgm1_1
         )
         # hgm1   <- hupdate(r = r, theta = theta[k], info = info[k], a = a[k], b = b[k],
         #                   thetam1 = theta[k-1], im1 = info[k-1], gm1 = hgm1)
-        hgm1 <- gsDesign2:::(
+        hgm1 <- gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = a[k], b = b[k],
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1
         )
