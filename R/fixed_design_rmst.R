@@ -20,7 +20,6 @@
 #'
 #' Computes fixed design sample size for RMST methods.
 #' Returns a tibble with a basic summary.
-#' 
 #' @inheritParams gs_design_ahr
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
