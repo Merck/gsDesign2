@@ -47,7 +47,6 @@
 #' x %>% summary()
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_milestone(
-#'   "milestone",
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
