@@ -129,7 +129,7 @@ fixed_design_fh <- function(alpha = 0.025,
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
     analysis = ans,
-    design = "fh", design_par = list(rho = rho,gamma = gamma)
+    design = "fh", design_par = list(rho = rho, gamma = gamma)
   )
   class(y) <- c("fixed_design", class(y))
   return(y)

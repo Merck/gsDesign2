@@ -44,7 +44,6 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-#' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_fh(
 #'   alpha = .025,
@@ -103,7 +102,6 @@ fixed_design_lf <- function(alpha = 0.025,
     }
   } else {
     warning("Lachin-Foulkes is not recommended for stratified designs!")
-    
     temp <- fail_rate %>%
       group_by(stratum) %>%
       summarize(n_duration = n())
@@ -123,12 +121,10 @@ fixed_design_lf <- function(alpha = 0.025,
     stratified_lambdac <- fail_rate %>%
       select(stratum, fail_rate) %>%
       tidyr::pivot_wider(names_from = stratum, values_from = fail_rate, values_fn = list)
-    
     lambda_cc <- do.call(cbind, lapply(stratified_lambdac, function(x) {
       x %>% unlist()
     })) %>%
       as.matrix()
-    
     # calculate the eta: dropout hazard rates for the control group
     stratified_eta <- fail_rate %>%
       select(stratum, dropout_rate) %>%

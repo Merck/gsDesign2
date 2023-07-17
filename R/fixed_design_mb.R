@@ -22,7 +22,6 @@
 #' Returns a tibble with a basic summary.
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_wlr
-#' 
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).
 #' @param ratio Experimental:Control randomization ratio.
@@ -126,7 +125,6 @@ fixed_design_mb <- function(alpha = 0.025,
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "mb", design_par = list(tau = tau))
-  
   class(y) <- c("fixed_design", class(y))
   return(y)
 }
