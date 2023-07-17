@@ -49,10 +49,9 @@ x <- fixed_design_rmst(
   tau = 18
 )
 x \%>\% summary()
-
 # example 2: given sample size and compute power
 x <- fixed_design_rmst(
-  alpha = .025, 
+  alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
   fail_rate = define_fail_rate(
     duration = 100,

@@ -54,11 +54,11 @@ study_duation <- 34.86
 ```
 
 We now derive a fixed sample size based on these assumptions.
-Ideally, we would allow a targeted event count and variable follow-up in `fixed_design()` so that the study duration will be computed automatically.
+Ideally, we would allow a targeted event count and variable follow-up in `fixed_design_ahr()` so that the study duration will be computed automatically.
 
 ```{r}
-fixedevents <- fixed_design(
-  x = "ahr", alpha = 0.025, power = NULL,
+fixedevents <- fixed_design_ahr(
+  alpha = 0.025, power = NULL,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   study_duation = study_duation

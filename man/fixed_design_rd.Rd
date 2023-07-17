@@ -40,13 +40,11 @@ Returns a tibble with a basic summary.
 }
 \examples{
 library(dplyr)
-
 # example 1: given power and compute sample size
 x <- fixed_design_rd(
   alpha = alpha, power = 1 - beta, p_c = .15, p_e = .1,
   rd0 = 0, ratio = 1)
 x \%>\% summary()
-
 # example 2: given sample size and compute power
 x <- fixed_design_rd(
   alpha = alpha, power = NULL, p_c = .15, p_e = .1,
