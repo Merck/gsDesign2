@@ -13,8 +13,7 @@ to_integer(x, ...)
 \method{to_integer}{gs_design}(x, sample_size = TRUE, ...)
 }
 \arguments{
-\item{x}{An object returned by \code{\link[=fixed_design]{fixed_design()}}, \code{\link[=gs_design_ahr]{gs_design_ahr()}},
-\code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}.}
+\item{x}{An object returned by fixed_design_xxx() and gs_design_xxx().}
 
 \item{...}{Additional parameters (not used).}
 
@@ -22,8 +21,7 @@ to_integer(x, ...)
 sample size to an even integer.}
 }
 \value{
-A list similar to the output of \code{\link[=fixed_design]{fixed_design()}},
-\code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}},
+A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
 except the sample size is an integer.
 }
 \description{
