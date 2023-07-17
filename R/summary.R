@@ -60,8 +60,7 @@
 #' #        AHR                #
 #' # ------------------------- #
 #' # under fixed power
-#' fixed_design(
-#'   "ahr",
+#' fixed_design_ahr(
 #'   alpha = alpha,
 #'   power = 1 - beta,
 #'   enroll_rate = enroll_rate,
@@ -74,8 +73,7 @@
 #' #        FH                 #
 #' # ------------------------- #
 #' # under fixed power
-#' fixed_design(
-#'   "fh",
+#' fixed_design_fh(
 #'   alpha = alpha,
 #'   power = 1 - beta,
 #'   enroll_rate = enroll_rate,
