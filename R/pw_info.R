@@ -130,7 +130,6 @@ pw_info <- function(
   strata <- unique(enroll_rate$stratum)
   for (td in total_duration) {
     event <- NULL
-    
     for (s in strata) {
       # subset to stratum
       enroll <- enroll_rate %>% filter(stratum == s)
@@ -197,4 +196,3 @@ pw_info <- function(
     ungroup()
   return(ans)
 }
-
