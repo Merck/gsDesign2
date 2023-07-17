@@ -21,6 +21,7 @@ vignette: |
 library(gt)
 library(gsDesign)
 library(gsDesign2)
+library(dplyr)
 ```
 
 # Introduction
@@ -70,8 +71,7 @@ beta <- 0.1
 If one wants to get a power of 90%, one can calculate the sample size by
 
 ```{r}
-fixed_design(
-  "ahr",
+fixed_design_ahr(
   alpha = alpha,
   power = 1 - beta,
   enroll_rate = enroll_rate,
@@ -86,8 +86,7 @@ fixed_design(
 Given the above enrollment rate and enrollment duration, one can calculate the power of AHR by
 
 ```{r}
-fixed_design(
-  "ahr",
+fixed_design_ahr(
   alpha = alpha,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -104,8 +103,7 @@ If one wants to get a power of 90\%, one can calculate the sample size by
 
 ```{r}
 # Fixed design with a given power with default rho/gamma
-fixed_design(
-  "fh",
+fixed_design_fh(
   alpha = alpha,
   power = 1 - beta,
   enroll_rate = enroll_rate,
@@ -121,8 +119,7 @@ In the above example, the FH parameters (`rho`, `gamma`) take the default value 
 
 ```{r}
 # Fixed design with a given power with input rho/gamma
-fixed_design(
-  "fh",
+fixed_design_fh(
   alpha = alpha,
   power = 1 - beta,
   enroll_rate = enroll_rate,
@@ -140,8 +137,7 @@ Given the above enrollment rate and enrollment duration, one can calculate the p
 
 ```{r}
 # Fixed design with power calculated
-fixed_design(
-  "fh",
+fixed_design_fh(
   alpha = alpha,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -156,8 +152,7 @@ But users can always custom their `rho` and `gamma` by
 
 ```{r}
 # Fixed design with power calculated
-fixed_design(
-  "fh",
+fixed_design_fh(
   alpha = alpha,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -174,8 +169,7 @@ fixed_design(
 If one wants to get a power of 90\%, one can calculate the sample size by
 
 ```{r}
-fixed_design(
-  "mb",
+fixed_design_mb(
   ratio = ratio,
   alpha = alpha,
   power = 1 - beta,
@@ -190,8 +184,7 @@ fixed_design(
 In the above example, the mb parameter (`tau`) takes the default value as `tau = 6`. But users can always custom their `tau` by
 
 ```{r}
-fixed_design(
-  "mb",
+fixed_design_mb(
   ratio = ratio,
   alpha = alpha,
   power = 1 - beta,
@@ -207,8 +200,7 @@ fixed_design(
 Given the above enrollment rate and enrollment duration, one can calculate the power of MB under the default `tau = 6` by
 
 ```{r}
-fixed_design(
-  "mb",
+fixed_design_mb(
   ratio = ratio,
   alpha = alpha,
   enroll_rate = enroll_rate,
@@ -222,8 +214,7 @@ fixed_design(
 But users can always custom their `tau` by
 
 ```{r}
-fixed_design(
-  "mb",
+fixed_design_mb(
   ratio = ratio,
   alpha = alpha,
   enroll_rate = enroll_rate,
@@ -240,8 +231,7 @@ fixed_design(
 If one wants to get a power of 90\%, one can calculate the sample size by
 
 ```{r}
-fixed_design(
-  "lf",
+fixed_design_lf(
   alpha = alpha,
   power = 1 - beta,
   ratio = ratio,
@@ -256,8 +246,7 @@ fixed_design(
 Given the above enrollment rate and enrollment duration, one can calculate the power of LF by
 
 ```{r}
-fixed_design(
-  "lf",
+fixed_design_lf(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -273,8 +262,7 @@ fixed_design(
 If one wants to get a power of 90\%, one can calculate the sample size by
 
 ```{r}
-fixed_design(
-  "maxcombo",
+fixed_design_maxcombo(
   alpha = alpha,
   power = 1 - beta,
   ratio = ratio,
@@ -295,8 +283,7 @@ data.frame(rho = c(0, 0), gamma = c(0, 0.5), tau = -1) %>% gt()
 But users can always custom their `rho`, `gamma`, `tau` by
 
 ```{r}
-fixed_design(
-  "maxcombo",
+fixed_design_maxcombo(
   alpha = alpha,
   power = 1 - beta,
   ratio = ratio,
@@ -314,8 +301,7 @@ fixed_design(
 Given the above enrollment rate and enrollment duration, one can calculate the power of MaxCombo under the default parameters by
 
 ```{r}
-fixed_design(
-  "maxcombo",
+fixed_design_maxcombo(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -329,8 +315,7 @@ fixed_design(
 But users can always custom their `rho`, `gamma`, `tau` by
 
 ```{r}
-fixed_design(
-  "maxcombo",
+fixed_design_maxcombo(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -349,8 +334,7 @@ fixed_design(
 If one wants to get a power of 90\%, one can calculate the sample size by
 
 ```{r}
-fixed_design(
-  "rmst",
+fixed_design_rmst(
   alpha = alpha,
   power = 1 - beta,
   enroll_rate = enroll_rate,
@@ -366,8 +350,7 @@ fixed_design(
 Given the above enrollment rate and enrollment duration, one can calculate the power of RMST by
 
 ```{r}
-fixed_design(
-  "rmst",
+fixed_design_rmst(
   alpha = alpha,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -384,8 +367,7 @@ fixed_design(
 If one wants to get a power of 90\%, one can calculate the sample size by
 
 ```{r}
-fixed_design(
-  "milestone",
+fixed_design_milestone(
   alpha = alpha,
   power = 1 - beta,
   enroll_rate = enroll_rate,
@@ -401,8 +383,7 @@ fixed_design(
 Given the above enrollment rate and enrollment duration, one can calculate the power of Milestone by
 
 ```{r}
-fixed_design(
-  "milestone",
+fixed_design_milestone(
   alpha = alpha,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -419,8 +400,7 @@ fixed_design(
 If one wants to get a power of 90\%, one can calculate the sample size by
 
 ```{r}
-fixed_design(
-  "rd",
+fixed_design_rd(
   alpha = alpha,
   power = 1 - beta,
   p_c = .15,
@@ -435,8 +415,7 @@ fixed_design(
 Given the above enrollment rate and enrollment duration, one can calculate the power by
 
 ```{r}
-fixed_design(
-  "rd",
+fixed_design_rd(
   alpha = alpha,
   power = NULL,
   p_c = .15,
@@ -452,8 +431,7 @@ fixed_design(
 # Examples to get multiple designs together
 
 ```{r, message=FALSE}
-x_ahr <- fixed_design(
-  "ahr",
+x_ahr <- fixed_design_ahr(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -461,8 +439,7 @@ x_ahr <- fixed_design(
   study_duration = study_duration
 )
 
-x_fh <- fixed_design(
-  "fh",
+x_fh <- fixed_design_fh(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -472,8 +449,7 @@ x_fh <- fixed_design(
   gamma = 0.5
 )
 
-x_mb <- fixed_design(
-  "mb",
+x_mb <- fixed_design_mb(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -482,8 +458,7 @@ x_mb <- fixed_design(
   tau = 4
 )
 
-x_lf <- fixed_design(
-  "lf",
+x_lf <- fixed_design_lf(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -491,8 +466,7 @@ x_lf <- fixed_design(
   study_duration = study_duration
 )
 
-x_maxcombo <- fixed_design(
-  "maxcombo",
+x_maxcombo <- fixed_design_maxcombo(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -503,8 +477,7 @@ x_maxcombo <- fixed_design(
   tau = c(-1, 4, 6)
 )
 
-x_rmst <- fixed_design(
-  "rmst",
+x_rmst <- fixed_design_rmst(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
@@ -513,8 +486,7 @@ x_rmst <- fixed_design(
   tau = 30
 )
 
-x_milestone <- fixed_design(
-  "milestone",
+x_milestone <- fixed_design_milestone(
   alpha = alpha,
   ratio = ratio,
   enroll_rate = enroll_rate,
