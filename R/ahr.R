@@ -109,14 +109,12 @@ ahr <- function(enroll_rate = define_enroll_rate(
                 ),
                 total_duration = 30,
                 ratio = 1) {
-  
   res <- pw_info(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     total_duration = total_duration,
     ratio = ratio
   )
-  
   ans <- res %>%
     group_by(time) %>%
     summarize(
@@ -126,6 +124,5 @@ ahr <- function(enroll_rate = define_enroll_rate(
       info0 = sum(info0)
     ) %>%
     ungroup()
-  
   return(ans)
 }

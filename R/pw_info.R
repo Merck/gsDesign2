@@ -96,7 +96,6 @@
 #'   dropout_rate = .001,
 #'   hr = c(.9, .75, .8, .6)
 #' )
-#' 
 #' # Give results by change-points in the piecewise model
 #' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 #'
@@ -104,7 +103,7 @@
 #' pw_info(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 pw_info <- function(
     enroll_rate = define_enroll_rate(
-      duration = c(2, 2, 10), 
+      duration = c(2, 2, 10),
       rate = c(3, 6, 9)
       ),
     fail_rate = define_fail_rate(
@@ -115,7 +114,6 @@ pw_info <- function(
       ),
     total_duration = 30,
     ratio = 1) {
-  
   # ----------------------------#
   #    check input values       #
   # ----------------------------#
@@ -124,15 +122,12 @@ pw_info <- function(
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
   check_total_duration(total_duration)
   check_ratio(ratio)
-  
   # compute proportion in each group
   q_e <- ratio / (1 + ratio)
   q_c <- 1 - q_e
-  
   # compute expected events by treatment group, stratum and time period
   ans <- NULL
   strata <- unique(enroll_rate$stratum)
-  
   for (td in total_duration) {
     event <- NULL
     
@@ -140,15 +135,12 @@ pw_info <- function(
       # subset to stratum
       enroll <- enroll_rate %>% filter(stratum == s)
       fail <- fail_rate %>% filter(stratum == s)
-      
       # update enrollment rates
       enroll_c <- enroll %>% mutate(rate = rate * q_c)
       enroll_e <- enroll %>% mutate(rate = rate * q_e)
-      
       # update failure rates
       fail_c <- fail
       fail_e <- fail %>% mutate(fail_rate = fail_rate * hr)
-      
       # compute expected number of events
       event_c <- expected_event(
         enroll_rate = enroll_c,
@@ -162,7 +154,6 @@ pw_info <- function(
         total_duration = td,
         simple = FALSE
       )
-      
       # Combine control and experimental; by period recompute HR, events, information
       event <- rbind(
         event_c %>% mutate(treatment = "control"),
@@ -180,7 +171,6 @@ pw_info <- function(
         ) %>%
         rbind(event)
     }
-    
     # summarize events in one stratum
     ans_new <- event %>%
       mutate(
@@ -199,14 +189,12 @@ pw_info <- function(
       )
     ans <- rbind(ans, ans_new)
   }
-  
   # output the results
   ans <- ans %>%
     select(time, stratum, t, hr, event, info, info0) %>%
     group_by(time, stratum) %>%
     arrange(t, .by_group = TRUE) %>%
     ungroup()
-  
   return(ans)
 }
 
