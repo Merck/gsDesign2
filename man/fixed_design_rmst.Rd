@@ -24,6 +24,10 @@ and \code{1 - alpha} otherwise).}
 
 \item{study_duration}{Study duration.}
 
+\item{enroll_rate}{Enrollment rates.}
+
+\item{fail_rate}{Failure and dropout rates.}
+
 \item{tau}{Test parameter in RMST.}
 }
 \value{

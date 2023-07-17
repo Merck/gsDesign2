@@ -22,6 +22,10 @@ and \code{1 - alpha} otherwise).}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
+\item{enroll_rate}{Enrollment rates.}
+
+\item{fail_rate}{Failure and dropout rates.}
+
 \item{study_duration}{Study duration.}
 
 \item{tau}{Test parameter of milestone method.}

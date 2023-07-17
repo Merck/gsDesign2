@@ -35,7 +35,7 @@ library(gsDesign2)
 
 # Average hazard ratio
 \donttest{
-x <- fixed_design("ahr",
+x <- fixed_design_ahr(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
   fail_rate = define_fail_rate(
@@ -48,7 +48,7 @@ x <- fixed_design("ahr",
 x \%>\% to_integer()
 
 # FH
-x <- fixed_design("fh",
+x <- fixed_design_fh(
   alpha = 0.025, power = 0.9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
   fail_rate = define_fail_rate(
@@ -63,7 +63,7 @@ x <- fixed_design("fh",
 x \%>\% to_integer()
 
 # MB
-x <- fixed_design("mb",
+x <- fixed_design_mb(
   alpha = 0.025, power = 0.9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
   fail_rate = define_fail_rate(
