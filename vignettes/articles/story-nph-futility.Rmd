@@ -138,12 +138,11 @@ We consider monthly accumulation of events through the 34.86 months planned tria
 We note in the summary of early expected events below that all events during the first 3 months on-study are expected prior to the first interim analysis.
 
 ```{r}
-event_accumulation <- ahr(
+event_accumulation <- pw_info(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = c(1:34, 34.86),
-  ratio = 1,
-  simple = FALSE
+  ratio = 1
 )
 head(event_accumulation, n = 7) %>% gt()
 ```
