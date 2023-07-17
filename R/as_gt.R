@@ -153,14 +153,14 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
       "fh" = {
         paste0(
           "Power for Fleming-Harrington test ",
-          substr(x$design, 19, nchar(x$design)),
+          substr(x$Design, 19, nchar(x$Design)),
           " using method of Yung and Liu."
         )
       },
       "mb" = {
         paste0(
           "Power for ",
-          x$design,
+          x$Design,
           " computed with method of Yung and Liu."
         )
       },
@@ -174,20 +174,19 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
       "maxcombo" = {
         paste0(
           "Power for MaxCombo test with Fleming-Harrington tests",
-          substr(x$design, 9, nchar(x$design)), "."
+          substr(x$Design, 9, nchar(x$Design)), "."
         )
       },
       "milestone" = {
-        paste0("Power for ", x$design, " computed with method of Yung and Liu.")
+        paste0("Power for ", x$Design, " computed with method of Yung and Liu.")
       },
       "rmst" = {
-        paste0("Power for ", x$design, " computed with method of Yung and Liu.")
+        paste0("Power for ", x$Design, " computed with method of Yung and Liu.")
       }
     )
   }
 
   ans <- x %>%
-    dplyr::mutate(design = design_mtd) %>%
     gt::gt() %>%
     gt::tab_header(title = title) %>%
     gt::tab_footnote(footnote = footnote, locations = gt::cells_title(group = "title"))
