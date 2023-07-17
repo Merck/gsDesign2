@@ -18,8 +18,7 @@
 
 #' Summary for fixed design or group sequential design objects
 #'
-#' @param object A design object returned by [fixed_design()],
-#'   [gs_design_ahr()], [gs_design_wlr()], or [gs_design_combo()].
+#' @param object A design object returned by fixed_design_xxx() and gs_design_xxx().
 #' @param ... Additional parameters (not used).
 #'
 #' @return A summary table (data frame).
