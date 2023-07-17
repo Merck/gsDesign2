@@ -342,7 +342,7 @@ events_by_time_period <- NULL
 for (g in c("PH", "Shorter delayed effect", "Longer delayed effect", "Crossing")) {
   events_by_time_period <- rbind(
     events_by_time_period,
-    ahr(
+    pw_info(
       enroll_rate = enroll_rate %>% filter(Scenario == g),
       fail_rate = fail_rate %>% filter(Scenario == g),
       total_duration = c(12, 20, 28, 36)
