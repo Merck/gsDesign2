@@ -54,13 +54,13 @@ fixed_design_rd <- function(alpha = 0.025,
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
-  if(!is.numeric(p_c) || !is.numeric(p_e)) {
+  if (!is.numeric(p_c) || !is.numeric(p_e)) {
     stop("fixed_design_rd: p_c and p_e should be numerical values.")
   }
-  if(length(p_c) > 1 || length(p_e) > 1) {
+  if (length(p_c) > 1 || length(p_e) > 1) {
     stop("fixed_design_rd: p_c and p_e should be a scaler.")
   }
-  if(!is.null(n) && !is.numeric(n) ) {
+  if (!is.null(n) && !is.numeric(n) ) {
     stop("fixed_design_rd: n should be numerical values.")
   }
   # ------------------------- #

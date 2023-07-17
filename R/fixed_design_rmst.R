@@ -72,10 +72,10 @@ fixed_design_rmst <- function(alpha = 0.025,
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  if(is.null(tau)) {
+  if (is.null(tau)) {
     tau <- study_duration
   }
-  if(!is.numeric(tau) || length(tau) > 1) {
+  if (!is.numeric(tau) || length(tau) > 1) {
     stop("fixed_design_rmst: tau should a scaler.")
   }
   # ------------------------- #

@@ -36,7 +36,7 @@ Returns a tibble with a basic summary.
 \examples{
 library(dplyr)
 # example 1: given power and compute sample size
-x <- fixed_design(
+x <- fixed_design_milestone(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
   fail_rate = define_fail_rate(
@@ -50,7 +50,7 @@ x <- fixed_design(
 )
 x \%>\% summary()
 # example 2: given sample size and compute power
-x <- fixed_design(
+x <- fixed_design_milestone(
   "milestone",
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),

@@ -32,7 +32,7 @@
 #' @examples
 #' library(dplyr)
 #'# example 1: given power and compute sample size
-#' x <- fixed_design(
+#' x <- fixed_design_milestone(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
 #'   fail_rate = define_fail_rate(
@@ -46,7 +46,7 @@
 #' )
 #' x %>% summary()
 #' # example 2: given sample size and compute power
-#' x <- fixed_design(
+#' x <- fixed_design_milestone(
 #'   "milestone",
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -73,10 +73,10 @@ fixed_design_milestone <- function(alpha = 0.025,
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  if(is.null(tau)) {
+  if (is.null(tau)) {
     tau <- study_duration
   }
-  if(!is.numeric(tau) || length(tau) > 1) {
+  if (!is.numeric(tau) || length(tau) > 1) {
     stop("fixed_design_milestone: tau should a scaler.")
   }
   # ------------------------- #
