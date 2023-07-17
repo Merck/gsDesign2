@@ -21,7 +21,7 @@
 #' Computes fixed design sample size for AHR methods.
 #' Returns a tibble with a basic summary.
 #'
-#' @inheritParams gs_design_ahr 
+#' @inheritParams gs_design_ahr
 #' @inheritParams gs_power_ahr
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).
@@ -33,7 +33,6 @@
 #'
 #' @examples
 #' library(dplyr)
-#' 
 #' # example 1: given power and compute sample size
 #' x <- fixed_design_ahr(
 #'   alpha = .025, power = .9,
@@ -47,10 +46,9 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-#' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_ahr(
-#'   alpha = .025, 
+#'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
 #'     duration = c(4, 100),
@@ -75,7 +73,6 @@ fixed_design_ahr <- function(alpha = 0.025,
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
- 
   # ------------------------- #
   #     save inputs           #
   # ------------------------- #
@@ -84,7 +81,6 @@ fixed_design_ahr <- function(alpha = 0.025,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  
   # ------------------------- #
   #     generate design       #
   # ------------------------- #
@@ -107,7 +103,6 @@ fixed_design_ahr <- function(alpha = 0.025,
       analysis_time = study_duration
     )
   }
-  
   ans <- tibble::tibble(
     design = "ahr",
     n = d$analysis$n,
@@ -117,12 +112,10 @@ fixed_design_ahr <- function(alpha = 0.025,
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  
   y <- list(
     input = input, enroll_rate = d$enroll_rate,
     fail_rate = d$fail_rate, analysis = ans, design = "ahr"
     )
-  
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

@@ -28,13 +28,10 @@
 #' @param ratio Experimental:Control randomization ratio.
 #' @param study_duration Study duration.
 #' @param tau Test parameter of Magirr-Burman method.
-#'
 #' @return A table.
 #' @export
-#'
 #' @examples
 #' library(dplyr)
-#'
 #' # example 1: given power and compute sample size
 #' x <- fixed_design_mb(
 #'   alpha = .025, power = .9,
@@ -49,10 +46,9 @@
 #'   tau = 4
 #' )
 #' x %>% summary()
-#' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_mb(
-#'   alpha = .025, 
+#'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
 #'     duration = c(4, 100),
@@ -77,11 +73,9 @@ fixed_design_mb <- function(alpha = 0.025,
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  
   if (length(tau) > 1) {
     stop("fixed_design: multiple tau can not be used in Magirr-Burman method!")
   }
-  
   # ------------------------- #
   #     save inputs           #
   # ------------------------- #
@@ -91,14 +85,12 @@ fixed_design_mb <- function(alpha = 0.025,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  
   # ------------------------- #
   #     generate design       #
   # ------------------------- #
   weight <- function(x, arm0, arm1) {
     wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau)
   }
-  
   if (is.null(power)) {
     d <- gs_power_wlr(
       enroll_rate = enroll_rate,
@@ -121,7 +113,6 @@ fixed_design_mb <- function(alpha = 0.025,
       lower = gs_b, lpar = -Inf,
       analysis_time = study_duration)
   }
-  
   # get the output of MB
   ans <- tibble::tibble(
     design = "mb",
@@ -132,7 +123,6 @@ fixed_design_mb <- function(alpha = 0.025,
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "mb", design_par = list(tau = tau))

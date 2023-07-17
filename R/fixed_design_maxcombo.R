@@ -31,13 +31,10 @@
 #' @param gamma A vector of numbers paring with rho and tau for maxcombo test.
 #' @param tau A vector of numbers paring with gamma and rho for maxcombo test.
 #' @inheritParams gs_design_combo
-#' 
 #' @return A table.
 #' @export
-#'
 #' @examples
 #' library(dplyr)
-#' 
 #' # example 1: given power and compute sample size
 #' x <- fixed_design_maxcombo(
 #'   alpha = .025, power = .9,
@@ -52,10 +49,9 @@
 #'   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 #' )
 #' x %>% summary()
-#' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_maxcombo(
-#'   alpha = .025, 
+#'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
 #'     duration = c(4, 100),
@@ -82,7 +78,6 @@ fixed_design_maxcombo <- function(alpha = 0.025,
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  
   # ------------------------- #
   #     save inputs           #
   # ------------------------- #
@@ -92,7 +87,6 @@ fixed_design_maxcombo <- function(alpha = 0.025,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  
   # ------------------------- #
   #     generate design       #
   # ------------------------- #
@@ -103,7 +97,6 @@ fixed_design_maxcombo <- function(alpha = 0.025,
     tau = tau
     ) %>%
     mutate(test = seq(1, length(rho)), analysis = 1, analysis_time = study_duration)
-  
   # check if power is NULL or not
   if (is.null(power)) {
     d <- gs_power_combo(
@@ -124,7 +117,6 @@ fixed_design_maxcombo <- function(alpha = 0.025,
       lower = gs_b, lpar = -Inf
     )
   }
-  
   # get the output of MaxCombo
   ans <- tibble::tibble(
     design = "maxcombo",
@@ -135,13 +127,11 @@ fixed_design_maxcombo <- function(alpha = 0.025,
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  
   y <- list(
     input = input,
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "maxcombo", design_par = list(rho = rho, gamma = gamma, tau = tau)
   )
-  
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

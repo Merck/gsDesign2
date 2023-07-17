@@ -29,7 +29,6 @@
 #' @param tau Test parameter in RMST.
 #' @return A table.
 #' @export
-#'
 #' @examples
 #' library(dplyr)
 #' # example 1: given power and compute sample size
@@ -46,10 +45,9 @@
 #'   tau = 18
 #' )
 #' x %>% summary()
-#' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_rmst(
-#'   alpha = .025, 
+#'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
 #'     duration = 100,
@@ -80,7 +78,6 @@ fixed_design_rmst <- function(alpha = 0.025,
   if(!is.numeric(tau) | length(tau) > 1){
     stop("fixed_design_rmst: tau should a scaler.")
   }
-
   # ------------------------- #
   #     save inputs           #
   # ------------------------- #
@@ -88,7 +85,6 @@ fixed_design_rmst <- function(alpha = 0.025,
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
     tau = tau, enroll_rate = enroll_rate, fail_rate = fail_rate
   )
-  
   # ------------------------- #
   #     generate design       #
   # ------------------------- #
@@ -119,13 +115,11 @@ fixed_design_rmst <- function(alpha = 0.025,
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  
   y <- list(
     input = input,
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "rmst", design_par = list(tau = tau), study_duration
   )
-    
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

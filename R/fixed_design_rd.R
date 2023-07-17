@@ -30,19 +30,15 @@
 #' @param n Sample size. If NULL with power input, the sample size will be 
 #' computed to achieve the targeted power
 #' @param ratio Experimental:Control randomization ratio.
-#'
 #' @return A table.
 #' @export
-#'
 #' @examples
 #' library(dplyr)
-#' 
 #' # example 1: given power and compute sample size
 #' x <- fixed_design_rd(
 #'   alpha = alpha, power = 1 - beta, p_c = .15, p_e = .1,
 #'   rd0 = 0, ratio = 1)
 #' x %>% summary()
-#' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_rd(
 #'   alpha = alpha, power = NULL, p_c = .15, p_e = .1,
@@ -67,7 +63,6 @@ fixed_design_rd <- function(alpha = 0.025,
   if(!is.null(n) & !is.numeric(n) ){
     stop("fixed_design_rd: n should be numerical values.")
   }
-  
   # ------------------------- #
   #     save inputs           #
   # ------------------------- #
@@ -75,7 +70,6 @@ fixed_design_rd <- function(alpha = 0.025,
     alpha = alpha, power = power, ratio = ratio, 
     p_c = p_c, p_e = p_e, n = n
   )
-  
   # ------------------------- #
   #     generate design       #
   # ------------------------- #
@@ -99,7 +93,6 @@ fixed_design_rd <- function(alpha = 0.025,
       rd0 = rd0, weight = "unstratified"
     )
   }
-  
   # get the output of MaxCombo
   ans <- tibble::tibble(
     design = "rd",
@@ -108,12 +101,10 @@ fixed_design_rd <- function(alpha = 0.025,
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  
   y <- list(
     input = input,
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "rd"
   )
-
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

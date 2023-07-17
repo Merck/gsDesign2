@@ -27,14 +27,12 @@
 #' @param study_duration Study duration.
 #' @param rho test parameter in Fleming-Harrington method.
 #' @param gamma test parameter in Fleming-Harrington method.
-#' 
 #' @return A table.
 #'
 #' @export
 #'
 #' @examples
 #' library(dplyr)
-#' 
 #' # example 1: given power and compute sample size
 #' x <- fixed_design_fh(
 #'   alpha = .025, power = .9,
@@ -49,10 +47,9 @@
 #'   rho = 1, gamma = 1
 #' )
 #' x %>% summary()
-#' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_fh(
-#'   alpha = .025, 
+#'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
 #'     duration = c(4, 100),
@@ -78,7 +75,6 @@ fixed_design_fh <- function(alpha = 0.025,
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  
   # check test parameters, like rho, gamma
   if (length(rho) > 1) {
     stop("fixed_design_fh: multiple rho can not be used in Fleming-Harrington method!")
@@ -86,7 +82,6 @@ fixed_design_fh <- function(alpha = 0.025,
   if (length(gamma) > 1) {
     stop("fixed_design_fh: multiple gamma can not be used in Fleming-Harrington method!")
   }
-  
   # ------------------------- #
   #     save inputs           #
   # ------------------------- #
@@ -96,14 +91,12 @@ fixed_design_fh <- function(alpha = 0.025,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  
   # ------------------------- #
   #     generate design       #
   # ------------------------- #
   weight <- function(x, arm0, arm1) {
     wlr_weight_fh(x, arm0, arm1, rho = rho, gamma = gamma)
   }
-  
   if (is.null(power)) {
     d <- gs_power_wlr(
       upar = qnorm(1 - alpha), lpar = -Inf,
@@ -124,7 +117,6 @@ fixed_design_fh <- function(alpha = 0.025,
       analysis_time = study_duration
     )
   }
-  
   ans <- tibble::tibble(
     design = "fh",
     n = d$analysis$n,
@@ -134,13 +126,11 @@ fixed_design_fh <- function(alpha = 0.025,
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
     analysis = ans,
     design = "fh", design_par = list(rho = rho,gamma = gamma)
-    )
-  
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

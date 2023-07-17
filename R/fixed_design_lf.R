@@ -27,14 +27,10 @@
 #' @param ratio Experimental:Control randomization ratio.
 #' @param study_duration Study duration.
 #' @inheritParams gs_design_ahr
-#' 
 #' @return A table.
-#'
 #' @export
-#'
 #' @examples
 #' library(dplyr)
-#'
 #' # example 1: given power and compute sample size
 #' x <- fixed_design_lf(
 #'   alpha = .025, power = .9,
@@ -51,7 +47,7 @@
 #' 
 #' # example 2: given sample size and compute power
 #' x <- fixed_design_fh(
-#'   alpha = .025, 
+#'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
 #'     duration = 100,
@@ -75,7 +71,6 @@ fixed_design_lf <- function(alpha = 0.025,
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  
   # ------------------------- #
   #     save inputs           #
   # ------------------------- #
@@ -84,7 +79,6 @@ fixed_design_lf <- function(alpha = 0.025,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  
   # ------------------------- #
   #     generate design       #
   # ------------------------- #
@@ -96,7 +90,6 @@ fixed_design_lf <- function(alpha = 0.025,
   } else {
     n_stratum <- n_stratum1
   }
-  
   if (n_stratum == 1) {
     m <- length(fail_rate$fail_rate)
     lambda_cc <- fail_rate$fail_rate
@@ -121,13 +114,11 @@ fixed_design_lf <- function(alpha = 0.025,
       stratified_duration <- fail_rate %>%
         select(stratum, duration) %>%
         tidyr::pivot_wider(names_from = stratum, values_from = duration, values_fn = list)
-      
       ss <- do.call(cbind, lapply(stratified_duration, function(x) {
         x %>% unlist()
       })) %>%
         as.matrix()
     }
-    
     # calculate the lambdaC: event hazard rates for the control group
     stratified_lambdac <- fail_rate %>%
       select(stratum, fail_rate) %>%
@@ -142,36 +133,29 @@ fixed_design_lf <- function(alpha = 0.025,
     stratified_eta <- fail_rate %>%
       select(stratum, dropout_rate) %>%
       tidyr::pivot_wider(names_from = stratum, values_from = dropout_rate, values_fn = list)
-    
     etaa <- do.call(cbind, lapply(stratified_eta, function(x) {
       x %>% unlist()
     })) %>%
       as.matrix()
-    
     # calculate the gamma: rates of entry by time period (rows) and strata (columns)
     stratified_enroll_rate <- enroll_rate %>%
       select(stratum, rate) %>%
       tidyr::pivot_wider(names_from = stratum, values_from = rate, values_fn = list)
-    
     gammaa <- do.call(cbind, lapply(stratified_enroll_rate, function(x) {
       x %>% unlist()
     })) %>%
       as.matrix()
-    
     # calculate the R: duration of time periods for recruitment rates specified in rows of gamma
     stratified_enroll_duration <- enroll_rate %>%
       select(stratum, duration) %>%
       tidyr::pivot_wider(names_from = stratum, values_from = duration, values_fn = list)
-    
     rr <- do.call(cbind, lapply(stratified_enroll_duration, function(x) {
       x %>% unlist()
     })) %>%
       as.matrix()
   }
-  
   # calculate the ahr as the hr in nSurv
   dd <- ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = study_duration, ratio = ratio)
-  
   # use nSuve to develop the design
   d <- gsDesign::nSurv(
     alpha = alpha, beta = if (is.null(power)) {
@@ -195,7 +179,6 @@ fixed_design_lf <- function(alpha = 0.025,
       rr[, 1]
     })
   )
-  
   ans <- tibble::tibble(
     design = "lf",
     n = d$n,
@@ -205,7 +188,6 @@ fixed_design_lf <- function(alpha = 0.025,
     alpha = d$alpha,
     power = d$power
   )
-  
   y <- list(
     input = input,
     enroll_rate = enroll_rate %>% mutate(rate = rate * d$n / sum(enroll_rate$duration * enroll_rate$rate)),
@@ -213,7 +195,6 @@ fixed_design_lf <- function(alpha = 0.025,
     analysis = ans,
     design = "lf"
   )
-  
   class(y) <- c("fixed_design", class(y))
   return(y)
 }
