@@ -16,8 +16,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using Fleming-Harrington method method (Farrington and Manning 1990). 
-#' Computes fixed design sample size (given power) or power (given sample size) 
+#' Fixed design using Fleming-Harrington method method (Farrington and Manning 1990).
+#' Computes fixed design sample size (given power) or power (given sample size)
 #' for Fleming-Harrington method method.
 #' Returns a list with a basic summary.
 #' @inheritParams gs_design_wlr

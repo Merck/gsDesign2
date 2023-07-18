@@ -18,8 +18,8 @@
 
 #' Computes fixed design sample size for Magirr-Burman method.
 #' Returns a tibble with a basic summary.
-#' Fixed design using Magirr-Burman method. 
-#' Computes fixed design sample size (given power) or power (given sample size) 
+#' Fixed design using Magirr-Burman method.
+#' Computes fixed design sample size (given power) or power (given sample size)
 #' for Magirr-Burman method.
 #' Returns a list with a basic summary.
 #' @inheritParams gs_design_wlr

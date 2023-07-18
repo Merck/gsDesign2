@@ -17,7 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Fixed design using milestone method (Yung and Liu 2020).
-#' Computes fixed design sample size (given power) or power (given sample size) 
+#' Computes fixed design sample size (given power) or power (given sample size)
 #' for milestone method.
 #' Returns a list with a basic summary.
 #' @inheritParams gs_design_ahr

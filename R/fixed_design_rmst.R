@@ -17,7 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Fixed design using RMST method (Yung and Liu 2020).
-#' Computes fixed design sample size (given power) or power (given sample size) 
+#' Computes fixed design sample size (given power) or power (given sample size)
 #' for RMST methods.
 #' Returns a list with a basic summary.
 #' @inheritParams gs_design_ahr

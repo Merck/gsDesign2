@@ -16,8 +16,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using maxcombo method. 
-#' Computes fixed design sample size (given power) or power (given sample size) 
+#' Fixed design using maxcombo method.
+#' Computes fixed design sample size (given power) or power (given sample size)
 #' for maxcombo method.
 #' Returns a list with a basic summary.
 #' @param alpha One-sided Type I error (strictly between 0 and 1).

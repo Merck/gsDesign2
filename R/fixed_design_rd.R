@@ -17,7 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Fixed design for binary outcome measuring in risk difference (Mehrotra and Railkar 2000).
-#' Computes fixed design sample size (given power) or power (given sample size) 
+#' Computes fixed design sample size (given power) or power (given sample size)
 #' for binary outcome measuring in risk difference.
 #' Returns a list with a basic summary.
 #' @param alpha One-sided Type I error (strictly between 0 and 1).

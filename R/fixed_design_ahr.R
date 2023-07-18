@@ -18,7 +18,7 @@
 
 #' Fixed design using average hazard ratio under non-proportional hazards
 #'
-#' Computes fixed design sample size (given power) or power (given sample size) 
+#' Computes fixed design sample size (given power) or power (given sample size)
 #' for AHR method.
 #' Returns a list with a basic summary.
 #'
