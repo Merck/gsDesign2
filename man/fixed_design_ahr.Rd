@@ -2,19 +2,23 @@
 % Please edit documentation in R/fixed_design_ahr.R
 \name{fixed_design_ahr}
 \alias{fixed_design_ahr}
-\title{Fixed design sample size}
+\title{Fixed design using average hazard ratio under non-proportional hazards}
 \usage{
 fixed_design_ahr(
+  enroll_rate,
+  fail_rate,
   alpha = 0.025,
   power = NULL,
   ratio = 1,
   study_duration = 36,
-  enroll_rate,
-  fail_rate,
   event = NULL
 )
 }
 \arguments{
+\item{enroll_rate}{Enrollment rates.}
+
+\item{fail_rate}{Failure and dropout rates.}
+
 \item{alpha}{One-sided Type I error.}
 
 \item{power}{Power (\code{NULL} to compute power or strictly between 0
@@ -23,10 +27,6 @@ and \code{1 - alpha} otherwise).}
 \item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
 
 \item{study_duration}{Study duration.}
-
-\item{enroll_rate}{Enrollment rates.}
-
-\item{fail_rate}{Failure and dropout rates.}
 
 \item{event}{Targeted event at each analysis.}
 }

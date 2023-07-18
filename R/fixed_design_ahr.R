@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design sample size
+#' Fixed design using average hazard ratio under non-proportional hazards
 #'
 #' Computes fixed design sample size for AHR methods.
 #' Returns a tibble with a basic summary.
@@ -59,12 +59,12 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-fixed_design_ahr <- function(alpha = 0.025,
+fixed_design_ahr <- function(enroll_rate,
+                             fail_rate,
+                             alpha = 0.025,
                              power = NULL,
                              ratio = 1,
                              study_duration = 36,
-                             enroll_rate,
-                             fail_rate,
                              event = NULL
                              ) {
   # --------------------------------------------- #
