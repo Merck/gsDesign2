@@ -51,7 +51,7 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' # Approximate variance of standard normal (i.e., 1)
@@ -93,7 +93,7 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' # Replicate variance of 1, mean of 35
@@ -137,7 +137,7 @@ h1 <- function(r = 18, theta = 0, info = 1, a = -Inf, b = Inf) {
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' # 2nd analysis with no interim bound and drift 0 should have mean 0, variance 1

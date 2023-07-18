@@ -97,14 +97,16 @@ test_that("2-sided symmetric design with O'Brien-Fleming spending", {
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-    h1_spending = FALSE)
+    h1_spending = FALSE
+  )
   x2 <- gs_design_ahr_(
     analysisTimes = c(12, 24, 36), binding = TRUE,
     upper = gs_spending_bound,
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-    h1_spending = FALSE)
+    h1_spending = FALSE
+  )
   expect_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"])
   expect_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"])
   expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"])
@@ -124,14 +126,16 @@ test_that("Pocock lower spending under H1 (NPH)", {
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
-    h1_spending = TRUE)
+    h1_spending = TRUE
+  )
   x2 <- gs_design_ahr_(
     analysisTimes = c(12, 24, 36), binding = TRUE,
     upper = gs_spending_bound,
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
-    h1_spending = TRUE)
+    h1_spending = TRUE
+  )
   expect_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"])
   expect_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"])
   expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"])

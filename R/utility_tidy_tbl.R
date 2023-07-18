@@ -75,7 +75,7 @@ table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_
   # Get order of names to unite table_a columns together with names into a string
   col_order <- c(rbind(names(anames), names(table_a)))
   # Now unite columns of table_a into a string
-  astring <- xx %>% tidyr::unite("_alab", col_order, sep = " ")
+  astring <- xx %>% tidyr::unite("_alab", all_of(col_order), sep = " ")
   # Bind this together with the byvar column
   astring <- cbind(table_a %>% select(all_of(byvar)), astring)
   # Now merge with table_b

@@ -255,23 +255,22 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
         0
       }
 
-      # hgm1_0 <- h1(r = r, theta = 0, info = info0[1], a = if(binding){a[1]}else{-Inf}, b = b[1])
-      hgm1_0 <- h1(r = r, theta = 0, info = info0[1], a = if (binding) {
+      hgm1_0 <- gsDesign2:::h1(r = r, theta = 0, info = info0[1], a = if (binding) {
         a[1]
       } else {
         -Inf
       }, b = b[1])
-      # hgm1_1 <- h1(r = r, theta = theta1[1], info = info1[1], a = a[1], b = b[1])
-      hgm1_1 <- h1(r = r, theta = theta1[1], info = info1[1], a = a[1], b = b[1])
-      # hgm1   <- h1(r = r, theta = theta[1], info = info[1],  a = a[1], b = b[1])
-      hgm1 <- h1(r = r, theta = theta[1], info = info[1], a = a[1], b = b[1])
+
+      hgm1_1 <- gsDesign2:::h1(r = r, theta = theta1[1], info = info1[1], a = a[1], b = b[1])
+
+      hgm1 <- gsDesign2:::h1(r = r, theta = theta[1], info = info[1], a = a[1], b = b[1])
     } else {
       # Cross upper bound
       upperProb[k] <- if (b[k] < Inf) {
         # hupdate(r = r, theta = theta[k], info = info[k], a = b[k], b = Inf,
         #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) %>%
         #   summarise(sum(h)) %>% as.numeric()
-        sum(hupdate(
+        sum(gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = b[k], b = Inf,
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1
         )$h)
@@ -283,7 +282,7 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
         # hupdate(r = r, theta = theta[k], info = info[k], a = -Inf, b = a[k],
         #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) %>%
         #   summarise(sum(h)) %>% as.numeric()
-        sum(hupdate(
+        sum(gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = -Inf, b = a[k],
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1
         )$h)
@@ -293,7 +292,7 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
       if (k < K) {
         # hgm1_0 <- hupdate(r = r, theta = 0, info = info0[k], a = if(binding){a[k]}else{-Inf}, b = b[k],
         #                   thetam1 = 0, im1 = info0[k-1], gm1 = hgm1_0)
-        hgm1_0 <- hupdate(
+        hgm1_0 <- gsDesign2:::hupdate(
           r = r, theta = 0, info = info0[k], a = if (binding) {
             a[k]
           } else {
@@ -303,13 +302,13 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
         )
         # hgm1_1 <- hupdate(r = r, theta = theta1[k], info = info1[k], a = a[k], b = b[k],
         #                   thetam1 = theta1[k-1], im1 = info1[k-1], gm1 = hgm1_1)
-        hgm1_1 <- hupdate(
+        hgm1_1 <- gsDesign2:::hupdate(
           r = r, theta = theta1[k], info = info1[k], a = a[k], b = b[k],
           thetam1 = theta1[k - 1], im1 = info1[k - 1], gm1 = hgm1_1
         )
         # hgm1   <- hupdate(r = r, theta = theta[k], info = info[k], a = a[k], b = b[k],
         #                   thetam1 = theta[k-1], im1 = info[k-1], gm1 = hgm1)
-        hgm1 <- hupdate(
+        hgm1 <- gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = a[k], b = b[k],
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1
         )

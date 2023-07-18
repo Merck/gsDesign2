@@ -28,7 +28,8 @@ test_that("verify by gs_power_npe", {
     upper = gs_spending_bound,
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_spending_bound,
-    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL), binding = TRUE)
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL), binding = TRUE
+  )
   # The power is 0.9. If we re-use these bounds under alternate hypothesis, then we can get a power close to 0.9.
   y <- gs_power_npe_(
     theta = c(.1, .2, .3), info = (1:3) * 40,
@@ -36,7 +37,7 @@ test_that("verify by gs_power_npe", {
     lower = gs_b, lpar = -(x %>% filter(Bound == "Upper"))$Z,
     binding = TRUE # Always use binding = TRUE for power calculations
   )
-  expect_equal(y$Probability [y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 1e-2)
+  expect_equal(y$Probability[y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 1e-2)
 })
 
 test_that("examples in spec - Lachin book p71", {
@@ -89,7 +90,8 @@ test_that("fixed design with 3 equal info", {
     theta = c(.1, .2, .3),
     info = (1:3) * 80,
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-    lower = gs_b, lpar = c(-1, 0, 0)) %>%
+    lower = gs_b, lpar = c(-1, 0, 0)
+  ) %>%
     rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
     mutate(bound = tolower(bound)) %>%
     select(-c(theta1, info1)) %>%
@@ -126,7 +128,8 @@ test_that("fixed design with 3 unequal info", {
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5,
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
-    lower = gs_b, lpar = c(-1, 0, 0)) %>%
+    lower = gs_b, lpar = c(-1, 0, 0)
+  ) %>%
     rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
     mutate(bound = tolower(bound)) %>%
     select(-c(theta1, info1)) %>%
@@ -167,10 +170,11 @@ test_that("futility at IA1; efficacy only at IA2 +FA", {
     info = (1:3) * 40, info0 = (1:3) * 40,
     upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lower = gs_b, lpar = c(-1, -Inf, -Inf),
-    test_upper = c(FALSE, TRUE, TRUE)) %>%
+    test_upper = c(FALSE, TRUE, TRUE)
+  ) %>%
     rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
     mutate(bound = tolower(bound)) %>%
-    select(- c(theta1, info1)) %>%
+    select(-c(theta1, info1)) %>%
     arrange(analysis, bound)
   expect_equal(x1_c, x2)
 })
