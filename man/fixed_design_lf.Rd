@@ -2,7 +2,10 @@
 % Please edit documentation in R/fixed_design_lf.R
 \name{fixed_design_lf}
 \alias{fixed_design_lf}
-\title{Fixed design sample size}
+\title{Fixed design using Lachin-Foulkes method (Farrington and Manning 1990).
+Computes fixed design sample size (given power) or power (given sample size)
+for Lachin-Foulkes method method.
+Returns a list with a basic summary.}
 \usage{
 fixed_design_lf(
   alpha = 0.025,
@@ -31,8 +34,10 @@ and \code{1 - alpha} otherwise).}
 A table.
 }
 \description{
-Computes fixed design sample size for Lachin-Foulkes method.
-Returns a tibble with a basic summary.
+Fixed design using Lachin-Foulkes method (Farrington and Manning 1990).
+Computes fixed design sample size (given power) or power (given sample size)
+for Lachin-Foulkes method method.
+Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)

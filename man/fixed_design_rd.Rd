@@ -2,7 +2,10 @@
 % Please edit documentation in R/fixed_design_rd.R
 \name{fixed_design_rd}
 \alias{fixed_design_rd}
-\title{Fixed design sample size}
+\title{Fixed design for binary outcome measuring in risk difference (Mehrotra and Railkar 2000).
+Computes fixed design sample size (given power) or power (given sample size)
+for binary outcome measuring in risk difference.
+Returns a list with a basic summary.}
 \usage{
 fixed_design_rd(
   alpha = 0.025,
@@ -35,8 +38,10 @@ computed to achieve the targeted power}
 A table.
 }
 \description{
-Computes fixed design sample size for risk difference under unstratified design.
-Returns a tibble with a basic summary.
+Fixed design for binary outcome measuring in risk difference (Mehrotra and Railkar 2000).
+Computes fixed design sample size (given power) or power (given sample size)
+for binary outcome measuring in risk difference.
+Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)

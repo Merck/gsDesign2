@@ -2,7 +2,10 @@
 % Please edit documentation in R/fixed_design_fh.R
 \name{fixed_design_fh}
 \alias{fixed_design_fh}
-\title{Fixed design sample size}
+\title{Fixed design using Fleming-Harrington method method (Farrington and Manning 1990).
+Computes fixed design sample size (given power) or power (given sample size)
+for Fleming-Harrington method method.
+Returns a list with a basic summary.}
 \usage{
 fixed_design_fh(
   alpha = 0.025,
@@ -37,8 +40,10 @@ and \code{1 - alpha} otherwise).}
 A table.
 }
 \description{
-Computes fixed design sample size for Fleming-Harrington method.
-Returns a tibble with a basic summary.
+Fixed design using Fleming-Harrington method method (Farrington and Manning 1990).
+Computes fixed design sample size (given power) or power (given sample size)
+for Fleming-Harrington method method.
+Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)

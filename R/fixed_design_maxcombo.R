@@ -16,11 +16,10 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design sample size
-#'
-#' Computes fixed design sample size for many sample size methods.
-#' Returns a tibble with a basic summary.
-#'
+#' Fixed design using maxcombo method. 
+#' Computes fixed design sample size (given power) or power (given sample size) 
+#' for maxcombo method.
+#' Returns a list with a basic summary.
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).

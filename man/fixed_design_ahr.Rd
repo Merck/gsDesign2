@@ -34,8 +34,9 @@ and \code{1 - alpha} otherwise).}
 A table.
 }
 \description{
-Computes fixed design sample size for AHR methods.
-Returns a tibble with a basic summary.
+Computes fixed design sample size (given power) or power (given sample size)
+for AHR methods.
+Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)

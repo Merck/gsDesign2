@@ -2,7 +2,10 @@
 % Please edit documentation in R/fixed_design_milestone.R
 \name{fixed_design_milestone}
 \alias{fixed_design_milestone}
-\title{Fixed design sample size}
+\title{Fixed design using milestone method (Yung and Liu 2020).
+Computes fixed design sample size (given power) or power (given sample size)
+for milestone method.
+Returns a list with a basic summary.}
 \usage{
 fixed_design_milestone(
   alpha = 0.025,
@@ -34,8 +37,10 @@ and \code{1 - alpha} otherwise).}
 A table.
 }
 \description{
-Computes fixed design sample size for milestone method.
-Returns a tibble with a basic summary.
+Fixed design using milestone method (Yung and Liu 2020).
+Computes fixed design sample size (given power) or power (given sample size)
+for milestone method.
+Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)

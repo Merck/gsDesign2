@@ -2,7 +2,12 @@
 % Please edit documentation in R/fixed_design_mb.R
 \name{fixed_design_mb}
 \alias{fixed_design_mb}
-\title{Fixed design sample size}
+\title{Computes fixed design sample size for Magirr-Burman method.
+Returns a tibble with a basic summary.
+Fixed design using Magirr-Burman method.
+Computes fixed design sample size (given power) or power (given sample size)
+for Magirr-Burman method.
+Returns a list with a basic summary.}
 \usage{
 fixed_design_mb(
   alpha = 0.025,
@@ -36,6 +41,10 @@ A table.
 \description{
 Computes fixed design sample size for Magirr-Burman method.
 Returns a tibble with a basic summary.
+Fixed design using Magirr-Burman method.
+Computes fixed design sample size (given power) or power (given sample size)
+for Magirr-Burman method.
+Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)
