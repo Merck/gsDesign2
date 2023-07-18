@@ -94,7 +94,6 @@ fail_rate <- define_fail_rate(
   dropout_rate = .001,
   hr = c(.9, .75, .8, .6)
 )
-
 # Give results by change-points in the piecewise model
 ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 
