@@ -281,11 +281,13 @@ test_that("Independent Tests - Expect equal with mvtnorm for efficacy and futili
   expect_equal(
     object = test1$z,
     expected = c(qnorm(1 - alpha_ia), b$root),
-    tolerance = 0.001)
+    tolerance = 0.001
+  )
   expect_equal(
     object = test1$probability,
     expected = cumsum(c(b_ia$spend, pb)),
-    tolerance = 0.001)
+    tolerance = 0.001
+  )
   beta_t <- 0.02
   a_ia <- gsDesign::sfLDOF(alpha = beta_t, t = r)
   beta_ia <- a_ia$spend
@@ -302,11 +304,13 @@ test_that("Independent Tests - Expect equal with mvtnorm for efficacy and futili
   expect_equal(
     object = test2$z,
     expected = c(qnorm(beta_ia), a$root),
-    tolerance = 0.001)
+    tolerance = 0.001
+  )
   expect_equal(
     object = test2$probability,
     expected = cumsum(c(a_ia$spend, pa)),
-    tolerance = 0.001)
+    tolerance = 0.001
+  )
 })
 
 test_that("Expect equal with gsDesign::gsProbability outcome for efficacy bounds", {
@@ -333,7 +337,8 @@ test_that("Expect equal with gsDesign::gsProbability outcome for efficacy bounds
     k = 3, theta = .1,
     n.I = info,
     a = rep(-20, 3),
-    b = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, n.I = info)$upper$bound)
+    b = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, n.I = info)$upper$bound
+  )
   expect_equal(x, y)
   expect_equal(x$z[x$bound == "upper"], z$upper$bound, tolerance = 1e-5)
   expect_equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 1e-5)
