@@ -35,7 +35,7 @@
 #'   `ahr` (average hazard ratio), `event` (expected number of events),
 #'   `info` (information under given scenarios), `and` info0
 #'   (information under related null hypothesis) for each value of
-#'   `total_duration` input.
+#'   `total_duration` input
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -78,10 +78,10 @@
 #'
 #' @examples
 #' # Example: default
-#' ahr()
+#' pw_info()
 #'
 #' # Example: default with multiple analysis times (varying total_duration)
-#' ahr(total_duration = c(15, 30))
+#' pw_info(total_duration = c(15, 30))
 #'
 #' # Stratified population
 #' enroll_rate <- define_enroll_rate(
@@ -96,33 +96,103 @@
 #'   dropout_rate = .001,
 #'   hr = c(.9, .75, .8, .6)
 #' )
+#' # Give results by change-points in the piecewise model
 #' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
-ahr <- function(enroll_rate = define_enroll_rate(
-                  duration = c(2, 2, 10),
-                  rate = c(3, 6, 9)
-                ),
-                fail_rate = define_fail_rate(
-                  duration = c(3, 100),
-                  fail_rate = log(2) / c(9, 18),
-                  hr = c(.9, .6),
-                  dropout_rate = .001
-                ),
-                total_duration = 30,
-                ratio = 1) {
-  res <- pw_info(
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    total_duration = total_duration,
-    ratio = ratio
-  )
-  ans <- res %>%
-    group_by(time) %>%
-    summarize(
-      ahr = exp(sum(log(hr) * event) / sum(event)),
-      event = sum(event),
-      info = sum(info),
-      info0 = sum(info0)
-    ) %>%
+#'
+#' # Same example, give results by strata and time period
+#' pw_info(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
+pw_info <- function(
+    enroll_rate = define_enroll_rate(
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9)
+      ),
+    fail_rate = define_fail_rate(
+      duration = c(3, 100),
+      fail_rate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropout_rate = .001
+      ),
+    total_duration = 30,
+    ratio = 1) {
+  # ----------------------------#
+  #    check input values       #
+  # ----------------------------#
+  check_enroll_rate(enroll_rate)
+  check_fail_rate(fail_rate)
+  check_enroll_rate_fail_rate(enroll_rate, fail_rate)
+  check_total_duration(total_duration)
+  check_ratio(ratio)
+  # compute proportion in each group
+  q_e <- ratio / (1 + ratio)
+  q_c <- 1 - q_e
+  # compute expected events by treatment group, stratum and time period
+  ans <- NULL
+  strata <- unique(enroll_rate$stratum)
+  for (td in total_duration) {
+    event <- NULL
+    for (s in strata) {
+      # subset to stratum
+      enroll <- enroll_rate %>% filter(stratum == s)
+      fail <- fail_rate %>% filter(stratum == s)
+      # update enrollment rates
+      enroll_c <- enroll %>% mutate(rate = rate * q_c)
+      enroll_e <- enroll %>% mutate(rate = rate * q_e)
+      # update failure rates
+      fail_c <- fail
+      fail_e <- fail %>% mutate(fail_rate = fail_rate * hr)
+      # compute expected number of events
+      event_c <- expected_event(
+        enroll_rate = enroll_c,
+        fail_rate = fail_c,
+        total_duration = td,
+        simple = FALSE
+      )
+      event_e <- expected_event(
+        enroll_rate = enroll_e,
+        fail_rate = fail_e,
+        total_duration = td,
+        simple = FALSE
+      )
+      # Combine control and experimental; by period recompute HR, events, information
+      event <- rbind(
+        event_c %>% mutate(treatment = "control"),
+        event_e %>% mutate(treatment = "experimental")
+      ) %>%
+        arrange(t, treatment) %>%
+        ungroup() %>%
+        # recompute HR, events, info by period
+        group_by(t) %>%
+        summarize(
+          stratum = s,
+          info = (sum(1 / event))^(-1),
+          event = sum(event),
+          hr = last(fail_rate) / first(fail_rate)
+        ) %>%
+        rbind(event)
+    }
+    # summarize events in one stratum
+    ans_new <- event %>%
+      mutate(
+        time = td,
+        ln_hr = log(hr),
+        info0 = event * q_c * q_e
+      ) %>%
+      ungroup() %>%
+      # pool strata together for each time period
+      group_by(time, stratum, hr) %>%
+      summarize(
+        t = min(t),
+        event = sum(event),
+        info0 = sum(info0),
+        info = sum(info)
+      )
+    ans <- rbind(ans, ans_new)
+  }
+  # output the results
+  ans <- ans %>%
+    select(time, stratum, t, hr, event, info, info0) %>%
+    group_by(time, stratum) %>%
+    arrange(t, .by_group = TRUE) %>%
     ungroup()
   return(ans)
 }

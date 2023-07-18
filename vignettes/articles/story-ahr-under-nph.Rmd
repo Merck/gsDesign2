@@ -153,11 +153,10 @@ avehr %>% gt()
 This result can be explained by the number of events observed before and after the first 3 months of treatment in each treatment group.
 
 ```{r}
-xx <- ahr(
+xx <- pw_info(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  total_duration = as.numeric(total_duration),
-  simple = FALSE
+  total_duration = as.numeric(total_duration)
 )
 xx %>% gt()
 ```
@@ -329,7 +328,7 @@ ahr2 %>% gt()
 We examine the expected events by stratum.
 
 ```{r}
-xx <- ahr(enroll_rate, fail_rate, total_duration, simple = FALSE)
+xx <- pw_info(enroll_rate, fail_rate, total_duration)
 xx %>% gt()
 ```
 

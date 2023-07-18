@@ -38,8 +38,7 @@ testthat::test_that("expected_time euqal to AHR's result", {
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = t1$time,
-      ratio = 1,
-      simple = TRUE
+      ratio = 1
     )$event
   )
 })
