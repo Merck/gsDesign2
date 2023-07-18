@@ -18,12 +18,10 @@
 
 #' Rounds sample size to an even number for equal design
 #'
-#' @param x An object returned by [fixed_design()], [gs_design_ahr()],
-#'   [gs_design_wlr()], or [gs_design_combo()].
+#' @param x An object returned by fixed_design_xxx() and gs_design_xxx().
 #' @param ... Additional parameters (not used).
 #'
-#' @return A list similar to the output of [fixed_design()],
-#'   [gs_design_ahr()], [gs_design_wlr()], or [gs_design_combo()],
+#' @return A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
 #'   except the sample size is an integer.
 #'
 #' @export to_integer
@@ -44,7 +42,7 @@ to_integer <- function(x, ...) {
 #'
 #' # Average hazard ratio
 #' \donttest{
-#' x <- fixed_design("ahr",
+#' x <- fixed_design_ahr(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
 #'   fail_rate = define_fail_rate(
@@ -57,7 +55,7 @@ to_integer <- function(x, ...) {
 #' x %>% to_integer()
 #'
 #' # FH
-#' x <- fixed_design("fh",
+#' x <- fixed_design_fh(
 #'   alpha = 0.025, power = 0.9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(
@@ -72,7 +70,7 @@ to_integer <- function(x, ...) {
 #' x %>% to_integer()
 #'
 #' # MB
-#' x <- fixed_design("mb",
+#' x <- fixed_design_mb(
 #'   alpha = 0.025, power = 0.9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
 #'   fail_rate = define_fail_rate(

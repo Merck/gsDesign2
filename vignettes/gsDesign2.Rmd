@@ -122,8 +122,7 @@ Under the above enrollment, failure and dropout rate assumptions we now derive s
 ```{r}
 alpha <- .025
 beta <- .1 # 1 - targeted power
-d <- fixed_design(
-  x = "ahr", # Method for computing sample size
+d <- fixed_design_ahr(
   enroll_rate = enroll_rate, # Relative enrollment rates
   fail_rate = fail_rate, # Failure rates from above
   alpha = alpha, # Type I error

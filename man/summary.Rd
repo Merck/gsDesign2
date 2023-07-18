@@ -18,8 +18,7 @@
 )
 }
 \arguments{
-\item{object}{A design object returned by \code{\link[=fixed_design]{fixed_design()}},
-\code{\link[=gs_design_ahr]{gs_design_ahr()}}, \code{\link[=gs_design_wlr]{gs_design_wlr()}}, or \code{\link[=gs_design_combo]{gs_design_combo()}}.}
+\item{object}{A design object returned by fixed_design_xxx() and gs_design_xxx().}
 
 \item{...}{Additional parameters (not used).}
 
@@ -71,8 +70,7 @@ beta <- 0.1
 #        AHR                #
 # ------------------------- #
 # under fixed power
-fixed_design(
-  "ahr",
+fixed_design_ahr(
   alpha = alpha,
   power = 1 - beta,
   enroll_rate = enroll_rate,
@@ -85,8 +83,7 @@ fixed_design(
 #        FH                 #
 # ------------------------- #
 # under fixed power
-fixed_design(
-  "fh",
+fixed_design_fh(
   alpha = alpha,
   power = 1 - beta,
   enroll_rate = enroll_rate,

@@ -18,78 +18,14 @@ study_duration <- 36
 # Experimental / Control randomization ratio
 ratio <- 1
 
-test_that("input checking", {
-  # miss enroll_rate
-  expect_error(
-    fixed_design(
-      "ahr",
-      alpha = 0.025,
-      power = 0.9,
-      fail_rate = fail_rate,
-      study_duration = study_duration,
-      ratio = ratio
-    )
-  )
-
-  # miss fail_rate
-  expect_error(
-    fixed_design(
-      "ahr",
-      alpha = 0.025,
-      power = 0.9,
-      enroll_rate = enroll_rate,
-      study_duration = study_duration,
-      ratio = ratio
-    )
-  )
-
-  # multiple rho for FH/MB
-  expect_error(fixed_design("fh",
-    alpha = 0.025, power = 0.9, enroll_rate = enroll_rate, fail_rate = fail_rate,
-    study_duration = study_duration, ratio = ratio, rho = c(0.5, 0)
-  ))
-  expect_error(fixed_design("mb",
-    alpha = 0.025, power = 0.9, enroll_rate = enroll_rate, fail_rate = fail_rate,
-    study_duration = study_duration, ratio = ratio, rho = c(0.5, 0)
-  ))
-
-  # multiple tau for FH/MB
-  expect_error(fixed_design("fh",
-    alpha = 0.025, power = 0.9, enroll_rate = enroll_rate, fail_rate = fail_rate,
-    study_duration = study_duration, ratio = ratio, tau = c(0.5, 0)
-  ))
-  expect_error(fixed_design("mb",
-    alpha = 0.025, power = 0.9, enroll_rate = enroll_rate, fail_rate = fail_rate,
-    study_duration = study_duration, ratio = ratio, tau = c(0.5, 0)
-  ))
-
-  # redundant tau in FH
-  expect_error(fixed_design("fh",
-    alpha = 0.025, power = 0.9, enroll_rate = enroll_rate, fail_rate = fail_rate,
-    study_duration = study_duration, ratio = ratio, tau = 0.5
-  ))
-
-  # redundant rho/gamma in MB
-  expect_error(fixed_design("mb",
-    alpha = 0.025, power = 0.9, enroll_rate = enroll_rate, fail_rate = fail_rate,
-    study_duration = study_duration, ratio = ratio, rho = 0.5, gamma = 0.5
-  ))
-
-  # p_c/p_e/rd0 not input in RD
-  expect_error(fixed_design("rd", alpha = 0.025, power = 0.9, p_e = 0.1, rd0 = 0, ratio = ratio))
-  expect_error(fixed_design("rd", alpha = 0.025, power = 0.9, p_c = 0.1, rd0 = 0, ratio = ratio))
-  expect_error(fixed_design("rd", alpha = 0.025, power = 0.9, p_c = 0.2, p_e = 0.1, ratio = ratio))
-  expect_error(fixed_design("rd", alpha = 0.025, p_c = 0.2, p_e = 0.1, rd0 = 0, ratio = ratio))
-})
-
 test_that("AHR", {
-  x <- fixed_design("ahr",
+  x <- fixed_design_ahr(
     alpha = 0.025, power = 0.9,
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio
   )
 
-  y <- fixed_design("ahr",
+  y <- fixed_design_ahr(
     alpha = 0.025,
     enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio
@@ -99,14 +35,14 @@ test_that("AHR", {
 })
 
 test_that("FH", {
-  x <- fixed_design("fh",
+  x <- fixed_design_fh(
     alpha = 0.025, power = 0.9,
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
     rho = 0.5, gamma = 0.5
   )
 
-  y <- fixed_design("fh",
+  y <- fixed_design_fh(
     alpha = 0.025,
     enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
@@ -117,14 +53,14 @@ test_that("FH", {
 })
 
 test_that("MB", {
-  x <- fixed_design("mb",
+  x <- fixed_design_mb(
     alpha = 0.025, power = 0.9,
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
     tau = 8
   )
 
-  y <- fixed_design("mb",
+  y <- fixed_design_mb(
     alpha = 0.025,
     enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
@@ -135,13 +71,13 @@ test_that("MB", {
 })
 
 test_that("LF", {
-  x <- fixed_design("lf",
+  x <- fixed_design_lf(
     alpha = 0.025, power = 0.9,
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio
   )
 
-  y <- fixed_design("lf",
+  y <- fixed_design_lf(
     alpha = 0.025,
     enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio
@@ -151,7 +87,7 @@ test_that("LF", {
 })
 
 test_that("MaxCombo", {
-  x <- fixed_design("maxcombo",
+  x <- fixed_design_maxcombo(
     alpha = 0.025, power = 0.9,
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
@@ -160,7 +96,7 @@ test_that("MaxCombo", {
     tau = c(-1, 4, 6)
   )
 
-  y <- fixed_design("maxcombo",
+  y <- fixed_design_maxcombo(
     alpha = 0.025,
     enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
@@ -173,14 +109,14 @@ test_that("MaxCombo", {
 })
 
 test_that("RMST", {
-  x <- fixed_design("rmst",
+  x <- fixed_design_rmst(
     alpha = 0.025, power = 0.9,
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
     tau = 18
   )
 
-  y <- fixed_design("rmst",
+  y <- fixed_design_rmst(
     alpha = 0.025,
     enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
@@ -191,16 +127,14 @@ test_that("RMST", {
 })
 
 test_that("RD", {
-  x <- fixed_design("rd",
+  x <- fixed_design_rd(
     alpha = 0.025, power = 0.9,
-    p_c = .15, p_e = .1, rd0 = 0, ratio = ratio,
-    tau = 18
+    p_c = .15, p_e = .1, rd0 = 0, ratio = ratio
   )
 
-  y <- fixed_design("rd",
+  y <- fixed_design_rd(
     alpha = 0.025, n = x$analysis$n,
-    p_c = .15, p_e = .1, rd0 = 0, ratio = ratio,
-    tau = 18
+    p_c = .15, p_e = .1, rd0 = 0, ratio = ratio
   )
 
   expect(y$analysis$power, 0.9)
