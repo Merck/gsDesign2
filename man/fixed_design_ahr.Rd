@@ -35,7 +35,7 @@ A table.
 }
 \description{
 Computes fixed design sample size (given power) or power (given sample size)
-for AHR methods.
+for AHR method.
 Returns a list with a basic summary.
 }
 \examples{
