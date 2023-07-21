@@ -2,10 +2,7 @@
 % Please edit documentation in R/fixed_design_maxcombo.R
 \name{fixed_design_maxcombo}
 \alias{fixed_design_maxcombo}
-\title{Fixed design using maxcombo method.
-Computes fixed design sample size (given power) or power (given sample size)
-for maxcombo method.
-Returns a list with a basic summary.}
+\title{Fixed design using MaxCombo method}
 \usage{
 fixed_design_maxcombo(
   alpha = 0.025,
@@ -43,14 +40,14 @@ and \code{1 - alpha} otherwise).}
 A table.
 }
 \description{
-Fixed design using maxcombo method.
 Computes fixed design sample size (given power) or power (given sample size)
-for maxcombo method.
+for MaxCombo method.
 Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)
-# example 1: given power and compute sample size
+
+# Example 1: given power and compute sample size
 x <- fixed_design_maxcombo(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -64,7 +61,8 @@ x <- fixed_design_maxcombo(
   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 )
 x \%>\% summary()
-# example 2: given sample size and compute power
+
+# Example 2: given sample size and compute power
 x <- fixed_design_maxcombo(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),

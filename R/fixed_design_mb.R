@@ -16,12 +16,12 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Computes fixed design sample size for Magirr-Burman method.
-#' Returns a tibble with a basic summary.
-#' Fixed design using Magirr-Burman method.
+#' Fixed design using Magirr-Burman method
+#'
 #' Computes fixed design sample size (given power) or power (given sample size)
 #' for Magirr-Burman method.
 #' Returns a list with a basic summary.
+#'
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_wlr
 #' @param power Power (`NULL` to compute power or strictly between 0
@@ -29,11 +29,15 @@
 #' @param ratio Experimental:Control randomization ratio.
 #' @param study_duration Study duration.
 #' @param tau Test parameter of Magirr-Burman method.
+#'
 #' @return A table.
+#'
 #' @export
+#'
 #' @examples
 #' library(dplyr)
-#' # example 1: given power and compute sample size
+#'
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_mb(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -47,7 +51,8 @@
 #'   tau = 4
 #' )
 #' x %>% summary()
-#' # example 2: given sample size and compute power
+#'
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_mb(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
