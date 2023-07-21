@@ -87,20 +87,21 @@
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(16, 19, 26))
 #' gs_info_ahr(event = c(30, 40, 50), analysis_time = c(14, 20, 24))
 #' }
-gs_info_ahr <- function(enroll_rate = define_enroll_rate(
-                          duration = c(2, 2, 10),
-                          rate = c(3, 6, 9)
-                        ),
-                        fail_rate = define_fail_rate(
-                          duration = c(3, 100),
-                          fail_rate = log(2) / c(9, 18),
-                          hr = c(.9, .6),
-                          dropout_rate = .001
-                        ),
-                        ratio = 1, # experimental:Control randomization ratio
-                        event = NULL, # event at analyses
-                        analysis_time = NULL, # times of analyses
-                        interval = c(.01, 100)) {
+gs_info_ahr <- function(
+    enroll_rate = define_enroll_rate(
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9)
+    ),
+    fail_rate = define_fail_rate(
+      duration = c(3, 100),
+      fail_rate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropout_rate = .001
+    ),
+    ratio = 1, # experimental:Control randomization ratio
+    event = NULL, # event at analyses
+    analysis_time = NULL, # times of analyses
+    interval = c(.01, 100)) {
   # ----------------------------#
   #    check input values       #
   # ----------------------------#

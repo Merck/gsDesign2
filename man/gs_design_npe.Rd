@@ -277,7 +277,6 @@ gs_power_npe(
   upar = (xx \%>\% filter(bound == "upper"))$z,
   lpar = -(xx \%>\% filter(bound == "upper"))$z
 )
-
 }
 \author{
 Keaven Anderson \email{keaven_anderson@merck.com}

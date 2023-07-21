@@ -40,7 +40,8 @@ Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)
-# example 1: given power and compute sample size
+
+# Example 1: given power and compute sample size
 x <- fixed_design_ahr(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -53,7 +54,8 @@ x <- fixed_design_ahr(
   study_duration = 36
 )
 x \%>\% summary()
-# example 2: given sample size and compute power
+
+# Example 2: given sample size and compute power
 x <- fixed_design_ahr(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),

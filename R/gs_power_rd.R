@@ -239,32 +239,33 @@
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
-gs_power_rd <- function(p_c = tibble::tibble(
-                          stratum = "All",
-                          rate = .2
-                        ),
-                        p_e = tibble::tibble(
-                          stratum = "All",
-                          rate = .15
-                        ),
-                        n = tibble::tibble(
-                          stratum = "All",
-                          n = c(40, 50, 60),
-                          analysis = 1:3
-                        ),
-                        rd0 = 0,
-                        ratio = 1,
-                        weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
-                        upper = gs_b,
-                        lower = gs_b,
-                        upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
-                        lpar = c(qnorm(.1), rep(-Inf, 2)),
-                        info_scale = c("h0_h1_info", "h0_info", "h1_info"),
-                        binding = FALSE,
-                        test_upper = TRUE,
-                        test_lower = TRUE,
-                        r = 18,
-                        tol = 1e-6) {
+gs_power_rd <- function(
+    p_c = tibble::tibble(
+      stratum = "All",
+      rate = .2
+    ),
+    p_e = tibble::tibble(
+      stratum = "All",
+      rate = .15
+    ),
+    n = tibble::tibble(
+      stratum = "All",
+      n = c(40, 50, 60),
+      analysis = 1:3
+    ),
+    rd0 = 0,
+    ratio = 1,
+    weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
+    upper = gs_b,
+    lower = gs_b,
+    upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+    lpar = c(qnorm(.1), rep(-Inf, 2)),
+    info_scale = c("h0_h1_info", "h0_info", "h1_info"),
+    binding = FALSE,
+    test_upper = TRUE,
+    test_lower = TRUE,
+    r = 18,
+    tol = 1e-6) {
   # get the number of analysis
   n_analysis <- max(n$analysis)
   # get the info_scale
@@ -348,13 +349,17 @@ gs_power_rd <- function(p_c = tibble::tibble(
   suppressMessages(
     analysis <- x %>%
       select(analysis, n, rd, rd0, theta1, theta0) %>%
-      left_join(y_h1 %>%
-        select(analysis, info, info_frac) %>%
-        unique()) %>%
-      left_join(y_h0 %>%
-        select(analysis, info, info_frac) %>%
-        dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
-        unique()) %>%
+      left_join(
+        y_h1 %>%
+          select(analysis, info, info_frac) %>%
+          unique()
+      ) %>%
+      left_join(
+        y_h0 %>%
+          select(analysis, info, info_frac) %>%
+          dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+          unique()
+      ) %>%
       select(analysis, n, rd, rd0, theta1, theta0, info, info0, info_frac, info_frac0)
   )
 

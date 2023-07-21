@@ -16,21 +16,27 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using Lachin-Foulkes method (Farrington and Manning 1990).
+#' Fixed design using Lachin-Foulkes method
+#'
 #' Computes fixed design sample size (given power) or power (given sample size)
-#' for Lachin-Foulkes method method.
+#' for Lachin-Foulkes method (Lachin and Foulkes, 1986).
 #' Returns a list with a basic summary.
+#'
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).
 #' @param ratio Experimental:Control randomization ratio.
 #' @param study_duration Study duration.
 #' @inheritParams gs_design_ahr
+#'
 #' @return A table.
+#'
 #' @export
+#'
 #' @examples
 #' library(dplyr)
-#' # example 1: given power and compute sample size
+#'
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_lf(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -43,7 +49,8 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-#' # example 2: given sample size and compute power
+#'
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_fh(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -56,13 +63,13 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-fixed_design_lf <- function(alpha = 0.025,
-                            power = NULL,
-                            ratio = 1,
-                            study_duration = 36,
-                            enroll_rate,
-                            fail_rate
-                            ) {
+fixed_design_lf <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #

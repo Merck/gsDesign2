@@ -172,23 +172,23 @@
 #'   ratio = 1,
 #'   weight = "invar_h1"
 #' )
-#'
-gs_info_rd <- function(p_c = tibble::tibble(
-                         stratum = "All",
-                         rate = .2
-                       ),
-                       p_e = tibble::tibble(
-                         stratum = "All",
-                         rate = .15
-                       ),
-                       n = tibble::tibble(
-                         stratum = "All",
-                         n = c(100, 200, 300),
-                         analysis = 1:3
-                       ),
-                       rd0 = 0,
-                       ratio = 1,
-                       weight = c("unstratified", "ss", "invar_h0", "invar_h1")) {
+gs_info_rd <- function(
+    p_c = tibble::tibble(
+      stratum = "All",
+      rate = .2
+    ),
+    p_e = tibble::tibble(
+      stratum = "All",
+      rate = .15
+    ),
+    n = tibble::tibble(
+      stratum = "All",
+      n = c(100, 200, 300),
+      analysis = 1:3
+    ),
+    rd0 = 0,
+    ratio = 1,
+    weight = c("unstratified", "ss", "invar_h0", "invar_h1")) {
   n_analysis <- max(n$analysis)
   weight <- match.arg(weight)
 

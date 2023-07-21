@@ -62,10 +62,11 @@
 #' )
 #'
 #' gs_create_arm(enroll_rate, fail_rate, ratio = 1)
-gs_create_arm <- function(enroll_rate,
-                          fail_rate,
-                          ratio,
-                          total_time = 1e6) {
+gs_create_arm <- function(
+    enroll_rate,
+    fail_rate,
+    ratio,
+    total_time = 1e6) {
   n_stratum <- length(unique(enroll_rate$stratum))
   if (n_stratum > 1) {
     stop("Only one stratum is supported")
@@ -175,12 +176,13 @@ prob_event.arm <- function(arm, tmin = 0, tmax = arm$total_time) {
 }
 
 #' @noRd
-gs_delta_wlr <- function(arm0,
-                         arm1,
-                         tmax = NULL,
-                         weight = wlr_weight_fh,
-                         approx = "asymptotic",
-                         normalization = FALSE) {
+gs_delta_wlr <- function(
+    arm0,
+    arm1,
+    tmax = NULL,
+    weight = wlr_weight_fh,
+    approx = "asymptotic",
+    normalization = FALSE) {
   if (is.null(tmax)) {
     tmax <- arm0$total_time
   }
@@ -189,8 +191,7 @@ gs_delta_wlr <- function(arm0,
   p0 <- 1 - p1
 
   if (approx == "event_driven") {
-    if (sum(arm0$surv_shape != arm1$surv_shape) > 0 ||
-      length(unique(arm1$surv_scale / arm0$surv_scale)) > 1) {
+    if (sum(arm0$surv_shape != arm1$surv_shape) > 0 || length(unique(arm1$surv_scale / arm0$surv_scale)) > 1) {
       stop("gs_delta_wlr(): Hazard is not proportional over time.", call. = FALSE)
     } else if (any(wlr_weight_fh(seq(0, tmax, length.out = 10), arm0, arm1) != "1")) {
       stop("gs_delta_wlr(): Weight must equal `1` when `approx = 'event_driven'.", call. = FALSE)
