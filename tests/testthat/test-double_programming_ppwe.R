@@ -69,11 +69,9 @@ test_2_ppwe <- function(
     } else if (val <= boundary[2]) {
       H[t] <- boundary[1] * rate[1] + (val - boundary[1]) * rate[2]
     } else if (val <= boundary[3]) {
-      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (val -
-        boundary[3]) * rate[3]
+      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (val - boundary[3]) * rate[3]
     } else {
-      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (boundary[3] -
-        boundary[2]) * rate[3]
+      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (boundary[3] - boundary[2]) * rate[3]
     }
   }
   surv <- exp(-H)

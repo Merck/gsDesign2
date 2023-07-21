@@ -491,9 +491,11 @@ gs_design_npe <- function(
   # combine probability under H0 and H1
   suppressMessages(
     ans <- ans_h1 %>%
-      full_join(ans_h0 %>%
-        select(analysis, bound, probability) %>%
-        dplyr::rename(probability0 = probability))
+      full_join(
+        ans_h0 %>%
+          select(analysis, bound, probability) %>%
+          dplyr::rename(probability0 = probability)
+      )
   )
 
   ans <- ans %>% select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)

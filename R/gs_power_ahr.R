@@ -242,13 +242,17 @@ gs_power_ahr <- function(
     analysis <- x %>%
       select(analysis, time, event, ahr) %>%
       mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
-      left_join(y_h1 %>%
-        select(analysis, info, info_frac, theta) %>%
-        unique()) %>%
-      left_join(y_h0 %>%
-        select(analysis, info, info_frac) %>%
-        dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
-        unique()) %>%
+      left_join(
+        y_h1 %>%
+          select(analysis, info, info_frac, theta) %>%
+          unique()
+      ) %>%
+      left_join(
+        y_h0 %>%
+          select(analysis, info, info_frac) %>%
+          dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+          unique()
+      ) %>%
       select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
       arrange(analysis)
   )

@@ -349,13 +349,17 @@ gs_power_rd <- function(
   suppressMessages(
     analysis <- x %>%
       select(analysis, n, rd, rd0, theta1, theta0) %>%
-      left_join(y_h1 %>%
-        select(analysis, info, info_frac) %>%
-        unique()) %>%
-      left_join(y_h0 %>%
-        select(analysis, info, info_frac) %>%
-        dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
-        unique()) %>%
+      left_join(
+        y_h1 %>%
+          select(analysis, info, info_frac) %>%
+          unique()
+      ) %>%
+      left_join(
+        y_h0 %>%
+          select(analysis, info, info_frac) %>%
+          dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+          unique()
+      ) %>%
       select(analysis, n, rd, rd0, theta1, theta0, info, info0, info_frac, info_frac0)
   )
 

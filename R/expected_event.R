@@ -213,14 +213,18 @@ expected_event <- function(
     arrange(start_fail) %>%
     # compute expected events as nbar in a sub-interval
     mutate(
-      d = ifelse(fail_rate_var == 0, 0, big_q * (1 - q) * fail_rate_var / (fail_rate_var + dropout_rate_var)),
-      nbar = ifelse(fail_rate_var == 0,
+      d = ifelse(
+        fail_rate_var == 0,
+        0,
+        big_q * (1 - q) * fail_rate_var / (fail_rate_var + dropout_rate_var)
+      ),
+      nbar = ifelse(
+        fail_rate_var == 0,
         0,
         big_g * d +
           (fail_rate_var * big_q * enroll_rate_var) /
             (fail_rate_var + dropout_rate_var) *
-            (duration - (1 - q) /
-              (fail_rate_var + dropout_rate_var))
+            (duration - (1 - q) / (fail_rate_var + dropout_rate_var))
       )
     )
 

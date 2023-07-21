@@ -233,11 +233,8 @@ gs_design_ahr <- function(
   # --------------------------------------------- #
   check_analysis_time(analysis_time)
   check_info_frac(info_frac)
-  if ((length(analysis_time) > 1) &&
-    (length(info_frac) > 1) &&
-    (length(info_frac) != length(analysis_time))) {
-    stop("gs_design_ahr() info_frac and analysis_time
-         must have the same length if both have length > 1!")
+  if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) {
+    stop("gs_design_ahr() info_frac and analysis_time must have the same length if both have length > 1.")
   }
 
   # --------------------------------------------- #

@@ -129,46 +129,50 @@ testthat::test_that(
 )
 
 ### test2:with mutiple failrates, long FU
-testthat::test_that("expected events is different from double-programmed vs expected_event,
-                    with mutiple failrates, long FU", {
-  total_duration <- 80
-  testthat::expect_equal(
-    test_Event(enroll_rate, fail_rate, total_duration),
-    expected_event(
-      enroll_rate,
-      fail_rate,
-      total_duration,
-      simple
+testthat::test_that(
+  "expected events is different from double-programmed vs expected_event, with mutiple failrates, long FU",
+  {
+    total_duration <- 80
+    testthat::expect_equal(
+      test_Event(enroll_rate, fail_rate, total_duration),
+      expected_event(
+        enroll_rate,
+        fail_rate,
+        total_duration,
+        simple
+      )
     )
-  )
-})
+  }
+)
 
 ### test3:with mutiple failrates and with multiple enrollment duration
-testthat::test_that("expected events is different from double-programmed vs expected_event,
-                    with mutiple enrollment duration", {
-  enrollRates <- define_enroll_rate(
-    duration = c(50, 10),
-    rate = c(10, 5)
-  )
-  failRates <- define_fail_rate(
-    duration = c(10, 20, 10),
-    fail_rate = log(2) / c(5, 10, 5),
-    dropout_rate = c(0.1, 0.2, 0),
-    hr = 1
-  )
-
-  fail_rate$failRate <- fail_rate$fail_rate
-  fail_rate$dropoutRate <- fail_rate$dropout_rate
-  failRates <- fail_rate
-
-  total_duration <- 80
-  testthat::expect_equal(
-    test_Event(enroll_rate, fail_rate, total_duration),
-    expected_event(
-      enroll_rate,
-      fail_rate,
-      total_duration,
-      simple
+testthat::test_that(
+  "expected events is different from double-programmed vs expected_event, with mutiple enrollment duration",
+  {
+    enrollRates <- define_enroll_rate(
+      duration = c(50, 10),
+      rate = c(10, 5)
     )
-  )
-})
+    failRates <- define_fail_rate(
+      duration = c(10, 20, 10),
+      fail_rate = log(2) / c(5, 10, 5),
+      dropout_rate = c(0.1, 0.2, 0),
+      hr = 1
+    )
+
+    fail_rate$failRate <- fail_rate$fail_rate
+    fail_rate$dropoutRate <- fail_rate$dropout_rate
+    failRates <- fail_rate
+
+    total_duration <- 80
+    testthat::expect_equal(
+      test_Event(enroll_rate, fail_rate, total_duration),
+      expected_event(
+        enroll_rate,
+        fail_rate,
+        total_duration,
+        simple
+      )
+    )
+  }
+)

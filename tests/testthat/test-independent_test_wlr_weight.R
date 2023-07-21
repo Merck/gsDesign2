@@ -20,12 +20,14 @@ test_that("Validate the function based on simple calculation", {
 
   # Calculate theoretical results
   # Tarone-Ware weight is the (N at risk)^factor
-  wlrn <- (npsurvSS::psurv(1:36, arm0, lower.tail = FALSE) *
-    npsurvSS::ploss(1:36, arm0, lower.tail = FALSE) *
-    npsurvSS::paccr(pmin(arm0$accr_time, 36 - 1:36), arm0) +
-    npsurvSS::psurv(1:36, arm1, lower.tail = FALSE) *
-      npsurvSS::ploss(1:36, arm1, lower.tail = FALSE) *
-      npsurvSS::paccr(pmin(arm1$accr_time, 36 - 1:36), arm1) * 2)^0.666
+  wlrn <- (
+    npsurvSS::psurv(1:36, arm0, lower.tail = FALSE) *
+      npsurvSS::ploss(1:36, arm0, lower.tail = FALSE) *
+      npsurvSS::paccr(pmin(arm0$accr_time, 36 - 1:36), arm0) +
+      npsurvSS::psurv(1:36, arm1, lower.tail = FALSE) *
+        npsurvSS::ploss(1:36, arm1, lower.tail = FALSE) *
+        npsurvSS::paccr(pmin(arm1$accr_time, 36 - 1:36), arm1) * 2
+  )^0.666
 
   # Calculate FH weights
   survprob <- 1 - npsurvSS::psurv(1:36, arm0) / 3 - npsurvSS::psurv(1:36, arm1) * 2 / 3
