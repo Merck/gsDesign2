@@ -97,18 +97,19 @@
 #'   hr = c(.9, .75, .8, .6)
 #' )
 #' ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
-ahr <- function(enroll_rate = define_enroll_rate(
-                  duration = c(2, 2, 10),
-                  rate = c(3, 6, 9)
-                ),
-                fail_rate = define_fail_rate(
-                  duration = c(3, 100),
-                  fail_rate = log(2) / c(9, 18),
-                  hr = c(.9, .6),
-                  dropout_rate = .001
-                ),
-                total_duration = 30,
-                ratio = 1) {
+ahr <- function(
+    enroll_rate = define_enroll_rate(
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9)
+    ),
+    fail_rate = define_fail_rate(
+      duration = c(3, 100),
+      fail_rate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropout_rate = .001
+    ),
+    total_duration = 30,
+    ratio = 1) {
   res <- pw_info(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,

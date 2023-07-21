@@ -37,7 +37,7 @@
 #' @examples
 #' library(dplyr)
 #'
-#'# Example 1: given power and compute sample size
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_milestone(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -66,13 +66,14 @@
 #'   tau = 18
 #' )
 #' x %>% summary()
-fixed_design_milestone <- function(alpha = 0.025,
-                                   power = NULL,
-                                   ratio = 1,
-                                   enroll_rate,
-                                   fail_rate,
-                                   study_duration = 36,
-                                   tau = NULL) {
+fixed_design_milestone <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    enroll_rate,
+    fail_rate,
+    study_duration = 36,
+    tau = NULL) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -101,14 +102,16 @@ fixed_design_milestone <- function(alpha = 0.025,
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       analysis_time = study_duration,
       test = "survival_difference",
-      tau = tau)
+      tau = tau
+    )
   } else {
     d <- fixed_design_size_rmst(
       alpha = alpha, beta = 1 - power, ratio = ratio,
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       analysis_time = study_duration,
       test = "survival_difference",
-      tau = tau)
+      tau = tau
+    )
   }
   # get the output of MaxCombo
   ans <- tibble::tibble(

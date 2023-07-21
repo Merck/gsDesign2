@@ -174,5 +174,4 @@ gs_info_rd(
   ratio = 1,
   weight = "invar_h1"
 )
-
 }

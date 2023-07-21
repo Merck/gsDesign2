@@ -42,21 +42,24 @@
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = 0.9, p_c = .15, p_e = .1,
-#'   rd0 = 0, ratio = 1)
+#'   rd0 = 0, ratio = 1
+#' )
 #' x %>% summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = NULL, p_c = .15, p_e = .1,
-#'   rd0 = 0, n = 2000, ratio = 1)
+#'   rd0 = 0, n = 2000, ratio = 1
+#' )
 #' x %>% summary()
-fixed_design_rd <- function(alpha = 0.025,
-                            power = NULL,
-                            ratio = 1,
-                            p_c,
-                            p_e,
-                            rd0 = 0,
-                            n = NULL) {
+fixed_design_rd <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    p_c,
+    p_e,
+    rd0 = 0,
+    n = NULL) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #

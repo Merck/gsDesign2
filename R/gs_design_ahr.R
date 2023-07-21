@@ -191,31 +191,35 @@
 #'   lpar = rep(-Inf, 3)
 #' )
 #' }
-gs_design_ahr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
-                          fail_rate = define_fail_rate(
-                            duration = c(3, 100),
-                            fail_rate = log(2) / c(9, 18),
-                            hr = c(.9, .6),
-                            dropout_rate = .001
-                          ),
-                          alpha = 0.025, beta = 0.1,
-                          info_frac = NULL, analysis_time = 36,
-                          ratio = 1, binding = FALSE,
-                          upper = gs_b,
-                          upar = gsDesign::gsDesign(
-                            k = 3, test.type = 1,
-                            n.I = c(.25, .75, 1),
-                            sfu = sfLDOF, sfupar = NULL
-                          )$upper$bound,
-                          lower = gs_b,
-                          lpar = c(qnorm(.1), -Inf, -Inf),
-                          h1_spending = TRUE,
-                          test_upper = TRUE,
-                          test_lower = TRUE,
-                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
-                          r = 18,
-                          tol = 1e-6,
-                          interval = c(.01, 100)) {
+gs_design_ahr <- function(
+    enroll_rate = define_enroll_rate(
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9)
+    ),
+    fail_rate = define_fail_rate(
+      duration = c(3, 100),
+      fail_rate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropout_rate = .001
+    ),
+    alpha = 0.025, beta = 0.1,
+    info_frac = NULL, analysis_time = 36,
+    ratio = 1, binding = FALSE,
+    upper = gs_b,
+    upar = gsDesign::gsDesign(
+      k = 3, test.type = 1,
+      n.I = c(.25, .75, 1),
+      sfu = sfLDOF, sfupar = NULL
+    )$upper$bound,
+    lower = gs_b,
+    lpar = c(qnorm(.1), -Inf, -Inf),
+    h1_spending = TRUE,
+    test_upper = TRUE,
+    test_lower = TRUE,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info"),
+    r = 18,
+    tol = 1e-6,
+    interval = c(.01, 100)) {
   # --------------------------------------------- #
   #     initialization                             #
   # --------------------------------------------- #

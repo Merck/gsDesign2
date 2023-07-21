@@ -42,7 +42,7 @@ test_that("data frame returned from expected_event not as expected", {
   testthat::expect_equal(xx, expected)
 })
 
-# double programming tests
+# Double programming tests
 nEvent <- function(followup) {
   failduration <- failRates$duration
   failtime <- cumsum(failduration)

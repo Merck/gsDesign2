@@ -66,14 +66,15 @@
 #'   rho = 1, gamma = 1
 #' )
 #' x %>% summary()
-fixed_design_fh <- function(alpha = 0.025,
-                            power = NULL,
-                            ratio = 1,
-                            study_duration = 36,
-                            enroll_rate,
-                            fail_rate,
-                            rho = 0,
-                            gamma = 0) {
+fixed_design_fh <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate,
+    rho = 0,
+    gamma = 0) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -110,7 +111,8 @@ fixed_design_fh <- function(alpha = 0.025,
       ratio = ratio,
       weight = weight,
       analysis_time = study_duration,
-      event = NULL)
+      event = NULL
+    )
   } else {
     d <- gs_design_wlr(
       alpha = alpha, beta = 1 - power,

@@ -15,15 +15,13 @@ test_eAccrual <- function(x, enroll_rate) {
         (boundary[2] - boundary[1]) * rate[2] + (val - boundary[2]) * rate[3]
     } else {
       eAc2[t] <- boundary[1] * rate[1] +
-        (boundary[2] - boundary[1]) * rate[2] + (boundary[3] - boundary[2]) *
-          rate[3]
+        (boundary[2] - boundary[1]) * rate[2] + (boundary[3] - boundary[2]) * rate[3]
     }
   }
 
   ind <- !is.na(match(xvals, x))
   return(eAc2[ind])
 }
-
 
 testthat::test_that("expect_accrua doesn't match with the double programming e_Acurral function", {
   testthat::expect_equal(
@@ -44,7 +42,6 @@ testthat::test_that("expect_accrua doesn't match with the double programming e_A
   )
 })
 
-
 testthat::test_that("expect_accrual fail to identify a non-numerical input", {
   x <- c(0:20, "NA")
   expect_error(expect_message(
@@ -61,7 +58,6 @@ testthat::test_that("expect_accrual fail to identify a negative input", {
   ))
 })
 
-
 testthat::test_that("expect_accrual fail to identify a non-increasing input", {
   x <- 20:1
   expect_error(expect_message(
@@ -70,8 +66,7 @@ testthat::test_that("expect_accrual fail to identify a non-increasing input", {
   ))
 })
 
-
-## add test cases for stratified design
+# Add test cases for stratified design
 testthat::test_that("expect_accrua fail to identify a non-dataframe input", {
   x <- expected_accrual(
     time = 40,

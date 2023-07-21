@@ -66,13 +66,14 @@
 #'   tau = 18
 #' )
 #' x %>% summary()
-fixed_design_rmst <- function(alpha = 0.025,
-                              power = NULL,
-                              ratio = 1,
-                              study_duration = 36,
-                              enroll_rate,
-                              fail_rate,
-                              tau = NULL) {
+fixed_design_rmst <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate,
+    tau = NULL) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #

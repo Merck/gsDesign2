@@ -63,13 +63,13 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-fixed_design_lf <- function(alpha = 0.025,
-                            power = NULL,
-                            ratio = 1,
-                            study_duration = 36,
-                            enroll_rate,
-                            fail_rate
-                            ) {
+fixed_design_lf <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #

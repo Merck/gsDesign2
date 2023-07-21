@@ -66,13 +66,14 @@
 #'   tau = 4
 #' )
 #' x %>% summary()
-fixed_design_mb <- function(alpha = 0.025,
-                            power = NULL,
-                            ratio = 1,
-                            study_duration = 36,
-                            enroll_rate,
-                            fail_rate,
-                            tau = 6) {
+fixed_design_mb <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate,
+    tau = 6) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -106,7 +107,8 @@ fixed_design_mb <- function(alpha = 0.025,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
       analysis_time = study_duration,
-      event = NULL)
+      event = NULL
+    )
   } else {
     d <- gs_design_wlr(
       alpha = alpha,
@@ -117,7 +119,8 @@ fixed_design_mb <- function(alpha = 0.025,
       weight = weight,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
-      analysis_time = study_duration)
+      analysis_time = study_duration
+    )
   }
   # get the output of MB
   ans <- tibble::tibble(
@@ -131,7 +134,8 @@ fixed_design_mb <- function(alpha = 0.025,
   )
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
-    design = "mb", design_par = list(tau = tau))
+    design = "mb", design_par = list(tau = tau)
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

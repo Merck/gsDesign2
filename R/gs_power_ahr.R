@@ -140,37 +140,38 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 #' )
 #' }
-gs_power_ahr <- function(enroll_rate = define_enroll_rate(
-                           duration = c(2, 2, 10),
-                           rate = c(3, 6, 9)
-                         ),
-                         fail_rate = define_fail_rate(
-                           duration = c(3, 100),
-                           fail_rate = log(2) / c(9, 18),
-                           hr = c(.9, .6),
-                           dropout_rate = rep(.001, 2)
-                         ),
-                         event = c(30, 40, 50),
-                         analysis_time = NULL,
-                         upper = gs_b,
-                         upar = gsDesign(
-                           k = length(event),
-                           test.type = 1,
-                           n.I = event,
-                           maxn.IPlan = max(event),
-                           sfu = sfLDOF,
-                           sfupar = NULL
-                         )$upper$bound,
-                         lower = gs_b,
-                         lpar = c(qnorm(.1), rep(-Inf, 2)),
-                         test_lower = TRUE,
-                         test_upper = TRUE,
-                         ratio = 1,
-                         binding = FALSE,
-                         info_scale = c("h0_h1_info", "h0_info", "h1_info"),
-                         r = 18,
-                         tol = 1e-6,
-                         interval = c(.01, 100)) {
+gs_power_ahr <- function(
+    enroll_rate = define_enroll_rate(
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9)
+    ),
+    fail_rate = define_fail_rate(
+      duration = c(3, 100),
+      fail_rate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropout_rate = rep(.001, 2)
+    ),
+    event = c(30, 40, 50),
+    analysis_time = NULL,
+    upper = gs_b,
+    upar = gsDesign(
+      k = length(event),
+      test.type = 1,
+      n.I = event,
+      maxn.IPlan = max(event),
+      sfu = sfLDOF,
+      sfupar = NULL
+    )$upper$bound,
+    lower = gs_b,
+    lpar = c(qnorm(.1), rep(-Inf, 2)),
+    test_lower = TRUE,
+    test_upper = TRUE,
+    ratio = 1,
+    binding = FALSE,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info"),
+    r = 18,
+    tol = 1e-6,
+    interval = c(.01, 100)) {
   # Get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
 

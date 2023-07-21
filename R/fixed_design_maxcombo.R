@@ -68,15 +68,16 @@
 #'   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 #' )
 #' x %>% summary()
-fixed_design_maxcombo <- function(alpha = 0.025,
-                                  power = NULL,
-                                  ratio = 1,
-                                  study_duration = 36,
-                                  enroll_rate,
-                                  fail_rate,
-                                  rho = c(0, 0, 1),
-                                  gamma = c(0, 1, 0),
-                                  tau = rep(-1, 3)) {
+fixed_design_maxcombo <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate,
+    rho = c(0, 0, 1),
+    gamma = c(0, 1, 0),
+    tau = rep(-1, 3)) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -100,7 +101,7 @@ fixed_design_maxcombo <- function(alpha = 0.025,
     rho = rho,
     gamma = gamma,
     tau = tau
-    ) %>%
+  ) %>%
     mutate(test = seq(1, length(rho)), analysis = 1, analysis_time = study_duration)
   # check if power is NULL or not
   if (is.null(power)) {

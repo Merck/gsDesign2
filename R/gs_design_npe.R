@@ -252,15 +252,15 @@
 #'   upar = (xx %>% filter(bound == "upper"))$z,
 #'   lpar = -(xx %>% filter(bound == "upper"))$z
 #' )
-#'
-gs_design_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
-                          info = 1, info0 = NULL, info1 = NULL, # 3 info
-                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
-                          alpha = 0.025, beta = .1,
-                          upper = gs_b, upar = qnorm(.975),
-                          lower = gs_b, lpar = -Inf,
-                          test_upper = TRUE, test_lower = TRUE, binding = FALSE,
-                          r = 18, tol = 1e-6) {
+gs_design_npe <- function(
+    theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
+    info = 1, info0 = NULL, info1 = NULL, # 3 info
+    info_scale = c("h0_h1_info", "h0_info", "h1_info"),
+    alpha = 0.025, beta = .1,
+    upper = gs_b, upar = qnorm(.975),
+    lower = gs_b, lpar = -Inf,
+    test_upper = TRUE, test_lower = TRUE, binding = FALSE,
+    r = 18, tol = 1e-6) {
   # --------------------------------------------- #
   #     check & set up parameters                 #
   # --------------------------------------------- #
