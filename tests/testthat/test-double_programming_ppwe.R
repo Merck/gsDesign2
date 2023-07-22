@@ -1,6 +1,10 @@
-test_ppwe <- function(x = 0:20,
-                      failRates = tibble::tibble(duration = c(3, 100), rate = log(2) / c(9, 18)),
-                      lower.tail = FALSE) {
+test_ppwe <- function(
+    x = 0:20,
+    failRates = tibble::tibble(
+      duration = c(3, 100),
+      rate = log(2) / c(9, 18)
+    ),
+    lower.tail = FALSE) {
   boundary <- cumsum(failRates$duration)
   rate <- failRates$rate
   xvals <- unique(c(x, boundary))
@@ -47,12 +51,13 @@ test_ppwe <- function(x = 0:20,
 
 # Double programming of ppwe when there are 3 steps of failure rates.
 # The method is a simple extention of test_ppwe.
-test_2_ppwe <- function(x = 0:20,
-                        failRates = tibble::tibble(
-                          duration = c(3, 20, 100),
-                          rate = log(2) / c(9, 12, 18)
-                        ),
-                        lower.tail = FALSE) {
+test_2_ppwe <- function(
+    x = 0:20,
+    failRates = tibble::tibble(
+      duration = c(3, 20, 100),
+      rate = log(2) / c(9, 12, 18)
+    ),
+    lower.tail = FALSE) {
   boundary <- cumsum(failRates$duration)
   rate <- failRates$rate
   xvals <- unique(c(x, boundary))
@@ -64,11 +69,9 @@ test_2_ppwe <- function(x = 0:20,
     } else if (val <= boundary[2]) {
       H[t] <- boundary[1] * rate[1] + (val - boundary[1]) * rate[2]
     } else if (val <= boundary[3]) {
-      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (val -
-        boundary[3]) * rate[3]
+      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (val - boundary[3]) * rate[3]
     } else {
-      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (boundary[3] -
-        boundary[2]) * rate[3]
+      H[t] <- boundary[1] * rate[1] + (boundary[2] - boundary[1]) * rate[2] + (boundary[3] - boundary[2]) * rate[3]
     }
   }
   surv <- exp(-H)
@@ -81,8 +84,6 @@ test_2_ppwe <- function(x = 0:20,
     return(surv[ind])
   }
 }
-
-
 
 testthat::test_that("ppwe is incorrect when there are 2-step fail rates", {
   testthat::expect_equal(
@@ -116,7 +117,6 @@ testthat::test_that("ppwe is incorrect if varable x is longer than the max durat
   )
 })
 
-
 testthat::test_that("ppwe is incorrect when there are 3-step fail rates", {
   testthat::expect_equal(
     ppwe(
@@ -133,10 +133,7 @@ testthat::test_that("ppwe is incorrect when there are 3-step fail rates", {
   )
 })
 
-
-## add the following test case
-
-
+# Add the following test case
 
 testthat::test_that("ppwe fail to identify a non-numerical input", {
   x <- c(0:20, "NA")
@@ -153,7 +150,6 @@ testthat::test_that("ppwe fail to identify a negative input", {
     "gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector"
   ))
 })
-
 
 testthat::test_that("ppwe fail to identify a non-increasing input", {
   x <- 20:1

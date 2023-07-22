@@ -2,10 +2,7 @@
 % Please edit documentation in R/fixed_design_milestone.R
 \name{fixed_design_milestone}
 \alias{fixed_design_milestone}
-\title{Fixed design using milestone method (Yung and Liu 2020).
-Computes fixed design sample size (given power) or power (given sample size)
-for milestone method.
-Returns a list with a basic summary.}
+\title{Fixed design using milestone method}
 \usage{
 fixed_design_milestone(
   alpha = 0.025,
@@ -37,14 +34,14 @@ and \code{1 - alpha} otherwise).}
 A table.
 }
 \description{
-Fixed design using milestone method (Yung and Liu 2020).
 Computes fixed design sample size (given power) or power (given sample size)
-for milestone method.
+for milestone method (Yung and Liu, 2020).
 Returns a list with a basic summary.
 }
 \examples{
 library(dplyr)
-# example 1: given power and compute sample size
+
+# Example 1: given power and compute sample size
 x <- fixed_design_milestone(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -58,7 +55,8 @@ x <- fixed_design_milestone(
   tau = 18
 )
 x \%>\% summary()
-# example 2: given sample size and compute power
+
+# Example 2: given sample size and compute power
 x <- fixed_design_milestone(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),

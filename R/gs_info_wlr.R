@@ -75,22 +75,23 @@
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   event = event, analysis_time = analysis_time
 #' )
-gs_info_wlr <- function(enroll_rate = define_enroll_rate(
-                          duration = c(2, 2, 10),
-                          rate = c(3, 6, 9)
-                        ),
-                        fail_rate = define_fail_rate(
-                          duration = c(3, 100),
-                          fail_rate = log(2) / c(9, 18),
-                          hr = c(.9, .6),
-                          dropout_rate = .001
-                        ),
-                        ratio = 1, # Experimental:Control randomization ratio
-                        event = NULL, # event at analyses
-                        analysis_time = NULL, # Times of analyses
-                        weight = wlr_weight_fh,
-                        approx = "asymptotic",
-                        interval = c(.01, 100)) {
+gs_info_wlr <- function(
+    enroll_rate = define_enroll_rate(
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9)
+    ),
+    fail_rate = define_fail_rate(
+      duration = c(3, 100),
+      fail_rate = log(2) / c(9, 18),
+      hr = c(.9, .6),
+      dropout_rate = .001
+    ),
+    ratio = 1, # Experimental:Control randomization ratio
+    event = NULL, # Event at analyses
+    analysis_time = NULL, # Times of analyses
+    weight = wlr_weight_fh,
+    approx = "asymptotic",
+    interval = c(.01, 100)) {
   if (is.null(analysis_time) && is.null(event)) {
     stop("gs_info_wlr(): One of event and analysis_time must be a numeric value or vector with increasing values!")
   }

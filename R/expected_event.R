@@ -110,17 +110,18 @@
 #'   fail_rate = define_fail_rate(duration = 100, fail_rate = log(2) / 6, dropout_rate = .01),
 #'   total_duration = 22, simple = FALSE
 #' )
-expected_event <- function(enroll_rate = define_enroll_rate(
-                             duration = c(2, 2, 10),
-                             rate = c(3, 6, 9)
-                           ),
-                           fail_rate = define_fail_rate(
-                             duration = c(3, 100),
-                             fail_rate = log(2) / c(9, 18),
-                             dropout_rate = .001
-                           ),
-                           total_duration = 25,
-                           simple = TRUE) {
+expected_event <- function(
+    enroll_rate = define_enroll_rate(
+      duration = c(2, 2, 10),
+      rate = c(3, 6, 9)
+    ),
+    fail_rate = define_fail_rate(
+      duration = c(3, 100),
+      fail_rate = log(2) / c(9, 18),
+      dropout_rate = .001
+    ),
+    total_duration = 25,
+    simple = TRUE) {
   # ----------------------------#
   #    check input values       #
   # ----------------------------#
@@ -212,14 +213,18 @@ expected_event <- function(enroll_rate = define_enroll_rate(
     arrange(start_fail) %>%
     # compute expected events as nbar in a sub-interval
     mutate(
-      d = ifelse(fail_rate_var == 0, 0, big_q * (1 - q) * fail_rate_var / (fail_rate_var + dropout_rate_var)),
-      nbar = ifelse(fail_rate_var == 0,
+      d = ifelse(
+        fail_rate_var == 0,
+        0,
+        big_q * (1 - q) * fail_rate_var / (fail_rate_var + dropout_rate_var)
+      ),
+      nbar = ifelse(
+        fail_rate_var == 0,
         0,
         big_g * d +
           (fail_rate_var * big_q * enroll_rate_var) /
             (fail_rate_var + dropout_rate_var) *
-            (duration - (1 - q) /
-              (fail_rate_var + dropout_rate_var))
+            (duration - (1 - q) / (fail_rate_var + dropout_rate_var))
       )
     )
 

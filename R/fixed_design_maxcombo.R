@@ -16,10 +16,12 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using maxcombo method.
+#' Fixed design using MaxCombo method
+#'
 #' Computes fixed design sample size (given power) or power (given sample size)
-#' for maxcombo method.
+#' for MaxCombo method.
 #' Returns a list with a basic summary.
+#'
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).
@@ -29,11 +31,15 @@
 #' @param gamma A vector of numbers paring with rho and tau for maxcombo test.
 #' @param tau A vector of numbers paring with gamma and rho for maxcombo test.
 #' @inheritParams gs_design_combo
+#'
 #' @return A table.
+#'
 #' @export
+#'
 #' @examples
 #' library(dplyr)
-#' # example 1: given power and compute sample size
+#'
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_maxcombo(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -47,7 +53,8 @@
 #'   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 #' )
 #' x %>% summary()
-#' # example 2: given sample size and compute power
+#'
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_maxcombo(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -61,15 +68,16 @@
 #'   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 #' )
 #' x %>% summary()
-fixed_design_maxcombo <- function(alpha = 0.025,
-                                  power = NULL,
-                                  ratio = 1,
-                                  study_duration = 36,
-                                  enroll_rate,
-                                  fail_rate,
-                                  rho = c(0, 0, 1),
-                                  gamma = c(0, 1, 0),
-                                  tau = rep(-1, 3)) {
+fixed_design_maxcombo <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate,
+    rho = c(0, 0, 1),
+    gamma = c(0, 1, 0),
+    tau = rep(-1, 3)) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -93,7 +101,7 @@ fixed_design_maxcombo <- function(alpha = 0.025,
     rho = rho,
     gamma = gamma,
     tau = tau
-    ) %>%
+  ) %>%
     mutate(test = seq(1, length(rho)), analysis = 1, analysis_time = study_duration)
   # check if power is NULL or not
   if (is.null(power)) {

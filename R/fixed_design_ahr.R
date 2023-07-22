@@ -34,7 +34,8 @@
 #'
 #' @examples
 #' library(dplyr)
-#' # example 1: given power and compute sample size
+#'
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_ahr(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -47,7 +48,8 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-#' # example 2: given sample size and compute power
+#'
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_ahr(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -60,14 +62,14 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
-fixed_design_ahr <- function(enroll_rate,
-                             fail_rate,
-                             alpha = 0.025,
-                             power = NULL,
-                             ratio = 1,
-                             study_duration = 36,
-                             event = NULL
-                             ) {
+fixed_design_ahr <- function(
+    enroll_rate,
+    fail_rate,
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    event = NULL) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -116,7 +118,7 @@ fixed_design_ahr <- function(enroll_rate,
   y <- list(
     input = input, enroll_rate = d$enroll_rate,
     fail_rate = d$fail_rate, analysis = ans, design = "ahr"
-    )
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

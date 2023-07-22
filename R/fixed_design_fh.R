@@ -16,10 +16,12 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using Fleming-Harrington method method (Farrington and Manning 1990).
+#' Fixed design using Fleming-Harrington method
+#'
 #' Computes fixed design sample size (given power) or power (given sample size)
-#' for Fleming-Harrington method method.
+#' for Fleming-Harrington method (Farrington and Manning, 1990).
 #' Returns a list with a basic summary.
+#'
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_wlr
 #' @param power Power (`NULL` to compute power or strictly between 0
@@ -27,13 +29,15 @@
 #' @param study_duration Study duration.
 #' @param rho test parameter in Fleming-Harrington method.
 #' @param gamma test parameter in Fleming-Harrington method.
+#'
 #' @return A table.
 #'
 #' @export
 #'
 #' @examples
 #' library(dplyr)
-#' # example 1: given power and compute sample size
+#'
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_fh(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -47,7 +51,8 @@
 #'   rho = 1, gamma = 1
 #' )
 #' x %>% summary()
-#' # example 2: given sample size and compute power
+#'
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_fh(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -61,14 +66,15 @@
 #'   rho = 1, gamma = 1
 #' )
 #' x %>% summary()
-fixed_design_fh <- function(alpha = 0.025,
-                            power = NULL,
-                            ratio = 1,
-                            study_duration = 36,
-                            enroll_rate,
-                            fail_rate,
-                            rho = 0,
-                            gamma = 0) {
+fixed_design_fh <- function(
+    alpha = 0.025,
+    power = NULL,
+    ratio = 1,
+    study_duration = 36,
+    enroll_rate,
+    fail_rate,
+    rho = 0,
+    gamma = 0) {
   # --------------------------------------------- #
   #     check inputs                              #
   # --------------------------------------------- #
@@ -105,7 +111,8 @@ fixed_design_fh <- function(alpha = 0.025,
       ratio = ratio,
       weight = weight,
       analysis_time = study_duration,
-      event = NULL)
+      event = NULL
+    )
   } else {
     d <- gs_design_wlr(
       alpha = alpha, beta = 1 - power,
