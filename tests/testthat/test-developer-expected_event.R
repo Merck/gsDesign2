@@ -1,8 +1,7 @@
 library(dplyr)
 
-my_path <- paste0(system.file(package = "gsDesign2"), "/old_function/")
-source_files <- list.files(my_path, "*.R$")
-sapply(paste0(my_path, source_files), source)
+source_files <- list.files("./old_function/", "*.R$")
+sapply(paste0("./old_function/", source_files), source)
 
 test_that("expected event vs gsDesign", {
   enroll_rate <- define_enroll_rate(duration = c(2, 1, 2), rate = c(5, 10, 20))

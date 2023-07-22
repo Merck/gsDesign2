@@ -1,6 +1,5 @@
-my_path <- paste0(system.file(package = "gsDesign2"), "/old_function/")
-source_files <- list.files(my_path, "*.R$")
-sapply(paste0(my_path, source_files), source)
+source_files <- list.files("./old_function/", "*.R$")
+sapply(paste0("./old_function/", source_files), source)
 
 library(dplyr)
 
