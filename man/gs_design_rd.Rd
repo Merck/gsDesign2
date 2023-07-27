@@ -13,7 +13,7 @@ gs_design_rd(
   beta = 0.1,
   ratio = 1,
   stratum_prev = NULL,
-  weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
+  weight = c("unstratified", "ss", "invar"),
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -24,7 +24,7 @@ gs_design_rd(
   binding = FALSE,
   r = 18,
   tol = 1e-06,
-  h1_spending = FALSE
+  h1_spending = TRUE
 )
 }
 \arguments{

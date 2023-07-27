@@ -10,7 +10,7 @@ gs_info_rd(
   n = tibble::tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = c("unstratified", "ss", "invar_h0", "invar_h1")
+  weight = c("unstratified", "ss", "invar")
 )
 }
 \arguments{
@@ -25,7 +25,7 @@ gs_info_rd(
 \item{ratio}{Experimental:Control randomization ratio.}
 
 \item{weight}{Weighting method, can be \code{"unstratified"}, \code{"ss"},
-\code{"invar_h0"}, or "invar_h1".}
+or \code{"invar"}.}
 }
 \value{
 A tibble with columns as analysis index, sample size,
@@ -99,7 +99,7 @@ gs_info_rd(
   ),
   rd0 = 0,
   ratio = 1,
-  weight = "invar_h1"
+  weight = "invar"
 )
 
 # --------------------- #
@@ -145,7 +145,7 @@ gs_info_rd(
   ),
   rd0 = 0.02,
   ratio = 1,
-  weight = "invar_h1"
+  weight = "invar"
 )
 
 # --------------------- #
@@ -172,6 +172,6 @@ gs_info_rd(
     rd0 = c(0.01, 0.02, 0.03)
   ),
   ratio = 1,
-  weight = "invar_h1"
+  weight = "invar"
 )
 }
