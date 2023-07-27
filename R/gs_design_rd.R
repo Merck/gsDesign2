@@ -126,7 +126,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
                          beta = .1,
                          ratio = 1,
                          stratum_prev = NULL,
-                         weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
+                         weight = c("unstratified", "ss", "invar"),
                          upper = gs_b,
                          lower = gs_b,
                          upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -137,7 +137,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
                          binding = FALSE,
                          r = 18,
                          tol = 1e-6,
-                         h1_spending = FALSE) {
+                         h1_spending = TRUE) {
   # --------------------------------------------- #
   #     check input values                        #
   # --------------------------------------------- #
