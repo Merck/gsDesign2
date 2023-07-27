@@ -22,7 +22,8 @@ test_that("fixed design", {
     upper = gs_b,
     lower = gs_b,
     upar = -qnorm(.025),
-    lpar = -Inf
+    lpar = -Inf,
+    h1_spending = FALSE
   )
 
   expect_equal(x1, x2$analysis$n)
