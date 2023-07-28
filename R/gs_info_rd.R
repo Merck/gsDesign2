@@ -24,7 +24,7 @@
 #' @param rd0 The risk difference under H0.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param weight Weighting method, can be `"unstratified"`, `"ss"`,
-#'   `"invar_h0"`, or "invar_h1".
+#'   or `"invar"`.
 #'
 #' @return A tibble with columns as analysis index, sample size,
 #'   risk difference, risk difference under null hypothesis, theta1
@@ -97,7 +97,7 @@
 #'   ),
 #'   rd0 = 0,
 #'   ratio = 1,
-#'   weight = "invar_h1"
+#'   weight = "invar"
 #' )
 #'
 #' # --------------------- #
@@ -143,7 +143,7 @@
 #'   ),
 #'   rd0 = 0.02,
 #'   ratio = 1,
-#'   weight = "invar_h1"
+#'   weight = "invar"
 #' )
 #'
 #' # --------------------- #
@@ -170,7 +170,7 @@
 #'     rd0 = c(0.01, 0.02, 0.03)
 #'   ),
 #'   ratio = 1,
-#'   weight = "invar_h1"
+#'   weight = "invar"
 #' )
 gs_info_rd <- function(
     p_c = tibble::tibble(
@@ -188,7 +188,7 @@ gs_info_rd <- function(
     ),
     rd0 = 0,
     ratio = 1,
-    weight = c("unstratified", "ss", "invar_h0", "invar_h1")) {
+    weight = c("unstratified", "ss", "invar")) {
   n_analysis <- max(n$analysis)
   weight <- match.arg(weight)
 
@@ -249,18 +249,7 @@ gs_info_rd <- function(
         mutate(weight_per_k_per_s = n_c * n_e / (n_c + n_e) / sum_ss) %>%
         select(-sum_ss)
     )
-  } else if (weight == "invar_h0") {
-    suppressMessages(
-      tbl <- tbl %>%
-        left_join(
-          tbl %>%
-            dplyr::group_by(analysis) %>%
-            summarize(sum_inv_var_per_s = sum(1 / sigma2_H0_per_k_per_s))
-        ) %>%
-        mutate(weight_per_k_per_s = 1 / sigma2_H0_per_k_per_s / sum_inv_var_per_s) %>%
-        select(-sum_inv_var_per_s)
-    )
-  } else if (weight == "invar_h1") {
+  } else if (weight == "invar") {
     suppressMessages(
       tbl <- tbl %>%
         left_join(
@@ -290,8 +279,8 @@ gs_info_rd <- function(
       sigma2_H1 = sum(weight_per_k_per_s^2 * p_c * (1 - p_c) / n_c + weight_per_k_per_s^2 * p_e * (1 - p_e) / n_e)
     ) %>%
     mutate(
-      theta1 = rd / sqrt(sigma2_H1),
-      theta0 = rd0 / sqrt(sigma2_H0),
+      theta1 = rd,
+      theta0 = rd0,
       info1 = 1 / sigma2_H1,
       info0 = 1 / sigma2_H0
     ) %>%

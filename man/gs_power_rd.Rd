@@ -10,7 +10,7 @@ gs_power_rd(
   n = tibble::tibble(stratum = "All", n = c(40, 50, 60), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
+  weight = c("unstratified", "ss", "invar"),
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -35,7 +35,7 @@ gs_power_rd(
 \item{ratio}{Experimental:control randomization ratio.}
 
 \item{weight}{Weighting method, can be \code{"unstratified"}, \code{"ss"},
-"invar_h1", or "invar_h0".}
+or \code{"invar"}.}
 
 \item{upper}{Function to compute upper bound.}
 
@@ -204,7 +204,7 @@ gs_power_rd(
   ),
   rd0 = 0,
   ratio = 1,
-  weight = "invar_h1",
+  weight = "invar",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -258,7 +258,7 @@ gs_power_rd(
   ),
   rd0 = 0.03,
   ratio = 1,
-  weight = "invar_h1",
+  weight = "invar",
   upper = gs_b,
   lower = gs_b,
   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,

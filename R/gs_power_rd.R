@@ -32,7 +32,7 @@
 #'   - `"h0_info"`: variance under null hypothesis is used.
 #'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param weight Weighting method, can be `"unstratified"`, `"ss"`,
-#'   "invar_h1", or "invar_h0".
+#'   or `"invar"`.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param test_upper Indicator of which analyses should include an upper
@@ -179,7 +179,7 @@
 #'   ),
 #'   rd0 = 0,
 #'   ratio = 1,
-#'   weight = "invar_h1",
+#'   weight = "invar",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -233,7 +233,7 @@
 #'   ),
 #'   rd0 = 0.03,
 #'   ratio = 1,
-#'   weight = "invar_h1",
+#'   weight = "invar",
 #'   upper = gs_b,
 #'   lower = gs_b,
 #'   upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
@@ -255,7 +255,7 @@ gs_power_rd <- function(
     ),
     rd0 = 0,
     ratio = 1,
-    weight = c("unstratified", "ss", "invar_h1", "invar_h0"),
+    weight = c("unstratified", "ss", "invar"),
     upper = gs_b,
     lower = gs_b,
     upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
