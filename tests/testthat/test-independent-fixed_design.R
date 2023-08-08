@@ -31,7 +31,7 @@ test_that("AHR", {
     study_duration = study_duration, ratio = ratio
   )
 
-  expect(y$analysis$power, 0.9)
+  expect_equal(y$analysis$power, 0.9)
 })
 
 test_that("FH", {
@@ -49,7 +49,7 @@ test_that("FH", {
     rho = 0.5, gamma = 0.5
   )
 
-  expect(y$analysis$power, 0.9)
+  expect_equal(y$analysis$power, 0.9)
 })
 
 test_that("MB", {
@@ -67,7 +67,7 @@ test_that("MB", {
     tau = 8
   )
 
-  expect(y$analysis$power, 0.9)
+  expect_equal(y$analysis$power, 0.9)
 })
 
 test_that("LF", {
@@ -83,7 +83,7 @@ test_that("LF", {
     study_duration = study_duration, ratio = ratio
   )
 
-  expect(y$analysis$power, 0.9)
+  expect_equal(y$analysis$power, 0.9)
 })
 
 test_that("MaxCombo", {
@@ -105,7 +105,7 @@ test_that("MaxCombo", {
     tau = c(-1, 4, 6)
   )
 
-  expect(y$analysis$power, 0.9)
+  expect_equal(y$analysis$power, 0.9)
 })
 
 test_that("RMST", {
@@ -123,7 +123,7 @@ test_that("RMST", {
     tau = 18
   )
 
-  expect(y$analysis$power, 0.9)
+  expect_equal(y$analysis$power, 0.9)
 })
 
 test_that("RD", {
@@ -137,5 +137,5 @@ test_that("RD", {
     p_c = .15, p_e = .1, rd0 = 0, ratio = ratio
   )
 
-  expect(y$analysis$power, 0.9)
+  expect_equal(y$analysis$power, 0.9)
 })
