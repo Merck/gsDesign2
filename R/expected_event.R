@@ -79,9 +79,6 @@
 #' The intent is to enable expected event calculations in a tidy format to
 #' maximize flexibility for a variety of purposes.
 #'
-#' @importFrom dplyr select full_join mutate transmute
-#' group_by summarize arrange desc lag last "%>%"
-#'
 #' @export
 #'
 #' @examples
@@ -142,19 +139,17 @@ expected_event <- function(
   #     into sub-intervals      #
   # ----------------------------#
   ## by piecewise enrollment rates
-  df_1 <- tibble::tibble(
-    start_enroll = c(0, cumsum(enroll_rate$duration)),
-    end_fail = total_duration - start_enroll
-  ) %>%
-    subset(end_fail > 0)
+  df_1 <- data.frame(start_enroll = c(0, cumsum(enroll_rate$duration)))
+  df_1$end_fail <- total_duration - df_1$start_enroll
+  df_1 <- df_1[df_1$end_fail > 0, ]
 
   ## by piecewise failure & dropout rates
-  df_2 <- tibble::tibble(
+  df_2 <- data.frame(
     end_fail = cumsum(fail_rate$duration),
-    start_enroll = total_duration - end_fail,
     fail_rate_var = fail_rate$fail_rate,
     dropout_rate_var = fail_rate$dropout_rate
   )
+  df_2$start_enroll <- total_duration - df_2$end_fail
 
   temp <- cumsum(fail_rate$duration)
   if (temp[length(temp)] < total_duration) {
@@ -173,60 +168,53 @@ expected_event <- function(
   )
   # step function to define failure rates over time
   start_fail <- c(0, cumsum(fail_rate$duration))
+  fail_rate_last <- nrow(fail_rate)
   sf_fail_rate <- stats::stepfun(start_fail,
-    c(0, fail_rate$fail_rate, last(fail_rate$fail_rate)),
+    c(0, fail_rate$fail_rate, fail_rate$fail_rate[fail_rate_last]),
     right = FALSE
   )
   # step function to define dropout rates over time
   sf_dropout_rate <- stats::stepfun(start_fail,
-    c(0, fail_rate$dropout_rate, last(fail_rate$dropout_rate)),
+    c(0, fail_rate$dropout_rate, fail_rate$dropout_rate[fail_rate_last]),
     right = FALSE
   )
 
   # combine sub-intervals from enroll + failure + dropout #
   # impute the NA by step functions
-  df <- full_join(df_1, df_2, by = c("start_enroll", "end_fail")) %>%
-    arrange(end_fail) %>%
-    mutate(
-      end_enroll = lag(start_enroll, default = as.numeric(total_duration)),
-      start_fail = lag(end_fail, default = 0),
-      duration = end_enroll - start_enroll,
-      fail_rate_var = sf_fail_rate(start_fail),
-      dropout_rate_var = sf_dropout_rate(start_fail),
-      enroll_rate_var = sf_enroll_rate(start_enroll)
-    ) %>%
-    # create 2 auxiliary variable for failure & dropout rate
-    # q: number of expected events in a sub-interval
-    # big_q: cumulative product of q (pool all sub-intervals)
-    mutate(
-      q = exp(-duration * (fail_rate_var + dropout_rate_var)),
-      big_q = lag(cumprod(q), default = 1)
-    ) %>%
-    arrange(desc(start_fail)) %>%
-    # create another 2 auxiliary variable for enroll rate
-    # g: number of expected subjects in a sub-interval
-    # big_g: cumulative sum of g (pool all sub-intervals)
-    mutate(
-      g = enroll_rate_var * duration,
-      big_g = lag(cumsum(g), default = 0)
-    ) %>%
-    arrange(start_fail) %>%
-    # compute expected events as nbar in a sub-interval
-    mutate(
-      d = ifelse(
-        fail_rate_var == 0,
-        0,
-        big_q * (1 - q) * fail_rate_var / (fail_rate_var + dropout_rate_var)
-      ),
-      nbar = ifelse(
-        fail_rate_var == 0,
-        0,
-        big_g * d +
-          (fail_rate_var * big_q * enroll_rate_var) /
-            (fail_rate_var + dropout_rate_var) *
-            (duration - (1 - q) / (fail_rate_var + dropout_rate_var))
-      )
-    )
+  df <- merge(df_1, df_2, by = c("start_enroll", "end_fail"), all = TRUE, sort = FALSE)
+  df <- df[order(df$end_fail), ]
+  df$end_enroll <- fastlag(df$start_enroll, first = as.numeric(total_duration))
+  df$start_fail <- fastlag(df$end_fail, first = 0)
+  df$duration <- df$end_enroll - df$start_enroll
+  df$fail_rate_var <- sf_fail_rate(df$start_fail)
+  df$dropout_rate_var <- sf_dropout_rate(df$start_fail)
+  df$enroll_rate_var <- sf_enroll_rate(df$start_enroll)
+  # create 2 auxiliary variable for failure & dropout rate
+  # q: number of expected events in a sub-interval
+  # big_q: cumulative product of q (pool all sub-intervals)
+  df$q <- exp(-df$duration * (df$fail_rate_var + df$dropout_rate_var))
+  df$big_q <- fastlag(cumprod(df$q), first = 1)
+  df <- df[order(df$start_fail, decreasing = TRUE), ]
+  # create another 2 auxiliary variable for enroll rate
+  # g: number of expected subjects in a sub-interval
+  # big_g: cumulative sum of g (pool all sub-intervals)
+  df$g <- df$enroll_rate_var * df$duration
+  df$big_g <- fastlag(cumsum(df$g), first = 0)
+  df <- df[order(df$start_fail), ]
+  # compute expected events as nbar in a sub-interval
+  df$d <- ifelse(
+    df$fail_rate_var == 0,
+    0,
+    df$big_q * (1 - df$q) * df$fail_rate_var / (df$fail_rate_var + df$dropout_rate_var)
+  )
+  df$nbar <- ifelse(
+    df$fail_rate_var == 0,
+    0,
+    df$big_g * df$d +
+      (df$fail_rate_var * df$big_q * df$enroll_rate_var) /
+        (df$fail_rate_var + df$dropout_rate_var) *
+        (df$duration - (1 - df$q) / (df$fail_rate_var + df$dropout_rate_var))
+  )
 
   # ----------------------------#
   #       output results        #
@@ -235,20 +223,32 @@ expected_event <- function(
     ans <- as.numeric(sum(df$nbar))
   } else {
     sf_start_fail <- stats::stepfun(start_fail, c(0, start_fail), right = FALSE)
-    ans <- df %>%
-      transmute(
-        t = end_fail,
-        fail_rate = fail_rate_var,
-        event = nbar,
-        start_fail = sf_start_fail(start_fail)
-      ) %>%
-      group_by(start_fail) %>%
-      summarize(
-        fail_rate = first(fail_rate),
-        event = sum(event)
-      ) %>%
-      mutate(t = start_fail) %>%
-      select(t, fail_rate, event)
+    ans <- data.frame(
+      t = df$end_fail,
+      fail_rate = df$fail_rate_var,
+      event = df$nbar,
+      start_fail = sf_start_fail(df$start_fail)
+    )
+    ans <- by(
+      ans, ans$start_fail,
+      function(data) {
+        data.frame(
+          start_fail = data$start_fail[1],
+          fail_rate = data$fail_rate[1],
+          event = sum(data$event)
+        )
+      }
+    )
+    ans <- do.call(rbind, ans)
+    ans$t <- ans$start_fail
+    ans <- ans[, c("t", "fail_rate", "event")]
+    ans <- tibble::new_tibble(ans)
+    tibble::validate_tibble(ans)
   }
   return(ans)
+}
+
+# Find the "previous" values in a vector
+fastlag <- function(x, first) {
+  c(first, x[-length(x)])
 }
