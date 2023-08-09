@@ -25,6 +25,6 @@ test_that("expected event vs gsDesign", {
     enroll_rate, fail_rate, total_duration,
     simple = TRUE
   )
-  expect(x1, x2)
-  expect(x2, x3)
+  expect_equal(x1, x2)
+  expect_equal(x2, x3)
 })
