@@ -30,6 +30,11 @@ test_that("expected event vs gsDesign", {
 })
 
 test_that("expected_event returns consistent results (regression tests)", {
+  # Note: all expected outputs were computed on 2023-08-09 with gsDesign2
+  # version 1.1.0 and specifically the package was installed from GitHub from
+  # the following commit
+  # https://github.com/Merck/gsDesign2/commit/3406261092edcb696cecd0392ff94e08e832971a
+
   # Default arguments, simple output (total event count only)
   observed <- expected_event()
   expected <- 57.3537033783035
