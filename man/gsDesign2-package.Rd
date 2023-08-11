@@ -40,6 +40,7 @@ Other contributors:
   \item Chenxiang Li \email{chenxiang.li@merck.com} [contributor]
   \item Hongtao Zhang \email{hongtao.zhang1@merck.com} [contributor]
   \item Yalin Zhu \email{yalin.zhu@merck.com} [contributor]
+  \item John Blischak \email{jdblischak@gmail.com} [contributor]
   \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder]
 }
 
