@@ -216,9 +216,9 @@ gs_design_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info0 = NULL, in
   if (!is.vector(info0, mode = "numeric")) stop("gs_design_npe(): info0 must be specified numeric vector or NULL")
   if (!is.vector(info1, mode = "numeric")) stop("gs_design_npe(): info1 must be specified numeric vector or NULL")
   if (length(info1) != length(info) || length(info0) != length(info)) stop("gs_design_npe(): length of info, info0, info1 must be the same")
-  if (min(info - lag(info, default = 0) <= 0)) stop("gs_design_npe(): info much be strictly increasing and positive")
-  if (min(info0 - lag(info0, default = 0) <= 0)) stop("gs_design_npe(): info0 much be NULL or strictly increasing and positive")
-  if (min(info1 - lag(info1, default = 0) <= 0)) stop("gs_design_npe(): info1 much be NULL or strictly increasing and positive")
+  if (min(info - dplyr::lag(info, default = 0) <= 0)) stop("gs_design_npe(): info much be strictly increasing and positive")
+  if (min(info0 - dplyr::lag(info0, default = 0) <= 0)) stop("gs_design_npe(): info0 much be NULL or strictly increasing and positive")
+  if (min(info1 - dplyr::lag(info1, default = 0) <= 0)) stop("gs_design_npe(): info1 much be NULL or strictly increasing and positive")
 
   # CHECK TREATMENT EFFECT PARAMETERS: theta, theta0, theta1
   if (!is.vector(theta, mode = "numeric")) stop("gs_design_npe(): theta must be a real vector")
