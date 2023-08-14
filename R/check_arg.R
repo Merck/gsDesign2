@@ -237,7 +237,7 @@ check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
 check_analysis_time <- function(analysis_time) {
   cond1 <- !is.numeric(analysis_time)
   cond2 <- !is.vector(analysis_time)
-  cond3 <- min(analysis_time - dplyr::lag(analysis_time, def = 0)) <= 0
+  cond3 <- min(analysis_time - fastlag(analysis_time, first = 0)) <= 0
   if (cond1 || cond2 || cond3) {
     stop("The input argument `analysis_times` must be NULL a numeric vector with positive increasing values!")
   }
@@ -261,7 +261,7 @@ check_analysis_time <- function(analysis_time) {
 check_event <- function(event) {
   cond1 <- !is.numeric(event)
   cond2 <- !is.vector(event)
-  cond3 <- min(event - dplyr::lag(event, default = 0)) <= 0
+  cond3 <- min(event - fastlag(event, first = 0)) <= 0
   if (cond1 || cond2 || cond3) {
     stop("The input argument `event` must be NULL or a numeric vector with positive increasing values!")
   }
@@ -328,7 +328,7 @@ check_info <- function(info) {
   if (!is.vector(info, mode = "numeric")) {
     stop("gs_design_npe() or gs_power_npe(): info must be specified numeric vector!")
   }
-  if (min(info - lag(info, default = 0)) <= 0) {
+  if (min(info - fastlag(info, first = 0)) <= 0) {
     stop("gs_design_npe() or gs_power_npe(): info much be strictly increasing and positive!")
   }
 }
@@ -446,6 +446,6 @@ check_info_frac <- function(info_frac) {
   msg <- "gs_design_ahr(): info_frac must be a positive
   number or positive increasing sequence on (0, 1] with final value of 1!"
   if (!is.vector(info_frac, mode = "numeric")) stop(msg)
-  if (min(info_frac - dplyr::lag(info_frac, def = 0)) <= 0) stop(msg)
+  if (min(info_frac - fastlag(info_frac, first = 0)) <= 0) stop(msg)
   if (max(info_frac) != 1) stop(msg)
 }

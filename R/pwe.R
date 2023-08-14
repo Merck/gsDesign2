@@ -93,7 +93,7 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   if (!min(x) >= 0) {
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
-  if (!min(x[x > 0] - lag(x[x > 0], default = 0)) > 0) {
+  if (!min(x[x > 0] - fastlag(x[x > 0], first = 0)) > 0) {
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
 
@@ -111,7 +111,7 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   # Make a tibble
   xx <- tibble::tibble(
     x = xvals,
-    duration = xvals - lag(xvals, default = 0),
+    duration = xvals - fastlag(xvals, first = 0),
     h = ratefn(xvals), # hazard rates at points (right continuous)
     H = cumsum(h * duration), # cumulative hazard
     survival = exp(-H) # survival
@@ -150,7 +150,7 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
 #'  }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr lag select "%>%"
+#' @importFrom dplyr select "%>%"
 #' @importFrom tibble tibble
 #'
 #' @export
@@ -209,9 +209,9 @@ s2pwe <- function(times, survival) {
 
   ans <- tibble::tibble(Times = times, Survival = survival) %>%
     mutate(
-      duration = Times - lag(Times, default = 0),
+      duration = Times - fastlag(Times, first = 0),
       H = -log(Survival),
-      rate = (H - lag(H, default = 0)) / duration
+      rate = (H - fastlag(H, first = 0)) / duration
     ) %>%
     select(duration, rate)
   return(ans)

@@ -44,7 +44,7 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr lag lead
+#' @importFrom dplyr lead
 #' @importFrom tibble tibble
 #' @importFrom stats stepfun
 #'
@@ -140,7 +140,7 @@ expected_accrual <- function(time = 0:24,
   if (n_strata == 1) {
     xx <- tibble(
       x = xvals,
-      duration = xvals - lag(xvals, default = 0),
+      duration = xvals - fastlag(xvals, first = 0),
       rate = ratefn(xvals), # enrollment rates at points (right continuous)
       eAccrual = cumsum(rate * duration) # expected accrual
     )
@@ -149,7 +149,7 @@ expected_accrual <- function(time = 0:24,
       FUN = function(i) {
         tibble(
           x = xvals[[i]],
-          duration = xvals[[i]] - lag(xvals[[i]], default = 0),
+          duration = xvals[[i]] - fastlag(xvals[[i]], first = 0),
           rate = ratefn[[i]](xvals[[i]]), # enrollment rates at points (right continuous)
           eAccrual = cumsum(rate * duration) # expected accrual
         )
