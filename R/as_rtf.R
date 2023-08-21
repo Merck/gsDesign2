@@ -10,7 +10,6 @@ as_rtf.fixed_design <- function(x,
                                 orientation = "portrait",
                                 text_font_size = 9,
                                 path_outtable = NULL,   
-                                # Need decimals?
                                 ...) {
   # get the design method
   if ("ahr" %in% class(x)) {
@@ -35,35 +34,34 @@ as_rtf.fixed_design <- function(x,
   
   
   # set the default title
-  footnote_mark <- "{^a}"
   if (is.null(title)) {
     title <- switch(design_mtd,
                     "ahr" = {
-                      paste0("Fixed Design under AHR Method", " ", footnote_mark)
+                      paste0("Fixed Design under AHR Method", " {^a}")
                     },
                     "fh" = {
-                      paste0("Fixed Design under Fleming-Harrington Method", " ", footnote_mark)
+                      paste0("Fixed Design under Fleming-Harrington Method", " {^a}")
                     },
                     "mb" = {
-                      paste0("Fixed Design under Magirr-Burman Method", " ", footnote_mark)
+                      paste0("Fixed Design under Magirr-Burman Method", " {^a}")
                     },
                     "lf" = {
-                      paste0("Fixed Design under Lachin and Foulkes Method", " ", footnote_mark)
+                      paste0("Fixed Design under Lachin and Foulkes Method", " {^a}")
                     },
                     "rd" = {
-                      paste0("Fixed Design of Risk Difference under Farrington-Manning Method", " ", footnote_mark)
+                      paste0("Fixed Design of Risk Difference under Farrington-Manning Method", " {^a}")
                     },
                     "maxcombo" = {
-                      paste0("Fixed Design under MaxCombo Method", " ", footnote_mark)
+                      paste0("Fixed Design under MaxCombo Method", " {^a}")
                     },
                     "milestone" = {
-                      paste0("Fixed Design under Milestone Method", " ", footnote_mark)
+                      paste0("Fixed Design under Milestone Method", " {^a}")
                     },
                     "rmst" = {
-                      paste0("Fixed Design under Restricted Mean Survival Time Method", " ", footnote_mark)
+                      paste0("Fixed Design under Restricted Mean Survival Time Method", " {^a}")
                     },
                     "rd" = {
-                      paste0("Fixed Design of Risk Difference", " ", footnote_mark)
+                      paste0("Fixed Design of Risk Difference", " {^a}")
                     }
     )
   }
@@ -73,11 +71,11 @@ as_rtf.fixed_design <- function(x,
   if (is.null(footnote)) {
     footnote <- switch(design_mtd,
                        "ahr" = {
-                         paste0(footnote_mark, " ", "Power computed with average hazard ratio method.")
+                         paste0("{^a} ", "Power computed with average hazard ratio method.")
                        },
                        "fh" = {
                          paste0(
-                           footnote_mark, " ", 
+                           "{^a} ", 
                            "Power for Fleming-Harrington test ",
                            substr(x$Design, 19, nchar(x$Design)),
                            " using method of Yung and Liu."
@@ -85,7 +83,7 @@ as_rtf.fixed_design <- function(x,
                        },
                        "mb" = {
                          paste0(
-                           footnote_mark, " ", 
+                           "{^a} ", 
                            "Power for ",
                            x$Design,
                            " computed with method of Yung and Liu."
@@ -93,29 +91,29 @@ as_rtf.fixed_design <- function(x,
                        },
                        "lf" = {
                          paste0(
-                           footnote_mark, " ", 
+                           "{^a} ", 
                            "Power using Lachin and Foulkes method applied
           using expected average hazard ratio (AHR) at time of planned analysis."
                          )
                        },
                        "rd" = {
                          paste0(
-                           footnote_mark, " ", 
+                           "{^a} ", 
                            "Risk difference power without continuity correction using method of Farrington and Manning."
                          )
                        },
                        "maxcombo" = {
                          paste0(
-                           footnote_mark, " ", 
+                           "{^a} ", 
                            "Power for MaxCombo test with Fleming-Harrington tests",
                            substr(x$Design, 9, nchar(x$Design)), "."
                          )
                        },
                        "milestone" = {
-                         paste0(footnote_mark, " ", "Power for ", x$Design, " computed with method of Yung and Liu.")
+                         paste0("{^a} ", "Power for ", x$Design, " computed with method of Yung and Liu.")
                        },
                        "rmst" = {
-                         paste0(footnote_mark, " ", "Power for ", x$Design, " computed with method of Yung and Liu.")
+                         paste0("{^a} ", "Power for ", x$Design, " computed with method of Yung and Liu.")
                        }
     )
   }
@@ -127,7 +125,7 @@ as_rtf.fixed_design <- function(x,
     stop(
       "col_rel_width must have the same length (has ",
       length(col_rel_width),
-      ") as as `outdata$tbl` has number of columns (has ",
+      ") as as `x` has number of columns (has ",
       n_col, ").",
       call. = FALSE
     )
@@ -182,8 +180,8 @@ as_rtf.fixed_design <- function(x,
   
   # Prepare output
   ans |>
-    rtf_encode() |>
-    write_rtf(path_outtable)
+    r2rtf::rtf_encode() |>
+    r2rtf::write_rtf(path_outtable)
 }
 
 
@@ -202,7 +200,6 @@ as_rtf.gs_design <- function(x,
                              orientation = "portrait",
                              text_font_size = 9,
                              path_outtable = NULL,   
-                             # Need decimals?
                              ...) {
   
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
@@ -212,6 +209,9 @@ as_rtf.gs_design <- function(x,
     return(as.numeric(substring(x, 11, 11)))
   }) |> unlist()
   x_old <- x
+  
+  x <- data.frame(lapply(x, \(x) trimws(formatC(x, flag = "-"), "r")))
+  names(x) <- names(x_old)
   
   # --------------------------------------------- #
   #     set defaults                              #
@@ -284,54 +284,54 @@ as_rtf.gs_design <- function(x,
   
   # set different default footnotes to different methods
   if (method == "ahr" && is.null(footnote)) {
-    footnote <- list(
+    def_footnote <- list(
       content = c(
-        ifelse("~HR at bound" %in% display_columns,
-               "Approximate hazard ratio to cross bound.", NA
-        ),
         ifelse("Nominal p" %in% display_columns,
                "One-sided p-value for experimental vs control treatment.
           Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        ),
+        ifelse("~HR at bound" %in% display_columns,
+               "Approximate hazard ratio to cross bound.", NA
         )
       ),
       location = c(
-        ifelse("~HR at bound" %in% display_columns, "~HR at bound", NA),
-        ifelse("Nominal p" %in% display_columns, "Nominal p", NA)
+        ifelse("Nominal p" %in% display_columns, "Nominal p", NA),
+        ifelse("~HR at bound" %in% display_columns, "~HR at bound", NA)
       ),
       attr = c(
-        ifelse("~HR at bound" %in% display_columns, "colname", NA),
-        ifelse("Nominal p" %in% display_columns, "colname", NA)
+        ifelse("Nominal p" %in% display_columns, "colname", NA),
+        ifelse("~HR at bound" %in% display_columns, "colname", NA)
       )
     )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
+    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
   }
   if (method == "wlr" && is.null(footnote)) {
-    footnote <- list(
+    def_footnote <- list(
       content = c(
-        ifelse("~wHR at bound" %in% display_columns,
-               "Approximate hazard ratio to cross bound.", NA
-        ),
         ifelse("Nominal p" %in% display_columns,
                "One-sided p-value for experimental vs control treatment.
           Value < 0.5 favors experimental, > 0.5 favors control.", NA
+        ),
+        ifelse("~wHR at bound" %in% display_columns,
+               "Approximate hazard ratio to cross bound.", NA
         ),
         "wAHR is the weighted AHR."
       ),
       location = c(
-        ifelse("~wHR at bound" %in% display_columns, "~wHR at bound", NA),
         ifelse("Nominal p" %in% display_columns, "Nominal p", NA),
+        ifelse("~wHR at bound" %in% display_columns, "~wHR at bound", NA),
         NA
       ),
       attr = c(
-        ifelse("~wHR at bound" %in% display_columns, "colname", NA),
         ifelse("Nominal p" %in% display_columns, "colname", NA),
+        ifelse("~wHR at bound" %in% display_columns, "colname", NA),
         "analysis"
       )
     )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
+    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
   }
   if (method == "combo" && is.null(footnote)) {
-    footnote <- list(
+    def_footnote <- list(
       content = c(
         ifelse("Nominal p" %in% display_columns,
                "One-sided p-value for experimental vs control treatment.
@@ -348,10 +348,10 @@ as_rtf.gs_design <- function(x,
         "analysis"
       )
     )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
+    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
   }
   if (method == "rd" && is.null(footnote)) {
-    footnote <- list(
+    def_footnote <- list(
       content = c(ifelse("Nominal p" %in% display_columns,
                          "One-sided p-value for experimental vs control treatment.
                          Value < 0.5 favors experimental, > 0.5 favors control.", NA
@@ -359,7 +359,7 @@ as_rtf.gs_design <- function(x,
       location = c(ifelse("Nominal p" %in% display_columns, "Nominal p", NA)),
       attr = c(ifelse("Nominal p" %in% display_columns, "colname", NA))
     )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
+    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
   }
   
   # --------------------------------------------- #
@@ -383,7 +383,7 @@ as_rtf.gs_design <- function(x,
     stop(
       "col_rel_width must have the same length (has ",
       length(col_rel_width),
-      ") as as `outdata$tbl` has number of columns (has ",
+      ") as as `x` has number of columns (has ",
       n_col, ").",
       call. = FALSE
     )
@@ -415,12 +415,12 @@ as_rtf.gs_design <- function(x,
   )
   
   # column boarder
-  border_top_head <- c(rep("", (n_col - 3)), "single", "single")
-  border_top_body <- c("single", rep("", n_col - 1))
-  border_bottom <- c("single", rep("", n_col - 1))
+  border_top_head <- rep("single", (n_col - 1))
+  border_top_body <- rep("single", n_col)
+  border_bottom <- rep("single", n_col)
   border_left_head <- list(
-    c("single", ""),
-    c("single", rep("", n_col - 2))
+    c("single", "single"),
+    rep("single", n_col - 1)
   )
   border_left_body <- c("single", border_left_head[[2]])
   
@@ -429,12 +429,67 @@ as_rtf.gs_design <- function(x,
   text_format <- rep("", n_col)
   text_indent <- matrix(0, nrow = n_row, ncol = n_col)
   
-  
   # --------------------------------------------- #
   #     add footnotes                             #
   # --------------------------------------------- #
+  # initialization for footnote
+  footnotes <- NULL
+  alpha_utf_int <- 96
   
-  # ----- Need update -----
+  if (is.null(footnote)){
+    if (length(def_footnote$content) > 0){
+      for (i in 1:length(def_footnote$content)){
+        alpha_utf_int <- alpha_utf_int + 1
+        if (def_footnote$attr[i] == "colname"){
+          colheader[2] <- sub(def_footnote$location[i],
+                              paste0(def_footnote$location[i], " {^", intToUtf8(alpha_utf_int), "}"),
+                              colheader[2])
+        } 
+        else if (footnote$attr[i] == "analysis"){
+          x["Analysis"] <- lapply(x["Analysis"], \(z) paste0(z, " {^", intToUtf8(alpha_utf_int), "}") )
+        }
+        marked_footnote <- paste0("{^", intToUtf8(alpha_utf_int), "} ", def_footnote$content[i])
+        footnotes <- paste0(footnotes, marked_footnote, sep = " \n")
+      }
+    }
+  }
+  
+  ## if it is non-binding design
+  if (x_non_binding && (x_alpha < full_alpha)) {
+    alpha_utf_int <- alpha_utf_int + 1
+    
+    x[(substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & 
+        x$Bound == display_bound[1], colname_spannersub[2]] <-
+      paste0(x[(substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) & 
+                 x$Bound == display_bound[1], colname_spannersub[2]],
+             " {^", intToUtf8(alpha_utf_int), "}")
+      
+    footnote_non_binding <- paste0(
+      "{^", intToUtf8(alpha_utf_int), "} ",
+      "Cumulative alpha for final analysis ",
+      "(", format(x_alpha, scientific = FALSE), ") ",
+      "is less than the full alpha ",
+      "(", format(full_alpha, scientific = FALSE), ") ",
+      "when the futility bound is non-binding. ",
+      "The smaller value subtracts the probability of ",
+      "crossing a futility bound before ",
+      "crossing an efficacy bound at a later analysis ",
+      "(",
+      format(full_alpha, scientific = FALSE),
+      " - ",
+      format(full_alpha - x_alpha, scientific = FALSE),
+      " = ",
+      format(x_alpha, scientific = FALSE),
+      ") ",
+      "under the null hypothesis."
+    )
+    
+    footnotes <- paste0(footnotes, footnote_non_binding)
+  }
+  
+  if (!is.null(footnote)){
+    footnotes <- paste0(footnotes, " \n", footnote)
+  }
 
   # --------------------------------------------- #
   #     output                                    #
@@ -473,18 +528,17 @@ as_rtf.gs_design <- function(x,
       text_font_size = text_font_size
     )
   
-  # ----- Need update -----
-  # if (!is.null(footnote)) {
-  #   outdata$rtf <- outdata$rtf |>
-  #     r2rtf::rtf_footnote(footnotes,
-  #                         text_font_size = text_font_size
-  #     )
-  # }
+  if (!is.null(footnotes)) {
+    ans <- ans |>
+      r2rtf::rtf_footnote(footnotes,
+                          text_font_size = text_font_size
+      )
+  }
   
   # Prepare output
   ans |>
-    rtf_encode() |>
-    write_rtf(path_outtable)
+    r2rtf::rtf_encode() |>
+    r2rtf::write_rtf(path_outtable)
 }
 
 
