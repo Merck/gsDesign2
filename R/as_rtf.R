@@ -449,7 +449,11 @@ as_rtf.gs_design <- function(x,
           x["Analysis"] <- lapply(x["Analysis"], \(z) paste0(z, " {^", intToUtf8(alpha_utf_int), "}") )
         }
         marked_footnote <- paste0("{^", intToUtf8(alpha_utf_int), "} ", def_footnote$content[i])
-        footnotes <- paste0(footnotes, marked_footnote, sep = " \n")
+        if (!is.null(footnotes)){
+          footnotes <- paste0(footnotes, " \n", marked_footnote)
+        } else {
+          footnotes <- marked_footnote
+        }
       }
     }
   }
@@ -484,7 +488,11 @@ as_rtf.gs_design <- function(x,
       "under the null hypothesis."
     )
     
-    footnotes <- paste0(footnotes, footnote_non_binding)
+    if (!is.null(footnotes)){
+      footnotes <- paste0(footnotes, " \n", footnote_non_binding)
+    } else {
+      footnotes <- footnote_non_binding
+    }
   }
   
   if (!is.null(footnote)){
