@@ -1,16 +1,111 @@
+#  Copyright (c) 2023 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  All rights reserved.
+#
+#  This file is part of the gsDesign2 program.
+#
+#  gsDesign2 is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#' Convert summary table of a fixed or group sequential design object to a rtf object
+#'
+#' @param x A summary object of a fixed or group sequential design.
+#' @param ... dditional arguments (not used).
+#'
+#' @return A `rtf` object.
+#' @export
 as_rtf <- function(x, ...) {
   UseMethod("as_rtf", x)
 }
 
-# fixed_design class
+#' @rdname as_rtf
+#' 
+#' @param title A string to specify the title of the rtf table.
+#' @param footnote A string to specify the footnote of the rtf table.
+#' @param col_rel_width TODO
+#' @param orientation TODO
+#' @param text_font_size TODO
+#' @param path_outtable TODO
+#' 
+#' @export
+#' 
+#' @examples
+#' library(dplyr)
+#' library(tibble)
+#'
+#' # Enrollment rate
+#' enroll_rate <- define_enroll_rate(
+#'   duration = 18,
+#'   rate = 20
+#' )
+#'
+#' # Failure rates
+#' fail_rate <- define_fail_rate(
+#'   duration = c(4, 100),
+#'   fail_rate = log(2) / 12,
+#'   dropout_rate = .001,
+#'   hr = c(1, .6)
+#' )
+#'
+#' # Study duration in months
+#' study_duration <- 36
+#'
+#' # Experimental / Control randomization ratio
+#' ratio <- 1
+#'
+#' # 1-sided Type I error
+#' alpha <- 0.025
+#'
+#' # Type II error (1 - power)
+#' beta <- 0.1
+#'
+#' # ------------------------- #
+#' #        AHR                #
+#' # ------------------------- #
+#' # under fixed power
+#' x <- fixed_design_ahr(
+#'   alpha = alpha, power = 1 - beta,
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'   study_duration = study_duration, ratio = ratio
+#' ) %>%
+#'   summary() %>%
+#' x %>% as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#' x %>% as_rtf(title = "Fixed design", path_outtable = tempfile(fileext = ".rtf"))
+#' x %>% as_rtf(footnote = "Power computed with average hazard ratio method given the sample size", path_outtable = tempfile(fileext = ".rtf"))
+#' x %>% as_rtf(text_font_size = 10, path_outtable = tempfile(fileext = ".rtf"))
+#' 
+#' # ------------------------- #
+#' #        FH                 #
+#' # ------------------------- #
+#' # under fixed power
+#' fixed_design_fh(
+#'   alpha = alpha, power = 1 - beta,
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'   study_duration = study_duration, ratio = ratio
+#' ) %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
 as_rtf.fixed_design <- function(x, 
                                 title = NULL, 
                                 footnote = NULL, 
                                 col_rel_width = NULL,
-                                orientation = "portrait",
+                                orientation = c("portrait", "TODO"),
                                 text_font_size = 9,
                                 path_outtable = NULL,   
                                 ...) {
+  # TODO: give a warning message if the path_outtable is NULL
+  # TODO: list all the possible values for the orientation
+  orientation <- match.arg(orientation)
+  
   # get the design method
   if ("ahr" %in% class(x)) {
     design_mtd <- "ahr"
@@ -31,7 +126,6 @@ as_rtf.fixed_design <- function(x,
   } else if ("rd" %in% class(x)) {
     design_mtd <- "rd"
   }
-  
   
   # set the default title
   if (is.null(title)) {
@@ -185,7 +279,128 @@ as_rtf.fixed_design <- function(x,
 }
 
 
-# gs_design class
+
+#' @rdname  as_rtf
+#'
+#' @param title A string to specify the title of the rtf table.
+#' @param subtitle A string to specify the subtitle of the rtf table.
+#' @param colname_spanner A string to specify the spanner of the rtf table.
+#' @param colname_spannersub A vector of strings to specify the spanner details of the rtf table.
+#' @param footnote A list containing `content`, `location`, and `attr`.
+#'   `content` is a vector of string to specify the footnote text;
+#'   `location` is a vector of string to specify the locations to put the
+#'   superscript of the footnote index;
+#'   `attr` is a vector of string to specify the attributes of the footnotes,
+#'   for example, `c("colname", "title", "subtitle", "analysis", "spanner")`;
+#'   users can use the functions in the `gt` package to customize the table.
+#' @param display_bound A vector of strings specifying the label of the bounds.
+#'   The default is `c("Efficacy", "Futility")`.
+#' @param display_columns A vector of strings specifying the variables to be
+#'   displayed in the summary table.
+#' @param display_inf_bound Logical, whether to display the +/-inf bound.
+#' @param full_alpha The full alpha used in the design, the default is 0.025.
+#    If the cumulative alpha for final analysis is less than the `full_alpha`
+#'   when the futility bound is non-binding, a footnote will be displayed, saying
+#'   the smaller value subtracts the probability of crossing a futility bound before
+#'   crossing an efficacy bound at a later analysis under the null hypothesis.
+#' @param col_rel_width TODO
+#' @param orientation TODO
+#' @param text_font_size TODO
+#' @param path_outtable TODO
+#' @param ... 
+#'
+#' @export
+#'
+#' @examples
+#' #' \donttest{
+#' # the default output
+#' library(dplyr)
+#'
+#' gs_design_ahr() %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'
+#' gs_power_ahr() %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'
+#' gs_design_wlr() %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'
+#' gs_power_wlr() %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'
+#'
+#' gs_power_combo() %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'
+#' gs_design_rd() %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'
+#' gs_power_rd() %>%
+#'   summary() %>%
+#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'
+#' # usage of title = ..., subtitle = ...
+#' # to edit the title/subtitle
+#' gs_power_wlr() %>%
+#'   summary() %>%
+#'   as_rtf(
+#'     title = "Bound Summary",
+#'     subtitle = "from gs_power_wlr",
+#'     path_outtable = tempfile(fileext = ".rtf")
+#'   )
+#'
+#' # usage of colname_spanner = ..., colname_spannersub = ...
+#' # to edit the spanner and its sub-spanner
+#' # TODO: this example can not run
+#' gs_power_wlr() %>%
+#'   summary() %>%
+#'   as_rtf(
+#'     colname_spanner = "Cumulative probability to cross boundaries",
+#'     colname_spannersub = c("under H1", "under H0"),
+#'     path_outtable = tempfile(fileext = ".rtf")
+#'   )
+#'
+#' # usage of footnote = ...
+#' # to edit the footnote
+#' # TODO: the footnotes in the rtf file is very strange, please take a look here
+#' gs_power_wlr() %>%
+#'   summary() %>%
+#'   as_rtf(
+#'     footnote = list(
+#'       content = c(
+#'         "approximate weighted hazard ratio to cross bound.",
+#'         "wAHR is the weighted AHR.",
+#'         "the crossing probability.",
+#'         "this table is generated by gs_power_wlr."
+#'       ),
+#'       location = c("~wHR at bound", NA, NA, NA),
+#'       attr = c("colname", "analysis", "spanner", "title")
+#'     ),
+#'     path_outtable = tempfile(fileext = ".rtf")
+#'   )
+#'
+#' # usage of display_bound = ...
+#' # to either show efficacy bound or futility bound, or both(default)
+#' # TODO: this example can not run
+#' gs_power_wlr() %>%
+#'   summary() %>%
+#'   as_rtf(display_bound = "Efficacy", 
+#'          path_outtable = tempfile(fileext = ".rtf"))
+#'
+#' # usage of display_columns = ...
+#' # to select the columns to display in the summary table
+#' # TODO: this example can not run
+#' gs_power_wlr() %>%
+#'   summary() %>%
+#'   as_rtf(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
+#'         path_outtable = tempfile(fileext = ".rtf"))
+#' }
 as_rtf.gs_design <- function(x,
                              title = NULL,
                              subtitle = NULL,
@@ -201,6 +416,9 @@ as_rtf.gs_design <- function(x,
                              text_font_size = 9,
                              path_outtable = NULL,   
                              ...) {
+  # TODO: give a warning message if the path_outtable is NULL
+  # TODO: list all the possible values for the orientation
+  orientation <- match.arg(orientation)
   
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
   x_alpha <- max((x |> dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
