@@ -1,17 +1,22 @@
-# gsDesign2 1.0.9
+# gsDesign2 1.1.0
+
+## Breaking changes
+
+- Split `fixed_design()` into a group of `fixed_design_*()` functions for enhanced modularity (#263).
+- `gs_design_rd()` and `gs_power_rd()` now have updated options of weighting for stratified design (#276).
+- `ppwe()` now accepts two arguments `duration` and `rate` instead of a data frame `fail_rate` (#254).
+- Unexport helper functions `gridpts()`, `h1()`, and `hupdate()` (#253).
+
+## New features
+
+- Introduce `define_enroll_rate()` and `define_fail_rate()` as new input constructor functions to replace the tibble inputs (#238).
+- Add a new function `pw_info()` which calculates the statistical information under the piecewise model (#262).
 
 ## Improvements
 
-- Update the options of weighting in `gs_design_rd()` and `gs_power_rd()` for stratified design (#276).
-- Move the source codes of the old version to testthat folder as developer tests (#269).
-- Split the large `fixed_design()` function into sub-functions (#263).
-- Add a new function `pw_info` which calculate the statistical information under the piecewise model (#262).
-- Update the arguments in `ppwe()` (#254)
-- Unexport some helper functions, such as `gridpts()`, `h1()` and `hupdate()` (#253)
-- Refactor expected_event() for better computational efficiency (#250)
-- Add a vignette showing the canonical joint distribution of Z-score and B-values under null and alternative hypothesis for the AHR test (#246)
-- Update the `tibble()` input into `define_enroll_rate()` and `define_fail_rate()` (#238)
-
+- Add a [vignette](https://merck.github.io/gsDesign2/articles/story-canonical-h0-h1.html) showing the canonical joint distribution of Z-score and B-values under null and alternative hypothesis for the AHR test (#246).
+- Refactor `expected_event()` to improve computational performance (@jdblischak, #250).
+- Move the source code of the legacy version from `inst/` to `tests/testthat/` as developer tests (#269).
 
 # gsDesign2 1.0.9
 
