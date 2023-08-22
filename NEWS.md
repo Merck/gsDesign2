@@ -2,6 +2,21 @@
 
 ## Improvements
 
+- Update the options of weighting in `gs_design_rd()` and `gs_power_rd()` for stratified design (#276).
+- Move the source codes of the old version to testthat folder as developer tests (#269).
+- Split the large `fixed_design()` function into sub-functions (#263).
+- Add a new function `pw_info` which calculate the statistical information under the piecewise model (#262).
+- Update the arguments in `ppwe()` (#254)
+- Unexport some helper functions, such as `gridpts()`, `h1()` and `hupdate()` (#253)
+- Refactor expected_event() for better computational efficiency (#250)
+- Add a vignette showing the canonical joint distribution of Z-score and B-values under null and alternative hypothesis for the AHR test (#246)
+- Update the `tibble()` input into `define_enroll_rate()` and `define_fail_rate()` (#238)
+
+
+# gsDesign2 1.0.9
+
+## Improvements
+
 - Add CRAN download counts badge (#215).
 - Update documentation of `gs_design_rd()` (#220).
 - Format footnote numbers using decimal notation (#222).
