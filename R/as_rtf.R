@@ -31,10 +31,9 @@ as_rtf <- function(x, ...) {
 #' 
 #' @param title A string to specify the title of the rtf table.
 #' @param footnote A string to specify the footnote of the rtf table.
-#' @param col_rel_width TODO
-#' @param orientation TODO
-#' @param text_font_size TODO
-#' @param path_outtable TODO
+#' @inheritParams r2rtf::rtf_page
+#' @inheritParams r2rtf::rtf_body
+#' @param path_outtable A character string of the outtable path.
 #' 
 #' @export
 #' 
@@ -98,14 +97,15 @@ as_rtf.fixed_design <- function(x,
                                 title = NULL, 
                                 footnote = NULL, 
                                 col_rel_width = NULL,
-                                orientation = c("portrait", "TODO"),
+                                orientation = c("portrait", "landscape"),
                                 text_font_size = 9,
                                 path_outtable = NULL,   
                                 ...) {
-  # TODO: give a warning message if the path_outtable is NULL
-  # TODO: list all the possible values for the orientation
+  if (is.null(path_outtable)){
+    warning("`path_outtable` should have a character string of an output location. No output will be created.")
+  }
   orientation <- match.arg(orientation)
-  
+
   # get the design method
   if ("ahr" %in% class(x)) {
     design_mtd <- "ahr"
@@ -219,7 +219,7 @@ as_rtf.fixed_design <- function(x,
     stop(
       "col_rel_width must have the same length (has ",
       length(col_rel_width),
-      ") as as `x` has number of columns (has ",
+      ") as `x` has number of columns (has ",
       n_col, ").",
       call. = FALSE
     )
@@ -273,9 +273,12 @@ as_rtf.fixed_design <- function(x,
   }
   
   # Prepare output
-  ans |>
-    r2rtf::rtf_encode() |>
-    r2rtf::write_rtf(path_outtable)
+  if (!is.null(path_outtable)){
+    ans |>
+      r2rtf::rtf_encode() |>
+      r2rtf::write_rtf(path_outtable)
+    message("The output is saved in", normalizePath(path_outtable))    
+  }
 }
 
 
@@ -303,10 +306,9 @@ as_rtf.fixed_design <- function(x,
 #'   when the futility bound is non-binding, a footnote will be displayed, saying
 #'   the smaller value subtracts the probability of crossing a futility bound before
 #'   crossing an efficacy bound at a later analysis under the null hypothesis.
-#' @param col_rel_width TODO
-#' @param orientation TODO
-#' @param text_font_size TODO
-#' @param path_outtable TODO
+#' @inheritParams r2rtf::rtf_page
+#' @inheritParams r2rtf::rtf_body
+#' @param path_outtable A character string of the outtable path.
 #' @param ... 
 #'
 #' @export
@@ -412,16 +414,18 @@ as_rtf.gs_design <- function(x,
                              display_inf_bound = TRUE,
                              full_alpha = 0.025,
                              col_rel_width = NULL,
-                             orientation = "portrait",
+                             orientation = c("portrait", "landscape"),
                              text_font_size = 9,
                              path_outtable = NULL,   
                              ...) {
-  # TODO: give a warning message if the path_outtable is NULL
-  # TODO: list all the possible values for the orientation
+  if (is.null(path_outtable)){
+    warning("`path_outtable` should have a character string of an output location. No output will be created.")
+  }
   orientation <- match.arg(orientation)
   
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
-  x_alpha <- max((x |> dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
+  x_alpha <- max((x |> dplyr::filter(Bound == display_bound[1]))[["Null hypothesis"]])
+    # !!Check: Does x_alpha always come from H0 of Efficacy? Is there any case where it comes from H1 and/or Futility?
   x_non_binding <- "non_binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x) {
     return(as.numeric(substring(x, 11, 11)))
@@ -502,11 +506,11 @@ as_rtf.gs_design <- function(x,
   
   # set different default footnotes to different methods
   if (method == "ahr" && is.null(footnote)) {
-    def_footnote <- list(
+    footnote <- list(
       content = c(
         ifelse("Nominal p" %in% display_columns,
-               "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control.", NA
+               "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", 
+               NA
         ),
         ifelse("~HR at bound" %in% display_columns,
                "Approximate hazard ratio to cross bound.", NA
@@ -521,14 +525,14 @@ as_rtf.gs_design <- function(x,
         ifelse("~HR at bound" %in% display_columns, "colname", NA)
       )
     )
-    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
+    footnote <- lapply(footnote, function(x) x[!is.na(x)])
   }
   if (method == "wlr" && is.null(footnote)) {
-    def_footnote <- list(
+    footnote <- list(
       content = c(
         ifelse("Nominal p" %in% display_columns,
-               "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control.", NA
+               "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", 
+               NA
         ),
         ifelse("~wHR at bound" %in% display_columns,
                "Approximate hazard ratio to cross bound.", NA
@@ -546,14 +550,14 @@ as_rtf.gs_design <- function(x,
         "analysis"
       )
     )
-    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
+    footnote <- lapply(footnote, function(x) x[!is.na(x)])
   }
   if (method == "combo" && is.null(footnote)) {
-    def_footnote <- list(
+    footnote <- list(
       content = c(
         ifelse("Nominal p" %in% display_columns,
-               "One-sided p-value for experimental vs control treatment.
-               Value < 0.5 favors experimental, > 0.5 favors control.", NA
+               "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", 
+               NA
         ),
         "EF is event fraction. AHR  is under regular weighted log rank test."
       ),
@@ -566,18 +570,18 @@ as_rtf.gs_design <- function(x,
         "analysis"
       )
     )
-    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
+    footnote <- lapply(footnote, function(x) x[!is.na(x)])
   }
   if (method == "rd" && is.null(footnote)) {
-    def_footnote <- list(
+    footnote <- list(
       content = c(ifelse("Nominal p" %in% display_columns,
-                         "One-sided p-value for experimental vs control treatment.
-                         Value < 0.5 favors experimental, > 0.5 favors control.", NA
+                         "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.", 
+                         NA
       )),
       location = c(ifelse("Nominal p" %in% display_columns, "Nominal p", NA)),
       attr = c(ifelse("Nominal p" %in% display_columns, "colname", NA))
     )
-    def_footnote <- lapply(def_footnote, function(x) x[!is.na(x)])
+    footnote <- lapply(footnote, function(x) x[!is.na(x)])
   }
   
   # --------------------------------------------- #
@@ -601,7 +605,7 @@ as_rtf.gs_design <- function(x,
     stop(
       "col_rel_width must have the same length (has ",
       length(col_rel_width),
-      ") as as `x` has number of columns (has ",
+      ") as `x` has number of columns (has ",
       n_col, ").",
       call. = FALSE
     )
@@ -654,28 +658,39 @@ as_rtf.gs_design <- function(x,
   footnotes <- NULL
   alpha_utf_int <- 96
   
-  if (is.null(footnote)){
-    if (length(def_footnote$content) > 0){
-      for (i in 1:length(def_footnote$content)){
+  if (!is.null(footnote$content)){
+    if (length(footnote$content) > 0){
+      for (i in 1:length(footnote$content)){
         alpha_utf_int <- alpha_utf_int + 1
-        if (def_footnote$attr[i] == "colname"){
-          colheader[2] <- sub(def_footnote$location[i],
-                              paste0(def_footnote$location[i], " {^", intToUtf8(alpha_utf_int), "}"),
+        if (footnote$attr[i] == "colname"){
+          colheader[2] <- sub(footnote$location[i],
+                              paste0(footnote$location[i], " {^", intToUtf8(alpha_utf_int), "}"),
                               colheader[2])
+        } 
+        else if (footnote$attr[i] == "title"){
+          title <- paste0(title, " \\super ", intToUtf8(alpha_utf_int))
+        } 
+        else if (footnote$attr[i] == "subtitle"){
+          subtitle <- paste0(subtitle, " {\\super ", intToUtf8(alpha_utf_int), "}")
         } 
         else if (footnote$attr[i] == "analysis"){
           x["Analysis"] <- lapply(x["Analysis"], \(z) paste0(z, " {^", intToUtf8(alpha_utf_int), "}") )
         }
-        marked_footnote <- paste0("{^", intToUtf8(alpha_utf_int), "} ", def_footnote$content[i])
+        else if (footnote$attr[i] == "spanner"){
+          colheader[1] <- sub(colname_spanner,
+                              paste0(colname_spanner, " {^", intToUtf8(alpha_utf_int), "}"),
+                              colheader[1])
+        }
+        marked_footnote <- paste0("{\\super ", intToUtf8(alpha_utf_int), "} ", footnote$content[i])
         if (!is.null(footnotes)){
-          footnotes <- paste0(footnotes, " \n", marked_footnote)
+          footnotes <- paste0(footnotes, "\\line", marked_footnote)
         } else {
           footnotes <- marked_footnote
         }
       }
     }
   }
-  
+
   ## if it is non-binding design
   if (x_non_binding && (x_alpha < full_alpha)) {
     alpha_utf_int <- alpha_utf_int + 1
@@ -687,7 +702,7 @@ as_rtf.gs_design <- function(x,
              " {^", intToUtf8(alpha_utf_int), "}")
       
     footnote_non_binding <- paste0(
-      "{^", intToUtf8(alpha_utf_int), "} ",
+      "{\\super ", intToUtf8(alpha_utf_int), "} ",
       "Cumulative alpha for final analysis ",
       "(", format(x_alpha, scientific = FALSE), ") ",
       "is less than the full alpha ",
@@ -707,14 +722,10 @@ as_rtf.gs_design <- function(x,
     )
     
     if (!is.null(footnotes)){
-      footnotes <- paste0(footnotes, " \n", footnote_non_binding)
+      footnotes <- paste0(footnotes, "\\line", footnote_non_binding)
     } else {
       footnotes <- footnote_non_binding
     }
-  }
-  
-  if (!is.null(footnote)){
-    footnotes <- paste0(footnotes, " \n", footnote)
   }
 
   # --------------------------------------------- #
@@ -757,14 +768,18 @@ as_rtf.gs_design <- function(x,
   if (!is.null(footnotes)) {
     ans <- ans |>
       r2rtf::rtf_footnote(footnotes,
-                          text_font_size = text_font_size
+                          text_font_size = text_font_size,
+                          text_convert = FALSE
       )
   }
   
   # Prepare output
-  ans |>
-    r2rtf::rtf_encode() |>
-    r2rtf::write_rtf(path_outtable)
+  if (!is.null(path_outtable)){
+    ans |>
+      r2rtf::rtf_encode() |>
+      r2rtf::write_rtf(path_outtable)
+    message("The output is saved in", normalizePath(path_outtable))    
+  }
 }
 
 
