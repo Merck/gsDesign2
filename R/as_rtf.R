@@ -75,10 +75,9 @@ as_rtf <- function(x, ...) {
 #'   alpha = alpha, power = 1 - beta,
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   study_duration = study_duration, ratio = ratio
-#' )
-#' x %>%
-#'   summary() %>%
-#'   as_rtf(file = tempfile(fileext = ".rtf"))
+#' ) %>%
+#'   summary() 
+#' x %>% as_rtf(file = tempfile(fileext = ".rtf"))
 #' x %>% as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
 #' x %>% as_rtf(
 #'   footnote = "Power computed with average hazard ratio method given the sample size",
