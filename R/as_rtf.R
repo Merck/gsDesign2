@@ -249,14 +249,14 @@ as_rtf.fixed_design <- function(
   text_indent <- matrix(0, nrow = n_row, ncol = n_col)
 
   # Use r2rtf
-  ans <- x |>
-    r2rtf::rtf_page(orientation = orientation) |>
-    r2rtf::rtf_title(title) |>
+  ans <- x %>%
+    r2rtf::rtf_page(orientation = orientation) %>%
+    r2rtf::rtf_title(title) %>%
     r2rtf::rtf_colheader(
       colheader = colheader,
       col_rel_width = rel_width,
       text_font_size = text_font_size
-    ) |>
+    ) %>%
     r2rtf::rtf_body(
       col_rel_width = rel_width,
       border_left = border_left,
@@ -269,15 +269,15 @@ as_rtf.fixed_design <- function(
     )
 
   if (!is.null(footnote)) {
-    ans <- ans |>
+    ans <- ans %>%
       r2rtf::rtf_footnote(footnote,
         text_font_size = text_font_size
       )
   }
 
   # Prepare output
-  ans |>
-    r2rtf::rtf_encode() |>
+  ans %>%
+    r2rtf::rtf_encode() %>%
     r2rtf::write_rtf(file = file)
 
   invisible(x)
@@ -422,14 +422,14 @@ as_rtf.gs_design <- function(
   orientation <- match.arg(orientation)
 
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
-  x_alpha <- max((x |> dplyr::filter(Bound == display_bound[1]))[["Null hypothesis"]])
+  x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[["Null hypothesis"]])
   x_non_binding <- "non_binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x) {
     return(as.numeric(substring(x, 11, 11)))
-  }) |> unlist()
+  }) %>% unlist()
   x_old <- x
 
-  x <- data.frame(lapply(x, \(x) trimws(formatC(x, flag = "-"), "r")))
+  x <- data.frame(lapply(x, function(x) trimws(formatC(x, flag = "-"), "r")))
   names(x) <- names(x_old)
 
   # --------------------------------------------- #
@@ -498,7 +498,7 @@ as_rtf.gs_design <- function(
   if (sum(!(display_columns %in% names(x))) >= 1) {
     stop("as_rtf: the variable names in display_columns is not outputted in the summary_bound object!")
   } else {
-    x <- x |> dplyr::select(dplyr::all_of(display_columns))
+    x <- x %>% dplyr::select(dplyr::all_of(display_columns))
   }
 
   # set different default footnotes to different methods
@@ -604,13 +604,13 @@ as_rtf.gs_design <- function(
   # --------------------------------------------- #
   #     filter out inf bound                      #
   # --------------------------------------------- #
-  x <- x |>
-    subset(!is.na(`Alternate hypothesis`)) |>
+  x <- x %>%
+    subset(!is.na(`Alternate hypothesis`)) %>%
     subset(!is.na(`Null hypothesis`))
 
   # organize data
-  x <- x |>
-    subset(Bound %in% display_bound) |>
+  x <- x %>%
+    subset(Bound %in% display_bound) %>%
     dplyr::arrange(Analysis)
 
   # --------------------------------------------- #
@@ -690,7 +690,7 @@ as_rtf.gs_design <- function(
         } else if (footnote$attr[i] == "subtitle") {
           subtitle <- paste0(subtitle, " {\\super ", intToUtf8(alpha_utf_int), "}")
         } else if (footnote$attr[i] == "analysis") {
-          x["Analysis"] <- lapply(x["Analysis"], \(z) paste0(z, " {^", intToUtf8(alpha_utf_int), "}"))
+          x["Analysis"] <- lapply(x["Analysis"], function(z) paste0(z, " {^", intToUtf8(alpha_utf_int), "}"))
         } else if (footnote$attr[i] == "spanner") {
           colheader[1] <- sub(
             colname_spanner,
@@ -754,26 +754,26 @@ as_rtf.gs_design <- function(
   #     output                                    #
   # --------------------------------------------- #
   # use r2rtf
-  ans <- x |>
-    r2rtf::rtf_page(orientation = orientation) |>
+  ans <- x %>%
+    r2rtf::rtf_page(orientation = orientation) %>%
     r2rtf::rtf_title(
       title = title,
       subtitle = subtitle,
       text_convert = FALSE
-    ) |>
+    ) %>%
     r2rtf::rtf_colheader(
       colheader = colheader[1],
       col_rel_width = rel_width_head[[1]],
       text_font_size = text_font_size,
       border_left = border_left_head[[1]]
-    ) |>
+    ) %>%
     r2rtf::rtf_colheader(
       colheader = colheader[2],
       border_top = border_top_head,
       border_left = border_left_head[[2]],
       col_rel_width = rel_width_head[[2]],
       text_font_size = text_font_size
-    ) |>
+    ) %>%
     r2rtf::rtf_body(
       page_by = "Analysis",
       col_rel_width = rel_width_body,
@@ -788,7 +788,7 @@ as_rtf.gs_design <- function(
     )
 
   if (!is.null(footnotes)) {
-    ans <- ans |>
+    ans <- ans %>%
       r2rtf::rtf_footnote(footnotes,
         text_font_size = text_font_size,
         text_convert = FALSE
@@ -796,8 +796,8 @@ as_rtf.gs_design <- function(
   }
 
   # Prepare output
-  ans |>
-    r2rtf::rtf_encode() |>
+  ans %>%
+    r2rtf::rtf_encode() %>%
     r2rtf::write_rtf(file = file)
 
   invisible(x_old)
