@@ -359,7 +359,6 @@ as_rtf.fixed_design <- function(x,
 #'
 #' # usage of colname_spanner = ..., colname_spannersub = ...
 #' # to edit the spanner and its sub-spanner
-#' # TODO: this example can not run
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_rtf(
@@ -370,7 +369,6 @@ as_rtf.fixed_design <- function(x,
 #'
 #' # usage of footnote = ...
 #' # to edit the footnote
-#' # TODO: the footnotes in the rtf file is very strange, please take a look here
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_rtf(
@@ -389,7 +387,6 @@ as_rtf.fixed_design <- function(x,
 #'
 #' # usage of display_bound = ...
 #' # to either show efficacy bound or futility bound, or both(default)
-#' # TODO: this example can not run
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_rtf(display_bound = "Efficacy", 
@@ -397,7 +394,6 @@ as_rtf.fixed_design <- function(x,
 #'
 #' # usage of display_columns = ...
 #' # to select the columns to display in the summary table
-#' # TODO: this example can not run
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_rtf(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
@@ -425,7 +421,6 @@ as_rtf.gs_design <- function(x,
   
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
   x_alpha <- max((x |> dplyr::filter(Bound == display_bound[1]))[["Null hypothesis"]])
-    # !!Check: Does x_alpha always come from H0 of Efficacy? Is there any case where it comes from H1 and/or Futility?
   x_non_binding <- "non_binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x) {
     return(as.numeric(substring(x, 11, 11)))
