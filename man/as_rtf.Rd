@@ -125,8 +125,7 @@ x <- fixed_design_ahr(
   alpha = alpha, power = 1 - beta,
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   study_duration = study_duration, ratio = ratio
-) \%>\%
-  summary() 
+) \%>\% summary()
 x \%>\% as_rtf(file = tempfile(fileext = ".rtf"))
 x \%>\% as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
 x \%>\% as_rtf(
