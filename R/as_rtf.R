@@ -21,7 +21,8 @@
 #' @param x A summary object of a fixed or group sequential design.
 #' @param ... Additional arguments (not used).
 #'
-#' @return A `rtf` object.
+#' @return `as_rtf()` returns the input `x` invisibly.
+#'
 #' @export
 as_rtf <- function(x, ...) {
   UseMethod("as_rtf", x)
@@ -33,7 +34,7 @@ as_rtf <- function(x, ...) {
 #' @param footnote A string to specify the footnote of the rtf table.
 #' @inheritParams r2rtf::rtf_page
 #' @inheritParams r2rtf::rtf_body
-#' @param path_outtable A character string of the outtable path.
+#' @param file File path for the output.
 #'
 #' @export
 #'
@@ -78,13 +79,13 @@ as_rtf <- function(x, ...) {
 #' )
 #' x %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
-#' x %>% as_rtf(title = "Fixed design", path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
+#' x %>% as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
 #' x %>% as_rtf(
 #'   footnote = "Power computed with average hazard ratio method given the sample size",
-#'   path_outtable = tempfile(fileext = ".rtf")
+#'   file = tempfile(fileext = ".rtf")
 #' )
-#' x %>% as_rtf(text_font_size = 10, path_outtable = tempfile(fileext = ".rtf"))
+#' x %>% as_rtf(text_font_size = 10, file = tempfile(fileext = ".rtf"))
 #'
 #' # ------------------------- #
 #' #        FH                 #
@@ -96,7 +97,7 @@ as_rtf <- function(x, ...) {
 #'   study_duration = study_duration, ratio = ratio
 #' ) %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 as_rtf.fixed_design <- function(
     x,
     title = NULL,
@@ -104,11 +105,8 @@ as_rtf.fixed_design <- function(
     col_rel_width = NULL,
     orientation = c("portrait", "landscape"),
     text_font_size = 9,
-    path_outtable = NULL,
+    file,
     ...) {
-  if (is.null(path_outtable)) {
-    warning("`path_outtable` should have a character string of an output location. No output will be created.")
-  }
   orientation <- match.arg(orientation)
 
   # get the design method
@@ -278,12 +276,11 @@ as_rtf.fixed_design <- function(
   }
 
   # Prepare output
-  if (!is.null(path_outtable)) {
-    ans |>
-      r2rtf::rtf_encode() |>
-      r2rtf::write_rtf(path_outtable)
-    message("The output is saved in", normalizePath(path_outtable))
-  }
+  ans |>
+    r2rtf::rtf_encode() |>
+    r2rtf::write_rtf(file = file)
+
+  invisible(x)
 }
 
 #' @rdname  as_rtf
@@ -311,7 +308,7 @@ as_rtf.fixed_design <- function(
 #'   crossing an efficacy bound at a later analysis under the null hypothesis.
 #' @inheritParams r2rtf::rtf_page
 #' @inheritParams r2rtf::rtf_body
-#' @param path_outtable A character string of the outtable path.
+#' @param file File path for the output.
 #'
 #' @export
 #'
@@ -323,32 +320,32 @@ as_rtf.fixed_design <- function(
 #'
 #' gs_design_ahr() %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #' gs_power_ahr() %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #' gs_design_wlr() %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #' gs_power_wlr() %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #'
 #' gs_power_combo() %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #' gs_design_rd() %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #' gs_power_rd() %>%
 #'   summary() %>%
-#'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+#'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #' # usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle
@@ -357,7 +354,7 @@ as_rtf.fixed_design <- function(
 #'   as_rtf(
 #'     title = "Bound Summary",
 #'     subtitle = "from gs_power_wlr",
-#'     path_outtable = tempfile(fileext = ".rtf")
+#'     file = tempfile(fileext = ".rtf")
 #'   )
 #'
 #' # usage of colname_spanner = ..., colname_spannersub = ...
@@ -367,7 +364,7 @@ as_rtf.fixed_design <- function(
 #'   as_rtf(
 #'     colname_spanner = "Cumulative probability to cross boundaries",
 #'     colname_spannersub = c("under H1", "under H0"),
-#'     path_outtable = tempfile(fileext = ".rtf")
+#'     file = tempfile(fileext = ".rtf")
 #'   )
 #'
 #' # usage of footnote = ...
@@ -385,7 +382,7 @@ as_rtf.fixed_design <- function(
 #'       location = c("~wHR at bound", NA, NA, NA),
 #'       attr = c("colname", "analysis", "spanner", "title")
 #'     ),
-#'     path_outtable = tempfile(fileext = ".rtf")
+#'     file = tempfile(fileext = ".rtf")
 #'   )
 #'
 #' # usage of display_bound = ...
@@ -394,7 +391,7 @@ as_rtf.fixed_design <- function(
 #'   summary() %>%
 #'   as_rtf(
 #'     display_bound = "Efficacy",
-#'     path_outtable = tempfile(fileext = ".rtf")
+#'     file = tempfile(fileext = ".rtf")
 #'   )
 #'
 #' # usage of display_columns = ...
@@ -403,7 +400,7 @@ as_rtf.fixed_design <- function(
 #'   summary() %>%
 #'   as_rtf(
 #'     display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
-#'     path_outtable = tempfile(fileext = ".rtf")
+#'     file = tempfile(fileext = ".rtf")
 #'   )
 #' }
 as_rtf.gs_design <- function(
@@ -420,11 +417,8 @@ as_rtf.gs_design <- function(
     col_rel_width = NULL,
     orientation = c("portrait", "landscape"),
     text_font_size = 9,
-    path_outtable = NULL,
+    file,
     ...) {
-  if (is.null(path_outtable)) {
-    warning("`path_outtable` should have a character string of an output location. No output will be created.")
-  }
   orientation <- match.arg(orientation)
 
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
@@ -802,10 +796,9 @@ as_rtf.gs_design <- function(
   }
 
   # Prepare output
-  if (!is.null(path_outtable)) {
-    ans |>
-      r2rtf::rtf_encode() |>
-      r2rtf::write_rtf(path_outtable)
-    message("The output is saved in", normalizePath(path_outtable))
-  }
+  ans |>
+    r2rtf::rtf_encode() |>
+    r2rtf::write_rtf(file = file)
+
+  invisible(x_old)
 }

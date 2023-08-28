@@ -15,7 +15,7 @@ as_rtf(x, ...)
   col_rel_width = NULL,
   orientation = c("portrait", "landscape"),
   text_font_size = 9,
-  path_outtable = NULL,
+  file,
   ...
 )
 
@@ -33,7 +33,7 @@ as_rtf(x, ...)
   col_rel_width = NULL,
   orientation = c("portrait", "landscape"),
   text_font_size = 9,
-  path_outtable = NULL,
+  file,
   ...
 )
 }
@@ -61,7 +61,7 @@ Default is NULL for equal column width.}
 numeric vector with length of vector equal to number of columns
 displayed e.g. c(9,20,40).}
 
-\item{path_outtable}{A character string of the outtable path.}
+\item{file}{File path for the output.}
 
 \item{subtitle}{A string to specify the subtitle of the rtf table.}
 
@@ -83,7 +83,7 @@ the smaller value subtracts the probability of crossing a futility bound before
 crossing an efficacy bound at a later analysis under the null hypothesis.}
 }
 \value{
-A \code{rtf} object.
+\code{as_rtf()} returns the input \code{x} invisibly.
 }
 \description{
 Convert summary table of a fixed or group sequential design object to a rtf object
@@ -129,13 +129,13 @@ x <- fixed_design_ahr(
 )
 x \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
-x \%>\% as_rtf(title = "Fixed design", path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
+x \%>\% as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
 x \%>\% as_rtf(
   footnote = "Power computed with average hazard ratio method given the sample size",
-  path_outtable = tempfile(fileext = ".rtf")
+  file = tempfile(fileext = ".rtf")
 )
-x \%>\% as_rtf(text_font_size = 10, path_outtable = tempfile(fileext = ".rtf"))
+x \%>\% as_rtf(text_font_size = 10, file = tempfile(fileext = ".rtf"))
 
 # ------------------------- #
 #        FH                 #
@@ -147,7 +147,7 @@ fixed_design_fh(
   study_duration = study_duration, ratio = ratio
 ) \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 \donttest{
 # the default output
@@ -155,32 +155,32 @@ library(dplyr)
 
 gs_design_ahr() \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 
 gs_power_ahr() \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 
 gs_design_wlr() \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 
 gs_power_wlr() \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 
 
 gs_power_combo() \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 
 gs_design_rd() \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 
 gs_power_rd() \%>\%
   summary() \%>\%
-  as_rtf(path_outtable = tempfile(fileext = ".rtf"))
+  as_rtf(file = tempfile(fileext = ".rtf"))
 
 # usage of title = ..., subtitle = ...
 # to edit the title/subtitle
@@ -189,7 +189,7 @@ gs_power_wlr() \%>\%
   as_rtf(
     title = "Bound Summary",
     subtitle = "from gs_power_wlr",
-    path_outtable = tempfile(fileext = ".rtf")
+    file = tempfile(fileext = ".rtf")
   )
 
 # usage of colname_spanner = ..., colname_spannersub = ...
@@ -199,7 +199,7 @@ gs_power_wlr() \%>\%
   as_rtf(
     colname_spanner = "Cumulative probability to cross boundaries",
     colname_spannersub = c("under H1", "under H0"),
-    path_outtable = tempfile(fileext = ".rtf")
+    file = tempfile(fileext = ".rtf")
   )
 
 # usage of footnote = ...
@@ -217,7 +217,7 @@ gs_power_wlr() \%>\%
       location = c("~wHR at bound", NA, NA, NA),
       attr = c("colname", "analysis", "spanner", "title")
     ),
-    path_outtable = tempfile(fileext = ".rtf")
+    file = tempfile(fileext = ".rtf")
   )
 
 # usage of display_bound = ...
@@ -226,7 +226,7 @@ gs_power_wlr() \%>\%
   summary() \%>\%
   as_rtf(
     display_bound = "Efficacy",
-    path_outtable = tempfile(fileext = ".rtf")
+    file = tempfile(fileext = ".rtf")
   )
 
 # usage of display_columns = ...
@@ -235,7 +235,7 @@ gs_power_wlr() \%>\%
   summary() \%>\%
   as_rtf(
     display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
-    path_outtable = tempfile(fileext = ".rtf")
+    file = tempfile(fileext = ".rtf")
   )
 }
 }
