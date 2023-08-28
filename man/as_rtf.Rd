@@ -40,7 +40,7 @@ as_rtf(x, ...)
 \arguments{
 \item{x}{A summary object of a fixed or group sequential design.}
 
-\item{...}{}
+\item{...}{Additional arguments (not used).}
 
 \item{title}{A string to specify the title of the rtf table.}
 
@@ -126,9 +126,9 @@ x <- fixed_design_ahr(
   alpha = alpha, power = 1 - beta,
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   study_duration = study_duration, ratio = ratio
-) \%>\%
+)
+x \%>\%
   summary() \%>\%
-  x() \%>\%
   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
 x \%>\% as_rtf(title = "Fixed design", path_outtable = tempfile(fileext = ".rtf"))
 x \%>\% as_rtf(

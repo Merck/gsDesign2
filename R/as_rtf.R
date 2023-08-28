@@ -19,7 +19,7 @@
 #' Convert summary table of a fixed or group sequential design object to a rtf object
 #'
 #' @param x A summary object of a fixed or group sequential design.
-#' @param ... dditional arguments (not used).
+#' @param ... Additional arguments (not used).
 #'
 #' @return A `rtf` object.
 #' @export
@@ -75,9 +75,9 @@ as_rtf <- function(x, ...) {
 #'   alpha = alpha, power = 1 - beta,
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   study_duration = study_duration, ratio = ratio
-#' ) %>%
+#' )
+#' x %>%
 #'   summary() %>%
-#'   x() %>%
 #'   as_rtf(path_outtable = tempfile(fileext = ".rtf"))
 #' x %>% as_rtf(title = "Fixed design", path_outtable = tempfile(fileext = ".rtf"))
 #' x %>% as_rtf(
@@ -286,8 +286,6 @@ as_rtf.fixed_design <- function(
   }
 }
 
-
-
 #' @rdname  as_rtf
 #'
 #' @param title A string to specify the title of the rtf table.
@@ -314,7 +312,6 @@ as_rtf.fixed_design <- function(
 #' @inheritParams r2rtf::rtf_page
 #' @inheritParams r2rtf::rtf_body
 #' @param path_outtable A character string of the outtable path.
-#' @param ...
 #'
 #' @export
 #'
