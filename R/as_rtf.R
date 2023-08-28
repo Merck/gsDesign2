@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Convert summary table of a fixed or group sequential design object to a rtf object
+#' Write summary table of a fixed or group sequential design object to an RTF file
 #'
 #' @param x A summary object of a fixed or group sequential design.
 #' @param ... Additional arguments (not used).
@@ -30,8 +30,8 @@ as_rtf <- function(x, ...) {
 
 #' @rdname as_rtf
 #'
-#' @param title A string to specify the title of the rtf table.
-#' @param footnote A string to specify the footnote of the rtf table.
+#' @param title A string to specify the title of the RTF table.
+#' @param footnote A string to specify the footnote of the RTF table.
 #' @inheritParams r2rtf::rtf_page
 #' @inheritParams r2rtf::rtf_body
 #' @param file File path for the output.
@@ -40,7 +40,6 @@ as_rtf <- function(x, ...) {
 #'
 #' @examples
 #' library(dplyr)
-#' library(tibble)
 #'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
@@ -285,10 +284,10 @@ as_rtf.fixed_design <- function(
 
 #' @rdname  as_rtf
 #'
-#' @param title A string to specify the title of the rtf table.
-#' @param subtitle A string to specify the subtitle of the rtf table.
-#' @param colname_spanner A string to specify the spanner of the rtf table.
-#' @param colname_spannersub A vector of strings to specify the spanner details of the rtf table.
+#' @param title A string to specify the title of the RTF table.
+#' @param subtitle A string to specify the subtitle of the RTF table.
+#' @param colname_spanner A string to specify the spanner of the RTF table.
+#' @param colname_spannersub A vector of strings to specify the spanner details of the RTF table.
 #' @param footnote A list containing `content`, `location`, and `attr`.
 #'   `content` is a vector of string to specify the footnote text;
 #'   `location` is a vector of string to specify the locations to put the
@@ -614,7 +613,7 @@ as_rtf.gs_design <- function(
     dplyr::arrange(Analysis)
 
   # --------------------------------------------- #
-  #     set rtf parameters                        #
+  #     set RTF parameters                        #
   # --------------------------------------------- #
   n_col <- ncol(x)
   n_row <- nrow(x)

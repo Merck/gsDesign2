@@ -4,7 +4,7 @@
 \alias{as_rtf}
 \alias{as_rtf.fixed_design}
 \alias{as_rtf.gs_design}
-\title{Convert summary table of a fixed or group sequential design object to a rtf object}
+\title{Write summary table of a fixed or group sequential design object to an RTF file}
 \usage{
 as_rtf(x, ...)
 
@@ -42,7 +42,7 @@ as_rtf(x, ...)
 
 \item{...}{Additional arguments (not used).}
 
-\item{title}{A string to specify the title of the rtf table.}
+\item{title}{A string to specify the title of the RTF table.}
 
 \item{footnote}{A list containing \code{content}, \code{location}, and \code{attr}.
 \code{content} is a vector of string to specify the footnote text;
@@ -63,11 +63,11 @@ displayed e.g. c(9,20,40).}
 
 \item{file}{File path for the output.}
 
-\item{subtitle}{A string to specify the subtitle of the rtf table.}
+\item{subtitle}{A string to specify the subtitle of the RTF table.}
 
-\item{colname_spanner}{A string to specify the spanner of the rtf table.}
+\item{colname_spanner}{A string to specify the spanner of the RTF table.}
 
-\item{colname_spannersub}{A vector of strings to specify the spanner details of the rtf table.}
+\item{colname_spannersub}{A vector of strings to specify the spanner details of the RTF table.}
 
 \item{display_bound}{A vector of strings specifying the label of the bounds.
 The default is \code{c("Efficacy", "Futility")}.}
@@ -86,11 +86,10 @@ crossing an efficacy bound at a later analysis under the null hypothesis.}
 \code{as_rtf()} returns the input \code{x} invisibly.
 }
 \description{
-Convert summary table of a fixed or group sequential design object to a rtf object
+Write summary table of a fixed or group sequential design object to an RTF file
 }
 \examples{
 library(dplyr)
-library(tibble)
 
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
