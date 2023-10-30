@@ -79,149 +79,48 @@ fail_rate %>%
   tab_header(title = "Table of Failure Rate")
 ```
 
-# Deriving Power for a Given Sample Size
+# Fixed Design with no Interim Analysis
 
-In this section, we discuss how to drive the power, given a known sample size.
-
-First, we calculate the number of events and statistical information (both under H0 and H1) at targeted analysis times.
+We can derive power for the above enrollment rates and failure rates as follows:
 
 ```{r}
-xx <- ahr(
-  enroll_rate = enroll_rate,
-  fail_rate = fail_rate,
-  total_duration = analysis_time
-)
-
-xx %>% gt()
+fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = NULL, ratio = 1, study_duration = 36, event = NULL) %>% summary()
 ```
 
-Then, we can use `gs_info_ahr()` to calculate (1) the treatment effect (`theta`), (2) AHR, (3) the statistical information (both under H0 and H1) under the targeted number of events.
+
+
+We now compute sample size and then translate from a continuous sample size to an integer sample size.
 
 ```{r}
-yy <- gs_info_ahr(
-  enroll_rate = enroll_rate,
-  fail_rate = fail_rate,
-  event = ceiling(xx$event)
-) %>%
-  mutate(timing = info0 / max(info0))
-
-yy %>%
-  gt() %>%
-  fmt_number(columns = 2:8, decimals = 4)
+fixed_design <- fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = .9, ratio = 1, study_duration = 36, event = NULL) 
+integer_fixed_design <- fixed_design %>% to_integer()
+# NOTE: the next line should not be needed, but to_integer() changed names
+names(integer_fixed_design$analysis) <- names(fixed_design$analysis)
+summary(integer_fixed_design)
 ```
 
-Finally, we can calculate the power of `yy` by using `gs_power_npe()`.
-
-```{r}
-zz <- gs_power_npe(
-  # set the treatment effet
-  theta = yy$theta,
-  # set the statistical information under H0 and H1
-  info = yy$info,
-  info0 = yy$info0,
-  # set the upper bound
-  upper = gs_b,
-  upar = gsDesign(k = n_analysis, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$upper$bound,
-  # set the lower bound
-  lower = gs_b,
-  lpar = gsDesign(k = n_analysis, test.type = 2, sfu = sfLDOF, alpha = .025, timing = yy$timing)$lower$bound
-)
-
-zz %>%
-  filter(bound == "upper") %>%
-  select(analysis, bound, z, probability, info_frac) %>%
-  gt() %>%
-  fmt_number(columns = 3:5, decimals = 4)
-```
-From the above table, we find the power is 0.6267.
-
-# Deriving Sample Size for a Given Power
-
-In this section, we discuss how to calculate the sample size for a given power (we take the given power as 0.9 in this section).
-And we discuss the calculation into 2 scenarios: (1) fixed design and (2) group sequential design.
-
-```{r}
-target_power <- 0.9
-```
-
-## Fixed Design
-
-If we were using a fixed design, we would approximate the sample size as follows:
-
-```{r}
-minx <- (
-  (
-    qnorm(.025) / sqrt(zz$info0[n_analysis]) +
-      qnorm(1 - target_power) / sqrt(zz$info[n_analysis])
-  ) /
-    zz$theta[n_analysis]
-)^2
-minx
-```
-
-If we inflate the enrollment rates by `minx` and use a fixed design, we will see this achieves the targeted power.
-
-```{r}
-gs_power_npe(
-  theta = yy$theta[n_analysis],
-  info = yy$info[n_analysis] * minx,
-  info0 = yy$info0[n_analysis] * minx,
-  upar = qnorm(.975),
-  lpar = -Inf
-) %>%
-  filter(bound == "upper") %>%
-  select(probability)
-```
 
 ## Group Sequential Design
 
-The power for a group sequential design with the same final sample size is a bit lower:
+We now consider a group sequential design with bounds derived using spending functions.
+We target the interim analysis for 24 months and the final analysis for 36 months.
+Spending for both efficacy and futility is based on the proportion of events expected at each analysis divided by the total expected events at the final analysis.
+
+
 
 ```{r}
-gs_power_npe(
-  theta = yy$theta,
-  info = yy$info * minx,
-  info0 = yy$info0 * minx,
-  upper = gs_spending_bound,
-  lower = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
-) %>%
-  filter(bound == "upper", analysis == n_analysis) %>%
-  select(probability) %>%
-  gt()
+gs <- 
+  gs_design_ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    info_frac = NULL,
+    analysis_time = c(24, 36),
+    upper = gs_spending_bound,
+    lower = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1, param = NULL, timing = NULL), 
+    h1_spending = TRUE
+  ) %>% to_integer()
+summary(gs) %>% gt()
 ```
 
-If we inflate this a bit we will be overpowered.
-
-```{r}
-gs_power_npe(
-  theta = yy$theta,
-  info = yy$info * minx * 1.2,
-  info0 = yy$info0 * minx * 1.2,
-  upper = gs_spending_bound,
-  lower = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
-) %>%
-  filter(bound == "upper", analysis == n_analysis) %>%
-  select(probability) %>%
-  gt()
-```
-
-Now we use `gs_design_npe()` to inflate the information proportionately to power the trial.
-
-```{r}
-gs_design_npe(
-  theta = yy$theta,
-  info = yy$info,
-  info0 = yy$info0,
-  upper = gs_spending_bound,
-  lower = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
-) %>%
-  filter(bound == "upper", analysis == n_analysis) %>%
-  select(probability) %>%
-  gt()
-```
