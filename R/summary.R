@@ -127,10 +127,10 @@ summary.fixed_design <- function(object, ...) {
   }
 
   if ("event" %in% names(ans)) {
-    ans <- ans %>% dplyr::rename(Event = event)
+    ans <- ans %>% dplyr::rename(Events = event)
   }
 
-  if ("Time" %in% names(ans)) {
+  if ("time" %in% names(ans)) {
     ans <- ans %>% dplyr::rename(Time = time)
   }
 
