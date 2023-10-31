@@ -1,0 +1,91 @@
+---
+title: "Statistical information under null and alternative hypothesis"
+author: "Yujie Zhao"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: gsDesign2.bib
+vignette: |
+  %\VignetteIndexEntry{Summarize group sequential designs in gt tables}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tibble)
+library(gt)
+library(gsDesign2)
+```
+
+In a group sequential design of the $k$-th analysis, the Z-score is
+$$
+  Z_k = \delta_k / \sqrt{\text{Var}(\delta_k | H_0)}
+$$
+
+# Continuous outcomes
+
+Imagine a trial with a continuous outcome. Let $X_{0, i} \sim N(\mu_0, \sigma^2)$ for patient $i = 1, \ldots, n_0$ and $X_{1,i} \sim N(\mu_1, \sigma^2)$ for patient $i$ ($i = 1, \ldots, n_1$). 
+
+Suppose it is a fixed design, and at the end of the trial, the Z-score is 
+$$
+  Z 
+  = 
+  \frac{
+    \frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0}
+  }{
+    \sqrt{\text{Var}\left(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0} | H_0 \right)}
+  }
+$$
+where 
+$$
+  \text{Var}(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0} | H_0)
+  = 
+  \sigma^2 / n_1 + \sigma^2 / n_2
+$$
+
+# Binary outcomes
+
+Imagine a trial with a binary outcome. Let $X_{0, i} \sim B(p_0)$ for patient $i = 1, \ldots, n_0$ and $X_{1,i} \sim B(p_1)$ for patient $i$ ($i = 1, \ldots, n_1$). 
+
+Suppose it is a fixed design, and at the end of the trial, the Z-score is 
+$$
+  Z 
+  = 
+  \frac{
+    \frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0}
+  }{
+    \sqrt{\text{Var}\left(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0} | H_0 \right)}
+  }
+$$
+where 
+$$
+  \text{Var}(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0})
+  =
+  \left\{
+    \begin{array}{ll}
+      p(1-p)/n_1 + p(1-p)/n_2           & \text{under } H_0\\
+      p_1(1-p_1)/n_1 + p_2(1-p_2)/n_2   & \text{under } H_1\\
+    \end{array}
+  \right.
+$$
+# Survival outcome
+
+In many clinical trials, the outcome is the time to some event. For simplicity, assume the event is death so that each person can only have one event; the same ideas apply for events that can recur, but in those cases we restrict attention to the first event for each patients. We use the logrank statistics to compare the treatment and control arms. Assume for now that all patients are randomized simultaneously. We show that the logrank statistics is of the form
+$$
+  Z = \sum_{i=1}^d D_i / \sqrt{\sum_{i=1}^d D_i | H_0},
+$$
+where $d$ is the total number of deaths at the end of the trial. The numerator 
+# References
