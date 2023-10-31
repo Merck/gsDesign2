@@ -102,13 +102,13 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     analysis <- tibble::tibble(
-      Design = "ahr",
-      N = x_new$analysis$n,
-      Events = x_new$analysis$event,
-      Time = x_new$analysis$time,
-      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
+      design = "ahr",
+      n = x_new$analysis$n,
+      event = x_new$analysis$event,
+      time = x_new$analysis$time,
+      bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bound %>% filter(bound == "upper"))$probability
+      power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -134,13 +134,13 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     analysis <- tibble::tibble(
-      Design = "fh",
-      N = x_new$analysis$n,
-      Events = x_new$analysis$event,
-      Time = x_new$analysis$time,
-      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
+      design = "fh",
+      n = x_new$analysis$n,
+      event = x_new$analysis$event,
+      time = x_new$analysis$time,
+      bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bound %>% filter(bound == "upper"))$probability
+      power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -166,13 +166,13 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     )
 
     analysis <- tibble::tibble(
-      Design = "mb",
-      N = x_new$analysis$n,
-      Events = x_new$analysis$event,
-      Time = x_new$analysis$time,
-      Bound = (x_new$bound %>% filter(bound == "upper"))$z,
+      design = "mb",
+      n = x_new$analysis$n,
+      event = x_new$analysis$event,
+      time = x_new$analysis$time,
+      bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      Power = (x_new$bound %>% filter(bound == "upper"))$probability
+      power = (x_new$bound %>% filter(bound == "upper"))$probability
     )
 
     ans <- list(
