@@ -124,3 +124,17 @@ gs <-
 summary(gs) %>% gt()
 ```
 
+The following is temporary.
+
+```{r}
+gs_npe <- 
+  gs_design_npe(
+    theta = .1,
+    info = 1:2,
+    upper = gs_spending_bound,
+    lower = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1, param = NULL, timing = NULL)#, theta = 0)
+  ) 
+gs_npe %>% gt()
+```
