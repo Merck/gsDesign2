@@ -22,12 +22,12 @@ created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 \item{total_duration}{Total follow-up from start of enrollment to data cutoff.}
 
 \item{simple}{If default (\code{TRUE}), return numeric expected number of events,
-otherwise a tibble as described below.}
+otherwise a data frame as described below.}
 }
 \value{
 The default when \code{simple = TRUE} is to return the total expected
 number of events as a real number.
-Otherwise, when \code{simple = FALSE}, a tibble is returned with
+Otherwise, when \code{simple = FALSE}, a data frame is returned with
 the following variables for each period specified in \code{fail_rate}:
 \itemize{
 \item \code{t}: start of period.
@@ -35,7 +35,7 @@ the following variables for each period specified in \code{fail_rate}:
 \item \code{event}: expected events during the period.
 }
 
-The records in the returned tibble correspond to the input tibble \code{fail_rate}.
+The records in the returned data frame correspond to the input data frame \code{fail_rate}.
 }
 \description{
 Computes expected events over time and by strata
@@ -65,13 +65,13 @@ maximize flexibility for a variety of purposes.
    \item Validate if input failure rate contains dropout rate column.
    \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
    \item Validate if input simple is logical.
-   \item Define a tibble with the start opening for enrollment at zero and cumulative duration.
+   \item Define a data frame with the start opening for enrollment at zero and cumulative duration.
    Add the event (or failure) time corresponding to the start of the enrollment.
-   Finally, add the enrollment rate to the tibble
+   Finally, add the enrollment rate to the data frame
    corresponding to the start and end (failure) time.
    This will be recursively used to calculate the expected
    number of events later. For details, see vignette/eEventsTheory.Rmd
-   \item Define a tibble including the cumulative duration of failure rates, the corresponding start time of
+   \item Define a data frame including the cumulative duration of failure rates, the corresponding start time of
    the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd
    \item Only consider the failure rates in the interval of the end failure rate and total duration.
    \item Compute the failure rates over time using \code{stepfun} which is used

@@ -26,7 +26,7 @@ test_that("unstratified population", {
     totalDuration = c(15, 30)
   ) %>%
     rename(time = Time, ahr = AHR, event = Events)
-  expect_equal(x1, x2)
+  expect_equal(as.data.frame(x1), as.data.frame(x2))
 })
 
 test_that("stratified population", {
@@ -53,5 +53,5 @@ test_that("stratified population", {
     totalDuration = c(15, 30)
   ) %>%
     rename(time = Time, ahr = AHR, event = Events)
-  expect_equal(x1, x2)
+  expect_equal(as.data.frame(x1), as.data.frame(x2))
 })

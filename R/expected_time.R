@@ -31,7 +31,7 @@
 #' @param interval An interval that is presumed to include the time at which
 #'   expected event count is equal to `target_event`.
 #'
-#' @return A tibble with `Time` (computed to match events in `target_event`),
+#' @return A data frame with `Time` (computed to match events in `target_event`),
 #'   `AHR` (average hazard ratio), `Events` (`target_event` input),
 #'   `info` (information under given scenarios), and `info0`
 #'   (information under related null hypothesis) for each value of
@@ -41,7 +41,7 @@
 #' \if{latex}{
 #'  \itemize{
 #'    \item Use root-finding routine with `AHR()` to find time at which targeted events accrue.
-#'    \item Return a tibble with a single row with the output from `AHR()` got the specified output.
+#'    \item Return a data frame with a single row with the output from `AHR()` got the specified output.
 #'    }
 #'  }
 #'

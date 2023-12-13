@@ -33,7 +33,6 @@
 #'   The columns of `table_b` are also included. This is intended for use with `gt()` grouping by
 #'   rows in a.
 #'
-#' @importFrom rlang :=
 #' @importFrom dplyr all_of one_of
 #'
 #' @noRd

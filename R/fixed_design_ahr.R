@@ -30,6 +30,8 @@
 #'
 #' @return A table.
 #'
+#' @importFrom dplyr filter
+#'
 #' @export
 #'
 #' @examples

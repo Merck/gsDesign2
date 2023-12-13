@@ -28,7 +28,7 @@ test_that("time to targeted events", {
 test_that("default", {
   x1 <- expected_time()
   x2 <- tEvents_() %>% rename(time = Time, ahr = AHR, event = Events)
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("time to targeted events by new/old version", {
@@ -52,5 +52,5 @@ test_that("time to targeted events by new/old version", {
     targetEvents = 200
   ) %>%
     rename(time = Time, ahr = AHR, event = Events)
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })

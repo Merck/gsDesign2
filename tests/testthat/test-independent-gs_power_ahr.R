@@ -1,3 +1,5 @@
+library(gsDesign)
+
 # Test 1: compare with gsDesign under proportional hazard ####
 
 x <- gsSurv(
