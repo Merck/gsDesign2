@@ -99,7 +99,8 @@ fixed_design_rd <- function(
       alpha = alpha, beta = 1 - power, ratio = ratio,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
-      rd0 = rd0, weight = "unstratified"
+      rd0 = rd0, weight = "unstratified",
+      h1_spending = FALSE
     )
   }
   # get the output of MaxCombo
