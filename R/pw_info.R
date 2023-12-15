@@ -72,7 +72,8 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr filter mutate group_by summarize ungroup first last "%>%"
+#' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
+#' @importFrom dplyr group_by summarize ungroup "%>%"
 #'
 #' @export
 #'
@@ -122,24 +123,33 @@ pw_info <- function(
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
   check_total_duration(total_duration)
   check_ratio(ratio)
+  enroll_rate <- as.data.table(enroll_rate)
+  class(enroll_rate) <- c("enroll_rate", class(enroll_rate))
+  fail_rate <- as.data.table(fail_rate)
+  class(fail_rate) <- c("fail_rate", class(enroll_rate))
   # compute proportion in each group
   q_e <- ratio / (1 + ratio)
   q_c <- 1 - q_e
   # compute expected events by treatment group, stratum and time period
-  ans <- NULL
   strata <- unique(enroll_rate$stratum)
-  for (td in total_duration) {
-    event <- NULL
-    for (s in strata) {
+  ans_list <- vector(mode = "list", length = length(total_duration) * length(strata))
+  for (i in seq_along(total_duration)) {
+    td <- total_duration[i]
+    event_list <- vector(mode = "list", length = length(strata))
+    for (j in seq_along(strata)) {
+      s <- strata[j]
       # subset to stratum
-      enroll <- enroll_rate %>% filter(stratum == s)
-      fail <- fail_rate %>% filter(stratum == s)
+      enroll <- enroll_rate[stratum == s, ]
+      fail <- fail_rate[stratum == s, ]
       # update enrollment rates
-      enroll_c <- enroll %>% mutate(rate = rate * q_c)
-      enroll_e <- enroll %>% mutate(rate = rate * q_e)
+      enroll_c <- copy(enroll)
+      enroll_c[, rate := rate * q_c]
+      enroll_e <- copy(enroll)
+      enroll_e[, rate := rate * q_e]
       # update failure rates
-      fail_c <- fail
-      fail_e <- fail %>% mutate(fail_rate = fail_rate * hr)
+      fail_c <- copy(fail)
+      fail_e <- copy(fail)
+      fail_e[, fail_rate := fail_rate * hr]
       # compute expected number of events
       event_c <- expected_event(
         enroll_rate = enroll_c,
@@ -154,45 +164,50 @@ pw_info <- function(
         simple = FALSE
       )
       # Combine control and experimental; by period recompute HR, events, information
-      event <- rbind(
-        event_c %>% mutate(treatment = "control"),
-        event_e %>% mutate(treatment = "experimental")
-      ) %>%
-        arrange(t, treatment) %>%
-        ungroup() %>%
-        # recompute HR, events, info by period
-        group_by(t) %>%
-        summarize(
+      setDT(event_c)
+      event_c[, treatment := "control"]
+      setDT(event_e)
+      event_e[, treatment := "experimental"]
+      event_tmp <- rbindlist(list(event_c, event_e))
+      event_tmp <- event_tmp[order(t, treatment), ]
+      # recompute HR, events, info by period
+      event_tmp <- event_tmp[,
+        .(
           stratum = s,
           info = (sum(1 / event))^(-1),
           event = sum(event),
           hr = last(fail_rate) / first(fail_rate)
-        ) %>%
-        rbind(event)
+        ),
+        by = "t"
+      ]
+      event_list[[j]] <- event_tmp
     }
     # summarize events in one stratum
-    ans_new <- event %>%
-      mutate(
-        time = td,
-        ln_hr = log(hr),
-        info0 = event * q_c * q_e
-      ) %>%
-      ungroup() %>%
-      # pool strata together for each time period
-      group_by(time, stratum, hr) %>%
-      summarize(
+    event <- rbindlist(event_list)
+    event[, `:=`(
+      time = td,
+      ln_hr = log(hr),
+      info0 = event * q_c * q_e
+    )]
+    # pool strata together for each time period
+    event <- event[,
+      .(
         t = min(t),
         event = sum(event),
         info0 = sum(info0),
         info = sum(info)
-      )
-    ans <- rbind(ans, ans_new)
+      ),
+      by = .(time, stratum, hr)
+    ]
+    ans_list[[i + j]] <- event
   }
+  ans <- rbindlist(ans_list)
   # output the results
+  ans <- ans[, .(time, stratum, t, hr, event, info, info0)]
   ans <- ans %>%
-    select(time, stratum, t, hr, event, info, info0) %>%
     group_by(time, stratum) %>%
     arrange(t, .by_group = TRUE) %>%
     ungroup()
+  setDF(ans)
   return(ans)
 }

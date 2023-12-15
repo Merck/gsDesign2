@@ -32,17 +32,17 @@
 #' @inheritParams ahr
 #' @param total_duration Total follow-up from start of enrollment to data cutoff.
 #' @param simple If default (`TRUE`), return numeric expected number of events,
-#'   otherwise a tibble as described below.
+#'   otherwise a data frame as described below.
 #'
 #' @return The default when `simple = TRUE` is to return the total expected
 #'   number of events as a real number.
-#'   Otherwise, when `simple = FALSE`, a tibble is returned with
+#'   Otherwise, when `simple = FALSE`, a data frame is returned with
 #'   the following variables for each period specified in `fail_rate`:
 #'   - `t`: start of period.
 #'   - `fail_rate`: failure rate during the period.
 #'   - `event`: expected events during the period.
 #'
-#'   The records in the returned tibble correspond to the input tibble `fail_rate`.
+#'   The records in the returned data frame correspond to the input data frame `fail_rate`.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -54,13 +54,13 @@
 #'    \item Validate if input failure rate contains dropout rate column.
 #'    \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
 #'    \item Validate if input simple is logical.
-#'    \item Define a tibble with the start opening for enrollment at zero and cumulative duration.
+#'    \item Define a data frame with the start opening for enrollment at zero and cumulative duration.
 #'    Add the event (or failure) time corresponding to the start of the enrollment.
-#'    Finally, add the enrollment rate to the tibble
+#'    Finally, add the enrollment rate to the data frame
 #'    corresponding to the start and end (failure) time.
 #'    This will be recursively used to calculate the expected
 #'    number of events later. For details, see vignette/eEventsTheory.Rmd
-#'    \item Define a tibble including the cumulative duration of failure rates, the corresponding start time of
+#'    \item Define a data frame including the cumulative duration of failure rates, the corresponding start time of
 #'    the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd
 #'    \item Only consider the failure rates in the interval of the end failure rate and total duration.
 #'    \item Compute the failure rates over time using \code{stepfun} which is used
@@ -242,8 +242,7 @@ expected_event <- function(
     ans <- do.call(rbind, ans)
     ans$t <- ans$start_fail
     ans <- ans[, c("t", "fail_rate", "event")]
-    ans <- tibble::new_tibble(ans)
-    tibble::validate_tibble(ans)
+    row.names(ans) <- seq_len(nrow(ans))
   }
   return(ans)
 }

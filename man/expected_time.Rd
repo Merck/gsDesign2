@@ -28,7 +28,7 @@ created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 expected event count is equal to \code{target_event}.}
 }
 \value{
-A tibble with \code{Time} (computed to match events in \code{target_event}),
+A data frame with \code{Time} (computed to match events in \code{target_event}),
 \code{AHR} (average hazard ratio), \code{Events} (\code{target_event} input),
 \code{info} (information under given scenarios), and \code{info0}
 (information under related null hypothesis) for each value of
@@ -47,7 +47,7 @@ where the enrollment, failure and dropout rates changes over time.
 \if{latex}{
  \itemize{
    \item Use root-finding routine with `AHR()` to find time at which targeted events accrue.
-   \item Return a tibble with a single row with the output from `AHR()` got the specified output.
+   \item Return a data frame with a single row with the output from `AHR()` got the specified output.
    }
  }
 }

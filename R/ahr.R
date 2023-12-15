@@ -31,7 +31,7 @@
 #'   cutoff; this can be a single value or a vector of positive numbers.
 #' @param ratio Ratio of experimental to control randomization.
 #'
-#' @return A tibble with `time` (from `total_duration`),
+#' @return A data frame with `time` (from `total_duration`),
 #'   `ahr` (average hazard ratio), `event` (expected number of events),
 #'   `info` (information under given scenarios), `and` info0
 #'   (information under related null hypothesis) for each value of
@@ -64,7 +64,7 @@
 #'        \item Combine the results for all time points by summarizing the results by adding up the number of events,
 #'       information under the null and the given scenarios.
 #'       }
-#'    \item Return a tibble of overall event count, statistical information and average hazard ratio
+#'    \item Return a data frame of overall event count, statistical information and average hazard ratio
 #'    of each value in total_duration.
 #'    \item Calculation of \code{ahr} for different design scenarios, and the comparison to the
 #'    simulation studies are defined in vignette/AHRVignette.Rmd.
@@ -72,7 +72,7 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr filter mutate group_by summarize ungroup first last "%>%"
+#' @importFrom data.table setDF setDT
 #'
 #' @export
 #'
@@ -116,14 +116,16 @@ ahr <- function(
     total_duration = total_duration,
     ratio = ratio
   )
-  ans <- res %>%
-    group_by(time) %>%
-    summarize(
+  setDT(res)
+  ans <- res[,
+    .(
       ahr = exp(sum(log(hr) * event) / sum(event)),
       event = sum(event),
       info = sum(info),
       info0 = sum(info0)
-    ) %>%
-    ungroup()
+    ),
+    by = "time"
+  ]
+  setDF(ans)
   return(ans)
 }

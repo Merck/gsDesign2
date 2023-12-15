@@ -25,7 +25,7 @@ cutoff; this can be a single value or a vector of positive numbers.}
 \item{ratio}{Ratio of experimental to control randomization.}
 }
 \value{
-A tibble with \code{time} (from \code{total_duration}),
+A data frame with \code{time} (from \code{total_duration}),
 \code{ahr} (average hazard ratio), \code{event} (expected number of events),
 \code{info} (information under given scenarios), \code{and} info0
 (information under related null hypothesis) for each value of
@@ -65,7 +65,7 @@ and enrollment pattern where the enrollment, failure and dropout rates changes o
        \item Combine the results for all time points by summarizing the results by adding up the number of events,
       information under the null and the given scenarios.
       }
-   \item Return a tibble of overall event count, statistical information and average hazard ratio
+   \item Return a data frame of overall event count, statistical information and average hazard ratio
    of each value in total_duration.
    \item Calculation of \code{ahr} for different design scenarios, and the comparison to the
    simulation studies are defined in vignette/AHRVignette.Rmd.
