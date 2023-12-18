@@ -198,7 +198,7 @@ gs_design_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info0 = NULL, in
                            alpha = 0.025, beta = .1, binding = FALSE,
                            upper = gs_b, lower = gs_b, upar = qnorm(.975), lpar = -Inf,
                            test_upper = TRUE, test_lower = TRUE,
-                           r = 18, tol = 1e-6) {
+                           r = 18, tol = 1e-3) {
   #######################################################################################
   # WRITE INPUT CHECK TESTS AND RETURN APPROPRIATE ERROR MESSAGES
   # info should be a scalar or vector of positive increasing values

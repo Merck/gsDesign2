@@ -156,7 +156,7 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
                            test_upper = TRUE,
                            test_lower = TRUE,
                            r = 18,
-                           tol = 1e-6) {
+                           tol = 1e-3) {
   ################################################################################
   # Check input values
   msg <- "analysisTimes must be a positive number or positive increasing sequence"

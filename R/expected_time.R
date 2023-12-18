@@ -119,7 +119,7 @@ expected_time <- function(
   #       uniroot AHR()         #
   #    over total_duration      #
   # ----------------------------#
-  res <- try(uniroot(event_diff, interval))
+  res <- try(uniroot(event_diff, interval, tol = 1e-3))
 
   if (inherits(res, "try-error")) {
     stop("expected_time(): solution not found!")

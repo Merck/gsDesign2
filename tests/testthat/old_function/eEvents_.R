@@ -91,7 +91,8 @@ tEvents_ <- function(enrollRates = tibble::tibble(
       function(x) {
         AHR(enrollRates, failRates, x, ratio)$Events - targetEvents
       },
-      interval
+      interval,
+      tol = 1e-3
     )
   )
   if (inherits(res, "try-error")) {
