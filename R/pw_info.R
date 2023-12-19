@@ -73,7 +73,7 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
-#' @importFrom dplyr group_by summarize ungroup "%>%"
+#'                        setorderv
 #'
 #' @export
 #'
@@ -204,10 +204,8 @@ pw_info <- function(
   ans <- rbindlist(ans_list)
   # output the results
   ans <- ans[, .(time, stratum, t, hr, event, info, info0)]
-  ans <- ans %>%
-    group_by(time, stratum) %>%
-    arrange(t, .by_group = TRUE) %>%
-    ungroup()
+  setorderv(ans, cols = c("time", "stratum"))
+  ans <- ans[order(t), .SD, by = .(time, stratum)]
   setDF(ans)
   return(ans)
 }

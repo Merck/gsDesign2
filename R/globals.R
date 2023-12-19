@@ -20,7 +20,7 @@ utils::globalVariables(
   unique(
     c(
       # From data.table expressions
-      ".",
+      ".", ".SD",
       # From `ahr()`
       c("stratum", "rate", "hr", "treatment", "time", "info0", "info"),
       # From `as_gt.gs_design()`

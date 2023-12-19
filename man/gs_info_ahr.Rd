@@ -29,7 +29,7 @@ gs_info_ahr(
 expected event count is equal to targeted event.}
 }
 \value{
-A tibble with columns Analysis, Time, AHR, Events, theta, info, info0.
+A data frame with columns Analysis, Time, AHR, Events, theta, info, info0.
 \code{info}, and \code{info0} contain statistical information under H1, H0, respectively.
 For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the
 expected time required to accrue the targeted \code{event[k]}.
@@ -56,7 +56,7 @@ average HR at targeted \code{analysis_time}.
      \item If analysis_time is specified, calculate average hazard ratio using \code{AHR()}.
      \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
    }
-   \item Return a tibble of Analysis, Time, AHR, Events, theta, info, info0.
+   \item Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
   }
 }
 \if{html}{The contents of this section are shown in PDF user manual only.}

@@ -29,7 +29,7 @@
 #' @param interval An interval that is presumed to include the time at which
 #'   expected event count is equal to targeted event.
 #'
-#' @return A tibble with columns Analysis, Time, AHR, Events, theta, info, info0.
+#' @return A data frame with columns Analysis, Time, AHR, Events, theta, info, info0.
 #'   `info`, and `info0` contain statistical information under H1, H0, respectively.
 #'   For analysis `k`, `Time[k]` is the maximum of `analysis_time[k]` and the
 #'   expected time required to accrue the targeted `event[k]`.
@@ -46,7 +46,7 @@
 #'      \item If analysis_time is specified, calculate average hazard ratio using \code{AHR()}.
 #'      \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
 #'    }
-#'    \item Return a tibble of Analysis, Time, AHR, Events, theta, info, info0.
+#'    \item Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
@@ -55,8 +55,6 @@
 #' The [ahr()] function computes statistical information at targeted
 #' event times. The [expected_time()] function is used to get events and
 #' average HR at targeted `analysis_time`.
-#'
-#' @importFrom tibble tibble
 #'
 #' @export
 #'
@@ -172,6 +170,6 @@ gs_info_ahr <- function(
   # ----------------------------#
   #    output results           #
   # ----------------------------#
-  ans <- avehr %>% dplyr::transmute(analysis, time, event, ahr, theta, info, info0)
+  ans <- avehr[, c("analysis", "time", "event", "ahr", "theta", "info", "info0")]
   return(ans)
 }
