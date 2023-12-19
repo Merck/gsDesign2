@@ -52,7 +52,8 @@
 #'   Normally, `r` will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #' @param interval An interval that is presumed to include the time at which
-#'   expected event count is equal to targeted event.
+#'   expected event count is equal to targeted event. If `analysis_time` is
+#'   defined, the upper limit of the interval is set to its maximum.
 #'
 #' @return A tibble with columns `Analysis`, `Bound`, `Z`, `Probability`,
 #'   `theta`, `Time`, `AHR`, `Events`.
@@ -171,7 +172,7 @@ gs_power_ahr <- function(
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     r = 18,
     tol = 1e-6,
-    interval = c(.01, 100)) {
+    interval = c(.01, if(is.null(analysis_time)) 100 else max(analysis_time))) {
   # Get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
 

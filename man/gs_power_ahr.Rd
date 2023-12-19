@@ -23,7 +23,7 @@ gs_power_ahr(
   info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   r = 18,
   tol = 1e-06,
-  interval = c(0.01, 100)
+  interval = c(0.01, if (is.null(analysis_time)) 100 else max(analysis_time))
 )
 }
 \arguments{
@@ -75,7 +75,8 @@ Normally, \code{r} will not be changed by the user.}
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
 
 \item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to targeted event.}
+expected event count is equal to targeted event. If \code{analysis_time} is
+defined, the upper limit of the interval is set to its maximum.}
 }
 \value{
 A tibble with columns \code{Analysis}, \code{Bound}, \code{Z}, \code{Probability},

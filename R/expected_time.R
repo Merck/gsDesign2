@@ -95,6 +95,7 @@ expected_time <- function(
     target_event = 150,
     ratio = 1,
     interval = c(.01, 100)) {
+  print(interval)
   # ----------------------------#
   #    check inputs             #
   # ----------------------------#
