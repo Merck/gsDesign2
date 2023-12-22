@@ -32,6 +32,7 @@
 #'   theta0 (standardized treatment effect under null hypothesis),
 #'   and statistical information.
 #'
+#' @importFrom dplyr group_by left_join mutate select summarize ungroup
 #'
 #' @export
 #'
