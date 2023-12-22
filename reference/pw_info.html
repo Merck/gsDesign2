@@ -16,7 +16,7 @@ and enrollment pattern where the enrollment, failure and dropout rates changes o
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,21 +117,17 @@ cutoff; this can be a single value or a vector of positive numbers.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example: default</span></span></span>
 <span class="r-in"><span><span class="fu">pw_info</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    time stratum     t    hr event  info info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30 All         0   0.9  21.2  5.30  5.31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>    30 All         3   0.6  37.2  9.03  9.31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t  hr    event     info    info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   30     All 0 0.9 21.24782 5.300180 5.311956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   30     All 3 0.6 37.24314 9.027063 9.310786</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example: default with multiple analysis times (varying total_duration)</span></span></span>
 <span class="r-in"><span><span class="fu">pw_info</span><span class="op">(</span>total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    time stratum     t    hr event  info info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    15 All         0   0.9  20.1  5.02  5.03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>    15 All         3   0.6  10.1  2.42  2.53</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>    30 All         0   0.9  21.2  5.30  5.31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>    30 All         3   0.6  37.2  9.03  9.31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t  hr    event     info    info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   15     All 0 0.9 20.13991 5.023729 5.034979</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   15     All 3 0.6 10.13850 2.417457 2.534625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   30     All 0 0.9 21.24782 5.300180 5.311956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   30     All 3 0.6 37.24314 9.027063 9.310786</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratified population</span></span></span>
 <span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span></span></span>
@@ -154,17 +150,15 @@ cutoff; this can be a single value or a vector of positive numbers.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Same example, give results by strata and time period</span></span></span>
 <span class="r-in"><span><span class="fu">pw_info</span><span class="op">(</span>enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>, total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    time stratum     t    hr event  info info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    15 High        0  0.8  12.1   2.99  3.02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>    15 High        1  0.6  23.1   5.72  5.78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>    15 Low         0  0.9   9.96  2.48  2.49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>    15 Low         1  0.75 68.1  16.9  17.0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>    30 High        0  0.8  14.2   3.51  3.54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>    30 High        1  0.6  45.2  11.2  11.3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span>    30 Low         0  0.9   9.96  2.48  2.49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span>    30 Low         1  0.75 96.8  24.1  24.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t   hr     event      info     info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   15    High 0 0.80 12.076677  2.990626  3.019169</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   15    High 1 0.60 23.118608  5.716292  5.779652</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   15     Low 0 0.90  9.962824  2.484435  2.490706</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   15     Low 1 0.75 68.120046 16.928485 17.030011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   30    High 0 0.80 14.169853  3.509171  3.542463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   30    High 1 0.60 45.213092 11.198980 11.303273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   30     Low 0 0.90  9.962824  2.484435  2.490706</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   30     Low 1 0.75 96.837847 24.116546 24.209462</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
