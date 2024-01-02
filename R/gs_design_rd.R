@@ -204,8 +204,8 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
   }
 
   if (h1_spending) {
-    theta1 <- x$theta
-    info1 <- x$info
+    theta1 <- x$theta1
+    info1 <- x$info1
   } else {
     theta1 <- 0
     info1 <- x$info0
