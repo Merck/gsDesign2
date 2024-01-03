@@ -2,7 +2,7 @@
 % Please edit documentation in R/define.R
 \name{define_fail_rate}
 \alias{define_fail_rate}
-\title{Define fail rate}
+\title{Define failure rate}
 \usage{
 define_fail_rate(duration, fail_rate, dropout_rate, hr = 1, stratum = "All")
 }

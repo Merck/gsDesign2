@@ -18,6 +18,10 @@
 
 #' Define enrollment rate
 #'
+#' The function define subject enrollment rate for a study.
+#' It also supports stratified design that have different enrollment rate in
+#' each stratum.
+#'
 #' @param duration A numeric vector of piecewise study duration interval.
 #' @param rate A numeric vector of enrollment rate in each `duration`.
 #' @param stratum A character vector of stratum name.
@@ -74,7 +78,7 @@ define_enroll_rate <- function(
   df
 }
 
-#' Define fail rate
+#' Define failure rate
 #'
 #' The function define subject failure rate for a study with two treatment groups.
 #' It also supports stratified design that have different failure rate in

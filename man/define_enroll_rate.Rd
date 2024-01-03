@@ -17,7 +17,9 @@ define_enroll_rate(duration, rate, stratum = "All")
 An \code{enroll_rate} data frame.
 }
 \description{
-Define enrollment rate
+The function define subject enrollment rate for a study.
+It also supports stratified design that have different enrollment rate in
+each stratum.
 }
 \examples{
 # Define enroll rate without stratum
