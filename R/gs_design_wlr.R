@@ -152,6 +152,9 @@ gs_design_wlr <- function(
   if (max(info_frac) != 1) stop(msg)
   msg <- "gs_design_wlr(): info_frac and analysis_time must have the same length if both have length > 1"
   if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) stop(msg)
+  if (all(fail_rate$hr == 1)) {
+    stop("gs_design_wlr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
+  }
   # get the info_scale
   info_scale <- match.arg(info_scale)
 
