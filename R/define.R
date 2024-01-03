@@ -76,10 +76,15 @@ define_enroll_rate <- function(
 
 #' Define fail rate
 #'
+#' The function define subject failure rate for a study with two treatment groups.
+#' It also supports stratified design that have different failure rate in
+#' each stratum.
+#'
+#'
 #' @param duration A numeric vector of piecewise study duration interval.
-#' @param fail_rate A numeric vector of failure rate in each `duration`.
+#' @param fail_rate A numeric vector of failure rate in each `duration` in the control group.
 #' @param dropout_rate A numeric vector of dropout rate in each `duration`.
-#' @param hr A numeric vector of hazard ratio.
+#' @param hr A numeric vector of hazard ratio between case and control group.
 #' @param stratum A character vector of stratum name.
 #'
 #' @return A `fail_rate` data frame.
@@ -87,7 +92,7 @@ define_enroll_rate <- function(
 #' @export
 #'
 #' @examples
-#' # Define enroll rate without stratum
+#' # Define enroll rate
 #' define_fail_rate(
 #'   duration = c(3, 100),
 #'   fail_rate = log(2) / c(9, 18),
@@ -97,11 +102,11 @@ define_enroll_rate <- function(
 #'
 #' # Define enroll rate with stratum
 #' define_fail_rate(
-#'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18),
-#'   hr = c(.9, .6),
+#'   stratum = c(rep("Low", 2), rep("High", 2)),
+#'   duration = 1,
+#'   fail_rate = c(.1, .2, .3, .4),
 #'   dropout_rate = .001,
-#'   stratum = c("low", "high")
+#'   hr = c(.9, .75, .8, .6)
 #' )
 define_fail_rate <- function(
     duration,

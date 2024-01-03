@@ -9,11 +9,11 @@ define_fail_rate(duration, fail_rate, dropout_rate, hr = 1, stratum = "All")
 \arguments{
 \item{duration}{A numeric vector of piecewise study duration interval.}
 
-\item{fail_rate}{A numeric vector of failure rate in each \code{duration}.}
+\item{fail_rate}{A numeric vector of failure rate in each \code{duration} in the control group.}
 
 \item{dropout_rate}{A numeric vector of dropout rate in each \code{duration}.}
 
-\item{hr}{A numeric vector of hazard ratio.}
+\item{hr}{A numeric vector of hazard ratio between case and control group.}
 
 \item{stratum}{A character vector of stratum name.}
 }
@@ -21,10 +21,12 @@ define_fail_rate(duration, fail_rate, dropout_rate, hr = 1, stratum = "All")
 A \code{fail_rate} data frame.
 }
 \description{
-Define fail rate
+The function define subject failure rate for a study with two treatment groups.
+It also supports stratified design that have different failure rate in
+each stratum.
 }
 \examples{
-# Define enroll rate without stratum
+# Define enroll rate
 define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(9, 18),
@@ -34,10 +36,10 @@ define_fail_rate(
 
 # Define enroll rate with stratum
 define_fail_rate(
-  duration = c(3, 100),
-  fail_rate = log(2) / c(9, 18),
-  hr = c(.9, .6),
+  stratum = c(rep("Low", 2), rep("High", 2)),
+  duration = 1,
+  fail_rate = c(.1, .2, .3, .4),
   dropout_rate = .001,
-  stratum = c("low", "high")
+  hr = c(.9, .75, .8, .6)
 )
 }
