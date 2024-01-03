@@ -178,6 +178,10 @@ gs_design_combo <- function(
     two_sided <- TRUE
   }
 
+  if(all(fail_rate$hr == 1)){
+    stop("gs_design_combo() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
+  }
+
   # Information Fraction
   if (n_analysis == 1) {
     min_info_frac <- 1

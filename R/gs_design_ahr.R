@@ -236,6 +236,9 @@ gs_design_ahr <- function(
   if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) {
     stop("gs_design_ahr() info_frac and analysis_time must have the same length if both have length > 1.")
   }
+  if(all(fail_rate$hr == 1)){
+    stop("gs_design_ahr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
+  }
 
   # --------------------------------------------- #
   #     check if alpha is same as alpha spending  #
