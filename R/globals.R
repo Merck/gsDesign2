@@ -112,12 +112,3 @@ utils::globalVariables(
     )
   )
 )
-
-
-# Workaround to remove `R CMD check` NOTE "All declared Imports should be used."
-# https://r-pkgs.org/dependencies-in-practice.html#how-to-not-use-a-package-in-imports
-ignore_unused_imports <- function() {
-  rlang::`:=`
-}
-# Can't use `@importFrom rlang ":="` because it classes with data.table
-# https://github.com/r-lib/rlang/issues/1453
