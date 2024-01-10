@@ -106,17 +106,13 @@ gs_spending_bound <- function(k = 1,
                               test_bound = TRUE,
                               r = 18,
                               tol = 1e-6) {
-  # ---------------------------------- #
-  #  check and initialize inputs       #
-  # ---------------------------------- #
+  # check and initialize inputs ----
   # Make test_bound a vector of length k > 1 if input as a single value
   if (length(test_bound) == 1 && k > 1) {
     test_bound <- rep(test_bound, k)
   }
 
-  # ---------------------------------- #
-  #  set spending time at analyses     #
-  # ---------------------------------- #
+  # set spending time at analyses ----
   if (!is.null(par$timing)) {
     timing <- par$timing
   } else {

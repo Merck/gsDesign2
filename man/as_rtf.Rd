@@ -117,9 +117,7 @@ alpha <- 0.025
 # Type II error (1 - power)
 beta <- 0.1
 
-# ------------------------- #
-#        AHR                #
-# ------------------------- #
+# AHR ----
 # under fixed power
 x <- fixed_design_ahr(
   alpha = alpha, power = 1 - beta,
@@ -134,9 +132,7 @@ x \%>\% as_rtf(
 )
 x \%>\% as_rtf(text_font_size = 10, file = tempfile(fileext = ".rtf"))
 
-# ------------------------- #
-#        FH                 #
-# ------------------------- #
+# FH ----
 # under fixed power
 fixed_design_fh(
   alpha = alpha, power = 1 - beta,

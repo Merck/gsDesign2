@@ -78,24 +78,20 @@ fixed_design_maxcombo <- function(
     rho = c(0, 0, 1),
     gamma = c(0, 1, 0),
     tau = rep(-1, 3)) {
-  # --------------------------------------------- #
-  #     check inputs                              #
-  # --------------------------------------------- #
+  # check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  # ------------------------- #
-  #     save inputs           #
-  # ------------------------- #
+
+  # save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
     rho = rho, gamma = gamma, tau = tau,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  # ------------------------- #
-  #     generate design       #
-  # ------------------------- #
+
+  # generate design ----
   # organize the tests in MaxCombo
   max_combo_test <- data.frame(
     rho = rho,

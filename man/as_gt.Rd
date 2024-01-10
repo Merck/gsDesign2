@@ -94,9 +94,7 @@ alpha <- 0.025
 # Type II error (1 - power)
 beta <- 0.1
 
-# ------------------------- #
-#        AHR                #
-# ------------------------- #
+# AHR ----
 # under fixed power
 fixed_design_ahr(
   alpha = alpha, power = 1 - beta,
@@ -106,9 +104,7 @@ fixed_design_ahr(
   summary() \%>\%
   as_gt()
 
-# ------------------------- #
-#        FH                 #
-# ------------------------- #
+# FH ----
 # under fixed power
 fixed_design_fh(
   alpha = alpha, power = 1 - beta,

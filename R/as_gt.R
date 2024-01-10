@@ -62,9 +62,7 @@ as_gt <- function(x, ...) {
 #' # Type II error (1 - power)
 #' beta <- 0.1
 #'
-#' # ------------------------- #
-#' #        AHR                #
-#' # ------------------------- #
+#' # AHR ----
 #' # under fixed power
 #' fixed_design_ahr(
 #'   alpha = alpha, power = 1 - beta,
@@ -74,9 +72,7 @@ as_gt <- function(x, ...) {
 #'   summary() %>%
 #'   as_gt()
 #'
-#' # ------------------------- #
-#' #        FH                 #
-#' # ------------------------- #
+#' # FH ----
 #' # under fixed power
 #' fixed_design_fh(
 #'   alpha = alpha, power = 1 - beta,
@@ -318,9 +314,7 @@ as_gt.gs_design <- function(x,
   }) %>% unlist()
   x_old <- x
 
-  # --------------------------------------------- #
-  #     set defaults                              #
-  # --------------------------------------------- #
+  # set defaults ----
   # set different default title to different methods
   if (method == "ahr" && is.null(title)) {
     title <- "Bound summary for AHR design"
@@ -466,16 +460,13 @@ as_gt.gs_design <- function(x,
     )
     footnote <- lapply(footnote, function(x) x[!is.na(x)])
   }
-  # --------------------------------------------- #
-  #     filter out inf bound                      #
-  # --------------------------------------------- #
+
+  # filter out inf bound ----
   x <- x %>%
     subset(!is.na(`Alternate hypothesis`)) %>%
     subset(!is.na(`Null hypothesis`))
 
-  # --------------------------------------------- #
-  #     add spanner                               #
-  # --------------------------------------------- #
+  # add spanner ----
   names(x)[names(x) == "Alternate hypothesis"] <- colname_spannersub[1]
   names(x)[names(x) == "Null hypothesis"] <- colname_spannersub[2]
 
@@ -490,9 +481,7 @@ as_gt.gs_design <- function(x,
     ) %>%
     gt::tab_header(title = title, subtitle = subtitle)
 
-  # --------------------------------------------- #
-  #     add footnotes                             #
-  # --------------------------------------------- #
+  # add footnotes ----
   if (!is.null(footnote$content)) {
     if (length(footnote$content) != 0) {
       for (i in seq_along(footnote$content)) {

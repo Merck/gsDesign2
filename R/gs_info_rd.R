@@ -37,9 +37,7 @@
 #' @export
 #'
 #' @examples
-#' # --------------------- #
-#' #      example 1        #
-#' # --------------------- #
+#' # example 1 ----
 #' # unstratified case with H0: rd0 = 0
 #' gs_info_rd(
 #'   p_c = tibble::tibble(stratum = "All", rate = .15),
@@ -49,9 +47,7 @@
 #'   ratio = 1
 #' )
 #'
-#' # --------------------- #
-#' #      example 2        #
-#' # --------------------- #
+#' # example 2 ----
 #' # unstratified case with H0: rd0 != 0
 #' gs_info_rd(
 #'   p_c = tibble::tibble(stratum = "All", rate = .2),
@@ -61,9 +57,7 @@
 #'   ratio = 1
 #' )
 #'
-#' # --------------------- #
-#' #      example 3        #
-#' # --------------------- #
+#' # example 3 ----
 #' # stratified case under sample size weighting and H0: rd0 = 0
 #' gs_info_rd(
 #'   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"), rate = c(.15, .2, .25)),
@@ -78,9 +72,7 @@
 #'   weight = "ss"
 #' )
 #'
-#' # --------------------- #
-#' #      example 4        #
-#' # --------------------- #
+#' # example 4 ----
 #' # stratified case under inverse variance weighting and H0: rd0 = 0
 #' gs_info_rd(
 #'   p_c = tibble::tibble(
@@ -101,9 +93,7 @@
 #'   weight = "invar"
 #' )
 #'
-#' # --------------------- #
-#' #      example 5        #
-#' # --------------------- #
+#' # example 5 ----
 #' # stratified case under sample size weighting and H0: rd0 != 0
 #' gs_info_rd(
 #'   p_c = tibble::tibble(
@@ -124,9 +114,7 @@
 #'   weight = "ss"
 #' )
 #'
-#' # --------------------- #
-#' #      example 6        #
-#' # --------------------- #
+#' # example 6 ----
 #' # stratified case under inverse variance weighting and H0: rd0 != 0
 #' gs_info_rd(
 #'   p_c = tibble::tibble(
@@ -147,9 +135,7 @@
 #'   weight = "invar"
 #' )
 #'
-#' # --------------------- #
-#' #      example 7        #
-#' # --------------------- #
+#' # example 7 ----
 #' # stratified case under inverse variance weighting and H0: rd0 != 0 and
 #' # rd0 difference for different statum
 #' gs_info_rd(
@@ -193,9 +179,7 @@ gs_info_rd <- function(
   n_analysis <- max(n$analysis)
   weight <- match.arg(weight)
 
-  # -------------------------------------------------#
-  #       pool the input arguments together          #
-  # -------------------------------------------------#
+  # pool the input arguments together ----
   suppressMessages(
     tbl <- n %>%
       left_join(p_c) %>%
@@ -217,11 +201,7 @@ gs_info_rd <- function(
       )
   )
 
-
-
-  # -------------------------------------------------#
-  #   calculate the variance of the risk difference  #
-  # -------------------------------------------------#
+  # calculate the variance of the risk difference ----
   if (is.numeric(rd0) && rd0 == 0) {
     tbl <- tbl %>% mutate(
       sigma2_H0_per_k_per_s = p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / n_c + 1 / n_e),
@@ -234,9 +214,7 @@ gs_info_rd <- function(
     )
   }
 
-  # -------------------------------------------------#
-  #               assign weights                     #
-  # -------------------------------------------------#
+  # assign weights ----
   if (weight == "unstratified") {
     tbl <- tbl %>% mutate(weight_per_k_per_s = 1)
   } else if (weight == "ss") {
@@ -263,9 +241,7 @@ gs_info_rd <- function(
     )
   }
 
-  # -------------------------------------------------#
-  #           pool the strata together               #
-  # -------------------------------------------------#
+  # pool the strata together ----
   ans <- tbl %>%
     dplyr::group_by(analysis) %>%
     summarize(

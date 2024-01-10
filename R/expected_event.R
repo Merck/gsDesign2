@@ -119,9 +119,7 @@ expected_event <- function(
     ),
     total_duration = 25,
     simple = TRUE) {
-  # ----------------------------#
-  #    check input values       #
-  # ----------------------------#
+  # check input values ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -158,9 +156,7 @@ expected_event <- function(
     df_2 <- df_2[df_2$start_enroll > 0, ]
   }
 
-  # ----------------------------#
-  # create 3 step functions (sf)#
-  # ----------------------------#
+  # create 3 step functions (sf) ----
   # Step function to define enrollment rates over time
   sf_enroll_rate <- stats::stepfun(c(0, cumsum(enroll_rate$duration)),
     c(0, enroll_rate$rate, 0),
@@ -216,9 +212,7 @@ expected_event <- function(
         (df$duration - (1 - df$q) / (df$fail_rate_var + df$dropout_rate_var))
   )
 
-  # ----------------------------#
-  #       output results        #
-  # ----------------------------#
+  # output results ----
   if (simple) {
     ans <- as.numeric(sum(df$nbar))
   } else {

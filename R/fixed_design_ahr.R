@@ -72,23 +72,19 @@ fixed_design_ahr <- function(
     ratio = 1,
     study_duration = 36,
     event = NULL) {
-  # --------------------------------------------- #
-  #     check inputs                              #
-  # --------------------------------------------- #
+  # check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  # ------------------------- #
-  #     save inputs           #
-  # ------------------------- #
+
+  # save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  # ------------------------- #
-  #     generate design       #
-  # ------------------------- #
+
+  # generate design ----
   if (is.null(power)) {
     d <- gs_power_ahr(
       upar = qnorm(1 - alpha), lpar = -Inf,

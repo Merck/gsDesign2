@@ -207,9 +207,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                          lower = gs_b, lpar = -Inf,
                          test_upper = TRUE, test_lower = TRUE, binding = FALSE,
                          r = 18, tol = 1e-6) {
-  # --------------------------------------------- #
-  #     check & set up parameters                 #
-  # --------------------------------------------- #
+  # check & set up parameters ----
   n_analysis <- length(info)
   if (length(theta) == 1 && n_analysis > 1) theta <- rep(theta, n_analysis)
   if (is.null(theta0)) {
@@ -225,9 +223,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
   if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
 
-  # --------------------------------------------- #
-  #     set up info                               #
-  # --------------------------------------------- #
+  # set up info ----
   # impute info
   if (is.null(info0)) {
     info0 <- info
@@ -256,10 +252,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   if (length(info0) != length(info)) stop("gs_design_npe(): length of info, info0 must be the same!")
   if (length(info1) != length(info)) stop("gs_design_npe(): length of info, info1 must be the same!")
 
-
-  # --------------------------------------------- #
-  #     initialization                            #
-  # --------------------------------------------- #
+  # initialization ----
   a <- rep(-Inf, n_analysis)
   b <- rep(Inf, n_analysis)
   hgm1_0 <- NULL
@@ -268,9 +261,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   upper_prob <- rep(NA, n_analysis)
   lower_prob <- rep(NA, n_analysis)
 
-  # --------------------------------------------- #
-  #     calculate crossing prob  under  H1        #
-  # --------------------------------------------- #
+  # calculate crossing prob  under  H1 ----
   for (k in 1:n_analysis) {
     # compute/update lower/upper bound
     a[k] <- lower(

@@ -55,9 +55,7 @@
 #' # Type II error (1 - power)
 #' beta <- 0.1
 #'
-#' # ------------------------- #
-#' #        AHR                #
-#' # ------------------------- #
+#' # AHR ----
 #' # under fixed power
 #' fixed_design_ahr(
 #'   alpha = alpha,
@@ -68,9 +66,7 @@
 #'   ratio = ratio
 #' ) %>% summary()
 #'
-#' # ------------------------- #
-#' #        FH                 #
-#' # ------------------------- #
+#' # FH ----
 #' # under fixed power
 #' fixed_design_fh(
 #'   alpha = alpha,
@@ -160,9 +156,7 @@ summary.fixed_design <- function(object, ...) {
 #' @export
 #'
 #' @examples
-#' # ---------------------------- #
-#' #     design parameters        #
-#' # ---------------------------- #
+#' # design parameters ----
 #' library(gsDesign)
 #' library(gsDesign2)
 #' library(dplyr)
@@ -217,9 +211,7 @@ summary.fixed_design <- function(object, ...) {
 #'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 #' )
 #'
-#' # ---------------------------- #
-#' #          ahr                 #
-#' # ---------------------------- #
+#' # ahr ----
 #' \donttest{
 #' x_ahr <- gs_design_ahr(
 #'   enroll_rate = enroll_rate,
@@ -239,9 +231,7 @@ summary.fixed_design <- function(object, ...) {
 #' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 #' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
 #' }
-#' # ---------------------------- #
-#' #         wlr                  #
-#' # ---------------------------- #
+#' # wlr ----
 #' \donttest{
 #' x_wlr <- gs_design_wlr(
 #'   enroll_rate = enroll_rate,
@@ -259,9 +249,7 @@ summary.fixed_design <- function(object, ...) {
 #' )
 #' x_wlr %>% summary()
 #' }
-#' # ---------------------------- #
-#' #         MaxCombo             #
-#' # ---------------------------- #
+#' # MaxCombo ----
 #' \donttest{
 #' x_combo <- gs_design_combo(
 #'   ratio = 1,
@@ -281,9 +269,7 @@ summary.fixed_design <- function(object, ...) {
 #' )
 #' x_combo %>% summary()
 #' }
-#' # ---------------------------- #
-#' #      risk difference         #
-#' # ---------------------------- #
+#' # risk difference ----
 #' \donttest{
 #' gs_design_rd(
 #'   p_c = tibble::tibble(stratum = "All", rate = .2),
@@ -316,9 +302,7 @@ summary.gs_design <- function(object,
   x_analysis <- x$analysis
   n_analysis <- max(x_analysis$analysis)
 
-  # --------------------------------------------- #
-  #     prepare the columns decimals              #
-  # --------------------------------------------- #
+  # prepare the columns decimals ----
   if (method == "ahr") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
@@ -366,9 +350,7 @@ summary.gs_design <- function(object,
     }
   }
 
-  # --------------------------------------------- #
-  #     prepare the analysis summary row          #
-  # --------------------------------------------- #
+  # prepare the analysis summary row ----
   # get the
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
@@ -570,9 +552,7 @@ summary.gs_design <- function(object,
     )
   }
 
-  # --------------------------------------------- #
-  #     set the decimals to display               #
-  # --------------------------------------------- #
+  # set the decimals to display ----
   if ("analysis" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "analysis", "Analysis", col_vars))
   }

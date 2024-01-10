@@ -70,23 +70,19 @@ fixed_design_lf <- function(
     study_duration = 36,
     enroll_rate,
     fail_rate) {
-  # --------------------------------------------- #
-  #     check inputs                              #
-  # --------------------------------------------- #
+  # check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  # ------------------------- #
-  #     save inputs           #
-  # ------------------------- #
+
+  # save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  # ------------------------- #
-  #     generate design       #
-  # ------------------------- #
+
+  # generate design ----
   # check if it is stratum
   n_stratum1 <- length(unique(enroll_rate$stratum))
   n_stratum2 <- length(unique(fail_rate$stratum))

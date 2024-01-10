@@ -53,17 +53,13 @@ where the enrollment, failure and dropout rates changes over time.
 }
 
 \examples{
-# ------------------------#
-#      Example 1          #
-# ------------------------#
+# Example 1 ----
 # default
 \donttest{
 expected_time()
 }
 
-# ------------------------#
-#      Example 2          #
-# ------------------------#
+# Example 2 ----
 # check that result matches a finding using AHR()
 # Start by deriving an expected event count
 enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)

@@ -130,9 +130,7 @@ fail_rate <- define_fail_rate(
 target_events <- c(30, 40, 50)
 target_analysisTime <- c(10, 24, 30)
 
-# -------------------------#
-#       example 1          #
-# ------------------------ #
+# example 1 ----
 \donttest{
 # fixed bounds and calculate the power for targeted number of events
 gs_power_wlr(
@@ -153,9 +151,7 @@ gs_power_wlr(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 }
-# -------------------------#
-#       example 2          #
-# ------------------------ #
+# example 2 ----
 # fixed bounds and calculate the power for targeted analysis time
 \donttest{
 gs_power_wlr(
@@ -176,9 +172,7 @@ gs_power_wlr(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 }
-# -------------------------#
-#       example 3          #
-# ------------------------ #
+# example 3 ----
 # fixed bounds and calculate the power for targeted analysis time & number of events
 \donttest{
 gs_power_wlr(
@@ -199,9 +193,7 @@ gs_power_wlr(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 }
-# -------------------------#
-#       example 4          #
-# ------------------------ #
+# example 4 ----
 # spending bounds and calculate the power for targeted number of events
 \donttest{
 gs_power_wlr(
@@ -215,9 +207,7 @@ gs_power_wlr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
 }
-# -------------------------#
-#       example 5          #
-# ------------------------ #
+# example 5 ----
 # spending bounds and calculate the power for targeted analysis time
 \donttest{
 gs_power_wlr(
@@ -231,9 +221,7 @@ gs_power_wlr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
 }
-# -------------------------#
-#       example 6          #
-# ------------------------ #
+# example 6 ----
 # spending bounds and calculate the power for targeted analysis time & number of events
 \donttest{
 gs_power_wlr(

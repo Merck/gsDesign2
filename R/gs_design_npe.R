@@ -133,9 +133,7 @@
 #' library(dplyr)
 #' library(gsDesign)
 #'
-#' # ---------------------------------#
-#' #         example 1                #
-#' # ---------------------------------#
+#' # example 1 ----
 #' # Single analysis
 #' # Lachin book p 71 difference of proportions example
 #' pc <- .28 # Control response rate
@@ -151,9 +149,7 @@
 #' gs_design_npe(theta = pe - pc, info = info, info0 = info0)
 #'
 #'
-#' # ---------------------------------#
-#' #         example 2                #
-#' # ---------------------------------#
+#' # example 2 ----
 #' # Fixed bound
 #' x <- gs_design_npe(
 #'   alpha = 0.0125,
@@ -177,9 +173,7 @@
 #'   lpar = rep(-Inf, 3)
 #' )
 #'
-#' # ---------------------------------#
-#' #         example 3                #
-#' # ---------------------------------#
+#' # example 3 ----
 #' # Spending bound examples
 #' # Design with futility only at analysis 1; efficacy only at analyses 2, 3
 #' # Spending bound for efficacy; fixed bound for futility
@@ -209,9 +203,7 @@
 #'   test_upper = c(FALSE, TRUE, TRUE)
 #' )
 #'
-#' # ---------------------------------#
-#' #         example 4                #
-#' # ---------------------------------#
+#' # example 4 ----
 #' # Spending function bounds
 #' # 2-sided asymmetric bounds
 #' # Lower spending based on non-zero effect
@@ -225,9 +217,7 @@
 #'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
 #' )
 #'
-#' # ---------------------------------#
-#' #         example 5                #
-#' # ---------------------------------#
+#' # example 5 ----
 #' # Two-sided symmetric spend, O'Brien-Fleming spending
 #' # Typically, 2-sided bounds are binding
 #' xx <- gs_design_npe(
@@ -261,9 +251,7 @@ gs_design_npe <- function(
     lower = gs_b, lpar = -Inf,
     test_upper = TRUE, test_lower = TRUE, binding = FALSE,
     r = 18, tol = 1e-6) {
-  # --------------------------------------------- #
-  #     check & set up parameters                 #
-  # --------------------------------------------- #
+  # check & set up parameters ----
   n_analysis <- length(info)
 
   # check alpha & beta
@@ -296,9 +284,7 @@ gs_design_npe <- function(
   check_test_upper(test_upper, n_analysis)
   check_test_lower(test_lower, n_analysis)
 
-  # --------------------------------------------- #
-  #     set up info                               #
-  # --------------------------------------------- #
+  # set up info ----
   if (is.null(info0)) {
     info0 <- info
   }
@@ -326,9 +312,7 @@ gs_design_npe <- function(
   if (length(info0) != length(info)) stop("gs_design_npe(): length of info, info0 must be the same!")
   if (length(info1) != length(info)) stop("gs_design_npe(): length of info, info1 must be the same!")
 
-  # --------------------------------------------- #
-  #     check design type                         #
-  # --------------------------------------------- #
+  # check design type ----
   if (identical(lower, gs_b) && (!is.list(lpar))) {
     if (all(test_lower == FALSE)) {
       two_sided <- FALSE
@@ -340,10 +324,7 @@ gs_design_npe <- function(
     two_sided <- TRUE
   }
 
-
-  # --------------------------------------------- #
-  #     initialization                            #
-  # --------------------------------------------- #
+  # initialization ----
   a <- rep(-Inf, n_analysis) # bounds
   b <- rep(Inf, n_analysis)
   hgm1_0 <- NULL # numerical integration grids
@@ -351,9 +332,7 @@ gs_design_npe <- function(
   upper_prob <- rep(NA, n_analysis) # boundary crossing probabilities
   lower_prob <- rep(NA, n_analysis)
 
-  # --------------------------------------------- #
-  #     fixed design                              #
-  # --------------------------------------------- #
+  # fixed design ----
   # compute fixed sample size for desired power and Type I error.
   min_x <- ((qnorm(alpha) / sqrt(info0[n_analysis]) + qnorm(beta) / sqrt(info[n_analysis])) / theta[n_analysis])^2
   # for a fixed design, this is all you need.
@@ -367,9 +346,7 @@ gs_design_npe <- function(
     return(ans)
   }
 
-  # --------------------------------------------- #
-  #     search for the inflation factor to info   #
-  # --------------------------------------------- #
+  # search for the inflation factor to info ----
   # ensure `min_x` gives power < 1 - beta
   # and `max_x` gives power > 1 - beta
   min_temp <- gs_power_npe(
@@ -454,9 +431,7 @@ gs_design_npe <- function(
     inflation_factor <- res$root
   }
 
-  # --------------------------------------------- #
-  #     return the output                         #
-  # --------------------------------------------- #
+  # return the output ----
   # calculate the probability under H1
   ans_h1 <- gs_power_npe(
     theta = theta, theta0 = theta0, theta1 = theta1,

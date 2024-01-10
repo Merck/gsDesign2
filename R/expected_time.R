@@ -50,17 +50,13 @@
 #' @export
 #'
 #' @examples
-#' # ------------------------#
-#' #      Example 1          #
-#' # ------------------------#
+#' # Example 1 ----
 #' # default
 #' \donttest{
 #' expected_time()
 #' }
 #'
-#' # ------------------------#
-#' #      Example 2          #
-#' # ------------------------#
+#' # Example 2 ----
 #' # check that result matches a finding using AHR()
 #' # Start by deriving an expected event count
 #' enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
@@ -95,17 +91,13 @@ expected_time <- function(
     target_event = 150,
     ratio = 1,
     interval = c(.01, 100)) {
-  # ----------------------------#
-  #    check inputs             #
-  # ----------------------------#
+  # check inputs ----
   check_ratio(ratio)
   if (length(target_event) > 1) {
     stop("expected_time(): the input target_event` should be a positive numer, rather than a vector!")
   }
 
-  # ----------------------------#
-  #    build a help function    #
-  # ----------------------------#
+  # build a help function ----
   # find the difference between  `AHR()` and different values of total_duration
   event_diff <- function(x) {
     ans <- ahr(

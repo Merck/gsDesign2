@@ -71,9 +71,7 @@
 #' @examples
 #' library(gsDesign)
 #'
-#' # ----------------- #
-#' #    example 1      #
-#' #------------------ #
+#' # example 1 ----
 #' # unstratified group sequential design
 #' gs_design_rd(
 #'   p_c = tibble::tibble(stratum = "All", rate = .2),
@@ -91,9 +89,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #'
-#' # ----------------- #
-#' #     example 2     #
-#' # ----------------- #
+#' # example 2 ----
 #' # stratified group sequential design
 #' gs_design_rd(
 #'   p_c = tibble::tibble(
@@ -138,9 +134,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
                          r = 18,
                          tol = 1e-6,
                          h1_spending = TRUE) {
-  # --------------------------------------------- #
-  #     check input values                        #
-  # --------------------------------------------- #
+  # check input values ----
   info_scale <- match.arg(info_scale)
 
   weight <- if (methods::missingArg(weight)) {
@@ -221,12 +215,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
     r = r, tol = tol
   )
 
-
-
-
-  # --------------------------------------------- #
-  #     get statistical information               #
-  # --------------------------------------------- #
+  # get statistical information ----
   inflac_fct <- if (info_scale == "h0_info") {
     (y_gs %>% filter(bound == "upper", analysis == k))$info0 / x_fix$info0[1]
   } else if (info_scale == "h1_info") {
@@ -254,9 +243,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
     )) %>%
     arrange(analysis, desc(bound))
 
-  # --------------------------------------------- #
-  #     get input parameters to output            #
-  # --------------------------------------------- #
+  # get input parameters to output ----
   input <- list(
     p_c = p_c, p_e = p_e,
     info_frac = info_frac, rd0 = rd0, alpha = alpha, beta = beta,
@@ -267,22 +254,16 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
     binding = binding, info_scale = info_scale, r = r, tol = tol
   )
 
-  # --------------------------------------------- #
-  #     get bounds to output                      #
-  # --------------------------------------------- #
+  # get bounds to output ----
   bound <- allout %>%
     select(analysis, bound, probability, probability0, z, `~risk difference at bound`, `nominal p`)
 
-  # --------------------------------------------- #
-  #     get analysis summary to output            #
-  # --------------------------------------------- #
+  # get analysis summary to output ----
   analysis <- allout %>%
     filter(bound == "upper") %>%
     select(analysis, n, rd, rd0, info, info0, info_frac, info_frac0)
 
-  # --------------------------------------------- #
-  #     return the output                         #
-  # --------------------------------------------- #
+  # return the output ----
   ans <- list(
     input = input,
     bound = bound %>% filter(!is.infinite(z)),
