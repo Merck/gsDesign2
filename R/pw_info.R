@@ -115,7 +115,7 @@ pw_info <- function(
     ),
     total_duration = 30,
     ratio = 1) {
-  # check input values ----
+  # Check input values ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)

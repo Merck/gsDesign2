@@ -425,7 +425,7 @@ as_rtf.gs_design <- function(
   x <- data.frame(lapply(x, function(x) trimws(formatC(x, flag = "-"), "r")))
   names(x) <- names(x_old)
 
-  # set defaults ----
+  # Set defaults ----
   # set different default title to different methods
   if (method == "ahr" && is.null(title)) {
     title <- "Bound summary for AHR design"
@@ -592,7 +592,7 @@ as_rtf.gs_design <- function(
     footnote <- lapply(footnote, function(x) x[!is.na(x)])
   }
 
-  # filter out inf bound ----
+  # Filter out inf bound ----
   x <- x %>%
     subset(!is.na(`Alternate hypothesis`)) %>%
     subset(!is.na(`Null hypothesis`))
@@ -602,7 +602,7 @@ as_rtf.gs_design <- function(
     subset(Bound %in% display_bound) %>%
     dplyr::arrange(Analysis)
 
-  # set RTF parameters ----
+  # Set rtf parameters ----
   n_col <- ncol(x)
   n_row <- nrow(x)
   if (!is.null(col_rel_width) && !(n_col == length(col_rel_width))) {
@@ -655,7 +655,7 @@ as_rtf.gs_design <- function(
   text_format <- rep("", n_col)
   text_indent <- matrix(0, nrow = n_row, ncol = n_col)
 
-  # add footnotes ----
+  # Add footnotes ----
   # initialization for footnote
   footnotes <- NULL
   alpha_utf_int <- 96
@@ -735,7 +735,7 @@ as_rtf.gs_design <- function(
     }
   }
 
-  # output ----
+  # Output ----
   # use r2rtf
   ans <- x %>%
     r2rtf::rtf_page(orientation = orientation) %>%

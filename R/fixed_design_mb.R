@@ -74,7 +74,7 @@ fixed_design_mb <- function(
     enroll_rate,
     fail_rate,
     tau = 6) {
-  # check inputs ----
+  # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -82,7 +82,7 @@ fixed_design_mb <- function(
     stop("fixed_design: multiple tau can not be used in Magirr-Burman method!")
   }
 
-  # save inputs ----
+  # Save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
     tau = tau,
@@ -90,7 +90,7 @@ fixed_design_mb <- function(
     fail_rate = fail_rate
   )
 
-  # generate design ----
+  # Generate design ----
   weight <- function(x, arm0, arm1) {
     wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau)
   }

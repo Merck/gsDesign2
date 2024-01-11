@@ -314,7 +314,7 @@ as_gt.gs_design <- function(x,
   }) %>% unlist()
   x_old <- x
 
-  # set defaults ----
+  # Set defaults ----
   # set different default title to different methods
   if (method == "ahr" && is.null(title)) {
     title <- "Bound summary for AHR design"
@@ -461,12 +461,12 @@ as_gt.gs_design <- function(x,
     footnote <- lapply(footnote, function(x) x[!is.na(x)])
   }
 
-  # filter out inf bound ----
+  # Filter out inf bound ----
   x <- x %>%
     subset(!is.na(`Alternate hypothesis`)) %>%
     subset(!is.na(`Null hypothesis`))
 
-  # add spanner ----
+  # Add spanner ----
   names(x)[names(x) == "Alternate hypothesis"] <- colname_spannersub[1]
   names(x)[names(x) == "Null hypothesis"] <- colname_spannersub[2]
 
@@ -481,7 +481,7 @@ as_gt.gs_design <- function(x,
     ) %>%
     gt::tab_header(title = title, subtitle = subtitle)
 
-  # add footnotes ----
+  # Add footnotes ----
   if (!is.null(footnote$content)) {
     if (length(footnote$content) != 0) {
       for (i in seq_along(footnote$content)) {

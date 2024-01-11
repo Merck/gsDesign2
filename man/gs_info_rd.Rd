@@ -38,7 +38,7 @@ and statistical information.
 Information and effect size under risk difference
 }
 \examples{
-# example 1 ----
+# Example 1 ----
 # unstratified case with H0: rd0 = 0
 gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
@@ -48,7 +48,7 @@ gs_info_rd(
   ratio = 1
 )
 
-# example 2 ----
+# Example 2 ----
 # unstratified case with H0: rd0 != 0
 gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .2),
@@ -58,7 +58,7 @@ gs_info_rd(
   ratio = 1
 )
 
-# example 3 ----
+# Example 3 ----
 # stratified case under sample size weighting and H0: rd0 = 0
 gs_info_rd(
   p_c = tibble::tibble(stratum = c("S1", "S2", "S3"), rate = c(.15, .2, .25)),
@@ -73,7 +73,7 @@ gs_info_rd(
   weight = "ss"
 )
 
-# example 4 ----
+# Example 4 ----
 # stratified case under inverse variance weighting and H0: rd0 = 0
 gs_info_rd(
   p_c = tibble::tibble(
@@ -94,7 +94,7 @@ gs_info_rd(
   weight = "invar"
 )
 
-# example 5 ----
+# Example 5 ----
 # stratified case under sample size weighting and H0: rd0 != 0
 gs_info_rd(
   p_c = tibble::tibble(
@@ -115,7 +115,7 @@ gs_info_rd(
   weight = "ss"
 )
 
-# example 6 ----
+# Example 6 ----
 # stratified case under inverse variance weighting and H0: rd0 != 0
 gs_info_rd(
   p_c = tibble::tibble(
@@ -136,7 +136,7 @@ gs_info_rd(
   weight = "invar"
 )
 
-# example 7 ----
+# Example 7 ----
 # stratified case under inverse variance weighting and H0: rd0 != 0 and
 # rd0 difference for different statum
 gs_info_rd(

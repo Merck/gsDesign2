@@ -74,7 +74,7 @@ fixed_design_rmst <- function(
     enroll_rate,
     fail_rate,
     tau = NULL) {
-  # check inputs ----
+  # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -85,13 +85,13 @@ fixed_design_rmst <- function(
     stop("fixed_design_rmst: tau should a scaler.")
   }
 
-  # save inputs ----
+  # Save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
     tau = tau, enroll_rate = enroll_rate, fail_rate = fail_rate
   )
 
-  # generate design ----
+  # Generate design ----
   if (is.null(power)) {
     d <- fixed_design_power_rmst(
       alpha = alpha, ratio = ratio,

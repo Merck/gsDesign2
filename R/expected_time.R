@@ -91,13 +91,13 @@ expected_time <- function(
     target_event = 150,
     ratio = 1,
     interval = c(.01, 100)) {
-  # check inputs ----
+  # Check inputs ----
   check_ratio(ratio)
   if (length(target_event) > 1) {
     stop("expected_time(): the input target_event` should be a positive numer, rather than a vector!")
   }
 
-  # build a help function ----
+  # Build a help function ----
   # find the difference between  `AHR()` and different values of total_duration
   event_diff <- function(x) {
     ans <- ahr(

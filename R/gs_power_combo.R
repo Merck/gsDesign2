@@ -64,7 +64,7 @@
 #'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 #' )
 #'
-#' # example 1 ----
+#' # Example 1 ----
 #' # Minimal Information Fraction derived bound
 #' \donttest{
 #' gs_power_combo(
@@ -110,7 +110,7 @@ gs_power_combo <- function(
   stopifnot(identical(upper, gs_b) | identical(upper, gs_spending_combo))
   stopifnot(identical(lower, gs_b) | identical(lower, gs_spending_combo))
 
-  # get the number of analysis/test ----
+  # Get the number of analysis/test ----
   n_analysis <- length(unique(fh_test$analysis))
   n_test <- max(fh_test$test)
 
@@ -191,14 +191,14 @@ gs_power_combo <- function(
   ) %>%
     arrange(analysis, desc(bound))
 
-  # get bounds to output ----
+  # Get bounds to output ----
   bound <- db %>%
     dplyr::mutate(`nominal p` = pnorm(z * (-1))) %>%
     dplyr::select(analysis, bound, probability, probability_null, z, `nominal p`) %>%
     dplyr::rename(probability0 = probability_null) %>%
     arrange(analysis, desc(bound))
 
-  # get analysis summary to output ----
+  # Get analysis summary to output ----
   # check if rho, gamma = 0 is included in fh_test
   tmp <- fh_test %>%
     filter(rho == 0 & gamma == 0 & tau == -1) %>%
@@ -240,7 +240,7 @@ gs_power_combo <- function(
     ) %>%
     arrange(analysis)
 
-  # output ----
+  # Output ----
   output <- list(
     enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
     fail_rate = fail_rate,
