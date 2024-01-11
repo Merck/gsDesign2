@@ -132,10 +132,8 @@ expected_event <- function(
     stop("gsDesign2: simple in `expected_event()` must be logical!")
   }
 
-  # ----------------------------#
-  #    divide the time line     #
-  #     into sub-intervals      #
-  # ----------------------------#
+  # Divide the time line into sub-intervals ----
+
   ## by piecewise enrollment rates
   df_1 <- data.frame(start_enroll = c(0, cumsum(enroll_rate$duration)))
   df_1$end_fail <- total_duration - df_1$start_enroll

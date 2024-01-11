@@ -107,10 +107,7 @@ expected_time <- function(
     return(ans)
   }
 
-  # ----------------------------#
-  #       uniroot AHR()         #
-  #    over total_duration      #
-  # ----------------------------#
+  # Perform uniroot AHR() over total_duration ----
   res <- try(uniroot(event_diff, interval))
 
   if (inherits(res, "try-error")) {

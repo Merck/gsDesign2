@@ -414,12 +414,11 @@ summary.gs_design <- function(object,
     analysis_vars <- replace(analysis_vars, analysis_vars == "event_frac", "Event fraction")
   }
 
-  # --------------------------------------------- #
-  #             merge 2 tables:                   #
-  #         (1) alternate hypothesis table        #
-  #         (2) null hypothesis table             #
-  # --------------------------------------------- #
-  # table A: a table under alternative hypothesis
+  # Merge 2 tables:
+  # 1. Alternate hypothesis table.
+  # 2. Null hypothesis table.
+  #
+  # Table A: a table under alternative hypothesis.
   xy <- x_bound %>%
     dplyr::rename("Alternate hypothesis" = probability) %>%
     dplyr::rename("Null hypothesis" = probability0) %>%
@@ -442,28 +441,28 @@ summary.gs_design <- function(object,
     dplyr::mutate(bound = dplyr::recode(bound, "upper" = bound_names[1], "lower" = bound_names[2])) %>%
     dplyr::arrange(analysis, desc(bound))
 
-  # --------------------------------------------- #
-  #             merge 2 tables:                   #
-  #         (1) analysis summary table            #
-  #         (2) xy: bound_summary_detail table    #
-  # --------------------------------------------- #
+  # Merge 2 tables:
+  # (1) Analysis summary table
+  # (2) xy: bound_summary_detail table
+  #
   # Merge 3 tables: 1 line per analysis, alternate hypothesis table, null hypothesis table
-  # if the method is AHR
+  #
+  # If the method is AHR
   if (method == "ahr") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    # bound details
+    # Bound details
     bound_summary_detail <- xy
   }
 
-  # if the method is WLR, change AHR to wAHR
+  # If the method is WLR, change AHR to wAHR
   if (method == "wlr") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
     if ("ahr" %in% analysis_vars) {
       analysis_summary_header <- analysis_summary_header %>% dplyr::rename(wahr = ahr)
     }
-    # bound details
+    # Bound details
     if ("~hr at bound" %in% names(xy)) {
       bound_summary_detail <- xy %>% dplyr::rename("~whr at bound" = "~hr at bound")
     } else {
@@ -471,11 +470,11 @@ summary.gs_design <- function(object,
     }
   }
 
-  # if the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
+  # If the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
   if (method == "combo") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    # bound details
+    # Bound details
     if ("~hr at bound" %in% names(xy)) {
       stop("summary: ~hr at bound can't be display!")
     } else {
@@ -483,13 +482,13 @@ summary.gs_design <- function(object,
     }
   }
 
-  # if the method is RD
+  # If the method is RD
   if (method == "rd") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>%
       dplyr::select(all_of(c("Analysis", analysis_vars))) %>%
       dplyr::rename("Risk difference" = rd)
-    # bound details
+    # Bound details
     bound_summary_detail <- xy
   }
 

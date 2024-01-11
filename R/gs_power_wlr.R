@@ -194,10 +194,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   # get the info_scale
   info_scale <- match.arg(info_scale)
 
-  # ---------------------------------------- #
-  #    calculate the asymptotic variance     #
-  #       and statistical information        #
-  # ---------------------------------------- #
+  # Calculate the asymptotic variance and statistical information ----
   x <- gs_info_wlr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
@@ -208,10 +205,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
     interval = interval
   )
 
-  # ---------------------------------------- #
-  #  given the above statistical information #
-  #         calculate the power              #
-  # ---------------------------------------- #
+  # Given the above statistical information calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$theta,
     info = x$info,

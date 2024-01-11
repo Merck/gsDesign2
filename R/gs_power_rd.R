@@ -265,10 +265,7 @@ gs_power_rd <- function(
     match.arg(weight)
   }
 
-  # ---------------------------------------- #
-  #    calculate the asymptotic variance     #
-  #       and statistical information        #
-  # ---------------------------------------- #
+  # Calculate the asymptotic variance and statistical information ----
   x <- gs_info_rd(
     p_c = p_c,
     p_e = p_e,
@@ -278,10 +275,7 @@ gs_power_rd <- function(
     weight = weight
   )
 
-  # ---------------------------------------- #
-  #  given the above statistical information #
-  #         calculate the power              #
-  # ---------------------------------------- #
+  # Given the above statistical information calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$rd,
     info = x$info1,

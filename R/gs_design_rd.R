@@ -149,10 +149,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
     k <- length(info_frac)
   }
 
-  # --------------------------------------------- #
-  #     calculate the sample size                 #
-  #          under fixed design                   #
-  # --------------------------------------------- #
+  # Calculate the sample size under fixed design ----
   x_fix <- gs_info_rd(
     p_c = p_c,
     p_e = p_e,
@@ -170,10 +167,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
     weight = weight
   )
 
-  # --------------------------------------------- #
-  #     calculate the sample size                 #
-  #     under group sequential design             #
-  # --------------------------------------------- #
+  # Calculate the sample size under group sequential design ----
   x_gs <- gs_info_rd(
     p_c = p_c,
     p_e = p_e,

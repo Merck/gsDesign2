@@ -111,13 +111,13 @@ targeted \code{analysis_time}.
 library(gsDesign2)
 library(dplyr)
 
-# Example 1 -----------------------------------------------------------------
+# Example 1 ----
 # The default output of `gs_power_ahr()` is driven by events,
 # i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
 \donttest{
 gs_power_ahr()
 }
-# Example 2 -----------------------------------------------------------------
+# Example 2 ----
 # 2-sided symmetric O'Brien-Fleming spending bound, driven by analysis time,
 # i.e., `event = NULL`, `analysis_time = c(12, 24, 36)`
 
@@ -131,7 +131,7 @@ gs_power_ahr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 )
 
-# Example 3 -----------------------------------------------------------------
+# Example 3 ----
 # 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
 # i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
 \donttest{
@@ -145,7 +145,7 @@ gs_power_ahr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 )
 }
-# Example 4 -----------------------------------------------------------------
+# Example 4 ----
 # 2-sided symmetric O'Brien-Fleming spending bound,
 # driven by both `event` and `analysis_time`, i.e.,
 # both `event` and `analysis_time` are not `NULL`,
