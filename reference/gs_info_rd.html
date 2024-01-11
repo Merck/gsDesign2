@@ -107,9 +107,7 @@ and statistical information.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co">#      example 1        #</span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example 1 ----</span></span></span>
 <span class="r-in"><span><span class="co"># unstratified case with H0: rd0 = 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.15</span><span class="op">)</span>,</span></span>
@@ -125,9 +123,7 @@ and statistical information.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2   200  0.05     0   0.05      0  460.  457.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3   300  0.05     0   0.05      0  690.  686.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co">#      example 2        #</span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
+<span class="r-in"><span><span class="co"># Example 2 ----</span></span></span>
 <span class="r-in"><span><span class="co"># unstratified case with H0: rd0 != 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, rate <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span>,</span></span>
@@ -143,9 +139,7 @@ and statistical information.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2   200  0.05 0.005   0.05  0.005  348.  346.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3   300  0.05 0.005   0.05  0.005  522.  519.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co">#      example 3        #</span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
+<span class="r-in"><span><span class="co"># Example 3 ----</span></span></span>
 <span class="r-in"><span><span class="co"># stratified case under sample size weighting and H0: rd0 = 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span><span class="op">)</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.15</span>, <span class="fl">.2</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span>,</span></span>
@@ -166,9 +160,7 @@ and statistical information.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2   300 0.051<span style="text-decoration: underline;">3</span>     0 0.051<span style="text-decoration: underline;">3</span>      0  522.  519.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3   600 0.051<span style="text-decoration: underline;">3</span>     0 0.051<span style="text-decoration: underline;">3</span>      0 <span style="text-decoration: underline;">1</span>043. <span style="text-decoration: underline;">1</span>038.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co">#      example 4        #</span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
+<span class="r-in"><span><span class="co"># Example 4 ----</span></span></span>
 <span class="r-in"><span><span class="co"># stratified case under inverse variance weighting and H0: rd0 = 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
@@ -195,9 +187,7 @@ and statistical information.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2   300 0.050<span style="text-decoration: underline;">7</span>     0 0.050<span style="text-decoration: underline;">7</span>      0  542.  539.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3   600 0.050<span style="text-decoration: underline;">7</span>     0 0.050<span style="text-decoration: underline;">7</span>      0 <span style="text-decoration: underline;">1</span>083. <span style="text-decoration: underline;">1</span>078.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co">#      example 5        #</span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
+<span class="r-in"><span><span class="co"># Example 5 ----</span></span></span>
 <span class="r-in"><span><span class="co"># stratified case under sample size weighting and H0: rd0 != 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
@@ -224,9 +214,7 @@ and statistical information.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2   300 0.051<span style="text-decoration: underline;">3</span>  0.02 0.051<span style="text-decoration: underline;">3</span>   0.02  522.  519.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3   600 0.051<span style="text-decoration: underline;">3</span>  0.02 0.051<span style="text-decoration: underline;">3</span>   0.02 <span style="text-decoration: underline;">1</span>043. <span style="text-decoration: underline;">1</span>038.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co">#      example 6        #</span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
+<span class="r-in"><span><span class="co"># Example 6 ----</span></span></span>
 <span class="r-in"><span><span class="co"># stratified case under inverse variance weighting and H0: rd0 != 0</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_rd</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  p_c <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
@@ -253,9 +241,7 @@ and statistical information.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2   300 0.050<span style="text-decoration: underline;">7</span>  0.02 0.050<span style="text-decoration: underline;">7</span>   0.02  542.  539.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3   600 0.050<span style="text-decoration: underline;">7</span>  0.02 0.050<span style="text-decoration: underline;">7</span>   0.02 <span style="text-decoration: underline;">1</span>083. <span style="text-decoration: underline;">1</span>078.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
-<span class="r-in"><span><span class="co">#      example 7        #</span></span></span>
-<span class="r-in"><span><span class="co"># --------------------- #</span></span></span>
+<span class="r-in"><span><span class="co"># Example 7 ----</span></span></span>
 <span class="r-in"><span><span class="co"># stratified case under inverse variance weighting and H0: rd0 != 0 and</span></span></span>
 <span class="r-in"><span><span class="co"># rd0 difference for different statum</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_rd</span><span class="op">(</span></span></span>
