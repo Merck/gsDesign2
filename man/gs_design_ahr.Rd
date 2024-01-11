@@ -131,35 +131,25 @@ library(gsDesign)
 library(gsDesign2)
 library(dplyr)
 
-# ----------------- #
-#    example 1      #
-# ----------------- #
+# Example 1 ----
 # call with defaults
 gs_design_ahr()
 
-# ----------------- #
-#    example 2      #
-# ----------------- #
+# Example 2 ----
 # Single analysis
 gs_design_ahr(analysis_time = 40)
 
-# ----------------- #
-#    example 3      #
-# ----------------- #
+# Example 3 ----
 # Multiple analysis_time
 gs_design_ahr(analysis_time = c(12, 24, 36))
 
-# ----------------- #
-#    example 4      #
-# ----------------- #
+# Example 4 ----
 # Specified information fraction
 \donttest{
 gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 }
 
-# ----------------- #
-#    example 5      #
-# ----------------- #
+# Example 5 ----
 # multiple analysis times & info_frac
 # driven by times
 gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
@@ -168,9 +158,7 @@ gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
 }
 
-# ----------------- #
-#    example 6      #
-# ----------------- #
+# Example 6 ----
 # 2-sided symmetric design with O'Brien-Fleming spending
 \donttest{
 gs_design_ahr(
@@ -197,9 +185,7 @@ gs_design_ahr(
 )
 }
 
-# ----------------- #
-#    example 7      #
-# ----------------- #
+# Example 7 ----
 \donttest{
 gs_design_ahr(
   alpha = 0.0125,

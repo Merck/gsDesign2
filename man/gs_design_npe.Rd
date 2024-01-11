@@ -158,9 +158,7 @@ will be used to ensure Type I error and other boundary properties are as specifi
 library(dplyr)
 library(gsDesign)
 
-# ---------------------------------#
-#         example 1                #
-# ---------------------------------#
+# Example 1 ----
 # Single analysis
 # Lachin book p 71 difference of proportions example
 pc <- .28 # Control response rate
@@ -176,9 +174,7 @@ info <- 1 / (pc * (1 - pc) * 2 + pe * (1 - pe) * 2)
 gs_design_npe(theta = pe - pc, info = info, info0 = info0)
 
 
-# ---------------------------------#
-#         example 2                #
-# ---------------------------------#
+# Example 2 ----
 # Fixed bound
 x <- gs_design_npe(
   alpha = 0.0125,
@@ -202,9 +198,7 @@ gs_power_npe(
   lpar = rep(-Inf, 3)
 )
 
-# ---------------------------------#
-#         example 3                #
-# ---------------------------------#
+# Example 3 ----
 # Spending bound examples
 # Design with futility only at analysis 1; efficacy only at analyses 2, 3
 # Spending bound for efficacy; fixed bound for futility
@@ -234,9 +228,7 @@ gs_design_npe(
   test_upper = c(FALSE, TRUE, TRUE)
 )
 
-# ---------------------------------#
-#         example 4                #
-# ---------------------------------#
+# Example 4 ----
 # Spending function bounds
 # 2-sided asymmetric bounds
 # Lower spending based on non-zero effect
@@ -250,9 +242,7 @@ gs_design_npe(
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
 )
 
-# ---------------------------------#
-#         example 5                #
-# ---------------------------------#
+# Example 5 ----
 # Two-sided symmetric spend, O'Brien-Fleming spending
 # Typically, 2-sided bounds are binding
 xx <- gs_design_npe(

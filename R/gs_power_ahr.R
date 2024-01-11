@@ -88,13 +88,13 @@
 #' library(gsDesign2)
 #' library(dplyr)
 #'
-#' # Example 1 -----------------------------------------------------------------
+#' # Example 1 ----
 #' # The default output of `gs_power_ahr()` is driven by events,
 #' # i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
 #' \donttest{
 #' gs_power_ahr()
 #' }
-#' # Example 2 -----------------------------------------------------------------
+#' # Example 2 ----
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by analysis time,
 #' # i.e., `event = NULL`, `analysis_time = c(12, 24, 36)`
 #'
@@ -108,7 +108,7 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 #' )
 #'
-#' # Example 3 -----------------------------------------------------------------
+#' # Example 3 ----
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
 #' # i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
 #' \donttest{
@@ -122,7 +122,7 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 #' )
 #' }
-#' # Example 4 -----------------------------------------------------------------
+#' # Example 4 ----
 #' # 2-sided symmetric O'Brien-Fleming spending bound,
 #' # driven by both `event` and `analysis_time`, i.e.,
 #' # both `event` and `analysis_time` are not `NULL`,
@@ -190,14 +190,14 @@ gs_power_ahr <- function(
     two_sided <- TRUE
   }
 
-  # Calculate the asymptotic variance and statistical information --------------
+  # Calculate the asymptotic variance and statistical information ----
   x <- gs_info_ahr(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     ratio = ratio, event = event, analysis_time = analysis_time,
     interval = interval
   )
 
-  # Given the above statistical information, calculate the power ---------------
+  # Given the above statistical information, calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$theta,
     info = x$info, info0 = x$info0, info1 = x$info, info_scale = info_scale,
@@ -224,8 +224,8 @@ gs_power_ahr <- function(
     binding = binding, r = r, tol = tol
   )
 
-  # Organize the outputs -------------------------------------------------------
-  # summarize the bounds
+  # Organize the outputs ----
+  # Summarize the bounds
   suppressMessages(
     bound <- y_h1 %>%
       mutate(`~hr at bound` = exp(-z / sqrt(info)), `nominal p` = pnorm(-z)) %>%
@@ -237,7 +237,7 @@ gs_power_ahr <- function(
       select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
       arrange(analysis, desc(bound))
   )
-  # summarize the analysis
+  # Summarize the analysis
   suppressMessages(
     analysis <- x %>%
       select(analysis, time, event, ahr) %>%
@@ -257,7 +257,7 @@ gs_power_ahr <- function(
       arrange(analysis)
   )
 
-  # Get input parameter to output ----------------------------------------------
+  # Get input parameter to output ----
   input <- list(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     event = event, analysis_time = analysis_time,

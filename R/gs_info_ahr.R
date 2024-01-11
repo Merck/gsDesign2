@@ -62,23 +62,17 @@
 #' library(gsDesign)
 #' library(gsDesign2)
 #'
-#' # ------------------------ #
-#' #       Example 1          #
-#' # ------------------------ #
+#' # Example 1 ----
 #' \donttest{
 #' # Only put in targeted events
 #' gs_info_ahr(event = c(30, 40, 50))
 #' }
-#' # ------------------------ #
-#' #       Example 2          #
-#' # ------------------------ #
+#' # Example 2 ----
 #'
 #' # Only put in targeted analysis times
 #' gs_info_ahr(analysis_time = c(18, 27, 36))
 #'
-#' # ------------------------ #
-#' #       Example 3          #
-#' # ------------------------ #
+#' # Example 3 ----
 #' \donttest{
 #' # Some analysis times after time at which targeted event accrue
 #' # Check that both Time >= input analysis_time and event >= input event
@@ -100,9 +94,7 @@ gs_info_ahr <- function(
     event = NULL, # event at analyses
     analysis_time = NULL, # times of analyses
     interval = c(.01, 100)) {
-  # ----------------------------#
-  #    check input values       #
-  # ----------------------------#
+  # Check input values ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -128,9 +120,7 @@ gs_info_ahr <- function(
     }
   }
 
-  # ----------------------------#
-  #    check input values       #
-  # ----------------------------#
+  # Check input values ----
   avehr <- NULL
   if (!is.null(analysis_time)) {
     # calculate AHR, Events, info, info0 given the analysis_time
@@ -161,15 +151,11 @@ gs_info_ahr <- function(
     }
   }
 
-  # ----------------------------#
-  #    compute theta            #
-  # ----------------------------#
+  # Compute theta ----
   avehr$analysis <- seq_len(nrow(avehr))
   avehr$theta <- -log(avehr$ahr)
 
-  # ----------------------------#
-  #    output results           #
-  # ----------------------------#
+  # Output results ----
   ans <- avehr[, c("analysis", "time", "event", "ahr", "theta", "info", "info0")]
   return(ans)
 }

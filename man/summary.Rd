@@ -66,9 +66,7 @@ alpha <- 0.025
 # Type II error (1 - power)
 beta <- 0.1
 
-# ------------------------- #
-#        AHR                #
-# ------------------------- #
+# AHR ----
 # under fixed power
 fixed_design_ahr(
   alpha = alpha,
@@ -79,9 +77,7 @@ fixed_design_ahr(
   ratio = ratio
 ) \%>\% summary()
 
-# ------------------------- #
-#        FH                 #
-# ------------------------- #
+# FH ----
 # under fixed power
 fixed_design_fh(
   alpha = alpha,
@@ -92,9 +88,7 @@ fixed_design_fh(
   ratio = ratio
 ) \%>\% summary()
 
-# ---------------------------- #
-#     design parameters        #
-# ---------------------------- #
+# Design parameters ----
 library(gsDesign)
 library(gsDesign2)
 library(dplyr)
@@ -149,9 +143,7 @@ fh_test <- rbind(
   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 )
 
-# ---------------------------- #
-#          ahr                 #
-# ---------------------------- #
+# AHR ----
 \donttest{
 x_ahr <- gs_design_ahr(
   enroll_rate = enroll_rate,
@@ -171,9 +163,7 @@ x_ahr \%>\% summary()
 x_ahr \%>\% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 x_ahr \%>\% summary(bound_names = c("A is better", "B is better"))
 }
-# ---------------------------- #
-#         wlr                  #
-# ---------------------------- #
+# WLR ----
 \donttest{
 x_wlr <- gs_design_wlr(
   enroll_rate = enroll_rate,
@@ -191,9 +181,7 @@ x_wlr <- gs_design_wlr(
 )
 x_wlr \%>\% summary()
 }
-# ---------------------------- #
-#         MaxCombo             #
-# ---------------------------- #
+# Maxcombo ----
 \donttest{
 x_combo <- gs_design_combo(
   ratio = 1,
@@ -213,9 +201,7 @@ x_combo <- gs_design_combo(
 )
 x_combo \%>\% summary()
 }
-# ---------------------------- #
-#      risk difference         #
-# ---------------------------- #
+# Risk difference ----
 \donttest{
 gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .2),

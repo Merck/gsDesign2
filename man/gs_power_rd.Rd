@@ -80,9 +80,7 @@ A list with input parameter, analysis, and bound.
 Group sequential design power of binary outcome measuring in risk difference
 }
 \examples{
-# --------------------- #
-#      example 1        #
-# --------------------- #
+# Example 1 ----
 library(gsDesign)
 
 # unstratified case with H0: rd0 = 0
@@ -108,9 +106,7 @@ gs_power_rd(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 
-# --------------------- #
-#      example 2        #
-# --------------------- #
+# Example 2 ----
 # unstratified case with H0: rd0 != 0
 gs_power_rd(
   p_c = tibble::tibble(
@@ -157,9 +153,7 @@ gs_power_rd(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 
-# --------------------- #
-#      example 3        #
-# --------------------- #
+# Example 3 ----
 # stratified case under sample size weighting and H0: rd0 = 0
 gs_power_rd(
   p_c = tibble::tibble(
@@ -184,9 +178,7 @@ gs_power_rd(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 
-# --------------------- #
-#      example 4        #
-# --------------------- #
+# Example 4 ----
 # stratified case under inverse variance weighting and H0: rd0 = 0
 gs_power_rd(
   p_c = tibble::tibble(
@@ -211,9 +203,7 @@ gs_power_rd(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 
-# --------------------- #
-#      example 5        #
-# --------------------- #
+# Example 5 ----
 # stratified case under sample size weighting and H0: rd0 != 0
 gs_power_rd(
   p_c = tibble::tibble(
@@ -238,9 +228,7 @@ gs_power_rd(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 
-# --------------------- #
-#      example 6        #
-# --------------------- #
+# Example 6 ----
 # stratified case under inverse variance weighting and H0: rd0 != 0
 gs_power_rd(
   p_c = tibble::tibble(

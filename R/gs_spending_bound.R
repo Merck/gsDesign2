@@ -106,17 +106,13 @@ gs_spending_bound <- function(k = 1,
                               test_bound = TRUE,
                               r = 18,
                               tol = 1e-6) {
-  # ---------------------------------- #
-  #  check and initialize inputs       #
-  # ---------------------------------- #
+  # Check and initialize inputs ----
   # Make test_bound a vector of length k > 1 if input as a single value
   if (length(test_bound) == 1 && k > 1) {
     test_bound <- rep(test_bound, k)
   }
 
-  # ---------------------------------- #
-  #  set spending time at analyses     #
-  # ---------------------------------- #
+  # Set spending time at analyses ----
   if (!is.null(par$timing)) {
     timing <- par$timing
   } else {
@@ -127,16 +123,10 @@ gs_spending_bound <- function(k = 1,
     }
   }
 
-  # ---------------------------------- #
-  #   compute cumulative spending      #
-  #         at each analyses           #
-  # ---------------------------------- #
+  # Compute cumulative spending at each analyses ----
   spend <- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend
 
-  # ---------------------------------- #
-  #   compute incremental spending     #
-  #         at each analyses           #
-  # ---------------------------------- #
+  # Compute incremental spending at each analyses ----
   old_spend <- 0
 
   for (i in 1:k) {
@@ -153,10 +143,8 @@ gs_spending_bound <- function(k = 1,
   # Now just get spending for current bound
   spend <- spend[k]
 
-  # ---------------------------------- #
-  #   compute lower bound              #
-  #      at each analyses              #
-  # ---------------------------------- #
+  # Compute lower bound at each analyses ----
+
   # lower bound
   if (!efficacy) {
     # If no spending, return -Inf for bound
@@ -185,14 +173,12 @@ gs_spending_bound <- function(k = 1,
     adelta <- 1
     j <- 0
 
-    # ---------------------------------------------------------------- #
-    # FOLLOWING UPDATE ALGORITHM FROM GSDESIGN::GSBOUND.C              #
-    # use 1st order Taylor's series to update boundaries               #
-    # maximum allowed change is 1                                      #
-    # maximum value allowed is z1[m1]*rtIk to keep within grid points  #
-    # ---------------------------------------------------------------- #
+    # Following update algorithm from gsDesign/src/gsbound.c
+    # 1. Use 1st order Taylor's series to update boundaries
+    # 2. Maximum allowed change is 1
+    # 3. Maximum value allowed is z1[m1]*rtIk to keep within grid points
     while (abs(adelta) > tol) {
-      # get grid for rejection region
+      # Get grid for rejection region
       hg <- hupdate(
         theta = theta[k], info = info[k], a = -Inf,
         b = a, thetam1 = theta[k - 1],
@@ -200,7 +186,7 @@ gs_spending_bound <- function(k = 1,
       )
       i <- length(hg$h)
 
-      # compute lower bound crossing (pik)
+      # Compute lower bound crossing (pik)
       pik <- sum(hg$h)
       adelta <- spend - pik
       dplo <- hg$h[i] / hg$w[i]
@@ -231,22 +217,19 @@ gs_spending_bound <- function(k = 1,
       }
     }
   } else {
-    # ---------------------------------- #
-    #   compute upper bound              #
-    #      at each analyses              #
-    # ---------------------------------- #
+    # Compute upper bound at each analysis
     if (spend <= 0) {
       return(Inf)
     }
 
-    # if theta not a vector, make it one
-    # theta is for lower bound only
+    # If theta not a vector, make it one
+    # Theta is for lower bound only
     if (length(theta) == 1) theta <- rep(theta, length(info))
 
-    # set starting value
+    # Set starting value
     b <- qnorm(spend, lower.tail = FALSE)
 
-    # if it is the first analysis: no iteration needed
+    # If it is the first analysis: no iteration needed
     if (k == 1) {
       return(b)
     }
@@ -256,19 +239,19 @@ gs_spending_bound <- function(k = 1,
     extreme_low <- mu - 3 - 4 * log(r)
     extreme_high <- mu + 3 + 4 * log(r)
 
-    # initial values
+    # Initial values
     bdelta <- 1
     j <- 1
 
     while (abs(bdelta) > tol) {
-      # sub-density for final analysis in rejection region
+      # Sub-density for final analysis in rejection region
       hg <- hupdate(theta = 0, info = info[k], a = b, b = Inf, thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)
 
-      # compute probability of crossing bound
+      # Compute probability of crossing bound
       pik <- sum(hg$h)
       bdelta <- spend - pik
 
-      # compute the derivative of bound crossing at b[k]
+      # Compute the derivative of bound crossing at b[k]
       dpikdb <- hg$h[1] / hg$w[1]
 
       if (bdelta > dpikdb) {
@@ -279,7 +262,7 @@ gs_spending_bound <- function(k = 1,
         bdelta <- bdelta / dpikdb
       }
 
-      # update upper boundary by Newton-Raphson method
+      # Update upper boundary by Newton-Raphson method
       b <- b - bdelta
 
       if (b > extreme_high) {
@@ -292,7 +275,7 @@ gs_spending_bound <- function(k = 1,
         return(b)
       }
 
-      # if the while loop does not end in 20 iterations, stop
+      # If the while loop does not end in 20 iterations, stop
       j <- j + 1
       if (j > 20) {
         stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", k, " !"))

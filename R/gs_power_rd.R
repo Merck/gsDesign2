@@ -55,9 +55,7 @@
 #' @export
 #'
 #' @examples
-#' # --------------------- #
-#' #      example 1        #
-#' # --------------------- #
+#' # Example 1 ----
 #' library(gsDesign)
 #'
 #' # unstratified case with H0: rd0 = 0
@@ -83,9 +81,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #'
-#' # --------------------- #
-#' #      example 2        #
-#' # --------------------- #
+#' # Example 2 ----
 #' # unstratified case with H0: rd0 != 0
 #' gs_power_rd(
 #'   p_c = tibble::tibble(
@@ -132,9 +128,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #'
-#' # --------------------- #
-#' #      example 3        #
-#' # --------------------- #
+#' # Example 3 ----
 #' # stratified case under sample size weighting and H0: rd0 = 0
 #' gs_power_rd(
 #'   p_c = tibble::tibble(
@@ -159,9 +153,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #'
-#' # --------------------- #
-#' #      example 4        #
-#' # --------------------- #
+#' # Example 4 ----
 #' # stratified case under inverse variance weighting and H0: rd0 = 0
 #' gs_power_rd(
 #'   p_c = tibble::tibble(
@@ -186,9 +178,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #'
-#' # --------------------- #
-#' #      example 5        #
-#' # --------------------- #
+#' # Example 5 ----
 #' # stratified case under sample size weighting and H0: rd0 != 0
 #' gs_power_rd(
 #'   p_c = tibble::tibble(
@@ -213,9 +203,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #'
-#' # --------------------- #
-#' #      example 6        #
-#' # --------------------- #
+#' # Example 6 ----
 #' # stratified case under inverse variance weighting and H0: rd0 != 0
 #' gs_power_rd(
 #'   p_c = tibble::tibble(
@@ -277,10 +265,7 @@ gs_power_rd <- function(
     match.arg(weight)
   }
 
-  # ---------------------------------------- #
-  #    calculate the asymptotic variance     #
-  #       and statistical information        #
-  # ---------------------------------------- #
+  # Calculate the asymptotic variance and statistical information ----
   x <- gs_info_rd(
     p_c = p_c,
     p_e = p_e,
@@ -290,10 +275,7 @@ gs_power_rd <- function(
     weight = weight
   )
 
-  # ---------------------------------------- #
-  #  given the above statistical information #
-  #         calculate the power              #
-  # ---------------------------------------- #
+  # Given the above statistical information calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$rd,
     info = x$info1,
@@ -328,9 +310,7 @@ gs_power_rd <- function(
     tol = tol
   )
 
-  # ---------------------------------------- #
-  #         organize the outputs             #
-  # ---------------------------------------- #
+  # Organize the outputs ----
   # summarize the bounds
   suppressMessages(
     bound <- y_h1 %>%

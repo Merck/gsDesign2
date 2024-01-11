@@ -83,9 +83,7 @@
 #'   ratio = 1
 #' )
 #'
-#' # -------------------------#
-#' #       example 1          #
-#' # ------------------------ #
+#' # Example 1 ----
 #' # User-defined boundary
 #' \donttest{
 #' gs_design_combo(
@@ -99,9 +97,7 @@
 #'   lpar = x$lower$bound
 #' )
 #' }
-#' # -------------------------#
-#' #       example 2          #
-#' # ------------------------ #
+#' # Example 2 ----
 #' \donttest{
 #' # Boundary derived by spending function
 #' gs_design_combo(
@@ -330,9 +326,7 @@ gs_design_combo <- function(
     ) %>%
     arrange(analysis)
 
-  # --------------------------------------------- #
-  #     output                                    #
-  # --------------------------------------------- #
+  # Output ----
   output <- list(
     enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
     fail_rate = fail_rate,

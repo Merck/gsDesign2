@@ -77,9 +77,7 @@ fixed_design_fh <- function(
     fail_rate,
     rho = 0,
     gamma = 0) {
-  # --------------------------------------------- #
-  #     check inputs                              #
-  # --------------------------------------------- #
+  # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -90,18 +88,16 @@ fixed_design_fh <- function(
   if (length(gamma) > 1) {
     stop("fixed_design_fh: multiple gamma can not be used in Fleming-Harrington method!")
   }
-  # ------------------------- #
-  #     save inputs           #
-  # ------------------------- #
+
+  # Save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
     rho = rho, gamma = gamma,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
-  # ------------------------- #
-  #     generate design       #
-  # ------------------------- #
+
+  # Generate design ----
   weight <- function(x, arm0, arm1) {
     wlr_weight_fh(x, arm0, arm1, rho = rho, gamma = gamma)
   }

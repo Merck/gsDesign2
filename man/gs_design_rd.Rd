@@ -100,9 +100,7 @@ To be added.
 \examples{
 library(gsDesign)
 
-# ----------------- #
-#    example 1      #
-#------------------ #
+# Example 1 ----
 # unstratified group sequential design
 gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .2),
@@ -120,9 +118,7 @@ gs_design_rd(
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
 
-# ----------------- #
-#     example 2     #
-# ----------------- #
+# Example 2 ----
 # stratified group sequential design
 gs_design_rd(
   p_c = tibble::tibble(

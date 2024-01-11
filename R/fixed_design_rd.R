@@ -60,9 +60,7 @@ fixed_design_rd <- function(
     p_e,
     rd0 = 0,
     n = NULL) {
-  # --------------------------------------------- #
-  #     check inputs                              #
-  # --------------------------------------------- #
+  # Check inputs ----
   if (!is.numeric(p_c) || !is.numeric(p_e)) {
     stop("fixed_design_rd: p_c and p_e should be numerical values.")
   }
@@ -72,16 +70,14 @@ fixed_design_rd <- function(
   if (!is.null(n) && !is.numeric(n)) {
     stop("fixed_design_rd: n should be numerical values.")
   }
-  # ------------------------- #
-  #     save inputs           #
-  # ------------------------- #
+
+  # Save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio,
     p_c = p_c, p_e = p_e, n = n
   )
-  # ------------------------- #
-  #     generate design       #
-  # ------------------------- #
+
+  # Generate design ----
   if (is.null(power)) {
     d <- gs_power_rd(
       p_c = tibble::tibble(stratum = "All", rate = p_c),

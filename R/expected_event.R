@@ -119,9 +119,7 @@ expected_event <- function(
     ),
     total_duration = 25,
     simple = TRUE) {
-  # ----------------------------#
-  #    check input values       #
-  # ----------------------------#
+  # Check input values ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -134,10 +132,8 @@ expected_event <- function(
     stop("gsDesign2: simple in `expected_event()` must be logical!")
   }
 
-  # ----------------------------#
-  #    divide the time line     #
-  #     into sub-intervals      #
-  # ----------------------------#
+  # Divide the time line into sub-intervals ----
+
   ## by piecewise enrollment rates
   df_1 <- data.frame(start_enroll = c(0, cumsum(enroll_rate$duration)))
   df_1$end_fail <- total_duration - df_1$start_enroll
@@ -158,9 +154,7 @@ expected_event <- function(
     df_2 <- df_2[df_2$start_enroll > 0, ]
   }
 
-  # ----------------------------#
-  # create 3 step functions (sf)#
-  # ----------------------------#
+  # Create 3 step functions (sf) ----
   # Step function to define enrollment rates over time
   sf_enroll_rate <- stats::stepfun(c(0, cumsum(enroll_rate$duration)),
     c(0, enroll_rate$rate, 0),
@@ -216,9 +210,7 @@ expected_event <- function(
         (df$duration - (1 - df$q) / (df$fail_rate_var + df$dropout_rate_var))
   )
 
-  # ----------------------------#
-  #       output results        #
-  # ----------------------------#
+  # Output results ----
   if (simple) {
     ans <- as.numeric(sum(df$nbar))
   } else {

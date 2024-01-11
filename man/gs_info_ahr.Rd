@@ -66,23 +66,17 @@ average HR at targeted \code{analysis_time}.
 library(gsDesign)
 library(gsDesign2)
 
-# ------------------------ #
-#       Example 1          #
-# ------------------------ #
+# Example 1 ----
 \donttest{
 # Only put in targeted events
 gs_info_ahr(event = c(30, 40, 50))
 }
-# ------------------------ #
-#       Example 2          #
-# ------------------------ #
+# Example 2 ----
 
 # Only put in targeted analysis times
 gs_info_ahr(analysis_time = c(18, 27, 36))
 
-# ------------------------ #
-#       Example 3          #
-# ------------------------ #
+# Example 3 ----
 \donttest{
 # Some analysis times after time at which targeted event accrue
 # Check that both Time >= input analysis_time and event >= input event

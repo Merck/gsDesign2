@@ -55,9 +55,7 @@
 #' # Type II error (1 - power)
 #' beta <- 0.1
 #'
-#' # ------------------------- #
-#' #        AHR                #
-#' # ------------------------- #
+#' # AHR ----
 #' # under fixed power
 #' fixed_design_ahr(
 #'   alpha = alpha,
@@ -68,9 +66,7 @@
 #'   ratio = ratio
 #' ) %>% summary()
 #'
-#' # ------------------------- #
-#' #        FH                 #
-#' # ------------------------- #
+#' # FH ----
 #' # under fixed power
 #' fixed_design_fh(
 #'   alpha = alpha,
@@ -160,9 +156,7 @@ summary.fixed_design <- function(object, ...) {
 #' @export
 #'
 #' @examples
-#' # ---------------------------- #
-#' #     design parameters        #
-#' # ---------------------------- #
+#' # Design parameters ----
 #' library(gsDesign)
 #' library(gsDesign2)
 #' library(dplyr)
@@ -217,9 +211,7 @@ summary.fixed_design <- function(object, ...) {
 #'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 #' )
 #'
-#' # ---------------------------- #
-#' #          ahr                 #
-#' # ---------------------------- #
+#' # AHR ----
 #' \donttest{
 #' x_ahr <- gs_design_ahr(
 #'   enroll_rate = enroll_rate,
@@ -239,9 +231,7 @@ summary.fixed_design <- function(object, ...) {
 #' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 #' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
 #' }
-#' # ---------------------------- #
-#' #         wlr                  #
-#' # ---------------------------- #
+#' # WLR ----
 #' \donttest{
 #' x_wlr <- gs_design_wlr(
 #'   enroll_rate = enroll_rate,
@@ -259,9 +249,7 @@ summary.fixed_design <- function(object, ...) {
 #' )
 #' x_wlr %>% summary()
 #' }
-#' # ---------------------------- #
-#' #         MaxCombo             #
-#' # ---------------------------- #
+#' # Maxcombo ----
 #' \donttest{
 #' x_combo <- gs_design_combo(
 #'   ratio = 1,
@@ -281,9 +269,7 @@ summary.fixed_design <- function(object, ...) {
 #' )
 #' x_combo %>% summary()
 #' }
-#' # ---------------------------- #
-#' #      risk difference         #
-#' # ---------------------------- #
+#' # Risk difference ----
 #' \donttest{
 #' gs_design_rd(
 #'   p_c = tibble::tibble(stratum = "All", rate = .2),
@@ -316,9 +302,7 @@ summary.gs_design <- function(object,
   x_analysis <- x$analysis
   n_analysis <- max(x_analysis$analysis)
 
-  # --------------------------------------------- #
-  #     prepare the columns decimals              #
-  # --------------------------------------------- #
+  # Prepare the columns decimals ----
   if (method == "ahr") {
     if (is.null(col_vars) && is.null(col_decimals)) {
       x_decimals <- tibble::tibble(
@@ -366,9 +350,7 @@ summary.gs_design <- function(object,
     }
   }
 
-  # --------------------------------------------- #
-  #     prepare the analysis summary row          #
-  # --------------------------------------------- #
+  # Prepare the analysis summary row ----
   # get the
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
@@ -432,12 +414,11 @@ summary.gs_design <- function(object,
     analysis_vars <- replace(analysis_vars, analysis_vars == "event_frac", "Event fraction")
   }
 
-  # --------------------------------------------- #
-  #             merge 2 tables:                   #
-  #         (1) alternate hypothesis table        #
-  #         (2) null hypothesis table             #
-  # --------------------------------------------- #
-  # table A: a table under alternative hypothesis
+  # Merge 2 tables:
+  # 1. Alternate hypothesis table.
+  # 2. Null hypothesis table.
+  #
+  # Table A: a table under alternative hypothesis.
   xy <- x_bound %>%
     dplyr::rename("Alternate hypothesis" = probability) %>%
     dplyr::rename("Null hypothesis" = probability0) %>%
@@ -460,28 +441,28 @@ summary.gs_design <- function(object,
     dplyr::mutate(bound = dplyr::recode(bound, "upper" = bound_names[1], "lower" = bound_names[2])) %>%
     dplyr::arrange(analysis, desc(bound))
 
-  # --------------------------------------------- #
-  #             merge 2 tables:                   #
-  #         (1) analysis summary table            #
-  #         (2) xy: bound_summary_detail table    #
-  # --------------------------------------------- #
+  # Merge 2 tables:
+  # (1) Analysis summary table
+  # (2) xy: bound_summary_detail table
+  #
   # Merge 3 tables: 1 line per analysis, alternate hypothesis table, null hypothesis table
-  # if the method is AHR
+  #
+  # If the method is AHR
   if (method == "ahr") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    # bound details
+    # Bound details
     bound_summary_detail <- xy
   }
 
-  # if the method is WLR, change AHR to wAHR
+  # If the method is WLR, change AHR to wAHR
   if (method == "wlr") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
     if ("ahr" %in% analysis_vars) {
       analysis_summary_header <- analysis_summary_header %>% dplyr::rename(wahr = ahr)
     }
-    # bound details
+    # Bound details
     if ("~hr at bound" %in% names(xy)) {
       bound_summary_detail <- xy %>% dplyr::rename("~whr at bound" = "~hr at bound")
     } else {
@@ -489,11 +470,11 @@ summary.gs_design <- function(object,
     }
   }
 
-  # if the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
+  # If the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
   if (method == "combo") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    # bound details
+    # Bound details
     if ("~hr at bound" %in% names(xy)) {
       stop("summary: ~hr at bound can't be display!")
     } else {
@@ -501,13 +482,13 @@ summary.gs_design <- function(object,
     }
   }
 
-  # if the method is RD
+  # If the method is RD
   if (method == "rd") {
-    # header
+    # Header
     analysis_summary_header <- analyses %>%
       dplyr::select(all_of(c("Analysis", analysis_vars))) %>%
       dplyr::rename("Risk difference" = rd)
-    # bound details
+    # Bound details
     bound_summary_detail <- xy
   }
 
@@ -570,9 +551,7 @@ summary.gs_design <- function(object,
     )
   }
 
-  # --------------------------------------------- #
-  #     set the decimals to display               #
-  # --------------------------------------------- #
+  # Set the decimals to display ----
   if ("analysis" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "analysis", "Analysis", col_vars))
   }

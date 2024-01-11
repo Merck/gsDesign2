@@ -95,9 +95,7 @@ fh_test <- rbind(
   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 )
 
-# -------------------------#
-#       example 1          #
-# ------------------------ #
+# Example 1 ----
 # Minimal Information Fraction derived bound
 \donttest{
 gs_power_combo(

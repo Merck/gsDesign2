@@ -100,35 +100,25 @@
 #' library(gsDesign2)
 #' library(dplyr)
 #'
-#' # ----------------- #
-#' #    example 1      #
-#' # ----------------- #
+#' # Example 1 ----
 #' # call with defaults
 #' gs_design_ahr()
 #'
-#' # ----------------- #
-#' #    example 2      #
-#' # ----------------- #
+#' # Example 2 ----
 #' # Single analysis
 #' gs_design_ahr(analysis_time = 40)
 #'
-#' # ----------------- #
-#' #    example 3      #
-#' # ----------------- #
+#' # Example 3 ----
 #' # Multiple analysis_time
 #' gs_design_ahr(analysis_time = c(12, 24, 36))
 #'
-#' # ----------------- #
-#' #    example 4      #
-#' # ----------------- #
+#' # Example 4 ----
 #' # Specified information fraction
 #' \donttest{
 #' gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 #' }
 #'
-#' # ----------------- #
-#' #    example 5      #
-#' # ----------------- #
+#' # Example 5 ----
 #' # multiple analysis times & info_frac
 #' # driven by times
 #' gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
@@ -137,9 +127,7 @@
 #' gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
 #' }
 #'
-#' # ----------------- #
-#' #    example 6      #
-#' # ----------------- #
+#' # Example 6 ----
 #' # 2-sided symmetric design with O'Brien-Fleming spending
 #' \donttest{
 #' gs_design_ahr(
@@ -166,9 +154,7 @@
 #' )
 #' }
 #'
-#' # ----------------- #
-#' #    example 7      #
-#' # ----------------- #
+#' # Example 7 ----
 #' \donttest{
 #' gs_design_ahr(
 #'   alpha = 0.0125,
@@ -220,17 +206,13 @@ gs_design_ahr <- function(
     r = 18,
     tol = 1e-6,
     interval = c(.01, 100)) {
-  # --------------------------------------------- #
-  #     initialization                             #
-  # --------------------------------------------- #
+  # Initialization ----
   if (is.null(info_frac)) {
     info_frac <- 1
   }
   info_scale <- match.arg(info_scale)
 
-  # --------------------------------------------- #
-  #     check inputs                              #
-  # --------------------------------------------- #
+  # Check inputs ----
   check_analysis_time(analysis_time)
   check_info_frac(info_frac)
   if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) {
@@ -240,9 +222,7 @@ gs_design_ahr <- function(
     stop("gs_design_ahr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
   }
 
-  # --------------------------------------------- #
-  #     check if alpha is same as alpha spending  #
-  # --------------------------------------------- #
+  # Check if alpha is same as alpha spending ----
   if (identical(upper, gs_spending_bound)) {
     if (!is.null(upar$total_spend)) {
       if (methods::missingArg(alpha)) {
@@ -254,9 +234,8 @@ gs_design_ahr <- function(
       }
     }
   }
-  # --------------------------------------------- #
-  #     get information at input analysis_time    #
-  # --------------------------------------------- #
+
+  # Get information at input analysis_time ----
   y <- gs_info_ahr(enroll_rate, fail_rate,
     ratio = ratio, event = NULL,
     analysis_time = analysis_time,
@@ -266,9 +245,7 @@ gs_design_ahr <- function(
   final_event <- y$event[nrow(y)]
   i_falt <- y$event / final_event
 
-  # --------------------------------------------- #
-  #     check if info_frac needed for IA timing   #
-  # --------------------------------------------- #
+  # Check if info_frac needed for IA timing ----
   n_analysis <- max(length(analysis_time), length(info_frac))
   next_time <- max(analysis_time)
   # if info_frac is not provided by the users
@@ -320,9 +297,7 @@ gs_design_ahr <- function(
     info1 <- y$info0
   }
 
-  # --------------------------------------------- #
-  #     combine all the calculations              #
-  # --------------------------------------------- #
+  # Combine all the calculations ----
   suppressMessages(
     allout <- gs_design_npe(
       theta = y$theta, theta0 = 0, theta1 = theta1,
@@ -359,25 +334,21 @@ gs_design_ahr <- function(
   allout$event <- allout$event * inflac_fct
   allout$n <- allout$n * inflac_fct
 
-  # --------------------------------------------- #
-  #     get bounds to output                      #
-  # --------------------------------------------- #
+  # Get bounds to output ----
   bound <- allout %>%
     select(all_of(c(
       "analysis", "bound", "probability", "probability0",
       "z", "~hr at bound", "nominal p"
     ))) %>%
     arrange(analysis, desc(bound))
-  # --------------------------------------------- #
-  #     get analysis summary to output            #
-  # --------------------------------------------- #
+
+  # Get analysis summary to output ----
   analysis <- allout %>%
     select(analysis, time, n, event, ahr, theta, info, info0, info_frac) %>%
     unique() %>%
     arrange(analysis)
-  # --------------------------------------------- #
-  #     get input parameter to output             #
-  # --------------------------------------------- #
+
+  # Get input parameter to output ----
   input <- list(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     alpha = alpha, beta = beta, ratio = ratio,
@@ -389,9 +360,7 @@ gs_design_ahr <- function(
     info_scale = info_scale, r = r, tol = tol
   )
 
-  # --------------------------------------------- #
-  #     return the output                         #
-  # --------------------------------------------- #
+  # Return the output ----
   ans <- list(
     input = input,
     enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),

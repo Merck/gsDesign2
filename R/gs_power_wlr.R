@@ -59,9 +59,7 @@
 #' target_events <- c(30, 40, 50)
 #' target_analysisTime <- c(10, 24, 30)
 #'
-#' # -------------------------#
-#' #       example 1          #
-#' # ------------------------ #
+#' # Example 1 ----
 #' \donttest{
 #' # fixed bounds and calculate the power for targeted number of events
 #' gs_power_wlr(
@@ -82,9 +80,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #' }
-#' # -------------------------#
-#' #       example 2          #
-#' # ------------------------ #
+#' # Example 2 ----
 #' # fixed bounds and calculate the power for targeted analysis time
 #' \donttest{
 #' gs_power_wlr(
@@ -105,9 +101,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #' }
-#' # -------------------------#
-#' #       example 3          #
-#' # ------------------------ #
+#' # Example 3 ----
 #' # fixed bounds and calculate the power for targeted analysis time & number of events
 #' \donttest{
 #' gs_power_wlr(
@@ -128,9 +122,7 @@
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
 #' )
 #' }
-#' # -------------------------#
-#' #       example 4          #
-#' # ------------------------ #
+#' # Example 4 ----
 #' # spending bounds and calculate the power for targeted number of events
 #' \donttest{
 #' gs_power_wlr(
@@ -144,9 +136,7 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
 #' }
-#' # -------------------------#
-#' #       example 5          #
-#' # ------------------------ #
+#' # Example 5 ----
 #' # spending bounds and calculate the power for targeted analysis time
 #' \donttest{
 #' gs_power_wlr(
@@ -160,9 +150,7 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
 #' }
-#' # -------------------------#
-#' #       example 6          #
-#' # ------------------------ #
+#' # Example 6 ----
 #' # spending bounds and calculate the power for targeted analysis time & number of events
 #' \donttest{
 #' gs_power_wlr(
@@ -206,10 +194,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   # get the info_scale
   info_scale <- match.arg(info_scale)
 
-  # ---------------------------------------- #
-  #    calculate the asymptotic variance     #
-  #       and statistical information        #
-  # ---------------------------------------- #
+  # Calculate the asymptotic variance and statistical information ----
   x <- gs_info_wlr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
@@ -220,10 +205,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
     interval = interval
   )
 
-  # ---------------------------------------- #
-  #  given the above statistical information #
-  #         calculate the power              #
-  # ---------------------------------------- #
+  # Given the above statistical information calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$theta,
     info = x$info,
@@ -260,9 +242,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
     tol = tol
   )
 
-  # --------------------------------------------- #
-  #     get bounds to output                      #
-  # --------------------------------------------- #
+  # Get bounds to output ----
   suppressMessages(
     bounds <- y_h0 %>%
       select(analysis, bound, z, probability) %>%
@@ -281,9 +261,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
       arrange(analysis, desc(bound))
   )
 
-  # --------------------------------------------- #
-  #     get analysis summary to output            #
-  # --------------------------------------------- #
+  # Get analysis summary to output ----
   suppressMessages(
     analysis <- x %>%
       select(analysis, time, event, ahr) %>%
@@ -302,9 +280,8 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
       select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
       arrange(analysis)
   )
-  # --------------------------------------------- #
-  #     get input parameter to output             #
-  # --------------------------------------------- #
+
+  # Get input parameter to output ----
   input <- list(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     event = event, analysis_time = analysis_time,
@@ -314,9 +291,8 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
     weight = weight, info_scale = info_scale,
     approx = approx, r = r, tol = tol
   )
-  # --------------------------------------------- #
-  #     return the output                         #
-  # --------------------------------------------- #
+
+  # Return the output ----
   ans <- list(
     input = input,
     enroll_rate = enroll_rate,

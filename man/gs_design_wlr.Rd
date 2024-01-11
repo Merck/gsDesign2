@@ -141,9 +141,7 @@ fail_rate <- define_fail_rate(
   dropout_rate = 0.001
 )
 
-# -------------------------#
-#       example 1          #
-# ------------------------ #
+# Example 1 ----
 # Boundary is fixed
 x <- gsSurv(
   k = 3,
@@ -175,9 +173,7 @@ gs_design_wlr(
   analysis_time = c(12, 24, 36)
 )
 
-# -------------------------#
-#       example 2          #
-# ------------------------ #
+# Example 2 ----
 # Boundary derived by spending function
 gs_design_wlr(
   enroll_rate = enroll_rate,
