@@ -17,13 +17,16 @@ define_enroll_rate(duration, rate, stratum = "All")
 An \code{enroll_rate} data frame.
 }
 \description{
-Define the enrollment rate of subjects for a study as following a piecewise exponential distribution.
-The \code{duration} are ordered piecewise for a duration equal to \eqn{t_i - t_{i-1}}.
-where \eqn{0=t_0<t_i\ldots,t_M=\infty}.
-The enrollment rates are defined in each duration with the same length.
+Define the enrollment rate of subjects for a study as following a piecewise
+exponential distribution.
 }
 \details{
-For a study with multiple strata, different duration and rate can be specified in each stratum.
+The \code{duration} are ordered piecewise for a duration equal to
+\eqn{t_i - t_{i-1}}, where \eqn{0 = t_0 < t_i < \cdots < t_M = \infty}.
+The enrollment rates are defined in each duration with the same length.
+
+For a study with multiple strata, different duration and rate can be
+specified in each stratum.
 }
 \examples{
 # Define enroll rate without stratum
@@ -38,5 +41,4 @@ define_enroll_rate(
   rate = c((1:4) / 3, (1:4) / 2, (1:4) / 6),
   stratum = c(array("High", 4), array("Moderate", 4), array("Low", 4))
 )
-
 }

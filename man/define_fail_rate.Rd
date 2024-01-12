@@ -13,7 +13,7 @@ define_fail_rate(duration, fail_rate, dropout_rate, hr = 1, stratum = "All")
 
 \item{dropout_rate}{A numeric vector of dropout rate in each \code{duration}.}
 
-\item{hr}{A numeric vector of hazard ratio between case and control group.}
+\item{hr}{A numeric vector of hazard ratio between treatment and control group.}
 
 \item{stratum}{A character vector of stratum name.}
 }
@@ -21,18 +21,20 @@ define_fail_rate(duration, fail_rate, dropout_rate, hr = 1, stratum = "All")
 A \code{fail_rate} data frame.
 }
 \description{
-The function define subject failure rate for a study with two treatment groups.
-It also supports stratified design that have different failure rate in
+Define subject failure rate for a study with two treatment groups.
+Also supports stratified designs that have different failure rate in
 each stratum.
 }
 \details{
-Define the failure and dropout rate of subjects for a study as following a piecewise exponential distribution.
-The \code{duration} are ordered piecewise for a duration equal to \eqn{t_i - t_{i-1}}.
-where \eqn{0=t_0<t_i\ldots,t_M=\infty}.
-The failure rate, dropout rate, and hazard ratio in a study duration can be specified.
+Define the failure and dropout rate of subjects for a study as following
+a piecewise exponential distribution.
+The \code{duration} are ordered piecewise for a duration equal to
+\eqn{t_i - t_{i-1}}, where \eqn{0 = t_0 < t_i < \cdots < t_M = \infty}.
+The failure rate, dropout rate, and hazard ratio in a study duration
+can be specified.
 
-For a study with multiple strata,
-different duration, failure rate, dropout rate and hazard ratio can be specified in each stratum.
+For a study with multiple strata, different duration, failure rate,
+dropout rate, and hazard ratio can be specified in each stratum.
 }
 \examples{
 # Define enroll rate

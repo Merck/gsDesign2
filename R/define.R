@@ -18,12 +18,16 @@
 
 #' Define enrollment rate
 #'
-#' Define the enrollment rate of subjects for a study as following a piecewise exponential distribution.
-#' The `duration` are ordered piecewise for a duration equal to \eqn{t_i - t_{i-1}}.
-#' where \eqn{0=t_0<t_i\ldots,t_M=\infty}.
+#' Define the enrollment rate of subjects for a study as following a piecewise
+#' exponential distribution.
+#'
+#' @details
+#' The `duration` are ordered piecewise for a duration equal to
+#' \eqn{t_i - t_{i-1}}, where \eqn{0 = t_0 < t_i < \cdots < t_M = \infty}.
 #' The enrollment rates are defined in each duration with the same length.
 #'
-#' For a study with multiple strata, different duration and rate can be specified in each stratum.
+#' For a study with multiple strata, different duration and rate can be
+#' specified in each stratum.
 #'
 #' @param duration A numeric vector of ordered piecewise study duration interval.
 #' @param rate A numeric vector of enrollment rate in each `duration`.
@@ -46,7 +50,6 @@
 #'   rate = c((1:4) / 3, (1:4) / 2, (1:4) / 6),
 #'   stratum = c(array("High", 4), array("Moderate", 4), array("Low", 4))
 #' )
-#'
 define_enroll_rate <- function(
     duration,
     rate,
@@ -84,22 +87,25 @@ define_enroll_rate <- function(
 
 #' Define failure rate
 #'
-#' The function define subject failure rate for a study with two treatment groups.
-#' It also supports stratified design that have different failure rate in
+#' Define subject failure rate for a study with two treatment groups.
+#' Also supports stratified designs that have different failure rate in
 #' each stratum.
 #'
-#' Define the failure and dropout rate of subjects for a study as following a piecewise exponential distribution.
-#' The `duration` are ordered piecewise for a duration equal to \eqn{t_i - t_{i-1}}.
-#' where \eqn{0=t_0<t_i\ldots,t_M=\infty}.
-#' The failure rate, dropout rate, and hazard ratio in a study duration can be specified.
+#' @details
+#' Define the failure and dropout rate of subjects for a study as following
+#' a piecewise exponential distribution.
+#' The `duration` are ordered piecewise for a duration equal to
+#' \eqn{t_i - t_{i-1}}, where \eqn{0 = t_0 < t_i < \cdots < t_M = \infty}.
+#' The failure rate, dropout rate, and hazard ratio in a study duration
+#' can be specified.
 #'
-#' For a study with multiple strata,
-#' different duration, failure rate, dropout rate and hazard ratio can be specified in each stratum.
+#' For a study with multiple strata, different duration, failure rate,
+#' dropout rate, and hazard ratio can be specified in each stratum.
 #'
 #' @param duration A numeric vector of ordered piecewise study duration interval.
 #' @param fail_rate A numeric vector of failure rate in each `duration` in the control group.
 #' @param dropout_rate A numeric vector of dropout rate in each `duration`.
-#' @param hr A numeric vector of hazard ratio between case and control group.
+#' @param hr A numeric vector of hazard ratio between treatment and control group.
 #' @param stratum A character vector of stratum name.
 #'
 #' @return A `fail_rate` data frame.
