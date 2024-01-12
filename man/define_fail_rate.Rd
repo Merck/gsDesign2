@@ -7,7 +7,7 @@
 define_fail_rate(duration, fail_rate, dropout_rate, hr = 1, stratum = "All")
 }
 \arguments{
-\item{duration}{A numeric vector of piecewise study duration interval.}
+\item{duration}{A numeric vector of ordered piecewise study duration interval.}
 
 \item{fail_rate}{A numeric vector of failure rate in each \code{duration} in the control group.}
 
@@ -24,6 +24,15 @@ A \code{fail_rate} data frame.
 The function define subject failure rate for a study with two treatment groups.
 It also supports stratified design that have different failure rate in
 each stratum.
+}
+\details{
+Define the failure and dropout rate of subjects for a study as following a piecewise exponential distribution.
+The \code{duration} are ordered piecewise for a duration equal to \eqn{t_i - t_{i-1}}.
+where \eqn{0=t_0<t_i\ldots,t_M=\infty}.
+The failure rate, dropout rate, and hazard ratio in a study duration can be specified.
+
+For a study with multiple strata,
+different duration, failure rate, dropout rate and hazard ratio can be specified in each stratum.
 }
 \examples{
 # Define enroll rate
