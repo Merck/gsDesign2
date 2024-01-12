@@ -25,7 +25,7 @@ The \code{duration} are ordered piecewise for a duration equal to
 \eqn{t_i - t_{i-1}}, where \eqn{0 = t_0 < t_i < \cdots < t_M = \infty}.
 The enrollment rates are defined in each duration with the same length.
 
-For a study with multiple strata, different duration and rate can be
+For a study with multiple strata, different duration and rates can be
 specified in each stratum.
 }
 \examples{

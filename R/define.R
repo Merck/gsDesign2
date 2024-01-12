@@ -26,7 +26,7 @@
 #' \eqn{t_i - t_{i-1}}, where \eqn{0 = t_0 < t_i < \cdots < t_M = \infty}.
 #' The enrollment rates are defined in each duration with the same length.
 #'
-#' For a study with multiple strata, different duration and rate can be
+#' For a study with multiple strata, different duration and rates can be
 #' specified in each stratum.
 #'
 #' @param duration A numeric vector of ordered piecewise study duration interval.
@@ -88,7 +88,7 @@ define_enroll_rate <- function(
 #' Define failure rate
 #'
 #' Define subject failure rate for a study with two treatment groups.
-#' Also supports stratified designs that have different failure rate in
+#' Also supports stratified designs that have different failure rates in
 #' each stratum.
 #'
 #' @details
@@ -99,8 +99,8 @@ define_enroll_rate <- function(
 #' The failure rate, dropout rate, and hazard ratio in a study duration
 #' can be specified.
 #'
-#' For a study with multiple strata, different duration, failure rate,
-#' dropout rate, and hazard ratio can be specified in each stratum.
+#' For a study with multiple strata, different duration, failure rates,
+#' dropout rates, and hazard ratios can be specified in each stratum.
 #'
 #' @param duration A numeric vector of ordered piecewise study duration interval.
 #' @param fail_rate A numeric vector of failure rate in each `duration` in the control group.

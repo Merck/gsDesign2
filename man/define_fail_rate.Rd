@@ -22,7 +22,7 @@ A \code{fail_rate} data frame.
 }
 \description{
 Define subject failure rate for a study with two treatment groups.
-Also supports stratified designs that have different failure rate in
+Also supports stratified designs that have different failure rates in
 each stratum.
 }
 \details{
@@ -33,8 +33,8 @@ The \code{duration} are ordered piecewise for a duration equal to
 The failure rate, dropout rate, and hazard ratio in a study duration
 can be specified.
 
-For a study with multiple strata, different duration, failure rate,
-dropout rate, and hazard ratio can be specified in each stratum.
+For a study with multiple strata, different duration, failure rates,
+dropout rates, and hazard ratios can be specified in each stratum.
 }
 \examples{
 # Define enroll rate
