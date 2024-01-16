@@ -97,18 +97,10 @@ expected_time <- function(
     stop("expected_time(): the input target_event` should be a positive numer, rather than a vector!")
   }
 
-  # Build a help function ----
-  # find the difference between  `AHR()` and different values of total_duration
-  event_diff <- function(x) {
-    ans <- ahr(
-      enroll_rate = enroll_rate, fail_rate = fail_rate,
-      total_duration = x, ratio = ratio
-    )$event - target_event
-    return(ans)
-  }
-
   # Perform uniroot AHR() over total_duration ----
-  res <- try(uniroot(event_diff, interval))
+  res <- try(
+    uniroot(event_diff, interval, enroll_rate, fail_rate, ratio, target_event)
+  )
 
   if (inherits(res, "try-error")) {
     stop("expected_time(): solution not found!")
@@ -119,4 +111,25 @@ expected_time <- function(
     )
     return(ans)
   }
+}
+
+#' Find the difference between `ahr()` and different values of `total_duration`
+#'
+#' A helper function passed to `uniroot()`
+#'
+#' @param x Duration
+#' @inheritParams expected_time
+#'
+#' @return A single numeric value that represents the difference between the
+#'   expected number of events for the provided duration (`x`) and the targeted
+#'   number of events (`target_event`)
+#'
+#' @keywords internal
+event_diff <- function(x, enroll_rate, fail_rate, ratio, target_event) {
+  expected <- ahr(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    total_duration = x, ratio = ratio
+  )
+  ans <- expected$event - target_event
+  return(ans)
 }
