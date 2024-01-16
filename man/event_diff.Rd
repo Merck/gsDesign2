@@ -2,7 +2,9 @@
 % Please edit documentation in R/expected_time.R
 \name{event_diff}
 \alias{event_diff}
-\title{Find the difference between \code{ahr()} and different values of \code{total_duration}}
+\title{Considering the enrollment rate, failure rate, and randomization ratio,
+calculate the difference between the targeted number of events and the
+accumulated events at time \code{x}}
 \usage{
 event_diff(x, enroll_rate, fail_rate, ratio, target_event)
 }

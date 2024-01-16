@@ -113,7 +113,9 @@ expected_time <- function(
   }
 }
 
-#' Find the difference between `ahr()` and different values of `total_duration`
+#' Considering the enrollment rate, failure rate, and randomization ratio,
+#' calculate the difference between the targeted number of events and the
+#' accumulated events at time `x`
 #'
 #' A helper function passed to `uniroot()`
 #'
