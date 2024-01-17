@@ -360,7 +360,8 @@ gs_prob_combo <- function(upper_bound,
       upper,
       group = analysis[k_ind],
       mean = theta[k_ind],
-      corr = corr[k_ind, k_ind]
+      corr = corr[k_ind, k_ind],
+      ...
     )
 
     # Futility Bound
@@ -376,7 +377,8 @@ gs_prob_combo <- function(upper_bound,
       upper,
       group = analysis[k_ind],
       mean  = theta[k_ind],
-      corr  = corr[k_ind, k_ind]
+      corr  = corr[k_ind, k_ind],
+      ...
     )
   }
 
