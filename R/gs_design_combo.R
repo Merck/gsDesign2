@@ -186,21 +186,6 @@ gs_design_combo <- function(
     min_info_frac <- apply(do.call(rbind, info_frac), 2, min)
   }
 
-  # Function to calculate power
-  get_combo_power <- function(n, beta, ...) {
-    # Probability Cross Boundary
-    prob <- gs_prob_combo(
-      upper_bound = bound$upper,
-      lower_bound = bound$lower,
-      analysis = info_fh$analysis,
-      theta = theta_fh * sqrt(n),
-      corr = corr_fh,
-      algorithm = algorithm, ...
-    )
-
-    max(subset(prob, bound == "upper")$probability) - (1 - beta)
-  }
-
   # Find sample size and bound
   sample_size <- max(info$n)
   n0 <- 0
@@ -221,8 +206,21 @@ gs_design_combo <- function(
       ...
     )
 
-
-    sample_size <- uniroot(get_combo_power, c(1, n_upper_bound), extendInt = "yes", beta = beta, ...)$root
+    sample_size_results <- uniroot(
+      f = get_combo_power,
+      interval = c(1, n_upper_bound),
+      # arguments passed to f(), i.e. get_combo_power()
+      bound = bound,
+      info_fh = info_fh,
+      theta_fh = theta_fh,
+      corr_fh = corr_fh,
+      algorithm = algorithm,
+      beta = beta,
+      ...,
+      # further arguments to uniroot()
+      extendInt = "yes"
+    )
+    sample_size <- sample_size_results$root
   }
 
   # Probability Cross Boundary
@@ -340,4 +338,28 @@ gs_design_combo <- function(
   }
 
   return(output)
+}
+
+#' Function to calculate power
+#'
+#' A helper function passed to `uniroot()`
+#'
+#' @param n Input sample size
+#' @inheritParams gs_design_combo
+#'
+#' @return The optimal sample size (a single numeric value)
+#'
+#' @keywords internal
+get_combo_power <- function(n, bound, info_fh, theta_fh, corr_fh, algorithm, beta, ...) {
+  # Probability Cross Boundary
+  prob <- gs_prob_combo(
+    upper_bound = bound$upper,
+    lower_bound = bound$lower,
+    analysis = info_fh$analysis,
+    theta = theta_fh * sqrt(n),
+    corr = corr_fh,
+    algorithm = algorithm, ...
+  )
+
+  max(subset(prob, bound == "upper")$probability) - (1 - beta)
 }
