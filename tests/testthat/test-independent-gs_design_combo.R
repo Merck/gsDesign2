@@ -125,3 +125,11 @@ testthat::test_that("calculate probability under null", {
     tolerance = 0.005
   )
 })
+
+testthat::test_that("arguments are passed via ... to mvtnorm::pmvnorm()", {
+  x1 <- gs_design_combo(seed = 1)
+  x2 <- gs_design_combo(seed = 1)
+  x3 <- gs_design_combo(seed = 2)
+  expect_identical(x1, x2)
+  expect_false(identical(x1, x3))
+})

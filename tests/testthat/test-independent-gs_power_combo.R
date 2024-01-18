@@ -85,3 +85,11 @@ for (i in 1:max(fh_test$analysis)) {
     expect_equal(event, unique(gs_power_combo_test2$analysis$event)[i], tolerance = 0.01)
   })
 }
+
+testthat::test_that("arguments are passed via ... to mvtnorm::pmvnorm()", {
+  x1 <- gs_power_combo(seed = 1)
+  x2 <- gs_power_combo(seed = 1)
+  x3 <- gs_power_combo(seed = 2)
+  expect_identical(x1, x2)
+  expect_false(identical(x1, x3))
+})
