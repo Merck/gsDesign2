@@ -344,6 +344,10 @@ gs_design_combo <- function(
 #'
 #' A helper function passed to `uniroot()`
 #'
+#' This function calculates the difference between the derived power and the
+#' targeted power (1 - beta), based on the provided sample size, upper and lower
+#' boundaries, and treatment effect.
+#'
 #' @param n Input sample size
 #' @inheritParams gs_design_combo
 #'

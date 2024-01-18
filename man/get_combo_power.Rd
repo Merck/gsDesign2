@@ -24,4 +24,9 @@ The optimal sample size (a single numeric value)
 \description{
 A helper function passed to \code{uniroot()}
 }
+\details{
+This function calculates the difference between the derived power and the
+targeted power (1 - beta), based on the provided sample size, upper and lower
+boundaries, and treatment effect.
+}
 \keyword{internal}
