@@ -107,23 +107,38 @@ check_args <- function(arg, type, length = NULL, dim = NULL) {
 #'
 #' check_enroll_rate(enroll_rate)
 check_enroll_rate <- function(enroll_rate) {
-  if (!("enroll_rate" %in% class(enroll_rate))) {
-    msg <- c(
-      "Please use `define_enroll_rate()` to specify the `enroll_rate` argument.",
-      "We will enforce this requirement from the next version."
-    )
-    msg <- paste(msg, collapse = "\n")
-    warning(msg)
+  # Suppress any potential warnings about missing columns. The checks below will
+  # verify the required columns
+  suppressWarnings({
+    duration <- enroll_rate$duration
+    rate <- enroll_rate$rate
+    stratum <- enroll_rate$stratum
+  })
 
-    if (!("stratum" %in% names(enroll_rate))) {
-      enroll_rate$stratum <- rep("All", nrow(enroll_rate))
-    }
+  msg <- " Try the helper function define_enroll_rate() to prepare valid input."
 
-    enroll_rate <- define_enroll_rate(
-      enroll_rate$duration,
-      enroll_rate$rate,
-      enroll_rate$stratum
-    )
+  if (is.null(duration)) {
+    stop("The variable `duration` can't be NULL.", msg)
+  }
+
+  if (is.null(rate)) {
+    stop("The variable `rate` can't be NULL.", msg)
+  }
+
+  check_args(duration, type = c("numeric", "integer"))
+  check_args(rate, type = c("numeric", "integer"))
+  check_args(stratum, type = c("character"))
+
+  if (any(duration < 0)) {
+    stop("The enrollment duration `duration` can't be negative.", msg)
+  }
+
+  if (any(rate < 0)) {
+    stop("The enrollment rate `rate` can't be negative.", msg)
+  }
+
+  if (!("stratum" %in% names(enroll_rate))) {
+    enroll_rate$stratum <- rep("All", nrow(enroll_rate))
   }
 
   enroll_rate
@@ -160,29 +175,58 @@ check_enroll_rate <- function(enroll_rate) {
 #'
 #' check_fail_rate(fail_rate)
 check_fail_rate <- function(fail_rate) {
-  if (!("fail_rate" %in% class(fail_rate))) {
-    msg <- c(
-      "Please use `define_fail_rate()` to specify the `fail_rate` argument.",
-      "We will enforce the requirement from the next version."
-    )
-    msg <- paste(msg, collapse = "\n")
-    warning(msg)
+  # Suppress any potential warnings about missing columns. The checks below will
+  # verify the required columns
+  suppressWarnings({
+    duration <- fail_rate$duration
+    fail_rate_col <- fail_rate$fail_rate
+    dropout_rate <- fail_rate$dropout_rate
+    hr <- fail_rate$hr
+    stratum <- fail_rate$stratum
+  })
 
-    if (!("hr" %in% names(fail_rate))) {
-      fail_rate$hr <- rep(1, nrow(fail_rate))
-    }
+  msg <- " Try the helper function define_fail_rate() to prepare valid input."
 
-    if (!("stratum" %in% names(fail_rate))) {
-      fail_rate$stratum <- rep("All", nrow(fail_rate))
-    }
+  if (is.null(duration)) {
+    stop("The variable `duration` can't be NULL.", msg)
+  }
 
-    fail_rate <- define_fail_rate(
-      fail_rate$duration,
-      fail_rate$fail_rate,
-      fail_rate$dropout_rate,
-      fail_rate$hr,
-      fail_rate$stratum
-    )
+  if (is.null(fail_rate_col)) {
+    stop("The variable `fail_rate` can't be NULL.", msg)
+  }
+
+  if (is.null(dropout_rate)) {
+    stop("The variable `dropout_rate` can't be NULL.", msg)
+  }
+
+  check_args(duration, type = c("numeric", "integer"))
+  check_args(fail_rate_col, type = c("numeric", "integer"))
+  check_args(dropout_rate, type = c("numeric", "integer"))
+  check_args(hr, type = c("numeric", "integer"))
+  check_args(stratum, type = c("character"))
+
+  if (any(duration < 0)) {
+    stop("The enrollment duration `duration` can't be negative.", msg)
+  }
+
+  if (any(fail_rate_col < 0)) {
+    stop("The failure rate `fail_rate` can't be negative.", msg)
+  }
+
+  if (any(dropout_rate < 0)) {
+    stop("The dropout rate `dropout_rate` can't be negative.", msg)
+  }
+
+  if (any(hr < 0)) {
+    stop("The hazard ratio `hr` can't be negative.", msg)
+  }
+
+  if (!("hr" %in% names(fail_rate))) {
+    fail_rate$hr <- rep(1, nrow(fail_rate))
+  }
+
+  if (!("stratum" %in% names(fail_rate))) {
+    fail_rate$stratum <- rep("All", nrow(fail_rate))
   }
 
   fail_rate

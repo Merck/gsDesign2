@@ -54,31 +54,13 @@ define_enroll_rate <- function(
     duration,
     rate,
     stratum = "All") {
-  if (is.null(duration)) {
-    stop("define_enroll_rate: variable `duration` can't be NULL.")
-  }
-
-  if (is.null(rate)) {
-    stop("define_enroll_rate: variable `rate` can't be NULL.")
-  }
-
-  check_args(duration, type = c("numeric", "integer"))
-  check_args(rate, type = c("numeric", "integer"))
-  check_args(stratum, type = c("character"))
-
-  if (any(duration < 0)) {
-    stop("define_enroll_rate: enrollment duration `duration` can't be negative.")
-  }
-
-  if (any(rate < 0)) {
-    stop("define_enroll_rate: enrollment rate `rate` can't be negative.")
-  }
-
   df <- tibble::tibble(
     stratum = stratum,
     duration = duration,
     rate = rate
   )
+
+  check_enroll_rate(df)
 
   class(df) <- c("enroll_rate", class(df))
 
@@ -135,40 +117,6 @@ define_fail_rate <- function(
     dropout_rate,
     hr = 1,
     stratum = "All") {
-  if (is.null(duration)) {
-    stop("define_enroll_rate: variable `duration` can't be NULL.")
-  }
-
-  if (is.null(fail_rate)) {
-    stop("define_enroll_rate: variable `fail_rate` can't be NULL.")
-  }
-
-  if (is.null(dropout_rate)) {
-    stop("define_enroll_rate: variable `dropout_rate` can't be NULL.")
-  }
-
-  check_args(duration, type = c("numeric", "integer"))
-  check_args(fail_rate, type = c("numeric", "integer"))
-  check_args(dropout_rate, type = c("numeric", "integer"))
-  check_args(hr, type = c("numeric", "integer"))
-  check_args(stratum, type = c("character"))
-
-  if (any(duration < 0)) {
-    stop("define_fail_rate: enrollment duration `duration` can't be negative.")
-  }
-
-  if (any(fail_rate < 0)) {
-    stop("define_fail_rate: failure rate `fail_rate` can't be negative.")
-  }
-
-  if (any(dropout_rate < 0)) {
-    stop("define_fail_rate: failure rate `fail_rate` can't be negative.")
-  }
-
-  if (any(hr < 0)) {
-    stop("define_fail_rate: hazard ratio `hr` can't be negative.")
-  }
-
   df <- tibble::tibble(
     stratum = stratum,
     duration = duration,
@@ -176,6 +124,8 @@ define_fail_rate <- function(
     dropout_rate = dropout_rate,
     hr = hr
   )
+
+  check_fail_rate(df)
 
   class(df) <- c("fail_rate", class(df))
 
