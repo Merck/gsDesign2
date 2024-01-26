@@ -72,7 +72,7 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom data.table := as.data.table copy first last rbindlist setDF
+#' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
 #'                        setorderv
 #'
 #' @export
