@@ -189,6 +189,11 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
                          r = 18,
                          tol = 1e-6,
                          interval = c(.01, 100)) {
+  # check of inputted sample size
+  if(!is.integer(sum(enroll_rate$rate * enroll_rate$duration))){
+    stop("gs_power_wlr: please input integer sample size, i.e., the summization of rate and duration of the enroll_rate should be an integer.")
+  }
+
   # get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
   # get the info_scale
