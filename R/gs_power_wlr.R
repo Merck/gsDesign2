@@ -190,8 +190,10 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
                          tol = 1e-6,
                          interval = c(.01, 100)) {
   # check of inputted sample size
-  if(!is.integer(sum(enroll_rate$rate * enroll_rate$duration))){
-    stop("gs_power_wlr: please input integer sample size, i.e., the summization of rate and duration of the enroll_rate should be an integer.")
+  input_sample_size <- sum(enroll_rate$rate * enroll_rate$duration)
+  if (abs(input_sample_size - round(input_sample_size)) > .Machine$double.eps^0.5) {
+    stop("gs_power_wlr: please input integer sample size, i.e.,
+         the summation of rate and duration of the enroll_rate should be an integer.")
   }
 
   # get the number of analysis
