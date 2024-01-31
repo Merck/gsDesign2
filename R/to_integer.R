@@ -236,7 +236,11 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     )
   } else if ("wlr" %in% class(x)) {
     event <- x$analysis$event
-    event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
+    if (n_analysis == 1) {
+      event_new <- ceiling(event) %>% as.integer()
+    } else {
+      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
+    }
 
     sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
 
