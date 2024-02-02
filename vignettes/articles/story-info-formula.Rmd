@@ -1,6 +1,5 @@
 ---
 title: "Statistical information under null and alternative hypothesis"
-author: "Yujie Zhao"
 output:
   rmarkdown::html_document:
     toc: true
@@ -23,69 +22,139 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, message=FALSE, warning=FALSE}
-library(dplyr)
-library(tibble)
-library(gt)
-library(gsDesign2)
-```
-
 In a group sequential design of the $k$-th analysis, the Z-score is
 $$
   Z_k = \delta_k / \sqrt{\text{Var}(\delta_k | H_0)}
 $$
+The statistical information $\mathcal I_k$ is defined as the inverse of the variance of $\delta_k$, i.e., 
+$$
+  \mathcal I_k = 1 / \text{Var}(\delta_k).
+$$
 
 # Continuous outcomes
 
-Imagine a trial with a continuous outcome. Let $X_{0, i} \sim N(\mu_0, \sigma^2)$ for patient $i = 1, \ldots, n_0$ and $X_{1,i} \sim N(\mu_1, \sigma^2)$ for patient $i$ ($i = 1, \ldots, n_1$). 
+Imagine a trial with a continuous outcome. Let $X_{0, i} \sim N(\mu_0, \sigma^2)$ for subjects $i = 1, \ldots, n_0$ in the control arm and $X_{1,i} \sim N(\mu_1, \sigma^2)$ for patient $i$ ($i = 1, \ldots, n_1$) in the experimental arm. 
 
-Suppose it is a fixed design, and at the end of the trial, the Z-score is 
+For a superiority design, the tested hypothesis is 
 $$
-  Z 
+  H_0: \; \mu_0 = \mu_1 \;\;\; vs. \;\;\; H_1:\; \mu_1 > \mu_0.
+$$
+Suppose at the $k$-th analysis, there are $n_{0k}$ subjects in the control arm, and there are $n_{1k}$ subjects in the experimental arm. We have $\delta_k$ as the difference of group means, i.e.,
+$$
+  \delta_k 
+  =
+  \frac{\sum_{i=1}^{n_{1k}} X_{i,1}}{n_{1k}} 
+  - 
+  \frac{\sum_{i=1}^{n_{0k}} X_{i,0}}{n_{0k}}.
+$$
+It can be estimated as $\widehat\delta_k = \frac{\sum_{i=1}^{n_{1k}} x_{i,1}}{n_{1k}} - \frac{\sum_{i=1}^{n_{0k}} x_{i,0}}{n_{0k}}$, where $x_{i,j}$ are the observation of $X_{i,j}$ of subject $i$ in arm $j$.
+
+The statistical information $\mathcal I_k$ is
+$$
+  \mathcal I_k^{-1}
+  =
+  \text{Var}(\delta_k | H_0)
   = 
-  \frac{
-    \frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0}
-  }{
-    \sqrt{\text{Var}\left(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0} | H_0 \right)}
-  }
+  \sigma^2 (1 / n_{1k} + 1 / n_{0k}),
 $$
-where 
-$$
-  \text{Var}(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0} | H_0)
-  = 
-  \sigma^2 / n_1 + \sigma^2 / n_2
-$$
+under both $H_0$ and $H_1$, which can be estimated as $\mathcal I_k = \widehat\sigma^2 (1 / n_{1k} + 1 / n_{0k})$.
 
 # Binary outcomes
 
-Imagine a trial with a binary outcome. Let $X_{0, i} \sim B(p_0)$ for patient $i = 1, \ldots, n_0$ and $X_{1,i} \sim B(p_1)$ for patient $i$ ($i = 1, \ldots, n_1$). 
+Imagine a trial with a binary outcome. Let $X_{0, i} \sim B(p_0)$ for patient $i = 1, \ldots, n_0$ and $X_{1,i} \sim B(p_1)$ for patient $i$ ($i = 1, \ldots, n_1$), where $p_0$ and $p_1$ are failure rate probability. Suppose at the $k$-th analysis, there are $n_{0k}$ subjects in the control arm, and there are $n_{1k}$ subjects in the experimental arm. For a superiority design, the null and alternative hypothesis is 
+$$
+  H_0: \; p_0 = p_1 = p \;\;\; vs. \;\;\; H_1:\; p_0 > p_1.
+$$
+The nature-scale treatment effect is  
+$$
+  \delta_k
+  =
+  \frac{\sum_{i=1}^{n_{1k}} X_{i,1}}{n_{1k}} 
+  - 
+  \frac{\sum_{i=1}^{n_{0k}} X_{i,0}}{n_{0k}},
+$$
+It can be estimated as $\widehat\delta_k = \frac{\sum_{i=1}^{n_{1k}} x_{i,1}}{n_{1k}} - \frac{\sum_{i=1}^{n_{0k}} x_{i,0}}{n_{0k}}$, where $x_{i,j}$ are the observation of $X_{i,j}$ of subject $i$ in arm $j$.
 
-Suppose it is a fixed design, and at the end of the trial, the Z-score is 
+The statistical information is
 $$
-  Z 
-  = 
-  \frac{
-    \frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0}
-  }{
-    \sqrt{\text{Var}\left(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0} | H_0 \right)}
-  }
-$$
-where 
-$$
-  \text{Var}(\frac{\sum_{i=1}^{n_1} X_{i,1}}{n_1} - \frac{\sum_{i=1}^{n_0} X_{i,0}}{n_0})
+  \mathcal I_k^{-1}
+  =
+  \text{Var}(\delta_k)
   =
   \left\{
     \begin{array}{ll}
-      p(1-p)/n_1 + p(1-p)/n_2           & \text{under } H_0\\
-      p_1(1-p_1)/n_1 + p_2(1-p_2)/n_2   & \text{under } H_1\\
+      p(1-p)/n_{1k} + p(1-p)/n_{0k}           & \text{under } H_0\\
+      p_1(1-p_1)/n_{1k} + p_0(1-p_0)/n_{0k}   & \text{under } H_1\\
     \end{array}
-  \right.
+  \right..
 $$
+Its estimation is
+$$
+  \widehat{\mathcal I}_k^{-1}
+  =
+  \left\{
+    \begin{array}{ll}
+      \bar p(1 - \bar p) / n_{1k} + \bar p(1 - \bar p) / n_{0k}           & \text{under } H_0\\
+      \widehat p_1(1-p_1) / n_{1k} + \widehat p_0(1 - \widehat p_0)/n_{0k}   & \text{under } H_1\\
+    \end{array}
+  \right.,
+$$
+where $\bar p = \frac{\sum_{i=1}^{n_{1k}}x_{i1} + \sum_{i=1}^{n_{0k}}x_{i0}}{n_{1k} + n_{0k}}$, $\widehat p_j = \frac{\sum_{i=1}^{n_{jk}}x_{ij}}{n_{jk}}$ for $j = 0, 1$.
+
+
 # Survival outcome
 
-In many clinical trials, the outcome is the time to some event. For simplicity, assume the event is death so that each person can only have one event; the same ideas apply for events that can recur, but in those cases we restrict attention to the first event for each patients. We use the logrank statistics to compare the treatment and control arms. Assume for now that all patients are randomized simultaneously. We show that the logrank statistics is of the form
+In many clinical trials, the outcome is the time to some event. For simplicity, assume the event is death so that each person can only have one event; the same ideas apply for events that can recur, but in those cases we restrict attention to the first event for each patients. We use the logrank statistics to compare the treatment and control arms. 
+If we assume there are $N_k$ total number of deaths at analysis $k$. The numerator of the logrank statistics at analysis $k$ is [@proschan2006statistical]
 $$
-  Z = \sum_{i=1}^d D_i / \sqrt{\sum_{i=1}^d D_i | H_0},
+  \sum_{i=1}^{N_k} D_i,
+$$ 
+where $D_i = O_i - E_i$ with $O_i$ is the indicator that the $i$th death occurred in a treatment patient, and $E_i = m_{1i} / (m_{0i} + m_{1i})$ as the null expectation of $O_i$ given the respective numbers, $m_{0i}$ and $m_{1i}$, of control and treatment patients at risk just prior to the $i$th death. 
+
+
+Conditioned on $m_{0i}$ and $m_{1i}$, the $O_i$ has a Bernoulli distribution with parameter $E_i$. The null conditional mean and variance of $D_i$ are 0 and $V_i = E_i(1 − E_i)$, respectively.
+
+Unconditionally, the $D_i$ are uncorrelated, mean 0 random variables with variance $E(V_i)$ under the null hypothesis.
+
+Thus, conditioned on $N_k$, we have
 $$
-where $d$ is the total number of deaths at the end of the trial. The numerator 
+\begin{array}{ccl}
+  \mathcal I_k^{-1}
+  & = &
+  \text{Var}(\delta_k) 
+  = 
+  \sum_{i=1}^{N_k} \text{Var}(D_i)
+  =
+  \sum_{i=1}^{N_k} E(V_i)
+  =
+  E \left( \sum_{i=1}^{N_k} V_i \right)
+  =
+  E \left( \sum_{i=1}^{N_k} E_i(1 − E_i) \right) \\
+  & = &
+  \left\{
+  \begin{array}{ll}
+  E\left(\sum_{i=1}^{N_k} \frac{r}{1+r} \frac{1}{1+r} \right) 
+  & \text{under } H_0\\
+  E\left(\sum_{i=1}^{N_k} \frac{m_{1i}}{(m_{0i} + m_{1i})} \frac{m_{0i}}{(m_{0i} + m_{1i})}\right)
+  & \text{under } H_1
+  \end{array}
+  \right.,
+\end{array}  
+$$
+where $r$ is the randomization ratio. Its estimation is 
+$$
+\begin{array}{ccl}
+  \widehat{\mathcal I}_k^{-1}
+  & = &
+  \left\{
+  \begin{array}{ll}
+  \sum_{i=1}^{N_k} \frac{r}{1+r} \frac{1}{1+r} 
+  & \text{under } H_0\\
+  \sum_{i=1}^{N_k} \frac{m_{1i}}{(m_{0i} + m_{1i})} \frac{m_{0i}}{(m_{0i} + m_{1i})}
+  & \text{under } H_1
+  \end{array}
+  \right..
+\end{array}  
+$$
+ 
 # References
