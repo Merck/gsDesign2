@@ -1,0 +1,251 @@
+---
+title: "Efficacy and Futility Boundary Update"
+author: "Yujie Zhao and Keaven M. Anderson"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+    code_folding: "hide"
+bibliography: "gsDesign2.bib"
+vignette: >
+  %\VignetteIndexEntry{Efficacy and Futility Boundary Update}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(gsDesign)
+library(gsDesign2)
+library(gt)
+```
+
+# Design assumptions
+```{r}
+alpha <- 0.025
+beta <- 0.1
+ratio <- 1
+
+# enrollment
+enroll_rate <- define_enroll_rate(
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9))
+
+# failure and dropout
+fail_rate <- define_fail_rate(
+  duration = c(3, 100),
+  fail_rate = log(2) / 9,
+  hr = c(1, 0.6),
+  dropout_rate = .0001)
+
+# upper and lower boundary
+# take the 2-sided symmetric design as an example
+upper <- gs_spending_bound
+upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL, timing = NULL)
+
+lower <- gs_spending_bound
+lpar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL, timing = NULL)
+```
+
+# Derive group sequential design
+
+We assume there are totally 2 analyses, including FA. The IA happens at month 20, and FA occurs at month 36.
+```{r}
+x <- gs_design_ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    alpha = alpha, 
+    beta = beta,
+    info_frac = NULL, 
+    analysis_time = c(20, 36),
+    ratio = ratio, 
+    upper = gs_spending_bound,
+    upar = upar,
+    lower = lower,
+    lpar = lpar,
+    binding = FALSE) |> to_integer()
+```
+
+In the planed design, we have 
+
+- planned events: `r round(x$analysis$event, 0)`
+- planned information fraction (timing): `r round(x$analysis$info_frac, 4)`
+- planned alpha spending: `r sfLDOF(0.025, x$analysis$info_frac)$spend`
+
+```{r}
+x |> 
+  summary() |> 
+  gt() |>
+  tab_header(title = "Original design") |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = `Alternate hypothesis`,
+      rows = Bound == "Efficacy"
+    )) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "#F9E3D6"),
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = `Alternate hypothesis`,
+      rows = Bound == "Futility"
+    )
+  )
+```
+
+# Update bounds at time of analysis {.tabset}
+
+Assume in practice, there are 180 and 300 events observed in IA and FA, respectively. 
+```{r}
+# observed vs. planned events
+event_observed <- c(180, 300)
+event_planned <- x$analysis$event
+```
+
+Now we calculate the updated timing based on the following 2 approaches.
+
+## Event fraction based
+
+The updated timing is `r round(c(event_observed[1] / max(event_planned), 1), 4)`, if we divide the observed IA events by the planed FA events. We will spend alpha at IA based on its actual information fraction. The rest of the alpha will be all spent to FA. 
+
+```{r}
+# updated spending time
+upper_spending_time <- c(event_observed[1] / max(event_planned), 1)
+lower_spending_time <- upper_spending_time
+
+# updated upar & lpar
+upar_updated <- x$input$upar
+upar_updated$timing <- upper_spending_time
+lpar_updated <- x$input$lpar
+lpar_updated$timing <- lower_spending_time
+```
+
+```{r}
+# observed statistical information
+info_observed <- gs_info_ahr(
+  enroll_rate = x$enroll_rate,
+  fail_rate = x$fail_rate,
+  ratio = ratio,
+  event = event_observed,
+  analysis_time = x$analysis$time)
+```
+
+```{r}
+x_updated <- gs_power_npe(
+  theta = info_observed$theta,
+  theta0 = 0,
+  theta1 = x$analysis$theta,
+  info  = info_observed$info, 
+  info0 = x$analysis$info0,
+  info1 = x$analysis$info,
+  binding = x$input$binding,
+  upper = x$input$upper,
+  upar = upar_updated,
+  lower = x$input$lower,
+  lpar = lpar_updated,
+  test_upper = TRUE,
+  test_lower = TRUE)
+
+x_updated |> 
+  gt() |>
+  tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = probability,
+      rows = bound == "upper"
+    )
+  ) |> 
+  tab_style(
+    style = list(
+      cell_fill(color = "#F9E3D6"),
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = probability,
+      rows = bound == "lower"
+    )
+  )
+```
+
+## Information fraction based
+
+The updated timing is `r round(info_observed$info / max(info_observed$info), 4)`, which is the information fraction derived by the `gs_info_ahr()` by inputing the observed events. 
+
+```{r}
+# updated spending time
+upper_spending_time <- info_observed$info / max(info_observed$info)
+lower_spending_time <- upper_spending_time
+
+# updated upar & lpar
+upar_updated <- x$input$upar
+upar_updated$timing <- upper_spending_time
+lpar_updated <- x$input$lpar
+lpar_updated$timing <- lower_spending_time
+```
+
+```{r}
+# observed statistical information
+info_observed <- gs_info_ahr(
+  enroll_rate = x$enroll_rate,
+  fail_rate = x$fail_rate,
+  ratio = ratio,
+  event = event_observed,
+  analysis_time = x$analysis$time)
+```
+
+```{r}
+x_updated <- gs_power_npe(
+  theta = info_observed$theta,
+  theta0 = 0,
+  theta1 = x$analysis$theta,
+  info  = info_observed$info, 
+  info0 = x$analysis$info0,
+  info1 = x$analysis$info,
+  binding = x$input$binding,
+  upper = x$input$upper,
+  upar = upar_updated,
+  lower = x$input$lower,
+  lpar = lpar_updated,
+  test_upper = TRUE,
+  test_lower = TRUE)
+
+x_updated |> 
+  gt() |>
+  tab_header(title = "Updated design", subtitle = "by information fraction based timing") |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = probability,
+      rows = bound == "upper"
+    )
+  ) |> 
+  tab_style(
+    style = list(
+      cell_fill(color = "#F9E3D6"),
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = probability,
+      rows = bound == "lower"
+    )
+  )
+```
+
+# References
