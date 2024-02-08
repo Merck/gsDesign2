@@ -60,7 +60,10 @@ test_that("Two-sided symmetric design fails to reproduce gsDesign test.type=2 bo
   expect_equal(gsd$n.I, (gsdv %>% dplyr::filter(bound == "upper"))$info, tolerance = .04)
 
   # compare crossing boundaries probability
-  expect_equal((gsdv %>% dplyr::filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
+  expect_equal(
+    (gsdv %>% dplyr::filter(bound == "upper"))$probability0,
+    sfu(alpha = alpha, t = timing, param = sfupar)$spend
+  )
 })
 
 test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=3 bounds", {
@@ -86,8 +89,14 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=3 b
   expect_equal(gsd$n.I, (gsdv %>% dplyr::filter(bound == "upper"))$info, tolerance = .04)
 
   # compare crossing boundaries probability under null hypothesis (theta = 0)
-  expect_equal((gsdv %>% dplyr::filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
-  expect_equal((gsdv %>% dplyr::filter(bound == "lower"))$probability, sfl(alpha = beta, t = timing, param = sflpar)$spend)
+  expect_equal(
+    (gsdv %>% dplyr::filter(bound == "upper"))$probability0,
+    sfu(alpha = alpha, t = timing, param = sfupar)$spend
+  )
+  expect_equal(
+    (gsdv %>% dplyr::filter(bound == "lower"))$probability,
+    sfl(alpha = beta, t = timing, param = sflpar)$spend
+  )
 })
 
 test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=4 bounds", {
@@ -161,7 +170,10 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=5 b
   expect_equal(gsd$n.I, (gsdv %>% dplyr::filter(bound == "upper"))$info, tolerance = .04)
 
   # compare crossing boundaries probability under null hypothesis (theta = 0)
-  expect_equal((gsdv %>% dplyr::filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend)
+  expect_equal(
+    (gsdv %>% dplyr::filter(bound == "upper"))$probability0,
+    sfu(alpha = alpha, t = timing, param = sfupar)$spend
+  )
   expect_equal(
     (gs_power_npe(
       theta = 0, info = (gsdv %>% dplyr::filter(bound == "upper"))$info,
