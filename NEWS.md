@@ -1,3 +1,53 @@
+# gsDesign2 1.1.1
+
+## New features
+
+- `as_rtf()` method is now available for `fixed_design` and `gs_design` objects
+  to produce RTF table outputs (@fukuhiro2023, #278).
+
+## Bug fixes
+
+- Fix warnings from `fixed_design_rd()` due to the previous default
+  value change of `h1_spending` (#296).
+- Handle exceptions explicitly when all hazard ratio is set to 1
+  throughout the study (#301).
+- `gs_power_wlr()` and `to_integer()` now check and convert integer
+  sample size more rigorously (#322).
+
+## Improvements
+
+- For fixed designs, the variable names of the table outputs from
+  `to_integer()` and `summary()` are updated (#292).
+- `gs_power_ahr()` now runs twice as fast by using data.table and other
+  performance optimizations (@jdblischak, #295), enhanced by relevant
+  improvements in `gs_info_ahr()` and `pw_info()` (@jdblischak, #300).
+- Refactor enrollment and failure rate input constructors and validators
+  to check only the format instead of the class. This change reduces the number
+  of warning messages and catches real exceptions as proper errors (#316).
+- Refactor nested functions defined inline into reusable internal functions,
+  to improve code rigor, avoid potential scoping pitfalls, and
+  facilitate debugging (#235).
+
+## Documentation
+
+- Improve `define_enroll_rate()` and `define_fail_rate()` documentation by
+  adding detailed descriptions and improving code examples (#302).
+- Add a new vignette on statistical information under null and
+  alternative hypothesis (#289).
+- Add dedicated sections for piecewise exponential distributions and
+  computing trial events in the reference page (#258).
+- Standardize code comment section format by using the four trailing dashes
+  convention (#308).
+
+## Infrastructure and testing
+
+- Tidying up namespace by removing rlang from `Imports` and adding stats to
+  `Imports` (#307, #325).
+- Qualify namespaces in tests to avoid `library()` calls (#332).
+- Fortify the GitHub Actions workflows by limiting the token usage only when
+  necessary and enabling manual trigger of workflow runs (#326).
+- Update GitHub Actions workflows to the latest versions from upstream (#330).
+
 # gsDesign2 1.1.0
 
 ## Breaking changes
