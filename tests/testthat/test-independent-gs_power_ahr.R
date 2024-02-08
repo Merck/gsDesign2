@@ -1,17 +1,15 @@
-library(gsDesign)
-
 # Test 1: compare with gsDesign under proportional hazard ####
 
-x <- gsSurv(
+x <- gsDesign::gsSurv(
   k = 2,
   test.type = 1,
   alpha = 0.025,
   beta = 0.2,
   astar = 0,
   timing = 0.7,
-  sfu = sfLDOF,
+  sfu = gsDesign::sfLDOF,
   sfupar = c(0),
-  sfl = sfLDOF,
+  sfl = gsDesign::sfLDOF,
   sflpar = c(0),
   lambdaC = log(2) / 9,
   hr = 0.65,
@@ -26,7 +24,7 @@ x <- gsSurv(
 )
 
 # update x with gsDesign() to get integer event counts
-x <- gsDesign(
+x <- gsDesign::gsDesign(
   k = x$k,
   test.type = 1,
   alpha = x$alpha,
@@ -39,7 +37,7 @@ x <- gsDesign(
   delta1 = x$delta1,
   delta0 = x$delta0
 )
-y <- gsBoundSummary(x,
+y <- gsDesign::gsBoundSummary(x,
   ratio = 1,
   digits = 4,
   ddigits = 2,

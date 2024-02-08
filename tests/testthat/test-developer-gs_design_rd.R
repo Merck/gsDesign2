@@ -15,8 +15,8 @@ test_that("fixed design", {
   )
 
   x2 <- gs_design_rd(
-    p_c = tibble(stratum = "All", rate = p1),
-    p_e = tibble(stratum = "All", rate = p2),
+    p_c = tibble::tibble(stratum = "All", rate = p1),
+    p_e = tibble::tibble(stratum = "All", rate = p2),
     alpha = alpha, beta = beta,
     rd0 = rd0, ratio = 1, info_frac = 1,
     upper = gs_b,

@@ -46,9 +46,9 @@ x <- gsDesign::gsSurv(
   beta = 0.2,
   astar = 0,
   timing = c(1),
-  sfu = sfLDOF,
+  sfu = gsDesign::sfLDOF,
   sfupar = c(0),
-  sfl = sfLDOF,
+  sfl = gsDesign::sfLDOF,
   sflpar = c(0),
   lambdaC = c(0.1),
   hr = 0.6,
@@ -113,7 +113,7 @@ for (i in 1:max(fh_test$analysis)) {
 testthat::test_that("calculate probability under alternative", {
   expect_equal(
     1 - beta,
-    max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability),
+    max((gs_design_combo_test2$bounds %>% dplyr::filter(bound == "upper"))$probability),
     tolerance = 0.0001
   )
 })
@@ -121,7 +121,7 @@ testthat::test_that("calculate probability under alternative", {
 testthat::test_that("calculate probability under null", {
   expect_equal(
     alpha,
-    max((gs_design_combo_test2$bounds %>% filter(bound == "upper"))$probability0),
+    max((gs_design_combo_test2$bounds %>% dplyr::filter(bound == "upper"))$probability0),
     tolerance = 0.005
   )
 })

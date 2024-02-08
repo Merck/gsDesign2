@@ -1,8 +1,6 @@
 source_files <- list.files("./old_function/", "*.R$")
 sapply(paste0("./old_function/", source_files), source)
 
-library(dplyr)
-
 test_that("default parameter", {
   x1 <- gs_power_ahr()
   x2 <- gs_power_ahr_()
