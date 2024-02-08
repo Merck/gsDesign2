@@ -21,27 +21,27 @@ testthat::test_that("compare results with AHR in the situation of single analysi
   )
 
   testthat::expect_equal(
-    out$analysis %>% select(time, ahr) %>% as.data.frame(),
+    out$analysis %>% dplyr::select(time, ahr) %>% as.data.frame(),
     ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
     ) %>%
-      select(time, ahr) %>%
+      dplyr::select(time, ahr) %>%
       as.data.frame()
   )
 
   # update enroll_rate for AHR to make Events/info/info0 also match in outputs
-  enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(out$analysis$n / (duration %*% rate)))
+  enroll_rate1 <- enroll_rate %>% dplyr::mutate(rate = rate * c(out$analysis$n / (duration %*% rate)))
 
   testthat::expect_equal(
-    out$analysis %>% select(time, ahr, event, info, info0) %>% as.data.frame(),
+    out$analysis %>% dplyr::select(time, ahr, event, info, info0) %>% as.data.frame(),
     ahr(
       enroll_rate = enroll_rate1,
       fail_rate = fail_rate,
       total_duration = total_duration
     ) %>%
-      select(time, ahr, event, info, info0) %>%
+      dplyr::select(time, ahr, event, info, info0) %>%
       as.data.frame()
   )
 })
@@ -70,7 +70,7 @@ testthat::test_that(
 
     testthat::expect_equal(
       out$analysis %>%
-        select(time, ahr) %>%
+        dplyr::select(time, ahr) %>%
         dplyr::distinct(.keep_all = TRUE) %>%
         as.data.frame(),
       ahr(
@@ -78,16 +78,16 @@ testthat::test_that(
         fail_rate = fail_rate,
         total_duration = total_duration
       ) %>%
-        select(time, ahr) %>%
+        dplyr::select(time, ahr) %>%
         as.data.frame()
     )
 
     # update enroll_rate for AHR to make Events/info/info0 also match in outputs
-    enroll_rate1 <- enroll_rate %>% mutate(rate = rate * c(max(out$analysis$n) / (duration %*% rate)))
+    enroll_rate1 <- enroll_rate %>% dplyr::mutate(rate = rate * c(max(out$analysis$n) / (duration %*% rate)))
 
     testthat::expect_equal(
       out$analysis %>%
-        select(time, ahr, event, info, info0) %>%
+        dplyr::select(time, ahr, event, info, info0) %>%
         dplyr::distinct(.keep_all = TRUE) %>%
         as.data.frame(),
       ahr(
@@ -95,7 +95,7 @@ testthat::test_that(
         fail_rate = fail_rate,
         total_duration = total_duration
       ) %>%
-        select(time, ahr, event, info, info0) %>%
+        dplyr::select(time, ahr, event, info, info0) %>%
         as.data.frame()
     )
   }

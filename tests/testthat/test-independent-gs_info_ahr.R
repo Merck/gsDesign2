@@ -19,7 +19,7 @@ testthat::test_that("results match if only put in targeted analysis times", {
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       analysis_time = total_duration
-    ) %>% select(time, ahr, event, info, info0),
+    ) %>% dplyr::select(time, ahr, event, info, info0),
     ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
@@ -37,7 +37,7 @@ testthat::test_that("results match if only put in targeted events", {
   total_duration <- out1$time
 
   testthat::expect_equal(
-    out1 %>% select(time, ahr, event, info, info0),
+    out1 %>% dplyr::select(time, ahr, event, info, info0),
     ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
@@ -66,7 +66,7 @@ testthat::test_that("results match if put in both analysis time and targeted eve
   total_duration <- out1$time
 
   testthat::expect_equal(
-    out1 %>% select(time, ahr, event, info, info0),
+    out1 %>% dplyr::select(time, ahr, event, info, info0),
     ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,

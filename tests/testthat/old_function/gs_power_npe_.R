@@ -89,7 +89,7 @@ NULL
 #' library(dplyr)
 #'
 #' # Default (single analysis; Type I error controlled)
-#' gsDesign2:::gs_power_npe_(theta = 0) %>% filter(Bound == "Upper")
+#' gsDesign2:::gs_power_npe_(theta = 0) %>% dplyr::filter(Bound == "Upper")
 #'
 #' # Fixed bound
 #' gsDesign2:::gs_power_npe_(
@@ -113,7 +113,7 @@ NULL
 #'     sfu = gsDesign::sfLDOF
 #'   )$upper$bound,
 #'   lpar = rep(-Inf, 3)
-#' ) %>% filter(Bound == "Upper")
+#' ) %>% dplyr::filter(Bound == "Upper")
 #'
 #' # Fixed bound with futility only at analysis 1;
 #' # efficacy only at analyses 2, 3
@@ -192,7 +192,7 @@ NULL
 #'
 #' # Re-use these bounds under alternate hypothesis
 #' # Always use binding = TRUE for power calculations
-#' upar <- (xx %>% filter(Bound == "Upper"))$Z
+#' upar <- (xx %>% dplyr::filter(Bound == "Upper"))$Z
 #' gsDesign2:::gs_power_npe_(
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,

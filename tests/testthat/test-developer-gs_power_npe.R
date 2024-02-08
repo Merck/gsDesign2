@@ -1,16 +1,14 @@
 source_files <- list.files("./old_function/", "*.R$")
 sapply(paste0("./old_function/", source_files), source)
 
-library(dplyr)
-
 test_that("The default of `gs_power_npe` is a single analysis with type I error controlled.", {
   x1 <- gs_power_npe(theta = 0) %>%
-    filter(bound == "upper") %>%
-    select(-info_frac)
+    dplyr::filter(bound == "upper") %>%
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(theta = 0) %>%
-    filter(Bound == "Upper") %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::filter(Bound == "Upper") %>%
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -23,7 +21,7 @@ test_that("fixed bound", {
     lower = gs_b,
     lpar = c(-1, 0, 0)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = c(.1, .2, .3),
     info = (1:3) * 40,
@@ -32,8 +30,8 @@ test_that("fixed bound", {
     lower = gs_b,
     lpar = c(-1, 0, 0)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -44,15 +42,15 @@ test_that("Same fixed efficacy bounds, no futility bound (i.e., non-binding boun
     upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lpar = rep(-Inf, 3)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = rep(0, 3),
     info = (1:3) * 40,
     upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lpar = rep(-Inf, 3)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -65,7 +63,7 @@ test_that("Fixed bound with futility only at analysis 1; efficacy only at analys
     lower = gs_b,
     lpar = c(qnorm(.1), -Inf, -Inf)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = c(.1, .2, .3),
     info = (1:3) * 40,
@@ -74,8 +72,8 @@ test_that("Fixed bound with futility only at analysis 1; efficacy only at analys
     lower = gs_b,
     lpar = c(qnorm(.1), -Inf, -Inf)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -88,7 +86,7 @@ test_that("Spending function bounds - Lower spending based on non-zero effect", 
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = c(.1, .2, .3),
     info = (1:3) * 40,
@@ -97,8 +95,8 @@ test_that("Spending function bounds - Lower spending based on non-zero effect", 
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -111,7 +109,7 @@ test_that("Same bounds, but power under different theta", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = c(.15, .25, .35),
     info = (1:3) * 40,
@@ -120,8 +118,8 @@ test_that("Same bounds, but power under different theta", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -135,7 +133,7 @@ test_that("Two-sided symmetric spend, O'Brien-Fleming spending", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = rep(0, 3),
     info = (1:3) * 40,
@@ -145,8 +143,8 @@ test_that("Two-sided symmetric spend, O'Brien-Fleming spending", {
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -160,24 +158,24 @@ test_that("Re-use these bounds under alternate hypothesis - Always use binding =
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x1 <- gs_power_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 40,
     binding = TRUE,
-    upar = (x %>% filter(bound == "upper"))$z,
-    lpar = -(x %>% filter(bound == "upper"))$z
+    upar = (x %>% dplyr::filter(bound == "upper"))$z,
+    lpar = -(x %>% dplyr::filter(bound == "upper"))$z
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = c(.1, .2, .3),
     info = (1:3) * 40,
     binding = TRUE,
-    upar = (x %>% filter(bound == "upper"))$z,
-    lpar = -(x %>% filter(bound == "upper"))$z
+    upar = (x %>% dplyr::filter(bound == "upper"))$z,
+    lpar = -(x %>% dplyr::filter(bound == "upper"))$z
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
 
@@ -189,29 +187,29 @@ test_that("info != info0 != info1 - If one inputs info in upar", {
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x1_b <- gs_power_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5, info_scale = "h1_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x1_c <- gs_power_npe(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5, info_scale = "h0_h1_info",
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   x2 <- gs_power_npe_(
     theta = c(.1, .2, .3),
     info = (1:3) * 80, info0 = (1:3) * 90 + 10, info1 = (1:3) * 70 - 5,
     upper = gs_b, upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b, lpar = c(-1, 0, 0)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   expect_equal(x1_c, x2)
 })
 
@@ -222,27 +220,27 @@ test_that("Developer Tests 1-sided test", {
     info = (1:3) * 400,
     binding = FALSE, r = r,
     upper = gs_b, # gs_spending_bound,
-    upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF)$upper$bound,
+    upar = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b,
     lpar = rep(-Inf, 3)
   ) %>%
-    select(-info_frac)
+    dplyr::select(-info_frac)
   y <- gs_power_npe_(
     theta = 0,
     info = (1:3) * 400,
     binding = FALSE, r = r,
     upper = gs_b, # gs_spending_bound,
-    upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF)$upper$bound,
+    upar = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound,
     lower = gs_b,
     lpar = rep(-Inf, 3)
   ) %>%
-    rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
-    mutate(bound = tolower(bound))
+    dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) %>%
+    dplyr::mutate(bound = tolower(bound))
   z <- gsDesign::gsProbability(
     k = 3,
     theta = 0,
     n.I = (1:3) * 400,
-    b = gsDesign(k = 3, test.type = 1, sfu = sfLDOF)$upper$bound, a = rep(-20, 3), r = r
+    b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound, a = rep(-20, 3), r = r
   )
   expect_equal(x, y)
   expect_equal(x$z[x$bound == "upper"], z$upper$bound)
@@ -262,8 +260,8 @@ test_that("Independent Tests - Expect equal with mvtnorm for efficacy and futili
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.02)
   )
-  test1 <- test %>% filter(bound == "upper")
-  test2 <- test %>% filter(bound == "lower")
+  test1 <- test %>% dplyr::filter(bound == "upper")
+  test2 <- test %>% dplyr::filter(bound == "lower")
   alpha_t <- 0.025
   b_ia <- gsDesign::sfLDOF(alpha = alpha_t, t = r)
   alpha_ia <- b_ia$spend
@@ -322,7 +320,7 @@ test_that("Expect equal with gsDesign::gsProbability outcome for efficacy bounds
     lower = gs_b,
     lpar = rep(-Inf, 3)
   ) %>%
-    filter(bound == "upper")
+    dplyr::filter(bound == "upper")
   y <- gs_power_npe(
     theta = .1,
     info = info, binding = FALSE,
@@ -331,12 +329,12 @@ test_that("Expect equal with gsDesign::gsProbability outcome for efficacy bounds
     lower = gs_b,
     lpar = rep(-Inf, 3)
   ) %>%
-    filter(bound == "upper")
+    dplyr::filter(bound == "upper")
   z <- gsDesign::gsProbability(
     k = 3, theta = .1,
     n.I = info,
     a = rep(-20, 3),
-    b = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, n.I = info)$upper$bound
+    b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF, n.I = info)$upper$bound
   )
   expect_equal(x, y)
   expect_equal(x$z[x$bound == "upper"], z$upper$bound, tolerance = 1e-5)
