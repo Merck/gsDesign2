@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,44 @@
       <small>Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.1" id="gsdesign2-111">gsDesign2 1.1.1<a class="anchor" aria-label="anchor" href="#gsdesign2-111"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-1-1">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-1"></a></h3>
+<ul><li>The <code><a href="../reference/as_rtf.html">as_rtf()</a></code> method is now available for <code>fixed_design</code> and <code>gs_design</code> objects for generating RTF table outputs (<a href="https://github.com/Merck/gsDesign2/issues/278" class="external-link">#278</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-1"></a></h3>
+<ul><li>
+<code><a href="../reference/gs_power_wlr.html">gs_power_wlr()</a></code> and <code><a href="../reference/to_integer.html">to_integer()</a></code> now check and convert integer sample size more rigorously (<a href="https://github.com/Merck/gsDesign2/issues/322" class="external-link">#322</a>).</li>
+<li>
+<code>gs_design_*()</code> now handle exceptions explicitly when all hazard ratio is set to 1 throughout the study (<a href="https://github.com/Merck/gsDesign2/issues/301" class="external-link">#301</a>).</li>
+<li>
+<code><a href="../reference/fixed_design_rd.html">fixed_design_rd()</a></code> will not generate warnings due to the previous default value change of <code>h1_spending</code> (<a href="https://github.com/Merck/gsDesign2/issues/296" class="external-link">#296</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-1-1-1">Improvements<a class="anchor" aria-label="anchor" href="#improvements-1-1-1"></a></h3>
+<ul><li>
+<code><a href="../reference/gs_power_ahr.html">gs_power_ahr()</a></code> now runs twice as fast by using data.table and other performance optimizations (<a href="https://github.com/Merck/gsDesign2/issues/295" class="external-link">#295</a>), enhanced by similar improvements in <code><a href="../reference/gs_info_ahr.html">gs_info_ahr()</a></code> and <code><a href="../reference/pw_info.html">pw_info()</a></code> (<a href="https://github.com/Merck/gsDesign2/issues/300" class="external-link">#300</a>).</li>
+<li>Enrollment and failure rate input constructors and validators are refactored to check only the format instead of the class. This change reduces the number of warning messages and catches real exceptions as errors properly (<a href="https://github.com/Merck/gsDesign2/issues/316" class="external-link">#316</a>).</li>
+<li>Nested functions are refactored into reusable internal functions, to improve code rigor, avoid potential scoping pitfalls, and facilitate debugging (<a href="https://github.com/Merck/gsDesign2/issues/235" class="external-link">#235</a>).</li>
+<li>For fixed designs, the variable names of the table outputs from <code><a href="../reference/to_integer.html">to_integer()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> are updated (<a href="https://github.com/Merck/gsDesign2/issues/292" class="external-link">#292</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-1-1-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-1-1"></a></h3>
+<ul><li>Add a new vignette <a href="https://merck.github.io/gsDesign2/articles/story-info-formula.html">statistical information under null and alternative hypothesis</a> (<a href="https://github.com/Merck/gsDesign2/issues/289" class="external-link">#289</a>).</li>
+<li>Improve <code><a href="../reference/define_enroll_rate.html">define_enroll_rate()</a></code> and <code><a href="../reference/define_fail_rate.html">define_fail_rate()</a></code> documentation by adding detailed descriptions and improving code examples (<a href="https://github.com/Merck/gsDesign2/issues/302" class="external-link">#302</a>).</li>
+<li>The function reference page now has dedicated sections for piecewise exponential distributions and computing trial events (<a href="https://github.com/Merck/gsDesign2/issues/258" class="external-link">#258</a>).</li>
+<li>Use the four trailing dashes convention to standardize code comment section format (<a href="https://github.com/Merck/gsDesign2/issues/308" class="external-link">#308</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="namespace-and-testing-1-1-1">Namespace and testing<a class="anchor" aria-label="anchor" href="#namespace-and-testing-1-1-1"></a></h3>
+<ul><li>Tidy up namespace by removing rlang from and adding stats to <code>Imports</code> (<a href="https://github.com/Merck/gsDesign2/issues/307" class="external-link">#307</a>, <a href="https://github.com/Merck/gsDesign2/issues/325" class="external-link">#325</a>).</li>
+<li>Qualify namespaces in tests to avoid <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> calls (<a href="https://github.com/Merck/gsDesign2/issues/332" class="external-link">#332</a>).</li>
+<li>Fortify the GitHub Actions workflows by limiting the token usage only when necessary and enabling manual trigger of workflow runs (<a href="https://github.com/Merck/gsDesign2/issues/326" class="external-link">#326</a>).</li>
+<li>Update GitHub Actions workflows to the latest versions from upstream (<a href="https://github.com/Merck/gsDesign2/issues/330" class="external-link">#330</a>).</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="gsdesign2-110">gsDesign2 1.1.0<a class="anchor" aria-label="anchor" href="#gsdesign2-110"></a></h2><p class="text-muted">CRAN release: 2023-08-23</p>
 <div class="section level3">
