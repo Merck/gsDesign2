@@ -39,18 +39,16 @@ We are primarily concerned with practical issues of implementation rather than d
 # Scenario for Consideration
 
 Here we set up enrollment, failure and dropout rates along with assumptions for enrollment duration and times of analyses.
-
-In this example, we assume there are 4 analysis (3 interim analysis + 1 final analysis), and they are conducted after 18, 24, 30, 36 months after the trail starts.
+We assume there are 4 analysis (3 interim analyses + 1 final analysis) conducted 18, 24, 30, and 36 months after trial enrollment is opened.
 
 ```{r}
 n_analysis <- 4
 analysis_time <- c(18, 24, 30, 36)
 ```
 
-And we further assume there is not stratum and the enrollment last for 12 months.
-For the first 2 months, second 2 months, third 2 months and the reminder month, the enrollment rate is $8:12:16:24$.
-Please note that $8:12:16:24$ is not the real enrollment rate.
-Instead, it only specifies the enrollment rate ratio between different duration.
+We assume there is a single stratum and enrollment targeted to last for 12 months.
+For the first 2 months, second 2 months, third 2 months and the remaining months, the relative enrollment rates are $8:12:16:24$.
+These rates will be updated by a constant multiple at the time of design as we will note below.
 
 ```{r}
 enroll_rate <- define_enroll_rate(
@@ -58,13 +56,13 @@ enroll_rate <- define_enroll_rate(
   rate = c(8, 12, 16, 24)
 )
 
-enroll_rate %>%
-  gt() %>%
-  tab_header(title = "Table of Enrollment")
+enroll_rate |>
+  gt() |>
+  tab_header(title = "Planned Relative Enrollment Rates")
 ```
 
-Moreover, we assume the hazard ratio (HR) of the first 3 month is 0.9 and thereafter is 0.6.
-We also assume the the survival time follow a piecewise exponential distribution with a median of 8 month for the first 3 months and 14 month thereafter.
+We assume a hazard ratio (HR) of 0.9 for the first 3 months 0.6 thereafter.
+We also assume the the control time-to-event follows a piecewise exponential distribution with a median of 8 month for the first 3 months and 14 months thereafter.
 
 ```{r}
 fail_rate <- define_fail_rate(
@@ -74,9 +72,9 @@ fail_rate <- define_fail_rate(
   dropout_rate = .001
 )
 
-fail_rate %>%
-  gt() %>%
-  tab_header(title = "Table of Failure Rate")
+fail_rate |>
+  gt() |>
+  tab_header(title = "Table of Failure Rate Assumptions") 
 ```
 
 # Fixed Design with no Interim Analysis
@@ -84,7 +82,8 @@ fail_rate %>%
 We can derive power for the above enrollment rates and failure rates as follows:
 
 ```{r}
-fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = NULL, ratio = 1, study_duration = 36, event = NULL) %>% summary()
+fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = NULL, ratio = 1, study_duration = 36, event = NULL) |> 
+  summary()
 ```
 
 
@@ -92,11 +91,9 @@ fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = NULL,
 We now compute sample size and then translate from a continuous sample size to an integer sample size.
 
 ```{r}
-fixed_design <- fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = .9, ratio = 1, study_duration = 36, event = NULL) 
-integer_fixed_design <- fixed_design %>% to_integer()
-# NOTE: the next line should not be needed, but to_integer() changed names
-names(integer_fixed_design$analysis) <- names(fixed_design$analysis)
-summary(integer_fixed_design)
+fixed_design <- fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = .9, ratio = 1, study_duration = 36, event = NULL) |> 
+  to_integer()
+fixed_design$analysis
 ```
 
 
@@ -120,21 +117,7 @@ gs <-
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1, param = NULL, timing = NULL), 
     h1_spending = TRUE
-  ) %>% to_integer()
-summary(gs) %>% gt()
+  ) |> to_integer()
+summary(gs) |> gt()
 ```
 
-The following is temporary.
-
-```{r}
-gs_npe <- 
-  gs_design_npe(
-    theta = .1,
-    info = 1:2,
-    upper = gs_spending_bound,
-    lower = gs_spending_bound,
-    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1, param = NULL, timing = NULL)#, theta = 0)
-  ) 
-gs_npe %>% gt()
-```
