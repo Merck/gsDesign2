@@ -31,7 +31,10 @@ Since the sample size methods differ between the `gsDesign2::gs_design_ahr()` an
 Indeed, we are able to reproduce bounds to a high degree of accuracy.
 Due to the different sample size methods, sample size and other boundary approximations vary slightly.
 
-We also present a seventh example where to implement a futility bound based on observed hazard ratio as well as a Haybittle-Peto-like efficacy bound. In particular, the futility bound would be difficult to implement using the *gsDesign* package while it is straightforward using *gsDesign2*.
+We also present a seventh example to implement a futility bound based on observed hazard ratio as well as a Haybittle-Peto-like efficacy bound. In particular, the futility bound would be difficult to implement using the *gsDesign* package while it is straightforward using *gsDesign2*.
+
+For the last two examples, we implement integer sample size and event counts using the `to_integer()` function for the *gsDesign2* package and the `toInteger()` function for the *gsDesign* package.
+This would generally would be used for all cases other than when we are comparing package computations as in Examples 1-5.
 
 For all of our examples, we will use the following design assumptions:
 
@@ -44,22 +47,23 @@ info_frac <- c(.35, .7, 1)   # Information fraction at analyses
 # 16 month planned enrollment with constant rate
 enroll_rate <- define_enroll_rate(duration = 16, rate = 1)
 # Minimum follow-up for gsSurv() (computed)
-minfup <- trial_duration - enroll_rate$duration
+minfup <- trial_duration - sum(enroll_rate$duration)
 # Failure rates
 fail_rate <-
   define_fail_rate(
     duration = Inf,          # single time period, exponential failure
-                             # 4 months and then remainder
     fail_rate = log(2) / 12, # Exponential time-to-event with 12 month median
     hr = .7,                 # Proportional hazards
     dropout_rate = -log(.99) / 12  # 1% dropout rate per year
   )
-alpha <- 0.025  # Type I error
+alpha <- 0.025  # Type I error (one-sided)
 beta <- 0.15    # 85% power = 15% Type II error
-ratio <- 1      # Randomization ratio
+ratio <- 1      # Randomization ratio (experimental / control)
 ```
 
-
+The choice of Type II error of 0.15 corresponding to 85% power is intentional.
+This allows for more impactful futility bounds at interim analyses.
+Many teams may decide on the more typical 90% power (`beta = .1`), but this can make futility bounds less likely to impact early decisions.
 
 # Examples
 
@@ -68,14 +72,13 @@ Analogous to the *gsDesign* package, we look at 6 variations on combinations of 
 ## Example 1: Efficacy bound only
 
 One-sided design has only an efficacy bound.
-An easy way to do this is to use a fixed bound (`lower = gs_b`) with negative infinite bounds (`lpar = rep(-Inf, 3)`); in the table, infinite bounds do not appear.
-The upper bound implements a spending bound (`upper = gs_spending_bound`) and the list of objects provided in `upar`.
-The only parts of the list used here are `sf = gsDesign::sfLDOF` to select a Lan-DeMets spending function that approximates an O'Brien-Fleming bound. The `total_spend = alpha` sets the total spending to the targeted Type I error for the study.
+An easy way to do this is to use a fixed bound (`lower = gs_b`) with negative infinite bounds (`lpar = rep(-Inf, 3)`); in the summary table produced, infinite bounds do not appear.
+The upper bound implements a spending bound (`upper = gs_spending_bound`) and the list of objects provided in `upar` describe the spending function and any associated parameters.
+The only parts of the `upar` list used here are `sf = gsDesign::sfLDOF` to select a Lan-DeMets spending function that approximates an O'Brien-Fleming bound. The `total_spend = alpha` sets the total spending to the targeted Type I error for the study.
 The upper bound provides the Type I error control for the design as it is not specified elsewhere.
 
-
 ```{r}
-upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL, timing = NULL)
+upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 
 one_sided <- gsDesign2::gs_design_ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
@@ -84,8 +87,8 @@ one_sided <- gsDesign2::gs_design_ahr(
   info_frac = info_frac, analysis_time = trial_duration,
   # precision parameters for computations
   r = 32, tol = 1e-08,
-  # Use NULL information for Type I error, H1 information for Type II error
-  info_scale = "h0_info", # Default
+  # Use NULL information for Type I error, H1 information for Type II error (power)
+  info_scale = "h0_h1_info", # Default
   # Upper spending bound and corresponding parameter(s)
   upper = gs_spending_bound, upar = upar,
   # No lower bound
@@ -95,8 +98,8 @@ one_sided <- gsDesign2::gs_design_ahr(
 summary(one_sided) |> gsDesign2::as_gt(title = "Efficacy bound only", subtitle = "alpha-spending")
 ```
 
-Check with `gsDesign::gsSurv().` As noted above, sample size and event counts vary slightly from the design derived using `gs_design_ahr()`.
-This also results in different crossing probabilities under the alternate hypothesis at interim analyses.
+Now we check this with `gsDesign::gsSurv().` As noted above, sample size and event counts vary slightly from the design derived using `gs_design_ahr()`.
+This also results in slightly different crossing probabilities under the alternate hypothesis at interim analyses as well as slightly different approximate hazard ratios required to cross bounds.
 
 ```{r}
 oneSided <-
@@ -135,14 +138,14 @@ symmetric <- gs_design_ahr(
   info_frac = info_frac, analysis_time = trial_duration,
   # precision parameters for computations
   r = 32, tol = 1e-08,
-  # Use NULL information for Type I error, H1 information for Type II error
+  # Use NULL information for Type I error, H1 information for power
   info_scale = "h0_h1_info", # Default
   # Function and parameter(s) for upper spending bound 
   upper = gs_spending_bound, upar = upar,
   lower = gs_spending_bound, lpar = lpar,
-  # Symmetric design use binding bounds
+  # Symmetric designs use binding bounds
   binding = TRUE,
-  h1_spending = FALSE # Use null hypothesis spending
+  h1_spending = FALSE # Use null hypothesis spending for lower bound
 )
 
 summary(symmetric) |> 
@@ -171,9 +174,9 @@ filter(symmetric$bound, bound == 'lower')$z - Symmetric$lower$bound
 ## Example 3: Asymmetric 2-sided design with $\beta$-spending and binding futility
 
 Designs with binding futility bounds are generally not considered acceptable for Phase 3 trials as Type I error is not controlled if a futility bound is crossed and the trial continues, a not infrequent occurrence.
-For a Phase 2b study, this may be acceptable and results in a slightly smaller sample size than a comparable design with 
-a non-binding futility  bound that is presented in Example 4.
-
+A binding futility bound means that Type I error computations assume that a trial stops when a futility bound is crossed.
+If the trial continues after a futility bound has been crossed, Type I error is no longer controlled with the computed efficacy bound.
+For a Phase 2b study, this may be acceptable and results in a slightly smaller sample size and less stringent efficacy bounds after the first analysis than a comparable design with a non-binding futility bound presented in Example 4.
 
 ```{r}
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
@@ -186,8 +189,8 @@ asymmetric_binding <- gs_design_ahr(
   info_frac = info_frac, analysis_time = trial_duration,
   # precision parameters for computations
   r = 32, tol = 1e-08,
-  # Use NULL information for Type I error, H1 information for Type II error
-  info_scale = "h0_info",
+  # Use NULL information for Type I error, H1 information for Type II error and power
+  info_scale = "h0_h1_info",
   # Function and parameter(s) for upper spending bound 
   upper = gs_spending_bound, upar = upar,
   lower = gs_spending_bound, lpar = lpar,
@@ -221,7 +224,7 @@ filter(asymmetric_binding$bound, bound == 'lower')$z - asymmetricBinding$lower$b
 ```
 
 
-## Example 4: Aymmetric 2-sided design with $\beta$-spending and non-binding futility bound
+## Example 4: Asymmetric 2-sided design with $\beta$-spending and non-binding futility bound
 
 In the *gsDesign* package, asymmetric designs with non-binding $\beta$-spending used for futility are the default design.
 The objectives of this type of design include:
@@ -241,8 +244,8 @@ asymmetric_nonbinding <- gs_design_ahr(
   info_frac = info_frac, analysis_time = trial_duration,
   # precision parameters for computations
   r = 32, tol = 1e-08,
-  # Use NULL information for Type I error, H1 information for Type II error
-  info_scale = "h0_info",
+  # Use NULL information for Type I error, H1 info for Type II error and power
+  info_scale = "h0_h1_info", # Default
   # Function and parameter(s) for upper spending bound 
   upper = gs_spending_bound, upar = upar,
   lower = gs_spending_bound, lpar = lpar,
@@ -276,8 +279,15 @@ filter(asymmetric_nonbinding$bound, bound == 'upper')$z - asymmetricNonBinding$u
 filter(asymmetric_nonbinding$bound, bound == 'lower')$z - asymmetricNonBinding$lower$bound
 ```
 
+## Example 5: Asymmetric 2-sided design with null hypothesis spending and binding futility bound
 
-## Example 5: Aymmetric 2-sided design with null hypothesis spending and binding futility bound
+Now we use null hypothesis probabilities to set futility bounds.
+The parameter `alpha_star` is used to set the total spending for the futility bound under the null hypothesis.
+For our example, this is set to 0.5 which is a 50% probability of crossing the futility bound at the interim and final analyses combined.
+The futility bound at the final analysis really has no role, so we use the `test_lower` argument to eliminate this evaluation at the final analysis.
+This is arbitrary and largely selected so that the interim futility bounds can be meaningful tests. 
+In this case, more than a minor trend in favor of control at the first or second interim will cross a futility bound.
+This is less stringent than the $\beta$-spending bounds previously described, but still address a potential ethical issue of continuing the trial when more than a minor trend in favor of control is present.
 
 ```{r}
 alpha_star <- .5
@@ -296,6 +306,7 @@ asymmetric_safety_binding <- gs_design_ahr(
   # Function and parameter(s) for upper spending bound 
   upper = gs_spending_bound, upar = upar,
   lower = gs_spending_bound, lpar = lpar,
+  test_lower = c(TRUE, TRUE, FALSE),
   # Asymmetric design use binding bounds
   binding = TRUE,
   h1_spending = FALSE # Use null-spending for futility
@@ -323,12 +334,14 @@ For `gsSurv()` this did not require the alternate arguments for `r` and `tol`.
 
 ```{r}
 filter(asymmetric_safety_binding$bound, bound == 'upper')$z - asymmetricSafetyBinding$upper$bound
-filter(asymmetric_safety_binding$bound, bound == 'lower')$z - asymmetricSafetyBinding$lower$bound
+filter(asymmetric_safety_binding$bound, bound == 'lower')$z - asymmetricSafetyBinding$lower$bound[1:2]
 ```
 
-## Example 6: Aymmetric 2-sided design with null hypothesis spending and non-binding futility bound
+## Example 6: Asymmetric 2-sided design with null hypothesis spending and non-binding futility bound
 
-
+Again, we would recommend a non-binding bound presented here over the binding bound in example 5.
+We again eliminate the final futility bound using the `test_lower` argument.
+Addition, we show how to eliminate the efficacy bound at interim 1 allowing a team to decide that it is too early to stop a trial for efficacy without longer-term data.
 
 ```{r}
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
@@ -345,18 +358,21 @@ asymmetric_safety_nonbinding <- gs_design_ahr(
   info_scale = "h0_info",
   # Function and parameter(s) for upper spending bound 
   upper = gs_spending_bound, upar = upar,
+  test_upper = c(FALSE, TRUE, TRUE),
   lower = gs_spending_bound, lpar = lpar,
+  test_lower = c(TRUE, TRUE, FALSE),
   # Asymmetric design use non-binding bounds
   binding = FALSE,
-  h1_spending = FALSE, # Use null-spending for futility
-  test_lower = c(TRUE, TRUE, FALSE),
-  test_upper = c(FALSE, TRUE, TRUE)
-)
+  h1_spending = FALSE # Use null-spending for futility
+) |> to_integer()
 
 summary(asymmetric_safety_nonbinding) |>
   gsDesign2::as_gt(title = "2-sided asymmetric safety design with non-binding futility",
-                   subtitle = "Alpha-spending used for both bounds, asymmetrically")
+                   subtitle = "Alpha-spending used for both bounds, asymmetrically") |>
+  tab_footnote(footnote = "Integer-based sample size and event counts")
 ```
+
+The corresponding `gsDesign::gsSurv()` design is not strictly comparable since the option to eliminate some futility and efficacy analyses is not enabled. 
 
 ```{r}
 asymmetricSafetyNonBinding <-
@@ -369,12 +385,6 @@ asymmetricSafetyNonBinding <-
 asymmetricSafetyBinding |> gsBoundSummary()
 ```
 
-Comparing Z-value bounds directly, we again see approximately 6 digits of accuracy.
-
-```{r}
-filter(asymmetric_safety_nonbinding$bound, bound == 'upper')$z - asymmetricSafetyNonBinding$upper$bound
-filter(asymmetric_safety_nonbinding$bound, bound == 'lower')$z - asymmetricSafetyNonBinding$lower$bound
-```
 
 ## Example 7: Alternate bound types
 
@@ -383,21 +393,21 @@ We consider two types of alternative boundary computation approaches.
 - Computing futility bounds based on a hazard ratio.
 - Computing efficacy bounds with a Haybittle-Peto or a related Fleming-Harrington-O'Brien approach.
 
-We begin with a futility bound. We will consider a non-binding futility bound as it does not impact Type I error.
+We begin with a futility bound. We will consider a non-binding futility bound as it does not impact the efficacy bound.
 Assume the clinical trial team wishes to stop the trial at the first two interim analyses if a targeted interim hazard ratio is not achieved.
 This approach can require a bit of iteration (trial and error) to incorporate the final design endpoint count; we skip over this iteration here.
-We assume we wish to consider stopping for futility if a hazard ratio greater than 1 and 0.9 are observed at interim analyses 1 and 2 with 106 and 212 events observed, respectively. The final analysis is planned for 306 events.
+We assume we wish to consider stopping for futility if a hazard ratio greater than 1 and 0.9 are observed at interim analyses 1 and 2 with 104 and 209 events observed, respectively. The final analysis is planned for 300 events.
 
 ```{r}
 # Targeted events at interim and final analysis
 # This is based on above designs and then adjusted, as necessary
-targeted_events <- c(106, 212, 305)
+targeted_events <- c(104, 209, 300)
 ```
 
 We wish to translate the hazard ratios specified to corresponding Z-values; this can be done as follows.
 
 ```{r}
-interim_futility_z <- -gsDesign::hrn2z(hr = c(1, .9), n = c(106, 212))
+interim_futility_z <- -gsDesign::hrn2z(hr = c(1, .9), n = targeted_events[1:2])
 interim_futility_z
 ```
 We will add a final futility bound of `-Inf`, indicating no final futility analysis; this gives us a vector of Z-value bounds for all analyses. 
@@ -410,24 +420,24 @@ lpar <- c(interim_futility_z, -Inf)
 ```
 
 For the efficacy bound, we first consider a Haybittle-Peto fixed bound for interim analyses.
+Using a Bonferroni approach, we test at nominal levels 0.001, 0.001, and 0.023 at the 3 analyses.
+By not accounting for correlations, this will actually not quite use all of the 0.025 1-sided Type I error allowed.
+We allow the user to substitute this code for what follows to verify this.
 
 ```{r}
 upper = gs_b; upar = qnorm(c(.001, .001, .0023), lower.tail = FALSE)
 ```
 
-
-
-and then use a spending approach suggested by @fleming1984designs where a fixed spend is considered for each analysis. 
-
-
+The alternative approach is to use a fixed spending approach at each analysis as suggested by @fleming1984designs. 
+Again, with some iteration not shown, we use a piecewise linear spending function to select interim bounds that match the desired Haybittle-Peto interim bounds.
+However, using this approach a slightly more liberal final bound is achieved that still controls Type I error.
 
 
 ```{r}
-upper <- gs_b; upar <- qnorm(c(.001, .001, .0244), lower.tail = FALSE)
 upper <- gs_spending_bound
 upar <- list(sf = gsDesign::sfLinear, 
              total_spend = alpha, 
-             param = c(c(106, 212) / 305, c(.001, .00165)/.025), 
+             param = c(targeted_events[1:2] / targeted_events[3], c(.001, .0018)/.025), 
              timing = NULL)
 
 asymmetric_fixed_bounds <- gs_design_ahr(
@@ -448,8 +458,14 @@ asymmetric_fixed_bounds <- gs_design_ahr(
 
 summary(asymmetric_fixed_bounds) |>
   gsDesign2::as_gt(title = "2-sided asymmetric safety design with fixed non-binding futility",
-                   subtitle = "Futility bounds computed to approximate HR")
+                   subtitle = "Futility bounds computed to approximate HR") |>
+  tab_footnote(footnote = "Integer-based sample size and event counts")
 ```
+
+We see that the targeted bounds are achieved with nominal p-values of 0.0001 for each interim efficacy bound and the targeted hazard ratios at interim futility bounds.
+With these methods, trial designers have more control over design characteristics they may desire.
+In particular, we note that the Haybittle-Peto efficacy bounds are less stringent at the first interim and more stringent at the second interim than corresponding O'Brien-Fleming-like bounds we computed with the spending approach.
+This may or may not be desirable.
 
 # References
 
