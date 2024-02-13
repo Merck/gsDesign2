@@ -58,20 +58,19 @@ In this example, we have efficacy bounds at both the IA and FA. The spending fun
 upper <- gs_spending_bound
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 
-x <- gs_design_ahr(
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    alpha = alpha, 
-    beta = beta,
-    info_frac = NULL, 
-    analysis_time = c(20, 36),
-    ratio = ratio, 
-    upper = gs_spending_bound,
-    upar = upar,
-    test_upper = TRUE,
-    lower = gs_b,
-    lpar = rep(-Inf, 2),
-    test_lower = FALSE) |> to_integer()
+x <- gs_design_ahr(enroll_rate = enroll_rate,
+                   fail_rate = fail_rate,
+                   alpha = alpha,
+                   beta = beta,
+                   info_frac = NULL,
+                   analysis_time = c(20, 36),
+                   ratio = ratio,
+                   upper = gs_spending_bound,
+                   upar = upar,
+                   test_upper = TRUE,
+                   lower = gs_b,
+                   lpar = rep(-Inf, 2),
+                   test_lower = FALSE) |> to_integer()
 ```
 
 In the planed design, we have 
@@ -82,29 +81,18 @@ In the planed design, we have
 - planned efficacy bounds: `r round(x$bound$z[x$bound$bound == "upper"], 4)`
 
 ```{r, echo=FALSE}
-x |> 
-  summary() |> 
+x |>
+  summary() |>
   gt() |>
   tab_header(title = "Original design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-      ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )) |>
-  tab_style(
-    style = list(
-      cell_fill(color = "#F9E3D6"),
-      cell_text(weight = "bold")
-      ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Futility"
-    )
-  )
+  tab_style(style = list(cell_fill(color = "lightcyan"),
+                         cell_text(weight = "bold")),
+            locations = cells_body(columns = Z,
+                                   rows = Bound == "Efficacy")) |>
+  tab_style(style = list(cell_fill(color = "#F9E3D6"),
+                         cell_text(weight = "bold")),
+            locations = cells_body(columns = Z,
+                                   rows = Bound == "Futility"))
 ```
 
 ## Update bounds at time of analysis 
@@ -119,7 +107,7 @@ event_planned <- x$analysis$event
 tibble(Analysis = c("IA", "FA"),
        `Planned number of events` = event_planned,
        `Observed number of events` = event_observed) |> 
-  gt() |> 
+  gt() |>
   tab_header("Planned vs. Observed events")
 ```
 
@@ -151,24 +139,22 @@ where $r$ is the randomization ratio (experimental : control). In this example, 
 Lastly, we establish the parameters for the upper and lower bounds. The setup of `upper`, `upar`, `test_upper`, `lower`, `lpar`, and `test_lower` closely resembles the original design, with the exception of the `upar` setup. Here, we have introduced the `timing = ...` parameter. At the IA, the observed number of events is `r event_observed[1]`. If we employ the interim analysis alpha spending strategy, the spending timing at IA is calculated as `r event_observed[1]` / `r round(event_planned[2], 0)`. Here, `r round(event_planned[2], 0)` represents the planned number of events at FA. The remaining alpha will be allocated to the FA stage.
 
 ```{r}
-x_updated <- gs_power_npe(
-  # theta
-  theta = 0,
-  # info
-  info  = event_observed / 4, 
-  # upper bound
-  upper = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, 
-              total_spend = alpha,
-              param = NULL,
-              timing = c(event_observed[1] / max(event_planned), 1)),
-  test_upper = TRUE,
-  # lower bound
-  lower = gs_b,
-  lpar = rep(-Inf, 2),
-  test_lower = FALSE,
-  # binding
-  binding = FALSE)
+x_updated <- gs_power_npe(theta = 0,
+                          # info
+                          info  = event_observed / 4, 
+                          # upper bound
+                          upper = gs_spending_bound,
+                          upar = list(sf = gsDesign::sfLDOF,
+                                      total_spend = alpha,
+                                      param = NULL,
+                                      timing = c(event_observed[1] / max(event_planned), 1)),
+                          test_upper = TRUE,
+                          # lower bound
+                          lower = gs_b,
+                          lpar = rep(-Inf, 2),
+                          test_lower = FALSE,
+                          # binding
+                          binding = FALSE)
 ```
 So the updated efficacy bounds are `r x_updated$z[x_updated$bound == "upper"]`.
 ```{r, echo=FALSE}
@@ -177,14 +163,12 @@ x_updated |>
   gt() |>
   tab_header(title = "Updated design",
              subtitle = paste0("with observed ", paste(event_observed, collapse = ", "), " events")) |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")),
-    locations = cells_body(
-      columns = z,
-      rows = bound == "upper")) |>
-  tab_footnote(footnote = "Crossing pbability under H0.", locations = cells_column_labels(columns = probability))
+  tab_style(style = list(cell_fill(color = "lightcyan"),
+                         cell_text(weight = "bold")),
+            locations = cells_body(columns = z,
+                                   rows = bound == "upper")) |>
+  tab_footnote(footnote = "Crossing pbability under H0.", 
+               locations = cells_column_labels(columns = probability))
 ```
 
 # Two-sided asymmetric design, beta-spending with non-binding lower bound {.tabset}
@@ -199,23 +183,22 @@ In the original designs, we employ the Lan DeMets O'Brien-Fleming spending funct
 upper <- gs_spending_bound
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 lower <- gs_spending_bound
-lpar <- list(sf = gsDesign::sfLDOF, total_spend = beta, param = NULL) 
+lpar <- list(sf = gsDesign::sfLDOF, total_spend = beta, param = NULL)
 
-x <- gs_design_ahr(
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    alpha = alpha,
-    beta = beta,
-    info_frac = NULL,
-    analysis_time = c(20, 36),
-    ratio = ratio,
-    upper = gs_spending_bound,
-    upar = upar,
-    test_upper = TRUE,
-    lower = lower,
-    lpar = lpar,
-    test_lower = c(TRUE, FALSE),
-    binding = FALSE) |> to_integer()
+x <- gs_design_ahr(enroll_rate = enroll_rate,
+                   fail_rate = fail_rate,
+                   alpha = alpha,
+                   beta = beta,
+                   info_frac = NULL,
+                   analysis_time = c(20, 36),
+                   ratio = ratio,
+                   upper = gs_spending_bound,
+                   upar = upar,
+                   test_upper = TRUE,
+                   lower = lower,
+                   lpar = lpar,
+                   test_lower = c(TRUE, FALSE),
+                   binding = FALSE) |> to_integer()
 ```
 
 In the planed design, we have 
@@ -228,24 +211,18 @@ In the planed design, we have
 
 Since we added futility bounds, the sample size and number of events are larger than what we have in the 1-sided example. 
 ```{r, echo=FALSE}
-x |> 
-  summary() |> 
+x |>
+  summary() |>
   gt() |>
   tab_header(title = "Original design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy")) |>
-  tab_style(
-    style = list(
-      cell_fill(color = "#F9E3D6"),
-      cell_text(weight = "bold")),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Futility"))
+  tab_style(style = list(cell_fill(color = "lightcyan"),
+                         cell_text(weight = "bold")),
+            locations = cells_body(columns = Z,
+                                   rows = Bound == "Efficacy")) |>
+  tab_style(style = list(cell_fill(color = "#F9E3D6"),
+                         cell_text(weight = "bold")),
+            locations = cells_body(columns = Z,
+                                   rows = Bound == "Futility"))
 ```
 
 ## Update bounds at time of analysis 
@@ -275,53 +252,40 @@ Moving forward, we proceed to set up the values of the `info` arguments for the 
 Lastly, we establish the parameters for the upper and lower bounds. The setup of `upper`, `upar`, `test_upper`, `lower`, `lpar`, and `test_lower` closely resembles the original design, with the exception of the `upar` and `lpar` setup. Here, we have introduced the `timing = ...` parameter. At the IA, the observed number of events is `r event_observed[1]`. If we employ the interim analysis alpha spending strategy, the spending timing at IA is calculated as `r event_observed[1]` / `r round(event_planned[2], 0)`. Here, `r round(event_planned[2], 0)` represents the planned number of events at FA. The remaining alpha will be allocated to the FA stage.
 
 ```{r}
-x_updated <- gs_power_npe(
-  # theta
-  theta = 0,
-  theta0 = 0,
-  theta1 = -(50 * log(1) + 230 * log(0.6))/280,
-  # info, # ?? shall we set up info1?
-  info  = event_observed / 4,
-  # upper bound
-  upper = x$input$upper,
-  upar = list(sf = gsDesign::sfLDOF,
-              total_spend = alpha,
-              param = NULL,
-              timing = c(event_observed[1] /  max(event_planned), 1)),
-  test_upper = TRUE,
-  # lower bound
-  lower = x$input$lower,
-  lpar = list(sf = gsDesign::sfLDOF,
-              total_spend = beta,
-              param = NULL,
-              timing = c(event_observed[1] /  max(event_planned), 1)),
-  test_lower = c(TRUE, FALSE),
-  binding = x$input$binding)
+x_updated <- gs_power_npe(theta = 0,
+                          theta0 = 0,
+                          theta1 = -(50 * log(1) + 230 * log(0.6))/280,
+                          # info
+                          info  = event_observed / 4,
+                          # upper bound
+                          upper = x$input$upper,
+                          upar = list(sf = gsDesign::sfLDOF,
+                                      total_spend = alpha,
+                                      param = NULL,
+                                      timing = c(event_observed[1] /  max(event_planned), 1)),
+                          test_upper = TRUE,
+                          # lower bound
+                          lower = x$input$lower,
+                          lpar = list(sf = gsDesign::sfLDOF,
+                                      total_spend = beta,
+                                      param = NULL,
+                                      timing = c(event_observed[1] /  max(event_planned), 1)),
+                          test_lower = c(TRUE, FALSE),
+                          binding = x$input$binding)
 ```
 
 ```{r, echo=FALSE}
 x_updated |>
   gt() |>
   tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")),
-    locations = cells_body(
-      columns = probability,
-      rows = bound == "upper")) |>
-  tab_style(
-    style = list(
-      cell_fill(color = "#F9E3D6"),
-      cell_text(weight = "bold")),
-    locations = cells_body(
-      columns = probability,
-      rows = bound == "lower"))
+  tab_style(style = list(cell_fill(color = "lightcyan"),
+                         cell_text(weight = "bold")),
+            locations = cells_body(columns = probability,
+                                   rows = bound == "upper")) |>
+  tab_style(style = list(cell_fill(color = "#F9E3D6"),
+                         cell_text(weight = "bold")),
+            locations = cells_body(columns = probability,
+                                   rows = bound == "lower"))
 ```
-
-
-
-
-
 
 # References
