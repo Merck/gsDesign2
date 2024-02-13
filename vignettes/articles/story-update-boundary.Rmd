@@ -159,8 +159,8 @@ x_updated <- gs_power_npe(
   # upper bound
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, 
-              total_spend = alpha, 
-              param = NULL, 
+              total_spend = alpha,
+              param = NULL,
               timing = c(event_observed[1] / max(event_planned), 1)),
   test_upper = TRUE,
   # lower bound
@@ -172,21 +172,18 @@ x_updated <- gs_power_npe(
 ```
 So the updated efficacy bounds are `r x_updated$z[x_updated$bound == "upper"]`.
 ```{r, echo=FALSE}
-x_updated |> 
+x_updated |>
   filter(bound == "upper") |>
   gt() |>
-  tab_header(title = "Updated design", 
+  tab_header(title = "Updated design",
              subtitle = paste0("with observed ", paste(event_observed, collapse = ", "), " events")) |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-      ),
+      cell_text(weight = "bold")),
     locations = cells_body(
       columns = z,
-      rows = bound == "upper"
-    )
-  ) |>
+      rows = bound == "upper")) |>
   tab_footnote(footnote = "Crossing pbability under H0.", locations = cells_column_labels(columns = probability))
 ```
 
@@ -207,11 +204,11 @@ lpar <- list(sf = gsDesign::sfLDOF, total_spend = beta, param = NULL)
 x <- gs_design_ahr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    alpha = alpha, 
+    alpha = alpha,
     beta = beta,
-    info_frac = NULL, 
+    info_frac = NULL,
     analysis_time = c(20, 36),
-    ratio = ratio, 
+    ratio = ratio,
     upper = gs_spending_bound,
     upar = upar,
     test_upper = TRUE,
@@ -238,22 +235,17 @@ x |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-      ),
+      cell_text(weight = "bold")),
     locations = cells_body(
       columns = Z,
-      rows = Bound == "Efficacy"
-    )) |>
+      rows = Bound == "Efficacy")) |>
   tab_style(
     style = list(
       cell_fill(color = "#F9E3D6"),
-      cell_text(weight = "bold")
-      ),
+      cell_text(weight = "bold")),
     locations = cells_body(
       columns = Z,
-      rows = Bound == "Futility"
-    )
-  )
+      rows = Bound == "Futility"))
 ```
 
 ## Update bounds at time of analysis 
@@ -267,7 +259,7 @@ event_planned <- x$analysis$event
 
 tibble(Analysis = c("IA", "FA"),
        `Planned number of events` = event_planned,
-       `Observed number of events` = event_observed) |> 
+       `Observed number of events` = event_observed) |>
   gt() |>
   tab_header("Planned vs. Observed events")
 ```
@@ -289,48 +281,42 @@ x_updated <- gs_power_npe(
   theta0 = 0,
   theta1 = -(50 * log(1) + 230 * log(0.6))/280,
   # info, # ?? shall we set up info1?
-  info  = event_observed / 4, 
+  info  = event_observed / 4,
   # upper bound
   upper = x$input$upper,
-  upar = list(sf = gsDesign::sfLDOF, 
-              total_spend = alpha, 
-              param = NULL, 
+  upar = list(sf = gsDesign::sfLDOF,
+              total_spend = alpha,
+              param = NULL,
               timing = c(event_observed[1] /  max(event_planned), 1)),
   test_upper = TRUE,
   # lower bound
   lower = x$input$lower,
-  lpar = list(sf = gsDesign::sfLDOF, 
-              total_spend = beta, 
-              param = NULL, 
+  lpar = list(sf = gsDesign::sfLDOF,
+              total_spend = beta,
+              param = NULL,
               timing = c(event_observed[1] /  max(event_planned), 1)),
   test_lower = c(TRUE, FALSE),
   binding = x$input$binding)
 ```
 
 ```{r, echo=FALSE}
-x_updated |> 
+x_updated |>
   gt() |>
   tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-      ),
+      cell_text(weight = "bold")),
     locations = cells_body(
       columns = probability,
-      rows = bound == "upper"
-    )
-  ) |>
+      rows = bound == "upper")) |>
   tab_style(
     style = list(
       cell_fill(color = "#F9E3D6"),
-      cell_text(weight = "bold")
-      ),
+      cell_text(weight = "bold")),
     locations = cells_body(
       columns = probability,
-      rows = bound == "lower"
-    )
-  )
+      rows = bound == "lower"))
 ```
 
 
