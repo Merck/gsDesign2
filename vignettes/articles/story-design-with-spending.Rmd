@@ -9,11 +9,10 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-# bibliography: "example.bib"
 vignette: >
   %\VignetteIndexEntry{Trial design with spending under NPH}
-  %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include=FALSE}
@@ -24,11 +23,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-library(dplyr)
-library(tibble)
 library(gsDesign)
 library(gsDesign2)
-library(gt)
 ```
 
 # Overview
@@ -36,7 +32,7 @@ library(gt)
 This vignette covers how to implement designs for trials with spending assuming non-proportional hazards.
 We are primarily concerned with practical issues of implementation rather than design strategies, but we will not ignore design strategy.
 
-# Scenario for Consideration
+# Scenario for consideration
 
 Here we set up enrollment, failure and dropout rates along with assumptions for enrollment duration and times of analyses.
 We assume there are 4 analysis (3 interim analyses + 1 final analysis) conducted 18, 24, 30, and 36 months after trial enrollment is opened.
@@ -57,8 +53,8 @@ enroll_rate <- define_enroll_rate(
 )
 
 enroll_rate |>
-  gt() |>
-  tab_header(title = "Planned Relative Enrollment Rates")
+  gt::gt() |>
+  gt::tab_header(title = "Planned Relative Enrollment Rates")
 ```
 
 We assume a hazard ratio (HR) of 0.9 for the first 3 months 0.6 thereafter.
@@ -73,51 +69,60 @@ fail_rate <- define_fail_rate(
 )
 
 fail_rate |>
-  gt() |>
-  tab_header(title = "Table of Failure Rate Assumptions") 
+  gt::gt() |>
+  gt::tab_header(title = "Table of Failure Rate Assumptions")
 ```
 
-# Fixed Design with no Interim Analysis
+# Fixed design with no interim analysis
 
 We can derive power for the above enrollment rates and failure rates as follows:
 
 ```{r}
-fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = NULL, ratio = 1, study_duration = 36, event = NULL) |> 
-  summary()
+fixed_design_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  power = NULL,
+  ratio = 1,
+  study_duration = 36,
+  event = NULL
+) |> summary()
 ```
-
-
 
 We now compute sample size and then translate from a continuous sample size to an integer sample size.
 
 ```{r}
-fixed_design <- fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, power = .9, ratio = 1, study_duration = 36, event = NULL) |> 
-  to_integer()
+fixed_design <- fixed_design_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  power = .9,
+  ratio = 1,
+  study_duration = 36,
+  event = NULL
+) |> to_integer()
+
 fixed_design$analysis
 ```
 
-
-## Group Sequential Design
+## Group sequential design
 
 We now consider a group sequential design with bounds derived using spending functions.
 We target the interim analysis for 24 months and the final analysis for 36 months.
 Spending for both efficacy and futility is based on the proportion of events expected at each analysis divided by the total expected events at the final analysis.
 
-
-
 ```{r}
-gs <- 
-  gs_design_ahr(
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    info_frac = NULL,
-    analysis_time = c(24, 36),
-    upper = gs_spending_bound,
-    lower = gs_spending_bound,
-    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
-    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1, param = NULL, timing = NULL), 
-    h1_spending = TRUE
-  ) |> to_integer()
-summary(gs) |> gt()
-```
+gs <- gs_design_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  info_frac = NULL,
+  analysis_time = c(24, 36),
+  upper = gs_spending_bound,
+  lower = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1, param = NULL, timing = NULL),
+  h1_spending = TRUE
+) |> to_integer()
 
+gs |>
+  summary() |>
+  gt::gt()
+```
