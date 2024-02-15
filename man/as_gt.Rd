@@ -65,8 +65,8 @@ A \code{gt_tbl} object.
 Convert summary table of a fixed or group sequential design object to a gt object
 }
 \examples{
+\dontshow{if (interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(dplyr)
-library(tibble)
 
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
@@ -113,7 +113,8 @@ fixed_design_fh(
 ) \%>\%
   summary() \%>\%
   as_gt()
-\donttest{
+\dontshow{\}) # examplesIf}
+\dontshow{if (interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # the default output
 library(dplyr)
 
@@ -132,7 +133,6 @@ gs_design_wlr() \%>\%
 gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt()
-
 
 gs_power_combo() \%>\%
   summary() \%>\%
@@ -192,5 +192,5 @@ gs_power_wlr() \%>\%
 gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-}
+\dontshow{\}) # examplesIf}
 }

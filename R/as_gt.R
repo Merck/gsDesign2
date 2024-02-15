@@ -32,9 +32,8 @@ as_gt <- function(x, ...) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")
 #' library(dplyr)
-#' library(tibble)
 #'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
@@ -214,8 +213,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #'
 #' @export
 #'
-#' @examples
-#' \donttest{
+#' @examplesIf interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")
 #' # the default output
 #' library(dplyr)
 #'
@@ -234,7 +232,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_gt()
-#'
 #'
 #' gs_power_combo() %>%
 #'   summary() %>%
@@ -294,18 +291,18 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #' gs_power_wlr() %>%
 #'   summary() %>%
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-#' }
-as_gt.gs_design <- function(x,
-                            title = NULL,
-                            subtitle = NULL,
-                            colname_spanner = "Cumulative boundary crossing probability",
-                            colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
-                            footnote = NULL,
-                            display_bound = c("Efficacy", "Futility"),
-                            display_columns = NULL,
-                            display_inf_bound = TRUE,
-                            full_alpha = 0.025,
-                            ...) {
+as_gt.gs_design <- function(
+    x,
+    title = NULL,
+    subtitle = NULL,
+    colname_spanner = "Cumulative boundary crossing probability",
+    colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
+    footnote = NULL,
+    display_bound = c("Efficacy", "Futility"),
+    display_columns = NULL,
+    display_inf_bound = TRUE,
+    full_alpha = 0.025,
+    ...) {
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
   x_non_binding <- "non_binding" %in% class(x)
