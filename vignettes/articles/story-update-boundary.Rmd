@@ -28,7 +28,12 @@ library(dplyr)
 
 # Design assumptions
 
-We assume a total of two analyses, including a final Analysis (FA). The initial Analysis (IA) occurs at month 20, followed by the FA at month 36. The enrollment period spans 14 months, with the first 2 months having an enrollment rate of 3, the next 2 months with a rate of 6, and the final 10 months with a rate of 9. The planned enrollment rate to achieve the 90\% power is a multiptier of 3, 6, and 9. Additionally, there is a delayed treatment effect in the first 3 months (HR = 1), which transitions to an HR of 0.6 thereafter. The median of the control arm is 9 months, and the dropout rate is 0.0001.
+We begin with design assumptions.
+We assume two analyses: an interim analysis (IA) final Analysis (FA). The IA is planned for month 20 after opening enrollment, followed by the FA at month 36. 
+The planned enrollment period spans 14 months, with the first 2 months having an enrollment rate of 1/3 the final rate, the next 2 months with a rate of 2/3 of the final rate, and the final rate for the remaining 10 months. 
+To obtain the targeted 90\% power, these rates will be multiplied by a constant. 
+The control arm is assumed to follow an exponential distribution with a median of 9 months  and the dropout rate is 0.0001 per month regardless of treatment group.
+Finally, the experimental treatment group is piecewise exponential with a 3-month delayed treatment effect; i.e. in the first 3 months HR = 1 and the HR is 0.6 thereafter.
 
 ```{r, echo=FALSE}
 alpha <- 0.025
@@ -37,10 +42,10 @@ ratio <- 1
 
 # enrollment
 enroll_rate <- define_enroll_rate(duration = c(2, 2, 10),
-                                  rate = c(3, 6, 9))
+                                  rate = (1:3)/3)
 
 # failure and dropout
-fail_rate <- define_fail_rate(duration = c(3, 100),
+fail_rate <- define_fail_rate(duration = c(3, Inf),
                               fail_rate = log(2) / 9,
                               hr = c(1, 0.6),
                               dropout_rate = .0001)
@@ -48,9 +53,9 @@ fail_rate <- define_fail_rate(duration = c(3, 100),
 
 # One-sided design {.tabset}
 
-In this example, we have efficacy bounds at both the IA and FA. The spending function used is the @lan1983discrete spending function with a total alpha of `r alpha`, which approximates an O'Brien-Fleming bound.
+For the design, we have efficacy bounds at both the IA and FA. The spending function used is the @lan1983discrete spending function with a total alpha of `r alpha`, which approximates an O'Brien-Fleming bound.
 
-## Planed design
+## Planned design
 
 ```{r}
 upper <- gs_spending_bound
@@ -71,12 +76,14 @@ x <- gs_design_ahr(enroll_rate = enroll_rate,
                    test_lower = FALSE) |> to_integer()
 ```
 
-In the planed design, we have 
+The planned design targets:  
 
 - planned events: `r round(x$analysis$event, 0)`
-- planned information fraction (timing): `r round(x$analysis$info_frac, 4)`
+- planned information fraction at interim and final analysis: `r round(x$analysis$info_frac, 4)`
 - planned alpha spending: `r sfLDOF(0.025, x$analysis$info_frac)$spend`
 - planned efficacy bounds: `r round(x$bound$z[x$bound$bound == "upper"], 4)`
+  
+We note that rounding up the final targeted events increases power slightly over the targeted 90%.
 
 ```{r, echo=FALSE}
 x |>
@@ -95,7 +102,9 @@ x |>
 
 ## Update bounds at time of analysis 
 
-Assume in practice, there are 180 and 280 events observed in IA and FA, respectively. 
+We assume 180 and 280 events observed at the IA and FA, respectively. 
+We will assume the differences from planned are due to logistical considerations.
+We also assume the protocol specifies that the full $\alpha$ will be spent at the final analysis even in a case like this where there is a shortfall of events versus the design plan.
 
 ```{r, echo=FALSE}
 # observed vs. planned events
@@ -103,18 +112,21 @@ event_observed <- c(180, 280)
 event_planned <- x$analysis$event
 
 tibble(Analysis = c("IA", "FA"),
-       `Planned number of events` = event_planned,
-       `Observed number of events` = event_observed) |>
+       `Planned events` = event_planned,
+       `Observed events` = event_observed) |>
   gt() |>
   tab_header("Planned vs. Observed events")
 ```
 
-Considering the observed number of events mentioned above, we utilize the `gs_power_npe()` function to generate updated efficacy bounds. As `gs_power_npe()` is a lower-level function that may be unfamiliar to some users, we will start by providing an introduction to its arguments as preliminaries.
+We will utilize the `gs_power_npe()` function to update efficacy bounds based on the observed events. 
+We start by providing an introduction to its arguments.
 
 - *3 theta-related arguments*:
-  + `theta`: natural parameter for group sequential design representing expected incremental drift at all analyses, i.e., $-\log(\text{AHR})$. It is used for crossing probability calculation. For example, if we set `theta = 0`, then the crossing probability is the type I error. Default is `0.1`.
-  + `theta0`: natural parameter for H0 and it decides the upper bounds. Default is `NULL`.
-  + `theta1`: natural parameter for H1 and it decides the lower bounds. Default is `NULL`.
+  + `theta`: a vector with the natural parameter for the group sequential design; represents expected ; $-\log(\text{AHR})$ in this case. 
+  This is used for boundary crossing probability calculation. 
+  For example, if we set `theta = 0`, then the crossing probability is the Type I error.
+  + `theta0`: natural parameter for H0; used for determining the upper (efficacy) spending and bounds. If the default of `NULL` is given, then this is replaced by 0.
+  + `theta1`: natural parameter for H1; used for determining the lower spending and bounds. The default is `NULL`, in which case the value is replaced with the input `theta`.
   
 - *3 statistical information-related arguments*:
   + `info`: statistical information at all analyses for input `theta`. Default is `1`.
@@ -173,7 +185,7 @@ x_updated |>
 
 In this section, we investigate a 2 sided asymmetric design, with the non-binding beta-spending futility bounds. Beta-spending refers to error spending for the lower bound crossing probabilities under the alternative hypothesis. Non-binding assumes the trial continues if the lower bound is crossed for Type I and Type II error computation. 
 
-## Planed design
+## Planned design
 
 In the original designs, we employ the Lan DeMets O'Brien-Fleming spending function [@lan1983discrete] for both efficacy and futility bounds. The total spending for efficacy is `r alpha`, and for futility is `r beta`. Besides, we assume the futility test only happens at IA. 
 
@@ -199,7 +211,7 @@ x <- gs_design_ahr(enroll_rate = enroll_rate,
                    binding = FALSE) |> to_integer()
 ```
 
-In the planed design, we have 
+In the planned design, we have 
 
 - planned events: `r round(x$analysis$event, 0)`
 - planned information fraction (timing): `r round(x$analysis$info_frac, 4)`
