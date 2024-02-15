@@ -50,7 +50,8 @@ fail_rate <- define_fail_rate(duration = c(3, Inf),
                               fail_rate = log(2) / 9,
                               hr = c(1, 0.6),
                               dropout_rate = .0001)
-
+# IA and FA analysis time
+analysis_time <- c(20, 36)
 ```
 
 # One-sided design {.tabset}
@@ -69,7 +70,7 @@ x <- gs_design_ahr(
   alpha = alpha,
   beta = beta,
   info_frac = NULL,
-  analysis_time = c(20, 36),
+  analysis_time = analysis_time,
   ratio = ratio,
   upper = gs_spending_bound,
   upar = upar,
@@ -331,14 +332,27 @@ x |>
   )
 ```
 
-## Update bounds at time of analysis
+## Update bounds at time of analysis {.tabset}
 
 In practice, let us assume that there were 180 events observed at IA stage
 and 280 events at the FA stage.
 
 ```{r}
+set.seed(2024)
+
+observed_data <- simtrial::sim_pw_surv(n = x$analysis$n[x$analysis$analysis == 2],
+                                       stratum = data.frame(stratum = "All", p = 1),
+                                       block = c(rep("control", 2), rep("experimental", 2)),
+                                       enroll_rate = x$enroll_rate,
+                                       fail_rate = (fail_rate |> simtrial::to_sim_pw_surv())$fail_rate,
+                                       dropout_rate = (fail_rate |> simtrial::to_sim_pw_surv())$dropout_rate)
+
+observed_ia_data <- observed_data |> simtrial::cut_data_by_date(analysis_time[1])
+observed_fa_data <- observed_data |> simtrial::cut_data_by_date(analysis_time[2])
+
 # Observed vs. planned events
-event_observed <- c(180, 280)
+# event_observed <- c(180, 280)
+event_observed <- c(sum(observed_ia_data$event), sum(observed_fa_data$event))
 event_planned <- x$analysis$event
 
 tibble::tibble(
@@ -355,15 +369,67 @@ futility bounds. We initially set up `theta = 0`, which provides the
 crossing probability under the null hypothesis. Users have the flexibility to
 modify the value of `theta` if they are interested in the crossing probability
 under alternative hypotheses or other scenarios.
-We set up `theta0 = 0` for null hypothesis. In this implementation, we set up
-`theta1` as the weighted average of the piecewise HR, i.e.,
+We set up `theta0 = 0` for null hypothesis. As for `theta1`, there are 2 options to set it up.
+
+- **Option 1:** `theta1` is the weighted average of the piecewise HR, i.e.,
 $$
   -\log(\text{AHR}) = -\log(\sum_{i=1}^m \text{HR}_m),
 $$
-where the weight is decided by the observed number of events. For example,
-assume there are 50 events observed at the first 3 months (HR = 1),
-and 150 events observed after 3 months (HR = 0.6), we can derive `theta1` as
-$-\left[\frac{50}{280} \times \log(1) + \frac{230}{280} \times \log(0.6)\right]$.
+where the weight is decided by the observed number of events. 
+```{r}
+observed_first_3_month <- observed_data |> simtrial::cut_data_by_date(3)
+```
+In this example, there are `r sum(observed_first_3_month$event)` events at the first 3 months (HR = 1), and `r event_observed[2] - sum(observed_first_3_month$event)` events observed after 3 months (HR = 0.6), we can derive `theta1` as
+`r sum(observed_first_3_month$event)` / `r event_observed[2]` $\times \log(1) +$  `r event_observed[2] - sum(observed_first_3_month$event)` $\times \log(0.6)$ = `r -(sum(observed_first_3_month$event) * log(1) + (event_observed[2] - sum(observed_first_3_month$event)) * log(0.6)) / event_observed[2]`.
+
+- **Option 2:** we use the blinded data to estimate the AHR and `theta1` is the negative logarithm of the estimated AHR.
+```{r}
+# source(file.path(system.file("helper_function", package = "gsDesign2"), "ahr_blinded.R"))
+
+ahr_blinded <- function(Srv = survival::Surv(
+                          time = simtrial::Ex1delayedEffect$month,
+                          event = simtrial::Ex1delayedEffect$evntd
+                        ),
+                        intervals = array(3, 3),
+                        hr = c(1, .6),
+                        ratio = 1) {
+  msg <- "hr must be a vector of positive numbers"
+  if (!is.vector(hr, mode = "numeric")) stop(msg)
+  if (min(hr) <= 0) stop(msg)
+
+  event <- simtrial::fit_pwexp(Srv, intervals)[, 3]
+  nhr <- length(hr)
+  nx <- length(event)
+  # Add to hr if length shorter than intervals
+  if (length(hr) < length(event)) hr <- c(hr, rep(hr[nhr], nx - nhr))
+
+  # Compute blinded AHR
+  theta <- - sum(log(hr[1:nx]) * event) / sum(event)
+
+  # Compute adjustment for information
+  q_e <- ratio / (1 + ratio)
+
+  ans <- tibble(
+    event = sum(event), ahr = exp(-theta),
+    theta = theta, info0 = sum(event) * (1 - q_e) * q_e
+  )
+  return(ans)
+}
+```
+
+```{r}
+blinded_ahr <- ahr_blinded(Srv = survival::Surv(time = observed_fa_data$tte,
+                                                event = observed_fa_data$event),
+                           intervals = c(3, Inf),
+                           hr = c(1, 0.6),
+                           ratio = 1)
+
+blinded_ahr |> 
+  gt::gt() |> 
+  gt::tab_header("Blinded estimation of average hazard ratio")
+```
+
+In this example, the estimated AHR is `r blinded_ahr$ahr`, and accordingly, the `theta1` values is `r blinded_ahr$theta`.
 
 Moving forward, we proceed to set up the values of the `info` arguments for
 the input `theta = 0`. Similar to the examples in the 1-sided design above,
@@ -385,6 +451,7 @@ at IA is calculated as `r event_observed[1]` / `r round(event_planned[2], 0)`.
 Here, `r round(event_planned[2], 0)` represents the planned number of events
 at FA. The remaining alpha will be allocated to the FA stage.
 
+### Option 1: `theta1` is the weighted average 
 ```{r, echo=TRUE}
 x_updated <- gs_power_npe(
   theta = 0,
@@ -440,4 +507,59 @@ x_updated |>
   )
 ```
 
+### Option 2: `theta1` is based on blinded ahr estimate 
+```{r, echo=TRUE}
+x_updated <- gs_power_npe(
+  theta = 0,
+  theta0 = 0,
+  theta1 = blinded_ahr$theta,
+  # Info
+  info = event_observed / 4,
+  # Upper bound
+  upper = x$input$upper,
+  upar = list(
+    sf = gsDesign::sfLDOF,
+    total_spend = alpha,
+    param = NULL,
+    timing = c(event_observed[1] / max(event_planned), 1)
+  ),
+  test_upper = TRUE,
+  # Lower bound
+  lower = x$input$lower,
+  lpar = list(
+    sf = gsDesign::sfLDOF,
+    total_spend = beta,
+    param = NULL,
+    timing = c(event_observed[1] / max(event_planned), 1)
+  ),
+  test_lower = c(TRUE, FALSE),
+  binding = x$input$binding
+)
+```
+
+```{r}
+x_updated |>
+  gt::gt() |>
+  gt::tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "lightcyan"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = probability,
+      rows = bound == "upper"
+    )
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "#F9E3D6"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = probability,
+      rows = bound == "lower"
+    )
+  )
+```
 # References

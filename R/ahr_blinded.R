@@ -48,12 +48,9 @@
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @return A \code{tibble} with one row containing
-#' `AHR` blinded average hazard ratio based on assumed period-specific hazard ratios input in `failRates`
+#' `ahr` blinded average hazard ratio based on assumed period-specific hazard ratios input in `fail_rate`
 #' and observed events in the corresponding intervals
-#' `Events` total observed number of events, `info` statistical information based on Schoenfeld approximation,
-#' and info0 (information under related null hypothesis) for each value of `totalDuration` input;
-#' if `simple=FALSE`, `Stratum` and `t` (beginning of each constant HR period) are also returned
-#' and `HR` is returned instead of `AHR`
+#' `event` total observed number of events, and `info0` (information under related null hypothesis).
 #'
 #' @examples
 #' \donttest{
@@ -61,8 +58,8 @@
 #' library(survival)
 #' ahr_blinded(
 #'   Srv = Surv(
-#'     time = simtrial::Ex2delayedEffect$month,
-#'     event = simtrial::Ex2delayedEffect$evntd
+#'     time = simtrial::ex2_delayed_effect$month,
+#'     event = simtrial::ex2_delayed_effect$evntd
 #'   ),
 #'   intervals = c(4, 100),
 #'   hr = c(1, .55),
@@ -71,32 +68,45 @@
 #' }
 #'
 #' @export
-ahr_blinded <- function(Srv = Surv(
-                          time = simtrial::Ex1delayedEffect$month,
-                          event = simtrial::Ex1delayedEffect$evntd
-                        ),
-                        intervals = array(3, 3),
+ahr_blinded <- function(Srv = survival::Surv(time = simtrial::ex1_delayed_effect$month,
+                                             event = simtrial::ex1_delayed_effect$evntd),
+                        intervals = c(3, Inf),
                         hr = c(1, .6),
                         ratio = 1) {
-  msg <- "hr must be a vector of positive numbers"
-  if (!is.vector(hr, mode = "numeric")) stop(msg)
-  if (min(hr) <= 0) stop(msg)
+  # Input checking
+  if (!is.vector(hr, mode = "numeric") | min(hr) <= 0) {
+    stop("ahr_blinded: hr must be a vector of positive numbers.")
+  }
 
-  events <- simtrial::pwexpfit(Srv, intervals)[, 3]
+  tte_data <- data.frame(time = Srv[, "time"], status = Srv[, "status"])
+  if (nrow(subset(tte_data, time > sum(intervals) & status > 0)) > 0) {
+    intervals_imputed <- c(intervals, Inf)
+  } else {
+    intervals_imputed <- intervals
+  }
+  if (length(intervals_imputed) != length(hr)) {
+    stop("ahr_blinded: the piecewise model specified hr and intervals are not aligned.")
+  }
+
+  # Fit the survival data into piecewise exponential model
+  event <- simtrial::fit_pwexp(Srv, intervals)[, 3]
   nhr <- length(hr)
-  nx <- length(events)
+  nx <- length(event)
+
   # Add to hr if length shorter than intervals
-  if (length(hr) < length(events)) hr <- c(hr, rep(hr[nhr], nx - nhr))
+  if (length(hr) < length(event)) {
+    hr <- c(hr, rep(hr[nhr], nx - nhr))
+  }
 
   # Compute blinded AHR
-  theta <- sum(log(hr[1:nx]) * events) / sum(events)
+  theta <- - sum(log(hr[1:nx]) * event) / sum(event)
 
   # Compute adjustment for information
-  Qe <- ratio / (1 + ratio)
+  q_e <- ratio / (1 + ratio)
 
   ans <- tibble(
-    Events = sum(events), AHR = exp(theta),
-    theta = theta, info0 = sum(events) * (1 - Qe) * Qe
+    event = sum(event), ahr = exp(-theta),
+    theta = theta, info0 = sum(event) * (1 - q_e) * q_e
   )
   return(ans)
 }
