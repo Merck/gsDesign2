@@ -69,7 +69,7 @@
 #'
 #' @export
 ahr_blinded <- function(surv = survival::Surv(time = simtrial::ex1_delayed_effect$month,
-                                             event = simtrial::ex1_delayed_effect$evntd),
+                                              event = simtrial::ex1_delayed_effect$evntd),
                         intervals = c(3, Inf),
                         hr = c(1, .6),
                         ratio = 1) {
