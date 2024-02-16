@@ -32,7 +32,7 @@
 #' @return A table.
 #'
 #' @export
-#'
+#' @rdname fixed_design
 #' @examples
 #' library(dplyr)
 #'

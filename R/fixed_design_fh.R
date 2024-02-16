@@ -35,7 +35,7 @@
 #' @importFrom dplyr filter
 #'
 #' @export
-#'
+#' @rdname fixed_design
 #' @examples
 #' library(dplyr)
 #'
