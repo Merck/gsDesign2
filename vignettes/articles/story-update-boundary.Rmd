@@ -145,8 +145,8 @@ The details of its arguments and implementations are explained in the Appendix.
 
 ```{r, echo=TRUE}
 x_updated <- gs_power_npe(
-  # `theta = 0` provides the crossing probability under H0. 
-  # Users have the flexibility to modify the value of `theta, 
+  # `theta = 0` provides the crossing probability under H0.
+  # Users have the flexibility to modify the value of `theta,
   # if they are interested in the crossing probability under H1 or other scenarios.
   theta = 0,
   # Observed statistical information under H0 with equal randomization
@@ -355,14 +355,14 @@ time-to-event data is available, without the corresponding event counts.
 ### Option 1: `theta1` is the weighted average 
 ```{r, echo=TRUE}
 x_updated <- gs_power_npe(
-  # `theta = 0` provides the crossing probability under H0. 
-  # Users have the flexibility to modify the value of `theta, 
+  # `theta = 0` provides the crossing probability under H0.
+  # Users have the flexibility to modify the value of `theta,
   # if they are interested in the crossing probability under H1 or other scenarios.
   theta = 0,
   # -log(AHR) for H0
   theta0 = 0,
   # -log(AHR) for H1
-  # It is used for determining the lower spending and bounds. 
+  # It is used for determining the lower spending and bounds.
   theta1 = -(event_first_3_month * log(1) + event_after_3_month * log(0.6)) / event_observed[2],
   # Observed statistical information under H0 with equal randomization
   info = event_observed * ratio / (1 + ratio)^2,
@@ -419,14 +419,14 @@ x_updated |>
 ### Option 2: `theta1` is based on blinded ahr estimation 
 ```{r, echo=TRUE}
 x_updated <- gs_power_npe(
-  # `theta = 0` provides the crossing probability under H0. 
-  # Users have the flexibility to modify the value of `theta, 
+  # `theta = 0` provides the crossing probability under H0.
+  # Users have the flexibility to modify the value of `theta,
   # if they are interested in the crossing probability under H1 or other scenarios.
   theta = 0,
   # -log(AHR) for H0
   theta0 = 0,
   # -log(AHR) for H1
-  # It is used for determining the lower spending and bounds. 
+  # It is used for determining the lower spending and bounds.
   theta1 = blinded_ahr$theta,
   # Observed statistical information under H0 with equal randomization
   info = event_observed * ratio / (1 + ratio)^2,
