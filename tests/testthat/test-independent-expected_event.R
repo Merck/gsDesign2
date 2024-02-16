@@ -1,5 +1,3 @@
-library(dplyr)
-
 test_that("expected events is different from gsDesign::eEvents and expected_event", {
   enroll_rate <- define_enroll_rate(duration = c(2, 1, 2), rate = c(5, 10, 20))
   fail_rate <- define_fail_rate(duration = c(1, 1, 1), fail_rate = c(.05, .02, .01), hr = 1, dropout_rate = .01)
@@ -49,8 +47,8 @@ nEvent <- function(followup) {
   failRate <- failRates$failRate
   dropoutRate <- failRates$dropoutRate
   lamda <- failRate + dropoutRate
-  lamda1 <- c(lamda, last(lamda))
-  failRate1 <- c(failRate, last(failRate))
+  lamda1 <- c(lamda, dplyr::last(lamda))
+  failRate1 <- c(failRate, dplyr::last(failRate))
 
   failtimeend <- c(0, failtime[failtime < followup], followup)
   failtimeend1 <- c(failtime[failtime < followup], followup)

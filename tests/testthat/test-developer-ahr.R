@@ -1,8 +1,6 @@
 source_files <- list.files("./old_function/", "*.R$")
 sapply(paste0("./old_function/", source_files), source)
 
-library(dplyr)
-
 test_that("unstratified population", {
   enroll_rate <- define_enroll_rate(
     duration = c(2, 10, 4, 4, 8),
@@ -21,11 +19,11 @@ test_that("unstratified population", {
     total_duration = c(15, 30)
   )
   x2 <- AHR_( # old version
-    enrollRates = enroll_rate %>% rename(Stratum = stratum),
-    failRates = fail_rate %>% rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
+    enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum),
+    failRates = fail_rate %>% dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     totalDuration = c(15, 30)
   ) %>%
-    rename(time = Time, ahr = AHR, event = Events)
+    dplyr::rename(time = Time, ahr = AHR, event = Events)
   expect_equal(as.data.frame(x1), as.data.frame(x2))
 })
 
@@ -48,10 +46,10 @@ test_that("stratified population", {
     total_duration = c(15, 30)
   )
   x2 <- AHR_( # old version
-    enrollRates = enroll_rate %>% rename(Stratum = stratum),
-    failRates = fail_rate %>% rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
+    enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum),
+    failRates = fail_rate %>% dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     totalDuration = c(15, 30)
   ) %>%
-    rename(time = Time, ahr = AHR, event = Events)
+    dplyr::rename(time = Time, ahr = AHR, event = Events)
   expect_equal(as.data.frame(x1), as.data.frame(x2))
 })

@@ -145,10 +145,10 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
                            binding = FALSE,
                            upper = gs_b,
                            # Default is Lan-DeMets approximation of
-                           upar = gsDesign(
+                           upar = gsDesign::gsDesign(
                              k = 3, test.type = 1,
                              n.I = c(.25, .75, 1),
-                             sfu = sfLDOF, sfupar = NULL
+                             sfu = gsDesign::sfLDOF, sfupar = NULL
                            )$upper$bound,
                            lower = gs_b,
                            lpar = c(qnorm(.1), -Inf, -Inf), # Futility only at IA1
@@ -191,7 +191,7 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
             tEvents_(enrollRates, failRates,
               targetEvents = IF[K - i] * finalEvents, ratio = ratio,
               interval = c(.01, nextTime)
-            ) %>% mutate(theta = -log(AHR), Analysis = K - i),
+            ) %>% dplyr::mutate(theta = -log(AHR), Analysis = K - i),
             y
           )
       } else if (IF[K - i] > IFalt[K - i]) {
@@ -235,16 +235,16 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
     tol = tol
   ) %>%
     # Add Time, Events, AHR, N from gs_info_ahr call above
-    full_join(y %>% select(-c(info, info0, theta)), by = "Analysis") %>%
-    select(c("Analysis", "Bound", "Time", "N", "Events", "Z", "Probability", "AHR", "theta", "info", "info0")) %>%
-    arrange(desc(Bound), Analysis)
+    dplyr::full_join(y %>% dplyr::select(-c(info, info0, theta)), by = "Analysis") %>%
+    dplyr::select(c("Analysis", "Bound", "Time", "N", "Events", "Z", "Probability", "AHR", "theta", "info", "info0")) %>%
+    dplyr::arrange(dplyr::desc(Bound), Analysis)
   bounds$Events <- bounds$Events * bounds$info[K] / y$info[K]
   bounds$N <- bounds$N * bounds$info[K] / y$info[K]
 
   # Document design enrollment, failure rates, and bounds
   return(list(
     enrollRates = enrollRates %>%
-      mutate(rate = rate * bounds$info[K] / y$info[K]),
+      dplyr::mutate(rate = rate * bounds$info[K] / y$info[K]),
     failRates = failRates,
     bounds = bounds
   ))
