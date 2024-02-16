@@ -1,65 +1,11 @@
-test_that("as_gt.fixed_design creates a valid gt table", {
-  enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
-  fail_rate <- define_fail_rate(
-    duration = c(4, 100),
-    fail_rate = log(2) / 12,
-    dropout_rate = .001, hr = c(1, .6)
-  )
-  study_duration <- 36
-  ratio <- 1
-  alpha <- 0.025
-  beta <- 0.1
-
-  ahr_result <- fixed_design_ahr(
-    alpha = alpha,
-    power = 1 - beta,
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    study_duration = study_duration,
-    ratio = ratio
-  )
-  ahr_table <- ahr_result %>%
-    summary() %>%
-    as_gt.fixed_design()
-
-  expect_s3_class(ahr_table, "gt_tbl")
-})
-
-test_that("as_gt.fixed_design handles custom title and footnote", {
-  enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
-  fail_rate <- define_fail_rate(
-    duration = c(4, 100),
-    fail_rate = log(2) / 12,
-    dropout_rate = .001, hr = c(1, .6)
-  )
-  study_duration <- 36
-  ratio <- 1
-  alpha <- 0.025
-  beta <- 0.1
-
-  ahr_result <- fixed_design_ahr(
-    alpha = alpha,
-    power = 1 - beta,
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    study_duration = study_duration,
-    ratio = ratio
-  )
-  ahr_table <- ahr_result %>%
-    summary() %>%
-    as_gt.fixed_design(title = "Custom Title", footnote = list(content = "Custom Footnote"))
-
-  expect_s3_class(ahr_table, "gt_tbl")
-})
-
-test_that("enroll_rate() produces the expected output", {
+test_that("enroll_rate produces the expected output", {
   expected_result <- tibble::tibble(stratum = "All", duration = 18, rate = 20)
   result <- define_enroll_rate(duration = 18, rate = 20)
 
   expect_identical(as.data.frame(result), as.data.frame(expected_result))
 })
 
-test_that("fail_rate() produces the expected output", {
+test_that("fail_rate produces the expected output", {
   expected_result <- tibble::tibble(
     stratum = "All",
     duration = c(4, 100),
@@ -82,6 +28,106 @@ test_that("fail_rate() produces the expected output", {
   expect_equal(result$hr, expected_result$hr)
 })
 
+test_that("Snapshot test for fixed_design summary as_gt", {
+  enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
+  fail_rate <- define_fail_rate(
+    duration = c(4, 100),
+    fail_rate = log(2) / 12,
+    dropout_rate = .001, hr = c(1, .6)
+  )
+
+  output <- fixed_design_ahr(
+    alpha = 0.025,
+    power = 1 - 0.1,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    study_duration = 36,
+    ratio = 1
+  ) %>%
+    summary() %>%
+    as_gt()
+
+  local_edition(3)
+  expect_snapshot_output(gt_to_latex(output))
+})
+
+test_that("Snapshot test for fixed_design summary as_gt with custom title and footnote", {
+  enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
+  fail_rate <- define_fail_rate(
+    duration = c(4, 100),
+    fail_rate = log(2) / 12,
+    dropout_rate = .001, hr = c(1, .6)
+  )
+
+  output <- fixed_design_ahr(
+    alpha = 0.025,
+    power = 1 - 0.1,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    study_duration = 36,
+    ratio = 1
+  ) %>%
+    summary() %>%
+    as_gt(title = "Custom Title", footnote = "Custom footnote.")
+
+  local_edition(3)
+  expect_snapshot_output(gt_to_latex(output))
+})
+
+test_that("Snapshot test for fixed_design_fh summary as_gt", {
+  enroll_rate <- define_enroll_rate(
+    duration = 18,
+    rate = 20
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(4, 100),
+    fail_rate = log(2) / 12,
+    dropout_rate = .001,
+    hr = c(1, .6)
+  )
+
+  output <- fixed_design_fh(
+    alpha = 0.025,
+    power = 1 - 0.1,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    study_duration = 36,
+    ratio = 1
+  ) %>%
+    summary() %>%
+    as_gt()
+
+  local_edition(3)
+  expect_snapshot_output(gt_to_latex(output))
+})
+
+test_that("Snapshot test for gs_design_ahr summary as_gt", {
+  output <- gs_design_ahr() %>%
+    summary() %>%
+    as_gt()
+
+  local_edition(3)
+  expect_snapshot_output(gt_to_latex(output))
+})
+
+test_that("Snapshot test for gs_power_ahr summary as_gt", {
+  output <- gs_power_ahr() %>%
+    summary() %>%
+    as_gt()
+
+  local_edition(3)
+  expect_snapshot_output(gt_to_latex(output))
+})
+
+test_that("Snapshot test for gs_design_wlr summary as_gt", {
+  output <- gs_design_wlr() %>%
+    summary() %>%
+    as_gt()
+
+  local_edition(3)
+  expect_snapshot_output(gt_to_latex(output))
+})
+
 test_that("Snapshot test for gs_power_wlr summary as_gt", {
   output <- gs_power_wlr() %>%
     summary() %>%
@@ -102,16 +148,7 @@ test_that("Snapshot test for gs_power_wlr summary as_gt", {
   expect_snapshot_output(gt_to_latex(output))
 })
 
-test_that("Snapshot test for gs_design_ahr summary gt table", {
-  output <- gs_design_ahr() %>%
-    summary() %>%
-    as_gt()
-
-  local_edition(3)
-  expect_snapshot_output(gt_to_latex(output))
-})
-
-test_that("Snapshot test for gs_power_combo summary gt table", {
+test_that("Snapshot test for gs_power_combo summary as_gt", {
   # See <https://github.com/Merck/gsDesign2/issues/340>
   output <- with_seed(
     42,
@@ -126,7 +163,7 @@ test_that("Snapshot test for gs_power_combo summary gt table", {
   expect_snapshot_output(gt_to_latex(output))
 })
 
-test_that("Snapshot test for gs_design_rd summary gt table", {
+test_that("Snapshot test for gs_design_rd summary as_gt", {
   output <- gs_design_rd() %>%
     summary() %>%
     as_gt()
@@ -135,7 +172,7 @@ test_that("Snapshot test for gs_design_rd summary gt table", {
   expect_snapshot_output(gt_to_latex(output))
 })
 
-test_that("Snapshot test for gs_power_rd summary gt table", {
+test_that("Snapshot test for gs_power_rd summary as_gt", {
   output <- gs_power_rd() %>%
     summary() %>%
     as_gt()
@@ -144,7 +181,16 @@ test_that("Snapshot test for gs_power_rd summary gt table", {
   expect_snapshot_output(gt_to_latex(output))
 })
 
-test_that("Snapshot test for gs_power_wlr summary gt table with colname_spanner and colname_spannersub parameters", {
+test_that("Snapshot test for gs_power_wlr summary as_gt with custom title and subtitle", {
+  output <- gs_power_wlr() %>%
+    summary() %>%
+    as_gt(title = "Bound Summary", subtitle = "from gs_power_wlr")
+
+  local_edition(3)
+  expect_snapshot_output(gt_to_latex(output))
+})
+
+test_that("Snapshot test for gs_power_wlr summary as_gt with colname_spanner and colname_spannersub", {
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(
@@ -157,16 +203,7 @@ test_that("Snapshot test for gs_power_wlr summary gt table with colname_spanner 
   expect_snapshot_output(gt_to_latex(output))
 })
 
-test_that("Snapshot test for gs_power_wlr summary gt table with custom title and subtitle", {
-  output <- gs_power_wlr() %>%
-    summary() %>%
-    as_gt(title = "Bound Summary", subtitle = "from gs_power_wlr")
-
-  local_edition(3)
-  expect_snapshot_output(gt_to_latex(output))
-})
-
-test_that("Snapshot test for gs_power_wlr summary gt table with custom footnotes", {
+test_that("Snapshot test for gs_power_wlr summary as_gt with custom footnotes", {
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(
@@ -186,7 +223,7 @@ test_that("Snapshot test for gs_power_wlr summary gt table with custom footnotes
   expect_snapshot_output(gt_to_latex(output))
 })
 
-test_that("Snapshot test for gs_power_wlr summary gt table with Efficacy bound row", {
+test_that("Snapshot test for gs_power_wlr summary as_gt with display_bound", {
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(display_bound = "Efficacy")
@@ -195,34 +232,10 @@ test_that("Snapshot test for gs_power_wlr summary gt table with Efficacy bound r
   expect_snapshot_output(gt_to_latex(output))
 })
 
-test_that("Snapshot test for fixed_design under Fleming-Harrington method gt table", {
-  enroll_rate <- define_enroll_rate(
-    duration = 18,
-    rate = 20
-  )
-  fail_rate <- define_fail_rate(
-    duration = c(4, 100),
-    fail_rate = log(2) / 12,
-    dropout_rate = .001,
-    hr = c(1, .6)
-  )
-
-  # Default parameters
-  ratio <- 1
-  alpha <- 0.025
-  beta <- 0.1
-  study_duration <- 36
-
-  output <- fixed_design_fh(
-    alpha = alpha,
-    power = 1 - beta,
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    study_duration = study_duration,
-    ratio = ratio
-  ) %>%
+test_that("Snapshot test for gs_power_wlr summary as_gt with display_columns", {
+  output <- gs_power_wlr() %>%
     summary() %>%
-    as_gt()
+    as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 
   local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
