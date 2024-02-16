@@ -29,8 +29,8 @@ gt_to_latex <- function(data) cat(as.character(gt::as_latex(data)))
 
 with_seed <- function(seed, code) {
   code <- substitute(code)
-  orig.seed <- .Random.seed
-  on.exit(.Random.seed <<- orig.seed)
+  original_seed <- .Random.seed
+  on.exit(.Random.seed <<- original_seed)
   set.seed(seed)
   eval.parent(code)
 }
