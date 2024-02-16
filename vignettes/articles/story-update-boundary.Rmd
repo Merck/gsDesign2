@@ -336,7 +336,7 @@ futility bounds. We initially set up `theta = 0`, which provides the
 crossing probability under the null hypothesis. Users have the flexibility to
 modify the value of `theta` if they are interested in the crossing probability
 under alternative hypotheses or other scenarios.
-We set up `theta0 = 0` for null hypothesis. As for `theta1`, there are 2 options to set it up. 
+We set up `theta0 = 0` for null hypothesis. As for `theta1`, there are 2 options to set it up.
 These 2 options arrive at the same value of `theta1`. 
 
 - **Option 1:** `theta1` is the weighted average of the piecewise HR, i.e.,
@@ -360,14 +360,14 @@ We can derive `theta1` as
 - **Option 2:** we use the blinded data to estimate the AHR and `theta1` is the negative logarithm of the estimated AHR.
 
 ```{r, echo=TRUE}
-blinded_ahr <- ahr_blinded(Srv = survival::Surv(time = observed_fa_data$tte,
-                                                event = observed_fa_data$event),
+blinded_ahr <- ahr_blinded(surv = survival::Surv(time = observed_fa_data$tte,
+                                                 event = observed_fa_data$event),
                            intervals = c(3, Inf),
                            hr = c(1, 0.6),
                            ratio = 1)
 
-blinded_ahr |> 
-  gt::gt() |> 
+blinded_ahr |>
+  gt::gt() |>
   gt::tab_header("Blinded estimation of average hazard ratio")
 ```
 

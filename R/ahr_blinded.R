@@ -21,7 +21,7 @@
 #' the input hazard ratio (hr) values for intervals specified here.
 #' @importFrom tibble tibble
 #' @importFrom survival Surv
-#' @param Srv input survival object (see \code{Surv}); note that only 0=censored, 1=event for \code{Surv}
+#' @param surv input survival object (see \code{Surv}); note that only 0=censored, 1=event for \code{Surv}
 #' @param intervals Vector containing positive values indicating interval lengths where the
 #' exponential rates are assumed.
 #' Note that a final infinite interval is added if any events occur after the final interval
@@ -34,7 +34,7 @@
 #'  \itemize{
 #'    \item Validate if input hr is a numeric vector.
 #'    \item Validate if input hr is non-negative.
-#'    \item Simulate piece-wise exponential survival estimation with the inputs survival object Srv
+#'    \item Simulate piece-wise exponential survival estimation with the inputs survival object surv
 #'    and intervals.
 #'    \item Save the length of  hr and events to an object, and if the length of hr is shorter than
 #'    the intervals, add replicates of the last element of hr and the corresponding numbers of events
@@ -57,7 +57,7 @@
 #' library(simtrial)
 #' library(survival)
 #' ahr_blinded(
-#'   Srv = Surv(
+#'   surv = Surv(
 #'     time = simtrial::ex2_delayed_effect$month,
 #'     event = simtrial::ex2_delayed_effect$evntd
 #'   ),
@@ -68,17 +68,17 @@
 #' }
 #'
 #' @export
-ahr_blinded <- function(Srv = survival::Surv(time = simtrial::ex1_delayed_effect$month,
+ahr_blinded <- function(surv = survival::Surv(time = simtrial::ex1_delayed_effect$month,
                                              event = simtrial::ex1_delayed_effect$evntd),
                         intervals = c(3, Inf),
                         hr = c(1, .6),
                         ratio = 1) {
   # Input checking
-  if (!is.vector(hr, mode = "numeric") | min(hr) <= 0) {
+  if (!is.vector(hr, mode = "numeric") || min(hr) <= 0) {
     stop("ahr_blinded: hr must be a vector of positive numbers.")
   }
 
-  tte_data <- data.frame(time = Srv[, "time"], status = Srv[, "status"])
+  tte_data <- data.frame(time = surv[, "time"], status = surv[, "status"])
   if (nrow(subset(tte_data, time > sum(intervals) & status > 0)) > 0) {
     intervals_imputed <- c(intervals, Inf)
   } else {
@@ -89,7 +89,7 @@ ahr_blinded <- function(Srv = survival::Surv(time = simtrial::ex1_delayed_effect
   }
 
   # Fit the survival data into piecewise exponential model
-  event <- simtrial::fit_pwexp(Srv, intervals)[, 3]
+  event <- simtrial::fit_pwexp(surv, intervals)[, 3]
   nhr <- length(hr)
   nx <- length(event)
 

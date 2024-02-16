@@ -5,7 +5,7 @@
 \title{Blinded estimation of average hazard ratio}
 \usage{
 ahr_blinded(
-  Srv = survival::Surv(time = simtrial::ex1_delayed_effect$month, event =
+  surv = survival::Surv(time = simtrial::ex1_delayed_effect$month, event =
     simtrial::ex1_delayed_effect$evntd),
   intervals = c(3, Inf),
   hr = c(1, 0.6),
@@ -13,7 +13,7 @@ ahr_blinded(
 )
 }
 \arguments{
-\item{Srv}{input survival object (see \code{Surv}); note that only 0=censored, 1=event for \code{Surv}}
+\item{surv}{input survival object (see \code{Surv}); note that only 0=censored, 1=event for \code{Surv}}
 
 \item{intervals}{Vector containing positive values indicating interval lengths where the
 exponential rates are assumed.
@@ -42,7 +42,7 @@ the input hazard ratio (hr) values for intervals specified here.
  \itemize{
    \item Validate if input hr is a numeric vector.
    \item Validate if input hr is non-negative.
-   \item Simulate piece-wise exponential survival estimation with the inputs survival object Srv
+   \item Simulate piece-wise exponential survival estimation with the inputs survival object surv
    and intervals.
    \item Save the length of  hr and events to an object, and if the length of hr is shorter than
    the intervals, add replicates of the last element of hr and the corresponding numbers of events
@@ -61,7 +61,7 @@ the input hazard ratio (hr) values for intervals specified here.
 library(simtrial)
 library(survival)
 ahr_blinded(
-  Srv = Surv(
+  surv = Surv(
     time = simtrial::ex2_delayed_effect$month,
     event = simtrial::ex2_delayed_effect$evntd
   ),
