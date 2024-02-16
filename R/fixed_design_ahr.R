@@ -16,7 +16,10 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using average hazard ratio under non-proportional hazards
+#' Fixed design under non-proportional hazards, by multiple tests,
+#' such as logrank test, weighted logrank test, modetsly weighted logrank
+#' test, MaxCombo test, milestone test, RMST test and risk difference for
+#' binary outcome.
 #'
 #' Computes fixed design sample size (given power) or power (given sample size)
 #' for AHR method.

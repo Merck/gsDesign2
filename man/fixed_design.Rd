@@ -11,7 +11,10 @@
 \alias{fixed_design_milestone}
 \alias{fixed_design_rd}
 \alias{fixed_design_rmst}
-\title{Fixed design using average hazard ratio under non-proportional hazards}
+\title{Fixed design under non-proportional hazards, by multiple tests,
+such as logrank test, weighted logrank test, modetsly weighted logrank
+test, MaxCombo test, milestone test, RMST test and risk difference for
+binary outcome.}
 \usage{
 fixed_design_ahr(
   enroll_rate,
