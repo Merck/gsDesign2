@@ -98,6 +98,7 @@ test_that("Snapshot test for gs_power_wlr summary as_gt", {
       )
     )
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -106,6 +107,7 @@ test_that("Snapshot test for gs_design_ahr summary gt table", {
     summary() %>%
     as_gt()
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -120,6 +122,7 @@ test_that("Snapshot test for gs_power_combo summary gt table", {
     }
   )
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -128,6 +131,7 @@ test_that("Snapshot test for gs_design_rd summary gt table", {
     summary() %>%
     as_gt()
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -136,6 +140,7 @@ test_that("Snapshot test for gs_power_rd summary gt table", {
     summary() %>%
     as_gt()
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -148,6 +153,7 @@ test_that("Snapshot test for gs_power_wlr summary gt table with colname_spanner 
     ) %>%
     suppressWarnings() # Can be removed after <https://github.com/Merck/gsDesign2/issues/339> is fixed
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -156,6 +162,7 @@ test_that("Snapshot test for gs_power_wlr summary gt table with custom title and
     summary() %>%
     as_gt(title = "Bound Summary", subtitle = "from gs_power_wlr")
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -175,6 +182,7 @@ test_that("Snapshot test for gs_power_wlr summary gt table with custom footnotes
       )
     )
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -183,6 +191,7 @@ test_that("Snapshot test for gs_power_wlr summary gt table with Efficacy bound r
     summary() %>%
     as_gt(display_bound = "Efficacy")
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
 
@@ -215,5 +224,6 @@ test_that("Snapshot test for fixed_design under Fleming-Harrington method gt tab
     summary() %>%
     as_gt()
 
+  local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
 })
