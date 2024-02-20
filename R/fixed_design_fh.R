@@ -16,12 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using Fleming-Harrington method
-#'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for Fleming-Harrington method (Farrington and Manning, 1990).
-#' Returns a list with a basic summary.
-#'
+
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_wlr
 #' @param power Power (`NULL` to compute power or strictly between 0
@@ -30,8 +25,6 @@
 #' @param rho test parameter in Fleming-Harrington method.
 #' @param gamma test parameter in Fleming-Harrington method.
 #'
-#' @return A table.
-#'
 #' @importFrom dplyr filter
 #'
 #' @export
@@ -39,7 +32,7 @@
 #' @examples
 #' library(dplyr)
 #'
-#' # Example 1: given power and compute sample size
+#' # WLR test with FH weights example 1: given power and compute sample size
 #' x <- fixed_design_fh(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -54,7 +47,7 @@
 #' )
 #' x %>% summary()
 #'
-#' # Example 2: given sample size and compute power
+#' # WLR test with FH weights example 2: given sample size and compute power
 #' x <- fixed_design_fh(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -68,6 +61,8 @@
 #'   rho = 1, gamma = 1
 #' )
 #' x %>% summary()
+#'
+#' # ----
 fixed_design_fh <- function(
     alpha = 0.025,
     power = NULL,

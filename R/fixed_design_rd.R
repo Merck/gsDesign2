@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design for binary outcome measuring in risk difference
-#'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for binary outcome measuring in risk difference (Mehrotra and Railkar, 2000).
-#' Returns a list with a basic summary.
-#'
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).
@@ -32,26 +26,26 @@
 #' computed to achieve the targeted power
 #' @param ratio Experimental:Control randomization ratio.
 #'
-#' @return A table.
-#'
 #' @export
 #' @rdname fixed_design
 #' @examples
 #' library(dplyr)
 #'
-#' # Example 1: given power and compute sample size
+#' # Binary endpoint with risk differences example 1: given power and compute sample size
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = 0.9, p_c = .15, p_e = .1,
 #'   rd0 = 0, ratio = 1
 #' )
 #' x %>% summary()
 #'
-#' # Example 2: given sample size and compute power
+#' # Binary endpoint with risk differences example 2: given sample size and compute power
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = NULL, p_c = .15, p_e = .1,
 #'   rd0 = 0, n = 2000, ratio = 1
 #' )
 #' x %>% summary()
+#'
+#' # ----
 fixed_design_rd <- function(
     alpha = 0.025,
     power = NULL,

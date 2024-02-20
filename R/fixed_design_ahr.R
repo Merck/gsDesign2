@@ -16,14 +16,20 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design under non-proportional hazards, by multiple tests,
-#' such as logrank test, weighted logrank test, modetsly weighted logrank
-#' test, MaxCombo test, milestone test, RMST test and risk difference for
-#' binary outcome.
+#' Fixed design under non-proportional hazards.
 #'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for AHR method.
-#' Returns a list with a basic summary.
+#' Computes fixed design sample size (given power)
+#' or power (given sample size) by either AHR method
+#' \code{fixed_design_ahr}, weighted logrank test with
+#' Fleming-Harrington weights (Farrington and Manning, 1990)
+#' \code{fixed_design_fh}, weighted logrank test with
+#' Magirr-Burman weights \code{fixed_design_mb},
+#' Lachin-Foulkes method (Lachin and Foulkes, 1986)
+#' \code{fixed_design_lf}, MaxCombo method \code{fixed_design_combo},
+#' RMST method \code{fixed_design_rmst}, or milestone method
+#' \code{fixed_design_milestone}. Additionally, we provide the fixed
+#' design for binary endpoint with treatment effect measuring in
+#' risk difference \code{fixed_design_rd}.
 #'
 #' @inheritParams gs_design_ahr
 #' @inheritParams gs_power_ahr
@@ -31,16 +37,14 @@
 #'   and `1 - alpha` otherwise).
 #' @param study_duration Study duration.
 #'
-#' @return A table.
-#'
 #' @importFrom dplyr filter
-#'
+#' @returns A list of design characteristic summary.
 #' @export
 #' @rdname fixed_design
 #' @examples
 #' library(dplyr)
 #'
-#' # Example 1: given power and compute sample size
+#' # AHR method example 1: given power and compute sample size
 #' x <- fixed_design_ahr(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -54,7 +58,7 @@
 #' )
 #' x %>% summary()
 #'
-#' # Example 2: given sample size and compute power
+#' # AHR method example 2: given sample size and compute power
 #' x <- fixed_design_ahr(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -67,6 +71,8 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
+#'
+#' # ---
 fixed_design_ahr <- function(
     enroll_rate,
     fail_rate,

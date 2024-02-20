@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using RMST method
-#'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for RMST methods (Yung and Liu, 2020).
-#' Returns a list with a basic summary.
-#'
 #' @inheritParams gs_design_ahr
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
@@ -30,14 +24,12 @@
 #' @param study_duration Study duration.
 #' @param tau Test parameter in RMST.
 #'
-#' @return A table.
-#'
 #' @export
 #' @rdname fixed_design
 #' @examples
 #' library(dplyr)
 #'
-#' # Example 1: given power and compute sample size
+#' # RMST method example 1: given power and compute sample size
 #' x <- fixed_design_rmst(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -52,7 +44,7 @@
 #' )
 #' x %>% summary()
 #'
-#' # Example 2: given sample size and compute power
+#' # RMST method example 2: given sample size and compute power
 #' x <- fixed_design_rmst(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -66,6 +58,8 @@
 #'   tau = 18
 #' )
 #' x %>% summary()
+#'
+#' # ----
 fixed_design_rmst <- function(
     alpha = 0.025,
     power = NULL,

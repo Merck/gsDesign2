@@ -11,10 +11,7 @@
 \alias{fixed_design_milestone}
 \alias{fixed_design_rd}
 \alias{fixed_design_rmst}
-\title{Fixed design under non-proportional hazards, by multiple tests,
-such as logrank test, weighted logrank test, modetsly weighted logrank
-test, MaxCombo test, milestone test, RMST test and risk difference for
-binary outcome.}
+\title{Fixed design under non-proportional hazards.}
 \usage{
 fixed_design_ahr(
   enroll_rate,
@@ -130,59 +127,26 @@ and \code{1 - alpha} otherwise).}
 computed to achieve the targeted power}
 }
 \value{
-A table.
-
-A table.
-
-A table.
-
-A table.
-
-A table.
-
-A table.
-
-A table.
-
-A table.
+A list of design characteristic summary.
 }
 \description{
-Computes fixed design sample size (given power) or power (given sample size)
-for AHR method.
-Returns a list with a basic summary.
-
-Computes fixed design sample size (given power) or power (given sample size)
-for Fleming-Harrington method (Farrington and Manning, 1990).
-Returns a list with a basic summary.
-
-Computes fixed design sample size (given power) or power (given sample size)
-for Lachin-Foulkes method (Lachin and Foulkes, 1986).
-Returns a list with a basic summary.
-
-Computes fixed design sample size (given power) or power (given sample size)
-for MaxCombo method.
-Returns a list with a basic summary.
-
-Computes fixed design sample size (given power) or power (given sample size)
-for Magirr-Burman method.
-Returns a list with a basic summary.
-
-Computes fixed design sample size (given power) or power (given sample size)
-for milestone method (Yung and Liu, 2020).
-Returns a list with a basic summary.
-
-Computes fixed design sample size (given power) or power (given sample size)
-for binary outcome measuring in risk difference (Mehrotra and Railkar, 2000).
-Returns a list with a basic summary.
-
-Computes fixed design sample size (given power) or power (given sample size)
-for RMST methods (Yung and Liu, 2020).
-Returns a list with a basic summary.
+Computes fixed design sample size (given power)
+or power (given sample size) by either AHR method
+\code{fixed_design_ahr}, weighted logrank test with
+Fleming-Harrington weights (Farrington and Manning, 1990)
+\code{fixed_design_fh}, weighted logrank test with
+Magirr-Burman weights \code{fixed_design_mb},
+Lachin-Foulkes method (Lachin and Foulkes, 1986)
+\code{fixed_design_lf}, MaxCombo method \code{fixed_design_combo},
+RMST method \code{fixed_design_rmst}, milestone method
+\code{fixed_design_milestone}. Additionally, we provide the fixed
+design for binary endpoint with treatment effect measuring in
+risk difference \code{fixed_design_rd}.
 }
 \examples{
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# AHR method example 1: given power and compute sample size
 x <- fixed_design_ahr(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -196,7 +160,7 @@ x <- fixed_design_ahr(
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# AHR method example 2: given sample size and compute power
 x <- fixed_design_ahr(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -209,9 +173,11 @@ x <- fixed_design_ahr(
   study_duration = 36
 )
 x \%>\% summary()
+
+# ---
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# WLR test with FH weights example 1: given power and compute sample size
 x <- fixed_design_fh(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -226,7 +192,7 @@ x <- fixed_design_fh(
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# WLR test with FH weights example 2: given sample size and compute power
 x <- fixed_design_fh(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -240,9 +206,11 @@ x <- fixed_design_fh(
   rho = 1, gamma = 1
 )
 x \%>\% summary()
+
+# ----
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# LF method example 1: given power and compute sample size
 x <- fixed_design_lf(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -256,7 +224,7 @@ x <- fixed_design_lf(
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# LF method example 2: given sample size and compute power
 x <- fixed_design_fh(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -269,9 +237,11 @@ x <- fixed_design_fh(
   study_duration = 36
 )
 x \%>\% summary()
+
+# ----
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# Maxcombo test example 1: given power and compute sample size
 x <- fixed_design_maxcombo(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -286,7 +256,7 @@ x <- fixed_design_maxcombo(
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# Maxcombo test example 2: given sample size and compute power
 x <- fixed_design_maxcombo(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -300,9 +270,11 @@ x <- fixed_design_maxcombo(
   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 )
 x \%>\% summary()
+
+# ----
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# WLR test with MB weights example 1: given power and compute sample size
 x <- fixed_design_mb(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -317,7 +289,7 @@ x <- fixed_design_mb(
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# WLR test with MB weights example 2: given sample size and compute power
 x <- fixed_design_mb(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -331,9 +303,11 @@ x <- fixed_design_mb(
   tau = 4
 )
 x \%>\% summary()
+
+# ----
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# Milestone method example 1: given power and compute sample size
 x <- fixed_design_milestone(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -348,7 +322,7 @@ x <- fixed_design_milestone(
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# Milestone method example 2: given sample size and compute power
 x <- fixed_design_milestone(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -362,24 +336,28 @@ x <- fixed_design_milestone(
   tau = 18
 )
 x \%>\% summary()
+
+# ----
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# Binary endpoint with risk differences example 1: given power and compute sample size
 x <- fixed_design_rd(
   alpha = 0.025, power = 0.9, p_c = .15, p_e = .1,
   rd0 = 0, ratio = 1
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# Binary endpoint with risk differences example 2: given sample size and compute power
 x <- fixed_design_rd(
   alpha = 0.025, power = NULL, p_c = .15, p_e = .1,
   rd0 = 0, n = 2000, ratio = 1
 )
 x \%>\% summary()
+
+# ----
 library(dplyr)
 
-# Example 1: given power and compute sample size
+# RMST method example 1: given power and compute sample size
 x <- fixed_design_rmst(
   alpha = .025, power = .9,
   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -394,7 +372,7 @@ x <- fixed_design_rmst(
 )
 x \%>\% summary()
 
-# Example 2: given sample size and compute power
+# RMST method example 2: given sample size and compute power
 x <- fixed_design_rmst(
   alpha = .025,
   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -408,4 +386,6 @@ x <- fixed_design_rmst(
   tau = 18
 )
 x \%>\% summary()
+
+# ----
 }
