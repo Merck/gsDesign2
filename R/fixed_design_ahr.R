@@ -16,20 +16,22 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design under non-proportional hazards.
+#' Fixed design under non-proportional hazards
 #'
+#' @description
 #' Computes fixed design sample size (given power)
-#' or power (given sample size) by either AHR method
-#' \code{fixed_design_ahr}, weighted logrank test with
-#' Fleming-Harrington weights (Farrington and Manning, 1990)
-#' \code{fixed_design_fh}, weighted logrank test with
-#' Magirr-Burman weights \code{fixed_design_mb},
-#' Lachin-Foulkes method (Lachin and Foulkes, 1986)
-#' \code{fixed_design_lf}, MaxCombo method \code{fixed_design_combo},
-#' RMST method \code{fixed_design_rmst}, or milestone method
-#' \code{fixed_design_milestone}. Additionally, we provide the fixed
-#' design for binary endpoint with treatment effect measuring in
-#' risk difference \code{fixed_design_rd}.
+#' or power (given sample size) by:
+#' - [fixed_design_ahr()] - Average hazard ratio method.
+#' - [fixed_design_fh()] - Weighted logrank test with Fleming-Harrington
+#'   weights (Farrington and Manning, 1990).
+#' - [fixed_design_mb()] - Weighted logrank test with Magirr-Burman weights.
+#' - [fixed_design_lf()] - Lachin-Foulkes method (Lachin and Foulkes, 1986).
+#' - [fixed_design_combo()] - MaxCombo method.
+#' - [fixed_design_rmst()] - RMST method.
+#' - [fixed_design_milestone()] - Milestone method.
+#'
+#' Additionally, [fixed_design_rd()] provides fixed design for binary endpoint
+#' with treatment effect measuring in risk difference.
 #'
 #' @inheritParams gs_design_ahr
 #' @inheritParams gs_power_ahr
@@ -38,13 +40,18 @@
 #' @param study_duration Study duration.
 #'
 #' @importFrom dplyr filter
+#'
 #' @returns A list of design characteristic summary.
+#'
 #' @export
+#'
 #' @rdname fixed_design
+#'
 #' @examples
+#' # AHR method ----
 #' library(dplyr)
 #'
-#' # AHR method example 1: given power and compute sample size
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_ahr(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -58,7 +65,7 @@
 #' )
 #' x %>% summary()
 #'
-#' # AHR method example 2: given sample size and compute power
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_ahr(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -72,7 +79,6 @@
 #' )
 #' x %>% summary()
 #'
-#' # ---
 fixed_design_ahr <- function(
     enroll_rate,
     fail_rate,

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_wlr
 #' @param power Power (`NULL` to compute power or strictly between 0
@@ -28,11 +27,14 @@
 #' @importFrom dplyr filter
 #'
 #' @export
+#'
 #' @rdname fixed_design
+#'
 #' @examples
+#' # WLR test with FH weights ----
 #' library(dplyr)
 #'
-#' # WLR test with FH weights example 1: given power and compute sample size
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_fh(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -47,7 +49,7 @@
 #' )
 #' x %>% summary()
 #'
-#' # WLR test with FH weights example 2: given sample size and compute power
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_fh(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -62,7 +64,6 @@
 #' )
 #' x %>% summary()
 #'
-#' # ----
 fixed_design_fh <- function(
     alpha = 0.025,
     power = NULL,

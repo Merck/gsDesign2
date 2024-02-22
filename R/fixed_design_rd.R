@@ -27,25 +27,27 @@
 #' @param ratio Experimental:Control randomization ratio.
 #'
 #' @export
+#'
 #' @rdname fixed_design
+#'
 #' @examples
+#' # Binary endpoint with risk differences ----
 #' library(dplyr)
 #'
-#' # Binary endpoint with risk differences example 1: given power and compute sample size
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = 0.9, p_c = .15, p_e = .1,
 #'   rd0 = 0, ratio = 1
 #' )
 #' x %>% summary()
 #'
-#' # Binary endpoint with risk differences example 2: given sample size and compute power
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = NULL, p_c = .15, p_e = .1,
 #'   rd0 = 0, n = 2000, ratio = 1
 #' )
 #' x %>% summary()
 #'
-#' # ----
 fixed_design_rd <- function(
     alpha = 0.025,
     power = NULL,

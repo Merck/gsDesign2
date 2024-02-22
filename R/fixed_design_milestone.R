@@ -25,11 +25,14 @@
 #' @param tau Test parameter of milestone method.
 #'
 #' @export
+#'
 #' @rdname fixed_design
+#'
 #' @examples
+#' # Milestone method ----
 #' library(dplyr)
 #'
-#' # Milestone method example 1: given power and compute sample size
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_milestone(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -44,7 +47,7 @@
 #' )
 #' x %>% summary()
 #'
-#' # Milestone method example 2: given sample size and compute power
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_milestone(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -59,7 +62,6 @@
 #' )
 #' x %>% summary()
 #'
-#' # ----
 fixed_design_milestone <- function(
     alpha = 0.025,
     power = NULL,

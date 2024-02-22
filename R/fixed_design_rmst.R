@@ -25,11 +25,14 @@
 #' @param tau Test parameter in RMST.
 #'
 #' @export
+#'
 #' @rdname fixed_design
+#'
 #' @examples
+#' # RMST method ----
 #' library(dplyr)
 #'
-#' # RMST method example 1: given power and compute sample size
+#' # Example 1: given power and compute sample size
 #' x <- fixed_design_rmst(
 #'   alpha = .025, power = .9,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 1),
@@ -44,7 +47,7 @@
 #' )
 #' x %>% summary()
 #'
-#' # RMST method example 2: given sample size and compute power
+#' # Example 2: given sample size and compute power
 #' x <- fixed_design_rmst(
 #'   alpha = .025,
 #'   enroll_rate = define_enroll_rate(duration = 18, rate = 20),
@@ -58,8 +61,6 @@
 #'   tau = 18
 #' )
 #' x %>% summary()
-#'
-#' # ----
 fixed_design_rmst <- function(
     alpha = 0.025,
     power = NULL,
