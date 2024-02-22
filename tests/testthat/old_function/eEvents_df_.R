@@ -90,15 +90,15 @@ NULL
 #' gsDesign2:::eEvents_df_(totalDuration = .5)
 #' # Single time period example
 #' gsDesign2:::eEvents_df_(
-#'   enrollRates = tibble(duration = 10, rate = 10),
-#'   failRates = tibble(duration = 100, failRate = log(2) / 6, dropoutRate = .01),
+#'   enrollRates = tibble::tibble(duration = 10, rate = 10),
+#'   failRates = tibble::tibble(duration = 100, failRate = log(2) / 6, dropoutRate = .01),
 #'   totalDuration = 22,
 #'   simple = FALSE
 #' )
 #' # Single time period example, multiple enrolment periods
 #' gsDesign2:::eEvents_df_(
-#'   enrollRates = tibble(duration = c(5, 5), rate = c(10, 20)),
-#'   failRates = tibble(duration = 100, failRate = log(2) / 6, dropoutRate = .01),
+#'   enrollRates = tibble::tibble(duration = c(5, 5), rate = c(10, 20)),
+#'   failRates = tibble::tibble(duration = 100, failRate = log(2) / 6, dropoutRate = .01),
 #'   totalDuration = 22,
 #'   simple = FALSE
 #' )
@@ -165,18 +165,18 @@ eEvents_df_ <- function(enrollRates = tibble::tibble(
     failRate = failRates$failRate,
     dropoutRate = failRates$dropoutRate
   )
-  df_2 <- if (last(cumsum(failRates$duration)) < totalDuration) df_2[-nrow(df_2), ] else df_2[df_2$startEnroll > 0, ] # we will use start of failure rate periods repeatedly below
+  df_2 <- if (dplyr::last(cumsum(failRates$duration)) < totalDuration) df_2[-nrow(df_2), ] else df_2[df_2$startEnroll > 0, ] # we will use start of failure rate periods repeatedly below
   startFail <- c(0, cumsum(failRates$duration))
   # Step function to define failure rates over time
   sf.failRate <- stepfun(startFail,
-    c(0, failRates$failRate, last(failRates$failRate)),
+    c(0, failRates$failRate, dplyr::last(failRates$failRate)),
     right = FALSE
   )
   # Step function to define dropout rates over time
   sf.dropoutRate <- stepfun(startFail,
     c(
       0, failRates$dropoutRate,
-      last(failRates$dropoutRate)
+      dplyr::last(failRates$dropoutRate)
     ),
     right = FALSE
   )
@@ -197,25 +197,25 @@ eEvents_df_ <- function(enrollRates = tibble::tibble(
   )
   # Put everything together as laid out in vignette
   # "Computing expected events by interval at risk"
-  df_join <- full_join(df_1, df_2, by = c("startEnroll", "endFail")) %>%
-    arrange(endFail) %>%
-    mutate(
-      endEnroll = lag(startEnroll, default = as.numeric(totalDuration)),
-      startFail = lag(endFail, default = 0),
+  df_join <- dplyr::full_join(df_1, df_2, by = c("startEnroll", "endFail")) %>%
+    dplyr::arrange(endFail) %>%
+    dplyr::mutate(
+      endEnroll = dplyr::lag(startEnroll, default = as.numeric(totalDuration)),
+      startFail = dplyr::lag(endFail, default = 0),
       duration = endEnroll - startEnroll,
       failRate = sf.failRate(startFail),
       dropoutRate = sf.dropoutRate(startFail),
       enrollRate = sf.enrollRate(startEnroll),
       q = exp(-duration * (failRate + dropoutRate)),
-      Q = lag(cumprod(q), default = 1)
+      Q = dplyr::lag(cumprod(q), default = 1)
     ) %>%
-    arrange(desc(startFail)) %>%
-    mutate(
+    dplyr::arrange(dplyr::desc(startFail)) %>%
+    dplyr::mutate(
       g = enrollRate * duration,
-      G = lag(cumsum(g), default = 0)
+      G = dplyr::lag(cumsum(g), default = 0)
     ) %>%
-    arrange(startFail) %>%
-    mutate(
+    dplyr::arrange(startFail) %>%
+    dplyr::mutate(
       d = ifelse(failRate == 0, 0, Q * (1 - q) * failRate / (failRate + dropoutRate)),
       nbar = ifelse(failRate == 0, 0,
         G * d + (failRate * Q * enrollRate) / (failRate + dropoutRate) * (duration - (1 - q) / (failRate + dropoutRate))
@@ -225,12 +225,12 @@ eEvents_df_ <- function(enrollRates = tibble::tibble(
     return(as.numeric(sum(df_join$nbar)))
   }
   df_join %>%
-    transmute(
+    dplyr::transmute(
       t = endFail, failRate = failRate, Events = nbar,
       startFail = sf.startFail(startFail)
     ) %>%
-    group_by(startFail) %>%
-    summarize(failRate = first(failRate), Events = sum(Events)) %>%
-    mutate(t = startFail) %>%
-    select("t", "failRate", "Events")
+    dplyr::group_by(startFail) %>%
+    dplyr::summarize(failRate = dplyr::first(failRate), Events = sum(Events)) %>%
+    dplyr::mutate(t = startFail) %>%
+    dplyr::select("t", "failRate", "Events")
 }

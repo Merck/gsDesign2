@@ -1,5 +1,3 @@
-library(dplyr)
-
 source_files <- list.files("./old_function/", "*.R$")
 sapply(paste0("./old_function/", source_files), source)
 
@@ -16,8 +14,8 @@ test_that("expected event vs gsDesign", {
     T = total_duration
   )$d
   x2 <- eEvents_df_( # gsDesign2 old version
-    enrollRates = enroll_rate %>% rename(Stratum = stratum),
-    failRates = fail_rate %>% rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
+    enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum),
+    failRates = fail_rate %>% dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     total_duration,
     simple = TRUE
   )

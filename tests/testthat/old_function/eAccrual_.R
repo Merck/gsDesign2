@@ -59,7 +59,7 @@ eAccrual_ <- function(x = 0:24,
   # check input enrollment rate assumptions
   if(!is.numeric(x)){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
   if(!min(x) >= 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(lead(x,default=max(x)+1) - x) > 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
+  if(!min(dplyr::lead(x,default=max(x)+1) - x) > 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
   
   # check enrollment rate assumptions
   if(!is.data.frame(enrollRates)){stop("gsDesign2: enrollRates in `eAccrual()` must be a data frame")}
@@ -79,7 +79,7 @@ eAccrual_ <- function(x = 0:24,
   xvals <- sort(unique(c(x,cumsum(enrollRates$duration))))
   # make a tibble
   xx <- tibble::tibble(x=xvals,
-                       duration= xvals - lag(xvals,default = 0),
+                       duration= xvals - dplyr::lag(xvals,default = 0),
                        rate=ratefn(xvals), # enrollment rates at points (right continuous)
                        eAccrual=cumsum(rate*duration) # expected accrual
   )

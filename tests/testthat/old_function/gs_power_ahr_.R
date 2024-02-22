@@ -62,7 +62,7 @@ NULL
 #' library(gsDesign2)
 #' library(dplyr)
 #'
-#' gs_power_ahr() %>% filter(abs(Z) < Inf)
+#' gs_power_ahr() %>% dplyr::filter(abs(Z) < Inf)
 #'
 #' # 2-sided symmetric O'Brien-Fleming spending bound
 #' # NOT CURRENTLY WORKING
@@ -93,10 +93,10 @@ gs_power_ahr_ <- function(enrollRates = tibble::tibble(
                           binding = FALSE,
                           upper = gs_b,
                           # Default is Lan-DeMets approximation of
-                          upar = gsDesign(
+                          upar = gsDesign::gsDesign(
                             k = length(events), test.type = 1,
                             n.I = events, maxn.IPlan = max(events),
-                            sfu = sfLDOF, sfupar = NULL
+                            sfu = gsDesign::sfLDOF, sfupar = NULL
                           )$upper$bound,
                           lower = gs_b,
                           lpar = c(qnorm(.1), rep(-Inf, length(events) - 1)), # Futility only at IA1
@@ -117,7 +117,7 @@ gs_power_ahr_ <- function(enrollRates = tibble::tibble(
     test_upper = test_upper, test_lower = test_lower,
     r = r, tol = tol
   ) %>%
-    right_join(x %>% select(-c(info, info0, theta)), by = "Analysis") %>%
-    select(c(Analysis, Bound, Time, Events, Z, Probability, AHR, theta, info, info0)) %>%
-    arrange(desc(Bound), Analysis))
+    dplyr::right_join(x %>% dplyr::select(-c(info, info0, theta)), by = "Analysis") %>%
+    dplyr::select(c(Analysis, Bound, Time, Events, Z, Probability, AHR, theta, info, info0)) %>%
+    dplyr::arrange(dplyr::desc(Bound), Analysis))
 }

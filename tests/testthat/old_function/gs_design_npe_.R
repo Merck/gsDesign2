@@ -129,7 +129,7 @@ NULL
 #'   theta = rep(0, 3), info = design$info0[1:3],
 #'   upar = design$Z[1:3], lpar = rep(-Inf, 3)
 #' ) %>%
-#'   filter(Bound == "Upper")
+#'   dplyr::filter(Bound == "Upper")
 #'
 #' # Spending bound examples
 #'
@@ -186,7 +186,7 @@ NULL
 #'
 #' # Re-use these bounds under alternate hypothesis
 #' # Always use binding = TRUE for power calculations
-#' upar <- (xx %>% filter(Bound == "Upper"))$Z
+#' upar <- (xx %>% dplyr::filter(Bound == "Upper"))$Z
 #' gsDesign2:::gs_design_npe_(
 #'   theta = c(.1, .2, .3), info = (1:3) * 40,
 #'   binding = TRUE,

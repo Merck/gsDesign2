@@ -27,7 +27,7 @@ test_that("AHR", {
 
   y <- fixed_design_ahr(
     alpha = 0.025,
-    enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
+    enroll_rate = enroll_rate %>% dplyr::mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio
   )
 
@@ -44,7 +44,7 @@ test_that("FH", {
 
   y <- fixed_design_fh(
     alpha = 0.025,
-    enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
+    enroll_rate = enroll_rate %>% dplyr::mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
     rho = 0.5, gamma = 0.5
   )
@@ -63,7 +63,7 @@ test_that("MB", {
 
   y <- fixed_design_mb(
     alpha = 0.025,
-    enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
+    enroll_rate = enroll_rate %>% dplyr::mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
     tau = 8
   )
@@ -81,7 +81,7 @@ test_that("LF", {
 
   y <- fixed_design_lf(
     alpha = 0.025,
-    enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
+    enroll_rate = enroll_rate %>% dplyr::mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio
   )
 
@@ -100,7 +100,7 @@ test_that("MaxCombo", {
 
   y <- fixed_design_maxcombo(
     alpha = 0.025,
-    enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
+    enroll_rate = enroll_rate %>% dplyr::mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
     rho = c(0, 0.5, 0.5),
     gamma = c(0, 0, 0.5),
@@ -120,7 +120,7 @@ test_that("RMST", {
 
   y <- fixed_design_rmst(
     alpha = 0.025,
-    enroll_rate = enroll_rate %>% mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
+    enroll_rate = enroll_rate %>% dplyr::mutate(rate = x$analysis$n / duration), fail_rate = fail_rate,
     study_duration = study_duration, ratio = ratio,
     tau = 18
   )
