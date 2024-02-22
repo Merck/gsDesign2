@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using MaxCombo method
-#'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for MaxCombo method.
-#' Returns a list with a basic summary.
-#'
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).
@@ -32,11 +26,12 @@
 #' @param tau A vector of numbers paring with gamma and rho for maxcombo test.
 #' @inheritParams gs_design_combo
 #'
-#' @return A table.
-#'
 #' @export
 #'
+#' @rdname fixed_design
+#'
 #' @examples
+#' # MaxCombo test ----
 #' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
@@ -68,6 +63,7 @@
 #'   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 #' )
 #' x %>% summary()
+#'
 fixed_design_maxcombo <- function(
     alpha = 0.025,
     power = NULL,
