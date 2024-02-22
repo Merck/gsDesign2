@@ -26,7 +26,7 @@
 #'   weights (Farrington and Manning, 1990).
 #' - [fixed_design_mb()] - Weighted logrank test with Magirr-Burman weights.
 #' - [fixed_design_lf()] - Lachin-Foulkes method (Lachin and Foulkes, 1986).
-#' - [fixed_design_combo()] - MaxCombo method.
+#' - [fixed_design_maxcombo()] - MaxCombo method.
 #' - [fixed_design_rmst()] - RMST method.
 #' - [fixed_design_milestone()] - Milestone method.
 #'

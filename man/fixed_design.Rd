@@ -138,7 +138,7 @@ or power (given sample size) by:
 weights (Farrington and Manning, 1990).
 \item \code{\link[=fixed_design_mb]{fixed_design_mb()}} - Weighted logrank test with Magirr-Burman weights.
 \item \code{\link[=fixed_design_lf]{fixed_design_lf()}} - Lachin-Foulkes method (Lachin and Foulkes, 1986).
-\item \code{\link[=fixed_design_combo]{fixed_design_combo()}} - MaxCombo method.
+\item \code{\link[=fixed_design_maxcombo]{fixed_design_maxcombo()}} - MaxCombo method.
 \item \code{\link[=fixed_design_rmst]{fixed_design_rmst()}} - RMST method.
 \item \code{\link[=fixed_design_milestone]{fixed_design_milestone()}} - Milestone method.
 }
