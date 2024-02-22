@@ -337,7 +337,7 @@ create_arm <- function(size, accr_time, accr_dist = "pieceuni",
             defaulted to max value.",
             call. = FALSE)
   } else if (!is.infinite(follow_time) && !is.infinite(total_time) &&
-             accr_time + follow_time != total_time) {
+               accr_time + follow_time != total_time) {
     total_time <- accr_time + follow_time
     warning("follow_time and total_time were inconsistently defined. \n
             total_time will be ignored.",
