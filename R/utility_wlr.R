@@ -278,77 +278,73 @@ create_arm <- function(size, accr_time, accr_dist = "pieceuni",
                        accr_param = NA, surv_cure = 0,
                        surv_interval = c(0, Inf), surv_shape = 1,
                        surv_scale, loss_shape = 1, loss_scale,
-                       follow_time = Inf, total_time = Inf)
-{
+                       follow_time = Inf, total_time = Inf) {
   if (!accr_dist %in% c("pieceuni", "truncexp")) {
     stop("Please specify a valid accrual distribution.",
-         call. = F)
+         call. = FALSE)
   }
 
   accr_interval <- sort(unique(c(0, accr_interval, accr_time)))
 
-  if (min(accr_interval) < 0 | max(accr_interval) > accr_time) {
-    stop("accr_interval is out of range.", call. = F)
+  if (min(accr_interval) < 0 || max(accr_interval) > accr_time) {
+    stop("accr_interval is out of range.", call. = FALSE)
   }
 
   if (accr_dist == "pieceuni") {
     if (length(accr_param) != length(accr_interval) - 1) {
-      stop("Number of accrual intervals (accr_interval) does not match number of\n         accrual parameters (accr_param).",
-           call. = F)
+      stop("Number of accrual intervals (accr_interval) does not match number of \n
+           accrual parameters (accr_param).",
+           call. = FALSE)
     }
-    if (length(accr_interval) > 2 & !is_wholenumber(sum(accr_param) - 1)) {
-      stop("accr_param must sum to 1.", call. = F)
+    if (length(accr_interval) > 2 && !is_wholenumber(sum(accr_param) - 1)) {
+      stop("accr_param must sum to 1.", call. = FALSE)
     }
-  }
-  else if (is.na(accr_param) | length(accr_param) > 1) {
+  } else if (is.na(accr_param) || length(accr_param) > 1) {
     stop("Truncated exponential is a one-parameter family distribution.",
-         call. = F)
+         call. = FALSE)
   }
 
   surv_interval <- sort(unique(c(0, surv_interval, Inf)))
 
   if (min(surv_interval) < 0) {
-    stop("surv_interval is out of range.", call. = F)
+    stop("surv_interval is out of range.", call. = FALSE)
   }
 
-  if (surv_shape != 1 & length(surv_scale) > 1) {
+  if (surv_shape != 1 && length(surv_scale) > 1) {
     surv_shape <- 1
     warning("Piecewise Weibull is not supported. surv_shape defaulted to 1.",
-            call. = F)
+            call. = FALSE)
   }
 
   if (length(surv_scale) != length(surv_interval) - 1) {
     stop("Number of survival intervals (surv_interval) does not match number of \n
          piecewise hazards (surv_scale).",
-         call. = F)
+         call. = FALSE)
   }
 
-  if (length(loss_shape) > 1 | length(loss_scale) > 1) {
+  if (length(loss_shape) > 1 || length(loss_scale) > 1) {
     loss_shape <- loss_shape[1]
     loss_scale <- loss_scale[1]
     warning("Only Weibull loss to follow-up is supported. First number in loss_shape \n
             and loss_scale are considered. The rest are ignored.",
-            call. = F)
+            call. = FALSE)
   }
 
-  if (is.infinite(follow_time) & is.infinite(total_time)) {
+  if (is.infinite(follow_time) && is.infinite(total_time)) {
     total_time <- 1e+06
     follow_time <- total_time - accr_time
     warning("Neither follow_time nor total_time were defined. Therefore, total_time is \n
             defaulted to max value.",
-            call. = F)
-  }
-  else if (!is.infinite(follow_time) & !is.infinite(total_time) &
-           accr_time + follow_time != total_time) {
+            call. = FALSE)
+  } else if (!is.infinite(follow_time) && !is.infinite(total_time) &&
+             accr_time + follow_time != total_time) {
     total_time <- accr_time + follow_time
     warning("follow_time and total_time were inconsistently defined. \n
             total_time will be ignored.",
-            call. = F)
-  }
-  else if (is.infinite(follow_time)) {
+            call. = FALSE)
+  } else if (is.infinite(follow_time)) {
     follow_time <- total_time - accr_time
-  }
-  else {
+  } else {
     total_time <- accr_time + follow_time
   }
 
@@ -358,8 +354,8 @@ create_arm <- function(size, accr_time, accr_dist = "pieceuni",
               surv_shape = surv_shape, surv_scale = surv_scale, loss_shape = loss_shape,
               loss_scale = loss_scale, follow_time = follow_time, total_time = total_time)
 
-  if (length(accr_param) == 1 & length(surv_interval) == 2 &
-      surv_shape == 1 & loss_shape == 1) {
+  if (length(accr_param) == 1 && length(surv_interval) == 2 &&
+        surv_shape == 1 && loss_shape == 1) {
     class(arm) <- append(class(arm), "lachin")
   }
 
