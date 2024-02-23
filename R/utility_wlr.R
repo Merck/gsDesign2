@@ -296,7 +296,7 @@ create_arm <- function(size, accr_time, accr_dist = "pieceuni",
            accrual parameters (accr_param).",
            call. = FALSE)
     }
-    if (length(accr_interval) > 2 && !is_wholenumber(sum(accr_param) - 1)) {
+    if (length(accr_interval) > 2 && !is_almost_k(sum(accr_param), k = 1L)) {
       stop("accr_param must sum to 1.", call. = FALSE)
     }
   } else if (is.na(accr_param) || length(accr_param) > 1) {
@@ -362,4 +362,9 @@ create_arm <- function(size, accr_time, accr_dist = "pieceuni",
   class(arm) <- append(class(arm), "arm")
 
   return(arm)
+}
+
+#' @noRd
+is_almost_k <- function(x, k, tol = .Machine$double.eps^0.5) {
+  abs(x - k) < tol
 }
