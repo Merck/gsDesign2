@@ -1,9 +1,9 @@
 #  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
-#  This file is part of the gsdmvn program.
+#  This file is part of the gsDesign2 program.
 #
-#  gsdmvn is free software: you can redistribute it and/or modify
+#  gsDesign2 is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
