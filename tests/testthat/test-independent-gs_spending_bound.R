@@ -97,7 +97,6 @@ test_that("compare gs_spending_bound with gsDesign results with equal IA timing 
   expect_equal(object = as.numeric(test2), expected = x$lower$bound, tolerance = 0.0001)
 })
 
-
 test_that("compare gs_spending_bound with gsDesign results with unequal IA timing for upper and lower bound", {
   y <- gsDesign::gsSurv(
     k = 3,

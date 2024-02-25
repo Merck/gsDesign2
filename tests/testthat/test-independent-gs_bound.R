@@ -1,4 +1,4 @@
-testthat::test_that("compare with results from gsDesign, 3 analyses, equal IA timing", {
+test_that("compare with results from gsDesign, 3 analyses, equal IA timing", {
   x <- gsDesign::gsSurv(
     k = 3, test.type = 4, alpha = 0.025,
     beta = 0.2, timing = 1,
@@ -24,7 +24,7 @@ testthat::test_that("compare with results from gsDesign, 3 analyses, equal IA ti
   expect_equal(object = unlist(test1[2], use.names = FALSE), expected = xbound[, 2], tolerance = 0.05)
 })
 
-testthat::test_that("compare with results from gsDesign, 3 analyses, unequal IA timing", {
+test_that("compare with results from gsDesign, 3 analyses, unequal IA timing", {
   y <- gsDesign::gsSurv(
     k = 3, test.type = 4, alpha = 0.025,
     beta = 0.2, timing = c(0.6, 0.8),

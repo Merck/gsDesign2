@@ -179,7 +179,6 @@ test_that("Re-use these bounds under alternate hypothesis - Always use binding =
   expect_equal(x1, x2)
 })
 
-
 test_that("info != info0 != info1 - If one inputs info in upar", {
   x1_a <- gs_power_npe(
     theta = c(.1, .2, .3),

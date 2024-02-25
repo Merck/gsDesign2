@@ -1,4 +1,4 @@
-testthat::test_that("s2pwe fails to come up with the correct answer", {
+test_that("s2pwe fails to come up with the correct answer", {
   time <- c(1, 5, 6, 8, 10)
   survival <- c(0.5, 0.4, 0.3, 0.2, 0.1)
   expect_equal(
@@ -8,7 +8,7 @@ testthat::test_that("s2pwe fails to come up with the correct answer", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify non-numeric value", {
+test_that("s2pwe fails to identify non-numeric value", {
   times <- c(1, "NA")
   survival <- c(0.5, 0.4)
   expect_error(
@@ -19,7 +19,7 @@ testthat::test_that("s2pwe fails to identify non-numeric value", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify non-positive value", {
+test_that("s2pwe fails to identify non-positive value", {
   times2 <- c(1, NA)
   survival <- c(0.5, 0.4)
   expect_error(
@@ -30,7 +30,7 @@ testthat::test_that("s2pwe fails to identify non-positive value", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify infinity value", {
+test_that("s2pwe fails to identify infinity value", {
   times3 <- c(1, Inf)
   survival <- c(0.5, 0.4)
   expect_error(
@@ -41,7 +41,7 @@ testthat::test_that("s2pwe fails to identify infinity value", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify non-increasing value", {
+test_that("s2pwe fails to identify non-increasing value", {
   times4 <- c(1, 2, 1)
   survival <- c(0.5, 0.4, 0.3)
   expect_error(
@@ -52,7 +52,7 @@ testthat::test_that("s2pwe fails to identify non-increasing value", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify non-numerical survival", {
+test_that("s2pwe fails to identify non-numerical survival", {
   times5 <- c(1, 2)
   survival <- c(0.5, "NA")
   expect_error(
@@ -63,7 +63,7 @@ testthat::test_that("s2pwe fails to identify non-numerical survival", {
   )
 })
 
-testthat::test_that("s2pwe survival and time should have the same length", {
+test_that("s2pwe survival and time should have the same length", {
   times6 <- c(1, 2, 5)
   survival <- c(0.5, 0.3)
   expect_error(
@@ -74,7 +74,7 @@ testthat::test_that("s2pwe survival and time should have the same length", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify non-positive survival", {
+test_that("s2pwe fails to identify non-positive survival", {
   times <- c(1, 3)
   survival2 <- c(0.5, -0.1)
   expect_error(
@@ -88,7 +88,7 @@ testthat::test_that("s2pwe fails to identify non-positive survival", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify large than 1 survival", {
+test_that("s2pwe fails to identify large than 1 survival", {
   times <- c(1, 3)
   survival3 <- c(0.5, 1.5)
   expect_error(
@@ -102,7 +102,7 @@ testthat::test_that("s2pwe fails to identify large than 1 survival", {
   )
 })
 
-testthat::test_that("s2pwe fails to identify an increasing survival series", {
+test_that("s2pwe fails to identify an increasing survival series", {
   times <- c(1, 3)
   survival4 <- c(0.5, 0.9)
   expect_error(
