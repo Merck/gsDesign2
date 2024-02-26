@@ -57,7 +57,6 @@ test_that("expect equal with mvtnorm for efficacy and futility bounds", {
   expect_equal(object = test2$probability, expected = cumsum(c(a.ia$spend, pa)), tolerance = 0.001)
 })
 
-
 test_that("expect equal with gsDesign::gsProbability outcome for efficacy bounds", {
   info <- c(40, 150, 200)
 
