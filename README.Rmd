@@ -11,6 +11,7 @@ knit: |
       readLines() |>
       paste0(collapse = "\n") |>
       gsub("<style>.*?</style>", replacement = "", x = _) |>
+      gsub("<div[^>]*>|</div>", replacement = "", x = _) |>
       writeLines(con = output)
     invisible(output)
   })

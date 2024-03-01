@@ -78,7 +78,7 @@ patterns you wish.
 fail_rate |> gt::gt()
 ```
 
-<div id="iohtwzwbzu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
@@ -104,7 +104,7 @@ fail_rate |> gt::gt()
   </tbody>
   &#10;  
 </table>
-</div>
+
 
 ### Step 2: derive a fixed design with no interim analyses
 
@@ -131,7 +131,7 @@ The input enrollment rates have now been scaled to achieve power:
 fd$enroll_rate |> gt::gt()
 ```
 
-<div id="zlyydwofsx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
@@ -148,7 +148,7 @@ fd$enroll_rate |> gt::gt()
   </tbody>
   &#10;  
 </table>
-</div>
+
 
 The failure and dropout rates remain unchanged from what was input. The
 summary is obtained below. The columns are:
@@ -168,7 +168,7 @@ fd |>
   as_gt()
 ```
 
-<div id="sujaevgdsp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
@@ -200,7 +200,7 @@ fd |>
     </tr>
   </tfoot>
 </table>
-</div>
+
 
 ### Step 3: group sequential design
 
@@ -259,7 +259,7 @@ gsd |>
   as_gt()
 ```
 
-<div id="imumolcnny" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
@@ -334,4 +334,4 @@ gsd |>
     </tr>
   </tfoot>
 </table>
-</div>
+
