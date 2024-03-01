@@ -1,6 +1,3 @@
-source_files <- list.files("./old_function/", "*.R$")
-sapply(paste0("./old_function/", source_files), source)
-
 test_that("Call with defaults", {
   x1 <- gs_design_ahr()
   x2 <- gs_design_ahr_()
