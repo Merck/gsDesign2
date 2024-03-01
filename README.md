@@ -243,11 +243,12 @@ gsd <- gs_design_ahr(
 ```
 
 Now we summarize the derived design. The summary table is further
-described in the vignette *Summarize group sequential designs in gt
-tables*. Note that the design trend in favor of experimental treatment
-is very minor at 8 months due to the delayed effect assumption used (see
-AHR at analysis 1 in table). The design trend at 16 months is somewhat
-more favorable when we are looking for HR \< 1 (favoring experimental
+described in the vignette [summarize group sequential designs in gt
+tables](https://merck.github.io/gsDesign2/articles/story-summarize-designs.html).
+Note that the design trend in favor of experimental treatment is very
+minor at 8 months due to the delayed effect assumption used (see AHR at
+analysis 1 in table). The design trend at 16 months is somewhat more
+favorable when we are looking for HR \< 1 (favoring experimental
 treatment) for a proof of concept. Actual bounds and timing selected for
 a trial are situation dependent, but we hope the suggestions here are
 provocative for what might be considered.
