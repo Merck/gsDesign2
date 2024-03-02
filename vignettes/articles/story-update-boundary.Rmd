@@ -144,29 +144,28 @@ We will utilize the `gs_power_npe()` function to update efficacy bounds based on
 The details of its arguments and implementations are explained in the Appendix.
 
 ```{r, echo=TRUE}
+# Take spending setup from original design
+upar <- x$upper$upar
+# Now update timing parameter for the interim analysis.
+# Interim spending based on observed events divided by final planned events.
+# The remaining alpha will be allocated to FA.
+upar$timing <- c(event_observed[1] / max(event_planned), 1)
+
 x_updated <- gs_power_npe(
-  # `theta = 0` provides the crossing probability under H0.
-  # Users have the flexibility to modify the value of `theta,
-  # if they are interested in the crossing probability under H1 or other scenarios.
+  # theta = 0 provides the crossing probability under H0.
   theta = 0,
-  # Observed statistical information under H0 with equal randomization
-  info = event_observed * ratio / (1 + ratio)^2,
-  # Upper bound
-  upper = gs_spending_bound,
-  upar = list(
-    sf = gsDesign::sfLDOF,
-    total_spend = alpha,
-    param = NULL,
-    # The remaining alpha will be allocated to the FA stage.
-    timing = c(event_observed[1] / max(event_planned), 1)
-  ),
-  test_upper = TRUE,
-  # Lower bound
-  lower = gs_b,
-  lpar = rep(-Inf, 2),
-  test_lower = FALSE,
+  # Observed statistical information under H0
+  info = event_observed * x$input$ratio / (1 + x$input$ratio)^2,
+  # Upper bound uses spending function from planned design
+  upper = x$input$upper,
+  upar = upar,
+  test_upper = x$input$test_upper,
+  # No lower bound, but copy this from input
+  lower = x$input$lower,
+  lpar = x$input$lpar,
+  test_lower = x$input$test_lower,
   # Binding
-  binding = FALSE
+  binding = x$input$binding
 )
 ```
 
