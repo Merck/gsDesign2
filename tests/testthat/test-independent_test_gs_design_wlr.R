@@ -1,6 +1,6 @@
-#### NOTE: all reference numbers come from simulation results in
-### https://keaven.github.io/gsd-deming/wlr.html#wlr
-### please look for sections titled "Simulation results based on 10,000 replications."
+# NOTE: all reference numbers come from simulation results in
+# https://keaven.github.io/gsd-deming/wlr.html#wlr
+# Please look for sections titled "Simulation results based on 10,000 replications".
 
 test_that("Validate the function based on examples with simulation results", {
   x <- gsDesign::gsSurv(

@@ -1,6 +1,3 @@
-source_files <- list.files("./old_function/", "*.R$")
-sapply(paste0("./old_function/", source_files), source)
-
 test_that("time to targeted events", {
   enroll_rate <- define_enroll_rate(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
   fail_rate <- define_fail_rate(

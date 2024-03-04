@@ -1,6 +1,3 @@
-source_files <- list.files("./old_function/", "*.R$")
-sapply(paste0("./old_function/", source_files), source)
-
 test_that("The default of `gs_power_npe` is a single analysis with type I error controlled.", {
   x1 <- gs_power_npe(theta = 0) %>%
     dplyr::filter(bound == "upper") %>%
