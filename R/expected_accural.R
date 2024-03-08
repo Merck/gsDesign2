@@ -112,11 +112,12 @@
 #'   enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
 #' )
 #'
-#' # Instead of compute the enrolled subjects one time point by one time point, we can also compute it once.
+#' # Instead of compute the enrolled subjects one time point by one time point,
+#' # we can also compute it once.
 #' expected_accrual(
 #'   time = c(3, 6, 24, 25),
 #'   enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
-#'  )
+#' )
 expected_accrual <- function(time = 0:24,
                              enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))) {
   # check input value
