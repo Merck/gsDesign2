@@ -81,7 +81,7 @@ expected_time(enroll_rate, fail_rate,
 }
 
 # Example 3 ----
-In this example, we verify \code{expected_time()} by \code{ahr()}.
+# In this example, we verify `expected_time()` by `ahr()`.
 \donttest{
 x <- ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,

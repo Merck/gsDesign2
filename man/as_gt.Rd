@@ -115,7 +115,7 @@ fixed_design_fh(
 \dontshow{if (interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(dplyr)
 # Example 1 ----
-The default output
+# The default output
 
 gs_design_ahr() \%>\%
   summary() \%>\%
