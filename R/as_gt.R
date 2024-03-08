@@ -255,7 +255,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #'   )
 #'
 #' # Example 3 ----
-#' # Usage of `colname_spanner = ...`, `colname_spannersub = ...`
+#' # Usage of colname_spanner = ..., colname_spannersub = ...
 #' # to edit the spanner and its sub-spanner
 #' gs_power_wlr() %>%
 #'   summary() %>%
@@ -265,7 +265,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #'   )
 #'
 #' # Example 4 ----
-#' # Usage of `footnote = ...`
+#' # Usage of footnote = ...
 #' # to edit the footnote
 #' gs_power_wlr() %>%
 #'   summary() %>%

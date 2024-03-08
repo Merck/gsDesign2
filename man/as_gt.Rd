@@ -156,7 +156,7 @@ gs_power_wlr() \%>\%
   )
 
 # Example 3 ----
-# Usage of `colname_spanner = ...`, `colname_spannersub = ...`
+# Usage of colname_spanner = ..., colname_spannersub = ...
 # to edit the spanner and its sub-spanner
 gs_power_wlr() \%>\%
   summary() \%>\%
@@ -166,7 +166,7 @@ gs_power_wlr() \%>\%
   )
 
 # Example 4 ----
-# Usage of `footnote = ...`
+# Usage of footnote = ...
 # to edit the footnote
 gs_power_wlr() \%>\%
   summary() \%>\%
