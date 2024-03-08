@@ -1,0 +1,200 @@
+---
+title: "Style guide"
+author: "Nan Xiao"
+output: rmarkdown::html_vignette
+bibliography: gsDesign2.bib
+vignette: >
+  %\VignetteIndexEntry{Style guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+## Goals
+
+The overall goal of the style guide:
+
+- User experience: ensure a consistent API and syntax with minimal surprises for using our software.
+- Developer experience: minimize time and cost to make consistent interface design decisions for developing our software.
+
+Ultimately, the style guide should help us
+
+- Support a healthy coexistence of user-facing, functional API, and low-level, object-oriented API.
+- Create balanced alignment with the style and best practices presented in other high-quality research software.
+- Build a universe of software for clinical trial design at scale.
+
+## Package names
+
+General principles for deciding the name of a package:
+
+- Prefer lower case
+- Use dot (`.`) to indicate a collection of extension packages.
+  Examples include the "gamlss" packages and the "future" packages.
+- Can be easily searched and found using search engines.
+- Follow existing conventions, even if they don't agree with the rules above.
+  Examples include gsDesign and gsDesign2.
+
+Note that the package name and the product name can be stylized differently. Example: tensorflow vs. TensorFlow.
+
+## Functional API
+
+All user-facing interactions should have a functional API.
+
+### Functions
+
+Function names, argument names, and variable names should use `snake_case`.
+
+```r
+# Good
+gs_design_ahr <- function(enroll_rates = ...) {}
+
+# Bad
+gsDesignAHR <- function(enrollRates = ...) {}
+```
+
+### Methods
+
+This rule also applies to the S3 or R7 **method** names and argument names,
+as they are inherently, functions.
+One should still follow the S3 convention to use dot (`.`) to
+connect the method name and class name.
+
+```r
+# Good
+as_gt.gsDesign <- function(...) {}
+
+# Bad
+as.gt.gsDesign <- function(...) {}
+```
+
+## Object-oriented API
+
+Object-oriented API should be selectively used for low-level abstractions
+and limited cases in user-facing interactions when appropriate.
+
+### Classes
+
+Class names defined under an OOP system, for example, S3 or R7,
+should use `UpperCamelCase`.
+
+This rule intends to indicate the "function" is a class constructor,
+instead of a (regular) exported or internal function
+and follows the conventions in R6.
+
+The input argument names and variable names should still use `snake_case`.
+
+```r
+# Good
+RangedDoubleOrNULL <- new_class(
+  "RangedDoubleOrNULL",
+  properties = list(
+    value = class_any,
+    min = class_double,
+    max = class_double,
+    min_closed = class_logical,
+    max_closed = class_logical
+  ),
+  ...
+)
+
+# Bad
+ranged_double_or_null <- new_class(
+  "ranged_double_or_null",
+  properties = list(
+    value = class_any,
+    min = class_double,
+    max = class_double,
+    min_closed = class_logical,
+    max_closed = class_logical
+  ),
+  ...
+)
+```
+
+## Arguments
+
+### Argument order
+
+Arguments should be arranged in the order of
+[data, descriptors, details](https://design.tidyverse.org/args-data-details.html).
+
+This style makes it natural to consistently create chainable operations
+that form a workflow under either a functional API or object-oriented API,
+with minimal surprises.
+
+```{r}
+# Functional API
+design <- create_design(enroll_rates, fail_rates, ...)
+design |>
+  do_compute_1(detail_1 = ...) |>
+  do_compute_2(detail_2 = ...)
+```
+
+```{r}
+# Object-oriented API
+design <- Design(enroll_rates, fail_rates, ...)
+design$do_compute_1(detail_1 = ...)$do_compute_2(detail_2 = ...)
+```
+
+This suggests that if the "data" argument requires multiple inputs,
+create another function to bundle them as a single object
+and pass it to the function of interest.
+
+### Required and optional arguments
+
+[Required arguments](https://design.tidyverse.org/def-required.html)
+should **not** have a default value.
+In contrast, optional arguments should have a default value.
+
+### Enumerated type arguments
+
+Use lower case abbreviations or `snake_case` for the enumerated type arguments.
+
+```r
+# Bad
+f <- function(method = c("AHR", "WLR", ...)) {}
+
+# Good
+f <- function(method = c("ahr", "wlr", ...)) {}
+```
+
+```r
+# Bad
+f <- function(approx = c("event driven", "asymptotic", "generalized schoenfeld", ...)) {}
+
+# Good
+f <- function(approx = c("event_driven", "asymptotic", "generalized_schoenfeld", ...)) {}
+```
+
+The reasoning behind this: the strings are used together with function names and argument names, using `snake_case` would create a visual consistency.
+
+Whenever possible, set the default value of an enumerated type input in the argument definition. See [enumerate possible options](https://design.tidyverse.org/def-enum.html).
+
+## Code formatting
+
+R code should be formatted using [styler](https://styler.r-lib.org/)
+with the default tidyverse style.
+
+C/C++ code should be formatted using clang-format.
+This is doable via the
+[Visual Studio Code C++ extension](https://code.visualstudio.com/docs/cpp/cpp-ide).
+
+The code formatting can be automatically checked in CI/CD workflows.
+
+## Code linting
+
+The rules should be enforced via a CI/CD workflow for code linting.
+
+- [Example GitHub Actions workflow](https://github.com/r-lib/actions/blob/v2-branch/examples/lint.yaml)
+- [Customize code linting rules](https://lintr.r-lib.org/articles/lintr.html)
+
+## Useful links
+
+- [The tidyverse style guide](https://style.tidyverse.org/)
+- [The tidyverse design guide](https://design.tidyverse.org/)
+- [R6 - Advanced R](https://adv-r.hadley.nz/r6.html#r6-classes)
+- [TensorFlow Probability API](https://www.tensorflow.org/probability/api_docs/python/tfp)
+- [Style guides and rules - Software Engineering at Google](https://abseil.io/resources/swe-book/html/ch08.html)
