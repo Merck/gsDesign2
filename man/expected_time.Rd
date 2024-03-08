@@ -82,6 +82,7 @@ expected_time(enroll_rate, fail_rate,
 
 # Example 3 ----
 In this example, we verify \code{expected_time()} by \code{ahr()}.
+\donttest{
 x <- ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   ratio = ratio, total_duration = 20)
@@ -93,4 +94,5 @@ y <- expected_time(
   ratio = ratio, target_event = x$event)
 
 cat("The time to get ", x$event, " is ", y$time, "months.\n")
+}
 }
