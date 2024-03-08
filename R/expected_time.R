@@ -76,6 +76,20 @@
 #'   target_event = xx$event, interval = c(.5, 1.5) * xx$time
 #' )
 #' }
+#'
+#' # Example 3 ----
+#' In this example, we verify \code{expected_time()} by \code{ahr()}.
+#' x <- ahr(
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'   ratio = ratio, total_duration = 20)
+#'
+#' cat("The number of events by 20 months is ", x$event, ".\n")
+#'
+#' y <- expected_time(
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'   ratio = ratio, target_event = x$event)
+#'
+#' cat("The time to get ", x$event, " is ", y$time, "months.\n")
 expected_time <- function(
     enroll_rate = define_enroll_rate(
       duration = c(2, 2, 10),
