@@ -214,7 +214,7 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #' @examplesIf interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")
 #' library(dplyr)
 #' # Example 1 ----
-#' The default output
+#' # The default output
 #'
 #' gs_design_ahr() %>%
 #'   summary() %>%
