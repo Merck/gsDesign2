@@ -211,7 +211,7 @@ summary.fixed_design <- function(object, ...) {
 #'   data.frame(rho = c(0, 0.5), gamma = 0.5, tau = -1, test = 2:3, analysis = 3, analysis_time = 36)
 #' )
 #'
-#' # AHR ----
+#' # Example 1 ----
 #' \donttest{
 #' x_ahr <- gs_design_ahr(
 #'   enroll_rate = enroll_rate,
@@ -228,10 +228,18 @@ summary.fixed_design <- function(object, ...) {
 #' )
 #'
 #' x_ahr %>% summary()
+#'
+#' # Customize the digits to display
 #' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
+#'
+#' # Customize the labels of the crossing probability
 #' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
+#'
+#' # Customize the variables to be summarized for each analysis
+#' x_ahr %>% summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
 #' }
-#' # WLR ----
+#'
+#' # Example 2 ----
 #' \donttest{
 #' x_wlr <- gs_design_wlr(
 #'   enroll_rate = enroll_rate,
