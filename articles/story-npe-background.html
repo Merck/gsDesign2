@@ -90,14 +90,9 @@ Anderson</h4>
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h3>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <p>The acronym NPES is short for non-proportional effect size. While it
 is motivated primarily by a use for when designing a time-to-event trial
 under non-proportional hazards (NPH), we have simplified and generalized
@@ -120,12 +115,12 @@ as well as boundaries for group sequential designs. Additional specifics
 around boundary computation, power and sample size are provided in a
 separate vignette.</p>
 </div>
+<div class="section level2">
+<h2 id="the-probability-model">The probability model<a class="anchor" aria-label="anchor" href="#the-probability-model"></a>
+</h2>
 <div class="section level3">
-<h3 id="the-probability-model">The probability model<a class="anchor" aria-label="anchor" href="#the-probability-model"></a>
+<h3 id="the-continuous-model-and-e-process">The continuous model and E-process<a class="anchor" aria-label="anchor" href="#the-continuous-model-and-e-process"></a>
 </h3>
-<div class="section level4">
-<h4 id="the-continuous-model-and-e-process">The continuous model and E-process<a class="anchor" aria-label="anchor" href="#the-continuous-model-and-e-process"></a>
-</h4>
 <p>We consider a simple example here to motivate distribution theory
 that is quite general and applies across many situations. For instance,
 <span class="citation">Proschan, Lan, and Wittes (2006)</span>
@@ -164,9 +159,9 @@ k\leq K\)</span></p>
 information fraction at analysis <span class="math inline">\(k\)</span>
 in that <span class="math inline">\(t_k=\mathcal{I}_k/\mathcal{I}_K.\)</span></p>
 </div>
-<div class="section level4">
-<h4 id="z-process">Z-process<a class="anchor" aria-label="anchor" href="#z-process"></a>
-</h4>
+<div class="section level3">
+<h3 id="z-process">Z-process<a class="anchor" aria-label="anchor" href="#z-process"></a>
+</h3>
 <p>The Z-process is commonly used (e.g., <span class="citation">Jennison
 and Turnbull (1999)</span>) and will be used below to extend the
 computational algorithm in Chapter 19 of <span class="citation">Jennison
@@ -181,9 +176,9 @@ expected value is</p>
 <p><span class="math display">\[E(Z_{k})=
 \sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .\]</span></p>
 </div>
-<div class="section level4">
-<h4 id="b-process">B-process<a class="anchor" aria-label="anchor" href="#b-process"></a>
-</h4>
+<div class="section level3">
+<h3 id="b-process">B-process<a class="anchor" aria-label="anchor" href="#b-process"></a>
+</h3>
 <p>B-values are mnemonic for Brownian motion. For <span class="math inline">\(1\leq k\leq K\)</span> we define <span class="math display">\[B_{k}=\sqrt{t_k}Z_k\]</span> which implies <span class="math display">\[ E(B_{k}) = \sqrt{t_{k}\mathcal{I}_k}\theta(t_k)
 = t_k \sqrt{\mathcal{I}_K} \theta(t_k) =
 \mathcal{I}_k\theta(t_k)/\sqrt{\mathcal{I}_K}\]</span> and <span class="math display">\[\hbox{Var}(B_k) = t_k.\]</span></p>
@@ -192,9 +187,9 @@ expected value is</p>
 N}\sum_{i=1}^{n_k}X_i.\]</span> It can be useful to think of <span class="math inline">\(B_k\)</span> as a sum of independent random
 variables.</p>
 </div>
-<div class="section level4">
-<h4 id="summary-of-e--z--and-b-processes">Summary of E-, Z- and B-processes<a class="anchor" aria-label="anchor" href="#summary-of-e--z--and-b-processes"></a>
-</h4>
+<div class="section level3">
+<h3 id="summary-of-e--z--and-b-processes">Summary of E-, Z- and B-processes<a class="anchor" aria-label="anchor" href="#summary-of-e--z--and-b-processes"></a>
+</h3>
 <table class="table">
 <colgroup>
 <col width="22%">
@@ -234,9 +229,9 @@ N\)</span></td>
 </tbody>
 </table>
 </div>
-<div class="section level4">
-<h4 id="conditional-independence-covariance-and-canonical-form">Conditional independence, covariance and canonical form<a class="anchor" aria-label="anchor" href="#conditional-independence-covariance-and-canonical-form"></a>
-</h4>
+<div class="section level3">
+<h3 id="conditional-independence-covariance-and-canonical-form">Conditional independence, covariance and canonical form<a class="anchor" aria-label="anchor" href="#conditional-independence-covariance-and-canonical-form"></a>
+</h3>
 <p>We assume independent increments in the B-process. That is, for <span class="math inline">\(1\leq j &lt; k\leq K\)</span> <span class="math display">\[\tag{1} B_k - B_j \sim \hbox{Normal}
 (\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_j\theta(t_j)), t_k-t_j)\]</span>
 independent of <span class="math inline">\(B_1,\ldots,B_j\)</span>. As
@@ -265,9 +260,9 @@ The independence of <span class="math inline">\(B_j\)</span> and <span class="ma
 N\sigma)\]</span> is obvious for this example.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="test-bounds-and-crossing-probabilities">Test bounds and crossing probabilities<a class="anchor" aria-label="anchor" href="#test-bounds-and-crossing-probabilities"></a>
-</h3>
+<div class="section level2">
+<h2 id="test-bounds-and-crossing-probabilities">Test bounds and crossing probabilities<a class="anchor" aria-label="anchor" href="#test-bounds-and-crossing-probabilities"></a>
+</h2>
 <p>In this section we define notation for bounds and boundary crossing
 probabilities for a group sequential design. We also define an algorithm
 for computing bounds based on a targeted boundary crossing probability

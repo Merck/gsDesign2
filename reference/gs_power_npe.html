@@ -373,6 +373,44 @@ information fraction, and statistical information.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        1 lower -<span style="color: #BB0000;">3.71</span>  0.000<span style="text-decoration: underline;">007</span>04   0.1    0.1     0.333    40    40    40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>        2 lower -<span style="color: #BB0000;">2.51</span>  0.000<span style="text-decoration: underline;">015</span>1    0.2    0.2     0.667    80    80    80</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        3 lower -<span style="color: #BB0000;">1.99</span>  0.000<span style="text-decoration: underline;">015</span>1    0.3    0.3     1       120   120   120</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Different values of `r` and `tol` lead to different numerical accuracy</span></span></span>
+<span class="r-in"><span><span class="co"># Larger `r` and smaller `tol` give better accuracy, but leads to slow computation</span></span></span>
+<span class="r-in"><span><span class="va">n_analysis</span> <span class="op">&lt;-</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span><span class="fu">gs_power_npe</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="va">n_analysis</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  theta0 <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>  theta1 <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>  info <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_analysis</span>,</span></span>
+<span class="r-in"><span>  info0 <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_analysis</span>,</span></span>
+<span class="r-in"><span>  info1 <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>  info_scale <span class="op">=</span> <span class="st">"h0_info"</span>,</span></span>
+<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="va">n_analysis</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  test_lower <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  <span class="co"># Try different combinations of (r, tol) with</span></span></span>
+<span class="r-in"><span>  <span class="co"># r in 6, 18, 24, 30, 35, 40, 50, 60, 70, 80, 90, 100</span></span></span>
+<span class="r-in"><span>  <span class="co"># tol in 1e-6, 1e-12</span></span></span>
+<span class="r-in"><span>  r <span class="op">=</span> <span class="fl">6</span>,</span></span>
+<span class="r-in"><span>  tol <span class="op">=</span> <span class="fl">1e-6</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    analysis bound       z probability theta theta1 info_frac  info info0 info1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>        1 upper    4.88 0.000<span style="text-decoration: underline;">000</span>890   0.1    0.1       0.2     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>        2 upper    3.36 0.000<span style="text-decoration: underline;">650</span>      0.1    0.1       0.4     2     2     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>        3 upper    2.68 0.006<span style="text-decoration: underline;">27</span>       0.1    0.1       0.6     3     3     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>        4 upper    2.29 0.020<span style="text-decoration: underline;">0</span>        0.1    0.1       0.8     4     4     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>        5 upper    2.03 0.040<span style="text-decoration: underline;">8</span>        0.1    0.1       1       5     5     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>        1 lower -<span style="color: #BB0000;">Inf</span>    0             0.1    0.1       0.2     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>        2 lower -<span style="color: #BB0000;">Inf</span>    0             0.1    0.1       0.4     2     2     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>        3 lower -<span style="color: #BB0000;">Inf</span>    0             0.1    0.1       0.6     3     3     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>        4 lower -<span style="color: #BB0000;">Inf</span>    0             0.1    0.1       0.8     4     4     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>        5 lower -<span style="color: #BB0000;">Inf</span>    0             0.1    0.1       1       5     5     5</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
