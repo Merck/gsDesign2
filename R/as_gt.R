@@ -296,10 +296,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #'   summary() %>%
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 #'
-#' # Example 7 ----
-#' # Customize the variables to be summarized for each analysis
-#' gs_power_wlr() %>%
-#'
 as_gt.gs_design <- function(
     x,
     title = NULL,
