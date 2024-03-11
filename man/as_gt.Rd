@@ -196,9 +196,5 @@ gs_power_wlr() \%>\%
 gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-
-# Example 7 ----
-# Customize the variables to be summarized for each analysis
-gs_power_wlr() \%>\%
 \dontshow{\}) # examplesIf}
 }

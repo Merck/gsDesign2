@@ -226,7 +226,7 @@ gs_power_npe(
   lpar = -(x \%>\% filter(bound == "upper"))$z
 )
 
-# Different values of `r` and `tol` leads to differ numerical accuracy
+# Different values of `r` and `tol` lead to different numerical accuracy
 # Larger `r` and smaller `tol` give better accuracy, but leads to slow computation
 n_analysis <- 5
 gs_power_npe(
@@ -244,7 +244,7 @@ gs_power_npe(
   test_upper = TRUE,
   test_lower = FALSE,
   binding = FALSE,
-  # Try different combination of (r, tol) with
+  # Try different combinations of (r, tol) with
   # r in 6, 18, 24, 30, 35, 40, 50, 60, 70, 80, 90, 100
   # tol in 1e-6, 1e-12
   r = 6,

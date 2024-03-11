@@ -85,13 +85,15 @@ expected_time(enroll_rate, fail_rate,
 \donttest{
 x <- ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
-  ratio = ratio, total_duration = 20)
+  ratio = ratio, total_duration = 20
+)
 
 cat("The number of events by 20 months is ", x$event, ".\n")
 
 y <- expected_time(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
-  ratio = ratio, target_event = x$event)
+  ratio = ratio, target_event = x$event
+)
 
 cat("The time to get ", x$event, " is ", y$time, "months.\n")
 }
