@@ -344,7 +344,7 @@ create_arm <- function(size, accr_time, accr_dist = "pieceuni",
       call. = FALSE
     )
   } else if (!is.infinite(follow_time) && !is.infinite(total_time) &&
-    accr_time + follow_time != total_time) {
+               accr_time + follow_time != total_time) {
     total_time <- accr_time + follow_time
     warning("follow_time and total_time were inconsistently defined. \n
             total_time will be ignored.",
@@ -365,7 +365,7 @@ create_arm <- function(size, accr_time, accr_dist = "pieceuni",
   )
 
   if (length(accr_param) == 1 && length(surv_interval) == 2 &&
-    surv_shape == 1 && loss_shape == 1) {
+        surv_shape == 1 && loss_shape == 1) {
     class(arm) <- append(class(arm), "lachin")
   }
 
