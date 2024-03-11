@@ -52,38 +52,58 @@ NULL
 #' @export
 #'
 eAccrual_ <- function(x = 0:24,
-                     enrollRates=tibble::tibble(duration=c(3,3,18),
-                                                rate=c(5,10,20)
-                     )){
+                      enrollRates = tibble::tibble(
+                        duration = c(3, 3, 18),
+                        rate = c(5, 10, 20)
+                      )) {
   # check input value
   # check input enrollment rate assumptions
-  if(!is.numeric(x)){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(x) >= 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
-  if(!min(dplyr::lead(x,default=max(x)+1) - x) > 0){stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")}
-  
+  if (!is.numeric(x)) {
+    stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")
+  }
+  if (!min(x) >= 0) {
+    stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")
+  }
+  if (!min(dplyr::lead(x, default = max(x) + 1) - x) > 0) {
+    stop("gsDesign2: x in `eAccrual()` must be a strictly increasing non-negative numeric vector")
+  }
+
   # check enrollment rate assumptions
-  if(!is.data.frame(enrollRates)){stop("gsDesign2: enrollRates in `eAccrual()` must be a data frame")}
-  if(!max(names(enrollRates)=="duration") == 1){stop("gsDesign2: enrollRates in `eAccrual()` column names must contain duration")}
-  if(!max(names(enrollRates)=="rate") == 1){stop("gsDesign2: enrollRates in `eAccrual()` column names must contain rate")}
-  
+  if (!is.data.frame(enrollRates)) {
+    stop("gsDesign2: enrollRates in `eAccrual()` must be a data frame")
+  }
+  if (!max(names(enrollRates) == "duration") == 1) {
+    stop("gsDesign2: enrollRates in `eAccrual()` column names must contain duration")
+  }
+  if (!max(names(enrollRates) == "rate") == 1) {
+    stop("gsDesign2: enrollRates in `eAccrual()` column names must contain rate")
+  }
+
   # test that enrollment rates are non-negative with at least one positive
-  if(!min(enrollRates$rate) >= 0){stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")}
-  if(!max(enrollRates$rate) > 0){stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")}
-  
-  
+  if (!min(enrollRates$rate) >= 0) {
+    stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")
+  }
+  if (!max(enrollRates$rate) > 0) {
+    stop("gsDesign2: enrollRates in `eAccrual()` must be non-negative with at least one positive rate")
+  }
+
+
   # convert rates to step function
-  ratefn <- stepfun(x=cumsum(enrollRates$duration),
-                    y=c(enrollRates$rate,0),
-                    right=TRUE)
+  ratefn <- stepfun(
+    x = cumsum(enrollRates$duration),
+    y = c(enrollRates$rate, 0),
+    right = TRUE
+  )
   # add times where rates change to enrollRates
-  xvals <- sort(unique(c(x,cumsum(enrollRates$duration))))
+  xvals <- sort(unique(c(x, cumsum(enrollRates$duration))))
   # make a tibble
-  xx <- tibble::tibble(x=xvals,
-                       duration= xvals - dplyr::lag(xvals,default = 0),
-                       rate=ratefn(xvals), # enrollment rates at points (right continuous)
-                       eAccrual=cumsum(rate*duration) # expected accrual
+  xx <- tibble::tibble(
+    x = xvals,
+    duration = xvals - dplyr::lag(xvals, default = 0),
+    rate = ratefn(xvals), # enrollment rates at points (right continuous)
+    eAccrual = cumsum(rate * duration) # expected accrual
   )
   # return survival or CDF
-  ind <- !is.na(match(xx$x,x))
+  ind <- !is.na(match(xx$x, x))
   return(as.numeric(xx$eAccrual[ind]))
 }
