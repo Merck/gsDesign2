@@ -276,9 +276,9 @@ gs_design_ahr <- function(
         )
 
         next_time <- y$time[1]
-      # If the planned info_frac input by the user > event fraction
-      # Equivalently, the planned info_frac happens later than planned calendar time
-      # We will wait until the planned info_frac arrives
+        # If the planned info_frac input by the user > event fraction
+        # Equivalently, the planned info_frac happens later than planned calendar time
+        # We will wait until the planned info_frac arrives
       } else if (info_frac[n_analysis - i] > if_alt[n_analysis - i]) {
         y[n_analysis - i, ] <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
