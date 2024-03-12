@@ -242,21 +242,29 @@ gs_design_ahr <- function(
     interval = interval
   )
 
+  # Event fraction driven by the calendar time
   final_event <- y$event[nrow(y)]
-  i_falt <- y$event / final_event
+  if_alt <- y$event / final_event
 
-  # Check if info_frac needed for IA timing ----
+  # Number of analyses (including final analysis)
   n_analysis <- max(length(analysis_time), length(info_frac))
+
+  # Initialize the next_time as the study duration
   next_time <- max(analysis_time)
-  # if info_frac is not provided by the users
+
+  # If info_frac is not provided by the users
   if (length(info_frac) == 1) {
-    info_frac <- i_falt
+    info_frac <- if_alt
   } else {
-    # if there are >= 2 analysis
+    # If there are >= 2 analysis
     if_indx <- info_frac[1:(n_analysis - 1)]
     for (i in seq_along(if_indx)) {
-      # if ...
-      if (length(i_falt) == 1) {
+      # If it is fixed analysis
+      # or it is information fraction driven design
+      if (length(if_alt) == 1) {
+
+        y$analysis <- n_analysis
+
         y <- rbind(
           expected_time(
             enroll_rate = enroll_rate, fail_rate = fail_rate,
@@ -266,8 +274,12 @@ gs_design_ahr <- function(
             mutate(theta = -log(ahr), analysis = n_analysis - i),
           y
         )
-      } else if (info_frac[n_analysis - i] > i_falt[n_analysis - i]) {
-        # if the planned info_frac > info_frac under H1
+
+        next_time <- y$time[1]
+      # If the planned info_frac input by the user > event fraction
+      # Equivalently, the planned info_frac happens later than planned calendar time
+      # We will wait until the planned info_frac arrives
+      } else if (info_frac[n_analysis - i] > if_alt[n_analysis - i]) {
         y[n_analysis - i, ] <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
@@ -278,12 +290,14 @@ gs_design_ahr <- function(
             event, ahr, theta = -log(ahr),
             info, info0
           )
+
+        next_time <- y$time[n_analysis - i]
       }
-      next_time <- y$time[n_analysis - i]
+
     }
   }
 
-  # update `y` (an object from `gs_power_ahr`) with
+  # Update `y` (an object from `gs_power_ahr`) with
   # 1) analysis NO.
   # 2) the accrual sample size, i.e., `N`
   # 3) `theta1` and `info1`
@@ -311,7 +325,7 @@ gs_design_ahr <- function(
   )
 
   allout <- allout %>%
-    # add `~hr at bound`, `hr generic` and `nominal p`
+    # Add `~hr at bound`, `hr generic` and `nominal p`
     mutate(
       "~hr at bound" = exp(-z / sqrt(info0)),
       "nominal p" = pnorm(-z)
@@ -320,13 +334,13 @@ gs_design_ahr <- function(
     full_join(y %>% select(-c(info, info0, theta)),
       by = "analysis"
     ) %>%
-    # select variables to be output
+    # Select variables to be output
     select(c(
       "analysis", "bound", "time", "n", "event", "z",
       "probability", "probability0", "ahr", "theta",
       "info", "info0", "info_frac", "~hr at bound", "nominal p"
     )) %>%
-    # arrange the output table
+    # Arrange the output table
     arrange(analysis, desc(bound))
 
   inflac_fct <- (allout %>% filter(analysis == n_analysis, bound == "upper"))$info /
