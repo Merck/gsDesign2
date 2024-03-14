@@ -1,0 +1,94 @@
+---
+title: "gsDesign vs. gsDesign2 Feature Comparison"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: "gsDesign2.bib"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{gsDesign vs. gsDesign2 Feature Comparison}
+---
+
+
+\newcommand{\boxedcheckmark}
+  {{\ooalign{$\Box$\cr\hidewidth$\checkmark$\hidewidth}}}
+  
+  
+$\boxedcheckmark$
+
+$\Box$
+
+
+
+# Heading 1
+
+## Heading 2
+
+### Heading 3
+
+# Markdown syntax
+
+This is an **R Markdown** HTML vignette. Markdown is a simple _formatting syntax_
+for authoring HTML, PDF, and Word documents.
+
+$$x^n + y^n = z^n$$
+
+When you click the _Knit_ button a document will be generated that includes both
+content as well as the output of any embedded R code chunks within the document.
+
+Here is an inline equation $A = \pi r^2$.
+
+# Syntax highlighting
+
+This is inline `code`.
+
+This is a code block:
+
+```{r}
+seq_len(10)
+```
+
+This is another code block, without evaluation:
+
+
+# Tables
+
+```{r, echo=FALSE}
+knitr::kable(head(mtcars))
+```
+
+
+
+# Markdown tables
+
+You can use any online Markdown table generator to create these tables.
+
+| Feature                          | gsDesign         | gsDesign2  |
+| -------------                    |:-------------:   | -----:     |
+| Nonproportional hazards          |  ❌ |                  ✔️   |  
+| Allow skipping bound at an analysis  |  ❌ |                  ✔️   |  
+| Alternates to logrank for survival analysis |  ❌ |                  ✔️   |  
+| Alternate spending approaches    |  ❌ |                  ✔️   |  
+| HR bounds for futility           |  ❌ |                  ✔️   |  
+| Stratified design for binomial   |  ❌ |                  ✔️   |  
+
+# Markdown figures
+
+Without caption:
+
+```markdown
+#![](example.png){width=50% class="center-block"}
+```
+
+With caption:
+
+```markdown
+#![Insert caption here.](example.png){width=50%}
+```
+
+# References
