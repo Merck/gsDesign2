@@ -578,8 +578,8 @@ as_gt.gs_power_npe <- function(
     ...) {
 
   # Filter out inf bound ----
-  if(!display_inf_bound) {
-    x <- x %>%filter(!is.infinite(z))
+  if (!display_inf_bound) {
+    x <- x %>% filter(!is.infinite(z))
   }
 
   x <- x %>%
