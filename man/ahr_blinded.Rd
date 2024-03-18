@@ -33,6 +33,8 @@ hazard ratios input in \code{fail_rate} and observed events in the
 corresponding intervals.
 \item \code{event} - Total observed number of events.
 \item \code{info0} - Information under related null hypothesis.
+\item \code{theta} - Natural parameter for group sequential design representing
+expected incremental drift at all analyses.
 }
 }
 \description{

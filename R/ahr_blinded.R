@@ -40,6 +40,8 @@
 #'   corresponding intervals.
 #' - `event` - Total observed number of events.
 #' - `info0` - Information under related null hypothesis.
+#' - `theta` - Natural parameter for group sequential design representing
+#'   expected incremental drift at all analyses.
 #'
 #' @section Specification:
 #' \if{latex}{
