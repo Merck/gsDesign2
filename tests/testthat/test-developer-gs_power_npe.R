@@ -260,8 +260,7 @@ test_that("Developer Tests 1-sided test", {
     k = 3,
     theta = 0,
     n.I = (1:3) * 400,
-    b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound,
-    a = rep(-20, 3), r = r)
+    b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound, a = rep(-20, 3), r = r)
   expect_equal(x, y)
   expect_equal(x$z[x$bound == "upper"], z$upper$bound)
   expect_equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob))
