@@ -1,6 +1,3 @@
-source_files <- list.files("./old_function/", "*.R$")
-sapply(paste0("./old_function/", source_files), source)
-
 test_that("expected event vs gsDesign", {
   enroll_rate <- define_enroll_rate(duration = c(2, 1, 2), rate = c(5, 10, 20))
   fail_rate <- define_fail_rate(duration = c(1, 1, 1), fail_rate = c(.05, .02, .01), dropout_rate = .01)

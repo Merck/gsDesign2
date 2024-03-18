@@ -1,6 +1,3 @@
-source_files <- list.files("./old_function/", "*.R$")
-sapply(paste0("./old_function/", source_files), source)
-
 test_that("unstratified population", {
   enroll_rate <- define_enroll_rate(
     duration = c(2, 10, 4, 4, 8),

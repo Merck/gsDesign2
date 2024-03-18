@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using Lachin-Foulkes method
-#'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for Lachin-Foulkes method (Lachin and Foulkes, 1986).
-#' Returns a list with a basic summary.
-#'
 #' @param alpha One-sided Type I error (strictly between 0 and 1).
 #' @param power Power (`NULL` to compute power or strictly between 0
 #'   and `1 - alpha` otherwise).
@@ -29,11 +23,12 @@
 #' @param study_duration Study duration.
 #' @inheritParams gs_design_ahr
 #'
-#' @return A table.
-#'
 #' @export
 #'
+#' @rdname fixed_design
+#'
 #' @examples
+#' # LF method ----
 #' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
@@ -63,6 +58,7 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
+#'
 fixed_design_lf <- function(
     alpha = 0.025,
     power = NULL,

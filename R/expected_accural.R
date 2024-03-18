@@ -82,6 +82,42 @@
 #'     rate = c(30, 30)
 #'   )
 #' )
+#'
+#' # Example 4: expected accrual over time
+#' # Scenario 4.1: for the enrollment in the first 3 months,
+#' # it is exactly 3 * 5 = 15.
+#' expected_accrual(
+#'   time = 3,
+#'   enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
+#' )
+#'
+#' # Scenario 4.2: for the enrollment in the first 6 months,
+#' # it is exactly 3 * 5 + 3 * 10 = 45.
+#' expected_accrual(
+#'   time = 6,
+#'   enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
+#' )
+#'
+#' # Scenario 4.3: for the enrollment in the first 24 months,
+#' # it is exactly 3 * 5 + 3 * 10 + 18 * 20 = 405.
+#' expected_accrual(
+#'   time = 24,
+#'   enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
+#' )
+#'
+#' # Scenario 4.4: for the enrollment after 24 months,
+#' # it is the same as that from the 24 months, since the enrollment is stopped.
+#' expected_accrual(
+#'   time = 25,
+#'   enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
+#' )
+#'
+#' # Instead of compute the enrolled subjects one time point by one time point,
+#' # we can also compute it once.
+#' expected_accrual(
+#'   time = c(3, 6, 24, 25),
+#'   enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))
+#' )
 expected_accrual <- function(time = 0:24,
                              enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))) {
   # check input value

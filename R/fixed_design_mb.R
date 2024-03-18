@@ -16,12 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using Magirr-Burman method
-#'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for Magirr-Burman method.
-#' Returns a list with a basic summary.
-#'
 #' @inheritParams gs_design_wlr
 #' @inheritParams gs_power_wlr
 #' @param power Power (`NULL` to compute power or strictly between 0
@@ -30,11 +24,12 @@
 #' @param study_duration Study duration.
 #' @param tau Test parameter of Magirr-Burman method.
 #'
-#' @return A table.
-#'
 #' @export
 #'
+#' @rdname fixed_design
+#'
 #' @examples
+#' # WLR test with MB weights ----
 #' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
@@ -66,6 +61,7 @@
 #'   tau = 4
 #' )
 #' x %>% summary()
+#'
 fixed_design_mb <- function(
     alpha = 0.025,
     power = NULL,

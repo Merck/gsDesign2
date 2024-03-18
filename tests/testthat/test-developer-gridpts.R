@@ -1,6 +1,3 @@
-source_files <- list.files("./old_function/", "*.R$")
-sapply(paste0("./old_function/", source_files), source)
-
 test_that("Default (N(0,1)) - approximate variance of standard normal (i.e., 1)", {
   x1 <- gridpts_(mu = 0, a = -20, b = 20, r = 18) # gsDesign2 old version
   x2 <- gsDesign2:::gridpts(mu = 0, a = -20, b = 20, r = 18) # gsDesign2 latest version

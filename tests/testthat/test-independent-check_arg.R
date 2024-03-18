@@ -112,7 +112,7 @@ test_that("check event", {
   expect_error(check_event(c(20, 10)))
 })
 
-testthat::test_that("check total_duration", {
+test_that("check total_duration", {
   expect_error(check_total_duration("a"))
   expect_error(check_total_duration(c(-10, 10)))
 })

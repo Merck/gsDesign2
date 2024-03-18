@@ -39,8 +39,8 @@
 #'    shape parameter for the loss to follow-up distribution
 #'    \item Set the scale parameter to one as the scale parameter for the loss to follow-up
 #'     distribution since the exponential distribution is supported only
-#'    \item Create arm 0 using \code{npsurvSS::create_arm()} using the parameters for arm 0.
-#'    \item Create arm 1 using \code{npsurvSS::create_arm()} using the parameters for arm 1.
+#'    \item Create arm 0 using \code{gsDesign2:::create_arm()} using the parameters for arm 0.
+#'    \item Create arm 1 using \code{gsDesign2:::create_arm()} using the parameters for arm 1.
 #'    \item Set the class of the two arms.
 #'    \item Return a list of the two arms.
 #'   }
@@ -87,7 +87,7 @@ gs_create_arm <- function(
   loss_scale <- fail_rate$dropout_rate[1] # Only Exponential Distribution is supported
 
   # Control Group
-  arm0 <- npsurvSS::create_arm(
+  arm0 <- create_arm(
     size = 1,
     accr_time = accr_time,
     accr_dist = "pieceuni",
@@ -104,7 +104,7 @@ gs_create_arm <- function(
 
 
   # Control Group
-  arm1 <- npsurvSS::create_arm(
+  arm1 <- create_arm(
     size = ratio,
     accr_time = accr_time,
     accr_dist = "pieceuni",
@@ -270,4 +270,111 @@ gs_sigma2_wlr <- function(arm0,
   }
 
   return(sigma2)
+}
+
+#' @noRd
+create_arm <- function(size, accr_time, accr_dist = "pieceuni",
+                       accr_interval = c(0, accr_time),
+                       accr_param = NA, surv_cure = 0,
+                       surv_interval = c(0, Inf), surv_shape = 1,
+                       surv_scale, loss_shape = 1, loss_scale,
+                       follow_time = Inf, total_time = Inf) {
+  if (!accr_dist %in% c("pieceuni", "truncexp")) {
+    stop("Please specify a valid accrual distribution.",
+      call. = FALSE
+    )
+  }
+
+  accr_interval <- sort(unique(c(0, accr_interval, accr_time)))
+
+  if (min(accr_interval) < 0 || max(accr_interval) > accr_time) {
+    stop("accr_interval is out of range.", call. = FALSE)
+  }
+
+  if (accr_dist == "pieceuni") {
+    if (length(accr_param) != length(accr_interval) - 1) {
+      stop("Number of accrual intervals (accr_interval) does not match number of \n
+           accrual parameters (accr_param).",
+        call. = FALSE
+      )
+    }
+    if (length(accr_interval) > 2 && !is_almost_k(sum(accr_param), k = 1L)) {
+      stop("accr_param must sum to 1.", call. = FALSE)
+    }
+  } else if (is.na(accr_param) || length(accr_param) > 1) {
+    stop("Truncated exponential is a one-parameter family distribution.",
+      call. = FALSE
+    )
+  }
+
+  surv_interval <- sort(unique(c(0, surv_interval, Inf)))
+
+  if (min(surv_interval) < 0) {
+    stop("surv_interval is out of range.", call. = FALSE)
+  }
+
+  if (surv_shape != 1 && length(surv_scale) > 1) {
+    surv_shape <- 1
+    warning("Piecewise Weibull is not supported. surv_shape defaulted to 1.",
+      call. = FALSE
+    )
+  }
+
+  if (length(surv_scale) != length(surv_interval) - 1) {
+    stop("Number of survival intervals (surv_interval) does not match number of \n
+         piecewise hazards (surv_scale).",
+      call. = FALSE
+    )
+  }
+
+  if (length(loss_shape) > 1 || length(loss_scale) > 1) {
+    loss_shape <- loss_shape[1]
+    loss_scale <- loss_scale[1]
+    warning("Only Weibull loss to follow-up is supported. First number in loss_shape \n
+            and loss_scale are considered. The rest are ignored.",
+      call. = FALSE
+    )
+  }
+
+  if (is.infinite(follow_time) && is.infinite(total_time)) {
+    total_time <- 1e+06
+    follow_time <- total_time - accr_time
+    warning("Neither follow_time nor total_time were defined. Therefore, total_time is \n
+            defaulted to max value.",
+      call. = FALSE
+    )
+  } else if (!is.infinite(follow_time) && !is.infinite(total_time) &&
+               accr_time + follow_time != total_time) {
+    total_time <- accr_time + follow_time
+    warning("follow_time and total_time were inconsistently defined. \n
+            total_time will be ignored.",
+      call. = FALSE
+    )
+  } else if (is.infinite(follow_time)) {
+    follow_time <- total_time - accr_time
+  } else {
+    total_time <- accr_time + follow_time
+  }
+
+  arm <- list(
+    size = size, accr_time = accr_time, accr_dist = accr_dist,
+    accr_interval = accr_interval, accr_param = accr_param,
+    surv_cure = surv_cure, surv_interval = surv_interval,
+    surv_shape = surv_shape, surv_scale = surv_scale, loss_shape = loss_shape,
+    loss_scale = loss_scale, follow_time = follow_time, total_time = total_time
+  )
+
+  if (length(accr_param) == 1 && length(surv_interval) == 2 &&
+        surv_shape == 1 && loss_shape == 1) {
+    class(arm) <- append(class(arm), "lachin")
+  }
+
+  class(arm) <- append(class(arm), "arm")
+
+  return(arm)
+}
+
+#' @noRd
+is_almost_k <- function(x, k, tol = .Machine$double.eps^0.5) {
+  abs(x - k) < tol
 }

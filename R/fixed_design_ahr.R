@@ -16,11 +16,22 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Fixed design using average hazard ratio under non-proportional hazards
+#' Fixed design under non-proportional hazards
 #'
-#' Computes fixed design sample size (given power) or power (given sample size)
-#' for AHR method.
-#' Returns a list with a basic summary.
+#' @description
+#' Computes fixed design sample size (given power)
+#' or power (given sample size) by:
+#' - [fixed_design_ahr()] - Average hazard ratio method.
+#' - [fixed_design_fh()] - Weighted logrank test with Fleming-Harrington
+#'   weights (Farrington and Manning, 1990).
+#' - [fixed_design_mb()] - Weighted logrank test with Magirr-Burman weights.
+#' - [fixed_design_lf()] - Lachin-Foulkes method (Lachin and Foulkes, 1986).
+#' - [fixed_design_maxcombo()] - MaxCombo method.
+#' - [fixed_design_rmst()] - RMST method.
+#' - [fixed_design_milestone()] - Milestone method.
+#'
+#' Additionally, [fixed_design_rd()] provides fixed design for binary endpoint
+#' with treatment effect measuring in risk difference.
 #'
 #' @inheritParams gs_design_ahr
 #' @inheritParams gs_power_ahr
@@ -28,13 +39,16 @@
 #'   and `1 - alpha` otherwise).
 #' @param study_duration Study duration.
 #'
-#' @return A table.
-#'
 #' @importFrom dplyr filter
+#'
+#' @returns A list of design characteristic summary.
 #'
 #' @export
 #'
+#' @rdname fixed_design
+#'
 #' @examples
+#' # AHR method ----
 #' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
@@ -64,6 +78,7 @@
 #'   study_duration = 36
 #' )
 #' x %>% summary()
+#'
 fixed_design_ahr <- function(
     enroll_rate,
     fail_rate,

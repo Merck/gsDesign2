@@ -1,6 +1,3 @@
-source_files <- list.files("./old_function/", "*.R$")
-sapply(paste0("./old_function/", source_files), source)
-
 test_that("The default of `gs_power_npe` is a single analysis with type I error controlled.", {
   x1 <- gs_power_npe(theta = 0) %>%
     dplyr::filter(bound == "upper") %>%
@@ -178,7 +175,6 @@ test_that("Re-use these bounds under alternate hypothesis - Always use binding =
     dplyr::mutate(bound = tolower(bound))
   expect_equal(x1, x2)
 })
-
 
 test_that("info != info0 != info1 - If one inputs info in upar", {
   x1_a <- gs_power_npe(

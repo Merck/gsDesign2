@@ -14,7 +14,7 @@ test_that("gs_b() returns values as expected", {
   expect_equal(par[5], gs_b(par, k = k))
 })
 
-testthat::test_that("gs_b() returns NA if the number of interim analysis is larger than the length of par", {
+test_that("gs_b() returns NA if the number of interim analysis is larger than the length of par", {
   IF <- c(.8, 1)
   par <- gsDesign::gsDesign(
     alpha = .025,

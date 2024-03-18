@@ -1,12 +1,13 @@
 test_that("gsDesign2:::hupdate() returns results as expected ", {
-  # the design
+  # The design
   gstry <- gsDesign::gsDesign(
     k = 3,
     sfl = gsDesign::sfLDOF,
     delta = 0
   )
-  # probabilities calculated based on function gsDesign2:::h1(), IA1 needs to full between low and upper bound
-  # in order to continue to IA2
+  # Probabilities calculated based on function gsDesign2:::h1(),
+  # IA1 needs to full between low and upper bound
+  # in order to continue to IA2.
   null.01 <- gsDesign2:::h1(
     theta = gstry$theta[1],
     info = gstry$n.I[1],
@@ -60,7 +61,7 @@ test_that("gsDesign2:::hupdate() returns results as expected ", {
     a = -Inf,
     b = gstry$lower$bound[2]
   )$h)
-  # probabilities calculated based on function gsProbability
+  # Probabilities calculated based on function gsProbability
   x <- gsDesign::gsProbability(
     k = 3,
     a = gstry$lower$bound,
@@ -71,14 +72,19 @@ test_that("gsDesign2:::hupdate() returns results as expected ", {
 
   expect_equal(object = as.numeric(c(lower.null.02, lower.alt.02)), expected = x$lower$prob[2, ], tolerance = 0.0001)
   expect_equal(object = as.numeric(c(upper.null.02, upper.alt.02)), expected = x$upper$prob[2, ], tolerance = 0.0001)
-  # problem with below code on extreme case:
-  # gsDesign2:::theta = gstry$theta[1], thetam1= gstry$theta[1],
-  #     info=gstry$n.I[1]+0.00000000000001,im1=gstry$n.I[1],gm1=null.01,
-  #     a = gstry$upper$bound[2],b=Inf) %>% summarise(p = sum(h))
+  # Problem with below code on extreme case:
+  # gsDesign2:::hupdate(
+  #   theta = gstry$theta[1],
+  #   thetam1 = gstry$theta[1],
+  #   info = gstry$n.I[1] + 0.00000000000001,
+  #   im1 = gstry$n.I[1],
+  #   gm1 = null.01,
+  #   a = gstry$upper$bound[2],
+  #   b = Inf) %>% summarise(p = sum(h))
 })
 
-test_that("gsDesign2:::) returns probability almost zero for extreme case", {
-  # the design
+test_that("gsDesign2:::hupdate() returns probability almost zero for extreme case", {
+  # The design
   gstry <- gsDesign::gsDesign(
     k = 3,
     sfl = gsDesign::sfLDOF,
@@ -91,7 +97,7 @@ test_that("gsDesign2:::) returns probability almost zero for extreme case", {
     b = gstry$upper$bound[1]
   )
   # IA2 to reject H0, we integrate from upper bound to Inf
-  #-8 is an arbitrary extreme case for theta
+  # -8 is an arbitrary extreme case for theta
   poor.02 <- sum(gsDesign2:::hupdate(
     theta = -8,
     thetam1 = gstry$theta[1],
@@ -102,7 +108,7 @@ test_that("gsDesign2:::) returns probability almost zero for extreme case", {
     b = Inf
   )$h)
   # IA2 to accept H0, we integrate from -Inf to lower bound
-  #-8 is an arbitrary extreme case for the bound
+  # -8 is an arbitrary extreme case for the bound
   high.02 <- sum(gsDesign2:::hupdate(
     theta = gstry$theta[2],
     thetam1 = gstry$theta[2],

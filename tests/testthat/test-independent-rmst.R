@@ -30,7 +30,6 @@ test_that("given sample size, the output power arrives at the target", {
   expect_equal(x1$bound$probability, x2)
 })
 
-
 test_that("given power, the output sample size arrives at the target power", {
   # set enrollment rates
   enroll_rate <- tibble::tibble(stratum = "All", duration = 12, rate = 500 / 12)
