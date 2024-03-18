@@ -1,0 +1,556 @@
+---
+title: "Efficacy and futility boundary update"
+author: "Yujie Zhao and Keaven M. Anderson"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: "gsDesign2.bib"
+vignette: >
+  %\VignetteIndexEntry{Efficacy and futility boundary update}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(gsDesign2)
+```
+
+# Design assumptions
+
+We assume two analyses: an interim analysis (IA) and a final analysis (FA).
+The IA is planned 20 months after opening enrollment, followed by the FA at
+month 36.
+The planned enrollment period spans 14 months, with the first 2 months having
+an enrollment rate of 1/3 the final rate, the next 2 months with a rate of 2/3
+of the final rate, and the final rate for the remaining 10 months.
+To obtain the targeted 90\% power, these rates will be multiplied by a constant.
+The control arm is assumed to follow an exponential distribution with a median
+of 9 months and the dropout rate is 0.0001 per month regardless of treatment group.
+Finally, the experimental treatment group is piecewise exponential with a
+3-month delayed treatment effect; that is, in the first 3 months HR = 1 and
+the HR is 0.6 thereafter.
+
+```{r}
+alpha <- 0.025
+beta <- 0.1
+ratio <- 1
+
+# Enrollment
+enroll_rate <- define_enroll_rate(
+  duration = c(2, 2, 10),
+  rate = (1:3) / 3
+)
+
+# Failure and dropout
+fail_rate <- define_fail_rate(
+  duration = c(3, Inf),
+  fail_rate = log(2) / 9,
+  hr = c(1, 0.6),
+  dropout_rate = .0001
+)
+# IA and FA analysis time
+analysis_time <- c(20, 36)
+
+# Randomization ratio
+ratio <- 1
+```
+
+We use the null hypothesis information for boundary crossing probability
+calculations under both the null and alternate hypotheses.
+This will also imply the null hypothesis information will be used for the
+information fraction used in spending functions to derive the design.
+
+```{r}
+info_scale <- "h0_info"
+```
+
+# One-sided design {.tabset}
+
+For the design, we have efficacy bounds at both the IA and FA.
+We use the @lan1983discrete spending function with a total alpha of `r alpha`,
+which approximates an O'Brien-Fleming bound.
+
+## Planned design
+
+```{r, echo=TRUE}
+upper <- gs_spending_bound
+upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
+
+x <- gs_design_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  alpha = alpha,
+  beta = beta,
+  info_frac = NULL,
+  info_scale = "h0_info",
+  analysis_time = analysis_time,
+  ratio = ratio,
+  upper = gs_spending_bound,
+  upar = upar,
+  test_upper = TRUE,
+  lower = gs_b,
+  lpar = rep(-Inf, 2),
+  test_lower = FALSE
+) |> to_integer()
+```
+
+The planned design targets:
+
+- Planned events: `r round(x$analysis$event, 0)`
+- Planned information fraction for interim and final analysis: `r round(x$analysis$info_frac, 4)`
+- Planned alpha spending: `r round(gsDesign::sfLDOF(0.025, x$analysis$info_frac)$spend, 4)`
+- Planned efficacy bounds: `r round(x$bound$z[x$bound$bound == "upper"], 4)`
+
+We note that rounding up the final targeted events increases power slightly
+over the targeted 90\%.
+
+```{r}
+x |>
+  summary() |>
+  as_gt() |>
+  gt::tab_header(title = "Original design") |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "lightcyan"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = Z,
+      rows = Bound == "Efficacy"
+    )
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "#F9E3D6"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = Z,
+      rows = Bound == "Futility"
+    )
+  )
+```
+
+## Update bounds at time of analysis
+
+We assume 180 and 280 events observed at the IA and FA, respectively.
+We will assume the differences from planned are due to logistical considerations.
+We also assume the protocol specifies that the full $\alpha$ will be spent at
+the final analysis even in a case like this where there is a shortfall of events
+versus the design plan.
+
+```{r, echo=TRUE}
+# Observed vs. planned events
+event_observed <- c(180, 280)
+event_planned <- x$analysis$event
+```
+
+```{r}
+tibble::tibble(
+  Analysis = c("IA", "FA"),
+  `Planned events` = event_planned,
+  `Observed events` = event_observed
+) |>
+  gt::gt() |>
+  gt::tab_header("Planned vs. Observed events")
+```
+
+We will utilize the `gs_power_npe()` function to update efficacy bounds
+based on the observed events.
+The details of its arguments and implementations are explained in the Appendix.
+
+```{r, echo=TRUE}
+# Take spending setup from original design
+upar <- x$upper$upar
+# Now update timing parameter for the interim analysis.
+# Interim spending based on observed events divided by final planned events.
+# The remaining alpha will be allocated to FA.
+upar$timing <- c(event_observed[1] / max(event_planned), 1)
+
+x_updated <- gs_power_npe(
+  # `theta = 0` provides the crossing probability under H0
+  theta = 0,
+  # Observed statistical information under H0
+  info = event_observed * x$input$ratio / (1 + x$input$ratio)^2,
+  info_scale = "h0_info",
+  # Upper bound uses spending function from planned design
+  upper = x$input$upper,
+  upar = x$input$upar,
+  test_upper = x$input$test_upper,
+  # No lower bound, but copy this from input
+  lower = x$input$lower,
+  lpar = x$input$lpar,
+  test_lower = x$input$test_lower,
+  # Binding
+  binding = x$input$binding
+)
+```
+
+The updated efficacy bounds are `r round(x_updated$z[x_updated$bound == "upper"], 3)`.
+
+```{r}
+x_updated |>
+  dplyr::filter(bound == "upper") |>
+  gt::gt() |>
+  gt::tab_header(
+    title = "Updated design",
+    subtitle = paste0("with observed ", paste(event_observed, collapse = ", "), " events")
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "lightcyan"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = z,
+      rows = bound == "upper"
+    )
+  ) |>
+  gt::tab_footnote(
+    footnote = "Crossing pbability under H0.",
+    locations = gt::cells_column_labels(columns = probability)
+  )
+```
+
+# Two-sided asymmetric design, beta-spending with non-binding lower bound {.tabset}
+
+In this section, we investigate a 2 sided asymmetric design, with the
+non-binding beta-spending futility bounds. Beta-spending refers to
+error spending for the lower bound crossing probabilities under the
+alternative hypothesis. Non-binding assumes the trial continues if the
+lower bound is crossed for Type I, but not Type II error computation.
+
+## Planned design
+
+In the original designs, we employ the Lan-DeMets spending function used to
+approximate O'Brien-Fleming bounds [@lan1983discrete] for both efficacy and
+futility bounds.
+The total spending for efficacy is `r alpha`, and for futility is `r beta`.
+Besides, we assume the futility test only happens at IA.
+
+```{r, echo=TRUE}
+upper <- gs_spending_bound
+upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
+lower <- gs_spending_bound
+lpar <- list(sf = gsDesign::sfLDOF, total_spend = beta, param = NULL)
+
+x <- gs_design_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  alpha = alpha,
+  beta = beta,
+  info_frac = NULL,
+  info_scale = "h0_info",
+  analysis_time = c(20, 36),
+  ratio = ratio,
+  upper = gs_spending_bound,
+  upar = upar,
+  test_upper = TRUE,
+  lower = lower,
+  lpar = lpar,
+  test_lower = c(TRUE, FALSE),
+  binding = FALSE
+) |> to_integer()
+```
+
+In the planned design, we have
+
+- Planned events: `r round(x$analysis$event, 0)`
+- Planned information fraction (timing): `r round(x$analysis$info_frac, 4)`
+- Planned alpha spending: `r gsDesign::sfLDOF(0.025, x$analysis$info_frac)$spend`
+- Planned efficacy bounds: `r round(x$bound$z[x$bound$bound == "upper"], 4)`
+- Planned futility bounds: `r round(x$bound$z[x$bound$bound == "lower"], 4)`
+
+Since we added futility bounds, the sample size and number of events are
+larger than what we have in the 1-sided example.
+
+```{r}
+x |>
+  summary() |>
+  as_gt() |>
+  gt::tab_header(title = "Original design") |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "lightcyan"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = Z,
+      rows = Bound == "Efficacy"
+    )
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "#F9E3D6"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = Z,
+      rows = Bound == "Futility"
+    )
+  )
+```
+
+## Update bounds at time of analysis
+
+In practice, let us assume the observed data is generated by `simtrial::sim_pw_surv()`.
+
+```{r, echo=TRUE}
+set.seed(42)
+
+observed_data <- simtrial::sim_pw_surv(
+  n = x$analysis$n[x$analysis$analysis == 2],
+  stratum = data.frame(stratum = "All", p = 1),
+  block = c(rep("control", 2), rep("experimental", 2)),
+  enroll_rate = x$enroll_rate,
+  fail_rate = (fail_rate |> simtrial::to_sim_pw_surv())$fail_rate,
+  dropout_rate = (fail_rate |> simtrial::to_sim_pw_surv())$dropout_rate
+)
+
+observed_ia_data <- observed_data |> simtrial::cut_data_by_date(analysis_time[1])
+observed_fa_data <- observed_data |> simtrial::cut_data_by_date(analysis_time[2])
+
+# Observed vs. planned events
+event_observed <- c(sum(observed_ia_data$event), sum(observed_fa_data$event))
+event_planned <- x$analysis$event
+```
+
+```{r}
+tibble::tibble(
+  Analysis = c("IA", "FA"),
+  `Planned number of events` = event_planned,
+  `Observed number of events` = event_observed
+) |>
+  gt::gt() |>
+  gt::tab_header("Planned vs. Observed events")
+```
+
+Again, we use `gs_power_npe()` to calculate the updated efficacy and futility bounds.
+The details of its arguments and implementations are explained in the Appendix.
+We initially set up `theta = 0` for crossing probability under the null hypothesis
+and `theta0 = 0` for null hypothesis.
+As for `theta1`, there are 2 options to set it up.
+These 2 options arrive at the same value of `theta1`.
+
+- **Option 1:** `theta1` is the weighted average of the piecewise HR, that is,
+
+$$
+  -\log(\text{AHR}) = -\log(\sum_{i=1}^m w_i \; \text{HR}_m),
+$$
+
+where the weight is decided by the ratio of observed number of events and the
+observed final events.
+In this example, the number of observed events at the first 3 months (HR = 1)
+can be derived as
+
+```{r, echo=TRUE}
+event_first_3_month <- sum(observed_data$fail_time < 3)
+event_first_3_month
+```
+
+and the number of observed events after 3 months (HR = 0.6) are
+
+```{r, echo=TRUE}
+event_after_3_month <- event_observed[2] - event_first_3_month
+event_after_3_month
+```
+
+We can derive `theta1` as
+-[`r event_first_3_month` / `r event_observed[2]` $\times \log(1) +$  `r event_after_3_month` / `r event_observed[2]` $\times \log(0.6)$] = `r round(-(event_first_3_month * log(1) + event_after_3_month * log(0.6)) / event_observed[2], 4)`.
+
+```{r}
+theta1 <- -(event_first_3_month * log(1) + event_after_3_month * log(0.6)) / event_observed[2]
+theta1
+```
+
+- **Option 2:** we use the blinded data to estimate the AHR and `theta1` is the
+  negative logarithm of the estimated AHR.
+
+```{r, echo=TRUE}
+blinded_ahr <- ahr_blinded(
+  surv = survival::Surv(
+    time = observed_fa_data$tte,
+    event = observed_fa_data$event
+  ),
+  intervals = c(3, Inf),
+  hr = c(1, 0.6),
+  ratio = 1
+)
+```
+
+```{r}
+blinded_ahr |>
+  gt::gt() |>
+  gt::tab_header("Blinded estimation of average hazard ratio")
+```
+
+```{r}
+theta1 <- blinded_ahr$theta
+theta1
+```
+
+Both Option 1 and Option 2 yield the same value of `theta1`. Option 1 is applicable
+when the event counts are available, while Option 2 is suitable for scenarios where
+time-to-event data is available, without the corresponding event counts.
+A value of `theta1` is computed with one of the above methods and incorporated below.
+
+```{r, echo=TRUE}
+x_updated <- gs_power_npe(
+  # `theta = 0` provides the crossing probability under H0.
+  # Users have the flexibility to modify the value of `theta`,
+  # if they are interested in the crossing probability under H1 or other scenarios.
+  theta = 0,
+  # -log(AHR) = 0 for H0 is used for determining upper spending
+  theta0 = 0,
+  # -log(AHR) for H1 is used for determining the lower spending and bounds
+  theta1 = theta1,
+  # Observed statistical information under H0 with equal randomization
+  info = event_observed * ratio / (1 + ratio)^2,
+  # Upper bound
+  upper = x$input$upper,
+  upar = list(
+    sf = gsDesign::sfLDOF,
+    total_spend = alpha,
+    param = NULL,
+    # The remaining alpha will be allocated to the FA stage
+    timing = c(event_observed[1] / max(event_planned), 1)
+  ),
+  test_upper = TRUE,
+  # Lower bound
+  lower = x$input$lower,
+  lpar = list(
+    sf = gsDesign::sfLDOF,
+    total_spend = beta,
+    param = NULL,
+    # The remaining alpha will be allocated to the FA stage
+    timing = c(event_observed[1] / max(event_planned), 1)
+  ),
+  test_lower = c(TRUE, FALSE),
+  binding = x$input$binding
+)
+```
+
+```{r}
+x_updated |>
+  dplyr::filter(abs(z) < Inf) |>
+  gt::gt() |>
+  gt::tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "lightcyan"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = probability,
+      rows = bound == "upper"
+    )
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_fill(color = "#F9E3D6"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_body(
+      columns = probability,
+      rows = bound == "lower"
+    )
+  )
+```
+
+# Appendix
+
+## Arguments of `gs_power_npe()`
+
+We provide an introduction to its arguments.
+
+- *3 theta-related arguments*:
+  - `theta`: a vector with the natural parameter for the group sequential design;
+    represents expected ; $-\log(\text{AHR})$ in this case.
+    This is used for boundary crossing probability calculation.
+    For example, if we set `theta = 0`, then the crossing probability is the
+    Type I error.
+  - `theta0`: natural parameter for H0; used for determining the upper
+    (efficacy) spending and bounds. If the default of `NULL` is given,
+    then this is replaced by 0.
+  - `theta1`: natural parameter for H1; used for determining the lower spending
+    and bounds. The default is `NULL`, in which case the value is replaced with
+    the input `theta`.
+
+- *3 statistical information-related arguments*:
+  - `info`: statistical information at all analyses for input `theta`.
+    Default is `1`.
+  - `info0`: statistical information under H0, if different than `info`.
+    It impacts null hypothesis bound calculation. Default is `NULL`.
+  - `info1`: statistical information under hypothesis used for futility bound
+    calculation if different from `info`. It impacts futility hypothesis bound
+    calculation. Default is `NULL`.
+
+- *Efficacy/Futility boundary-related arguments*:
+  - `upper`, `upar` and `test_upper`: efficacy bounds related, same as `gs_design_ahr()`.
+  - `lower`, `lpar` and `test_lower`: futility bounds related, same as `gs_design_ahr()`.
+  - `binding`: `TRUE` or `FALSE` indicating whether it is binding or non-binding designs.
+
+## Explanations of `gs_power_npe()` arguments set up in the one-sided design
+
+We initially set up `theta = 0`,
+which provides the crossing probability under the null hypothesis.
+Users have the flexibility to modify the value of `theta` if they are
+interested in the crossing probability under alternative hypotheses or
+other scenarios. In this implementation, we leave the setup of `theta0`
+with its default imputed value of `0`, indicating the null hypothesis.
+Additionally, as we are solely dealing with efficacy bounds,
+we do not adjust `theta1`, which influences the futility bound.
+
+Moving forward, we proceed to set up the values of the `info` arguments
+for the input `theta = 0`. Since the statistical information is event-based,
+and `theta = 0` (null hypothesis), the observed statistical information
+under null hypothesis is
+
+$$
+  \text{observed number of events} \times \frac{r}{1 + r} \times \frac{1}{1 + r},
+$$
+
+where $r$ is the randomization ratio (experimental : control).
+In this example, the observed statistical information is calculated as
+`info = event_observed / 4`, and thus, we input `r event_observed / 4`
+for the `info` argument. In this case, we retain the default imputed value
+for `info0`, which is set as `info`. The `info` represents the
+statistical information under the null hypothesis (`theta = 0`).
+Furthermore, we leave `info1` as it is, considering our focus on efficacy bounds,
+while noting that `info1` does affect the futility bounds.
+
+Lastly, we establish the parameters for the upper and lower bounds.
+The setup of `upper`, `upar`, `test_upper`, `lower`, `lpar`, and `test_lower`
+closely resembles the original design, with the exception of the `upar` setup.
+Here, we have introduced the `timing` parameter.
+At the IA, the observed number of events is `r event_observed[1]`.
+If we employ the interim analysis alpha spending strategy, the spending timing
+at IA is calculated as `r event_observed[1]` / `r round(event_planned[2], 0)`.
+Here, `r round(event_planned[2], 0)` represents the planned number of events
+at FA. The remaining alpha will be allocated to the FA stage.
+
+## Explanations of `gs_power_npe()` arguments set up in the two-sided asymmetric design, beta-spending with non-binding lower bound
+
+Moving forward, we proceed to set up the values of the `info` arguments for
+the input `theta = 0`. Similar to the examples in the 1-sided design above,
+we set `info` as `r event_observed`/4, where `r event_observed` is the
+observed number of events. Because `info0` is under null hypothesis,
+we leave it and use its default imputed values same as `info`.
+Furthermore, we leave `info1` as its default imputed values same as `info`
+with the local null hypothesis approach. Though people can explicitly write
+the formula of `info1` in terms of the observed events, the difference is
+very minor, and it would be easiest with unblinded data.
+
+Lastly, we establish the parameters for the upper and lower bounds,
+following the similar procedure as we have in the 1-sided design.
+
+# References
