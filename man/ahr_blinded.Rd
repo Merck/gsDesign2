@@ -13,28 +13,35 @@ ahr_blinded(
 )
 }
 \arguments{
-\item{surv}{input survival object (see \code{Surv}); note that only 0=censored, 1=event for \code{Surv}}
+\item{surv}{Input survival object (see \code{\link[survival:Surv]{survival::Surv()}});
+note that only 0 = censored, 1 = event for \code{\link[survival:Surv]{survival::Surv()}}.}
 
-\item{intervals}{Vector containing positive values indicating interval lengths where the
-exponential rates are assumed.
-Note that a final infinite interval is added if any events occur after the final interval
-specified.}
+\item{intervals}{Vector containing positive values indicating
+interval lengths where the exponential rates are assumed.
+Note that a final infinite interval is added if any events occur
+after the final interval specified.}
 
-\item{hr}{vector of hazard ratios assumed for each interval}
+\item{hr}{Vector of hazard ratios assumed for each interval.}
 
-\item{ratio}{ratio of experimental to control randomization.}
+\item{ratio}{Ratio of experimental to control randomization.}
 }
 \value{
 A \code{tibble} with one row containing
-\code{ahr} blinded average hazard ratio based on assumed period-specific hazard ratios input in \code{fail_rate}
-and observed events in the corresponding intervals
-\code{event} total observed number of events, and \code{info0} (information under related null hypothesis).
+\itemize{
+\item \code{ahr} - Blinded average hazard ratio based on assumed period-specific
+hazard ratios input in \code{fail_rate} and observed events in the
+corresponding intervals.
+\item \code{event} - Total observed number of events.
+\item \code{info0} - Information under related null hypothesis.
+}
 }
 \description{
-Based on blinded data and assumed hazard ratios in different intervals, compute
-a blinded estimate of average hazard ratio (AHR) and corresponding estimate of statistical information.
-This function is intended for use in computing futility bounds based on spending assuming
-the input hazard ratio (hr) values for intervals specified here.
+Based on blinded data and assumed hazard ratios in different intervals,
+compute a blinded estimate of average hazard ratio (AHR) and corresponding
+estimate of statistical information.
+This function is intended for use in computing futility bounds based on
+spending assuming the input hazard ratio (hr) values for intervals
+specified here.
 }
 \section{Specification}{
 
@@ -42,26 +49,23 @@ the input hazard ratio (hr) values for intervals specified here.
  \itemize{
    \item Validate if input hr is a numeric vector.
    \item Validate if input hr is non-negative.
-   \item Simulate piece-wise exponential survival estimation with the inputs survival object surv
-   and intervals.
-   \item Save the length of  hr and events to an object, and if the length of hr is shorter than
-   the intervals, add replicates of the last element of hr and the corresponding numbers of events
-   to hr.
+   \item Simulate piece-wise exponential survival estimation with the inputs
+   survival object surv and intervals.
+   \item Save the length of  hr and events to an object, and if the length of
+   hr is shorter than the intervals, add replicates of the last element of hr
+   and the corresponding numbers of events to hr.
    \item Compute the blinded estimation of average hazard ratio.
    \item Compute adjustment for information.
-   \item Return a tibble of the sum of events, average hazard raito, blinded average hazard
-   ratio, and the information.
+   \item Return a tibble of the sum of events, average hazard ratio,
+   blinded average hazard ratio, and the information.
   }
 }
 \if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{
-\donttest{
-library(simtrial)
-library(survival)
 ahr_blinded(
-  surv = Surv(
+  surv = survival::Surv(
     time = simtrial::ex2_delayed_effect$month,
     event = simtrial::ex2_delayed_effect$evntd
   ),
@@ -69,6 +73,4 @@ ahr_blinded(
   hr = c(1, .55),
   ratio = 1
 )
-}
-
 }
