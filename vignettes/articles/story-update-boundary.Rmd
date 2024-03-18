@@ -62,7 +62,7 @@ We use the null hypothesis information for boundary crossing probability calcula
 This will also imply the null hypothesis information will be used for the information fraction used in spending functions to derive the design.
 
 ```{r}
-info_scale = "h0_info"
+info_scale <- "h0_info"
 ```
 
 # One-sided design {.tabset}
@@ -418,7 +418,7 @@ x_updated <- gs_power_npe(
 
 
 ```{r}
-x_updated |>  
+x_updated |>
   dplyr::filter(abs(z) < Inf) |>
   gt::gt() |>
   gt::tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
