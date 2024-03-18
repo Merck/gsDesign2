@@ -555,3 +555,53 @@ as_gt.gs_design <- function(
 
   return(x)
 }
+
+#' @rdname as_gt
+#' @export
+#'
+#' @examplesIf interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' x <- gs_power_npe(
+#'   theta = c(.1, .2, .3),
+#'   info = (1:3) * 40,
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL))
+#'
+#' x |> as_gt()
+as_gt.gs_power_npe <- function(
+    x,
+    title = "Bound summary",
+    subtitle = NULL,
+    display_bound = c("Efficacy", "Futility"),
+    display_inf_bound = TRUE,
+    ...) {
+
+  # Filter out inf bound ----
+  if(!display_inf_bound) {
+    x <- x %>%filter(!is.infinite(z))
+  }
+
+  x <- x %>%
+    dplyr::select(analysis, bound, z, probability, theta, theta1, info, info0, info1, info_frac) %>%
+    dplyr::rename(Z = z,
+                  Bound = bound,
+                  `Cumulative boundary crossing probability` = probability,
+                  `Information fraction` = info_frac) %>%
+    dplyr::arrange(analysis) %>%
+    dplyr::group_by(analysis) %>%
+    gt::gt() %>%
+    gt::fmt_number(columns = c(Z, `Cumulative boundary crossing probability`, `Information fraction`),
+                   decimals = 4) %>%
+    gt::tab_spanner(
+      columns = c(theta, theta1),
+      label = c("Treatment effect (-log(AHR))")
+    ) %>%
+    gt::tab_spanner(
+      columns = c(info, info0, info1),
+      label = c("Statistical information")
+    ) %>%
+    gt::tab_header(title = title, subtitle = subtitle)
+
+  return(x)
+}

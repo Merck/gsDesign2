@@ -376,5 +376,6 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
     # filter(abs(Z) < Inf) %>%
     arrange(desc(bound), analysis)
 
+  class(ans) <- c("gs_power_npe", class(ans))
   return(ans)
 }

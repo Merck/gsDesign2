@@ -4,6 +4,7 @@
 \alias{as_gt}
 \alias{as_gt.fixed_design}
 \alias{as_gt.gs_design}
+\alias{as_gt.gs_power_npe}
 \title{Convert summary table of a fixed or group sequential design object to a gt object}
 \usage{
 as_gt(x, ...)
@@ -21,6 +22,15 @@ as_gt(x, ...)
   display_columns = NULL,
   display_inf_bound = TRUE,
   full_alpha = 0.025,
+  ...
+)
+
+\method{as_gt}{gs_power_npe}(
+  x,
+  title = "Bound summary",
+  subtitle = NULL,
+  display_bound = c("Efficacy", "Futility"),
+  display_inf_bound = TRUE,
   ...
 )
 }
@@ -196,5 +206,16 @@ gs_power_wlr() \%>\%
 gs_power_wlr() \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
+\dontshow{\}) # examplesIf}
+\dontshow{if (interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x <- gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL))
+
+x |> as_gt()
 \dontshow{\}) # examplesIf}
 }
