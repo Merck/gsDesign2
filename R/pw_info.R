@@ -204,6 +204,8 @@ pw_info <- function(
   ans <- ans[, .(time, stratum, t, hr, event, info, info0)]
   setorderv(ans, cols = c("time", "stratum"))
   ans <- ans[order(t), .SD, by = .(time, stratum)]
+  # filter out the rows with 0 events
+  ans <- ans[!is_almost_k(event, 0L)]
   setDF(ans)
   return(ans)
 }
