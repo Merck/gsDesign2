@@ -311,11 +311,10 @@ table_b <- tibble(Analysis = x_updated_h0$analysis[1:2],
                   `Nominal p` = pnorm(-Z),
                   `Alternate hypothesis` = x_updated_h1$probability[1:2],
                   `Null hypothesis` = x_updated_h0$probability[1:2])
-gsDesign2:::table_ab(
-  table_a = table_a,
-  table_b = table_b,
-  decimals = c(0, 0, 0, 2),
-  byvar = "Analysis") |>
+gsDesign2:::table_ab(table_a = table_a,
+                     table_b = table_b,
+                     decimals = c(0, 0, 0, 2),
+                     byvar = "Analysis") |>
   mutate(Bound = recode(Bound, "upper" = "Efficacy")) |>
   group_by(Analysis) |>
   gt() |>
@@ -480,7 +479,7 @@ x_updated_h1 <- gs_power_npe(
   # An `theta` under H1 provides the power of the updated boundaries
   # At IA, we valuate theta1 based on the observed number of events.
   # At FA, we directly take the last theta value from the planned design.
-  # Here we focus on offering correct updated efficacy bounds, and gives an 
+  # Here we focus on offering correct updated efficacy bounds, and gives an
   # approximation of power for the updated bounds.
   theta = theta1,
   # Observed statistical information under H0
@@ -515,10 +514,10 @@ table_b <- tibble(Analysis = x_updated_h0$analysis,
                   `Null hypothesis` = x_updated_h0$probability)
 
 gsDesign2:::table_ab(
-    table_a = table_a,
-    table_b = table_b,
-    decimals = c(0, 0, 0, 2),
-    byvar = "Analysis"
+  table_a = table_a,
+  table_b = table_b,
+  decimals = c(0, 0, 0, 2),
+  byvar = "Analysis"
   ) |>
   mutate(Bound = recode(Bound, "upper" = "Efficacy", "lower" = "Futility")) |>
   group_by(Analysis) |>
@@ -529,7 +528,7 @@ gsDesign2:::table_ab(
               label = "Cumulative boundary crossing probability") |>
   fmt_number(columns = 3:7,
              decimals = 4) |>
-    gt::tab_style(
+  gt::tab_style(
     style = list(
       gt::cell_fill(color = "lightcyan"),
       gt::cell_text(weight = "bold")
