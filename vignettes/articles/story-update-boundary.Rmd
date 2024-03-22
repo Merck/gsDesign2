@@ -513,11 +513,10 @@ table_b <- tibble(Analysis = x_updated_h0$analysis,
                   `Alternate hypothesis` = x_updated_h1$probability,
                   `Null hypothesis` = x_updated_h0$probability)
 
-gsDesign2:::table_ab(
-  table_a = table_a,
-  table_b = table_b,
-  decimals = c(0, 0, 0, 2),
-  byvar = "Analysis") |>
+gsDesign2:::table_ab(table_a = table_a,
+                     table_b = table_b,
+                     decimals = c(0, 0, 0, 2),
+                     byvar = "Analysis") |>
   mutate(Bound = recode(Bound, "upper" = "Efficacy", "lower" = "Futility")) |>
   group_by(Analysis) |>
   filter(!is.infinite(Z)) |>
