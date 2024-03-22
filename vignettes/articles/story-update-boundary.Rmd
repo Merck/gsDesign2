@@ -130,7 +130,7 @@ x |>
       columns = Z,
       rows = Bound == "Efficacy"
     )
-  ) 
+  )
 ```
 
 ## Update bounds at time of analysis
@@ -263,7 +263,10 @@ blinded_ahr_fa <- ahr_blinded(
   ratio = 1
 )
 
-cat("By option 2, the theta1 value at IA is ", round(blinded_ahr_ia$theta, 4), ", and ",  round(blinded_ahr_fa$theta, 4), " at FA, which are the same as option 1.")
+cat("By option 2, the theta1 value at IA is ",
+    round(blinded_ahr_ia$theta, 4), ", and ",
+    round(blinded_ahr_fa$theta, 4),
+    " at FA, which are the same as option 1.")
 ```
 
 Both Option 1 and Option 2 yield the same value of `theta1`. Option 1 is applicable
@@ -275,7 +278,7 @@ x_updated_h1 <- gs_power_npe(
   # An `theta` under H1 provides the power of the updated boundaries
   # At IA, we valuate theta1 based on the observed number of events.
   # At FA, we directly take the last theta value from the planned design.
-  # Here we focus on offering correct updated efficacy bounds, and gives an 
+  # Here we focus on offering correct updated efficacy bounds, and gives an
   # approximation of power for the updated bounds.
   theta = theta1,
   # Observed statistical information under H0
@@ -309,29 +312,23 @@ table_b <- tibble(Analysis = x_updated_h0$analysis[1:2],
                   `Alternate hypothesis` = x_updated_h1$probability[1:2],
                   `Null hypothesis` = x_updated_h0$probability[1:2])
 gsDesign2:::table_ab(
-    table_a = table_a,
-    table_b = table_b,
-    decimals = c(0, 0, 0, 2),
-    byvar = "Analysis"
-  ) %>% 
-  mutate(Bound = recode(Bound, 'upper' = 'Efficacy')) %>% 
-  group_by(Analysis) %>% 
-  gt() %>% 
-  tab_header(title = "Updated design", subtitle = "by event fraction based timing") %>% 
+  table_a = table_a,
+  table_b = table_b,
+  decimals = c(0, 0, 0, 2),
+  byvar = "Analysis") |>
+  mutate(Bound = recode(Bound, "upper" = "Efficacy")) |>
+  group_by(Analysis) |>
+  gt() |>
+  tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
   tab_spanner(columns = c(`Alternate hypothesis`, `Null hypothesis`),
-              label = "Cumulative boundary crossing probability") %>% 
+              label = "Cumulative boundary crossing probability") |>
   fmt_number(columns = 3:7,
-             decimals = 4) %>% 
-    gt::tab_style(
-    style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
-    ),
-    locations = gt::cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )
-  ) 
+             decimals = 4) |>
+  gt::tab_style(
+    style = list(gt::cell_fill(color = "lightcyan"),
+                 gt::cell_text(weight = "bold")),
+    locations = gt::cells_body(columns = Z, rows = Bound == "Efficacy")
+  )
 ```
 
 
@@ -522,16 +519,16 @@ gsDesign2:::table_ab(
     table_b = table_b,
     decimals = c(0, 0, 0, 2),
     byvar = "Analysis"
-  ) %>% 
-  mutate(Bound = recode(Bound, 'upper' = 'Efficacy', 'lower' = 'Futility')) %>% 
-  group_by(Analysis) %>% 
-  filter(!is.infinite(Z)) %>% 
-  gt() %>% 
-  tab_header(title = "Updated design", subtitle = "by event fraction based timing") %>% 
+  ) |>
+  mutate(Bound = recode(Bound, "upper" = "Efficacy", "lower" = "Futility")) |>
+  group_by(Analysis) |>
+  filter(!is.infinite(Z)) |>
+  gt() |>
+  tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
   tab_spanner(columns = c(`Alternate hypothesis`, `Null hypothesis`),
-              label = "Cumulative boundary crossing probability") %>% 
+              label = "Cumulative boundary crossing probability") |>
   fmt_number(columns = 3:7,
-             decimals = 4) %>% 
+             decimals = 4) |>
     gt::tab_style(
     style = list(
       gt::cell_fill(color = "lightcyan"),
