@@ -517,8 +517,7 @@ gsDesign2:::table_ab(
   table_a = table_a,
   table_b = table_b,
   decimals = c(0, 0, 0, 2),
-  byvar = "Analysis"
-  ) |>
+  byvar = "Analysis") |>
   mutate(Bound = recode(Bound, "upper" = "Efficacy", "lower" = "Futility")) |>
   group_by(Analysis) |>
   filter(!is.infinite(Z)) |>
