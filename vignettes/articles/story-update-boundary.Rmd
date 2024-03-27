@@ -120,13 +120,13 @@ over the targeted 90\%.
 x |>
   summary() |>
   as_gt() |>
-  gt::tab_header(title = "Original design") |>
-  gt::tab_style(
+  tab_header(title = "Original design") |>
+  tab_style(
     style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
@@ -164,13 +164,13 @@ event_planned <- x$analysis$event
 ```
 
 ```{r, echo=FALSE}
-tibble::tibble(
+tibble(
   Analysis = c("IA", "FA"),
   `Planned events` = event_planned,
   `Observed events` = event_observed
 ) |>
-  gt::gt() |>
-  gt::tab_header("Planned vs. Observed events")
+  gt() |>
+  tab_header("Planned vs. Observed events")
 ```
 
 ### Updated efficacy bounds and crossing probability under H0
@@ -263,10 +263,12 @@ blinded_ahr_fa <- ahr_blinded(
   ratio = 1
 )
 
-cat("By option 2, the theta1 value at IA is ",
-    round(blinded_ahr_ia$theta, 4), ", and ",
-    round(blinded_ahr_fa$theta, 4),
-    " at FA, which are the same as option 1.")
+cat(
+  "By option 2, the theta1 value at IA is ",
+  round(blinded_ahr_ia$theta, 4), ", and ",
+  round(blinded_ahr_fa$theta, 4),
+  " at FA, which are the same as option 1."
+)
 ```
 
 Both Option 1 and Option 2 yield the same value of `theta1`. Option 1 is applicable
@@ -299,37 +301,48 @@ x_updated_h1 <- gs_power_npe(
 
 ```{r}
 # Tidy summary table for the updated design
-table_a <- tibble(Analysis = x_updated_h0$analysis[1:2],
-                  N = x$analysis$n,
-                  `Observed Events` = event_observed,
-                  `Information fraction` = x_updated_h0$info_frac[1:2])
+table_a <- tibble(
+  Analysis = x_updated_h0$analysis[1:2],
+  N = x$analysis$n,
+  `Observed Events` = event_observed,
+  `Information fraction` = x_updated_h0$info_frac[1:2]
+)
 
-table_b <- tibble(Analysis = x_updated_h0$analysis[1:2],
-                  Bound = x_updated_h0$bound[1:2],
-                  Z = x_updated_h0$z[1:2],
-                  `~HR at bound` = exp(-Z / sqrt(x_updated_h0$info0[1:2])),
-                  `Nominal p` = pnorm(-Z),
-                  `Alternate hypothesis` = x_updated_h1$probability[1:2],
-                  `Null hypothesis` = x_updated_h0$probability[1:2])
-gsDesign2:::table_ab(table_a = table_a,
-                     table_b = table_b,
-                     decimals = c(0, 0, 0, 2),
-                     byvar = "Analysis") |>
+table_b <- tibble(
+  Analysis = x_updated_h0$analysis[1:2],
+  Bound = x_updated_h0$bound[1:2],
+  Z = x_updated_h0$z[1:2],
+  `~HR at bound` = exp(-Z / sqrt(x_updated_h0$info0[1:2])),
+  `Nominal p` = pnorm(-Z),
+  `Alternate hypothesis` = x_updated_h1$probability[1:2],
+  `Null hypothesis` = x_updated_h0$probability[1:2]
+)
+gsDesign2:::table_ab(
+  table_a = table_a,
+  table_b = table_b,
+  decimals = c(0, 0, 0, 2),
+  byvar = "Analysis"
+) |>
   mutate(Bound = recode(Bound, "upper" = "Efficacy")) |>
   group_by(Analysis) |>
   gt() |>
   tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
-  tab_spanner(columns = c(`Alternate hypothesis`, `Null hypothesis`),
-              label = "Cumulative boundary crossing probability") |>
-  fmt_number(columns = 3:7,
-             decimals = 4) |>
-  gt::tab_style(
-    style = list(gt::cell_fill(color = "lightcyan"),
-                 gt::cell_text(weight = "bold")),
-    locations = gt::cells_body(columns = Z, rows = Bound == "Efficacy")
+  tab_spanner(
+    columns = c(`Alternate hypothesis`, `Null hypothesis`),
+    label = "Cumulative boundary crossing probability"
+  ) |>
+  fmt_number(
+    columns = 3:7,
+    decimals = 4
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_body(columns = Z, rows = Bound == "Efficacy")
   )
 ```
-
 
 # Two-sided asymmetric design, beta-spending with non-binding lower bound {.tabset}
 
@@ -387,23 +400,23 @@ larger than what we have in the 1-sided example.
 x |>
   summary() |>
   as_gt() |>
-  gt::tab_header(title = "Original design") |>
-  gt::tab_style(
+  tab_header(title = "Original design") |>
+  tab_style(
     style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
   ) |>
-  gt::tab_style(
+  tab_style(
     style = list(
-      gt::cell_fill(color = "#F9E3D6"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "#F9E3D6"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Futility"
     )
@@ -412,15 +425,16 @@ x |>
 
 ## Update bounds at time of analysis
 
-For simplicity in presentation, let's assume the observed events are the same as that in the 1-sided design.  
+For simplicity in presentation, let's assume the observed events are the same as that in the 1-sided design.
+
 ```{r, echo=FALSE}
-tibble::tibble(
+tibble(
   Analysis = c("IA", "FA"),
   `Planned number of events` = x$analysis$event,
   `Observed number of events` = event_observed
 ) |>
-  gt::gt() |>
-  gt::tab_header("Planned vs. Observed events")
+  gt() |>
+  tab_header("Planned vs. Observed events")
 ```
 
 ### Updated efficacy and futility bounds and crossing probability under H0
@@ -430,7 +444,6 @@ The details of its arguments and implementations are explained in the Appendix.
 We initially set up `theta = 0` for crossing probability under the null hypothesis
 and `theta0 = 0` for null hypothesis.
 As for `theta1`, there are 2 options to set it up.
-
 
 ```{r}
 x_updated_h0 <- gs_power_npe(
@@ -500,92 +513,73 @@ x_updated_h1 <- gs_power_npe(
 
 ```{r}
 # Tidy summary table for the updated design
-table_a <- tibble(Analysis = x_updated_h0$analysis[1:2],
-                  N = x$analysis$n,
-                  `Observed Events` = event_observed,
-                  `Information fraction` = x_updated_h0$info_frac[1:2])
+table_a <- tibble(
+  Analysis = x_updated_h0$analysis[1:2],
+  N = x$analysis$n,
+  `Observed Events` = event_observed,
+  `Information fraction` = x_updated_h0$info_frac[1:2]
+)
 
-table_b <- tibble(Analysis = x_updated_h0$analysis,
-                  Bound = x_updated_h0$bound,
-                  Z = x_updated_h0$z,
-                  `~HR at bound` = exp(-Z / sqrt(x_updated_h0$info0)),
-                  `Nominal p` = pnorm(-Z),
-                  `Alternate hypothesis` = x_updated_h1$probability,
-                  `Null hypothesis` = x_updated_h0$probability)
+table_b <- tibble(
+  Analysis = x_updated_h0$analysis,
+  Bound = x_updated_h0$bound,
+  Z = x_updated_h0$z,
+  `~HR at bound` = exp(-Z / sqrt(x_updated_h0$info0)),
+  `Nominal p` = pnorm(-Z),
+  `Alternate hypothesis` = x_updated_h1$probability,
+  `Null hypothesis` = x_updated_h0$probability
+)
 
-gsDesign2:::table_ab(table_a = table_a,
-                     table_b = table_b,
-                     decimals = c(0, 0, 0, 2),
-                     byvar = "Analysis") |>
+gsDesign2:::table_ab(
+  table_a = table_a,
+  table_b = table_b,
+  decimals = c(0, 0, 0, 2),
+  byvar = "Analysis"
+) |>
   mutate(Bound = recode(Bound, "upper" = "Efficacy", "lower" = "Futility")) |>
   group_by(Analysis) |>
   filter(!is.infinite(Z)) |>
   gt() |>
   tab_header(title = "Updated design", subtitle = "by event fraction based timing") |>
-  tab_spanner(columns = c(`Alternate hypothesis`, `Null hypothesis`),
-              label = "Cumulative boundary crossing probability") |>
-  fmt_number(columns = 3:7,
-             decimals = 4) |>
-  gt::tab_style(
+  tab_spanner(
+    columns = c(`Alternate hypothesis`, `Null hypothesis`),
+    label = "Cumulative boundary crossing probability"
+  ) |>
+  fmt_number(
+    columns = 3:7,
+    decimals = 4
+  ) |>
+  tab_style(
     style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
   ) |>
-  gt::tab_style(
+  tab_style(
     style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
   ) |>
-  gt::tab_style(
+  tab_style(
     style = list(
-      gt::cell_fill(color = "#F9E3D6"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "#F9E3D6"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Futility"
     )
   )
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Appendix
 
