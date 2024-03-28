@@ -169,9 +169,9 @@ We summarize event counts by HR interval for each analysis.
 counts_table <- NULL
 # Cut points for hazard rate intervals specified
 t_cut <- c(0, cumsum(fail_rate$duration))
-for (i in 1:length(analysis_time)) {
+for (i in seq_along(analysis_time)) {
   observed_data_i <- observed_data |> simtrial::cut_data_by_date(analysis_time[i])
-  for (j in 1:nrow(fail_rate)) {
+  for (j in seq_along(nrow(fail_rate))) {
     events <- sum(observed_data_i$event * (observed_data_i$tte > t_cut[j]) * (observed_data_i$tte <= t_cut[j + 1]))
     counts_table <- rbind(counts_table,
                           tibble(Analysis = i, Interval = j, Events = events, HR = fail_rate$hr[j]))
@@ -233,29 +233,26 @@ blinded_ahr |>
 # theta1 at IA
 observed_data_ia <- observed_data |> simtrial::cut_data_by_date(analysis_time[1])
 
-blinded_ahr_ia <- ahr_blinded(
-  surv = survival::Surv(time = observed_data_ia$tte, event = observed_data_ia$event),
-  intervals = c(3, x$analysis$time[1]),
-  hr = c(1, 0.6),
-  ratio = 1)
+blinded_ahr_ia <- ahr_blinded(surv = survival::Surv(time = observed_data_ia$tte, event = observed_data_ia$event),
+                              intervals = c(3, x$analysis$time[1]),
+                              hr = c(1, 0.6),
+                              ratio = 1)
 
 # theta1 at FA
 observed_data_fa <- observed_data |> simtrial::cut_data_by_date(analysis_time[2])
 
-blinded_ahr_fa <- ahr_blinded(
-  surv = survival::Surv(time = observed_data_fa$tte, event = observed_data_fa$event),
-  intervals = c(3, x$analysis$time[2]),
-  hr = c(1, 0.6),
-  ratio = 1)
+blinded_ahr_fa <- ahr_blinded(surv = survival::Surv(time = observed_data_fa$tte, event = observed_data_fa$event),
+                              intervals = c(3, x$analysis$time[2]),
+                              hr = c(1, 0.6),
+                              ratio = 1)
 
 # Combine both IA and FA
 blinded_ahr <- rbind(blinded_ahr_ia, blinded_ahr_fa)
 blinded_ahr |>
   gt() |>
   tab_header("Blinded AHR estimates from ahr_blinded()") |>
-  gt::tab_style(
-    style = list(gt::cell_fill(color = "#009999"), gt::cell_text(weight = "bold")),
-    locations = gt::cells_body(columns = theta, rows = everything()))
+  gt::tab_style(style = list(gt::cell_fill(color = "#009999"), gt::cell_text(weight = "bold")),
+                locations = gt::cells_body(columns = theta, rows = everything()))
 ```
 
 
@@ -307,7 +304,7 @@ A value of `theta1` is computed with one of the blinded AHR methods above and in
 x_updated_h1 <- gs_power_npe(
   # An `theta` under H1 provides the power of the updated boundaries
   theta = blinded_ahr$theta,
-  # Observed statistical information under H0, 
+  # Observed statistical information under H0,
   # same as info = event_observed * x$input$ratio / (1 + x$input$ratio)^2
   info = blinded_ahr$info0,
   info_scale = "h0_info",
@@ -454,7 +451,7 @@ We use the same `theta1` we calculated previously.
 
 ```{r}
 upar_update  <- upar
-upar_update$timing <- c(event_observed[1] / max(x$analysis$event), 1) 
+upar_update$timing <- c(event_observed[1] / max(x$analysis$event), 1)
 lpar_update <- lpar
 lpar_update$timing <- c(event_observed[1] / max(x$analysis$event), 1)
 x_updated_h0 <- gs_power_npe(
