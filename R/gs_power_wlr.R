@@ -188,7 +188,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
                          approx = "asymptotic",
                          r = 18,
                          tol = 1e-6,
-                         interval = c(.01, 100)) {
+                         interval = c(.01, 1000)) {
   # check of inputted sample size
   input_sample_size <- sum(enroll_rate$rate * enroll_rate$duration)
 

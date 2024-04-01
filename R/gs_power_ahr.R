@@ -171,7 +171,7 @@ gs_power_ahr <- function(
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     r = 18,
     tol = 1e-6,
-    interval = c(.01, 100)) {
+    interval = c(.01, 1000)) {
   # Get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
 

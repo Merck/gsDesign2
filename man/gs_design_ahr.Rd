@@ -25,7 +25,7 @@ gs_design_ahr(
   info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   r = 18,
   tol = 1e-06,
-  interval = c(0.01, 100)
+  interval = c(0.01, 1000)
 )
 }
 \arguments{
