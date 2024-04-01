@@ -1,5 +1,6 @@
 test_that("enroll_rate produces the expected output", {
   expected_result <- tibble::tibble(stratum = "All", duration = 18, rate = 20)
+
   result <- define_enroll_rate(duration = 18, rate = 20)
 
   expect_identical(as.data.frame(result), as.data.frame(expected_result))
