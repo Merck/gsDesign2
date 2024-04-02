@@ -30,6 +30,8 @@ test_that("fail_rate produces the expected output", {
 })
 
 test_that("Snapshot test for fixed_design summary as_gt", {
+  skip_on_cran()
+
   enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
   fail_rate <- define_fail_rate(
     duration = c(4, 100),
@@ -53,6 +55,8 @@ test_that("Snapshot test for fixed_design summary as_gt", {
 })
 
 test_that("Snapshot test for fixed_design summary as_gt with custom title and footnote", {
+  skip_on_cran()
+
   enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
   fail_rate <- define_fail_rate(
     duration = c(4, 100),
@@ -76,6 +80,8 @@ test_that("Snapshot test for fixed_design summary as_gt with custom title and fo
 })
 
 test_that("Snapshot test for fixed_design_fh summary as_gt", {
+  skip_on_cran()
+
   enroll_rate <- define_enroll_rate(
     duration = 18,
     rate = 20
@@ -103,6 +109,8 @@ test_that("Snapshot test for fixed_design_fh summary as_gt", {
 })
 
 test_that("Snapshot test for gs_design_ahr summary as_gt", {
+  skip_on_cran()
+
   output <- gs_design_ahr() %>%
     summary() %>%
     as_gt()
@@ -112,6 +120,8 @@ test_that("Snapshot test for gs_design_ahr summary as_gt", {
 })
 
 test_that("Snapshot test for gs_power_ahr summary as_gt", {
+  skip_on_cran()
+
   output <- gs_power_ahr() %>%
     summary() %>%
     as_gt()
@@ -121,6 +131,8 @@ test_that("Snapshot test for gs_power_ahr summary as_gt", {
 })
 
 test_that("Snapshot test for gs_design_wlr summary as_gt", {
+  skip_on_cran()
+
   output <- gs_design_wlr() %>%
     summary() %>%
     as_gt()
@@ -130,6 +142,8 @@ test_that("Snapshot test for gs_design_wlr summary as_gt", {
 })
 
 test_that("Snapshot test for gs_power_wlr summary as_gt", {
+  skip_on_cran()
+
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(
@@ -150,6 +164,8 @@ test_that("Snapshot test for gs_power_wlr summary as_gt", {
 })
 
 test_that("Snapshot test for gs_power_combo summary as_gt", {
+  skip_on_cran()
+
   # See <https://github.com/Merck/gsDesign2/issues/340>
   output <- with_seed(
     42,
@@ -165,6 +181,8 @@ test_that("Snapshot test for gs_power_combo summary as_gt", {
 })
 
 test_that("Snapshot test for gs_design_rd summary as_gt", {
+  skip_on_cran()
+
   output <- gs_design_rd() %>%
     summary() %>%
     as_gt()
@@ -174,6 +192,8 @@ test_that("Snapshot test for gs_design_rd summary as_gt", {
 })
 
 test_that("Snapshot test for gs_power_rd summary as_gt", {
+  skip_on_cran()
+
   output <- gs_power_rd() %>%
     summary() %>%
     as_gt()
@@ -183,6 +203,8 @@ test_that("Snapshot test for gs_power_rd summary as_gt", {
 })
 
 test_that("Snapshot test for gs_power_wlr summary as_gt with custom title and subtitle", {
+  skip_on_cran()
+
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(title = "Bound Summary", subtitle = "from gs_power_wlr")
@@ -192,6 +214,8 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with custom title and su
 })
 
 test_that("Snapshot test for gs_power_wlr summary as_gt with colname_spanner and colname_spannersub", {
+  skip_on_cran()
+
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(
@@ -205,6 +229,8 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with colname_spanner and
 })
 
 test_that("Snapshot test for gs_power_wlr summary as_gt with custom footnotes", {
+  skip_on_cran()
+
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(
@@ -225,6 +251,8 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with custom footnotes", 
 })
 
 test_that("Snapshot test for gs_power_wlr summary as_gt with display_bound", {
+  skip_on_cran()
+
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(display_bound = "Efficacy")
@@ -234,6 +262,8 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with display_bound", {
 })
 
 test_that("Snapshot test for gs_power_wlr summary as_gt with display_columns", {
+  skip_on_cran()
+
   output <- gs_power_wlr() %>%
     summary() %>%
     as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
