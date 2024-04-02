@@ -7,7 +7,7 @@
     } \\ 
     \toprule
     Design & N & Events & Time & Bound & alpha & Power \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Average hazard ratio & 463.078 & 324.7077 & 36 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{longtable}
@@ -24,7 +24,7 @@
     } \\ 
     \toprule
     Design & N & Events & Time & Bound & alpha & Power \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Average hazard ratio & 463.078 & 324.7077 & 36 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{longtable}
@@ -41,7 +41,7 @@
     } \\ 
     \toprule
     Design & N & Events & Time & Bound & alpha & Power \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Fleming-Harrington FH(0, 0) (logrank) & 458.3509 & 321.3931 & 36 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{longtable}
@@ -61,8 +61,9 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}HR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 476 Event: 291.9 AHR: 0.68 Information fraction: 1} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 1.96 & 0.025 & 0.795 & 0.9 & 0.025 \\ 
     \bottomrule
     \end{longtable}
@@ -84,17 +85,18 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}HR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & -1.28 & 0.9000 & 1.6031 & 0.0273 & 0.1000 \\ 
     Efficacy & 2.67 & 0.0038 & 0.3743 & 0.0231 & 0.0038 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.74 Information fraction: 0.8} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.29 & 0.0110 & 0.4812 & 0.0897 & 0.0122 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.03 & 0.0211 & 0.5595 & 0.2070 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
@@ -116,8 +118,9 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 471.1 Event: 289 AHR: 0.68 Information fraction: 1\textsuperscript{\textit{3}}} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 1.96 & 0.025 & 0.7940584 & 0.9 & 0.025 \\ 
     \bottomrule
     \end{longtable}
@@ -140,17 +143,18 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability\textsuperscript{\textit{2}}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & -1.28 & 0.9000 & 1.5967269 & 0.0268 & 0.1000 \\ 
     Efficacy & 2.67 & 0.0038 & 0.3774019 & 0.0221 & 0.0038 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.29 & 0.0110 & 0.4849272 & 0.0889 & 0.0122 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.03 & 0.0211 & 0.5630598 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
@@ -173,19 +177,19 @@
      &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){4-5}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{5}{l}{Analysis: 1 Time: 12 N: 500 Event: 107.4 AHR: 0.84 Event fraction: 0.32\textsuperscript{\textit{2}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & -1 & 0.8413 & 0.0293 & 0.0000 \\ 
     Efficacy & 3 & 0.0013 & 0.0175 & 0.0013 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{5}{l}{Analysis: 2 Time: 24 N: 500 Event: 246.3 AHR: 0.72 Event fraction: 0.74\textsuperscript{\textit{2}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & 0 & 0.5000 & 0.0314 & 0.0000 \\ 
     Efficacy & 2 & 0.0228 & 0.7261 & 0.0233 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{5}{l}{Analysis: 3 Time: 36 N: 500 Event: 331.3 AHR: 0.68 Event fraction: 1\textsuperscript{\textit{2}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & 1 & 0.1587 & 0.0326 & 0.0000 \\ 
     Efficacy & 1 & 0.1587 & 0.9674 & 0.1956 \\ 
     \bottomrule
@@ -208,8 +212,9 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}Risk difference at bound & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 N: 2433.6 Risk difference: 0.05 Information fraction: 1} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 1.96 & 0.025 & 0.0302 & 0.9 & 0.025 \\ 
     \bottomrule
     \end{longtable}
@@ -230,17 +235,18 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}Risk difference at bound & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 N: 40 Risk difference: 0.05 Information fraction: 0.67} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & -1.28 & 0.9000 & -0.1537 & 0.0444 & 0.1000 \\ 
     Efficacy & 3.71 & 0.0001 & 0.4448 & 0.0005 & 0.0001 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 N: 50 Risk difference: 0.05 Information fraction: 0.83} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.51 & 0.0060 & 0.2693 & 0.0204 & 0.0060 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 N: 60 Risk difference: 0.05 Information fraction: 1} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 1.99 & 0.0231 & 0.1951 & 0.0705 & \textsuperscript{\textit{2}} 0.0238 \\ 
     \bottomrule
     \end{longtable}
@@ -262,17 +268,18 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & -1.28 & 0.9000 & 1.5967269 & 0.0268 & 0.1000 \\ 
     Efficacy & 2.67 & 0.0038 & 0.3774019 & 0.0221 & 0.0038 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.29 & 0.0110 & 0.4849272 & 0.0889 & 0.0122 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.03 & 0.0211 & 0.5630598 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
@@ -295,17 +302,18 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative probability to cross boundaries} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & under H1 & under H0 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & -1.28 & 0.9000 & 1.5967269 & 0.0268 & 0.1000 \\ 
     Efficacy & 2.67 & 0.0038 & 0.3774019 & 0.0221 & 0.0038 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.29 & 0.0110 & 0.4849272 & 0.0889 & 0.0122 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.03 & 0.0211 & 0.5630598 & 0.2071 & \textsuperscript{\textit{4}} 0.0250 \\ 
     \bottomrule
     \end{longtable}
@@ -329,17 +337,18 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability\textsuperscript{\textit{2}}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & -1.28 & 0.9000 & 1.5967269 & 0.0268 & 0.1000 \\ 
     Efficacy & 2.67 & 0.0038 & 0.3774019 & 0.0221 & 0.0038 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.29 & 0.0110 & 0.4849272 & 0.0889 & 0.0122 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.03 & 0.0211 & 0.5630598 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
@@ -362,16 +371,17 @@
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.67 & 0.0038 & 0.3774019 & 0.0221 & 0.0038 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.29 & 0.0110 & 0.4849272 & 0.0889 & 0.0122 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 2.03 & 0.0211 & 0.5630598 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
@@ -394,17 +404,18 @@
      &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
     \cmidrule(lr){4-5}
     Bound & Nominal p\textsuperscript{\textit{1}} & Z & Alternate hypothesis & Null hypothesis \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{5}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{2}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Futility & 0.9000 & -1.28 & 0.0268 & 0.1000 \\ 
     Efficacy & 0.0038 & 2.67 & 0.0221 & 0.0038 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{5}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{2}}} \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     Efficacy & 0.0110 & 2.29 & 0.0889 & 0.0122 \\ 
-    \midrule
+    \midrule\addlinespace[2.5pt]
     \multicolumn{5}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{2}}} \\ 
+    \midrule\addlinespace[2.5pt]
     Efficacy & 0.0211 & 2.03 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
