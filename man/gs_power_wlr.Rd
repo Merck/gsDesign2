@@ -24,7 +24,7 @@ gs_power_wlr(
   approx = "asymptotic",
   r = 18,
   tol = 1e-06,
-  interval = c(0.01, 100)
+  interval = c(0.01, 1000)
 )
 }
 \arguments{

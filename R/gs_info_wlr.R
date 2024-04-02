@@ -91,7 +91,7 @@ gs_info_wlr <- function(
     analysis_time = NULL, # Times of analyses
     weight = wlr_weight_fh,
     approx = "asymptotic",
-    interval = c(.01, 100)) {
+    interval = c(.01, 1000)) {
   if (is.null(analysis_time) && is.null(event)) {
     stop("gs_info_wlr(): One of event and analysis_time must be a numeric value or vector with increasing values!")
   }

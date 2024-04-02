@@ -132,7 +132,7 @@ gs_design_wlr <- function(
     test_lower = TRUE,
     h1_spending = TRUE,
     r = 18, tol = 1e-6,
-    interval = c(.01, 100)) {
+    interval = c(.01, 1000)) {
   # Check input values ----
   msg <- "gs_design_wlr(): analysis_time must be a
   positive number or positive increasing sequence"

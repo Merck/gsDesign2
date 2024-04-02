@@ -250,7 +250,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       test_upper = x$input$test_upper,
       test_lower = x$input$test_lower,
       binding = x$input$binding,
-      info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol
+      info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
+      interval = c(0.01, max(x$analysis$time) + 100)
     )
   } else if ("wlr" %in% class(x)) {
     event <- x$analysis$event
@@ -286,7 +287,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       binding = x$input$binding,
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
       weight = x$input$weight,
-      approx = x$input$approx
+      approx = x$input$approx,
+      interval = c(0.01, max(x$analysis$time) + 100)
     )
   } else if ("rd" %in% class(x)) {
     n_stratum <- length(x$input$p_c$stratum)

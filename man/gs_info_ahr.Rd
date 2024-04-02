@@ -11,7 +11,7 @@ gs_info_ahr(
   ratio = 1,
   event = NULL,
   analysis_time = NULL,
-  interval = c(0.01, 100)
+  interval = c(0.01, 1000)
 )
 }
 \arguments{

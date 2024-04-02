@@ -13,7 +13,7 @@ gs_info_wlr(
   analysis_time = NULL,
   weight = wlr_weight_fh,
   approx = "asymptotic",
-  interval = c(0.01, 100)
+  interval = c(0.01, 1000)
 )
 }
 \arguments{

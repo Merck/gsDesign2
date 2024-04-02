@@ -93,7 +93,7 @@ gs_info_ahr <- function(
     ratio = 1, # experimental:Control randomization ratio
     event = NULL, # event at analyses
     analysis_time = NULL, # times of analyses
-    interval = c(.01, 100)) {
+    interval = c(.01, 1000)) {
   # Check input values ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
