@@ -67,7 +67,7 @@ approximate information and effect size using an average hazard ratio model.</p>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  event <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  analysis_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">100</span><span class="op">)</span></span>
+<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -130,10 +130,10 @@ average HR at targeted <code>analysis_time</code>.</p>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Only put in targeted events</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_ahr</span><span class="op">(</span>event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time    event       ahr     theta      info info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 14.90814 30.00000 0.7865729 0.2400699  7.373414   7.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 19.16437 40.00000 0.7442008 0.2954443  9.789939  10.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 24.54264 50.00001 0.7128241 0.3385206 12.227635  12.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time    event       ahr     theta      info    info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 14.90817 30.00008 0.7865726 0.2400702  7.373433  7.50002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 19.16437 40.00000 0.7442008 0.2954444  9.789940 10.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 24.54264 50.00000 0.7128241 0.3385206 12.227632 12.50000</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># Example 2 ----</span></span></span>
 <span class="r-in"><span></span></span>
@@ -151,13 +151,13 @@ average HR at targeted <code>analysis_time</code>.</p>
 <span class="r-in"><span><span class="fu">gs_info_ahr</span><span class="op">(</span>event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span>, analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">19</span>, <span class="fl">26</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time    event       ahr     theta      info     info0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 16.00000 33.06876 0.7759931 0.2536117  8.118487  8.267189</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 19.16437 40.00000 0.7442008 0.2954443  9.789939 10.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 19.16437 40.00000 0.7442008 0.2954444  9.789940 10.000001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 26.00000 52.41802 0.7071808 0.3464689 12.822714 13.104505</span>
 <span class="r-in"><span><span class="fu">gs_info_ahr</span><span class="op">(</span>event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span>, analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">20</span>, <span class="fl">24</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time    event       ahr     theta      info    info0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 14.90814 30.00000 0.7865729 0.2400699  7.373414  7.50000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 14.90817 30.00008 0.7865726 0.2400702  7.373433  7.50002</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 20.00000 41.67282 0.7377944 0.3040901 10.195150 10.41821</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 24.54264 50.00001 0.7128241 0.3385206 12.227635 12.50000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 24.54264 50.00000 0.7128241 0.3385206 12.227632 12.50000</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
