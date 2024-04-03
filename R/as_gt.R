@@ -305,7 +305,7 @@ as_gt.gs_design <- function(
     footnote = NULL,
     display_bound = c("Efficacy", "Futility"),
     display_columns = NULL,
-    display_inf_bound = TRUE,
+    display_inf_bound = FALSE,
     full_alpha = 0.025,
     ...) {
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
