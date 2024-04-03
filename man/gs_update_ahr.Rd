@@ -135,6 +135,7 @@ x <- gs_design_ahr(
 
 # Example B1 ----
 # IA spending = observed events / final planned events
+# the remaining alpha will be allocated to FA.
 gs_update_ahr(
   x = x,
   ia_alpha_spending = "actual_info_frac",

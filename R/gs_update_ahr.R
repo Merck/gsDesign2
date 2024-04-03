@@ -28,7 +28,7 @@
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
-#' @importFrom dplyr mutate left_join select
+#' @importFrom dplyr mutate left_join select rename
 #' @importFrom gsDesign gsDesign sfLDOF
 #'
 #' @export
@@ -139,7 +139,7 @@
 #'
 #' # Example B1 ----
 #' # IA spending = observed events / final planned events
-#  # the remaining alpha will be allocated to FA.
+#' # the remaining alpha will be allocated to FA.
 #' gs_update_ahr(
 #'   x = x,
 #'   ia_alpha_spending = "actual_info_frac",
@@ -200,15 +200,16 @@ gs_update_ahr <- function(
 
   # Calculate the blinded estimation of AHR ----
   fr_duration <- x$input$fail_rate$duration
-  fr_rate <- x$input$fail_rate$fail_rate
+  fr_hr <- x$input$fail_rate$hr
   all_t <- sort(c(fr_duration, x$analysis$time))
+
   if (is.infinite(max(x$input$fail_rate$duration))) {
     hr_interval <- cumsum(c(fr_duration[-length(fr_duration)], max(x$analysis$time) + 50))
   } else {
     hr_interval <- cumsum(fr_duration)
   }
 
-  pw_hr <- stepfun(x = hr_interval, y = c(fr_rate, last(fr_rate)), right = TRUE)
+  pw_hr <- stepfun(x = hr_interval, y = c(fr_hr, last(fr_hr)), right = TRUE)
 
   blinded_est <- NULL
   observed_event <- NULL
@@ -308,5 +309,8 @@ gs_update_ahr <- function(
                              info = blinded_est$info0,
                              info0 = blinded_est$info0,
                              info_frac = upar_update$timing)
+
+  class(ans) <- c(class(x), "updated_design")
+
   return(ans)
 }
