@@ -243,39 +243,28 @@ gs_update_ahr <- function(
   }
 
   # Update boundaries and crossing prob under H0 ---
-  x_updated_h0 <- gs_power_npe(theta = 0, # -log(AHR) = 0 for H0 is used for determining upper spending
-    theta0 = 0,
-    # -log(AHR) for H1 is used for determining the
-    # lower spending and bounds
-    theta1 = blinded_est$theta,
-    # Observed statistical information under H0
-    info = blinded_est$info0,
-    info_scale = "h0_info",
-    # Upper bound
-    upper = x$input$upper, upar = upar_update,
-    test_upper = x$input$test_upper,
-    # Lower bound
-    lower = x$input$lower, lpar = lpar_update,
-    test_lower = x$input$test_lower,
-    # Binding
-    binding = x$input$binding)
+  x_updated_h0 <- gs_power_npe(theta = 0,
+                               theta0 = 0,
+                               theta1 = blinded_est$theta,
+                               info = blinded_est$info0,
+                               info_scale = "h0_info",
+                               upper = x$input$upper, upar = upar_update,
+                               test_upper = x$input$test_upper,
+                               lower = x$input$lower, lpar = lpar_update,
+                               test_lower = x$input$test_lower,
+                               binding = x$input$binding)
 
   # Update boundaries and crossing prob under H1 ---
   x_updated_h1 <- gs_power_npe(theta = blinded_est$theta,
-    # -log(AHR) = 0 for H0 is used for determining upper spending
-    theta0 = 0, # -log(AHR) for H1 is used for determining lower spending and bounds
-    theta1 = blinded_est$theta,
-    # Observed statistical information under H0
-    info = blinded_est$info0,
-    info_scale = "h0_info",
-    # Upper bound
-    upper = x$input$upper, upar = upar_update,
-    test_upper = x$input$test_upper,
-    # Lower bound
-    lower = x$input$lower, lpar = lpar_update,
-    test_lower = x$input$test_lower,
-    # Binding
-    binding = x$input$binding)
+                               theta0 = 0,
+                               theta1 = blinded_est$theta,
+                               info = blinded_est$info0,
+                               info_scale = "h0_info",
+                               upper = x$input$upper, upar = upar_update,
+                               test_upper = x$input$test_upper,
+                               lower = x$input$lower, lpar = lpar_update,
+                               test_lower = x$input$test_lower,
+                               binding = x$input$binding)
 
   # Tidy outputs
   ans <- list()
