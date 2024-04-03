@@ -117,7 +117,8 @@ gs_update_ahr(
   fa_alpha_spending = "info_frac",
   observed_data = list(observed_data_ia, observed_data_fa))
 
-# Example B: Two-sided asymmetric design, beta-spending with non-binding lower bound ----
+# Example B: Two-sided asymmetric design,
+# beta-spending with non-binding lower bound ----
 
 # Original design
 x <- gs_design_ahr(

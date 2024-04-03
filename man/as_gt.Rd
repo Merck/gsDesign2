@@ -19,7 +19,7 @@ as_gt(x, ...)
   footnote = NULL,
   display_bound = c("Efficacy", "Futility"),
   display_columns = NULL,
-  display_inf_bound = TRUE,
+  display_inf_bound = FALSE,
   full_alpha = 0.025,
   ...
 )

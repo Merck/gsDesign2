@@ -1088,15 +1088,13 @@ summary.gs_update <- function(object,
 
   if ("~hr at bound" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>%
-      mutate(col_vars = dplyr::if_else(col_vars == "~hr at bound",
-                                       "~HR at bound", col_vars
+      mutate(col_vars = dplyr::if_else(col_vars == "~hr at bound", "~HR at bound", col_vars
       ))
   }
 
   if ("~whr at bound" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>%
-      mutate(col_vars = dplyr::if_else(col_vars == "~whr at bound",
-                                       "~wHR at bound", col_vars
+      mutate(col_vars = dplyr::if_else(col_vars == "~whr at bound", "~wHR at bound", col_vars
       ))
   }
 

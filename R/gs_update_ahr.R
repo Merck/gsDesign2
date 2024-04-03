@@ -121,7 +121,8 @@
 #'   fa_alpha_spending = "info_frac",
 #'   observed_data = list(observed_data_ia, observed_data_fa))
 #'
-#' # Example B: Two-sided asymmetric design, beta-spending with non-binding lower bound ----
+#' # Example B: Two-sided asymmetric design,
+#' # beta-spending with non-binding lower bound ----
 #'
 #' # Original design
 #' x <- gs_design_ahr(
@@ -175,8 +176,7 @@ gs_update_ahr <- function(
     alpha = NULL,
     ia_alpha_spending = c("actual_info_frac", "min_of_planned_and_actual_info_frac"),
     fa_alpha_spending = c("full_alpha", "info_frac"),
-    observed_data = NULL
-    ) {
+    observed_data = NULL) {
 
   # Initialization ----
   ia_alpha_spending <- match.arg(ia_alpha_spending)
@@ -214,7 +214,8 @@ gs_update_ahr <- function(
   blinded_est <- NULL
   observed_event <- NULL
   for (i in 1:n_analysis) {
-    blinded_est_new <- ahr_blinded(surv = survival::Surv(time = observed_data[[i]]$tte, event = observed_data[[i]]$event),
+    blinded_est_new <- ahr_blinded(surv = survival::Surv(time = observed_data[[i]]$tte,
+                                                         event = observed_data[[i]]$event),
                                    intervals = all_t[all_t <= x$analysis$time[i]],
                                    hr = pw_hr(all_t[all_t <= x$analysis$time[i]]),
                                    ratio = x$input$ratio)
@@ -228,12 +229,12 @@ gs_update_ahr <- function(
   if (ia_alpha_spending == "actual_info_frac" & fa_alpha_spending == "full_alpha") {
     upar_update$timing <- observed_event / last(x$analysis$event)
     upar_update$timing[n_analysis] <- 1
-  } else if (ia_alpha_spending == "actual_info_frac" & fa_alpha_spending == "info_frac") {
+  } else if (ia_alpha_spending == "actual_info_frac" && fa_alpha_spending == "info_frac") {
     upar_update$timing <- observed_event / last(x$analysis$event)
-  } else if (ia_alpha_spending == "min_of_planned_and_actual_info_frac" & fa_alpha_spending == "full_alpha") {
+  } else if (ia_alpha_spending == "min_of_planned_and_actual_info_frac" && fa_alpha_spending == "full_alpha") {
     upar_update$timing <- pmin(observed_event, x$analysis$event) / last(x$analysis$event)
     upar_update$timing[n_analysis] <- 1
-  } else if (ia_alpha_spending == "min_of_planned_and_actual_info_frac" & fa_alpha_spending == "info_frac") {
+  } else if (ia_alpha_spending == "min_of_planned_and_actual_info_frac" && fa_alpha_spending == "info_frac") {
     upar_update$timing <- pmin(observed_event, x$analysis$event) / last(x$analysis$event)
   }
 
@@ -242,8 +243,7 @@ gs_update_ahr <- function(
   }
 
   # Update boundaries and crossing prob under H0 ---
-  x_updated_h0 <- gs_power_npe(
-    # `theta = 0` provides the crossing probability under H0.
+  x_updated_h0 <- gs_power_npe(# `theta = 0` provides the crossing probability under H0.
     theta = 0,
     # -log(AHR) = 0 for H0 is used for determining upper spending
     theta0 = 0,
@@ -263,8 +263,7 @@ gs_update_ahr <- function(
     binding = x$input$binding)
 
   # Update boundaries and crossing prob under H1 ---
-  x_updated_h1 <- gs_power_npe(
-    # `theta` under H1 provides the power of updated boundaries
+  x_updated_h1 <- gs_power_npe(# `theta` under H1 provides the power of updated boundaries
     theta = blinded_est$theta,
     # -log(AHR) = 0 for H0 is used for determining upper spending
     theta0 = 0,
