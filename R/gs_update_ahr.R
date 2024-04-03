@@ -243,8 +243,7 @@ gs_update_ahr <- function(
   }
 
   # Update boundaries and crossing prob under H0 ---
-  x_updated_h0 <- gs_power_npe(theta = 0,
-    # -log(AHR) = 0 for H0 is used for determining upper spending
+  x_updated_h0 <- gs_power_npe(theta = 0, # -log(AHR) = 0 for H0 is used for determining upper spending
     theta0 = 0,
     # -log(AHR) for H1 is used for determining the
     # lower spending and bounds
@@ -264,9 +263,7 @@ gs_update_ahr <- function(
   # Update boundaries and crossing prob under H1 ---
   x_updated_h1 <- gs_power_npe(theta = blinded_est$theta,
     # -log(AHR) = 0 for H0 is used for determining upper spending
-    theta0 = 0,
-    # -log(AHR) for H1 is used for determining the
-    # lower spending and bounds
+    theta0 = 0, # -log(AHR) for H1 is used for determining lower spending and bounds
     theta1 = blinded_est$theta,
     # Observed statistical information under H0
     info = blinded_est$info0,
