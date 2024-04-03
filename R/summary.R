@@ -1081,8 +1081,7 @@ summary.gs_update <- function(object,
 
   if ("~risk difference at bound" %in% x_decimals$col_vars) {
     x_decimals <- x_decimals %>%
-      mutate(col_vars = dplyr::if_else(col_vars == "~risk difference at bound",
-                                       "~Risk difference at bound", col_vars
+      mutate(col_vars = dplyr::if_else(col_vars == "~risk difference at bound", "~Risk difference at bound", col_vars
       ))
   }
 

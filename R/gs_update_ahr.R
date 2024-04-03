@@ -226,7 +226,7 @@ gs_update_ahr <- function(
   # Update timing ---
   upar_update  <- x$input$upar
   lpar_update <- x$input$lpar
-  if (ia_alpha_spending == "actual_info_frac" & fa_alpha_spending == "full_alpha") {
+  if (ia_alpha_spending == "actual_info_frac" && fa_alpha_spending == "full_alpha") {
     upar_update$timing <- observed_event / last(x$analysis$event)
     upar_update$timing[n_analysis] <- 1
   } else if (ia_alpha_spending == "actual_info_frac" && fa_alpha_spending == "info_frac") {
@@ -243,8 +243,7 @@ gs_update_ahr <- function(
   }
 
   # Update boundaries and crossing prob under H0 ---
-  x_updated_h0 <- gs_power_npe(# `theta = 0` provides the crossing probability under H0.
-    theta = 0,
+  x_updated_h0 <- gs_power_npe(theta = 0,
     # -log(AHR) = 0 for H0 is used for determining upper spending
     theta0 = 0,
     # -log(AHR) for H1 is used for determining the
@@ -263,8 +262,7 @@ gs_update_ahr <- function(
     binding = x$input$binding)
 
   # Update boundaries and crossing prob under H1 ---
-  x_updated_h1 <- gs_power_npe(# `theta` under H1 provides the power of updated boundaries
-    theta = blinded_est$theta,
+  x_updated_h1 <- gs_power_npe(theta = blinded_est$theta,
     # -log(AHR) = 0 for H0 is used for determining upper spending
     theta0 = 0,
     # -log(AHR) for H1 is used for determining the
