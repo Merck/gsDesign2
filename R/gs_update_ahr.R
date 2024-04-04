@@ -191,8 +191,7 @@ gs_update_ahr <- function(
     alpha_update <- x$input$alpha
   } else if (is.null(alpha) && is.null(x$input$alpha)) {
     alpha_update <- x$input$upar$total_spend
-  }
-  else{
+  } else {
     alpha_update <- alpha
   }
 
