@@ -157,12 +157,11 @@ observed_data_fa <- observed_data |>  simtrial::cut_data_by_date(analysis_time[2
 
 The updated design is
 ```{r}
-gs_update_ahr(
-  x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "full_alpha",
-  observed_data = list(observed_data_ia, observed_data_fa)) |>
-  summary(col_vars = c("analysis", "bound", "z", "~hr at bound", 
+gs_update_ahr(x = x,
+              ia_alpha_spending = "actual_info_frac",
+              fa_alpha_spending = "full_alpha",
+              observed_data = list(observed_data_ia, observed_data_fa)) |>
+  summary(col_vars = c("analysis", "bound", "z", "~hr at bound",
                        "nominal p", "Alternate hypothesis", "Null hypothesis"),
           col_decimals = c(NA, NA, 4, 4, 4, 4, 4)) |>
   as_gt() |>
@@ -260,12 +259,11 @@ For simplicity in presentation, we assume the observed events are the same as th
 
 The updated design is
 ```{r}
-gs_update_ahr(
-  x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "full_alpha",
-  observed_data = list(observed_data_ia, observed_data_fa)) |>
-  summary(col_vars = c("analysis", "bound", "z", "~hr at bound", 
+gs_update_ahr(x = x,
+              ia_alpha_spending = "actual_info_frac",
+              fa_alpha_spending = "full_alpha",
+              observed_data = list(observed_data_ia, observed_data_fa)) |>
+  summary(col_vars = c("analysis", "bound", "z", "~hr at bound",
                        "nominal p", "Alternate hypothesis", "Null hypothesis"),
           col_decimals = c(NA, NA, 4, 4, 4, 4, 4)) |>
   as_gt() |>
