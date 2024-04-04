@@ -308,13 +308,24 @@ as_gt.gs_design <- function(
     display_inf_bound = FALSE,
     full_alpha = 0.025,
     ...) {
+
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
+
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
+
   x_non_binding <- "non_binding" %in% class(x)
+
   x_k <- lapply(x$Analysis, function(x) {
     return(as.numeric(substring(x, 11, 11)))
   }) %>% unlist()
+
+  if (!display_inf_bound) {
+    x <- x %>% filter(!is.infinite(Z))
+  }
+
   x_old <- x
+
+
 
   # Set defaults ----
   # set different default title to different methods

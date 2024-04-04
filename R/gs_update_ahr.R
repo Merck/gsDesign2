@@ -187,8 +187,13 @@ gs_update_ahr <- function(
     stop("gs_update_ahr() please input the original design created either by gs_design_ahr or gs_power_ahr.")
   }
 
-  if (is.null(alpha)) {
-    alpha_new <- x$input$alpha
+  if (is.null(alpha) && !is.null(x$input$alpha)) {
+    alpha_update <- x$input$alpha
+  } else if (is.null(alpha) && is.null(x$input$alpha)) {
+    alpha_update <- x$input$upar$total_spend
+  }
+  else{
+    alpha_update <- alpha
   }
 
   if (!("ahr" %in% class(x))) {
@@ -226,6 +231,8 @@ gs_update_ahr <- function(
   # Update timing ---
   upar_update  <- x$input$upar
   lpar_update <- x$input$lpar
+  upar_update$total_spend <- alpha_update
+
   if (ia_alpha_spending == "actual_info_frac" && fa_alpha_spending == "full_alpha") {
     upar_update$timing <- observed_event / last(x$analysis$event)
     upar_update$timing[n_analysis] <- 1
