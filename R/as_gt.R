@@ -331,8 +331,8 @@ as_gt.gs_design <- function(
   # set different default title to different methods
   if (method == "ahr" && is.null(title)) {
     title <- ifelse("updated_design" %in% class(x),
-                    "Bound summary for AHR design",
-                    "Updated bound summary for AHR design")
+                    "Updated Bound summary for AHR design",
+                    "Bound summary for AHR design")
   }
   if (method == "wlr" && is.null(title)) {
     title <- "Bound summary for WLR design"
