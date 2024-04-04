@@ -325,8 +325,6 @@ as_gt.gs_design <- function(
 
   x_old <- x
 
-
-
   # Set defaults ----
   # set different default title to different methods
   if (method == "ahr" && is.null(title)) {
