@@ -126,7 +126,7 @@
 #' # alpha is upadted to 0.05
 #' gs_update_ahr(
 #'   x = x,
-#'   alpha = 0.05
+#'   alpha = 0.05,
 #'   ia_alpha_spending = "min_of_planned_and_actual_info_frac",
 #'   fa_alpha_spending = "info_frac",
 #'   observed_data = list(observed_data_ia, observed_data_fa))
@@ -187,7 +187,7 @@
 #' # alpha is upadted to 0.05
 #' gs_update_ahr(
 #'   x = x,
-#'   alpha = 0.05
+#'   alpha = 0.05,
 #'   ia_alpha_spending = "min_of_planned_and_actual_info_frac",
 #'   fa_alpha_spending = "info_frac",
 #'   observed_data = list(observed_data_ia, observed_data_fa))
