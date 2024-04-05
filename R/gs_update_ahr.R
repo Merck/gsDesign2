@@ -121,6 +121,16 @@
 #'   fa_alpha_spending = "info_frac",
 #'   observed_data = list(observed_data_ia, observed_data_fa))
 #'
+#' # Example A5 ----
+#' # IA spending = min(observed events, planned events) / final planned events
+#' # alpha is upadted to 0.05
+#' gs_update_ahr(
+#'   x = x,
+#'   alpha = 0.05
+#'   ia_alpha_spending = "min_of_planned_and_actual_info_frac",
+#'   fa_alpha_spending = "info_frac",
+#'   observed_data = list(observed_data_ia, observed_data_fa))
+#'
 #' # Example B: Two-sided asymmetric design,
 #' # beta-spending with non-binding lower bound ----
 #'
@@ -168,6 +178,16 @@
 #' # IA spending = min(observed events, planned events) / final planned events
 #' gs_update_ahr(
 #'   x = x,
+#'   ia_alpha_spending = "min_of_planned_and_actual_info_frac",
+#'   fa_alpha_spending = "info_frac",
+#'   observed_data = list(observed_data_ia, observed_data_fa))
+#'
+#' # Example A5 ----
+#' # IA spending = min(observed events, planned events) / final planned events
+#' # alpha is upadted to 0.05
+#' gs_update_ahr(
+#'   x = x,
+#'   alpha = 0.05
 #'   ia_alpha_spending = "min_of_planned_and_actual_info_frac",
 #'   fa_alpha_spending = "info_frac",
 #'   observed_data = list(observed_data_ia, observed_data_fa))
