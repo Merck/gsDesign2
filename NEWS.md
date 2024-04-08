@@ -2,13 +2,13 @@
 
 ## New features
 
-- The `gs_update_ahr()` function is now available for efficacy and futility 
-boundary update based on blineded estimation of treatment effect (#370).
+- The `gs_update_ahr()` function is now available for efficacy and futility
+  boundary update based on blinded estimation of treatment effect (#370).
 
 ## Bug fixes
 
 - Fix the accrual parameters bugs in `gs_design_wlr()` depending on npsurvSS (#344, #356).
-- Fix `gs_design_ahr()` to incorporate information fraction deriven design when number of analyses >= 4 (#358).
+- Fix `gs_design_ahr()` to incorporate information fraction driven design when number of analyses >= 4 (#358).
 
 ## Improvements
 
@@ -17,14 +17,17 @@ boundary update based on blineded estimation of treatment effect (#370).
 
 ## Documentation
 
-- A vignette introduce the boundary update is available (#278, #364, #366).
-- A vignette bridging gsDesign2 to the 6 test.types of gsDesign is available.
+- A new [vignette](https://merck.github.io/gsDesign2/articles/story-update-boundary.html)
+  introducing how to do the boundary update is available (#278, #364, #366).
+- A new [vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html)
+  bridging gsDesign2 to the 6 test types of gsDesign is available.
 - The pkgdown website is re-organized to providing better view for users (#341).
 
-## Namespace and testing
+## Testing
 
-- Independent testing of `as_gt()` is added.
-  
+- Independent testing of `as_gt()` is added (#337).
+- Restructure tests to make them self-contained (#347).
+
 # gsDesign2 1.1.1
 
 ## New features
