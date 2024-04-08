@@ -22,9 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, message=FALSE, warning=FALSE}
 library(gsDesign2)
-library(tibble)
 library(gt)
-library(dplyr)
 ```
 
 # Design assumptions
@@ -118,13 +116,13 @@ over the targeted 90\%.
 x |>
   summary() |>
   as_gt() |>
-  gt::tab_header(title = "Original design") |>
-  gt::tab_style(
+  tab_header(title = "Original design") |>
+  tab_style(
     style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
@@ -152,31 +150,36 @@ observed_data <- simtrial::sim_pw_surv(
 )
 
 observed_data_ia <- observed_data |> simtrial::cut_data_by_date(analysis_time[1])
-observed_data_fa <- observed_data |>  simtrial::cut_data_by_date(analysis_time[2])
+observed_data_fa <- observed_data |> simtrial::cut_data_by_date(analysis_time[2])
 ```
 
 The updated design is
 ```{r}
-gs_update_ahr(x = x,
-              ia_alpha_spending = "actual_info_frac",
-              fa_alpha_spending = "full_alpha",
-              observed_data = list(observed_data_ia, observed_data_fa)) |>
-  summary(col_vars = c("analysis", "bound", "z", "~hr at bound",
-                       "nominal p", "Alternate hypothesis", "Null hypothesis"),
-          col_decimals = c(NA, NA, 4, 4, 4, 4, 4)) |>
-  as_gt() |>
-  gt::tab_style(
-    style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+gs_update_ahr(
+  x = x,
+  ia_alpha_spending = "actual_info_frac",
+  fa_alpha_spending = "full_alpha",
+  observed_data = list(observed_data_ia, observed_data_fa)
+) |>
+  summary(
+    col_vars = c(
+      "analysis", "bound", "z", "~hr at bound",
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
     ),
-    locations = gt::cells_body(
+    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
+  ) |>
+  as_gt() |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
   )
 ```
-
 
 # Two-sided asymmetric design, beta-spending with non-binding lower bound {.tabset}
 
@@ -232,62 +235,67 @@ larger than what we have in the 1-sided example.
 x |>
   summary() |>
   as_gt() |>
-  gt::tab_header(title = "Original design") |>
-  gt::tab_style(
+  tab_header(title = "Original design") |>
+  tab_style(
     style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
   ) |>
-  gt::tab_style(
+  tab_style(
     style = list(
-      gt::cell_fill(color = "#F9E3D6"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "#F9E3D6"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Futility"
     )
   )
 ```
 
-For simplicity in presentation, we assume the observed events are the same as that in the 1-sided design.  
+For simplicity in presentation, we assume the observed events are the same as that in the 1-sided design.
 
 The updated design is
 ```{r}
-gs_update_ahr(x = x,
-              ia_alpha_spending = "actual_info_frac",
-              fa_alpha_spending = "full_alpha",
-              observed_data = list(observed_data_ia, observed_data_fa)) |>
-  summary(col_vars = c("analysis", "bound", "z", "~hr at bound",
-                       "nominal p", "Alternate hypothesis", "Null hypothesis"),
-          col_decimals = c(NA, NA, 4, 4, 4, 4, 4)) |>
-  as_gt() |>
-  gt::tab_style(
-    style = list(
-      gt::cell_fill(color = "lightcyan"),
-      gt::cell_text(weight = "bold")
+gs_update_ahr(
+  x = x,
+  ia_alpha_spending = "actual_info_frac",
+  fa_alpha_spending = "full_alpha",
+  observed_data = list(observed_data_ia, observed_data_fa)
+) |>
+  summary(
+    col_vars = c(
+      "analysis", "bound", "z", "~hr at bound",
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
     ),
-    locations = gt::cells_body(
+    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
+  ) |>
+  as_gt() |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Efficacy"
     )
   ) |>
-  gt::tab_style(
+  tab_style(
     style = list(
-      gt::cell_fill(color = "#F9E3D6"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "#F9E3D6"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_body(
+    locations = cells_body(
       columns = Z,
       rows = Bound == "Futility"
     )
   )
 ```
-
 
 # References
