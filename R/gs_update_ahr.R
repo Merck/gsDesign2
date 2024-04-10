@@ -362,12 +362,37 @@ gs_update_ahr <- function(
   ans$analysis <- data.frame(analysis = 1:n_analysis,
                              time = x$analysis$time,
                              n = x$analysis$n,
-                             event = if (is.null(observed_data)) {x$analysis$event} else {observed_event},
-                             ahr = if (is.null(observed_data)) {x$analysis$ahr} else {exp(-blinded_est$theta)},
-                             theta = if (is.null(observed_data)) {x$analysis$theta} else {blinded_est$theta},
-                             info = if (is.null(observed_data)) {x$analysis$info} else {blinded_est$info0},
-                             info0 = if (is.null(observed_data)) {x$analysis$info0} else {blinded_est$info0},
-                             info_frac = if (is.null(observed_data)) {x$analysis$info_frac} else {upar_update$timing})
+                             event = if (is.null(observed_data)) {
+                               x$analysis$event
+                               } else {
+                                 observed_event
+                               },
+                             ahr = if (is.null(observed_data)) {
+                               x$analysis$ahr
+                               } else {
+                                 exp(-blinded_est$theta)
+                               },
+                             theta = if (is.null(observed_data)) {
+                               x$analysis$theta
+                               } else {
+                                 blinded_est$theta
+                               },
+                             info = if (is.null(observed_data)) {
+                               x$analysis$info
+                               } else {
+                                 blinded_est$info0
+                               },
+                             info0 = if (is.null(observed_data)) {
+                               x$analysis$info0
+                               } else {
+                                 blinded_est$info0
+                               },
+                             info_frac = if (is.null(observed_data)) {
+                               x$analysis$info_frac
+                               } else {
+                                 upar_update$timing
+                               }
+                             )
 
   class(ans) <- c(class(x), "updated_design")
 
