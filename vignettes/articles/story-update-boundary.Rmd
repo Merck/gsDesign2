@@ -100,6 +100,10 @@ x <- gs_design_ahr(
   lpar = rep(-Inf, 2),
   test_lower = FALSE
 ) |> to_integer()
+
+x$bound
+
+x$analysis
 ```
 
 The planned design targets:
@@ -128,6 +132,38 @@ x |>
     )
   )
 ```
+
+## At the design stage but with different alpha
+
+When we in the stage of study design, we may be required to report the designs under multiple $\alpha$, considering the change of the multiplicity. In the planned design, the planned $\alpha$ is 0.025. Assume the updated $\alpha$ is 0.05. The updated design is
+```{r}
+gs_update_ahr(
+  x = x,
+  alpha = 0.05,
+  ia_alpha_spending = "at_design_stage",
+  fa_alpha_spending = "at_design_stage"
+) |>
+  summary(
+    col_vars = c(
+      "analysis", "bound", "z", "~hr at bound",
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
+    ),
+    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
+  ) |>
+  as_gt() |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_body(
+      columns = Z,
+      rows = Bound == "Efficacy"
+    )
+  )
+```
+
+## At the analysis stage but with planned events differ from observed events
 
 We provide a simulation below where 188 and 295 events observed at the IA and FA, respectively.
 We will assume the differences from planned (193, 297) are due to logistical considerations.
@@ -257,6 +293,38 @@ x |>
     )
   )
 ```
+
+## At the design stage but with different alpha
+
+When we in the stage of study design, we may be required to report the designs under multiple $\alpha$, considering the change of the multiplicity. In the planned design, the planned $\alpha$ is 0.025. Assume the updated $\alpha$ is 0.05. The updated design is
+```{r}
+gs_update_ahr(
+  x = x,
+  alpha = 0.05,
+  ia_alpha_spending = "at_design_stage",
+  fa_alpha_spending = "at_design_stage"
+) |>
+  summary(
+    col_vars = c(
+      "analysis", "bound", "z", "~hr at bound",
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
+    ),
+    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
+  ) |>
+  as_gt() |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightcyan"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_body(
+      columns = Z,
+      rows = Bound == "Efficacy"
+    )
+  )
+```
+
+## At the analysis stage but with planned events differ from observed events
 
 For simplicity in presentation, we assume the observed events are the same as that in the 1-sided design.
 
