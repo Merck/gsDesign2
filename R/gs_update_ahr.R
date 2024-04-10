@@ -387,7 +387,7 @@ gs_update_ahr <- function(
       x$analysis$info0
       } else {
         blinded_est$info0
-      }
+      },
     info_frac = if (is.null(observed_data)) {
       x$analysis$info_frac
       } else {
