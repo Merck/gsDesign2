@@ -21,9 +21,15 @@
 #' @param x A original design created by either \code{gs_design_ahr} or \code{gs_power_ahr}.
 #' @param alpha Alpha for the updated design.
 #' @param ia_alpha_spending Alpha spending strategy for interim analyses,
-#' either `"actual_info_frac"` (default), or `"min_of_planned_and_actual_info_frac"`.
+#' either `"actual_info_frac"` (default), or `"min_of_planned_and_actual_info_frac"`,
+#' or `"at_design_stage"` which mean users are still at the design stage, and they are interested
+#' to looks at the design at different level of alpha, with the same sample size,
+#' same number of events, same spending function and same timing.
 #' @param fa_alpha_spending Alpha spending strategy for final analysis,
-#' either `"info_frac"` or `"full_alpha"` (default).
+#' either `"info_frac"`, or `"full_alpha"` (default), or `"at_design_stage"` which mean users
+#' are still at the design stage, and they are interested
+#' to looks at the design at different level of alpha, with the same sample size,
+#' same number of events, same spending function and same timing.
 #' @param observed_data a list of observed datasets by analyses.
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
@@ -194,8 +200,8 @@
 gs_update_ahr <- function(
     x = NULL,
     alpha = NULL,
-    ia_alpha_spending = c("at_design_stage", "actual_info_frac", "min_of_planned_and_actual_info_frac"),
-    fa_alpha_spending = c("at_design_stage", "full_alpha", "info_frac"),
+    ia_alpha_spending = c("actual_info_frac", "min_of_planned_and_actual_info_frac", "at_design_stage"),
+    fa_alpha_spending = c("full_alpha", "info_frac", "at_design_stage"),
     observed_data = NULL) {
 
   # Initialization ----
