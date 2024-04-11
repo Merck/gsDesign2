@@ -9,6 +9,7 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
+    code_folding: hide
 bibliography: "gsDesign2.bib"
 vignette: >
   %\VignetteIndexEntry{Efficacy and futility boundary update}
@@ -120,7 +121,7 @@ over the targeted 90\%.
 x |>
   summary() |>
   as_gt() |>
-  tab_header(title = "Original design") |>
+  tab_header(title = "Planned design") |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
@@ -150,7 +151,7 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt() |>
+  as_gt(title = "Updated design") |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
@@ -204,7 +205,7 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt() |>
+  as_gt(title = "Updated design") |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
@@ -271,7 +272,7 @@ larger than what we have in the 1-sided example.
 x |>
   summary() |>
   as_gt() |>
-  tab_header(title = "Original design") |>
+  tab_header(title = "Planned design") |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
@@ -311,7 +312,7 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt() |>
+  as_gt(title = "Updated design") |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
@@ -343,7 +344,7 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt() |>
+  as_gt(title = "Updated design") |>
   tab_style(
     style = list(
       cell_fill(color = "lightcyan"),
