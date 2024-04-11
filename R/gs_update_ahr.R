@@ -393,7 +393,7 @@ gs_update_ahr <- function(
     } else {
       upar_update$timing
     }
-    )
+  )
 
   class(ans) <- c(class(x), "updated_design")
 
