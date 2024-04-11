@@ -365,32 +365,32 @@ gs_update_ahr <- function(
     n = x$analysis$n,
     event = if (is.null(observed_data)) {
       x$analysis$event
-      } else {
+    } else {
         observed_event
       },
     ahr = if (is.null(observed_data)) {
       x$analysis$ahr
-      } else {
+    } else {
         exp(-blinded_est$theta)
       },
     theta = if (is.null(observed_data)) {
       x$analysis$theta
-      } else {
+    } else {
         blinded_est$theta
       },
     info = if (is.null(observed_data)) {
       x$analysis$info
-      } else {
+    } else {
         blinded_est$info0
       },
     info0 = if (is.null(observed_data)) {
       x$analysis$info0
-      } else {
+    } else {
         blinded_est$info0
       },
     info_frac = if (is.null(observed_data)) {
       x$analysis$info_frac
-      } else {
+    } else {
         upar_update$timing
       }
     )
