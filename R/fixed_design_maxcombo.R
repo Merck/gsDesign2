@@ -21,9 +21,9 @@
 #'   and `1 - alpha` otherwise).
 #' @param ratio Experimental:Control randomization ratio.
 #' @param study_duration Study duration.
-#' @param rho A vector of numbers paring with gamma and tau for maxcombo test.
-#' @param gamma A vector of numbers paring with rho and tau for maxcombo test.
-#' @param tau A vector of numbers paring with gamma and rho for maxcombo test.
+#' @param rho A vector of numbers paring with gamma and tau for MaxCombo test.
+#' @param gamma A vector of numbers paring with rho and tau for MaxCombo test.
+#' @param tau A vector of numbers paring with gamma and rho for MaxCombo test.
 #' @inheritParams gs_design_combo
 #'
 #' @export
