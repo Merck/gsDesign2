@@ -486,7 +486,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       tol = x$input$tol
     )
   } else {
-    message("The input object is not applicatable to get an integer sample size.")
+    message("The input object is not applicable to get an integer sample size.")
     x_new <- x
   }
 
