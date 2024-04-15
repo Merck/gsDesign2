@@ -101,10 +101,6 @@ x <- gs_design_ahr(
   lpar = rep(-Inf, 2),
   test_lower = FALSE
 ) |> to_integer()
-
-x$bound
-
-x$analysis
 ```
 
 The planned design targets:
@@ -121,17 +117,7 @@ over the targeted 90\%.
 x |>
   summary() |>
   as_gt() |>
-  tab_header(title = "Planned design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )
-  )
+  tab_header(title = "Planned design")
 ```
 
 ## At the design stage but with different alpha
@@ -151,18 +137,10 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt(title = "Updated design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )
-  )
+  as_gt(title = "Updated design",
+        subtitle = "With updated alpha of 0.05")
 ```
+The above updated boundaries utilize the planned treatment effect and the planned statistical information under null hypothesis, considering the original design has `info_scale = "h0_info"`.
 
 ## At the analysis stage but with planned events differ from observed events
 
@@ -205,17 +183,10 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt(title = "Updated design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )
-  )
+  as_gt(title = "Updated design",
+        subtitle = paste0("With observed ", sum(observed_data_ia$event), 
+                          " events at IA and ", sum(observed_data_fa$event), 
+                          " events at FA"))
 ```
 
 # Two-sided asymmetric design, beta-spending with non-binding lower bound {.tabset}
@@ -272,27 +243,7 @@ larger than what we have in the 1-sided example.
 x |>
   summary() |>
   as_gt() |>
-  tab_header(title = "Planned design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )
-  ) |>
-  tab_style(
-    style = list(
-      cell_fill(color = "#F9E3D6"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Futility"
-    )
-  )
+  tab_header(title = "Planned design")
 ```
 
 ## At the design stage but with different alpha
@@ -312,17 +263,8 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt(title = "Updated design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )
-  )
+  as_gt(title = "Updated design",
+        subtitle = "With updated alpha of 0.05")
 ```
 
 ## At the analysis stage but with planned events differ from observed events
@@ -344,27 +286,10 @@ gs_update_ahr(
     ),
     col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
   ) |>
-  as_gt(title = "Updated design") |>
-  tab_style(
-    style = list(
-      cell_fill(color = "lightcyan"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Efficacy"
-    )
-  ) |>
-  tab_style(
-    style = list(
-      cell_fill(color = "#F9E3D6"),
-      cell_text(weight = "bold")
-    ),
-    locations = cells_body(
-      columns = Z,
-      rows = Bound == "Futility"
-    )
-  )
+  as_gt(title = "Updated design",
+        subtitle = paste0("With observed ", sum(observed_data_ia$event), 
+                          " events at IA and ", sum(observed_data_fa$event), 
+                          " events at FA"))
 ```
 
 # References
