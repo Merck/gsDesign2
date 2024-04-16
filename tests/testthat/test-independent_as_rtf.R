@@ -1,24 +1,27 @@
-test_that("Snapshot test for creation of .rtf file under the fixed power design", {
-  # Generate a summary
+test_that("Snapshot test for fixed_design_ahr summary as_rtf", {
+  skip_on_cran()
+
+  path <- tempfile(fileext = ".rtf")
+
   x <- fixed_design_ahr(
     alpha = calculate_alpha(), power = 1 - calculate_beta(),
     enroll_rate = enroll_rate(),
     fail_rate = fail_rate(),
     study_duration = calculate_study_duration(),
     ratio = calculate_ratio()
-  ) |> summary()
-
-  # Create the .rtf file
-  path <- tempfile(fileext = ".rtf")
-  x |> as_rtf(file = path)
+  ) |>
+    summary() |>
+    as_rtf(file = path)
 
   local_edition(3)
-  # Expect the existence of the custom file
-  expect_snapshot_file(path, "custom_file.rtf")
+  expect_snapshot_file(path, "fixed_design_ahr.rtf")
 })
 
-test_that("Snapshot test for creation of fixed_design_ahr rtf file with custom title", {
+test_that("Snapshot test for fixed_design_ahr summary as_rtf with custom title", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   x <- fixed_design_ahr(
     alpha = calculate_alpha(), power = 1 - calculate_beta(),
     enroll_rate = enroll_rate(),
@@ -32,64 +35,88 @@ test_that("Snapshot test for creation of fixed_design_ahr rtf file with custom t
       file = path
     )
   local_edition(3)
-  expect_snapshot_file(path, "custom_title.rtf")
+  expect_snapshot_file(path, "fixed_design_ahr_title.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file with custom footnote", {
+test_that("Snapshot test for fixed_design_ahr summary as_rtf with custom footnote", {
+  skip_on_cran()
+
+  path <- tempfile(fileext = ".rtf")
+
   x <- fixed_design_ahr(
     alpha = calculate_alpha(), power = 1 - calculate_beta(),
     enroll_rate = enroll_rate(),
     fail_rate = fail_rate(),
     study_duration = calculate_study_duration(),
     ratio = calculate_ratio()
-  ) |> summary()
-  path <- tempfile(fileext = ".rtf")
-  x |> as_rtf(
-    footnote = "Power computed with average hazard ratio method given the sample size",
-    file = path
-  )
+  ) |>
+    summary() |>
+    as_rtf(
+      footnote = "Power computed with average hazard ratio method given the sample size",
+      file = path
+    )
+
   local_edition(3)
-  expect_snapshot_file(path, "custom_footnote.rtf")
+  expect_snapshot_file(path, "fixed_design_ahr_footnote.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file under the Group sequential design using average hazard ratio", {
+test_that("Snapshot test for gs_design_ahr summary as_rtf", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_design_ahr() |>
     summary() |>
     as_rtf(file = path)
+
   local_edition(3)
   expect_snapshot_file(path, "gs_design_ahr.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file under the Group sequential design using weighted log-rank test", {
+test_that("Snapshot test for gs_design_wlr summary as_rtf", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_design_wlr() |>
     summary() |>
     as_rtf(file = path)
+
   local_edition(3)
   expect_snapshot_file(path, "gs_design_wlr.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file under the Group sequential design power using weighted log rank test", {
+test_that("Snapshot test for gs_power_wlr summary as_rtf", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_power_wlr() |>
     summary() |>
     as_rtf(file = path)
+
   local_edition(3)
   expect_snapshot_file(path, "gs_power_wlr.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file under the Group sequential design of binary outcome measuring in risk difference", {
+test_that("Snapshot test for gs_design_rd summary as_rtf", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_design_rd() |>
     summary() |>
     as_rtf(file = path)
+
   local_edition(3)
   expect_snapshot_file(path, "gs_design_rd.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file with custom titles and subtitle and under the GS design power using weighted log rank test", {
+test_that("Snapshot test for gs_power_wlr summary as_rtf with custom title and subtitle", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_power_wlr() |>
     summary() |>
     as_rtf(
@@ -97,12 +124,16 @@ test_that("Snapshot test for creation of .rtf file with custom titles and subtit
       subtitle = "from gs_power_wlr",
       file = path
     )
+
   local_edition(3)
-  expect_snapshot_file(path, "gs_power_wlr_custom_title.rtf")
+  expect_snapshot_file(path, "gs_power_wlr_title.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file with custom spanner and sub-spanner under the GS design power using weighted log rank test", {
+test_that("Snapshot test for gs_power_wlr summary as_rtf with custom spanner and sub-spanner", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_power_wlr() |>
     summary() |>
     as_rtf(
@@ -110,12 +141,16 @@ test_that("Snapshot test for creation of .rtf file with custom spanner and sub-s
       colname_spannersub = c("under H1", "under H0"),
       file = path
     )
+
   local_edition(3)
-  expect_snapshot_file(path, "gs_power_wlr_custom_spanner.rtf")
+  expect_snapshot_file(path, "gs_power_wlr_spanner.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file with custom footnote under the GS design power using weighted log rank test", {
+test_that("Snapshot test for gs_power_wlr summary as_rtf with custom footnote", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_power_wlr() |>
     summary() |>
     as_rtf(
@@ -131,42 +166,49 @@ test_that("Snapshot test for creation of .rtf file with custom footnote under th
       ),
       file = path
     )
+
   local_edition(3)
-  expect_snapshot_file(path, "gs_power_wlr_custom_footnote.rtf")
+  expect_snapshot_file(path, "gs_power_wlr_footnote.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file with columns to display in the summary table under the GS design power using weighted log rank test", {
+test_that("Snapshot test for gs_power_wlr summary as_rtf with custom columns to display", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_power_wlr() |>
     summary() |>
     as_rtf(
       display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
       file = path
     )
+
   local_edition(3)
   expect_snapshot_file(path, "gs_power_wlr_cols_display.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file with efficacy bounds displayed in the summary table under the GS design power using weighted log rank test", {
+test_that("Snapshot test for gs_power_wlr summary as_rtf with efficacy bounds displayed", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_power_wlr() |>
     summary() |>
-    as_rtf(
-      display_bound = "Efficacy",
-      file = path
-    )
+    as_rtf(display_bound = "Efficacy", file = path)
+
   local_edition(3)
-  expect_snapshot_file(path, "gs_power_wlr_eff_bound.rtf")
+  expect_snapshot_file(path, "gs_power_wlr_efficacy_bound.rtf")
 })
 
-test_that("Snapshot test for creation of .rtf file with futility bounds displayed in the summary table under the GS design power using weighted log rank test", {
+test_that("Snapshot test for gs_power_wlr summary as_rtf with futility bounds displayed", {
+  skip_on_cran()
+
   path <- tempfile(fileext = ".rtf")
+
   gs_power_wlr(binding = TRUE) |>
     summary() |>
-    as_rtf(
-      display_bound = "Futility",
-      file = path
-    )
+    as_rtf(display_bound = "Futility", file = path)
+
   local_edition(3)
-  expect_snapshot_file(path, "gs_power_wlr_fut_bound.rtf")
+  expect_snapshot_file(path, "gs_power_wlr_futility_bound.rtf")
 })
