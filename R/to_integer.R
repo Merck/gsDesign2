@@ -194,7 +194,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 
     class(ans) <- c("fixed_design", class(ans))
   } else {
-    message("The input object is not applicatable to get an integer sample size.")
+    message("The input object is not applicable to get an integer sample size.")
     ans <- x
   }
 
