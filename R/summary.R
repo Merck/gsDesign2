@@ -649,24 +649,3 @@ summary.gs_design <- function(object,
 
   return(output)
 }
-
-#' @rdname summary
-#'
-#' @export
-summary.gs_update <- function(object,
-                              analysis_vars = NULL,
-                              analysis_decimals = NULL,
-                              col_vars = NULL,
-                              col_decimals = NULL,
-                              bound_names = c("Efficacy", "Futility"),
-                              ...) {
-  summary.gs_design(
-    object = object,
-    analysis_vars = analysis_vars,
-    analysis_decimals = analysis_decimals,
-    col_vars = col_vars,
-    col_decimals = col_decimals,
-    bound_names = bound_names,
-    ...
-  )
-}

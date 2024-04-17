@@ -3,22 +3,11 @@
 \name{summary.fixed_design}
 \alias{summary.fixed_design}
 \alias{summary.gs_design}
-\alias{summary.gs_update}
 \title{Summary for fixed design or group sequential design objects}
 \usage{
 \method{summary}{fixed_design}(object, ...)
 
 \method{summary}{gs_design}(
-  object,
-  analysis_vars = NULL,
-  analysis_decimals = NULL,
-  col_vars = NULL,
-  col_decimals = NULL,
-  bound_names = c("Efficacy", "Futility"),
-  ...
-)
-
-\method{summary}{gs_update}(
   object,
   analysis_vars = NULL,
   analysis_decimals = NULL,
