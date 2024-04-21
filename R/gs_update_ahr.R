@@ -18,17 +18,17 @@
 
 #' Group sequential design using average hazard ratio under non-proportional hazards
 #'
-#' @param x A original design created by either \code{gs_design_ahr} or \code{gs_power_ahr}.
-#' @param alpha Alpha for the updated design.
-#' @param ia_alpha_spending Alpha spending strategy for interim analyses,
+#' @param x A design created by either \code{gs_design_ahr} or \code{gs_power_ahr}.
+#' @param alpha Type I error for the updated design.
+#' @param ia_alpha_spending alpha-spending strategy for interim analyses,
 #' either `"actual_info_frac"` (default), or `"min_of_planned_and_actual_info_frac"`,
-#' or `"at_design_stage"` which mean users are still at the design stage, and they are interested
-#' to looks at the design at different level of alpha, with the same sample size,
+#' or `"at_design_stage"` which mean users are still at the design stage and they are interested
+#' in looking at the design at different level of alpha with the same sample size,
 #' same number of events, same spending function and same timing.
-#' @param fa_alpha_spending Alpha spending strategy for final analysis,
+#' @param fa_alpha_spending alpha-spending strategy for final analysis,
 #' either `"info_frac"`, or `"full_alpha"` (default), or `"at_design_stage"` which mean users
-#' are still at the design stage, and they are interested
-#' to looks at the design at different level of alpha, with the same sample size,
+#' are still at the design stage and they are interested
+#' in looking at the design at different level of alpha, with the same sample size,
 #' same number of events, same spending function and same timing.
 #' @param observed_data a list of observed datasets by analyses.
 #'

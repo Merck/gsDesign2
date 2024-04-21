@@ -46,14 +46,13 @@
 #' @section Specification:
 #' \if{latex}{
 #'  \itemize{
-#'    \item Validate if input hr is a numeric vector.
-#'    \item Validate if input hr is non-negative.
-#'    \item Simulate piece-wise exponential survival estimation with the inputs
-#'    survival object surv and intervals.
-#'    \item Save the length of  hr and events to an object, and if the length of
-#'    hr is shorter than the intervals, add replicates of the last element of hr
+#'    \item Validate input hr is a numeric vector.
+#'    \item Validate input hr is non-negative.
+#'    \item For input time-to-event data, count number of events in each input interval by stratum.
+#'    \item Save the length of hr and events to an object, and if the length of
+#'    hr is shorter than the intervals, add replicate of the last element of hr
 #'    and the corresponding numbers of events to hr.
-#'    \item Compute the blinded estimation of average hazard ratio.
+#'    \item Compute the blinded estimate of average hazard ratio.
 #'    \item Compute adjustment for information.
 #'    \item Return a tibble of the sum of events, average hazard ratio,
 #'    blinded average hazard ratio, and the information.
