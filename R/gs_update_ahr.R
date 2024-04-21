@@ -223,16 +223,16 @@ gs_update_ahr <- function(
   }
 
   if (!("ahr" %in% class(x))) {
-    stop("gs_update_ahr() the original design should be created either by gs_design_ahr or gs_power_ahr.")
+    stop("gs_update_ahr() the original design must be created either by gs_design_ahr or gs_power_ahr.")
   }
 
   if ((ia_alpha_spending == "at_design_stage") + (fa_alpha_spending == "at_design_stage") == 1) {
-    stop("gs_update_ahr() if you are at the design stage, please input both
+    stop("gs_update_ahr() if you are at the design stage, input both
          ia_alpha_spending and fa_alpha_spending as at_design_stage.")
   }
 
   if ((ia_alpha_spending == "at_design_stage") && !is.null(observed_data)) {
-    stop("gs_update_ahr() if you are at the design stage, please do not input the observed data.")
+    stop("gs_update_ahr() if you are at the design stage, do not input the observed data.")
   }
 
   # Get the total number of analyses ----
