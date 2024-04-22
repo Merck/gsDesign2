@@ -111,9 +111,9 @@ and \code{1 - alpha} otherwise).}
 
 \item{event}{Targeted event at each analysis.}
 
-\item{rho}{A vector of numbers paring with gamma and tau for maxcombo test.}
+\item{rho}{A vector of numbers paring with gamma and tau for MaxCombo test.}
 
-\item{gamma}{A vector of numbers paring with rho and tau for maxcombo test.}
+\item{gamma}{A vector of numbers paring with rho and tau for MaxCombo test.}
 
 \item{tau}{Test parameter in RMST.}
 

@@ -108,7 +108,7 @@
 - Add CRAN download counts badge (#215).
 - Update documentation of `gs_design_rd()` (#220).
 - Format footnote numbers using decimal notation (#222).
-- Split C++ functions into individual cpp and header files (#224).
+- Split C++ functions into individual `.cpp` and header files (#224).
 
 ## Bug fixes
 
@@ -123,8 +123,8 @@
 - Correct the `fixed_design()` function in the application of `rmst` (#212).
 - Rename the `info_scale` argument options from `c(0, 1, 2)` to `c("h0_h1_info", "h0_info", "h1_info")` to be more informative and make the default value (`"h0_h1_info"`) clear (#203).
 - Add missing global functions/variables (#213).
-- Fix outdated argument names and use canonical style for text elements in README (#198).
-- Add a CRAN downloads badge to the readme to show the monthly downloads (#216).
+- Fix outdated argument names and use canonical style for text elements in `README.md` (#198).
+- Add a CRAN downloads badge to `README.md` to show the monthly downloads (#216).
 
 ## Bug fixes
 
