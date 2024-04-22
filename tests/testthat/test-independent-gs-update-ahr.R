@@ -53,32 +53,12 @@ for (i in seq_along(x$analysis$time)){
                                    analysis_date = x$analysis$time[i],
                                    intervals = cumsum(x$fail_rate$duration),
                                    hr = x$fail_rate$hr, ratio = x$input$ratio)
-  ahr_info <- rbind(ahr_info, xx$ahr)
+  ahr_info <- rbind(ahr_info, xx$info)
   data_list[[i]] <- xx$cut_data
 }
 y <- gs_update_ahr(x, alpha = x$input$alpha, observed_data = data_list,
                    ia_alpha_spending = "actual_info_frac", fa_alpha_spending = "full_alpha")
 
+test_that("blinded ahr not computed correctly", {expect_equal(y$analysis$ahr, ahr_info$ahr)})
+test_that("blinded theta not computed correctly", {expect_equal(y$analysis$theta, ahr_info$theta)})
 
-
-
-test_that("check bounds for gs_update_ahr", {
-  expect_equal(
-    expected_accrual(
-      time = 0:30,
-      enroll_rate = define_enroll_rate(
-        duration = c(3, 13, 18),
-        rate = c(5, 20, 8)
-      )
-    ),
-    test_eAccrual(
-      x = 0:30,
-      enroll_rate = define_enroll_rate(
-        duration = c(3, 13, 18),
-        rate = c(5, 20, 8)
-      )
-    )
-  )
-})
-
-te
