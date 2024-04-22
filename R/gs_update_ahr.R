@@ -355,9 +355,7 @@ gs_update_ahr <- function(
       rename(probability0 = probability) %>%
       mutate(`~hr at bound` = exp(-z / sqrt(info0)),
              `nominal p` = pnorm(-z)) %>%
-      left_join(
-        x_updated_h1 %>% select(analysis, bound, z, probability)
-        )%>%
+      left_join(x_updated_h1 %>% select(analysis, bound, z, probability)) %>%
       select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`)
   )
 
