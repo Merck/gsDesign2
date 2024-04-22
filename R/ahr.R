@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Average hazard ratio under non-proportional hazards (test version)
+#' Average hazard ratio under non-proportional hazards
 #'
 #' Provides a geometric average hazard ratio under
 #' various non-proportional hazards assumptions for either single or multiple strata studies.
