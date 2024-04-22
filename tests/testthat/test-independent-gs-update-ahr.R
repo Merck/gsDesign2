@@ -59,6 +59,7 @@ for (i in seq_along(x$analysis$time)){
 y <- gs_update_ahr(x, alpha = x$input$alpha, observed_data = data_list,
                    ia_alpha_spending = "actual_info_frac", fa_alpha_spending = "full_alpha")
 
-test_that("blinded ahr not computed correctly", {expect_equal(y$analysis$ahr, ahr_info$ahr)})
-test_that("blinded theta not computed correctly", {expect_equal(y$analysis$theta, ahr_info$theta)})
+test_that("Ex1: blinded ahr not computed correctly", {expect_equal(y$analysis$ahr, ahr_info$ahr)})
+test_that("Ex1: blinded theta not computed correctly", {expect_equal(y$analysis$theta, ahr_info$theta)})
+test_that("Ex1: blinded information not computed correctly", {expect_equal(y$analysis$info0, ahr_info$info0)})
 
