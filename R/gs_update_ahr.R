@@ -272,7 +272,7 @@ gs_update_ahr <- function(
                                  binding = x$input$binding)
   } else {
     # Calculate the blinded estimation of AHR ----
-    fr_duration <- cumsum(x$input$fail_rate$duration)
+    fr_duration <- x$input$fail_rate$duration
     fr_hr <- x$input$fail_rate$hr
     all_t <- sort(c(fr_duration, x$analysis$time))
 

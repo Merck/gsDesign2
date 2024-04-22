@@ -4,11 +4,11 @@ library(dplyr)
 library(simtrial)
 
 # Function to get cut data and statistical information combined with AHR for an analysis
-get_blinded_ahr <- function(observed_data, analysis_event = NULL, analysis_date, intervals, hr, ratio){
+get_blinded_ahr <- function(observed_data, analysis_event = NULL, analysis_date, intervals, hr, ratio) {
   # Get the cut date by analysis_event if not NULL
   if (!is.null(analysis_event)) {
     cut_date <- observed_data |> simtrial::get_cut_date_by_event(analysis_event)
-  }else {
+  } else {
     cut_date <- 0
   }
   # Cut the data by the max of analysis_date and event timing
@@ -26,7 +26,7 @@ get_blinded_ahr <- function(observed_data, analysis_event = NULL, analysis_date,
   return(list(info = info, cut_data = cut_data))
 }
 
-# Example 1
+# Example 1 ----
 
 # Define the design
 x <- gs_design_ahr(enroll_rate = define_enroll_rate(18, 1, stratum = "All"),
@@ -70,7 +70,14 @@ y <- gs_update_ahr(x, alpha = x$input$alpha,
                    ia_alpha_spending = "actual_info_frac",
                    fa_alpha_spending = "full_alpha")
 
-test_that("Ex1: blinded ahr not computed correctly", {expect_equal(y$analysis$ahr, ahr_info$ahr)})
-test_that("Ex1: blinded theta not computed correctly", {expect_equal(y$analysis$theta, ahr_info$theta)})
-test_that("Ex1: blinded information not computed correctly", {expect_equal(y$analysis$info0, ahr_info$info0)})
+test_that("Ex1: blinded ahr not computed correctly", {
+  expect_equal(y$analysis$ahr, ahr_info$ahr)
+})
 
+test_that("Ex1: blinded theta not computed correctly", {
+  expect_equal(y$analysis$theta, ahr_info$theta)
+})
+
+test_that("Ex1: blinded information not computed correctly", {
+  expect_equal(y$analysis$info0, ahr_info$info0)
+})
