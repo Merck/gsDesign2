@@ -349,15 +349,17 @@ gs_update_ahr <- function(
 
   ans$fail_rate <- x$fail_rate
 
-  ans$bound <- x_updated_h0 %>%
-    select(analysis, bound, z, probability, info0) %>%
-    rename(probability0 = probability) %>%
-    mutate(`~hr at bound` = exp(-z / sqrt(info0)),
-           `nominal p` = pnorm(-z)) %>%
-    left_join(
-      x_updated_h1 %>% select(analysis, bound, z, probability)
-    ) %>%
-    select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`)
+  suppressMessages(
+    ans$bound <- x_updated_h0 %>%
+      select(analysis, bound, z, probability, info0) %>%
+      rename(probability0 = probability) %>%
+      mutate(`~hr at bound` = exp(-z / sqrt(info0)),
+             `nominal p` = pnorm(-z)) %>%
+      left_join(
+        x_updated_h1 %>% select(analysis, bound, z, probability)
+        )%>%
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`)
+  )
 
   ans$analysis <- data.frame(
     analysis = 1:n_analysis,
