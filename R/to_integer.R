@@ -243,11 +243,11 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     # If it is spending bounds
     # Scenario 1: information-based spending
     # Scenario 2: calendar-based spending
-    if (identical(x$input$upper, gs_b)){
+    if (identical(x$input$upper, gs_b)) {
       upar_new <- x$input$upar
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
-      if(!("timing" %in% names(x$input$upar))) {
+      if (!("timing" %in% names(x$input$upar))) {
         upar_new$timing <- event_new / max(event_new)
       }
     }
@@ -283,11 +283,11 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     # If it is spending bounds
     # Scenario 1: information-based spending
     # Scenario 2: calendar-based spending
-    if (identical(x$input$upper, gs_b)){
+    if (identical(x$input$upper, gs_b)) {
       upar_new <- x$input$upar
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
-      if(!("timing" %in% names(x$input$upar))) {
+      if (!("timing" %in% names(x$input$upar))) {
         upar_new$timing <- event_new / max(event_new)
       }
     }
@@ -326,11 +326,11 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     # If it is spending bounds
     # Scenario 1: information-based spending
     # Scenario 2: calendar-based spending
-    if (identical(x$input$upper, gs_b)){
+    if (identical(x$input$upper, gs_b)) {
       upar_new <- x$input$upar
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
-      if(!("timing" %in% names(x$input$upar))) {
+      if (!("timing" %in% names(x$input$upar))) {
         upar_new$timing <- sample_size_new$n / max(sample_size_new$n)
       }
     }
