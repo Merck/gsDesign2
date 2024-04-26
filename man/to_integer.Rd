@@ -43,7 +43,7 @@ x <- fixed_design_ahr(
   ),
   study_duration = 36
 )
-x \%>\% to_integer()
+x |> to_integer() |> summary()
 
 # FH
 x <- fixed_design_fh(
@@ -58,7 +58,7 @@ x <- fixed_design_fh(
   rho = 0.5, gamma = 0.5,
   study_duration = 36, ratio = 1
 )
-x \%>\% to_integer()
+x |> to_integer() |> summary()
 
 # MB
 x <- fixed_design_mb(
@@ -72,17 +72,13 @@ x <- fixed_design_mb(
   tau = 4,
   study_duration = 36, ratio = 1
 )
-x \%>\% to_integer()
+x |> to_integer() |> summary()
 }
 \donttest{
-gs_design_ahr() \%>\% to_integer()
-}
+gs_design_ahr() |> to_integer() |> summary()
 
-\donttest{
-gs_design_wlr() \%>\% to_integer()
-}
+gs_design_wlr() |> to_integer() |> summary()
 
-\donttest{
 x <- gs_design_ahr(
   upper = gs_spending_bound,
   analysis_time = c(18, 30),
@@ -91,9 +87,9 @@ x <- gs_design_ahr(
   lower = gs_b,
   lpar = c(-Inf, -Inf)) |> to_integer()
 
-# the IA nominal p-value is the same as the IA alpha spending
+# The IA nominal p-value is the same as the IA alpha spending
 x$bound$`nominal p`[1]
-sfLDOF(alpha = 0.025, t = 18/30)$spend
+gsDesign::sfLDOF(alpha = 0.025, t = 18/30)$spend
 }
 
 }

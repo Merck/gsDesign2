@@ -52,7 +52,7 @@ to_integer <- function(x, ...) {
 #'   ),
 #'   study_duration = 36
 #' )
-#' x %>% to_integer()
+#' x |> to_integer() |> summary()
 #'
 #' # FH
 #' x <- fixed_design_fh(
@@ -67,7 +67,7 @@ to_integer <- function(x, ...) {
 #'   rho = 0.5, gamma = 0.5,
 #'   study_duration = 36, ratio = 1
 #' )
-#' x %>% to_integer()
+#' x |> to_integer() |> summary()
 #'
 #' # MB
 #' x <- fixed_design_mb(
@@ -81,7 +81,7 @@ to_integer <- function(x, ...) {
 #'   tau = 4,
 #'   study_duration = 36, ratio = 1
 #' )
-#' x %>% to_integer()
+#' x |> to_integer() |> summary()
 #' }
 to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   output_n <- x$analysis$n
@@ -209,14 +209,10 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #'
 #' @examples
 #' \donttest{
-#' gs_design_ahr() %>% to_integer()
-#' }
+#' gs_design_ahr() |> to_integer() |> summary()
 #'
-#' \donttest{
-#' gs_design_wlr() %>% to_integer()
-#' }
+#' gs_design_wlr() |> to_integer() |> summary()
 #'
-#' \donttest{
 #' x <- gs_design_ahr(
 #'   upper = gs_spending_bound,
 #'   analysis_time = c(18, 30),
@@ -225,9 +221,9 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)) |> to_integer()
 #'
-#'# the IA nominal p-value is the same as the IA alpha spending
+#' # The IA nominal p-value is the same as the IA alpha spending
 #' x$bound$`nominal p`[1]
-#' sfLDOF(alpha = 0.025, t = 18/30)$spend
+#' gsDesign::sfLDOF(alpha = 0.025, t = 18/30)$spend
 #' }
 #'
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
@@ -247,9 +243,13 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     # If it is spending bounds
     # Scenario 1: information-based spending
     # Scenario 2: calendar-based spending
-    upar_new <- x$input$upar
-    if (identical(x$input$upper, gs_spending_bound) & is.null(x$input$upar$timing)) {
-      upar_new$timing <- event_new / max(event_new)
+    if (identical(x$input$upper, gs_b)){
+      upar_new <- x$input$upar
+    } else if (identical(x$input$upper, gs_spending_bound)) {
+      upar_new <- x$input$upar
+      if(!("timing" %in% names(x$input$upar))) {
+        upar_new$timing <- event_new / max(event_new)
+      }
     }
 
     enroll_rate <- x$enroll_rate
@@ -280,9 +280,16 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
 
     sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
 
-    upar_new <- x$input$upar
-    if (identical(x$input$upper, gs_spending_bound) & is.null(x$input$upar$timing)) {
-      upar_new$timing <- event_new / max(event_new)
+    # If it is spending bounds
+    # Scenario 1: information-based spending
+    # Scenario 2: calendar-based spending
+    if (identical(x$input$upper, gs_b)){
+      upar_new <- x$input$upar
+    } else if (identical(x$input$upper, gs_spending_bound)) {
+      upar_new <- x$input$upar
+      if(!("timing" %in% names(x$input$upar))) {
+        upar_new$timing <- event_new / max(event_new)
+      }
     }
 
     enroll_rate <- x$enroll_rate
@@ -316,9 +323,16 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       ) * multiply_factor
     )
 
-    upar_new <- x$input$upar
-    if (identical(x$input$upper, gs_spending_bound) & is.null(x$input$upar$timing)) {
-      upar_new$timing <- sample_size_new$n / max(sample_size_new$n)
+    # If it is spending bounds
+    # Scenario 1: information-based spending
+    # Scenario 2: calendar-based spending
+    if (identical(x$input$upper, gs_b)){
+      upar_new <- x$input$upar
+    } else if (identical(x$input$upper, gs_spending_bound)) {
+      upar_new <- x$input$upar
+      if(!("timing" %in% names(x$input$upar))) {
+        upar_new$timing <- sample_size_new$n / max(sample_size_new$n)
+      }
     }
 
     if (n_stratum == 1) {
