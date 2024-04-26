@@ -211,9 +211,25 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' \donttest{
 #' gs_design_ahr() %>% to_integer()
 #' }
+#'
 #' \donttest{
 #' gs_design_wlr() %>% to_integer()
 #' }
+#'
+#' \donttest{
+#' x <- gs_design_ahr(
+#'   upper = gs_spending_bound,
+#'   analysis_time = c(18, 30),
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL,
+#'               timing = c(18, 30) / 30),
+#'   lower = gs_b,
+#'   lpar = c(-Inf, -Inf)) |> to_integer()
+#'
+#'# the IA nominal p-value is the same as the IA alpha spending
+#' x$bound$`nominal p`[1]
+#' sfLDOF(alpha = 0.025, t = 18/30)$spend
+#' }
+#'
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   n_analysis <- length(x$analysis$analysis)
   multiply_factor <- x$input$ratio + 1
@@ -228,11 +244,12 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
 
     sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
 
-    if (identical(x$input$upper, gs_spending_bound)) {
-      upar_new <- x$input$upar
+    # If it is spending bounds
+    # Scenario 1: information-based spending
+    # Scenario 2: calendar-based spending
+    upar_new <- x$input$upar
+    if (identical(x$input$upper, gs_spending_bound) & is.null(x$input$upar$timing)) {
       upar_new$timing <- event_new / max(event_new)
-    } else {
-      upar_new <- x$input$upar
     }
 
     enroll_rate <- x$enroll_rate
@@ -263,11 +280,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
 
     sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
 
-    if (identical(x$input$upper, gs_spending_bound)) {
-      upar_new <- x$input$upar
+    upar_new <- x$input$upar
+    if (identical(x$input$upper, gs_spending_bound) & is.null(x$input$upar$timing)) {
       upar_new$timing <- event_new / max(event_new)
-    } else {
-      upar_new <- x$input$upar
     }
 
     enroll_rate <- x$enroll_rate
@@ -301,11 +316,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       ) * multiply_factor
     )
 
-    if (identical(x$input$upper, gs_spending_bound)) {
-      upar_new <- x$input$upar
+    upar_new <- x$input$upar
+    if (identical(x$input$upper, gs_spending_bound) & is.null(x$input$upar$timing)) {
       upar_new$timing <- sample_size_new$n / max(sample_size_new$n)
-    } else {
-      upar_new <- x$input$upar
     }
 
     if (n_stratum == 1) {
