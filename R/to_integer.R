@@ -209,10 +209,42 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #'
 #' @examples
 #' \donttest{
-#' gs_design_ahr() |> to_integer() |> summary()
+#' # Example 1: Information fraction based spending
+#' gs_design_ahr(
+#'   analysis_time = c(18, 30),
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+#'   lower = gs_b,
+#'   lpar = c(-Inf, -Inf)
+#'   ) |>
+#'   to_integer() |>
+#'   summary()
 #'
-#' gs_design_wlr() |> to_integer() |> summary()
+#' gs_design_wlr(
+#'   analysis_time = c(18, 30),
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+#'   lower = gs_b,
+#'   lpar = c(-Inf, -Inf)
+#'   ) |>
+#'   to_integer() |>
+#'   summary()
 #'
+#' gs_design_rd(
+#'   p_c = tibble::tibble(stratum = c("A", "B"), rate = c(.2, .3)),
+#'   p_e = tibble::tibble(stratum = c("A", "B"), rate = c(.15, .27)),
+#'   weight = "ss",
+#'   stratum_prev = tibble::tibble(stratum = c("A", "B"), prevalence = c(.4, .6)),
+#'   info_frac = c(0.7, 1),
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+#'   lower = gs_b,
+#'   lpar = c(-Inf, -Inf)
+#'   ) |>
+#'   to_integer() |>
+#'   summary()
+#'
+#' # Example 2: Calendar based spending
 #' x <- gs_design_ahr(
 #'   upper = gs_spending_bound,
 #'   analysis_time = c(18, 30),
@@ -231,6 +263,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   multiply_factor <- x$input$ratio + 1
 
   if ("ahr" %in% class(x)) {
+
+    # Updated events
     event <- x$analysis$event
     if (n_analysis == 1) {
       event_new <- ceiling(event) %>% as.integer()
@@ -238,8 +272,13 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
     }
 
+    # Updated sample size and enroll rate
     sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
+    enroll_rate <- x$enroll_rate
+    enroll_rate_new <- enroll_rate %>%
+      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
 
+    # Updated upar
     # If it is spending bounds
     # Scenario 1: information-based spending
     # Scenario 2: calendar-based spending
@@ -248,14 +287,27 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
       if (!("timing" %in% names(x$input$upar))) {
-        upar_new$timing <- event_new / max(event_new)
+        info_with_new_event <- gs_info_ahr(enroll_rate = enroll_rate_new,
+                                          fail_rate = x$input$fail_rate,
+                                          ratio = x$input$ratio,
+                                          event = event_new,
+                                          analysis_time = NULL)
+
+        upar_new$timing <- info_with_new_event$info / max(info_with_new_event$info)
       }
     }
 
-    enroll_rate <- x$enroll_rate
-    enroll_rate_new <- enroll_rate %>%
-      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
+    # Updated lpar
+    if (identical(x$input$lower, gs_b)) {
+      lpar_new <- x$input$lpar
+    } else if (identical(x$input$lower, gs_spending_bound)) {
+      lpar_new <- x$input$lpar
+      if (!("timing" %in% names(x$input$lpar))) {
+        lpar_new$timing <- upar_new$timing
+      }
+    }
 
+    # Updated design with integer events and sample size
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
@@ -263,7 +315,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = x$input$upper, upar = upar_new,
-      lower = x$input$lower, lpar = x$input$lpar,
+      lower = x$input$lower, lpar = lpar_new,
       test_upper = x$input$test_upper,
       test_lower = x$input$test_lower,
       binding = x$input$binding,
@@ -271,6 +323,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       interval = c(0.01, max(x$analysis$time) + 100)
     )
   } else if ("wlr" %in% class(x)) {
+
+    # Updated events to integer
     event <- x$analysis$event
     if (n_analysis == 1) {
       event_new <- ceiling(event) %>% as.integer()
@@ -278,8 +332,13 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
     }
 
+    # Updated sample size to integer and enroll rates
     sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
+    enroll_rate <- x$enroll_rate
+    enroll_rate_new <- enroll_rate %>%
+      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
 
+    # Updated upar
     # If it is spending bounds
     # Scenario 1: information-based spending
     # Scenario 2: calendar-based spending
@@ -288,14 +347,30 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
       if (!("timing" %in% names(x$input$upar))) {
-        upar_new$timing <- event_new / max(event_new)
+        info_with_new_event <- gs_info_ahr(enroll_rate = enroll_rate_new,
+                                           fail_rate = x$input$fail_rate,
+                                           ratio = x$input$ratio,
+                                           event = event_new,
+                                           analysis_time = NULL)
+
+        upar_new$timing <- info_with_new_event$info / max(info_with_new_event$info)
       }
     }
 
-    enroll_rate <- x$enroll_rate
-    enroll_rate_new <- enroll_rate %>%
-      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
+    # Updated lpar
+    # If it is spending bounds
+    # Scenario 1: information-based spending
+    # Scenario 2: calendar-based spending
+    if (identical(x$input$lower, gs_b)) {
+      lpar_new <- x$input$lpar
+    } else if (identical(x$input$lower, gs_spending_bound)) {
+      lpar_new <- x$input$lpar
+      if (!("timing" %in% names(x$input$lpar))) {
+        lpar_new$timing <- upar_new$timing
+      }
+    }
 
+    # Updated design with integer events and sample size
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
@@ -303,7 +378,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = x$input$upper, upar = upar_new,
-      lower = x$input$lower, lpar = x$input$lpar,
+      lower = x$input$lower, lpar = lpar_new,
       test_upper = x$input$test_upper,
       test_lower = x$input$test_lower,
       binding = x$input$binding,
@@ -315,6 +390,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   } else if ("rd" %in% class(x)) {
     n_stratum <- length(x$input$p_c$stratum)
 
+    # Update unstratified sample size to integer
     sample_size_new <- tibble::tibble(
       analysis = 1:n_analysis,
       n = c(
@@ -323,18 +399,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       ) * multiply_factor
     )
 
-    # If it is spending bounds
-    # Scenario 1: information-based spending
-    # Scenario 2: calendar-based spending
-    if (identical(x$input$upper, gs_b)) {
-      upar_new <- x$input$upar
-    } else if (identical(x$input$upper, gs_spending_bound)) {
-      upar_new <- x$input$upar
-      if (!("timing" %in% names(x$input$upar))) {
-        upar_new$timing <- sample_size_new$n / max(sample_size_new$n)
-      }
-    }
-
+    # Update sample size per stratum
     if (n_stratum == 1) {
       suppressMessages(
         tbl_n <- tibble::tibble(
@@ -357,6 +422,36 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       )
     }
 
+    # If it is spending bounds
+    # Scenario 1: information-based spending
+    # Scenario 2: calendar-based spending
+    if (identical(x$input$upper, gs_b)) {
+      upar_new <- x$input$upar
+    } else if (identical(x$input$upper, gs_spending_bound)) {
+      upar_new <- x$input$upar
+      if (!("timing" %in% names(x$input$upar))) {
+        info_with_new_n <- gs_info_rd(p_c = x$input$p_c,
+                                      p_e = x$input$p_e,
+                                      n = tbl_n,
+                                      rd0 = x$input$rd,
+                                      ratio = x$input$ratio,
+                                      weight = x$input$weight)
+
+        upar_new$timing <- info_with_new_n$info1 / max(info_with_new_n$info1)
+      }
+    }
+
+    # Updated lpar
+    if (identical(x$input$lower, gs_b)) {
+      lpar_new <- x$input$lpar
+    } else if (identical(x$input$lower, gs_spending_bound)) {
+      lpar_new <- x$input$lpar
+      if (!("timing" %in% names(x$input$lpar))) {
+        lpar_new$timing <- upar_new$timing
+      }
+    }
+
+    # Updated design
     x_new <- gs_power_rd(
       p_c = x$input$p_c,
       p_e = x$input$p_e,

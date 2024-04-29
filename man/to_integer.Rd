@@ -75,10 +75,42 @@ x <- fixed_design_mb(
 x |> to_integer() |> summary()
 }
 \donttest{
-gs_design_ahr() |> to_integer() |> summary()
+# Example 1: Information fraction based spending
+gs_design_ahr(
+  analysis_time = c(18, 30),
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+  lower = gs_b,
+  lpar = c(-Inf, -Inf)
+  ) |>
+  to_integer() |>
+  summary()
 
-gs_design_wlr() |> to_integer() |> summary()
+gs_design_wlr(
+  analysis_time = c(18, 30),
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+  lower = gs_b,
+  lpar = c(-Inf, -Inf)
+  ) |>
+  to_integer() |>
+  summary()
 
+gs_design_rd(
+  p_c = tibble::tibble(stratum = c("A", "B"), rate = c(.2, .3)),
+  p_e = tibble::tibble(stratum = c("A", "B"), rate = c(.15, .27)),
+  weight = "ss",
+  stratum_prev = tibble::tibble(stratum = c("A", "B"), prevalence = c(.4, .6)),
+  info_frac = c(0.7, 1),
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+  lower = gs_b,
+  lpar = c(-Inf, -Inf)
+  ) |>
+  to_integer() |>
+  summary()
+
+# Example 2: Calendar based spending
 x <- gs_design_ahr(
   upper = gs_spending_bound,
   analysis_time = c(18, 30),
