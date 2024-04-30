@@ -52,7 +52,9 @@ to_integer <- function(x, ...) {
 #'   ),
 #'   study_duration = 36
 #' )
-#' x |> to_integer() |> summary()
+#' x |>
+#'   to_integer() |>
+#'   summary()
 #'
 #' # FH
 #' x <- fixed_design_fh(
@@ -67,7 +69,9 @@ to_integer <- function(x, ...) {
 #'   rho = 0.5, gamma = 0.5,
 #'   study_duration = 36, ratio = 1
 #' )
-#' x |> to_integer() |> summary()
+#' x |>
+#'   to_integer() |>
+#'   summary()
 #'
 #' # MB
 #' x <- fixed_design_mb(
@@ -81,7 +85,9 @@ to_integer <- function(x, ...) {
 #'   tau = 4,
 #'   study_duration = 36, ratio = 1
 #' )
-#' x |> to_integer() |> summary()
+#' x |>
+#'   to_integer() |>
+#'   summary()
 #' }
 to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
   output_n <- x$analysis$n
@@ -216,7 +222,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)
-#'   ) |>
+#' ) |>
 #'   to_integer() |>
 #'   summary()
 #'
@@ -226,7 +232,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)
-#'   ) |>
+#' ) |>
 #'   to_integer() |>
 #'   summary()
 #'
@@ -240,7 +246,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)
-#'   ) |>
+#' ) |>
 #'   to_integer() |>
 #'   summary()
 #'
@@ -248,22 +254,23 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' x <- gs_design_ahr(
 #'   upper = gs_spending_bound,
 #'   analysis_time = c(18, 30),
-#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL,
-#'               timing = c(18, 30) / 30),
+#'   upar = list(
+#'     sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL,
+#'     timing = c(18, 30) / 30
+#'   ),
 #'   lower = gs_b,
-#'   lpar = c(-Inf, -Inf)) |> to_integer()
+#'   lpar = c(-Inf, -Inf)
+#' ) |> to_integer()
 #'
 #' # The IA nominal p-value is the same as the IA alpha spending
 #' x$bound$`nominal p`[1]
-#' gsDesign::sfLDOF(alpha = 0.025, t = 18/30)$spend
+#' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
-#'
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   n_analysis <- length(x$analysis$analysis)
   multiply_factor <- x$input$ratio + 1
 
   if ("ahr" %in% class(x)) {
-
     # Updated events
     event <- x$analysis$event
     if (n_analysis == 1) {
@@ -287,11 +294,13 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
       if (!("timing" %in% names(x$input$upar))) {
-        info_with_new_event <- gs_info_ahr(enroll_rate = enroll_rate_new,
-                                           fail_rate = x$input$fail_rate,
-                                           ratio = x$input$ratio,
-                                           event = event_new,
-                                           analysis_time = NULL)
+        info_with_new_event <- gs_info_ahr(
+          enroll_rate = enroll_rate_new,
+          fail_rate = x$input$fail_rate,
+          ratio = x$input$ratio,
+          event = event_new,
+          analysis_time = NULL
+        )
 
         upar_new$timing <- info_with_new_event$info / max(info_with_new_event$info)
       }
@@ -323,7 +332,6 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       interval = c(0.01, max(x$analysis$time) + 100)
     )
   } else if ("wlr" %in% class(x)) {
-
     # Updated events to integer
     event <- x$analysis$event
     if (n_analysis == 1) {
@@ -347,11 +355,13 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
       if (!("timing" %in% names(x$input$upar))) {
-        info_with_new_event <- gs_info_ahr(enroll_rate = enroll_rate_new,
-                                           fail_rate = x$input$fail_rate,
-                                           ratio = x$input$ratio,
-                                           event = event_new,
-                                           analysis_time = NULL)
+        info_with_new_event <- gs_info_ahr(
+          enroll_rate = enroll_rate_new,
+          fail_rate = x$input$fail_rate,
+          ratio = x$input$ratio,
+          event = event_new,
+          analysis_time = NULL
+        )
 
         upar_new$timing <- info_with_new_event$info / max(info_with_new_event$info)
       }
@@ -430,12 +440,14 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
       if (!("timing" %in% names(x$input$upar))) {
-        info_with_new_n <- gs_info_rd(p_c = x$input$p_c,
-                                      p_e = x$input$p_e,
-                                      n = tbl_n,
-                                      rd0 = x$input$rd,
-                                      ratio = x$input$ratio,
-                                      weight = x$input$weight)
+        info_with_new_n <- gs_info_rd(
+          p_c = x$input$p_c,
+          p_e = x$input$p_e,
+          n = tbl_n,
+          rd0 = x$input$rd,
+          ratio = x$input$ratio,
+          weight = x$input$weight
+        )
 
         upar_new$timing <- info_with_new_n$info1 / max(info_with_new_n$info1)
       }

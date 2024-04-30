@@ -43,7 +43,9 @@ x <- fixed_design_ahr(
   ),
   study_duration = 36
 )
-x |> to_integer() |> summary()
+x |>
+  to_integer() |>
+  summary()
 
 # FH
 x <- fixed_design_fh(
@@ -58,7 +60,9 @@ x <- fixed_design_fh(
   rho = 0.5, gamma = 0.5,
   study_duration = 36, ratio = 1
 )
-x |> to_integer() |> summary()
+x |>
+  to_integer() |>
+  summary()
 
 # MB
 x <- fixed_design_mb(
@@ -72,7 +76,9 @@ x <- fixed_design_mb(
   tau = 4,
   study_duration = 36, ratio = 1
 )
-x |> to_integer() |> summary()
+x |>
+  to_integer() |>
+  summary()
 }
 \donttest{
 # Example 1: Information fraction based spending
@@ -82,7 +88,7 @@ gs_design_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
   lower = gs_b,
   lpar = c(-Inf, -Inf)
-  ) |>
+) |>
   to_integer() |>
   summary()
 
@@ -92,7 +98,7 @@ gs_design_wlr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
   lower = gs_b,
   lpar = c(-Inf, -Inf)
-  ) |>
+) |>
   to_integer() |>
   summary()
 
@@ -106,7 +112,7 @@ gs_design_rd(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
   lower = gs_b,
   lpar = c(-Inf, -Inf)
-  ) |>
+) |>
   to_integer() |>
   summary()
 
@@ -114,14 +120,16 @@ gs_design_rd(
 x <- gs_design_ahr(
   upper = gs_spending_bound,
   analysis_time = c(18, 30),
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL,
-              timing = c(18, 30) / 30),
+  upar = list(
+    sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL,
+    timing = c(18, 30) / 30
+  ),
   lower = gs_b,
-  lpar = c(-Inf, -Inf)) |> to_integer()
+  lpar = c(-Inf, -Inf)
+) |> to_integer()
 
 # The IA nominal p-value is the same as the IA alpha spending
 x$bound$`nominal p`[1]
-gsDesign::sfLDOF(alpha = 0.025, t = 18/30)$spend
+gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 }
-
 }
