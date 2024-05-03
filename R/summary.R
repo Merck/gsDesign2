@@ -647,5 +647,8 @@ summary.gs_design <- function(object,
     class(output) <- c("non_binding", class(output))
   }
 
+  # Save the full alpha as an attribute of the output summary table
+  attr(output, "full_alpha") <- object$input$alpha
+
   return(output)
 }
