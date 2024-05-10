@@ -112,6 +112,7 @@ fixed_design_ahr <- function(
   } else {
     d <- gs_design_ahr(
       alpha = alpha, beta = 1 - power,
+      upper = gs_b, lower = gs_b,
       upar = qnorm(1 - alpha), lpar = -Inf,
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
