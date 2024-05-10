@@ -1,38 +1,96 @@
 # Test get_combo_weight ----
-test_that("get_combo_weight output correct rho1", {
-  res <- test_get_combo_weight()
-  expect_equal(res$weight1_rho, "rho =1")
-})
+test_that("get_combo_weight output correct rho1, rho2, gamma1, gamm2", {
 
-test_that("get_combo_weight output correct rho2", {
-  res <- test_get_combo_weight()
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(-1, -1, -1, -1)
+
+  weight <- gsDesign2:::get_combo_weight(rho, gamma, tau)
+  weight1_rho <- substring(weight[[1]], 125, 130)
+  weight2_rho <- substring(weight[[2]], 125, 130)
+  weight1_gamma <- substring(weight[[1]], 133, 140)
+  weight2_gamma <- substring(weight[[2]], 133, 140)
+  weight1_tau <- substring(weight[[1]], 143, 148)
+  weight2_tau <- substring(weight[[2]], 143, 148)
+
+  res <- list(
+    "weight1_rho" = weight1_rho,
+    "weight2_rho" = weight2_rho,
+    "weight1_gamma" = weight1_gamma,
+    "weight2_gamma" = weight2_gamma
+  )
+
+  # get_combo_weight output correct rho1
   expect_equal(res$weight2_rho, "rho =1")
-})
 
-test_that("get_combo_weight output correct gamma1", {
-  res <- test_get_combo_weight()
+  # get_combo_weight output correct rho2
   expect_equal(res$weight1_gamma, "gamma =0")
-})
 
-test_that("get_combo_weight output correct gamma2", {
-  res <- test_get_combo_weight()
+  # get_combo_weight output correct gamma1
+  expect_equal(res$weight1_rho, "rho =1")
+
+  # get_combo_weight output correct gamma2
   expect_equal(res$weight2_gamma, "gamma =1")
 })
 
-# Test get_combo_weight tau not equal to -1 ----
-test_that("get_combo_weight output correct tau1", {
-  res <- test_get_combo_weight_tau()
-  expect_equal(res$weight1_tau, "tau =1")
-})
 
-test_that("get_combo_weight output correct tau3", {
-  res <- test_get_combo_weight_tau()
+# Test get_combo_weight tau not equal to -1 ----
+test_that("get_combo_weight output correct tau1, tau3", {
+
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(1, 1, 0, 0)
+  weight <- gsDesign2:::get_combo_weight(rho, gamma, tau)
+  weight1_tau <- substring(weight[[1]], 143, 148)
+  weight3_tau <- substring(weight[[3]], 143, 148)
+
+  res <- list(
+    "weight1_tau" = weight1_tau,
+    "weight3_tau" = weight3_tau
+  )
+
+  # get_combo_weight output correct tau1
+  expect_equal(res$weight1_tau, "tau =1")
+
+  # get_combo_weight output correct tau3
   expect_equal(res$weight3_tau, "tau =0")
 })
 
 # Test gs_delta_combo ----
 test_that("gs_delta_combo correctly use gs_delta_wlr 1", {
-  res <- test_gs_delta_combo()
+
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(-1, -1, -1, -1)
+
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 30),
+    rate = c(3, 6, 9)
+  )
+
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+
+  arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 1e6)
+
+  delta <- gsDesign2:::gs_delta_combo(
+    arm0 = arm$arm0, arm1 = arm$arm1,
+    tmax = 30, rho = rho, gamma = gamma, tau = rep(-1, length(rho)),
+    approx = "asymptotic", normalization = FALSE
+  )
+
+  res <- list(
+    "rho" = rho,
+    "gamma" = gamma,
+    "tau" = tau,
+    "arm" = arm,
+    "delta" = delta
+  )
+
   rho <- res$rho
   gamma <- res$gamma
   tau <- res$tau
@@ -53,7 +111,39 @@ test_that("gs_delta_combo correctly use gs_delta_wlr 1", {
 
 # Test gs_sigma2_combo ----
 test_that("gs_sigma2_combo correctly use gs_sigma2_wlr 1", {
-  res <- test_gs_sigma2_combo()
+
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(-1, -1, -1, -1)
+
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 30),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+  arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1, total_time = 1e6)
+
+  sigma2 <- gsDesign2:::gs_sigma2_combo(
+    arm0 = arm$arm0, arm1 = arm$arm1, tmax = 30,
+    rho = rho, gamma = gamma, tau = rep(-1, length(rho)),
+    approx = "asymptotic"
+  )
+  rho1 <- outer(rho, rho, function(x, y) (x + y) / 2)
+  gamma1 <- outer(gamma, gamma, function(x, y) (x + y) / 2)
+
+  res <- list(
+    "rho1" = rho1,
+    "gamma1" = gamma1,
+    "tau" = tau,
+    "arm" = arm,
+    "sigma2" = sigma2
+  )
+
   rho1 <- res$rho1
   gamma1 <- res$gamma1
   tau <- res$tau
@@ -76,7 +166,42 @@ test_that("gs_sigma2_combo correctly use gs_sigma2_wlr 1", {
 
 # Test gs_info_combo ----
 test_that("gs_info_combo correctly use gs_info_wlr 1", {
-  res <- test_gs_info_combo()
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(-1, -1, -1, -1)
+
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 30),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+
+  info_combo <- gsDesign2:::gs_info_combo(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = 1, # Experimental:Control randomization ratio
+    event = NULL, # Events at analyses
+    analysis_time = 30, # Times of analyses
+    rho = rho,
+    gamma = gamma,
+    tau = rep(-1, length(rho)),
+    approx = "asymptotic"
+  )
+
+  res <- list(
+    "rho" = rho,
+    "gamma" = gamma,
+    "tau" = tau,
+    "enroll_rate" = enroll_rate,
+    "fail_rate" = fail_rate,
+    "info_combo" = info_combo
+  )
+
   rho <- res$rho
   gamma <- res$gamma
   tau <- res$tau
@@ -103,59 +228,233 @@ test_that("gs_info_combo correctly use gs_info_wlr 1", {
 # Test gs_prob_combo ----
 ## 1 analysis scenario ----
 test_that("p efficacy", {
-  res <- test_gs_prob_combo_1()
-  prob <- res$prob
-  p_efficacy <- res$p_efficacy
 
-  expect_equal(prob$probability[1], p_efficacy[1], tolerance = 0.001)
+  lower <- -0.6
+  upper <- 0.4
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(-1, -1, -1, -1)
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 30),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+  arm <- gs_create_arm(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = 1,
+    total_time = 1e6
+  )
+  sigma <- gsDesign2:::gs_sigma2_combo(
+    arm0 = arm$arm0,
+    arm1 = arm$arm1,
+    tmax = 30,
+    rho = rho,
+    gamma = gamma,
+    tau = rep(-1, length(rho)),
+    approx = "asymptotic"
+  )
+  corr <- cov2cor(sigma)
+  n_test <- length(rho)
+  theta <- rep(0, n_test)
+  analysis <- 1
+
+  prob <- gsDesign2:::gs_prob_combo(
+    lower_bound = rep(lower, n_test),
+    upper_bound = rep(upper, n_test),
+    analysis = analysis,
+    theta = theta,
+    corr = corr,
+    algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5)
+  )
+
+  p_efficacy <- gsDesign2:::pmvnorm_combo(
+    lower = rep(upper, n_test),
+    upper = rep(Inf, n_test),
+    group = analysis,
+    mean = theta,
+    corr = corr
+  )
+
+  p_futility <- gsDesign2:::pmvnorm_combo(
+    lower = rep(-Inf, n_test),
+    upper = rep(lower, n_test),
+    group = analysis,
+    mean = theta,
+    corr = corr
+  )
+
+  res <- list("prob" = prob, "p_efficacy" = p_efficacy, "p_futility" = p_futility)
+
+  # p efficacy
+  expect_equal(res$prob$probability[1], res$p_efficacy[1], tolerance = 0.001)
+
+  # p futility
+  expect_equal(res$prob$probability[2], res$p_futility[1], tolerance = 0.001)
 })
 
-test_that("p futility", {
-  res <- test_gs_prob_combo_1()
-  prob <- res$prob
-  p_futility <- res$p_futility
 
-  expect_equal(prob$probability[2], p_futility[1], tolerance = 0.001)
-})
 
 ## 2 analysis scenario ----
 test_that("p efficacy1", {
-  res <- test_gs_prob_combo_2()
-  prob <- res$prob
-  p_efficacy_1 <- res$p_efficacy_1
+  lower <- c(-0.2, -0.3)
+  upper <- c(0.3, 0.4)
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(-1, -1, -1, -1)
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 30),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+  arm <- gs_create_arm(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = 1,
+    total_time = 1e6
+  )
+  sigma <- gsDesign2:::gs_sigma2_combo(
+    arm0 = arm$arm0,
+    arm1 = arm$arm1,
+    tmax = 30,
+    rho = rho,
+    gamma = gamma,
+    tau = rep(-1, length(rho)),
+    approx = "asymptotic"
+  )
+  corr <- cov2cor(sigma)
+  n_test <- length(rho)
+  theta <- rep(0, n_test)
+  analysis <- c(1, 2)
+  prob <- gsDesign2:::gs_prob_combo(
+    lower_bound = rep(lower, n_test),
+    upper_bound = rep(upper, n_test),
+    analysis = analysis,
+    theta = theta,
+    corr = corr,
+    algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5)
+  )
+  c <- c(1, 3)
+  corr1 <- corr[c, c]
+  p_efficacy_1 <- gsDesign2:::pmvnorm_combo(
+    lower = rep(upper[1], 2),
+    upper = rep(Inf, 2),
+    group = 1,
+    mean = theta[c],
+    corr = corr1
+  )
+  p_futility_1 <- gsDesign2:::pmvnorm_combo(
+    lower = rep(-Inf, 2),
+    upper = rep(lower[1], 2),
+    group = 1,
+    mean = theta[c],
+    corr = corr1
+  )
+  p_efficacy_2 <- gsDesign2:::pmvnorm_combo(
+    lower = c(lower[1], upper[2]),
+    upper = c(upper[1], Inf),
+    group = analysis,
+    mean = theta,
+    corr = corr
+  )
+  p_futility_2 <- gsDesign2:::pmvnorm_combo(
+    lower = c(lower[1], -Inf),
+    upper = c(upper[1], lower[2]),
+    group = analysis,
+    mean = theta,
+    corr = corr
+  )
 
-  expect_equal(prob$probability[1], p_efficacy_1[1], tolerance = 0.001)
+  res <- list(
+    "prob" = prob,
+    "p_efficacy_1" = p_efficacy_1,
+    "p_efficacy_2" = p_efficacy_2,
+    "p_futility_1" = p_futility_1,
+    "p_futility_2" = p_futility_2
+  )
+
+  # p efficacy1
+  expect_equal(res$prob$probability[1], res$p_efficacy_1[1], tolerance = 0.001)
+
+  # p futility1
+  expect_equal(res$prob$probability[3], res$p_futility_1[1], tolerance = 0.001)
+
+  # p efficacy2
+  expect_equal(res$prob$probability[2], res$p_efficacy_1[1] + res$p_efficacy_2[1], tolerance = 0.001)
+
+  # p futility2
+  expect_equal(res$prob$probability[4], res$p_futility_1[1] + res$p_futility_2[1], tolerance = 0.001)
 })
 
-test_that("p futility1", {
-  res <- test_gs_prob_combo_2()
-  prob <- res$prob
-  p_futility_1 <- res$p_futility_1
-
-  expect_equal(prob$probability[3], p_futility_1[1], tolerance = 0.001)
-})
-
-test_that("p efficacy2", {
-  res <- test_gs_prob_combo_2()
-  prob <- res$prob
-  p_efficacy_1 <- res$p_efficacy_1
-  p_efficacy_2 <- res$p_efficacy_2
-
-  expect_equal(prob$probability[2], p_efficacy_1[1] + p_efficacy_2[1], tolerance = 0.001)
-})
-
-test_that("p futility2", {
-  res <- test_gs_prob_combo_2()
-  prob <- res$prob
-  p_futility_1 <- res$p_futility_1
-  p_futility_2 <- res$p_futility_2
-
-  expect_equal(prob$probability[4], p_futility_1[1] + p_futility_2[1], tolerance = 0.001)
-})
 
 # Test pmvnorm_combo ----
 test_that("pmvnorm_combo calculate p for One test for all group or lower bound is -Inf.", {
-  res <- test_pmvnorm_combo()
+  lower <- -Inf
+  upper <- 0
+  mean <- 0.3
+  n_test <- 4
+  rho <- c(1, 1, 0, 0)
+  gamma <- c(0, 1, 0, 1)
+  tau <- c(-1, -1, -1, -1)
+
+  enroll_rate <- define_enroll_rate(
+    stratum = "All",
+    duration = c(2, 2, 10),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+  arm <- gs_create_arm(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = 1,
+    total_time = 1e6
+  )
+  sigma <- gsDesign2:::gs_sigma2_combo(
+    arm0 = arm$arm0,
+    arm1 = arm$arm1,
+    tmax = 30,
+    rho = rho,
+    gamma = gamma,
+    tau = rep(-1, length(rho)),
+    approx = "asymptotic"
+  )
+  corr <- cov2cor(sigma)
+
+  p <- gsDesign2:::pmvnorm_combo(
+    lower = rep(lower, n_test),
+    upper = rep(upper, n_test),
+    group = 2,
+    mean = rep(mean, n_test),
+    corr = corr,
+    algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5)
+  )
+
+  p_test <- mvtnorm::pmvnorm(
+    lower = rep(lower, n_test),
+    upper = rep(upper, n_test),
+    mean = rep(mean, n_test),
+    corr = corr,
+    sigma = NULL,
+    algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5)
+  )
+
+  res <- list("p" = p, "p_test" = p_test)
+
   p <- res$p
   p_test <- res$p_test
 
@@ -165,24 +464,65 @@ test_that("pmvnorm_combo calculate p for One test for all group or lower bound i
 # Log-rank multiple analysis ----
 ## Test gs_utility_combo ----
 test_that("gs_utility_combo output correct info as gs_info_combo", {
-  res <- test_gs_utility_combo()
-  utility_combo <- res$utility_combo
-  info_combo_test <- res$info_combo_test
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 30),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+  analysis_time <- c(12, 24, 36)
+  n_analysis <- length(analysis_time)
+  fh_test <- rbind(data.frame(
+    rho = 0,
+    gamma = 0,
+    tau = -1,
+    test = 1,
+    analysis = 1:3,
+    analysis_time = analysis_time
+  ))
+  gs_arm <- gs_create_arm(
+    enroll_rate,
+    fail_rate,
+    ratio = 1, # Randomization ratio
+    total_time = max(analysis_time) # Total study duration
+  )
 
-  expect_equal(utility_combo$info[1:11], info_combo_test[1:11])
-})
+  utility_combo <- gsDesign2:::gs_utility_combo(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    fh_test = fh_test,
+    ratio = 1,
+    algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5)
+  )
 
-test_that("gs_utility_combo output correct theta effect as gs_info_combo", {
-  res <- test_gs_utility_combo()
-  utility_combo <- res$utility_combo
-  info_combo_test <- res$info_combo_test
+  info_combo_test <- gsDesign2:::gs_info_combo(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = 1,
+    analysis_time = analysis_time,
+    rho = 0,
+    gamma = 0
+  )
+
+  res <- list(
+    "n_analysis" = n_analysis,
+    "utility_combo" = utility_combo,
+    "info_combo_test" = info_combo_test
+  )
+
+  # gs_utility_combo output correct info as gs_info_combo
+  expect_equal(res$utility_combo$info[1:11], res$info_combo_test[1:11])
+
+  # gs_utility_combo output correct theta effect as gs_info_combo
   theta_test <- (-info_combo_test$delta) / sqrt(info_combo_test$sigma2)
+  expect_equal(res$utility_combo$theta, theta_test)
 
-  expect_equal(utility_combo$theta, theta_test)
-})
+  # gs_utility_combo output correct correlation matrix as gs_info_combo
 
-test_that("gs_utility_combo output correct correlation matrix as gs_info_combo", {
-  res <- test_gs_utility_combo()
   n_analysis <- res$n_analysis
   utility_combo <- res$utility_combo
   info_combo_test <- res$info_combo_test
@@ -200,26 +540,82 @@ test_that("gs_utility_combo output correct correlation matrix as gs_info_combo",
   expect_equal(utility_combo$corr, corr_test)
 })
 
+
+
+
 ## Multiple test analysis ----
 test_that("gs_utility_combo output correct info as gs_info_combo", {
-  res <- test_gs_utility_combo_multiple()
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 30),
+    rate = c(3, 6, 9)
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, 100),
+    fail_rate = log(2) / c(9, 18),
+    dropout_rate = rep(.001, 2),
+    hr = c(.9, .6)
+  )
+  analysis_time <- 36
+  n_analysis <- length(analysis_time)
+  rho <- c(0, 0.5, 1)
+  gamma <- c(0.5, 0.5, 0.5)
+  tau <- c(-1, -1, -1)
+  fh_test <- rbind(data.frame(
+    rho = rho,
+    gamma = gamma,
+    tau = tau,
+    test = 1:3,
+    analysis = 1,
+    analysis_time = analysis_time
+  ))
+  gs_arm <- gs_create_arm(
+    enroll_rate,
+    fail_rate,
+    ratio = 1, # Randomization ratio
+    total_time = max(analysis_time) # Total study duration
+  )
+
+  utility_combo <- gsDesign2:::gs_utility_combo(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    fh_test = fh_test,
+    ratio = 1,
+    algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5)
+  )
+
+  info_combo_test <- gsDesign2:::gs_info_combo(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = 1,
+    analysis_time = analysis_time,
+    rho = rho,
+    gamma = gamma
+  )
+
+  res <- list(
+    "rho" = rho,
+    "gamma" = gamma,
+    "tau" = tau,
+    "analysis_time" = analysis_time,
+    "n_analysis" = n_analysis,
+    "gs_arm" = gs_arm,
+    "utility_combo" = utility_combo,
+    "info_combo_test" = info_combo_test
+  )
+
+  # gs_utility_combo output correct info as gs_info_combo
   utility_combo <- res$utility_combo
   info_combo_test <- res$info_combo_test
-
   expect_equal(utility_combo$info[1:11], info_combo_test[1:11])
-})
 
-test_that("gs_utility_combo output correct theta effect as gs_info_combo", {
-  res <- test_gs_utility_combo_multiple()
+  # gs_utility_combo output correct theta effect as gs_info_combo
   utility_combo <- res$utility_combo
   info_combo_test <- res$info_combo_test
   theta_test <- (-info_combo_test$delta) / sqrt(info_combo_test$sigma2)
 
   expect_equal(utility_combo$theta, theta_test)
-})
 
-test_that("gs_utility_combo output correct correlation matrix as gs_info_combo", {
-  res <- test_gs_utility_combo_multiple()
+  # gs_utility_combo output correct correlation matrix as gs_info_combo
   rho <- res$rho
   gamma <- res$gamma
   tau <- res$tau
@@ -240,3 +636,4 @@ test_that("gs_utility_combo output correct correlation matrix as gs_info_combo",
 
   expect_equal(utility_combo$corr, corr_test)
 })
+
