@@ -102,6 +102,7 @@ fixed_design_ahr <- function(
   # Generate design ----
   if (is.null(power)) {
     d <- gs_power_ahr(
+      upper = gs_b, lower = gs_b,
       upar = qnorm(1 - alpha), lpar = -Inf,
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
