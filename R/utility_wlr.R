@@ -270,3 +270,8 @@ gs_sigma2_wlr <- function(arm0,
 
   return(sigma2)
 }
+
+#' @noRd
+is_almost_k <- function(x, k, tol = .Machine$double.eps^0.5) {
+  abs(x - k) < tol
+}
