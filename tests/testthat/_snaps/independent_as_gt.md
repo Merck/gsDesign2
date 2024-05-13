@@ -88,7 +88,6 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6} \\ 
     \midrule\addlinespace[2.5pt]
-    Futility & -1.28 & 0.9000 & 1.6031 & 0.0273 & 0.1000 \\ 
     Efficacy & 2.67 & 0.0038 & 0.3743 & 0.0231 & 0.0038 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.74 Information fraction: 0.8} \\ 
