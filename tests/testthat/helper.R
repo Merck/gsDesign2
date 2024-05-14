@@ -24,13 +24,3 @@ test_event <- function(enroll_rate, fail_rate, td = 15) {
 
   total_e
 }
-
-gt_to_latex <- function(data) cat(as.character(gt::as_latex(data)))
-
-with_seed <- function(seed, code) {
-  code <- substitute(code)
-  original_seed <- .Random.seed
-  on.exit(.Random.seed <<- original_seed)
-  set.seed(seed)
-  eval.parent(code)
-}

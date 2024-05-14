@@ -143,15 +143,11 @@ gs_design_ahr_ <- function(enrollRates = tibble::tibble(
                            IF = NULL, # relative information fraction timing (vector, if not NULL; increasing to 1)
                            analysisTimes = 36, # Targeted times of analysis or just planned study duration
                            binding = FALSE,
-                           upper = gs_b,
-                           # Default is Lan-DeMets approximation of
-                           upar = gsDesign::gsDesign(
-                             k = 3, test.type = 1,
-                             n.I = c(.25, .75, 1),
-                             sfu = gsDesign::sfLDOF, sfupar = NULL
-                           )$upper$bound,
-                           lower = gs_b,
-                           lpar = c(qnorm(.1), -Inf, -Inf), # Futility only at IA1
+                           upper = gs_spending_bound,
+                           # Default is LDOF
+                           upar = list(sf = gsDesign::sfLDOF, total_spend = alpha),
+                           lower = gs_spending_bound,
+                           lpar = list(sf = gsDesign::sfLDOF, total_spend = beta),
                            h1_spending = TRUE,
                            test_upper = TRUE,
                            test_lower = TRUE,
