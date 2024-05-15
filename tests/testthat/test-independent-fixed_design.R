@@ -1,23 +1,9 @@
-enroll_rate <- define_enroll_rate(
-  duration = 18,
-  rate = 20
-)
-
-# Failure rates
-fail_rate <- define_fail_rate(
-  duration = c(4, 100),
-  fail_rate = log(2) / 12,
-  dropout_rate = .001,
-  hr = c(1, .6)
-)
-
-# Study duration in months
-study_duration <- 36
-
-# Experimental / Control randomization ratio
-ratio <- 1
-
 test_that("AHR", {
+  res <- params_fixed_design()
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  study_duration <- res$study_duration
+  ratio <- res$ratio
 
   x <- fixed_design_ahr(
     alpha = 0.025,
@@ -40,6 +26,11 @@ test_that("AHR", {
 })
 
 test_that("FH", {
+  res <- params_fixed_design()
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  study_duration <- res$study_duration
+  ratio <- res$ratio
 
   x <- fixed_design_fh(
     alpha = 0.025,
@@ -67,6 +58,11 @@ test_that("FH", {
 })
 
 test_that("MB", {
+  res <- params_fixed_design()
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  study_duration <- res$study_duration
+  ratio <- res$ratio
 
   x <- fixed_design_mb(
     alpha = 0.025,
@@ -92,6 +88,11 @@ test_that("MB", {
 })
 
 test_that("LF", {
+  res <- params_fixed_design()
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  study_duration <- res$study_duration
+  ratio <- res$ratio
 
   x <- fixed_design_lf(
     alpha = 0.025,
@@ -114,6 +115,11 @@ test_that("LF", {
 })
 
 test_that("MaxCombo", {
+  res <- params_fixed_design()
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  study_duration <- res$study_duration
+  ratio <- res$ratio
 
   x <- fixed_design_maxcombo(
     alpha = 0.025,
@@ -142,6 +148,11 @@ test_that("MaxCombo", {
 })
 
 test_that("RMST", {
+  res <- params_fixed_design()
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  study_duration <- res$study_duration
+  ratio <- res$ratio
 
   x <- fixed_design_rmst(
     alpha = 0.025,
@@ -166,6 +177,8 @@ test_that("RMST", {
 })
 
 test_that("RD", {
+  res <- params_fixed_design()
+  ratio <- res$ratio
 
   x <- fixed_design_rd(
     alpha = 0.025,

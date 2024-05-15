@@ -1,5 +1,3 @@
-gt_to_latex <- function(data) cat(as.character(gt::as_latex(data)))
-
 test_that("enroll_rate produces the expected output", {
   expected_result <- tibble::tibble(stratum = "All", duration = 18, rate = 20)
 
