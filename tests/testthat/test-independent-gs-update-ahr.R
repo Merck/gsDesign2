@@ -2,6 +2,7 @@ library(gsDesign2)
 library(gt)
 library(dplyr)
 library(simtrial)
+library(testthat)
 
 # Function to get cut data and statistical information combined with AHR for an analysis
 get_blinded_ahr <- function(observed_data, analysis_event = NULL, analysis_date, intervals, hr, ratio) {
@@ -74,6 +75,14 @@ test_that("Ex1: blinded ahr computed correctly", {
   expect_equal(y$analysis$ahr, ahr_info$ahr)
 })
 
+# Double programming for futility bound
+yb <- gs_power_npe(theta = y$analysis$theta, theta0 = 0, theta1 = NULL,
+                   info0 = y$analysis$info0, info_scale = "h0_info",
+                   info = y$analysis$info,
+                   upper = x$input$upper, lower = x$input$lower,
+                   upar = x$input$upar, lpar = x$input$lpar,
+                   binding = x$input$binding, r = x$input$r
+                   )
 test_that("Ex1: blinded theta computed correctly", {
   expect_equal(y$analysis$theta, ahr_info$theta)
 })
@@ -81,3 +90,12 @@ test_that("Ex1: blinded theta computed correctly", {
 test_that("Ex1: blinded information computed correctly", {
   expect_equal(y$analysis$info0, ahr_info$info0)
 })
+
+
+
+
+lower_bound <- (yb |> filter(bound == "lower"))$z
+test_that("Ex1: futility bound computed correctly", {
+  expect_equal((y$bound |> filter(bound == "lower"))$z, lower_bound)
+})
+
