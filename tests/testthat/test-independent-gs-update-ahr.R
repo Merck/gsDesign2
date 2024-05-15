@@ -76,11 +76,20 @@ test_that("Ex1: blinded ahr computed correctly", {
 })
 
 # Double programming for futility bound
+upar_update <- x$input$upar
+lpar_update <- x$input$lpar
+upar_update$timing <- c(sum(data_list[[1]]$event),
+                        sum(data_list[[2]]$event),
+                        sum(data_list[[3]]$event)
+                        ) / max(x$analysis$event)
+upar_update$timing[3] <- 1
+lpar_update$timing <- upar_update$timing
+
 yb <- gs_power_npe(theta = y$analysis$theta, theta0 = 0, theta1 = NULL,
                    info0 = y$analysis$info0, info_scale = "h0_info",
                    info = y$analysis$info,
                    upper = x$input$upper, lower = x$input$lower,
-                   upar = x$input$upar, lpar = x$input$lpar,
+                   upar = upar_update, lpar = lpar_update,
                    binding = x$input$binding, r = x$input$r
                    )
 test_that("Ex1: blinded theta computed correctly", {
