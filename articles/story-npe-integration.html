@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -468,8 +468,9 @@ compute:</p>
 <span>  <span class="st">"\nUpdated bound approximation:"</span>, <span class="va">b2_1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Original bound approximation: 1.987428 </span></span>
-<span><span class="co">#&gt; Updated bound approximation: 1.977726</span></span>
-<span><span class="va">grid2_0</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, info <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">b2_1</span>, b <span class="op">=</span> <span class="cn">Inf</span>, im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Updated bound approximation: 1.977726</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">grid2_0</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, info <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="va">b2_1</span>, b <span class="op">=</span> <span class="cn">Inf</span>, im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_0</span><span class="op">)</span></span>
 <span><span class="va">pupper_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">grid2_0</span><span class="op">$</span><span class="va">h</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
 <span>  <span class="st">"\nOriginal boundary crossing probability:"</span>, <span class="va">pupper_0</span>,</span>
@@ -483,7 +484,7 @@ compute:</p>
 <p>We see that the Taylor’s series update has gotten us substantially
 closer to the targeted boundary probability. We now update the lower
 bound in an analogous fashion.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lower rejection region grid under H1</span></span>
 <span><span class="va">grid2_1</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, info <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, b <span class="op">=</span> <span class="va">a2_0</span>,</span>
@@ -504,8 +505,9 @@ bound in an analogous fashion.</p>
 <span>  <span class="st">"\nUpdated bound approximation:"</span>, <span class="va">a2_1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Original bound approximation: 1.681989 </span></span>
-<span><span class="co">#&gt; Updated bound approximation: 1.702596</span></span>
-<span></span>
+<span><span class="co">#&gt; Updated bound approximation: 1.702596</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">grid2_1</span> <span class="op">&lt;-</span> <span class="fu">gsDesign2</span><span class="fu">:::</span><span class="fu">hupdate</span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, info <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, a <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, b <span class="op">=</span> <span class="va">a2_1</span>,</span>
 <span>  thetam1 <span class="op">=</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, im1 <span class="op">=</span> <span class="va">info</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, gm1 <span class="op">=</span> <span class="va">grid1_1</span></span>
@@ -524,7 +526,7 @@ bound in an analogous fashion.</p>
 <li>Confirm with <code><a href="../reference/gs_power_npe.html">gs_power_npe()</a></code>
 </li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_power_npe.html">gs_power_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">theta</span>, theta1 <span class="op">=</span> <span class="va">theta</span>, info <span class="op">=</span> <span class="va">info</span>, binding <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>

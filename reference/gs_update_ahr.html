@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,8 +60,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  ia_alpha_spending <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"actual_info_frac"</span>, <span class="st">"min_of_planned_and_actual_info_frac"</span><span class="op">)</span>,</span>
-<span>  fa_alpha_spending <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"full_alpha"</span>, <span class="st">"info_frac"</span><span class="op">)</span>,</span>
+<span>  ia_alpha_spending <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"actual_info_frac"</span>, <span class="st">"min_of_planned_and_actual_info_frac"</span>,</span>
+<span>    <span class="st">"at_design_stage"</span><span class="op">)</span>,</span>
+<span>  fa_alpha_spending <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"full_alpha"</span>, <span class="st">"info_frac"</span>, <span class="st">"at_design_stage"</span><span class="op">)</span>,</span>
 <span>  observed_data <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -69,21 +70,27 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A original design created by either <code>gs_design_ahr</code> or <code>gs_power_ahr</code>.</p></dd>
+<dd><p>A design created by either <code>gs_design_ahr</code> or <code>gs_power_ahr</code>.</p></dd>
 
 
 <dt>alpha</dt>
-<dd><p>Alpha for the updated design.</p></dd>
+<dd><p>Type I error for the updated design.</p></dd>
 
 
 <dt>ia_alpha_spending</dt>
-<dd><p>Alpha spending strategy for interim analyses,
-either <code>"actual_info_frac"</code> (default), or <code>"min_of_planned_and_actual_info_frac"</code>.</p></dd>
+<dd><p>alpha-spending strategy for interim analyses,
+either <code>"actual_info_frac"</code> (default), or <code>"min_of_planned_and_actual_info_frac"</code>,
+or <code>"at_design_stage"</code> which mean users are still at the design stage and they are interested
+in looking at the design at different level of alpha with the same sample size,
+same number of events, same spending function and same timing.</p></dd>
 
 
 <dt>fa_alpha_spending</dt>
-<dd><p>Alpha spending strategy for final analysis,
-either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
+<dd><p>alpha-spending strategy for final analysis,
+either <code>"info_frac"</code>, or <code>"full_alpha"</code> (default), or <code>"at_design_stage"</code> which mean users
+are still at the design stage and they are interested
+in looking at the design at different level of alpha, with the same sample size,
+same number of events, same spending function and same timing.</p></dd>
 
 
 <dt>observed_data</dt>
@@ -159,7 +166,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"full_alpha"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -200,7 +206,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"info_frac"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -241,7 +246,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"min_of_planned_and_actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"full_alpha"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -282,7 +286,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"min_of_planned_and_actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"info_frac"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -325,7 +328,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"min_of_planned_and_actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"info_frac"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -384,7 +386,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"full_alpha"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -425,7 +426,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"info_frac"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -466,7 +466,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"min_of_planned_and_actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"full_alpha"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -507,7 +506,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"min_of_planned_and_actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"info_frac"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -550,7 +548,6 @@ either <code>"info_frac"</code> or <code>"full_alpha"</code> (default).</p></dd>
 <span class="r-in"><span>  ia_alpha_spending <span class="op">=</span> <span class="st">"min_of_planned_and_actual_info_frac"</span>,</span></span>
 <span class="r-in"><span>  fa_alpha_spending <span class="op">=</span> <span class="st">"info_frac"</span>,</span></span>
 <span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(analysis, bound, z)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>

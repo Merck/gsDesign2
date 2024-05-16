@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -3813,8 +3813,9 @@ to calculate the sample size of fixed design first.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The sample size of fixed-design calculated by `gsDesign` is "</span>, <span class="va">n_fix</span>, <span class="st">".\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The sample size of fixed-design calculated by `gsDesign` is  1834.641 .</span></span>
-<span></span>
+<span><span class="co">#&gt; The sample size of fixed-design calculated by `gsDesign` is  1834.641 .</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">x_gsdesign</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span></span>
 <span>  k <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  test.type <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -3842,8 +3843,9 @@ to calculate the sample size of fixed design first.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The sample size calcuated by `gsDesign` is "</span>, <span class="va">x_gsdesign</span><span class="op">$</span><span class="va">n.I</span>, <span class="st">".\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The sample size calcuated by `gsDesign` is  618.7954 1237.591 1856.386 .</span></span>
-<span></span>
+<span><span class="co">#&gt; The sample size calcuated by `gsDesign` is  618.7954 1237.591 1856.386 .</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsBoundSummary.html" class="external-link">gsBoundSummary</a></span><span class="op">(</span><span class="va">x_gsdesign</span>, digits <span class="op">=</span> <span class="fl">4</span>, ddigits <span class="op">=</span> <span class="fl">2</span>, tdigits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   Analysis                  Value Efficacy</span></span>
 <span><span class="co">#&gt;  IA 1: 33%                      Z   3.7103</span></span>
@@ -3884,7 +3886,7 @@ Sample size calculated by EAST
 <div class="section level4">
 <h4 id="summary-1">Summary<a class="anchor" aria-label="anchor" href="#summary-1"></a>
 </h4>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  gsDesign2_info_scale_0 <span class="op">=</span> <span class="va">x_gsdesign2_info_scale_0</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span>,</span>
 <span>  gsDesign2_info_scale_1 <span class="op">=</span> <span class="va">x_gsdesign2_info_scale_1</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span>,</span>
@@ -4403,7 +4405,7 @@ Sample size calculated by EAST
 </h3>
 <p>In this example, we consider 3 strata in a group sequential design
 with 3 analyses.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">prevalence_ratio</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">p_c_by_stratum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.3</span>, <span class="fl">.37</span>, <span class="fl">.6</span><span class="op">)</span></span>
@@ -4998,7 +5000,7 @@ p_{E,s})}{N_{E,k,s}}
   \end{array}
   \right.
 \]</span></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/setops.html" class="external-link">union_all</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/setops.html" class="external-link">union_all</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -5613,7 +5615,7 @@ p_{E,s})}{N_{E,k,s}}
 <p><span class="math display">\[
   w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}.
 \]</span></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Analysis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
@@ -6298,7 +6300,7 @@ statistical information. <span class="math display">\[
   \end{array}
   \right. \\
 \]</span></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Analysis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
@@ -6336,7 +6338,7 @@ statistical information. <span class="math display">\[
 <span>          <span class="va">weight_ss</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">p_pool</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_pool</span><span class="op">)</span> <span class="op">/</span> <span class="va">n_e</span></span>
 <span>      <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">6</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -6905,7 +6907,7 @@ statistical information. <span class="math display">\[
 </tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Sample size under H0 ----</span></span>
 <span><span class="va">y_invar_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">rd_invar_H0</span>,</span>
@@ -7494,7 +7496,7 @@ statistical information. <span class="math display">\[
 </table>
 </div>
 <p>The above logic is implemented in <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## sample size weighting + information scale = "h0_info"</span></span>
 <span><span class="va">x_ss0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7513,7 +7515,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h0_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## sample size weighting + information scale = "h1_info"</span></span>
 <span><span class="va">x_ss1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7532,7 +7534,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h1_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## sample size weighting + information scale = "h0_h1_info"</span></span>
 <span><span class="va">x_ss2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7551,7 +7553,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h0_h1_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = "h0_info"</span></span>
 <span><span class="va">x_invar0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7570,7 +7572,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h0_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = "h1_info"</span></span>
 <span><span class="va">x_invar1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7589,7 +7591,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h1_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = "h0_h1_info"</span></span>
 <span><span class="va">x_invar2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7608,7 +7610,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h0_h1_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = "h0_info"</span></span>
 <span><span class="va">x_invar_h1_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7627,7 +7629,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h0_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = "h1_info"</span></span>
 <span><span class="va">x_invar_h1_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7646,7 +7648,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h1_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## inverse variance weighting + information scale = "h0_h1_info"</span></span>
 <span><span class="va">x_invar_h1_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_rd.html">gs_design_rd</a></span><span class="op">(</span></span>
 <span>  p_c <span class="op">=</span> <span class="va">p_c</span>,</span>
@@ -7665,7 +7667,7 @@ statistical information. <span class="math display">\[
 <span>  info_scale <span class="op">=</span> <span class="st">"h0_h1_info"</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  INVAR0 <span class="op">=</span> <span class="va">x_invar0</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>
 <span>  INVAR1 <span class="op">=</span> <span class="va">x_invar1</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>
