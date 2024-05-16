@@ -7,21 +7,28 @@
 gs_update_ahr(
   x = NULL,
   alpha = NULL,
-  ia_alpha_spending = c("actual_info_frac", "min_of_planned_and_actual_info_frac"),
-  fa_alpha_spending = c("full_alpha", "info_frac"),
+  ia_alpha_spending = c("actual_info_frac", "min_of_planned_and_actual_info_frac",
+    "at_design_stage"),
+  fa_alpha_spending = c("full_alpha", "info_frac", "at_design_stage"),
   observed_data = NULL
 )
 }
 \arguments{
-\item{x}{A original design created by either \code{gs_design_ahr} or \code{gs_power_ahr}.}
+\item{x}{A design created by either \code{gs_design_ahr} or \code{gs_power_ahr}.}
 
-\item{alpha}{Alpha for the updated design.}
+\item{alpha}{Type I error for the updated design.}
 
-\item{ia_alpha_spending}{Alpha spending strategy for interim analyses,
-either \code{"actual_info_frac"} (default), or \code{"min_of_planned_and_actual_info_frac"}.}
+\item{ia_alpha_spending}{alpha-spending strategy for interim analyses,
+either \code{"actual_info_frac"} (default), or \code{"min_of_planned_and_actual_info_frac"},
+or \code{"at_design_stage"} which mean users are still at the design stage and they are interested
+in looking at the design at different level of alpha with the same sample size,
+same number of events, same spending function and same timing.}
 
-\item{fa_alpha_spending}{Alpha spending strategy for final analysis,
-either \code{"info_frac"} or \code{"full_alpha"} (default).}
+\item{fa_alpha_spending}{alpha-spending strategy for final analysis,
+either \code{"info_frac"}, or \code{"full_alpha"} (default), or \code{"at_design_stage"} which mean users
+are still at the design stage and they are interested
+in looking at the design at different level of alpha, with the same sample size,
+same number of events, same spending function and same timing.}
 
 \item{observed_data}{a list of observed datasets by analyses.}
 }

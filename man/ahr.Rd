@@ -2,7 +2,7 @@
 % Please edit documentation in R/ahr.R
 \name{ahr}
 \alias{ahr}
-\title{Average hazard ratio under non-proportional hazards (test version)}
+\title{Average hazard ratio under non-proportional hazards}
 \usage{
 ahr(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),

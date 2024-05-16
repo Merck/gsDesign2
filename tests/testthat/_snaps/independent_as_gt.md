@@ -54,7 +54,7 @@
     \setlength{\LTpost}{0mm}
     \begin{longtable}{lrrrrr}
     \caption*{
-    {\large Bound summary for AHR design} \\ 
+    {\large NA} \\ 
     {\small AHR approximations of \textasciitilde{}HR at bound}
     } \\ 
     \toprule
@@ -78,7 +78,7 @@
     \setlength{\LTpost}{0mm}
     \begin{longtable}{lrrrrr}
     \caption*{
-    {\large Bound summary for AHR design} \\ 
+    {\large NA} \\ 
     {\small AHR approximations of \textasciitilde{}HR at bound}
     } \\ 
     \toprule
