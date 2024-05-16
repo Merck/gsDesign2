@@ -65,6 +65,14 @@ test_that("calculate probability under null", {
 })
 
 test_that("arguments are passed via ... to mvtnorm::pmvnorm()", {
+  with_seed <- function(seed, code) {
+    code <- substitute(code)
+    original_seed <- .Random.seed
+    on.exit(.Random.seed <<- original_seed)
+    set.seed(seed)
+    eval.parent(code)
+  }
+
   x1 <- gs_design_combo(seed = 1)
   x2 <- gs_design_combo(seed = 1)
   x3 <- gs_design_combo(seed = 2)

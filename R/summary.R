@@ -647,5 +647,17 @@ summary.gs_design <- function(object,
     class(output) <- c("non_binding", class(output))
   }
 
+  # Save the full alpha as an attribute of the output summary table
+  attr(output, "full_alpha") <-
+    if (is.null(object$input$alpha)) {
+      if (is.null(object$upar$total_spend)) {
+        0.025
+      } else {
+        object$upar$total_spend
+      }
+    } else {
+      object$input$alpha
+    }
+
   return(output)
 }

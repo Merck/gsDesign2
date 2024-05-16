@@ -198,11 +198,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 #'   `attr` is a vector of string to specify the attributes of the footnotes,
 #'   for example, `c("colname", "title", "subtitle", "analysis", "spanner")`;
 #'   users can use the functions in the `gt` package to customize the table.
-#' @param full_alpha The full alpha used in the design, the default is 0.025.
-#    If the cumulative alpha for final analysis is less than the `full_alpha`
-#'   when the futility bound is non-binding, a footnote will be displayed, saying
-#'   the smaller value subtracts the probability of crossing a futility bound before
-#'   crossing an efficacy bound at a later analysis under the null hypothesis.
 #' @param display_bound A vector of strings specifying the label of the bounds.
 #'   The default is `c("Efficacy", "Futility")`.
 #' @param display_columns A vector of strings specifying the variables to be
@@ -306,10 +301,10 @@ as_gt.gs_design <- function(
     display_bound = c("Efficacy", "Futility"),
     display_columns = NULL,
     display_inf_bound = FALSE,
-    full_alpha = 0.025,
     ...) {
 
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
+  full_alpha <- attributes(x)$full_alpha
 
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
 

@@ -89,7 +89,7 @@ tEvents_ <- function(enrollRates = tibble::tibble(
   res <- try(
     uniroot(
       function(x) {
-        AHR(enrollRates, failRates, x, ratio)$Events - targetEvents
+        AHR_(enrollRates, failRates, x, ratio)$Events - targetEvents
       },
       interval
     )
@@ -97,5 +97,5 @@ tEvents_ <- function(enrollRates = tibble::tibble(
   if (inherits(res, "try-error")) {
     stop("tEvents solution not found")
   }
-  AHR(enrollRates, failRates, res$root, ratio)
+  AHR_(enrollRates, failRates, res$root, ratio)
 }

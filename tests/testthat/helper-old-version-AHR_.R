@@ -22,7 +22,7 @@ NULL
 
 #' Average hazard ratio under non-proportional hazards (test version)
 #'
-#' \code{AHR()} provides a geometric average hazard ratio under
+#' \code{AHR_()} provides a geometric average hazard ratio under
 #' various non-proportional hazards assumptions for either single or multiple strata studies.
 #' The piecewise exponential distribution allows a simple method to specify a distribution
 #' and enrollment pattern where the enrollment, failure and dropout rates changes over time.

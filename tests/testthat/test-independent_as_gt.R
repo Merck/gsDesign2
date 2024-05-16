@@ -1,3 +1,5 @@
+gt_to_latex <- function(data) cat(as.character(gt::as_latex(data)))
+
 test_that("enroll_rate produces the expected output", {
   expected_result <- tibble::tibble(stratum = "All", duration = 18, rate = 20)
 
@@ -165,6 +167,14 @@ test_that("Snapshot test for gs_power_wlr summary as_gt", {
 
 test_that("Snapshot test for gs_power_combo summary as_gt", {
   skip_on_cran()
+
+  with_seed <- function(seed, code) {
+    code <- substitute(code)
+    original_seed <- .Random.seed
+    on.exit(.Random.seed <<- original_seed)
+    set.seed(seed)
+    eval.parent(code)
+  }
 
   # See <https://github.com/Merck/gsDesign2/issues/340>
   output <- with_seed(
