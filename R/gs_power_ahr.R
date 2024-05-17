@@ -155,8 +155,8 @@ gs_power_ahr <- function(
     analysis_time = NULL,
     upper = gs_spending_bound,
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-    lower = gs_b,
-    lpar = rep(-Inf, 3),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL),
     test_lower = TRUE,
     test_upper = TRUE,
     ratio = 1,
@@ -181,6 +181,12 @@ gs_power_ahr <- function(
     }
   } else {
     two_sided <- TRUE
+  }
+
+  # Check if user input the total spending for futility,
+  # if they use spending function for futility
+  if (identical(lower, gs_spending_bound) && is.null(lpar$total_spend)) {
+    stop("gs_power_ahr: please input the total_spend to the futility spending function.")
   }
 
   # Calculate the asymptotic variance and statistical information ----

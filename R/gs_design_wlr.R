@@ -121,13 +121,10 @@ gs_design_wlr <- function(
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     analysis_time = 36,
     binding = FALSE,
-    upper = gs_b,
-    upar = gsDesign(
-      k = 3, test.type = 1,
-      n.I = c(.25, .75, 1), sfu = sfLDOF, sfupar = NULL
-    )$upper$bound,
-    lower = gs_b,
-    lpar = c(qnorm(.1), -Inf, -Inf),
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = alpha),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = beta),
     test_upper = TRUE,
     test_lower = TRUE,
     h1_spending = TRUE,
@@ -149,6 +146,7 @@ gs_design_wlr <- function(
   if (all(fail_rate$hr == 1)) {
     stop("gs_design_wlr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
   }
+
   # get the info_scale
   info_scale <- match.arg(info_scale)
 
