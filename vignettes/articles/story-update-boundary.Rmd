@@ -126,10 +126,8 @@ When we in the stage of study design, we may be required to report the designs u
 ```{r}
 gs_update_ahr(
   x = x,
-  alpha = 0.05,
-  ia_alpha_spending = "at_design_stage",
-  fa_alpha_spending = "at_design_stage"
-) |>
+  alpha = 0.05
+  ) |>
   summary(
     col_vars = c(
       "analysis", "bound", "z", "~hr at bound",
@@ -170,10 +168,11 @@ observed_data_fa <- observed_data |> simtrial::cut_data_by_date(analysis_time[2]
 
 The updated design is
 ```{r}
+ustime <- c(sum(observed_data_ia$event) / max(x$analysis$event), 1)
+
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "full_alpha",
+  ustime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa)
 ) |>
   summary(
@@ -252,10 +251,8 @@ When we in the stage of study design, we may be required to report the designs u
 ```{r}
 gs_update_ahr(
   x = x,
-  alpha = 0.05,
-  ia_alpha_spending = "at_design_stage",
-  fa_alpha_spending = "at_design_stage"
-) |>
+  alpha = 0.05
+  ) |>
   summary(
     col_vars = c(
       "analysis", "bound", "z", "~hr at bound",
@@ -273,12 +270,14 @@ For simplicity in presentation, we assume the observed events are the same as th
 
 The updated design is
 ```{r}
+ustime <- c(sum(observed_data_ia$event) / max(x$analysis$event), 1)
+
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "full_alpha",
+  ustime = ustime,
+  lstime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa)
-) |>
+  ) |>
   summary(
     col_vars = c(
       "analysis", "bound", "z", "~hr at bound",
