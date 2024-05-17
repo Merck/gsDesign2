@@ -74,7 +74,7 @@ planned_event_ia1 <- x$analysis$event[1]
 planned_event_ia2 <- x$analysis$event[2]
 planned_event_fa <- x$analysis$event[3]
 
-ustime <- c(c(observed_event_ia, observed_event_ia2) / planned_event_fa, 1)
+ustime <- c(c(observed_event_ia1, observed_event_ia2) / planned_event_fa, 1)
 y <- gs_update_ahr(x, alpha = x$input$alpha,
                    observed_data = data_list,
                    ustime = ustime,
