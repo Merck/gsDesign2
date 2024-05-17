@@ -1,6 +1,6 @@
 test_that("default parameter", {
-  x1 <- gs_power_ahr()
-  x2 <- gs_power_ahr_()
+  x1 <- gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1))
+  x2 <- gs_power_ahr_(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1))
   expect_equal(x1$analysis$time, x2$Time[x2$Bound == "Upper"], tolerance = 1e-5)
   expect_equal(x1$analysis$event, x2$Events[x2$Bound == "Upper"], tolerance = 1e-5)
   expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$Z[x2$Bound == "Upper"], tolerance = 5e-6)
