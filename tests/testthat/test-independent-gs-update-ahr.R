@@ -66,10 +66,19 @@ for (i in seq_along(x$analysis$time)){
   data_list[[i]] <- xx$cut_data
 }
 
+observed_event_ia1 <- sum(data_list[[1]]$event)
+observed_event_ia2 <- sum(data_list[[2]]$event)
+observed_event_fa <- sum(data_list[[2]]$event)
+
+planned_event_ia1 <- x$analysis$event[1]
+planned_event_ia2 <- x$analysis$event[2]
+planned_event_fa <- x$analysis$event[3]
+
+ustime <- c(c(observed_event_ia, observed_event_ia2) / planned_event_fa, 1)
 y <- gs_update_ahr(x, alpha = x$input$alpha,
                    observed_data = data_list,
-                   ia_alpha_spending = "actual_info_frac",
-                   fa_alpha_spending = "full_alpha")
+                   ustime = ustime,
+                   lstime = ustime)
 
 test_that("Ex1: blinded ahr computed correctly", {
   expect_equal(y$analysis$ahr, ahr_info$ahr)
@@ -78,12 +87,8 @@ test_that("Ex1: blinded ahr computed correctly", {
 # Double programming for futility bound
 upar_update <- x$input$upar
 lpar_update <- x$input$lpar
-upar_update$timing <- c(sum(data_list[[1]]$event),
-                        sum(data_list[[2]]$event),
-                        sum(data_list[[3]]$event)
-                        ) / max(x$analysis$event)
-upar_update$timing[3] <- 1
-lpar_update$timing <- upar_update$timing
+upar_update$timing <- ustime
+lpar_update$timing <- ustime
 
 yb <- gs_power_npe(theta = y$analysis$theta, theta0 = 0, theta1 = NULL,
                    info0 = y$analysis$info0, info_scale = "h0_info",
@@ -99,9 +104,6 @@ test_that("Ex1: blinded theta computed correctly", {
 test_that("Ex1: blinded information computed correctly", {
   expect_equal(y$analysis$info0, ahr_info$info0)
 })
-
-
-
 
 lower_bound <- (yb |> filter(bound == "lower"))$z
 test_that("Ex1: futility bound computed correctly", {
