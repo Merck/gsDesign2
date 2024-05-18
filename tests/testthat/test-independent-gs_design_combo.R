@@ -1,5 +1,6 @@
+params_gs_design_combo <- test_gs_design_combo()
+
 test_that("calculate analysis number as planned", {
-  params_gs_design_combo <- test_gs_design_combo()
   res <- params_gs_design_combo
   fh_test <- res$fh_test
   gs_design_combo_test2 <- res$gs_design_combo_test2
@@ -8,7 +9,6 @@ test_that("calculate analysis number as planned", {
 })
 
 test_that("calculate analysisTimes as planned", {
-  params_gs_design_combo <- test_gs_design_combo()
   res <- params_gs_design_combo
   fh_test <- res$fh_test
   gs_design_combo_test2 <- res$gs_design_combo_test2
@@ -17,7 +17,6 @@ test_that("calculate analysisTimes as planned", {
 })
 
 test_that("calculate N and each analysis Events N as planned", {
-  params_gs_design_combo <- test_gs_design_combo()
   res <- params_gs_design_combo
   fh_test <- res$fh_test
   enroll_rate <- res$enroll_rate
@@ -42,7 +41,6 @@ test_that("calculate N and each analysis Events N as planned", {
 })
 
 test_that("calculate probability under alternative", {
-  params_gs_design_combo <- test_gs_design_combo()
   res <- params_gs_design_combo
   beta <- res$beta
   gs_design_combo_test2 <- res$gs_design_combo_test2
@@ -55,7 +53,6 @@ test_that("calculate probability under alternative", {
 })
 
 test_that("calculate probability under null", {
-  params_gs_design_combo <- test_gs_design_combo()
   res <- params_gs_design_combo
   alpha <- res$alpha
   gs_design_combo_test2 <- res$gs_design_combo_test2
