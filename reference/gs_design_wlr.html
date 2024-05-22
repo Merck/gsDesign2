@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,11 +70,10 @@
 <span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span>,</span>
 <span>  analysis_time <span class="op">=</span> <span class="fl">36</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
-<span>  upar <span class="op">=</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, test.type <span class="op">=</span> <span class="fl">1</span>, n.I <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">1</span><span class="op">)</span>, sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span></span>
-<span>    <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span>
-<span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
-<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
+<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span><span class="op">)</span>,</span>
+<span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">beta</span><span class="op">)</span>,</span>
 <span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  test_lower <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  h1_spending <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -273,7 +272,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function(x, arm0, arm1) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5629fc6a0cc8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55d66c90c090&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -303,7 +302,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5629fe3112e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d66b0a9930&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -319,7 +318,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5629fe3112e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d66b0a9930&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -416,7 +415,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function(x, arm0, arm1) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5629fc6a0cc8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55d66c90c090&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -566,7 +565,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5629fe310408&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d66b0a8a18&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -595,7 +594,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5629fc3f8578&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d66919aef0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -732,7 +731,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5629fe310408&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d66b0a8a18&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -761,7 +760,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5629fc3f8578&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d66919aef0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
