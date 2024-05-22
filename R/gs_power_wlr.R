@@ -172,14 +172,10 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
                          event = c(30, 40, 50),
                          analysis_time = NULL,
                          binding = FALSE,
-                         upper = gs_b,
-                         lower = gs_b,
-                         upar = gsDesign(
-                           k = 3, test.type = 1,
-                           n.I = c(30, 40, 50), maxn.IPlan = 50,
-                           sfu = sfLDOF, sfupar = NULL
-                         )$upper$bound,
-                         lpar = c(qnorm(.1), rep(-Inf, 2)),
+                         upper = gs_spending_bound,
+                         lower = gs_spending_bound,
+                         upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+                         lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL),
                          test_upper = TRUE,
                          test_lower = TRUE,
                          ratio = 1,
@@ -195,6 +191,12 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   if (!is_wholenumber(input_sample_size)) {
     stop("gs_power_wlr: please input integer sample size, i.e.,
          the summation of rate and duration of the enroll_rate should be an integer.")
+  }
+
+  # Check if user input the total spending for futility,
+  # if they use spending function for futility
+  if (identical(lower, gs_spending_bound) && is.null(lpar$total_spend)) {
+    stop("gs_power_wlr: please input the total_spend to the futility spending function.")
   }
 
   # get the number of analysis

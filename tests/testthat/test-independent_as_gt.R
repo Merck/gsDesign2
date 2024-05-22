@@ -122,7 +122,7 @@ test_that("Snapshot test for gs_design_ahr summary as_gt", {
 test_that("Snapshot test for gs_power_ahr summary as_gt", {
   skip_on_cran()
 
-  output <- gs_power_ahr() %>%
+  output <- gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
     summary() %>%
     as_gt()
 
@@ -144,7 +144,7 @@ test_that("Snapshot test for gs_design_wlr summary as_gt", {
 test_that("Snapshot test for gs_power_wlr summary as_gt", {
   skip_on_cran()
 
-  output <- gs_power_wlr() %>%
+  output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
     summary() %>%
     as_gt(
       footnote = list(
@@ -213,7 +213,7 @@ test_that("Snapshot test for gs_power_rd summary as_gt", {
 test_that("Snapshot test for gs_power_wlr summary as_gt with custom title and subtitle", {
   skip_on_cran()
 
-  output <- gs_power_wlr() %>%
+  output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
     summary() %>%
     as_gt(title = "Bound Summary", subtitle = "from gs_power_wlr")
 
@@ -224,7 +224,7 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with custom title and su
 test_that("Snapshot test for gs_power_wlr summary as_gt with colname_spanner and colname_spannersub", {
   skip_on_cran()
 
-  output <- gs_power_wlr() %>%
+  output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
     summary() %>%
     as_gt(
       colname_spanner = "Cumulative probability to cross boundaries",
@@ -239,7 +239,7 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with colname_spanner and
 test_that("Snapshot test for gs_power_wlr summary as_gt with custom footnotes", {
   skip_on_cran()
 
-  output <- gs_power_wlr() %>%
+  output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
     summary() %>%
     as_gt(
       footnote = list(
@@ -261,7 +261,7 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with custom footnotes", 
 test_that("Snapshot test for gs_power_wlr summary as_gt with display_bound", {
   skip_on_cran()
 
-  output <- gs_power_wlr() %>%
+  output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
     summary() %>%
     as_gt(display_bound = "Efficacy")
 
@@ -272,7 +272,7 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with display_bound", {
 test_that("Snapshot test for gs_power_wlr summary as_gt with display_columns", {
   skip_on_cran()
 
-  output <- gs_power_wlr() %>%
+  output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
     summary() %>%
     as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 

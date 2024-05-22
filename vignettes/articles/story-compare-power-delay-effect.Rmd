@@ -82,6 +82,8 @@ for (trial_duration in seq(24, 60, 4)) {
     weight = function(x, arm0, arm1) {
       wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
     },
+    upper = gs_b,
+    lower = gs_b,
     upar = qnorm(.975),
     lpar = -Inf,
     analysis_time = trial_duration
@@ -95,6 +97,8 @@ for (trial_duration in seq(24, 60, 4)) {
     weight = function(x, arm0, arm1) {
       wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
     },
+    upper = gs_b,
+    lower = gs_b,
     upar = qnorm(.975),
     lpar = -Inf,
     analysis_time = trial_duration,
@@ -157,6 +161,8 @@ for (trial_duration in seq(24, 60, 4)) {
     weight = function(x, arm0, arm1) {
       wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 15)
     },
+    upper = gs_b,
+    lower = gs_b,
     upar = qnorm(.975),
     lpar = -Inf,
     analysis_time = trial_duration,
@@ -300,6 +306,8 @@ for (trial_duration in seq(20, 60, 4)) {
     weight = function(x, arm0, arm1) {
       wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 15)
     },
+    upper = gs_b,
+    lower = gs_b,
     upar = qnorm(.975),
     lpar = -Inf,
     analysis_time = trial_duration,

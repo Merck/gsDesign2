@@ -150,7 +150,7 @@ gs_design_ahr() \%>\%
   summary() \%>\%
   as_rtf(file = tempfile(fileext = ".rtf"))
 
-gs_power_ahr() \%>\%
+gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_rtf(file = tempfile(fileext = ".rtf"))
 
@@ -158,7 +158,7 @@ gs_design_wlr() \%>\%
   summary() \%>\%
   as_rtf(file = tempfile(fileext = ".rtf"))
 
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_rtf(file = tempfile(fileext = ".rtf"))
 
@@ -177,7 +177,7 @@ gs_power_rd() \%>\%
 
 # usage of title = ..., subtitle = ...
 # to edit the title/subtitle
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_rtf(
     title = "Bound Summary",
@@ -187,7 +187,7 @@ gs_power_wlr() \%>\%
 
 # usage of colname_spanner = ..., colname_spannersub = ...
 # to edit the spanner and its sub-spanner
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_rtf(
     colname_spanner = "Cumulative probability to cross boundaries",
@@ -197,7 +197,7 @@ gs_power_wlr() \%>\%
 
 # usage of footnote = ...
 # to edit the footnote
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_rtf(
     footnote = list(
@@ -215,7 +215,7 @@ gs_power_wlr() \%>\%
 
 # usage of display_bound = ...
 # to either show efficacy bound or futility bound, or both(default)
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_rtf(
     display_bound = "Efficacy",
@@ -224,7 +224,7 @@ gs_power_wlr() \%>\%
 
 # usage of display_columns = ...
 # to select the columns to display in the summary table
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_rtf(
     display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),

@@ -91,15 +91,11 @@ gs_power_ahr_ <- function(enrollRates = tibble::tibble(
                           events = c(30, 40, 50), # Targeted events of analysis
                           analysisTimes = NULL, # Targeted times of analysis
                           binding = FALSE,
-                          upper = gs_b,
+                          upper = gs_spending_bound,
                           # Default is Lan-DeMets approximation of
-                          upar = gsDesign::gsDesign(
-                            k = length(events), test.type = 1,
-                            n.I = events, maxn.IPlan = max(events),
-                            sfu = gsDesign::sfLDOF, sfupar = NULL
-                          )$upper$bound,
-                          lower = gs_b,
-                          lpar = c(qnorm(.1), rep(-Inf, length(events) - 1)), # Futility only at IA1
+                          upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+                          lower = gs_spending_bound,
+                          lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL), # Futility only at IA1
                           test_upper = TRUE,
                           test_lower = TRUE,
                           r = 18,

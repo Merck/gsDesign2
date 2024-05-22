@@ -92,7 +92,7 @@
 #' # The default output of `gs_power_ahr()` is driven by events,
 #' # i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
 #' \donttest{
-#' gs_power_ahr()
+#' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1))
 #' }
 #' # Example 2 ----
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by analysis time,
@@ -103,9 +103,9 @@
 #'   event = NULL,
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
-#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
-#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 #' )
 #'
 #' # Example 3 ----
@@ -117,9 +117,9 @@
 #'   event = c(20, 50, 70),
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
-#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
-#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 #' )
 #' }
 #' # Example 4 ----
@@ -135,9 +135,9 @@
 #'   event = c(30, 40, 50),
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
-#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
-#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 #' )
 #' }
 gs_power_ahr <- function(
@@ -155,8 +155,8 @@ gs_power_ahr <- function(
     analysis_time = NULL,
     upper = gs_spending_bound,
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-    lower = gs_b,
-    lpar = rep(-Inf, 3),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL),
     test_lower = TRUE,
     test_upper = TRUE,
     ratio = 1,
@@ -181,6 +181,12 @@ gs_power_ahr <- function(
     }
   } else {
     two_sided <- TRUE
+  }
+
+  # Check if user input the total spending for futility,
+  # if they use spending function for futility
+  if (identical(lower, gs_spending_bound) && is.null(lpar$total_spend)) {
+    stop("gs_power_ahr: please input the total_spend to the futility spending function.")
   }
 
   # Calculate the asymptotic variance and statistical information ----

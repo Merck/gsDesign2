@@ -13,8 +13,8 @@ gs_power_ahr(
   analysis_time = NULL,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-  lower = gs_b,
-  lpar = rep(-Inf, 3),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL),
   test_lower = TRUE,
   test_upper = TRUE,
   ratio = 1,
@@ -114,7 +114,7 @@ library(dplyr)
 # The default output of `gs_power_ahr()` is driven by events,
 # i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`
 \donttest{
-gs_power_ahr()
+gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1))
 }
 # Example 2 ----
 # 2-sided symmetric O'Brien-Fleming spending bound, driven by analysis time,
@@ -125,9 +125,9 @@ gs_power_ahr(
   event = NULL,
   binding = TRUE,
   upper = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 )
 
 # Example 3 ----
@@ -139,9 +139,9 @@ gs_power_ahr(
   event = c(20, 50, 70),
   binding = TRUE,
   upper = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 )
 }
 # Example 4 ----
@@ -157,9 +157,9 @@ gs_power_ahr(
   event = c(30, 40, 50),
   binding = TRUE,
   upper = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
-  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 )
 }
 }

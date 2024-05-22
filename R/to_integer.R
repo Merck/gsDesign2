@@ -134,6 +134,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       event = event_ceiling,
       analysis_time = NULL,
       ratio = x$input$ratio,
+      upper = gs_b, lower = gs_b,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf,
       weight = function(s, arm0, arm1) {
         wlr_weight_fh(s, arm0, arm1,
@@ -172,6 +173,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
           tau = x$design_par$tau
         )
       },
+      upper = gs_b, lower = gs_b,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf
     )
 
