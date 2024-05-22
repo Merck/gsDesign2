@@ -1,17 +1,5 @@
-params_gs_design_npe <- list(
-  K = 3,
-  timing = c(.45, .8, 1),
-  sfu = gsDesign::sfPower,
-  sfupar = 4,
-  sfl = gsDesign::sfHSD,
-  sflpar = 2,
-  delta = .2,
-  alpha = .02,
-  beta = .15
-)
-
 test_that("One-sided design fails to reproduce gsDesign package bounds", {
-  params <- params_gs_design_npe
+  params <- params_gs_design_npe()
   K <- params$K
   timing <- params$timing
   sfu <- params$sfu
@@ -47,7 +35,7 @@ test_that("One-sided design fails to reproduce gsDesign package bounds", {
 })
 
 test_that("Two-sided symmetric design fails to reproduce gsDesign test.type=2 bounds", {
-  params <- params_gs_design_npe
+  params <- params_gs_design_npe()
   K <- params$K
   timing <- params$timing
   sfu <- params$sfu
@@ -88,7 +76,7 @@ test_that("Two-sided symmetric design fails to reproduce gsDesign test.type=2 bo
 })
 
 test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=3 bounds", {
-  params <- params_gs_design_npe
+  params <- params_gs_design_npe()
   K <- params$K
   timing <- params$timing
   sfu <- params$sfu
@@ -132,7 +120,7 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=3 b
 })
 
 test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=4 bounds", {
-  params <- params_gs_design_npe
+  params <- params_gs_design_npe()
   K <- params$K
   timing <- params$timing
   sfu <- params$sfu
@@ -188,7 +176,7 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=4 b
 })
 
 test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=5 bounds", {
-  params <- params_gs_design_npe
+  params <- params_gs_design_npe()
   K <- params$K
   timing <- params$timing
   sfu <- params$sfu
@@ -244,7 +232,7 @@ test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=5 b
 })
 
 test_that("Two-sided asymmetric design fails to reproduce gsDesign test.type=6 bounds", {
-  params <- params_gs_design_npe
+  params <- params_gs_design_npe()
   K <- params$K
   timing <- params$timing
   sfu <- params$sfu

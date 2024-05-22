@@ -1,5 +1,5 @@
 # NOTE: all reference numbers come from simulation results in
-# https://keaven.github.io/gsd-deming/wlr.html#wlr
+# https://keaven.github.io/gsd-deming/wlr.html
 # Please look for sections titled "Simulation results based on 10,000 replications".
 
 test_that("Validate the function based on examples with simulation results", {
@@ -41,6 +41,7 @@ test_that("Validate the function based on examples with simulation results", {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
     },
     ratio = ratio, alpha = alpha, beta = beta,
+    upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
     lpar = x$lower$bound,
     analysis_time = c(12, 24, 36)
@@ -59,6 +60,7 @@ test_that("Validate the function based on examples with simulation results", {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 1)
     },
     ratio = ratio, alpha = alpha, beta = beta,
+    upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
     lpar = x$lower$bound,
     analysis_time = analysis_time
@@ -77,6 +79,7 @@ test_that("Validate the function based on examples with simulation results", {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
     },
     ratio = ratio, alpha = alpha, beta = beta,
+    upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
     lpar = x$lower$bound,
     analysis_time = analysis_time
@@ -95,6 +98,7 @@ test_that("Validate the function based on examples with simulation results", {
       gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0.5, gamma = 0.5)
     },
     ratio = ratio, alpha = alpha, beta = beta,
+    upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
     lpar = x$lower$bound,
     analysis_time = analysis_time
