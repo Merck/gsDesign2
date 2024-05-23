@@ -217,7 +217,7 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}Risk difference at bound & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 N: 2433.6 Risk difference: 0.05 Information fraction: 1} \\ 
+    \multicolumn{6}{l}{Analysis: 1 N: 2423.1 Risk difference: 0.05 Information fraction: 1} \\ 
     \midrule\addlinespace[2.5pt]
     Efficacy & 1.96 & 0.025 & 0.0302 & 0.9 & 0.025 \\ 
     \bottomrule
