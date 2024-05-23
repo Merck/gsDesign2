@@ -102,7 +102,7 @@ library(gsDesign)
 
 # Example 1 ----
 # unstratified group sequential design
-gs_design_rd(
+x <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .2),
   p_e = tibble::tibble(stratum = "All", rate = .15),
   info_frac = c(0.7, 1),
@@ -117,6 +117,23 @@ gs_design_rd(
   upar = gsDesign(k = 2, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
 )
+
+y <- gs_power_rd(
+  p_c = tibble::tibble(stratum = "All", rate = .2),
+  p_e = tibble::tibble(stratum = "All", rate = .15),
+  n = tibble::tibble(stratum = "All", n = x$analysis$n, analysis = 1:2),
+  rd0 = 0,
+  ratio = 1,
+  weight = "unstratified",
+  upper = gs_b,
+  lower = gs_b,
+  upar = gsDesign(k = 2, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
+  lpar = c(qnorm(.1), rep(-Inf, 2))
+)
+
+# The above 2 design share the same power with the same sample size and treatment effect
+x$bound$probability[x$bound$bound == "upper" & x$bound$analysis == 2]
+y$bound$probability[y$bound$bound == "upper" & y$bound$analysis == 2]
 
 # Example 2 ----
 # stratified group sequential design
