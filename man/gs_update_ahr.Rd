@@ -7,9 +7,8 @@
 gs_update_ahr(
   x = NULL,
   alpha = NULL,
-  ia_alpha_spending = c("actual_info_frac", "min_of_planned_and_actual_info_frac",
-    "at_design_stage"),
-  fa_alpha_spending = c("full_alpha", "info_frac", "at_design_stage"),
+  ustime = NULL,
+  lstime = NULL,
   observed_data = NULL
 )
 }
@@ -18,17 +17,13 @@ gs_update_ahr(
 
 \item{alpha}{Type I error for the updated design.}
 
-\item{ia_alpha_spending}{alpha-spending strategy for interim analyses,
-either \code{"actual_info_frac"} (default), or \code{"min_of_planned_and_actual_info_frac"},
-or \code{"at_design_stage"} which mean users are still at the design stage and they are interested
-in looking at the design at different level of alpha with the same sample size,
-same number of events, same spending function and same timing.}
+\item{ustime}{Default is NULL in which case upper bound spending time is determined by timing.
+Otherwise, this should be a vector of length k (total number of analyses)
+with the spending time at each analysis.}
 
-\item{fa_alpha_spending}{alpha-spending strategy for final analysis,
-either \code{"info_frac"}, or \code{"full_alpha"} (default), or \code{"at_design_stage"} which mean users
-are still at the design stage and they are interested
-in looking at the design at different level of alpha, with the same sample size,
-same number of events, same spending function and same timing.}
+\item{lstime}{Default is NULL in which case lower bound spending time is determined by timing.
+Otherwise, this should be a vector of length k (total number of analyses)
+with the spending time at each analysis}
 
 \item{observed_data}{a list of observed datasets by analyses.}
 }
@@ -63,8 +58,9 @@ analysis_time <- c(20, 36)
 # Randomization ratio
 ratio <- 1
 
-# Example A: one-sided design (efficacy only) ----
-
+# ------------------------------------------------- #
+# Example A: one-sided design (efficacy only)
+# ------------------------------------------------- #
 # Original design
 upper <- gs_spending_bound
 upar <- list(sf = sfLDOF, total_spend = alpha)
@@ -92,51 +88,57 @@ observed_data <- simtrial::sim_pw_surv(
 observed_data_ia <- observed_data |> simtrial::cut_data_by_date(x$analysis$time[1])
 observed_data_fa <- observed_data |> simtrial::cut_data_by_date(x$analysis$time[2])
 
+observed_event_ia <- sum(observed_data_ia$event)
+observed_event_fa <- sum(observed_data_fa$event)
+
+planned_event_ia <- x$analysis$event[1]
+planned_event_fa <- x$analysis$event[2]
+
 # Example A1 ----
 # IA spending = observed events / final planned events
+# the remaining alpha will be allocated to FA.
+ustime <- c(observed_event_ia / planned_event_fa, 1)
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "full_alpha",
+  ustime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
 # Example A2 ----
 # IA, FA spending = observed events / final planned events
+ustime <- c(observed_event_ia, observed_event_fa) / planned_event_fa
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "info_frac",
+  ustime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
 # Example A3 ----
 # IA spending = min(observed events, planned events) / final planned events
+ustime <- c(min(observed_event_ia, planned_event_ia) / planned_event_fa, 1)
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "min_of_planned_and_actual_info_frac",
-  fa_alpha_spending = "full_alpha",
+  ustime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
 # Example A4 ----
 # IA spending = min(observed events, planned events) / final planned events
+ustime <- c(min(observed_event_ia, planned_event_ia),
+            min(observed_event_fa, planned_event_fa)) / planned_event_fa
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "min_of_planned_and_actual_info_frac",
-  fa_alpha_spending = "info_frac",
+  ustime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
-# Example A5 ----
-# IA spending = min(observed events, planned events) / final planned events
 # alpha is upadted to 0.05
 gs_update_ahr(
   x = x,
   alpha = 0.05,
-  ia_alpha_spending = "min_of_planned_and_actual_info_frac",
-  fa_alpha_spending = "info_frac",
+  ustime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
+# ------------------------------------------------- #
 # Example B: Two-sided asymmetric design,
-# beta-spending with non-binding lower bound ----
-
+# beta-spending with non-binding lower bound
+# ------------------------------------------------- #
 # Original design
 x <- gs_design_ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
@@ -144,53 +146,72 @@ x <- gs_design_ahr(
   info_scale = "h0_info",
   info_frac = NULL, analysis_time = c(20, 36),
   upper = gs_spending_bound,
-  upar = list(sf = sfLDOF, total_spend = alpha, param = NULL),
+  upar = list(sf = sfLDOF, total_spend = alpha),
   test_upper = TRUE,
   lower = gs_spending_bound,
-  lpar = list(sf = sfLDOF, total_spend = beta, param = NULL),
+  lpar = list(sf = sfLDOF, total_spend = beta),
   test_lower = c(TRUE, FALSE),
   binding = FALSE) |> to_integer()
 
 # Example B1 ----
 # IA spending = observed events / final planned events
 # the remaining alpha will be allocated to FA.
+ustime <- c(observed_event_ia / planned_event_fa, 1)
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "full_alpha",
+  ustime = ustime,
+  lstime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
 # Example B2 ----
 # IA, FA spending = observed events / final planned events
+ustime <- c(observed_event_ia, observed_event_fa) / planned_event_fa
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "actual_info_frac",
-  fa_alpha_spending = "info_frac",
+  ustime = ustime,
+  lstime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
 # Example B3 ----
-# IA spending = min(observed events, planned events) / final planned events
+ustime <- c(min(observed_event_ia, planned_event_ia) / planned_event_fa, 1)
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "min_of_planned_and_actual_info_frac",
-  fa_alpha_spending = "full_alpha",
+  ustime = ustime,
+  lstime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
 # Example B4 ----
 # IA spending = min(observed events, planned events) / final planned events
+ustime <- c(min(observed_event_ia, planned_event_ia),
+            min(observed_event_fa, planned_event_fa)) / planned_event_fa
 gs_update_ahr(
   x = x,
-  ia_alpha_spending = "min_of_planned_and_actual_info_frac",
-  fa_alpha_spending = "info_frac",
+  ustime = ustime,
+  lstime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
-# Example A5 ----
-# IA spending = min(observed events, planned events) / final planned events
 # alpha is upadted to 0.05
-gs_update_ahr(
-  x = x,
-  alpha = 0.05,
-  ia_alpha_spending = "min_of_planned_and_actual_info_frac",
-  fa_alpha_spending = "info_frac",
-  observed_data = list(observed_data_ia, observed_data_fa))
+gs_update_ahr(x = x, alpha = 0.05)
+
+# ------------------------------------------------- #
+# Example C: Two-sided asymmetric design,
+# with calendar spending for efficacy and futility bounds
+# beta-spending with non-binding lower bound
+# ------------------------------------------------- #
+# Original design
+x <- gs_design_ahr(
+  enroll_rate = enroll_rate, fail_rate = fail_rate,
+  alpha = alpha, beta = beta, ratio = ratio,
+  info_scale = "h0_info",
+  info_frac = NULL, analysis_time = c(20, 36),
+  upper = gs_spending_bound,
+  upar = list(sf = sfLDOF, total_spend = alpha, timing = c(20, 36) / 36),
+  test_upper = TRUE,
+  lower = gs_spending_bound,
+  lpar = list(sf = sfLDOF, total_spend = beta, timing = c(20, 36) / 36),
+  test_lower = c(TRUE, FALSE),
+  binding = FALSE) |> to_integer()
+
+# Updated design due to potential change of multiplicity graph
+gs_update_ahr(x = x, alpha = 0.05)
 }
