@@ -215,7 +215,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
   } else if (info_scale == "h1_info") {
     (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info1[1]
   } else if (info_scale == "h0_h1_info") {
-    (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info0[1]
+    (y_gs %>% filter(bound == "upper", analysis == k))$info / x_fix$info1[1]
   }
 
   allout <- y_gs %>%
