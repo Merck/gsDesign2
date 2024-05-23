@@ -109,7 +109,7 @@ the experimental treatment group is piecewise exponential with a 3-month
 delayed treatment effect; that is, in the first 3 months HR = 1 and the
 HR is 0.6 thereafter.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.025</span></span>
+<code class="sourceCode R"><span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.0125</span></span>
 <span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
 <span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span></span>
@@ -140,11 +140,11 @@ design.</p>
 <code class="sourceCode R"><span><span class="va">info_scale</span> <span class="op">&lt;-</span> <span class="st">"h0_info"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 class="tabset" id="one-sided-design">One-sided design<a class="anchor" aria-label="anchor" href="#one-sided-design"></a>
+<h2 id="one-sided-design">One-sided design<a class="anchor" aria-label="anchor" href="#one-sided-design"></a>
 </h2>
 <p>For the design, we have efficacy bounds at both the IA and FA. We use
 the <span class="citation">Lan and DeMets (1983)</span> spending
-function with a total alpha of 0.025, which approximates an
+function with a total alpha of 0.0125, which approximates an
 O’Brien-Fleming bound.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="va">gs_spending_bound</span></span>
@@ -168,11 +168,11 @@ O’Brien-Fleming bound.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The planned design targets:</p>
 <ul>
-<li>Planned events: 193, 297</li>
-<li>Planned information fraction for interim and final analysis: 0.6498,
+<li>Planned events: 227, 349</li>
+<li>Planned information fraction for interim and final analysis: 0.6504,
 1</li>
 <li>Planned alpha spending: 0.0054, 0.025</li>
-<li>Planned efficacy bounds: 2.565, 1.9873</li>
+<li>Planned efficacy bounds: 2.9048, 2.2593</li>
 </ul>
 <p>We note that rounding up the final targeted events increases power
 slightly over the targeted 90%.</p>
@@ -644,26 +644,27 @@ slightly over the targeted 90%.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.56</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0052</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.6912</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.3429</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0052</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.90</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0018</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.6800</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.2877</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0018</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.99</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0234</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7940</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9027</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">2.26</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0119</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7852</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9032</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0125</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -676,25 +677,28 @@ slightly over the targeted 90%.</p>
 <td class="gt_footnote" colspan="6">
 <span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
     </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0125) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0125 = 0.0125) under the null hypothesis.</td>
+    </tr>
 </tfoot>
 </table>
 </div>
 <div class="section level3">
-<h3 id="at-the-design-stage-but-with-different-alpha">At the design stage but with different alpha<a class="anchor" aria-label="anchor" href="#at-the-design-stage-but-with-different-alpha"></a>
+<h3 id="bounds-for-alternate-alpha">Bounds for alternate alpha<a class="anchor" aria-label="anchor" href="#bounds-for-alternate-alpha"></a>
 </h3>
-<p>When we in the stage of study design, we may be required to report
-the designs under multiple <span class="math inline">\(\alpha\)</span>,
-considering the change of the multiplicity. In the planned design, the
-planned <span class="math inline">\(\alpha\)</span> is 0.025. Assume the
-updated <span class="math inline">\(\alpha\)</span> is 0.05. The updated
-design is</p>
+<p>At the stage of study design, we may be required to report the
+designs under multiple <span class="math inline">\(\alpha\)</span> if
+alpha is reallocated due to rejection of another hypothesis. At the
+design stage, the planned <span class="math inline">\(\alpha\)</span> is
+0.0125. Assume the updated <span class="math inline">\(\alpha\)</span>
+is 0.025 due to reallocation of <span class="math inline">\(\alpha\)</span> from some other hypothesis. The
+corresponding bounds are</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  ia_alpha_spending <span class="op">=</span> <span class="st">"at_design_stage"</span>,</span>
-<span>  fa_alpha_spending <span class="op">=</span> <span class="st">"at_design_stage"</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.025</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span></span>
 <span>    col_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>      <span class="st">"analysis"</span>, <span class="st">"bound"</span>, <span class="st">"z"</span>, <span class="st">"~hr at bound"</span>,</span>
@@ -703,7 +707,7 @@ design is</p>
 <span>    col_decimals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Updated design"</span>,</span>
-<span>        subtitle <span class="op">=</span> <span class="st">"With updated alpha of 0.05"</span><span class="op">)</span></span></code></pre></div>
+<span>        subtitle <span class="op">=</span> <span class="st">"For alternate alpha = 0.025"</span><span class="op">)</span></span></code></pre></div>
 <div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#eexombwkke table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1150,7 +1154,7 @@ design is</p>
 <td colspan="6" class="gt_heading gt_title gt_font_normal" style>Updated design</td>
     </tr>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>With updated alpha of 0.05</td>
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>For alternate alpha = 0.025</td>
     </tr>
 <tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
@@ -1170,26 +1174,26 @@ design is</p>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.1847</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0145</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.7301</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.4903</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 193 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0145</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.5636</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0052</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.7116</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.4133</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 227 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0052</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.6872</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0458</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8222</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9450</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 297 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0500</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.9874</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0234</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8083</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9421</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 349 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -1210,20 +1214,21 @@ the planned statistical information under null hypothesis, considering
 the original design has <code>info_scale = "h0_info"</code>.</p>
 </div>
 <div class="section level3">
-<h3 id="at-the-analysis-stage-but-with-planned-events-differ-from-observed-events">At the analysis stage but with planned events differ from observed
-events<a class="anchor" aria-label="anchor" href="#at-the-analysis-stage-but-with-planned-events-differ-from-observed-events"></a>
+<h3 id="updating-bounds-with-observed-events-at-time-of-analyses">Updating bounds with observed events at time of analyses<a class="anchor" aria-label="anchor" href="#updating-bounds-with-observed-events-at-time-of-analyses"></a>
 </h3>
-<p>We provide a simulation below where 188 and 295 events observed at
-the IA and FA, respectively. We will assume the differences from planned
-(193, 297) are due to logistical considerations. We also assume the
-protocol specifies that the full <span class="math inline">\(\alpha\)</span> will be spent at the final
-analysis even in a case like this where there is a shortfall of events
-versus the design plan.</p>
+<p>We provide a simulation below where observed events the IA and FA
+differ from planned. In this case the differences from planned are due
+to using calendar-based cutoffs for the simulated data. In practice,
+even if attempting to match event counts exactly the observed events at
+analyses often differ from planned. We also assume the protocol
+specifies that the full <span class="math inline">\(\alpha\)</span> will
+be spent at the final analysis even in a case like this when there is a
+shortfall of events versus the design plan.</p>
 <p>The observed data for this example is generated by
 <code><a href="https://merck.github.io/simtrial/reference/sim_pw_surv.html" class="external-link">simtrial::sim_pw_surv()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># Make simulated data reproducible</span></span>
+<span><span class="co"># Generate trial data</span></span>
 <span><span class="va">observed_data</span> <span class="op">&lt;-</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/sim_pw_surv.html" class="external-link">sim_pw_surv</a></span><span class="op">(</span></span>
 <span>  n <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">analysis</span> <span class="op">==</span> <span class="fl">2</span><span class="op">]</span>,</span>
 <span>  stratum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, p <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
@@ -1232,15 +1237,21 @@ versus the design plan.</p>
 <span>  fail_rate <span class="op">=</span> <span class="op">(</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/to_sim_pw_surv.html" class="external-link">to_sim_pw_surv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">fail_rate</span>,</span>
 <span>  dropout_rate <span class="op">=</span> <span class="op">(</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/to_sim_pw_surv.html" class="external-link">to_sim_pw_surv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">dropout_rate</span></span>
 <span><span class="op">)</span></span>
-<span></span>
+<span><span class="co"># Cut simulated data for interim analysis at planned calendar time</span></span>
 <span><span class="va">observed_data_ia</span> <span class="op">&lt;-</span> <span class="va">observed_data</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/cut_data_by_date.html" class="external-link">cut_data_by_date</a></span><span class="op">(</span><span class="va">analysis_time</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co"># Cut simulated data for final analysis at planned calendar time</span></span>
 <span><span class="va">observed_data_fa</span> <span class="op">&lt;-</span> <span class="va">observed_data</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/cut_data_by_date.html" class="external-link">cut_data_by_date</a></span><span class="op">(</span><span class="va">analysis_time</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>The updated design is</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="co"># Set spending fraction for interim according to observed events </span></span>
+<span><span class="co"># divided by planned final events.</span></span>
+<span><span class="co"># Final spending fraction is 1 per plan even if there is a shortfall</span></span>
+<span><span class="co"># of events versus planned (as specified above)</span></span>
+<span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_ia</span><span class="op">$</span><span class="va">event</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co"># Update bound</span></span>
+<span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>  ia_alpha_spending <span class="op">=</span> <span class="st">"actual_info_frac"</span>,</span>
-<span>  fa_alpha_spending <span class="op">=</span> <span class="st">"full_alpha"</span>,</span>
+<span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span>
 <span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span></span>
@@ -1254,23 +1265,23 @@ versus the design plan.</p>
 <span>        subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"With observed "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_ia</span><span class="op">$</span><span class="va">event</span><span class="op">)</span>,</span>
 <span>                          <span class="st">" events at IA and "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_fa</span><span class="op">$</span><span class="va">event</span><span class="op">)</span>,</span>
 <span>                          <span class="st">" events at FA"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div id="kxmtddkutf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kxmtddkutf table {
+<div id="molissfmik" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#molissfmik table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kxmtddkutf thead, #kxmtddkutf tbody, #kxmtddkutf tfoot, #kxmtddkutf tr, #kxmtddkutf td, #kxmtddkutf th {
+#molissfmik thead, #molissfmik tbody, #molissfmik tfoot, #molissfmik tr, #molissfmik td, #molissfmik th {
   border-style: none;
 }
 
-#kxmtddkutf p {
+#molissfmik p {
   margin: 0;
   padding: 0;
 }
 
-#kxmtddkutf .gt_table {
+#molissfmik .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1296,12 +1307,12 @@ versus the design plan.</p>
   border-left-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_caption {
+#molissfmik .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kxmtddkutf .gt_title {
+#molissfmik .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1313,7 +1324,7 @@ versus the design plan.</p>
   border-bottom-width: 0;
 }
 
-#kxmtddkutf .gt_subtitle {
+#molissfmik .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1325,7 +1336,7 @@ versus the design plan.</p>
   border-top-width: 0;
 }
 
-#kxmtddkutf .gt_heading {
+#molissfmik .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1337,13 +1348,13 @@ versus the design plan.</p>
   border-right-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_bottom_border {
+#molissfmik .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_col_headings {
+#molissfmik .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1358,7 +1369,7 @@ versus the design plan.</p>
   border-right-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_col_heading {
+#molissfmik .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1378,7 +1389,7 @@ versus the design plan.</p>
   overflow-x: hidden;
 }
 
-#kxmtddkutf .gt_column_spanner_outer {
+#molissfmik .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1390,15 +1401,15 @@ versus the design plan.</p>
   padding-right: 4px;
 }
 
-#kxmtddkutf .gt_column_spanner_outer:first-child {
+#molissfmik .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kxmtddkutf .gt_column_spanner_outer:last-child {
+#molissfmik .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kxmtddkutf .gt_column_spanner {
+#molissfmik .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1410,11 +1421,11 @@ versus the design plan.</p>
   width: 100%;
 }
 
-#kxmtddkutf .gt_spanner_row {
+#molissfmik .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kxmtddkutf .gt_group_heading {
+#molissfmik .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1440,7 +1451,7 @@ versus the design plan.</p>
   text-align: left;
 }
 
-#kxmtddkutf .gt_empty_group_heading {
+#molissfmik .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1455,15 +1466,15 @@ versus the design plan.</p>
   vertical-align: middle;
 }
 
-#kxmtddkutf .gt_from_md > :first-child {
+#molissfmik .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kxmtddkutf .gt_from_md > :last-child {
+#molissfmik .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kxmtddkutf .gt_row {
+#molissfmik .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1482,7 +1493,7 @@ versus the design plan.</p>
   overflow-x: hidden;
 }
 
-#kxmtddkutf .gt_stub {
+#molissfmik .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1495,7 +1506,7 @@ versus the design plan.</p>
   padding-right: 5px;
 }
 
-#kxmtddkutf .gt_stub_row_group {
+#molissfmik .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1509,15 +1520,15 @@ versus the design plan.</p>
   vertical-align: top;
 }
 
-#kxmtddkutf .gt_row_group_first td {
+#molissfmik .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kxmtddkutf .gt_row_group_first th {
+#molissfmik .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kxmtddkutf .gt_summary_row {
+#molissfmik .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1527,16 +1538,16 @@ versus the design plan.</p>
   padding-right: 5px;
 }
 
-#kxmtddkutf .gt_first_summary_row {
+#molissfmik .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_first_summary_row.thick {
+#molissfmik .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kxmtddkutf .gt_last_summary_row {
+#molissfmik .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1546,7 +1557,7 @@ versus the design plan.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_grand_summary_row {
+#molissfmik .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1556,7 +1567,7 @@ versus the design plan.</p>
   padding-right: 5px;
 }
 
-#kxmtddkutf .gt_first_grand_summary_row {
+#molissfmik .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1566,7 +1577,7 @@ versus the design plan.</p>
   border-top-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_last_grand_summary_row_top {
+#molissfmik .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1576,11 +1587,11 @@ versus the design plan.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_striped {
+#molissfmik .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kxmtddkutf .gt_table_body {
+#molissfmik .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1589,7 +1600,7 @@ versus the design plan.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_footnotes {
+#molissfmik .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1603,7 +1614,7 @@ versus the design plan.</p>
   border-right-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_footnote {
+#molissfmik .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1612,7 +1623,7 @@ versus the design plan.</p>
   padding-right: 5px;
 }
 
-#kxmtddkutf .gt_sourcenotes {
+#molissfmik .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1626,7 +1637,7 @@ versus the design plan.</p>
   border-right-color: #D3D3D3;
 }
 
-#kxmtddkutf .gt_sourcenote {
+#molissfmik .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1634,63 +1645,63 @@ versus the design plan.</p>
   padding-right: 5px;
 }
 
-#kxmtddkutf .gt_left {
+#molissfmik .gt_left {
   text-align: left;
 }
 
-#kxmtddkutf .gt_center {
+#molissfmik .gt_center {
   text-align: center;
 }
 
-#kxmtddkutf .gt_right {
+#molissfmik .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kxmtddkutf .gt_font_normal {
+#molissfmik .gt_font_normal {
   font-weight: normal;
 }
 
-#kxmtddkutf .gt_font_bold {
+#molissfmik .gt_font_bold {
   font-weight: bold;
 }
 
-#kxmtddkutf .gt_font_italic {
+#molissfmik .gt_font_italic {
   font-style: italic;
 }
 
-#kxmtddkutf .gt_super {
+#molissfmik .gt_super {
   font-size: 65%;
 }
 
-#kxmtddkutf .gt_footnote_marks {
+#molissfmik .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kxmtddkutf .gt_asterisk {
+#molissfmik .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kxmtddkutf .gt_indent_1 {
+#molissfmik .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kxmtddkutf .gt_indent_2 {
+#molissfmik .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kxmtddkutf .gt_indent_3 {
+#molissfmik .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kxmtddkutf .gt_indent_4 {
+#molissfmik .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kxmtddkutf .gt_indent_5 {
+#molissfmik .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1700,7 +1711,7 @@ versus the design plan.</p>
 <td colspan="6" class="gt_heading gt_title gt_font_normal" style>Updated design</td>
     </tr>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>With observed 188 events at IA and 295 events at FA</td>
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>With observed 241 events at IA and 353 events at FA</td>
     </tr>
 <tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
@@ -1720,26 +1731,27 @@ versus the design plan.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63">Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69">Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63  Z" class="gt_row gt_right">2.5868</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63  Nominal p" class="gt_row gt_right">0.0048</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63  ~HR at bound" class="gt_row gt_right">0.6857</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63  Alternate hypothesis" class="gt_row gt_right">0.3150</td>
-<td headers="Analysis: 1 Time: 19.9 N: 366 Event: 188 AHR: 0.74 Information fraction: 0.63  Null hypothesis" class="gt_row gt_right">0.0048</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69  Z" class="gt_row gt_right">2.7882</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69  Nominal p" class="gt_row gt_right">0.0026</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69  ~HR at bound" class="gt_row gt_right">0.6982</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69  Alternate hypothesis" class="gt_row gt_right">0.3558</td>
+<td headers="Analysis: 1 Time: 19.9 N: 430 Event: 241 AHR: 0.73 Information fraction: 0.69  Null hypothesis" class="gt_row gt_right">0.0026</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1">Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.9860</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0235</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7935</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9009</td>
-<td headers="Analysis: 2 Time: 35.8 N: 366 Event: 295 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1  Z" class="gt_row gt_right">2.2688</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0116</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7854</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8949</td>
+<td headers="Analysis: 2 Time: 35.8 N: 430 Event: 353 AHR: 0.69 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0125</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -1752,28 +1764,35 @@ versus the design plan.</p>
 <td class="gt_footnote" colspan="6">
 <span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
     </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0125) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0125 = 0.0125) under the null hypothesis.</td>
+    </tr>
 </tfoot>
 </table>
 </div>
 </div>
 </div>
 <div class="section level2">
-<h2 class="tabset" id="two-sided-asymmetric-design-beta-spending-with-non-binding-lower-bound">Two-sided asymmetric design, beta-spending with
-non-binding lower bound<a class="anchor" aria-label="anchor" href="#two-sided-asymmetric-design-beta-spending-with-non-binding-lower-bound"></a>
+<h2 id="two-sided-asymmetric-design-beta-spending-with-non-binding-lower-bound">Two-sided asymmetric design, beta-spending with non-binding lower
+bound<a class="anchor" aria-label="anchor" href="#two-sided-asymmetric-design-beta-spending-with-non-binding-lower-bound"></a>
 </h2>
-<p>In this section, we investigate a 2 sided asymmetric design, with the
-non-binding beta-spending futility bounds. Beta-spending refers to error
-spending for the lower bound crossing probabilities under the
-alternative hypothesis. Non-binding assumes the trial continues if the
-lower bound is crossed for Type I, but not Type II error
-computation.</p>
+<p>In this section, we investigate a 2 sided asymmetric design, with a
+non-binding <span class="math inline">\(\beta\)</span>-spending used to
+generate futility bounds. <span class="math inline">\(\beta\)</span>-spending refers to Type II error (1
+- power) spending for the lower bound crossing probabilities under the
+alternative hypothesis. Non-binding bound computation assumes the trial
+continues if the lower bound is crossed for Type I error, but not Type
+II error.</p>
 <p>In the original designs, we employ the Lan-DeMets spending function
 used to approximate O’Brien-Fleming bounds <span class="citation">(Lan
 and DeMets 1983)</span> for both efficacy and futility bounds. The total
-spending for efficacy is 0.025, and for futility is 0.1. Besides, we
-assume the futility test only happens at IA.</p>
+spending for efficacy is 0.0125, and for futility is 0.1. In addition,
+we assume there is no futility test for the final analysis.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="va">gs_spending_bound</span></span>
+<code class="sourceCode R"><span><span class="co"># Upper and lower bounds uses spending with Lan-DeMets spending approximating</span></span>
+<span><span class="co"># O'Brien-Fleming bound</span></span>
+<span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="va">gs_spending_bound</span></span>
 <span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">lower</span> <span class="op">&lt;-</span> <span class="va">gs_spending_bound</span></span>
 <span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">beta</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -1797,36 +1816,37 @@ assume the futility test only happens at IA.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>In the planned design, we have</p>
 <ul>
-<li>Planned events: 202, 311</li>
-<li>Planned information fraction (timing): 0.6495, 1</li>
-<li>Planned alpha spending: 0.0054167, 0.025</li>
-<li>Planned efficacy bounds: 2.5659, 1.9872</li>
-<li>Planned futility bounds: 0.4641</li>
+<li>Planned events: 236, 363</li>
+<li>Planned information fraction (timing): 0.6501, 1</li>
+<li>Planned alpha spending: 0.0054388, 0.025</li>
+<li>Planned efficacy bounds: 2.9057, 2.2593</li>
+<li>Planned futility bounds: 0.6453</li>
 </ul>
 <p>Since we added futility bounds, the sample size and number of events
-are larger than what we have in the 1-sided example.</p>
+are larger than we had above in the 1-sided example.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Planned design"</span><span class="op">)</span></span></code></pre></div>
-<div id="jtqkhuezsk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jtqkhuezsk table {
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Planned design"</span>,</span>
+<span>             subtitle <span class="op">=</span> <span class="st">"2-sided asymmetric design, non-binding futility"</span><span class="op">)</span></span></code></pre></div>
+<div id="ynsuwrvxum" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ynsuwrvxum table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jtqkhuezsk thead, #jtqkhuezsk tbody, #jtqkhuezsk tfoot, #jtqkhuezsk tr, #jtqkhuezsk td, #jtqkhuezsk th {
+#ynsuwrvxum thead, #ynsuwrvxum tbody, #ynsuwrvxum tfoot, #ynsuwrvxum tr, #ynsuwrvxum td, #ynsuwrvxum th {
   border-style: none;
 }
 
-#jtqkhuezsk p {
+#ynsuwrvxum p {
   margin: 0;
   padding: 0;
 }
 
-#jtqkhuezsk .gt_table {
+#ynsuwrvxum .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1852,12 +1872,12 @@ are larger than what we have in the 1-sided example.</p>
   border-left-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_caption {
+#ynsuwrvxum .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jtqkhuezsk .gt_title {
+#ynsuwrvxum .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1869,7 +1889,7 @@ are larger than what we have in the 1-sided example.</p>
   border-bottom-width: 0;
 }
 
-#jtqkhuezsk .gt_subtitle {
+#ynsuwrvxum .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1881,7 +1901,7 @@ are larger than what we have in the 1-sided example.</p>
   border-top-width: 0;
 }
 
-#jtqkhuezsk .gt_heading {
+#ynsuwrvxum .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1893,13 +1913,13 @@ are larger than what we have in the 1-sided example.</p>
   border-right-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_bottom_border {
+#ynsuwrvxum .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_col_headings {
+#ynsuwrvxum .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1914,7 +1934,7 @@ are larger than what we have in the 1-sided example.</p>
   border-right-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_col_heading {
+#ynsuwrvxum .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1934,7 +1954,7 @@ are larger than what we have in the 1-sided example.</p>
   overflow-x: hidden;
 }
 
-#jtqkhuezsk .gt_column_spanner_outer {
+#ynsuwrvxum .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1946,15 +1966,15 @@ are larger than what we have in the 1-sided example.</p>
   padding-right: 4px;
 }
 
-#jtqkhuezsk .gt_column_spanner_outer:first-child {
+#ynsuwrvxum .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jtqkhuezsk .gt_column_spanner_outer:last-child {
+#ynsuwrvxum .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jtqkhuezsk .gt_column_spanner {
+#ynsuwrvxum .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1966,11 +1986,11 @@ are larger than what we have in the 1-sided example.</p>
   width: 100%;
 }
 
-#jtqkhuezsk .gt_spanner_row {
+#ynsuwrvxum .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jtqkhuezsk .gt_group_heading {
+#ynsuwrvxum .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1996,7 +2016,7 @@ are larger than what we have in the 1-sided example.</p>
   text-align: left;
 }
 
-#jtqkhuezsk .gt_empty_group_heading {
+#ynsuwrvxum .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2011,15 +2031,15 @@ are larger than what we have in the 1-sided example.</p>
   vertical-align: middle;
 }
 
-#jtqkhuezsk .gt_from_md > :first-child {
+#ynsuwrvxum .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jtqkhuezsk .gt_from_md > :last-child {
+#ynsuwrvxum .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jtqkhuezsk .gt_row {
+#ynsuwrvxum .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2038,7 +2058,7 @@ are larger than what we have in the 1-sided example.</p>
   overflow-x: hidden;
 }
 
-#jtqkhuezsk .gt_stub {
+#ynsuwrvxum .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2051,7 +2071,7 @@ are larger than what we have in the 1-sided example.</p>
   padding-right: 5px;
 }
 
-#jtqkhuezsk .gt_stub_row_group {
+#ynsuwrvxum .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2065,15 +2085,15 @@ are larger than what we have in the 1-sided example.</p>
   vertical-align: top;
 }
 
-#jtqkhuezsk .gt_row_group_first td {
+#ynsuwrvxum .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jtqkhuezsk .gt_row_group_first th {
+#ynsuwrvxum .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jtqkhuezsk .gt_summary_row {
+#ynsuwrvxum .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2083,16 +2103,16 @@ are larger than what we have in the 1-sided example.</p>
   padding-right: 5px;
 }
 
-#jtqkhuezsk .gt_first_summary_row {
+#ynsuwrvxum .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_first_summary_row.thick {
+#ynsuwrvxum .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jtqkhuezsk .gt_last_summary_row {
+#ynsuwrvxum .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2102,7 +2122,7 @@ are larger than what we have in the 1-sided example.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_grand_summary_row {
+#ynsuwrvxum .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2112,7 +2132,7 @@ are larger than what we have in the 1-sided example.</p>
   padding-right: 5px;
 }
 
-#jtqkhuezsk .gt_first_grand_summary_row {
+#ynsuwrvxum .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2122,7 +2142,7 @@ are larger than what we have in the 1-sided example.</p>
   border-top-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_last_grand_summary_row_top {
+#ynsuwrvxum .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2132,11 +2152,11 @@ are larger than what we have in the 1-sided example.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_striped {
+#ynsuwrvxum .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jtqkhuezsk .gt_table_body {
+#ynsuwrvxum .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2145,7 +2165,7 @@ are larger than what we have in the 1-sided example.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_footnotes {
+#ynsuwrvxum .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2159,7 +2179,7 @@ are larger than what we have in the 1-sided example.</p>
   border-right-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_footnote {
+#ynsuwrvxum .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2168,7 +2188,7 @@ are larger than what we have in the 1-sided example.</p>
   padding-right: 5px;
 }
 
-#jtqkhuezsk .gt_sourcenotes {
+#ynsuwrvxum .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2182,7 +2202,7 @@ are larger than what we have in the 1-sided example.</p>
   border-right-color: #D3D3D3;
 }
 
-#jtqkhuezsk .gt_sourcenote {
+#ynsuwrvxum .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2190,70 +2210,73 @@ are larger than what we have in the 1-sided example.</p>
   padding-right: 5px;
 }
 
-#jtqkhuezsk .gt_left {
+#ynsuwrvxum .gt_left {
   text-align: left;
 }
 
-#jtqkhuezsk .gt_center {
+#ynsuwrvxum .gt_center {
   text-align: center;
 }
 
-#jtqkhuezsk .gt_right {
+#ynsuwrvxum .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jtqkhuezsk .gt_font_normal {
+#ynsuwrvxum .gt_font_normal {
   font-weight: normal;
 }
 
-#jtqkhuezsk .gt_font_bold {
+#ynsuwrvxum .gt_font_bold {
   font-weight: bold;
 }
 
-#jtqkhuezsk .gt_font_italic {
+#ynsuwrvxum .gt_font_italic {
   font-style: italic;
 }
 
-#jtqkhuezsk .gt_super {
+#ynsuwrvxum .gt_super {
   font-size: 65%;
 }
 
-#jtqkhuezsk .gt_footnote_marks {
+#ynsuwrvxum .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jtqkhuezsk .gt_asterisk {
+#ynsuwrvxum .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jtqkhuezsk .gt_indent_1 {
+#ynsuwrvxum .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jtqkhuezsk .gt_indent_2 {
+#ynsuwrvxum .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jtqkhuezsk .gt_indent_3 {
+#ynsuwrvxum .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jtqkhuezsk .gt_indent_4 {
+#ynsuwrvxum .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jtqkhuezsk .gt_indent_5 {
+#ynsuwrvxum .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Planned design</td>
+<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Planned design</td>
+    </tr>
+<tr class="gt_heading">
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>2-sided asymmetric design, non-binding futility</td>
     </tr>
 <tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
@@ -2273,35 +2296,35 @@ are larger than what we have in the 1-sided example.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">0.46</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.3213</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.9368</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.0401</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.6787</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">0.65</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.2594</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.9194</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.0402</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.7406</td>
 </tr>
 <tr>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.57</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0051</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.6969</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.3625</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0051</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.91</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0018</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.6850</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.3045</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0018</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.99</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0235</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7982</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9039</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0247</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">2.26</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0119</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7889</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9035</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0124</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -2316,27 +2339,23 @@ are larger than what we have in the 1-sided example.</p>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0247) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0003 = 0.0247) under the null hypothesis.</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0124) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0126 = 0.0124) under the null hypothesis.</td>
     </tr>
 </tfoot>
 </table>
 </div>
 <div class="section level3">
-<h3 id="at-the-design-stage-but-with-different-alpha-1">At the design stage but with different alpha<a class="anchor" aria-label="anchor" href="#at-the-design-stage-but-with-different-alpha-1"></a>
+<h3 id="bounds-for-alternate-alpha-1">Bounds for alternate alpha<a class="anchor" aria-label="anchor" href="#bounds-for-alternate-alpha-1"></a>
 </h3>
-<p>When we in the stage of study design, we may be required to report
-the designs under multiple <span class="math inline">\(\alpha\)</span>,
-considering the change of the multiplicity. In the planned design, the
-planned <span class="math inline">\(\alpha\)</span> is 0.025. Assume the
-updated <span class="math inline">\(\alpha\)</span> is 0.05. The updated
-design is</p>
+<p>We may want to report the design bounds under multiple <span class="math inline">\(\alpha\)</span> in the case Type I error may be
+reallocated from another hypothesis. We assume now that <span class="math inline">\(\alpha\)</span> is 0.025 but we still use the same
+sample size and event timing as for the original alpha = 0.0125. The
+updated bounds are</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  ia_alpha_spending <span class="op">=</span> <span class="st">"at_design_stage"</span>,</span>
-<span>  fa_alpha_spending <span class="op">=</span> <span class="st">"at_design_stage"</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.025</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span></span>
 <span>    col_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>      <span class="st">"analysis"</span>, <span class="st">"bound"</span>, <span class="st">"z"</span>, <span class="st">"~hr at bound"</span>,</span>
@@ -2345,24 +2364,24 @@ design is</p>
 <span>    col_decimals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Updated design"</span>,</span>
-<span>        subtitle <span class="op">=</span> <span class="st">"With updated alpha of 0.05"</span><span class="op">)</span></span></code></pre></div>
-<div id="ablncptzdd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ablncptzdd table {
+<span>        subtitle <span class="op">=</span> <span class="st">"For alpha = 0.025"</span><span class="op">)</span></span></code></pre></div>
+<div id="lslzutdwpq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lslzutdwpq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ablncptzdd thead, #ablncptzdd tbody, #ablncptzdd tfoot, #ablncptzdd tr, #ablncptzdd td, #ablncptzdd th {
+#lslzutdwpq thead, #lslzutdwpq tbody, #lslzutdwpq tfoot, #lslzutdwpq tr, #lslzutdwpq td, #lslzutdwpq th {
   border-style: none;
 }
 
-#ablncptzdd p {
+#lslzutdwpq p {
   margin: 0;
   padding: 0;
 }
 
-#ablncptzdd .gt_table {
+#lslzutdwpq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2388,12 +2407,12 @@ design is</p>
   border-left-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_caption {
+#lslzutdwpq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ablncptzdd .gt_title {
+#lslzutdwpq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2405,7 +2424,7 @@ design is</p>
   border-bottom-width: 0;
 }
 
-#ablncptzdd .gt_subtitle {
+#lslzutdwpq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2417,7 +2436,7 @@ design is</p>
   border-top-width: 0;
 }
 
-#ablncptzdd .gt_heading {
+#lslzutdwpq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2429,13 +2448,13 @@ design is</p>
   border-right-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_bottom_border {
+#lslzutdwpq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_col_headings {
+#lslzutdwpq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2450,7 +2469,7 @@ design is</p>
   border-right-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_col_heading {
+#lslzutdwpq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2470,7 +2489,7 @@ design is</p>
   overflow-x: hidden;
 }
 
-#ablncptzdd .gt_column_spanner_outer {
+#lslzutdwpq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2482,15 +2501,15 @@ design is</p>
   padding-right: 4px;
 }
 
-#ablncptzdd .gt_column_spanner_outer:first-child {
+#lslzutdwpq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ablncptzdd .gt_column_spanner_outer:last-child {
+#lslzutdwpq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ablncptzdd .gt_column_spanner {
+#lslzutdwpq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2502,11 +2521,11 @@ design is</p>
   width: 100%;
 }
 
-#ablncptzdd .gt_spanner_row {
+#lslzutdwpq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ablncptzdd .gt_group_heading {
+#lslzutdwpq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2532,7 +2551,7 @@ design is</p>
   text-align: left;
 }
 
-#ablncptzdd .gt_empty_group_heading {
+#lslzutdwpq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2547,15 +2566,15 @@ design is</p>
   vertical-align: middle;
 }
 
-#ablncptzdd .gt_from_md > :first-child {
+#lslzutdwpq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ablncptzdd .gt_from_md > :last-child {
+#lslzutdwpq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ablncptzdd .gt_row {
+#lslzutdwpq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2574,7 +2593,7 @@ design is</p>
   overflow-x: hidden;
 }
 
-#ablncptzdd .gt_stub {
+#lslzutdwpq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2587,7 +2606,7 @@ design is</p>
   padding-right: 5px;
 }
 
-#ablncptzdd .gt_stub_row_group {
+#lslzutdwpq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2601,15 +2620,15 @@ design is</p>
   vertical-align: top;
 }
 
-#ablncptzdd .gt_row_group_first td {
+#lslzutdwpq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ablncptzdd .gt_row_group_first th {
+#lslzutdwpq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ablncptzdd .gt_summary_row {
+#lslzutdwpq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2619,16 +2638,16 @@ design is</p>
   padding-right: 5px;
 }
 
-#ablncptzdd .gt_first_summary_row {
+#lslzutdwpq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_first_summary_row.thick {
+#lslzutdwpq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ablncptzdd .gt_last_summary_row {
+#lslzutdwpq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2638,7 +2657,7 @@ design is</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_grand_summary_row {
+#lslzutdwpq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2648,7 +2667,7 @@ design is</p>
   padding-right: 5px;
 }
 
-#ablncptzdd .gt_first_grand_summary_row {
+#lslzutdwpq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2658,7 +2677,7 @@ design is</p>
   border-top-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_last_grand_summary_row_top {
+#lslzutdwpq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2668,11 +2687,11 @@ design is</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_striped {
+#lslzutdwpq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ablncptzdd .gt_table_body {
+#lslzutdwpq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2681,7 +2700,7 @@ design is</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_footnotes {
+#lslzutdwpq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2695,7 +2714,7 @@ design is</p>
   border-right-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_footnote {
+#lslzutdwpq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2704,7 +2723,7 @@ design is</p>
   padding-right: 5px;
 }
 
-#ablncptzdd .gt_sourcenotes {
+#lslzutdwpq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2718,7 +2737,7 @@ design is</p>
   border-right-color: #D3D3D3;
 }
 
-#ablncptzdd .gt_sourcenote {
+#lslzutdwpq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2726,63 +2745,63 @@ design is</p>
   padding-right: 5px;
 }
 
-#ablncptzdd .gt_left {
+#lslzutdwpq .gt_left {
   text-align: left;
 }
 
-#ablncptzdd .gt_center {
+#lslzutdwpq .gt_center {
   text-align: center;
 }
 
-#ablncptzdd .gt_right {
+#lslzutdwpq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ablncptzdd .gt_font_normal {
+#lslzutdwpq .gt_font_normal {
   font-weight: normal;
 }
 
-#ablncptzdd .gt_font_bold {
+#lslzutdwpq .gt_font_bold {
   font-weight: bold;
 }
 
-#ablncptzdd .gt_font_italic {
+#lslzutdwpq .gt_font_italic {
   font-style: italic;
 }
 
-#ablncptzdd .gt_super {
+#lslzutdwpq .gt_super {
   font-size: 65%;
 }
 
-#ablncptzdd .gt_footnote_marks {
+#lslzutdwpq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ablncptzdd .gt_asterisk {
+#lslzutdwpq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ablncptzdd .gt_indent_1 {
+#lslzutdwpq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ablncptzdd .gt_indent_2 {
+#lslzutdwpq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ablncptzdd .gt_indent_3 {
+#lslzutdwpq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ablncptzdd .gt_indent_4 {
+#lslzutdwpq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ablncptzdd .gt_indent_5 {
+#lslzutdwpq .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2792,7 +2811,7 @@ design is</p>
 <td colspan="6" class="gt_heading gt_title gt_font_normal" style>Updated design</td>
     </tr>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>With updated alpha of 0.05</td>
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>For alpha = 0.025</td>
     </tr>
 <tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
@@ -2812,34 +2831,35 @@ design is</p>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65">Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">0.4641</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.3213</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.9368</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.0401</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.6787</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">0.6453</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.2594</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.9194</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.0402</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.7406</td>
 </tr>
 <tr>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.1855</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0144</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.7352</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.5114</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 202 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0144</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Z" class="gt_row gt_right">2.5644</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Nominal p" class="gt_row gt_right">0.0052</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  ~HR at bound" class="gt_row gt_right">0.7162</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Alternate hypothesis" class="gt_row gt_right">0.4324</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 236 AHR: 0.73 Information fraction: 0.65  Null hypothesis" class="gt_row gt_right">0.0052</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.6871</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0458</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8259</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9345</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 311 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0487</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.9873</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0234</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8117</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9320</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 363 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0244</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -2852,24 +2872,30 @@ design is</p>
 <td class="gt_footnote" colspan="6">
 <span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
     </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0006 = 0.0244) under the null hypothesis.</td>
+    </tr>
 </tfoot>
 </table>
 </div>
 </div>
 <div class="section level3">
-<h3 id="at-the-analysis-stage-but-with-planned-events-differ-from-observed-events-1">At the analysis stage but with planned events differ from observed
-events<a class="anchor" aria-label="anchor" href="#at-the-analysis-stage-but-with-planned-events-differ-from-observed-events-1"></a>
+<h3 id="updating-bounds-with-observed-events-at-time-of-analyses-1">Updating bounds with observed events at time of analyses<a class="anchor" aria-label="anchor" href="#updating-bounds-with-observed-events-at-time-of-analyses-1"></a>
 </h3>
-<p>For simplicity in presentation, we assume the observed events are the
-same as that in the 1-sided design.</p>
+<p>We assume the observed events as for the 1-sided example above.</p>
 <p>The updated design is</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="co"># Update spending fraction as above</span></span>
+<span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_ia</span><span class="op">$</span><span class="va">event</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>  ia_alpha_spending <span class="op">=</span> <span class="st">"actual_info_frac"</span>,</span>
-<span>  fa_alpha_spending <span class="op">=</span> <span class="st">"full_alpha"</span>,</span>
+<span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span>
+<span>  <span class="co"># Spending fraction for futility bound same as for efficacy</span></span>
+<span>  lstime <span class="op">=</span> <span class="va">ustime</span>, </span>
 <span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span></span>
 <span>    col_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>      <span class="st">"analysis"</span>, <span class="st">"bound"</span>, <span class="st">"z"</span>, <span class="st">"~hr at bound"</span>,</span>
@@ -2881,23 +2907,23 @@ same as that in the 1-sided design.</p>
 <span>        subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"With observed "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_ia</span><span class="op">$</span><span class="va">event</span><span class="op">)</span>,</span>
 <span>                          <span class="st">" events at IA and "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_fa</span><span class="op">$</span><span class="va">event</span><span class="op">)</span>,</span>
 <span>                          <span class="st">" events at FA"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div id="zayqudqgye" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zayqudqgye table {
+<div id="lbesmgxegp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lbesmgxegp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zayqudqgye thead, #zayqudqgye tbody, #zayqudqgye tfoot, #zayqudqgye tr, #zayqudqgye td, #zayqudqgye th {
+#lbesmgxegp thead, #lbesmgxegp tbody, #lbesmgxegp tfoot, #lbesmgxegp tr, #lbesmgxegp td, #lbesmgxegp th {
   border-style: none;
 }
 
-#zayqudqgye p {
+#lbesmgxegp p {
   margin: 0;
   padding: 0;
 }
 
-#zayqudqgye .gt_table {
+#lbesmgxegp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2923,12 +2949,12 @@ same as that in the 1-sided design.</p>
   border-left-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_caption {
+#lbesmgxegp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zayqudqgye .gt_title {
+#lbesmgxegp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2940,7 +2966,7 @@ same as that in the 1-sided design.</p>
   border-bottom-width: 0;
 }
 
-#zayqudqgye .gt_subtitle {
+#lbesmgxegp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2952,7 +2978,7 @@ same as that in the 1-sided design.</p>
   border-top-width: 0;
 }
 
-#zayqudqgye .gt_heading {
+#lbesmgxegp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2964,13 +2990,13 @@ same as that in the 1-sided design.</p>
   border-right-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_bottom_border {
+#lbesmgxegp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_col_headings {
+#lbesmgxegp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2985,7 +3011,7 @@ same as that in the 1-sided design.</p>
   border-right-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_col_heading {
+#lbesmgxegp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3005,7 +3031,7 @@ same as that in the 1-sided design.</p>
   overflow-x: hidden;
 }
 
-#zayqudqgye .gt_column_spanner_outer {
+#lbesmgxegp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3017,15 +3043,15 @@ same as that in the 1-sided design.</p>
   padding-right: 4px;
 }
 
-#zayqudqgye .gt_column_spanner_outer:first-child {
+#lbesmgxegp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zayqudqgye .gt_column_spanner_outer:last-child {
+#lbesmgxegp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zayqudqgye .gt_column_spanner {
+#lbesmgxegp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3037,11 +3063,11 @@ same as that in the 1-sided design.</p>
   width: 100%;
 }
 
-#zayqudqgye .gt_spanner_row {
+#lbesmgxegp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zayqudqgye .gt_group_heading {
+#lbesmgxegp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3067,7 +3093,7 @@ same as that in the 1-sided design.</p>
   text-align: left;
 }
 
-#zayqudqgye .gt_empty_group_heading {
+#lbesmgxegp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3082,15 +3108,15 @@ same as that in the 1-sided design.</p>
   vertical-align: middle;
 }
 
-#zayqudqgye .gt_from_md > :first-child {
+#lbesmgxegp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zayqudqgye .gt_from_md > :last-child {
+#lbesmgxegp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zayqudqgye .gt_row {
+#lbesmgxegp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3109,7 +3135,7 @@ same as that in the 1-sided design.</p>
   overflow-x: hidden;
 }
 
-#zayqudqgye .gt_stub {
+#lbesmgxegp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3122,7 +3148,7 @@ same as that in the 1-sided design.</p>
   padding-right: 5px;
 }
 
-#zayqudqgye .gt_stub_row_group {
+#lbesmgxegp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3136,15 +3162,15 @@ same as that in the 1-sided design.</p>
   vertical-align: top;
 }
 
-#zayqudqgye .gt_row_group_first td {
+#lbesmgxegp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zayqudqgye .gt_row_group_first th {
+#lbesmgxegp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zayqudqgye .gt_summary_row {
+#lbesmgxegp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3154,16 +3180,16 @@ same as that in the 1-sided design.</p>
   padding-right: 5px;
 }
 
-#zayqudqgye .gt_first_summary_row {
+#lbesmgxegp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_first_summary_row.thick {
+#lbesmgxegp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zayqudqgye .gt_last_summary_row {
+#lbesmgxegp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3173,7 +3199,7 @@ same as that in the 1-sided design.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_grand_summary_row {
+#lbesmgxegp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3183,7 +3209,7 @@ same as that in the 1-sided design.</p>
   padding-right: 5px;
 }
 
-#zayqudqgye .gt_first_grand_summary_row {
+#lbesmgxegp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3193,7 +3219,7 @@ same as that in the 1-sided design.</p>
   border-top-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_last_grand_summary_row_top {
+#lbesmgxegp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3203,11 +3229,11 @@ same as that in the 1-sided design.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_striped {
+#lbesmgxegp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zayqudqgye .gt_table_body {
+#lbesmgxegp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3216,7 +3242,7 @@ same as that in the 1-sided design.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_footnotes {
+#lbesmgxegp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3230,7 +3256,7 @@ same as that in the 1-sided design.</p>
   border-right-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_footnote {
+#lbesmgxegp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3239,7 +3265,7 @@ same as that in the 1-sided design.</p>
   padding-right: 5px;
 }
 
-#zayqudqgye .gt_sourcenotes {
+#lbesmgxegp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3253,7 +3279,7 @@ same as that in the 1-sided design.</p>
   border-right-color: #D3D3D3;
 }
 
-#zayqudqgye .gt_sourcenote {
+#lbesmgxegp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3261,63 +3287,63 @@ same as that in the 1-sided design.</p>
   padding-right: 5px;
 }
 
-#zayqudqgye .gt_left {
+#lbesmgxegp .gt_left {
   text-align: left;
 }
 
-#zayqudqgye .gt_center {
+#lbesmgxegp .gt_center {
   text-align: center;
 }
 
-#zayqudqgye .gt_right {
+#lbesmgxegp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zayqudqgye .gt_font_normal {
+#lbesmgxegp .gt_font_normal {
   font-weight: normal;
 }
 
-#zayqudqgye .gt_font_bold {
+#lbesmgxegp .gt_font_bold {
   font-weight: bold;
 }
 
-#zayqudqgye .gt_font_italic {
+#lbesmgxegp .gt_font_italic {
   font-style: italic;
 }
 
-#zayqudqgye .gt_super {
+#lbesmgxegp .gt_super {
   font-size: 65%;
 }
 
-#zayqudqgye .gt_footnote_marks {
+#lbesmgxegp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zayqudqgye .gt_asterisk {
+#lbesmgxegp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zayqudqgye .gt_indent_1 {
+#lbesmgxegp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zayqudqgye .gt_indent_2 {
+#lbesmgxegp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zayqudqgye .gt_indent_3 {
+#lbesmgxegp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zayqudqgye .gt_indent_4 {
+#lbesmgxegp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zayqudqgye .gt_indent_5 {
+#lbesmgxegp .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3327,7 +3353,7 @@ same as that in the 1-sided design.</p>
 <td colspan="6" class="gt_heading gt_title gt_font_normal" style>Updated design</td>
     </tr>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>With observed 188 events at IA and 295 events at FA</td>
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>With observed 241 events at IA and 353 events at FA</td>
     </tr>
 <tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
@@ -3347,35 +3373,35 @@ same as that in the 1-sided design.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6">Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66">Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Z" class="gt_row gt_right">0.2850</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Nominal p" class="gt_row gt_right">0.3878</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  ~HR at bound" class="gt_row gt_right">0.9593</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Alternate hypothesis" class="gt_row gt_right">0.0344</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Null hypothesis" class="gt_row gt_right">0.6122</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Z" class="gt_row gt_right">0.7073</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Nominal p" class="gt_row gt_right">0.2397</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  ~HR at bound" class="gt_row gt_right">0.9129</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Alternate hypothesis" class="gt_row gt_right">0.0435</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Null hypothesis" class="gt_row gt_right">0.7603</td>
 </tr>
 <tr>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Z" class="gt_row gt_right">2.6571</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Nominal p" class="gt_row gt_right">0.0039</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  ~HR at bound" class="gt_row gt_right">0.6787</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Alternate hypothesis" class="gt_row gt_right">0.2904</td>
-<td headers="Analysis: 1 Time: 19.9 N: 382 Event: 188 AHR: 0.74 Information fraction: 0.6  Null hypothesis" class="gt_row gt_right">0.0039</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Z" class="gt_row gt_right">2.8518</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Nominal p" class="gt_row gt_right">0.0022</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  ~HR at bound" class="gt_row gt_right">0.6925</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Alternate hypothesis" class="gt_row gt_right">0.3324</td>
+<td headers="Analysis: 1 Time: 19.9 N: 446 Event: 241 AHR: 0.73 Information fraction: 0.66  Null hypothesis" class="gt_row gt_right">0.0022</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1">Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1</th>
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1">Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1  Z" class="gt_row gt_right">1.9788</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0239</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7942</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8939</td>
-<td headers="Analysis: 2 Time: 36.1 N: 382 Event: 295 AHR: 0.68 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0248</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1  Z" class="gt_row gt_right">2.2614</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0119</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7861</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8866</td>
+<td headers="Analysis: 2 Time: 36 N: 446 Event: 353 AHR: 0.69 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> 0.0124</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -3390,7 +3416,7 @@ same as that in the 1-sided design.</p>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0248) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0002 = 0.0248) under the null hypothesis.</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0124) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0126 = 0.0124) under the null hypothesis.</td>
     </tr>
 </tfoot>
 </table>
