@@ -362,24 +362,27 @@ summary.gs_design <- function(object,
   # get the
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
-  if (is.null(analysis_vars) && is.null(analysis_decimals)) {
-    if (method %in% c("ahr", "wlr")) {
-      analysis_vars <- c("time", "n", "event", "ahr", "info_frac")
-      analysis_decimals <- c(1, 1, 1, 2, 2)
-    }
-    if (method == "combo") {
-      analysis_vars <- c("time", "n", "event", "ahr", "event_frac")
-      analysis_decimals <- c(1, 1, 1, 2, 2)
-    }
-    if (method == "rd") {
-      analysis_vars <- c("n", "rd", "info_frac")
-      analysis_decimals <- c(1, 4, 2)
-    }
-  } else if (is.null(analysis_vars) && !is.null(analysis_decimals)) {
-    stop("summary: please input analysis_vars and analysis_decimals in pairs!")
-  } else if (!is.null(analysis_vars) && is.null(analysis_decimals)) {
-    stop("summary: please input analysis_vars and analysis_decimals in pairs!")
+  if (method %in% c("ahr", "wlr")) {
+    analysis_vars_default <- c("time", "n", "event", "ahr", "info_frac")
+    analysis_decimals_default <- c(1, 1, 1, 2, 2)
   }
+  if (method == "combo") {
+    analysis_vars_default <- c("time", "n", "event", "ahr", "event_frac")
+    analysis_decimals_default <- c(1, 1, 1, 2, 2)
+  }
+  if (method == "rd") {
+    analysis_vars_default <- c("n", "rd", "info_frac")
+    analysis_decimals_default <- c(1, 4, 2)
+  }
+
+  analysis_updated <- update_analysis_vars(
+    analysis_vars_default,
+    analysis_decimals_default,
+    analysis_vars,
+    analysis_decimals
+  )
+  analysis_vars <- analysis_updated$analysis_vars
+  analysis_decimals <- analysis_updated$analysis_decimals
 
   # set the analysis summary header
   analyses <- x_analysis %>%
@@ -660,4 +663,40 @@ summary.gs_design <- function(object,
     }
 
   return(output)
+}
+
+update_analysis_vars <- function(vars_old, decimals_old, vars_new, decimals_new) {
+  vars_returned <- vars_old
+  decimals_returned <- decimals_old
+
+  if (!is.null(vars_new)) {
+    vars_order <- match(vars_new, vars_old)
+    vars_returned <- vars_old[vars_order]
+    decimals_returned <- decimals_old[vars_order]
+  }
+
+  if (!is.null(decimals_new)) {
+    # If user provided a single unnamed value, use this value for all the variables
+    if (length(decimals_new) == 1 && is.null(names(decimals_new))) {
+      decimals_returned <- rep_len(decimals_new, length(vars_returned))
+    }
+
+    # If user provided multiple unnamed values, it must exactly match the number
+    # of variables
+    if (is.null(names(decimals_new))) {
+      if (length(decimals_new) == length(vars_returned)) {
+        decimals_returned <- decimals_new
+      } else {
+        stop("An unnamed vector of analysis_decimals must match the length of analysis_vars")
+      }
+    }
+
+    # If the vector is named, update only the specific values
+    if (!is.null(names(decimals_new))) {
+      decimals_to_update <- match(names(decimals_new), vars_returned)
+      decimals_returned[decimals_to_update] <- decimals_new
+    }
+  }
+
+  return(list(analysis_vars = vars_returned, analysis_decimals = decimals_returned))
 }
