@@ -2,14 +2,7 @@ test_that("Snapshot test for fixed_design_ahr summary as_rtf", {
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
-  x <- fixed_design_ahr(
-    alpha = calculate_alpha(), power = 1 - calculate_beta(),
-    enroll_rate = enroll_rate(),
-    fail_rate = fail_rate(),
-    study_duration = calculate_study_duration(),
-    ratio = calculate_ratio()
-  ) |>
+  fixed_design_ahr_example() |>
     summary() |>
     as_rtf(file = path)
 
@@ -21,19 +14,13 @@ test_that("Snapshot test for fixed_design_ahr summary as_rtf with custom title",
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
-  x <- fixed_design_ahr(
-    alpha = calculate_alpha(), power = 1 - calculate_beta(),
-    enroll_rate = enroll_rate(),
-    fail_rate = fail_rate(),
-    study_duration = calculate_study_duration(),
-    ratio = calculate_ratio()
-  ) |>
+  fixed_design_ahr_example() |>
     summary() |>
     as_rtf(
       title = "Fixed design under non-proportional hazards",
       file = path
     )
+
   local_edition(3)
   expect_snapshot_file(path, "fixed_design_ahr_title.rtf")
 })
@@ -42,14 +29,7 @@ test_that("Snapshot test for fixed_design_ahr summary as_rtf with custom footnot
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
-  x <- fixed_design_ahr(
-    alpha = calculate_alpha(), power = 1 - calculate_beta(),
-    enroll_rate = enroll_rate(),
-    fail_rate = fail_rate(),
-    study_duration = calculate_study_duration(),
-    ratio = calculate_ratio()
-  ) |>
+  fixed_design_ahr_example() |>
     summary() |>
     as_rtf(
       footnote = "Power computed with average hazard ratio method given the sample size",
@@ -64,7 +44,6 @@ test_that("Snapshot test for gs_design_ahr summary as_rtf", {
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_design_ahr() |>
     summary() |>
     as_rtf(file = path)
@@ -77,7 +56,6 @@ test_that("Snapshot test for gs_design_wlr summary as_rtf", {
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_design_wlr() |>
     summary() |>
     as_rtf(file = path)
@@ -90,7 +68,6 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf", {
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_power_wlr() |>
     summary() |>
     as_rtf(file = path)
@@ -103,7 +80,6 @@ test_that("Snapshot test for gs_design_rd summary as_rtf", {
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_design_rd() |>
     summary() |>
     as_rtf(file = path)
@@ -116,7 +92,6 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom title and s
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_power_wlr() |>
     summary() |>
     as_rtf(
@@ -133,7 +108,6 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom spanner and
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_power_wlr() |>
     summary() |>
     as_rtf(
@@ -150,7 +124,6 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom footnote", 
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_power_wlr() |>
     summary() |>
     as_rtf(
@@ -175,7 +148,6 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom columns to 
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_power_wlr() |>
     summary() |>
     as_rtf(
@@ -191,7 +163,6 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with efficacy bounds di
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_power_wlr() |>
     summary() |>
     as_rtf(display_bound = "Efficacy", file = path)
@@ -204,7 +175,6 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with futility bounds di
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-
   gs_power_wlr(binding = TRUE) |>
     summary() |>
     as_rtf(display_bound = "Futility", file = path)
