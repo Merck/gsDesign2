@@ -5,7 +5,10 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
   x <- gs_design_ahr(analysis_time = c(12, 24))
 
   # default decimals
-  observed <- x |> summary() |> attr("groups") |> extract_summary_analysis()
+  observed <- x |>
+    summary() |>
+    attr("groups") |>
+    extract_summary_analysis()
   expect_identical(
     observed,
     "Analysis: 1 Time: 12 N: 707.3 Event: 160.4 AHR: 0.81 Information fraction: 0.42"
@@ -13,8 +16,10 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
 
   # specify the decimals for each variable
   observed <- x |>
-    summary(analysis_vars = c("time", "n", "event", "ahr", "info_frac"),
-            analysis_decimals = c(2, 0, 0, 4, 4)) |>
+    summary(
+      analysis_vars = c("time", "n", "event", "ahr", "info_frac"),
+      analysis_decimals = c(2, 0, 0, 4, 4)
+    ) |>
     attr("groups") |>
     extract_summary_analysis()
   expect_identical(
@@ -24,13 +29,28 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
 
   # Drop variables and also specify the decimals
   observed <- x |>
-    summary(analysis_vars = c("ahr", "info_frac"),
-            analysis_decimals = c(4, 4)) |>
+    summary(
+      analysis_vars = c("ahr", "info_frac"),
+      analysis_decimals = c(4, 4)
+    ) |>
     attr("groups") |>
     extract_summary_analysis()
   expect_identical(
     observed,
     "Analysis: 1 AHR: 0.8108 Information fraction: 0.4191"
+  )
+
+  # Rearrange variables
+  observed <- x |>
+    summary(
+      analysis_vars = c("info_frac", "ahr", "event", "n", "time"),
+      analysis_decimals = c(4, 4, 0, 0, 2)
+    ) |>
+    attr("groups") |>
+    extract_summary_analysis()
+  expect_identical(
+    observed,
+    "Analysis: 1 Information fraction: 0.4191 AHR: 0.8108 Event: 160 N: 707 Time: 12"
   )
 })
 
@@ -58,5 +78,18 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
   expect_identical(
     observed,
     "Analysis: 1 Event: 160.4 AHR: 0.8108 Information fraction: 0.4191"
+  )
+
+  # Specify decimals and rearrange some variables
+  observed <- x |>
+    summary(
+      analysis_vars = c("info_frac", "ahr", "event"),
+      analysis_decimals = c(ahr = 4, info_frac = 4)
+    ) |>
+    attr("groups") |>
+    extract_summary_analysis()
+  expect_identical(
+    observed,
+    "Analysis: 1 Information fraction: 0.4191 AHR: 0.8108 Event: 160.4"
   )
 })
