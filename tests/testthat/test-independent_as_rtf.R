@@ -68,7 +68,7 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf", {
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-  gs_power_wlr() |>
+  gs_power_wlr_example() |>
     summary() |>
     as_rtf(file = path)
 
@@ -92,7 +92,7 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom title and s
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-  gs_power_wlr() |>
+  gs_power_wlr_example() |>
     summary() |>
     as_rtf(
       title = "Bound Summary",
@@ -108,7 +108,7 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom spanner and
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-  gs_power_wlr() |>
+  gs_power_wlr_example() |>
     summary() |>
     as_rtf(
       colname_spanner = "Cumulative probability to cross boundaries",
@@ -124,7 +124,7 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom footnote", 
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-  gs_power_wlr() |>
+  gs_power_wlr_example() |>
     summary() |>
     as_rtf(
       footnote = list(
@@ -148,7 +148,7 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with custom columns to 
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-  gs_power_wlr() |>
+  gs_power_wlr_example() |>
     summary() |>
     as_rtf(
       display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
@@ -163,7 +163,7 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with efficacy bounds di
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-  gs_power_wlr() |>
+  gs_power_wlr_example() |>
     summary() |>
     as_rtf(display_bound = "Efficacy", file = path)
 
@@ -175,7 +175,7 @@ test_that("Snapshot test for gs_power_wlr summary as_rtf with futility bounds di
   skip_on_cran()
 
   path <- tempfile(fileext = ".rtf")
-  gs_power_wlr(binding = TRUE) |>
+  gs_power_wlr_example(binding = TRUE) |>
     summary() |>
     as_rtf(display_bound = "Futility", file = path)
 

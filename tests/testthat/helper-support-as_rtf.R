@@ -17,3 +17,7 @@ fixed_design_ahr_example <- function() {
     ratio = 1
   )
 }
+
+gs_power_wlr_example <- function(binding = FALSE) {
+  gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1), binding = binding)
+}
