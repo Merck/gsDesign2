@@ -24,7 +24,10 @@
 
 \item{analysis_vars}{The variables to be put at the summary header of each analysis.}
 
-\item{analysis_decimals}{The displayed number of digits of \code{analysis_vars}.}
+\item{analysis_decimals}{The displayed number of digits of \code{analysis_vars}.
+If the vector is unnamed, it must match the length of \code{analysis_vars}. If
+the vector is named, you only have to specify the number of digits for the
+variables you want to be displayed differently than the defaults.}
 
 \item{col_vars}{The variables to be displayed.}
 

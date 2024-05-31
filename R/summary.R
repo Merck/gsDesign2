@@ -147,6 +147,9 @@ summary.fixed_design <- function(object, ...) {
 #'
 #' @param analysis_vars The variables to be put at the summary header of each analysis.
 #' @param analysis_decimals The displayed number of digits of `analysis_vars`.
+#'   If the vector is unnamed, it must match the length of `analysis_vars`. If
+#'   the vector is named, you only have to specify the number of digits for the
+#'   variables you want to be displayed differently than the defaults.
 #' @param col_vars The variables to be displayed.
 #' @param col_decimals The decimals to be displayed for the displayed variables in `col_vars`.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
@@ -377,22 +380,39 @@ summary.gs_design <- function(object,
 
   # Filter analysis variables and update decimal places
   names(analysis_decimals_default) <- analysis_vars_default
-  if (is.null(analysis_vars)) {
+  if (is.null(analysis_vars) && is.null(analysis_decimals)) {
+    # Use default values
     analysis_vars <- analysis_vars_default
-  }
-  if (is.null(analysis_decimals)) {
     analysis_decimals <- analysis_decimals_default
-  } else {
+  } else if (!is.null(analysis_vars) && is.null(analysis_decimals)) {
+    # Only drop/rearrange variables
+    analysis_decimals <- analysis_decimals_default[
+      match(analysis_vars, names(analysis_decimals_default))
+    ]
+  } else if (is.null(analysis_vars) && !is.null(analysis_decimals)) {
+    # Only update decimals - must be named vector
     if (is.null(names(analysis_decimals))) {
-      stopifnot(length(analysis_vars) == length(analysis_decimals))
-      names(analysis_decimals) <- analysis_vars
+      stop("summary: analysis_decimals must be a named vector if analysis_vars is not provided")
     }
+    analysis_vars <- analysis_vars_default
     analysis_decimals_tmp <- analysis_decimals_default
-    decimals_to_update <- match(names(analysis_decimals), names(analysis_decimals_tmp))
-    analysis_decimals_tmp[decimals_to_update] <- analysis_decimals
-    decimals_to_keep <- names(analysis_decimals_tmp) %in% analysis_vars
-    analysis_decimals <- analysis_decimals_tmp[decimals_to_keep]
-    analysis_decimals <- analysis_decimals[match(names(analysis_decimals), analysis_vars)]
+    analysis_decimals_tmp[names(analysis_decimals)] <- analysis_decimals
+    analysis_decimals <- analysis_decimals_tmp
+  } else if (!is.null(analysis_vars) && !is.null(analysis_decimals)) {
+    # Update variables and decimals
+    if (is.null(names(analysis_decimals))) {
+      # vectors must be same length if analysis_decimals is unnamed
+      if (length(analysis_vars) != length(analysis_decimals)) {
+        stop("summary: please input analysis_vars and analysis_decimals in pairs!")
+      }
+    } else {
+      analysis_decimals_tmp <- analysis_decimals_default
+      analysis_decimals_tmp[names(analysis_decimals)] <- analysis_decimals
+      analysis_decimals <- analysis_decimals_tmp
+      analysis_decimals <- analysis_decimals[
+        match(analysis_vars, names(analysis_decimals))
+      ]
+    }
   }
 
   # set the analysis summary header
