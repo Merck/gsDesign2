@@ -1,5 +1,6 @@
 # Test get_combo_weight ----
 test_that("get_combo_weight output correct rho1, rho2, gamma1, gamm2", {
+
   rho <- c(1, 1, 0, 0)
   gamma <- c(0, 1, 0, 1)
   tau <- c(-1, -1, -1, -1)
@@ -32,8 +33,10 @@ test_that("get_combo_weight output correct rho1, rho2, gamma1, gamm2", {
   expect_equal(res$weight2_gamma, "gamma =1")
 })
 
+
 # Test get_combo_weight tau not equal to -1 ----
 test_that("get_combo_weight output correct tau1, tau3", {
+
   rho <- c(1, 1, 0, 0)
   gamma <- c(0, 1, 0, 1)
   tau <- c(1, 1, 0, 0)
@@ -55,6 +58,7 @@ test_that("get_combo_weight output correct tau1, tau3", {
 
 # Test gs_delta_combo ----
 test_that("gs_delta_combo correctly use gs_delta_wlr 1", {
+
   rho <- c(1, 1, 0, 0)
   gamma <- c(0, 1, 0, 1)
   tau <- c(-1, -1, -1, -1)
@@ -107,6 +111,7 @@ test_that("gs_delta_combo correctly use gs_delta_wlr 1", {
 
 # Test gs_sigma2_combo ----
 test_that("gs_sigma2_combo correctly use gs_sigma2_wlr 1", {
+
   rho <- c(1, 1, 0, 0)
   gamma <- c(0, 1, 0, 1)
   tau <- c(-1, -1, -1, -1)
@@ -223,6 +228,7 @@ test_that("gs_info_combo correctly use gs_info_wlr 1", {
 # Test gs_prob_combo ----
 ## 1 analysis scenario ----
 test_that("p efficacy", {
+
   lower <- -0.6
   upper <- 0.4
   rho <- c(1, 1, 0, 0)
@@ -291,6 +297,8 @@ test_that("p efficacy", {
   # p futility
   expect_equal(res$prob$probability[2], res$p_futility[1], tolerance = 0.001)
 })
+
+
 
 ## 2 analysis scenario ----
 test_that("p efficacy1", {
@@ -387,6 +395,7 @@ test_that("p efficacy1", {
   # p futility2
   expect_equal(res$prob$probability[4], res$p_futility_1[1] + res$p_futility_2[1], tolerance = 0.001)
 })
+
 
 # Test pmvnorm_combo ----
 test_that("pmvnorm_combo calculate p for One test for all group or lower bound is -Inf.", {
@@ -531,6 +540,9 @@ test_that("gs_utility_combo output correct info as gs_info_combo", {
   expect_equal(utility_combo$corr, corr_test)
 })
 
+
+
+
 ## Multiple test analysis ----
 test_that("gs_utility_combo output correct info as gs_info_combo", {
   enroll_rate <- define_enroll_rate(
@@ -624,3 +636,4 @@ test_that("gs_utility_combo output correct info as gs_info_combo", {
 
   expect_equal(utility_combo$corr, corr_test)
 })
+
