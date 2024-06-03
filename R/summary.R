@@ -147,6 +147,9 @@ summary.fixed_design <- function(object, ...) {
 #'
 #' @param analysis_vars The variables to be put at the summary header of each analysis.
 #' @param analysis_decimals The displayed number of digits of `analysis_vars`.
+#'   If the vector is unnamed, it must match the length of `analysis_vars`. If
+#'   the vector is named, you only have to specify the number of digits for the
+#'   variables you want to be displayed differently than the defaults.
 #' @param col_vars The variables to be displayed.
 #' @param col_decimals The decimals to be displayed for the displayed variables in `col_vars`.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
@@ -362,23 +365,54 @@ summary.gs_design <- function(object,
   # get the
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
+  if (method %in% c("ahr", "wlr")) {
+    analysis_vars_default <- c("time", "n", "event", "ahr", "info_frac")
+    analysis_decimals_default <- c(1, 1, 1, 2, 2)
+  }
+  if (method == "combo") {
+    analysis_vars_default <- c("time", "n", "event", "ahr", "event_frac")
+    analysis_decimals_default <- c(1, 1, 1, 2, 2)
+  }
+  if (method == "rd") {
+    analysis_vars_default <- c("n", "rd", "info_frac")
+    analysis_decimals_default <- c(1, 4, 2)
+  }
+
+  # Filter analysis variables and update decimal places
+  names(analysis_decimals_default) <- analysis_vars_default
   if (is.null(analysis_vars) && is.null(analysis_decimals)) {
-    if (method %in% c("ahr", "wlr")) {
-      analysis_vars <- c("time", "n", "event", "ahr", "info_frac")
-      analysis_decimals <- c(1, 1, 1, 2, 2)
-    }
-    if (method == "combo") {
-      analysis_vars <- c("time", "n", "event", "ahr", "event_frac")
-      analysis_decimals <- c(1, 1, 1, 2, 2)
-    }
-    if (method == "rd") {
-      analysis_vars <- c("n", "rd", "info_frac")
-      analysis_decimals <- c(1, 4, 2)
-    }
-  } else if (is.null(analysis_vars) && !is.null(analysis_decimals)) {
-    stop("summary: please input analysis_vars and analysis_decimals in pairs!")
+    # Use default values
+    analysis_vars <- analysis_vars_default
+    analysis_decimals <- analysis_decimals_default
   } else if (!is.null(analysis_vars) && is.null(analysis_decimals)) {
-    stop("summary: please input analysis_vars and analysis_decimals in pairs!")
+    # Only drop/rearrange variables
+    analysis_decimals <- analysis_decimals_default[
+      match(analysis_vars, names(analysis_decimals_default))
+    ]
+  } else if (is.null(analysis_vars) && !is.null(analysis_decimals)) {
+    # Only update decimals - must be named vector
+    if (is.null(names(analysis_decimals))) {
+      stop("summary: analysis_decimals must be a named vector if analysis_vars is not provided")
+    }
+    analysis_vars <- analysis_vars_default
+    analysis_decimals_tmp <- analysis_decimals_default
+    analysis_decimals_tmp[names(analysis_decimals)] <- analysis_decimals
+    analysis_decimals <- analysis_decimals_tmp
+  } else if (!is.null(analysis_vars) && !is.null(analysis_decimals)) {
+    # Update variables and decimals
+    if (is.null(names(analysis_decimals))) {
+      # vectors must be same length if analysis_decimals is unnamed
+      if (length(analysis_vars) != length(analysis_decimals)) {
+        stop("summary: please input analysis_vars and analysis_decimals in pairs!")
+      }
+    } else {
+      analysis_decimals_tmp <- analysis_decimals_default
+      analysis_decimals_tmp[names(analysis_decimals)] <- analysis_decimals
+      analysis_decimals <- analysis_decimals_tmp
+      analysis_decimals <- analysis_decimals[
+        match(analysis_vars, names(analysis_decimals))
+      ]
+    }
   }
 
   # set the analysis summary header
