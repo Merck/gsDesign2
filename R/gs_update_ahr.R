@@ -332,7 +332,7 @@ gs_update_ahr <- function(
       upar_update$timing <- ustime
     } else {
       upar_update$timing <- ustime
-      if(!identical(x$input$lower, gs_b)) {
+      if(is.list(x$input$lpar)) {
         lpar_update$timing <- lstime
       }
     }
