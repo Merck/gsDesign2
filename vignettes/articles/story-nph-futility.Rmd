@@ -79,6 +79,9 @@ kornfreidlin2018 modified this by adding a second interim analysis after 75% of 
 This is implemented here by requiring a trend in favor of control with a direction $Z$-bound at 0 resulting in the *Nominal p* bound being 0.5 for interim analyses in the table below.
 A fixed bound is specified with the 'gs_b()` function for `upper` and `lower` and its correspoinding parameters `upar` for the upper (efficacy) bound and `lpar` for the lower (futility) bound.
 The final efficacy bound is for a 1-sided nominal p-value of 0.025; the futility bound lowers this to 0.0247 as noted in the lower-right-hand corner of the table below.
+It is < 0.025 since the probability is computed with the binding assumption.
+This is an arbitrary convention; if the futility bound is ignored,
+this computation yields 0.025.
 In the last row under *Alternate hypothesis* below we see the power is 88.44%.
 @korn2018interim computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884) / 100000), 4), "%", sep = "")`.
 
