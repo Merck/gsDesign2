@@ -230,17 +230,24 @@ gs_update_ahr <- function(
   # Check if is efficacy only
   one_sided <- all(x$bound$bound == "upper")
 
+  # Check if futility bound is fixed
+  fixed_futility_bound <- identical(x$input$lower, gs_b)
+
   # Check inputs ----
   if (is.null(x)) {
     stop("gs_update_ahr(): please input the original design created either by gs_design_ahr or gs_power_ahr.")
   }
 
-  if (!("ahr" %in% class(x))) {
-    stop("gs_update_ahr(): the original design must be created either by gs_design_ahr or gs_power_ahr.")
+  if (!any((c("ahr", "wlr") %in% class(x)))) {
+    stop("gs_update_ahr(): the original design must be created either by gs_design_ahr, gs_power_ahr, gs_design_wlr, or gs_power_wlr.")
   }
 
   if (one_sided && !is.null(lstime)) {
     stop("gs_update_ahr(): lstime is not needed for one-sided design.")
+  }
+
+  if (fixed_futility_bound && !is.null(lstime)) {
+    stop("gs_update_ahr(): lstime is not needed for two-sided design with fixed futility bounds.")
   }
 
   # Get the updated alpha ----
@@ -325,7 +332,9 @@ gs_update_ahr <- function(
       upar_update$timing <- ustime
     } else {
       upar_update$timing <- ustime
-      lpar_update$timing <- lstime
+      if(is.list(x$input$lpar)) {
+        lpar_update$timing <- lstime
+      }
     }
 
     upar_update$total_spend <- alpha_update
