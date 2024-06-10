@@ -632,15 +632,18 @@ adding a second interim analysis after 75% of planned events and stop if
 the observed HR &gt; 1 This is implemented here by requiring a trend in
 favor of control with a direction <span class="math inline">\(Z\)</span>-bound at 0 resulting in the <em>Nominal
 p</em> bound being 0.5 for interim analyses in the table below. A fixed
-bound is specified with the
-’gs_b()<code>function for</code>upper<code>and</code>lower<code>and its correspoinding parameters</code>upar<code>for the upper (efficacy) bound and</code>lpar`
-for the lower (futility) bound. The final efficacy bound is for a
-1-sided nominal p-value of 0.025; the futility bound lowers this to
-0.0247 as noted in the lower-right-hand corner of the table below. In
-the last row under <em>Alternate hypothesis</em> below we see the power
-is 88.44%. <span class="citation">Korn and Freidlin (2018)</span>
-computed 88.4% power for this design with 100,000 simulations which
-estimate the standard error for the power calculation to be 0.1%.</p>
+bound is specified with the <code><a href="../reference/gs_b.html">gs_b()</a></code> function for
+<code>upper</code> and <code>lower</code> and its corresponding
+parameters <code>upar</code> for the upper (efficacy) bound and
+<code>lpar</code> for the lower (futility) bound. The final efficacy
+bound is for a 1-sided nominal p-value of 0.025; the futility bound
+lowers this to 0.0247 as noted in the lower-right-hand corner of the
+table below. It is &lt; 0.025 since the probability is computed with the
+binding assumption. This is an arbitrary convention; if the futility
+bound is ignored, this computation yields 0.025. In the last row under
+<em>Alternate hypothesis</em> below we see the power is 88.44%. <span class="citation">Korn and Freidlin (2018)</span> computed 88.4% power
+for this design with 100,000 simulations which estimate the standard
+error for the power calculation to be 0.1%.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wieand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
 <span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
