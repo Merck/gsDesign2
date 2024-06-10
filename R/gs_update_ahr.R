@@ -230,8 +230,11 @@ gs_update_ahr <- function(
   # Check if is efficacy only
   one_sided <- all(x$bound$bound == "upper")
 
-  # Check if futility bound is fixed
-  fixed_futility_bound <- identical(x$input$lower, gs_b)
+  # Check if futility bound is fixed. In other words, check if is the provided
+  # function to compute lower bounds equivalent to gsDesign2::gs_b()
+  gs_b_observed <- try(x$input$lower(par = 4:2, k = 2), silent = TRUE)
+  gs_b_expected <- gs_b(par = 4:2, k = 2)
+  fixed_futility_bound <- identical(gs_b_observed, gs_b_expected)
 
   # Check inputs ----
   if (is.null(x)) {
