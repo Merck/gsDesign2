@@ -20,7 +20,7 @@ Returns the vector input \code{par} if \code{k} is \code{NULL}, otherwise, \code
 \description{
 \code{gs_b()} is the simplest version of a function to be used with the \code{upper}
 and \code{lower} arguments in \code{\link[=gs_power_npe]{gs_power_npe()}} and \code{\link[=gs_design_npe]{gs_design_npe()}} or the
-\code{upper_bound} and \code{lower_bound} arguments \code{gs_prob_combo()} and
+\code{upper_bound} and \code{lower_bound} arguments in \code{gs_prob_combo()} and
 \code{pmvnorm_combo()}.
 It simply returns the vector of Z-values in the input vector \code{par} or,
 if \code{k} is specified, \code{par[k]} is returned.
