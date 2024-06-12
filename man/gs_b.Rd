@@ -18,14 +18,15 @@ can include infinite values.}
 Returns the vector input \code{par} if \code{k} is \code{NULL}, otherwise, \code{par[k]}.
 }
 \description{
-\code{gs_b()} is the simplest version of a function to be used with the
-\code{upper} and \code{lower} arguments in \code{gs_prob()},
-\code{gs_power_nph()} and \code{gs_design_nph()};
-it simply returns the vector input in the input vector \code{Z} or,
-if \code{k} is specified, \verb{par[k]j} is returned.
+\code{gs_b()} is the simplest version of a function to be used with the \code{upper}
+and \code{lower} arguments in \code{\link[=gs_power_npe]{gs_power_npe()}} and \code{\link[=gs_design_npe]{gs_design_npe()}} or the
+\code{upper_bound} and \code{lower_bound} arguments in \code{gs_prob_combo()} and
+\code{pmvnorm_combo()}.
+It simply returns the vector of Z-values in the input vector \code{par} or,
+if \code{k} is specified, \code{par[k]} is returned.
 Note that if bounds need to change with changing information at analyses,
 \code{gs_b()} should not be used.
-For instance, for spending function bounds use.
+For instance, for spending function bounds use \code{\link[=gs_spending_bound]{gs_spending_bound()}}.
 }
 \section{Specification}{
 

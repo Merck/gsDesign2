@@ -18,14 +18,15 @@
 
 #' Default boundary generation
 #'
-#' `gs_b()` is the simplest version of a function to be used with the
-#' `upper` and `lower` arguments in `gs_prob()`,
-#' `gs_power_nph()` and `gs_design_nph()`;
-#' it simply returns the vector input in the input vector `Z` or,
-#' if `k` is specified, `par[k]j` is returned.
+#' `gs_b()` is the simplest version of a function to be used with the `upper`
+#' and `lower` arguments in [`gs_power_npe()`] and [`gs_design_npe()`] or the
+#' `upper_bound` and `lower_bound` arguments in `gs_prob_combo()` and
+#' `pmvnorm_combo()`.
+#' It simply returns the vector of Z-values in the input vector `par` or,
+#' if `k` is specified, `par[k]` is returned.
 #' Note that if bounds need to change with changing information at analyses,
 #' `gs_b()` should not be used.
-#' For instance, for spending function bounds use.
+#' For instance, for spending function bounds use [gs_spending_bound()].
 #'
 #' @param par For `gs_b()`, this is just Z-values for the boundaries;
 #'   can include infinite values.
