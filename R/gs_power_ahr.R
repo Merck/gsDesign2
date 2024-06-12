@@ -172,10 +172,9 @@ gs_power_ahr <- function(
   info_scale <- match.arg(info_scale)
 
   # Check if it is two-sided design or not
-  if (identical(lower, gs_b) && (!is.list(lpar))) {
+  if ((identical(lower, gs_b) && (!is.list(lpar))) || all(!test_lower)) {
     if (all(test_lower == FALSE)) {
       two_sided <- FALSE
-      lpar <- rep(-Inf, n_analysis)
     } else {
       two_sided <- ifelse(identical(lpar, rep(-Inf, n_analysis)), FALSE, TRUE)
     }
@@ -183,10 +182,17 @@ gs_power_ahr <- function(
     two_sided <- TRUE
   }
 
+  if (!two_sided) {
+    lpar <- rep(-Inf, n_analysis)
+    lower <- gs_b
+  }
+
   # Check if user input the total spending for futility,
   # if they use spending function for futility
-  if (identical(lower, gs_spending_bound) && is.null(lpar$total_spend)) {
-    stop("gs_power_ahr: please input the total_spend to the futility spending function.")
+  if (two_sided && identical(lower, gs_spending_bound)) {
+    if (is.null(lpar$total_spend) && any(test_lower)) {
+      stop("gs_power_ahr: please input the total_spend to the futility spending function.")
+    }
   }
 
   # Calculate the asymptotic variance and statistical information ----
