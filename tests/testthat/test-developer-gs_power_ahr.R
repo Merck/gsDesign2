@@ -121,3 +121,20 @@ test_that("calendar + event based cut", {
   expect_equal(x1$analysis$info, x2$info[x2$Bound == "Lower"], tolerance = 1e-5)
   expect_equal(x1$analysis$info0, x2$info0[x2$Bound == "Lower"], tolerance = 1e-5)
 })
+
+test_that("Use default lower and lpar but set test_lower is FALSE", {
+  # using the default lower and lpar but set test_lower = FALSE,
+  # which means there is no futility test
+  x <- gs_power_ahr(analysis_time = c(24, 36),
+                    event = c(50, 100),
+                    test_lower = FALSE)
+
+  expect_equal(unique(x$bound$bound), "upper")
+})
+
+test_that("Use default lower, lpar and test_lower", {
+  # using the default lower, lpar and test_lower,
+  # return an error message asking for total spend for the futility test
+  expect_error(gs_power_ahr(analysis_time = c(24, 36),
+                            event = c(50, 100)))
+})
