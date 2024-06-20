@@ -361,6 +361,14 @@ summary.gs_design <- function(object,
     }
   }
 
+  # "bound" is a required column
+  if (!"bound" %in% x_decimals$col_vars) {
+    x_decimals <- rbind(
+      tibble::tibble(col_vars = "bound", col_decimals = NA),
+      x_decimals
+    )
+  }
+
   # Prepare the analysis summary row ----
   # get the
   # (1) analysis variables to be displayed on the header

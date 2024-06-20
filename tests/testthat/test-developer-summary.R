@@ -121,3 +121,31 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
     "summary: analysis_decimals must be a named vector if analysis_vars is not provided"
   )
 })
+
+test_that("The column 'Bound' is always included in summary.gs_design() output", {
+  x <- gs_design_ahr()
+
+  # without col_vars
+  observed <- summary(x)
+  expect_true("Bound" %in% colnames(observed))
+
+  # including "bound" in col_vars
+  observed <- summary(
+    x,
+    col_vars = c(
+      "bound", "z", "~hr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"
+    ),
+    col_decimals = c(NA, 4, 4, 4, 4, 4)
+  )
+  expect_true("Bound" %in% colnames(observed))
+
+  # excluding "bound" in col_vars
+  observed <- summary(
+    x,
+    col_vars = c(
+      "z", "~hr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"
+    ),
+    col_decimals = c(4, 4, 4, 4, 4)
+  )
+  expect_true("Bound" %in% colnames(observed))
+})
