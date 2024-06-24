@@ -75,13 +75,13 @@ and enrollment pattern where the enrollment, failure and dropout rates changes o
 }
 
 \examples{
-# Example: default
+# Example 1: default
 ahr()
 
-# Example: default with multiple analysis times (varying total_duration)
+# Example 2: default with multiple analysis times (varying total_duration)
 ahr(total_duration = c(15, 30))
 
-# Stratified population
+# Example 3: stratified population
 enroll_rate <- define_enroll_rate(
   stratum = c(rep("Low", 2), rep("High", 3)),
   duration = c(2, 10, 4, 4, 8),
