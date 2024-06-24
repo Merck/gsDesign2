@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Average hazard ratio under non-proportional hazards (test version)
+#' Average hazard ratio under non-proportional hazards
 #'
 #' Provides a geometric average hazard ratio under
 #' various non-proportional hazards assumptions for either single or multiple strata studies.
@@ -36,41 +36,6 @@
 #'   `info` (information under given scenarios), `and` info0
 #'   (information under related null hypothesis) for each value of
 #'   `total_duration` input
-#'
-#' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input enrollment rate contains stratum column.
-#'    \item Validate if input enrollment rate contains total duration column.
-#'    \item Validate if input enrollment rate contains rate column.
-#'    \item Validate if input failure rate contains stratum column.
-#'    \item Validate if input failure rate contains duration column.
-#'    \item Validate if input failure rate contains failure rate column.
-#'    \item Validate if input failure rate contains hazard ratio column.
-#'    \item Validate if input failure rate contains dropout rate column.
-#'    \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
-#'    \item Validate if strata is the same in enrollment rate and failure rate.
-#'    \item Compute the proportion in each group.
-#'    \item Compute the expected events by treatment groups, stratum and time period.
-#'    \item Calculate the expected number of events for all time points in the total
-#'     duration and for all stratification variables.
-#'    \itemize{
-#'      \item Compute the expected events in for each strata.
-#'        \itemize{
-#'          \item Combine the expected number of events of all stratification variables.
-#'          \item Recompute events, hazard ratio and information under
-#'          the given scenario of the combined data for each strata.
-#'          }
-#'        \item Combine the results for all time points by summarizing the results by adding up the number of events,
-#'       information under the null and the given scenarios.
-#'       }
-#'    \item Return a tibble of overall event count, statistical information and average hazard ratio
-#'    of each value in total_duration.
-#'    \item Calculation of \code{ahr} for different design scenarios, and the comparison to the
-#'    simulation studies are defined in vignette/AHRVignette.Rmd.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
 #'                        setorderv
@@ -115,7 +80,8 @@ pw_info <- function(
     ),
     total_duration = 30,
     ratio = 1) {
-  # Check input values ----
+
+  # Check input values
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -125,10 +91,34 @@ pw_info <- function(
   class(enroll_rate) <- c("enroll_rate", class(enroll_rate))
   fail_rate <- as.data.table(fail_rate)
   class(fail_rate) <- c("fail_rate", class(enroll_rate))
+
+  # -------------------------------------- #
+  #   compute expected accrual over time   #
+  # -------------------------------------- #
+  pw_hr_time <- cumsum(fail_rate$duration)
+
+  # build a table for start/end time of the piecewise HR model
+  tbl_time <- data.frame(t_start = c(0, pw_hr_time)[1:length(pw_hr_time)],
+                         t_end = c(0, cumsum(fail_rate$duration))[-1])
+
+  # remove the Inf time
+  pw_hr_time <- pw_hr_time[is.finite(pw_hr_time)]
+  n_time <- sort(unique(c(total_duration, pw_hr_time)))
+
+  # calculate the expected accrual
+  n <- expected_accrual(time = n_time,
+                        enroll_rate = enroll_rate)
+  tbl_n <- data.frame(time = n_time, n = n)
+
+  # -------------------------------------- #
+  #   compute expected events over time    #
+  # -------------------------------------- #
   # compute proportion in each group
   q_e <- ratio / (1 + ratio)
   q_c <- 1 - q_e
-  # compute expected events by treatment group, stratum and time period
+
+  # compute expected events by treatment group, stratum
+  # and time period listed in total_duration
   strata <- unique(enroll_rate$stratum)
   ans_list <- vector(mode = "list", length = length(total_duration) * length(strata))
   for (i in seq_along(total_duration)) {
@@ -139,35 +129,39 @@ pw_info <- function(
       # subset to stratum
       enroll <- enroll_rate[stratum == s, ]
       fail <- fail_rate[stratum == s, ]
+
       # update enrollment rates
       enroll_c <- copy(enroll)
       enroll_c[, rate := rate * q_c]
       enroll_e <- copy(enroll)
       enroll_e[, rate := rate * q_e]
+
       # update failure rates
       fail_c <- copy(fail)
       fail_e <- copy(fail)
       fail_e[, fail_rate := fail_rate * hr]
+
       # compute expected number of events
       event_c <- expected_event(
         enroll_rate = enroll_c,
         fail_rate = fail_c,
         total_duration = td,
-        simple = FALSE
-      )
+        simple = FALSE)
+
       event_e <- expected_event(
         enroll_rate = enroll_e,
         fail_rate = fail_e,
         total_duration = td,
-        simple = FALSE
-      )
-      # Combine control and experimental; by period recompute HR, events, information
+        simple = FALSE)
+
+      # combine control and experimental; by period recompute HR, events, information
       setDT(event_c)
       event_c[, treatment := "control"]
       setDT(event_e)
       event_e[, treatment := "experimental"]
       event_tmp <- rbindlist(list(event_c, event_e))
       event_tmp <- event_tmp[order(t, treatment), ]
+
       # recompute HR, events, info by period
       event_tmp <- event_tmp[,
         .(
@@ -185,8 +179,8 @@ pw_info <- function(
     event[, `:=`(
       time = td,
       ln_hr = log(hr),
-      info0 = event * q_c * q_e
-    )]
+      info0 = event * q_c * q_e)]
+
     # pool strata together for each time period
     event <- event[,
       .(
@@ -200,12 +194,22 @@ pw_info <- function(
     ans_list[[i + j]] <- event
   }
   ans <- rbindlist(ans_list)
+
   # output the results
   ans <- ans[, .(time, stratum, t, hr, event, info, info0)]
   setorderv(ans, cols = c("time", "stratum"))
   ans <- ans[order(t), .SD, by = .(time, stratum)]
+
   # filter out the rows with 0 events
   ans <- ans[!is_almost_k(event, 0L)]
+
+  # add a column of expected accrual
+  ans <- ans %>%
+    dplyr::left_join(tbl_time, by = dplyr::join_by(t == t_start)) %>%
+    dplyr::mutate(t_min = pmin(time, t_end)) %>%
+    dplyr::left_join(tbl_n, by = dplyr::join_by(t_min == time)) %>%
+    dplyr::select(-c(t_end, t_min))
+
   setDF(ans)
   return(ans)
 }
