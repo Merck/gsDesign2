@@ -36,11 +36,11 @@ test_that("Output column of n matches with expected_accrual with Inf in the fail
                    n = expected_accrual(enroll_rate = enroll_rate, time = all_t))
 
   y <- x1 %>%
-    left_join(tbl_time, by = join_by(t == t_start)) %>%
-    mutate(t_min = pmin(time, t_end)) %>%
-    select(time, t_min, n) %>%
-    rename(n_obs = n) %>%
-    left_join(x2 %>% rename(n_exp = n), by = join_by(t_min == time))
+    dplyr::left_join(tbl_time, by = dplyr::join_by(t == t_start)) %>%
+    dplyr::mutate(t_min = pmin(time, t_end)) %>%
+    dplyr::select(time, t_min, n) %>%
+    dplyr::rename(n_obs = n) %>%
+    dplyr::left_join(x2 %>% dplyr::rename(n_exp = n), by = dplyr::join_by(t_min == time))
   expect_equal(y$n_obs, y$n_exp)
 })
 
