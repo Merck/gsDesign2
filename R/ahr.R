@@ -77,13 +77,13 @@
 #' @export
 #'
 #' @examples
-#' # Example: default
+#' # Example 1: default
 #' ahr()
 #'
-#' # Example: default with multiple analysis times (varying total_duration)
+#' # Example 2: default with multiple analysis times (varying total_duration)
 #' ahr(total_duration = c(15, 30))
 #'
-#' # Stratified population
+#' # Example 3: stratified population
 #' enroll_rate <- define_enroll_rate(
 #'   stratum = c(rep("Low", 2), rep("High", 3)),
 #'   duration = c(2, 10, 4, 4, 8),
@@ -100,23 +100,27 @@
 ahr <- function(
     enroll_rate = define_enroll_rate(
       duration = c(2, 2, 10),
-      rate = c(3, 6, 9)
-    ),
+      rate = c(3, 6, 9)),
     fail_rate = define_fail_rate(
       duration = c(3, 100),
       fail_rate = log(2) / c(9, 18),
       hr = c(.9, .6),
-      dropout_rate = .001
-    ),
+      dropout_rate = .001),
     total_duration = 30,
     ratio = 1) {
+
+  # get time, HR, expected events,and statistical information
+  # under the piecewise model
   res <- pw_info(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
     total_duration = total_duration,
-    ratio = ratio
-  )
+    ratio = ratio)
+
+  # make the above output as a data.table
   setDT(res)
+
+  # summareize the above results by time
   ans <- res[,
     .(
       ahr = exp(sum(log(hr) * event) / sum(event)),
