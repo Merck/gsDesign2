@@ -95,6 +95,8 @@ utils::globalVariables(
       ),
       # From `ppwe()`
       c("h", "duration", "H"),
+      # From `pw_info()`
+      c("t_end", "t_min"),
       # From `s2pwe()`
       c("Times", "Survival", "H", "duration", "rate"),
       # From `summary.fixed_design()`
