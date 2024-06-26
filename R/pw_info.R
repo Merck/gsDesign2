@@ -31,11 +31,11 @@
 #'   cutoff; this can be a single value or a vector of positive numbers.
 #' @param ratio Ratio of experimental to control randomization.
 #'
-#' @return A tibble with `time` (from `total_duration`),
-#'   `ahr` (average hazard ratio), `event` (expected number of events),
-#'   `info` (information under given scenarios), `and` info0
-#'   (information under related null hypothesis) for each value of
-#'   `total_duration` input
+#' @return A data frame with `time` (from `total_duration`), `stratum`, `t`,
+#'   `hr` (hazard ratio), `event` (expected number of events), `info`
+#'   (information under given scenarios), `info0` (information under related
+#'   null hypothesis), and `n` (sample size) for each value of `total_duration`
+#'   input
 #'
 #' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
 #'                        setcolorder setorderv

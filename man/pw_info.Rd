@@ -25,11 +25,11 @@ cutoff; this can be a single value or a vector of positive numbers.}
 \item{ratio}{Ratio of experimental to control randomization.}
 }
 \value{
-A tibble with \code{time} (from \code{total_duration}),
-\code{ahr} (average hazard ratio), \code{event} (expected number of events),
-\code{info} (information under given scenarios), \code{and} info0
-(information under related null hypothesis) for each value of
-\code{total_duration} input
+A data frame with \code{time} (from \code{total_duration}), \code{stratum}, \code{t},
+\code{hr} (hazard ratio), \code{event} (expected number of events), \code{info}
+(information under given scenarios), \code{info0} (information under related
+null hypothesis), and \code{n} (sample size) for each value of \code{total_duration}
+input
 }
 \description{
 Provides a geometric average hazard ratio under
