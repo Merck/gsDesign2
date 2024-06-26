@@ -90,3 +90,9 @@ test_that("Output column of n matches with expected_accrual without Inf in the f
 
   expect_equal(y$n_obs, y$n_exp)
 })
+
+test_that("Column order is consistent", {
+  observed <- colnames(pw_info())
+  expected <- c("time", "stratum", "t", "hr", "event", "info", "info0", "n")
+  expect_equal(observed, expected)
+})

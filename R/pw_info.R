@@ -38,7 +38,7 @@
 #'   `total_duration` input
 #'
 #' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
-#'                        setorderv
+#'                        setcolorder setorderv
 #'
 #' @export
 #'
@@ -204,11 +204,11 @@ pw_info <- function(
   ans <- ans[!is_almost_k(event, 0L)]
 
   # add a column of expected accrual
-  ans <- ans %>%
-    dplyr::left_join(tbl_time, by = dplyr::join_by(t == t_start)) %>%
-    dplyr::mutate(t_min = pmin(time, t_end)) %>%
-    dplyr::left_join(tbl_n, by = dplyr::join_by(t_min == time)) %>%
-    dplyr::select(-c(t_end, t_min))
+  ans <- merge(ans, tbl_time, by.x = "t", by.y = "t_start")
+  ans[, t_min := pmin(time, t_end)]
+  ans <- merge(ans, tbl_n, by.x = "t_min", by.y = "time")
+  ans[, c("t_end", "t_min") := NULL]
+  setcolorder(ans, neworder = c("time", "stratum", "t", "hr", "event", "info", "info0", "n"))
 
   setDF(ans)
   return(ans)
