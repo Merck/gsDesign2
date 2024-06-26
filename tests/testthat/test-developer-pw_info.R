@@ -93,6 +93,6 @@ test_that("Output column of n matches with expected_accrual without Inf in the f
 
 test_that("Column order is consistent", {
   observed <- colnames(pw_info())
-  expected <- c("time", "stratum", "t", "hr", "event", "info", "info0", "n")
+  expected <- c("time", "stratum", "t", "hr", "n", "event", "info", "info0")
   expect_equal(observed, expected)
 })

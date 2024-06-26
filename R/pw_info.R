@@ -208,7 +208,7 @@ pw_info <- function(
   ans[, t_min := pmin(time, t_end)]
   ans <- merge(ans, tbl_n, by.x = "t_min", by.y = "time")
   ans[, c("t_end", "t_min") := NULL]
-  setcolorder(ans, neworder = c("time", "stratum", "t", "hr", "event", "info", "info0", "n"))
+  setcolorder(ans, neworder = c("time", "stratum", "t", "hr", "n", "event", "info", "info0"))
 
   setDF(ans)
   return(ans)
