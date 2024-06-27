@@ -149,3 +149,21 @@ test_that("The column 'Bound' is always included in summary.gs_design() output",
   )
   expect_true("Bound" %in% colnames(observed))
 })
+
+
+test_that("The full alpha is correctly carried over", {
+  a_level <- 0.02
+  x <- gs_power_ahr(
+    upper = gs_spending_bound,
+    upar = list(
+      sf = gsDesign::sfLDOF,
+      total_spend = a_level
+    ),
+    test_lower = FALSE
+  )
+
+  # without col_vars
+  observed <- summary(x)
+
+  expect_equal(attributes(observed)$full_alpha, a_level)
+})
