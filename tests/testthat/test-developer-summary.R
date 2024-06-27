@@ -257,26 +257,26 @@ test_that("summary.gs_design() accepts a named vector for col_decimals", {
 
   # Specify decimals and also drop some variables
   x_sum <- summary(
-      x,
-      col_vars = c("z", "nominal p", "Null hypothesis"),
-      col_decimals = c(z = 0, `nominal p` = 0)
-    )
+    x,
+    col_vars = c("z", "nominal p", "Null hypothesis"),
+    col_decimals = c(z = 0, `nominal p` = 0)
+  )
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(Z = 2, `Nominal p` = 0, `Null hypothesis` = 0.025, check.names = FALSE)
   expect_equal(observed, expected)
 
   # Specify decimals and rearrange some variables
   x_sum <- summary(
-      x,
-      col_vars = c("Null hypothesis", "nominal p", "z"),
-      col_decimals = c(z = 0, `nominal p` = 0)
-    )
+    x,
+    col_vars = c("Null hypothesis", "nominal p", "z"),
+    col_decimals = c(z = 0, `nominal p` = 0)
+  )
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(`Null hypothesis` = 0.025, `Nominal p` = 0, Z = 2, check.names = FALSE)
   expect_equal(observed, expected)
 
   # Only drop variables
-  x_sum <- summary(x,col_vars = c("z", "nominal p", "Null hypothesis"))
+  x_sum <- summary(x, col_vars = c("z", "nominal p", "Null hypothesis"))
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(Z = 1.96, `Nominal p` = 0.025, `Null hypothesis` = 0.025, check.names = FALSE)
   expect_equal(observed, expected)

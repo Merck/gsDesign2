@@ -318,20 +318,28 @@ summary.gs_design <- function(object,
 
   # Prepare the columns decimals ----
   if (method == "ahr") {
-    col_vars_default <- c("analysis", "bound", "z", "~hr at bound", "nominal p",
-                          "Alternate hypothesis", "Null hypothesis")
+    col_vars_default <- c(
+      "analysis", "bound", "z", "~hr at bound", "nominal p",
+      "Alternate hypothesis", "Null hypothesis"
+    )
     col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
   } else if (method == "wlr") {
-    col_vars_default <- c("analysis", "bound", "z", "~whr at bound", "nominal p",
-                          "Alternate hypothesis", "Null hypothesis")
+    col_vars_default <- c(
+      "analysis", "bound", "z", "~whr at bound", "nominal p",
+      "Alternate hypothesis", "Null hypothesis"
+    )
     col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
   } else if (method == "combo") {
-    col_vars_default <- c("analysis", "bound", "z", "nominal p",
-                          "Alternate hypothesis", "Null hypothesis")
+    col_vars_default <- c(
+      "analysis", "bound", "z", "nominal p",
+      "Alternate hypothesis", "Null hypothesis"
+    )
     col_decimals_default <- c(NA, NA, 2, 4, 4, 4)
   } else if (method == "rd") {
-    col_vars_default <- c("analysis", "bound", "z", "~risk difference at bound",
-      "nominal p", "Alternate hypothesis", "Null hypothesis")
+    col_vars_default <- c(
+      "analysis", "bound", "z", "~risk difference at bound",
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
+    )
     col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
   } else {
     stop("Invalid method: ", method)
