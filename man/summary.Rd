@@ -31,7 +31,10 @@ variables you want to be displayed differently than the defaults.}
 
 \item{col_vars}{The variables to be displayed.}
 
-\item{col_decimals}{The decimals to be displayed for the displayed variables in \code{col_vars}.}
+\item{col_decimals}{The decimals to be displayed for the displayed variables in \code{col_vars}.
+If the vector is unnamed, it must match the length of \code{col_vars}. If the
+vector is named, you only have to specify the number of digits for the
+columns you want to be displayed differently than the defaults.}
 
 \item{bound_names}{Names for bounds; default is \code{c("Efficacy", "Futility")}.}
 }

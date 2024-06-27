@@ -152,6 +152,9 @@ summary.fixed_design <- function(object, ...) {
 #'   variables you want to be displayed differently than the defaults.
 #' @param col_vars The variables to be displayed.
 #' @param col_decimals The decimals to be displayed for the displayed variables in `col_vars`.
+#'   If the vector is unnamed, it must match the length of `col_vars`. If the
+#'   vector is named, you only have to specify the number of digits for the
+#'   columns you want to be displayed differently than the defaults.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
 #'
 #' @importFrom dplyr all_of
@@ -334,25 +337,53 @@ summary.gs_design <- function(object,
     stop("Invalid method: ", method)
   }
 
+  # Filter columns and update decimal places
+  names(col_decimals_default) <- col_vars_default
   if (is.null(col_vars) && is.null(col_decimals)) {
-    x_decimals <- tibble::tibble(
-      col_vars = col_vars_default,
-      col_decimals = col_decimals_default
-    )
-  } else {
-    x_decimals <- tibble::tibble(
-      col_vars = col_vars,
-      col_decimals = col_decimals
-    )
+    # Use default values
+    col_vars <- col_vars_default
+    col_decimals <- col_decimals_default
+  } else if (!is.null(col_vars) && is.null(col_decimals)) {
+    # Only drop/rearrange variables
+    col_decimals <- col_decimals_default[
+      match(col_vars, names(col_decimals_default))
+    ]
+  } else if (is.null(col_vars) && !is.null(col_decimals)) {
+    # Only update decimals - must be named vector
+    if (is.null(names(col_decimals))) {
+      stop("summary: col_decimals must be a named vector if col_vars is not provided")
+    }
+    col_vars <- col_vars_default
+    col_decimals_tmp <- col_decimals_default
+    col_decimals_tmp[names(col_decimals)] <- col_decimals
+    col_decimals <- col_decimals_tmp
+  } else if (!is.null(col_vars) && !is.null(col_decimals)) {
+    # Update variables and decimals
+    if (is.null(names(col_decimals))) {
+      # vectors must be same length if col_decimals is unnamed
+      if (length(col_vars) != length(col_decimals)) {
+        stop("summary: please input col_vars and col_decimals in pairs!")
+      }
+    } else {
+      col_decimals_tmp <- col_decimals_default
+      col_decimals_tmp[names(col_decimals)] <- col_decimals
+      col_decimals <- col_decimals_tmp
+      col_decimals <- col_decimals[
+        match(col_vars, names(col_decimals))
+      ]
+    }
   }
 
   # "bound" is a required column
-  if (!"bound" %in% x_decimals$col_vars) {
-    x_decimals <- rbind(
-      tibble::tibble(col_vars = "bound", col_decimals = NA),
-      x_decimals
-    )
+  if (!"bound" %in% col_vars) {
+    col_vars <- c("bound", col_vars)
+    col_decimals <- c(NA, col_decimals)
   }
+
+  x_decimals <- tibble::tibble(
+    col_vars = col_vars,
+    col_decimals = col_decimals
+  )
 
   # Prepare the analysis summary row ----
   # get the
