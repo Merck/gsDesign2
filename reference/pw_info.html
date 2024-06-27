@@ -100,28 +100,32 @@ cutoff; this can be a single value or a vector of positive numbers.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A tibble with <code>time</code> (from <code>total_duration</code>),
-<code>ahr</code> (average hazard ratio), <code>event</code> (expected number of events),
-<code>info</code> (information under given scenarios), <code>and</code> info0
-(information under related null hypothesis) for each value of
-<code>total_duration</code> input</p>
+<p>A data frame with <code>time</code> (from <code>total_duration</code>), <code>stratum</code>, <code>t</code>,
+<code>hr</code> (hazard ratio), <code>event</code> (expected number of events), <code>info</code></p>
+
+
+<p>(information under given scenarios), <code>info0</code> (information under related
+null hypothesis), and <code>n</code> (sample size) for each value of <code>total_duration</code></p>
+
+
+<p>input</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example: default</span></span></span>
 <span class="r-in"><span><span class="fu">pw_info</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t  hr    event     info    info0   n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   30     All 0 0.9 21.24782 5.300180 5.311956  12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   30     All 3 0.6 37.24314 9.027063 9.310786 108</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t  hr   n    event     info    info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   30     All 0 0.9  12 21.24782 5.300180 5.311956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   30     All 3 0.6 108 37.24314 9.027063 9.310786</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example: default with multiple analysis times (varying total_duration)</span></span></span>
 <span class="r-in"><span><span class="fu">pw_info</span><span class="op">(</span>total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t  hr    event     info    info0   n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   15     All 0 0.9 20.13991 5.023729 5.034979  12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   15     All 3 0.6 10.13850 2.417457 2.534625 108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   30     All 0 0.9 21.24782 5.300180 5.311956  12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   30     All 3 0.6 37.24314 9.027063 9.310786 108</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t  hr   n    event     info    info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   15     All 0 0.9  12 20.13991 5.023729 5.034979</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   30     All 0 0.9  12 21.24782 5.300180 5.311956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   15     All 3 0.6 108 10.13850 2.417457 2.534625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   30     All 3 0.6 108 37.24314 9.027063 9.310786</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratified population</span></span></span>
 <span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span></span></span>
@@ -144,15 +148,15 @@ cutoff; this can be a single value or a vector of positive numbers.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Same example, give results by strata and time period</span></span></span>
 <span class="r-in"><span><span class="fu">pw_info</span><span class="op">(</span>enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>, total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t   hr     event      info     info0  n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   15    High 0 0.80 12.076677  2.990626  3.019169  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   15    High 1 0.60 23.118608  5.716292  5.779652 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   15     Low 0 0.90  9.962824  2.484435  2.490706  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   15     Low 1 0.75 68.120046 16.928485 17.030011 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   30    High 0 0.80 14.169853  3.509171  3.542463  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   30    High 1 0.60 45.213092 11.198980 11.303273 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   30     Low 0 0.90  9.962824  2.484435  2.490706  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   30     Low 1 0.75 96.837847 24.116546 24.209462 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   time stratum t   hr  n     event      info     info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   15    High 0 0.80  5 12.076677  2.990626  3.019169</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   15     Low 0 0.90  5  9.962824  2.484435  2.490706</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   30    High 0 0.80  5 14.169853  3.509171  3.542463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   30     Low 0 0.90  5  9.962824  2.484435  2.490706</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   15    High 1 0.60 10 23.118608  5.716292  5.779652</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   15     Low 1 0.75 10 68.120046 16.928485 17.030011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   30    High 1 0.60 10 45.213092 11.198980 11.303273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   30     Low 1 0.75 10 96.837847 24.116546 24.209462</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
