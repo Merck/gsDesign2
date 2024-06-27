@@ -150,7 +150,6 @@ test_that("The column 'Bound' is always included in summary.gs_design() output",
   expect_true("Bound" %in% colnames(observed))
 })
 
-
 test_that("The full alpha is correctly carried over", {
   a_level <- 0.02
   x <- gs_power_ahr(
@@ -166,4 +165,22 @@ test_that("The full alpha is correctly carried over", {
   observed <- summary(x)
 
   expect_equal(attributes(observed)$full_alpha, a_level)
+})
+
+test_that("col_vars and col_decimals can be passed 1:1", {
+  x <- gs_design_ahr()
+
+  observed <- summary(
+    x,
+    col_vars = c("z", "~hr at bound", "nominal p", "Alternate hypothesis"),
+    col_decimals = c(0, 0, 0, 0)
+  )
+
+  columns <- c("Z", "~HR at bound", "Nominal p", "Alternate hypothesis")
+  for (col in columns) {
+    expect_equal(observed[1, col, drop = TRUE], as.integer(observed[1, col]))
+  }
+
+  # Purposefully omitted "Null hypothesis" from col_vars above
+  expect_false("Null hypothesis" %in% colnames(observed))
 })
