@@ -243,6 +243,16 @@ summary.fixed_design <- function(object, ...) {
 #'
 #' # Customize the variables to be summarized for each analysis
 #' x_ahr %>% summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
+#'
+#' # Customize the digits for the columns
+#' x_ahr %>% summary(col_decimals = c(z = 4))
+#'
+#' # Customize the columns to display
+#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"))
+#'
+#' # Customize columns and digits
+#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"),
+#'                   col_decimals = c(4, 2, 2))
 #' }
 #'
 #' # Example 2 ----
