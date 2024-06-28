@@ -152,6 +152,9 @@ summary.fixed_design <- function(object, ...) {
 #'   variables you want to be displayed differently than the defaults.
 #' @param col_vars The variables to be displayed.
 #' @param col_decimals The decimals to be displayed for the displayed variables in `col_vars`.
+#'   If the vector is unnamed, it must match the length of `col_vars`. If the
+#'   vector is named, you only have to specify the number of digits for the
+#'   columns you want to be displayed differently than the defaults.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
 #'
 #' @importFrom dplyr all_of
@@ -240,6 +243,16 @@ summary.fixed_design <- function(object, ...) {
 #'
 #' # Customize the variables to be summarized for each analysis
 #' x_ahr %>% summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
+#'
+#' # Customize the digits for the columns
+#' x_ahr %>% summary(col_decimals = c(z = 4))
+#'
+#' # Customize the columns to display
+#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"))
+#'
+#' # Customize columns and digits
+#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"),
+#'                   col_decimals = c(4, 2, 2))
 #' }
 #'
 #' # Example 2 ----
@@ -315,59 +328,80 @@ summary.gs_design <- function(object,
 
   # Prepare the columns decimals ----
   if (method == "ahr") {
-    if (is.null(col_vars) && is.null(col_decimals)) {
-      x_decimals <- tibble::tibble(
-        col_vars = c("analysis", "bound", "z", "~hr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"),
-        col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
-      )
-    } else {
-      x_decimals <- tibble::tibble(col_vars = col_vars, col_decimals = col_decimals)
-    }
+    col_vars_default <- c(
+      "analysis", "bound", "z", "~hr at bound", "nominal p",
+      "Alternate hypothesis", "Null hypothesis"
+    )
+    col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
+  } else if (method == "wlr") {
+    col_vars_default <- c(
+      "analysis", "bound", "z", "~whr at bound", "nominal p",
+      "Alternate hypothesis", "Null hypothesis"
+    )
+    col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
+  } else if (method == "combo") {
+    col_vars_default <- c(
+      "analysis", "bound", "z", "nominal p",
+      "Alternate hypothesis", "Null hypothesis"
+    )
+    col_decimals_default <- c(NA, NA, 2, 4, 4, 4)
+  } else if (method == "rd") {
+    col_vars_default <- c(
+      "analysis", "bound", "z", "~risk difference at bound",
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
+    )
+    col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
+  } else {
+    stop("Invalid method: ", method)
   }
 
-  if (method == "wlr") {
-    if (is.null(col_vars) && is.null(col_decimals)) {
-      x_decimals <- tibble::tibble(
-        col_vars = c("analysis", "bound", "z", "~whr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"),
-        col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
-      )
-    } else {
-      x_decimals <- tibble::tibble(col_vars = col_vars, col_decimals = col_decimals)
+  # Filter columns and update decimal places
+  names(col_decimals_default) <- col_vars_default
+  if (is.null(col_vars) && is.null(col_decimals)) {
+    # Use default values
+    col_vars <- col_vars_default
+    col_decimals <- col_decimals_default
+  } else if (!is.null(col_vars) && is.null(col_decimals)) {
+    # Only drop/rearrange variables
+    col_decimals <- col_decimals_default[
+      match(col_vars, names(col_decimals_default))
+    ]
+  } else if (is.null(col_vars) && !is.null(col_decimals)) {
+    # Only update decimals - must be named vector
+    if (is.null(names(col_decimals))) {
+      stop("summary: col_decimals must be a named vector if col_vars is not provided")
     }
-  }
-
-  if (method == "combo") {
-    if (is.null(col_vars) && is.null(col_decimals)) {
-      x_decimals <- tibble::tibble(
-        col_vars = c("analysis", "bound", "z", "nominal p", "Alternate hypothesis", "Null hypothesis"),
-        col_decimals = c(NA, NA, 2, 4, 4, 4)
-      )
+    col_vars <- col_vars_default
+    col_decimals_tmp <- col_decimals_default
+    col_decimals_tmp[names(col_decimals)] <- col_decimals
+    col_decimals <- col_decimals_tmp
+  } else if (!is.null(col_vars) && !is.null(col_decimals)) {
+    # Update variables and decimals
+    if (is.null(names(col_decimals))) {
+      # vectors must be same length if col_decimals is unnamed
+      if (length(col_vars) != length(col_decimals)) {
+        stop("summary: please input col_vars and col_decimals in pairs!")
+      }
     } else {
-      x_decimals <- tibble::tibble(col_vars = col_vars, col_decimals = col_decimals)
-    }
-  }
-
-  if (method == "rd") {
-    if (is.null(col_vars) && is.null(col_decimals)) {
-      x_decimals <- tibble::tibble(
-        col_vars = c(
-          "analysis", "bound", "z", "~risk difference at bound",
-          "nominal p", "Alternate hypothesis", "Null hypothesis"
-        ),
-        col_decimals = c(NA, NA, 2, 4, 4, 4, 4)
-      )
-    } else {
-      x_decimals <- tibble::tibble(col_vars = col_vars, col_decimals = col_decimals)
+      col_decimals_tmp <- col_decimals_default
+      col_decimals_tmp[names(col_decimals)] <- col_decimals
+      col_decimals <- col_decimals_tmp
+      col_decimals <- col_decimals[
+        match(col_vars, names(col_decimals))
+      ]
     }
   }
 
   # "bound" is a required column
-  if (!"bound" %in% x_decimals$col_vars) {
-    x_decimals <- rbind(
-      tibble::tibble(col_vars = "bound", col_decimals = NA),
-      x_decimals
-    )
+  if (!"bound" %in% col_vars) {
+    col_vars <- c("bound", col_vars)
+    col_decimals <- c(NA, col_decimals)
   }
+
+  x_decimals <- tibble::tibble(
+    col_vars = col_vars,
+    col_decimals = col_decimals
+  )
 
   # Prepare the analysis summary row ----
   # get the

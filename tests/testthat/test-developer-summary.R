@@ -150,7 +150,6 @@ test_that("The column 'Bound' is always included in summary.gs_design() output",
   expect_true("Bound" %in% colnames(observed))
 })
 
-
 test_that("The full alpha is correctly carried over", {
   a_level <- 0.02
   x <- gs_power_ahr(
@@ -166,4 +165,125 @@ test_that("The full alpha is correctly carried over", {
   observed <- summary(x)
 
   expect_equal(attributes(observed)$full_alpha, a_level)
+})
+
+# Maintain previous behavior
+test_that("summary.gs_design() accepts same-length vectors for col_vars and col_decimals", {
+  x <- gs_design_ahr()
+
+  # default decimals
+  x_sum <- summary(x)
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(
+    Z = 1.96,
+    `~HR at bound` = 0.795,
+    `Nominal p` = 0.025,
+    `Alternate hypothesis` = 0.9,
+    `Null hypothesis` = 0.025,
+    check.names = FALSE
+  )
+  expect_equal(observed, expected)
+
+  # specify the decimals for each variable
+  x_sum <- summary(
+    x,
+    col_vars = c("z", "~hr at bound", "nominal p", "Alternate hypothesis", "Null hypothesis"),
+    col_decimals = c(0, 0, 0, 0, 0)
+  )
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(
+    Z = 2,
+    `~HR at bound` = 1,
+    `Nominal p` = 0,
+    `Alternate hypothesis` = 1,
+    `Null hypothesis` = 0,
+    check.names = FALSE
+  )
+  expect_equal(observed, expected)
+
+  # Drop variables and also specify the decimals
+  x_sum <- summary(
+    x,
+    col_vars = c("nominal p", "Null hypothesis"),
+    col_decimals = c(0, 0)
+  )
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(`Nominal p` = 0, `Null hypothesis` = 0, check.names = FALSE)
+  expect_equal(observed, expected)
+
+  # Rearrange variables
+  x_sum <- summary(
+    x,
+    col_vars = c("Null hypothesis", "Alternate hypothesis", "nominal p", "~hr at bound", "z"),
+    col_decimals = c(0, 0, 0, 0, 0)
+  )
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(
+    `Null hypothesis` = 0,
+    `Alternate hypothesis` = 1,
+    `Nominal p` = 0,
+    `~HR at bound` = 1,
+    Z = 2,
+    check.names = FALSE
+  )
+  expect_equal(observed, expected)
+
+  # Throw error if unnamed col_decimals does not match length of col_vars
+  expect_error(
+    summary(
+      x,
+      col_vars = c("Null hypothesis", "Alternate hypothesis", "nominal p"),
+      col_decimals = c(0, 0),
+    ),
+    "summary: please input col_vars and col_decimals in pairs!"
+  )
+})
+
+test_that("summary.gs_design() accepts a named vector for col_decimals", {
+  x <- gs_design_ahr()
+
+  # Specify decimals
+  x_sum <- summary(x, col_decimals = c(z = 0, `nominal p` = 0))
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(
+    Z = 2,
+    `~HR at bound` = 0.795,
+    `Nominal p` = 0,
+    `Alternate hypothesis` = 0.9,
+    `Null hypothesis` = 0.025,
+    check.names = FALSE
+  )
+  expect_equal(observed, expected)
+
+  # Specify decimals and also drop some variables
+  x_sum <- summary(
+    x,
+    col_vars = c("z", "nominal p", "Null hypothesis"),
+    col_decimals = c(z = 0, `nominal p` = 0)
+  )
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(Z = 2, `Nominal p` = 0, `Null hypothesis` = 0.025, check.names = FALSE)
+  expect_equal(observed, expected)
+
+  # Specify decimals and rearrange some variables
+  x_sum <- summary(
+    x,
+    col_vars = c("Null hypothesis", "nominal p", "z"),
+    col_decimals = c(z = 0, `nominal p` = 0)
+  )
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(`Null hypothesis` = 0.025, `Nominal p` = 0, Z = 2, check.names = FALSE)
+  expect_equal(observed, expected)
+
+  # Only drop variables
+  x_sum <- summary(x, col_vars = c("z", "nominal p", "Null hypothesis"))
+  observed <- as.data.frame(x_sum)[, -1:-2]
+  expected <- data.frame(Z = 1.96, `Nominal p` = 0.025, `Null hypothesis` = 0.025, check.names = FALSE)
+  expect_equal(observed, expected)
+
+  # Throw error is col_decimals is unnamed
+  expect_error(
+    summary(x, col_decimals = c(4, 4)),
+    "summary: col_decimals must be a named vector if col_vars is not provided"
+  )
 })

@@ -131,13 +131,7 @@ gs_update_ahr(
   x = x,
   alpha = 0.025
   ) |>
-  summary(
-    col_vars = c(
-      "analysis", "bound", "z", "~hr at bound",
-      "nominal p", "Alternate hypothesis", "Null hypothesis"
-    ),
-    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
-  ) |>
+  summary(col_decimals = c(z = 4)) |>
   as_gt(title = "Updated design",
         subtitle = "For alternate alpha = 0.025")
 ```
@@ -184,13 +178,7 @@ gs_update_ahr(
   ustime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa)
 ) |>
-  summary(
-    col_vars = c(
-      "analysis", "bound", "z", "~hr at bound",
-      "nominal p", "Alternate hypothesis", "Null hypothesis"
-    ),
-    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
-  ) |>
+  summary(col_decimals = c(z = 4)) |>
   as_gt(title = "Updated design",
         subtitle = paste0("With observed ", sum(observed_data_ia$event),
                           " events at IA and ", sum(observed_data_fa$event),
@@ -267,13 +255,7 @@ gs_update_ahr(
   x = x,
   alpha = 0.025
   ) |>
-  summary(
-    col_vars = c(
-      "analysis", "bound", "z", "~hr at bound",
-      "nominal p", "Alternate hypothesis", "Null hypothesis"
-    ),
-    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
-  ) |>
+  summary(col_decimals = c(z = 4)) |>
   as_gt(title = "Updated design",
         subtitle = "For alpha = 0.025")
 ```
@@ -294,13 +276,7 @@ gs_update_ahr(
   lstime = ustime, 
   observed_data = list(observed_data_ia, observed_data_fa)
   ) |>
-  summary(
-    col_vars = c(
-      "analysis", "bound", "z", "~hr at bound",
-      "nominal p", "Alternate hypothesis", "Null hypothesis"
-    ),
-    col_decimals = c(NA, NA, 4, 4, 4, 4, 4)
-  ) |>
+  summary(col_decimals = c(z = 4)) |>
   as_gt(title = "Updated design",
         subtitle = paste0("With observed ", sum(observed_data_ia$event),
                           " events at IA and ", sum(observed_data_fa$event),
