@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.14</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,10 @@ variables you want to be displayed differently than the defaults.</p></dd>
 
 
 <dt>col_decimals</dt>
-<dd><p>The decimals to be displayed for the displayed variables in <code>col_vars</code>.</p></dd>
+<dd><p>The decimals to be displayed for the displayed variables in <code>col_vars</code>.
+If the vector is unnamed, it must match the length of <code>col_vars</code>. If the
+vector is named, you only have to specify the number of digits for the
+columns you want to be displayed differently than the defaults.</p></dd>
 
 
 <dt>bound_names</dt>
@@ -296,6 +299,49 @@ variables you want to be displayed differently than the defaults.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Analysis: 3 N: … Futi…  1.99          0.812      0.023<span style="text-decoration: underline;">3</span>                 0.101 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Analysis: 3 N: … Effi…  1.99          0.812      0.023<span style="text-decoration: underline;">1</span>                 0.9   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: `Null hypothesis` &lt;dbl&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Customize the digits for the columns</span></span></span>
+<span class="r-in"><span><span class="va">x_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span>col_decimals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>z <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   Analysis [3]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis        Bound      Z `~HR at bound` `Nominal p` `Alternate hypothesis`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Analysis: 1 Ti… Futi… -<span style="color: #BB0000;">0.938</span>          1.19       0.826                  0.033<span style="text-decoration: underline;">8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Analysis: 1 Ti… Effi…  3.71           0.510      0.000<span style="text-decoration: underline;">1</span>                 0.002<span style="text-decoration: underline;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Analysis: 2 Ti… Futi…  0.626          0.923      0.266                  0.066<span style="text-decoration: underline;">6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Analysis: 2 Ti… Effi…  2.51           0.725      0.006                  0.414 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Analysis: 3 Ti… Futi…  1.99           0.812      0.023<span style="text-decoration: underline;">3</span>                 0.101 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Analysis: 3 Ti… Effi…  1.99           0.812      0.023<span style="text-decoration: underline;">1</span>                 0.9   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: `Null hypothesis` &lt;dbl&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Customize the columns to display</span></span></span>
+<span class="r-in"><span><span class="va">x_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span>col_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z"</span>, <span class="st">"~hr at bound"</span>, <span class="st">"nominal p"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding missing grouping variables: `Analysis`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   Analysis [3]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis                                Bound     Z `~HR at bound` `Nominal p`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Analysis: 1 Time: 11.7 N: 479.6 Event:… Futi… -<span style="color: #BB0000;">0.94</span>          1.19       0.826 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Analysis: 1 Time: 11.7 N: 479.6 Event:… Effi…  3.71          0.510      0.000<span style="text-decoration: underline;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Analysis: 2 Time: 20.3 N: 493.1 Event:… Futi…  0.63          0.923      0.266 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Analysis: 2 Time: 20.3 N: 493.1 Event:… Effi…  2.51          0.725      0.006 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Analysis: 3 Time: 36 N: 493.1 Event: 3… Futi…  1.99          0.812      0.023<span style="text-decoration: underline;">3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Analysis: 3 Time: 36 N: 493.1 Event: 3… Effi…  1.99          0.812      0.023<span style="text-decoration: underline;">1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Customize columns and digits</span></span></span>
+<span class="r-in"><span><span class="va">x_ahr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span>col_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z"</span>, <span class="st">"~hr at bound"</span>, <span class="st">"nominal p"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                  col_decimals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding missing grouping variables: `Analysis`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   Analysis [3]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis                               Bound      Z `~HR at bound` `Nominal p`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Analysis: 1 Time: 11.7 N: 479.6 Event… Futi… -<span style="color: #BB0000;">0.938</span>           1.19        0.83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Analysis: 1 Time: 11.7 N: 479.6 Event… Effi…  3.71            0.51        0   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Analysis: 2 Time: 20.3 N: 493.1 Event… Futi…  0.626           0.92        0.27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Analysis: 2 Time: 20.3 N: 493.1 Event… Effi…  2.51            0.72        0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Analysis: 3 Time: 36 N: 493.1 Event: … Futi…  1.99            0.81        0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Analysis: 3 Time: 36 N: 493.1 Event: … Effi…  1.99            0.81        0.02</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2 ----</span></span></span>
