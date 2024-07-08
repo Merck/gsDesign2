@@ -26,7 +26,7 @@ cutoff; this can be a single value or a vector of positive numbers.}
 }
 \value{
 A data frame with \code{time} (from \code{total_duration}),
-\code{ahr} (average hazard ratio), \code{event} (expected number of events),
+\code{ahr} (average hazard ratio), \code{n} (sample size), \code{event} (expected number of events),
 \code{info} (information under given scenarios), \code{and} info0
 (information under related null hypothesis) for each value of
 \code{total_duration} input.
