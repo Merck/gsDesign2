@@ -127,7 +127,7 @@ expected_time <- function(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       total_duration = res$root, ratio = ratio
     )
-    return(ans)
+    return(ans |> select(-n))
   }
 }
 
