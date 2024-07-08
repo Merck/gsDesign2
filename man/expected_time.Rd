@@ -10,7 +10,7 @@ expected_time(
     log(2)/c(9, 18), hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
   target_event = 150,
   ratio = 1,
-  interval = c(0.01, 100)
+  interval = c(0.01, 1000)
 )
 }
 \arguments{

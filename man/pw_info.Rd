@@ -9,7 +9,8 @@ pw_info(
   fail_rate = define_fail_rate(duration = c(3, 100), fail_rate = log(2)/c(9, 18), hr =
     c(0.9, 0.6), dropout_rate = 0.001),
   total_duration = 30,
-  ratio = 1
+  ratio = 1,
+  display_n = TRUE
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 cutoff; this can be a single value or a vector of positive numbers.}
 
 \item{ratio}{Ratio of experimental to control randomization.}
+
+\item{display_n}{Logical values indicating whether the column \code{n} (sample size)
+is displayed as output}
 }
 \value{
 A data frame with \code{time} (from \code{total_duration}), \code{stratum}, \code{t},

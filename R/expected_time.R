@@ -3,7 +3,7 @@
 #
 #  This file is part of the gsDesign2 program.
 #
-#  gsDesign2 is free software: you can redistribute it and/or modify
+#  gsDesign2 is free software: you can re-distribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.

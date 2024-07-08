@@ -188,11 +188,6 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   # check of inputted sample size
   input_sample_size <- sum(enroll_rate$rate * enroll_rate$duration)
 
-  if (!is_wholenumber(input_sample_size)) {
-    stop("gs_power_wlr: please input integer sample size, i.e.,
-         the summation of rate and duration of the enroll_rate should be an integer.")
-  }
-
   # Check if user input the total spending for futility,
   # if they use spending function for futility
   if (identical(lower, gs_spending_bound) && is.null(lpar$total_spend)) {
