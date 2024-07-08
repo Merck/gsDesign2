@@ -32,7 +32,7 @@
 #' @param ratio Ratio of experimental to control randomization.
 #'
 #' @return A data frame with `time` (from `total_duration`),
-#'   `ahr` (average hazard ratio), `event` (expected number of events),
+#'   `ahr` (average hazard ratio), `n` (sample size), `event` (expected number of events),
 #'   `info` (information under given scenarios), `and` info0
 #'   (information under related null hypothesis) for each value of
 #'   `total_duration` input.
@@ -120,10 +120,11 @@ ahr <- function(
   # make the above output as a data.table
   setDT(res)
 
-  # summareize the above results by time
+  # summarize the above results by time
   ans <- res[,
     .(
       ahr = exp(sum(log(hr) * event) / sum(event)),
+      n = sum(n),
       event = sum(event),
       info = sum(info),
       info0 = sum(info0)
