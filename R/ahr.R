@@ -91,7 +91,7 @@
 #' )
 #' fail_rate <- define_fail_rate(
 #'   stratum = c(rep("Low", 2), rep("High", 2)),
-#'   duration = 1,
+#'   duration = c(1, Inf, 1, Inf),
 #'   fail_rate = c(.1, .2, .3, .4),
 #'   dropout_rate = .001,
 #'   hr = c(.9, .75, .8, .6)

@@ -21,9 +21,19 @@ test_that("time to targeted events", {
 })
 
 test_that("default", {
-  x1 <- expected_time()
-  x2 <- tEvents_() %>% dplyr::rename(time = Time, ahr = AHR, event = Events)
-  expect_equal(x1, as.data.frame(x2))
+  enroll_rate <- define_enroll_rate(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
+
+  x1 <- expected_time(enroll_rate = enroll_rate)
+  x2 <- tEvents_(enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum)) %>%
+    dplyr::rename(time = Time, ahr = AHR, event = Events)
+
+  # test columns without n (sample size)
+  expect_equal(x1 %>% dplyr::select(-n), as.data.frame(x2))
+
+  # test the column of n (sample size)
+  expect_equal(x1$n,
+               expected_accrual(enroll_rate = enroll_rate,
+                                time = x1$time))
 })
 
 test_that("time to targeted events by new/old version", {
@@ -47,5 +57,12 @@ test_that("time to targeted events by new/old version", {
     targetEvents = 200
   ) %>%
     dplyr::rename(time = Time, ahr = AHR, event = Events)
-  expect_equal(x1, as.data.frame(x2))
+
+  # test columns without n (sample size)
+  expect_equal(x1|> select(-n), as.data.frame(x2))
+
+  # test the column of n (sample size)
+  expect_equal(x1$n,
+               expected_accrual(enroll_rate = enroll_rate,
+                                time = x1$time))
 })
