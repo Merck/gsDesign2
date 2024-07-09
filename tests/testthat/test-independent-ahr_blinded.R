@@ -1,4 +1,3 @@
-
 test_that("hr vector must be a vector of positive numbers", {
     expect_error(ahr_blinded(hr = c(1, -2, 3)), "ahr_blinded: hr must be a vector of positive numbers.")
     expect_error(ahr_blinded(hr = "abc"), "ahr_blinded: hr must be a vector of positive numbers.")
