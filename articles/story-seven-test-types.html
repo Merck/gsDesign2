@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="gsDesign2">
 <title>Computing spending boundaries in group sequential design • gsDesign2</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -15,62 +14,42 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Computing spending boundaries in group sequential design">
-<meta property="og:description" content="gsDesign2">
-<meta property="og:image" content="https://merck.github.io/gsDesign2/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.14</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.15</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../articles/gsDesign2.html">Get started</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/index.html">Articles</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../articles/gsDesign2.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/Merck/gsDesign2/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Merck/gsDesign2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -84,7 +63,7 @@
 and Yujie Zhao</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/HEAD/vignettes/articles/story-seven-test-types.Rmd" class="external-link"><code>vignettes/articles/story-seven-test-types.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/main/vignettes/articles/story-seven-test-types.Rmd" class="external-link"><code>vignettes/articles/story-seven-test-types.Rmd</code></a></small>
       <div class="d-none name"><code>story-seven-test-types.Rmd</code></div>
     </div>
 
@@ -107,10 +86,12 @@ proportional hazards assumptions to compare with
 <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>. Since the sample size methods differ
 between the <code><a href="../reference/gs_design_ahr.html">gsDesign2::gs_design_ahr()</a></code> and
 <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code> functions, we use continuous sample
-sizes so that spending bounds (Z-values, nominal <span class="math inline">\(p\)</span>-values, spending) should be identical
-except where noted. Indeed, we are able to reproduce bounds to a high
-degree of accuracy. Due to the different sample size methods, sample
-size and other boundary approximations vary slightly.</p>
+sizes so that spending bounds (Z-values, nominal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values,
+spending) should be identical except where noted. Indeed, we are able to
+reproduce bounds to a high degree of accuracy. Due to the different
+sample size methods, sample size and other boundary approximations vary
+slightly.</p>
 <p>We also present a seventh example to implement a futility bound based
 on observed hazard ratio as well as a Haybittle-Peto-like efficacy
 bound. In particular, the futility bound would be difficult to implement
@@ -742,10 +723,11 @@ approximately 6 digits with precision parameters chosen
 <h3 id="example-2-symmetric-2-sided-design">Example 2: Symmetric 2-sided design<a class="anchor" aria-label="anchor" href="#example-2-symmetric-2-sided-design"></a>
 </h3>
 <p>We now derive a symmetric 2-sided design. This requires use of the
-argument <code>h1_spending = FALSE</code> to use <span class="math inline">\(\alpha\)</span>-spending for both the upper and
-lower bounds. While the lower bound is labeled as a futility bound in
-the table, it would be better termed an efficacy bound for control
-better than experimental treatment.</p>
+argument <code>h1_spending = FALSE</code> to use
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
+for both the upper and lower bounds. While the lower bound is labeled as
+a futility bound in the table, it would be better termed an efficacy
+bound for control better than experimental treatment.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -1339,13 +1321,14 @@ better than experimental treatment.</p>
 digits of accuracy.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">symmetric</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">Symmetric</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span></span>
-<span><span class="co">#&gt; [1] -1.349247e-07  9.218765e-07  4.092976e-07</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">symmetric</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">Symmetric</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span></span>
+<span><span class="co">#&gt; [1] -1.349247e-07  9.218765e-07  4.092976e-07</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">symmetric</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">Symmetric</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span></span>
 <span><span class="co">#&gt; [1]  1.349247e-07 -9.218765e-07 -4.092976e-07</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility">Example 3: Asymmetric 2-sided design with <span class="math inline">\(\beta\)</span>-spending and binding futility<a class="anchor" aria-label="anchor" href="#example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility"></a>
+<h3 id="example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility">Example 3: Asymmetric 2-sided design with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
+and binding futility<a class="anchor" aria-label="anchor" href="#example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility"></a>
 </h3>
 <p>Designs with binding futility bounds are generally not considered
 acceptable for Phase 3 trials as Type I error is not controlled if a
@@ -1358,7 +1341,7 @@ Phase 2b study, this may be acceptable and results in a slightly smaller
 sample size and less stringent efficacy bounds after the first analysis
 than a comparable design with a non-binding futility bound presented in
 Example 4.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="va">beta</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">.5</span><span class="op">)</span></span>
 <span></span>
@@ -1922,7 +1905,7 @@ Example 4.</p>
 </table>
 </div>
 <p>We compare with <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asymmetricBinding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
 <span>  test.type <span class="op">=</span> <span class="fl">3</span>, <span class="co"># Two-sided asymmetric bound, binding futility</span></span>
 <span>  alpha <span class="op">=</span> <span class="va">alpha</span>, beta <span class="op">=</span> <span class="va">beta</span>, timing <span class="op">=</span> <span class="va">info_frac</span>, T <span class="op">=</span> <span class="va">trial_duration</span>, minfup <span class="op">=</span> <span class="va">minfup</span>, r <span class="op">=</span> <span class="fl">32</span>, tol <span class="op">=</span> <span class="fl">1e-07</span>,</span>
@@ -1950,26 +1933,28 @@ Example 4.</p>
 digits of accuracy in spite of needing to relaxing accuracy to
 <code>tol = 1e-07</code> in the call to <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv()</a></code> in order
 to get convergence.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_binding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricBinding</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span></span>
-<span><span class="co">#&gt; [1] -1.349247e-07  2.505886e-04  6.494369e-03</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_binding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricBinding</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span></span>
+<span><span class="co">#&gt; [1] -1.349247e-07  2.505886e-04  6.494369e-03</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_binding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricBinding</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span></span>
 <span><span class="co">#&gt; [1] -0.02803415 -0.02670908 -0.01598640</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="example-4-asymmetric-2-sided-design-with-beta-spending-and-non-binding-futility-bound">Example 4: Asymmetric 2-sided design with <span class="math inline">\(\beta\)</span>-spending and non-binding futility
-bound<a class="anchor" aria-label="anchor" href="#example-4-asymmetric-2-sided-design-with-beta-spending-and-non-binding-futility-bound"></a>
+<h3 id="example-4-asymmetric-2-sided-design-with-beta-spending-and-non-binding-futility-bound">Example 4: Asymmetric 2-sided design with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
+and non-binding futility bound<a class="anchor" aria-label="anchor" href="#example-4-asymmetric-2-sided-design-with-beta-spending-and-non-binding-futility-bound"></a>
 </h3>
-<p>In the gsDesign package, asymmetric designs with non-binding <span class="math inline">\(\beta\)</span>-spending used for futility are the
-default design. The objectives of this type of design include:</p>
+<p>In the gsDesign package, asymmetric designs with non-binding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
+used for futility are the default design. The objectives of this type of
+design include:</p>
 <ul>
 <li>Meaningful futility bounds to stop a trial early if no treatment
 benefit is emerging for the experimental treatment vs. control.</li>
 <li>Type I error is controlled even if the trial continues after a
 futility bound is crossed.</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="va">beta</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">.5</span><span class="op">)</span></span>
 <span></span>
@@ -2538,7 +2523,7 @@ futility bound is crossed.</li>
 </table>
 </div>
 <p>We compare with <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asymmetricNonBinding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
 <span>  test.type <span class="op">=</span> <span class="fl">4</span>, <span class="co"># Two-sided asymmetric bound, non-binding futility</span></span>
 <span>  alpha <span class="op">=</span> <span class="va">alpha</span>, beta <span class="op">=</span> <span class="va">beta</span>, timing <span class="op">=</span> <span class="va">info_frac</span>, T <span class="op">=</span> <span class="va">trial_duration</span>, minfup <span class="op">=</span> <span class="va">minfup</span>, r <span class="op">=</span> <span class="fl">32</span>, tol <span class="op">=</span> <span class="fl">1e-08</span>,</span>
@@ -2564,11 +2549,10 @@ futility bound is crossed.</li>
 <span><span class="co">#&gt;              P(Cross) if HR=0.7   0.8500   0.1500</span></span></code></pre></div>
 <p>Comparing Z-value bounds directly, we again see approximately 6
 digits of accuracy.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_nonbinding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricNonBinding</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span></span>
-<span><span class="co">#&gt; [1] -1.349247e-07  9.218765e-07  3.515345e-07</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_nonbinding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricNonBinding</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span></span>
+<span><span class="co">#&gt; [1] -1.349247e-07  9.218765e-07  3.515345e-07</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_nonbinding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricNonBinding</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span></span>
 <span><span class="co">#&gt; [1] -0.03267431 -0.03311078 -0.02426999</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -2585,10 +2569,12 @@ argument to eliminate this evaluation at the final analysis. This is
 arbitrary and largely selected so that the interim futility bounds can
 be meaningful tests. In this case, more than a minor trend in favor of
 control at the first or second interim will cross a futility bound. This
-is less stringent than the <span class="math inline">\(\beta\)</span>-spending bounds previously
-described, but still address a potential ethical issue of continuing the
-trial when more than a minor trend in favor of control is present.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+is less stringent than the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
+bounds previously described, but still address a potential ethical issue
+of continuing the trial when more than a minor trend in favor of control
+is present.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">alpha_star</span> <span class="op">&lt;-</span> <span class="fl">.5</span></span>
 <span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="va">alpha_star</span>, param <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -3145,7 +3131,7 @@ trial when more than a minor trend in favor of control is present.</p>
 </tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asymmetricSafetyBinding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
 <span>  test.type <span class="op">=</span> <span class="fl">5</span>, <span class="co"># Two-sided asymmetric bound, binding futility, H0 futility spending</span></span>
 <span>  astar <span class="op">=</span> <span class="va">alpha_star</span>, <span class="co"># Total Type I error spend for futility</span></span>
@@ -3173,11 +3159,10 @@ trial when more than a minor trend in favor of control is present.</p>
 <p>Comparing Z-value bounds directly, we again see approximately 6
 digits of accuracy. For <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv()</a></code> this did not require the
 alternate arguments for <code>r</code> and <code>tol</code>.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_safety_binding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricSafetyBinding</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span></span>
-<span><span class="co">#&gt; [1] -1.349247e-07  9.211210e-07  4.185954e-07</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_safety_binding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricSafetyBinding</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] -1.349247e-07  9.211210e-07  4.185954e-07</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">asymmetric_safety_binding</span><span class="op">$</span><span class="va">bound</span>, <span class="va">bound</span> <span class="op">==</span> <span class="st">"lower"</span><span class="op">)</span><span class="op">$</span><span class="va">z</span> <span class="op">-</span> <span class="va">asymmetricSafetyBinding</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1]  4.348992e-08 -3.276118e-08</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -3190,7 +3175,7 @@ using the <code>test_lower</code> argument. Addition, we show how to
 eliminate the efficacy bound at interim 1 allowing a team to decide that
 it is too early to stop a trial for efficacy without longer-term
 data.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="va">alpha_star</span>, param <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -3751,7 +3736,7 @@ data.</p>
 <p>The corresponding <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code> design is not
 strictly comparable since the option to eliminate some futility and
 efficacy analyses is not enabled.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asymmetricSafetyNonBinding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
 <span>  test.type <span class="op">=</span> <span class="fl">6</span>, <span class="co"># Two-sided asymmetric bound, binding futility, H0 futility spending</span></span>
 <span>  astar <span class="op">=</span> <span class="va">alpha_star</span>, <span class="co"># Total Type I error spend for futility</span></span>
@@ -3797,13 +3782,13 @@ assume we wish to consider stopping for futility if a hazard ratio
 greater than 1 and 0.9 are observed at interim analyses 1 and 2 with 104
 and 209 events observed, respectively. The final analysis is planned for
 300 events.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Targeted events at interim and final analysis</span></span>
 <span><span class="co"># This is based on above designs and then adjusted, as necessary</span></span>
 <span><span class="va">targeted_events</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">104</span>, <span class="fl">209</span>, <span class="fl">300</span><span class="op">)</span></span></code></pre></div>
 <p>We wish to translate the hazard ratios specified to corresponding
 Z-values; this can be done as follows.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">interim_futility_z</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">hrn2z</a></span><span class="op">(</span>hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.9</span><span class="op">)</span>, n <span class="op">=</span> <span class="va">targeted_events</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">interim_futility_z</span></span>
 <span><span class="co">#&gt; [1] 0.0000000 0.7615897</span></span></code></pre></div>
@@ -3812,7 +3797,7 @@ no final futility analysis; this gives us a vector of Z-value bounds for
 all analyses. For this type of bound, Type II error will be computed
 rather based on bounds rather than the spending approach were bounds are
 computed based on specified spending.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lower</span> <span class="op">&lt;-</span> <span class="va">gs_b</span></span>
 <span><span class="co"># Allows specifying fixed Z-values for futility</span></span>
 <span><span class="co"># Translated HR bounds to Z-value scale</span></span>
@@ -3823,7 +3808,7 @@ nominal levels 0.001, 0.001, and 0.023 at the 3 analyses. By not
 accounting for correlations, this will actually not quite use all of the
 0.025 1-sided Type I error allowed. We allow the user to substitute this
 code for what follows to verify this.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="va">gs_b</span></span>
 <span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.001</span>, <span class="fl">.001</span>, <span class="fl">.0023</span><span class="op">)</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>The alternative approach is to use a fixed spending approach at each
@@ -3833,7 +3818,7 @@ piecewise linear spending function to select interim bounds that match
 the desired Haybittle-Peto interim bounds. However, using this approach
 a slightly more liberal final bound is achieved that still controls Type
 I error.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="va">gs_spending_bound</span></span>
 <span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLinear.html" class="external-link">sfLinear</a></span>,</span>
@@ -4401,14 +4386,15 @@ I error.</p>
 </tfoot>
 </table>
 </div>
-<p>We see that the targeted bounds are achieved with nominal <span class="math inline">\(p\)</span>-values of 0.0001 for each interim
-efficacy bound and the targeted hazard ratios at interim futility
-bounds. With these methods, trial designers have more control over
-design characteristics they may desire. In particular, we note that the
-Haybittle-Peto efficacy bounds are less stringent at the first interim
-and more stringent at the second interim than corresponding
-O’Brien-Fleming-like bounds we computed with the spending approach. This
-may or may not be desirable.</p>
+<p>We see that the targeted bounds are achieved with nominal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values
+of 0.0001 for each interim efficacy bound and the targeted hazard ratios
+at interim futility bounds. With these methods, trial designers have
+more control over design characteristics they may desire. In particular,
+we note that the Haybittle-Peto efficacy bounds are less stringent at
+the first interim and more stringent at the second interim than
+corresponding O’Brien-Fleming-like bounds we computed with the spending
+approach. This may or may not be desirable.</p>
 </div>
 </div>
 <div class="section level2">
@@ -4422,14 +4408,14 @@ Clinical Trials</em> 5 (4): 348–61.
 </div>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Keaven Anderson, Yilong Zhang, Yujie Zhao, Jianxiao Yang, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Keaven Anderson, Yilong Zhang, Yujie Zhao, Jianxiao Yang, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">
@@ -4439,9 +4425,9 @@ Clinical Trials</em> 5 (4): 348–61.
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>
