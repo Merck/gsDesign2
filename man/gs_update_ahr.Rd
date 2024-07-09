@@ -190,8 +190,18 @@ gs_update_ahr(
   lstime = ustime,
   observed_data = list(observed_data_ia, observed_data_fa))
 
-# alpha is upadted to 0.05
+# Example B5 ----
+# alpha is upadted to 0.05 ----
 gs_update_ahr(x = x, alpha = 0.05)
+
+# Example B6 ----
+# updated boundaries only when IA data is observed
+ustime <- c(observed_event_ia / planned_event_fa, 1)
+gs_update_ahr(
+  x = x,
+  ustime = ustime,
+  lstime = ustime,
+  observed_data = list(observed_data_ia, NULL))
 
 # ------------------------------------------------- #
 # Example C: Two-sided asymmetric design,
