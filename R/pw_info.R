@@ -106,8 +106,8 @@ pw_info <- function(
     for (j in seq_along(strata)) {
       # get the stratum specific enroll rate and failure rate
       s <- strata[j]
-      enroll_rate_s <- enroll_rate |> filter(stratum == s)
-      fail_rate_s <- fail_rate |> filter(stratum == s)
+      enroll_rate_s <- enroll_rate[stratum == s, ]
+      fail_rate_s <- fail_rate[stratum == s, ]
 
       # get the change points of the piecewise exp for the failure rates
       fr_change_point <- fail_rate_s$duration
