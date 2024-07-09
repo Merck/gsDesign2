@@ -127,7 +127,7 @@ gs_info_ahr <- function(
     avehr <- ahr(
       enroll_rate = enroll_rate, fail_rate = fail_rate,
       ratio = ratio, total_duration = analysis_time
-    )
+    ) |> select(-n)
     # check if the output Events is larger enough than the targeted events
     for (i in seq_along(event)) {
       if (avehr$event[i] < event[i]) {

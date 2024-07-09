@@ -16,7 +16,7 @@ test_that("results match if only put in targeted analysis times", {
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
-    )
+    ) |> dplyr::select(-n)
   )
 })
 
@@ -36,7 +36,7 @@ test_that("results match if only put in targeted events", {
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
-    )
+    ) |> dplyr::select(-n)
   )
 
   # Since above test is based on the output "time", here is to check whether
@@ -68,7 +68,7 @@ test_that("results match if put in both analysis time and targeted events", {
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
-    )
+    ) |> dplyr::select(-n)
   )
 
   # Since above test is based on the output "Time",

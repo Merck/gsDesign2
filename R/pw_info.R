@@ -57,7 +57,7 @@
 #' )
 #' fail_rate <- define_fail_rate(
 #'   stratum = c(rep("Low", 2), rep("High", 2)),
-#'   duration = 1,
+#'   duration = c(1, Inf, 1, Inf),
 #'   fail_rate = c(.1, .2, .3, .4),
 #'   dropout_rate = .001,
 #'   hr = c(.9, .75, .8, .6)
@@ -80,8 +80,9 @@ pw_info <- function(
     ),
     total_duration = 30,
     ratio = 1) {
-
-  # Check input values
+  # -------------------------------------- #
+  #    Check input values                  #
+  # -------------------------------------- #
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
@@ -95,20 +96,52 @@ pw_info <- function(
   # -------------------------------------- #
   #   compute expected accrual over time   #
   # -------------------------------------- #
-  pw_hr_time <- cumsum(fail_rate$duration)
+  # calculate the sample size accrual during the interval
+  tbl_n <- NULL
+  strata <- unique(enroll_rate$stratum)
 
-  # build a table for start/end time of the piecewise HR model
-  tbl_time <- data.frame(t_start = c(0, pw_hr_time)[1:length(pw_hr_time)],
-                         t_end = c(0, cumsum(fail_rate$duration))[-1])
+  for (i in seq_along(total_duration)) {
+    td <- total_duration[i]
 
-  # remove the Inf time
-  pw_hr_time <- pw_hr_time[is.finite(pw_hr_time)]
-  n_time <- sort(unique(c(total_duration, pw_hr_time)))
+    for (j in seq_along(strata)) {
+      # get the stratum specific enroll rate and failure rate
+      s <- strata[j]
+      enroll_rate_s <- enroll_rate[stratum == s, ]
+      fail_rate_s <- fail_rate[stratum == s, ]
 
-  # calculate the expected accrual
-  n <- expected_accrual(time = n_time,
-                        enroll_rate = enroll_rate)
-  tbl_n <- data.frame(time = n_time, n = n)
+      # get the change points of the piecewise exp for the failure rates
+      fr_change_point <- fail_rate_s$duration
+      # make the last change point into around 1e6
+      if (is.infinite(max(fr_change_point))) {
+        fr_change_point <- fr_change_point[is.finite(fr_change_point)]
+        fr_change_point <- c(fr_change_point, max(total_duration) +  1e6)
+      } else {
+        fr_change_point <- fr_change_point[-length(fr_change_point)]
+        fr_change_point <- c(fr_change_point, max(total_duration) + 1e6)
+      }
+      temp_fr_change_point <- fr_change_point[which(fr_change_point < td)]
+
+      # get the starting time of each pwexp interval
+      start_time_fr <- c(0, cumsum(fr_change_point)[-length(fr_change_point)])
+
+      # calculate the cumulative accrual before the td
+      # cut by the change points from the pwexp dist of the failure rates
+      cum_n <- expected_accrual(time = c(cumsum(temp_fr_change_point), td),
+                                enroll_rate = enroll_rate_s)
+
+      # get the accrual during the interval
+      n <- diff(c(0, cum_n))
+
+      # build the accrual table
+      tbl_n_new <- data.frame(time = rep(td, length(n)),
+                              t = start_time_fr[start_time_fr <= td],
+                              stratum = rep(s, length(n)),
+                              n = n)
+
+      tbl_n <- rbind(tbl_n, tbl_n_new)
+    }
+  }
+
 
   # -------------------------------------- #
   #   compute expected events over time    #
@@ -193,21 +226,20 @@ pw_info <- function(
     ]
     ans_list[[i + j]] <- event
   }
-  ans <- rbindlist(ans_list)
+  tbl_event <- rbindlist(ans_list)
 
-  # output the results
-  ans <- ans[, .(time, stratum, t, hr, event, info, info0)]
+  # -------------------------------------- #
+  #    output the results                  #
+  # -------------------------------------- #
+  ans <- merge(tbl_event, tbl_n, by = c("time", "t", "stratum"))
+  ans <- ans[, .(time, stratum, t, hr, n, event, info, info0)]
+
+  # row re-ordering
   setorderv(ans, cols = c("time", "stratum"))
   ans <- ans[order(t), .SD, by = .(time, stratum)]
 
   # filter out the rows with 0 events
   ans <- ans[!is_almost_k(event, 0L)]
-
-  # add a column of expected accrual
-  ans <- merge(ans, tbl_time, by.x = "t", by.y = "t_start")
-  ans[, t_min := pmin(time, t_end)]
-  ans <- merge(ans, tbl_n, by.x = "t_min", by.y = "time")
-  ans[, c("t_end", "t_min") := NULL]
   setcolorder(ans, neworder = c("time", "stratum", "t", "hr", "n", "event", "info", "info0"))
 
   setDF(ans)
