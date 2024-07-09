@@ -389,8 +389,8 @@ upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = 
 lpar <- list(sf = gsDesign::sfHSD, total_spend = .1, param = -2, timing = NULL, theta = NULL)
 
 nph_asymmetric <- gs_design_ahr(
-  enroll_rate = enroll_rate,
-  fail_rate = fail_rate,
+  enroll_rate = enroll_rate |> filter(Scenario == "Shorter delayed effect"),
+  fail_rate = fail_rate |> filter(Scenario == "Shorter delayed effect"),
   ratio = 1, alpha = .025, beta = 0.1,
   # Information fraction not required (but available!)
   analysis_time = analysis_time,
