@@ -194,7 +194,7 @@
 #'   observed_data = list(observed_data_ia, observed_data_fa))
 #'
 #' # Example B5 ----
-#' # alpha is upadted to 0.05 ----
+#' # alpha is updated to 0.05 ----
 #' gs_update_ahr(x = x, alpha = 0.05)
 #'
 #' # Example B6 ----
