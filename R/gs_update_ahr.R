@@ -193,8 +193,18 @@
 #'   lstime = ustime,
 #'   observed_data = list(observed_data_ia, observed_data_fa))
 #'
-#' # alpha is upadted to 0.05
+#' # Example B5 ----
+#' # alpha is updated to 0.05 ----
 #' gs_update_ahr(x = x, alpha = 0.05)
+#'
+#' # Example B6 ----
+#' # updated boundaries only when IA data is observed
+#' ustime <- c(observed_event_ia / planned_event_fa, 1)
+#' gs_update_ahr(
+#'   x = x,
+#'   ustime = ustime,
+#'   lstime = ustime,
+#'   observed_data = list(observed_data_ia, NULL))
 #'
 #' # ------------------------------------------------- #
 #' # Example C: Two-sided asymmetric design,
@@ -224,19 +234,9 @@ gs_update_ahr <- function(
     lstime = NULL,
     observed_data = NULL) {
 
-  # Get the total number of analyses ----
-  n_analysis <- nrow(x$analysis)
-
-  # Check if is efficacy only
-  one_sided <- all(x$bound$bound == "upper")
-
-  # Check if futility bound is fixed. In other words, check if is the provided
-  # function to compute lower bounds equivalent to gsDesign2::gs_b()
-  gs_b_observed <- try(x$input$lower(par = 4:2, k = 2), silent = TRUE)
-  gs_b_expected <- gs_b(par = 4:2, k = 2)
-  fixed_futility_bound <- identical(gs_b_observed, gs_b_expected)
-
-  # Check inputs ----
+  # ----------------------------------- #
+  #         Check inputs                #
+  # ----------------------------------- #
   if (is.null(x)) {
     stop("gs_update_ahr(): please input the original design created either by gs_design_ahr or gs_power_ahr.")
   }
@@ -245,15 +245,28 @@ gs_update_ahr <- function(
     stop("gs_update_ahr(): the original design must be created either by gs_design_ahr, gs_power_ahr, gs_design_wlr, or gs_power_wlr.")
   }
 
+  # Check if is efficacy only
+  one_sided <- all(x$bound$bound == "upper")
   if (one_sided && !is.null(lstime)) {
     stop("gs_update_ahr(): lstime is not needed for one-sided design.")
   }
 
+  # Check if futility bound is fixed. In other words, check if is the provided
+  # function to compute lower bounds equivalent to gsDesign2::gs_b()
+  gs_b_observed <- try(x$input$lower(par = 4:2, k = 2), silent = TRUE)
+  gs_b_expected <- gs_b(par = 4:2, k = 2)
+  fixed_futility_bound <- identical(gs_b_observed, gs_b_expected)
   if (fixed_futility_bound && !is.null(lstime)) {
     stop("gs_update_ahr(): lstime is not needed for two-sided design with fixed futility bounds.")
   }
 
-  # Get the updated alpha ----
+  # ----------------------------------- #
+  #         Get parameters              #
+  # ----------------------------------- #
+  # Get the total number of analyses
+  n_analysis <- nrow(x$analysis)
+
+  # Get the updated alpha
   if (is.null(alpha) && !is.null(x$input$alpha)) {
     alpha_update <- x$input$alpha
   } else if (is.null(alpha) && is.null(x$input$alpha)) {
@@ -262,7 +275,12 @@ gs_update_ahr <- function(
     alpha_update <- alpha
   }
 
-  # If users do not input observed data ----
+  # ----------------------------------- #
+  #         Scenario 1:                 #
+  #       At design stage,              #
+  #       with different alpha          #
+  # ----------------------------------- #
+  # If users do not input observed data
   # which means they are still at the design stage
   # but with different alpha
   if (is.null(observed_data)) {
@@ -302,7 +320,12 @@ gs_update_ahr <- function(
                                  test_lower = x$input$test_lower,
                                  binding = x$input$binding)
   } else {
-    # Calculate the blinded estimation of AHR ----
+    # ----------------------------------- #
+    #         Scenario 2:                 #
+    #       At analysis stage,            #
+    #       with different alpha          #
+    # ----------------------------------- #
+    # Get the piecewise exp model for the failure rates
     fr_duration <- x$input$fail_rate$duration
     fr_hr <- x$input$fail_rate$hr
     all_t <- sort(c(fr_duration, x$analysis$time))
@@ -315,19 +338,34 @@ gs_update_ahr <- function(
 
     pw_hr <- stepfun(x = hr_interval, y = c(fr_hr, last(fr_hr)), right = TRUE)
 
+    # Calculate the blinded estimation of AHR
     blinded_est <- NULL
     observed_event <- NULL
     for (i in 1:n_analysis) {
-      blinded_est_new <- ahr_blinded(surv = survival::Surv(time = observed_data[[i]]$tte,
-                                                           event = observed_data[[i]]$event),
-                                     intervals = all_t[all_t <= x$analysis$time[i]],
-                                     hr = pw_hr(all_t[all_t <= x$analysis$time[i]]),
-                                     ratio = x$input$ratio)
+      if (is.null(observed_data[[i]])) {
+        # if there is no observed data at analysis i,
+        # for example, we only observed IA data and FA data is unavailable yet
+        blinded_est_new <- data.frame(event = x$analysis$event[i],
+                                      ahr = x$analysis$ahr[i],
+                                      theta = x$analysis$theta[i],
+                                      info0 = x$analysis$info0[i])
+        event_new <- x$analysis$event[i]
+      } else {
+        # if there is observed data at analysis i,
+        # we calculate the blinded estimation
+        blinded_est_new <- ahr_blinded(surv = survival::Surv(time = observed_data[[i]]$tte,
+                                                             event = observed_data[[i]]$event),
+                                       intervals = all_t[all_t <= x$analysis$time[i]],
+                                       hr = pw_hr(all_t[all_t <= x$analysis$time[i]]),
+                                       ratio = x$input$ratio)
+        event_new <- sum(observed_data[[i]]$event)
+      }
+
       blinded_est <- rbind(blinded_est, blinded_est_new)
-      observed_event <- c(observed_event, sum(observed_data[[i]]$event))
+      observed_event <- c(observed_event, event_new)
     }
 
-    # Update timing ---
+    # Update timing
     upar_update  <- x$input$upar
     lpar_update <- x$input$lpar
 
@@ -342,7 +380,7 @@ gs_update_ahr <- function(
 
     upar_update$total_spend <- alpha_update
 
-    # Update boundaries and crossing prob under H0 ---
+    # Update boundaries and crossing prob under H0
     x_updated_h0 <- gs_power_npe(theta = 0,
                                  theta0 = 0,
                                  theta1 = blinded_est$theta,
@@ -354,7 +392,7 @@ gs_update_ahr <- function(
                                  test_lower = x$input$test_lower,
                                  binding = x$input$binding)
 
-    # Update boundaries and crossing prob under H1 ---
+    # Update boundaries and crossing prob under H1
     x_updated_h1 <- gs_power_npe(theta = blinded_est$theta,
                                  theta0 = 0,
                                  theta1 = blinded_est$theta,
@@ -367,7 +405,9 @@ gs_update_ahr <- function(
                                  binding = x$input$binding)
   }
 
-  # Tidy outputs
+  # ----------------------------------- #
+  #         Tidy outputs                #
+  # ----------------------------------- #
   ans <- list()
 
   ans$enroll_rate <- x$enroll_rate
