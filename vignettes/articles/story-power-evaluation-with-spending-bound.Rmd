@@ -74,7 +74,7 @@ We assume
 -   $n_{ik}$: the number of subjects in group $i$ and analysis $k$;
 -   $n_k$: the number of subjects at analysis $k$, i.e., $n_k = n_{1k} + n_{2k}$;
 -   $X_{ij}$: the independent random variable whether the $j$-th subject in group $i$ has response, i.e, $$
-    X_{ij} \sim \hbox{Bernoulli}(p_i);
+    X_{ij} \sim \text{Bernoulli}(p_i);
     $$
 -   $Y_{ik}$: the number of subject having response in group $i$ and analysis $k$, i.e., $$
     Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
@@ -89,13 +89,13 @@ In this section, we will discuss the estimation of statistical information and v
 Under the alternative hypothesis, one can estimate the proportion of failures in group $i$ at analysis $k$ as $$
   \hat{p}_{ik} = Y_{ik}/n_{ik}.
 $$ We note its variance is $$
- \hbox{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
+ \text{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
 $$ and its consistent estimator $$
-  \widehat{\hbox{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat p_{ik})}{n_{ik}},
+  \widehat{\text{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat p_{ik})}{n_{ik}},
 $$ for any $i = 1, 2$ and $k = 1, 2, \ldots, K$. Letting $\hat\theta_k = \hat p_{1k} - \hat p_{2k},$ we also have $$
   \sigma^2_k
   \equiv
-  \hbox{Var}(\hat\theta_k)
+  \text{Var}(\hat\theta_k)
   =
   \frac{p_1(1-p_1)}{n_{1k}}+\frac{p_2(1-p_2)}{n_{2k}},
 $$ its consistent estimator $$
@@ -162,7 +162,7 @@ Then, we have the asymptotic distribution
 $$
   Z_k
   \sim
-  \hbox{Normal}
+  \text{Normal}
   \left(
     \sqrt{n_k}\frac{p_1 - p_2}{\sqrt{(1/\xi_1+ 1/\xi_2) p_0(1- p_0)} },
     \sigma^2_{0k}/\sigma^2_{1k}
