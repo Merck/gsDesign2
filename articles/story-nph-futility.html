@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Futility bounds at design and analysis under non-proportional hazards">
 </head>
 <body>
@@ -81,15 +82,12 @@ Anderson</h4>
 <p>We set up futility bounds under a non-proportional hazards
 assumption. We consider methods presented by <span class="citation">Korn
 and Freidlin (2018)</span> for setting such bounds and then consider an
-alternate futility bound based on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>−</mo></mrow><annotation encoding="application/x-tex">\beta-</annotation></semantics></math>spending
-under a delayed or crossing treatment effect to simplify implementation.
-Finally, we show how to update this
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>−</mo></mrow><annotation encoding="application/x-tex">\beta-</annotation></semantics></math>spending
-bound based on blinded interim data. We will consider an example to
-reproduce a line of <span class="citation">Korn and Freidlin
-(2018)</span> Table 1 with the alternative futility bounds
-considered.</p>
+alternate futility bound based on <span class="math inline">\beta-</span>spending under a delayed or crossing
+treatment effect to simplify implementation. Finally, we show how to
+update this <span class="math inline">\beta-</span>spending bound based
+on blinded interim data. We will consider an example to reproduce a line
+of <span class="citation">Korn and Freidlin (2018)</span> Table 1 with
+the alternative futility bounds considered.</p>
 <div class="section level3">
 <h3 id="initial-design-set-up-for-fixed-analysis">Initial design set-up for fixed analysis<a class="anchor" aria-label="anchor" href="#initial-design-set-up-for-fixed-analysis"></a>
 </h3>
@@ -620,23 +618,20 @@ computed automatically.</p>
 accrue if the observed HR &gt; 1. kornfreidlin2018 modified this by
 adding a second interim analysis after 75% of planned events and stop if
 the observed HR &gt; 1 This is implemented here by requiring a trend in
-favor of control with a direction
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>-bound
-at 0 resulting in the <em>Nominal p</em> bound being 0.5 for interim
-analyses in the table below. A fixed bound is specified with the
-<code><a href="../reference/gs_b.html">gs_b()</a></code> function for <code>upper</code> and
-<code>lower</code> and its corresponding parameters <code>upar</code>
-for the upper (efficacy) bound and <code>lpar</code> for the lower
-(futility) bound. The final efficacy bound is for a 1-sided nominal
-p-value of 0.025; the futility bound lowers this to 0.0247 as noted in
-the lower-right-hand corner of the table below. It is &lt; 0.025 since
-the probability is computed with the binding assumption. This is an
-arbitrary convention; if the futility bound is ignored, this computation
-yields 0.025. In the last row under <em>Alternate hypothesis</em> below
-we see the power is 88.44%. <span class="citation">Korn and Freidlin
-(2018)</span> computed 88.4% power for this design with 100,000
-simulations which estimate the standard error for the power calculation
-to be 0.1%.</p>
+favor of control with a direction <span class="math inline">Z</span>-bound at 0 resulting in the <em>Nominal
+p</em> bound being 0.5 for interim analyses in the table below. A fixed
+bound is specified with the <code><a href="../reference/gs_b.html">gs_b()</a></code> function for
+<code>upper</code> and <code>lower</code> and its corresponding
+parameters <code>upar</code> for the upper (efficacy) bound and
+<code>lpar</code> for the lower (futility) bound. The final efficacy
+bound is for a 1-sided nominal p-value of 0.025; the futility bound
+lowers this to 0.0247 as noted in the lower-right-hand corner of the
+table below. It is &lt; 0.025 since the probability is computed with the
+binding assumption. This is an arbitrary convention; if the futility
+bound is ignored, this computation yields 0.025. In the last row under
+<em>Alternate hypothesis</em> below we see the power is 88.44%. <span class="citation">Korn and Freidlin (2018)</span> computed 88.4% power
+for this design with 100,000 simulations which estimate the standard
+error for the power calculation to be 0.1%.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wieand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
 <span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
@@ -1724,9 +1719,8 @@ to be 0.1%.</p>
 <div class="section level2">
 <h2 id="classical-beta-spending-futility-bound">Classical beta-spending futility bound<a class="anchor" aria-label="anchor" href="#classical-beta-spending-futility-bound"></a>
 </h2>
-<p>A classical
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>−</mo></mrow><annotation encoding="application/x-tex">\beta-</annotation></semantics></math>spending
-bound would assume a constant treatment effect over time using the
+<p>A classical <span class="math inline">\beta-</span>spending bound
+would assume a constant treatment effect over time using the
 proportional hazards assumption. We use the average hazard ratio at the
 fixed design analysis for this purpose.</p>
 </div>

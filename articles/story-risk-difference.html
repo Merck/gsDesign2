@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Group sequential design for binary outcomes">
 </head>
 <body>
@@ -126,218 +127,164 @@ calculations.</li>
 <h2 id="notation">Notation<a class="anchor" aria-label="anchor" href="#notation"></a>
 </h2>
 <ul>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>:
-total number of analyses (including the final analysis) in the group
-sequential design. For fixed design,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">K= 1</annotation></semantics></math>.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>:
-total number of strata. If the population is un-stratified population,
-then
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">S=1</annotation></semantics></math>.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub><annotation encoding="application/x-tex">w_{s,k}</annotation></semantics></math>:
-the <strong>underlying</strong> weight assigned for the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis. WHY SWITCH ORDER OF s, k FROM w?</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub><annotation encoding="application/x-tex">\widehat w_{s,k}</annotation></semantics></math>:
-the <strong>estimated</strong> weight assigned for the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">N_{C,k,s}, N_{E,k,s}</annotation></semantics></math>:
-the <strong>planned</strong> sample size in the control/treatment group
-at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat N_{C,k,s}, \widehat N_{E,k,s}</annotation></semantics></math>:
-the <strong>observed</strong> sample size in the control/treatment group
-at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>:
-<strong>planned</strong> randomization ratio, i.e.,
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mi>/</mi><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mo>∀</mo><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mtext mathvariant="normal">and</mtext><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mi>s</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>S</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
-r = N_{E,k,s} / N_{C,k,s} \;\; \forall k = 1, \ldots, K \;\; \text{and} \;\; s = 1, \ldots, S.
-</annotation></semantics></math></p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{C,s}, p_{E,s}</annotation></semantics></math>:
-the <strong>planned</strong> rate of the control/treatment arm, i.e.,
-the independent observations in the control/treatment group with a
-binary outcome that is observed with probability
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><annotation encoding="application/x-tex">p_{C,s}</annotation></semantics></math>
-at any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>:
-an indicator whether is an outcome is failure (bad outcome) or response
-(good outcome), i.e.,
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mo>−</mo><mn>1</mn></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>&lt;</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">the control arm is better</mtext></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mn>1</mn></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>&gt;</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">the treatment arm is better</mtext></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">
+<li><p><span class="math inline">K</span>: total number of analyses
+(including the final analysis) in the group sequential design. For fixed
+design, <span class="math inline">K= 1</span>.</p></li>
+<li><p><span class="math inline">S</span>: total number of strata. If
+the population is un-stratified population, then <span class="math inline">S=1</span>.</p></li>
+<li><p><span class="math inline">w_{s,k}</span>: the
+<strong>underlying</strong> weight assigned for the <span class="math inline">s</span>-th strata at the <span class="math inline">k</span>-th analysis. WHY SWITCH ORDER OF s, k FROM
+w?</p></li>
+<li><p><span class="math inline">\widehat w_{s,k}</span>: the
+<strong>estimated</strong> weight assigned for the <span class="math inline">s</span>-th strata at the <span class="math inline">k</span>-th analysis.</p></li>
+<li><p><span class="math inline">N_{C,k,s}, N_{E,k,s}</span>: the
+<strong>planned</strong> sample size in the control/treatment group at
+the <span class="math inline">k</span>-th analysis of the <span class="math inline">s</span>-th strata.</p></li>
+<li><p><span class="math inline">\widehat N_{C,k,s}, \widehat
+N_{E,k,s}</span>: the <strong>observed</strong> sample size in the
+control/treatment group at the <span class="math inline">k</span>-th
+analysis of the <span class="math inline">s</span>-th strata.</p></li>
+<li><p><span class="math inline">r</span>: <strong>planned</strong>
+randomization ratio, i.e., <span class="math display">
+r = N_{E,k,s} / N_{C,k,s} \;\; \forall k = 1, \ldots, K \;\; \text{and}
+\;\; s = 1, \ldots, S.
+</span></p></li>
+<li><p><span class="math inline">p_{C,s}, p_{E,s}</span>: the
+<strong>planned</strong> rate of the control/treatment arm, i.e., the
+independent observations in the control/treatment group with a binary
+outcome that is observed with probability <span class="math inline">p_{C,s}</span> at any <span class="math inline">k</span>-th analysis of the <span class="math inline">s</span>-th strata.</p></li>
+<li><p><span class="math inline">d</span>: an indicator whether is an
+outcome is failure (bad outcome) or response (good outcome), i.e., <span class="math display">
 d
 =
 \left\{
 \begin{array}{lll}
-  -1 &amp; \text{if } p_{C,s} &lt; p_{E,s} &amp; \text{the control arm is better}\\
-   1 &amp; \text{if } p_{C,s} &gt; p_{E,s} &amp; \text{the treatment arm is better}\\
+  -1 &amp; \text{if } p_{C,s} &lt; p_{E,s} &amp; \text{the control arm
+is better}\\
+   1 &amp; \text{if } p_{C,s} &gt; p_{E,s} &amp; \text{the treatment arm
+is better}\\
 \end{array}
 \right.
-</annotation></semantics></math> Here we assume if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><msup><mi>s</mi><mo>*</mo></msup><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\exists s^* \in \{1, \ldots, S\}</annotation></semantics></math>,
-s.t.,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><msup><mi>s</mi><mo>*</mo></msup></mrow></msub><mo>&lt;</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><msup><mi>s</mi><mo>*</mo></msup></mrow></msub></mrow><annotation encoding="application/x-tex">p_{C,s^*} &lt; p_{E,s^*}</annotation></semantics></math>,
-then
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>&lt;</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><mo>∀</mo><mi>s</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">p_{C,s} &lt; p_{E,s}, \forall s \in \{1, \ldots, S\}</annotation></semantics></math>,
-and vice versa.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>X</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mi>X</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">X_{C,k,s}, X_{E,k,s}</annotation></semantics></math>:
-random variables indicating the number of subjects failed in
-control/treatment arm, i.e., <span class="math inline">$X_{C,k,s} \sim
-\hbox{Binomial}(N_{C,k,s}, p_{C,k,s})$</span>, <span class="math inline">$X_{E,k,s} \sim \hbox{Binomial}(N_{E,k,s},
-p_{E,k,s})$</span> at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mi>x</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">x_{C,k,s}, x_{E,k,s}</annotation></semantics></math>:
-the observed outcome of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>X</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mi>X</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">X_{C, k, s}, X_{E, k, s}</annotation></semantics></math>
-at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata, respectively.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat p_{C,k,s}, \widehat p_{E,k,s}</annotation></semantics></math>:
-observed rates of the control/treatment group at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata, i.e., <span class="math display">$$
+</span> Here we assume if <span class="math inline">\exists s^* \in \{1,
+\ldots, S\}</span>, s.t., <span class="math inline">p_{C,s^*} &lt;
+p_{E,s^*}</span>, then <span class="math inline">p_{C,s} &lt; p_{E,s},
+\forall s \in \{1, \ldots, S\}</span>, and vice versa.</p></li>
+<li><p><span class="math inline">X_{C,k,s}, X_{E,k,s}</span>: random
+variables indicating the number of subjects failed in control/treatment
+arm, i.e., <span class="math inline">X_{C,k,s} \sim
+\text{Binomial}(N_{C,k,s}, p_{C,k,s})</span>, <span class="math inline">X_{E,k,s} \sim \text{Binomial}(N_{E,k,s},
+p_{E,k,s})</span> at the <span class="math inline">k</span>-th analysis
+of the <span class="math inline">s</span>-th strata.</p></li>
+<li><p><span class="math inline">x_{C,k,s}, x_{E,k,s}</span>: the
+observed outcome of <span class="math inline">X_{C, k, s}, X_{E, k,
+s}</span> at the <span class="math inline">k</span>-th analysis of the
+<span class="math inline">s</span>-th strata, respectively.</p></li>
+<li><p><span class="math inline">\widehat p_{C,k,s}, \widehat
+p_{E,k,s}</span>: observed rates of the control/treatment group at the
+<span class="math inline">k</span>-th analysis of the <span class="math inline">s</span>-th strata, i.e., <span class="math display">
 \widehat p_{C,k,s} = x_{C,k,s} / \widehat N_{C,k,s}.\\
 \widehat p_{E,k,s} = x_{E,k,s} / \widehat N_{E,k,s}.
-$$</span></p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>δ</mi><mi>s</mi><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><annotation encoding="application/x-tex">\delta_{s}^{null}</annotation></semantics></math>:
-the <strong>planned</strong> risk difference under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-at any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata.</p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>δ</mi><mi>s</mi></msub><annotation encoding="application/x-tex">\delta_{s}</annotation></semantics></math>:
-the <strong>planned</strong> risk difference under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>
-at any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata is denoted by
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>δ</mi><mi>s</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+</span></p></li>
+<li><p><span class="math inline">\delta_{s}^{null}</span>: the
+<strong>planned</strong> risk difference under <span class="math inline">H_0</span> at any <span class="math inline">k</span>-th analysis of the <span class="math inline">s</span>-th strata.</p></li>
+<li><p><span class="math inline">\delta_{s}</span>: the
+<strong>planned</strong> risk difference under <span class="math inline">H_1</span> at any <span class="math inline">k</span>-th analysis of the <span class="math inline">s</span>-th strata is denoted by <span class="math display">
 \delta_{s} = |p_{C,s} - p_{E,s}|.
-</annotation></semantics></math></p></li>
-<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>δ</mi><mo accent="true">̂</mo></mover><mi>s</mi></msub><annotation encoding="application/x-tex">\hat\delta_{s}</annotation></semantics></math>:
-estimation of risk difference with
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">
+</span></p></li>
+<li><p><span class="math inline">\hat\delta_{s}</span>: estimation of
+risk difference with <span class="math display">
 \widehat\theta_{k,s} = |\widehat p_{C,k,s} - \widehat p_{E,k,s}|
-</annotation></semantics></math> We have
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>θ</mi><mi>s</mi></msub><mo>,</mo><mspace width="0.278em"></mspace><mo>∀</mo><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">E(\widehat\theta_{k,s}) = \theta_{s}, \;\forall k = 1, \ldots, K</annotation></semantics></math>.</p></li>
+</span> We have <span class="math inline">E(\widehat\theta_{k,s}) =
+\theta_{s}, \;\forall k = 1, \ldots, K</span>.</p></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a>
 </h2>
-<p>The test statistics at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis is
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>k</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msub><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub><mspace width="0.278em"></mspace><mrow><mo stretchy="true" form="prefix">|</mo><msub><mover><mi>δ</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msubsup><mi>δ</mi><mi>s</mi><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">|</mo></mrow></mrow><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow><mn>2</mn></msubsup><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mrow></msqrt></mfrac></mrow><annotation encoding="application/x-tex">
+<p>The test statistics at the <span class="math inline">k</span>-th
+analysis is <span class="math display">
   Z_{k}
   =
   \frac{
-    \sum_{s=1}^S \widehat w_{s,k} \; |\widehat \delta_{k,s} - \delta_{s}^{null} |
+    \sum_{s=1}^S \widehat w_{s,k} \; |\widehat \delta_{k,s} -
+\delta_{s}^{null} |
   }{
     \sqrt{\sum_{s=1}^S \widehat w_{s,k}^2 \widehat\sigma_{H_0,k,s}^2}
   }
-</annotation></semantics></math> where <span class="math inline">$\widehat\sigma^2_{k,s} =
-\widehat{\hbox{Var}}(\widehat p_C -\widehat p_E)$</span>. And the value
-of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><annotation encoding="application/x-tex">\widehat\sigma^2_{k,s}</annotation></semantics></math>
-depends on the hypothesis and design, i.e., whether it is a superiority
-design, or non-inferiority design, or super-superiority design. We will
-discuss
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><annotation encoding="application/x-tex">\widehat\sigma^2_{k,s}</annotation></semantics></math>
-in the following 3 subsections.</p>
+</span> where <span class="math inline">\widehat\sigma^2_{k,s} =
+\widehat{\text{Var}}(\widehat p_C -\widehat p_E)</span>. And the value
+of <span class="math inline">\widehat\sigma^2_{k,s}</span> depends on
+the hypothesis and design, i.e., whether it is a superiority design, or
+non-inferiority design, or super-superiority design. We will discuss
+<span class="math inline">\widehat\sigma^2_{k,s}</span> in the following
+3 subsections.</p>
 <div class="section level3">
 <h3 id="superiority-design">Superiority Design<a class="anchor" aria-label="anchor" href="#superiority-design"></a>
 </h3>
-<p>A superiority design
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>δ</mi><mi>s</mi><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\delta_{s}^{null} = 0</annotation></semantics></math>)
-is to show that experimental group is superior to the control group
-above some thresholds. Its hypothesis is
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><msub><mi>δ</mi><mi>s</mi></msub><mo>=</mo><mn>0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> vs. </mtext><mspace width="0.333em"></mspace></mrow><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><msub><mi>δ</mi><mi>s</mi></msub><mo>&gt;</mo><mn>0</mn><mo>,</mo><mspace width="0.278em"></mspace><mo>∀</mo><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi><mo>,</mo><mi>s</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">
-  H_0: \delta_{s} = 0 \text{ vs. } H_1: \delta_{s} &gt; 0, \; \forall k = 1, \ldots, K, s = 1, \ldots, S
-</annotation></semantics></math></p>
+<p>A superiority design (<span class="math inline">\delta_{s}^{null} =
+0</span>) is to show that experimental group is superior to the control
+group above some thresholds. Its hypothesis is <span class="math display">
+  H_0: \delta_{s} = 0 \text{ vs. } H_1: \delta_{s} &gt; 0, \; \forall k
+= 1, \ldots, K, s = 1, \ldots, S
+</span></p>
 <ul>
 <li>
 <p><strong>Variance per strata per analysis:</strong></p>
 <ul>
-<li><p>Under the null hypothesis, we have
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mi>σ</mi><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>C</mi></msub><mo>−</mo><msub><mi>p</mi><mi>E</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mover><mtext mathvariant="normal">Var</mtext><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mi>C</mi></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mi>E</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<li><p>Under the null hypothesis, we have <span class="math display">
 \begin{array}{ll}
 \sigma^2_{H_0,k,s}
 &amp; =
 \text{Var}(p_C - p_E | H_0)
 =
-p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right), \\
+p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
+\left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right), \\
 \widehat\sigma^2_{H_0,k,s}
 &amp; =
 \widehat{\text{Var}}(\hat p_C - \hat p_E | H_0)
 =
-\widehat p_{k,s}^{pool} \left(1 - \widehat p^{pool}_{k,s} \right) \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right),
+\widehat p_{k,s}^{pool} \left(1 - \widehat p^{pool}_{k,s} \right)
+\left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right),
 \end{array}
-</annotation></semantics></math> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p_{k,s}^{pool} = (p_{C,s} N_{C,k,s} + p_{E,s} N_{E,k,s}) / (N_{C,k,s} + N_{E,k,s})</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>x</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\widehat p_{k,s}^{pool} = (x_{C,k,s} + x_{E,k,s}) / (\widehat N_{C,k,s} + \widehat N_{E,k,s}).</annotation></semantics></math></p></li>
-<li><p>Under the alternative hypothesis, we have
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mi>σ</mi><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>C</mi></msub><mo>−</mo><msub><mi>p</mi><mi>E</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mover><mtext mathvariant="normal">Var</mtext><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mi>C</mi></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mi>E</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
+</span> where <span class="math inline">p_{k,s}^{pool} = (p_{C,s}
+N_{C,k,s} + p_{E,s} N_{E,k,s}) / (N_{C,k,s} + N_{E,k,s})</span> and
+<span class="math inline">\widehat p_{k,s}^{pool} = (x_{C,k,s} +
+x_{E,k,s}) / (\widehat N_{C,k,s} + \widehat N_{E,k,s}).</span></p></li>
+<li><p>Under the alternative hypothesis, we have <span class="math display">
 \begin{array}{ll}
 \sigma_{H_1,k,s}^2
 &amp; =
 \text{Var}(p_C - p_E | H_1)
 =
-\frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}} \\
+\frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 -
+p_{E,s})}{N_{E,k,s}} \\
 \widehat\sigma_{H_1,k,s}^2
 &amp; =
 \widehat{\text{Var}}(\hat p_C - \hat p_E | H_1)
 =
-\frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}
+\frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} +
+\frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}
 \end{array}
-</annotation></semantics></math> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msub><mi>x</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mi>/</mi><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> and </mtext><mspace width="0.333em"></mspace></mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msub><mi>x</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mi>/</mi><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat p_{C,k,s} = x_{C,k,s} / N_{C,k,s} \text{ and } \widehat p_{E,k,s} = x_{E,k,s} / N_{E,k,s}</annotation></semantics></math>.
-Testing will be one-sided at level
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>∈</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha \in (0, 1)</annotation></semantics></math>
-and the null hypothesis will be rejected if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>k</mi></msub><annotation encoding="application/x-tex">Z_k</annotation></semantics></math>
-cross the upper boundary. And the upper boundary can be either fixed or
-derived from spending functions.</p></li>
+</span> where <span class="math inline">\widehat p_{C,k,s} = x_{C,k,s} /
+N_{C,k,s} \text{ and } \widehat p_{E,k,s} = x_{E,k,s} /
+N_{E,k,s}</span>. Testing will be one-sided at level <span class="math inline">\alpha \in (0, 1)</span> and the null hypothesis
+will be rejected if <span class="math inline">Z_k</span> cross the upper
+boundary. And the upper boundary can be either fixed or derived from
+spending functions.</p></li>
 </ul>
 </li>
 <li>
 <p><strong>Standardized treatment effect per analysis:</strong></p>
 <ul>
-<li><p>Under the null hypothesis, we have <span class="math display">$$
+<li><p>Under the null hypothesis, we have <span class="math display">
 \theta_{H_0,k} = 0 \\
 \widehat \theta_{H_0,k} = 0
-$$</span></p></li>
-<li><p>Under the alternative hypothesis, we have
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="left" style="text-align: left"><msub><mi>θ</mi><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msub><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><msubsup><mi>σ</mi><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mrow></msqrt></mfrac></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msub><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mi>C</mi></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mi>E</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mrow></msqrt></mfrac><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+</span></p></li>
+<li><p>Under the alternative hypothesis, we have <span class="math display">
 \begin{array}{ll}
 \theta_{H_1,k}
-&amp; = \frac{\sum_{s=1}^S w_{k,s} (p_{C,s} - p_{E,s})}{\sqrt{\sum_{s=1}^S w_{k,s}^2 \sigma_{H_1, k,s}^2}}\\
+&amp; = \frac{\sum_{s=1}^S w_{k,s} (p_{C,s} -
+p_{E,s})}{\sqrt{\sum_{s=1}^S w_{k,s}^2 \sigma_{H_1, k,s}^2}}\\
 \widehat\theta_{H_1,k}
 &amp; =
 \frac{
@@ -346,24 +293,21 @@ $$</span></p></li>
 \sqrt{\sum_{s=1}^S \widehat w_{k,s}^2 \widehat\sigma_{H_1, k,s}^2}
 }.
 \end{array}
-</annotation></semantics></math></p></li>
+</span></p></li>
 </ul>
 </li>
 <li>
 <p><strong>Standardized information per analysis:</strong></p>
 <p><span class="citation">Lachin (2009)</span> or <span class="citation">Lachin (1981)</span> provide fixed sample size
-calculations based on the values
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ψ</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\psi_0</annotation></semantics></math>
-under the null hypothesis and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ψ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\psi_1</annotation></semantics></math>
+calculations based on the values <span class="math inline">\psi_0</span>
+under the null hypothesis and <span class="math inline">\psi_1</span>
 under the alternate hypothesis. Here we propose using the same variance
 calculations to compute statistical information for a group sequential
 design and apply the formulation for power and sample size calculation
 in the vignette <em>Computing Bounds Under Non-Constant Treatment
 Effect</em>.</p>
 <ul>
-<li><p>Under the null hypothesis, we have
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="left" style="text-align: left"><msub><mi>ℐ</mi><mrow><mi>H</mi><mn>0</mn><mo>,</mo><mi>k</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mrow><mi>H</mi><mn>0</mn><mo>,</mo><mi>k</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><msubsup><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<li><p>Under the null hypothesis, we have <span class="math display">
 \begin{array}{ll}
 \mathcal I_{H0,k}
 &amp; =
@@ -376,13 +320,14 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 &amp; =
 \left[
 \sum_{s=1}^S
-\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}} +
-\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat p_{k,s}^{pool})}{\widehat N_{C,k,s}}
+\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat
+p_{k,s}^{pool})}{\widehat N_{C,k,s}} +
+\widehat w_{k,s}^2 \frac{\widehat p_{k,s}^{pool} (1 - \widehat
+p_{k,s}^{pool})}{\widehat N_{C,k,s}}
 \right]^{-1}
 \end{array}
-</annotation></semantics></math></p></li>
-<li><p>Under the alternative hypothesis, we have
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="left" style="text-align: left"><msub><mi>ℐ</mi><mrow><mi>H</mi><mn>1</mn><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mrow><mi>H</mi><mn>1</mn><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mover><mi>w</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mtd></mtr></mtable><annotation encoding="application/x-tex">
+</span></p></li>
+<li><p>Under the alternative hypothesis, we have <span class="math display">
 \begin{array}{ll}
 \mathcal I_{H1,k}
 =
@@ -394,12 +339,14 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 \widehat{\mathcal I}_{H1,k}
 =
 \left[
-\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{C,k,s} (1 - \widehat p_{C,k,s})}{\widehat N_{C,k,s}}
+\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{C,k,s} (1 - \widehat
+p_{C,k,s})}{\widehat N_{C,k,s}}
 +
-\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{\widehat N_{E,k,s}}
+\sum_{s=1}^S \widehat w_{k,s}^2 \frac{\widehat p_{E,k,s} (1 - \widehat
+p_{E,k,s})}{\widehat N_{E,k,s}}
 \right]^{-1}
 \end{array}
-</annotation></semantics></math></p></li>
+</span></p></li>
 </ul>
 </li>
 </ul>
@@ -408,63 +355,59 @@ w_{k,s}^2 \frac{p_{k,s}^{pool} (1 - p_{k,s}^{pool})}{N_{E, k, s}}
 <h3 id="super-superiority-design">Super-Superiority Design<a class="anchor" aria-label="anchor" href="#super-superiority-design"></a>
 </h3>
 <p>The hypothesis of the super-superiority design is</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><msub><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mi>v</mi><mi>s</mi><mi>.</mi><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><mi>δ</mi><mo>&gt;</mo><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> with </mtext><mspace width="0.333em"></mspace></mrow><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mo>&gt;</mo><mn>0</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   H_0: \delta_{k,s} = \delta_{k,s}^{null}
   \;\; vs. \;\;
-  H_1: \delta &gt; \delta_{k,s}^{null} \text{ with } \delta_{k,s}^{null} &gt; 0.
-</annotation></semantics></math> Here
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>θ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>s</mi><mn>1</mn></msub></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mo>=</mo><msubsup><mi>θ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>s</mi><mn>2</mn></msub></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\theta_{k,s_1}^{null} = \theta_{k,s_2}^{null}</annotation></semantics></math>
-or
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>θ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>s</mi><mn>1</mn></msub></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mo>≠</mo><msubsup><mi>θ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>s</mi><mn>2</mn></msub></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\theta_{k,s_1}^{null} \neq \theta_{k,s_2}^{null}</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>1</mn></msub><mo>≠</mo><msub><mi>s</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">s_1 \neq s_2</annotation></semantics></math>.</p>
-<p>Under the null hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta_{0,k,s} \neq 0</annotation></semantics></math>,
-the estimation of rates
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>,</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat p_{C0,k,s}, \widehat p_{E0,k,s}</annotation></semantics></math>
-satisfy
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>×</mo><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><mi>r</mi><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><mi>r</mi><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mi>.</mi></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">
+  H_1: \delta &gt; \delta_{k,s}^{null} \text{ with } \delta_{k,s}^{null}
+&gt; 0.
+</span> Here <span class="math inline">\theta_{k,s_1}^{null} =
+\theta_{k,s_2}^{null}</span> or <span class="math inline">\theta_{k,s_1}^{null} \neq
+\theta_{k,s_2}^{null}</span> for <span class="math inline">s_1 \neq
+s_2</span>.</p>
+<p>Under the null hypothesis <span class="math inline">\theta_{0,k,s}
+\neq 0</span>, the estimation of rates <span class="math inline">\widehat p_{C0,k,s}, \widehat p_{E0,k,s}</span>
+satisfy <span class="math display">
   \left\{
   \begin{array}{l}
-    \widehat p_{C0,k,s} = \widehat p_{E0,k,s} + d_{k,s} \times \delta_{k,s}^{null} \\
-    \widehat p_{C0,k,s} + r\widehat p_{E0,k,s} = \widehat p_{C,k,s} + r\widehat p_{E,k,s} .
+    \widehat p_{C0,k,s} = \widehat p_{E0,k,s} + d_{k,s} \times
+\delta_{k,s}^{null} \\
+    \widehat p_{C0,k,s} + r\widehat p_{E0,k,s} = \widehat p_{C,k,s} +
+r\widehat p_{E,k,s} .
   \end{array}
   \right.
-</annotation></semantics></math> Solving these 2 equations with 2
-unknowns yields
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><mi>r</mi><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mi>d</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mi>.</mi></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">
+</span> Solving these 2 equations with 2 unknowns yields <span class="math display">
   \left\{
   \begin{array}{l}
-  \widehat p_{E0,k,s} &amp; = (\widehat p_{C,k,s} + r \widehat p_{E,k,s} - d_{k,s} \delta_{k,s}^{null}) / (r + 1)\\
-  \widehat p_{C0,k,s} &amp; =  \widehat p_{E0,k,s} + d_{k,s} \delta_{k,s}^{null}.
+  \widehat p_{E0,k,s} &amp; = (\widehat p_{C,k,s} + r \widehat p_{E,k,s}
+- d_{k,s} \delta_{k,s}^{null}) / (r + 1)\\
+  \widehat p_{C0,k,s} &amp; =  \widehat p_{E0,k,s} + d_{k,s}
+\delta_{k,s}^{null}.
   \end{array}
   \right.
-</annotation></semantics></math></p>
+</span></p>
 <ul>
 <li>
 <p><strong>Variance per strata per analysis:</strong></p>
 <ul>
-<li>Under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>,
-we have</li>
+<li>Under <span class="math inline">H_0</span>, we have</li>
 </ul>
 </li>
 </ul>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   \hat\sigma^2_{H_0,k,s}
   =
-  \frac{\widehat p_{C0,k,s}(1- \widehat p_{C0,k,s})}{N_{C,k,s}} + \frac{ \widehat p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}.
-</annotation></semantics></math></p>
+  \frac{\widehat p_{C0,k,s}(1- \widehat p_{C0,k,s})}{N_{C,k,s}} + \frac{
+\widehat p_{E0,k,s} (1 - \widehat p_{E0,k,s})}{N_{E,k,s}}.
+</span></p>
 <ul>
-<li>Under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>,
-we have</li>
+<li>Under <span class="math inline">H_1</span>, we have</li>
 </ul>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   \widehat\sigma_{H_1,k,s}^2
   =
-  \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} + \frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}.
-</annotation></semantics></math></p>
+  \frac{\widehat p_{C,k,s} (1- \widehat p_{C,k,s})}{N_{C,k,s}} +
+\frac{\widehat p_{E,k,s} (1 - \widehat p_{E,k,s})}{N_{E,k,s}}.
+</span></p>
 <ul>
 <li>
 <p><strong>Standardized treatment effect per analysis:</strong></p>
@@ -473,7 +416,7 @@ we have</li>
 </ul>
 </li>
 </ul>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msub><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msubsup><mi>δ</mi><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup></mrow><msup><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><msub><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow></msqrt><mn>2</mn></msup></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   \widehat \theta_{H_0,k}
   =
   \frac{
@@ -481,19 +424,20 @@ we have</li>
   }{
     \sqrt{\sum_{s=1}^S w_{k,s}^2 \widehat \sigma_{H_0,k,s}}^2
   }.
-</annotation></semantics></math></p>
+</span></p>
 <ul>
 <li>Under the alternative hypothesis, we have</li>
 </ul>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><msub><mi>H</mi><mn>1</mn></msub></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msub><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msub><mi>d</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>×</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mrow></msqrt></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   \widehat \theta_{H_1}
   =
   \frac{
-    \sum_{s=1}^S w_{k,s} d_{k,s} \times (\widehat p_{C,k,s} - \widehat p_{E,k,s})
+    \sum_{s=1}^S w_{k,s} d_{k,s} \times (\widehat p_{C,k,s} - \widehat
+p_{E,k,s})
   }{
     \sqrt{\sum_{s=1}^S w_{k,s}^2 \widehat \sigma_{H_1,k,s}^2}
   }.
-</annotation></semantics></math></p>
+</span></p>
 <ul>
 <li>
 <p><strong>Standardized information per analysis:</strong></p>
@@ -502,37 +446,38 @@ we have</li>
 </ul>
 </li>
 </ul>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mrow><mi>H</mi><mn>0</mn><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   \widehat{\mathcal I}_{H0,k}
   =
   \left[
-  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar p_{E0,s})}{N_{E,s}}
+  \sum_{s=1}^S w_{k,s}^2 \frac{\bar p_{C0,s} (1 - \bar
+p_{C0,s})}{N_{C,s}} + w_{k,s}^2\frac{\bar p_{E0,s} (1 - \bar
+p_{E0,s})}{N_{E,s}}
   \right]^{-1}.
-</annotation></semantics></math></p>
+</span></p>
 <ul>
 <li>Under the alternative hypothesis, we have</li>
 </ul>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mrow><mi>H</mi><mn>1</mn><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   \widehat{\mathcal I}_{H1,k}
   =
   \left[
-  \sum_{s=1}^S \left( w_{k,s}^2 \frac{\bar p_{C,k,s} (1 - \bar p_{C,k,s})}{N_{C,k,s}} + w_{k,s}^2 \frac{\bar p_{E,k,s} (1 - \bar p_{E,k,s})}{N_{E,k,s}} \right)
+  \sum_{s=1}^S \left( w_{k,s}^2 \frac{\bar p_{C,k,s} (1 - \bar
+p_{C,k,s})}{N_{C,k,s}} + w_{k,s}^2 \frac{\bar p_{E,k,s} (1 - \bar
+p_{E,k,s})}{N_{E,k,s}} \right)
   \right]^{-1}.
-</annotation></semantics></math></p>
+</span></p>
 </div>
 <div class="section level3">
 <h3 id="non-inferiority-design">Non-inferiority Design<a class="anchor" aria-label="anchor" href="#non-inferiority-design"></a>
 </h3>
 <p>The non-inferiority Design means that, while the treatment group is
 definitely not better than the control group, it is not unacceptably
-worse. Its hypothesis is
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><msub><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mi>v</mi><mi>s</mi><mi>.</mi><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><msub><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>&gt;</mo><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">H_0: \delta_{k,s} = \delta_{k,s}^{null} \;\; vs. \;\; H_1: \delta_{k,s} &gt; \delta_{k,s}^{null}</annotation></semantics></math>
-with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\delta_{k,s}^{null} &lt;0</annotation></semantics></math>.
-Its variance, standardized treatment effect and statistical information
-is the same as that from super-superiority design by setting
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><annotation encoding="application/x-tex">\delta_{k,s}^{null}</annotation></semantics></math>
-as negative numbers.</p>
+worse. Its hypothesis is <span class="math inline">H_0: \delta_{k,s} =
+\delta_{k,s}^{null} \;\; vs. \;\; H_1: \delta_{k,s} &gt;
+\delta_{k,s}^{null}</span> with <span class="math inline">\delta_{k,s}^{null} &lt;0</span>. Its variance,
+standardized treatment effect and statistical information is the same as
+that from super-superiority design by setting <span class="math inline">\delta_{k,s}^{null}</span> as negative numbers.</p>
 </div>
 </div>
 <div class="section level2">
@@ -542,16 +487,16 @@ as negative numbers.</p>
 inverse-variance weights (<span class="citation">Mantel and Haenszel
 (1959)</span>) or strata sample size weights (<span class="citation">Mehrotra and Railkar (2000)</span>).</p>
 <ul>
-<li><p><strong>Inverse-variance weights (INVAR):</strong> <span class="math display">$$
+<li><p><strong>Inverse-variance weights (INVAR):</strong> <span class="math display">
 w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}. \\
 \widehat w_{s,k} = \frac{1/\widehat\sigma^2_{s,k}}{\sum_{s=1}^S
 1/\widehat\sigma^2_{s,k}}.
-$$</span> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow><mn>2</mn></msubsup><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mo>,</mo><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\widehat\sigma_{s,k}^2 \in \{\widehat\sigma_{H_0, k,s}^2, \widehat\sigma_{H_1, k,s}^2 \}</annotation></semantics></math>
+</span> where <span class="math inline">\widehat\sigma_{s,k}^2 \in
+\{\widehat\sigma_{H_0, k,s}^2, \widehat\sigma_{H_1, k,s}^2 \}</span>
 depending on the information scale <code>info_scale = ...</code> in
 <code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code>, <code><a href="../reference/gs_power_rd.html">gs_power_rd()</a></code> and
 <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code>.</p></li>
-<li><p><strong>Sample-Size Weights (SS):</strong> <span class="math display">$$
+<li><p><strong>Sample-Size Weights (SS):</strong> <span class="math display">
 w_{s,k}
 =
 \frac{
@@ -569,32 +514,23 @@ k})
   \sum_{s=1}^S (\widehat N_{C, s, k} \; \widehat N_{E, s, k}) /
 (\widehat N_{C, s, k} + \widehat N_{E, s, k})
 },
-$$</span> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub><mo>,</mo><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">N_{C,s,k}, N_{E,s,k}</annotation></semantics></math>
-are the planned sample size of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the control group and experimental group, respectively. And
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub><mo>,</mo><msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat N_{C,s,k}, \widehat N_{E,s,k}</annotation></semantics></math>
-are the observed sample size of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-th
-strata and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis of the control group and experimental group,
-respectively.</p></li>
+</span> where <span class="math inline">N_{C,s,k}, N_{E,s,k}</span> are
+the planned sample size of the <span class="math inline">s</span>-th
+strata and <span class="math inline">k</span>-th analysis of the control
+group and experimental group, respectively. And <span class="math inline">\widehat N_{C,s,k}, \widehat N_{E,s,k}</span> are
+the observed sample size of the <span class="math inline">s</span>-th
+strata and <span class="math inline">k</span>-th analysis of the control
+group and experimental group, respectively.</p></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="simulations">Simulations<a class="anchor" aria-label="anchor" href="#simulations"></a>
 </h2>
 <p>We do a quick 20,000 simulations and compare the density histogram of
-outcomes to the standard normal density. Assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>d</mi><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>p</mi><mi>C</mi></msub><mo>=</mo><msub><mi>p</mi><mi>E</mi></msub><mo>=</mo><mn>0.125</mn><mo>,</mo><mi>N</mi><mo>=</mo><mn>200</mn></mrow><annotation encoding="application/x-tex">r=1, d = 1, p_C=p_E=0.125, N=200</annotation></semantics></math>.
-We then compute
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
-as 0.047. Even for this <em>not huge</em> sample size the normal density
-fits quite well other than some flatness in the middle.</p>
+outcomes to the standard normal density. Assume <span class="math inline">r=1, d = 1, p_C=p_E=0.125, N=200</span>. We then
+compute <span class="math inline">\sigma</span> as 0.047. Even for this
+<em>not huge</em> sample size the normal density fits quite well other
+than some flatness in the middle.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Hypothesized failure rate</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">.125</span></span>
@@ -642,14 +578,10 @@ fits quite well other than some flatness in the middle.</p>
 <p>The example discussed in this section is an unstratified fixed design
 with equal sized groups to detect a 30% reduction in mortality
 associated with congestive heart failure, where the 1-year mortality in
-the control group is assumed to be no greater than 0.4. So
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>C</mi></msub><mo>=</mo><mn>0.4</mn><mo>,</mo><msub><mi>p</mi><mi>E</mi></msub><mo>=</mo><mn>.28</mn></mrow><annotation encoding="application/x-tex">p_C=0.4, p_E = .28</annotation></semantics></math>.
-Under the null hypothesis, we assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>C</mi></msub><mo>=</mo><msub><mi>p</mi><mi>E</mi></msub><mo>=</mo><mn>0.34</mn></mrow><annotation encoding="application/x-tex">p_C=p_E =0.34</annotation></semantics></math>.
-We desire 90% power for a two-sided test for two proportions at
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">\alpha = 0.05</annotation></semantics></math>.
-And we would like to calculate the sample size to achieve the 90%
-power.</p>
+the control group is assumed to be no greater than 0.4. So <span class="math inline">p_C=0.4, p_E = .28</span>. Under the null
+hypothesis, we assume <span class="math inline">p_C=p_E =0.34</span>. We
+desire 90% power for a two-sided test for two proportions at <span class="math inline">\alpha = 0.05</span>. And we would like to calculate
+the sample size to achieve the 90% power.</p>
 <div class="section level4">
 <h4 id="gsdesign2">
 <code>gsDesign2</code><a class="anchor" aria-label="anchor" href="#gsdesign2"></a>
@@ -664,18 +596,16 @@ power.</p>
 <span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">n_c</span> <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span></span>
 <span><span class="va">n_e</span> <span class="op">&lt;-</span> <span class="va">n_c</span> <span class="op">*</span> <span class="va">ratio</span></span></code></pre></div>
-<p>Then we calculate the variance under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>.
-Their mathematical formulation are shown as follows.
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mi>σ</mi><msub><mi>H</mi><mn>0</mn></msub><mn>2</mn></msubsup><mo>=</mo><msup><mi>p</mi><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>p</mi><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>N</mi><mi>C</mi></msub></mfrac><mo>+</mo><mfrac><mn>1</mn><msub><mi>N</mi><mi>E</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>p</mi><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>p</mi><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mrow><mi>N</mi><msub><mi>ξ</mi><mi>C</mi></msub></mrow></mfrac><mo>+</mo><mfrac><mn>1</mn><mrow><mi>N</mi><msub><mi>ξ</mi><mi>E</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mo>=</mo><mrow><mi>r</mi><mo>=</mo><mn>1</mn></mrow></mover><msup><mi>p</mi><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>p</mi><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>4</mn><mi>N</mi></mfrac></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mi>σ</mi><msub><mi>H</mi><mn>1</mn></msub><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mi>C</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>C</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mi>C</mi></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mi>p</mi><mi>E</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>E</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mi>E</mi></msub></mfrac><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mi>C</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>C</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>N</mi><msub><mi>ξ</mi><mi>C</mi></msub></mrow></mfrac><mo>+</mo><mfrac><mrow><msub><mi>p</mi><mi>E</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>E</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>N</mi><msub><mi>ξ</mi><mi>E</mi></msub></mrow></mfrac><mover><mo>=</mo><mrow><mi>r</mi><mo>=</mo><mn>1</mn></mrow></mover><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>p</mi><mi>C</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>C</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><msub><mi>p</mi><mi>E</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>E</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mfrac><mn>2</mn><mi>N</mi></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p>Then we calculate the variance under <span class="math inline">H_0</span> and <span class="math inline">H_1</span>.
+Their mathematical formulation are shown as follows. <span class="math display">
   \begin{array}{ll}
   \sigma^2_{H_0}
   =
-  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N_C} + \frac{1}{N_{E}} \right)
+  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N_C} +
+\frac{1}{N_{E}} \right)
   =
-  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N \xi_C} + \frac{1}{N \xi_E} \right)
+  p^{pool} \left(1 - p^{pool} \right) \left(\frac{1}{N \xi_C} +
+\frac{1}{N \xi_E} \right)
   \overset{r=1}{=}
   p^{pool} \left(1 - p^{pool} \right) \frac{4}{N} \\
   \sigma^2_{H_1}
@@ -691,24 +621,20 @@ Their mathematical formulation are shown as follows.
     p_E \left(1 - p_E \right)
   \right] \frac{2}{N}
   \end{array}
-</annotation></semantics></math> And their calculation results are</p>
+</span> And their calculation results are</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sigma_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">p_pool</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_pool</span><span class="op">)</span> <span class="op">*</span> <span class="fl">4</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span></span>
 <span><span class="va">sigma_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">p_c</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_c</span><span class="op">)</span> <span class="op">+</span> <span class="va">p_e</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_e</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">info_h0</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="va">sigma_h0</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">info_h1</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="va">sigma_h1</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p>Next, we calculate the standardized treatment effect under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>,
-whose mathematical formulation are
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtable><mtr><mtd columnalign="left" style="text-align: left"><msub><mi>θ</mi><msub><mi>H</mi><mn>0</mn></msub></msub><mo>=</mo><mn>0</mn><mo>;</mo></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msub><mi>θ</mi><msub><mi>H</mi><mn>1</mn></msub></msub><mo>=</mo><mfrac><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>p</mi><mi>c</mi></msub><mo>−</mo><msub><mi>p</mi><mi>e</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><msub><mi>σ</mi><msub><mi>H</mi><mn>1</mn></msub></msub></mfrac></mtd></mtr></mtable><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p>Next, we calculate the standardized treatment effect under <span class="math inline">H_0</span> and <span class="math inline">H_1</span>,
+whose mathematical formulation are <span class="math display">
   \begin{array}{ll}
   \theta_{H_0} = 0; \\
   \theta_{H_1} = \frac{|p_c - p_e|}{\sigma_{H_1}}
   \end{array}.
-</annotation></semantics></math></p>
+</span></p>
 <p>And their calculation results are</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">theta_h0</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
@@ -2771,14 +2697,11 @@ Sample size calculated by EAST
 <h3 class="tabset" id="unstratified-group-sequential-design">Unstratified Group Sequential Design<a class="anchor" aria-label="anchor" href="#unstratified-group-sequential-design"></a>
 </h3>
 <p>The example discussed in this section is an unstratified group
-sequential design with equal sized groups to detect
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>C</mi></msub><mo>=</mo><mn>0.15</mn><mo>,</mo><msub><mi>p</mi><mi>E</mi></msub><mo>=</mo><mn>.1</mn></mrow><annotation encoding="application/x-tex">p_C = 0.15, p_E = .1</annotation></semantics></math>.<br>
-Under the null hypothesis, we assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>C</mi></msub><mo>=</mo><msub><mi>p</mi><mi>E</mi></msub><mo>=</mo><mn>0.125</mn></mrow><annotation encoding="application/x-tex">p_C = p_E = 0.125</annotation></semantics></math>.
-We desire 90% power for a two-sided test for two proportions at
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">\alpha = 0.05</annotation></semantics></math>.
-And we would like to calculate the sample size to achieve the 90%
-power.</p>
+sequential design with equal sized groups to detect <span class="math inline">p_C = 0.15, p_E = .1</span>.<br>
+Under the null hypothesis, we assume <span class="math inline">p_C = p_E
+= 0.125</span>. We desire 90% power for a two-sided test for two
+proportions at <span class="math inline">\alpha = 0.05</span>. And we
+would like to calculate the sample size to achieve the 90% power.</p>
 <div class="section level4">
 <h4 id="gsdesign2-1">
 <code>gsDesign2</code><a class="anchor" aria-label="anchor" href="#gsdesign2-1"></a>
@@ -5101,8 +5024,7 @@ with 3 analyses.</p>
 </tfoot>
 </table>
 </div>
-<p>First, we calculate the variance
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mi>σ</mi><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mrow><mfrac><msub><mi>ξ</mi><mi>s</mi></msub><mrow><mn>1</mn><mo>+</mo><mi>r</mi></mrow></mfrac><msub><mi>N</mi><mi>k</mi></msub></mrow></mfrac><mo>+</mo><mfrac><mn>1</mn><mrow><mfrac><mrow><mi>r</mi><msub><mi>ξ</mi><mi>s</mi></msub></mrow><mrow><mn>1</mn><mo>+</mo><mi>r</mi></mrow></mfrac><msub><mi>N</mi><mi>k</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msubsup><mi>σ</mi><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mfrac><msub><mi>ξ</mi><mi>s</mi></msub><mrow><mn>1</mn><mo>+</mo><mi>r</mi></mrow></mfrac><msub><mi>N</mi><mi>k</mi></msub></mrow></mfrac><mo>+</mo><mfrac><mrow><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mfrac><mrow><mi>r</mi><msub><mi>ξ</mi><mi>s</mi></msub></mrow><mrow><mn>1</mn><mo>+</mo><mi>r</mi></mrow></mfrac><msub><mi>N</mi><mi>k</mi></msub></mrow></mfrac></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">
+<p>First, we calculate the variance <span class="math display">
   \left\{
   \begin{array}{ll}
   \sigma^2_{H_0,k,s}
@@ -5111,15 +5033,18 @@ with 3 analyses.</p>
   \left(\frac{1}{N_{C,k,s}} + \frac{1}{N_{E,k,s}} \right)
   =
   p_{k,s}^{pool} \left(1 - p^{pool}_{k,s} \right)
-  \left(\frac{1}{ \frac{\xi_s}{1+r} N_{k}} + \frac{1}{ \frac{r \xi_s}{1+r} N_{k}} \right) \\
+  \left(\frac{1}{ \frac{\xi_s}{1+r} N_{k}} + \frac{1}{ \frac{r
+\xi_s}{1+r} N_{k}} \right) \\
   \sigma_{H_1,k,s}^2
   &amp; =
-  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 - p_{E,s})}{N_{E,k,s}}
+  \frac{p_{C,s} (1- p_{C,s})}{N_{C,k,s}} + \frac{p_{E,s} (1 -
+p_{E,s})}{N_{E,k,s}}
   =
-  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s} (1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}}
+  \frac{p_{C,s} (1- p_{C,s})}{\frac{\xi_s}{1+r} N_{k}} + \frac{p_{E,s}
+(1 - p_{E,s})}{\frac{r \xi_s}{1+r} N_{k}}
   \end{array}
   \right.
-</annotation></semantics></math></p>
+</span></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/setops.html" class="external-link">union_all</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -5741,9 +5666,9 @@ with 3 analyses.</p>
 </table>
 </div>
 <p>Second, we calculate the weight by using inverse variance</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><mfrac><mrow><mn>1</mn><mi>/</mi><msubsup><mi>σ</mi><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow><mn>2</mn></msubsup></mrow><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></munderover><mn>1</mn><mi>/</mi><msubsup><mi>σ</mi><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow><mn>2</mn></msubsup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">
   w_{s,k} = \frac{1/\sigma^2_{s,k}}{\sum_{s=1}^S 1/\sigma^2_{s,k}}.
-</annotation></semantics></math></p>
+</span></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Analysis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -6409,7 +6334,7 @@ with 3 analyses.</p>
 </table>
 </div>
 <p>Third, we calculate the weighted risk difference and weighted
-statistical information. <span class="math display">$$
+statistical information. <span class="math display">
   \left\{
   \begin{array}{ll}
     \delta_{H_0,k}
@@ -6437,7 +6362,7 @@ statistical information. <span class="math display">$$
     \right]^{-1}
   \end{array}
   \right. \\
-$$</span></p>
+</span></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Analysis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -8375,25 +8300,24 @@ $$</span></p>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>δ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msub><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\widehat\delta
+<td align="left"><span class="math inline">\widehat\delta
 _{H_0,k} = \sum_{s=1}^S w
-_{k,s} \delta_{k,s}^{null}</annotation></semantics></math></td>
+_{k,s} \delta_{k,s}^{null}</span></td>
 <td align="left">
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>δ</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup><annotation encoding="application/x-tex">\delta_{k,s}^{null}</annotation></semantics></math>
-is the risk difference under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>.</p>
+<p><span class="math inline">\delta_{k,s}^{null}</span>
+is the risk difference under <span class="math inline">H_0</span>.</p>
 <p>It is 0, positive, and negative for superiority, super-superiority
 and non-inferiority design, respectively.</p>
 </td>
 </tr>
 <tr class="odd">
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>δ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msub><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat \delta_{H_1,k}
+<td align="left"><span class="math inline">\widehat \delta_{H_1,k}
 =\sum_{s=1}^S w_{k,s}
 (p_{C,k,s} -\widehat
-p_{E,k,s})</annotation></semantics></math></td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>x</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>,</mo><mspace width="0.278em"></mspace><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>x</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">\widehat p_{C,k,s} = \frac{ x
+p_{E,k,s})</span></td>
+<td align="left"><span class="math inline">\widehat p_{C,k,s} = \frac{ x
 _{C,k,s}}{N_{C,k,s}}, \; \widehat p_{
-E,k,s} = \frac{x_{E,k,s} }{N_{E,k,s}}</annotation></semantics></math></td>
+E,k,s} = \frac{x_{E,k,s} }{N_{E,k,s}}</span></td>
 </tr>
 <tr class="even">
 <td align="left"><strong><em>standardized treatment
@@ -8401,53 +8325,47 @@ effect:</em></strong></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><mfrac><mrow><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msub><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><msubsup><mi>δ</mi><mrow><mi>s</mi><mo>,</mo><mi>k</mi></mrow><mrow><mi>n</mi><mi>u</mi><mi>l</mi><mi>l</mi></mrow></msubsup></mrow><msqrt><mrow><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mrow></msqrt></mfrac></mrow><annotation encoding="application/x-tex">\widehat\theta_{H_0,k}
- = \frac{\sum_{s=1}^S
- w_{k,s}\delta_{s,k}^{null}}
+<td align="left"><span class="math inline">\widehat\theta_{H_0,k}
+= \frac{\sum_{s=1}^S
+w_{k,s}\delta_{s,k}^{null}}
 {\sqrt {
 \sum_{s=1}^S w_{k,s}^2
 \widehat \sigma
-_{H_0,k,s}^2}}</annotation></semantics></math></td>
+_{H_0,k,s}^2}}</span></td>
 <td align="left">
-<p>For superiority design,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mo>=</mo><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mn>1</mn><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat \sigma^2_{H_0,k,s}
+<p>For superiority design, <span class="math inline">\widehat \sigma^2_{H_0,k,s}
 = \widehat p
 _{k,s}^{pool} \left(1 - \widehat p
 ^{pool}_{k,s} \right) \left(
 \frac{1}{N_{C,k,s}} +
-\frac{1}{N_{E,k,s}} \right)</annotation></semantics></math><br></p>
-<p>For super-superiority design and non-inferiority design,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">\hat \sigma^2
+\frac{1}{N_{E,k,s}} \right)</span> <br></p>
+<p>For super-superiority design and non-inferiority design, <span class="math inline">\hat \sigma^2
 _{H_0,k,s} = \frac {\widehat p
 _{C0,k,s}(1- \widehat p_{C0,k,s})}{N_
 {C,k,s}} + \frac{ \widehat p_{E0,k,s}
-(1 - \widehat p_{E0,k,s})}{N_{E,k,s}}</annotation></semantics></math></p>
+(1 - \widehat p_{E0,k,s})}{N_{E,k,s}}</span></p>
 </td>
 </tr>
 <tr class="even">
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><mfrac><mrow><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msub><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msqrt><mrow><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup></mrow></msqrt></mfrac></mrow><annotation encoding="application/x-tex">\widehat\theta_{H_1 ,k}
- = \frac{\sum_{s=1}^S w_{k
+<td align="left"><span class="math inline">\widehat\theta_{H_1 ,k}
+= \frac{\sum_{s=1}^S w_{k
 ,s} (\widehat p_{C,k,s} -
 \widehat p_{E,k,s})}{\sqrt
 {\sum_{s=1}^S w_{k,s}^2
 \widehat
-\sigma_{H_1,k,s}^2}}</annotation></semantics></math></td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msqrt><mrow><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac></mrow></msqrt></mrow><annotation encoding="application/x-tex">\widehat \sigma_{H_1,k,s}
- = \sqrt{\frac{\widehat p_{C,k,s}
- (1- \widehat p_{C,k,s})}{
+\sigma_{H_1,k,s}^2}}</span></td>
+<td align="left"><span class="math inline">\widehat \sigma_{H_1,k,s}
+= \sqrt{\frac{\widehat p_{C,k,s}
+(1- \widehat p_{C,k,s})}{
 N_{C,k,s}} + \frac{\widehat p_{E,k,s}
-(1 - \widehat p_{E,k,s})}{N_{E,k,s}}}</annotation></semantics></math></td>
+(1 - \widehat p_{E,k,s})}{N_{E,k,s}}}</span></td>
 </tr>
 <tr class="odd">
 <td align="left"><strong><em>statistical information:</em></strong></td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><msup><mrow><mo stretchy="true" form="prefix">[</mo><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msubsup><mi>p</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mrow><mi>p</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">for superiority
-design
-</mtext></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><msup><mrow><mo stretchy="true" form="prefix">[</mo><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>C</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">‾</mo></mover><mrow><mi>E</mi><mn>0</mn><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">for
-super-superiority and
-non-inferiority design</mtext></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">\widehat{\mathcal I}
+<td align="left"><span class="math inline">\widehat{\mathcal I}
 _{H_0,k} = \left\{ \begin
 {array}{ll} \left[ \sum_{
 s=1}^S w_{k,s}^2 \frac{p_ {
@@ -8464,16 +8382,15 @@ _{E0,s})}{N_{E,s}} \right]
 ^{-1} &amp; \text{for
 super-superiority and
 non-inferiority design}
-\end{array} \right.</annotation></semantics></math></td>
+\end{array} \right.</span></td>
 <td align="left">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">N_{k,s} = N_{C,k,s} + N_{E,k,s}</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>x</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><msub><mi>N</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat p_{k,s
-} = (x_{C,k,s} + x_{E,k,s}) / N_{k,s}</annotation></semantics></math>
+<span class="math inline">N_{k,s} = N_{C,k,s} +
+N_{E,k,s}</span> and <span class="math inline">\widehat p_{k,s
+} = (x_{C,k,s} + x_{E,k,s}) / N_{k,s}</span>
 </td>
 </tr>
 <tr class="odd">
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>C</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo>+</mo><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msubsup><mi>w</mi><mrow><mi>k</mi><mo>,</mo><mi>s</mi></mrow><mn>2</mn></msubsup><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>N</mi><mrow><mi>E</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>s</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\widehat{
+<td align="left"><span class="math inline">\widehat{
 \mathcal I}_{H_1,k} = \left[
 \sum_{s=1}^S w_{k,s}^2 \frac
 {\widehat p_{C,k,s} (1 -
@@ -8482,7 +8399,7 @@ s}} + \sum_{s=1} ^S w
 _{k,s}^2 \frac{\widehat p
 _{E,k,s} (1 - \widehat p
 _{E,k,s})}{N_{E,k,s}}
-\right]^{-1}</annotation></semantics></math></td>
+\right]^{-1}</span></td>
 <td align="left"></td>
 </tr>
 </tbody>

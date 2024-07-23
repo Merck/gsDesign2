@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Power evaluation with spending bounds">
 </head>
 <body>
@@ -95,63 +96,41 @@ randomization.</p>
 <ul>
 <li><p>We consider a 2-arm trial with an experimental arm and a control
 arm.</p></li>
-<li><p>We will assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">K=3</annotation></semantics></math>
-analyses after
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>350</mn><annotation encoding="application/x-tex">350</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>700</mn><annotation encoding="application/x-tex">700</annotation></semantics></math>,
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1400</mn><annotation encoding="application/x-tex">1400</annotation></semantics></math>
-patients have been observed with equal randomization between the
-treatment groups.</p></li>
+<li><p>We will assume <span class="math inline">K=3</span> analyses
+after <span class="math inline">350</span>, <span class="math inline">700</span>, and <span class="math inline">1400</span> patients have been observed with equal
+randomization between the treatment groups.</p></li>
 <li><p>The primary endpoint for the trial is a binary indicator for each
 participant if they have a failed outcome. For this case, we consider
-the parameter
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><msub><mi>p</mi><mn>1</mn></msub><mo>−</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">
+the parameter <span class="math display">
 \theta = p_1 - p _2
-</annotation></semantics></math> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mn>1</mn></msub><annotation encoding="application/x-tex">p_1</annotation></semantics></math>
-denotes the probability that a trial participant in the control group
-experiences a failure and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mn>2</mn></msub><annotation encoding="application/x-tex">p_2</annotation></semantics></math>
-represents the same probability for a trial participant in the
-experimental group.</p></li>
+</span> where <span class="math inline">p_1</span> denotes the
+probability that a trial participant in the control group experiences a
+failure and <span class="math inline">p_2</span> represents the same
+probability for a trial participant in the experimental group.</p></li>
 <li><p>The study was designed with approximately 80% power (Type II
-error
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mn>1</mn><mo>−</mo><mn>0.8</mn><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">\beta = 1 - 0.8 = 0.2</annotation></semantics></math>)
-and 2.5% one-sided Type I error
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.025</mn></mrow><annotation encoding="application/x-tex">\alpha = 0.025</annotation></semantics></math>)
-to detect a reduction from a 15% event rate
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>=</mo><mn>0.15</mn></mrow><annotation encoding="application/x-tex">p_1 = 0.15</annotation></semantics></math>)
-in the control group to 10%
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>2</mn></msub><mo>=</mo><mn>0.1</mn></mrow><annotation encoding="application/x-tex">p_2 = 0.1</annotation></semantics></math>)
-in the experimental group.</p></li>
+error <span class="math inline">\beta = 1 - 0.8 = 0.2</span>) and 2.5%
+one-sided Type I error (<span class="math inline">\alpha = 0.025</span>)
+to detect a reduction from a 15% event rate (<span class="math inline">p_1 = 0.15</span>) in the control group to 10%
+(<span class="math inline">p_2 = 0.1</span>) in the experimental
+group.</p></li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="fl">0.15</span> <span class="co"># assumed failure rate in control group</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fl">0.10</span> <span class="co"># assumed failure rate in experimental group</span></span>
 <span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.025</span> <span class="co"># type I error</span></span>
 <span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">0.2</span> <span class="co"># type II error for 80% power</span></span></code></pre></div>
-<p>In this example, the parameter of interest is
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><msub><mi>p</mi><mn>1</mn></msub><mo>−</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\theta = p_1 - p_2</annotation></semantics></math>.
-We denote the alternate hypothesis as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><mi>θ</mi><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>=</mo><msubsup><mi>p</mi><mn>1</mn><mn>1</mn></msubsup><mo>−</mo><msubsup><mi>p</mi><mn>2</mn><mn>1</mn></msubsup><mo>=</mo><mn>0.15</mn><mo>−</mo><mn>0.10</mn><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">
+<p>In this example, the parameter of interest is <span class="math inline">\theta = p_1 - p_2</span>. We denote the alternate
+hypothesis as <span class="math display">
   H_1: \theta = \theta_1= p_1^1 - p_2^1 = 0.15 - 0.10 = 0.05
-</annotation></semantics></math> and the null hypothesis
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><mi>θ</mi><mo>=</mo><msub><mi>θ</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn><mo>=</mo><msubsup><mi>p</mi><mn>1</mn><mn>0</mn></msubsup><mo>−</mo><msubsup><mi>p</mi><mn>2</mn><mn>0</mn></msubsup></mrow><annotation encoding="application/x-tex">
+</span> and the null hypothesis <span class="math display">
   H_0: \theta = \theta_0 = 0 = p_1^0 - p_2^0
-</annotation></semantics></math> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>p</mi><mn>1</mn><mn>0</mn></msubsup><mo>=</mo><msubsup><mi>p</mi><mn>2</mn><mn>0</mn></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mi>p</mi><mn>1</mn><mn>1</mn></msubsup><mo>+</mo><msubsup><mi>p</mi><mn>2</mn><mn>1</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn><mo>=</mo><mn>0.125</mn></mrow><annotation encoding="application/x-tex">p^0_1 = p^0_2= (p_1^1+p_2^1)/2 = 0.125</annotation></semantics></math>
-as laid out in <span class="citation">Lachin (2009)</span>.</p>
+</span> where <span class="math inline">p^0_1 = p^0_2= (p_1^1+p_2^1)/2 =
+0.125</span> as laid out in <span class="citation">Lachin
+(2009)</span>.</p>
 <p>We note that had we considered a success outcome such as objective
-response in an oncology study, we would let
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mn>1</mn></msub><annotation encoding="application/x-tex">p_1</annotation></semantics></math>
-denote the experimental group and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mn>2</mn></msub><annotation encoding="application/x-tex">p_2</annotation></semantics></math>
-the control group response rate. Thus, we always set up the notation so
-the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>&gt;</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">p_1&gt;p_2</annotation></semantics></math>
-represents superiority for the experimental group.</p>
+response in an oncology study, we would let <span class="math inline">p_1</span> denote the experimental group and <span class="math inline">p_2</span> the control group response rate. Thus, we
+always set up the notation so the <span class="math inline">p_1&gt;p_2</span> represents superiority for the
+experimental group.</p>
 </div>
 <div class="section level2">
 <h2 id="notations">Notations<a class="anchor" aria-label="anchor" href="#notations"></a>
@@ -159,48 +138,29 @@ represents superiority for the experimental group.</p>
 <p>We assume</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>:
-the index of analysis, i.e.,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1, \ldots, K</annotation></semantics></math>;</li>
+<span class="math inline">k</span>: the index of analysis, i.e.,
+<span class="math inline">k = 1, \ldots, K</span>;</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>:
-the index of arm, i.e.,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">i = 1</annotation></semantics></math>
-for the control group and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">i = 2</annotation></semantics></math>
-for the experimental group;</li>
+<span class="math inline">i</span>: the index of arm, i.e., <span class="math inline">i = 1</span> for the control group and <span class="math inline">i = 2</span> for the experimental group;</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><annotation encoding="application/x-tex">n_{ik}</annotation></semantics></math>:
-the number of subjects in group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-and analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>;</li>
+<span class="math inline">n_{ik}</span>: the number of subjects in
+group <span class="math inline">i</span> and analysis <span class="math inline">k</span>;</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>k</mi></msub><annotation encoding="application/x-tex">n_k</annotation></semantics></math>:
-the number of subjects at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>,
-i.e.,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>k</mi></msub><mo>=</mo><msub><mi>n</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>+</mo><msub><mi>n</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">n_k = n_{1k} + n_{2k}</annotation></semantics></math>;</li>
+<span class="math inline">n_k</span>: the number of subjects at
+analysis <span class="math inline">k</span>, i.e., <span class="math inline">n_k = n_{1k} + n_{2k}</span>;</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">X_{ij}</annotation></semantics></math>:
-the independent random variable whether the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>-th
-subject in group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-has response, i.e, <span class="math display">$$
-X_{ij} \sim \hbox{Bernoulli}(p_i);
-$$</span>
+<span class="math inline">X_{ij}</span>: the independent random
+variable whether the <span class="math inline">j</span>-th subject in
+group <span class="math inline">i</span> has response, i.e, <span class="math display">
+X_{ij} \sim \text{Bernoulli}(p_i);
+</span>
 </li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><annotation encoding="application/x-tex">Y_{ik}</annotation></semantics></math>:
-the number of subject having response in group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-and analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>,
-i.e.,
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></munderover><msub><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>;</mo></mrow><annotation encoding="application/x-tex">
+<span class="math inline">Y_{ik}</span>: the number of subject
+having response in group <span class="math inline">i</span> and analysis
+<span class="math inline">k</span>, i.e., <span class="math display">
 Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
-</annotation></semantics></math>
+</span>
 </li>
 </ul>
 </div>
@@ -208,157 +168,118 @@ Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
 <h2 id="statistical-testing">Statistical Testing<a class="anchor" aria-label="anchor" href="#statistical-testing"></a>
 </h2>
 <p>In this section, we will discuss the estimation of statistical
-information and variance of proportion under both null hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><msubsup><mi>p</mi><mn>1</mn><mn>0</mn></msubsup><mo>=</mo><msubsup><mi>p</mi><mn>2</mn><mn>0</mn></msubsup><mo>≡</mo><msub><mi>p</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">H_0: p_1^0 = p_2^0 \equiv p_0</annotation></semantics></math>
-and alternative hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><mi>θ</mi><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>=</mo><msubsup><mi>p</mi><mn>1</mn><mn>1</mn></msubsup><mo>−</mo><msubsup><mi>p</mi><mn>2</mn><mn>1</mn></msubsup></mrow><annotation encoding="application/x-tex">H_1: \theta = \theta_1= p_1^1 - p_2^1</annotation></semantics></math>.
-Then, we will introduce the test statistics in the group sequential
-design.</p>
+information and variance of proportion under both null hypothesis <span class="math inline">H_0: p_1^0 = p_2^0 \equiv p_0</span> and alternative
+hypothesis <span class="math inline">H_1: \theta = \theta_1= p_1^1 -
+p_2^1</span>. Then, we will introduce the test statistics in the group
+sequential design.</p>
 <div class="section level3">
 <h3 id="estimation-of-statistical-information-under-h1">Estimation of Statistical Information under H1<a class="anchor" aria-label="anchor" href="#estimation-of-statistical-information-under-h1"></a>
 </h3>
 <p>Under the alternative hypothesis, one can estimate the proportion of
-failures in group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>=</mo><msub><mi>Y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mi>/</mi><msub><mi>n</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+failures in group <span class="math inline">i</span> at analysis <span class="math inline">k</span> as <span class="math display">
   \hat{p}_{ik} = Y_{ik}/n_{ik}.
-</annotation></semantics></math> We note its variance is <span class="math display">$$
-\hbox{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
-$$</span> and its consistent estimator <span class="math display">$$
-  \widehat{\hbox{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat
+</span> We note its variance is <span class="math display">
+\text{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
+</span> and its consistent estimator <span class="math display">
+  \widehat{\text{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat
 p_{ik})}{n_{ik}},
-$$</span> for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">i = 1, 2</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1, 2, \ldots, K</annotation></semantics></math>.
-Letting
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mi>k</mi></msub><mo>=</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>2</mn><mi>k</mi></mrow></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\hat\theta_k = \hat p_{1k} - \hat p_{2k},</annotation></semantics></math>
-we also have <span class="math display">$$
+</span> for any <span class="math inline">i = 1, 2</span> and <span class="math inline">k = 1, 2, \ldots, K</span>. Letting <span class="math inline">\hat\theta_k = \hat p_{1k} - \hat p_{2k},</span> we
+also have <span class="math display">
   \sigma^2_k
   \equiv
-  \hbox{Var}(\hat\theta_k)
+  \text{Var}(\hat\theta_k)
   =
   \frac{p_1(1-p_1)}{n_{1k}}+\frac{p_2(1-p_2)}{n_{2k}},
-$$</span> its consistent estimator
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>k</mi><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>1</mn><mi>k</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>n</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>2</mn><mi>k</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>2</mn><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>n</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
+</span> its consistent estimator <span class="math display">
   \hat\sigma^2_k
   =
-  \frac{\hat p_{1k}(1-\hat p_{1k})}{n_{1k}}+\frac{\hat p_{2k}(1-\hat p_{2k})}{n_{2k}},
-</annotation></semantics></math></p>
+  \frac{\hat p_{1k}(1-\hat p_{1k})}{n_{1k}}+\frac{\hat p_{2k}(1-\hat
+p_{2k})}{n_{2k}},
+</span></p>
 <p>Statistical information for each of these quantities and their
-corresponding estimators are denoted by
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>ℐ</mi><mi>k</mi></msub><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mn>1</mn><mi>/</mi><msubsup><mi>σ</mi><mi>k</mi><mn>2</mn></msubsup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mi>k</mi></msub><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mn>1</mn><mi>/</mi><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>k</mi><mn>2</mn></msubsup><mo>,</mo></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">
+corresponding estimators are denoted by <span class="math display">
   \left\{
   \begin{align}
     \mathcal{I}_k = &amp;1/\sigma^2_k,\\
     \mathcal{\hat I}_k = &amp;1/\hat \sigma^2_k,
   \end{align}
   \right.
-</annotation></semantics></math></p>
+</span></p>
 </div>
 <div class="section level3">
 <h3 id="estimation-of-statistical-information-under-h0">Estimation of Statistical Information under H0<a class="anchor" aria-label="anchor" href="#estimation-of-statistical-information-under-h0"></a>
 </h3>
 <p>Under the null hypothesis, one can estimate the proportion of
-failures in group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-as we estimate
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>Y</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>+</mo><msub><mi>Y</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></mrow><mrow><msub><mi>n</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>+</mo><msub><mi>n</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>n</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>+</mo><msub><mi>n</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>2</mn><mi>k</mi></mrow></msub></mrow><mrow><msub><mi>n</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>+</mo><msub><mi>n</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+failures in group <span class="math inline">i</span> at analysis <span class="math inline">k</span> as we estimate <span class="math display">
   \hat{p}_{0k}
   =
   \frac{Y_{1k}+ Y_{2k}}{n_{1k}+ n_{2k}}
   =
   \frac{n_{1k}\hat p_{1k} + n_{2k}\hat p_{2k}}{n_{1k} + n_{2k}}.
-</annotation></semantics></math> The corresponding null hypothesis
-estimator
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mo>≡</mo><mover><mtext mathvariant="normal">Var</mtext><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>n</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub></mfrac><mo>+</mo><mfrac><mn>1</mn><msub><mi>n</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">
+</span> The corresponding null hypothesis estimator <span class="math display">
   \hat\sigma^2_{0k}
   \equiv
   \widehat{\text{Var}}(\hat{p}_{0k})
   =
-  \hat p_{0k}(1-\hat p_{0k})\left(\frac{1}{n_{1k}}+ \frac{1}{n_{2k}}\right),
-</annotation></semantics></math> for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1,2, \ldots, K</annotation></semantics></math>.</p>
+  \hat p_{0k}(1-\hat p_{0k})\left(\frac{1}{n_{1k}}+
+\frac{1}{n_{2k}}\right),
+</span> for any <span class="math inline">k = 1,2, \ldots, K</span>.</p>
 <p>Statistical information for each of these quantities and their
-corresponding estimators are denoted by
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>ℐ</mi><mrow><mn>0</mn><mi>k</mi></mrow></msub><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mn>1</mn><mi>/</mi><msubsup><mi>σ</mi><mrow><mn>0</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mover><mi>ℐ</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mn>1</mn><mi>/</mi><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mo>,</mo></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">
+corresponding estimators are denoted by <span class="math display">
   \left\{
   \begin{align}
     \mathcal{I}_{0k} =&amp; 1/ \sigma^2_{0k},\\
     \mathcal{\hat I}_{0k} =&amp; 1/\hat \sigma^2_{0k},
   \end{align}
   \right.
-</annotation></semantics></math> for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1, 2, \ldots, K</annotation></semantics></math>.</p>
+</span> for any <span class="math inline">k = 1, 2, \ldots,
+K</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="testing-statistics">Testing Statistics<a class="anchor" aria-label="anchor" href="#testing-statistics"></a>
 </h3>
 <p>Testing, as recommended by <span class="citation">Lachin
 (2009)</span>, is done with the large sample test with the null
-hypothesis variance estimate and without continuity correction:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>k</mi></msub><mo>=</mo><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mi>k</mi></msub><mi>/</mi><msub><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>2</mn><mi>k</mi></mrow></msub></mrow><msqrt><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>n</mi><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>+</mo><mn>1</mn><mi>/</mi><msub><mi>n</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>0</mn><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
-Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
-</annotation></semantics></math> which is asymptotically
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Normal</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{Normal}(0,1)</annotation></semantics></math>
-if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>=</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">p_1 = p_2</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Normal</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msubsup><mi>σ</mi><mrow><mn>0</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mi>/</mi><msubsup><mi>σ</mi><mi>k</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{Normal}(0, \sigma_{0k}^2/\sigma_k^2)</annotation></semantics></math>
-more generally for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>,</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">p_1, p_2</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1, 2, \ldots, K</annotation></semantics></math>.</p>
-<p>If we further assume a constant proportion
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ξ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\xi_i</annotation></semantics></math>
-randomized to each group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">i=1,2.</annotation></semantics></math>
-Thus,
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>k</mi></msub><mo>≈</mo><mfrac><mrow><msqrt><msub><mi>n</mi><mi>k</mi></msub></msqrt><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>1</mn><mi>k</mi></mrow></msub><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mn>2</mn><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msqrt><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>ξ</mi><mn>1</mn></msub><mo>+</mo><mn>1</mn><mi>/</mi><msub><mi>ξ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>p</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+hypothesis variance estimate and without continuity correction: <span class="math display">
+Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat
+p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
+</span> which is asymptotically <span class="math inline">\text{Normal}(0,1)</span> if <span class="math inline">p_1 = p_2</span> and <span class="math inline">\text{Normal}(0, \sigma_{0k}^2/\sigma_k^2)</span>
+more generally for any <span class="math inline">p_1, p_2</span> and
+<span class="math inline">k = 1, 2, \ldots, K</span>.</p>
+<p>If we further assume a constant proportion <span class="math inline">\xi_i</span> randomized to each group <span class="math inline">i=1,2.</span> Thus, <span class="math display">
   Z_k
   \approx
-  \frac{\sqrt{n_k}(\hat p_{1k} - \hat p_{2k})}{\sqrt{(1/\xi_1+ 1/\xi_2)p_{0}(1- p_0)} }.
-</annotation></semantics></math></p>
-<p>Then, we have the asymptotic distribution <span class="math display">$$
+  \frac{\sqrt{n_k}(\hat p_{1k} - \hat p_{2k})}{\sqrt{(1/\xi_1+
+1/\xi_2)p_{0}(1- p_0)} }.
+</span></p>
+<p>Then, we have the asymptotic distribution <span class="math display">
   Z_k
   \sim
-  \hbox{Normal}
+  \text{Normal}
   \left(
     \sqrt{n_k}\frac{p_1 - p_2}{\sqrt{(1/\xi_1+ 1/\xi_2) p_0(1- p_0)} },
     \sigma^2_{0k}/\sigma^2_{1k}
   \right),
-$$</span> where we note that
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>σ</mi><mrow><mn>0</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mi>/</mi><msubsup><mi>σ</mi><mrow><mn>1</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>ξ</mi><mn>1</mn></msub><mo>+</mo><mn>1</mn><mi>/</mi><msub><mi>ξ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msub><mi>p</mi><mn>1</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><msub><mi>ξ</mi><mn>1</mn></msub><mo>+</mo><msub><mi>p</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><msub><mi>ξ</mi><mn>2</mn></msub></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+</span> where we note that <span class="math display">
   \sigma^2_{0k}/\sigma^2_{1k}
   =
-  \frac{ p_0(1-p_0)\left(1/\xi_1+ 1/\xi_2\right)}{p_1(1-p_1)/\xi_1+p_2(1-p_2)/\xi_2}.
-</annotation></semantics></math> We also note by definition that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>σ</mi><mrow><mn>0</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mi>/</mi><msubsup><mi>σ</mi><mrow><mn>1</mn><mi>k</mi></mrow><mn>2</mn></msubsup><mo>=</mo><msub><mi>ℐ</mi><mi>k</mi></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mn>0</mn><mi>k</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal I_{0k}.</annotation></semantics></math>
-Based on an input
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>,</mo><msub><mi>p</mi><mn>2</mn></msub><mo>,</mo><msub><mi>n</mi><mi>k</mi></msub><mo>,</mo><msub><mi>ξ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>ξ</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>ξ</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">p_1, p_2, n_k, \xi_1, \xi_2 = 1-\xi_1</annotation></semantics></math>
-we will compute
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>,</mo><msub><mi>ℐ</mi><mi>k</mi></msub><mo>,</mo><msub><mi>ℐ</mi><mrow><mn>0</mn><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta, \mathcal{I}_k, \mathcal{I}_{0k}</annotation></semantics></math>
-for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1, 2, \ldots, K</annotation></semantics></math>.</p>
-<p>We note that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>χ</mi><mn>2</mn></msup><mo>=</mo><msubsup><mi>Z</mi><mi>k</mi><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">\chi^2=Z^2_k</annotation></semantics></math>
-is the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
-test without continuity correction as recommended by <span class="citation">Gordon and Watson (1996)</span>. Note finally that this
-extends in a straightforward way the non-inferiority test of <span class="citation">Farrington and Manning (1990)</span> if the null
-hypothesis is
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><msub><mi>p</mi><mn>1</mn></msub><mo>−</mo><msub><mi>p</mi><mn>2</mn></msub><mo>−</mo><mi>δ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta = p_1 - p_2 - \delta = 0</annotation></semantics></math>
-for some non-inferiority margin
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\delta &gt; 0</annotation></semantics></math>;
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\delta &lt; 0</annotation></semantics></math>
-would correspond to what is referred to as super-superiority <span class="citation">Chan (2002)</span>, requiring that experimental therapy
-has been shown to be superior to control by at least a margin
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>δ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">-\delta&gt;0</annotation></semantics></math>.</p>
+  \frac{ p_0(1-p_0)\left(1/\xi_1+
+1/\xi_2\right)}{p_1(1-p_1)/\xi_1+p_2(1-p_2)/\xi_2}.
+</span> We also note by definition that <span class="math inline">\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal
+I_{0k}.</span> Based on an input <span class="math inline">p_1, p_2,
+n_k, \xi_1, \xi_2 = 1-\xi_1</span> we will compute <span class="math inline">\theta, \mathcal{I}_k, \mathcal{I}_{0k}</span> for
+any <span class="math inline">k = 1, 2, \ldots, K</span>.</p>
+<p>We note that <span class="math inline">\chi^2=Z^2_k</span> is the
+<span class="math inline">\chi^2</span> test without continuity
+correction as recommended by <span class="citation">Gordon and Watson
+(1996)</span>. Note finally that this extends in a straightforward way
+the non-inferiority test of <span class="citation">Farrington and
+Manning (1990)</span> if the null hypothesis is <span class="math inline">\theta = p_1 - p_2 - \delta = 0</span> for some
+non-inferiority margin <span class="math inline">\delta &gt; 0</span>;
+<span class="math inline">\delta &lt; 0</span> would correspond to what
+is referred to as super-superiority <span class="citation">Chan
+(2002)</span>, requiring that experimental therapy has been shown to be
+superior to control by at least a margin <span class="math inline">-\delta&gt;0</span>.</p>
 </div>
 </div>
 <div class="section level2">

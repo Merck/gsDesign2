@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Canonical joint distribution of Z-score and B-values under null and alternative hypothesis">
 </head>
 <body>
@@ -69,12 +70,9 @@ Yilong Zhang, and Keaven M. Anderson</h4>
 
     
     
-<p>When applying the AHR test in the time-to-event endpoint at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis, we build the standardized treatment effect as the test
-statistics in <span class="citation">Proschan, Lan, and Wittes
-(2006)</span>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>k</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub></mrow><msqrt><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
+<p>When applying the AHR test in the time-to-event endpoint at the <span class="math inline">k</span>-th analysis, we build the standardized
+treatment effect as the test statistics in <span class="citation">Proschan, Lan, and Wittes (2006)</span>:</p>
+<p><span class="math display">
   Z_k
   =
   \frac{
@@ -82,74 +80,45 @@ statistics in <span class="citation">Proschan, Lan, and Wittes
   }{
     \sqrt{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}
   },
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>k</mi></msub><annotation encoding="application/x-tex">d_k</annotation></semantics></math>
-is the total number of events at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.
-Here,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Δ</mi><mi>i</mi></msub><mo>=</mo><msub><mi>O</mi><mi>i</mi></msub><mo>−</mo><msub><mi>E</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\Delta_i = O_i - E_i</annotation></semantics></math>
-with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>O</mi><mi>i</mi></msub><annotation encoding="application/x-tex">O_i</annotation></semantics></math>
-is the indicator that the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>-th
-event occurred in the experimental arm, and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mi>i</mi></msub><mo>=</mo><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>0</mn></mrow></msub><mo>+</mo><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">E_i = m_{i,1}/(m_{i,0} + m_{i,1})</annotation></semantics></math>
-as the null expectation of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>O</mi><mi>i</mi></msub><annotation encoding="application/x-tex">O_i</annotation></semantics></math>
-given
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>0</mn></mrow></msub><annotation encoding="application/x-tex">m_{i,0}</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">m_{i,1}</annotation></semantics></math>.
-The numbers
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>0</mn></mrow></msub><annotation encoding="application/x-tex">m_{i,0}</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">m_{i,1}</annotation></semantics></math>
-refer to the number of at-risk subjects prior to the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>-th
-death in the control and experimental group, respectively. When
-conditioning on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>0</mn></mrow></msub><annotation encoding="application/x-tex">m_{i,0}</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">m_{i,1}</annotation></semantics></math>,
-the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>O</mi><mi>i</mi></msub><annotation encoding="application/x-tex">O_i</annotation></semantics></math>
-has a Bernoulli distribution with parameter
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>E</mi><mi>i</mi></msub><annotation encoding="application/x-tex">E_i</annotation></semantics></math>.
-So the null conditional mean and variance of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Δ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\Delta_i</annotation></semantics></math>
-are 0 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>i</mi></msub><mo>=</mo><msub><mi>E</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>E</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_i = E_i(1 - E_i)</annotation></semantics></math>,
-respectively. Unconditionally,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Δ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\Delta_i</annotation></semantics></math>
-are mean 0 random variables with variance
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>V</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">E(V_i)</annotation></semantics></math>
-under the null hypothesis. So, conditioned on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>k</mi></msub><annotation encoding="application/x-tex">d_k</annotation></semantics></math>,
-we have
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></msubsup><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></msubsup><msub><mi>V</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)) = E(\sum_{i=1}^{d_k} V_i</annotation></semantics></math>).</p>
+</span></p>
+<p>where <span class="math inline">d_k</span> is the total number of
+events at analysis <span class="math inline">k</span>. Here, <span class="math inline">\Delta_i = O_i - E_i</span> with <span class="math inline">O_i</span> is the indicator that the <span class="math inline">i</span>-th event occurred in the experimental arm,
+and <span class="math inline">E_i = m_{i,1}/(m_{i,0} + m_{i,1})</span>
+as the null expectation of <span class="math inline">O_i</span> given
+<span class="math inline">m_{i,0}</span> and <span class="math inline">m_{i,1}</span>. The numbers <span class="math inline">m_{i,0}</span> and <span class="math inline">m_{i,1}</span> refer to the number of at-risk
+subjects prior to the <span class="math inline">i</span>-th death in the
+control and experimental group, respectively. When conditioning on <span class="math inline">m_{i,0}</span> and <span class="math inline">m_{i,1}</span>, the <span class="math inline">O_i</span> has a Bernoulli distribution with
+parameter <span class="math inline">E_i</span>. So the null conditional
+mean and variance of <span class="math inline">\Delta_i</span> are 0 and
+<span class="math inline">V_i = E_i(1 - E_i)</span>, respectively.
+Unconditionally, <span class="math inline">\Delta_i</span> are mean 0
+random variables with variance <span class="math inline">E(V_i)</span>
+under the null hypothesis. So, conditioned on <span class="math inline">d_k</span>, we have <span class="math inline">\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)) =
+E(\sum_{i=1}^{d_k} V_i</span>).</p>
 <p>In this vignette, we discuss the statistical information.
 Mathematically, it is the inverse of the variance, depending on whether
 it is under null or alternative hypothesis:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mo>=</mo><mn>1</mn><mi>/</mi><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub><mo>=</mo><mn>1</mn><mi>/</mi><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p><span class="math display">
   \begin{array}{c}
-    \mathcal I_{k, H_0} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0), \\
-    \mathcal I_{k, H_1} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_1).
+    \mathcal I_{k, H_0} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
+H_0), \\
+    \mathcal I_{k, H_1} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
+H_1).
   \end{array}
-</annotation></semantics></math></p>
+</span></p>
 <p>The ratio between two statistical information under the null
 hypothesis is called <strong>information fraction</strong>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>k</mi></msub><mo>=</mo><mfrac><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>≈</mo><mfrac><mrow><msub><mi>d</mi><mi>k</mi></msub><mi>/</mi><mn>4</mn></mrow><mrow><msub><mi>d</mi><mi>K</mi></msub><mi>/</mi><mn>4</mn></mrow></mfrac><mo>=</mo><msub><mi>d</mi><mi>k</mi></msub><mi>/</mi><msub><mi>d</mi><mi>K</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">
-  t_k = \frac{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}{\text{Var}(\sum_{i=1}^{d_K} \Delta_i | H_0)}
+<p><span class="math display">
+  t_k = \frac{\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
+H_0)}{\text{Var}(\sum_{i=1}^{d_K} \Delta_i | H_0)}
   \approx
   \frac{d_k/4}{d_K / 4}
   =
   d_k /d_K,
-</annotation></semantics></math></p>
-<p>In the rest of this vignette, we will discuss the value of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mo>,</mo><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">\mathcal I_{k, H_0}, \mathcal I_{k, H_1}</annotation></semantics></math>.
-To derive these statistical information, we introduce the B-values:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>k</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub></mrow><msqrt><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mo>=</mo><munder><munder><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub></mrow><msqrt><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mo accent="true">⏟</mo></munder><msub><mi>Z</mi><mi>k</mi></msub></munder><munder><munder><mfrac><msqrt><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt><msqrt><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mo accent="true">⏟</mo></munder><msqrt><msub><mi>t</mi><mi>k</mi></msub></msqrt></munder><mo>=</mo><msqrt><msub><mi>t</mi><mi>k</mi></msub></msqrt><msub><mi>Z</mi><mi>k</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">
+</span></p>
+<p>In the rest of this vignette, we will discuss the value of <span class="math inline">\mathcal I_{k, H_0}, \mathcal I_{k, H_1}</span>. To
+derive these statistical information, we introduce the B-values:</p>
+<p><span class="math display">
   B_k
   =
   \frac{
@@ -174,21 +143,16 @@ To derive these statistical information, we introduce the B-values:</p>
   }_{\sqrt{t_k}}
   =
   \sqrt{t_k} Z_k,
-</annotation></semantics></math></p>
+</span></p>
 <p>As depicted in Section 2.1.3 of <span class="citation">Proschan, Lan,
 and Wittes (2006)</span>, the stochastic process formulation presented
 in <span class="citation">Harrington, Fleming, and Green (1984)</span>
 and <span class="citation">Tsiatis (1982)</span> provides insights that
-sequence of B-values, denoted as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>B</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">{B_1, \ldots, B_K}</annotation></semantics></math>
-with follows a multivariate normal distribution behaves asymptotically
-like Brownian motion.</p>
-<p>For 2 B-values
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">B_i, B_j</annotation></semantics></math>
-with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>≤</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i \leq j</annotation></semantics></math>),
-we have</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub></mrow><msqrt><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mo>,</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>j</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub></mrow><msqrt><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo>,</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>j</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo>,</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>j</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo>−</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo>,</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>j</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo>−</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">
+sequence of B-values, denoted as <span class="math inline">{B_1, \ldots,
+B_K}</span> with follows a multivariate normal distribution behaves
+asymptotically like Brownian motion.</p>
+<p>For 2 B-values (<span class="math inline">B_i, B_j</span> with <span class="math inline">i \leq j</span>), we have</p>
+<p><span class="math display">
   \begin{eqnarray}
     \text{Cov}(B_i, B_j)
     &amp; = &amp;
@@ -217,7 +181,8 @@ we have</p>
     \text{Cov}
     \left(
       \sum_{s=1}^{d_i} \Delta_s,
-      \sum_{s=1}^{d_i} \Delta_s + \sum_{s=1}^{d_j} \Delta_s - \sum_{s=1}^{d_i} \Delta_s
+      \sum_{s=1}^{d_i} \Delta_s + \sum_{s=1}^{d_j} \Delta_s -
+\sum_{s=1}^{d_i} \Delta_s
     \right) \\
     &amp; = &amp;
     \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
@@ -228,7 +193,8 @@ we have</p>
     +
     \text{Cov}
     \left(
-      \sum_{s=1}^{d_i} \Delta_s, \sum_{s=1}^{d_j} \Delta_s - \sum_{s=1}^{d_i} \Delta_s
+      \sum_{s=1}^{d_i} \Delta_s, \sum_{s=1}^{d_j} \Delta_s -
+\sum_{s=1}^{d_i} \Delta_s
     \right) \\
     &amp; = &amp;
     \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
@@ -237,30 +203,28 @@ we have</p>
       \sum_{s=1}^{d_i} \Delta_s
     \right)
   \end{eqnarray}
-</annotation></semantics></math></p>
+</span></p>
 <div class="section level2">
 <h2 id="null-hypothesis">Null hypothesis<a class="anchor" aria-label="anchor" href="#null-hypothesis"></a>
 </h2>
-<p>The distribution of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msub><mi>B</mi><mi>k</mi></msub><msub><mo stretchy="false" form="postfix">}</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\{B_k\}_{k = 1, \ldots, K}</annotation></semantics></math>
-has the following structure:</p>
+<p>The distribution of <span class="math inline">\{B_k\}_{k = 1, \ldots,
+K}</span> has the following structure:</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub><mo>,</mo><msub><mi>B</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>B</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">B_1, B_2, \ldots, B_K</annotation></semantics></math>
-have a multivariate normal distribution.</li>
+<span class="math inline">B_1, B_2, \ldots, B_K</span> have a
+multivariate normal distribution.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">E(B_k \;|\; H_0) = 0</annotation></semantics></math>
-for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1, \ldots, K</annotation></semantics></math>.</li>
+<span class="math inline">E(B_k \;|\; H_0) = 0</span> for any <span class="math inline">k = 1, \ldots, K</span>.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>t</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\text{Var}(B_k \;|\; H_0) = t_k</annotation></semantics></math>.</li>
+<span class="math inline">\text{Var}(B_k \;|\; H_0) =
+t_k</span>.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>t</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\text{Cov}(B_i, B_j \;|\; H_0) = t_i</annotation></semantics></math>
-for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1 \leq i \leq j \leq K</annotation></semantics></math>.</li>
+<span class="math inline">\text{Cov}(B_i, B_j \;|\; H_0) =
+t_i</span> for any <span class="math inline">1 \leq i \leq j \leq
+K</span>.</li>
 </ul>
 <p>The derivation of the last 2 statement is</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>k</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>=</mo><msub><mi>t</mi><mi>k</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>t</mi><mi>i</mi></msub></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p><span class="math display">
   \begin{eqnarray}
   \text{Var}(B_k\;|\; H_0)
   &amp; = &amp;
@@ -280,51 +244,47 @@ for any
     \right)
   = t_i
   \end{eqnarray}
-</annotation></semantics></math></p>
-<p>Accordingly,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msub><mi>Z</mi><mi>k</mi></msub><msub><mo stretchy="false" form="postfix">}</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\{Z_k\}_{k = 1, \ldots, K}</annotation></semantics></math>
-has the canonical joint distribution with the following properties:</p>
+</span></p>
+<p>Accordingly, <span class="math inline">\{Z_k\}_{k = 1, \ldots,
+K}</span> has the canonical joint distribution with the following
+properties:</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mn>1</mn></msub><mo>,</mo><msub><mi>Z</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>Z</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">Z_1, Z_2, \ldots, Z_K</annotation></semantics></math>
-have a multivariate normal distribution.</li>
+<span class="math inline">Z_1, Z_2, \ldots, Z_K</span> have a
+multivariate normal distribution.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">E(Z_k \;|\; H_0) = 0</annotation></semantics></math>.</li>
+<span class="math inline">E(Z_k \;|\; H_0) = 0</span>.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{Var}(Z_k \;|\; H_0) = 1</annotation></semantics></math>.</li>
+<span class="math inline">\text{Var}(Z_k \;|\; H_0) = 1</span>.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msqrt><mrow><msub><mi>t</mi><mi>i</mi></msub><mi>/</mi><msub><mi>t</mi><mi>j</mi></msub></mrow></msqrt></mrow><annotation encoding="application/x-tex">\text{Cov}(Z_i, Z_j \;|\; H_0) = \sqrt{t_i/t_j}</annotation></semantics></math>
-for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1 \leq i \leq j \leq K</annotation></semantics></math>.</li>
+<span class="math inline">\text{Cov}(Z_i, Z_j \;|\; H_0) =
+\sqrt{t_i/t_j}</span> for any <span class="math inline">1 \leq i \leq j
+\leq K</span>.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="alternative-hypothesis">Alternative hypothesis<a class="anchor" aria-label="anchor" href="#alternative-hypothesis"></a>
 </h2>
-<p>Under the alternative hypothesis, for 2 B-values
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">B_i, B_j</annotation></semantics></math>
-with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>≤</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i \leq j</annotation></semantics></math>),
-the distribution of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msub><mi>B</mi><mi>k</mi></msub><msub><mo stretchy="false" form="postfix">}</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\{B_k\}_{k = 1, \ldots, K}</annotation></semantics></math>
-has the following structure:</p>
+<p>Under the alternative hypothesis, for 2 B-values (<span class="math inline">B_i, B_j</span> with <span class="math inline">i
+\leq j</span>), the distribution of <span class="math inline">\{B_k\}_{k
+= 1, \ldots, K}</span> has the following structure:</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub><mo>,</mo><msub><mi>B</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>B</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">B_1, B_2, \ldots, B_K</annotation></semantics></math>
-have a multivariate normal distribution.</li>
+<span class="math inline">B_1, B_2, \ldots, B_K</span> have a
+multivariate normal distribution.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>θ</mi><mi>k</mi></msub><msub><mi>t</mi><mi>k</mi></msub><msqrt><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub></msqrt></mrow><annotation encoding="application/x-tex">E(B_k \;|\; H_1) = \theta_k t_k \sqrt{\mathcal I_{k, H_0}}</annotation></semantics></math>
-for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k = 1, \ldots, K</annotation></semantics></math>.</li>
+<span class="math inline">E(B_k \;|\; H_1) = \theta_k t_k
+\sqrt{\mathcal I_{k, H_0}}</span> for any <span class="math inline">k =
+1, \ldots, K</span>.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>t</mi><mi>k</mi></msub><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">\text{Var}(B_k \;|\; H_1) = t_k \mathcal I_{k, H_0} / \mathcal I_{k, H_1}</annotation></semantics></math>.</li>
+<span class="math inline">\text{Var}(B_k \;|\; H_1) = t_k \mathcal
+I_{k, H_0} / \mathcal I_{k, H_1}</span>.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>t</mi><mi>i</mi></msub><mspace width="0.278em"></mspace><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">\text{Cov}(B_i, B_j \;|\; H_1) = t_i \; \mathcal I_{i, H_0}/\mathcal I_{i, H_1}</annotation></semantics></math>
-for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1 \leq i \leq j \leq K</annotation></semantics></math>.</li>
+<span class="math inline">\text{Cov}(B_i, B_j \;|\; H_1) = t_i \;
+\mathcal I_{i, H_0}/\mathcal I_{i, H_1}</span> for any <span class="math inline">1 \leq i \leq j \leq K</span>.</li>
 </ul>
 <p>The last statement is derived as</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><munder><munder><mrow><mfrac><mn>1</mn><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>K</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mo accent="true">⏟</mo></munder><msub><mi>t</mi><mi>i</mi></msub></munder><munder><munder><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mo accent="true">⏟</mo></munder><mrow><mn>1</mn><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow></munder><mi minsize="2.4" maxsize="2.4">/</mi><munder><munder><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>d</mi><mi>i</mi></msub></munderover><msub><mi>Δ</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mo accent="true">⏟</mo></munder><mrow><mn>1</mn><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub></mrow></munder></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><msub><mi>t</mi><mi>i</mi></msub><mspace width="0.278em"></mspace><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p><span class="math display">
   \begin{eqnarray}
     \text{Cov}(B_i, B_j \;|\; H_1)
     &amp; = &amp;
@@ -357,30 +317,27 @@ for any
     &amp; = &amp;
     t_i\; \mathcal I_{i, H_0}/\mathcal I_{i, H_1}.
   \end{eqnarray}
-</annotation></semantics></math></p>
-<p>Accordingly,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>k</mi></msub><annotation encoding="application/x-tex">Z_k</annotation></semantics></math>
-has the canonical joint distribution with the following properties:</p>
+</span></p>
+<p>Accordingly, <span class="math inline">Z_k</span> has the canonical
+joint distribution with the following properties:</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mn>1</mn></msub><mo>,</mo><msub><mi>Z</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>Z</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">Z_1, Z_2, \ldots, Z_K</annotation></semantics></math>
-have a multivariate normal distribution.</li>
+<span class="math inline">Z_1, Z_2, \ldots, Z_K</span> have a
+multivariate normal distribution.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>θ</mi><mi>k</mi></msub><msqrt><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub></msqrt></mrow><annotation encoding="application/x-tex">E(Z_k \;|\; H_1) = \theta_k \sqrt{\mathcal I_{k, H_0}}</annotation></semantics></math>
-with the treatment effect as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>k</mi></msub><annotation encoding="application/x-tex">\theta_k</annotation></semantics></math>
-at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis.</li>
+<span class="math inline">E(Z_k \;|\; H_1) = \theta_k \sqrt{\mathcal
+I_{k, H_0}}</span> with the treatment effect as <span class="math inline">\theta_k</span> at the <span class="math inline">k</span>-th analysis.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>k</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">\text{Var}(Z_k \;|\; H_1) = \mathcal I_{k, H_0} / \mathcal I_{k, H_1}</annotation></semantics></math>.</li>
+<span class="math inline">\text{Var}(Z_k \;|\; H_1) = \mathcal I_{k,
+H_0} / \mathcal I_{k, H_1}</span>.</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msqrt><mfrac><msub><mi>t</mi><mi>i</mi></msub><msub><mi>t</mi><mi>j</mi></msub></mfrac></msqrt><mfrac><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">\text{Cov}(Z_i, Z_j \;|\; H_1) = \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}</annotation></semantics></math>
-for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1 \leq i \leq j \leq K</annotation></semantics></math>.</li>
+<span class="math inline">\text{Cov}(Z_i, Z_j \;|\; H_1) =
+\sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i,
+H_1}}</span> for any <span class="math inline">1 \leq i \leq j \leq
+K</span>.</li>
 </ul>
 <p>The last statement is because</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mi>/</mi><msqrt><msub><mi>t</mi><mi>i</mi></msub></msqrt><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub><mi>/</mi><msqrt><msub><mi>t</mi><mi>j</mi></msub></msqrt><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><msqrt><mrow><msub><mi>t</mi><mi>i</mi></msub><msub><mi>t</mi><mi>j</mi></msub></mrow></msqrt></mfrac><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><msub><mi>B</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><msqrt><mrow><msub><mi>t</mi><mi>i</mi></msub><msub><mi>t</mi><mi>j</mi></msub></mrow></msqrt></mfrac><mtext mathvariant="normal">Var</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>B</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><msqrt><mfrac><msub><mi>t</mi><mi>i</mi></msub><msub><mi>t</mi><mi>j</mi></msub></mfrac></msqrt><mfrac><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p><span class="math display">
   \begin{eqnarray}
     \text{Cov}(Z_i, Z_j \;|\; H_1)
     &amp; = &amp;
@@ -391,14 +348,13 @@ for any
     &amp; = &amp;
     \frac{1}{\sqrt{t_i t_j}} \text{Var}(B_i) \\
     &amp; = &amp;
-    \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}
+    \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i,
+H_1}}
   \end{eqnarray}
-</annotation></semantics></math></p>
-<p>When the local alternative assumption holds, we have
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Cov</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>≈</mo><msqrt><mfrac><msub><mi>t</mi><mi>i</mi></msub><msub><mi>t</mi><mi>j</mi></msub></mfrac></msqrt></mrow><annotation encoding="application/x-tex">\text{Cov}(Z_i, Z_j) \approx \sqrt{\frac{t_i}{t_j}}</annotation></semantics></math>,
-which is in the format of the canonical joint distribution introduced in
-Chapter 3 of <span class="citation">Proschan, Lan, and Wittes
-(2006)</span>.</p>
+</span></p>
+<p>When the local alternative assumption holds, we have <span class="math inline">\text{Cov}(Z_i, Z_j) \approx
+\sqrt{\frac{t_i}{t_j}}</span>, which is in the format of the canonical
+joint distribution introduced in Chapter 3 of <span class="citation">Proschan, Lan, and Wittes (2006)</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
@@ -416,62 +372,48 @@ Chapter 3 of <span class="citation">Proschan, Lan, and Wittes
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Expectation mean at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
+<td align="left">Expectation mean at the <span class="math inline">k</span>-th analysis under <span class="math inline">H_0</span>
 </td>
 <td align="center">0</td>
 <td align="center">0</td>
 </tr>
 <tr class="even">
-<td align="left">Expectation mean at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>
+<td align="left">Expectation mean at the <span class="math inline">k</span>-th analysis under <span class="math inline">H_1</span>
 </td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>k</mi></msub><msub><mi>t</mi><mi>k</mi></msub><msqrt><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub></msqrt></mrow><annotation encoding="application/x-tex">\theta_k t_k \sqrt{\mathcal I_{k, H_0}}</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>k</mi></msub><msqrt><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub></msqrt></mrow><annotation encoding="application/x-tex">\theta_k \sqrt{\mathcal I_{k, H_0}}</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\theta_k t_k \sqrt{\mathcal
+I_{k, H_0}}</span></td>
+<td align="center"><span class="math inline">\theta_k \sqrt{\mathcal
+I_{k, H_0}}</span></td>
 </tr>
 <tr class="odd">
-<td align="left">Variance at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
+<td align="left">Variance at the <span class="math inline">k</span>-th
+analysis under <span class="math inline">H_0</span>
 </td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>k</mi></msub><annotation encoding="application/x-tex">t_k</annotation></semantics></math></td>
+<td align="center"><span class="math inline">t_k</span></td>
 <td align="center">1</td>
 </tr>
 <tr class="even">
-<td align="left">Variance at the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-analysis under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>
+<td align="left">Variance at the <span class="math inline">k</span>-th
+analysis under <span class="math inline">H_1</span>
 </td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>k</mi></msub><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">t_k \mathcal I_{k, H_0} / \mathcal I_{k, H_1}</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>k</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">\mathcal I_{k, H_0} / \mathcal I_{k, H_1}</annotation></semantics></math></td>
+<td align="center"><span class="math inline">t_k \mathcal I_{k, H_0} /
+\mathcal I_{k, H_1}</span></td>
+<td align="center"><span class="math inline">\mathcal I_{k, H_0} /
+\mathcal I_{k, H_1}</span></td>
 </tr>
 <tr class="odd">
-<td align="left">Covariance between the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>-th
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>th
-analysis under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>≤</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i\leq j</annotation></semantics></math>)</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>i</mi></msub><annotation encoding="application/x-tex">t_i</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mrow><msub><mi>t</mi><mi>i</mi></msub><mi>/</mi><msub><mi>t</mi><mi>j</mi></msub></mrow></msqrt><annotation encoding="application/x-tex">\sqrt{t_i/t_j}</annotation></semantics></math></td>
+<td align="left">Covariance between the <span class="math inline">i</span>-th and <span class="math inline">j</span>th
+analysis under <span class="math inline">H_0</span> (<span class="math inline">i\leq j</span>)</td>
+<td align="center"><span class="math inline">t_i</span></td>
+<td align="center"><span class="math inline">\sqrt{t_i/t_j}</span></td>
 </tr>
 <tr class="even">
-<td align="left">Covariance between the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>-th
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>th
-analysis under
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>≤</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i\leq j</annotation></semantics></math>)</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>i</mi></msub><mspace width="0.278em"></mspace><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><mi>/</mi><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">t_i \; \mathcal I_{i, H_0}/\mathcal I_{i, H_1}</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mfrac><msub><mi>t</mi><mi>i</mi></msub><msub><mi>t</mi><mi>j</mi></msub></mfrac></msqrt><mfrac><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>0</mn></msub></mrow></msub><msub><mi>ℐ</mi><mrow><mi>i</mi><mo>,</mo><msub><mi>H</mi><mn>1</mn></msub></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">\sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}</annotation></semantics></math></td>
+<td align="left">Covariance between the <span class="math inline">i</span>-th and <span class="math inline">j</span>th
+analysis under <span class="math inline">H_1</span> (<span class="math inline">i\leq j</span>)</td>
+<td align="center"><span class="math inline">t_i \; \mathcal I_{i,
+H_0}/\mathcal I_{i, H_1}</span></td>
+<td align="center"><span class="math inline">\sqrt{\frac{t_i}{t_j}}
+\frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}</span></td>
 </tr>
 </tbody>
 </table>

@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Computing bounds under non-constant treatment effect">
 </head>
 <body>
@@ -76,131 +77,68 @@ Anderson</h4>
 treatment effects over time. This can be useful for situations such as
 an assumed non-proportional hazards model as laid out in
 <code>vignettes/articles/story-npe-background.Rmd</code>. In general, we
-assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">K \geq 1</annotation></semantics></math>
-analyses with statistical information
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℐ</mi><mi>k</mi></msub><annotation encoding="application/x-tex">\mathcal{I}_k</annotation></semantics></math>
-and information fraction
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>k</mi></msub><mo>=</mo><msub><mi>ℐ</mi><mi>k</mi></msub><mi>/</mi><msub><mi>ℐ</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">t_k=\mathcal{I}_k/\mathcal{I}_k</annotation></semantics></math>
-at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1\leq k\leq K</annotation></semantics></math>.
-We denote the null hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_{0}</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta(t)=0</annotation></semantics></math>
-and an alternate hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta(t)=\theta_1(t)</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t&gt; 0</annotation></semantics></math>
-where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
-represents the information fraction for a study. While a study is
-planned to stop at information fraction
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t=1</annotation></semantics></math>,
-we define
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta(t)</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t&gt;0</annotation></semantics></math>
-since a trial can overrun its planned statistical information at the
-final analysis. As before, we use a shorthand notation in to have
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
-represent
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta()</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta=0</annotation></semantics></math>
-to represent
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>≡</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta(t)\equiv 0</annotation></semantics></math>
-for all
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\theta_1</annotation></semantics></math>
-to represent
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta_i(t_k)</annotation></semantics></math>,
-the effect size at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1\leq k\leq K</annotation></semantics></math>.</p>
-<p>For our purposes,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-will represent no treatment difference, but it could represent a
-non-inferiority hypothesis. Recall that we assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>
-analyses and bounds
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>∞</mi><mo>≤</mo><msub><mi>a</mi><mi>k</mi></msub><mo>&lt;</mo><msub><mi>b</mi><mi>k</mi></msub><mo>&lt;</mo><mo>≤</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">-\infty \leq a_k&lt; b_k&lt;\leq \infty</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>k</mi><mo>&lt;</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1\leq k &lt; K</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>∞</mi><mo>≤</mo><msub><mi>a</mi><mi>K</mi></msub><mo>≤</mo><msub><mi>b</mi><mi>K</mi></msub><mo>&lt;</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">-\infty \leq a_K\leq b_K&lt;\infty</annotation></semantics></math>.
-We denote the probability of crossing the upper boundary at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-without previously crossing a bound by</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>P</mi><mi>θ</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>Z</mi><mi>k</mi></msub><mo>≥</mo><msub><mi>b</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">}</mo><msubsup><mo>∩</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msubsup><mo stretchy="false" form="prefix">{</mo><msub><mi>a</mi><mi>j</mi></msub><mo>≤</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>&lt;</mo><msub><mi>b</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">}</mo><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq b_{k}\}\cap_{j=1}^{k-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">k=1,2,\ldots,K.</annotation></semantics></math>
-The total probability of crossing an upper bound prior to crossing a
-lower bound is denoted by</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>≡</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\alpha(\theta)\equiv\sum_{k=1}^K\alpha_k(\theta).</annotation></semantics></math></p>
+assume <span class="math inline">K \geq 1</span> analyses with
+statistical information <span class="math inline">\mathcal{I}_k</span>
+and information fraction <span class="math inline">t_k=\mathcal{I}_k/\mathcal{I}_k</span> at analysis
+<span class="math inline">k</span>, <span class="math inline">1\leq
+k\leq K</span>. We denote the null hypothesis <span class="math inline">H_{0}</span>: <span class="math inline">\theta(t)=0</span> and an alternate hypothesis <span class="math inline">H_1</span>: <span class="math inline">\theta(t)=\theta_1(t)</span> for <span class="math inline">t&gt; 0</span> where <span class="math inline">t</span> represents the information fraction for a
+study. While a study is planned to stop at information fraction <span class="math inline">t=1</span>, we define <span class="math inline">\theta(t)</span> for <span class="math inline">t&gt;0</span> since a trial can overrun its planned
+statistical information at the final analysis. As before, we use a
+shorthand notation in to have <span class="math inline">\theta</span>
+represent <span class="math inline">\theta()</span>, <span class="math inline">\theta=0</span> to represent <span class="math inline">\theta(t)\equiv 0</span> for all <span class="math inline">t</span> and <span class="math inline">\theta_1</span> to represent <span class="math inline">\theta_i(t_k)</span>, the effect size at analysis
+<span class="math inline">k</span>, <span class="math inline">1\leq
+k\leq K</span>.</p>
+<p>For our purposes, <span class="math inline">H_0</span> will represent
+no treatment difference, but it could represent a non-inferiority
+hypothesis. Recall that we assume <span class="math inline">K</span>
+analyses and bounds <span class="math inline">-\infty \leq a_k&lt;
+b_k&lt;\leq \infty</span> for <span class="math inline">1\leq k &lt;
+K</span> and <span class="math inline">-\infty \leq a_K\leq
+b_K&lt;\infty</span>. We denote the probability of crossing the upper
+boundary at analysis <span class="math inline">k</span> without
+previously crossing a bound by</p>
+<p><span class="math display">\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq
+b_{k}\}\cap_{j=1}^{k-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),</span> <span class="math inline">k=1,2,\ldots,K.</span> The total probability of
+crossing an upper bound prior to crossing a lower bound is denoted
+by</p>
+<p><span class="math display">\alpha(\theta)\equiv\sum_{k=1}^K\alpha_k(\theta).</span></p>
 <p>For non-binding bounds, we define the probability</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mi>k</mi><mo>+</mo></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>P</mi><mi>θ</mi></msub><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>Z</mi><mi>k</mi></msub><mo>≥</mo><msub><mi>b</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">}</mo><msubsup><mo>∩</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msubsup><mo stretchy="false" form="prefix">{</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>&lt;</mo><msub><mi>b</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\alpha_{k}^{+}(\theta)=P_{\theta}\{\{Z_{k}\geq b_{k}\}\cap_{j=1}^{k-1} \{Z_{j}&lt; b_{j}\}\}</annotation></semantics></math>
-which ignores the lower bounds when computing upper boundary crossing
-probabilities. The non-binding Type I error is the probability of ever
-crossing the upper bound when
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta=0</annotation></semantics></math>.
-The value
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mi>k</mi><mo>+</mo></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha^+_{k}(0)</annotation></semantics></math>
-is commonly referred to as the amount of Type I error spent at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1\leq k\leq K</annotation></semantics></math>.
-The total upper boundary crossing probability for a trial is denoted in
-this one-sided scenario by
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>α</mi><mo>+</mo></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>≡</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><msubsup><mi>α</mi><mi>k</mi><mo>+</mo></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\alpha^+(\theta) \equiv\sum_{k=1}^{K}\alpha^+_{k}(\theta).</annotation></semantics></math>
-We will primarily be interested in
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha(\theta)</annotation></semantics></math>
-to compute power when
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta &gt; 0</annotation></semantics></math>.
-For Type I error, we may be interested in
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha(0)</annotation></semantics></math>
-for binding lower bounds, but more often we will consider non-binding
-Type I error calculations,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>α</mi><mo>+</mo></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha^{+}(0)</annotation></semantics></math>.</p>
-<p>We denote the probability of crossing a lower bound at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-without previously crossing any bound by</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>P</mi><mi>θ</mi></msub><mo stretchy="false" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Z</mi><mi>k</mi></msub><mo>&lt;</mo><msub><mi>a</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">}</mo><msubsup><mo>∩</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msubsup><mo stretchy="false" form="prefix">{</mo><msub><mi>a</mi><mi>j</mi></msub><mo>≤</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>&lt;</mo><msub><mi>b</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">}</mo><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt; a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).</annotation></semantics></math></p>
-<p>Efficacy bounds
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mi>k</mi></msub><annotation encoding="application/x-tex">b_k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1\leq k\leq K</annotation></semantics></math>,
-for a group sequential design will be derived to control Type I at some
-level
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha=\alpha(0)</annotation></semantics></math>.</p>
-<p>Lower bounds
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>k</mi></msub><annotation encoding="application/x-tex">a_k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1\leq k\leq K</annotation></semantics></math>
-may be used to control boundary crossing probabilities under either the
-null hypothesis (2-sided testing), the alternate hypothesis or some
-other hypothesis (futility testing).</p>
-<p>Thus, we may consider up to 3 values of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta(t)</annotation></semantics></math>:</p>
+<p><span class="math display">\alpha_{k}^{+}(\theta)=P_{\theta}\{\{Z_{k}\geq
+b_{k}\}\cap_{j=1}^{k-1} \{Z_{j}&lt; b_{j}\}\}</span> which ignores the
+lower bounds when computing upper boundary crossing probabilities. The
+non-binding Type I error is the probability of ever crossing the upper
+bound when <span class="math inline">\theta=0</span>. The value <span class="math inline">\alpha^+_{k}(0)</span> is commonly referred to as
+the amount of Type I error spent at analysis <span class="math inline">k</span>, <span class="math inline">1\leq k\leq
+K</span>. The total upper boundary crossing probability for a trial is
+denoted in this one-sided scenario by <span class="math display">\alpha^+(\theta)
+\equiv\sum_{k=1}^{K}\alpha^+_{k}(\theta).</span> We will primarily be
+interested in <span class="math inline">\alpha(\theta)</span> to compute
+power when <span class="math inline">\theta &gt; 0</span>. For Type I
+error, we may be interested in <span class="math inline">\alpha(0)</span> for binding lower bounds, but more
+often we will consider non-binding Type I error calculations, <span class="math inline">\alpha^{+}(0)</span>.</p>
+<p>We denote the probability of crossing a lower bound at analysis <span class="math inline">k</span> without previously crossing any bound
+by</p>
+<p><span class="math display">\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt;
+a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).</span></p>
+<p>Efficacy bounds <span class="math inline">b_k</span>, <span class="math inline">1\leq k\leq K</span>, for a group sequential design
+will be derived to control Type I at some level <span class="math inline">\alpha=\alpha(0)</span>.</p>
+<p>Lower bounds <span class="math inline">a_k</span>, <span class="math inline">1\leq k\leq K</span> may be used to control boundary
+crossing probabilities under either the null hypothesis (2-sided
+testing), the alternate hypothesis or some other hypothesis (futility
+testing).</p>
+<p>Thus, we may consider up to 3 values of <span class="math inline">\theta(t)</span>:</p>
 <ul>
-<li>under the null hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta_0(t)=0</annotation></semantics></math>
-for computing efficacy bounds,</li>
-<li>under a value
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mn>1</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta_1(t)</annotation></semantics></math>
-for computing lower bounds, and</li>
-<li>under a value
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>a</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta_a(t)</annotation></semantics></math>
-for computing sample size or power.</li>
+<li>under the null hypothesis <span class="math inline">\theta_0(t)=0</span> for computing efficacy
+bounds,</li>
+<li>under a value <span class="math inline">\theta_1(t)</span> for
+computing lower bounds, and</li>
+<li>under a value <span class="math inline">\theta_a(t)</span> for
+computing sample size or power.</li>
 </ul>
-<p>We refer to the information under these 3 assumptions as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ℐ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{I}^{(0)}(t)</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ℐ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{I}^{(1)}(t)</annotation></semantics></math>,
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ℐ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{I}^{(a)}(t)</annotation></semantics></math>,
-respectively. Often we will assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℐ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>ℐ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>ℐ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>ℐ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\mathcal{I}(t)=\mathcal{I}^{(0)}(t)=\mathcal{I}^{(1)}(t)=\mathcal{I}^{(a)}(t).</annotation></semantics></math></p>
-<p>We note that information may differ under different values of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta(t)</annotation></semantics></math>.
-For fixed designs, <span class="citation">Lachin (2009)</span> computes
-sample size based on different variances under the null and alternate
-hypothesis.</p>
+<p>We refer to the information under these 3 assumptions as <span class="math inline">\mathcal{I}^{(0)}(t)</span>, <span class="math inline">\mathcal{I}^{(1)}(t)</span>, and <span class="math inline">\mathcal{I}^{(a)}(t)</span>, respectively. Often we
+will assume <span class="math inline">\mathcal{I}(t)=\mathcal{I}^{(0)}(t)=\mathcal{I}^{(1)}(t)=\mathcal{I}^{(a)}(t).</span></p>
+<p>We note that information may differ under different values of <span class="math inline">\theta(t)</span>. For fixed designs, <span class="citation">Lachin (2009)</span> computes sample size based on
+different variances under the null and alternate hypothesis.</p>
 </div>
 <div class="section level2">
 <h2 id="spending-bounds">Spending bounds<a class="anchor" aria-label="anchor" href="#spending-bounds"></a>
@@ -208,8 +146,7 @@ hypothesis.</p>
 <p>We consider different boundary types in the <strong>gsDesign</strong>
 package and simplify them into two types according to whether lower
 bounds are binding or non-binding. The concept is to implicitly derive
-Z-value bounds
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo>,</mo><msub><mi>b</mi><mi>k</mi></msub><mo>,</mo><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>⋯</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">a_k, b_k, k=1,\cdots,K</annotation></semantics></math>
+Z-value bounds <span class="math inline">a_k, b_k, k=1,\cdots,K</span>
 based on probabilities specified in the following table. We include the
 <code>test.type</code> argument from the
 <code><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign::gsDesign()</a></code> function for reference.</p>
@@ -225,47 +162,47 @@ boundaries</caption>
 <tbody>
 <tr class="odd">
 <td align="center">1</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mi>k</mi><mo>+</mo></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k^{+}(0)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha_k^{+}(0)</span></td>
 <td align="center">None</td>
 <td align="center">One-sided efficacy</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k(0)</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k(0)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha_k(0)</span></td>
+<td align="center"><span class="math inline">\alpha_k(0)</span></td>
 <td align="center">2-sided symmetric</td>
 </tr>
 <tr class="odd">
 <td align="center">3</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k(0)</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>a</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta_k(\theta_a)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha_k(0)</span></td>
+<td align="center"><span class="math inline">\beta_k(\theta_a)</span></td>
 <td align="center">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
-with binding futility</td>
+<span class="math inline">\beta</span>-spending with
+binding futility</td>
 </tr>
 <tr class="even">
 <td align="center">4</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mi>k</mi><mo>+</mo></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k^{+}(0)</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>a</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta_k(\theta_a)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha_k^{+}(0)</span></td>
+<td align="center"><span class="math inline">\beta_k(\theta_a)</span></td>
 <td align="center">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
-with non-binding futility</td>
+<span class="math inline">\beta</span>-spending with
+non-binding futility</td>
 </tr>
 <tr class="odd">
 <td align="center">5</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k(0)</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta_i(\theta_1)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha_k(0)</span></td>
+<td align="center"><span class="math inline">\beta_i(\theta_1)</span></td>
 <td align="center">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>-spending
-with binding futility</td>
+<span class="math inline">\theta</span>-spending with
+binding futility</td>
 </tr>
 <tr class="even">
 <td align="center">6</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>α</mi><mo>+</mo></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha^{+}(0)</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta_i(\theta_1)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha^{+}(0)</span></td>
+<td align="center"><span class="math inline">\beta_i(\theta_1)</span></td>
 <td align="center">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>-spending
-with non-binding futility</td>
+<span class="math inline">\theta</span>-spending with
+non-binding futility</td>
 </tr>
 </tbody>
 </table>
@@ -283,216 +220,90 @@ Z-value boundaries</caption>
 <tbody>
 <tr class="odd">
 <td align="center">2, 3, 5</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k(0)</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta_k(\theta)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha_k(0)</span></td>
+<td align="center"><span class="math inline">\beta_k(\theta)</span></td>
 <td align="center">Binding lower bound</td>
 </tr>
 <tr class="even">
 <td align="center">1, 4, 6</td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mi>k</mi><mo>+</mo></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k^{+}(0)</annotation></semantics></math></td>
-<td align="center"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta_k(\theta)</annotation></semantics></math></td>
+<td align="center"><span class="math inline">\alpha_k^{+}(0)</span></td>
+<td align="center"><span class="math inline">\beta_k(\theta)</span></td>
 <td align="center">Non-binding lower bound</td>
 </tr>
 </tbody>
 </table>
-<p>In this second table we have used
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta=0</annotation></semantics></math>
-to derive the upper bound to control Type I error in all cases. We have
-chosen some arbitrary
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
-which could be 0 for any other <code>test.type</code>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>a</mi></msub><annotation encoding="application/x-tex">\theta_a</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
-or some arbitrary
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\theta_1</annotation></semantics></math>
-otherwise. We note that for a one-sided design we let
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\beta_k(\theta)=0</annotation></semantics></math>
-so that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo>=</mo><mo>−</mo><mi>∞</mi><mo>,</mo><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>⋯</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">a_k=-\infty, k=1,\cdots,K</annotation></semantics></math>.
-For <code>test.type=3, 4</code> we let
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><msub><mi>θ</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">\theta=\theta_a</annotation></semantics></math>,
-while for <code>test.type=5, 6</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta \geq 0</annotation></semantics></math>
-is arbitrary. We note that asymmetric
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-bounds can be derived using <code>test.type &gt; 2</code> and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>0</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\theta=0.</annotation></semantics></math></p>
+<p>In this second table we have used <span class="math inline">\theta=0</span> to derive the upper bound to control
+Type I error in all cases. We have chosen some arbitrary <span class="math inline">\theta</span> which could be 0 for any other
+<code>test.type</code>, <span class="math inline">\theta_a</span> for
+<span class="math inline">\beta</span>-spending or some arbitrary <span class="math inline">\theta_1</span> otherwise. We note that for a
+one-sided design we let <span class="math inline">\beta_k(\theta)=0</span> so that <span class="math inline">a_k=-\infty, k=1,\cdots,K</span>. For
+<code>test.type=3, 4</code> we let <span class="math inline">\theta=\theta_a</span>, while for
+<code>test.type=5, 6</code> <span class="math inline">\theta \geq
+0</span> is arbitrary. We note that asymmetric <span class="math inline">\alpha</span>-spending bounds can be derived using
+<code>test.type &gt; 2</code> and <span class="math inline">\theta=0.</span></p>
 </div>
 <div class="section level2">
 <h2 id="two-sided-testing-and-design">Two-sided testing and design<a class="anchor" aria-label="anchor" href="#two-sided-testing-and-design"></a>
 </h2>
-<p>We denote an alternative
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>a</mi></msub><annotation encoding="application/x-tex">H_{a}</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>θ</mi><mi>a</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta(t)=\theta_a(t)</annotation></semantics></math>;
-we will always assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>a</mi></msub><annotation encoding="application/x-tex">H_a</annotation></semantics></math>
-for power calculations; when using
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
-we will also use
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>a</mi></msub><annotation encoding="application/x-tex">H_a</annotation></semantics></math>
-for controlling lower boundary
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>k</mi></msub><annotation encoding="application/x-tex">a_k</annotation></semantics></math>
-crossing probabilities by letting
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><msub><mi>θ</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">\theta=\theta_a</annotation></semantics></math>
-for lower bound spending. A value of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta(t)&gt;0</annotation></semantics></math>
+<p>We denote an alternative <span class="math inline">H_{a}</span>:
+<span class="math inline">\theta(t)=\theta_a(t)</span>; we will always
+assume <span class="math inline">H_a</span> for power calculations; when
+using <span class="math inline">\beta</span>-spending we will also use
+<span class="math inline">H_a</span> for controlling lower boundary
+<span class="math inline">a_k</span> crossing probabilities by letting
+<span class="math inline">\theta=\theta_a</span> for lower bound
+spending. A value of <span class="math inline">\theta(t)&gt;0</span>
 will reflect a positive benefit. We will not restrict the alternate
-hypothesis to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>a</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta_a(t)&gt;0</annotation></semantics></math>
-for all
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>.
-The value of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta(t)</annotation></semantics></math>
-will be referred to as the (standardized) treatment effect at
-information fraction
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>.</p>
+hypothesis to <span class="math inline">\theta_a(t)&gt;0</span> for all
+<span class="math inline">t</span>. The value of <span class="math inline">\theta(t)</span> will be referred to as the
+(standardized) treatment effect at information fraction <span class="math inline">t</span>.</p>
 <p>We assume there is interest in stopping early if there is good
 evidence to reject one hypothesis in favor of the other.</p>
-<p>If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo>=</mo><mo>−</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">a_k= -\infty</annotation></semantics></math>
-at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-for some
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1\leq k\leq K</annotation></semantics></math>
-then the alternate hypothesis cannot be rejected at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>;
-i.e., there is no futility bound at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.
-For
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,2,\ldots,K</annotation></semantics></math>,
-the trial is stopped at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-to reject
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>j</mi></msub><mo>&lt;</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>&lt;</mo><msub><mi>b</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">a_j&lt;Z_j&lt; b_j</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>i</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">j=1,2,\dots,i-1</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>k</mi></msub><mo>≥</mo><msub><mi>b</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">Z_k\geq b_k</annotation></semantics></math>.
-If the trial continues until stage
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-without crossing a bound and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>k</mi></msub><mo>≤</mo><msub><mi>a</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">Z_k\leq a_k</annotation></semantics></math>
-then
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>
-is rejected in favor of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,2,\ldots,K</annotation></semantics></math>.
-Note that if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>K</mi></msub><mo>&lt;</mo><msub><mi>b</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">a_K&lt; b_K</annotation></semantics></math>
-there is the possibility of completing the trial without rejecting
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-or
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>
-unless
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>K</mi></msub><mo>=</mo><msub><mi>b</mi><mi>K</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">a_K=b_K.</annotation></semantics></math></p>
+<p>If <span class="math inline">a_k= -\infty</span> at analysis <span class="math inline">k</span> for some <span class="math inline">1\leq
+k\leq K</span> then the alternate hypothesis cannot be rejected at
+analysis <span class="math inline">k</span>; i.e., there is no futility
+bound at analysis <span class="math inline">k</span>. For <span class="math inline">k=1,2,\ldots,K</span>, the trial is stopped at
+analysis <span class="math inline">k</span> to reject <span class="math inline">H_0</span> if <span class="math inline">a_j&lt;Z_j&lt; b_j</span>, <span class="math inline">j=1,2,\dots,i-1</span> and <span class="math inline">Z_k\geq b_k</span>. If the trial continues until
+stage <span class="math inline">k</span> without crossing a bound and
+<span class="math inline">Z_k\leq a_k</span> then <span class="math inline">H_1</span> is rejected in favor of <span class="math inline">H_0</span>, <span class="math inline">k=1,2,\ldots,K</span>. Note that if <span class="math inline">a_K&lt; b_K</span> there is the possibility of
+completing the trial without rejecting <span class="math inline">H_0</span> or <span class="math inline">H_1</span>
+unless <span class="math inline">a_K=b_K.</span></p>
 <div class="section level3">
 <h3 id="haybittle-peto-and-spending-bounds">Haybittle-Peto and spending bounds<a class="anchor" aria-label="anchor" href="#haybittle-peto-and-spending-bounds"></a>
 </h3>
 <p>The recursive algorithm of the previous section allows computation of
 both spending bounds and Haybittle-Peto bounds. For a Haybittle-Peto
-efficacy bound, one would normally set
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub><mo>=</mo><msup><mi>Φ</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ϵ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">b_k=\Phi^{-1}(1-\epsilon)</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1,2,\ldots,K-1</annotation></semantics></math>
-and some small
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\epsilon&gt;0</annotation></semantics></math>
-such as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>0.001</mn></mrow><annotation encoding="application/x-tex">\epsilon= 0.001</annotation></semantics></math>
-which yields
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub><mo>=</mo><mn>3.09</mn></mrow><annotation encoding="application/x-tex">b_k=3.09</annotation></semantics></math>.
-While the original proposal was to use
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>K</mi></msub><mo>=</mo><msup><mi>Φ</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">b_K=\Phi^{-1}(1-\alpha)</annotation></semantics></math>
-at the final analysis, to fully control one-sided Type I error at level
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-we suggest computing the final bound
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mi>K</mi></msub><annotation encoding="application/x-tex">b_K</annotation></semantics></math>
-using the above algorithm so that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha(0)=\alpha</annotation></semantics></math>.</p>
-<p>Bounds computed with spending
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k(0)</annotation></semantics></math>
-at analysis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-can be computed by using equation (9) for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>1</mn></msub><annotation encoding="application/x-tex">b_1</annotation></semantics></math>.
-Then for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=2,\ldots,K</annotation></semantics></math>
-the algorithm of the previous section is used. As noted by <span class="citation">Jennison and Turnbull (1999)</span>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>b</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">b_1,\ldots,b_K</annotation></semantics></math>
-if determined under the null hypothesis depend only on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>k</mi></msub><annotation encoding="application/x-tex">t_k</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_k(0)</annotation></semantics></math>
-with no dependence on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℐ</mi><mi>k</mi></msub><annotation encoding="application/x-tex">\mathcal{I}_k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>.
-When computing bounds based on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta_k(\theta)</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>,
-where some
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta(t_k)\neq 0</annotation></semantics></math>
-we have an additional dependency with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>k</mi></msub><annotation encoding="application/x-tex">a_k</annotation></semantics></math>
-depending not only on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>k</mi></msub><annotation encoding="application/x-tex">t_k</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mi>k</mi></msub><annotation encoding="application/x-tex">b_k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>,
-but also on the final total information
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℐ</mi><mi>K</mi></msub><annotation encoding="application/x-tex">\mathcal{I}_K</annotation></semantics></math>.
-Thus, a spending bound under something other than the null hypothesis
-needs to be recomputed each time
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℐ</mi><mi>K</mi></msub><annotation encoding="application/x-tex">\mathcal{I}_K</annotation></semantics></math>
-changes, whereas it only needs to be computed once when
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta(t_k)=0</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>.</p>
+efficacy bound, one would normally set <span class="math inline">b_k=\Phi^{-1}(1-\epsilon)</span> for <span class="math inline">k=1,2,\ldots,K-1</span> and some small <span class="math inline">\epsilon&gt;0</span> such as <span class="math inline">\epsilon= 0.001</span> which yields <span class="math inline">b_k=3.09</span>. While the original proposal was to
+use <span class="math inline">b_K=\Phi^{-1}(1-\alpha)</span> at the
+final analysis, to fully control one-sided Type I error at level <span class="math inline">\alpha</span> we suggest computing the final bound
+<span class="math inline">b_K</span> using the above algorithm so that
+<span class="math inline">\alpha(0)=\alpha</span>.</p>
+<p>Bounds computed with spending <span class="math inline">\alpha_k(0)</span> at analysis <span class="math inline">k</span> can be computed by using equation (9) for
+<span class="math inline">b_1</span>. Then for <span class="math inline">k=2,\ldots,K</span> the algorithm of the previous
+section is used. As noted by <span class="citation">Jennison and
+Turnbull (1999)</span>, <span class="math inline">b_1,\ldots,b_K</span>
+if determined under the null hypothesis depend only on <span class="math inline">t_k</span> and <span class="math inline">\alpha_k(0)</span> with no dependence on <span class="math inline">\mathcal{I}_k</span>, <span class="math inline">k=1,\ldots,K</span>. When computing bounds based on
+<span class="math inline">\beta_k(\theta)</span>, <span class="math inline">k=1,\ldots,K</span>, where some <span class="math inline">\theta(t_k)\neq 0</span> we have an additional
+dependency with <span class="math inline">a_k</span> depending not only
+on <span class="math inline">t_k</span> and <span class="math inline">b_k</span>, <span class="math inline">k=1,\ldots,K</span>, but also on the final total
+information <span class="math inline">\mathcal{I}_K</span>. Thus, a
+spending bound under something other than the null hypothesis needs to
+be recomputed each time <span class="math inline">\mathcal{I}_K</span>
+changes, whereas it only needs to be computed once when <span class="math inline">\theta(t_k)=0</span>, <span class="math inline">k=1,\ldots,K</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="bounds-based-on-boundary-families">Bounds based on boundary families<a class="anchor" aria-label="anchor" href="#bounds-based-on-boundary-families"></a>
 </h3>
-<p>Assume constants
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>b</mi><mn>1</mn><mo>*</mo></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>b</mi><mi>K</mi><mo>*</mo></msubsup></mrow><annotation encoding="application/x-tex">b_1^*,\ldots,b_K^*</annotation></semantics></math>
-and a total targeted one-sided Type I error
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>.
-We wish to find
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>u</mi></msub><annotation encoding="application/x-tex">C_u</annotation></semantics></math>
-as a function of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><msub><mi>t</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">t_1,\ldots t_K</annotation></semantics></math>
-such that if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub><mo>=</mo><msub><mi>C</mi><mi>u</mi></msub><msubsup><mi>b</mi><mi>k</mi><mo>*</mo></msubsup></mrow><annotation encoding="application/x-tex">b_k=C_ub_k^*</annotation></semantics></math>
-then
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>α</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">\alpha(0)=\alpha.</annotation></semantics></math>
-Thus, the problem is to solve for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>u</mi></msub><annotation encoding="application/x-tex">C_u</annotation></semantics></math>.
-If
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>k</mi></msub><annotation encoding="application/x-tex">a_k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,2,\ldots,K</annotation></semantics></math>
-are fixed then this is a simple root finding problem. Since one normally
-normally uses non-binding efficacy bounds, it will normally be the case
-that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo>=</mo><mo>−</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">a_k=-\infty</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>
-for this problem.</p>
-<p>Now we assume constants
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>a</mi><mi>k</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">a_k^*</annotation></semantics></math>
-and wish to find
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>l</mi></msub><annotation encoding="application/x-tex">C_l</annotation></semantics></math>
-such that if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo>=</mo><msub><mi>C</mi><mi>l</mi></msub><msubsup><mi>a</mi><mi>k</mi><mo>*</mo></msubsup><mo>+</mo><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><msqrt><msub><mi>ℐ</mi><mi>k</mi></msub></msqrt></mrow><annotation encoding="application/x-tex">a_k=C_la_k^*+\theta(t_k)\sqrt{\mathcal{I}_k}</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>
-then
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta(\theta)=\beta</annotation></semantics></math>.
-If we use the constant upper bounds from the previous paragraph, finding
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>l</mi></msub><annotation encoding="application/x-tex">C_l</annotation></semantics></math>
-is a simple root-finding problem.</p>
-<p>For 2-sided symmetric bounds with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo>=</mo><mo>−</mo><msub><mi>b</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">a_k=-b_k</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>,
-we only need to solve for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>u</mi></msub><annotation encoding="application/x-tex">C_u</annotation></semantics></math>
-and again use simple root finding.</p>
+<p>Assume constants <span class="math inline">b_1^*,\ldots,b_K^*</span>
+and a total targeted one-sided Type I error <span class="math inline">\alpha</span>. We wish to find <span class="math inline">C_u</span> as a function of <span class="math inline">t_1,\ldots t_K</span> such that if <span class="math inline">b_k=C_ub_k^*</span> then <span class="math inline">\alpha(0)=\alpha.</span> Thus, the problem is to
+solve for <span class="math inline">C_u</span>. If <span class="math inline">a_k</span>, <span class="math inline">k=1,2,\ldots,K</span> are fixed then this is a
+simple root finding problem. Since one normally normally uses
+non-binding efficacy bounds, it will normally be the case that <span class="math inline">a_k=-\infty</span>, <span class="math inline">k=1,\ldots,K</span> for this problem.</p>
+<p>Now we assume constants <span class="math inline">a_k^*</span> and
+wish to find <span class="math inline">C_l</span> such that if <span class="math inline">a_k=C_la_k^*+\theta(t_k)\sqrt{\mathcal{I}_k}</span>
+for <span class="math inline">k=1,\ldots,K</span> then <span class="math inline">\beta(\theta)=\beta</span>. If we use the constant
+upper bounds from the previous paragraph, finding <span class="math inline">C_l</span> is a simple root-finding problem.</p>
+<p>For 2-sided symmetric bounds with <span class="math inline">a_k=-b_k</span>, <span class="math inline">k=1,\ldots,K</span>, we only need to solve for <span class="math inline">C_u</span> and again use simple root finding.</p>
 <p>At this point, we do not solve for this type of bound for asymmetric
 upper and lower bounds.</p>
 </div>
@@ -500,23 +311,10 @@ upper and lower bounds.</p>
 <div class="section level2">
 <h2 id="sample-size">Sample size<a class="anchor" aria-label="anchor" href="#sample-size"></a>
 </h2>
-<p>For sample size, we assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>k</mi></msub><annotation encoding="application/x-tex">t_k</annotation></semantics></math>,
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta(t_k)</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">1,\ldots,K</annotation></semantics></math>
-are fixed. We assume
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\beta(\theta)</annotation></semantics></math>
-is decreasing as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℐ</mi><annotation encoding="application/x-tex">\mathcal{I}</annotation></semantics></math>
-is decreasing. This will automatically be the case when
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\theta(t_k)&gt;0</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,K</annotation></semantics></math>
-and for many other cases. Thus, the information required is done by a
-search for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℐ</mi><mi>𝒦</mi></msub><annotation encoding="application/x-tex">\mathcal{I_K}</annotation></semantics></math>
-that yields
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha(\theta)</annotation></semantics></math>
-yields the targeted power.</p>
+<p>For sample size, we assume <span class="math inline">t_k</span>, and
+<span class="math inline">\theta(t_k)</span> <span class="math inline">1,\ldots,K</span> are fixed. We assume <span class="math inline">\beta(\theta)</span> is decreasing as <span class="math inline">\mathcal{I}</span> is decreasing. This will
+automatically be the case when <span class="math inline">\theta(t_k)&gt;0</span>, <span class="math inline">k=1,\ldots,K</span> and for many other cases. Thus,
+the information required is done by a search for <span class="math inline">\mathcal{I_K}</span> that yields <span class="math inline">\alpha(\theta)</span> yields the targeted power.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

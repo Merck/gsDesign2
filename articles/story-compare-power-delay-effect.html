@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Power for delayed effect scenarios">
 </head>
 <body>
@@ -1056,31 +1057,29 @@ months and 0.6 thereafter.</li>
 events under 6 tests:</p>
 <ul>
 <li>
-<code>fh_05</code>: The Fleming-Harrington with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\rho=0, \gamma=0.5</annotation></semantics></math>
-test to obtain power of 85% given 1-sided Type I error of 0.025.</li>
+<code>fh_05</code>: The Fleming-Harrington with <span class="math inline">\rho=0, \gamma=0.5</span> test to obtain power of
+85% given 1-sided Type I error of 0.025.</li>
 <li>
-<code>fh_00</code>: The regular logrank test with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\rho=0, \gamma=0</annotation></semantics></math>
-under fixed study duration
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>20</mn><mo>,</mo><mn>24</mn><mo>,</mo><mn>28</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>60</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\in\{20, 24, 28, \ldots, 60\}</annotation></semantics></math>.</li>
+<code>fh_00</code>: The regular logrank test with <span class="math inline">\rho=0, \gamma=0</span> under fixed study duration
+<span class="math inline">\in\{20, 24, 28, \ldots, 60\}</span>.</li>
 <li>
 <code>mc2_test</code>: The MaxCombo test including 2 WLR tests,
-i.e.,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1)\}</annotation></semantics></math>.</li>
+i.e., <span class="math inline">\{(\rho=0, \gamma=0, \tau = -1),
+(\rho=0, \gamma=0.5, \tau = -1)\}</span>.</li>
 <li>
 <code>mc2_test</code>: The MaxCombo test including 3 WLR tests,
-i.e.,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1)\}</annotation></semantics></math>.</li>
+i.e., <span class="math inline">\{(\rho=0, \gamma=0, \tau = -1),
+(\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau =
+-1)\}</span>.</li>
 <li>
 <code>mc4_test</code>: The MaxCombo test including 4 WLR tests,
-i.e.,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><mo>=</mo><mn>0.5</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{(\rho=0, \gamma=0, \tau = -1), (\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0, \tau = -1)\}</annotation></semantics></math>.</li>
+i.e., <span class="math inline">\{(\rho=0, \gamma=0, \tau = -1),
+(\rho=0, \gamma=0.5, \tau = -1), (\rho=0.5, \gamma=0.5, \tau = -1),
+(\rho=0.5, \gamma=0, \tau = -1)\}</span>.</li>
 <li>
-<code>mb_6</code>: The Magirr-Burman with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo>,</mo><mi>γ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>τ</mi><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">\rho=-1, \gamma=0, \tau = 6</annotation></semantics></math>
-test with fixed study duration
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>20</mn><mo>,</mo><mn>24</mn><mo>,</mo><mn>28</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>60</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\in\{20, 24, 28, \ldots, 60\}</annotation></semantics></math>.</li>
+<code>mb_6</code>: The Magirr-Burman with <span class="math inline">\rho=-1, \gamma=0, \tau = 6</span> test with fixed
+study duration <span class="math inline">\in\{20, 24, 28, \ldots,
+60\}</span>.</li>
 </ul>
 <p>We then compute power for the logrank test. The general summary is
 that the Fleming-Harrington test has a meaningful power gain relative to

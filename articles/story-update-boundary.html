@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Efficacy and futility boundary update">
 </head>
 <body>
@@ -671,16 +672,12 @@ slightly over the targeted 90%.</p>
 <h3 id="bounds-for-alternate-alpha">Bounds for alternate alpha<a class="anchor" aria-label="anchor" href="#bounds-for-alternate-alpha"></a>
 </h3>
 <p>At the stage of study design, we may be required to report the
-designs under multiple
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-if alpha is reallocated due to rejection of another hypothesis. At the
-design stage, the planned
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-is 0.0125. Assume the updated
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-is 0.025 due to reallocation of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-from some other hypothesis. The corresponding bounds are</p>
+designs under multiple <span class="math inline">\alpha</span> if alpha
+is reallocated due to rejection of another hypothesis. At the design
+stage, the planned <span class="math inline">\alpha</span> is 0.0125.
+Assume the updated <span class="math inline">\alpha</span> is 0.025 due
+to reallocation of <span class="math inline">\alpha</span> from some
+other hypothesis. The corresponding bounds are</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
@@ -1211,10 +1208,9 @@ differ from planned. In this case the differences from planned are due
 to using calendar-based cutoffs for the simulated data. In practice,
 even if attempting to match event counts exactly the observed events at
 analyses often differ from planned. We also assume the protocol
-specifies that the full
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-will be spent at the final analysis even in a case like this when there
-is a shortfall of events versus the design plan.</p>
+specifies that the full <span class="math inline">\alpha</span> will be
+spent at the final analysis even in a case like this when there is a
+shortfall of events versus the design plan.</p>
 <p>The observed data for this example is generated by
 <code><a href="https://merck.github.io/simtrial/reference/sim_pw_surv.html" class="external-link">simtrial::sim_pw_surv()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -1772,14 +1768,12 @@ is a shortfall of events versus the design plan.</p>
 bound<a class="anchor" aria-label="anchor" href="#two-sided-asymmetric-design-beta-spending-with-non-binding-lower-bound"></a>
 </h2>
 <p>In this section, we investigate a 2 sided asymmetric design, with a
-non-binding
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
-used to generate futility bounds.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending
-refers to Type II error (1 - power) spending for the lower bound
-crossing probabilities under the alternative hypothesis. Non-binding
-bound computation assumes the trial continues if the lower bound is
-crossed for Type I error, but not Type II error.</p>
+non-binding <span class="math inline">\beta</span>-spending used to
+generate futility bounds. <span class="math inline">\beta</span>-spending refers to Type II error (1 -
+power) spending for the lower bound crossing probabilities under the
+alternative hypothesis. Non-binding bound computation assumes the trial
+continues if the lower bound is crossed for Type I error, but not Type
+II error.</p>
 <p>In the original designs, we employ the Lan-DeMets spending function
 used to approximate O’Brien-Fleming bounds <span class="citation">(Lan
 and DeMets 1983)</span> for both efficacy and futility bounds. The total
@@ -2352,13 +2346,10 @@ are larger than we had above in the 1-sided example.</p>
 <div class="section level3">
 <h3 id="bounds-for-alternate-alpha-1">Bounds for alternate alpha<a class="anchor" aria-label="anchor" href="#bounds-for-alternate-alpha-1"></a>
 </h3>
-<p>We may want to report the design bounds under multiple
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-in the case Type I error may be reallocated from another hypothesis. We
-assume now that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-is 0.025 but we still use the same sample size and event timing as for
-the original alpha = 0.0125. The updated bounds are</p>
+<p>We may want to report the design bounds under multiple <span class="math inline">\alpha</span> in the case Type I error may be
+reallocated from another hypothesis. We assume now that <span class="math inline">\alpha</span> is 0.025 but we still use the same
+sample size and event timing as for the original alpha = 0.0125. The
+updated bounds are</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>

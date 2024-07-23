@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Approximating an arbitrary survival distribution">
 </head>
 <body>
@@ -123,9 +124,9 @@ extends to infinity.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">7</span>        3 0.103</span></span></code></pre>
 <p>We compare the resulting approximation to the actual lognormal
 survival using <code><a href="../reference/ppwe.html">ppwe()</a></code> to compute survival probabilities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mo>&gt;</mo><mi>t</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">P\{T&gt;t\}</annotation></semantics></math>.
-For a better approximation, use a larger number of points. We plot with
-a log scale on the y-axis since the piecewise exponential survival from
+<span class="math inline">P\{T&gt;t\}</span>. For a better
+approximation, use a larger number of points. We plot with a log scale
+on the y-axis since the piecewise exponential survival from
 <code><a href="../reference/ppwe.html">ppwe()</a></code> is piecewise linear on this scale. We note that at
 the beginning of each rate period in the approximation the actual
 survival distribution and its approximation match exactly as indicated
@@ -159,43 +160,24 @@ allows for hazard rates over time; see, for example, <a href="https://en.wikiped
 </h2>
 <p>We consider a Poisson mixture model to incorporate a cure model into
 sample size planning. The form of the survival function for this is</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>θ</mi><msub><mi>F</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">S(t)=\exp(-\theta F_0(t))</annotation></semantics></math>
-for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t \geq 0</annotation></semantics></math>
-where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F_0(t)</annotation></semantics></math>
-is a continuous cumulative distribution function for a non-negative
-random variable with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">F_0(0)=0</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>↑</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">F_0(t)\uparrow 1</annotation></semantics></math>
-as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>↑</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">t\uparrow \infty</annotation></semantics></math>.
-We note that as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>↑</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">t\uparrow \infty</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>↓</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">S(t)\downarrow \exp(-\theta)=c</annotation></semantics></math>
-where we will refer to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
-as the cure rate. The function <code>p_pm()</code> assumes
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>λ</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F_0(t)=1-\exp(-\lambda t)</annotation></semantics></math>
-is an exponential cumulative distribution function resulting in the
-survival distribution for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t \geq 0</annotation></semantics></math>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>;</mo><mi>θ</mi><mo>,</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>λ</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">S(t; \theta, \lambda) = \exp(-\theta(1-\exp(-\lambda t))).</annotation></semantics></math>
-Note that we set the default of <code>lower.tail=FALSE</code> so that
-the survival function computation is the default:</p>
+<p><span class="math display">S(t)=\exp(-\theta F_0(t))</span> for <span class="math inline">t \geq 0</span> where <span class="math inline">F_0(t)</span> is a continuous cumulative
+distribution function for a non-negative random variable with <span class="math inline">F_0(0)=0</span> and <span class="math inline">F_0(t)\uparrow 1</span> as <span class="math inline">t\uparrow \infty</span>. We note that as <span class="math inline">t\uparrow \infty</span>, <span class="math inline">S(t)\downarrow \exp(-\theta)=c</span> where we will
+refer to <span class="math inline">c</span> as the cure rate. The
+function <code>p_pm()</code> assumes <span class="math inline">F_0(t)=1-\exp(-\lambda t)</span> is an exponential
+cumulative distribution function resulting in the survival distribution
+for <span class="math inline">t \geq 0</span>:</p>
+<p><span class="math display">S(t; \theta, \lambda) =
+\exp(-\theta(1-\exp(-\lambda t))).</span> Note that we set the default
+of <code>lower.tail=FALSE</code> so that the survival function
+computation is the default:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_pm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">theta</span>, <span class="va">lambda</span>, <span class="va">lower_tail</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">theta</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">lambda</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>We plot this with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">\lambda = \log(2) / 10</annotation></semantics></math>
-to make
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F_0(t)</annotation></semantics></math>
-an exponential distribution with a median of 10. We set
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>.4</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta = -\log(.4)</annotation></semantics></math>
-to obtain a cure rate of 0.4. we then overlay with the piecewise
-exponential approximation.</p>
+<p>We plot this with <span class="math inline">\lambda = \log(2) /
+10</span> to make <span class="math inline">F_0(t)</span> an exponential
+distribution with a median of 10. We set <span class="math inline">\theta = -\log(.4)</span> to obtain a cure rate of
+0.4. we then overlay with the piecewise exponential approximation.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span></span>
 <span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">.4</span><span class="op">)</span></span>
@@ -217,29 +199,21 @@ exponential approximation.</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">x</span><span class="op">)</span>, <span class="fu">p_pm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">x</span><span class="op">)</span>, <span class="va">theta</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="story-arbitrary-distribution_files/figure-html/unnamed-chunk-5-1.png" width="624"></p>
-<p>We note that two different
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
+<p>We note that two different <span class="math inline">\theta</span>
 values provide a proportional hazards model in that the ratio of
-cumulative hazard function
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>;</mo><mi>θ</mi><mo>,</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>θ</mi><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>λ</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">H(t; \theta, \lambda) = \theta\exp(-\lambda t)</annotation></semantics></math>
-is constant:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>;</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>,</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>;</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>,</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mi>/</mi><msub><mi>θ</mi><mn>2</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\frac{\log(S(t; \theta_1, \lambda))}{\log(S(t; \theta_2, \lambda))} = \theta_1/\theta_2.</annotation></semantics></math></p>
-<p>For a given
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
-value we can compute
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
-to provide a survival rate
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>1</mn></msub><mo>&gt;</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">c_1 &gt; \exp(-\theta)</annotation></semantics></math>
-at an arbitrary time
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>1</mn></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t_1&gt;0</annotation></semantics></math>
-by setting:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>θ</mi><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>c</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><msub><mi>t</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\lambda = -\log\left(\frac{\theta - \log(c_1)}{\theta}\right)/t_1.</annotation></semantics></math></p>
-<p>We compute
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
-values with a cure rate of 0.4 and a survival rate of 0.6 at 30
-months:</p>
+cumulative hazard function <span class="math inline">H(t; \theta,
+\lambda) = \theta\exp(-\lambda t)</span> is constant:</p>
+<p><span class="math display">\frac{\log(S(t; \theta_1,
+\lambda))}{\log(S(t; \theta_2, \lambda))} =
+\theta_1/\theta_2.</span></p>
+<p>For a given <span class="math inline">\theta</span> value we can
+compute <span class="math inline">\lambda</span> to provide a survival
+rate <span class="math inline">c_1 &gt; \exp(-\theta)</span> at an
+arbitrary time <span class="math inline">t_1&gt;0</span> by setting:</p>
+<p><span class="math display">\lambda = -\log\left(\frac{\theta -
+\log(c_1)}{\theta}\right)/t_1.</span></p>
+<p>We compute <span class="math inline">\theta</span> and <span class="math inline">\lambda</span> values with a cure rate of 0.4 and a
+survival rate of 0.6 at 30 months:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.4</span><span class="op">)</span></span>
 <span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="op">(</span><span class="va">theta</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">.6</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="va">theta</span><span class="op">)</span> <span class="op">/</span> <span class="fl">30</span></span></code></pre></div>

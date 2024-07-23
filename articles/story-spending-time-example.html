@@ -12,11 +12,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><link href="../deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
+<script src="../deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Spending time examples">
 </head>
 <body>
@@ -93,10 +94,9 @@ adequate follow-up duration and an adequate number of events is
 important to fully evaluate the potential effectiveness of a new
 treatment. For testing of multiple hypotheses, carefully thinking
 through possible spending issues can be critical. In addition, for group
-sequential trials, preserving adequate
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-for a final evaluation of a hypothesis is important and difficult to do
-using traditional event-based spending.</p>
+sequential trials, preserving adequate <span class="math inline">\alpha</span>-spending for a final evaluation of a
+hypothesis is important and difficult to do using traditional
+event-based spending.</p>
 <p>In this document, we outline three examples to demonstrate these
 issues:</p>
 <ul>
@@ -104,9 +104,8 @@ issues:</p>
 <ul>
 <li>the importance of both adequate events and adequate follow-up
 duration to ensure power in a fixed design, and</li>
-<li>the importance of guaranteeing a reasonable amount of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-for the final analysis in a group sequential design.</li>
+<li>the importance of guaranteeing a reasonable amount of <span class="math inline">\alpha</span>-spending for the final analysis in a
+group sequential design.</li>
 </ul>
 </li>
 <li>For a trial examining an outcome in a biomarker positive and overall
@@ -2959,13 +2958,13 @@ this case.</p>
 <p><strong>Spending approach 4:</strong> The final case will be to
 replace information fraction for a design to a specific spending time
 which will be plugged into the spending function to compute incremental
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-for each analysis. For our case, we will use planned information
-fraction from the design, which is 0.8 at the interim analysis and 1 for
-the final analysis. This will be used regardless of what scenario we are
-using to compute power, but recall that information fraction is still
-used for computing correlations in the asymptotic distribution
-approximation for design tests.</p>
+<span class="math inline">\alpha</span>-spending for each analysis. For
+our case, we will use planned information fraction from the design,
+which is 0.8 at the interim analysis and 1 for the final analysis. This
+will be used regardless of what scenario we are using to compute power,
+but recall that information fraction is still used for computing
+correlations in the asymptotic distribution approximation for design
+tests.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Copy original upper planned spending</span></span>
 <span><span class="va">upar_planned_info_frac</span> <span class="op">&lt;-</span> <span class="va">upar_design_if</span></span>
@@ -4109,21 +4108,16 @@ is to do an interim analyses every 6 months until a both a final
 targeted follow-up time and cumulative number of events is achieved.
 Once efficacy analyses start, a fixed incremental spend of 0.001 is used
 at each interim. When the criteria for final analysis is met, the
-remaining
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-is spent. Cumulative spending at months 18 and 24 will be 0.001 and
-0.002, respectively, with the full cumulative
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-of 0.025 at the final analysis. This is done by setting the spending
-time at 18 and 24 months to 1/25, 2/25 and 1; i.e., 1/25 incremental
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-is incorporated at each interim analysis and any remaining
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-is spent at the final analysis. This enables a strategy such as
-analyzing every 6 months until both a minimum targeted follow-up and
-minimum number of events are observed, at which time the final analysis
-is performed. We will skip efficacy analyses at the first two interim
-analyses at months 6 and 12.</p>
+remaining <span class="math inline">\alpha</span> is spent. Cumulative
+spending at months 18 and 24 will be 0.001 and 0.002, respectively, with
+the full cumulative <span class="math inline">\alpha</span>-spending of
+0.025 at the final analysis. This is done by setting the spending time
+at 18 and 24 months to 1/25, 2/25 and 1; i.e., 1/25 incremental <span class="math inline">\alpha</span>-spending is incorporated at each
+interim analysis and any remaining <span class="math inline">\alpha</span> is spent at the final analysis. This
+enables a strategy such as analyzing every 6 months until both a minimum
+targeted follow-up and minimum number of events are observed, at which
+time the final analysis is performed. We will skip efficacy analyses at
+the first two interim analyses at months 6 and 12.</p>
 <p>For futility, we simply use a nominal 1-sided p-value of 0.05
 favoring control at each interim. We note that this only raises a flag
 if the futility bound is crossed and a Data Monitoring Committee (DMC)
@@ -4134,35 +4128,29 @@ we will leave the enrollment rates, failure rates, dropout rates and
 final analysis time as before.</p>
 <p>We see in the following table summarizing efficacy bounds and power
 that there is little impact on the total power by having futility
-analyses as specified. While the cumulative
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-is 0.001 and 0.002 at the efficacy interim analyses, we see that the
-nominal p-value bound at the second interim is 0.0015, more then the
-0.001 incremental
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spend.
-We also note that with these nominal p-values for testing, the
-approximate hazard ratio required to cross the bounds would presumably
-help justify consideration of completing the trial based on a definitive
-interim efficacy finding. Also, with the small interim spend, the final
-nominal p-value is not reduced much from the overall
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.025</mn></mrow><annotation encoding="application/x-tex">\alpha=0.025</annotation></semantics></math>
-Type I error set for the group sequential design.</p>
+analyses as specified. While the cumulative <span class="math inline">\alpha</span>-spending is 0.001 and 0.002 at the
+efficacy interim analyses, we see that the nominal p-value bound at the
+second interim is 0.0015, more then the 0.001 incremental <span class="math inline">\alpha</span>-spend. We also note that with these
+nominal p-values for testing, the approximate hazard ratio required to
+cross the bounds would presumably help justify consideration of
+completing the trial based on a definitive interim efficacy finding.
+Also, with the small interim spend, the final nominal p-value is not
+reduced much from the overall <span class="math inline">\alpha=0.025</span> Type I error set for the group
+sequential design.</p>
 <p>We also examine the futility bound. The nominal p-value of 0.05 at
 each analysis is the one-sided p-value in favor of control over
 experimental treatment. We can see that the probability of stopping
-early under the alternate hypothesis
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-spending)
-is not substantial even given the early delayed effect. Also, the
-substantial approximate observed hazard ratios to cross a futility bound
-seem reasonable given the timing and number of events observed; the
-exception to this is the small number of events at the first interim,
-but a larger number could be observed by this time if there were early
-excess risk. It may be useful to plan additional analyses if a futility
-bound is crossed to support stopping or not. For example, looking in
-subgroups or evaluating smoothed hazard rates over time for each
-treatment group may be useful. A clinical trial study team should have a
-complete discussion of futility bound considerations at the time of
-design.</p>
+early under the alternate hypothesis (<span class="math inline">\beta</span>-spending) is not substantial even given
+the early delayed effect. Also, the substantial approximate observed
+hazard ratios to cross a futility bound seem reasonable given the timing
+and number of events observed; the exception to this is the small number
+of events at the first interim, but a larger number could be observed by
+this time if there were early excess risk. It may be useful to plan
+additional analyses if a futility bound is crossed to support stopping
+or not. For example, looking in subgroups or evaluating smoothed hazard
+rates over time for each treatment group may be useful. A clinical trial
+study team should have a complete discussion of futility bound
+considerations at the time of design.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Cumulative spending at IA3 and IA4 will be 0.001 and 0.002, respectively.</span></span>
 <span><span class="co"># Power spending function sfPower with param = 1 is linear in timing</span></span>
@@ -4779,8 +4767,7 @@ spending of 0.0122. This reduces the power overall from 76% to 73% and
 lowers the nominal p-value bound at the final analysis from 0.0218 to
 0.0165; see the following two tables. Noting that the average hazard
 ratio is 0.8 at the interim and 0.76 at the final analysis emphasizes
-the value of preserving
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
+the value of preserving <span class="math inline">\alpha</span>-spending
 until the final analysis. Thus, in this example it is valuable to limit
 spending at the interim analysis to the minimum of planned spending as
 opposed to using event-based spending.</p>
@@ -6888,8 +6875,7 @@ chance of a positive overall population finding if there is a lesser
 benefit in the biomarker negative population. If an alternative trial
 strategy is planned, an alternate approach to the following should be
 considered. In any case, we design first for the biomarker positive
-population with one-sided Type I error controlled at
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.0125</mn></mrow><annotation encoding="application/x-tex">\alpha = 0.0125</annotation></semantics></math>:</p>
+population with one-sided Type I error controlled at <span class="math inline">\alpha = 0.0125</span>:</p>
 </div>
 <div class="section level3">
 <h3 id="planned-design-for-biomarker-positive-population">Planned design for biomarker positive population<a class="anchor" aria-label="anchor" href="#planned-design-for-biomarker-positive-population"></a>
@@ -9962,11 +9948,10 @@ this takes slightly less time.</p>
 <h5 id="overall-population-power">Overall population power<a class="anchor" aria-label="anchor" href="#overall-population-power"></a>
 </h5>
 <p>Now we use the same spending as above for the overall population,
-resulting in full
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending
-at the end of the trial even though the originally targeted events are
-not expected to be achieved. We note that the information fraction
-computed here is based on the originally planned events for the overall
+resulting in full <span class="math inline">\alpha</span>-spending at
+the end of the trial even though the originally targeted events are not
+expected to be achieved. We note that the information fraction computed
+here is based on the originally planned events for the overall
 population. Given this and the larger proportion of patients that are
 biomarker positive, the average hazard ratio is stronger than originally
 planned and the power for the overall population is still over 90%.</p>
@@ -12507,11 +12492,10 @@ event-based spending. This helps to ensure the least stringent bounds
 are at the final analysis when the most complete risk-benefit assessment
 can be made. We gave two options to this:
 <ul>
-<li>Use a fixed, small incremental
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spend
-at each interim such as proposed by <span class="citation">Fleming,
-Harrington, and O’Brien (1984)</span> with a variable number of interim
-analyses to ensure adequate follow-up.</li>
+<li>Use a fixed, small incremental <span class="math inline">\alpha</span>-spend at each interim such as proposed
+by <span class="citation">Fleming, Harrington, and O’Brien (1984)</span>
+with a variable number of interim analyses to ensure adequate
+follow-up.</li>
 <li>Use the minimum of planned and actual spending at interim
 analyses.</li>
 </ul>
@@ -12533,25 +12517,18 @@ other detrimental effects.</p>
 testing in both a biomarker positive subgroup and the overall
 population. Using a common spending time for all hypotheses with a
 common interim analysis strategy as advocated by <span class="citation">Follmann, Proschan, and Geller (1994)</span> can be
-helpful to implement spending so that all hypotheses have adequate
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-to spend at the final analysis and also to ensure full utilization of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spending.
-We suggested again using the minimum of planned and actual spending at
-interim analysis. Spending can be based on a key hypothesis (e.g., the
-biomarker positive population) or the minimum spending time among all
-hypotheses being tested. Taking advantage of know correlations to ensure
-full
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-utilization in multiple hypothesis testing is also more simply
-implemented with this strategy <span class="citation">Anderson et al.
-(2022)</span>.</p>
+helpful to implement spending so that all hypotheses have adequate <span class="math inline">\alpha</span> to spend at the final analysis and
+also to ensure full utilization of <span class="math inline">\alpha</span>-spending. We suggested again using the
+minimum of planned and actual spending at interim analysis. Spending can
+be based on a key hypothesis (e.g., the biomarker positive population)
+or the minimum spending time among all hypotheses being tested. Taking
+advantage of know correlations to ensure full <span class="math inline">\alpha</span> utilization in multiple hypothesis
+testing is also more simply implemented with this strategy <span class="citation">Anderson et al. (2022)</span>.</p>
 <p>In summary, we have illustrated both the motivation and the
 illustration of the spending time approach through examples we have
 commonly encountered. Approaches suggested included an implementation of
 <span class="citation">Fleming, Harrington, and O’Brien (1984)</span>
-with a fixed incremental
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>-spend
+with a fixed incremental <span class="math inline">\alpha</span>-spend
 at each interim analysis as well as the use of the minimum of planned
 and actual spending at interim analyses.</p>
 </div>
