@@ -407,7 +407,11 @@ summary.gs_design <- function(object,
   # get the
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
-  if (method %in% c("ahr", "wlr")) {
+  if (method == "ahr") {
+    analysis_vars_default <- c("time", "n", "event", "ahr", "info_frac0")
+    analysis_decimals_default <- c(1, 1, 1, 2, 2)
+  }
+  if (method == "wlr") {
     analysis_vars_default <- c("time", "n", "event", "ahr", "info_frac")
     analysis_decimals_default <- c(1, 1, 1, 2, 2)
   }
@@ -488,10 +492,16 @@ summary.gs_design <- function(object,
     analysis_vars <- replace(analysis_vars, analysis_vars == "n", "N")
   }
 
+  if ("info_frac0" %in% names(analyses)) {
+    analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac0)
+    analysis_vars <- replace(analysis_vars, analysis_vars == "info_frac0", "Information fraction")
+  }
+
   if ("info_frac" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac)
     analysis_vars <- replace(analysis_vars, analysis_vars == "info_frac", "Information fraction")
   }
+
 
   if ("event_frac" %in% names(analyses)) {
     analyses <- analyses %>% dplyr::rename(`Event fraction` = event_frac)
