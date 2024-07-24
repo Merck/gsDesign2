@@ -458,6 +458,11 @@ gs_update_ahr <- function(
       x$analysis$info_frac
     } else {
       upar_update$timing
+    },
+    info_frac0 = if (is.null(observed_data)) {
+      x$analysis$info_frac0
+    } else {
+      observed_event / max(observed_event)
     }
   )
 
