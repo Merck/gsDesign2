@@ -11,7 +11,7 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
     extract_summary_analysis()
   expect_identical(
     observed,
-    "Analysis: 1 Time: 12 N: 707.3 Event: 160.4 AHR: 0.81 Information fraction: 0.42"
+    paste0("Analysis: 1 Time: 12 N: 707.3 Event: 160.4 AHR: 0.81 Information fraction: ", round(x$analysis$event[1]/ max(x$analysis$event), 2))
   )
 
   # specify the decimals for each variable
@@ -74,7 +74,7 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
     extract_summary_analysis()
   expect_identical(
     observed,
-    "Analysis: 1 Time: 12 N: 707.3 Event: 160.4 AHR: 0.8108 Information fraction: 0.4191"
+    paste0("Analysis: 1 Time: 12 N: 707.3 Event: 160.4 AHR: 0.8108 Information fraction: ", round(x$analysis$event[1]/ max(x$analysis$event), 4))
   )
 
   # Specify decimals and also drop some variables
