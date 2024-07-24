@@ -69,7 +69,7 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
 
   # Specify decimals
   observed <- x |>
-    summary(analysis_decimals = c(ahr = 4, info_frac = 4)) |>
+    summary(analysis_decimals = c(ahr = 4, info_frac0 = 4)) |>
     attr("groups") |>
     extract_summary_analysis()
   expect_identical(
@@ -80,33 +80,33 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
   # Specify decimals and also drop some variables
   observed <- x |>
     summary(
-      analysis_vars = c("event", "ahr", "info_frac"),
-      analysis_decimals = c(ahr = 4, info_frac = 4)
+      analysis_vars = c("event", "ahr", "info_frac0"),
+      analysis_decimals = c(ahr = 4, info_frac0 = 4)
     ) |>
     attr("groups") |>
     extract_summary_analysis()
   expect_identical(
     observed,
-    "Analysis: 1 Event: 160.4 AHR: 0.8108 Information fraction: 0.4191"
+    paste0("Analysis: 1 Event: 160.4 AHR: 0.8108 Information fraction: ", round(x$analysis$event[1]/max(x$analysis$event), 4))
   )
 
   # Specify decimals and rearrange some variables
   observed <- x |>
     summary(
-      analysis_vars = c("info_frac", "ahr", "event"),
-      analysis_decimals = c(ahr = 4, info_frac = 4)
+      analysis_vars = c("info_frac0", "ahr", "event"),
+      analysis_decimals = c(ahr = 4, info_frac0 = 4)
     ) |>
     attr("groups") |>
     extract_summary_analysis()
   expect_identical(
     observed,
-    "Analysis: 1 Information fraction: 0.4191 AHR: 0.8108 Event: 160.4"
+    paste0("Analysis: 1 Information fraction: ", round(x$analysis$event[1]/max(x$analysis$event), 4), " AHR: 0.8108 Event: 160.4")
   )
 
   # Only drop variables
   observed <- x |>
     summary(
-      analysis_vars = c("info_frac", "ahr", "event")
+      analysis_vars = c("info_frac0", "ahr", "event")
     ) |>
     attr("groups") |>
     extract_summary_analysis()
