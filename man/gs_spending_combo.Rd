@@ -4,7 +4,7 @@
 \alias{gs_spending_combo}
 \title{Derive spending bound for MaxCombo group sequential boundary}
 \usage{
-gs_spending_combo(par = NULL, info = NULL, ...)
+gs_spending_combo(par = NULL, info = NULL)
 }
 \arguments{
 \item{par}{A list with the following items:
@@ -19,8 +19,6 @@ to be used with \code{info} for information fraction at each analysis).
 }}
 
 \item{info}{Statistical information at all analyses, at least up to analysis k.}
-
-\item{...}{Additional parameters passed to \code{par$sf}.}
 }
 \value{
 A vector of the alpha spending per analysis.
@@ -31,6 +29,74 @@ Derive spending bound for MaxCombo group sequential boundary
 \examples{
 # alpha-spending
 par <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfLDPocock, total_spend = 0.025)
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfHSD, total_spend = 0.025, param = -40)
+gs_spending_combo(par, info = 1:3 / 3)
+
+# Kim-DeMets (power) Spending Function
+par <- list(sf = gsDesign::sfPower, total_spend = 0.025, param = 1.5)
+gs_spending_combo(par, info = 1:3 / 3)
+
+# Exponential Spending Function
+par <- list(sf = gsDesign::sfExponential, total_spend = 0.025, param = 1)
+gs_spending_combo(par, info = 1:3 / 3)
+
+# Two-parameter Spending Function Families
+par <- list(sf = gsDesign::sfLogistic, total_spend = 0.025, param = c(.1, .4, .01, .1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfBetaDist, total_spend = 0.025, param = c(.1, .4, .01, .1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfCauchy, total_spend = 0.025, param = c(.1, .4, .01, .1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfExtremeValue, total_spend = 0.025, param = c(.1, .4, .01, .1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfExtremeValue2, total_spend = 0.025, param = c(.1, .4, .01, .1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfNormal, total_spend = 0.025, param = c(.1, .4, .01, .1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+# t-distribution Spending Function
+par <- list(sf = gsDesign::sfTDist, total_spend = 0.025, param = c(-1, 1.5, 4))
+gs_spending_combo(par, info = 1:3 / 3)
+
+# Piecewise Linear and Step Function Spending Functions
+par <- list(sf = gsDesign::sfLinear, total_spend = 0.025, param = c(.2, .4, .05, .2))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfStep, total_spend = 0.025, param = c(1 / 3, 2 / 3, .1, .1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+# Pointwise Spending Function
+par <- list(sf = gsDesign::sfPoints, total_spend = 0.025, param = c(.25, .25))
+gs_spending_combo(par, info = 1:3 / 3)
+
+# Truncated, trimmed and gapped spending functions
+par <- list(sf = gsDesign::sfTruncated, total_spend = 0.025, param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfTrimmed, total_spend = 0.025, param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfGapped, total_spend = 0.025, param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
+gs_spending_combo(par, info = 1:3 / 3)
+
+# Xi and Gallo conditional error spending functions
+par <- list(sf = gsDesign::sfXG1, total_spend = 0.025, param = 0.5)
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfXG2, total_spend = 0.025, param = 0.14)
+gs_spending_combo(par, info = 1:3 / 3)
+
+par <- list(sf = gsDesign::sfXG3, total_spend = 0.025, param = 0.013)
 gs_spending_combo(par, info = 1:3 / 3)
 
 # beta-spending
