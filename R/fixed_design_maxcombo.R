@@ -102,7 +102,8 @@ fixed_design_maxcombo <- function(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       fh_test = max_combo_test,
-      upper = gs_b, upar = qnorm(1 - alpha),
+      upper = gs_spending_combo,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = alpha),
       lower = gs_b, lpar = -Inf
     )
   } else {
@@ -111,7 +112,8 @@ fixed_design_maxcombo <- function(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       fh_test = max_combo_test,
-      upper = gs_b, upar = qnorm(1 - alpha),
+      upper = gs_spending_combo,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = alpha),
       lower = gs_b, lpar = -Inf
     )
   }
