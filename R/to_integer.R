@@ -492,7 +492,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
 
   # Make n and event of x_new$analysis exactly integers
   if ("ahr" %in% class(x) || "wlr" %in% class(x)) {
-    for (i in seq_along(n_analysis)) {
+    for (i in seq_len(n_analysis)) {
       if (is_almost_k(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
         x_new$analysis$n[i] <- round(x_new$analysis$n[i])
       }
@@ -502,7 +502,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       }
     }
   } else if ("rd" %in% class(x)) {
-    for (i in seq_along(n_analysis)) {
+    for (i in seq_len(n_analysis)) {
       if (is_almost_k(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
         x_new$analysis$n[i] <- round(x_new$analysis$n[i])
       }
