@@ -47,7 +47,7 @@
 #' library(gsDesign2)
 #'
 #' # set enrollment rates
-#' enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
+#' enroll_rate <- define_enroll_rate(duration = 12, rate = 1)
 #'
 #' # set failure rates
 #' fail_rate <- define_fail_rate(
@@ -58,55 +58,6 @@
 #' )
 #'
 #' # Example 1 ----
-#' # Boundary is fixed
-#' x <- gsSurv(
-#'   k = 3,
-#'   test.type = 4,
-#'   alpha = 0.025, beta = 0.2,
-#'   astar = 0, timing = 1,
-#'   sfu = sfLDOF, sfupar = 0,
-#'   sfl = sfLDOF, sflpar = 0,
-#'   lambdaC = 0.1,
-#'   hr = 0.6, hr0 = 1,
-#'   eta = 0.01, gamma = 10,
-#'   R = 12, S = NULL,
-#'   T = 36, minfup = 24,
-#'   ratio = 1
-#' )
-#'
-#' gs_design_wlr(
-#'   enroll_rate = enroll_rate,
-#'   fail_rate = fail_rate,
-#'   ratio = 1,
-#'   alpha = 0.025, beta = 0.2,
-#'   weight = function(x, arm0, arm1) {
-#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-#'   },
-#'   upper = gs_b,
-#'   upar = x$upper$bound,
-#'   lower = gs_b,
-#'   lpar = x$lower$bound,
-#'   analysis_time = c(12, 24, 36)
-#' )
-#'
-#' # Example 2 ----
-#' # Boundary derived by spending function
-#' gs_design_wlr(
-#'   enroll_rate = enroll_rate,
-#'   fail_rate = fail_rate,
-#'   ratio = 1,
-#'   alpha = 0.025, beta = 0.2,
-#'   weight = function(x, arm0, arm1) {
-#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-#'   },
-#'   upper = gs_spending_bound,
-#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-#'   lower = gs_spending_bound,
-#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-#'   analysis_time = c(12, 24, 36)
-#' )
-#'
-#' # Example 3 ----
 #' # Information fraction driven design
 #' gs_design_wlr(
 #'   enroll_rate = enroll_rate,
@@ -124,7 +75,7 @@
 #'   info_frac = 1:3/3
 #' )
 #'
-#' # Example 4 ----
+#' # Example 2 ----
 #' # Calendar time driven design
 #' gs_design_wlr(
 #'   enroll_rate = enroll_rate,
@@ -142,7 +93,7 @@
 #'   info_frac = NULL
 #' )
 #'
-#' # Example 5 ----
+#' # Example 3 ----
 #' # Both calendar time and information fraction driven design
 #' gs_design_wlr(
 #'   enroll_rate = enroll_rate,
@@ -157,7 +108,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
 #'   analysis_time = 1:3*12,
-#'   info_frac = 1:3/3
+#'   info_frac = c(0.4, 0.8, 1)
 #' )
 gs_design_wlr <- function(
     enroll_rate = define_enroll_rate(
@@ -220,14 +171,14 @@ gs_design_wlr <- function(
                    ratio = ratio, event = NULL,
                    analysis_time = analysis_time, weight = weight, approx = approx,
                    interval = interval) %>%
-    select(-c(n, delta, sigma2))
+    dplyr::select(-c(n, delta, sigma2))
 
   final_event <- y$event[nrow(y)]
   event_frac <- y$event / final_event
 
   # if it is info frac driven group sequential design
   # relabel the analysis to FA, and back calculate IAs from FA
-  if (n_analysis > 1 && length(analysis_time == 1) && length(info_frac) > 1) {
+  if (n_analysis > 1 && length(analysis_time) == 1 && length(info_frac) > 1) {
     y$analysis <- n_analysis
   }
   # ---------------------------------------- #
@@ -244,26 +195,35 @@ gs_design_wlr <- function(
     # if it is not fixed design
     if_indx <- info_frac[1:(n_analysis - 1)]
     for (i in seq_along(if_indx)) {
+      event_ia <- info_frac[n_analysis - i] * final_event
+      time_ia <- expected_time(enroll_rate, fail_rate, ratio = ratio,
+                               target_event = event_ia,
+                               interval = c(.01, next_time))$time
+
       # if it is info frac driven design with a known study duration,
       # e.g., info_frac = 1:3/3, analysis_time = 36
       if (length(event_frac) == 1) {
-        y_current_analysis <- expected_time(enroll_rate, fail_rate,
-                                            target_event = info_frac[n_analysis - i] * final_event,
-                                            ratio = ratio, interval = c(.01, next_time)) %>%
-          mutate(theta = -log(ahr), analysis = n_analysis - i)
-        y <- y %>% bind_rows(y_current_analysis)
-        # if it is driven by both info frac and analysis time,
-        # e.g., info_frac = 1:3/2, analysis_time = c(12, 24, 36)
+        y_ia <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio,
+                            event = event_ia, analysis_time = time_ia,
+                            weight = weight, approx = approx,
+                            interval = c(.01, next_time)) %>%
+          dplyr::select(-c(n, delta, sigma2)) %>%
+          dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
+        y <- bind_rows(y_ia, y)
+      # if it is driven by both info frac and analysis time,
+      # e.g., info_frac = 1:3/2, analysis_time = c(12, 24, 36)
       } else if (info_frac[n_analysis - i] > event_frac[n_analysis - i]) {
-        y_current_analysis <- expected_time(enroll_rate, fail_rate,
-                                            target_event = info_frac[n_analysis - i] * final_event,
-                                            ratio = ratio, interval = c(.01, next_time)) %>%
-          dplyr::transmute(analysis = n_analysis - i, time, event, ahr, theta = -log(ahr), info, info0)
-        y_rest_analysis <- y %>%  filter(row_number() != n_analysis - i)
+        y_ia <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio,
+                            event = NULL, analysis_time = time_ia,
+                            weight = weight, approx = approx,
+                            interval = c(.01, next_time)) %>%
+          dplyr::select(-c(n, delta, sigma2)) %>%
+          dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
 
-        y <- y_current_analysis %>% bind_rows(y_rest_analysis)
+        y_exclude_ia <- y %>%  filter(analysis != n_analysis - i)
+        y <- bind_rows(y_ia, y_exclude_ia)
       }
-      next_time <- y$time[n_analysis - i]
+      next_time <- y$time[y$analysis == n_analysis - i]
     }
   }
 
