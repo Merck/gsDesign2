@@ -360,25 +360,23 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     )
 
     # Update sample size per stratum
-    suppressMessages(
-      if (n_stratum == 1) {
-        tbl_n <- tibble::tibble(
-          analysis = rep(1:n_analysis, each = n_stratum),
-          stratum = rep(x$input$p_c$stratum, n_analysis)
-        ) %>%
+    suppressMessages({
+      tbl_n <- tibble::tibble(
+        analysis = rep(1:n_analysis, each = n_stratum),
+        stratum = rep(x$input$p_c$stratum, n_analysis)
+      )
+      tbl_n <- if (n_stratum == 1) {
+        tbl_n %>%
           left_join(sample_size_new)
       } else {
-        tbl_n <- tibble::tibble(
-          analysis = rep(1:n_analysis, each = n_stratum),
-          stratum = rep(x$input$p_c$stratum, n_analysis)
-        ) %>%
+        tbl_n %>%
           left_join(x$input$stratum_prev) %>%
           left_join(sample_size_new) %>%
           mutate(n_new = prevalence * n) %>%
           select(-c(n, prevalence)) %>%
           dplyr::rename(n = n_new)
       }
-    )
+    })
 
     # If it is spending bounds
     # Scenario 1: information-based spending
