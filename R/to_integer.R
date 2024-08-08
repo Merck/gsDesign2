@@ -273,8 +273,10 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   n_analysis <- length(x$analysis$analysis)
   multiply_factor <- x$input$ratio + 1
 
-  if (inherits(x, c("ahr", "wlr"))) {
-    is_wlr <- inherits(x, "wlr")
+  is_ahr <- inherits(x, "ahr")
+  is_wlr <- inherits(x, "wlr")
+  is_rd  <- inherits(x, "rd")
+  if (is_ahr || is_wlr) {
     # Updated events to integer
     event <- x$analysis$event
     if (n_analysis == 1) {
@@ -340,7 +342,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     )
     if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
     x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)
-  } else if ("rd" %in% class(x)) {
+  } else if (is_rd) {
     n_stratum <- length(x$input$p_c$stratum)
 
     # Update unstratified sample size to integer
@@ -431,22 +433,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   }
 
   # Make n and event of x_new$analysis exactly integers
-  if ("ahr" %in% class(x) || "wlr" %in% class(x)) {
-    for (i in seq_len(n_analysis)) {
-      if (almost_equal(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
-        x_new$analysis$n[i] <- round(x_new$analysis$n[i])
-      }
-
-      if (almost_equal(x = x_new$analysis$event[i], k = round(x_new$analysis$event[i]))) {
-        x_new$analysis$event[i] <- round(x_new$analysis$event[i])
-      }
-    }
-  } else if ("rd" %in% class(x)) {
-    for (i in seq_len(n_analysis)) {
-      if (almost_equal(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
-        x_new$analysis$n[i] <- round(x_new$analysis$n[i])
-      }
-    }
+  if (is_ahr || is_wlr || is_rd) {
+    x_new$analysis$n <- round2(x_new$analysis$n)
+    if (!is_rd) x_new$analysis$event <- round2(x_new$analysis$event)
   }
 
   return(x_new)

@@ -276,3 +276,11 @@ gs_sigma2_wlr <- function(arm0,
 almost_equal <- function(x, k, tol = .Machine$double.eps^0.5) {
   abs(x - k) < tol
 }
+
+# Round a number only if it is close enough to the rounded value
+round2 <- function(x) {
+  y <- round(x)
+  i <- almost_equal(x, y)
+  x[i] <- y[i]
+  x
+}
