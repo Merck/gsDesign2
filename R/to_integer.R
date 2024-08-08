@@ -273,68 +273,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   n_analysis <- length(x$analysis$analysis)
   multiply_factor <- x$input$ratio + 1
 
-  if ("ahr" %in% class(x)) {
-    # Updated events
-    event <- x$analysis$event
-    if (n_analysis == 1) {
-      event_new <- ceiling(event)
-    } else {
-      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis]))
-    }
-
-    # Updated sample size and enroll rate
-    sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
-    enroll_rate <- x$enroll_rate
-    enroll_rate_new <- enroll_rate %>%
-      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
-
-    # Updated upar
-    # If it is spending bounds
-    # Scenario 1: information-based spending
-    # Scenario 2: calendar-based spending
-    if (identical(x$input$upper, gs_b)) {
-      upar_new <- x$input$upar
-    } else if (identical(x$input$upper, gs_spending_bound)) {
-      upar_new <- x$input$upar
-      if (!("timing" %in% names(x$input$upar))) {
-        info_with_new_event <- gs_info_ahr(
-          enroll_rate = enroll_rate_new,
-          fail_rate = x$input$fail_rate,
-          ratio = x$input$ratio,
-          event = event_new,
-          analysis_time = NULL
-        )
-
-        upar_new$timing <- info_with_new_event$info / max(info_with_new_event$info)
-      }
-    }
-
-    # Updated lpar
-    if (identical(x$input$lower, gs_b)) {
-      lpar_new <- x$input$lpar
-    } else if (identical(x$input$lower, gs_spending_bound)) {
-      lpar_new <- x$input$lpar
-      if (!("timing" %in% names(x$input$lpar))) {
-        lpar_new$timing <- upar_new$timing
-      }
-    }
-
-    # Updated design with integer events and sample size
-    x_new <- gs_power_ahr(
-      enroll_rate = enroll_rate_new,
-      fail_rate = x$input$fail_rate,
-      event = event_new,
-      analysis_time = NULL,
-      ratio = x$input$ratio,
-      upper = x$input$upper, upar = upar_new,
-      lower = x$input$lower, lpar = lpar_new,
-      test_upper = x$input$test_upper,
-      test_lower = x$input$test_lower,
-      binding = x$input$binding,
-      info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
-      interval = c(0.01, max(x$analysis$time) + 100)
-    )
-  } else if ("wlr" %in% class(x)) {
+  if (inherits(x, c("ahr", "wlr"))) {
+    is_wlr <- inherits(x, "wlr")
     # Updated events to integer
     event <- x$analysis$event
     if (n_analysis == 1) {
@@ -384,7 +324,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     }
 
     # Updated design with integer events and sample size
-    x_new <- gs_power_wlr(
+    power_args = list(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
       event = event_new,
@@ -396,10 +336,10 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       test_lower = x$input$test_lower,
       binding = x$input$binding,
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
-      weight = x$input$weight,
-      approx = x$input$approx,
       interval = c(0.01, max(x$analysis$time) + 100)
     )
+    if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
+    x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)
   } else if ("rd" %in% class(x)) {
     n_stratum <- length(x$input$p_c$stratum)
 
