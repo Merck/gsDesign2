@@ -200,11 +200,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 
   # Make n and event of ans$analysis exactly integers
   if ("fixed_design" %in% class(ans)) {
-    if (is_almost_k(x = ans$analysis$n, k = round(ans$analysis$n))) {
+    if (almost_equal(x = ans$analysis$n, k = round(ans$analysis$n))) {
       ans$analysis$n <- round(ans$analysis$n)
     }
 
-    if (is_almost_k(x = ans$analysis$event, k = round(ans$analysis$event))) {
+    if (almost_equal(x = ans$analysis$event, k = round(ans$analysis$event))) {
       ans$analysis$event <- round(ans$analysis$event)
     }
   }
@@ -433,17 +433,17 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   # Make n and event of x_new$analysis exactly integers
   if ("ahr" %in% class(x) || "wlr" %in% class(x)) {
     for (i in seq_len(n_analysis)) {
-      if (is_almost_k(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
+      if (almost_equal(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
         x_new$analysis$n[i] <- round(x_new$analysis$n[i])
       }
 
-      if (is_almost_k(x = x_new$analysis$event[i], k = round(x_new$analysis$event[i]))) {
+      if (almost_equal(x = x_new$analysis$event[i], k = round(x_new$analysis$event[i]))) {
         x_new$analysis$event[i] <- round(x_new$analysis$event[i])
       }
     }
   } else if ("rd" %in% class(x)) {
     for (i in seq_len(n_analysis)) {
-      if (is_almost_k(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
+      if (almost_equal(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
         x_new$analysis$n[i] <- round(x_new$analysis$n[i])
       }
     }
