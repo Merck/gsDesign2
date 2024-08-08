@@ -98,7 +98,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     mutate(rate = rate * ceiling(output_n / multiply_factor) * multiply_factor / output_n)
 
   # Round up the FA events
-  event_ceiling <- ceiling(x$analysis$event) |> as.integer()
+  event_ceiling <- ceiling(x$analysis$event)
 
   if ((x$design == "ahr") && (input_n != output_n)) {
     x_new <- gs_power_ahr(
@@ -277,9 +277,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     # Updated events
     event <- x$analysis$event
     if (n_analysis == 1) {
-      event_new <- ceiling(event) %>% as.integer()
+      event_new <- ceiling(event)
     } else {
-      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
+      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis]))
     }
 
     # Updated sample size and enroll rate
@@ -338,9 +338,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     # Updated events to integer
     event <- x$analysis$event
     if (n_analysis == 1) {
-      event_new <- ceiling(event) %>% as.integer()
+      event_new <- ceiling(event)
     } else {
-      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
+      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis]))
     }
 
     # Updated sample size to integer and enroll rates
