@@ -270,13 +270,18 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
-  n_analysis <- length(x$analysis$analysis)
-  multiply_factor <- x$input$ratio + 1
-
   is_ahr <- inherits(x, "ahr")
   is_wlr <- inherits(x, "wlr")
   is_rd  <- inherits(x, "rd")
-  if (is_ahr || is_wlr) {
+  if (!(is_ahr || is_wlr || is_rd)) {
+    message("The input object is not applicable to get an integer sample size.")
+    return(x)
+  }
+
+  n_analysis <- length(x$analysis$analysis)
+  multiply_factor <- x$input$ratio + 1
+
+  if (!is_rd) {
     # Updated events to integer
     event <- x$analysis$event
     if (n_analysis == 1) {
@@ -342,7 +347,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     )
     if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
     x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)
-  } else if (is_rd) {
+  } else {
     n_stratum <- length(x$input$p_c$stratum)
 
     # Update unstratified sample size to integer
@@ -427,16 +432,11 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       r = x$input$r,
       tol = x$input$tol
     )
-  } else {
-    message("The input object is not applicable to get an integer sample size.")
-    x_new <- x
   }
 
   # Make n and event of x_new$analysis exactly integers
-  if (is_ahr || is_wlr || is_rd) {
-    x_new$analysis$n <- round2(x_new$analysis$n)
-    if (!is_rd) x_new$analysis$event <- round2(x_new$analysis$event)
-  }
+  x_new$analysis$n <- round2(x_new$analysis$n)
+  if (!is_rd) x_new$analysis$event <- round2(x_new$analysis$event)
 
   return(x_new)
 }
