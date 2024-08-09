@@ -251,9 +251,7 @@ as_gt.gs_design <- function(
 
   x_non_binding <- inherits(x, "non_binding")
 
-  x_k <- lapply(x$Analysis, function(x) {
-    return(as.numeric(substring(x, 11, 11)))
-  }) %>% unlist()
+  x_k <- as.numeric(substr(x$Analysis, 11, 11))
 
   if (!display_inf_bound) {
     x <- x %>% filter(!is.infinite(Z))
