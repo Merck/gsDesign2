@@ -98,53 +98,32 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   )
 
   # set the default footnote
-  if (is.null(footnote)) {
-    footnote <- switch(design_mtd,
-      "ahr" = {
-        "Power computed with average hazard ratio method."
-      },
-      "fh" = {
-        paste0(
-          "Power for Fleming-Harrington test ",
-          substr(x$Design, 19, nchar(x$Design)),
-          " using method of Yung and Liu."
-        )
-      },
-      "mb" = {
-        paste0(
-          "Power for ",
-          x$Design,
-          " computed with method of Yung and Liu."
-        )
-      },
-      "lf" = {
-        "Power using Lachin and Foulkes method applied
-        using expected average hazard ratio (AHR) at time of planned analysis."
-      },
-      "rd" = {
-        "Risk difference power without continuity correction using method of Farrington and Manning."
-      },
-      "maxcombo" = {
-        paste0(
-          "Power for MaxCombo test with Fleming-Harrington tests",
-          substr(x$Design, 9, nchar(x$Design)), "."
-        )
-      },
-      "milestone" = {
-        paste0("Power for ", x$Design, " computed with method of Yung and Liu.")
-      },
-      "rmst" = {
-        paste0("Power for ", x$Design, " computed with method of Yung and Liu.")
-      }
-    )
-  }
+  if (is.null(footnote)) footnote <- switch(
+    design_mtd,
+    "ahr" = "Power computed with average hazard ratio method.",
+    "fh" = paste(
+      "Power for Fleming-Harrington test", substring(x$Design, 19),
+      "using method of Yung and Liu."
+    ),
+    "lf" = paste(
+      "Power using Lachin and Foulkes method applied using expected",
+      "average hazard ratio (AHR) at time of planned analysis."
+    ),
+    "rd" = paste(
+      "Risk difference power without continuity correction using method of",
+      "Farrington and Manning."
+    ),
+    "maxcombo" = paste0(
+      "Power for MaxCombo test with Fleming-Harrington tests ",
+      substring(x$Design, 9), "."
+    ),
+    # for mb, milestone, and rmst
+    paste("Power for", x$Design, "computed with method of Yung and Liu.")
+  )
 
-  ans <- x %>%
-    gt::gt() %>%
+  gt::gt(x) %>%
     gt::tab_header(title = title) %>%
     gt::tab_footnote(footnote = footnote, locations = gt::cells_title(group = "title"))
-
-  return(ans)
 }
 
 #' @rdname as_gt
