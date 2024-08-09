@@ -259,33 +259,20 @@ as_gt.gs_design <- function(
 
   # Set defaults ----
   # set different default title to different methods
-  if (method == "ahr" && is.null(title)) {
-    title <- "Bound summary for AHR design"
-  }
-  if (method == "wlr" && is.null(title)) {
-    title <- "Bound summary for WLR design"
-  }
-  if (method == "combo" && is.null(title)) {
-    title <- "Bound summary for MaxCombo design"
-  }
-
-  if (method == "rd" && is.null(title)) {
-    title <- "Bound summary of Binary Endpoint"
-  }
+  if (is.null(title)) title <- paste("Bound summary", switch(
+    method,
+    "ahr" = "for AHR design", "wlr" = "for WLR design",
+    "combo" = "for MaxCombo design", "rd" = "of Binary Endpoint"
+  ))
 
   # set different default subtitle to different methods
-  if (method == "ahr" && is.null(subtitle)) {
-    subtitle <- "AHR approximations of ~HR at bound"
-  }
-  if (method == "wlr" && is.null(subtitle)) {
-    subtitle <- "WLR approximation of ~wHR at bound"
-  }
-  if (method == "combo" && is.null(subtitle)) {
-    subtitle <- "MaxCombo approximation"
-  }
-  if (method == "rd" && is.null(subtitle)) {
-    subtitle <- "measured by risk difference"
-  }
+  if (is.null(subtitle)) subtitle <- switch(
+    method,
+    "ahr" = "AHR approximations of ~HR at bound",
+    "wlr" = "WLR approximation of ~wHR at bound",
+    "combo" = "MaxCombo approximation",
+    "rd" = "measured by risk difference"
+  )
 
   # set different default columns to display
   if (is.null(display_columns)) {
