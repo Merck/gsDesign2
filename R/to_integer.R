@@ -331,7 +331,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     }
 
     # Updated design with integer events and sample size
-    power_args = list(
+    power_args <- list(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
       event = event_new,
