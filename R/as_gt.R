@@ -96,20 +96,20 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   # set the default footnote
   if (is.null(footnote)) footnote <- switch(
     design_mtd,
-    "ahr" = "Power computed with average hazard ratio method.",
-    "fh" = paste(
+    ahr = "Power computed with average hazard ratio method.",
+    fh = paste(
       "Power for Fleming-Harrington test", substring(x$Design, 19),
       "using method of Yung and Liu."
     ),
-    "lf" = paste(
+    lf = paste(
       "Power using Lachin and Foulkes method applied using expected",
       "average hazard ratio (AHR) at time of planned analysis."
     ),
-    "rd" = paste(
+    rd = paste(
       "Risk difference power without continuity correction using method of",
       "Farrington and Manning."
     ),
-    "maxcombo" = paste0(
+    maxcombo = paste0(
       "Power for MaxCombo test with Fleming-Harrington tests ",
       substring(x$Design, 9), "."
     ),
@@ -257,17 +257,17 @@ as_gt.gs_design <- function(
   # set different default title to different methods
   if (is.null(title)) title <- paste("Bound summary", switch(
     method,
-    "ahr" = "for AHR design", "wlr" = "for WLR design",
-    "combo" = "for MaxCombo design", "rd" = "of Binary Endpoint"
+    ahr = "for AHR design", wlr = "for WLR design",
+    combo = "for MaxCombo design", rd = "of Binary Endpoint"
   ))
 
   # set different default subtitle to different methods
   if (is.null(subtitle)) subtitle <- switch(
     method,
-    "ahr" = "AHR approximations of ~HR at bound",
-    "wlr" = "WLR approximation of ~wHR at bound",
-    "combo" = "MaxCombo approximation",
-    "rd" = "measured by risk difference"
+    ahr = "AHR approximations of ~HR at bound",
+    wlr = "WLR approximation of ~wHR at bound",
+    combo = "MaxCombo approximation",
+    rd = "measured by risk difference"
   )
 
   # set different default columns to display
@@ -289,7 +289,7 @@ as_gt.gs_design <- function(
   # set different default footnotes to different methods
   if (is.null(footnote)) footnote <- switch(
     method,
-    "ahr" = list(
+    ahr = list(
       content = c(
         if (i1 <- "~HR at bound" %in% display_columns)
           "Approximate hazard ratio to cross bound.",
@@ -300,7 +300,7 @@ as_gt.gs_design <- function(
       location = c(if (i1) "~HR at bound", if (i2) "Nominal p"),
       attr = c(if (i1) "colname", if (i2) "colname")
     ),
-    "wlr" = list(
+    wlr = list(
       content = c(
         if (i1 <- "~wHR at bound" %in% display_columns)
           "Approximate hazard ratio to cross bound.",
@@ -312,7 +312,7 @@ as_gt.gs_design <- function(
       location = c(if (i1) "~wHR at bound", if (i2) "Nominal p"),
       attr = c(if (i1) "colname", if (i2) "colname", "analysis")
     ),
-    "combo" = list(
+    combo = list(
       content = c(
         if (i2 <- "Nominal p" %in% display_columns)
           "One-sided p-value for experimental vs control treatment.
@@ -321,7 +321,7 @@ as_gt.gs_design <- function(
       location = if (i2) "Nominal p",
       attr = c(if (i2) "colname", "analysis")
     ),
-    "rd" = list(
+    rd = list(
       content = if (i2 <- "Nominal p" %in% display_columns)
         "One-sided p-value for experimental vs control treatment.
         Value < 0.5 favors experimental, > 0.5 favors control.",
