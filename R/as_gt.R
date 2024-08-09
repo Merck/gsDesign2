@@ -249,7 +249,7 @@ as_gt.gs_design <- function(
 
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
 
-  x_non_binding <- "non_binding" %in% class(x)
+  x_non_binding <- inherits(x, "non_binding")
 
   x_k <- lapply(x$Analysis, function(x) {
     return(as.numeric(substring(x, 11, 11)))
