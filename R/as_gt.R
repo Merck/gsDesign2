@@ -335,9 +335,7 @@ as_gt.gs_design <- function(
   )
 
   # Filter out inf bound ----
-  x <- x %>%
-    subset(!is.na(`Alternate hypothesis`)) %>%
-    subset(!is.na(`Null hypothesis`))
+  x <- subset(x, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
 
   # Add spanner ----
   names(x)[names(x) == "Alternate hypothesis"] <- colname_spannersub[1]
