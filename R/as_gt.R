@@ -275,29 +275,11 @@ as_gt.gs_design <- function(
   )
 
   # set different default columns to display
-  if (is.null(display_columns)) {
-    if (method == "ahr") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "~HR at bound", "Alternate hypothesis", "Null hypothesis"
-      )
-    } else if (method == "wlr") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "~wHR at bound", "Alternate hypothesis", "Null hypothesis"
-      )
-    } else if (method == "combo") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "Alternate hypothesis", "Null hypothesis"
-      )
-    } else if (method == "rd") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis"
-      )
-    }
-  }
+  if (is.null(display_columns)) display_columns <- c(
+    "Analysis", "Bound", "Z", "Nominal p",
+    sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
+    "Alternate hypothesis", "Null hypothesis"
+  )
   # filter the columns to display as the output
   ## if `Probability` is selected to output, then transform it to `c("Alternate hypothesis", "Null hypothesis")`
   if ("Probability" %in% display_columns) {
