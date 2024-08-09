@@ -80,26 +80,9 @@ as_gt <- function(x, ...) {
 #'   as_gt()
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   # get the design method
-  if ("ahr" %in% class(x)) {
-    design_mtd <- "ahr"
-  } else if ("fh" %in% class(x)) {
-    design_mtd <- "fh"
-  } else if ("mb" %in% class(x)) {
-    design_mtd <- "mb"
-  } else if ("lf" %in% class(x)) {
-    design_mtd <- "lf"
-  } else if ("rd" %in% class(x)) {
-    design_mtd <- "rd"
-  } else if ("maxcombo" %in% class(x)) {
-    design_mtd <- "maxcombo"
-  } else if ("milestone" %in% class(x)) {
-    design_mtd <- "milestone"
-  } else if ("rmst" %in% class(x)) {
-    design_mtd <- "rmst"
-  } else if ("rd" %in% class(x)) {
-    design_mtd <- "rd"
-  }
-
+  design_mtd <- intersect(
+    c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst"), class(x)
+  )[1]
 
   # set the default title
   if (is.null(title)) {
