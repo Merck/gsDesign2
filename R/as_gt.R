@@ -247,15 +247,13 @@ as_gt.gs_design <- function(
   method <- intersect(class(x), c("ahr", "wlr", "combo", "rd"))[1]
   full_alpha <- attr(x, "full_alpha")
 
-  x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
+  x_alpha <- max(filter(x, Bound == display_bound[1])[[colname_spannersub[2]]])
 
   x_non_binding <- inherits(x, "non_binding")
 
   x_k <- as.numeric(substr(x$Analysis, 11, 11))
 
-  if (!display_inf_bound) {
-    x <- x %>% filter(!is.infinite(Z))
-  }
+  if (!display_inf_bound) x <- filter(x, !is.infinite(Z))
 
   x_old <- x
 
