@@ -708,30 +708,13 @@ as_rtf.gs_design <- function(
       " {^", intToUtf8(alpha_utf_int), "}"
     )
 
-    footnote_non_binding <- paste0(
+    footnote_nb <- paste0(
       "{\\super ", intToUtf8(alpha_utf_int), "} ",
-      "Cumulative alpha for final analysis ",
-      "(", format(x_alpha, scientific = FALSE), ") ",
-      "is less than the full alpha ",
-      "(", format(full_alpha, scientific = FALSE), ") ",
-      "when the futility bound is non-binding. ",
-      "The smaller value subtracts the probability of ",
-      "crossing a futility bound before ",
-      "crossing an efficacy bound at a later analysis ",
-      "(",
-      format(full_alpha, scientific = FALSE),
-      " - ",
-      format(full_alpha - x_alpha, scientific = FALSE),
-      " = ",
-      format(x_alpha, scientific = FALSE),
-      ") ",
-      "under the null hypothesis."
+      footnote_non_binding(x_alpha, full_alpha)
     )
 
-    if (!is.null(footnotes)) {
-      footnotes <- paste0(footnotes, "\\line", footnote_non_binding)
-    } else {
-      footnotes <- footnote_non_binding
+    footnotes <- if (is.null(footnotes)) footnote_nb else {
+      paste0(footnotes, "\\line", footnote_nb)
     }
   }
 
