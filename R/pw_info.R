@@ -239,7 +239,7 @@ pw_info <- function(
   ans <- ans[order(t), .SD, by = .(time, stratum)]
 
   # filter out the rows with 0 events
-  ans <- ans[!is_almost_k(event, 0L)]
+  ans <- ans[!almost_equal(event, 0L)]
   setcolorder(ans, neworder = c("time", "stratum", "t", "hr", "n", "event", "info", "info0"))
 
   setDF(ans)
