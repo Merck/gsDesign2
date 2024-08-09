@@ -285,11 +285,10 @@ as_gt.gs_design <- function(
   if (any(i <- display_columns == "Probability"))
     display_columns <- c(display_columns[!i], "Alternate hypothesis", "Null hypothesis")
   ## check if the `display_columns` are included in `x` output
-  if (sum(!(display_columns %in% names(x))) >= 1) {
-    stop("as_gt: the variable names in display_columns is not outputted in the summary_bound object!")
-  } else {
-    x <- x %>% dplyr::select(dplyr::all_of(display_columns))
-  }
+  if (!all(display_columns %in% names(x))) stop(
+    "not all variable names in 'display_columns' are in the summary_bound object!"
+  )
+  x <- x[, display_columns]
 
   # set different default footnotes to different methods
   if (method == "ahr" && is.null(footnote)) {
