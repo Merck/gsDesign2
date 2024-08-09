@@ -245,7 +245,7 @@ as_gt.gs_design <- function(
     ...) {
 
   method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
-  full_alpha <- attributes(x)$full_alpha
+  full_alpha <- attr(x, "full_alpha")
 
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
 
