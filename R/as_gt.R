@@ -244,7 +244,7 @@ as_gt.gs_design <- function(
     display_inf_bound = FALSE,
     ...) {
 
-  method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
+  method <- intersect(class(x), c("ahr", "wlr", "combo", "rd"))[1]
   full_alpha <- attr(x, "full_alpha")
 
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[[colname_spannersub[2]]])
