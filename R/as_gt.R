@@ -338,8 +338,8 @@ as_gt.gs_design <- function(
   x <- subset(x, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
 
   # Add spanner ----
-  names(x)[names(x) == "Alternate hypothesis"] <- colname_spannersub[1]
-  names(x)[names(x) == "Null hypothesis"] <- colname_spannersub[2]
+  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x))
+  names(x)[i] <- colname_spannersub
 
   x <- x %>%
     subset(Bound %in% display_bound) %>%
