@@ -85,38 +85,17 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   )[1]
 
   # set the default title
-  if (is.null(title)) {
-    title <- switch(design_mtd,
-      "ahr" = {
-        "Fixed Design under AHR Method"
-      },
-      "fh" = {
-        "Fixed Design under Fleming-Harrington Method"
-      },
-      "mb" = {
-        "Fixed Design under Magirr-Burman Method"
-      },
-      "lf" = {
-        "Fixed Design under Lachin and Foulkes Method"
-      },
-      "rd" = {
-        "Fixed Design of Risk Difference under Farrington-Manning Method"
-      },
-      "maxcombo" = {
-        "Fixed Design under MaxCombo Method"
-      },
-      "milestone" = {
-        "Fixed Design under Milestone Method"
-      },
-      "rmst" = {
-        "Fixed Design under Restricted Mean Survival Time Method"
-      },
-      "rd" = {
-        "Fixed Design of Risk Difference"
-      }
-    )
-  }
-
+  if (is.null(title)) title <- switch(
+    design_mtd,
+    "ahr" = "Fixed Design under AHR Method",
+    "fh" = "Fixed Design under Fleming-Harrington Method",
+    "mb" = "Fixed Design under Magirr-Burman Method",
+    "lf" = "Fixed Design under Lachin and Foulkes Method",
+    "rd" = "Fixed Design of Risk Difference under Farrington-Manning Method",
+    "maxcombo" = "Fixed Design under MaxCombo Method",
+    "milestone" = "Fixed Design under Milestone Method",
+    "rmst" = "Fixed Design under Restricted Mean Survival Time Method"
+  )
 
   # set the default footnote
   if (is.null(footnote)) {
