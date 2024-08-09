@@ -353,43 +353,23 @@ as_gt.gs_design <- function(
     gt::tab_header(title = title, subtitle = subtitle)
 
   # Add footnotes ----
-  if (!is.null(footnote$content)) {
-    if (length(footnote$content) != 0) {
-      for (i in seq_along(footnote$content)) {
-        # if the footnotes is added on the colnames
-        if (footnote$attr[i] == "colname") {
-          x <- x %>%
-            gt::tab_footnote(
-              footnote = footnote$content[i],
-              locations = gt::cells_column_labels(columns = footnote$location[i])
-            )
-        }
-        # if the footnotes is added on the title/subtitle
-        if (footnote$attr[i] == "title" || footnote$attr[i] == "subtitle") {
-          x <- x %>%
-            gt::tab_footnote(
-              footnote = footnote$content[i],
-              locations = gt::cells_title(group = footnote$attr[i])
-            )
-        }
-        # if the footnotes is added on the analysis summary row, which is a grouping variable, i.e., Analysis
-        if (footnote$attr[i] == "analysis") {
-          x <- x %>%
-            gt::tab_footnote(
-              footnote = footnote$content[i],
-              locations = gt::cells_row_groups(groups = dplyr::starts_with("Analysis"))
-            )
-        }
-        # if the footnotes is added on the column spanner
-        if (footnote$attr[i] == "spanner") {
-          x <- x %>%
-            gt::tab_footnote(
-              footnote = footnote$content[i],
-              locations = gt::cells_column_spanners(spanners = colname_spanner)
-            )
-        }
-      }
+  for (i in seq_along(footnote$content)) {
+    att <- footnote$attr[i]
+    loc <- if (att == "colname") {
+      # footnotes are added on the colnames
+      gt::cells_column_labels(columns = footnote$location[i])
+    } else if (att %in% c("title", "subtitle")) {
+      # on the title/subtitle
+      gt::cells_title(group = att)
+    } else if (att == "analysis") {
+      # on the analysis summary row, which is a grouping variable, i.e., Analysis
+      gt::cells_row_groups(groups = dplyr::starts_with("Analysis"))
+    } else if (att == "spanner") {
+      # on the column spanner
+      gt::cells_column_spanners(spanners = colname_spanner)
     }
+    if (!is.null(loc))
+      x <- gt::tab_footnote(x, footnote = footnote$content[i], locations = loc)
   }
 
   ## if it is non-binding design
