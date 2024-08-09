@@ -373,34 +373,29 @@ as_gt.gs_design <- function(
   }
 
   ## if it is non-binding design
-  if (x_non_binding && (x_alpha < full_alpha)) {
-    x <- x %>%
-      gt::tab_footnote(
-        footnote = paste0(
-          "Cumulative alpha for final analysis ",
-          "(", format(x_alpha, scientific = FALSE), ") ",
-          "is less than the full alpha ",
-          "(", format(full_alpha, scientific = FALSE), ") ",
-          "when the futility bound is non-binding. ",
-          "The smaller value subtracts the probability of ",
-          "crossing a futility bound before ",
-          "crossing an efficacy bound at a later analysis ",
-          "(",
-          format(full_alpha, scientific = FALSE),
-          " - ",
-          format(full_alpha - x_alpha, scientific = FALSE),
-          " = ",
-          format(x_alpha, scientific = FALSE),
-          ") ",
-          "under the null hypothesis."
-        ),
-        locations = gt::cells_body(
-          columns = colname_spannersub[2],
-          rows = (substring(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) &
-            (x_old$Bound == display_bound[1])
-        )
-      )
-  }
+  if (x_non_binding && x_alpha < full_alpha) x <- gt::tab_footnote(
+    x,
+    footnote = footnote_non_binding(x_alpha, full_alpha),
+    locations = gt::cells_body(
+      columns = colname_spannersub[2],
+      rows = substr(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k)) &
+        x_old$Bound == display_bound[1]
+    )
+  )
 
-  return(x)
+  x
+}
+
+footnote_non_binding <- function(x_alpha, full_alpha) {
+  a1 <- format(x_alpha, scientific = FALSE)
+  a2 <- format(full_alpha, scientific = FALSE)
+  a3 <- format(full_alpha - x_alpha, scientific = FALSE)
+  paste0(
+    "Cumulative alpha for final analysis ",
+    "(", a1, ") ", "is less than the full alpha ", "(", a2, ") ",
+    "when the futility bound is non-binding. ",
+    "The smaller value subtracts the probability of crossing a futility bound ",
+    "before crossing an efficacy bound at a later analysis ",
+    "(", a2, " - ", a3, " = ", a1, ") ", "under the null hypothesis."
+  )
 }
