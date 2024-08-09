@@ -98,7 +98,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     mutate(rate = rate * ceiling(output_n / multiply_factor) * multiply_factor / output_n)
 
   # Round up the FA events
-  event_ceiling <- ceiling(x$analysis$event) |> as.integer()
+  event_ceiling <- ceiling(x$analysis$event)
 
   if ((x$design == "ahr") && (input_n != output_n)) {
     x_new <- gs_power_ahr(
@@ -200,11 +200,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 
   # Make n and event of ans$analysis exactly integers
   if ("fixed_design" %in% class(ans)) {
-    if (is_almost_k(x = ans$analysis$n, k = round(ans$analysis$n))) {
+    if (almost_equal(x = ans$analysis$n, k = round(ans$analysis$n))) {
       ans$analysis$n <- round(ans$analysis$n)
     }
 
-    if (is_almost_k(x = ans$analysis$event, k = round(ans$analysis$event))) {
+    if (almost_equal(x = ans$analysis$event, k = round(ans$analysis$event))) {
       ans$analysis$event <- round(ans$analysis$event)
     }
   }
@@ -270,77 +270,24 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
 to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
+  is_ahr <- inherits(x, "ahr")
+  is_wlr <- inherits(x, "wlr")
+  is_rd  <- inherits(x, "rd")
+  if (!(is_ahr || is_wlr || is_rd)) {
+    message("The input object is not applicable to get an integer sample size.")
+    return(x)
+  }
+
   n_analysis <- length(x$analysis$analysis)
   multiply_factor <- x$input$ratio + 1
 
-  if ("ahr" %in% class(x)) {
-    # Updated events
-    event <- x$analysis$event
-    if (n_analysis == 1) {
-      event_new <- ceiling(event) %>% as.integer()
-    } else {
-      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
-    }
-
-    # Updated sample size and enroll rate
-    sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
-    enroll_rate <- x$enroll_rate
-    enroll_rate_new <- enroll_rate %>%
-      mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
-
-    # Updated upar
-    # If it is spending bounds
-    # Scenario 1: information-based spending
-    # Scenario 2: calendar-based spending
-    if (identical(x$input$upper, gs_b)) {
-      upar_new <- x$input$upar
-    } else if (identical(x$input$upper, gs_spending_bound)) {
-      upar_new <- x$input$upar
-      if (!("timing" %in% names(x$input$upar))) {
-        info_with_new_event <- gs_info_ahr(
-          enroll_rate = enroll_rate_new,
-          fail_rate = x$input$fail_rate,
-          ratio = x$input$ratio,
-          event = event_new,
-          analysis_time = NULL
-        )
-
-        upar_new$timing <- info_with_new_event$info / max(info_with_new_event$info)
-      }
-    }
-
-    # Updated lpar
-    if (identical(x$input$lower, gs_b)) {
-      lpar_new <- x$input$lpar
-    } else if (identical(x$input$lower, gs_spending_bound)) {
-      lpar_new <- x$input$lpar
-      if (!("timing" %in% names(x$input$lpar))) {
-        lpar_new$timing <- upar_new$timing
-      }
-    }
-
-    # Updated design with integer events and sample size
-    x_new <- gs_power_ahr(
-      enroll_rate = enroll_rate_new,
-      fail_rate = x$input$fail_rate,
-      event = event_new,
-      analysis_time = NULL,
-      ratio = x$input$ratio,
-      upper = x$input$upper, upar = upar_new,
-      lower = x$input$lower, lpar = lpar_new,
-      test_upper = x$input$test_upper,
-      test_lower = x$input$test_lower,
-      binding = x$input$binding,
-      info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
-      interval = c(0.01, max(x$analysis$time) + 100)
-    )
-  } else if ("wlr" %in% class(x)) {
+  if (!is_rd) {
     # Updated events to integer
     event <- x$analysis$event
     if (n_analysis == 1) {
-      event_new <- ceiling(event) %>% as.integer()
+      event_new <- ceiling(event)
     } else {
-      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis])) %>% as.integer()
+      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis]))
     }
 
     # Updated sample size to integer and enroll rates
@@ -384,7 +331,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     }
 
     # Updated design with integer events and sample size
-    x_new <- gs_power_wlr(
+    power_args <- list(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
       event = event_new,
@@ -396,11 +343,11 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       test_lower = x$input$test_lower,
       binding = x$input$binding,
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
-      weight = x$input$weight,
-      approx = x$input$approx,
       interval = c(0.01, max(x$analysis$time) + 100)
     )
-  } else if ("rd" %in% class(x)) {
+    if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
+    x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)
+  } else {
     n_stratum <- length(x$input$p_c$stratum)
 
     # Update unstratified sample size to integer
@@ -413,27 +360,23 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     )
 
     # Update sample size per stratum
-    if (n_stratum == 1) {
-      suppressMessages(
-        tbl_n <- tibble::tibble(
-          analysis = rep(1:n_analysis, each = n_stratum),
-          stratum = rep(x$input$p_c$stratum, n_analysis)
-        ) %>%
-          left_join(sample_size_new)
+    suppressMessages({
+      tbl_n <- tibble::tibble(
+        analysis = rep(1:n_analysis, each = n_stratum),
+        stratum = rep(x$input$p_c$stratum, n_analysis)
       )
-    } else {
-      suppressMessages(
-        tbl_n <- tibble::tibble(
-          analysis = rep(1:n_analysis, each = n_stratum),
-          stratum = rep(x$input$p_c$stratum, n_analysis)
-        ) %>%
+      tbl_n <- if (n_stratum == 1) {
+        tbl_n %>%
+          left_join(sample_size_new)
+      } else {
+        tbl_n %>%
           left_join(x$input$stratum_prev) %>%
           left_join(sample_size_new) %>%
           mutate(n_new = prevalence * n) %>%
           select(-c(n, prevalence)) %>%
           dplyr::rename(n = n_new)
-      )
-    }
+      }
+    })
 
     # If it is spending bounds
     # Scenario 1: information-based spending
@@ -485,29 +428,11 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       r = x$input$r,
       tol = x$input$tol
     )
-  } else {
-    message("The input object is not applicable to get an integer sample size.")
-    x_new <- x
   }
 
   # Make n and event of x_new$analysis exactly integers
-  if ("ahr" %in% class(x) || "wlr" %in% class(x)) {
-    for (i in seq_len(n_analysis)) {
-      if (is_almost_k(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
-        x_new$analysis$n[i] <- round(x_new$analysis$n[i])
-      }
-
-      if (is_almost_k(x = x_new$analysis$event[i], k = round(x_new$analysis$event[i]))) {
-        x_new$analysis$event[i] <- round(x_new$analysis$event[i])
-      }
-    }
-  } else if ("rd" %in% class(x)) {
-    for (i in seq_len(n_analysis)) {
-      if (is_almost_k(x = x_new$analysis$n[i], k = round(x_new$analysis$n[i]))) {
-        x_new$analysis$n[i] <- round(x_new$analysis$n[i])
-      }
-    }
-  }
+  x_new$analysis$n <- round2(x_new$analysis$n)
+  if (!is_rd) x_new$analysis$event <- round2(x_new$analysis$event)
 
   return(x_new)
 }
