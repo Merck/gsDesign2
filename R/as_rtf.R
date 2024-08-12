@@ -295,7 +295,7 @@ as_rtf.gs_design <- function(
     ...) {
   orientation <- match.arg(orientation)
 
-  method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
+  method <- intersect(class(x), c("ahr", "wlr", "combo", "rd"))[1]
   x_alpha <- max((x %>% dplyr::filter(Bound == display_bound[1]))[["Null hypothesis"]])
   x_non_binding <- "non_binding" %in% class(x)
   x_k <- lapply(x$Analysis, function(x) {
