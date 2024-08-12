@@ -217,8 +217,7 @@ as_rtf.fixed_design <- function(
   )
 
   # set column header
-  colheader <-
-    paste0(paste(names(x), collapse = " | "))
+  colheader <- paste(names(x), collapse = " | ")
 
   # set relative width
   if (is.null(col_rel_width)) {
