@@ -220,11 +220,7 @@ as_rtf.fixed_design <- function(
   colheader <- paste(names(x), collapse = " | ")
 
   # set relative width
-  if (is.null(col_rel_width)) {
-    rel_width <- c(2, rep(1, (n_col - 1)))
-  } else {
-    rel_width <- col_rel_width
-  }
+  rel_width <- col_rel_width %||% c(2, rep(1, n_col - 1))
 
   # Column boarder
   border_top <- rep("single", n_col)
