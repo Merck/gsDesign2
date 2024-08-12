@@ -408,11 +408,7 @@ as_rtf.gs_design <- function(
   )
 
   # set relative width
-  if (is.null(col_rel_width)) {
-    rel_width_body <- rep(1, n_col)
-  } else {
-    rel_width_body <- col_rel_width
-  }
+  rel_width_body <- col_rel_width %||% rep(1, n_col)
 
   rel_width_head <- rel_width_body[2:length(rel_width_body)]
   rel_width_head <- list(
