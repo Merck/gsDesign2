@@ -307,175 +307,83 @@ as_rtf.gs_design <- function(
 
   # Set defaults ----
   # set different default title to different methods
-  if (method == "ahr" && is.null(title)) {
-    title <- "Bound summary for AHR design"
-  }
-  if (method == "wlr" && is.null(title)) {
-    title <- "Bound summary for WLR design"
-  }
-  if (method == "combo" && is.null(title)) {
-    title <- "Bound summary for MaxCombo design"
-  }
-
-  if (method == "rd" && is.null(title)) {
-    title <- "Bound summary of Binary Endpoint"
-  }
+  if (is.null(title)) title <- paste("Bound summary", switch(
+    method,
+    ahr = "for AHR design", wlr = "for WLR design",
+    combo = "for MaxCombo design", rd = "of Binary Endpoint"
+  ))
 
   # set different default subtitle to different methods
-  if (method == "ahr" && is.null(subtitle)) {
-    subtitle <- "AHR approximations of ~HR at bound"
-  }
-  if (method == "wlr" && is.null(subtitle)) {
-    subtitle <- "WLR approximation of ~wHR at bound"
-  }
-  if (method == "combo" && is.null(subtitle)) {
-    subtitle <- "MaxCombo approximation"
-  }
-  if (method == "rd" && is.null(subtitle)) {
-    subtitle <- "measured by risk difference"
-  }
+  if (is.null(subtitle)) subtitle <- switch(
+    method,
+    ahr = "AHR approximations of ~HR at bound",
+    wlr = "WLR approximation of ~wHR at bound",
+    combo = "MaxCombo approximation",
+    rd = "measured by risk difference"
+  )
 
   # set different default columns to display
-  if (is.null(display_columns)) {
-    if (method == "ahr") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "~HR at bound", "Alternate hypothesis", "Null hypothesis"
-      )
-    } else if (method == "wlr") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "~wHR at bound", "Alternate hypothesis", "Null hypothesis"
-      )
-    } else if (method == "combo") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "Alternate hypothesis", "Null hypothesis"
-      )
-    } else if (method == "rd") {
-      display_columns <- c(
-        "Analysis", "Bound", "Z", "Nominal p",
-        "~Risk difference at bound", "Alternate hypothesis", "Null hypothesis"
-      )
-    }
-  }
+  if (is.null(display_columns)) display_columns <- c(
+    "Analysis", "Bound", "Z", "Nominal p",
+    sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
+    "Alternate hypothesis", "Null hypothesis"
+  )
   # filter the columns to display as the output
   ## if `Probability` is selected to output, then transform it to `c("Alternate hypothesis", "Null hypothesis")`
-  if ("Probability" %in% display_columns) {
-    display_columns <- display_columns[!display_columns == "Probability"]
-    display_columns <- c(display_columns, "Alternate hypothesis", "Null hypothesis")
-  }
+  if (any(i <- display_columns == "Probability"))
+    display_columns <- c(display_columns[!i], "Alternate hypothesis", "Null hypothesis")
   ## check if the `display_columns` are included in `x` output
-  if (sum(!(display_columns %in% names(x))) >= 1) {
-    stop("as_rtf: the variable names in display_columns is not outputted in the summary_bound object!")
-  } else {
-    x <- x %>% dplyr::select(dplyr::all_of(display_columns))
-  }
+  if (!all(display_columns %in% names(x))) stop(
+    "not all variable names in 'display_columns' are in the summary_bound object!"
+  )
+  x <- x[, display_columns]
 
   # set different default footnotes to different methods
-  if (method == "ahr" && is.null(footnote)) {
-    footnote <- list(
+  if (is.null(footnote)) footnote <- switch(
+    method,
+    ahr = list(
       content = c(
-        ifelse(
-          "Nominal p" %in% display_columns,
-          paste(
-            "One-sided p-value for experimental vs control treatment.",
-            "Value < 0.5 favors experimental, > 0.5 favors control."
-          ),
-          NA
-        ),
-        ifelse(
-          "~HR at bound" %in% display_columns,
+        if (i1 <- "~HR at bound" %in% display_columns)
           "Approximate hazard ratio to cross bound.",
-          NA
-        )
+        if (i2 <- "Nominal p" %in% display_columns)
+          "One-sided p-value for experimental vs control treatment.
+          Value < 0.5 favors experimental, > 0.5 favors control."
       ),
-      location = c(
-        ifelse("Nominal p" %in% display_columns, "Nominal p", NA),
-        ifelse("~HR at bound" %in% display_columns, "~HR at bound", NA)
-      ),
-      attr = c(
-        ifelse("Nominal p" %in% display_columns, "colname", NA),
-        ifelse("~HR at bound" %in% display_columns, "colname", NA)
-      )
-    )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
-  }
-  if (method == "wlr" && is.null(footnote)) {
-    footnote <- list(
+      location = c(if (i1) "~HR at bound", if (i2) "Nominal p"),
+      attr = c(if (i1) "colname", if (i2) "colname")
+    ),
+    wlr = list(
       content = c(
-        ifelse(
-          "Nominal p" %in% display_columns,
-          paste(
-            "One-sided p-value for experimental vs control treatment.",
-            "Value < 0.5 favors experimental, > 0.5 favors control."
-          ),
-          NA
-        ),
-        ifelse(
-          "~wHR at bound" %in% display_columns,
+        if (i1 <- "~wHR at bound" %in% display_columns)
           "Approximate hazard ratio to cross bound.",
-          NA
-        ),
+        if (i2 <- "Nominal p" %in% display_columns)
+          "One-sided p-value for experimental vs control treatment.
+          Value < 0.5 favors experimental, > 0.5 favors control.",
         "wAHR is the weighted AHR."
       ),
-      location = c(
-        ifelse("Nominal p" %in% display_columns, "Nominal p", NA),
-        ifelse("~wHR at bound" %in% display_columns, "~wHR at bound", NA),
-        NA
-      ),
-      attr = c(
-        ifelse("Nominal p" %in% display_columns, "colname", NA),
-        ifelse("~wHR at bound" %in% display_columns, "colname", NA),
-        "analysis"
-      )
-    )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
-  }
-  if (method == "combo" && is.null(footnote)) {
-    footnote <- list(
+      location = c(if (i1) "~wHR at bound", if (i2) "Nominal p"),
+      attr = c(if (i1) "colname", if (i2) "colname", "analysis")
+    ),
+    combo = list(
       content = c(
-        ifelse(
-          "Nominal p" %in% display_columns,
-          paste(
-            "One-sided p-value for experimental vs control treatment.",
-            "Value < 0.5 favors experimental, > 0.5 favors control."
-          ),
-          NA
-        ),
-        "EF is event fraction. AHR  is under regular weighted log rank test."
-      ),
-      location = c(
-        ifelse("Nominal p" %in% display_columns, "Nominal p", NA),
-        NA
-      ),
-      attr = c(
-        ifelse("Nominal p" %in% display_columns, "colname", NA),
-        "analysis"
-      )
+        if (i2 <- "Nominal p" %in% display_columns)
+          "One-sided p-value for experimental vs control treatment.
+          Value < 0.5 favors experimental, > 0.5 favors control.",
+        "EF is event fraction. AHR  is under regular weighted log rank test."),
+      location = if (i2) "Nominal p",
+      attr = c(if (i2) "colname", "analysis")
+    ),
+    rd = list(
+      content = if (i2 <- "Nominal p" %in% display_columns)
+        "One-sided p-value for experimental vs control treatment.
+        Value < 0.5 favors experimental, > 0.5 favors control.",
+      location = if (i2) "Nominal p",
+      attr = if (i2) "colname"
     )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
-  }
-  if (method == "rd" && is.null(footnote)) {
-    footnote <- list(
-      content = c(ifelse(
-        "Nominal p" %in% display_columns,
-        paste(
-          "One-sided p-value for experimental vs control treatment.",
-          "Value < 0.5 favors experimental, > 0.5 favors control."
-        ),
-        NA
-      )),
-      location = c(ifelse("Nominal p" %in% display_columns, "Nominal p", NA)),
-      attr = c(ifelse("Nominal p" %in% display_columns, "colname", NA))
-    )
-    footnote <- lapply(footnote, function(x) x[!is.na(x)])
-  }
+  )
 
   # Filter out inf bound ----
-  x <- x %>%
-    subset(!is.na(`Alternate hypothesis`)) %>%
-    subset(!is.na(`Null hypothesis`))
+  x <- subset(x, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
 
   # organize data
   x <- x %>%
@@ -496,8 +404,8 @@ as_rtf.gs_design <- function(
   }
 
   # set column header
-  names(x)[names(x) == "Alternate hypothesis"] <- colname_spannersub[1]
-  names(x)[names(x) == "Null hypothesis"] <- colname_spannersub[2]
+  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x))
+  names(x)[i] <- colname_spannersub
 
   colheader <- c(
     paste0(" | ", colname_spanner),
