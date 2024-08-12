@@ -417,14 +417,9 @@ as_rtf.gs_design <- function(
   )
 
   # column boarder
-  border_top_head <- rep("single", (n_col - 1))
-  border_top_body <- rep("single", n_col)
-  border_bottom <- rep("single", n_col)
-  border_left_head <- list(
-    c("single", "single"),
-    rep("single", n_col - 1)
-  )
-  border_left_body <- c("single", border_left_head[[2]])
+  border_top_body <- border_bottom <- border_left_body <- rep("single", n_col)
+  border_top_head <- border_top_body[-1]
+  border_left_head <- list(rep("single", 2), border_top_head)
 
   # Using order number to customize row format
   text_justification <- c("l", "l", rep("c", n_col - 2))
