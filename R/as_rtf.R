@@ -393,15 +393,10 @@ as_rtf.gs_design <- function(
   # Set rtf parameters ----
   n_col <- ncol(x)
   n_row <- nrow(x)
-  if (!is.null(col_rel_width) && !(n_col == length(col_rel_width))) {
-    stop(
-      "col_rel_width must have the same length (has ",
-      length(col_rel_width),
-      ") as `x` has number of columns (has ",
-      n_col, ").",
-      call. = FALSE
-    )
-  }
+  if (!is.null(col_rel_width) && n_col != length(col_rel_width)) stop(
+    "The length of 'col_rel_width' (", length(col_rel_width), ") differs with ",
+    "the number of columns in 'x' (", n_col, ")."
+  )
 
   # set column header
   i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x))
