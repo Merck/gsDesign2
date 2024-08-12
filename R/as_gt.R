@@ -85,12 +85,12 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   )[1]
 
   # set the default title
-  if (is.null(title)) title <- sprintf("Fixed Design under %s Method", switch(
+  if (is.null(title)) title <- sprintf("Fixed Design %s Method", switch(
     design_mtd,
-    ahr = "AHR", fh = "Fleming-Harrington", mb = "Magirr-Burman",
-    lf = "Lachin and Foulkes", maxcombo = "MaxCombo", milestone = "Milestone",
-    rd = "Fixed Design of Risk Difference under Farrington-Manning",
-    rmst = "Restricted Mean Survival Time"
+    ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
+    lf = "under Lachin and Foulkes", maxcombo = "under MaxCombo",
+    milestone = "under Milestone", rmst = "under Restricted Mean Survival Time",
+    rd = "of Risk Difference under Farrington-Manning"
   ))
 
   # set the default footnote
