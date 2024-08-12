@@ -101,7 +101,7 @@ as_rtf.fixed_design <- function(
     file,
     ...) {
   orientation <- match.arg(orientation)
-  method <- design_method(x)
+  method <- fixed_design_method(x)
   title <- title %||% paste(method_title(method), "{^a}")
   footnote <- footnote %||% paste("{^a}", method_footnote(x, method))
 
