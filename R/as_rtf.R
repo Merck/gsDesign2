@@ -147,9 +147,7 @@ as_rtf.fixed_design <- function(
       text_font_size = text_font_size
     )
 
-  if (!is.null(footnote)) {
-    ans <- r2rtf::rtf_footnote(ans, footnote, text_font_size = text_font_size)
-  }
+  ans <- r2rtf::rtf_footnote(ans, footnote, text_font_size = text_font_size)
 
   # Prepare output
   r2rtf::write_rtf(r2rtf::rtf_encode(ans), file)
