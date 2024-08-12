@@ -79,23 +79,37 @@ as_gt <- function(x, ...) {
 #'   summary() %>%
 #'   as_gt()
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
-  # get the design method
-  design_mtd <- intersect(
-    c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst"), class(x)
-  )[1]
+  method <- design_method(x)
+  ans <- gt::gt(x) %>%
+    gt::tab_header(title = title %||% method_title(method)) %>%
+    gt::tab_footnote(
+      footnote = footnote %||% method_footnote(x, method),
+      locations = gt::cells_title(group = "title")
+    )
+  return(ans)
+}
 
-  # set the default title
-  if (is.null(title)) title <- sprintf("Fixed Design %s Method", switch(
-    design_mtd,
+# get the design method
+design_method <- function(x) {
+  methods <- c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst")
+  intersect(methods, class(x))[1]
+}
+
+# get the default title
+method_title <- function(method) {
+  sprintf("Fixed Design %s Method", switch(
+    method,
     ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
     lf = "under Lachin and Foulkes", maxcombo = "under MaxCombo",
     milestone = "under Milestone", rmst = "under Restricted Mean Survival Time",
     rd = "of Risk Difference under Farrington-Manning"
   ))
+}
 
-  # set the default footnote
-  if (is.null(footnote)) footnote <- switch(
-    design_mtd,
+# get the default footnote
+method_footnote <- function(x, method) {
+  switch(
+    method,
     ahr = "Power computed with average hazard ratio method.",
     fh = paste(
       "Power for Fleming-Harrington test", substring(x$Design, 19),
@@ -116,12 +130,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
     # for mb, milestone, and rmst
     paste("Power for", x$Design, "computed with method of Yung and Liu.")
   )
-
-  ans <- gt::gt(x) %>%
-    gt::tab_header(title = title) %>%
-    gt::tab_footnote(footnote = footnote, locations = gt::cells_title(group = "title"))
-
-  return(ans)
 }
 
 #' @rdname as_gt
