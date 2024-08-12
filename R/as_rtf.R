@@ -469,23 +469,15 @@ as_rtf.gs_design <- function(
   ## if it is non-binding design
   if (x_non_binding && (x_alpha < full_alpha)) {
     mkr <- marker()
-
-    x[
-      (substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) &
-        x$Bound == display_bound[1], colname_spannersub[2]
-    ] <- paste0(
-      x[
-        (substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) &
-          x$Bound == display_bound[1], colname_spannersub[2]
-      ],
-      " {^", mkr, "}"
-    )
+    i <- substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k)) &
+      x$Bound == display_bound[1]
+    j <- colname_spannersub[2]
+    x[i, j] <- paste0(x[i, j], " {^", mkr, "}")
 
     footnote_nb <- paste0(
       "{\\super ", mkr, "} ",
       footnote_non_binding(x_alpha, full_alpha)
     )
-
     footnotes <- if (is.null(footnotes)) footnote_nb else {
       paste0(footnotes, "\\line", footnote_nb)
     }
