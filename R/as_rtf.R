@@ -223,8 +223,7 @@ as_rtf.fixed_design <- function(
   rel_width <- col_rel_width %||% c(2, rep(1, n_col - 1))
 
   # Column boarder
-  border_top <- rep("single", n_col)
-  border_left <- rep("single", n_col)
+  border_top <- border_left <- rep("single", n_col)
 
   # Using order number to customize row format
   text_justification <- c("l", rep("c", n_col - 1))
