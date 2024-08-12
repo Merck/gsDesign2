@@ -117,9 +117,11 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
     paste("Power for", x$Design, "computed with method of Yung and Liu.")
   )
 
-  gt::gt(x) %>%
+  ans <- gt::gt(x) %>%
     gt::tab_header(title = title) %>%
     gt::tab_footnote(footnote = footnote, locations = gt::cells_title(group = "title"))
+
+  return(ans)
 }
 
 #' @rdname as_gt
@@ -379,7 +381,7 @@ as_gt.gs_design <- function(
     )
   )
 
-  x
+  return(x)
 }
 
 footnote_non_binding <- function(x_alpha, full_alpha) {

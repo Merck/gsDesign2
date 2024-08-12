@@ -111,10 +111,11 @@ ahr_blinded <- function(
   # Compute adjustment for information
   q_e <- ratio / (1 + ratio)
 
-  tibble(
+  ans <- tibble(
     event = sum(event),
     ahr = exp(-theta),
     theta = theta,
     info0 = sum(event) * (1 - q_e) * q_e
   )
+  return(ans)
 }
