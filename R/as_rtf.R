@@ -297,10 +297,8 @@ as_rtf.gs_design <- function(
 
   method <- intersect(class(x), c("ahr", "wlr", "combo", "rd"))[1]
   x_alpha <- max(filter(x, Bound == display_bound[1])[[colname_spannersub[2]]])
-  x_non_binding <- "non_binding" %in% class(x)
-  x_k <- lapply(x$Analysis, function(x) {
-    return(as.numeric(substring(x, 11, 11)))
-  }) %>% unlist()
+  x_non_binding <- inherits(x, "non_binding")
+  x_k <- as.numeric(substr(x$Analysis, 11, 11))
   x_old <- x
 
   x <- data.frame(lapply(x, function(x) trimws(formatC(x, flag = "-"), "r")))
