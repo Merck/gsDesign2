@@ -429,44 +429,46 @@ as_rtf.gs_design <- function(
   # Add footnotes ----
   # initialization for footnote
   footnotes <- NULL
-  alpha_utf_int <- 96
+  # footnote markers (a, b, c, ...)
+  marker <- local({
+    i <- 0L
+    function() {
+      i <<- i + 1L
+      letters[i]
+    }
+  })
 
-  if (!is.null(footnote$content)) {
-    if (length(footnote$content) > 0) {
-      for (i in seq_along(footnote$content)) {
-        alpha_utf_int <- alpha_utf_int + 1
-        if (footnote$attr[i] == "colname") {
-          colheader[2] <- sub(
-            footnote$location[i],
-            paste0(footnote$location[i], " {^", intToUtf8(alpha_utf_int), "}"),
-            colheader[2]
-          )
-        } else if (footnote$attr[i] == "title") {
-          title <- paste0(title, " \\super ", intToUtf8(alpha_utf_int))
-        } else if (footnote$attr[i] == "subtitle") {
-          subtitle <- paste0(subtitle, " {\\super ", intToUtf8(alpha_utf_int), "}")
-        } else if (footnote$attr[i] == "analysis") {
-          x["Analysis"] <- lapply(x["Analysis"], function(z) paste0(z, " {^", intToUtf8(alpha_utf_int), "}"))
-        } else if (footnote$attr[i] == "spanner") {
-          colheader[1] <- sub(
-            colname_spanner,
-            paste0(colname_spanner, " {^", intToUtf8(alpha_utf_int), "}"),
-            colheader[1]
-          )
-        }
-        marked_footnote <- paste0("{\\super ", intToUtf8(alpha_utf_int), "} ", footnote$content[i])
-        if (!is.null(footnotes)) {
-          footnotes <- paste0(footnotes, "\\line", marked_footnote)
-        } else {
-          footnotes <- marked_footnote
-        }
-      }
+  for (i in seq_along(footnote$content)) {
+    att <- footnote$attr[i]
+    mkr <- marker()
+    if (att == "colname") {
+      colheader[2] <- sub(
+        footnote$location[i],
+        paste0(footnote$location[i], " {^", mkr, "}"),
+        colheader[2]
+      )
+    } else if (att == "title") {
+      title <- paste0(title, " \\super ", mkr)
+    } else if (att == "subtitle") {
+      subtitle <- paste0(subtitle, " {\\super ", mkr, "}")
+    } else if (att == "analysis") {
+      x["Analysis"] <- lapply(x["Analysis"], function(z) paste0(z, " {^", mkr, "}"))
+    } else if (att == "spanner") {
+      colheader[1] <- sub(
+        colname_spanner,
+        paste0(colname_spanner, " {^", mkr, "}"),
+        colheader[1]
+      )
+    }
+    marked_footnote <- paste0("{\\super ", mkr, "} ", footnote$content[i])
+    footnotes <- if (is.null(footnotes)) marked_footnote else {
+      paste0(footnotes, "\\line", marked_footnote)
     }
   }
 
   ## if it is non-binding design
   if (x_non_binding && (x_alpha < full_alpha)) {
-    alpha_utf_int <- alpha_utf_int + 1
+    mkr <- marker()
 
     x[
       (substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) &
@@ -476,11 +478,11 @@ as_rtf.gs_design <- function(
         (substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k))) &
           x$Bound == display_bound[1], colname_spannersub[2]
       ],
-      " {^", intToUtf8(alpha_utf_int), "}"
+      " {^", mkr, "}"
     )
 
     footnote_nb <- paste0(
-      "{\\super ", intToUtf8(alpha_utf_int), "} ",
+      "{\\super ", mkr, "} ",
       footnote_non_binding(x_alpha, full_alpha)
     )
 
