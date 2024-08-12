@@ -295,7 +295,7 @@ as_rtf.gs_design <- function(
     ...) {
   orientation <- match.arg(orientation)
 
-  method <- intersect(class(x), c("ahr", "wlr", "combo", "rd"))[1]
+  method <- gs_design_method(x)
   x_alpha <- max(filter(x, Bound == display_bound[1])[[colname_spannersub[2]]])
   x_non_binding <- inherits(x, "non_binding")
   x_k <- as.numeric(substr(x$Analysis, 11, 11))

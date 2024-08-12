@@ -250,7 +250,7 @@ as_gt.gs_design <- function(
     display_inf_bound = FALSE,
     ...) {
 
-  method <- intersect(class(x), c("ahr", "wlr", "combo", "rd"))[1]
+  method <- gs_design_method(x)
   full_alpha <- attr(x, "full_alpha")
   x_alpha <- max(filter(x, Bound == display_bound[1])[[colname_spannersub[2]]])
   x_non_binding <- inherits(x, "non_binding")
@@ -385,6 +385,10 @@ as_gt.gs_design <- function(
   )
 
   return(x)
+}
+
+gs_design_method <- function(x) {
+  intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
 }
 
 footnote_non_binding <- function(x_alpha, full_alpha) {
