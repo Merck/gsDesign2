@@ -84,14 +84,14 @@ ahr_blinded <- function(
     hr = c(1, .6),
     ratio = 1) {
   # Input checking
-  if (!is.vector(hr, mode = "numeric") || min(hr) <= 0) {
-    stop("ahr_blinded: hr must be a vector of positive numbers.")
+  if (!is.numeric(hr) || min(hr) <= 0) {
+    stop("'hr' must be a vector of positive numbers.")
   }
-  if (!is.vector(intervals, mode = "numeric") || min(intervals) <= 0) {
-    stop("ahr_blinded: intervals must be a vector of positive numbers.")
+  if (!is.numeric(intervals) || min(intervals) <= 0) {
+    stop("'intervals' must be a vector of positive numbers.")
   }
   if (length(intervals) != length(hr)) {
-    stop("ahr_blinded: the piecewise model specified hr and intervals are not aligned.")
+    stop("the piecewise model specified 'hr' and 'intervals' differ in length.")
   }
 
   # Set final element of "intervals" to Inf

@@ -223,7 +223,7 @@
     \end{longtable}
     \begin{minipage}{\linewidth}
     \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment.
-                   Value < 0.5 favors experimental, > 0.5 favors control.\\
+              Value < 0.5 favors experimental, > 0.5 favors control.\\
     \textsuperscript{\textit{2}}EF is event fraction. AHR  is under regular weighted log rank test.\\
     \end{minipage}
     \endgroup
@@ -250,7 +250,7 @@
     \end{longtable}
     \begin{minipage}{\linewidth}
     \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment.
-                             Value < 0.5 favors experimental, > 0.5 favors control.\\
+            Value < 0.5 favors experimental, > 0.5 favors control.\\
     \end{minipage}
     \endgroup
 
@@ -285,7 +285,7 @@
     \end{longtable}
     \begin{minipage}{\linewidth}
     \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment.
-                             Value < 0.5 favors experimental, > 0.5 favors control.\\
+            Value < 0.5 favors experimental, > 0.5 favors control.\\
     \textsuperscript{\textit{2}}Cumulative alpha for final analysis (0.0238) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0012 = 0.0238) under the null hypothesis.\\
     \end{minipage}
     \endgroup
