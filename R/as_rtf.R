@@ -410,12 +410,9 @@ as_rtf.gs_design <- function(
   # set relative width
   rel_width_body <- col_rel_width %||% rep(1, n_col)
 
-  rel_width_head <- rel_width_body[2:length(rel_width_body)]
+  rel_width_head <- rel_width_body[-1]
   rel_width_head <- list(
-    c(
-      sum(rel_width_head[2:(n_col - 2)]),
-      sum(tail(rel_width_head, n = 2))
-    ),
+    c(sum(rel_width_head[2:(n_col - 2)]), sum(tail(rel_width_head, 2))),
     rel_width_head
   )
 
