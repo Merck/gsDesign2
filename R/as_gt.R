@@ -261,21 +261,7 @@ as_gt.gs_design <- function(
   # Set defaults ----
   title <- title %||% gs_method_title(method)
   subtitle <- subtitle %||% gs_method_subtitle(method)
-
-  # set different default columns to display
-  if (is.null(display_columns)) display_columns <- c(
-    "Analysis", "Bound", "Z", "Nominal p",
-    sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
-    "Alternate hypothesis", "Null hypothesis"
-  )
-  # filter the columns to display as the output
-  ## if `Probability` is selected to output, then transform it to `c("Alternate hypothesis", "Null hypothesis")`
-  if (any(i <- display_columns == "Probability"))
-    display_columns <- c(display_columns[!i], "Alternate hypothesis", "Null hypothesis")
-  ## check if the `display_columns` are included in `x` output
-  if (!all(display_columns %in% names(x))) stop(
-    "not all variable names in 'display_columns' are in the summary_bound object!"
-  )
+  display_columns <- get_display_columns(display_columns, method, x)
   x <- x[, display_columns]
 
   # set different default footnotes to different methods
@@ -355,6 +341,25 @@ gs_method_subtitle <- function(method) {
     combo = "MaxCombo approximation",
     rd = "measured by risk difference"
   )
+}
+
+# get different default columns to display
+get_display_columns <- function(cols, method, x) {
+  # set different default columns to display
+  if (is.null(cols)) cols <- c(
+    "Analysis", "Bound", "Z", "Nominal p",
+    sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
+    "Alternate hypothesis", "Null hypothesis"
+  )
+  # filter the columns to display as the output: if `Probability` is selected to
+  # output, transform it to `c("Alternate hypothesis", "Null hypothesis")`
+  if (any(i <- cols == "Probability"))
+    cols <- c(cols[!i], "Alternate hypothesis", "Null hypothesis")
+  ## check if the `display_columns` are included in `x` output
+  if (!all(cols %in% names(x))) stop(
+    "not all variable names in 'display_columns' are in the summary_bound object!"
+  )
+  cols
 }
 
 footnote_content <- function(method, display_columns) {
