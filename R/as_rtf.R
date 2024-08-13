@@ -290,43 +290,25 @@ as_rtf.gs_design <- function(
     file,
     ...) {
   orientation <- match.arg(orientation)
-
-  method <- gs_method(x)
-  x_alpha <- max(filter(x, Bound == display_bound[1])[["Null hypothesis"]])
-  x_non_binding <- inherits(x, "non_binding")
-  x_k <- as.numeric(substr(x$Analysis, 11, 11))
-  if (!display_inf_bound) x <- filter(x, !is.infinite(Z))
   x_old <- x
 
-  x <- data.frame(lapply(x, function(x) trimws(formatC(x, flag = "-"), "r")))
-  names(x) <- names(x_old)
-
-  # Set defaults ----
-  title <- title %||% gs_title(method)
-  subtitle <- subtitle %||% gs_subtitle(method)
-  display_columns <- get_display_columns(display_columns, method, x)
-  x <- x[, display_columns]
-
-  # set different default footnotes to different methods
-  footnote <- footnote %||% footnote_content(method, display_columns)
-
-  # Filter out inf bound ----
-  x <- subset(x, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
-
-  # organize data
-  x <- x %>%
-    subset(Bound %in% display_bound) %>%
-    dplyr::arrange(Analysis)
+  info <- gs_design_info(
+    x, title, subtitle, colname_spannersub, footnote,
+    display_bound, display_columns, display_inf_bound, "Null hypothesis",
+    function(x) {
+      x2 <- data.frame(lapply(x, function(x) trimws(formatC(x, flag = "-"), "r")))
+      names(x2) <- names(x)
+      x2
+    }
+  )
+  x <- info$x
+  title <- info$title
+  subtitle <- info$subtitle
 
   # Set rtf parameters ----
   n_col <- ncol(x)
   n_row <- nrow(x)
   check_rel_width(col_rel_width, n_col)
-
-  # set column header
-  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x))
-  names(x)[i] <- colname_spannersub
-
   colheader <- c(
     paste0(" | ", colname_spanner),
     paste(names(x)[-1], collapse = " | ")
@@ -354,6 +336,7 @@ as_rtf.gs_design <- function(
   # Add footnotes ----
   # initialization for footnote
   footnotes <- NULL
+  footnote <- info$footnote
   # footnote markers (a, b, c, ... from letters[idx])
   idx <- 0L
   marker <- function() letters[idx <<- idx + 1L]
@@ -387,16 +370,16 @@ as_rtf.gs_design <- function(
   }
 
   ## if it is non-binding design
-  if (x_non_binding && (x_alpha < full_alpha)) {
+  if (inherits(x_old, "non_binding") && info$alpha < full_alpha) {
     mkr <- marker()
-    i <- substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(x_k)) &
+    i <- substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(info$k)) &
       x$Bound == display_bound[1]
     j <- colname_spannersub[2]
     x[i, j] <- paste0(x[i, j], " {^", mkr, "}")
 
     footnote_nb <- paste0(
       "{\\super ", mkr, "} ",
-      footnote_non_binding(x_alpha, full_alpha)
+      footnote_non_binding(info$alpha, full_alpha)
     )
     footnotes <- if (is.null(footnotes)) footnote_nb else {
       paste0(footnotes, "\\line", footnote_nb)

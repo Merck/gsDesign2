@@ -250,42 +250,24 @@ as_gt.gs_design <- function(
     display_inf_bound = FALSE,
     ...) {
 
-  method <- gs_method(x)
-  full_alpha <- attr(x, "full_alpha")
-  x_alpha <- max(filter(x, Bound == display_bound[1])[[colname_spannersub[2]]])
-  x_non_binding <- inherits(x, "non_binding")
-  x_k <- as.numeric(substr(x$Analysis, 11, 11))
-  if (!display_inf_bound) x <- filter(x, !is.infinite(Z))
   x_old <- x
+  full_alpha <- attr(x, "full_alpha")
+  info <- gs_design_info(
+    x, title, subtitle, colname_spannersub, footnote,
+    display_bound, display_columns, display_inf_bound
+  )
 
-  # Set defaults ----
-  title <- title %||% gs_title(method)
-  subtitle <- subtitle %||% gs_subtitle(method)
-  display_columns <- get_display_columns(display_columns, method, x)
-  x <- x[, display_columns]
-
-  # set different default footnotes to different methods
-  footnote <- footnote %||% footnote_content(method, display_columns)
-
-  # Filter out inf bound ----
-  x <- subset(x, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
-
-  # Add spanner ----
-  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x))
-  names(x)[i] <- colname_spannersub
-
-  x <- x %>%
-    subset(Bound %in% display_bound) %>%
-    dplyr::arrange(Analysis) %>%
+  x <- info$x %>%
     dplyr::group_by(Analysis) %>%
     gt::gt() %>%
     gt::tab_spanner(
       columns = dplyr::all_of(colname_spannersub),
       label = colname_spanner
     ) %>%
-    gt::tab_header(title = title, subtitle = subtitle)
+    gt::tab_header(title = info$title, subtitle = info$subtitle)
 
   # Add footnotes ----
+  footnote <- info$footnote
   for (i in seq_along(footnote$content)) {
     att <- footnote$attr[i]
     loc <- if (att == "colname") {
@@ -306,21 +288,17 @@ as_gt.gs_design <- function(
   }
 
   ## if it is non-binding design
-  if (x_non_binding && x_alpha < full_alpha) x <- gt::tab_footnote(
+  if (inherits(x_old, "non_binding") && info$alpha < full_alpha) x <- gt::tab_footnote(
     x,
-    footnote = footnote_non_binding(x_alpha, full_alpha),
+    footnote = footnote_non_binding(info$alpha, full_alpha),
     locations = gt::cells_body(
       columns = colname_spannersub[2],
-      rows = substr(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k)) &
+      rows = substr(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(info$k)) &
         x_old$Bound == display_bound[1]
     )
   )
 
   return(x)
-}
-
-gs_method <- function(x) {
-  intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
 }
 
 # get different default title for different gs_design methods
@@ -344,22 +322,22 @@ gs_subtitle <- function(method) {
 }
 
 # get different default columns to display
-get_display_columns <- function(cols, method, x) {
+get_display_columns <- function(columns, method, x) {
   # set different default columns to display
-  if (is.null(cols)) cols <- c(
+  if (is.null(columns)) columns <- c(
     "Analysis", "Bound", "Z", "Nominal p",
     sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
     "Alternate hypothesis", "Null hypothesis"
   )
   # filter the columns to display as the output: if `Probability` is selected to
   # output, transform it to `c("Alternate hypothesis", "Null hypothesis")`
-  if (any(i <- cols == "Probability"))
-    cols <- c(cols[!i], "Alternate hypothesis", "Null hypothesis")
+  if (any(i <- columns == "Probability"))
+    columns <- c(columns[!i], "Alternate hypothesis", "Null hypothesis")
   ## check if the `display_columns` are included in `x` output
-  if (!all(cols %in% names(x))) stop(
+  if (!all(columns %in% names(x))) stop(
     "not all variable names in 'display_columns' are in the summary_bound object!"
   )
-  cols
+  columns
 }
 
 footnote_content <- function(method, display_columns) {
@@ -399,5 +377,31 @@ footnote_non_binding <- function(x_alpha, full_alpha) {
     "The smaller value subtracts the probability of crossing a futility bound ",
     "before crossing an efficacy bound at a later analysis ",
     "(", a2, " - ", a3, " = ", a1, ") ", "under the null hypothesis."
+  )
+}
+
+gs_design_info <- function(
+    x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
+    alpha_column = spannersub[2], transform = identity
+) {
+  method <- intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
+  if (!inf_bound) x <- filter(x, !is.infinite(Z))
+  x2 <- transform(x)
+
+  columns <- get_display_columns(columns, method, x2)
+  x2 <- x2[, columns]
+  x2 <- subset(x2, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
+  x2 <- subset(x2, Bound %in% bound)
+
+  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x2))
+  names(x2)[i] <- spannersub
+
+  list(
+    x = dplyr::arrange(x2, Analysis),
+    title = title %||% gs_title(method),
+    subtitle = subtitle %||% gs_subtitle(method),
+    footnote = footnote %||% footnote_content(method, columns),
+    k = as.numeric(substr(x2$Analysis, 11, 11)),
+    alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
   )
 }
