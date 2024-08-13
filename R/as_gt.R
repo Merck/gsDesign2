@@ -287,10 +287,11 @@ as_gt.gs_design <- function(
       x <- gt::tab_footnote(x, footnote = footnote$content[i], locations = loc)
   }
 
-  ## if it is non-binding design
-  if (inherits(x_old, "non_binding") && info$alpha < full_alpha) x <- gt::tab_footnote(
+  # add footnote for non-binding design
+  footnote_nb <- footnote_non_binding(x_old, info$alpha, full_alpha)
+  if (!is.null(footnote_nb)) x <- gt::tab_footnote(
     x,
-    footnote = footnote_non_binding(info$alpha, full_alpha),
+    footnote = footnote_nb,
     locations = gt::cells_body(
       columns = colname_spannersub[2],
       rows = substr(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(info$k)) &
@@ -366,7 +367,8 @@ footnote_content <- function(method, display_columns) {
   )
 }
 
-footnote_non_binding <- function(x_alpha, full_alpha) {
+footnote_non_binding <- function(x, x_alpha, full_alpha) {
+  if (!inherits(x, "non_binding") || x_alpha >= full_alpha) return()
   a1 <- format(x_alpha, scientific = FALSE)
   a2 <- format(full_alpha, scientific = FALSE)
   a3 <- format(full_alpha - x_alpha, scientific = FALSE)
