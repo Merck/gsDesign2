@@ -108,10 +108,7 @@ as_rtf.fixed_design <- function(
   # set default column width
   n_row <- nrow(x)
   n_col <- ncol(x)
-  if (!is.null(col_rel_width) && n_col != length(col_rel_width)) stop(
-    "The length of 'col_rel_width' (", length(col_rel_width), ") differs with ",
-    "the number of columns in 'x' (", n_col, ")."
-  )
+  check_rel_width(col_rel_width, n_col)
 
   # set column header
   colheader <- paste(names(x), collapse = " | ")
@@ -147,6 +144,13 @@ as_rtf.fixed_design <- function(
   rtf_write(ans, file, footnote, text_font_size)
 
   invisible(x)
+}
+
+check_rel_width <- function(width, n_col) {
+  if (!is.null(width) && n_col != length(width)) stop(
+    "The length of 'col_rel_width' (", length(width), ") differs with ",
+    "the number of columns in 'x' (", n_col, ")."
+  )
 }
 
 #' @rdname  as_rtf
@@ -317,10 +321,7 @@ as_rtf.gs_design <- function(
   # Set rtf parameters ----
   n_col <- ncol(x)
   n_row <- nrow(x)
-  if (!is.null(col_rel_width) && n_col != length(col_rel_width)) stop(
-    "The length of 'col_rel_width' (", length(col_rel_width), ") differs with ",
-    "the number of columns in 'x' (", n_col, ")."
-  )
+  check_rel_width(col_rel_width, n_col)
 
   # set column header
   i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x))
