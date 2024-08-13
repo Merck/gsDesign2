@@ -364,9 +364,7 @@ as_rtf.gs_design <- function(
       )
     }
     marked_footnote <- paste0("{\\super ", mkr, "} ", footnote$content[i])
-    footnotes <- if (is.null(footnotes)) marked_footnote else {
-      paste0(footnotes, "\\line", marked_footnote)
-    }
+    footnotes <- c(footnotes, marked_footnote)
   }
 
   ## if it is non-binding design
@@ -381,9 +379,7 @@ as_rtf.gs_design <- function(
       "{\\super ", mkr, "} ",
       footnote_non_binding(info$alpha, full_alpha)
     )
-    footnotes <- if (is.null(footnotes)) footnote_nb else {
-      paste0(footnotes, "\\line", footnote_nb)
-    }
+    footnotes <- c(footnotes, footnote_nb)
   }
 
   # Output ----
@@ -419,7 +415,9 @@ as_rtf.gs_design <- function(
 
 # write RTF with (optional footnotes)
 rtf_write <- function(x, file, footnote = NULL, size, ...) {
-  if (!is.null(footnote))
-    x <- r2rtf::rtf_footnote( x, footnote, text_font_size = size, ...)
+  if (!is.null(footnote)) {
+    footnote <- paste(footnote, collapse = "\\line")
+    x <- r2rtf::rtf_footnote(x, footnote, text_font_size = size, ...)
+  }
   r2rtf::write_rtf(r2rtf::rtf_encode(x), file)
 }
