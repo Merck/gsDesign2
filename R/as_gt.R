@@ -81,7 +81,7 @@ as_gt <- function(x, ...) {
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   method <- fixed_design_method(x)
   ans <- gt::gt(x) %>%
-    gt::tab_header(title = title %||% method_title(method)) %>%
+    gt::tab_header(title = title %||% fixed_method_title(method)) %>%
     gt::tab_footnote(
       footnote = footnote %||% method_footnote(x, method),
       locations = gt::cells_title(group = "title")
@@ -96,7 +96,7 @@ fixed_design_method <- function(x) {
 }
 
 # get the default title
-method_title <- function(method) {
+fixed_method_title <- function(method) {
   sprintf("Fixed Design %s Method", switch(
     method,
     ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
@@ -259,21 +259,8 @@ as_gt.gs_design <- function(
   x_old <- x
 
   # Set defaults ----
-  # set different default title to different methods
-  if (is.null(title)) title <- paste("Bound summary", switch(
-    method,
-    ahr = "for AHR design", wlr = "for WLR design",
-    combo = "for MaxCombo design", rd = "of Binary Endpoint"
-  ))
-
-  # set different default subtitle to different methods
-  if (is.null(subtitle)) subtitle <- switch(
-    method,
-    ahr = "AHR approximations of ~HR at bound",
-    wlr = "WLR approximation of ~wHR at bound",
-    combo = "MaxCombo approximation",
-    rd = "measured by risk difference"
-  )
+  title <- title %||% gs_method_title(method)
+  subtitle <- subtitle %||% gs_method_subtitle(method)
 
   # set different default columns to display
   if (is.null(display_columns)) display_columns <- c(
@@ -348,6 +335,26 @@ as_gt.gs_design <- function(
 
 gs_design_method <- function(x) {
   intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
+}
+
+# get different default title for different gs_design methods
+gs_method_title <- function(method) {
+  paste("Bound summary", switch(
+    method,
+    ahr = "for AHR design", wlr = "for WLR design",
+    combo = "for MaxCombo design", rd = "of Binary Endpoint"
+  ))
+}
+
+# get different default subtitle for different gs_design methods
+gs_method_subtitle <- function(method) {
+  switch(
+    method,
+    ahr = "AHR approximations of ~HR at bound",
+    wlr = "WLR approximation of ~wHR at bound",
+    combo = "MaxCombo approximation",
+    rd = "measured by risk difference"
+  )
 }
 
 footnote_content <- function(method, display_columns) {

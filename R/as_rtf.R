@@ -102,7 +102,7 @@ as_rtf.fixed_design <- function(
     ...) {
   orientation <- match.arg(orientation)
   method <- fixed_design_method(x)
-  title <- title %||% paste(method_title(method), "{^a}")
+  title <- title %||% paste(fixed_method_title(method), "{^a}")
   footnote <- footnote %||% paste("{^a}", method_footnote(x, method))
 
   # set default column width
@@ -304,21 +304,6 @@ as_rtf.gs_design <- function(
   names(x) <- names(x_old)
 
   # Set defaults ----
-  # set different default title to different methods
-  if (is.null(title)) title <- paste("Bound summary", switch(
-    method,
-    ahr = "for AHR design", wlr = "for WLR design",
-    combo = "for MaxCombo design", rd = "of Binary Endpoint"
-  ))
-
-  # set different default subtitle to different methods
-  if (is.null(subtitle)) subtitle <- switch(
-    method,
-    ahr = "AHR approximations of ~HR at bound",
-    wlr = "WLR approximation of ~wHR at bound",
-    combo = "MaxCombo approximation",
-    rd = "measured by risk difference"
-  )
 
   # set different default columns to display
   if (is.null(display_columns)) display_columns <- c(
@@ -334,6 +319,8 @@ as_rtf.gs_design <- function(
   if (!all(display_columns %in% names(x))) stop(
     "not all variable names in 'display_columns' are in the summary_bound object!"
   )
+  title <- title %||% gs_method_title(method)
+  subtitle <- subtitle %||% gs_method_subtitle(method)
   x <- x[, display_columns]
 
   # set different default footnotes to different methods
