@@ -391,6 +391,18 @@ gs_design_method <- function(x) {
   intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
 }
 
+footnote_content <- function(nominal_p, hazard_ratio, ...) {
+  c(
+    if (nominal_p) paste(
+      "One-sided p-value for experimental vs control treatment.",
+      "Value < 0.5 favors experimental, > 0.5 favors control."
+    ),
+    if (hazard_ratio)
+      "Approximate hazard ratio to cross bound.",
+    ...
+  )
+}
+
 footnote_non_binding <- function(x_alpha, full_alpha) {
   a1 <- format(x_alpha, scientific = FALSE)
   a2 <- format(full_alpha, scientific = FALSE)
