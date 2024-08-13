@@ -295,43 +295,34 @@ as_gt.gs_design <- function(
   if (is.null(footnote)) footnote <- switch(
     method,
     ahr = list(
-      content = c(
-        if (i1 <- "~HR at bound" %in% display_columns)
-          "Approximate hazard ratio to cross bound.",
-        if (i2 <- "Nominal p" %in% display_columns)
-          "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control."
+      content = footnote_content(
+        i1 <- "Nominal p" %in% display_columns,
+        i2 <- "~HR at bound" %in% display_columns
       ),
-      location = c(if (i1) "~HR at bound", if (i2) "Nominal p"),
+      location = c(if (i1) "Nominal p", if (i2) "~HR at bound"),
       attr = c(if (i1) "colname", if (i2) "colname")
     ),
     wlr = list(
-      content = c(
-        if (i1 <- "~wHR at bound" %in% display_columns)
-          "Approximate hazard ratio to cross bound.",
-        if (i2 <- "Nominal p" %in% display_columns)
-          "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control.",
+      content = footnote_content(
+        i1 <- "Nominal p" %in% display_columns,
+        i2 <- "~wHR at bound" %in% display_columns,
         "wAHR is the weighted AHR."
       ),
-      location = c(if (i1) "~wHR at bound", if (i2) "Nominal p"),
+      location = c(if (i1) "Nominal p", if (i2) "~wHR at bound"),
       attr = c(if (i1) "colname", if (i2) "colname", "analysis")
     ),
     combo = list(
-      content = c(
-        if (i2 <- "Nominal p" %in% display_columns)
-          "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control.",
-        "EF is event fraction. AHR  is under regular weighted log rank test."),
-      location = if (i2) "Nominal p",
-      attr = c(if (i2) "colname", "analysis")
+      content = footnote_content(
+        i1 <- "Nominal p" %in% display_columns, FALSE,
+        "EF is event fraction. AHR  is under regular weighted log rank test."
+      ),
+      location = if (i1) "Nominal p",
+      attr = c(if (i1) "colname", "analysis")
     ),
     rd = list(
-      content = if (i2 <- "Nominal p" %in% display_columns)
-        "One-sided p-value for experimental vs control treatment.
-        Value < 0.5 favors experimental, > 0.5 favors control.",
-      location = if (i2) "Nominal p",
-      attr = if (i2) "colname"
+      content = footnote_content(i1 <- "Nominal p" %in% display_columns, FALSE),
+      location = if (i1) "Nominal p",
+      attr = if (i1) "colname"
     )
   )
 
