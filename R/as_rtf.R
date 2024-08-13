@@ -131,13 +131,9 @@ as_rtf.fixed_design <- function(
   ans <- x %>%
     r2rtf::rtf_page(orientation = orientation) %>%
     r2rtf::rtf_title(title) %>%
-    r2rtf::rtf_colheader(
-      colheader = colheader,
-      col_rel_width = rel_width,
-      text_font_size = text_font_size
-    ) %>%
+    r2rtf::rtf_colheader(colheader, rel_width, text_font_size = text_font_size) %>%
     r2rtf::rtf_body(
-      col_rel_width = rel_width,
+      rel_width,
       border_left = border_left,
       border_top = border_top,
       text_justification = text_justification,
@@ -412,27 +408,17 @@ as_rtf.gs_design <- function(
   # use r2rtf
   ans <- x %>%
     r2rtf::rtf_page(orientation = orientation) %>%
-    r2rtf::rtf_title(
-      title = title,
-      subtitle = subtitle,
-      text_convert = FALSE
-    ) %>%
+    r2rtf::rtf_title(title, subtitle, text_convert = FALSE) %>%
     r2rtf::rtf_colheader(
-      colheader = colheader[1],
-      col_rel_width = rel_width_head[[1]],
-      text_font_size = text_font_size,
-      border_left = border_left_head[[1]]
-    ) %>%
-    r2rtf::rtf_colheader(
-      colheader = colheader[2],
-      border_top = border_top_head,
-      border_left = border_left_head[[2]],
-      col_rel_width = rel_width_head[[2]],
+      colheader[1], rel_width_head[[1]], border_left_head[[1]],
       text_font_size = text_font_size
     ) %>%
+    r2rtf::rtf_colheader(
+      colheader[2], rel_width_head[[2]], border_left_head[[2]],
+      border_top = border_top_head, text_font_size = text_font_size
+    ) %>%
     r2rtf::rtf_body(
-      page_by = "Analysis",
-      col_rel_width = rel_width_body,
+      rel_width_body, page_by = "Analysis",
       border_left = border_left_body,
       border_top = border_top_body,
       border_bottom = border_bottom,
@@ -443,18 +429,12 @@ as_rtf.gs_design <- function(
       text_font_size = text_font_size
     )
 
-  if (!is.null(footnotes)) {
-    ans <- ans %>%
-      r2rtf::rtf_footnote(footnotes,
-        text_font_size = text_font_size,
-        text_convert = FALSE
-      )
-  }
+  if (!is.null(footnotes)) ans <- r2rtf::rtf_footnote(
+    ans, footnotes, text_font_size = text_font_size, text_convert = FALSE
+  )
 
   # Prepare output
-  ans %>%
-    r2rtf::rtf_encode() %>%
-    r2rtf::write_rtf(file = file)
+  r2rtf::write_rtf(r2rtf::rtf_encode(ans), file)
 
   invisible(x_old)
 }
