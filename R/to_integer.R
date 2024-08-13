@@ -200,13 +200,8 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 
   # Make n and event of ans$analysis exactly integers
   if ("fixed_design" %in% class(ans)) {
-    if (almost_equal(x = ans$analysis$n, k = round(ans$analysis$n))) {
-      ans$analysis$n <- round(ans$analysis$n)
-    }
-
-    if (almost_equal(x = ans$analysis$event, k = round(ans$analysis$event))) {
-      ans$analysis$event <- round(ans$analysis$event)
-    }
+    ans$analysis$n <- round(ans$analysis$n)
+    ans$analysis$event <- round(ans$analysis$event)
   }
 
   return(ans)
@@ -431,8 +426,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
   }
 
   # Make n and event of x_new$analysis exactly integers
-  x_new$analysis$n <- round2(x_new$analysis$n)
-  if (!is_rd) x_new$analysis$event <- round2(x_new$analysis$event)
+  x_new$analysis$n <- round(x_new$analysis$n)
+  if (!is_rd) x_new$analysis$event <- round(x_new$analysis$event)
 
   return(x_new)
 }
