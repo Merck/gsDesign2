@@ -79,9 +79,9 @@ as_gt <- function(x, ...) {
 #'   summary() %>%
 #'   as_gt()
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
-  method <- fixed_design_method(x)
+  method <- fixed_method(x)
   ans <- gt::gt(x) %>%
-    gt::tab_header(title = title %||% fixed_method_title(method)) %>%
+    gt::tab_header(title = title %||% fixed_title(method)) %>%
     gt::tab_footnote(
       footnote = footnote %||% method_footnote(x, method),
       locations = gt::cells_title(group = "title")
@@ -90,13 +90,13 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
 }
 
 # get the fixed design method
-fixed_design_method <- function(x) {
+fixed_method <- function(x) {
   methods <- c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst")
   intersect(methods, class(x))[1]
 }
 
 # get the default title
-fixed_method_title <- function(method) {
+fixed_title <- function(method) {
   sprintf("Fixed Design %s Method", switch(
     method,
     ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
@@ -250,7 +250,7 @@ as_gt.gs_design <- function(
     display_inf_bound = FALSE,
     ...) {
 
-  method <- gs_design_method(x)
+  method <- gs_method(x)
   full_alpha <- attr(x, "full_alpha")
   x_alpha <- max(filter(x, Bound == display_bound[1])[[colname_spannersub[2]]])
   x_non_binding <- inherits(x, "non_binding")
@@ -259,8 +259,8 @@ as_gt.gs_design <- function(
   x_old <- x
 
   # Set defaults ----
-  title <- title %||% gs_method_title(method)
-  subtitle <- subtitle %||% gs_method_subtitle(method)
+  title <- title %||% gs_title(method)
+  subtitle <- subtitle %||% gs_subtitle(method)
   display_columns <- get_display_columns(display_columns, method, x)
   x <- x[, display_columns]
 
@@ -319,12 +319,12 @@ as_gt.gs_design <- function(
   return(x)
 }
 
-gs_design_method <- function(x) {
+gs_method <- function(x) {
   intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
 }
 
 # get different default title for different gs_design methods
-gs_method_title <- function(method) {
+gs_title <- function(method) {
   paste("Bound summary", switch(
     method,
     ahr = "for AHR design", wlr = "for WLR design",
@@ -333,7 +333,7 @@ gs_method_title <- function(method) {
 }
 
 # get different default subtitle for different gs_design methods
-gs_method_subtitle <- function(method) {
+gs_subtitle <- function(method) {
   switch(
     method,
     ahr = "AHR approximations of ~HR at bound",

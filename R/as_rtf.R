@@ -101,8 +101,8 @@ as_rtf.fixed_design <- function(
     file,
     ...) {
   orientation <- match.arg(orientation)
-  method <- fixed_design_method(x)
-  title <- title %||% paste(fixed_method_title(method), "{^a}")
+  method <- fixed_method(x)
+  title <- title %||% paste(fixed_title(method), "{^a}")
   footnote <- footnote %||% paste("{^a}", method_footnote(x, method))
 
   # set default column width
@@ -293,7 +293,7 @@ as_rtf.gs_design <- function(
     ...) {
   orientation <- match.arg(orientation)
 
-  method <- gs_design_method(x)
+  method <- gs_method(x)
   x_alpha <- max(filter(x, Bound == display_bound[1])[["Null hypothesis"]])
   x_non_binding <- inherits(x, "non_binding")
   x_k <- as.numeric(substr(x$Analysis, 11, 11))
@@ -304,8 +304,8 @@ as_rtf.gs_design <- function(
   names(x) <- names(x_old)
 
   # Set defaults ----
-  title <- title %||% gs_method_title(method)
-  subtitle <- subtitle %||% gs_method_subtitle(method)
+  title <- title %||% gs_title(method)
+  subtitle <- subtitle %||% gs_subtitle(method)
   display_columns <- get_display_columns(display_columns, method, x)
   x <- x[, display_columns]
 
