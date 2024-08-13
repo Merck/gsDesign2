@@ -294,7 +294,7 @@ as_gt.gs_design <- function(
     footnote = footnote_nb,
     locations = gt::cells_body(
       columns = colname_spannersub[2],
-      rows = footnote_row(x_old, display_bound[1])
+      rows = footnote_row(info$x, display_bound[1])
     )
   )
 
