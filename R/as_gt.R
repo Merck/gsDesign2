@@ -294,8 +294,7 @@ as_gt.gs_design <- function(
     footnote = footnote_nb,
     locations = gt::cells_body(
       columns = colname_spannersub[2],
-      rows = substr(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(info$k)) &
-        x_old$Bound == display_bound[1]
+      rows = footnote_row(x_old, display_bound[1])
     )
   )
 
@@ -382,6 +381,17 @@ footnote_non_binding <- function(x, x_alpha, full_alpha) {
   )
 }
 
+footnote_row <- function(x, bound) {
+  # for a vector of "Analysis: N", get a logical vector `i`, in which `TRUE`
+  # indicates the position of the largest `N`
+  a <- x$Analysis
+  r <- "^Analysis: ([0-9]+).*"
+  i <- grepl(r, a)
+  k <- as.numeric(sub(r, '\\1', a[i]))
+  i[i] <- k == max(k)
+  i & x$Bound == bound
+}
+
 gs_design_info <- function(
     x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
     alpha_column = spannersub[2], transform = identity
@@ -403,7 +413,6 @@ gs_design_info <- function(
     title = title %||% gs_title(method),
     subtitle = subtitle %||% gs_subtitle(method),
     footnote = footnote %||% footnote_content(method, columns),
-    k = as.numeric(substr(x2$Analysis, 11, 11)),
     alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
   )
 }

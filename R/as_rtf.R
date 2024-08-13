@@ -371,8 +371,7 @@ as_rtf.gs_design <- function(
   footnote_nb <- footnote_non_binding(x_old, info$alpha, full_alpha)
   if (!is.null(footnote_nb)) {
     mkr <- marker()
-    i <- substring(x$Analysis, 1, 11) == paste0("Analysis: ", max(info$k)) &
-      x$Bound == display_bound[1]
+    i <- footnote_row(x, display_bound[1])
     j <- colname_spannersub[2]
     x[i, j] <- paste0(x[i, j], " {^", mkr, "}")
     footnotes <- c(footnotes, paste0("{\\super ", mkr, "} ", footnote_nb))
