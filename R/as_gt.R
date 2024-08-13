@@ -301,26 +301,6 @@ as_gt.gs_design <- function(
   return(x)
 }
 
-# get different default title for different gs_design methods
-gs_title <- function(method) {
-  paste("Bound summary", switch(
-    method,
-    ahr = "for AHR design", wlr = "for WLR design",
-    combo = "for MaxCombo design", rd = "of Binary Endpoint"
-  ))
-}
-
-# get different default subtitle for different gs_design methods
-gs_subtitle <- function(method) {
-  switch(
-    method,
-    ahr = "AHR approximations of ~HR at bound",
-    wlr = "WLR approximation of ~wHR at bound",
-    combo = "MaxCombo approximation",
-    rd = "measured by risk difference"
-  )
-}
-
 # get different default columns to display
 get_display_columns <- function(columns, method, x) {
   # set different default columns to display
@@ -408,10 +388,22 @@ gs_design_info <- function(
   i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x2))
   names(x2)[i] <- spannersub
 
+  title <- title %||% paste("Bound summary", switch(
+    method,
+    ahr = "for AHR design", wlr = "for WLR design",
+    combo = "for MaxCombo design", rd = "of Binary Endpoint"
+  ))
+  subtitle <- subtitle %||% switch(
+    method,
+    ahr = "AHR approximations of ~HR at bound",
+    wlr = "WLR approximation of ~wHR at bound",
+    combo = "MaxCombo approximation",
+    rd = "measured by risk difference"
+  )
+
   list(
     x = dplyr::arrange(x2, Analysis),
-    title = title %||% gs_title(method),
-    subtitle = subtitle %||% gs_subtitle(method),
+    title = title, subtitle = subtitle,
     footnote = footnote %||% footnote_content(method, columns),
     alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
   )
