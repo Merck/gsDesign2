@@ -143,10 +143,8 @@ as_rtf.fixed_design <- function(
       text_font_size = text_font_size
     )
 
-  ans <- r2rtf::rtf_footnote(ans, footnote, text_font_size = text_font_size)
-
   # Prepare output
-  r2rtf::write_rtf(r2rtf::rtf_encode(ans), file)
+  rtf_write(ans, file, footnote, text_font_size)
 
   invisible(x)
 }
@@ -429,12 +427,15 @@ as_rtf.gs_design <- function(
       text_font_size = text_font_size
     )
 
-  if (!is.null(footnotes)) ans <- r2rtf::rtf_footnote(
-    ans, footnotes, text_font_size = text_font_size, text_convert = FALSE
-  )
-
   # Prepare output
-  r2rtf::write_rtf(r2rtf::rtf_encode(ans), file)
+  rtf_write(ans, file, footnotes, text_font_size, text_convert = FALSE)
 
   invisible(x_old)
+}
+
+# write RTF with (optional footnotes)
+rtf_write <- function(x, file, footnote = NULL, size, ...) {
+  if (!is.null(footnote))
+    x <- r2rtf::rtf_footnote( x, footnote, text_font_size = size, ...)
+  r2rtf::write_rtf(r2rtf::rtf_encode(x), file)
 }
