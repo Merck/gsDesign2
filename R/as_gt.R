@@ -292,39 +292,7 @@ as_gt.gs_design <- function(
   x <- x[, display_columns]
 
   # set different default footnotes to different methods
-  if (is.null(footnote)) footnote <- switch(
-    method,
-    ahr = list(
-      content = footnote_content(
-        i1 <- "Nominal p" %in% display_columns,
-        i2 <- "~HR at bound" %in% display_columns
-      ),
-      location = c(if (i1) "Nominal p", if (i2) "~HR at bound"),
-      attr = c(if (i1) "colname", if (i2) "colname")
-    ),
-    wlr = list(
-      content = footnote_content(
-        i1 <- "Nominal p" %in% display_columns,
-        i2 <- "~wHR at bound" %in% display_columns,
-        "wAHR is the weighted AHR."
-      ),
-      location = c(if (i1) "Nominal p", if (i2) "~wHR at bound"),
-      attr = c(if (i1) "colname", if (i2) "colname", "analysis")
-    ),
-    combo = list(
-      content = footnote_content(
-        i1 <- "Nominal p" %in% display_columns, FALSE,
-        "EF is event fraction. AHR  is under regular weighted log rank test."
-      ),
-      location = if (i1) "Nominal p",
-      attr = c(if (i1) "colname", "analysis")
-    ),
-    rd = list(
-      content = footnote_content(i1 <- "Nominal p" %in% display_columns, FALSE),
-      location = if (i1) "Nominal p",
-      attr = if (i1) "colname"
-    )
-  )
+  footnote <- footnote %||% footnote_content(method, display_columns)
 
   # Filter out inf bound ----
   x <- subset(x, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
@@ -382,15 +350,29 @@ gs_design_method <- function(x) {
   intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
 }
 
-footnote_content <- function(nominal_p, hazard_ratio, ...) {
-  c(
-    if (nominal_p) paste(
+footnote_content <- function(method, display_columns) {
+  n <- c("Nominal p", "~HR at bound", "~wHR at bound")
+  i <- n %in% display_columns
+  res <- if (i[1]) list(
+    content = paste(
       "One-sided p-value for experimental vs control treatment.",
       "Value < 0.5 favors experimental, > 0.5 favors control."
     ),
-    if (hazard_ratio)
-      "Approximate hazard ratio to cross bound.",
-    ...
+    location = n[1], attr = "colname"
+  ) else {
+    list(content = NULL, location = NULL, attr = NULL)
+  }
+  x <- "Approximate hazard ratio to cross bound."
+  switch(
+    method,
+    ahr = res %+% if (i[2]) list(x, n[2], "colname"),
+    wlr = res %+% (if (i[3]) list(x, n[3], "colname")) %+%
+      list("wAHR is the weighted AHR.", NULL, "analysis"),
+    combo = res %+% list(
+      "EF is event fraction. AHR  is under regular weighted log rank test.",
+      NULL, "analysis"
+    ),
+    rd = res
   )
 }
 
