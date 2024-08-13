@@ -381,7 +381,7 @@ footnote_content <- function(method, display_columns) {
     wlr = res %+% (if (i[3]) list(x, n[3], "colname")) %+%
       list("wAHR is the weighted AHR.", NULL, "analysis"),
     combo = res %+% list(
-      "EF is event fraction. AHR  is under regular weighted log rank test.",
+      "EF is event fraction. AHR is under regular weighted log rank test.",
       NULL, "analysis"
     ),
     rd = res

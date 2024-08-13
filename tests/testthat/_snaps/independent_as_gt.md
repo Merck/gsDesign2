@@ -220,7 +220,7 @@
     \end{longtable}
     \begin{minipage}{\linewidth}
     \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}}EF is event fraction. AHR  is under regular weighted log rank test.\\
+    \textsuperscript{\textit{2}}EF is event fraction. AHR is under regular weighted log rank test.\\
     \end{minipage}
     \endgroup
 
