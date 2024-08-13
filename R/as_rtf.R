@@ -386,14 +386,12 @@ as_rtf.gs_design <- function(
   # Add footnotes ----
   # initialization for footnote
   footnotes <- NULL
-  # footnote markers (a, b, c, ...)
-  marker <- local({
-    i <- 0L
-    function() {
-      i <<- i + 1L
-      letters[i]
-    }
-  })
+  # footnote markers (a, b, c, ... from letters[idx])
+  idx <- 0L
+  marker <- function() {
+    idx <<- idx + 1L
+    letters[idx]
+  }
 
   for (i in seq_along(footnote$content)) {
     att <- footnote$attr[i]
