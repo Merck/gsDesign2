@@ -408,7 +408,7 @@ as_rtf.gs_design <- function(
   invisible(x_old)
 }
 
-# write RTF with (optional footnotes)
+# write RTF with (optional) footnotes
 rtf_write <- function(x, file, footnote = NULL, size, ...) {
   if (!is.null(footnote)) {
     footnote <- paste(footnote, collapse = "\\line")
