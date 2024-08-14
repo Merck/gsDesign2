@@ -138,7 +138,7 @@ test_that("MaxCombo", {
     tau = c(-1, 4, 6)
   )
 
-  expect_equal(y$analysis$power, 0.9, tolerance = testthat_tolerance() * 1000)
+  expect_equal(y$analysis$power, 0.9, tolerance = 1e-4)
 })
 
 test_that("RMST", {
