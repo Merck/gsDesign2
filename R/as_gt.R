@@ -320,6 +320,7 @@ get_display_columns <- function(columns, method, x) {
   columns
 }
 
+# default footnotes for 'gs_design' tables
 footnote_content <- function(method, display_columns) {
   n <- c("Nominal p", "~HR at bound", "~wHR at bound")
   i <- n %in% display_columns
@@ -346,6 +347,7 @@ footnote_content <- function(method, display_columns) {
   )
 }
 
+# footnote for non-binding designs
 footnote_non_binding <- function(x, x_alpha, full_alpha) {
   if (!inherits(x, "non_binding") || x_alpha >= full_alpha) return()
   a1 <- format(x_alpha, scientific = FALSE)
@@ -361,6 +363,7 @@ footnote_non_binding <- function(x, x_alpha, full_alpha) {
   )
 }
 
+# where to add the non-binding design footnote
 footnote_row <- function(x, bound) {
   # for a vector of "Analysis: N", get a logical vector `i`, in which `TRUE`
   # indicates the position of the largest `N`
@@ -372,12 +375,14 @@ footnote_row <- function(x, bound) {
   i & x$Bound == bound
 }
 
+# a list of information for `as_[gt|rtf].gs_design()` methods
 gs_design_info <- function(
     x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
     alpha_column = spannersub[2], transform = identity
 ) {
   method <- intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
   if (!inf_bound) x <- filter(x, !is.infinite(Z))
+  # `x` needs a custom transformation in as_rtf()
   x2 <- transform(x)
 
   columns <- get_display_columns(columns, method, x2)
