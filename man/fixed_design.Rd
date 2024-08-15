@@ -62,7 +62,8 @@ fixed_design_mb(
   study_duration = 36,
   enroll_rate,
   fail_rate,
-  tau = 6
+  tau = 6,
+  w_max = Inf
 )
 
 fixed_design_milestone(
@@ -117,6 +118,8 @@ and \code{1 - alpha} otherwise).}
 
 \item{tau}{Test parameter in RMST.}
 
+\item{w_max}{Test parameter of Magirr-Burman method.}
+
 \item{p_c}{A numerical value of the control arm rate.}
 
 \item{p_e}{A numerical value of the experimental arm rate.}
@@ -125,8 +128,6 @@ and \code{1 - alpha} otherwise).}
 
 \item{n}{Sample size. If NULL with power input, the sample size will be
 computed to achieve the targeted power}
-
-\item{w_max}{Test parameter of Magirr-Burman method.}
 }
 \value{
 A list of design characteristic summary.
@@ -307,8 +308,8 @@ x <- fixed_design_mb(
     dropout_rate = .001
   ),
   study_duration = 36,
-  tau = 4
-  w_max = 2,
+  tau = 4,
+  w_max = 2
 )
 x \%>\% summary()
 
