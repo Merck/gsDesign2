@@ -80,13 +80,16 @@ par <- list(sf = gsDesign::sfPoints, total_spend = 0.025, param = c(.25, .25))
 gs_spending_combo(par, info = 1:3 / 3)
 
 # Truncated, trimmed and gapped spending functions
-par <- list(sf = gsDesign::sfTruncated, total_spend = 0.025, param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
+par <- list(sf = gsDesign::sfTruncated, total_spend = 0.025,
+  param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
 gs_spending_combo(par, info = 1:3 / 3)
 
-par <- list(sf = gsDesign::sfTrimmed, total_spend = 0.025, param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
+par <- list(sf = gsDesign::sfTrimmed, total_spend = 0.025,
+  param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
 gs_spending_combo(par, info = 1:3 / 3)
 
-par <- list(sf = gsDesign::sfGapped, total_spend = 0.025, param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
+par <- list(sf = gsDesign::sfGapped, total_spend = 0.025,
+  param = list(trange = c(.2, .8), sf = gsDesign::sfHSD, param = 1))
 gs_spending_combo(par, info = 1:3 / 3)
 
 # Xi and Gallo conditional error spending functions
