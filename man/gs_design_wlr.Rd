@@ -188,4 +188,58 @@ gs_design_wlr(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
   analysis_time = c(12, 24, 36)
 )
+
+# Example 3 ----
+# Information fraction driven design
+gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025, beta = 0.2,
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+  analysis_time = 36,
+  info_frac = 1:3/3
+)
+
+# Example 4 ----
+# Calendar time driven design
+gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025, beta = 0.2,
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+  analysis_time = 1:3*12,
+  info_frac = NULL
+)
+
+# Example 5 ----
+# Both calendar time and information fraction driven design
+gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025, beta = 0.2,
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+  analysis_time = 1:3*12,
+  info_frac = 1:3/3
+)
 }

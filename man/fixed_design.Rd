@@ -125,6 +125,8 @@ and \code{1 - alpha} otherwise).}
 
 \item{n}{Sample size. If NULL with power input, the sample size will be
 computed to achieve the targeted power}
+
+\item{w_max}{Test parameter of Magirr-Burman method.}
 }
 \value{
 A list of design characteristic summary.
@@ -289,7 +291,8 @@ x <- fixed_design_mb(
     dropout_rate = .001
   ),
   study_duration = 36,
-  tau = 4
+  tau = 4,
+  w_max = 2
 )
 x \%>\% summary()
 
@@ -305,6 +308,7 @@ x <- fixed_design_mb(
   ),
   study_duration = 36,
   tau = 4
+  w_max = 2,
 )
 x \%>\% summary()
 
