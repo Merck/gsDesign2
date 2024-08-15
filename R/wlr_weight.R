@@ -171,7 +171,7 @@ wlr_weight_n <- function(x, arm0, arm1, power = 1) {
 #' arm0 <- gs_arm$arm0
 #' arm1 <- gs_arm$arm1
 #'
-#' wlr_weight_mb(1:3, arm0, arm1, tau = -1, wmax = 1.2)
-wlr_weight_mb <- function(x, arm0, arm1, tau = NULL, wmax = Inf) {
-  pmin(wmax, wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau))
+#' wlr_weight_mb(1:3, arm0, arm1, tau = -1, w_max = 1.2)
+wlr_weight_mb <- function(x, arm0, arm1, tau = NULL, w_max = Inf) {
+  pmin(w_max, wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau))
 }
