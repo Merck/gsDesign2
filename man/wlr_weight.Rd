@@ -31,7 +31,7 @@ wlr_weight_mb(x, arm0, arm1, tau = NULL, w_max = Inf)
 
 \item{power}{A scalar parameter that controls the power of the weight function.}
 
-\item{wmax}{A scalar parameter of the cut-off weight for modest weighted log rank test.}
+\item{w_max}{A scalar parameter of the cut-off weight for modest weighted log rank test.}
 }
 \value{
 A vector of weights.
