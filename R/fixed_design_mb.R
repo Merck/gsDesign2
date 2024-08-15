@@ -71,7 +71,8 @@ fixed_design_mb <- function(
     study_duration = 36,
     enroll_rate,
     fail_rate,
-    tau = 6) {
+    tau = 6,
+    w_max = Inf) {
   # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
