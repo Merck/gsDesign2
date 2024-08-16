@@ -101,9 +101,9 @@ as_rtf.fixed_design <- function(
     file,
     ...) {
   orientation <- match.arg(orientation)
-  method <- fixed_method(x)
-  title <- title %||% paste(fixed_title(method), "{^a}")
-  footnote <- footnote %||% paste("{^a}", method_footnote(x, method))
+  method <- fd_method(x)
+  title <- title %||% paste(fd_title(method), "{^a}")
+  footnote <- footnote %||% paste("{^a}", fd_footnote(x, method))
 
   # set default column width
   n_row <- nrow(x)
@@ -292,7 +292,7 @@ as_rtf.gs_design <- function(
   orientation <- match.arg(orientation)
   x_old <- x
 
-  info <- gs_design_info(
+  parts <- gsd_parts(
     x, title, subtitle, colname_spannersub, footnote,
     display_bound, display_columns, display_inf_bound, "Null hypothesis",
     function(x) {
@@ -301,9 +301,9 @@ as_rtf.gs_design <- function(
       x2
     }
   )
-  x <- info$x
-  title <- info$title
-  subtitle <- info$subtitle
+  x <- parts$x
+  title <- parts$title
+  subtitle <- parts$subtitle
 
   # Set rtf parameters ----
   n_col <- ncol(x)
@@ -336,7 +336,7 @@ as_rtf.gs_design <- function(
   # Add footnotes ----
   # initialization for footnote
   footnotes <- NULL
-  footnote <- info$footnote
+  footnote <- parts$footnote
   # footnote markers (a, b, c, ... from letters[idx])
   idx <- 0L
   marker <- function() letters[idx <<- idx + 1L]
@@ -368,10 +368,10 @@ as_rtf.gs_design <- function(
   }
 
   # add footnote for non-binding design
-  footnote_nb <- footnote_non_binding(x_old, info$alpha, full_alpha)
+  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha, full_alpha)
   if (!is.null(footnote_nb)) {
     mkr <- marker()
-    i <- footnote_row(x, display_bound[1])
+    i <- gsd_footnote_row(x, display_bound[1])
     j <- colname_spannersub[2]
     x[i, j] <- paste0(x[i, j], " {^", mkr, "}")
     footnotes <- c(footnotes, paste0("{\\super ", mkr, "} ", footnote_nb))

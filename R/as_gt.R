@@ -79,24 +79,24 @@ as_gt <- function(x, ...) {
 #'   summary() %>%
 #'   as_gt()
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
-  method <- fixed_method(x)
+  method <- fd_method(x)
   ans <- gt::gt(x) %>%
-    gt::tab_header(title = title %||% fixed_title(method)) %>%
+    gt::tab_header(title = title %||% fd_title(method)) %>%
     gt::tab_footnote(
-      footnote = footnote %||% method_footnote(x, method),
+      footnote = footnote %||% fd_footnote(x, method),
       locations = gt::cells_title(group = "title")
     )
   return(ans)
 }
 
 # get the fixed design method
-fixed_method <- function(x) {
+fd_method <- function(x) {
   methods <- c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst")
   intersect(methods, class(x))[1]
 }
 
 # get the default title
-fixed_title <- function(method) {
+fd_title <- function(method) {
   sprintf("Fixed Design %s Method", switch(
     method,
     ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
@@ -107,7 +107,7 @@ fixed_title <- function(method) {
 }
 
 # get the default footnote
-method_footnote <- function(x, method) {
+fd_footnote <- function(x, method) {
   switch(
     method,
     ahr = "Power computed with average hazard ratio method.",
@@ -252,22 +252,22 @@ as_gt.gs_design <- function(
 
   x_old <- x
   full_alpha <- attr(x, "full_alpha")
-  info <- gs_design_info(
+  parts <- gsd_parts(
     x, title, subtitle, colname_spannersub, footnote,
     display_bound, display_columns, display_inf_bound
   )
 
-  x <- info$x %>%
+  x <- parts$x %>%
     dplyr::group_by(Analysis) %>%
     gt::gt() %>%
     gt::tab_spanner(
       columns = dplyr::all_of(colname_spannersub),
       label = colname_spanner
     ) %>%
-    gt::tab_header(title = info$title, subtitle = info$subtitle)
+    gt::tab_header(title = parts$title, subtitle = parts$subtitle)
 
   # Add footnotes ----
-  footnote <- info$footnote
+  footnote <- parts$footnote
   for (i in seq_along(footnote$content)) {
     att <- footnote$attr[i]
     loc <- if (att == "colname") {
@@ -288,13 +288,13 @@ as_gt.gs_design <- function(
   }
 
   # add footnote for non-binding design
-  footnote_nb <- footnote_non_binding(x_old, info$alpha, full_alpha)
+  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha, full_alpha)
   if (!is.null(footnote_nb)) x <- gt::tab_footnote(
     x,
     footnote = footnote_nb,
     locations = gt::cells_body(
       columns = colname_spannersub[2],
-      rows = footnote_row(info$x, display_bound[1])
+      rows = gsd_footnote_row(parts$x, display_bound[1])
     )
   )
 
@@ -302,7 +302,7 @@ as_gt.gs_design <- function(
 }
 
 # get different default columns to display
-get_display_columns <- function(columns, method, x) {
+gsd_columns <- function(columns, method, x) {
   # set different default columns to display
   if (is.null(columns)) columns <- c(
     "Analysis", "Bound", "Z", "Nominal p",
@@ -321,9 +321,9 @@ get_display_columns <- function(columns, method, x) {
 }
 
 # default footnotes for 'gs_design' tables
-footnote_content <- function(method, display_columns) {
+gsd_footnote <- function(method, columns) {
   n <- c("Nominal p", "~HR at bound", "~wHR at bound")
-  i <- n %in% display_columns
+  i <- n %in% columns
   res <- if (i[1]) list(
     content = paste(
       "One-sided p-value for experimental vs control treatment.",
@@ -348,7 +348,7 @@ footnote_content <- function(method, display_columns) {
 }
 
 # footnote for non-binding designs
-footnote_non_binding <- function(x, x_alpha, full_alpha) {
+gsd_footnote_nb <- function(x, x_alpha, full_alpha) {
   if (!inherits(x, "non_binding") || x_alpha >= full_alpha) return()
   a1 <- format(x_alpha, scientific = FALSE)
   a2 <- format(full_alpha, scientific = FALSE)
@@ -364,7 +364,7 @@ footnote_non_binding <- function(x, x_alpha, full_alpha) {
 }
 
 # where to add the non-binding design footnote
-footnote_row <- function(x, bound) {
+gsd_footnote_row <- function(x, bound) {
   # for a vector of "Analysis: N", get a logical vector `i`, in which `TRUE`
   # indicates the position of the largest `N`
   a <- x$Analysis
@@ -375,8 +375,9 @@ footnote_row <- function(x, bound) {
   i & x$Bound == bound
 }
 
-# a list of information for `as_[gt|rtf].gs_design()` methods
-gs_design_info <- function(
+# a list of information for `as_[gt|rtf].gs_design()` methods: the transformed
+# data, title, and footnote, etc.
+gsd_parts <- function(
     x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
     alpha_column = spannersub[2], transform = identity
 ) {
@@ -385,7 +386,7 @@ gs_design_info <- function(
   # `x` needs a custom transformation in as_rtf()
   x2 <- transform(x)
 
-  columns <- get_display_columns(columns, method, x2)
+  columns <- gsd_columns(columns, method, x2)
   x2 <- x2[, columns]
   x2 <- subset(x2, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
   x2 <- subset(x2, Bound %in% bound)
@@ -409,7 +410,7 @@ gs_design_info <- function(
   list(
     x = dplyr::arrange(x2, Analysis),
     title = title, subtitle = subtitle,
-    footnote = footnote %||% footnote_content(method, columns),
+    footnote = footnote %||% gsd_footnote(method, columns),
     alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
   )
 }
