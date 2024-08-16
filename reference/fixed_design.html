@@ -33,7 +33,7 @@ with treatment effect measuring in risk difference."><meta property="og:image" c
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.20</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.21</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +125,8 @@ with treatment effect measuring in risk difference.</p>
 <span>  study_duration <span class="op">=</span> <span class="fl">36</span>,</span>
 <span>  <span class="va">enroll_rate</span>,</span>
 <span>  <span class="va">fail_rate</span>,</span>
-<span>  tau <span class="op">=</span> <span class="fl">6</span></span>
+<span>  tau <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  w_max <span class="op">=</span> <span class="cn">Inf</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fixed_design_milestone</span><span class="op">(</span></span>
@@ -202,6 +203,10 @@ and <code>1 - alpha</code> otherwise).</p></dd>
 
 <dt id="arg-tau">tau<a class="anchor" aria-label="anchor" href="#arg-tau"></a></dt>
 <dd><p>Test parameter in RMST.</p></dd>
+
+
+<dt id="arg-w-max">w_max<a class="anchor" aria-label="anchor" href="#arg-w-max"></a></dt>
+<dd><p>Test parameter of Magirr-Burman method.</p></dd>
 
 
 <dt id="arg-p-c">p_c<a class="anchor" aria-label="anchor" href="#arg-p-c"></a></dt>
@@ -402,7 +407,8 @@ computed to achieve the targeted power</p></dd>
 <span class="r-in"><span>    dropout_rate <span class="op">=</span> <span class="fl">.001</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  study_duration <span class="op">=</span> <span class="fl">36</span>,</span></span>
-<span class="r-in"><span>  tau <span class="op">=</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  tau <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>  w_max <span class="op">=</span> <span class="fl">2</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
@@ -421,7 +427,8 @@ computed to achieve the targeted power</p></dd>
 <span class="r-in"><span>    dropout_rate <span class="op">=</span> <span class="fl">.001</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  study_duration <span class="op">=</span> <span class="fl">36</span>,</span></span>
-<span class="r-in"><span>  tau <span class="op">=</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  tau <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>  w_max <span class="op">=</span> <span class="fl">2</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
