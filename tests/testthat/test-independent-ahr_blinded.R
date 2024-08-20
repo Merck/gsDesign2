@@ -17,7 +17,7 @@ test_that("ahr_blinded throws an error when intervals and hr are not aligned", {
 })
 
 test_that("ahr_blinded handles piecewise exponential model fitting and calculations correctly", {
-  surv <- Surv(
+  surv <- survival::Surv(
     time = simtrial::ex1_delayed_effect$month,
     event = simtrial::ex1_delayed_effect$evntd
   )
@@ -77,9 +77,85 @@ test_that("Correct computation of blinded AHR and information adjustment", {
   expect_equal(result$info0, expected_info0)
 })
 
-test_that("ahr_blinded returns a tibble with correct structure", {
+test_that("ahr_blinded computes theta with constant hazard ratios correctly", {
+  surv <- survival::Surv(
+    simtrial::ex1_delayed_effect$month,
+    simtrial::ex1_delayed_effect$evntd
+  )
+  intervals <- c(3, 6, Inf)
+  hr <- c(1, 1, 1)
+  result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr)
+
+  # When all hr = 1, theta should be 0
+  expect_equal(result$theta, 0)
+})
+
+test_that("ahr_blinded handles zero events", {
+  surv <- survival::Surv(time = c(1, 2, 3, 4, 5), event = c(0, 0, 0, 0, 0)) # No events
+  intervals <- c(2, 3, Inf)
+  hr <- c(0.8, 0.9, 1)
+
+  result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr)
+
+  expect_equal(result$event, 0)
+  expect_true(is.nan(result$ahr))
+  expect_true(is.nan(result$theta))
+  expect_equal(result$info0, 0)
+})
+
+test_that("ahr_blinded handles all events in the first interval", {
+  surv <- survival::Surv(time = c(1, 2, 2.5, 3, 3.5), event = c(1, 1, 1, 1, 1))
+  # Only the first interval contains events
+  intervals <- c(4, Inf)
+  hr <- c(0.5, 0.7)
+
+  result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr)
+
+  # All events are in the first interval, so result should reflect hr[1]
+  expected_theta <- -sum(log(hr[1]) * sum(surv[, "status"])) / sum(surv[, "status"])
+  expect_equal(result$theta, expected_theta)
+  expect_equal(result$event, sum(surv[, "status"]))
+})
+
+test_that("ahr_blinded handles very small or very large hazard ratios", {
+  surv <- survival::Surv(time = c(1, 2, 3, 4, 5), event = c(1, 1, 1, 1, 1))
+  intervals <- c(2, 3, Inf)
+  hr_small <- c(0.1, 0.2, 0.3)
+  hr_large <- c(10, 20, 30)
+
+  res_hr_small <- ahr_blinded(surv = surv, intervals = intervals, hr = hr_small)
+  res_hr_large <- ahr_blinded(surv = surv, intervals = intervals, hr = hr_large)
+
+  expect_true(res_hr_small$theta > 0)
+  expect_true(res_hr_small$ahr < 1)
+
+  expect_true(res_hr_large$theta < 0)
+  expect_true(res_hr_large$ahr > 1)
+})
+
+test_that("ahr_blinded handles very high randomization ratio", {
+  surv <- survival::Surv(time = c(1, 2, 3, 4, 5), event = c(1, 1, 1, 1, 1))
+  intervals <- c(2, 3, Inf)
+  hr <- c(0.8, 0.9, 0.95)
+  ratio <- 100
+
+  result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr, ratio = ratio)
+
+  q_e <- ratio / (1 + ratio)
+  # q_e should be close to 1
+  expect_equal(q_e, 1, tolerance = 0.01)
+  # info0 should be near 0
+  expect_equal(result$info0, 0, tolerance = 0.05)
+})
+
+test_that("ahr_blinded returns a tibble with correct structure and types", {
   result <- ahr_blinded()
+
   expect_true(tibble::is_tibble(result))
   expect_named(result, c("event", "ahr", "theta", "info0"))
-  expect_true(nrow(result) == 1)
+  expect_true(nrow(result) == 1L)
+  expect_type(result$event, "double")
+  expect_type(result$ahr, "double")
+  expect_type(result$theta, "double")
+  expect_type(result$info0, "double")
 })
