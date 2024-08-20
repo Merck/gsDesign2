@@ -10,13 +10,17 @@ test_that("ahr_blinded throws an error for non-numeric or negative hr", {
 })
 
 test_that("ahr_blinded throws an error when intervals and hr are not aligned", {
-  expect_error(ahr_blinded(intervals = c(3, 6), hr = c(1)),
-               "ahr_blinded: the piecewise model specified hr and intervals are not aligned.")
+  expect_error(
+    ahr_blinded(intervals = c(3, 6), hr = c(1)),
+    "ahr_blinded: the piecewise model specified hr and intervals are not aligned."
+  )
 })
 
 test_that("ahr_blinded handles piecewise exponential model fitting and calculations correctly", {
-  surv <- Surv(time = simtrial::ex1_delayed_effect$month,
-               event = simtrial::ex1_delayed_effect$evntd)
+  surv <- Surv(
+    time = simtrial::ex1_delayed_effect$month,
+    event = simtrial::ex1_delayed_effect$evntd
+  )
   intervals <- c(3, 6, Inf)
   hr <- c(1, 0.7, 0.5)
   ratio <- 2
@@ -36,7 +40,7 @@ test_that("ahr_blinded handles piecewise exponential model fitting and calculati
     hr <- c(hr, rep(hr[nhr], nx - nhr))
   }
   expect_equal(length(hr), length(event))
-  expect_equal(hr, c(1, 0.7, 0.5))  # Expected extended hr vector
+  expect_equal(hr, c(1, 0.7, 0.5)) # Expected extended hr vector
 
   # Test 3: Blinded AHR (theta) is computed correctly
   theta <- -sum(log(hr[1:nx]) * event) / sum(event)
@@ -58,7 +62,7 @@ test_that("Correct computation of blinded AHR and information adjustment", {
   intervals <- c(3, Inf)
   hr <- c(1, 0.6)
   ratio <- 1
-  event<- simtrial::fit_pwexp(surv, intervals)[, 3]
+  event <- simtrial::fit_pwexp(surv, intervals)[, 3]
 
   expected_event <- sum(surv[, "status"])
   expected_theta <- -sum(log(hr[1:length(event)]) * event) / sum(event)
