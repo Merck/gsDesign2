@@ -1,18 +1,18 @@
 test_that("ahr_blinded throws an error for non-numeric or negative hr", {
   expect_error(
     ahr_blinded(hr = c(1, -2, 3)),
-    "ahr_blinded: hr must be a vector of positive numbers."
+    "'hr' must be a vector of positive numbers."
   )
   expect_error(
     ahr_blinded(hr = "abc"),
-    "ahr_blinded: hr must be a vector of positive numbers."
+    "'hr' must be a vector of positive numbers."
   )
 })
 
 test_that("ahr_blinded throws an error when intervals and hr are not aligned", {
   expect_error(
     ahr_blinded(intervals = c(3, 6), hr = c(1)),
-    "ahr_blinded: the piecewise model specified hr and intervals are not aligned."
+    "The piecewise model specified 'hr' and 'intervals' differ in length."
   )
 })
 
