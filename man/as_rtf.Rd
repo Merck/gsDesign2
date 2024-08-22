@@ -29,7 +29,6 @@ as_rtf(x, ...)
   display_bound = c("Efficacy", "Futility"),
   display_columns = NULL,
   display_inf_bound = TRUE,
-  full_alpha = 0.025,
   col_rel_width = NULL,
   orientation = c("portrait", "landscape"),
   text_font_size = 9,
@@ -76,11 +75,6 @@ The default is \code{c("Efficacy", "Futility")}.}
 displayed in the summary table.}
 
 \item{display_inf_bound}{Logical, whether to display the +/-inf bound.}
-
-\item{full_alpha}{The full alpha used in the design, the default is 0.025.
-when the futility bound is non-binding, a footnote will be displayed, saying
-the smaller value subtracts the probability of crossing a futility bound before
-crossing an efficacy bound at a later analysis under the null hypothesis.}
 }
 \value{
 \code{as_rtf()} returns the input \code{x} invisibly.

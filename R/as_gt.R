@@ -251,7 +251,6 @@ as_gt.gs_design <- function(
     ...) {
 
   x_old <- x
-  full_alpha <- attr(x, "full_alpha")
   parts <- gsd_parts(
     x, title, subtitle, colname_spannersub, footnote,
     display_bound, display_columns, display_inf_bound
@@ -288,7 +287,7 @@ as_gt.gs_design <- function(
   }
 
   # add footnote for non-binding design
-  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha, full_alpha)
+  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha)
   if (!is.null(footnote_nb)) x <- gt::tab_footnote(
     x,
     footnote = footnote_nb,
@@ -348,7 +347,8 @@ gsd_footnote <- function(method, columns) {
 }
 
 # footnote for non-binding designs
-gsd_footnote_nb <- function(x, x_alpha, full_alpha) {
+gsd_footnote_nb <- function(x, x_alpha) {
+  full_alpha <- attr(x, "full_alpha")
   if (!inherits(x, "non_binding") || x_alpha >= full_alpha) return()
   a1 <- format(x_alpha, scientific = FALSE)
   a2 <- format(full_alpha, scientific = FALSE)
