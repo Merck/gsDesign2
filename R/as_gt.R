@@ -79,23 +79,37 @@ as_gt <- function(x, ...) {
 #'   summary() %>%
 #'   as_gt()
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
-  # get the design method
-  design_mtd <- intersect(
-    c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst"), class(x)
-  )[1]
+  method <- fd_method(x)
+  ans <- gt::gt(x) %>%
+    gt::tab_header(title = title %||% fd_title(method)) %>%
+    gt::tab_footnote(
+      footnote = footnote %||% fd_footnote(x, method),
+      locations = gt::cells_title(group = "title")
+    )
+  return(ans)
+}
 
-  # set the default title
-  if (is.null(title)) title <- sprintf("Fixed Design %s Method", switch(
-    design_mtd,
+# get the fixed design method
+fd_method <- function(x) {
+  methods <- c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst")
+  intersect(methods, class(x))[1]
+}
+
+# get the default title
+fd_title <- function(method) {
+  sprintf("Fixed Design %s Method", switch(
+    method,
     ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
     lf = "under Lachin and Foulkes", maxcombo = "under MaxCombo",
     milestone = "under Milestone", rmst = "under Restricted Mean Survival Time",
     rd = "of Risk Difference under Farrington-Manning"
   ))
+}
 
-  # set the default footnote
-  if (is.null(footnote)) footnote <- switch(
-    design_mtd,
+# get the default footnote
+fd_footnote <- function(x, method) {
+  switch(
+    method,
     ahr = "Power computed with average hazard ratio method.",
     fh = paste(
       "Power for Fleming-Harrington test", substring(x$Design, 19),
@@ -116,12 +130,6 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
     # for mb, milestone, and rmst
     paste("Power for", x$Design, "computed with method of Yung and Liu.")
   )
-
-  ans <- gt::gt(x) %>%
-    gt::tab_header(title = title) %>%
-    gt::tab_footnote(footnote = footnote, locations = gt::cells_title(group = "title"))
-
-  return(ans)
 }
 
 #' @rdname as_gt
@@ -242,115 +250,24 @@ as_gt.gs_design <- function(
     display_inf_bound = FALSE,
     ...) {
 
-  method <- intersect(class(x), c("ahr", "wlr", "combo", "rd"))[1]
-  full_alpha <- attr(x, "full_alpha")
-
-  x_alpha <- max(filter(x, Bound == display_bound[1])[[colname_spannersub[2]]])
-
-  x_non_binding <- inherits(x, "non_binding")
-
-  x_k <- as.numeric(substr(x$Analysis, 11, 11))
-
-  if (!display_inf_bound) x <- filter(x, !is.infinite(Z))
-
   x_old <- x
-
-  # Set defaults ----
-  # set different default title to different methods
-  if (is.null(title)) title <- paste("Bound summary", switch(
-    method,
-    ahr = "for AHR design", wlr = "for WLR design",
-    combo = "for MaxCombo design", rd = "of Binary Endpoint"
-  ))
-
-  # set different default subtitle to different methods
-  if (is.null(subtitle)) subtitle <- switch(
-    method,
-    ahr = "AHR approximations of ~HR at bound",
-    wlr = "WLR approximation of ~wHR at bound",
-    combo = "MaxCombo approximation",
-    rd = "measured by risk difference"
+  full_alpha <- attr(x, "full_alpha")
+  parts <- gsd_parts(
+    x, title, subtitle, colname_spannersub, footnote,
+    display_bound, display_columns, display_inf_bound
   )
 
-  # set different default columns to display
-  if (is.null(display_columns)) display_columns <- c(
-    "Analysis", "Bound", "Z", "Nominal p",
-    sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
-    "Alternate hypothesis", "Null hypothesis"
-  )
-  # filter the columns to display as the output
-  ## if `Probability` is selected to output, then transform it to `c("Alternate hypothesis", "Null hypothesis")`
-  if (any(i <- display_columns == "Probability"))
-    display_columns <- c(display_columns[!i], "Alternate hypothesis", "Null hypothesis")
-  ## check if the `display_columns` are included in `x` output
-  if (!all(display_columns %in% names(x))) stop(
-    "not all variable names in 'display_columns' are in the summary_bound object!"
-  )
-  x <- x[, display_columns]
-
-  # set different default footnotes to different methods
-  if (is.null(footnote)) footnote <- switch(
-    method,
-    ahr = list(
-      content = c(
-        if (i1 <- "~HR at bound" %in% display_columns)
-          "Approximate hazard ratio to cross bound.",
-        if (i2 <- "Nominal p" %in% display_columns)
-          "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control."
-      ),
-      location = c(if (i1) "~HR at bound", if (i2) "Nominal p"),
-      attr = c(if (i1) "colname", if (i2) "colname")
-    ),
-    wlr = list(
-      content = c(
-        if (i1 <- "~wHR at bound" %in% display_columns)
-          "Approximate hazard ratio to cross bound.",
-        if (i2 <- "Nominal p" %in% display_columns)
-          "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control.",
-        "wAHR is the weighted AHR."
-      ),
-      location = c(if (i1) "~wHR at bound", if (i2) "Nominal p"),
-      attr = c(if (i1) "colname", if (i2) "colname", "analysis")
-    ),
-    combo = list(
-      content = c(
-        if (i2 <- "Nominal p" %in% display_columns)
-          "One-sided p-value for experimental vs control treatment.
-          Value < 0.5 favors experimental, > 0.5 favors control.",
-        "EF is event fraction. AHR  is under regular weighted log rank test."),
-      location = if (i2) "Nominal p",
-      attr = c(if (i2) "colname", "analysis")
-    ),
-    rd = list(
-      content = if (i2 <- "Nominal p" %in% display_columns)
-        "One-sided p-value for experimental vs control treatment.
-        Value < 0.5 favors experimental, > 0.5 favors control.",
-      location = if (i2) "Nominal p",
-      attr = if (i2) "colname"
-    )
-  )
-
-  # Filter out inf bound ----
-  x <- subset(x, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
-
-  # Add spanner ----
-  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x))
-  names(x)[i] <- colname_spannersub
-
-  x <- x %>%
-    subset(Bound %in% display_bound) %>%
-    dplyr::arrange(Analysis) %>%
+  x <- parts$x %>%
     dplyr::group_by(Analysis) %>%
     gt::gt() %>%
     gt::tab_spanner(
       columns = dplyr::all_of(colname_spannersub),
       label = colname_spanner
     ) %>%
-    gt::tab_header(title = title, subtitle = subtitle)
+    gt::tab_header(title = parts$title, subtitle = parts$subtitle)
 
   # Add footnotes ----
+  footnote <- parts$footnote
   for (i in seq_along(footnote$content)) {
     att <- footnote$attr[i]
     loc <- if (att == "colname") {
@@ -370,21 +287,69 @@ as_gt.gs_design <- function(
       x <- gt::tab_footnote(x, footnote = footnote$content[i], locations = loc)
   }
 
-  ## if it is non-binding design
-  if (x_non_binding && x_alpha < full_alpha) x <- gt::tab_footnote(
+  # add footnote for non-binding design
+  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha, full_alpha)
+  if (!is.null(footnote_nb)) x <- gt::tab_footnote(
     x,
-    footnote = footnote_non_binding(x_alpha, full_alpha),
+    footnote = footnote_nb,
     locations = gt::cells_body(
       columns = colname_spannersub[2],
-      rows = substr(x_old$Analysis, 1, 11) == paste0("Analysis: ", max(x_k)) &
-        x_old$Bound == display_bound[1]
+      rows = gsd_footnote_row(parts$x, display_bound[1])
     )
   )
 
   return(x)
 }
 
-footnote_non_binding <- function(x_alpha, full_alpha) {
+# get different default columns to display
+gsd_columns <- function(columns, method, x) {
+  # set different default columns to display
+  if (is.null(columns)) columns <- c(
+    "Analysis", "Bound", "Z", "Nominal p",
+    sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
+    "Alternate hypothesis", "Null hypothesis"
+  )
+  # filter the columns to display as the output: if `Probability` is selected to
+  # output, transform it to `c("Alternate hypothesis", "Null hypothesis")`
+  if (any(i <- columns == "Probability"))
+    columns <- c(columns[!i], "Alternate hypothesis", "Null hypothesis")
+  ## check if the `display_columns` are included in `x` output
+  if (!all(columns %in% names(x))) stop(
+    "not all variable names in 'display_columns' are in the summary_bound object!"
+  )
+  columns
+}
+
+# default footnotes for 'gs_design' tables
+gsd_footnote <- function(method, columns) {
+  n <- c("Nominal p", "~HR at bound", "~wHR at bound")
+  i <- n %in% columns
+  res <- if (i[1]) list(
+    content = paste(
+      "One-sided p-value for experimental vs control treatment.",
+      "Value < 0.5 favors experimental, > 0.5 favors control."
+    ),
+    location = n[1], attr = "colname"
+  ) else {
+    list(content = NULL, location = NULL, attr = NULL)
+  }
+  x <- "Approximate hazard ratio to cross bound."
+  switch(
+    method,
+    ahr = res %+% if (i[2]) list(x, n[2], "colname"),
+    wlr = res %+% (if (i[3]) list(x, n[3], "colname")) %+%
+      list("wAHR is the weighted AHR.", NULL, "analysis"),
+    combo = res %+% list(
+      "EF is event fraction. AHR is under regular weighted log rank test.",
+      NULL, "analysis"
+    ),
+    rd = res
+  )
+}
+
+# footnote for non-binding designs
+gsd_footnote_nb <- function(x, x_alpha, full_alpha) {
+  if (!inherits(x, "non_binding") || x_alpha >= full_alpha) return()
   a1 <- format(x_alpha, scientific = FALSE)
   a2 <- format(full_alpha, scientific = FALSE)
   a3 <- format(full_alpha - x_alpha, scientific = FALSE)
@@ -395,5 +360,57 @@ footnote_non_binding <- function(x_alpha, full_alpha) {
     "The smaller value subtracts the probability of crossing a futility bound ",
     "before crossing an efficacy bound at a later analysis ",
     "(", a2, " - ", a3, " = ", a1, ") ", "under the null hypothesis."
+  )
+}
+
+# where to add the non-binding design footnote
+gsd_footnote_row <- function(x, bound) {
+  # for a vector of "Analysis: N", get a logical vector `i`, in which `TRUE`
+  # indicates the position of the largest `N`
+  a <- x$Analysis
+  r <- "^Analysis: ([0-9]+).*"
+  i <- grepl(r, a)
+  k <- as.numeric(sub(r, '\\1', a[i]))
+  i[i] <- k == max(k)
+  i & x$Bound == bound
+}
+
+# a list of information for `as_[gt|rtf].gs_design()` methods: the transformed
+# data, title, and footnote, etc.
+gsd_parts <- function(
+    x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
+    alpha_column = spannersub[2], transform = identity
+) {
+  method <- intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
+  if (!inf_bound) x <- filter(x, !is.infinite(Z))
+  # `x` needs a custom transformation in as_rtf()
+  x2 <- transform(x)
+
+  columns <- gsd_columns(columns, method, x2)
+  x2 <- x2[, columns]
+  x2 <- subset(x2, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
+  x2 <- subset(x2, Bound %in% bound)
+
+  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x2))
+  names(x2)[i] <- spannersub
+
+  title <- title %||% paste("Bound summary", switch(
+    method,
+    ahr = "for AHR design", wlr = "for WLR design",
+    combo = "for MaxCombo design", rd = "of Binary Endpoint"
+  ))
+  subtitle <- subtitle %||% switch(
+    method,
+    ahr = "AHR approximations of ~HR at bound",
+    wlr = "WLR approximation of ~wHR at bound",
+    combo = "MaxCombo approximation",
+    rd = "measured by risk difference"
+  )
+
+  list(
+    x = dplyr::arrange(x2, Analysis),
+    title = title, subtitle = subtitle,
+    footnote = footnote %||% gsd_footnote(method, columns),
+    alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
   )
 }
