@@ -62,7 +62,8 @@ fixed_design_mb(
   study_duration = 36,
   enroll_rate,
   fail_rate,
-  tau = 6
+  tau = 6,
+  w_max = Inf
 )
 
 fixed_design_milestone(
@@ -116,6 +117,8 @@ and \code{1 - alpha} otherwise).}
 \item{gamma}{A vector of numbers paring with rho and tau for MaxCombo test.}
 
 \item{tau}{Test parameter in RMST.}
+
+\item{w_max}{Test parameter of Magirr-Burman method.}
 
 \item{p_c}{A numerical value of the control arm rate.}
 
@@ -289,7 +292,8 @@ x <- fixed_design_mb(
     dropout_rate = .001
   ),
   study_duration = 36,
-  tau = 4
+  tau = 4,
+  w_max = 2
 )
 x \%>\% summary()
 
@@ -304,7 +308,8 @@ x <- fixed_design_mb(
     dropout_rate = .001
   ),
   study_duration = 36,
-  tau = 4
+  tau = 4,
+  w_max = 2
 )
 x \%>\% summary()
 

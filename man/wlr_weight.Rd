@@ -14,7 +14,7 @@ wlr_weight_1(x, arm0, arm1)
 
 wlr_weight_n(x, arm0, arm1, power = 1)
 
-wlr_weight_mb(x, arm0, arm1, tau = NULL, wmax = Inf)
+wlr_weight_mb(x, arm0, arm1, tau = NULL, w_max = Inf)
 }
 \arguments{
 \item{x}{A vector of numeric values.}
@@ -31,7 +31,7 @@ wlr_weight_mb(x, arm0, arm1, tau = NULL, wmax = Inf)
 
 \item{power}{A scalar parameter that controls the power of the weight function.}
 
-\item{wmax}{A scalar parameter of the cut-off weight for modest weighted log rank test.}
+\item{w_max}{A scalar parameter of the cut-off weight for modest weighted log rank test.}
 }
 \value{
 A vector of weights.
@@ -132,5 +132,5 @@ gs_arm <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
 arm0 <- gs_arm$arm0
 arm1 <- gs_arm$arm1
 
-wlr_weight_mb(1:3, arm0, arm1, tau = -1, wmax = 1.2)
+wlr_weight_mb(1:3, arm0, arm1, tau = -1, w_max = 1.2)
 }
