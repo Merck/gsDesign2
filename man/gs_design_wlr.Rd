@@ -191,6 +191,6 @@ gs_design_wlr(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
   analysis_time = 1:3*12,
-  info_frac = c(0.4, 0.8, 1)
+  info_frac = c(0.3, 0.7, 1)
 )
 }
