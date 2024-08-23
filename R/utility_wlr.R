@@ -273,6 +273,6 @@ gs_sigma2_wlr <- function(arm0,
 }
 
 #' @noRd
-is_almost_k <- function(x, k, tol = .Machine$double.eps^0.5) {
+almost_equal <- function(x, k, tol = .Machine$double.eps^0.5) {
   abs(x - k) < tol
 }

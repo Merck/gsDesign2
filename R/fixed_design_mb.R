@@ -23,7 +23,7 @@
 #' @param ratio Experimental:Control randomization ratio.
 #' @param study_duration Study duration.
 #' @param tau Test parameter of Magirr-Burman method.
-#'
+#' @param w_max Test parameter of Magirr-Burman method.
 #' @export
 #'
 #' @rdname fixed_design
@@ -43,7 +43,8 @@
 #'     dropout_rate = .001
 #'   ),
 #'   study_duration = 36,
-#'   tau = 4
+#'   tau = 4,
+#'   w_max = 2
 #' )
 #' x %>% summary()
 #'
@@ -58,7 +59,8 @@
 #'     dropout_rate = .001
 #'   ),
 #'   study_duration = 36,
-#'   tau = 4
+#'   tau = 4,
+#'   w_max = 2
 #' )
 #' x %>% summary()
 #'
@@ -69,7 +71,8 @@ fixed_design_mb <- function(
     study_duration = 36,
     enroll_rate,
     fail_rate,
-    tau = 6) {
+    tau = 6,
+    w_max = Inf) {
   # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
@@ -88,7 +91,7 @@ fixed_design_mb <- function(
 
   # Generate design ----
   weight <- function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = tau)
+    wlr_weight_mb(x, arm0, arm1, tau = tau, w_max = w_max)
   }
   if (is.null(power)) {
     d <- gs_power_wlr(
