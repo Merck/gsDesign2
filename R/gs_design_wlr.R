@@ -216,7 +216,7 @@ gs_design_wlr <- function(
                             interval = c(.01, next_time)) %>%
           dplyr::select(-c(n, delta, sigma2)) %>%
           dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
-        y <- bind_rows(y_ia, y)
+        y <- dplyr::bind_rows(y_ia, y)
       # if it is driven by both info frac and analysis time,
       # e.g., info_frac = 1:3/2, analysis_time = c(12, 24, 36)
       } else if (info_frac[n_analysis - i] > info_frac_by_time[n_analysis - i]) {
@@ -236,7 +236,7 @@ gs_design_wlr <- function(
           dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
 
         y_exclude_ia <- y %>%  filter(analysis != n_analysis - i)
-        y <- bind_rows(y_ia, y_exclude_ia)
+        y <- dplyr::bind_rows(y_ia, y_exclude_ia)
       }
 
       next_time <- y$time[y$analysis == n_analysis - i]
