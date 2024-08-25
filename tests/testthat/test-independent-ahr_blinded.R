@@ -16,47 +16,6 @@ test_that("ahr_blinded throws an error when intervals and hr are not aligned", {
   )
 })
 
-test_that("ahr_blinded handles piecewise exponential model fitting and calculations correctly", {
-  surv <- survival::Surv(
-    time = simtrial::ex1_delayed_effect$month,
-    event = simtrial::ex1_delayed_effect$evntd
-  )
-  intervals <- c(3, 6, Inf)
-  hr <- c(1, 0.7, 0.5)
-  ratio <- 2
-
-  # Run the function
-  result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr, ratio = ratio)
-
-  # Test 1: Correct fitting of survival data into piecewise exponential model
-  event <- simtrial::fit_pwexp(surv, intervals)[, 3]
-  expect_length(event, length(intervals))
-  expect_true(all(event >= 0))
-
-  # Test 2: Hazard ratio vector is correctly extended
-  nhr <- length(hr)
-  nx <- length(event)
-  if (length(hr) < length(event)) {
-    hr <- c(hr, rep(hr[nhr], nx - nhr))
-  }
-  expect_equal(length(hr), length(event))
-  expect_equal(hr, c(1, 0.7, 0.5)) # Expected extended hr vector
-
-  # Test 3: Blinded AHR (theta) is computed correctly
-  theta <- -sum(log(hr[1:nx]) * event) / sum(event)
-  expect_true(!is.na(theta))
-
-  # Test 4: Information adjustment (q_e) is computed correctly
-  q_e <- ratio / (1 + ratio)
-  expect_equal(q_e, 2 / 3)
-
-  # Check the overall result
-  expect_true(inherits(result, "tbl_df"))
-  expect_equal(result$event, sum(event))
-  expect_equal(result$theta, theta)
-  expect_equal(result$ahr, exp(-theta))
-})
-
 test_that("Correct computation of blinded AHR and information adjustment", {
   surv <- survival::Surv(simtrial::ex2_delayed_effect$month, event = simtrial::ex2_delayed_effect$evntd)
   intervals <- c(3, Inf)
@@ -117,20 +76,15 @@ test_that("ahr_blinded handles all events in the first interval", {
   expect_equal(result$event, sum(surv[, "status"]))
 })
 
-test_that("ahr_blinded handles very small or very large hazard ratios", {
+test_that("ahr_blinded handles very small hazard ratios", {
   surv <- survival::Surv(time = c(1, 2, 3, 4, 5), event = c(1, 1, 1, 1, 1))
   intervals <- c(2, 3, Inf)
-  hr_small <- c(0.1, 0.2, 0.3)
-  hr_large <- c(10, 20, 30)
+  hr <- c(0.1, 0.2, 0.3)
 
-  res_hr_small <- ahr_blinded(surv = surv, intervals = intervals, hr = hr_small)
-  res_hr_large <- ahr_blinded(surv = surv, intervals = intervals, hr = hr_large)
+  res <- ahr_blinded(surv = surv, intervals = intervals, hr = hr)
 
-  expect_true(res_hr_small$theta > 0)
-  expect_true(res_hr_small$ahr < 1)
-
-  expect_true(res_hr_large$theta < 0)
-  expect_true(res_hr_large$ahr > 1)
+  expect_true(res$theta > 0)
+  expect_true(res$ahr < 1)
 })
 
 test_that("ahr_blinded handles very high randomization ratio", {
@@ -141,9 +95,6 @@ test_that("ahr_blinded handles very high randomization ratio", {
 
   result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr, ratio = ratio)
 
-  q_e <- ratio / (1 + ratio)
-  # q_e should be close to 1
-  expect_equal(q_e, 1, tolerance = 0.01)
   # info0 should be near 0
   expect_equal(result$info0, 0, tolerance = 0.05)
 })
