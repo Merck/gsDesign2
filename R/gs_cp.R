@@ -36,17 +36,31 @@
 #' gs_cp(x = x, i = 1, zi = 0)
 
 
-# current gs_cp() only consider conditioning on one previous stage
 
 # ------------------
 #   gs_cp()
 # ------------------
 
-gs_cp <- function(x, i = 1, zi = 0){
+gs_cp <- function(x, i, zi, j){
 
+  # input check
+  # Check if 'x' has an 'analysis' element and it's a matrix or data frame
+  if (!is.list(x) || !"analysis" %in% names(x) || (!is.matrix(x$analysis) && !is.data.frame(x$analysis))) {
+    stop("'x' should be a list containing an 'analysis' matrix or data frame.")
+  }
+  # Check if 'i' and 'j' are numeric and within the appropriate range
+  if (!is.numeric(i) || !is.numeric(j)) {
+    stop("'i' and 'j' should be numeric.")
+  }
+
+  if (!(1 <= i && i < j && j <= dim(x$analysis)[1])) {
+    stop("Please ensure that 1 <= i < j and j <= dim(x$analysis)[1].")
+  }
+
+
+  # obtain necessary inforation from x
   t_frac <- x$analysis$info_frac
-  H0 <- x$analysis$info0
-  H1 <- x$analysis$info
+  h0 <- x$analysis$info0 # under local asymptotic, assume H0 ~= H1
 
 
   # default theta: under H0 and under H1
@@ -60,14 +74,18 @@ gs_cp <- function(x, i = 1, zi = 0){
     select(z)
 
   # compute conditional power under H0
-  prob0 <- 1 - pnorm((eff_bound[i+1, ] - sqrt(t_frac[i]/t_frac[i+1]) * zi)/sqrt((t_frac[i+1]-t_frac[i])/t_frac[i+1]))
+  # prob0 <- 1 - pnorm((eff_bound[i+1, ] - sqrt(t_frac[i]/t_frac[i+1]) * zi)/sqrt((t_frac[i+1]-t_frac[i])/t_frac[i+1]))
+  prob0 <- 1 - pnorm((sqrt(t_frac[j])*eff_bound[j, ] - sqrt(t_frac[i])*zi)/sqrt(t_frac[j] - t_frac[i]))
 
 
   # compute conditional power under H1
-  mu_star <- sqrt(H0[i+1])*theta[i+1] + sqrt(t_frac[i]/t_frac[i+1])*(zi - sqrt(H0[i])*theta[i])
-  sigma2_star <- H0[i+1]/H1[i+1] - (t_frac[i]/t_frac[i+1])*(H0[i]/H1[i])
+  #mu_star <- sqrt(H0[i+1])*theta[i+1] + sqrt(t_frac[i]/t_frac[i+1])*(zi - sqrt(H0[i])*theta[i])
+  #sigma2_star <- H0[i+1]/H1[i+1] - (t_frac[i]/t_frac[i+1])*(H0[i]/H1[i])
 
-  prob1 <- 1 - pnorm((eff_bound[i+1, ])/sqrt(sigma2_star))
+  mu_star <- sqrt(t_frac[j])*sqrt(h0[j])*theta[j] - sqrt(t_frac[i])*sqrt(h0[i])*theta[i]
+  sigma2_star <- t_frac[j] - t_frac[i]
+
+  prob1 <- 1 - pnorm((sqrt(t_frac[j])*eff_bound[j, ] - sqrt(t_frac[i])*zi - mu_star)/sqrt(sigma2_star))
 
   # return list of results
   output <- list(theta = list(theta0 = 0, theta1 = theta),
