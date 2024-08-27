@@ -38,7 +38,7 @@ test_that("Validate calendar-time driven design",{
   expect_equal(x$analysis$time, c(12, 24, 36))
 })
 
-test_that("Validate calendar-time driven design -- A",{
+test_that("Validate calendar-time and info-frac driven design -- A",{
   analysis_time <- c(12, 24, 36)
   info_frac <- c(0.3, 0.7, 1)
   # output from gsDesign2
@@ -62,7 +62,7 @@ test_that("Validate calendar-time driven design -- A",{
   expect_equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5)
 })
 
-test_that("Validate calendar-time driven design -- B",{
+test_that("Validate calendar-time and info-frac driven design -- B",{
   analysis_time <- c(18, 29, 36)
   info_frac <- c(0.3, 0.7, 1)
   # output from gsDesign2
@@ -86,7 +86,7 @@ test_that("Validate calendar-time driven design -- B",{
   expect_equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5)
 })
 
-test_that("Validate calendar-time driven design -- C",{
+test_that("Validate calendar-time and info-frac driven design -- C",{
   analysis_time <- c(18, 24, 36)
   info_frac <- c(0.3, 0.7, 1)
   # output from gsDesign2
