@@ -171,11 +171,6 @@ check_rel_width <- function(width, n_col) {
 #' @param display_columns A vector of strings specifying the variables to be
 #'   displayed in the summary table.
 #' @param display_inf_bound Logical, whether to display the +/-inf bound.
-#' @param full_alpha The full alpha used in the design, the default is 0.025.
-#    If the cumulative alpha for final analysis is less than the `full_alpha`
-#'   when the futility bound is non-binding, a footnote will be displayed, saying
-#'   the smaller value subtracts the probability of crossing a futility bound before
-#'   crossing an efficacy bound at a later analysis under the null hypothesis.
 #' @inheritParams r2rtf::rtf_page
 #' @inheritParams r2rtf::rtf_body
 #' @param file File path for the output.
@@ -283,7 +278,6 @@ as_rtf.gs_design <- function(
     display_bound = c("Efficacy", "Futility"),
     display_columns = NULL,
     display_inf_bound = TRUE,
-    full_alpha = 0.025,
     col_rel_width = NULL,
     orientation = c("portrait", "landscape"),
     text_font_size = 9,
@@ -368,7 +362,7 @@ as_rtf.gs_design <- function(
   }
 
   # add footnote for non-binding design
-  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha, full_alpha)
+  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha)
   if (!is.null(footnote_nb)) {
     mkr <- marker()
     i <- gsd_footnote_row(x, display_bound[1])
