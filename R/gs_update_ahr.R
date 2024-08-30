@@ -466,7 +466,7 @@ gs_update_ahr <- function(
     }
   )
 
-  ans <- add_class(ans, "updated_design")
+  class(ans) <- c(class(x), "updated_design")
 
   return(ans)
 }
