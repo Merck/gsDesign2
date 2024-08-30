@@ -97,28 +97,14 @@ summary.fixed_design <- function(object, ...) {
     ), fixed = TRUE)
   )
 
-  ans <- x$analysis %>% mutate(design = x_design)
-  ans <- ans %>% dplyr::rename(Design = design)
-
-  if ("n" %in% names(ans)) {
-    ans <- ans %>% dplyr::rename(N = n)
-  }
-
-  if ("event" %in% names(ans)) {
-    ans <- ans %>% dplyr::rename(Events = event)
-  }
-
-  if ("time" %in% names(ans)) {
-    ans <- ans %>% dplyr::rename(Time = time)
-  }
-
-  if ("bound" %in% names(ans)) {
-    ans <- ans %>% dplyr::rename(Bound = bound)
-  }
-
-  if ("power" %in% names(ans)) {
-    ans <- ans %>% dplyr::rename(Power = power)
-  }
+  ans <- within(x$analysis, design <- x_design)
+  nms <- c("design", "n", "event", "time", "bound", "power")
+  i <- names(ans) %in% nms
+  # capitalize the first letter
+  names(ans)[i] <- sub("^(.)", "\\U\\1", names(ans)[i], perl = TRUE)
+  # special case: Event -> Events
+  i <- names(ans) == "Event"
+  names(ans)[i] <- "Events"
 
   class(ans) <- c("fixed_design", x$design, class(ans))
   return(ans)
