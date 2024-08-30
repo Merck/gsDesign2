@@ -28,3 +28,8 @@ replace_values <- function(x, old, new = identity) {
   x[i] <- new(x[i])
   x
 }
+
+# round only if input is numeric
+round2 <- function(x, ...) {
+  if (is.numeric(x)) round(x, ...) else x
+}

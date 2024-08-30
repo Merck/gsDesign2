@@ -564,7 +564,6 @@ summary.gs_design <- function(object,
     )
   }
 
-  # Set the decimals to display ----
   col_vars <- replace_values(
     col_vars,
     c("analysis", "bound", "z", "~risk difference at bound", "~hr at bound", "~whr at bound", "nominal p"),
@@ -575,55 +574,15 @@ summary.gs_design <- function(object,
       x
     }
   )
+  names(col_decimals) <- col_vars
 
-  x_decimals <- tibble::tibble(
-    col_vars = col_vars,
-    col_decimals = col_decimals
+  output <- select(output, all_of(col_vars))
+  # Set the decimals to display ----
+  round_vars <- c(
+    "Z", "~HR at bound", "~Risk difference at bound", "Nominal p",
+    "Alternate hypothesis", "Null hypothesis"
   )
-
-  output <- output %>% select(x_decimals$col_vars)
-  if ("Z" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at(
-      "Z",
-      round,
-      (x_decimals %>% filter(col_vars == "Z"))$col_decimals
-    )
-  }
-  if ("~HR at bound" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at(
-      "~HR at bound",
-      round,
-      (x_decimals %>% filter(col_vars == "~HR at bound"))$col_decimals
-    )
-  }
-  if ("~Risk difference at bound" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at(
-      "~Risk difference at bound",
-      round,
-      (x_decimals %>% filter(col_vars == "~Risk difference at bound"))$col_decimals
-    )
-  }
-  if ("Nominal p" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at(
-      "Nominal p",
-      round,
-      (x_decimals %>% filter(col_vars == "Nominal p"))$col_decimals
-    )
-  }
-  if ("Alternate hypothesis" %in% colnames(output)) {
-    output <- output %>% dplyr::mutate_at(
-      "Alternate hypothesis",
-      round,
-      (x_decimals %>% filter(col_vars == "Alternate hypothesis"))$col_decimals
-    )
-  }
-  if ("Null hypothesis" %in% colnames(output) && is.vector(output[["Null hypothesis"]], mode = "numeric")) {
-    output <- output %>% dplyr::mutate_at(
-      "Null hypothesis",
-      round,
-      (x_decimals %>% filter(col_vars == "Null hypothesis"))$col_decimals
-    )
-  }
+  for (j in round_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
 
   class(output) <- c(method, "gs_design", class(output))
   if ("non_binding" %in% class(object)) {
