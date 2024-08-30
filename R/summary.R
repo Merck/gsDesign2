@@ -91,14 +91,10 @@ summary.fixed_design <- function(object, ...) {
       "Fleming-Harrington FH(", x$design_par$rho, ", ", x$design_par$gamma, ")",
       if (x$design_par$rho == 0 && x$design_par$gamma == 0) " (logrank)"
     ),
-    maxcombo = {
-      temp <- paste0(
-        "MaxCombo: FH(",
-        paste(apply(do.call(rbind, x$design_par[c(1:2)]), 2, paste, collapse = ", "), collapse = "), FH("),
-        ")"
-      )
-      gsub("FH\\(0, 0\\)", "logrank", temp)
-    }
+    maxcombo = gsub("FH(0, 0)", "logrank", paste(
+      "MaxCombo:",
+      paste0("FHC(", x$design_par[[1]], ", ", x$design_par[[2]], ")", collapse = ", "),
+    ), fixed = TRUE)
   )
 
   ans <- x$analysis %>% mutate(design = x_design)
