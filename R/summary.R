@@ -584,10 +584,9 @@ summary.gs_design <- function(object,
   )
   for (j in round_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
 
-  class(output) <- c(method, "gs_design", class(output))
-  if ("non_binding" %in% class(object)) {
-    class(output) <- c("non_binding", class(output))
-  }
+  output <- add_class(
+    output, method, intersect("non_binding", class(object)), method, "gs_design"
+  )
 
   # Save the full alpha as an attribute of the output summary table
   attr(output, "full_alpha") <-
