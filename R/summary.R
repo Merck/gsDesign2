@@ -589,18 +589,11 @@ summary.gs_design <- function(object,
   )
 
   # Save the full alpha as an attribute of the output summary table
-  attr(output, "full_alpha") <-
-    if (is.null(object$input$alpha)) {
-      # case when given sample size to calculate power
-      if (!is.list(object$input$upar)) {
-        0.025
-      } else {
-        object$input$upar$total_spend
-      }
-    } else {
-      # case when given power to calcuate sample size
-      object$input$alpha
-    }
+  # Use input$alpha when given power to calculate sample size
+  attr(output, "full_alpha") <- object$input$alpha %||% {
+    # when given sample size to calculate power
+    if (is.list(object$input$upar)) object$input$upar$total_spend else 0.025
+  }
 
   return(output)
 }
