@@ -295,49 +295,27 @@ summary.gs_design <- function(object,
   n_analysis <- max(x_analysis$analysis)
 
   # Prepare the columns decimals ----
-  col_decimals_default <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
-  col_vars_default <- c(
+  default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
+  default_vars <- c(
     "analysis", "bound", "z",
     sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
     "nominal p", "Alternate hypothesis", "Null hypothesis"
   )
 
   # Filter columns and update decimal places
-  names(col_decimals_default) <- col_vars_default
-  if (is.null(col_vars) && is.null(col_decimals)) {
-    # Use default values
-    col_vars <- col_vars_default
-    col_decimals <- col_decimals_default
-  } else if (!is.null(col_vars) && is.null(col_decimals)) {
-    # Only drop/rearrange variables
-    col_decimals <- col_decimals_default[
-      match(col_vars, names(col_decimals_default))
-    ]
-  } else if (is.null(col_vars) && !is.null(col_decimals)) {
-    # Only update decimals - must be named vector
-    if (is.null(names(col_decimals))) {
-      stop("summary: col_decimals must be a named vector if col_vars is not provided")
-    }
-    col_vars <- col_vars_default
-    col_decimals_tmp <- col_decimals_default
-    col_decimals_tmp[names(col_decimals)] <- col_decimals
-    col_decimals <- col_decimals_tmp
-  } else if (!is.null(col_vars) && !is.null(col_decimals)) {
-    # Update variables and decimals
-    if (is.null(names(col_decimals))) {
-      # vectors must be same length if col_decimals is unnamed
-      if (length(col_vars) != length(col_decimals)) {
-        stop("summary: please input col_vars and col_decimals in pairs!")
-      }
-    } else {
-      col_decimals_tmp <- col_decimals_default
-      col_decimals_tmp[names(col_decimals)] <- col_decimals
-      col_decimals <- col_decimals_tmp
-      col_decimals <- col_decimals[
-        match(col_vars, names(col_decimals))
-      ]
-    }
+  names(default_decimals) <- default_vars
+  # Merge user-provided named decimals into default
+  decimals_vars <- names(col_decimals)
+  default_decimals[decimals_vars] <- col_decimals
+
+  if (is.null(col_vars)) {
+    if (!is.null(col_decimals) && is.null(decimals_vars))
+      stop("'col_decimals' must be a named vector if 'col_vars' is not provided")
+    col_vars <- default_vars
   }
+  col_decimals <- (if (is.null(decimals_vars)) col_decimals) %||% default_decimals[col_vars]
+  if (length(col_vars) != length(col_decimals))
+    stop("'col_vars' and 'col_decimals' must be of the same length")
 
   # "bound" is a required column
   if (!"bound" %in% col_vars) {

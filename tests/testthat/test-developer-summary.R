@@ -235,7 +235,7 @@ test_that("summary.gs_design() accepts same-length vectors for col_vars and col_
       col_vars = c("Null hypothesis", "Alternate hypothesis", "nominal p"),
       col_decimals = c(0, 0),
     ),
-    "summary: please input col_vars and col_decimals in pairs!"
+    "'col_vars' and 'col_decimals' must be of the same length"
   )
 })
 
@@ -284,6 +284,6 @@ test_that("summary.gs_design() accepts a named vector for col_decimals", {
   # Throw error is col_decimals is unnamed
   expect_error(
     summary(x, col_decimals = c(4, 4)),
-    "summary: col_decimals must be a named vector if col_vars is not provided"
+    "'col_decimals' must be a named vector if 'col_vars' is not provided"
   )
 })
