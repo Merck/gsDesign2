@@ -322,11 +322,6 @@ summary.gs_design <- function(object,
     col_decimals <- c(NA, col_decimals)
   }
 
-  x_decimals <- tibble::tibble(
-    col_vars = col_vars,
-    col_decimals = col_decimals
-  )
-
   # Prepare the analysis summary row ----
   # get the
   # (1) analysis variables to be displayed on the header
@@ -570,43 +565,21 @@ summary.gs_design <- function(object,
   }
 
   # Set the decimals to display ----
-  if ("analysis" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "analysis", "Analysis", col_vars))
-  }
+  col_vars <- replace_values(
+    col_vars,
+    c("analysis", "bound", "z", "~risk difference at bound", "~hr at bound", "~whr at bound", "nominal p"),
+    function(x) {
+      x <- cap_initial(x)
+      x <- gsub("^~risk ", "~Risk ", x)
+      x <- gsub("^(~w?)(hr) ", "\\1HR ", x, perl = TRUE)
+      x
+    }
+  )
 
-  if ("bound" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "bound", "Bound", col_vars))
-  }
-
-  if ("z" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "z", "Z", col_vars))
-  }
-
-  if ("~risk difference at bound" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>%
-      mutate(col_vars = dplyr::if_else(col_vars == "~risk difference at bound",
-        "~Risk difference at bound", col_vars
-      ))
-  }
-
-  if ("~hr at bound" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>%
-      mutate(col_vars = dplyr::if_else(col_vars == "~hr at bound",
-        "~HR at bound", col_vars
-      ))
-  }
-
-  if ("~whr at bound" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>%
-      mutate(col_vars = dplyr::if_else(col_vars == "~whr at bound",
-        "~wHR at bound", col_vars
-      ))
-  }
-
-  if ("nominal p" %in% x_decimals$col_vars) {
-    x_decimals <- x_decimals %>% mutate(col_vars = dplyr::if_else(col_vars == "nominal p", "Nominal p", col_vars))
-  }
-
+  x_decimals <- tibble::tibble(
+    col_vars = col_vars,
+    col_decimals = col_decimals
+  )
 
   output <- output %>% select(x_decimals$col_vars)
   if ("Z" %in% colnames(output)) {
