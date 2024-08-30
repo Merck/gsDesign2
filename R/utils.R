@@ -16,3 +16,15 @@ add_class <- function(x, ...) {
   class(x) <- c(..., class(x))
   x
 }
+
+# capitalize initial letters
+cap_initial <- function(x) {
+  sub("^(.)", "\\U\\1", x, perl = TRUE)
+}
+
+# replace elements with values transformed by new()
+replace_values <- function(x, old, new = identity) {
+  i <- x %in% old
+  x[i] <- new(x[i])
+  x
+}

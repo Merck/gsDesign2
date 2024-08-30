@@ -98,13 +98,12 @@ summary.fixed_design <- function(object, ...) {
     ), fixed = TRUE)
   )
 
-  nms <- c("design", "n", "event", "time", "bound", "power")
-  i <- names(ans) %in% nms
-  # capitalize the first letter
-  names(ans)[i] <- sub("^(.)", "\\U\\1", names(ans)[i], perl = TRUE)
-  # special case: Event -> Events
-  i <- names(ans) == "Event"
-  names(ans)[i] <- "Events"
+  names(ans) <- replace_values(
+    names(ans), c("design", "n", "event", "time", "bound", "power"), function(x) {
+      # capitalize words with special case of Event -> Events
+      ifelse(x == "event", "Events", cap_initial(x))
+    }
+  )
 
   ans <- add_class(ans, "fixed_design", x$design)
   return(ans)
