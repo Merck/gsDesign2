@@ -93,7 +93,7 @@ summary.fixed_design <- function(object, ...) {
     ),
     maxcombo = gsub("FH(0, 0)", "logrank", paste(
       "MaxCombo:",
-      paste0("FHC(", x$design_par[[1]], ", ", x$design_par[[2]], ")", collapse = ", "),
+      paste0("FHC(", x$design_par[[1]], ", ", x$design_par[[2]], ")", collapse = ", ")
     ), fixed = TRUE)
   )
 
