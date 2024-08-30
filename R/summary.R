@@ -79,7 +79,8 @@
 #'
 summary.fixed_design <- function(object, ...) {
   x <- object
-  x_design <- switch(
+  ans <- x$analysis
+  ans$design <- switch(
     x$design,
     ahr = "Average hazard ratio",
     lf = "Lachin and Foulkes",
@@ -97,7 +98,6 @@ summary.fixed_design <- function(object, ...) {
     ), fixed = TRUE)
   )
 
-  ans <- within(x$analysis, design <- x_design)
   nms <- c("design", "n", "event", "time", "bound", "power")
   i <- names(ans) %in% nms
   # capitalize the first letter
