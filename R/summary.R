@@ -87,11 +87,10 @@ summary.fixed_design <- function(object, ...) {
     milestone = paste0("Milestone: tau = ", x$design_par$tau),
     rmst = paste0("RMST: tau = ", x$design_par$tau),
     mb = paste0("Modestly weighted LR: tau = ", x$design_par$tau),
-    fh = if (x$design_par$rho == 0 & x$design_par$gamma == 0) {
-      paste0("Fleming-Harrington FH(0, 0) (logrank)")
-    } else {
-      paste0("Fleming-Harrington FH(", x$design_par$rho, ", ", x$design_par$gamma, ")")
-    },
+    fh = paste0(
+      "Fleming-Harrington FH(", x$design_par$rho, ", ", x$design_par$gamma, ")",
+      if (x$design_par$rho == 0 && x$design_par$gamma == 0) " (logrank)"
+    ),
     maxcombo = {
       temp <- paste0(
         "MaxCombo: FH(",
