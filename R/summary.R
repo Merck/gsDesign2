@@ -289,7 +289,7 @@ summary.gs_design <- function(object,
                               bound_names = c("Efficacy", "Futility"),
                               ...) {
   x <- object
-  method <- class(x)[class(x) %in% c("ahr", "wlr", "combo", "rd")]
+  method <- get_method(x, c("ahr", "wlr", "combo", "rd"))
   x_bound <- x$bound
   x_analysis <- x$analysis
   n_analysis <- max(x_analysis$analysis)
