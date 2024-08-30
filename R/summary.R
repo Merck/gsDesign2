@@ -316,11 +316,20 @@ summary.gs_design <- function(object,
   if (length(col_vars) != length(col_decimals))
     stop("'col_vars' and 'col_decimals' must be of the same length")
 
+  col_vars <- replace_values(
+    col_vars,
+    c("analysis", "bound", "z", "~risk difference at bound", "~hr at bound", "~whr at bound", "nominal p"),
+    function(x) {
+      x <- cap_initial(x)
+      x <- gsub("^~risk ", "~Risk ", x)
+      x <- gsub("^(~w?)(hr) ", "\\1HR ", x, perl = TRUE)
+      x
+    }
+  )
+  names(col_decimals) <- col_vars
+
   # "bound" is a required column
-  if (!"bound" %in% col_vars) {
-    col_vars <- c("bound", col_vars)
-    col_decimals <- c(NA, col_decimals)
-  }
+  if (!"Bound" %in% names(col_decimals)) col_decimals <- c(Bound = NA, col_decimals)
 
   # Prepare the analysis summary row ----
   # get the
@@ -564,19 +573,7 @@ summary.gs_design <- function(object,
     )
   }
 
-  col_vars <- replace_values(
-    col_vars,
-    c("analysis", "bound", "z", "~risk difference at bound", "~hr at bound", "~whr at bound", "nominal p"),
-    function(x) {
-      x <- cap_initial(x)
-      x <- gsub("^~risk ", "~Risk ", x)
-      x <- gsub("^(~w?)(hr) ", "\\1HR ", x, perl = TRUE)
-      x
-    }
-  )
-  names(col_decimals) <- col_vars
-
-  output <- select(output, all_of(col_vars))
+  output <- select(output, all_of(names(col_decimals)))
   # Set the decimals to display ----
   round_vars <- c(
     "Z", "~HR at bound", "~Risk difference at bound", "Nominal p",
