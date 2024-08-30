@@ -295,33 +295,12 @@ summary.gs_design <- function(object,
   n_analysis <- max(x_analysis$analysis)
 
   # Prepare the columns decimals ----
-  if (method == "ahr") {
-    col_vars_default <- c(
-      "analysis", "bound", "z", "~hr at bound", "nominal p",
-      "Alternate hypothesis", "Null hypothesis"
-    )
-    col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
-  } else if (method == "wlr") {
-    col_vars_default <- c(
-      "analysis", "bound", "z", "~whr at bound", "nominal p",
-      "Alternate hypothesis", "Null hypothesis"
-    )
-    col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
-  } else if (method == "combo") {
-    col_vars_default <- c(
-      "analysis", "bound", "z", "nominal p",
-      "Alternate hypothesis", "Null hypothesis"
-    )
-    col_decimals_default <- c(NA, NA, 2, 4, 4, 4)
-  } else if (method == "rd") {
-    col_vars_default <- c(
-      "analysis", "bound", "z", "~risk difference at bound",
-      "nominal p", "Alternate hypothesis", "Null hypothesis"
-    )
-    col_decimals_default <- c(NA, NA, 2, 4, 4, 4, 4)
-  } else {
-    stop("Invalid method: ", method)
-  }
+  col_decimals_default <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
+  col_vars_default <- c(
+    "analysis", "bound", "z",
+    sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
+    "nominal p", "Alternate hypothesis", "Null hypothesis"
+  )
 
   # Filter columns and update decimal places
   names(col_decimals_default) <- col_vars_default
