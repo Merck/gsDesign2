@@ -268,10 +268,6 @@ gs_design_wlr <- function(
     analysis = analysis
   )
 
-  class(ans) <- c("wlr", "gs_design", class(ans))
-  if (!binding) {
-    class(ans) <- c("non_binding", class(ans))
-  }
-
+  ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
   return(ans)
 }

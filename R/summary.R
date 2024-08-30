@@ -106,7 +106,7 @@ summary.fixed_design <- function(object, ...) {
   i <- names(ans) == "Event"
   names(ans)[i] <- "Events"
 
-  class(ans) <- c("fixed_design", x$design, class(ans))
+  ans <- add_class(ans, "fixed_design", x$design)
   return(ans)
 }
 

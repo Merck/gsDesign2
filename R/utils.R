@@ -10,3 +10,9 @@ if (!exists('%||%', baseenv(), inherits = FALSE)) `%||%` <- function(x, y) {
   for (i in idx) x[[i]] <- c(x[[i]], y[[i]])
   x
 }
+
+# add more classes to an object
+add_class <- function(x, ...) {
+  class(x) <- c(..., class(x))
+  x
+}
