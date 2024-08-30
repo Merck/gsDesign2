@@ -302,31 +302,18 @@ summary.gs_design <- function(object,
   )
 
   # Filter columns and update decimal places
-  names(default_decimals) <- default_vars
-  # Merge user-provided named decimals into default
-  decimals_vars <- names(col_decimals)
-  default_decimals[decimals_vars] <- col_decimals
-
-  if (is.null(col_vars)) {
-    if (!is.null(col_decimals) && is.null(decimals_vars))
-      stop("'col_decimals' must be a named vector if 'col_vars' is not provided")
-    col_vars <- default_vars
-  }
-  col_decimals <- (if (is.null(decimals_vars)) col_decimals) %||% default_decimals[col_vars]
-  if (length(col_vars) != length(col_decimals))
-    stop("'col_vars' and 'col_decimals' must be of the same length")
-
-  col_vars <- replace_values(
-    col_vars,
-    c("analysis", "bound", "z", "~risk difference at bound", "~hr at bound", "~whr at bound", "nominal p"),
-    function(x) {
+  col_decimals <- get_decimals(col_vars, col_decimals, default_vars, default_decimals, list(
+    names = c(
+      "analysis", "bound", "z", "~risk difference at bound", "~hr at bound",
+      "~whr at bound", "nominal p"
+    ),
+    fun = function(x) {
       x <- cap_initial(x)
       x <- gsub("^~risk ", "~Risk ", x)
       x <- gsub("^(~w?)(hr) ", "\\1HR ", x, perl = TRUE)
       x
     }
-  )
-  names(col_decimals) <- col_vars
+  ))
 
   # "bound" is a required column
   if (!"Bound" %in% names(col_decimals)) col_decimals <- c(Bound = NA, col_decimals)
@@ -593,4 +580,27 @@ summary.gs_design <- function(object,
   }
 
   return(output)
+}
+
+# get a named vector of decimals (names are variable names)
+get_decimals <- function(vars, decs, vars_default, decs_default, replace) {
+  names(decs_default) <- vars_default
+  # Merge user-provided named decimals into default
+  decs_vars <- names(decs)
+  decs_default[decs_vars] <- decs
+
+  vars_name <- as.character(substitute(vars))
+  decs_name <- as.character(substitute(decs))
+  if (is.null(vars)) {
+    if (!is.null(decs) && is.null(decs_vars))
+      stop("'", decs_name, "' must be a named vector if '", vars_name, "' is not provided")
+    vars <- vars_default
+  }
+  decs <- (if (is.null(decs_vars)) decs) %||% decs_default[vars]
+  if (length(vars) != length(decs))
+    stop("'", vars_name, "' and '", decs_name, "' must be of the same length")
+  attr(decs, "old_names") <- vars
+  vars <- replace_values(vars, replace$names, replace$fun)
+  names(decs) <- vars
+  decs
 }
