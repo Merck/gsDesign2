@@ -322,59 +322,24 @@ summary.gs_design <- function(object,
   # get the
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
-  if (method == "ahr") {
-    analysis_vars_default <- c("time", "n", "event", "ahr", "info_frac0")
-    analysis_decimals_default <- c(1, 1, 1, 2, 2)
-  }
-  if (method == "wlr") {
-    analysis_vars_default <- c("time", "n", "event", "ahr", "info_frac")
-    analysis_decimals_default <- c(1, 1, 1, 2, 2)
-  }
-  if (method == "combo") {
-    analysis_vars_default <- c("time", "n", "event", "ahr", "event_frac")
-    analysis_decimals_default <- c(1, 1, 1, 2, 2)
-  }
-  if (method == "rd") {
-    analysis_vars_default <- c("n", "rd", "info_frac")
-    analysis_decimals_default <- c(1, 4, 2)
-  }
+  default_vars <- if (method == "rd") c("n", "rd", "info_frac") else c(
+    "time", "n", "event", "ahr",
+    switch(method, ahr = "info_frac0", wlr = "info_frac", combo = "event_frac")
+  )
+  default_decimals <- if (method == "rd") c(1, 4, 2) else c(1, 1, 1, 2, 2)
 
   # Filter analysis variables and update decimal places
-  names(analysis_decimals_default) <- analysis_vars_default
-  if (is.null(analysis_vars) && is.null(analysis_decimals)) {
-    # Use default values
-    analysis_vars <- analysis_vars_default
-    analysis_decimals <- analysis_decimals_default
-  } else if (!is.null(analysis_vars) && is.null(analysis_decimals)) {
-    # Only drop/rearrange variables
-    analysis_decimals <- analysis_decimals_default[
-      match(analysis_vars, names(analysis_decimals_default))
-    ]
-  } else if (is.null(analysis_vars) && !is.null(analysis_decimals)) {
-    # Only update decimals - must be named vector
-    if (is.null(names(analysis_decimals))) {
-      stop("summary: analysis_decimals must be a named vector if analysis_vars is not provided")
-    }
-    analysis_vars <- analysis_vars_default
-    analysis_decimals_tmp <- analysis_decimals_default
-    analysis_decimals_tmp[names(analysis_decimals)] <- analysis_decimals
-    analysis_decimals <- analysis_decimals_tmp
-  } else if (!is.null(analysis_vars) && !is.null(analysis_decimals)) {
-    # Update variables and decimals
-    if (is.null(names(analysis_decimals))) {
-      # vectors must be same length if analysis_decimals is unnamed
-      if (length(analysis_vars) != length(analysis_decimals)) {
-        stop("summary: please input analysis_vars and analysis_decimals in pairs!")
-      }
-    } else {
-      analysis_decimals_tmp <- analysis_decimals_default
-      analysis_decimals_tmp[names(analysis_decimals)] <- analysis_decimals
-      analysis_decimals <- analysis_decimals_tmp
-      analysis_decimals <- analysis_decimals[
-        match(analysis_vars, names(analysis_decimals))
-      ]
-    }
-  }
+  old_vars <- c("analysis", "time", "event", "ahr", "n", "info_frac0", "info_frac", "event_frac")
+  map_vars <- setNames(cap_initial(old_vars), old_vars)  # map old to new names
+  map_vars[c("ahr", "info_frac0", "info_frac", "event_frac")] <- c(
+    "AHR", "Information fraction", "Information fraction", "Event fraction"
+  )
+  analysis_decimals <- get_decimals(
+    analysis_vars, analysis_decimals, default_vars, default_decimals, list(
+      names = old_vars, fun = function(x) map_vars[x]
+    )
+  )
+  analysis_vars <- attr(analysis_decimals, "old_names")  # (lowercase) old names
 
   # set the analysis summary header
   analyses <- x_analysis %>%
@@ -382,46 +347,9 @@ summary.gs_design <- function(object,
     dplyr::filter(dplyr::row_number() == 1) %>%
     dplyr::select(all_of(c("analysis", analysis_vars))) %>%
     dplyr::arrange(analysis)
-
-  if ("analysis" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(Analysis = analysis)
-  }
-
-  if ("time" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(Time = time)
-    analysis_vars <- replace(analysis_vars, analysis_vars == "time", "Time")
-  }
-
-  if ("event" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(Event = event)
-    analysis_vars <- replace(analysis_vars, analysis_vars == "event", "Event")
-  }
-
-  if ("ahr" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(AHR = ahr)
-    analysis_vars <- replace(analysis_vars, analysis_vars == "ahr", "AHR")
-  }
-
-  if ("n" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(N = n)
-    analysis_vars <- replace(analysis_vars, analysis_vars == "n", "N")
-  }
-
-  if ("info_frac0" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac0)
-    analysis_vars <- replace(analysis_vars, analysis_vars == "info_frac0", "Information fraction")
-  }
-
-  if ("info_frac" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(`Information fraction` = info_frac)
-    analysis_vars <- replace(analysis_vars, analysis_vars == "info_frac", "Information fraction")
-  }
-
-
-  if ("event_frac" %in% names(analyses)) {
-    analyses <- analyses %>% dplyr::rename(`Event fraction` = event_frac)
-    analysis_vars <- replace(analysis_vars, analysis_vars == "event_frac", "Event fraction")
-  }
+  # rename to new names
+  names(analyses) <- replace_values(names(analyses), old_vars, function(x) map_vars[x])
+  analysis_vars <- names(analysis_decimals)  # update to new names
 
   # Merge 2 tables:
   # 1. Alternate hypothesis table.

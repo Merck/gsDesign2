@@ -60,7 +60,7 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
       analysis_vars = c("info_frac", "ahr", "event", "n", "time"),
       analysis_decimals = c(4, 4),
     ),
-    "summary: please input analysis_vars and analysis_decimals in pairs!"
+    "'analysis_vars' and 'analysis_decimals' must be of the same length"
   )
 })
 
@@ -118,7 +118,7 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
   # Throw error is analysis_decimals is unnamed
   expect_error(
     summary(x, analysis_decimals = c(4, 4)),
-    "summary: analysis_decimals must be a named vector if analysis_vars is not provided"
+    "'analysis_decimals' must be a named vector if 'analysis_vars' is not provided"
   )
 })
 
