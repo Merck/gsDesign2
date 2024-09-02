@@ -22,7 +22,7 @@
 #' @param ... Additional parameters (not used).
 #'
 #' @return A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
-#'   except the sample size is an integer.
+#'   except the sample size and event counts are integers.
 #'
 #' @export to_integer
 to_integer <- function(x, ...) {
@@ -31,8 +31,8 @@ to_integer <- function(x, ...) {
 
 #' @rdname to_integer
 #'
-#' @param sample_size Logical, indicting if ceiling
-#'   sample size to an even integer.
+#' @param sample_size Logical, indicating that ceiling
+#'   sample size should be set to an integer.
 #'
 #' @export
 #'
@@ -313,7 +313,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     }
 
     # Updated lpar
-    # If it is spending bounds
+    # If spending bounds
     # Scenario 1: information-based spending
     # Scenario 2: calendar-based spending
     if (identical(x$input$lower, gs_b)) {
