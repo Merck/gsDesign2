@@ -345,9 +345,8 @@ summary.gs_design <- function(object,
     dplyr::group_by(analysis) %>%
     dplyr::filter(dplyr::row_number() == 1) %>%
     dplyr::select(all_of(c("analysis", analysis_vars))) %>%
-    dplyr::arrange(analysis)
-  # rename to new names
-  names(analyses) <- replace_values(names(analyses), map_vars)
+    dplyr::arrange(analysis) %>%
+    rename_to(map_vars)
   analysis_vars <- names(analysis_decimals)  # update to new names
 
   # Merge 2 tables:
@@ -355,12 +354,12 @@ summary.gs_design <- function(object,
   # 2. Null hypothesis table.
   #
   # Table A: a table under alternative hypothesis.
-  xy <- x_bound %>%
-    dplyr::rename("Alternate hypothesis" = probability) %>%
-    dplyr::rename("Null hypothesis" = probability0) %>%
-    # change Upper -> bound_names[1], e.g., Efficacy
-    # change Lower -> bound_names[2], e.g., Futility
-    dplyr::mutate(bound = dplyr::recode(bound, "upper" = bound_names[1], "lower" = bound_names[2]))
+  xy <- x_bound %>% rename_to(c(
+    probability = "Alternate hypothesis", probability0 = "Null hypothesis"
+  ))
+  # change Upper -> bound_names[1], e.g., Efficacy
+  # change Lower -> bound_names[2], e.g., Futility
+  xy$bound = replace_values(xy$bound, c("upper" = bound_names[1], "lower" = bound_names[2]))
 
   if ("probability0" %in% colnames(x_bound)) {
     xy <- x_bound %>%

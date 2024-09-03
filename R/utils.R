@@ -36,6 +36,12 @@ replace_values <- function(x, old, new = identity) {
   x
 }
 
+# a shorthand based on replace_values() to rename an object
+rename_to <- function(x, ...) {
+  names(x) <- replace_values(names(x), ...)
+  x
+}
+
 # round only if input is numeric
 round2 <- function(x, ...) {
   if (is.numeric(x)) round(x, ...) else x
