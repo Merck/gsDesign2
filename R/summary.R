@@ -335,9 +335,8 @@ summary.gs_design <- function(object,
     "AHR", "Information fraction", "Information fraction", "Event fraction"
   )
   analysis_decimals <- get_decimals(
-    analysis_vars, analysis_decimals, default_vars, default_decimals, list(
-      names = old_vars, fun = function(x) map_vars[x]
-    )
+    analysis_vars, analysis_decimals, default_vars, default_decimals,
+    list(names = map_vars)
   )
   analysis_vars <- attr(analysis_decimals, "old_names")  # (lowercase) old names
 
@@ -348,7 +347,7 @@ summary.gs_design <- function(object,
     dplyr::select(all_of(c("analysis", analysis_vars))) %>%
     dplyr::arrange(analysis)
   # rename to new names
-  names(analyses) <- replace_values(names(analyses), old_vars, function(x) map_vars[x])
+  names(analyses) <- replace_values(names(analyses), map_vars)
   analysis_vars <- names(analysis_decimals)  # update to new names
 
   # Merge 2 tables:

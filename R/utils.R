@@ -22,10 +22,17 @@ cap_initial <- function(x) {
   sub("^(.)", "\\U\\1", x, perl = TRUE)
 }
 
-# replace elements with values transformed by new()
+# replace elements with values from a named vector `old` (of the form
+# `c(old_value = new_value)`); if `old` is unnamed, apply a function new() to
+# the old values
 replace_values <- function(x, old, new = identity) {
-  i <- x %in% old
-  x[i] <- new(x[i])
+  if (is.null(names(old))) {
+    i <- x %in% old
+    x[i] <- new(x[i])
+  } else {
+    i <- x %in% names(old)
+    x[i] <- old[x[i]]
+  }
   x
 }
 
