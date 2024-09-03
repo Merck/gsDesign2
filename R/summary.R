@@ -361,20 +361,8 @@ summary.gs_design <- function(object,
   # change Lower -> bound_names[2], e.g., Futility
   xy$bound = replace_values(xy$bound, c("upper" = bound_names[1], "lower" = bound_names[2]))
 
-  if ("probability0" %in% colnames(x_bound)) {
-    xy <- x_bound %>%
-      dplyr::rename("Alternate hypothesis" = probability) %>%
-      dplyr::rename("Null hypothesis" = probability0)
-  } else {
-    xy <- x_bound %>%
-      dplyr::rename("Alternate hypothesis" = probability) %>%
-      tibble::add_column("Null hypothesis" = "-")
-  }
-  # change Upper -> bound_names[1], e.g., Efficacy
-  # change Lower -> bound_names[2], e.g., Futility
-  xy <- xy %>%
-    dplyr::mutate(bound = dplyr::recode(bound, "upper" = bound_names[1], "lower" = bound_names[2])) %>%
-    dplyr::arrange(analysis, desc(bound))
+  if (!"probability0" %in% names(x_bound)) xy$`Null hypothesis` <- "-"
+  xy <- xy %>% dplyr::arrange(analysis, desc(bound))
 
   # Merge 2 tables:
   # (1) Analysis summary table
