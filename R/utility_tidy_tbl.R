@@ -64,7 +64,7 @@
 table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_a)[1]) {
   anames <- names(table_a)
   # Round values in table_a
-  table_a <- rounddf(table_a, decimals)
+  table_a <- round_df(table_a, decimals)
   # Unite table_a's names with values
   astring <- apply(as.matrix(table_a), 1, function(row) {
     paste(anames, row, sep = ": ", collapse = " ")
@@ -79,19 +79,12 @@ table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_
   return(ab)
 }
 
-#' From https://github.com/sashahafner/jumbled/blob/master/rounddf.R
-#' @noRd
-rounddf <- function(x, digits = rep(2, ncol(x)), func = round) {
-  if (length(digits) == 1) {
-    digits <- rep(digits, ncol(x))
-  } else if (length(digits) != ncol(x)) {
-    digits <- c(digits, rep(digits[1], ncol(x) - length(digits)))
-    warning("First value in digits repeated to match length.")
+round_df <- function(x, digits = 2) {
+  n1 <- ncol(x); n2 <- length(digits)
+  if (n2 != 1 && n2 != n1) {
+    warning("'digits' is recycled to the length of ncol(x)")
   }
-
-  for (i in seq_len(ncol(x))) {
-    if (class(x[, i, drop = TRUE])[1] == "numeric") x[, i] <- func(x[, i], digits[i])
-  }
-
+  digits <- rep(digits, length.out = n1)
+  for (i in seq_len(n1)) x[, i] <- round2(x[, i, drop = TRUE], digits[i])
   return(x)
 }

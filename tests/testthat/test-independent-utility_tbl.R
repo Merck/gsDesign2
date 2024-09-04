@@ -1,14 +1,14 @@
-test_that("test rounddf", {
+test_that("test round_df", {
   x2 <- rnorm(3)
   x3 <- rnorm(3)
   tbl <- tibble::tibble(x1 = c("a", "b", "c"), x2 = x2, x3 = x3)
 
-  tbl_new <- rounddf(tbl, digits = 2)
+  tbl_new <- round_df(tbl, digits = 2)
   expect_equal(tbl_new$x1, tbl$x1)
   expect_equal(tbl_new$x2, round(x2, 2))
   expect_equal(tbl_new$x3, round(x3, 2))
 
-  tbl_new <- rounddf(tbl, digits = c(1, 1, 2))
+  tbl_new <- round_df(tbl, digits = c(1, 1, 2))
   expect_equal(tbl_new$x1, tbl$x1)
   expect_equal(tbl_new$x2, round(x2, 1))
   expect_equal(tbl_new$x3, round(x3, 2))
