@@ -42,7 +42,7 @@ rename_to <- function(x, ...) {
   x
 }
 
-# round only if input is numeric
-round2 <- function(x, ...) {
-  if (is.numeric(x)) round(x, ...) else x
+# round only if input is numeric and digits is provided
+round2 <- function(x, digits, ...) {
+  if (is.numeric(x) && !is.na(digits)) round(x, digits, ...) else x
 }
