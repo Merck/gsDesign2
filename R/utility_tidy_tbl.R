@@ -62,27 +62,20 @@
 #'     cells_row_groups(groups = 2)
 #'   )
 table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_a)[1]) {
-  # Convert tibbles to data frames, if needed
-  if (tibble::is_tibble(table_a)) table_a <- data.frame(table_a, check.names = FALSE)
-  if (tibble::is_tibble(table_b)) table_b <- data.frame(table_b, check.names = FALSE)
+  anames <- names(table_a)
   # Round values in table_a
-  table_a <- table_a %>% rounddf(digits = decimals)
-  # Put names from table_a in a data frame
-  anames <- data.frame(t(paste0(names(table_a), ":")))
-  # Bind columns from these 2 data frames together
-  xx <- cbind(table_a, anames)
-  # Get order of names to unite table_a columns together with names into a string
-  col_order <- c(rbind(names(anames), names(table_a)))
-  # Now unite columns of table_a into a string
-  astring <- xx %>% tidyr::unite("_alab", all_of(col_order), sep = " ")
-  # Bind this together with the byvar column
-  astring <- cbind(table_a %>% select(all_of(byvar)), astring)
-  # Now merge with table_b
-  ab <- left_join(astring, table_b, by = byvar)
-  # Remove column used for grouping
+  table_a <- rounddf(table_a, decimals)
+  # Unite table_a's names with values
+  astring <- apply(as.matrix(table_a), 1, function(row) {
+    paste(anames, row, sep = ": ", collapse = " ")
+  })
+  table_a <- cbind(table_a[byvar], `_alab` = astring)
+  # Left-join a with b
+  ab <- merge(table_a, table_b, by = byvar, all.x = TRUE, suffixes = c(".a", ""))
+  ab <- ab[, c("_alab", names(table_b)), drop = FALSE]
   ab[[byvar]] <- NULL
   # Use the new column name from the argument `aname`
-  colnames(ab)[grep("_alab", colnames(ab))] <- aname
+  ab <- rename_to(ab, c(`_alab` = aname))
   return(ab)
 }
 
