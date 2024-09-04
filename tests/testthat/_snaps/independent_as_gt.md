@@ -138,7 +138,7 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 471.1 Event: 289 AHR: 0.68 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Efficacy & 1.96 & 0.025 & 0.7940584 & 0.9 & 0.025 \\ 
+    Efficacy & 1.96 & 0.025 & 0.7941 & 0.9 & 0.025 \\ 
     \bottomrule
     \end{longtable}
     \begin{minipage}{\linewidth}
@@ -165,18 +165,18 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -1.17 & 0.8798 & 1.5352803 & 0.0341 & 0.1202 \\ 
-    Efficacy & 2.68 & 0.0037 & 0.3765151 & 0.0217 & 0.0037 \\ 
+    Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
+    Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.66 & 0.7452 & 1.2318826 & 0.0664 & 0.2664 \\ 
-    Efficacy & 2.29 & 0.0110 & 0.4846213 & 0.0886 & 0.0121 \\ 
+    Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
+    Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.22 & 0.5881 & 1.0650300 & 0.1002 & 0.4319 \\ 
-    Efficacy & 2.03 & 0.0212 & 0.5631414 & 0.2071 & 0.0250 \\ 
+    Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
+    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
     \begin{minipage}{\linewidth}
@@ -301,18 +301,18 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -1.17 & 0.8798 & 1.5352803 & 0.0341 & 0.1202 \\ 
-    Efficacy & 2.68 & 0.0037 & 0.3765151 & 0.0217 & 0.0037 \\ 
+    Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
+    Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.66 & 0.7452 & 1.2318826 & 0.0664 & 0.2664 \\ 
-    Efficacy & 2.29 & 0.0110 & 0.4846213 & 0.0886 & 0.0121 \\ 
+    Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
+    Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.22 & 0.5881 & 1.0650300 & 0.1002 & 0.4319 \\ 
-    Efficacy & 2.03 & 0.0212 & 0.5631414 & 0.2071 & 0.0250 \\ 
+    Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
+    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
     \begin{minipage}{\linewidth}
@@ -339,18 +339,18 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -1.17 & 0.8798 & 1.5352803 & 0.0341 & 0.1202 \\ 
-    Efficacy & 2.68 & 0.0037 & 0.3765151 & 0.0217 & 0.0037 \\ 
+    Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
+    Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.66 & 0.7452 & 1.2318826 & 0.0664 & 0.2664 \\ 
-    Efficacy & 2.29 & 0.0110 & 0.4846213 & 0.0886 & 0.0121 \\ 
+    Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
+    Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.22 & 0.5881 & 1.0650300 & 0.1002 & 0.4319 \\ 
-    Efficacy & 2.03 & 0.0212 & 0.5631414 & 0.2071 & 0.0250\textsuperscript{\textit{4}} \\ 
+    Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
+    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250\textsuperscript{\textit{4}} \\ 
     \bottomrule
     \end{longtable}
     \begin{minipage}{\linewidth}
@@ -378,18 +378,18 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -1.17 & 0.8798 & 1.5352803 & 0.0341 & 0.1202 \\ 
-    Efficacy & 2.68 & 0.0037 & 0.3765151 & 0.0217 & 0.0037 \\ 
+    Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
+    Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.66 & 0.7452 & 1.2318826 & 0.0664 & 0.2664 \\ 
-    Efficacy & 2.29 & 0.0110 & 0.4846213 & 0.0886 & 0.0121 \\ 
+    Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
+    Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.22 & 0.5881 & 1.0650300 & 0.1002 & 0.4319 \\ 
-    Efficacy & 2.03 & 0.0212 & 0.5631414 & 0.2071 & 0.0250 \\ 
+    Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
+    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
     \begin{minipage}{\linewidth}
@@ -417,15 +417,15 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Efficacy & 2.68 & 0.0037 & 0.3765151 & 0.0217 & 0.0037 \\ 
+    Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Efficacy & 2.29 & 0.0110 & 0.4846213 & 0.0886 & 0.0121 \\ 
+    Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Efficacy & 2.03 & 0.0212 & 0.5631414 & 0.2071 & 0.0250 \\ 
+    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{longtable}
     \begin{minipage}{\linewidth}

@@ -288,35 +288,9 @@ summary.gs_design <- function(object,
                               bound_names = c("Efficacy", "Futility"),
                               ...) {
   x <- object
-  method <- get_method(x, c("ahr", "wlr", "combo", "rd"))
   x_bound <- x$bound
   x_analysis <- x$analysis
-  n_analysis <- max(x_analysis$analysis)
-
-  # Prepare the columns decimals ----
-  default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
-  default_vars <- c(
-    "analysis", "bound", "z",
-    sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
-    "nominal p", "Alternate hypothesis", "Null hypothesis"
-  )
-
-  # Filter columns and update decimal places
-  col_decimals <- get_decimals(col_vars, col_decimals, default_vars, default_decimals, list(
-    names = c(
-      "analysis", "bound", "z", "~risk difference at bound", "~hr at bound",
-      "~whr at bound", "nominal p"
-    ),
-    fun = function(x) {
-      x <- cap_initial(x)
-      x <- gsub("^~risk ", "~Risk ", x)
-      x <- gsub("^(~w?)(hr) ", "\\1HR ", x, perl = TRUE)
-      x
-    }
-  ))
-
-  # "bound" is a required column
-  if (!"Bound" %in% names(col_decimals)) col_decimals <- c(Bound = NA, col_decimals)
+  method <- get_method(x, c("ahr", "wlr", "combo", "rd"))
 
   # Prepare the analysis summary row ----
   # get the
@@ -329,25 +303,17 @@ summary.gs_design <- function(object,
   default_decimals <- if (method == "rd") c(1, 4, 2) else c(1, 1, 1, 2, 2)
 
   # Filter analysis variables and update decimal places
-  old_vars <- c("analysis", "time", "event", "ahr", "n", "info_frac0", "info_frac", "event_frac")
-  map_vars <- setNames(cap_initial(old_vars), old_vars)  # map old to new names
-  map_vars[c("ahr", "info_frac0", "info_frac", "event_frac")] <- c(
-    "AHR", "Information fraction", "Information fraction", "Event fraction"
-  )
   analysis_decimals <- get_decimals(
-    analysis_vars, analysis_decimals, default_vars, default_decimals,
-    list(names = map_vars)
+    analysis_vars, analysis_decimals, default_vars, default_decimals
   )
-  analysis_vars <- attr(analysis_decimals, "old_names")  # (lowercase) old names
+  analysis_vars <- names(analysis_decimals)
 
   # set the analysis summary header
   analyses <- x_analysis %>%
     dplyr::group_by(analysis) %>%
     dplyr::filter(dplyr::row_number() == 1) %>%
     dplyr::select(all_of(c("analysis", analysis_vars))) %>%
-    dplyr::arrange(analysis) %>%
-    rename_to(map_vars)
-  analysis_vars <- names(analysis_decimals)  # update to new names
+    dplyr::arrange(analysis)
 
   # Merge 2 tables:
   # 1. Alternate hypothesis table.
@@ -366,121 +332,77 @@ summary.gs_design <- function(object,
 
   # Merge 2 tables:
   # (1) Analysis summary table
-  # (2) xy: bound_summary_detail table
+  # (2) xy: bound_details table
   #
   # Merge 3 tables: 1 line per analysis, alternate hypothesis table, null hypothesis table
-  #
-  # If the method is AHR
-  if (method == "ahr") {
-    # Header
-    analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    # Bound details
-    bound_summary_detail <- xy
-  }
 
-  # If the method is WLR, change AHR to wAHR
+  # Header
+  analysis_header <- analyses
+  # Bound details
+  bound_details <- xy
+
+  # If the method is WLR, change HR to wHR
   if (method == "wlr") {
-    # Header
-    analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    if ("ahr" %in% analysis_vars) {
-      analysis_summary_header <- analysis_summary_header %>% dplyr::rename(wahr = ahr)
-    }
-    # Bound details
-    if ("~hr at bound" %in% names(xy)) {
-      bound_summary_detail <- xy %>% dplyr::rename("~whr at bound" = "~hr at bound")
-    } else {
-      bound_summary_detail <- xy
-    }
+    bound_details <- rename_to(xy, c("~hr at bound" = "~whr at bound"))
   }
 
   # If the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
-  if (method == "combo") {
-    # Header
-    analysis_summary_header <- analyses %>% dplyr::select(all_of(c("Analysis", analysis_vars)))
-    # Bound details
-    if ("~hr at bound" %in% names(xy)) {
-      stop("summary: ~hr at bound can't be display!")
-    } else {
-      bound_summary_detail <- xy
-    }
-  }
+  if (method == "combo" && "~hr at bound" %in% names(xy))
+    stop("'~hr at bound' can't be displayed!")
 
-  # If the method is RD
-  if (method == "rd") {
-    # Header
-    analysis_summary_header <- analyses %>%
-      dplyr::select(all_of(c("Analysis", analysis_vars))) %>%
-      dplyr::rename("Risk difference" = rd)
-    # Bound details
-    bound_summary_detail <- xy
-  }
+  old_vars <- c(
+    "analysis", "time", "event", "ahr", "rd", "n", "info_frac0", "info_frac", "event_frac"
+  )
+  map_vars <- setNames(cap_initial(old_vars), old_vars)  # map old to new names
+  map_vars[c("ahr", "rd", "info_frac0", "info_frac", "event_frac")] <- c(
+    "AHR", "Risk difference", "Information fraction", "Information fraction", "Event fraction"
+  )
+  analysis_header <- rename_to(analysis_header, map_vars)
 
-  if ("analysis" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Analysis = analysis)
-  }
-  if ("bound" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Bound = bound)
-  }
-  if ("z" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>% dplyr::rename(Z = z)
-  }
-  if ("nominal p" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>% dplyr::rename("Nominal p" = "nominal p")
-  }
-  if ("~hr at bound" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~HR at bound" = "~hr at bound")
-  }
-  if ("~whr at bound" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>% dplyr::rename("~wHR at bound" = "~whr at bound")
-  }
-  if ("~risk difference at bound" %in% colnames(bound_summary_detail)) {
-    bound_summary_detail <- bound_summary_detail %>%
-      dplyr::rename("~Risk difference at bound" = "~risk difference at bound")
-  }
+  old_vars <- c(
+    "analysis", "bound", "z", "~risk difference at bound", "~hr at bound",
+    "~whr at bound", "nominal p"
+  )
+  map_vars <- setNames(cap_initial(old_vars), old_vars)  # map old to new names
+  map_vars <- gsub("^~risk ", "~Risk ", map_vars)
+  map_vars <- gsub("^(~w?)(hr) ", "\\1HR ", map_vars, perl = TRUE)
+  bound_details <- rename_to(bound_details, map_vars)
 
   output <- table_ab(
     # A data frame to be show as the summary header
     # It has only ONE record for each value of `byvar`
-    table_a = analysis_summary_header,
+    table_a = analysis_header,
     # A data frame to be shown as the listing details
     # It has >= 1 records for each value of `byvar`
-    table_b = bound_summary_detail,
+    table_b = bound_details,
     decimals = c(0, analysis_decimals),
     byvar = "Analysis"
   ) %>%
     dplyr::group_by(Analysis)
 
-
-  if (method == "ahr") {
-    output <- output %>% select(
-      Analysis, Bound, Z,
-      `~HR at bound`, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`
-    )
-  } else if (method == "wlr") {
-    output <- output %>% select(
-      Analysis, Bound, Z,
-      `~wHR at bound`, `Nominal p`, `Alternate hypothesis`, `Null hypothesis`
-    )
-  } else if (method == "combo") {
-    output <- output %>% select(
-      Analysis, Bound, Z,
-      `Nominal p`, `Alternate hypothesis`, `Null hypothesis`
-    )
-  } else if (method == "rd") {
-    output <- output %>% select(
-      Analysis, Bound, Z,
-      `~Risk difference at bound`, `Nominal p`,
-      `Alternate hypothesis`, `Null hypothesis`
-    )
-  }
-
-  output <- select(output, all_of(names(col_decimals)))
-  # Set the decimals to display ----
-  round_vars <- c(
-    "Z", "~HR at bound", "~Risk difference at bound", "Nominal p",
-    "Alternate hypothesis", "Null hypothesis"
+  # Prepare the columns decimals ----
+  default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
+  default_vars <- c(
+    "analysis", "bound", "z",
+    sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
+    "nominal p", "Alternate hypothesis", "Null hypothesis"
   )
-  for (j in round_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
+
+  # Filter columns and update decimal places
+  col_decimals <- get_decimals(col_vars, col_decimals, default_vars, default_decimals)
+
+  # "bound" is a required column
+  if (!"bound" %in% names(col_decimals)) col_decimals <- c(bound = NA, col_decimals)
+
+  map_vars <- setNames(cap_initial(default_vars), default_vars)
+  map_vars <- gsub("^~risk ", "~Risk ", map_vars)
+  map_vars <- gsub("^(~w?)(hr) ", "\\1HR ", map_vars, perl = TRUE)
+  col_vars <- replace_values(names(col_decimals), map_vars)
+  names(col_decimals) <- col_vars
+
+  output <- select(output, all_of(col_vars))
+  # Set the decimals to display ----
+  for (j in col_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
 
   output <- add_class(
     output, method, intersect("non_binding", class(object)), method, "gs_design"
@@ -497,7 +419,7 @@ summary.gs_design <- function(object,
 }
 
 # get a named vector of decimals (names are variable names)
-get_decimals <- function(vars, decs, vars_default, decs_default, replace) {
+get_decimals <- function(vars, decs, vars_default, decs_default) {
   names(decs_default) <- vars_default
   # Merge user-provided named decimals into default
   decs_vars <- names(decs)
@@ -513,8 +435,6 @@ get_decimals <- function(vars, decs, vars_default, decs_default, replace) {
   decs <- (if (is.null(decs_vars)) decs) %||% decs_default[vars]
   if (length(vars) != length(decs))
     stop("'", vars_name, "' and '", decs_name, "' must be of the same length")
-  attr(decs, "old_names") <- vars
-  vars <- replace_values(vars, replace$names, replace$fun)
   names(decs) <- vars
   decs
 }
