@@ -325,32 +325,24 @@ summary.gs_design <- function(object,
 
   # Merge 2 tables:
   # (1) Analysis summary table
-  # (2) xy: bound_details table
+  # (2) xy: bound details table
   #
   # Merge 3 tables: 1 line per analysis, alternate hypothesis table, null hypothesis table
 
-  # Header
-  analysis_header <- analyses
-  # Bound details
-  bound_details <- if (method == "wlr") {
-    # If the method is WLR, change HR to wHR
-    replace_names(xy, c("~hr at bound" = "~whr at bound"))
-  } else xy
+  # If the method is WLR, change HR to wHR
+  if (method == "wlr") xy <- replace_names(xy, c("~hr at bound" = "~whr at bound"))
 
   # If the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
   if (method == "combo" && "~hr at bound" %in% names(xy))
     stop("'~hr at bound' can't be displayed!")
 
-  analysis_header <- cap_names(analysis_header)
-  bound_details <- cap_names(bound_details)
-
   output <- table_ab(
     # A data frame to be show as the summary header
     # It has only ONE record for each value of `byvar`
-    table_a = analysis_header,
+    table_a = cap_names(analyses),
     # A data frame to be shown as the listing details
     # It has >= 1 records for each value of `byvar`
-    table_b = bound_details,
+    table_b = cap_names(xy),
     decimals = c(0, analysis_decimals),
     byvar = "Analysis"
   )
