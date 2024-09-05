@@ -79,22 +79,22 @@
 #'
 summary.fixed_design <- function(object, ...) {
   x <- object
+  p <- x$design_par
   ans <- x$analysis
   ans$design <- switch(
     x$design,
     ahr = "Average hazard ratio",
     lf = "Lachin and Foulkes",
     rd = "Risk difference",
-    milestone = paste0("Milestone: tau = ", x$design_par$tau),
-    rmst = paste0("RMST: tau = ", x$design_par$tau),
-    mb = paste0("Modestly weighted LR: tau = ", x$design_par$tau),
+    milestone = paste0("Milestone: tau = ", p$tau),
+    rmst = paste0("RMST: tau = ", p$tau),
+    mb = paste0("Modestly weighted LR: tau = ", p$tau),
     fh = paste0(
-      "Fleming-Harrington FH(", x$design_par$rho, ", ", x$design_par$gamma, ")",
-      if (x$design_par$rho == 0 && x$design_par$gamma == 0) " (logrank)"
+      "Fleming-Harrington FH(", p$rho, ", ", p$gamma, ")",
+      if (p$rho == 0 && p$gamma == 0) " (logrank)"
     ),
     maxcombo = gsub("FH(0, 0)", "logrank", paste(
-      "MaxCombo:",
-      paste0("FHC(", x$design_par[[1]], ", ", x$design_par[[2]], ")", collapse = ", ")
+      "MaxCombo:", paste0("FHC(", p[[1]], ", ", p[[2]], ")", collapse = ", ")
     ), fixed = TRUE)
   )
 
