@@ -10,3 +10,33 @@ if (!exists('%||%', baseenv(), inherits = FALSE)) `%||%` <- function(x, y) {
   for (i in idx) x[[i]] <- c(x[[i]], y[[i]])
   x
 }
+
+# add more classes to an object
+add_class <- function(x, ...) {
+  class(x) <- c(..., class(x))
+  x
+}
+
+# capitalize initial letters
+cap_initial <- function(x) {
+  sub("^(.)", "\\U\\1", x, perl = TRUE)
+}
+
+# replace elements with values from a named vector `old` (of the form
+# `c(old_value = new_value)`)
+replace_values <- function(x, map) {
+  i <- x %in% names(map)
+  x[i] <- map[x[i]]
+  x
+}
+
+# a shorthand based on replace_values() to rename an object
+replace_names <- function(x, ...) {
+  names(x) <- replace_values(names(x), ...)
+  x
+}
+
+# round only if input is numeric and digits is provided
+round2 <- function(x, digits, ...) {
+  if (is.numeric(x) && !is.na(digits)) round(x, digits, ...) else x
+}

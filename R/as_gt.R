@@ -89,10 +89,11 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   return(ans)
 }
 
+get_method <- function(x, methods) intersect(methods, class(x))[1]
+
 # get the fixed design method
 fd_method <- function(x) {
-  methods <- c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst")
-  intersect(methods, class(x))[1]
+  get_method(x, c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst"))
 }
 
 # get the default title

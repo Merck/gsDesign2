@@ -126,7 +126,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       analysis = analysis, design = "ahr"
     )
 
-    class(ans) <- c("fixed_design", class(ans))
+    ans <- add_class(ans, "fixed_design")
   } else if ((x$design == "fh") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
@@ -159,7 +159,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       analysis = analysis, design = "fh", design_par = x$design_par
     )
 
-    class(ans) <- c("fixed_design", class(ans))
+    ans <- add_class(ans, "fixed_design")
   } else if ((x$design == "mb") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
@@ -192,7 +192,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       analysis = analysis, design = "mb", design_par = x$design_par
     )
 
-    class(ans) <- c("fixed_design", class(ans))
+    ans <- add_class(ans, "fixed_design")
   } else {
     message("The input object is not applicable to get an integer sample size.")
     ans <- x
