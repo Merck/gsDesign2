@@ -385,12 +385,13 @@ summary.gs_design <- function(object,
 # get a named vector of decimals (names are variable names)
 get_decimals <- function(vars, decs, vars_default, decs_default) {
   names(decs_default) <- vars_default
-  # Merge user-provided named decimals into default
+  # merge user-provided named decimals into default
   decs_vars <- names(decs)
   decs_default[decs_vars] <- decs
 
-  vars_name <- as.character(substitute(vars))
-  decs_name <- as.character(substitute(decs))
+  # get the variable names passed to the 'vars' and 'decs' arguments
+  vars_name <- as.character(substitute(vars))  # e.g., 'analysis_vars'
+  decs_name <- as.character(substitute(decs))  # e.g., 'analysis_decimals'
   if (is.null(vars)) {
     if (!is.null(decs) && is.null(decs_vars))
       stop("'", decs_name, "' must be a named vector if '", vars_name, "' is not provided")
