@@ -23,16 +23,10 @@ cap_initial <- function(x) {
 }
 
 # replace elements with values from a named vector `old` (of the form
-# `c(old_value = new_value)`); if `old` is unnamed, apply a function new() to
-# the old values
-replace_values <- function(x, old, new = identity) {
-  if (is.null(names(old))) {
-    i <- x %in% old
-    x[i] <- new(x[i])
-  } else {
-    i <- x %in% names(old)
-    x[i] <- old[x[i]]
-  }
+# `c(old_value = new_value)`)
+replace_values <- function(x, map) {
+  i <- x %in% names(map)
+  x[i] <- map[x[i]]
   x
 }
 
