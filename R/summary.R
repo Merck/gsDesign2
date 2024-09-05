@@ -318,7 +318,7 @@ summary.gs_design <- function(object,
   xy <- x_bound
   # change Upper -> bound_names[1], e.g., Efficacy
   # change Lower -> bound_names[2], e.g., Futility
-  xy$bound = replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2]))
+  xy$bound <- replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2]))
 
   if (!"probability0" %in% names(xy)) xy$probability0 <- "-"
   xy <- xy %>% arrange(analysis, desc(bound))
