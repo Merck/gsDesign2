@@ -338,12 +338,10 @@ summary.gs_design <- function(object,
   # Header
   analysis_header <- analyses
   # Bound details
-  bound_details <- xy
-
-  # If the method is WLR, change HR to wHR
-  if (method == "wlr") {
-    bound_details <- replace_names(xy, c("~hr at bound" = "~whr at bound"))
-  }
+  bound_details <- if (method == "wlr") {
+    # If the method is WLR, change HR to wHR
+    replace_names(xy, c("~hr at bound" = "~whr at bound"))
+  } else xy
 
   # If the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
   if (method == "combo" && "~hr at bound" %in% names(xy))
