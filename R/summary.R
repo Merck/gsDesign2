@@ -320,12 +320,12 @@ summary.gs_design <- function(object,
   # 2. Null hypothesis table.
   #
   # Table A: a table under alternative hypothesis.
-  xy <- x_bound %>% replace_names(c(
+  xy <- replace_names(x_bound, c(
     probability = "Alternate hypothesis", probability0 = "Null hypothesis"
   ))
   # change Upper -> bound_names[1], e.g., Efficacy
   # change Lower -> bound_names[2], e.g., Futility
-  xy$bound = replace_values(xy$bound, c("upper" = bound_names[1], "lower" = bound_names[2]))
+  xy$bound = replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2]))
 
   if (!"probability0" %in% names(x_bound)) xy$`Null hypothesis` <- "-"
   xy <- xy %>% arrange(analysis, desc(bound))
