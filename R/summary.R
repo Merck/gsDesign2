@@ -312,8 +312,7 @@ summary.gs_design <- function(object,
   analyses <- x_analysis %>%
     group_by(analysis) %>%
     filter(row_number() == 1) %>%
-    select(all_of(c("analysis", analysis_vars))) %>%
-    arrange(analysis)
+    select(all_of(c("analysis", analysis_vars)))
 
   # Merge 2 tables:
   # 1. Alternate hypothesis table.
