@@ -62,10 +62,6 @@
 #' @details
 #' To be added.
 #'
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#' @importFrom dplyr mutate select arrange desc
-#'
 #' @export
 #'
 #' @examples

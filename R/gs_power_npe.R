@@ -117,8 +117,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom stats qnorm pnorm
-#'
 #' @export
 #'
 #' @examples

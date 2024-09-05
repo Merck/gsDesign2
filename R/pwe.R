@@ -150,9 +150,6 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
 #'  }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr select "%>%"
-#' @importFrom tibble tibble
-#'
 #' @export
 #'
 #' @examples

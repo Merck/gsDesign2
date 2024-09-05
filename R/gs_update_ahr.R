@@ -30,9 +30,6 @@
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
-#' @importFrom dplyr mutate left_join select rename
-#' @importFrom gsDesign gsDesign sfLDOF
-#'
 #' @export
 #'
 #' @examples

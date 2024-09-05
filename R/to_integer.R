@@ -369,7 +369,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
           left_join(sample_size_new) %>%
           mutate(n_new = prevalence * n) %>%
           select(-c(n, prevalence)) %>%
-          dplyr::rename(n = n_new)
+          rename(n = n_new)
       }
     })
 

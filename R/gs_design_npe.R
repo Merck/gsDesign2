@@ -124,9 +124,6 @@
 #'
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
 #'
-#' @importFrom tibble tibble
-#' @importFrom stats qnorm uniroot
-#'
 #' @export
 #'
 #' @examples
@@ -469,7 +466,7 @@ gs_design_npe <- function(
       full_join(
         ans_h0 %>%
           select(analysis, bound, probability) %>%
-          dplyr::rename(probability0 = probability)
+          rename(probability0 = probability)
       )
   )
 

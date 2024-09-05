@@ -41,8 +41,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom mvtnorm GenzBretz
-#'
 #' @noRd
 gs_utility_combo <- function(enroll_rate,
                              fail_rate,
@@ -112,7 +110,7 @@ gs_utility_combo <- function(enroll_rate,
   n <- max(info$n)
 
   # Restricted to actual analysis
-  info_fh <- info %>% left_join(fh_test %>% dplyr::rename(time = analysis_time), by = c("test", "analysis", "time"))
+  info_fh <- info %>% left_join(fh_test %>% rename(time = analysis_time), by = c("test", "analysis", "time"))
   corr_fh <- corr_combo[!is.na(info_fh$gamma), !is.na(info_fh$gamma)]
   info_fh <- subset(info_fh, !is.na(gamma))
 
@@ -139,8 +137,6 @@ gs_utility_combo <- function(enroll_rate,
 #'
 #' @param group The vector of test statistics group.
 #' @param ... Additional parameters passed to [mvtnorm::pmvnorm].
-#'
-#' @importFrom mvtnorm GenzBretz
 #'
 #' @noRd
 pmvnorm_combo <- function(lower,
@@ -328,8 +324,6 @@ gs_sigma2_combo <- function(arm0,
 #' @param theta A numeric vector of effect size under alternative hypothesis.
 #' @param corr A matrix of correlation matrix.
 #'
-#' @importFrom mvtnorm GenzBretz
-#'
 #' @noRd
 gs_prob_combo <- function(upper_bound,
                           lower_bound,
@@ -414,8 +408,6 @@ gs_prob_combo <- function(upper_bound,
 #'   }
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @importFrom mvtnorm GenzBretz
 #'
 #' @examples
 #' library(gsDesign)

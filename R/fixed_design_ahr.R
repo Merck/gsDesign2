@@ -39,8 +39,6 @@
 #'   and `1 - alpha` otherwise).
 #' @param study_duration Study duration.
 #'
-#' @importFrom dplyr filter
-#'
 #' @returns A list of design characteristic summary.
 #'
 #' @export

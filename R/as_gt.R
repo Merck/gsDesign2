@@ -258,10 +258,10 @@ as_gt.gs_design <- function(
   )
 
   x <- parts$x %>%
-    dplyr::group_by(Analysis) %>%
+    group_by(Analysis) %>%
     gt::gt() %>%
     gt::tab_spanner(
-      columns = dplyr::all_of(colname_spannersub),
+      columns = all_of(colname_spannersub),
       label = colname_spanner
     ) %>%
     gt::tab_header(title = parts$title, subtitle = parts$subtitle)
@@ -409,7 +409,7 @@ gsd_parts <- function(
   )
 
   list(
-    x = dplyr::arrange(x2, Analysis),
+    x = arrange(x2, Analysis),
     title = title, subtitle = subtitle,
     footnote = footnote %||% gsd_footnote(method, columns),
     alpha = max(filter(x, Bound == bound[1])[[alpha_column]])

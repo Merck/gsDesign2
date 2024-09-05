@@ -24,8 +24,6 @@
 #' @param rho test parameter in Fleming-Harrington method.
 #' @param gamma test parameter in Fleming-Harrington method.
 #'
-#' @importFrom dplyr filter
-#'
 #' @export
 #'
 #' @rdname fixed_design

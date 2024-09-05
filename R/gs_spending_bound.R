@@ -77,9 +77,6 @@
 #' \emph{Group Sequential Methods with Applications to Clinical Trials}.
 #' Boca Raton: Chapman and Hall.
 #'
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#'
 #' @examples
 #' gs_power_ahr(
 #'   analysis_time = c(12, 24, 36),
