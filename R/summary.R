@@ -124,7 +124,7 @@ summary.fixed_design <- function(object, ...) {
 #'   columns you want to be displayed differently than the defaults.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
 #'
-#' @importFrom dplyr all_of
+#' @importFrom dplyr all_of row_number
 #'
 #' @export
 #'
@@ -310,10 +310,10 @@ summary.gs_design <- function(object,
 
   # set the analysis summary header
   analyses <- x_analysis %>%
-    dplyr::group_by(analysis) %>%
-    dplyr::filter(dplyr::row_number() == 1) %>%
-    dplyr::select(all_of(c("analysis", analysis_vars))) %>%
-    dplyr::arrange(analysis)
+    group_by(analysis) %>%
+    filter(row_number() == 1) %>%
+    select(all_of(c("analysis", analysis_vars))) %>%
+    arrange(analysis)
 
   # Merge 2 tables:
   # 1. Alternate hypothesis table.
@@ -328,7 +328,7 @@ summary.gs_design <- function(object,
   xy$bound = replace_values(xy$bound, c("upper" = bound_names[1], "lower" = bound_names[2]))
 
   if (!"probability0" %in% names(x_bound)) xy$`Null hypothesis` <- "-"
-  xy <- xy %>% dplyr::arrange(analysis, desc(bound))
+  xy <- xy %>% arrange(analysis, desc(bound))
 
   # Merge 2 tables:
   # (1) Analysis summary table
@@ -377,8 +377,7 @@ summary.gs_design <- function(object,
     table_b = bound_details,
     decimals = c(0, analysis_decimals),
     byvar = "Analysis"
-  ) %>%
-    dplyr::group_by(Analysis)
+  )
 
   # Prepare the columns decimals ----
   default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
@@ -400,7 +399,7 @@ summary.gs_design <- function(object,
   col_vars <- replace_values(names(col_decimals), map_vars)
   names(col_decimals) <- col_vars
 
-  output <- select(output, all_of(col_vars))
+  output <- output %>% group_by(Analysis) %>% select(all_of(col_vars))
   # Set the decimals to display ----
   for (j in col_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
 
