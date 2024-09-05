@@ -98,7 +98,7 @@ summary.fixed_design <- function(object, ...) {
     ), fixed = TRUE)
   )
 
-  ans <- rename_to(
+  ans <- replace_names(
     ans, c("design", "n", "event", "time", "bound", "power"), function(x) {
       # capitalize words with special case of Event -> Events
       ifelse(x == "event", "Events", cap_initial(x))
@@ -320,7 +320,7 @@ summary.gs_design <- function(object,
   # 2. Null hypothesis table.
   #
   # Table A: a table under alternative hypothesis.
-  xy <- x_bound %>% rename_to(c(
+  xy <- x_bound %>% replace_names(c(
     probability = "Alternate hypothesis", probability0 = "Null hypothesis"
   ))
   # change Upper -> bound_names[1], e.g., Efficacy
@@ -343,7 +343,7 @@ summary.gs_design <- function(object,
 
   # If the method is WLR, change HR to wHR
   if (method == "wlr") {
-    bound_details <- rename_to(xy, c("~hr at bound" = "~whr at bound"))
+    bound_details <- replace_names(xy, c("~hr at bound" = "~whr at bound"))
   }
 
   # If the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
@@ -357,7 +357,7 @@ summary.gs_design <- function(object,
   map_vars[c("ahr", "rd", "info_frac0", "info_frac", "event_frac")] <- c(
     "AHR", "Risk difference", "Information fraction", "Information fraction", "Event fraction"
   )
-  analysis_header <- rename_to(analysis_header, map_vars)
+  analysis_header <- replace_names(analysis_header, map_vars)
 
   old_vars <- c(
     "analysis", "bound", "z", "~risk difference at bound", "~hr at bound",
@@ -366,7 +366,7 @@ summary.gs_design <- function(object,
   map_vars <- setNames(cap_initial(old_vars), old_vars)  # map old to new names
   map_vars <- gsub("^~risk ", "~Risk ", map_vars)
   map_vars <- gsub("^(~w?)(hr) ", "\\1HR ", map_vars, perl = TRUE)
-  bound_details <- rename_to(bound_details, map_vars)
+  bound_details <- replace_names(bound_details, map_vars)
 
   output <- table_ab(
     # A data frame to be show as the summary header

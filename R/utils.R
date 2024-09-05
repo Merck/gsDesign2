@@ -37,7 +37,7 @@ replace_values <- function(x, old, new = identity) {
 }
 
 # a shorthand based on replace_values() to rename an object
-rename_to <- function(x, ...) {
+replace_names <- function(x, ...) {
   names(x) <- replace_values(names(x), ...)
   x
 }

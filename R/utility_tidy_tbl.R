@@ -75,7 +75,7 @@ table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_
   ab <- ab[, c("_alab", names(table_b)), drop = FALSE]
   ab[[byvar]] <- NULL
   # Use the new column name from the argument `aname`
-  ab <- rename_to(ab, c(`_alab` = aname))
+  ab <- replace_names(ab, c(`_alab` = aname))
   return(ab)
 }
 
