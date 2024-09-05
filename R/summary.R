@@ -361,11 +361,8 @@ summary.gs_design <- function(object,
   # "bound" is a required column
   if (!"bound" %in% names(col_decimals)) col_decimals <- c(bound = NA, col_decimals)
 
-  map_vars <- setNames(cap_initial(default_vars), default_vars)
-  map_vars <- gsub("^~risk ", "~Risk ", map_vars)
-  map_vars <- gsub("^(~w?)(hr) ", "\\1HR ", map_vars, perl = TRUE)
-  col_vars <- replace_values(names(col_decimals), map_vars)
-  names(col_decimals) <- col_vars
+  col_decimals <- cap_names(col_decimals)
+  col_vars <- names(col_decimals)
 
   output <- output %>% group_by(Analysis) %>% select(all_of(col_vars))
   # Set the decimals to display ----
@@ -408,18 +405,18 @@ get_decimals <- function(vars, decs, vars_default, decs_default) {
 
 # capitalize variable names
 cap_names <- function(x) {
-  low_vars <- c(
+  low <- c(
     "analysis", "design", "power", "time", "event", "n", "bound", "z",
     "~risk difference at bound", "~hr at bound", "~whr at bound", "nominal p"
   )
   # map lowercase names to capitalized names
-  map_vars <- setNames(cap_initial(low_vars), low_vars)
-  map_vars <- gsub("^~risk ", "~Risk ", map_vars)
-  map_vars <- gsub("^(~w?)(hr) ", "\\1HR ", map_vars, perl = TRUE)
-  map_vars <- c(
-    map_vars, ahr = "AHR", rd = "Risk difference", probability = "Alternate hypothesis",
+  map <- setNames(cap_initial(low), low)
+  map <- gsub("^~risk ", "~Risk ", map)
+  map <- gsub("^(~w?)(hr) ", "\\1HR ", map, perl = TRUE)
+  map <- c(
+    map, ahr = "AHR", rd = "Risk difference", probability = "Alternate hypothesis",
     probability0 = "Null hypothesis", info_frac0 = "Information fraction",
     info_frac = "Information fraction", event_frac = "Event fraction"
   )
-  replace_names(x, map_vars)
+  replace_names(x, map)
 }
