@@ -98,8 +98,8 @@ summary.fixed_design <- function(object, ...) {
     ), fixed = TRUE)
   )
 
-  names(ans) <- replace_values(
-    names(ans), c("design", "n", "event", "time", "bound", "power"), function(x) {
+  ans <- rename_to(
+    ans, c("design", "n", "event", "time", "bound", "power"), function(x) {
       # capitalize words with special case of Event -> Events
       ifelse(x == "event", "Events", cap_initial(x))
     }
