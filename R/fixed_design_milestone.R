@@ -106,7 +106,7 @@ fixed_design_milestone <- function(
     )
   }
   # get the output of MaxCombo
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "milestone",
     n = d$analysis$n,
     event = d$analysis$event,

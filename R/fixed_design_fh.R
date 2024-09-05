@@ -118,7 +118,7 @@ fixed_design_fh <- function(
       analysis_time = study_duration
     )
   }
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "fh",
     n = d$analysis$n,
     event = d$analysis$event,

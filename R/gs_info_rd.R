@@ -187,7 +187,7 @@ gs_info_rd <- function(
       left_join(if ("data.frame" %in% class(rd0)) {
         rd0
       } else {
-        tibble::tibble(analysis = 1:n_analysis, rd0 = rd0)
+        tibble(analysis = 1:n_analysis, rd0 = rd0)
       }) %>%
       mutate(
         n_e = n / (1 + ratio),

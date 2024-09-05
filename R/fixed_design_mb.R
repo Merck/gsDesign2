@@ -118,7 +118,7 @@ fixed_design_mb <- function(
     )
   }
   # get the output of MB
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "mb",
     n = d$analysis$n,
     event = d$analysis$event,

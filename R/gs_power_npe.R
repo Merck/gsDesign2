@@ -357,7 +357,7 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
     }
   }
 
-  ans <- tibble::tibble(
+  ans <- tibble(
     analysis = rep(1:n_analysis, 2),
     bound = c(rep("upper", n_analysis), rep("lower", n_analysis)),
     z = c(b, a),

@@ -173,7 +173,7 @@ fixed_design_lf <- function(
       rr[, 1]
     })
   )
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "lf",
     n = d$n,
     event = d$d,
