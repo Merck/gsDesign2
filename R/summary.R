@@ -319,14 +319,12 @@ summary.gs_design <- function(object,
   # 2. Null hypothesis table.
   #
   # Table A: a table under alternative hypothesis.
-  xy <- replace_names(x_bound, c(
-    probability = "Alternate hypothesis", probability0 = "Null hypothesis"
-  ))
+  xy <- x_bound
   # change Upper -> bound_names[1], e.g., Efficacy
   # change Lower -> bound_names[2], e.g., Futility
   xy$bound = replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2]))
 
-  if (!"probability0" %in% names(x_bound)) xy$`Null hypothesis` <- "-"
+  if (!"probability0" %in% names(xy)) xy$probability0 <- "-"
   xy <- xy %>% arrange(analysis, desc(bound))
 
   # Merge 2 tables:
@@ -347,23 +345,8 @@ summary.gs_design <- function(object,
   if (method == "combo" && "~hr at bound" %in% names(xy))
     stop("'~hr at bound' can't be displayed!")
 
-  old_vars <- c(
-    "analysis", "time", "event", "ahr", "rd", "n", "info_frac0", "info_frac", "event_frac"
-  )
-  map_vars <- setNames(cap_initial(old_vars), old_vars)  # map old to new names
-  map_vars[c("ahr", "rd", "info_frac0", "info_frac", "event_frac")] <- c(
-    "AHR", "Risk difference", "Information fraction", "Information fraction", "Event fraction"
-  )
-  analysis_header <- replace_names(analysis_header, map_vars)
-
-  old_vars <- c(
-    "analysis", "bound", "z", "~risk difference at bound", "~hr at bound",
-    "~whr at bound", "nominal p"
-  )
-  map_vars <- setNames(cap_initial(old_vars), old_vars)  # map old to new names
-  map_vars <- gsub("^~risk ", "~Risk ", map_vars)
-  map_vars <- gsub("^(~w?)(hr) ", "\\1HR ", map_vars, perl = TRUE)
-  bound_details <- replace_names(bound_details, map_vars)
+  analysis_header <- cap_names(analysis_header)
+  bound_details <- cap_names(bound_details)
 
   output <- table_ab(
     # A data frame to be show as the summary header
@@ -433,4 +416,22 @@ get_decimals <- function(vars, decs, vars_default, decs_default) {
     stop("'", vars_name, "' and '", decs_name, "' must be of the same length")
   names(decs) <- vars
   decs
+}
+
+# capitalize variable names
+cap_names <- function(x) {
+  low_vars <- c(
+    "analysis", "time", "event", "n", "bound", "z", "~risk difference at bound",
+    "~hr at bound", "~whr at bound", "nominal p"
+  )
+  # map lowercase names to capitalized names
+  map_vars <- setNames(cap_initial(low_vars), low_vars)
+  map_vars <- gsub("^~risk ", "~Risk ", map_vars)
+  map_vars <- gsub("^(~w?)(hr) ", "\\1HR ", map_vars, perl = TRUE)
+  map_vars <- c(
+    map_vars, ahr = "AHR", rd = "Risk difference", probability = "Alternate hypothesis",
+    probability0 = "Null hypothesis", info_frac0 = "Information fraction",
+    info_frac = "Information fraction", event_frac = "Event fraction"
+  )
+  replace_names(x, map_vars)
 }
