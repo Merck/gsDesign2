@@ -18,6 +18,6 @@
 
 #' @keywords internal
 #' @useDynLib gsDesign2, .registration = TRUE
-#' @import stats
+#' @importFrom stats setNames
 #' @importFrom Rcpp sourceCpp
 "_PACKAGE"
