@@ -23,7 +23,6 @@
 #' @importFrom gsDesign gsDesign sfLDOF
 #' @importFrom mvtnorm GenzBretz
 #' @importFrom stats pnorm qnorm setNames stepfun uniroot
-#' @importFrom survival Surv
 #' @importFrom tibble tibble
 #' @importFrom utils tail
 #' @importFrom Rcpp sourceCpp
