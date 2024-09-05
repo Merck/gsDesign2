@@ -17,10 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' @keywords internal
-"_PACKAGE"
-
 #' @useDynLib gsDesign2, .registration = TRUE
-NULL
-
+#' @import stats
 #' @importFrom Rcpp sourceCpp
-NULL
+"_PACKAGE"
