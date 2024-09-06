@@ -41,7 +41,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
   failRates$failRate <- failRates$failRate * (failRates$hr + 1) / 2
   failRates$hr <- 1
 
-  failRates0 <- tibble(
+  failRates0 <- tibble::tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Control",
