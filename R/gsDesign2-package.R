@@ -21,7 +21,6 @@
 #' @importFrom dplyr "%>%" all_of arrange desc filter full_join group_by lead
 #'   left_join mutate one_of rename row_number select summarize ungroup
 #' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom mvtnorm GenzBretz
 #' @importFrom stats pnorm qnorm setNames stepfun uniroot
 #' @importFrom tibble tibble
 #' @importFrom utils tail

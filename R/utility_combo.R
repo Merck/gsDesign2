@@ -46,7 +46,7 @@ gs_utility_combo <- function(enroll_rate,
                              fail_rate,
                              fh_test,
                              ratio = 1,
-                             algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+                             algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
                              ...) {
   # Define analysis time
   analysis_time <- sort(unique(fh_test$analysis_time))
@@ -144,7 +144,7 @@ pmvnorm_combo <- function(lower,
                           group,
                           mean,
                           corr,
-                          algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+                          algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
                           ...) {
   # Number of test in each group
   n_test <- as.numeric(table(group))
@@ -330,7 +330,7 @@ gs_prob_combo <- function(upper_bound,
                           analysis,
                           theta,
                           corr,
-                          algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+                          algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
                           ...) {
   n_analysis <- length(unique(analysis))
 
@@ -442,7 +442,7 @@ gs_bound <- function(alpha,
                      analysis = seq_along(alpha),
                      theta0 = rep(0, length(analysis)),
                      binding_lower_bound = FALSE,
-                     algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+                     algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
                      alpha_bound = FALSE,
                      beta_bound = FALSE,
                      ...) {

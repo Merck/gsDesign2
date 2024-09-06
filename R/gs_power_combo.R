@@ -102,7 +102,7 @@ gs_power_combo <- function(
     upar = c(3, 2, 1),
     lower = gs_b,
     lpar = c(-1, 0, 1),
-    algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+    algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
     ...) {
   # Currently only support user-defined lower and upper bound
   stopifnot(identical(upper, gs_b) | identical(upper, gs_spending_combo))
