@@ -98,9 +98,8 @@ summary.fixed_design <- function(object, ...) {
     ), fixed = TRUE)
   )
 
-  # capitalize names with special case of Event -> Events
-  ans <- replace_names(ans, c(event = "Events")) %>% cap_names()
-
+  # capitalize names
+  ans <- cap_names(ans)
   ans <- add_class(ans, "fixed_design", x$design)
   return(ans)
 }
@@ -405,7 +404,7 @@ get_decimals <- function(vars, decs, vars_default, decs_default) {
 # capitalize variable names
 cap_names <- function(x) {
   low <- c(
-    "analysis", "design", "power", "time", "event", "n", "bound", "z",
+    "analysis", "design", "power", "time", "n", "bound", "z",
     "~risk difference at bound", "~hr at bound", "~whr at bound", "nominal p"
   )
   # map lowercase names to capitalized names
@@ -413,9 +412,10 @@ cap_names <- function(x) {
   map <- gsub("^~risk ", "~Risk ", map)
   map <- gsub("^(~w?)(hr) ", "\\1HR ", map, perl = TRUE)
   map <- c(
-    map, ahr = "AHR", rd = "Risk difference", probability = "Alternate hypothesis",
-    probability0 = "Null hypothesis", info_frac0 = "Information fraction",
-    info_frac = "Information fraction", event_frac = "Event fraction"
+    map, ahr = "AHR", event = "Events", rd = "Risk difference",
+    probability = "Alternate hypothesis", probability0 = "Null hypothesis",
+    info_frac0 = "Information fraction", info_frac = "Information fraction",
+    event_frac = "Event fraction"
   )
   replace_names(x, map)
 }

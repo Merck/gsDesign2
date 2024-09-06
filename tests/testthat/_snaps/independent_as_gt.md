@@ -73,7 +73,7 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}HR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 476 Event: 291.9 AHR: 0.68 Information fraction: 1} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 476 Events: 291.9 AHR: 0.68 Information fraction: 1} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Efficacy & 1.96 & 0.025 & 0.795 & 0.9 & 0.025 \\ 
     \bottomrule
@@ -99,17 +99,17 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}HR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -1.17 & 0.8792 & 1.5392 & 0.0349 & 0.1208 \\ 
     Efficacy & 2.67 & 0.0038 & 0.3743 & 0.0231 & 0.0038 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.74 Information fraction: 0.8} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.74 Information fraction: 0.8} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.66 & 0.7462 & 1.2359 & 0.0668 & 0.2655 \\ 
     Efficacy & 2.29 & 0.0110 & 0.4812 & 0.0897 & 0.0122 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.23 & 0.5897 & 1.0670 & 0.1008 & 0.4303 \\ 
     Efficacy & 2.03 & 0.0211 & 0.5595 & 0.2070 & 0.0250 \\ 
@@ -136,7 +136,7 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 471.1 Event: 289 AHR: 0.68 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 471.1 Events: 289 AHR: 0.68 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Efficacy & 1.96 & 0.025 & 0.7941 & 0.9 & 0.025 \\ 
     \bottomrule
@@ -163,17 +163,17 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
     Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
     Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
     Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
@@ -202,17 +202,17 @@
     \cmidrule(lr){4-5}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{5}{l}{Analysis: 1 Time: 12 N: 500 Event: 107.4 AHR: 0.84 Event fraction: 0.32\textsuperscript{\textit{2}}} \\[2.5pt] 
+    \multicolumn{5}{l}{Analysis: 1 Time: 12 N: 500 Events: 107.4 AHR: 0.84 Event fraction: 0.32\textsuperscript{\textit{2}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -1 & 0.8413 & 0.0293 & 0.0000 \\ 
     Efficacy & 3 & 0.0013 & 0.0175 & 0.0013 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{5}{l}{Analysis: 2 Time: 24 N: 500 Event: 246.3 AHR: 0.72 Event fraction: 0.74\textsuperscript{\textit{2}}} \\[2.5pt] 
+    \multicolumn{5}{l}{Analysis: 2 Time: 24 N: 500 Events: 246.3 AHR: 0.72 Event fraction: 0.74\textsuperscript{\textit{2}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & 0 & 0.5000 & 0.0314 & 0.0000 \\ 
     Efficacy & 2 & 0.0228 & 0.7261 & 0.0233 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{5}{l}{Analysis: 3 Time: 36 N: 500 Event: 331.3 AHR: 0.68 Event fraction: 1\textsuperscript{\textit{2}}} \\[2.5pt] 
+    \multicolumn{5}{l}{Analysis: 3 Time: 36 N: 500 Events: 331.3 AHR: 0.68 Event fraction: 1\textsuperscript{\textit{2}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & 1 & 0.1587 & 0.0326 & 0.0000 \\ 
     Efficacy & 1 & 0.1587 & 0.9674 & 0.1956 \\ 
@@ -299,17 +299,17 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
     Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
     Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
     Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
@@ -337,17 +337,17 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & under H1 & under H0 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
     Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
     Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
     Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250\textsuperscript{\textit{4}} \\ 
@@ -376,17 +376,17 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
     Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
     Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
     Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
@@ -415,15 +415,15 @@
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
+    \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
     \bottomrule
@@ -450,17 +450,17 @@
     \cmidrule(lr){4-5}
     Bound & Nominal p\textsuperscript{\textit{1}} & Z & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{5}{l}{Analysis: 1 Time: 14.9 N: 108 Event: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{2}}} \\[2.5pt] 
+    \multicolumn{5}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{2}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & 0.8798 & -1.17 & 0.0341 & 0.1202 \\ 
     Efficacy & 0.0037 & 2.68 & 0.0217 & 0.0037 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{5}{l}{Analysis: 2 Time: 19.2 N: 108 Event: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{2}}} \\[2.5pt] 
+    \multicolumn{5}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{2}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & 0.7452 & -0.66 & 0.0664 & 0.2664 \\ 
     Efficacy & 0.0110 & 2.29 & 0.0886 & 0.0121 \\ 
     \midrule\addlinespace[2.5pt]
-    \multicolumn{5}{l}{Analysis: 3 Time: 24.5 N: 108 Event: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{2}}} \\[2.5pt] 
+    \multicolumn{5}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{2}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & 0.5881 & -0.22 & 0.1002 & 0.4319 \\ 
     Efficacy & 0.0212 & 2.03 & 0.2071 & 0.0250 \\ 
