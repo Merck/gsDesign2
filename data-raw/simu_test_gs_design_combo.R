@@ -49,7 +49,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
     rate = failRates$failRate
   )
 
-  failRates1 <- tibble::tibble(
+  failRates1 <- tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Experimental",
@@ -57,7 +57,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
     rate = failRates$failRate * failRates$hr
   )
 
-  dropoutRates0 <- tibble::tibble(
+  dropoutRates0 <- tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Control",
@@ -65,7 +65,7 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
     rate = failRates$dropoutRate
   )
 
-  dropoutRates1 <- tibble::tibble(
+  dropoutRates1 <- tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Experimental",
@@ -190,7 +190,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
   # analysis time
   time <- sort(unique(fh_test$analysisTimes))
 
-  failRates0 <- tibble::tibble(
+  failRates0 <- tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Control",
@@ -198,7 +198,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
     rate = failRates$failRate
   )
 
-  failRates1 <- tibble::tibble(
+  failRates1 <- tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Experimental",
@@ -206,7 +206,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
     rate = failRates$failRate * failRates$hr
   )
 
-  dropoutRates0 <- tibble::tibble(
+  dropoutRates0 <- tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Control",
@@ -214,7 +214,7 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
     rate = failRates$dropoutRate
   )
 
-  dropoutRates1 <- tibble::tibble(
+  dropoutRates1 <- tibble(
     Stratum = failRates$Stratum,
     period = seq_len(nrow(failRates)),
     Treatment = "Experimental",

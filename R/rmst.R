@@ -80,7 +80,7 @@ fixed_design_size_rmst <- function(enroll_rate,
       tau
     })
   )
-  bound <- tibble::tibble(
+  bound <- tibble(
     analysis = 1,
     bound = "upper",
     probability = 1 - beta,
@@ -88,7 +88,7 @@ fixed_design_size_rmst <- function(enroll_rate,
     z = -qnorm(alpha)
   )
 
-  analysis <- tibble::tibble(
+  analysis <- tibble(
     analysis = 1,
     time = analysis_time,
     n = npsurv[["n"]],
@@ -172,7 +172,7 @@ fixed_design_power_rmst <- function(enroll_rate,
     })
   )
 
-  bound <- tibble::tibble(
+  bound <- tibble(
     analysis = 1,
     bound = "upper",
     probability = npsurv,
@@ -180,7 +180,7 @@ fixed_design_power_rmst <- function(enroll_rate,
     z = -qnorm(alpha)
   )
 
-  analysis <- tibble::tibble(
+  analysis <- tibble(
     analysis = 1,
     time = analysis_time,
     n = n,

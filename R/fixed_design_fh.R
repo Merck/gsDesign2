@@ -24,8 +24,6 @@
 #' @param rho test parameter in Fleming-Harrington method.
 #' @param gamma test parameter in Fleming-Harrington method.
 #'
-#' @importFrom dplyr filter
-#'
 #' @export
 #'
 #' @rdname fixed_design
@@ -120,7 +118,7 @@ fixed_design_fh <- function(
       analysis_time = study_duration
     )
   }
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "fh",
     n = d$analysis$n,
     event = d$analysis$event,

@@ -120,8 +120,6 @@ summary.fixed_design <- function(object, ...) {
 #'   columns you want to be displayed differently than the defaults.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
 #'
-#' @importFrom dplyr all_of row_number
-#'
 #' @export
 #'
 #' @examples

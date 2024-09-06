@@ -77,11 +77,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom tibble tibble
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#' @importFrom dplyr select arrange desc
-#'
 #' @export
 #'
 #' @examples
@@ -237,7 +232,7 @@ gs_power_ahr <- function(
       left_join(
         y_h0 %>%
           select(analysis, bound, probability) %>%
-          dplyr::rename(probability0 = probability)
+          rename(probability0 = probability)
       ) %>%
       select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
       arrange(analysis, desc(bound))
@@ -255,7 +250,7 @@ gs_power_ahr <- function(
       left_join(
         y_h0 %>%
           select(analysis, info, info_frac) %>%
-          dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+          rename(info0 = info, info_frac0 = info_frac) %>%
           unique()
       ) %>%
       select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%

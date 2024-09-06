@@ -37,8 +37,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom mvtnorm GenzBretz
-#'
 #' @export
 #'
 #' @examples
@@ -104,7 +102,7 @@ gs_power_combo <- function(
     upar = c(3, 2, 1),
     lower = gs_b,
     lpar = c(-1, 0, 1),
-    algorithm = GenzBretz(maxpts = 1e5, abseps = 1e-5),
+    algorithm = mvtnorm::GenzBretz(maxpts = 1e5, abseps = 1e-5),
     ...) {
   # Currently only support user-defined lower and upper bound
   stopifnot(identical(upper, gs_b) | identical(upper, gs_spending_combo))
@@ -193,9 +191,9 @@ gs_power_combo <- function(
 
   # Get bounds to output ----
   bound <- db %>%
-    dplyr::mutate(`nominal p` = pnorm(z * (-1))) %>%
-    dplyr::select(analysis, bound, probability, probability_null, z, `nominal p`) %>%
-    dplyr::rename(probability0 = probability_null) %>%
+    mutate(`nominal p` = pnorm(z * (-1))) %>%
+    select(analysis, bound, probability, probability_null, z, `nominal p`) %>%
+    rename(probability0 = probability_null) %>%
     arrange(analysis, desc(bound))
 
   # Get analysis summary to output ----

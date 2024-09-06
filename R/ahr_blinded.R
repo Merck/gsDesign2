@@ -60,9 +60,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom tibble tibble
-#' @importFrom survival Surv
-#'
 #' @export
 #'
 #' @examples

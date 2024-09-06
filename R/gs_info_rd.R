@@ -32,8 +32,6 @@
 #'   theta0 (standardized treatment effect under null hypothesis),
 #'   and statistical information.
 #'
-#' @importFrom dplyr group_by left_join mutate select summarize ungroup
-#'
 #' @export
 #'
 #' @examples
@@ -183,13 +181,13 @@ gs_info_rd <- function(
   suppressMessages(
     tbl <- n %>%
       left_join(p_c) %>%
-      dplyr::rename(p_c = rate) %>%
+      rename(p_c = rate) %>%
       left_join(p_e) %>%
-      dplyr::rename(p_e = rate) %>%
+      rename(p_e = rate) %>%
       left_join(if ("data.frame" %in% class(rd0)) {
         rd0
       } else {
-        tibble::tibble(analysis = 1:n_analysis, rd0 = rd0)
+        tibble(analysis = 1:n_analysis, rd0 = rd0)
       }) %>%
       mutate(
         n_e = n / (1 + ratio),
@@ -222,7 +220,7 @@ gs_info_rd <- function(
       tbl <- tbl %>%
         left_join(
           tbl %>%
-            dplyr::group_by(analysis) %>%
+            group_by(analysis) %>%
             summarize(sum_ss = sum(n_c * n_e / (n_c + n_e)))
         ) %>%
         mutate(weight_per_k_per_s = n_c * n_e / (n_c + n_e) / sum_ss) %>%
@@ -233,7 +231,7 @@ gs_info_rd <- function(
       tbl <- tbl %>%
         left_join(
           tbl %>%
-            dplyr::group_by(analysis) %>%
+            group_by(analysis) %>%
             summarize(sum_inv_var_per_s = sum(1 / sigma2_H1_per_k_per_s))
         ) %>%
         mutate(weight_per_k_per_s = 1 / sigma2_H1_per_k_per_s / sum_inv_var_per_s) %>%
@@ -243,7 +241,7 @@ gs_info_rd <- function(
 
   # Pool the strata together ----
   ans <- tbl %>%
-    dplyr::group_by(analysis) %>%
+    group_by(analysis) %>%
     summarize(
       n = sum(n),
       rd = sum((p_c - p_e) * d * weight_per_k_per_s),
@@ -261,7 +259,7 @@ gs_info_rd <- function(
       info1 = 1 / sigma2_H1,
       info0 = 1 / sigma2_H0
     ) %>%
-    dplyr::ungroup() %>%
+    ungroup() %>%
     select(analysis, n, rd, rd0, theta1, theta0, info1, info0)
 
   return(ans)

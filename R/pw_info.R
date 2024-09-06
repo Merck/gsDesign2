@@ -37,9 +37,6 @@
 #'   null hypothesis), and `n` (sample size) for each value of `total_duration`
 #'   input
 #'
-#' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
-#'                        setcolorder setorderv
-#'
 #' @export
 #'
 #' @examples

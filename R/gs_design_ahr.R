@@ -89,10 +89,6 @@
 #' @details
 #' To be added.
 #'
-#' @importFrom dplyr all_of mutate full_join select arrange desc
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#'
 #' @export
 #'
 #' @examples

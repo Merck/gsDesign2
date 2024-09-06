@@ -44,10 +44,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr filter lead
-#' @importFrom tibble tibble
-#' @importFrom stats stepfun
-#'
 #' @export
 #'
 #' @examples

@@ -45,8 +45,6 @@
 #'    }
 #'  }
 #'
-#' @importFrom stats uniroot
-#'
 #' @export
 #'
 #' @examples
