@@ -84,7 +84,7 @@ fixed_design_mb <- function(
   # Save inputs ----
   input <- list(
     alpha = alpha, power = power, ratio = ratio, study_duration = study_duration,
-    tau = tau,
+    tau = tau, w_max = w_max,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate
   )
@@ -97,7 +97,7 @@ fixed_design_mb <- function(
     d <- gs_power_wlr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
-      ratio = 1,
+      ratio = ratio,
       weight = weight,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
@@ -110,7 +110,7 @@ fixed_design_mb <- function(
       beta = 1 - power,
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
-      ratio = 1,
+      ratio = ratio,
       weight = weight,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
