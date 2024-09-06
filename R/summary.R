@@ -329,10 +329,6 @@ summary.gs_design <- function(object,
   # If the method is WLR, change HR to wHR
   if (method == "wlr") xy <- replace_names(xy, c("~hr at bound" = "~whr at bound"))
 
-  # If the method is COMBO, remove the column of "~HR at bound", and remove AHR from header
-  if (method == "combo" && "~hr at bound" %in% names(xy))
-    stop("'~hr at bound' can't be displayed!")
-
   output <- table_ab(
     # A data frame to be show as the summary header
     # It has only ONE record for each value of `byvar`
