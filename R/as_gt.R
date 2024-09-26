@@ -415,3 +415,11 @@ gsd_parts <- function(
     alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
   )
 }
+
+# Only purpose of the method below is to fix S3 redirection when gsDesign2 is
+# loaded after simtrial, which masks the as_gt() generic from simtrial
+
+#' @export
+as_gt.simtrial_gs_wlr <- function(x, ...) {
+  simtrial:::as_gt.simtrial_gs_wlr(x, ...)
+}
