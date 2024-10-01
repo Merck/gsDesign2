@@ -29,34 +29,45 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
   # ------------------------------ #
   # conditional power of gsDesign  #
   # ------------------------------ #
-  temp <- gsSurv(k = k, test.type = test.type, alpha = alpha, beta = beta,
-                 astar = astar, timing = timing, sfu = sfu, sfupar = sfupar,
-                 sfl = sfl, sflpar = sflpar, lambdaC = lambdaC, hr = hr, hr0 = hr0,
-                 eta = eta, gamma = gamma, R = R, S = S, T = T, minfup = minfup, ratio = ratio)
+  # reference: https://keaven.github.io/gsDesign/articles/ConditionalPowerPlot.html
+  # original design
+  x0 <- gsSurv(k = k, test.type = test.type, alpha = alpha, beta = beta,
+               astar = astar, timing = timing, sfu = sfu, sfupar = sfupar,
+               sfl = sfl, sflpar = sflpar, lambdaC = lambdaC, hr = hr, hr0 = hr0,
+               eta = eta, gamma = gamma, R = R, S = S, T = T, minfup = minfup, ratio = ratio)
 
-  x1 <- gsDesign(k = k, test.type = test.type,
-                 alpha = alpha,
-                 beta = beta,
-                 astar = astar,
-                 delta = temp$delta,
-                 delta1 = temp$delta1,
-                 delta0 = temp$delta0,
-                 timing = temp$timing,
+  # update the design at IA1
+  x1 <- gsDesign(k = x0$k, test.type = x0$test.type,
+                 alpha = x0$alpha, beta = x0$beta,
+                 delta = x0$delta, delta1 = x0$delta1, delta0 = x0$delta0,
+                 n.I = c(85, x0$n.I[2:3]),
+                 maxn.IPlan = x0$n.I[3],
                  sfu = sfu, sfupar = sfupar,
                  sfl = sfl, sflpar = sflpar)
-  y1 <- gsCP(x1, i = 1, zi = -1)
+  # we assume an interim p-value of 0.04, one-sided.
+  # this does not come close to the first efficacy or futility bound above. However, it is a trend in the right direction.
+  p <- 0.04
+  x2 <- gsCP(x1, i = 1, zi = -qnorm(p))
 
   # ------------------------------ #
   # conditional power of gsDesign2 #
   # ------------------------------ #
-  x2 <- gs_power_ahr(enroll_rate = enroll_rate |> mutate(rate = rate * (temp$eNC[3] + temp$eNE[3]) / sum(R * gamma)),
+  # original design
+  y0 <- gs_power_ahr(enroll_rate = enroll_rate |> mutate(rate = rate * (x0$eNC[3] + x0$eNE[3]) / sum(R * gamma)),
                      fail_rate = fail_rate,
                      upper = gs_spending_bound, upar = list(sf = sfu, total_spend = alpha),
                      lower = gs_b, lpar = rep(-Inf, 3),
-                     event = x1$n.I,
-                     analysis_time = NULL)
+                     event = x0$n.I, analysis_time = x0$T)
 
-  y2 <- gs_cp(x = x2, i = 1, zi = -1, j = 2)
+  # update design at IA1
+  y1 <- gs_power_ahr(enroll_rate = y0$enroll_rate,
+                     fail_rate = y0$fail_rate,
+                     upper = gs_spending_bound, upar = list(sf = sfu, total_spend = alpha,
+                                                            timing = c(85, y0$analysis$event[2:3])),
+                     lower = gs_b, lpar = rep(-Inf, 3),
+                     event = c(85, y0$analysis$event[2:3]), analysis_time = y0$analysis$time)
+
+  y2 <- gs_cp(x = y1, i = 1, zi = -qnorm(p), j = 2)
   # ------------------------------ #
   #       comparison              #
   # ------------------------------ #
