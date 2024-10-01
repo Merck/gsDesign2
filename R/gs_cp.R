@@ -34,13 +34,7 @@
 #' # Example 1
 #' x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 #' gs_cp(x = x, i = 1, zi = 0, j = 2)
-
-
-
-# ------------------
-#   gs_cp()
-# ------------------
-
+#'
 gs_cp <- function(x, i, zi, j){
 
   # input check
