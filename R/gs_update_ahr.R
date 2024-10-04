@@ -296,8 +296,16 @@ gs_update_ahr <- function(
     x_updated_h0 <- gs_power_npe(theta = 0,
                                  theta0 = 0,
                                  theta1 = x$analysis$theta,
+                                 # statistical information at all analyses for input `theta`
                                  info = x$analysis$info0,
-                                 info_scale = "h0_info",
+                                 # statistical information under null hypothesis,
+                                 # impacts null hypothesis bound calculation.
+                                 info0 = x$analysis$info0,
+                                 # statistical information under hypothesis used for
+                                 # futility bound calculation if different from `info`
+                                 # impacts futility hypothesis bound calculation.
+                                 info = NULL,
+                                 info_scale = "h0_h1_info",
                                  upper = x$input$upper, upar = upar_update,
                                  test_upper = x$input$test_upper,
                                  lower = x$input$lower, lpar = x$input$lpar,
@@ -308,9 +316,16 @@ gs_update_ahr <- function(
     x_updated_h1 <- gs_power_npe(theta = x$analysis$theta,
                                  theta0 = 0,
                                  theta1 = x$analysis$theta,
+                                 # statistical information under null hypothesis,
+                                 # impacts null hypothesis bound calculation.
                                  info0 = x$analysis$info0,
+                                 # statistical information at all analyses for input `theta`
                                  info = x$analysis$info,
-                                 info_scale = "h0_info",
+                                 # statistical information under hypothesis used for
+                                 # futility bound calculation if different from `info`
+                                 # impacts futility hypothesis bound calculation.
+                                 info1 = NULL,
+                                 info_scale = "h0_h1_info",
                                  upper = x$input$upper, upar = upar_update,
                                  test_upper = x$input$test_upper,
                                  lower = x$input$lower, lpar = x$input$lpar,
