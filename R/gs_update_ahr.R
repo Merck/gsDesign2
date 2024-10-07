@@ -304,7 +304,7 @@ gs_update_ahr <- function(
                                  # statistical information under hypothesis used for
                                  # futility bound calculation if different from `info`
                                  # impacts futility hypothesis bound calculation.
-                                 info1 = NULL,
+                                 info1 = x$analysis$info,
                                  info_scale = "h0_h1_info",
                                  upper = x$input$upper, upar = upar_update,
                                  test_upper = x$input$test_upper,
