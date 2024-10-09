@@ -72,30 +72,30 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
   #       comparison              #
   # ------------------------------ #
   # comparison of sample size
-  expect_equal((temp$eNC + temp$eNE) |> as.vector(), x2$analysis$n, tolerance = 1e-5)
+  expect_equal((x0$eNC + x0$eNE) |> as.vector(), y0$analysis$n, tolerance = 1e-5)
 
   # comparison of events
-  expect_equal(x1$n.I, x2$analysis$event, tolerance = 1e-5)
+  expect_equal(x1$n.I, y1$analysis$event, tolerance = 1e-5)
 
   # comparison of timing
-  expect_equal((temp$T) |> as.vector(), x2$analysis$time, tolerance = 1e-5)
+  expect_equal((x0$T) |> as.vector(), y0$analysis$time, tolerance = 1e-5)
 
   # comparison of crossing probability under H1
-  expect_equal(x1$upper$prob[, 2] |> cumsum(), x2$bound$probability, tolerance = 1e-2)
+  expect_equal(x0$upper$prob[, 2] |> cumsum(), y0$bound$probability, tolerance = 1e-2)
 
   # comparison of crossing probability under H0
-  expect_equal(x1$upper$prob[, 1] |> cumsum(), x2$bound$probability0, tolerance = 1e-2)
+  expect_equal(x0$upper$prob[, 1] |> cumsum(), y0$bound$probability0, tolerance = 1e-2)
 
   # comparison of conditional power
   # ??? scenario 1: conditional power after the first interim analysis based on the interim estimate of theta
-  sum(y1$upper$prob[, 1])
+  sum(x2$upper$prob[, 1])
   y2$upper_prob$prob1
 
   # ??? scenario 2: conditional error, ie.e, based on theta = 0
-  sum(y1$upper$prob[, 2])
+  sum(x2$upper$prob[, 2])
   y2$upper_prob$prob0
 
   # ???  scenario 3: conditional power based on theta = H1's theta
-  sum(y1$upper$prob[, 3])
+  sum(x2$upper$prob[, 3])
   y2$upper_prob$prob1
 })
