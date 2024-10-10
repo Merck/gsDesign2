@@ -54,7 +54,7 @@ define_enroll_rate <- function(
     duration,
     rate,
     stratum = "All") {
-  df <- tibble::tibble(
+  df <- tibble(
     stratum = stratum,
     duration = duration,
     rate = rate
@@ -117,7 +117,7 @@ define_fail_rate <- function(
     dropout_rate,
     hr = 1,
     stratum = "All") {
-  df <- tibble::tibble(
+  df <- tibble(
     stratum = stratum,
     duration = duration,
     fail_rate = fail_rate,

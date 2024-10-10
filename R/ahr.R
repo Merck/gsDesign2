@@ -72,8 +72,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom data.table setDF setDT
-#'
 #' @export
 #'
 #' @examples

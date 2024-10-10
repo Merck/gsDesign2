@@ -27,8 +27,6 @@
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
-#' @importFrom mvtnorm GenzBretz
-#'
 #' @export
 #'
 #' @examples
@@ -267,12 +265,12 @@ gs_design_combo <- function(
 
 
   out <- db %>%
-    dplyr::select(
+    select(
       analysis, bound, time, n, event, z,
       probability, probability_null
     ) %>%
-    dplyr::rename(probability0 = probability_null) %>%
-    dplyr::mutate(`nominal p` = pnorm(z * (-1)))
+    rename(probability0 = probability_null) %>%
+    mutate(`nominal p` = pnorm(z * (-1)))
 
 
   # get bounds to output

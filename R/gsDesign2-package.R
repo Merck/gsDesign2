@@ -16,11 +16,15 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
+#'   setDT setcolorder setorderv
+#' @importFrom dplyr "%>%" all_of arrange desc filter full_join group_by lead
+#'   left_join mutate one_of rename row_number select summarize ungroup
+#' @importFrom gsDesign gsDesign sfLDOF
+#' @importFrom stats pnorm qnorm setNames stepfun uniroot
+#' @importFrom tibble tibble
+#' @importFrom utils tail
+#' @importFrom Rcpp sourceCpp
+#' @useDynLib gsDesign2, .registration = TRUE
 #' @keywords internal
 "_PACKAGE"
-
-#' @useDynLib gsDesign2, .registration = TRUE
-NULL
-
-#' @importFrom Rcpp sourceCpp
-NULL

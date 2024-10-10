@@ -17,7 +17,7 @@ gs_power_combo(
   upar = c(3, 2, 1),
   lower = gs_b,
   lpar = c(-1, 0, 1),
-  algorithm = GenzBretz(maxpts = 1e+05, abseps = 1e-05),
+  algorithm = mvtnorm::GenzBretz(maxpts = 1e+05, abseps = 1e-05),
   ...
 )
 }

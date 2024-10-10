@@ -49,8 +49,6 @@
 #' The [expected_time()] function is used to get events and average HR at
 #' targeted `analysis_time`.
 #'
-#' @importFrom utils tail
-#'
 #' @export
 #'
 #' @examples

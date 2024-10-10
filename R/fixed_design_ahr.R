@@ -39,8 +39,6 @@
 #'   and `1 - alpha` otherwise).
 #' @param study_duration Study duration.
 #'
-#' @importFrom dplyr filter
-#'
 #' @returns A list of design characteristic summary.
 #'
 #' @export
@@ -121,7 +119,7 @@ fixed_design_ahr <- function(
       analysis_time = study_duration
     )
   }
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "ahr",
     n = d$analysis$n,
     event = d$analysis$event,

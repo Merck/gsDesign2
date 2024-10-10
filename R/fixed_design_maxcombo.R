@@ -118,7 +118,7 @@ fixed_design_maxcombo <- function(
     )
   }
   # get the output of MaxCombo
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "maxcombo",
     n = d$analysis$n,
     event = d$analysis$event,

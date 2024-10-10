@@ -35,8 +35,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom dplyr all_of
-#'
 #' @export
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
@@ -329,11 +327,7 @@ gs_design_wlr <- function(
     bounds = bounds %>% filter(!is.infinite(z)),
     analysis = analysis)
 
-  class(ans) <- c("wlr", "gs_design", class(ans))
-  if (!binding) {
-    class(ans) <- c("non_binding", class(ans))
-  }
-
+  ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
   return(ans)
 }
 

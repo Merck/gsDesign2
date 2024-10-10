@@ -255,7 +255,7 @@ check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
   if ("stratum" %in% colnames(enroll_rate) && "stratum" %in% colnames(fail_rate)) {
     strata_enroll <- unique(enroll_rate$stratum)
     strata_fail <- unique(fail_rate$stratum)
-    strata_common <- dplyr::intersect(strata_enroll, strata_fail)
+    strata_common <- intersect(strata_enroll, strata_fail)
 
     if (sum(strata_common %in% strata_enroll) != length(strata_enroll)) {
       stop("The `Strata` column in the input argument `enroll_rate` and `fail_rate` must be the same!")

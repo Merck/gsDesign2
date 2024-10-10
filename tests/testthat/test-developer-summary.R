@@ -11,7 +11,7 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
     extract_summary_analysis()
   expect_identical(
     observed,
-    paste0("Analysis: 1 Time: 12 N: 707.3 Event: 160.4 AHR: 0.81 Information fraction: ", round(x$analysis$event[1]/ max(x$analysis$event), 2))
+    paste0("Analysis: 1 Time: 12 N: 707.3 Events: 160.4 AHR: 0.81 Information fraction: ", round(x$analysis$event[1]/ max(x$analysis$event), 2))
   )
 
   # specify the decimals for each variable
@@ -24,7 +24,7 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
     extract_summary_analysis()
   expect_identical(
     observed,
-    "Analysis: 1 Time: 12 N: 707 Event: 160 AHR: 0.8108 Information fraction: 0.4191"
+    "Analysis: 1 Time: 12 N: 707 Events: 160 AHR: 0.8108 Information fraction: 0.4191"
   )
 
   # Drop variables and also specify the decimals
@@ -50,7 +50,7 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
     extract_summary_analysis()
   expect_identical(
     observed,
-    "Analysis: 1 Information fraction: 0.4191 AHR: 0.8108 Event: 160 N: 707 Time: 12"
+    "Analysis: 1 Information fraction: 0.4191 AHR: 0.8108 Events: 160 N: 707 Time: 12"
   )
 
   # Throw error if unnamed analysis_decimals does not match length of analysis_vars
@@ -60,7 +60,7 @@ test_that("summary.gs_design() accepts same-length vectors for analysis_vars and
       analysis_vars = c("info_frac", "ahr", "event", "n", "time"),
       analysis_decimals = c(4, 4),
     ),
-    "summary: please input analysis_vars and analysis_decimals in pairs!"
+    "'analysis_vars' and 'analysis_decimals' must be of the same length"
   )
 })
 
@@ -74,7 +74,7 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
     extract_summary_analysis()
   expect_identical(
     observed,
-    paste0("Analysis: 1 Time: 12 N: 707.3 Event: 160.4 AHR: 0.8108 Information fraction: ", round(x$analysis$event[1]/ max(x$analysis$event), 4))
+    paste0("Analysis: 1 Time: 12 N: 707.3 Events: 160.4 AHR: 0.8108 Information fraction: ", round(x$analysis$event[1]/ max(x$analysis$event), 4))
   )
 
   # Specify decimals and also drop some variables
@@ -87,7 +87,7 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
     extract_summary_analysis()
   expect_identical(
     observed,
-    paste0("Analysis: 1 Event: 160.4 AHR: 0.8108 Information fraction: ", round(x$analysis$event[1]/max(x$analysis$event), 4))
+    paste0("Analysis: 1 Events: 160.4 AHR: 0.8108 Information fraction: ", round(x$analysis$event[1]/max(x$analysis$event), 4))
   )
 
   # Specify decimals and rearrange some variables
@@ -100,7 +100,7 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
     extract_summary_analysis()
   expect_identical(
     observed,
-    paste0("Analysis: 1 Information fraction: ", round(x$analysis$event[1]/max(x$analysis$event), 4), " AHR: 0.8108 Event: 160.4")
+    paste0("Analysis: 1 Information fraction: ", round(x$analysis$event[1]/max(x$analysis$event), 4), " AHR: 0.8108 Events: 160.4")
   )
 
   # Only drop variables
@@ -112,13 +112,13 @@ test_that("summary.gs_design() accepts a named vector for analysis_decimals", {
     extract_summary_analysis()
   expect_identical(
     observed,
-    "Analysis: 1 Information fraction: 0.42 AHR: 0.81 Event: 160.4"
+    "Analysis: 1 Information fraction: 0.42 AHR: 0.81 Events: 160.4"
   )
 
   # Throw error is analysis_decimals is unnamed
   expect_error(
     summary(x, analysis_decimals = c(4, 4)),
-    "summary: analysis_decimals must be a named vector if analysis_vars is not provided"
+    "'analysis_decimals' must be a named vector if 'analysis_vars' is not provided"
   )
 })
 
@@ -235,7 +235,7 @@ test_that("summary.gs_design() accepts same-length vectors for col_vars and col_
       col_vars = c("Null hypothesis", "Alternate hypothesis", "nominal p"),
       col_decimals = c(0, 0),
     ),
-    "summary: please input col_vars and col_decimals in pairs!"
+    "'col_vars' and 'col_decimals' must be of the same length"
   )
 })
 
@@ -284,6 +284,6 @@ test_that("summary.gs_design() accepts a named vector for col_decimals", {
   # Throw error is col_decimals is unnamed
   expect_error(
     summary(x, col_decimals = c(4, 4)),
-    "summary: col_decimals must be a named vector if col_vars is not provided"
+    "'col_decimals' must be a named vector if 'col_vars' is not provided"
   )
 })

@@ -89,10 +89,6 @@
 #' @details
 #' To be added.
 #'
-#' @importFrom dplyr all_of mutate full_join select arrange desc
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#'
 #' @export
 #'
 #' @examples
@@ -380,10 +376,6 @@ gs_design_ahr <- function(
     analysis = analysis
   )
 
-  class(ans) <- c("ahr", "gs_design", class(ans))
-  if (!binding) {
-    class(ans) <- c("non_binding", class(ans))
-  }
-
+  ans <- add_class(ans, if (!binding) "non_binding", "ahr", "gs_design")
   return(ans)
 }

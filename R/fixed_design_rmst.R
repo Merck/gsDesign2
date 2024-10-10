@@ -105,7 +105,7 @@ fixed_design_rmst <- function(
     )
   }
   # get the output
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "rmst",
     n = d$analysis$n,
     event = d$analysis$event,

@@ -62,10 +62,6 @@
 #' @details
 #' To be added.
 #'
-#' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats qnorm
-#' @importFrom dplyr mutate select arrange desc
-#'
 #' @export
 #'
 #' @examples
@@ -170,7 +166,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
   x_fix <- gs_info_rd(
     p_c = p_c,
     p_e = p_e,
-    n = tibble::tibble(
+    n = tibble(
       analysis = 1,
       stratum = p_c$stratum,
       n = if (is.null(stratum_prev)) {
@@ -188,7 +184,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
   x_gs <- gs_info_rd(
     p_c = p_c,
     p_e = p_e,
-    n = tibble::tibble(
+    n = tibble(
       analysis = rep(1:k, n_strata),
       stratum = rep(p_c$stratum, each = k),
       n = if (is.null(stratum_prev)) {
@@ -281,10 +277,6 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
     analysis = analysis
   )
 
-  class(ans) <- c("rd", "gs_design", class(ans))
-  if (!binding) {
-    class(ans) <- c("non_binding", class(ans))
-  }
-
+  ans <- add_class(ans, if (!binding) "non_binding", "rd", "gs_design")
   return(ans)
 }

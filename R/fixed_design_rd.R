@@ -76,18 +76,18 @@ fixed_design_rd <- function(
   # Generate design ----
   if (is.null(power)) {
     d <- gs_power_rd(
-      p_c = tibble::tibble(stratum = "All", rate = p_c),
-      p_e = tibble::tibble(stratum = "All", rate = p_e),
+      p_c = tibble(stratum = "All", rate = p_c),
+      p_e = tibble(stratum = "All", rate = p_e),
       ratio = ratio,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
-      n = tibble::tibble(stratum = "All", n = n, analysis = 1),
+      n = tibble(stratum = "All", n = n, analysis = 1),
       rd0 = rd0, weight = "unstratified"
     )
   } else {
     d <- gs_design_rd(
-      p_c = tibble::tibble(stratum = "All", rate = p_c),
-      p_e = tibble::tibble(stratum = "All", rate = p_e),
+      p_c = tibble(stratum = "All", rate = p_c),
+      p_e = tibble(stratum = "All", rate = p_e),
       alpha = alpha, beta = 1 - power, ratio = ratio,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
@@ -95,7 +95,7 @@ fixed_design_rd <- function(
     )
   }
   # get the output of MaxCombo
-  ans <- tibble::tibble(
+  ans <- tibble(
     design = "rd",
     n = d$analysis$n,
     bound = (d$bound %>% filter(bound == "upper"))$z,

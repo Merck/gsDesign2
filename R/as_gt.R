@@ -89,10 +89,11 @@ as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   return(ans)
 }
 
+get_method <- function(x, methods) intersect(methods, class(x))[1]
+
 # get the fixed design method
 fd_method <- function(x) {
-  methods <- c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst")
-  intersect(methods, class(x))[1]
+  get_method(x, c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst"))
 }
 
 # get the default title
@@ -251,17 +252,16 @@ as_gt.gs_design <- function(
     ...) {
 
   x_old <- x
-  full_alpha <- attr(x, "full_alpha")
   parts <- gsd_parts(
     x, title, subtitle, colname_spannersub, footnote,
     display_bound, display_columns, display_inf_bound
   )
 
   x <- parts$x %>%
-    dplyr::group_by(Analysis) %>%
+    group_by(Analysis) %>%
     gt::gt() %>%
     gt::tab_spanner(
-      columns = dplyr::all_of(colname_spannersub),
+      columns = all_of(colname_spannersub),
       label = colname_spanner
     ) %>%
     gt::tab_header(title = parts$title, subtitle = parts$subtitle)
@@ -288,7 +288,7 @@ as_gt.gs_design <- function(
   }
 
   # add footnote for non-binding design
-  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha, full_alpha)
+  footnote_nb <- gsd_footnote_nb(x_old, parts$alpha)
   if (!is.null(footnote_nb)) x <- gt::tab_footnote(
     x,
     footnote = footnote_nb,
@@ -348,7 +348,8 @@ gsd_footnote <- function(method, columns) {
 }
 
 # footnote for non-binding designs
-gsd_footnote_nb <- function(x, x_alpha, full_alpha) {
+gsd_footnote_nb <- function(x, x_alpha) {
+  full_alpha <- attr(x, "full_alpha")
   if (!inherits(x, "non_binding") || x_alpha >= full_alpha) return()
   a1 <- format(x_alpha, scientific = FALSE)
   a2 <- format(full_alpha, scientific = FALSE)
@@ -408,9 +409,17 @@ gsd_parts <- function(
   )
 
   list(
-    x = dplyr::arrange(x2, Analysis),
+    x = arrange(x2, Analysis),
     title = title, subtitle = subtitle,
     footnote = footnote %||% gsd_footnote(method, columns),
     alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
   )
+}
+
+# Only purpose of the method below is to fix S3 redirection when gsDesign2 is
+# loaded after simtrial, which masks the as_gt() generic from simtrial
+
+#' @export
+as_gt.simtrial_gs_wlr <- function(x, ...) {
+  simtrial:::as_gt.simtrial_gs_wlr(x, ...)
 }

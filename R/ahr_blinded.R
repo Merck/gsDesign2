@@ -60,9 +60,6 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
-#' @importFrom tibble tibble
-#' @importFrom survival Surv
-#'
 #' @export
 #'
 #' @examples
@@ -91,7 +88,7 @@ ahr_blinded <- function(
     stop("'intervals' must be a vector of positive numbers.")
   }
   if (length(intervals) != length(hr)) {
-    stop("the piecewise model specified 'hr' and 'intervals' differ in length.")
+    stop("The piecewise model specified 'hr' and 'intervals' differ in length.")
   }
 
   # Set final element of "intervals" to Inf

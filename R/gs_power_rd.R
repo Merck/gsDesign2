@@ -321,7 +321,7 @@ gs_power_rd <- function(
       left_join(
         y_h0 %>%
           select(analysis, bound, probability) %>%
-          dplyr::rename(probability0 = probability)
+          rename(probability0 = probability)
       ) %>%
       select(analysis, bound, probability, probability0, z, `~risk difference at bound`, `nominal p`)
   )
@@ -337,7 +337,7 @@ gs_power_rd <- function(
       left_join(
         y_h0 %>%
           select(analysis, info, info_frac) %>%
-          dplyr::rename(info0 = info, info_frac0 = info_frac) %>%
+          rename(info0 = info, info_frac0 = info_frac) %>%
           unique()
       ) %>%
       select(analysis, n, rd, rd0, theta1, theta0, info, info0, info_frac, info_frac0)
@@ -348,10 +348,6 @@ gs_power_rd <- function(
     analysis = analysis
   )
 
-  class(ans) <- c("rd", "gs_design", class(ans))
-  if (!binding) {
-    class(ans) <- c("non_binding", class(ans))
-  }
-
+  ans <- add_class(ans, if (!binding) "non_binding", "rd", "gs_design")
   return(ans)
 }

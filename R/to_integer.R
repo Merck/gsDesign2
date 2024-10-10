@@ -111,7 +111,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       upar = qnorm(1 - x$input$alpha), lpar = -Inf
     )
 
-    analysis <- tibble::tibble(
+    analysis <- tibble(
       design = "ahr",
       n = x_new$analysis$n,
       event = x_new$analysis$event,
@@ -126,7 +126,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       analysis = analysis, design = "ahr"
     )
 
-    class(ans) <- c("fixed_design", class(ans))
+    ans <- add_class(ans, "fixed_design")
   } else if ((x$design == "fh") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
@@ -144,7 +144,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       }
     )
 
-    analysis <- tibble::tibble(
+    analysis <- tibble(
       design = "fh",
       n = x_new$analysis$n,
       event = x_new$analysis$event,
@@ -159,7 +159,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       analysis = analysis, design = "fh", design_par = x$design_par
     )
 
-    class(ans) <- c("fixed_design", class(ans))
+    ans <- add_class(ans, "fixed_design")
   } else if ((x$design == "mb") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
@@ -177,7 +177,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       upar = qnorm(1 - x$input$alpha), lpar = -Inf
     )
 
-    analysis <- tibble::tibble(
+    analysis <- tibble(
       design = "mb",
       n = x_new$analysis$n,
       event = x_new$analysis$event,
@@ -192,7 +192,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
       analysis = analysis, design = "mb", design_par = x$design_par
     )
 
-    class(ans) <- c("fixed_design", class(ans))
+    ans <- add_class(ans, "fixed_design")
   } else {
     message("The input object is not applicable to get an integer sample size.")
     ans <- x
@@ -346,7 +346,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     n_stratum <- length(x$input$p_c$stratum)
 
     # Update unstratified sample size to integer
-    sample_size_new <- tibble::tibble(
+    sample_size_new <- tibble(
       analysis = 1:n_analysis,
       n = c(
         floor(x$analysis$n[1:(n_analysis - 1)] / multiply_factor),
@@ -356,7 +356,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
 
     # Update sample size per stratum
     suppressMessages({
-      tbl_n <- tibble::tibble(
+      tbl_n <- tibble(
         analysis = rep(1:n_analysis, each = n_stratum),
         stratum = rep(x$input$p_c$stratum, n_analysis)
       )
@@ -369,7 +369,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
           left_join(sample_size_new) %>%
           mutate(n_new = prevalence * n) %>%
           select(-c(n, prevalence)) %>%
-          dplyr::rename(n = n_new)
+          rename(n = n_new)
       }
     })
 
