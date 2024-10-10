@@ -45,7 +45,7 @@
 #' library(gsDesign2)
 #'
 #' # set enrollment rates
-#' enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
+#' enroll_rate <- define_enroll_rate(duration = 12, rate = 1)
 #'
 #' # set failure rates
 #' fail_rate <- define_fail_rate(
@@ -56,39 +56,7 @@
 #' )
 #'
 #' # Example 1 ----
-#' # Boundary is fixed
-#' x <- gsSurv(
-#'   k = 3,
-#'   test.type = 4,
-#'   alpha = 0.025, beta = 0.2,
-#'   astar = 0, timing = 1,
-#'   sfu = sfLDOF, sfupar = 0,
-#'   sfl = sfLDOF, sflpar = 0,
-#'   lambdaC = 0.1,
-#'   hr = 0.6, hr0 = 1,
-#'   eta = 0.01, gamma = 10,
-#'   R = 12, S = NULL,
-#'   T = 36, minfup = 24,
-#'   ratio = 1
-#' )
-#'
-#' gs_design_wlr(
-#'   enroll_rate = enroll_rate,
-#'   fail_rate = fail_rate,
-#'   ratio = 1,
-#'   alpha = 0.025, beta = 0.2,
-#'   weight = function(x, arm0, arm1) {
-#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-#'   },
-#'   upper = gs_b,
-#'   upar = x$upper$bound,
-#'   lower = gs_b,
-#'   lpar = x$lower$bound,
-#'   analysis_time = c(12, 24, 36)
-#' )
-#'
-#' # Example 2 ----
-#' # Boundary derived by spending function
+#' # Information fraction driven design
 #' gs_design_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -101,7 +69,44 @@
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-#'   analysis_time = c(12, 24, 36)
+#'   analysis_time = 36,
+#'   info_frac = 1:3/3
+#' )
+#'
+#' # Example 2 ----
+#' # Calendar time driven design
+#' gs_design_wlr(
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
+#'   ratio = 1,
+#'   alpha = 0.025, beta = 0.2,
+#'   weight = function(x, arm0, arm1) {
+#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+#'   },
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+#'   analysis_time = 1:3*12,
+#'   info_frac = NULL
+#' )
+#'
+#' # Example 3 ----
+#' # Both calendar time and information fraction driven design
+#' gs_design_wlr(
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
+#'   ratio = 1,
+#'   alpha = 0.025, beta = 0.2,
+#'   weight = function(x, arm0, arm1) {
+#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+#'   },
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+#'   analysis_time = 1:3*12,
+#'   info_frac = c(0.3, 0.7, 1)
 #' )
 gs_design_wlr <- function(
     enroll_rate = define_enroll_rate(
@@ -128,7 +133,9 @@ gs_design_wlr <- function(
     h1_spending = TRUE,
     r = 18, tol = 1e-6,
     interval = c(.01, 1000)) {
-  # Check input values ----
+  # --------------------------------------- #
+  #      check input values                 #
+  # --------------------------------------- #
   msg <- "gs_design_wlr(): analysis_time must be a
   positive number or positive increasing sequence"
   if (!is.vector(analysis_time, mode = "numeric")) stop(msg)
@@ -145,52 +152,103 @@ gs_design_wlr <- function(
     stop("gs_design_wlr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
   }
 
-  # get the info_scale
+  # ---------------------------------------- #
+  #      get some basic parameters           #
+  # ---------------------------------------- #
   info_scale <- match.arg(info_scale)
+  n_analysis <- max(length(analysis_time), length(info_frac))
 
-  # Get information at input analysis_time ----
+  # ---------------------------------------- #
+  #      get information at input            #
+  #      analysis_time, covering 3 scenarios:#
+  #      (1) fixed design                    #
+  #      (2) info-frac driven design with    #
+  #          a known study duration          #
+  #      (3) calendar time driven design     #
+  # ---------------------------------------- #
   y <- gs_info_wlr(enroll_rate, fail_rate,
-    ratio = ratio, event = NULL,
-    analysis_time = analysis_time, weight = weight, approx = approx,
-    interval = interval
-  )
+                   ratio = ratio, event = NULL,
+                   analysis_time = analysis_time, weight = weight, approx = approx,
+                   interval = interval) %>%
+    dplyr::select(-c(n, delta, sigma2))
 
   final_event <- y$event[nrow(y)]
-  if_alt <- y$event / final_event
+  final_info <- max(y$info)
+  info_frac_by_time <- y$info / max(y$info)
 
-  # Check if info_frac needed for (any) IA timing
-  n_analysis <- max(length(analysis_time), length(info_frac))
+  # if it is info frac driven group sequential design
+  # relabel the analysis to FA, and back calculate IAs from FA
+  if (n_analysis > 1 && length(analysis_time) == 1 && length(info_frac) > 1) {
+    y$analysis <- n_analysis
+  }
+
+  # ---------------------------------------- #
+  #      calculate the design to meet        #
+  #      targeted info_frac or analysis_time #
+  #      or both                             #
+  # ---------------------------------------- #
   next_time <- max(analysis_time)
 
+  # if it is calendar time driven design,
+  # e.g., info_frac = NULL, analysis_time = c(12, 14, 36)
   if (length(info_frac) == 1) {
-    info_frac <- if_alt
+    info_frac <- info_frac_by_time
   } else {
+    # if info_frac != NULL
     if_indx <- info_frac[1:(n_analysis - 1)]
     for (i in seq_along(if_indx)) {
-      if (length(if_alt) == 1) {
-        y <- rbind(
-          expected_time(enroll_rate, fail_rate,
-            target_event = info_frac[n_analysis - i] * final_event,
-            ratio = ratio, interval = c(.01, next_time)
-          ) %>%
-            mutate(theta = -log(ahr), analysis = n_analysis - i),
-          y
-        )
-      } else if (info_frac[n_analysis - i] > if_alt[n_analysis - i]) {
-        y[n_analysis - i, ] <- expected_time(enroll_rate, fail_rate,
-          target_event = IF[n_analysis - i] * final_event,
-          ratio = ratio, interval = c(.01, next_time)
-        ) %>%
-          dplyr::transmute(analysis = n_analysis - i, time, event, ahr, theta = -log(ahr), info, info0)
+      # if it is info frac driven design with a known study duration,
+      # e.g., info_frac = 1:3/3, analysis_time = 36
+      if (length(info_frac_by_time) == 1) {
+        # search the analysis time when the input info_frac arrives
+        ia_time <- uniroot(find_time_by_info_frac,
+                           interval = c(0.01, next_time),
+                           enroll_rate = enroll_rate, fail_rate = fail_rate, ratio = ratio,
+                           weight = weight, approx = approx,
+                           final_info = final_info, next_time = next_time,
+                           input_info_frac = info_frac[n_analysis - i])$root
+
+        y_ia <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio,
+                            event = NULL, analysis_time = ia_time,
+                            weight = weight, approx = approx,
+                            interval = c(.01, next_time)) %>%
+          dplyr::select(-c(n, delta, sigma2)) %>%
+          dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
+        y <- dplyr::bind_rows(y_ia, y)
+      # if it is driven by both info frac and analysis time,
+      # e.g., info_frac = 1:3/2, analysis_time = c(12, 24, 36)
+      } else if (info_frac[n_analysis - i] > info_frac_by_time[n_analysis - i]) {
+        # search the events when the input info_frac arrives
+        ia_event <- uniroot(find_event_by_info_frac,
+                           interval = c(0.01, y$event[y$analysis == n_analysis - i + 1]),
+                           enroll_rate = enroll_rate, fail_rate = fail_rate, ratio = ratio,
+                           weight = weight, approx = approx,
+                           final_info = final_info, next_time = next_time,
+                           input_info_frac = info_frac[n_analysis - i])$root
+
+        y_ia <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio,
+                            event = ia_event, analysis_time = NULL,
+                            weight = weight, approx = approx,
+                            interval = c(.01, next_time)) %>%
+          dplyr::select(-c(n, delta, sigma2)) %>%
+          dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
+
+        y_exclude_ia <- y %>%  filter(analysis != n_analysis - i)
+        y <- dplyr::bind_rows(y_ia, y_exclude_ia)
       }
-      next_time <- y$time[n_analysis - i]
+
+      next_time <- y$time[y$analysis == n_analysis - i]
     }
   }
 
+  y <- y %>% arrange(analysis)
   y$analysis <- 1:n_analysis
   y$n <- expected_accrual(time = y$time, enroll_rate = enroll_rate)
 
-  # h1 spending
+  # ---------------------------------------- #
+  #      adjust theta1 and info1             #
+  #      by h1 spending or not               #
+  # ---------------------------------------- #
   if (h1_spending) {
     theta1 <- y$theta
     info1 <- y$info
@@ -199,7 +257,10 @@ gs_design_wlr <- function(
     info1 <- y$info0
   }
 
-  # Combine all the calculations ----
+  # ---------------------------------------- #
+  #      calculate the design with known     #
+  #      3 theta and 3 info                  #
+  # ---------------------------------------- #
   suppressMessages(
     allout <- gs_design_npe(
       theta = y$theta, theta1 = theta1,
@@ -230,10 +291,11 @@ gs_design_wlr <- function(
   # add `~hr at bound` and `nominal p`
   allout <- allout %>% mutate(
     "~hr at bound" = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
-    "nominal p" = pnorm(-z)
-  )
+    "nominal p" = pnorm(-z))
 
-  # Return the output ----
+  # ---------------------------------------- #
+  #      return the output                   #
+  # ---------------------------------------- #
   # bounds table
   bounds <- allout %>%
     select(all_of(c("analysis", "bound", "probability", "probability0", "z", "~hr at bound", "nominal p"))) %>%
@@ -244,6 +306,7 @@ gs_design_wlr <- function(
     select(analysis, time, n, event, ahr, theta, info, info0, info_frac) %>%
     unique() %>%
     arrange(analysis)
+
   # input table
   input <- list(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
@@ -254,8 +317,7 @@ gs_design_wlr <- function(
     lower = lower, lpar = lpar,
     test_upper = test_upper, test_lower = test_lower,
     h1_spending = h1_spending, binding = binding,
-    info_scale = info_scale, r = r, tol = tol
-  )
+    info_scale = info_scale, r = r, tol = tol)
 
   # final output
   ans <- list(
@@ -263,9 +325,35 @@ gs_design_wlr <- function(
     enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
     fail_rate = fail_rate,
     bounds = bounds %>% filter(!is.infinite(z)),
-    analysis = analysis
-  )
+    analysis = analysis)
 
   ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
   return(ans)
+}
+
+
+# utility function to find the analysis time to get the planned/input info_frac
+find_time_by_info_frac <- function(x, enroll_rate, fail_rate, ratio, weight, approx,
+                                   final_info, next_time,
+                                   input_info_frac){
+  ia_info <- gs_info_wlr(analysis_time = x, event = NULL,
+                         enroll_rate = enroll_rate, fail_rate = fail_rate,
+                         weight = weight, approx = approx, ratio = ratio,
+                         interval = c(.01, next_time))
+
+  ia_info_frac <- ia_info$info / final_info
+  return(ia_info_frac - input_info_frac)
+}
+
+# utility function to find the event to get the planned/input info_frac
+find_event_by_info_frac <- function(x, enroll_rate, fail_rate, ratio, weight, approx,
+                                    final_info, next_time,
+                                    input_info_frac){
+  ia_info <- gs_info_wlr(analysis_time = NULL, event = x,
+                         enroll_rate = enroll_rate, fail_rate = fail_rate,
+                         weight = weight, approx = approx, ratio = ratio,
+                         interval = c(.01, next_time))
+
+  ia_info_frac <- ia_info$info / final_info
+  return(ia_info_frac - input_info_frac)
 }

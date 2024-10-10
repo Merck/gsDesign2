@@ -130,7 +130,7 @@ library(gsDesign)
 library(gsDesign2)
 
 # set enrollment rates
-enroll_rate <- define_enroll_rate(duration = 12, rate = 500 / 12)
+enroll_rate <- define_enroll_rate(duration = 12, rate = 1)
 
 # set failure rates
 fail_rate <- define_fail_rate(
@@ -141,39 +141,7 @@ fail_rate <- define_fail_rate(
 )
 
 # Example 1 ----
-# Boundary is fixed
-x <- gsSurv(
-  k = 3,
-  test.type = 4,
-  alpha = 0.025, beta = 0.2,
-  astar = 0, timing = 1,
-  sfu = sfLDOF, sfupar = 0,
-  sfl = sfLDOF, sflpar = 0,
-  lambdaC = 0.1,
-  hr = 0.6, hr0 = 1,
-  eta = 0.01, gamma = 10,
-  R = 12, S = NULL,
-  T = 36, minfup = 24,
-  ratio = 1
-)
-
-gs_design_wlr(
-  enroll_rate = enroll_rate,
-  fail_rate = fail_rate,
-  ratio = 1,
-  alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-  },
-  upper = gs_b,
-  upar = x$upper$bound,
-  lower = gs_b,
-  lpar = x$lower$bound,
-  analysis_time = c(12, 24, 36)
-)
-
-# Example 2 ----
-# Boundary derived by spending function
+# Information fraction driven design
 gs_design_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -186,6 +154,43 @@ gs_design_wlr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-  analysis_time = c(12, 24, 36)
+  analysis_time = 36,
+  info_frac = 1:3/3
+)
+
+# Example 2 ----
+# Calendar time driven design
+gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025, beta = 0.2,
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+  analysis_time = 1:3*12,
+  info_frac = NULL
+)
+
+# Example 3 ----
+# Both calendar time and information fraction driven design
+gs_design_wlr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = 1,
+  alpha = 0.025, beta = 0.2,
+  weight = function(x, arm0, arm1) {
+    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
+  },
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
+  analysis_time = 1:3*12,
+  info_frac = c(0.3, 0.7, 1)
 )
 }
