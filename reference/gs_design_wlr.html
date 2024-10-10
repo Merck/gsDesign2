@@ -196,7 +196,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># set enrollment rates</span></span></span>
-<span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fl">12</span>, rate <span class="op">=</span> <span class="fl">500</span> <span class="op">/</span> <span class="fl">12</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fl">12</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># set failure rates</span></span></span>
 <span class="r-in"><span><span class="va">fail_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_fail_rate.html">define_fail_rate</a></span><span class="op">(</span></span></span>
@@ -207,166 +207,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 1 ----</span></span></span>
-<span class="r-in"><span><span class="co"># Boundary is fixed</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  k <span class="op">=</span> <span class="fl">3</span>,</span></span>
-<span class="r-in"><span>  test.type <span class="op">=</span> <span class="fl">4</span>,</span></span>
-<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
-<span class="r-in"><span>  astar <span class="op">=</span> <span class="fl">0</span>, timing <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>  sfu <span class="op">=</span> <span class="va">sfLDOF</span>, sfupar <span class="op">=</span> <span class="fl">0</span>,</span></span>
-<span class="r-in"><span>  sfl <span class="op">=</span> <span class="va">sfLDOF</span>, sflpar <span class="op">=</span> <span class="fl">0</span>,</span></span>
-<span class="r-in"><span>  lambdaC <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
-<span class="r-in"><span>  hr <span class="op">=</span> <span class="fl">0.6</span>, hr0 <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>  eta <span class="op">=</span> <span class="fl">0.01</span>, gamma <span class="op">=</span> <span class="fl">10</span>,</span></span>
-<span class="r-in"><span>  R <span class="op">=</span> <span class="fl">12</span>, S <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>  T <span class="op">=</span> <span class="fl">36</span>, minfup <span class="op">=</span> <span class="fl">24</span>,</span></span>
-<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">gs_design_wlr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
-<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
-<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
-<span class="r-in"><span>  weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span>,</span></span>
-<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
-<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">lower</span><span class="op">$</span><span class="va">bound</span>,</span></span>
-<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12  41.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$weight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, arm0, arm1) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x559b1db02a30&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$alpha</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.025</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$ratio</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3241690 0.7434051 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$analysis_time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12 24 36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (par = NULL, k = NULL, ...) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     if (is.null(k)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         return(par)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559b1d559b98&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.710303 2.511407 1.992970</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lower</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (par = NULL, k = NULL, ...) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     if (is.null(k)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         return(par)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559b1d559b98&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.2361874  1.1703638  1.9929702</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$test_upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$test_lower</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$h1_spending</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$binding</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "h0_h1_info"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $input$tol</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12  30.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bounds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0      z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper     0.003<span style="text-decoration: underline;">66</span>     0.000<span style="text-decoration: underline;">104</span>  3.71           0.434    0.000<span style="text-decoration: underline;">104</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        1 lower     0.105       0.407    -<span style="color: #BB0000;">0.236</span>          1.05     0.593   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        2 upper     0.504       0.005<span style="text-decoration: underline;">87</span>   2.51           0.688    0.006<span style="text-decoration: underline;">01</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower     0.158       0.894     1.17           0.840    0.121   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>        3 upper     0.800       0.019<span style="text-decoration: underline;">3</span>    1.99           0.775    0.023<span style="text-decoration: underline;">1</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        3 lower     0.200       0.981     1.99           0.775    0.023<span style="text-decoration: underline;">1</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis  time     n event   ahr theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1    12  368.  78.9 0.781 0.626  2.65  2.66     0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2    24  368. 181.  0.666 0.765 11.3  11.6      0.565</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3    36  368. 244.  0.639 0.732 20.0  20.9      1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding" "wlr"         "gs_design"   "list"       </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example 2 ----</span></span></span>
-<span class="r-in"><span><span class="co"># Boundary derived by spending function</span></span></span>
+<span class="r-in"><span><span class="co"># Information fraction driven design</span></span></span>
 <span class="r-in"><span><span class="fu">gs_design_wlr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
 <span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
@@ -379,14 +220,15 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fl">36</span>,</span></span>
+<span class="r-in"><span>  info_frac <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">/</span><span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12  41.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$fail_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
@@ -400,7 +242,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x559b1db02a30&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ec2e1c20c0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -415,10 +257,10 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3241690 0.7434051 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3333333 0.6666667 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$analysis_time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12 24 36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 36</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upper</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (k = 1, par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, </span>
@@ -550,7 +392,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559b1d558cb8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec2b3bbd08&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -579,7 +421,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559b1ac48b10&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec28bf0d80&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -716,7 +558,7 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559b1d558cb8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec2b3bbd08&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -745,7 +587,452 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559b1ac48b10&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec28bf0d80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$test_upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$test_lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$h1_spending</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "h0_h1_info"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$tol</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12  25.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $bounds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0      z `~hr at bound` `nominal p`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper     0.001<span style="text-decoration: underline;">73</span>    0.000<span style="text-decoration: underline;">079</span>4  3.78           0.490   0.000<span style="text-decoration: underline;">079</span>4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        1 lower     0.026<span style="text-decoration: underline;">9</span>     0.134     -<span style="color: #BB0000;">1.11</span>           1.23    0.866    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        2 upper     0.126      0.005<span style="text-decoration: underline;">62</span>    2.54           0.671   0.005<span style="text-decoration: underline;">59</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower     0.117      0.568      0.155          0.976   0.439    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>        3 upper     0.800      0.024<span style="text-decoration: underline;">9</span>     1.99           0.754   0.023<span style="text-decoration: underline;">3</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        3 lower     0.200      0.975      1.99           0.754   0.023<span style="text-decoration: underline;">3</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis  time     n event   ahr theta  info info0 info_frac</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1  18.0  301.  112. 0.702 0.354  5.46  5.53     0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2  26.6  301.  162. 0.657 0.420 10.9  11.2      0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3  36    301.  199. 0.639 0.732 16.4  17.1      1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding" "wlr"         "gs_design"   "list"       </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 2 ----</span></span></span>
+<span class="r-in"><span><span class="co"># Calendar time driven design</span></span></span>
+<span class="r-in"><span><span class="fu">gs_design_wlr</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
+<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
+<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">*</span><span class="fl">12</span>,</span></span>
+<span class="r-in"><span>  info_frac <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$enroll_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$fail_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$weight</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, arm0, arm1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ec2e1c20c0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$beta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$ratio</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_frac</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1325089 0.5649964 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$analysis_time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12 24 36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (k = 1, par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     param = NULL, timing = NULL, max_info = NULL), hgm1 = NULL, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     theta = 0.1, info = 1:3, efficacy = TRUE, test_bound = TRUE, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     r = 18, tol = 1e-06) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (length(test_bound) == 1 &amp;&amp; k &gt; 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         test_bound &lt;- rep(test_bound, k)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.null(par$timing)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         timing &lt;- par$timing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (is.null(par$max_info)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/max(info)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             xx &lt;- spend[i] - old_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             old_spend &lt;- spend[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- xx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- spend[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!efficacy) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(-Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         a &lt;- qnorm(spend) + sqrt(info[k]) * theta[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             adelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dplo &lt;- hg$h[i]/hg$w[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (adelta &gt; dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (adelta &lt; -dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- adelta/dplo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             a &lt;- a + adelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (a &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (a &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(adelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         b &lt;- qnorm(spend, lower.tail = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (bdelta &gt; dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (bdelta &lt; -dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- bdelta/dpikdb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             b &lt;- b - bdelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (b &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (b &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(bdelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec2b3bbd08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$sf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (alpha, t, param = NULL) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(alpha, "numeric", c(0, Inf), c(FALSE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkVector(t, "numeric", c(0, Inf), c(TRUE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (is.null(param) || param &lt; 0.005 || param &gt; 20) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         param &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(param, "numeric", c(0.005, 20), c(TRUE, TRUE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     t[t &gt; 1] &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (param == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Lan-DeMets O'Brien-Fleming approximation"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "none"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- param</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Generalized Lan-DeMets O'Brien-Fleming"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "rho"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     z &lt;- -qnorm(alpha/2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x &lt;- list(name = txt, param = param, parname = parname, sf = sfLDOF, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         spend = 2 * (1 - pnorm(z/t^(rho/2))), bound = NULL, prob = NULL)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec28bf0d80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (k = 1, par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     param = NULL, timing = NULL, max_info = NULL), hgm1 = NULL, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     theta = 0.1, info = 1:3, efficacy = TRUE, test_bound = TRUE, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     r = 18, tol = 1e-06) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (length(test_bound) == 1 &amp;&amp; k &gt; 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         test_bound &lt;- rep(test_bound, k)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.null(par$timing)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         timing &lt;- par$timing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (is.null(par$max_info)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/max(info)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             xx &lt;- spend[i] - old_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             old_spend &lt;- spend[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- xx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- spend[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!efficacy) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(-Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         a &lt;- qnorm(spend) + sqrt(info[k]) * theta[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             adelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dplo &lt;- hg$h[i]/hg$w[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (adelta &gt; dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (adelta &lt; -dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- adelta/dplo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             a &lt;- a + adelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (a &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (a &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(adelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         b &lt;- qnorm(spend, lower.tail = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (bdelta &gt; dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (bdelta &lt; -dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- bdelta/dpikdb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             b &lt;- b - bdelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (b &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (b &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(bdelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec2b3bbd08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$sf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (alpha, t, param = NULL) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(alpha, "numeric", c(0, Inf), c(FALSE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkVector(t, "numeric", c(0, Inf), c(TRUE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (is.null(param) || param &lt; 0.005 || param &gt; 20) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         param &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(param, "numeric", c(0.005, 20), c(TRUE, TRUE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     t[t &gt; 1] &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (param == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Lan-DeMets O'Brien-Fleming approximation"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "none"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- param</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Generalized Lan-DeMets O'Brien-Fleming"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "rho"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     z &lt;- -qnorm(alpha/2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x &lt;- list(name = txt, param = param, parname = parname, sf = sfLDOF, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         spend = 2 * (1 - pnorm(z/t^(rho/2))), bound = NULL, prob = NULL)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec28bf0d80&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -805,6 +1092,451 @@ expected event count is equal to targeted event.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1    12  288.  61.9 0.781 0.626  2.08  2.09     0.133</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2    24  288. 142.  0.666 0.765  8.86  9.07     0.565</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3    36  288. 191.  0.639 0.732 15.7  16.4      1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding" "wlr"         "gs_design"   "list"       </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 3 ----</span></span></span>
+<span class="r-in"><span><span class="co"># Both calendar time and information fraction driven design</span></span></span>
+<span class="r-in"><span><span class="fu">gs_design_wlr</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span></span>
+<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
+<span class="r-in"><span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">*</span><span class="fl">12</span>,</span></span>
+<span class="r-in"><span>  info_frac <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$enroll_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$fail_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$weight</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, arm0, arm1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ec2e1c20c0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$beta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$ratio</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_frac</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3 0.7 1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$analysis_time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12 24 36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (k = 1, par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     param = NULL, timing = NULL, max_info = NULL), hgm1 = NULL, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     theta = 0.1, info = 1:3, efficacy = TRUE, test_bound = TRUE, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     r = 18, tol = 1e-06) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (length(test_bound) == 1 &amp;&amp; k &gt; 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         test_bound &lt;- rep(test_bound, k)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.null(par$timing)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         timing &lt;- par$timing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (is.null(par$max_info)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/max(info)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             xx &lt;- spend[i] - old_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             old_spend &lt;- spend[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- xx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- spend[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!efficacy) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(-Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         a &lt;- qnorm(spend) + sqrt(info[k]) * theta[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             adelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dplo &lt;- hg$h[i]/hg$w[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (adelta &gt; dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (adelta &lt; -dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- adelta/dplo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             a &lt;- a + adelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (a &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (a &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(adelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         b &lt;- qnorm(spend, lower.tail = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (bdelta &gt; dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (bdelta &lt; -dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- bdelta/dpikdb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             b &lt;- b - bdelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (b &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (b &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(bdelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec2b3bbd08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$sf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (alpha, t, param = NULL) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(alpha, "numeric", c(0, Inf), c(FALSE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkVector(t, "numeric", c(0, Inf), c(TRUE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (is.null(param) || param &lt; 0.005 || param &gt; 20) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         param &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(param, "numeric", c(0.005, 20), c(TRUE, TRUE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     t[t &gt; 1] &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (param == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Lan-DeMets O'Brien-Fleming approximation"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "none"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- param</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Generalized Lan-DeMets O'Brien-Fleming"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "rho"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     z &lt;- -qnorm(alpha/2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x &lt;- list(name = txt, param = param, parname = parname, sf = sfLDOF, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         spend = 2 * (1 - pnorm(z/t^(rho/2))), bound = NULL, prob = NULL)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec28bf0d80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (k = 1, par = list(sf = gsDesign::sfLDOF, total_spend = 0.025, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     param = NULL, timing = NULL, max_info = NULL), hgm1 = NULL, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     theta = 0.1, info = 1:3, efficacy = TRUE, test_bound = TRUE, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     r = 18, tol = 1e-06) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (length(test_bound) == 1 &amp;&amp; k &gt; 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         test_bound &lt;- rep(test_bound, k)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.null(par$timing)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         timing &lt;- par$timing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (is.null(par$max_info)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/max(info)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             xx &lt;- spend[i] - old_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             old_spend &lt;- spend[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- xx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             spend[i] &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- spend[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!efficacy) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(-Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         a &lt;- qnorm(spend) + sqrt(info[k]) * theta[k]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(adelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = theta[k], info = info[k], a = -Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b = a, thetam1 = theta[k - 1], im1 = info[k - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             i &lt;- length(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             adelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dplo &lt;- hg$h[i]/hg$w[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (adelta &gt; dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (adelta &lt; -dplo) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 adelta &lt;- adelta/dplo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             a &lt;- a + adelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (a &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (a &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 a &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(adelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(a)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (spend &lt;= 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(Inf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(theta) == 1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             theta &lt;- rep(theta, length(info))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         b &lt;- qnorm(spend, lower.tail = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (k == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mu &lt;- theta[k] * sqrt(info[k])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_low &lt;- mu - 3 - 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         extreme_high &lt;- mu + 3 + 4 * log(r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         j &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         while (abs(bdelta) &gt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hg &lt;- hupdate(theta = 0, info = info[k], a = b, b = Inf, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 thetam1 = 0, im1 = info[k - 1], gm1 = hgm1, r = r)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             pik &lt;- sum(hg$h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             bdelta &lt;- spend - pik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dpikdb &lt;- hg$h[1]/hg$w[1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (bdelta &gt; dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (bdelta &lt; -dpikdb) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 bdelta &lt;- bdelta/dpikdb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             b &lt;- b - bdelta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (b &gt; extreme_high) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             else if (b &lt; extreme_low) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 b &lt;- extreme_low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (abs(bdelta) &lt; tol) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 return(b)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             j &lt;- j + 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (j &gt; 20) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stop(paste("gs_spending_bound(): bound_update did not converge for lower bound calculation, analysis", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   k, " !"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec2b3bbd08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$sf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (alpha, t, param = NULL) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(alpha, "numeric", c(0, Inf), c(FALSE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkVector(t, "numeric", c(0, Inf), c(TRUE, FALSE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (is.null(param) || param &lt; 0.005 || param &gt; 20) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         param &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     checkScalar(param, "numeric", c(0.005, 20), c(TRUE, TRUE))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     t[t &gt; 1] &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (param == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Lan-DeMets O'Brien-Fleming approximation"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "none"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         rho &lt;- param</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         txt &lt;- "Generalized Lan-DeMets O'Brien-Fleming"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         parname &lt;- "rho"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     z &lt;- -qnorm(alpha/2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x &lt;- list(name = txt, param = param, parname = parname, sf = sfLDOF, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         spend = 2 * (1 - pnorm(z/t^(rho/2))), bound = NULL, prob = NULL)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ec28bf0d80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$test_upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$test_lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$h1_spending</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "h0_h1_info"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $input$tol</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All           12  25.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            4    0.046<span style="text-decoration: underline;">2</span>        0.001   1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.046<span style="text-decoration: underline;">2</span>        0.001   0.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $bounds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0      z `~hr at bound` `nominal p`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper    0.000<span style="text-decoration: underline;">646</span>    0.000<span style="text-decoration: underline;">031</span>5  4.00           0.461   0.000<span style="text-decoration: underline;">031</span>5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        1 lower    0.019<span style="text-decoration: underline;">7</span>      0.095<span style="text-decoration: underline;">4</span>    -<span style="color: #BB0000;">1.31</span>           1.29    0.905    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        2 upper    0.154       0.006<span style="text-decoration: underline;">93</span>    2.46           0.683   0.006<span style="text-decoration: underline;">92</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower    0.126       0.608      0.266          0.960   0.395    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>        3 upper    0.800       0.024<span style="text-decoration: underline;">9</span>     2.00           0.755   0.022<span style="text-decoration: underline;">9</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        3 lower    0.200       0.975      2.00           0.755   0.022<span style="text-decoration: underline;">9</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis  time     n event   ahr theta  info info0 info_frac</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1  17.1  304.  107. 0.711 0.341  4.96  5.02     0.300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2  27.5  304.  167. 0.655 0.424 11.6  11.9      0.700</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        3  36    304.  201. 0.639 0.732 16.5  17.3      1    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding" "wlr"         "gs_design"   "list"       </span>
