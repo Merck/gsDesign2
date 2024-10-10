@@ -51,6 +51,10 @@ gs_cp <- function(x, i, zi, j){
     stop("Please ensure that 1 <= i < j and j <= dim(x$analysis)[1].")
   }
 
+  # Check the # of upper bound is equal to # of analysis
+  if(length(which(x$bound$bound == "upper")) != dim(x$analysis)[1]){
+    stop("'x' should contains the same number of upper bounds as the number of analysis")
+  }
 
   # obtain necessary inforation from x
   t_frac <- x$analysis$info_frac
