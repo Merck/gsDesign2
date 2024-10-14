@@ -16,27 +16,32 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#' @title Group sequential design - Conditional Probability under non-proportional hazards
-#' @description  \code{gs_cp()} computes conditional boundary crossing probabilities at future planned analyses
-#' for a given group sequential design assuming an interim z-statistic at a specified interim analysis.
-#' @param x An object of type \code{gsDesign2}
-#' @param i analysis at which interim z-value is given; must be from 1 to max(x$analysis$analysis)
-#' @param zi interim z-value at analysis i (scalar)
-#' @return A list with: theta -- a list containing theta0 (theta under H0, i.e., 0,) and theta1 (a vector of theta under H1)
-#'                      upper_bound -- the upper bound value return by any gs_design_ahr function
-#'                      upper_prob -- a list contains the conditional probability given zi under H0 and H1, respectively
+#' Conditional probability under non-proportional hazards for
+#' group sequential design
+#'
+#' Computes conditional boundary crossing probabilities at future planned
+#' analyses for a given group sequential design assuming an interim
+#' z-statistic at a specified interim analysis.
+#'
+#' @param x An object of type `gs_design`.
+#' @param i Analysis at which interim z-value is given; must be from 1 to
+#'   `max(x$analysis$analysis)`.
+#' @param zi Interim z-value at analysis `i` (scalar).
+#'
+#' @return A list containing:
+#' - `theta` - A list containing `theta0` (`theta` under H0, i.e., 0)
+#'   and `theta1` (a vector of `theta` under H1).
+#' - `upper_bound` - The upper bound value return by any
+#'   `gs_design_ahr()` functions.
+#' - `upper_prob` - A list containing the conditional probability given
+#'   `zi` under H0 and H1, respectively.
+#'
+#' @export
 #'
 #' @examples
-#' library(gsDesign2)
-#' library(dplyr)
-#'
-#' # Example 1
 #' x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 #' gs_cp(x = x, i = 1, zi = 0, j = 2)
-#'
 gs_cp <- function(x, i, zi, j){
-
   # input check
   # Check if 'x' has an 'analysis' element and it's a matrix or data frame
   if (!is.list(x) || !"analysis" %in% names(x) || (!is.matrix(x$analysis) && !is.data.frame(x$analysis))) {
