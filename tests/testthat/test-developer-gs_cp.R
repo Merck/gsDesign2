@@ -63,7 +63,8 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
   y1 <- gs_power_ahr(enroll_rate = y0$enroll_rate,
                      fail_rate = y0$fail_rate,
                      upper = gs_spending_bound, upar = list(sf = sfu, total_spend = alpha,
-                                                            timing = c(85, y0$analysis$event[2:3])),
+                                                            timing = c(85, y0$analysis$event[2:3]) / y0$analysis$event[3]
+                                                            ),
                      lower = gs_b, lpar = rep(-Inf, 3),
                      event = c(85, y0$analysis$event[2:3]), analysis_time = y0$analysis$time)
 
@@ -71,31 +72,29 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
   # ------------------------------ #
   #       comparison              #
   # ------------------------------ #
-  # comparison of sample size
+  # comparison of sample size of the original design
   expect_equal((x0$eNC + x0$eNE) |> as.vector(), y0$analysis$n, tolerance = 1e-5)
 
-  # comparison of events
+  # comparison of events of the original design and updated design
+  expect_equal(x0$n.I, y0$analysis$event, tolerance = 1e-5)
   expect_equal(x1$n.I, y1$analysis$event, tolerance = 1e-5)
 
-  # comparison of timing
+  # comparison of timing of the original design and updated design
   expect_equal((x0$T) |> as.vector(), y0$analysis$time, tolerance = 1e-5)
+  expect_equal((x1$timing) |> as.vector(), y1$analysis$info_frac0, tolerance = 1e-5)
 
   # comparison of crossing probability under H1
   expect_equal(x0$upper$prob[, 2] |> cumsum(), y0$bound$probability, tolerance = 1e-2)
+  expect_equal(x1$upper$prob[, 2] |> cumsum(), y1$bound$probability, tolerance = 1e-2)
 
   # comparison of crossing probability under H0
   expect_equal(x0$upper$prob[, 1] |> cumsum(), y0$bound$probability0, tolerance = 1e-2)
+  expect_equal(x1$upper$prob[, 1] |> cumsum(), y1$bound$probability0, tolerance = 1e-2)
 
   # comparison of conditional power
-  # ??? scenario 1: conditional power after the first interim analysis based on the interim estimate of theta
-  sum(x2$upper$prob[, 1])
-  y2$upper_prob$prob1
-
-  # ??? scenario 2: conditional error, ie.e, based on theta = 0
-  sum(x2$upper$prob[, 2])
-  y2$upper_prob$prob0
-
-  # ???  scenario 3: conditional power based on theta = H1's theta
-  sum(x2$upper$prob[, 3])
-  y2$upper_prob$prob1
+  # theta = H0
+  expect_equal(x2$upper$prob[1, 2], y2$upper_prob$prob0, tolerance = 1e-3)
+  # theta = H1
+  expect_equal(x2$upper$prob[1, 3], y2$upper_prob$prob1, tolerance = 1e-3)
+  # theta = IA estimated theta
 })
