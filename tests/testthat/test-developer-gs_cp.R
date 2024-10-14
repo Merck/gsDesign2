@@ -69,6 +69,7 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
                      event = c(85, y0$analysis$event[2:3]), analysis_time = y0$analysis$time)
 
   y2 <- gs_cp(x = y1, i = 1, zi = -qnorm(p), j = 2)
+  y3 <- gs_cp(x = y1, i = 1, zi = -qnorm(p), j = 3)
   # ------------------------------ #
   #       comparison              #
   # ------------------------------ #
@@ -94,7 +95,12 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
   # comparison of conditional power
   # theta = H0
   expect_equal(x2$upper$prob[1, 2], y2$upper_prob$prob0, tolerance = 1e-3)
+  # ??? expect_equal(x2$upper$prob[2, 2], y3$upper_prob$prob0, tolerance = 1e-3)
+  expect_equal(x2$upper$prob[2, 2], y3$upper_prob$prob0 - y2$upper_prob$prob0, tolerance = 1e-3)
   # theta = H1
   expect_equal(x2$upper$prob[1, 3], y2$upper_prob$prob1, tolerance = 1e-3)
-  # theta = IA estimated theta
+  # ??? expect_equal(x2$upper$prob[2, 3], y3$upper_prob$prob1, tolerance = 1e-3)
+  expect_equal(x2$upper$prob[2, 3], y3$upper_prob$prob1 - y2$upper_prob$prob1, tolerance = 1e-3)
+
+  # ??? theta = IA estimated theta
 })
