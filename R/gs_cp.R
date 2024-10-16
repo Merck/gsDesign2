@@ -39,6 +39,7 @@ gs_cp <- function(x, i, zi, j){
 
   # input check
   # Check if 'x' has an 'analysis' element and it's a matrix or data frame
+  # !! `x` should be an output from `gs_update_ahr`
   if (!is.list(x) || !"analysis" %in% names(x) || (!is.matrix(x$analysis) && !is.data.frame(x$analysis))) {
     stop("'x' should be a list containing an 'analysis' matrix or data frame.")
   }
@@ -52,21 +53,23 @@ gs_cp <- function(x, i, zi, j){
   }
 
   # Check the # of upper bound is equal to # of analysis
+  # ! what is efficacy is only at IA2 and FA?
   if(length(which(x$bound$bound == "upper")) != dim(x$analysis)[1]){
     stop("'x' should contains the same number of upper bounds as the number of analysis")
   }
 
-  # obtain necessary inforation from x
+  # obtain necessary information from x
+  #!! please change the variable name `t_frac` to `info_frac` for consistency of the entire pkg
   t_frac <- x$analysis$info_frac
+  # !! the variable name `h0` is confusing, suggest to call it `info0` or `info_h0`
   h0 <- x$analysis$info0 # under local asymptotic, assume H0 ~= H1
-
 
   # default theta: under H0 and under H1
   theta0 <- c(0, 0, 0)
   theta <- x$analysis$theta
 
-
   # compute the conditional probability under H0
+  ## ! x$bound is not required to switch from tibble to data.frame
   eff_bound <- as.data.frame(x$bound) %>%
     filter(bound == "upper") %>%
     select(z)
@@ -79,7 +82,6 @@ gs_cp <- function(x, i, zi, j){
   # compute conditional power under H1
   #mu_star <- sqrt(H0[i+1])*theta[i+1] + sqrt(t_frac[i]/t_frac[i+1])*(zi - sqrt(H0[i])*theta[i])
   #sigma2_star <- H0[i+1]/H1[i+1] - (t_frac[i]/t_frac[i+1])*(H0[i]/H1[i])
-
   mu_star <- sqrt(t_frac[j])*sqrt(h0[j])*theta[j] - sqrt(t_frac[i])*sqrt(h0[i])*theta[i]
   sigma2_star <- t_frac[j] - t_frac[i]
 
