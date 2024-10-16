@@ -360,6 +360,7 @@ gs_design_ahr <- function(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     alpha = alpha, beta = beta, ratio = ratio,
     info_frac = info_frac, analysis_time = analysis_time,
+    info_scale = info_scale,
     upper = upper, upar = upar,
     lower = lower, lpar = lpar,
     test_upper = test_upper, test_lower = test_lower,

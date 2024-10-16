@@ -261,6 +261,7 @@ gs_power_ahr <- function(
   input <- list(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     event = event, analysis_time = analysis_time,
+    info_scale = info_scale,
     upper = upper, upar = upar,
     lower = lower, lpar = lpar,
     test_lower = test_lower, test_upper = test_upper,
