@@ -59,11 +59,11 @@ approximate information and effect size using an average hazard ratio model.</p>
 
 
 <dl><dt id="arg-enroll-rate">enroll_rate<a class="anchor" aria-label="anchor" href="#arg-enroll-rate"></a></dt>
-<dd><p>Enrollment rates.</p></dd>
+<dd><p>Enrollment rates from <code><a href="define_enroll_rate.html">define_enroll_rate()</a></code>.</p></dd>
 
 
 <dt id="arg-fail-rate">fail_rate<a class="anchor" aria-label="anchor" href="#arg-fail-rate"></a></dt>
-<dd><p>Failure and dropout rates.</p></dd>
+<dd><p>Failure and dropout rates from <code><a href="define_fail_rate.html">define_fail_rate()</a></code>.</p></dd>
 
 
 <dt id="arg-ratio">ratio<a class="anchor" aria-label="anchor" href="#arg-ratio"></a></dt>
@@ -85,11 +85,11 @@ expected event count is equal to targeted event.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with columns Analysis, Time, AHR, Events, theta, info, info0.
-<code>info</code>, and <code>info0</code> contain statistical information under H1, H0, respectively.
-For analysis <code>k</code>, <code>Time[k]</code> is the maximum of <code>analysis_time[k]</code> and the
+    <p>A data frame with columns <code>analysis</code>, <code>time</code>, <code>ahr</code>, <code>event</code>, <code>theta</code>, <code>info</code>, <code>info0</code>.
+The columns <code>info</code> and <code>info0</code> contain statistical information under H1, H0, respectively.
+For analysis <code>k</code>, <code>time[k]</code> is the maximum of <code>analysis_time[k]</code> and the
 expected time required to accrue the targeted <code>event[k]</code>.
-<code>AHR</code> is the expected average hazard ratio at each analysis.</p>
+<code>ahr</code> is the expected average hazard ratio at each analysis.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -118,8 +118,8 @@ average HR at targeted <code>analysis_time</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 19.16437 40.00000 0.7442008 0.2954444  9.789940 10.00000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 24.54264 50.00000 0.7128241 0.3385206 12.227632 12.50000</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
-<span class="r-in"><span><span class="co"># Example 2 ----</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 2 ----</span></span></span>
 <span class="r-in"><span><span class="co"># Only put in targeted analysis times</span></span></span>
 <span class="r-in"><span><span class="fu">gs_info_ahr</span><span class="op">(</span>analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">27</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis time    event       ahr     theta      info     info0</span>
