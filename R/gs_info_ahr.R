@@ -96,27 +96,22 @@ gs_info_ahr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10),
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
 
+  if (!is.null(analysis_time)) {
+    check_analysis_time(analysis_time)
+  }
+
+  if (!is.null(event)) {
+    check_event(event)
+  }
+
   # at least one of `analysis_time` or `event` should be provided
   if (is.null(analysis_time) && is.null(event)) {
     stop("gs_info_ahr(): One of `event` and `analysis_time`
          must be a numeric value or vector with increasing values")
   }
-
-  # get the number of analyses
-  n_analysis <- 0
-  if (!is.null(analysis_time)) {
-    check_analysis_time(analysis_time)
-    n_analysis <- length(analysis_time)
-  }
-
-  if (!is.null(event)) {
-    check_event(event)
-    if (n_analysis == 0) {
-      n_analysis <- length(event)
-    } else if (n_analysis != length(event)) {
-      stop("gs_info_ahr(): If both event and analysis_time
-           specified, must have same length")
-    }
+  # if both `analysis_time` and `event` are provided, check they are of same length
+  if (!is.null(analysis_time) && !is.null(event)) {
+    stop("gs_info_ahr(): If both event and analysis_time specified, must have same length")
   }
 
   # -------------------------- #
