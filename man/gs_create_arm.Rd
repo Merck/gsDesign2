@@ -7,9 +7,9 @@
 gs_create_arm(enroll_rate, fail_rate, ratio, total_time = 1e+06)
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates from \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates from \code{define_fail_rate()}.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
