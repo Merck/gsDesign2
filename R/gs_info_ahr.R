@@ -21,19 +21,19 @@
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
 #' approximate information and effect size using an average hazard ratio model.
 #'
-#' @param enroll_rate Enrollment rates.
-#' @param fail_rate Failure and dropout rates.
+#' @param enroll_rate Enrollment rates from \code{define_enroll_rate()}.
+#' @param fail_rate Failure and dropout rates from \code{define_fail_rate()}.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param event Targeted minimum events at each analysis.
 #' @param analysis_time Targeted minimum study duration at each analysis.
 #' @param interval An interval that is presumed to include the time at which
 #'   expected event count is equal to targeted event.
 #'
-#' @return A data frame with columns Analysis, Time, AHR, Events, theta, info, info0.
-#'   `info`, and `info0` contain statistical information under H1, H0, respectively.
-#'   For analysis `k`, `Time[k]` is the maximum of `analysis_time[k]` and the
+#' @return A data frame with columns `analysis`, `time`, `ahr`, `event`, `theta`, `info`, `info0`.
+#'   The columns `info` and `info0` contain statistical information under H1, H0, respectively.
+#'   For analysis `k`, `time[k]` is the maximum of `analysis_time[k]` and the
 #'   expected time required to accrue the targeted `event[k]`.
-#'   `AHR` is the expected average hazard ratio at each analysis.
+#'   `ahr` is the expected average hazard ratio at each analysis.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -43,7 +43,7 @@
 #'    \item Validate if inputs event and analysis_time have the same length if they are both specified.
 #'    \item Compute average hazard ratio:
 #'    \itemize{
-#'      \item If analysis_time is specified, calculate average hazard ratio using \code{AHR()}.
+#'      \item If analysis_time is specified, calculate average hazard ratio using \code{ahr()}.
 #'      \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
 #'    }
 #'    \item Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
@@ -67,8 +67,8 @@
 #' # Only put in targeted events
 #' gs_info_ahr(event = c(30, 40, 50))
 #' }
-#' # Example 2 ----
 #'
+#' # Example 2 ----
 #' # Only put in targeted analysis times
 #' gs_info_ahr(analysis_time = c(18, 27, 36))
 #'
