@@ -15,9 +15,9 @@ gs_info_ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates from \code{define_enroll_rate()}.}
+\item{enroll_rate}{Enrollment rates from \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
-\item{fail_rate}{Failure and dropout rates from \code{define_fail_rate()}.}
+\item{fail_rate}{Failure and dropout rates from \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 

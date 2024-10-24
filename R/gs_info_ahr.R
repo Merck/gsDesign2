@@ -21,8 +21,8 @@
 #' Based on piecewise enrollment rate, failure rate, and dropout rates computes
 #' approximate information and effect size using an average hazard ratio model.
 #'
-#' @param enroll_rate Enrollment rates from \code{define_enroll_rate()}.
-#' @param fail_rate Failure and dropout rates from \code{define_fail_rate()}.
+#' @param enroll_rate Enrollment rates from [define_enroll_rate()].
+#' @param fail_rate Failure and dropout rates from [define_fail_rate()].
 #' @param ratio Experimental:Control randomization ratio.
 #' @param event Targeted minimum events at each analysis.
 #' @param analysis_time Targeted minimum study duration at each analysis.
