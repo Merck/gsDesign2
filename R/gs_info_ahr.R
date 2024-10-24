@@ -90,20 +90,24 @@ gs_info_ahr <- function(
       hr = c(.9, .6),
       dropout_rate = .001
     ),
-    ratio = 1, # experimental:Control randomization ratio
-    event = NULL, # event at analyses
-    analysis_time = NULL, # times of analyses
+    ratio = 1,
+    event = NULL,
+    analysis_time = NULL,
     interval = c(.01, 1000)) {
-  # Check input values ----
+  # -------------------------- #
+  #    Check input values      #
+  # -------------------------- #
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
 
+  # at least one of `analysis_time` or `event` should be provided
   if (is.null(analysis_time) && is.null(event)) {
     stop("gs_info_ahr(): One of `event` and `analysis_time`
          must be a numeric value or vector with increasing values")
   }
 
+  # get the number of analyses
   n_analysis <- 0
   if (!is.null(analysis_time)) {
     check_analysis_time(analysis_time)
@@ -120,42 +124,37 @@ gs_info_ahr <- function(
     }
   }
 
-  # Check input values ----
+  # -------------------------- #
+  #    Calc statistical info   #
+  # -------------------------- #
   avehr <- NULL
   if (!is.null(analysis_time)) {
-    # calculate AHR, Events, info, info0 given the analysis_time
-    avehr <- ahr(
-      enroll_rate = enroll_rate, fail_rate = fail_rate,
-      ratio = ratio, total_duration = analysis_time
-    ) |> select(-n)
-    # check if the output Events is larger enough than the targeted events
+    # calculate events given the `analysis_time`
+    avehr <- ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                 ratio = ratio, total_duration = analysis_time) |> select(-n)
+    # check if the above events >= targeted events
     for (i in seq_along(event)) {
       if (avehr$event[i] < event[i]) {
-        avehr[i, ] <- expected_time(
-          enroll_rate = enroll_rate, fail_rate = fail_rate,
-          ratio = ratio, target_event = event[i],
-          interval = interval
-        )
+        avehr[i, ] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                                    ratio = ratio, target_event = event[i],
+                                    interval = interval)
       }
     }
   } else {
     for (i in seq_along(event)) {
-      avehr <- rbind(
-        avehr,
-        expected_time(
-          enroll_rate = enroll_rate, fail_rate = fail_rate,
-          ratio = ratio, target_event = event[i],
-          interval = interval
-        )
-      )
+      avehr <- rbind(avehr,
+                     expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                                   ratio = ratio, target_event = event[i],
+                                   interval = interval))
     }
   }
 
-  # Compute theta ----
+  # -------------------------- #
+  #    Tidy outputs            #
+  # -------------------------- #
   avehr$analysis <- seq_len(nrow(avehr))
   avehr$theta <- -log(avehr$ahr)
 
-  # Output results ----
   ans <- avehr[, c("analysis", "time", "event", "ahr", "theta", "info", "info0")]
   return(ans)
 }
