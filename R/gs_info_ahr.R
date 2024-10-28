@@ -113,10 +113,6 @@ gs_info_ahr <- function(
   if (!is.null(event)) {
     check_event(event)
 
-    if (all(abs(event - round(event)) < 1e-6)) {
-      event <- round(event)
-    }
-
     if (n_analysis == 0) {
       n_analysis <- length(event)
     } else if (n_analysis != length(event)) {
