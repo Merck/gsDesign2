@@ -13,7 +13,7 @@ gs_update_ahr(
 )
 }
 \arguments{
-\item{x}{A design created by either \code{gs_design_ahr} or \code{gs_power_ahr}.}
+\item{x}{A design created by either \code{\link[=gs_design_ahr]{gs_design_ahr()}} or \code{\link[=gs_power_ahr]{gs_power_ahr()}}.}
 
 \item{alpha}{Type I error for the updated design.}
 
