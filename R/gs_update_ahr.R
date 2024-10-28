@@ -18,7 +18,7 @@
 
 #' Group sequential design using average hazard ratio under non-proportional hazards
 #'
-#' @param x A design created by either \code{gs_design_ahr} or \code{gs_power_ahr}.
+#' @param x A design created by either [gs_design_ahr()] or [gs_power_ahr()].
 #' @param alpha Type I error for the updated design.
 #' @param ustime Default is NULL in which case upper bound spending time is determined by timing.
 #' Otherwise, this should be a vector of length k (total number of analyses)

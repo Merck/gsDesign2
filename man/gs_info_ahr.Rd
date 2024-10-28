@@ -15,9 +15,9 @@ gs_info_ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates from \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates from \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
@@ -29,11 +29,11 @@ gs_info_ahr(
 expected event count is equal to targeted event.}
 }
 \value{
-A data frame with columns Analysis, Time, AHR, Events, theta, info, info0.
-\code{info}, and \code{info0} contain statistical information under H1, H0, respectively.
-For analysis \code{k}, \code{Time[k]} is the maximum of \code{analysis_time[k]} and the
+A data frame with columns \code{analysis}, \code{time}, \code{ahr}, \code{event}, \code{theta}, \code{info}, \code{info0}.
+The columns \code{info} and \code{info0} contain statistical information under H1, H0, respectively.
+For analysis \code{k}, \code{time[k]} is the maximum of \code{analysis_time[k]} and the
 expected time required to accrue the targeted \code{event[k]}.
-\code{AHR} is the expected average hazard ratio at each analysis.
+\code{ahr} is the expected average hazard ratio at each analysis.
 }
 \description{
 Based on piecewise enrollment rate, failure rate, and dropout rates computes
@@ -53,7 +53,7 @@ average HR at targeted \code{analysis_time}.
    \item Validate if inputs event and analysis_time have the same length if they are both specified.
    \item Compute average hazard ratio:
    \itemize{
-     \item If analysis_time is specified, calculate average hazard ratio using \code{AHR()}.
+     \item If analysis_time is specified, calculate average hazard ratio using \code{ahr()}.
      \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
    }
    \item Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
@@ -71,8 +71,8 @@ library(gsDesign2)
 # Only put in targeted events
 gs_info_ahr(event = c(30, 40, 50))
 }
-# Example 2 ----
 
+# Example 2 ----
 # Only put in targeted analysis times
 gs_info_ahr(analysis_time = c(18, 27, 36))
 
