@@ -53,9 +53,12 @@
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #' @param interval An interval that is presumed to include the time at which
 #'   expected event count is equal to targeted event.
+#' @param integer Logical value integer whether it is an integer design
+#' (i.e., integer sample size and events) or not. This argument is commonly
+#' used when creating integer design via [to_integer()].
 #'
-#' @return A tibble with columns `Analysis`, `Bound`, `Z`, `Probability`,
-#'   `theta`, `Time`, `AHR`, `Events`.
+#' @return A tibble with columns `analysis`, `bound`, `z`, `probability`,
+#'   `theta`, `time`, `ahr`, `event`.
 #'   Contains a row for each analysis and each bound.
 #'
 #' @details
@@ -159,7 +162,8 @@ gs_power_ahr <- function(
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     r = 18,
     tol = 1e-6,
-    interval = c(.01, 1000)) {
+    interval = c(.01, 1000),
+    integer = FALSE) {
   # Get the number of analysis
   n_analysis <- max(length(event), length(analysis_time), na.rm = TRUE)
 
@@ -196,6 +200,19 @@ gs_power_ahr <- function(
     ratio = ratio, event = event, analysis_time = analysis_time,
     interval = interval
   )
+
+  # if both events and sample size are integers, then elaborate the info and info0
+  if (integer) {
+
+    # elaborate info0
+    q_e <- ratio / (1 + ratio)
+    q_c <- 1 - q_e
+    x$info0 <- event * q_e * q_c
+
+    # elaborate info
+    q <- event / x$event
+    x$info <- x$info * q
+  }
 
   # Given the above statistical information, calculate the power ----
   y_h1 <- gs_power_npe(

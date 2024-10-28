@@ -22,7 +22,8 @@ gs_power_ahr(
   info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   r = 18,
   tol = 1e-06,
-  interval = c(0.01, 1000)
+  interval = c(0.01, 1000),
+  integer = FALSE
 )
 }
 \arguments{
@@ -75,10 +76,14 @@ Normally, \code{r} will not be changed by the user.}
 
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
+
+\item{integer}{Logical value integer whether it is an integer design
+(i.e., integer sample size and events) or not. This argument is commonly
+used when creating integer design via \code{\link[=to_integer]{to_integer()}}.}
 }
 \value{
-A tibble with columns \code{Analysis}, \code{Bound}, \code{Z}, \code{Probability},
-\code{theta}, \code{Time}, \code{AHR}, \code{Events}.
+A tibble with columns \code{analysis}, \code{bound}, \code{z}, \code{probability},
+\code{theta}, \code{time}, \code{ahr}, \code{event}.
 Contains a row for each analysis and each bound.
 }
 \description{

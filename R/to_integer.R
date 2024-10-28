@@ -308,7 +308,19 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
           analysis_time = NULL
         )
 
-        upar_new$timing <- info_with_new_event$info / max(info_with_new_event$info)
+        # ensure info0 is based on integer sample size calculation
+        # as as they become a slight different number due to the `enroll_rate`
+        q_e <- x$input$ratio / (1 + x$input$ratio)
+        q_c <- 1 - q_e
+        info_with_new_event$info0 <- event_new * q_e * q_c
+
+        # ensure info is based on integer sample size calculation
+        # as as they become a slight different number due to the `enroll_rate`
+        q <- event_new / event
+        info_with_new_event$info <- x$analysis$info * q
+
+        # update timing
+        upar_new$timing <- info_with_new_event$info0 / max(info_with_new_event$info0)
       }
     }
 
@@ -338,7 +350,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       test_lower = x$input$test_lower,
       binding = x$input$binding,
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
-      interval = c(0.01, max(x$analysis$time) + 100)
+      interval = c(0.01, max(x$analysis$time) + 100),
+      integer = TRUE
     )
     if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
     x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)

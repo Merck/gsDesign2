@@ -23,7 +23,8 @@ gs_power_wlr(
   approx = "asymptotic",
   r = 18,
   tol = 1e-06,
-  interval = c(0.01, 1000)
+  interval = c(0.01, 1000),
+  integer = FALSE
 )
 }
 \arguments{
@@ -89,6 +90,10 @@ Normally, \code{r} will not be changed by the user.}
 
 \item{interval}{An interval that is presumed to include the time at which
 expected event count is equal to targeted event.}
+
+\item{integer}{Logical value integer whether it is an integer design
+(i.e., integer sample size and events) or not. This argument is commonly
+used when creating integer design via \code{\link[=to_integer]{to_integer()}}.}
 }
 \value{
 A list with input parameters, enrollment rate,
