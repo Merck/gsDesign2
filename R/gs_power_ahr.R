@@ -197,6 +197,20 @@ gs_power_ahr <- function(
     interval = interval
   )
 
+  # if both events and sample size are integers, then elaborate the info and info0
+  sample_size <- sum(enroll_rate$duration * enroll_rate$rate)
+  if (abs(sample_size - round(sample_size)) < 1e-5 && all(abs(event - round(event)) < 1e-5)) {
+
+    # elaborate info0
+    q_e <- ratio / (1 + ratio)
+    q_c <- 1 - q_e
+    x$info0 <- event * q_e * q_c
+
+    # elaborate info
+    q <- event / x$event
+    x$info <- x$info * q
+  }
+
   # Given the above statistical information, calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$theta,
