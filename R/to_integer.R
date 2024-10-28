@@ -350,7 +350,8 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
       test_lower = x$input$test_lower,
       binding = x$input$binding,
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
-      interval = c(0.01, max(x$analysis$time) + 100)
+      interval = c(0.01, max(x$analysis$time) + 100),
+      integer = TRUE
     )
     if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
     x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)
