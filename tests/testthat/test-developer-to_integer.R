@@ -45,7 +45,9 @@ test_that("The statistcial information under null equals to event/4 udner equal 
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfHSD, total_spend = beta, param = -4) ,
     test_lower = c(TRUE, FALSE,FALSE),
-    binding = FALSE) |> to_integer()
+    binding = FALSE
+    ) |>
+    to_integer()
 
-  expect_true(all(x$analysis$info - x$analysis$event/4 == 0))
+  expect_true(all(x$analysis$info0 - x$analysis$event / 4 == 0))
 })
