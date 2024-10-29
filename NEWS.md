@@ -10,7 +10,7 @@
 
 ## Statistcial Improvements
 
-- The `gs_update_ahr` function is updated to 
+- The `gs_update_ahr` function (test version) is updated to 
 
   + Enable unchanged futility bounds when it is fixed at the original design (#408, thanks to @LittleBeannie).
   + Allow boundary updates when only certain interim analysis data is available (#436, thanks to @LittleBeannie).
