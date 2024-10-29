@@ -120,6 +120,6 @@ fixed_design_milestone <- function(
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "milestone", design_par = list(tau = tau)
   )
-  class(y) <- c("fixed_design", class(y))
+  class(y) <- c("design_fixed_milestone", "fixed_design", class(y))
   return(y)
 }

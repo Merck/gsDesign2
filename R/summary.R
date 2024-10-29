@@ -19,6 +19,7 @@
 #' Summary for fixed design or group sequential design objects
 #'
 #' @param object A design object returned by fixed_design_xxx() and gs_design_xxx().
+#' @param design_display The display name for the design method.
 #' @param ... Additional parameters (not used).
 #'
 #' @return A summary table (data frame).
@@ -77,33 +78,101 @@
 #'   ratio = ratio
 #' ) %>% summary()
 #'
-summary.fixed_design <- function(object, ...) {
-  x <- object
-  p <- x$design_par
-  ans <- x$analysis
-  ans$design <- switch(
-    x$design,
-    ahr = "Average hazard ratio",
-    lf = "Lachin and Foulkes",
-    rd = "Risk difference",
-    milestone = paste0("Milestone: tau = ", p$tau),
-    rmst = paste0("RMST: tau = ", p$tau),
-    mb = paste0("Modestly weighted LR: tau = ", p$tau),
-    fh = paste0(
-      "Fleming-Harrington FH(", p$rho, ", ", p$gamma, ")",
-      if (p$rho == 0 && p$gamma == 0) " (logrank)"
-    ),
-    maxcombo = gsub("FH(0, 0)", "logrank", paste(
-      "MaxCombo:", paste0("FHC(", p[[1]], ", ", p[[2]], ")", collapse = ", ")
-    ), fixed = TRUE)
-  )
+summary.fixed_design <- function(object, design_display, ...) {
+  ans <- object$analysis
+  ans$design <- design_display
 
   # capitalize names
   ans <- cap_names(ans)
   ans <- add_class(ans, paste0("fixed_design"))
   ans <- add_class(ans, paste0("design_fixed_summary"))
-  ans <- add_class(ans, paste0("design_fixed_", x$design, "_summary"))
+  ans <- add_class(ans, paste0("design_fixed_", object$design, "_summary"))
   return(ans)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_ahr <- function(
+    object,
+    design_display = "Average hazard ratio",
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_fh <- function(
+    object,
+    design_display = paste0(
+      "Fleming-Harrington FH(", object$design_par$rho, ", ", object$design_par$gamma, ")",
+      if (object$design_par$rho == 0 && object$design_par$gamma == 0) " (logrank)"
+    ),
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_mb <- function(
+    object,
+    design_display = paste0("Modestly weighted LR: tau = ", object$design_par$tau),
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_lf <- function(
+    object,
+    design_display = "Lachin and Foulkes",
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_rd <- function(
+    object,
+    design_display = "Risk difference",
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_maxcombo <- function(
+    object,
+    design_display = gsub("FH(0, 0)", "logrank", paste(
+      "MaxCombo:", paste0("FHC(", object$design_par[[1]], ", ", object$design_par[[2]], ")", collapse = ", ")
+    ), fixed = TRUE),
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_milestone <- function(
+    object,
+    design_display = paste0("Milestone: tau = ", object$design_par$tau),
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
+}
+
+#' @rdname summary
+#' @export
+summary.design_fixed_rmst <- function(
+    object,
+    design_display = paste0("RMST: tau = ", object$design_par$tau),
+    ...
+) {
+  NextMethod("summary", object, design_display = design_display, ...)
 }
 
 #' @rdname summary
