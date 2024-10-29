@@ -189,6 +189,6 @@ fixed_design_lf <- function(
     analysis = ans,
     design = "lf"
   )
-  class(y) <- c("fixed_design", class(y))
+  class(y) <- c("design_fixed_lf", "fixed_design", class(y))
   return(y)
 }

@@ -132,6 +132,6 @@ fixed_design_fh <- function(
     analysis = ans,
     design = "fh", design_par = list(rho = rho, gamma = gamma)
   )
-  class(y) <- c("fixed_design", class(y))
+  class(y) <- c("design_fixed_fh", "fixed_design", class(y))
   return(y)
 }

@@ -2,10 +2,58 @@
 % Please edit documentation in R/summary.R
 \name{summary.fixed_design}
 \alias{summary.fixed_design}
+\alias{summary.design_fixed_ahr}
+\alias{summary.design_fixed_fh}
+\alias{summary.design_fixed_mb}
+\alias{summary.design_fixed_lf}
+\alias{summary.design_fixed_rd}
+\alias{summary.design_fixed_maxcombo}
+\alias{summary.design_fixed_milestone}
+\alias{summary.design_fixed_rmst}
 \alias{summary.gs_design}
 \title{Summary for fixed design or group sequential design objects}
 \usage{
-\method{summary}{fixed_design}(object, ...)
+\method{summary}{fixed_design}(object, design_display, ...)
+
+\method{summary}{design_fixed_ahr}(object, design_display = "Average hazard ratio", ...)
+
+\method{summary}{design_fixed_fh}(
+  object,
+  design_display = paste0("Fleming-Harrington FH(", object$design_par$rho, ", ",
+    object$design_par$gamma, ")", if (object$design_par$rho == 0 &&
+    object$design_par$gamma == 0) " (logrank)"),
+  ...
+)
+
+\method{summary}{design_fixed_mb}(
+  object,
+  design_display = paste0("Modestly weighted LR: tau = ", object$design_par$tau),
+  ...
+)
+
+\method{summary}{design_fixed_lf}(object, design_display = "Lachin and Foulkes", ...)
+
+\method{summary}{design_fixed_rd}(object, design_display = "Risk difference", ...)
+
+\method{summary}{design_fixed_maxcombo}(
+  object,
+  design_display = gsub("FH(0, 0)", "logrank", paste("MaxCombo:", paste0("FHC(",
+    object$design_par[[1]], ", ", object$design_par[[2]], ")", collapse = ", ")), fixed =
+    TRUE),
+  ...
+)
+
+\method{summary}{design_fixed_milestone}(
+  object,
+  design_display = paste0("Milestone: tau = ", object$design_par$tau),
+  ...
+)
+
+\method{summary}{design_fixed_rmst}(
+  object,
+  design_display = paste0("RMST: tau = ", object$design_par$tau),
+  ...
+)
 
 \method{summary}{gs_design}(
   object,
@@ -19,6 +67,8 @@
 }
 \arguments{
 \item{object}{A design object returned by fixed_design_xxx() and gs_design_xxx().}
+
+\item{design_display}{The display name for the design method.}
 
 \item{...}{Additional parameters (not used).}
 

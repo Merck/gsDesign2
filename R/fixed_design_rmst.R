@@ -119,6 +119,6 @@ fixed_design_rmst <- function(
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "rmst", design_par = list(tau = tau), study_duration
   )
-  class(y) <- c("fixed_design", class(y))
+  class(y) <- c("design_fixed_rmst", "fixed_design", class(y))
   return(y)
 }
