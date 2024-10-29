@@ -2,13 +2,81 @@
 % Please edit documentation in R/as_gt.R
 \name{as_gt}
 \alias{as_gt}
-\alias{as_gt.fixed_design}
+\alias{as_gt.design_fixed_summary}
+\alias{as_gt.design_fixed_ahr_summary}
+\alias{as_gt.design_fixed_fh_summary}
+\alias{as_gt.design_fixed_mb_summary}
+\alias{as_gt.design_fixed_lf_summary}
+\alias{as_gt.design_fixed_rd_summary}
+\alias{as_gt.design_fixed_maxcombo_summary}
+\alias{as_gt.design_fixed_milestone_summary}
+\alias{as_gt.design_fixed_rmst_summary}
 \alias{as_gt.gs_design}
 \title{Convert summary table of a fixed or group sequential design object to a gt object}
 \usage{
 as_gt(x, ...)
 
-\method{as_gt}{fixed_design}(x, title = NULL, footnote = NULL, ...)
+\method{as_gt}{design_fixed_summary}(x, title, footnote, ...)
+
+\method{as_gt}{design_fixed_ahr_summary}(
+  x,
+  title = "Fixed Design under AHR Method",
+  footnote = "Power computed with average hazard ratio method.",
+  ...
+)
+
+\method{as_gt}{design_fixed_fh_summary}(
+  x,
+  title = "Fixed Design under Fleming-Harrington Method",
+  footnote = paste("Power for Fleming-Harrington test", substring(x$Design, 19),
+    "using method of Yung and Liu."),
+  ...
+)
+
+\method{as_gt}{design_fixed_mb_summary}(
+  x,
+  title = "Fixed Design under Magirr-Burman Method",
+  footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+  ...
+)
+
+\method{as_gt}{design_fixed_lf_summary}(
+  x,
+  title = "Fixed Design under Lachin and Foulkes Method",
+  footnote = paste("Power using Lachin and Foulkes method applied using expected",
+    "average hazard ratio (AHR) at time of planned analysis."),
+  ...
+)
+
+\method{as_gt}{design_fixed_rd_summary}(
+  x,
+  title = "Fixed Design of Risk Difference under Farrington-Manning Method",
+  footnote = paste("Risk difference power without continuity correction using method of",
+    "Farrington and Manning."),
+  ...
+)
+
+\method{as_gt}{design_fixed_maxcombo_summary}(
+  x,
+  title = "Fixed Design under MaxCombo Method",
+  footnote = paste0("Power for MaxCombo test with Fleming-Harrington tests ",
+    substring(x$Design, 9), "."),
+  ...
+)
+
+\method{as_gt}{design_fixed_milestone_summary}(
+  x,
+  title = "Fixed Design under Milestone Method",
+  footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+  ...
+)
+
+\method{as_gt}{design_fixed_rmst_summary}(
+  x,
+  title = "Fixed Design under Restricted Mean Survival Time Method",
+  footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+  ...
+)
 
 \method{as_gt}{gs_design}(
   x,
