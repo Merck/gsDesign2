@@ -57,7 +57,7 @@ utils::globalVariables(
       # From `gs_design_wlr()`
       c(
         "IF", "time", "event", "info", "info0", "theta", "bound",
-        "z", "n", "rate"
+        "z", "n", "rate", "delta", "sigma2"
       ),
       # From `gs_info_ahr()`
       c("analysis", "time", "theta", "info", "info0"),
