@@ -1,3 +1,13 @@
+# gsDesign2 1.1.3
+
+We are aware of the following NOTE, and we also maintain {simtrial}:
+
+```
+* checking dependencies in R code ... NOTE
+Missing object imported by a ':::' call: ‘simtrial:::as_gt.simtrial_gs_wlr’
+```
+
+
 # gsDesign2 1.0.7
 
 ## Resubmission
