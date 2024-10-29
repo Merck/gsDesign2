@@ -29,7 +29,7 @@
 - Add robust check if `lower` is equivalent to `gs_b` (#413, thanks to @jdblischak )
 - The `summary()`, `as_gt()` `as_rtf()`, and `to_integer()` functions are refactored (#448, #449, #450, #465, #461, thanks to @yihui).
 - Remove the `full_alpha` argument from `as_rtf.gs_design()` (#458, thanks to @yihui).
-- Other coding practice improvement wroth mentioning (#409, #412, #429, #437, #440, #447, #453, #464, #467, $475, thanks to @yihui, @nanxstats, and @jdblischak).
+- Other coding practice improvement worth mentioning (#409, #412, #429, #437, #440, #447, #453, #464, #467, $475, thanks to @yihui, @nanxstats, and @jdblischak).
 
 ## Documentation
 
@@ -38,7 +38,7 @@
 ## Testing
 
 - More Developer tests of `gs_power_ahr()` are added (#420, @LittleBeannie).
-- More Developer tests of `summery()` is added (#422, #426, thanks to @yuliasidi, @jdblischak and @LittleBeannie).
+- More Developer tests of `summary()` is added (#422, #426, thanks to @yuliasidi, @jdblischak and @LittleBeannie).
 - Independent tests of `ahr_blinded()` is added (#435, thanks to @DMuriuki).
 - More developer tests of `to_integer()` is added (#476, thanks to @LittleBeannie).
 
