@@ -91,19 +91,18 @@ as_rtf <- function(x, ...) {
 #' ) %>%
 #'   summary() %>%
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
-as_rtf.fixed_design <- function(
+as_rtf.design_fixed_summary <- function(
     x,
-    title = NULL,
-    footnote = NULL,
+    title,
+    footnote,
     col_rel_width = NULL,
     orientation = c("portrait", "landscape"),
     text_font_size = 9,
     file,
     ...) {
   orientation <- match.arg(orientation)
-  method <- fd_method(x)
-  title <- title %||% paste(fd_title(method), "{^a}")
-  footnote <- footnote %||% paste("{^a}", fd_footnote(x, method))
+  title <- paste(title, "{^a}")
+  footnote <- paste("{^a}", footnote)
 
   # set default column width
   n_row <- nrow(x)
@@ -144,6 +143,154 @@ as_rtf.fixed_design <- function(
   rtf_write(ans, file, footnote, text_font_size)
 
   invisible(x)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_ahr_summary <- function(
+    x,
+    title = "Fixed Design under AHR Method",
+    footnote = "Power computed with average hazard ratio method.",
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_fh_summary <- function(
+    x,
+    title = "Fixed Design under Fleming-Harrington Method",
+    footnote = paste(
+      "Power for Fleming-Harrington test", substring(x$Design, 19),
+      "using method of Yung and Liu."
+    ),
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_mb_summary <- function(
+    x,
+    title = "Fixed Design under Magirr-Burman Method",
+    footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_lf_summary <- function(
+    x,
+    title = "Fixed Design under Lachin and Foulkes Method",
+    footnote = paste(
+      "Power using Lachin and Foulkes method applied using expected",
+      "average hazard ratio (AHR) at time of planned analysis."
+    ),
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_rd_summary <- function(
+    x,
+    title = "Fixed Design of Risk Difference under Farrington-Manning Method",
+    footnote = paste(
+      "Risk difference power without continuity correction using method of",
+      "Farrington and Manning."
+    ),
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_maxcombo_summary <- function(
+    x,
+    title = "Fixed Design under MaxCombo Method",
+    footnote = paste0(
+      "Power for MaxCombo test with Fleming-Harrington tests ",
+      substring(x$Design, 9), "."
+    ),
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_milestone_summary <- function(
+    x,
+    title = "Fixed Design under Milestone Method",
+    footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
+}
+
+#' @rdname as_rtf
+#' @export
+as_rtf.design_fixed_rmst_summary <- function(
+    x,
+    title = "Fixed Design under Restricted Mean Survival Time Method",
+    footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+    col_rel_width = NULL,
+    orientation = c("portrait", "landscape"),
+    text_font_size = 9,
+    file,
+    ...
+) {
+  NextMethod("as_rtf", x, title = title, footnote = footnote,
+             col_rel_width = col_rel_width, orientation = orientation,
+             text_font_size = text_font_size, file = file, ...)
 }
 
 check_rel_width <- function(width, n_col) {
