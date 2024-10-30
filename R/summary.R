@@ -84,8 +84,8 @@ summary.fixed_design <- function(object, design_display, ...) {
 
   # capitalize names
   ans <- cap_names(ans)
-  ans <- add_class(ans, paste0("fixed_design"))
-  ans <- add_class(ans, paste0("design_fixed_summary"))
+  ans <- add_class(ans, "fixed_design")
+  ans <- add_class(ans, "design_fixed_summary")
   ans <- add_class(ans, paste0("design_fixed_", object$design, "_summary"))
   return(ans)
 }
