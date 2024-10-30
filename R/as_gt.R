@@ -189,48 +189,6 @@ as_gt.design_fixed_rmst_summary <- function(
 
 get_method <- function(x, methods) intersect(methods, class(x))[1]
 
-# get the fixed design method
-fd_method <- function(x) {
-  get_method(x, c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst"))
-}
-
-# get the default title
-fd_title <- function(method) {
-  sprintf("Fixed Design %s Method", switch(
-    method,
-    ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
-    lf = "under Lachin and Foulkes", maxcombo = "under MaxCombo",
-    milestone = "under Milestone", rmst = "under Restricted Mean Survival Time",
-    rd = "of Risk Difference under Farrington-Manning"
-  ))
-}
-
-# get the default footnote
-fd_footnote <- function(x, method) {
-  switch(
-    method,
-    ahr = "Power computed with average hazard ratio method.",
-    fh = paste(
-      "Power for Fleming-Harrington test", substring(x$Design, 19),
-      "using method of Yung and Liu."
-    ),
-    lf = paste(
-      "Power using Lachin and Foulkes method applied using expected",
-      "average hazard ratio (AHR) at time of planned analysis."
-    ),
-    rd = paste(
-      "Risk difference power without continuity correction using method of",
-      "Farrington and Manning."
-    ),
-    maxcombo = paste0(
-      "Power for MaxCombo test with Fleming-Harrington tests ",
-      substring(x$Design, 9), "."
-    ),
-    # for mb, milestone, and rmst
-    paste("Power for", x$Design, "computed with method of Yung and Liu.")
-  )
-}
-
 #' @rdname as_gt
 #'
 #' @param title A string to specify the title of the gt table.
