@@ -264,7 +264,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' x$bound$`nominal p`[1]
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
-to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
+to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, ...) {
   is_ahr <- inherits(x, "ahr")
   is_wlr <- inherits(x, "wlr")
   is_rd  <- inherits(x, "rd")
@@ -282,7 +282,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     if (n_analysis == 1) {
       event_new <- ceiling(event)
     } else {
-      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis]))
+      event_ia_new <- ceiling(event[1:(n_analysis - 1)])
+      event_fa_new <- ifelse(round_up_final, ceiling(event[n_analysis]), floor(event[n_analysis]))
+      event_new <- c(event_ia_new, event_fa_new)
     }
 
     # Updated sample size to integer and enroll rates
