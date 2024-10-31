@@ -8,23 +8,23 @@
 - Fix the bug of `gs_design_wlr()` when the design is driven by information fraction only (#446, thanks to @LittleBeannie).
 - Fix the bug of `pw_info()` when there are many piecewise HRs (#460, thanks to @LittleBeannie).
 
-## Statistcial Improvements
+## Statistical improvements
 
-- The `gs_update_ahr` function (test version) is updated to 
+- The `gs_update_ahr()` function (test version) is updated to
 
   + Enable unchanged futility bounds when it is fixed at the original design (#408, thanks to @LittleBeannie).
   + Allow boundary updates when only certain interim analysis data is available (#436, thanks to @LittleBeannie).
   + Allow boundary updates when alpha changes by keeping the same `info_scale` as the original design (#470, @LittleBeannie).
-  
+
 - Integer design (i.e., integer sample size and events) is updated to ensure exact integer sample size and events  (#452, #460, thanks to @LittleBeannie and @yihui).
 - Change the information fraction displayed at the summary-gt table from under H1 to H0 for logrank tests (#439, thanks to @LittleBeannie).
 - Add the sample size as the output of `ahr()` and `pw_info()` (#427, #433, thanks to @LittleBeannie).
 
-## User interface Improvements
+## User interface improvements
 
 - Enable passing named vector of `col_decimals` and `analysis_decimals` to `summary.gs_design()` (#403, #431, @jdblischak).
 
-## Coding practive Improvements
+## Coding practice improvements
 
 - Add robust check if `lower` is equivalent to `gs_b` (#413, thanks to @jdblischak )
 - The `summary()`, `as_gt()` `as_rtf()`, and `to_integer()` functions are refactored (#448, #449, #450, #465, #461, thanks to @yihui).
@@ -37,10 +37,10 @@
 
 ## Testing
 
-- More Developer tests of `gs_power_ahr()` are added (#420, @LittleBeannie).
-- More Developer tests of `summary()` is added (#422, #426, thanks to @yuliasidi, @jdblischak and @LittleBeannie).
-- Independent tests of `ahr_blinded()` is added (#435, thanks to @DMuriuki).
-- More developer tests of `to_integer()` is added (#476, thanks to @LittleBeannie).
+- More developer tests of `gs_power_ahr()` are added (#420, @LittleBeannie).
+- More developer tests of `summary()` are added (#422, #426, thanks to @yuliasidi, @jdblischak and @LittleBeannie).
+- Independent tests of `ahr_blinded()` are added (#435, thanks to @DMuriuki).
+- More developer tests of `to_integer()` are added (#476, thanks to @LittleBeannie).
 
 # gsDesign2 1.1.2
 
