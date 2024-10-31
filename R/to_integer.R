@@ -282,7 +282,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
     if (n_analysis == 1) {
       event_new <- ceiling(event)
     } else {
-      event_ia_new <- ceiling(event[1:(n_analysis - 1)])
+      event_ia_new <- round(event[1:(n_analysis - 1)])
       event_fa_new <- ifelse(round_up_final, ceiling(event[n_analysis]), floor(event[n_analysis]))
       event_new <- c(event_ia_new, event_fa_new)
     }
