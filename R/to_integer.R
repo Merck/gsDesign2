@@ -208,7 +208,8 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 }
 
 #' @rdname to_integer
-#'
+#' @param round_up_final Events at final analysis is rounded up if `TRUE`;
+#' otherwise, just rounded, unless it is very close to an integer.
 #' @export
 #'
 #' @examples
