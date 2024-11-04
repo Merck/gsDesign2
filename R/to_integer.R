@@ -208,7 +208,8 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 }
 
 #' @rdname to_integer
-#'
+#' @param round_up_final Events at final analysis is rounded up if `TRUE`;
+#' otherwise, just rounded, unless it is very close to an integer.
 #' @export
 #'
 #' @examples
@@ -264,7 +265,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' x$bound$`nominal p`[1]
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
-to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
+to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, ...) {
   is_ahr <- inherits(x, "ahr")
   is_wlr <- inherits(x, "wlr")
   is_rd  <- inherits(x, "rd")
@@ -282,7 +283,21 @@ to_integer.gs_design <- function(x, sample_size = TRUE, ...) {
     if (n_analysis == 1) {
       event_new <- ceiling(event)
     } else {
-      event_new <- c(floor(event[1:(n_analysis - 1)]), ceiling(event[n_analysis]))
+      # round IA events to the closest integer
+      event_ia_new <- round(event[1:(n_analysis - 1)])
+
+      # if the FA events is very close to an integer, set it as this integer
+      if (abs(event[n_analysis] - round(event[n_analysis])) < 0.01) {
+        event_fa_new <- round(event[n_analysis])
+      # ceiling the FA events as default
+      } else if (round_up_final) {
+        event_fa_new <- ceiling(event[n_analysis])
+      # otherwise, floor the FA events
+      } else{
+        event_fa_new <- floor(event_fa_new)
+      }
+
+      event_new <- c(event_ia_new, event_fa_new)
     }
 
     # Updated sample size to integer and enroll rates

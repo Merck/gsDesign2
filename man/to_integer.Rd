@@ -10,7 +10,7 @@ to_integer(x, ...)
 
 \method{to_integer}{fixed_design}(x, sample_size = TRUE, ...)
 
-\method{to_integer}{gs_design}(x, sample_size = TRUE, ...)
+\method{to_integer}{gs_design}(x, sample_size = TRUE, round_up_final = TRUE, ...)
 }
 \arguments{
 \item{x}{An object returned by fixed_design_xxx() and gs_design_xxx().}
@@ -19,6 +19,9 @@ to_integer(x, ...)
 
 \item{sample_size}{Logical, indicting if ceiling
 sample size to an even integer.}
+
+\item{round_up_final}{Events at final analysis is rounded up if \code{TRUE};
+otherwise, just rounded, unless it is very close to an integer.}
 }
 \value{
 A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
