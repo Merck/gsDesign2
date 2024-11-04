@@ -46,7 +46,7 @@
 <span><span class="fu">to_integer</span><span class="op">(</span><span class="va">x</span>, sample_size <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'gs_design'</span></span>
-<span><span class="fu">to_integer</span><span class="op">(</span><span class="va">x</span>, sample_size <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">to_integer</span><span class="op">(</span><span class="va">x</span>, sample_size <span class="op">=</span> <span class="cn">TRUE</span>, round_up_final <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,6 +64,11 @@
 <dt id="arg-sample-size">sample_size<a class="anchor" aria-label="anchor" href="#arg-sample-size"></a></dt>
 <dd><p>Logical, indicting if ceiling
 sample size to an even integer.</p></dd>
+
+
+<dt id="arg-round-up-final">round_up_final<a class="anchor" aria-label="anchor" href="#arg-round-up-final"></a></dt>
+<dd><p>Events at final analysis is rounded up if <code>TRUE</code>;
+otherwise, just rounded, unless it is very close to an integer.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -153,7 +158,7 @@ except the sample size is an integer.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   Analysis [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis         Bound     Z `~HR at bound` `Nominal p` `Alternate hypothesis`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Analysis: 1 Tim… Effi…  2.57          0.696      0.005                   0.288</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Analysis: 1 Tim… Effi…  2.57          0.697      0.005<span style="text-decoration: underline;">1</span>                  0.295</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Analysis: 2 Tim… Effi…  1.99          0.799      0.023<span style="text-decoration: underline;">4</span>                  0.901</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: `Null hypothesis` &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
@@ -170,7 +175,7 @@ except the sample size is an integer.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   Analysis [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis        Bound     Z `~wHR at bound` `Nominal p` `Alternate hypothesis`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Analysis: 1 Ti… Effi…  2.57           0.700      0.005<span style="text-decoration: underline;">1</span>                  0.289</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Analysis: 1 Ti… Effi…  2.56           0.702      0.005<span style="text-decoration: underline;">2</span>                  0.295</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Analysis: 2 Ti… Effi…  1.99           0.802      0.023<span style="text-decoration: underline;">4</span>                  0.900</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: `Null hypothesis` &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
