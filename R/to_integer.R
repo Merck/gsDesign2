@@ -286,16 +286,17 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
       # round IA events to the closest integer
       event_ia_new <- round(event[1:(n_analysis - 1)])
 
-      # ceiling the FA events as default
-      if(round_up_final) {
-        event_fa_new <- ceiling(event[n_analysis])
       # if the FA events is very close to an integer, set it as this integer
-      } else if (abs(event[n_analysis] - round(event[n_analysis])) < 1e-3) {
+      if (abs(event[n_analysis] - round(event[n_analysis])) < 0.01) {
         event_fa_new <- round(event[n_analysis])
+      # ceiling the FA events as default
+      } else if (round_up_final) {
+        event_fa_new <- ceiling(event[n_analysis])
       # otherwise, floor the FA events
-      } else {
+      } else{
         event_fa_new <- floor(event_fa_new)
       }
+
       event_new <- c(event_ia_new, event_fa_new)
     }
 
