@@ -172,9 +172,18 @@ gs_design_wlr <- function(
                    interval = interval) %>%
     dplyr::select(-c(n, delta, sigma2))
 
+  # get the FA events given the FA analysis time
   final_event <- y$event[nrow(y)]
-  final_info <- max(y$info)
-  info_frac_by_time <- y$info / max(y$info)
+
+  # calculate the FA info according to different info_scale
+  # calculate the info_frac of planned analysis time provided by `analysis_time`
+  if(info_scale == "h0_info") {
+    final_info <- max(y$info0)
+    info_frac_by_time <- y$info0 / final_info
+  } else {
+    final_info <- max(y$info)
+    info_frac_by_time <- y$info / final_info
+  }
 
   # if it is info frac driven group sequential design
   # relabel the analysis to FA, and back calculate IAs from FA
@@ -206,7 +215,8 @@ gs_design_wlr <- function(
                            enroll_rate = enroll_rate, fail_rate = fail_rate, ratio = ratio,
                            weight = weight, approx = approx,
                            final_info = final_info, next_time = next_time,
-                           input_info_frac = info_frac[n_analysis - i])$root
+                           input_info_frac = info_frac[n_analysis - i],
+                           info_scale = info_scale)$root
 
         y_ia <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio,
                             event = NULL, analysis_time = ia_time,
@@ -224,7 +234,8 @@ gs_design_wlr <- function(
                            enroll_rate = enroll_rate, fail_rate = fail_rate, ratio = ratio,
                            weight = weight, approx = approx,
                            final_info = final_info, next_time = next_time,
-                           input_info_frac = info_frac[n_analysis - i])$root
+                           input_info_frac = info_frac[n_analysis - i],
+                           info_scale = info_scale)$root
 
         y_ia <- gs_info_wlr(enroll_rate, fail_rate, ratio = ratio,
                             event = ia_event, analysis_time = NULL,
@@ -335,25 +346,37 @@ gs_design_wlr <- function(
 # utility function to find the analysis time to get the planned/input info_frac
 find_time_by_info_frac <- function(x, enroll_rate, fail_rate, ratio, weight, approx,
                                    final_info, next_time,
-                                   input_info_frac){
+                                   input_info_frac,
+                                   info_scale){
+
   ia_info <- gs_info_wlr(analysis_time = x, event = NULL,
                          enroll_rate = enroll_rate, fail_rate = fail_rate,
                          weight = weight, approx = approx, ratio = ratio,
                          interval = c(.01, next_time))
 
-  ia_info_frac <- ia_info$info / final_info
+  if (info_scale == "h0_info") {
+    ia_info_frac <- ia_info$info0 / final_info
+  } else {
+    ia_info_frac <- ia_info$info / final_info
+  }
+
   return(ia_info_frac - input_info_frac)
 }
 
 # utility function to find the event to get the planned/input info_frac
 find_event_by_info_frac <- function(x, enroll_rate, fail_rate, ratio, weight, approx,
                                     final_info, next_time,
-                                    input_info_frac){
+                                    input_info_frac,
+                                    info_scale){
   ia_info <- gs_info_wlr(analysis_time = NULL, event = x,
                          enroll_rate = enroll_rate, fail_rate = fail_rate,
                          weight = weight, approx = approx, ratio = ratio,
                          interval = c(.01, next_time))
+  if (info_scale == "h0_info") {
+    ia_info_frac <- ia_info$info0 / final_info
+  } else {
+    ia_info_frac <- ia_info$info / final_info
+  }
 
-  ia_info_frac <- ia_info$info / final_info
   return(ia_info_frac - input_info_frac)
 }
