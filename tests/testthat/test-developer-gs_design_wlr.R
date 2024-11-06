@@ -109,3 +109,46 @@ test_that("Validate calendar-time and info-frac driven design -- C",{
   expect_equal(x$analysis$time[idx_driven_by_time], analysis_time[idx_driven_by_time])
   expect_equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5)
 })
+
+test_that("Validate if the output info-frac match the planned info-frac, when the design is only driven by info frac", {
+  x <- gs_design_wlr(
+    alpha = 0.025,
+    beta = 0.9,
+    enroll_rate = define_enroll_rate(duration = 12, rate = 1),
+    fail_rate = define_fail_rate(duration = c(4, Inf), fail_rate = log(2) / 10,
+                                 hr = c(1, 0.6), dropout_rate = 0.001),
+    ratio = 1,
+    info_frac = c(0.75, 1),
+    analysis_time = 36,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+    lower = gs_b,
+    lpar = rep(-Inf, 2),
+    info_scale = "h0_info",
+    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+  )
+
+  expect_equal(x$analysis$info_frac[1], 0.75, tolerance = 1e-6)
+})
+
+
+test_that("Validate if the output info-frac match the planned info-frac, when the design is driven by both info frac and analysis time", {
+  x <- gs_design_wlr(
+    alpha = 0.025,
+    beta = 0.9,
+    enroll_rate = define_enroll_rate(duration = 12, rate = 1),
+    fail_rate = define_fail_rate(duration = c(4, Inf), fail_rate = log(2) / 10,
+                                 hr = c(1, 0.6), dropout_rate = 0.001),
+    ratio = 1,
+    info_frac = c(0.75, 1),
+    analysis_time = c(10, 36),
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+    lower = gs_b,
+    lpar = rep(-Inf, 2),
+    info_scale = "h0_info",
+    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+  )
+
+  expect_equal(x$analysis$info_frac[1], 0.75, tolerance = 1e-6)
+})
