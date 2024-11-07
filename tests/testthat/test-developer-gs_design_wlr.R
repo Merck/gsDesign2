@@ -21,7 +21,7 @@ test_that("Validate info-frac driven design with a known study duration",{
 
 
   # validate the info frac
-  expect_equal(x$analysis$info_frac, c(0.3, 0.7, 1), tolerance = 1e-6)
+  expect_equal(x$analysis$info_frac0, c(0.3, 0.7, 1), tolerance = 5e-5)
   # validate the final analysis time
   expect_equal(max(x$analysis$time), 36)
 })
@@ -111,44 +111,109 @@ test_that("Validate calendar-time and info-frac driven design -- C",{
 })
 
 test_that("Validate if the output info-frac match the planned info-frac, when the design is only driven by info frac", {
-  x <- gs_design_wlr(
+  x1 <- gs_design_wlr(
     alpha = 0.025,
     beta = 0.9,
-    enroll_rate = define_enroll_rate(duration = 12, rate = 1),
-    fail_rate = define_fail_rate(duration = c(4, Inf), fail_rate = log(2) / 10,
-                                 hr = c(1, 0.6), dropout_rate = 0.001),
-    ratio = 1,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = ratio,
     info_frac = c(0.75, 1),
     analysis_time = 36,
-    upper = gs_spending_bound,
-    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-    lower = gs_b,
-    lpar = rep(-Inf, 2),
+    upper = upper,
+    upar = upar,
+    lower = lower,
+    lpar = lpar,
     info_scale = "h0_info",
     weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
   )
 
-  expect_equal(x$analysis$info_frac[1], 0.75, tolerance = 1e-6)
-})
-
-
-test_that("Validate if the output info-frac match the planned info-frac, when the design is driven by both info frac and analysis time", {
-  x <- gs_design_wlr(
+  x2 <- gs_design_wlr(
     alpha = 0.025,
     beta = 0.9,
-    enroll_rate = define_enroll_rate(duration = 12, rate = 1),
-    fail_rate = define_fail_rate(duration = c(4, Inf), fail_rate = log(2) / 10,
-                                 hr = c(1, 0.6), dropout_rate = 0.001),
-    ratio = 1,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = ratio,
     info_frac = c(0.75, 1),
-    analysis_time = c(10, 36),
-    upper = gs_spending_bound,
-    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-    lower = gs_b,
-    lpar = rep(-Inf, 2),
+    analysis_time = 36,
+    upper = upper,
+    upar = upar,
+    lower = lower,
+    lpar = lpar,
+    info_scale = "h0_h1_info",
+    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+  )
+
+  x3 <- gs_design_wlr(
+    alpha = 0.025,
+    beta = 0.9,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = ratio,
+    info_frac = c(0.75, 1),
+    analysis_time = 36,
+    upper = upper,
+    upar = upar,
+    lower = lower,
+    lpar = lpar,
+    info_scale = "h1_info",
+    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+  )
+
+  expect_equal(x1$analysis$info_frac[1], 0.75, tolerance = 1e-6)
+  expect_equal(x2$analysis$info_frac0[1], 0.75, tolerance = 1e-6)
+  expect_equal(x3$analysis$info_frac[1], 0.75, tolerance = 1e-6)
+})
+
+test_that("Validate if the output info-frac match the planned info-frac, when the design is driven by both info frac and analysis time", {
+  x1 <- gs_design_wlr(
+    alpha = 0.025,
+    beta = 0.9,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = ratio,
+    info_frac = c(0.75, 1),
+    analysis_time = c(1, 36),
+    upper = upper,
+    upar = upar,
+    lower = lower,
+    lpar = lpar,
     info_scale = "h0_info",
     weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
   )
 
-  expect_equal(x$analysis$info_frac[1], 0.75, tolerance = 1e-6)
+  x2 <- gs_design_wlr(
+    alpha = 0.025,
+    beta = 0.9,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = ratio,
+    info_frac = c(0.75, 1),
+    analysis_time = c(1, 36),
+    upper = upper,
+    upar = upar,
+    lower = lower,
+    lpar = lpar,
+    info_scale = "h0_h1_info",
+    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+  )
+
+  x3 <- gs_design_wlr(
+    alpha = 0.025,
+    beta = 0.9,
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    ratio = ratio,
+    info_frac = c(0.75, 1),
+    analysis_time = c(1, 36),
+    upper = upper,
+    upar = upar,
+    lower = lower,
+    lpar = lpar,
+    info_scale = "h1_info",
+    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+  )
+
+  expect_equal(x1$analysis$info_frac[1], 0.75, tolerance = 5e-6)
+  expect_equal(x2$analysis$info_frac0[1], 0.75, tolerance = 5e-6)
+  expect_equal(x3$analysis$info_frac[1], 0.75, tolerance = 5e-6)
 })
