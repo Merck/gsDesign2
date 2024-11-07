@@ -273,6 +273,9 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
     message("The input object is not applicable to get an integer sample size.")
     return(x)
   }
+  if (x$input$ratio < 0 || round(x$input$ratio, 0) != x$input$ratio) {
+    message("The ratio must be a non-negative integer.")
+  }
 
   n_analysis <- length(x$analysis$analysis)
   multiply_factor <- x$input$ratio + 1
@@ -301,7 +304,15 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
     }
 
     # Updated sample size to integer and enroll rates
-    sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
+    ss <- x$analysis$n[n_analysis] / multiply_factor
+
+    if (round_up_final) {
+      sample_size_new <- ceiling(ss) * multiply_factor
+    } else {
+      sample_size_new <- round(ss, 0) * multiply_factor
+    }
+    sample_size_new <- as.integer(sample_size_new)
+
     enroll_rate <- x$enroll_rate
     enroll_rate_new <- enroll_rate %>%
       mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
