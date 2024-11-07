@@ -177,7 +177,7 @@ gs_design_wlr <- function(
 
   # calculate the FA info according to different info_scale
   # calculate the info_frac of planned analysis time provided by `analysis_time`
-  if(info_scale == "h0_info") {
+  if(info_scale %in% c("h0_info", "h0_h1_info")) {
     final_info <- max(y$info0)
     info_frac_by_time <- y$info0 / final_info
   } else {
@@ -354,7 +354,7 @@ find_time_by_info_frac <- function(x, enroll_rate, fail_rate, ratio, weight, app
                          weight = weight, approx = approx, ratio = ratio,
                          interval = c(.01, next_time))
 
-  if (info_scale == "h0_info") {
+  if (info_scale %in% c("h0_info", "h0_h1_info")) {
     ia_info_frac <- ia_info$info0 / final_info
   } else {
     ia_info_frac <- ia_info$info / final_info
