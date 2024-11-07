@@ -315,6 +315,7 @@ gs_design_wlr <- function(
   # analysis table
   analysis <- allout %>%
     select(analysis, time, n, event, ahr, theta, info, info0, info_frac) %>%
+    mutate(info_frac0 = info0 / max(info0)) %>%
     unique() %>%
     arrange(analysis)
 
@@ -372,7 +373,7 @@ find_event_by_info_frac <- function(x, enroll_rate, fail_rate, ratio, weight, ap
                          enroll_rate = enroll_rate, fail_rate = fail_rate,
                          weight = weight, approx = approx, ratio = ratio,
                          interval = c(.01, next_time))
-  if (info_scale == "h0_info") {
+  if (info_scale %in% c("h0_info", "h0_h1_info")) {
     ia_info_frac <- ia_info$info0 / final_info
   } else {
     ia_info_frac <- ia_info$info / final_info
