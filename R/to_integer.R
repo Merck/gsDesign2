@@ -300,7 +300,7 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
         event_fa_new <- ceiling(event[n_analysis])
       # otherwise, floor the FA events
       } else{
-        event_fa_new <- floor(event_fa_new)
+        event_fa_new <- floor(event[n_analysis])
       }
 
       event_new <- c(event_ia_new, event_fa_new)
