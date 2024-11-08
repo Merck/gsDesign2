@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Rounds sample size to an even number for equal design
+#' Round sample size and events
 #'
 #' @param x An object returned by fixed_design_xxx() and gs_design_xxx().
 #' @param ... Additional parameters (not used).

@@ -4,7 +4,7 @@
 \alias{to_integer}
 \alias{to_integer.fixed_design}
 \alias{to_integer.gs_design}
-\title{Rounds sample size to an even number for equal design}
+\title{Round sample size and events}
 \usage{
 to_integer(x, ...)
 
@@ -27,7 +27,7 @@ A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
 except the sample size is an integer.
 }
 \description{
-Rounds sample size to an even number for equal design
+Round sample size and events
 }
 \examples{
 library(dplyr)
