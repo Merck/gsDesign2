@@ -10,7 +10,7 @@ to_integer(x, ...)
 
 \method{to_integer}{fixed_design}(x, ...)
 
-\method{to_integer}{gs_design}(x, round_up_final = TRUE, ratio = 0, ...)
+\method{to_integer}{gs_design}(x, round_up_final = TRUE, ratio = x$input$ratio, ...)
 }
 \arguments{
 \item{x}{An object returned by fixed_design_xxx() and gs_design_xxx().}

@@ -263,7 +263,7 @@ to_integer.fixed_design <- function(x, ...) {
 #' x$bound$`nominal p`[1]
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
-to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = 0, ...) {
+to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio, ...) {
   is_ahr <- inherits(x, "ahr")
   is_wlr <- inherits(x, "wlr")
   is_rd  <- inherits(x, "rd")
@@ -274,12 +274,10 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = 0, ...) {
 
   if (ratio < 0) {
     stop("The ratio must be non-negative.")
-  } else if (ratio == 0) {
-    if (round(x$input$ratio, 0) == x$input$ratio) {
-      ratio <- x$input$ratio
-    } else {
-      stop("The ratio must be an integer.")
-    }
+  }
+
+  if (!is_wholenumber(ratio)) {
+    message("The output sample size is not a multipier of (ratio + 1).")
   }
 
   n_analysis <- length(x$analysis$analysis)
@@ -309,13 +307,24 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = 0, ...) {
     }
 
     # Updated sample size to integer and enroll rates
-    ss <- x$analysis$n[n_analysis] / multiply_factor
+    # if the randomization ratio is a whole number, round the sample size as a multiplier of ratio + 1
+    if(is_wholenumber(ratio)) {
+      ss <- x$analysis$n[n_analysis] / multiply_factor
 
-    if (round_up_final) {
-      sample_size_new <- ceiling(ss) * multiply_factor
+      if (round_up_final) {
+        sample_size_new <- ceiling(ss) * multiply_factor
+      } else {
+        sample_size_new <- round(ss, 0) * multiply_factor
+      }
+    # if the randomization ratio is NOT a whole number, just round it
     } else {
-      sample_size_new <- round(ss, 0) * multiply_factor
+      if (round_up_final) {
+        sample_size_new <- ceiling(x$analysis$n[n_analysis])
+      } else {
+        sample_size_new <- round(x$analysis$n[n_analysis], 0)
+      }
     }
+
     sample_size_new <- as.integer(sample_size_new)
 
     enroll_rate <- x$enroll_rate
