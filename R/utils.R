@@ -40,3 +40,9 @@ replace_names <- function(x, ...) {
 round2 <- function(x, digits, ...) {
   if (is.numeric(x) && !is.na(digits)) round(x, digits, ...) else x
 }
+
+# test if it is whole number
+is_wholenumber <- function (x, tol = .Machine$double.eps^0.5)  {
+  abs(x - round(x)) < tol
+}
+
