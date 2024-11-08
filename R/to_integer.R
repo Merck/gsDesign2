@@ -315,13 +315,24 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
     } else if (identical(x$input$upper, gs_spending_bound)) {
       upar_new <- x$input$upar
       if (!("timing" %in% names(x$input$upar))) {
-        info_with_new_event <- gs_info_ahr(
-          enroll_rate = enroll_rate_new,
-          fail_rate = x$input$fail_rate,
-          ratio = x$input$ratio,
-          event = event_new,
-          analysis_time = NULL
-        )
+        if (is_ahr) {
+          info_with_new_event <- gs_info_ahr(
+            enroll_rate = enroll_rate_new,
+            fail_rate = x$input$fail_rate,
+            ratio = x$input$ratio,
+            event = event_new,
+            analysis_time = NULL
+          )
+        } else if (is_wlr) {
+          info_with_new_event <- gs_info_wlr(
+            enroll_rate = enroll_rate_new,
+            fail_rate = x$input$fail_rate,
+            ratio = x$input$ratio,
+            event = event_new,
+            analysis_time = NULL,
+            weight = x$input$weight
+          )
+        }
 
         # ensure info0 is based on integer sample size calculation
         # as as they become a slight different number due to the `enroll_rate`
