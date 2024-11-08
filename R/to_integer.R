@@ -31,9 +31,6 @@ to_integer <- function(x, ...) {
 
 #' @rdname to_integer
 #'
-#' @param sample_size Logical, indicting if ceiling
-#'   sample size to an even integer.
-#'
 #' @export
 #'
 #' @examples
@@ -89,7 +86,7 @@ to_integer <- function(x, ...) {
 #'   to_integer() |>
 #'   summary()
 #' }
-to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
+to_integer.fixed_design <- function(x, ...) {
   output_n <- x$analysis$n
   input_n <- expected_accrual(time = x$analysis$time, enroll_rate = x$input$enroll_rate)
 
@@ -266,7 +263,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' x$bound$`nominal p`[1]
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
-to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, ratio = 0, ...) {
+to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = 0, ...) {
   is_ahr <- inherits(x, "ahr")
   is_wlr <- inherits(x, "wlr")
   is_rd  <- inherits(x, "rd")
