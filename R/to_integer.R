@@ -210,6 +210,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' @rdname to_integer
 #' @param round_up_final Events at final analysis is rounded up if `TRUE`;
 #' otherwise, just rounded, unless it is very close to an integer.
+#' @param ratio Positive integer for randomization ratio (experimental:control).
 #' @export
 #'
 #' @examples
@@ -265,7 +266,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' x$bound$`nominal p`[1]
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
-to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, ...) {
+to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, ratio = 0, ...) {
   is_ahr <- inherits(x, "ahr")
   is_wlr <- inherits(x, "wlr")
   is_rd  <- inherits(x, "rd")
@@ -273,12 +274,19 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
     message("The input object is not applicable to get an integer sample size.")
     return(x)
   }
-  if (x$input$ratio < 0 || round(x$input$ratio, 0) != x$input$ratio) {
-    message("The ratio must be a non-negative integer.")
+
+  if (ratio < 0) {
+    stop("The ratio must be non-negative.")
+  } else if (ratio == 0) {
+    if (round(x$input$ratio, 0) == x$input$ratio) {
+      ratio <- x$input$ratio
+    } else {
+      stop("The ratio must be an integer.")
+    }
   }
 
   n_analysis <- length(x$analysis$analysis)
-  multiply_factor <- x$input$ratio + 1
+  multiply_factor <- ratio + 1
 
   if (!is_rd) {
     # Updated events to integer
@@ -329,14 +337,14 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
         info_with_new_event <- gs_info_ahr(
           enroll_rate = enroll_rate_new,
           fail_rate = x$input$fail_rate,
-          ratio = x$input$ratio,
+          ratio = ratio,
           event = event_new,
           analysis_time = NULL
         )
 
         # ensure info0 is based on integer sample size calculation
         # as as they become a slight different number due to the `enroll_rate`
-        q_e <- x$input$ratio / (1 + x$input$ratio)
+        q_e <- ratio / (1 + ratio)
         q_c <- 1 - q_e
         info_with_new_event$info0 <- event_new * q_e * q_c
 
@@ -369,7 +377,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
       fail_rate = x$input$fail_rate,
       event = event_new,
       analysis_time = NULL,
-      ratio = x$input$ratio,
+      ratio = ratio,
       upper = x$input$upper, upar = upar_new,
       lower = x$input$lower, lpar = lpar_new,
       test_upper = x$input$test_upper,
@@ -425,7 +433,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
           p_e = x$input$p_e,
           n = tbl_n,
           rd0 = x$input$rd,
-          ratio = x$input$ratio,
+          ratio = ratio,
           weight = x$input$weight
         )
 
@@ -449,7 +457,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
       p_e = x$input$p_e,
       n = tbl_n,
       rd0 = x$input$rd0,
-      ratio = x$input$ratio,
+      ratio = ratio,
       weight = x$input$weight,
       upper = x$input$upper,
       lower = x$input$lower,

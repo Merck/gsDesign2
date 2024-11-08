@@ -10,7 +10,7 @@ to_integer(x, ...)
 
 \method{to_integer}{fixed_design}(x, sample_size = TRUE, ...)
 
-\method{to_integer}{gs_design}(x, sample_size = TRUE, round_up_final = TRUE, ...)
+\method{to_integer}{gs_design}(x, sample_size = TRUE, round_up_final = TRUE, ratio = 0, ...)
 }
 \arguments{
 \item{x}{An object returned by fixed_design_xxx() and gs_design_xxx().}
@@ -22,6 +22,8 @@ sample size to an even integer.}
 
 \item{round_up_final}{Events at final analysis is rounded up if \code{TRUE};
 otherwise, just rounded, unless it is very close to an integer.}
+
+\item{ratio}{Positive integer for randomization ratio (experimental:control).}
 }
 \value{
 A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
