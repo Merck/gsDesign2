@@ -277,7 +277,8 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
   }
 
   if (!is_wholenumber(ratio)) {
-    message("The output sample size is not a multipier of (ratio + 1).")
+    message("The output sample size is not a multiple of (ratio + 1).")
+    ratio <- 0
   }
 
   n_analysis <- length(x$analysis$analysis)
