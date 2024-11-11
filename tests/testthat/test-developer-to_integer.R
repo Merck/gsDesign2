@@ -52,7 +52,7 @@ test_that("The statistcial information under null equals to event/4 udner equal 
   expect_true(all(x$analysis$info0 - x$analysis$event / 4 == 0))
 })
 
-test_that("Validate the sample size rounding.", {
+test_that("Validate the sample size rounding under equal randomization.", {
 
   x <- gs_design_ahr(analysis_time = c(24, 36))
 
@@ -61,5 +61,21 @@ test_that("Validate the sample size rounding.", {
 
   expect_equal(ceiling(x$analysis$n[2] / 2) * 2, y1$analysis$n[2])
   expect_equal(round(x$analysis$n[2] / 2, 0) * 2, y2$analysis$n[2])
+  expect_error(x |> to_integer(ratio = -2))
+})
+
+test_that("Validate the sample size rounding under unequal randomization (3:2).", {
+
+  x <- gs_design_ahr(analysis_time = c(24, 36), ratio = 1.5)
+
+  y1 <- x |> to_integer(round_up_final = TRUE)
+  y2 <- x |> to_integer(round_up_final = TRUE, ratio = 5)
+  y3 <- x |> to_integer(round_up_final = FALSE)
+  y4 <- x |> to_integer(round_up_final = FALSE, ratio = 5)
+
+  expect_equal(ceiling(x$analysis$n[2]), y1$analysis$n[2])
+  expect_equal(ceiling(x$analysis$n[2] / 5) * 5, y2$analysis$n[2])
+  expect_equal(round(x$analysis$n[2]), y3$analysis$n[2])
+  expect_equal(round(x$analysis$n[2] / 2, 0) * 2, y4$analysis$n[2])
   expect_error(x |> to_integer(ratio = -2))
 })
