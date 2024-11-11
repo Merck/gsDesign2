@@ -207,7 +207,10 @@ to_integer.fixed_design <- function(x, ...) {
 #' @rdname to_integer
 #' @param round_up_final Events at final analysis is rounded up if `TRUE`;
 #' otherwise, just rounded, unless it is very close to an integer.
-#' @param ratio Positive integer for randomization ratio (experimental:control). A negative number will result in an error. A positive non-integer will result in `ratio = 0`.
+#' @param ratio Positive integer for randomization ratio (experimental:control).
+#' A negative number will result in an error.
+#' A positive non-integer will result in `ratio = 0`, which just round the continous sample size.
+#' The output sample size may not be a multiple of (ratio + 1).
 #' @export
 #'
 #' @examples
@@ -277,7 +280,8 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
   }
 
   if (!is_wholenumber(ratio)) {
-    message("The output sample size is not a multiple of (ratio + 1). Setting ratio to zero.")
+    message("The output sample size is not a multiple of (ratio + 1).
+            Setting ratio to zero and the sample size will just be rounded.")
     ratio <- 0
   }
 

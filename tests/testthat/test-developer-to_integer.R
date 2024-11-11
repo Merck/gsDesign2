@@ -61,4 +61,5 @@ test_that("Validate the sample size rounding.", {
 
   expect_equal(ceiling(x$analysis$n[2] / 2) * 2, y1$analysis$n[2])
   expect_equal(round(x$analysis$n[2] / 2, 0) * 2, y2$analysis$n[2])
+  expect_error(x |> to_integer(ratio = -2))
 })
