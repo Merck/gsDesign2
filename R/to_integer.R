@@ -208,8 +208,10 @@ to_integer.fixed_design <- function(x, ...) {
 #' @param round_up_final Events at final analysis is rounded up if `TRUE`;
 #' otherwise, just rounded, unless it is very close to an integer.
 #' @param ratio Positive integer for randomization ratio (experimental:control).
-#' A negative number will result in an error.
+#' A positive integer will result in rounded sample size, which is a multiple of (ratio + 1).
 #' A positive non-integer will result in round sample size, which may not be a multiple of (ratio + 1).
+#' A negative number will result in an error.
+#'
 #' @export
 #'
 #' @examples

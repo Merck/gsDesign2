@@ -21,9 +21,9 @@ to_integer(x, ...)
 otherwise, just rounded, unless it is very close to an integer.}
 
 \item{ratio}{Positive integer for randomization ratio (experimental:control).
-A negative number will result in an error.
-A positive non-integer will result in \code{ratio = 0}, which just round the continous sample size.
-The output sample size may not be a multiple of (ratio + 1).}
+A positive integer will result in rounded sample size, which is a multiple of (ratio + 1).
+A positive non-integer will result in round sample size, which may not be a multiple of (ratio + 1).
+A negative number will result in an error.}
 }
 \value{
 A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
