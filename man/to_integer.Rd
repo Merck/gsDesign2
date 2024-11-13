@@ -8,7 +8,7 @@
 \usage{
 to_integer(x, ...)
 
-\method{to_integer}{fixed_design}(x, ...)
+\method{to_integer}{fixed_design}(x, round_up_final = TRUE, ratio = x$input$ratio, ...)
 
 \method{to_integer}{gs_design}(x, round_up_final = TRUE, ratio = x$input$ratio, ...)
 }
@@ -31,6 +31,49 @@ except the sample size is an integer.
 }
 \description{
 Round sample size and events
+}
+\details{
+For the sample size of the fixed design:
+\itemize{
+\item When \code{ratio} is a positive integer, the sample size is rounded up to a multiple of \code{ratio + 1}
+if \code{round_up_final = TRUE}, and just rounded to a multiple of \code{ratio + 1} if \code{round_up_final = FALSE}.
+\item When \code{ratio} is a positive non-integer, the sample size is rounded up if \code{round_up_final = TRUE},
+(may not be a multiple of \code{ratio + 1}), and just rounded if \code{round_up_final = FALSE} (may not be a multiple of \code{ratio + 1}).
+Note the default \code{ratio} is taken from \code{x$input$ratio}.
+}
+
+For the number of events of the fixed design:
+\itemize{
+\item If the continuous event is very close to an integer within 0.01 differences, say 100.001 or 99.999, then the integer events is 100.
+\item Otherwise, round up if \code{round_up_final = TRUE} and round if \code{round_up_final = FALSE}.
+}
+
+For the sample size of group sequential designs:
+\itemize{
+\item When \code{ratio} is a positive integer, the final sample size is rounded to a multiple of \code{ratio + 1}.
+\itemize{
+\item For 1:1 randomization (experimental:control), set \code{ratio = 1} to round to an even sample size.
+\item For 2:1 randomization, set \code{ratio = 2} to round to a multiple of 3.
+\item For 3:2 randomization, set \code{ratio = 4} to round to a multiple of 5.
+\item Note that for the final analysis, the sample size is rounded up to the nearest multiple of \code{ratio + 1} if \code{round_up_final = TRUE}.
+If \code{round_up_final = FALSE}, the final sample size is rounded to the nearest multiple of \code{ratio + 1}.
+}
+\item When \code{ratio} is positive non-integer, the final sample size MAY NOT be rounded to a multiple of \code{ratio + 1}.
+\itemize{
+\item The final sample size is rounded up if \code{round_up_final = TRUE}.
+\item Otherwise, it is just rounded.
+}
+}
+
+For the events of group sequential designs:
+\itemize{
+\item For events at interim analysis, it is rounded.
+\item For events at final analysis:
+\itemize{
+\item If the continuous event is very close to an integer within 0.01 differences, say 100.001 or 99.999, then the integer events is 100.
+\item Otherwise, final events is rounded up if \code{round_up_final = TRUE} and rounded if \code{round_up_final = FALSE}.
+}
+}
 }
 \examples{
 library(dplyr)

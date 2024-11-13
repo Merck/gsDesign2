@@ -20,6 +20,34 @@
 #'
 #' @param x An object returned by fixed_design_xxx() and gs_design_xxx().
 #' @param ... Additional parameters (not used).
+#' @details
+#' For the sample size of the fixed design:
+#' - When `ratio` is a positive integer, the sample size is rounded up to a multiple of `ratio + 1`
+#' if `round_up_final = TRUE`, and just rounded to a multiple of `ratio + 1` if `round_up_final = FALSE`.
+#' - When `ratio` is a positive non-integer, the sample size is rounded up if `round_up_final = TRUE`,
+#' (may not be a multiple of `ratio + 1`), and just rounded if `round_up_final = FALSE` (may not be a multiple of `ratio + 1`).
+#' Note the default `ratio` is taken from `x$input$ratio`.
+#'
+#' For the number of events of the fixed design:
+#' - If the continuous event is very close to an integer within 0.01 differences, say 100.001 or 99.999, then the integer events is 100.
+#' - Otherwise, round up if `round_up_final = TRUE` and round if `round_up_final = FALSE`.
+#'
+#' For the sample size of group sequential designs:
+#' - When `ratio` is a positive integer, the final sample size is rounded to a multiple of `ratio + 1`.
+#'   + For 1:1 randomization (experimental:control), set `ratio = 1` to round to an even sample size.
+#'   + For 2:1 randomization, set `ratio = 2` to round to a multiple of 3.
+#'   + For 3:2 randomization, set `ratio = 4` to round to a multiple of 5.
+#'   + Note that for the final analysis, the sample size is rounded up to the nearest multiple of `ratio + 1` if `round_up_final = TRUE`.
+#'   If `round_up_final = FALSE`, the final sample size is rounded to the nearest multiple of `ratio + 1`.
+#' - When `ratio` is positive non-integer, the final sample size MAY NOT be rounded to a multiple of `ratio + 1`.
+#'   + The final sample size is rounded up if `round_up_final = TRUE`.
+#'   + Otherwise, it is just rounded.
+#'
+#' For the events of group sequential designs:
+#' - For events at interim analysis, it is rounded.
+#' - For events at final analysis:
+#'   + If the continuous event is very close to an integer within 0.01 differences, say 100.001 or 99.999, then the integer events is 100.
+#'   + Otherwise, final events is rounded up if `round_up_final = TRUE` and rounded if `round_up_final = FALSE`.
 #'
 #' @return A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
 #'   except the sample size is an integer.
@@ -30,7 +58,6 @@ to_integer <- function(x, ...) {
 }
 
 #' @rdname to_integer
-#'
 #' @export
 #'
 #' @examples
@@ -86,22 +113,55 @@ to_integer <- function(x, ...) {
 #'   to_integer() |>
 #'   summary()
 #' }
-to_integer.fixed_design <- function(x, ...) {
+to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio, ...) {
+
+  if (ratio < 0) {
+    stop("The ratio must be non-negative.")
+  }
+
+  if (!is_wholenumber(ratio)) {
+    message("The output sample size is just rounded, may not a multiple of (ratio + 1).")
+  }
+
   output_n <- x$analysis$n
   input_n <- expected_accrual(time = x$analysis$time, enroll_rate = x$input$enroll_rate)
 
-  multiply_factor <- x$input$ratio + 1
-  enroll_rate_new <- x$enroll_rate %>%
-    mutate(rate = rate * ceiling(output_n / multiply_factor) * multiply_factor / output_n)
+  multiply_factor <- ratio + 1
+  ss <- output_n / multiply_factor
+  if (is_wholenumber(ratio)) {
+    if (round_up_final) {
+      sample_size_new <- ceiling(ss) * multiply_factor
+    } else {
+      sample_size_new <- round(ss, 0) * multiply_factor
+    }
+  } else {
+    if (round_up_final) {
+      sample_size_new <- ceiling(output_n)
+    } else {
+      sample_size_new <- round(output_n, 0)
+    }
+  }
 
-  # Round up the FA events
-  event_ceiling <- ceiling(x$analysis$event)
+  enroll_rate_new <- x$enroll_rate %>%
+    mutate(rate = rate * sample_size_new / output_n)
+
+  # Round events
+  # if events is very close to an integer, set it as this integer
+  if (abs(x$analysis$event - round(x$analysis$event)) < 0.01) {
+    event_new <- round(x$analysis$event)
+    # ceiling the FA events as default
+  } else if (round_up_final) {
+    event_new <- ceiling(x$analysis$event)
+    # otherwise, round the FA events
+  } else{
+    event_new <- round(x$analysis$event, 0)
+  }
 
   if ((x$design == "ahr") && (input_n != output_n)) {
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = event_ceiling,
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = gs_b, lower = gs_b,
@@ -128,7 +188,7 @@ to_integer.fixed_design <- function(x, ...) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = event_ceiling,
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = gs_b, lower = gs_b,
@@ -161,7 +221,7 @@ to_integer.fixed_design <- function(x, ...) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = event_ceiling,
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       weight = function(s, arm0, arm1) {
@@ -302,9 +362,9 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
       # ceiling the FA events as default
       } else if (round_up_final) {
         event_fa_new <- ceiling(event[n_analysis])
-      # otherwise, floor the FA events
+      # otherwise, round the FA events
       } else{
-        event_fa_new <- floor(event[n_analysis])
+        event_fa_new <- round(event[n_analysis], 0)
       }
 
       event_new <- c(event_ia_new, event_fa_new)
