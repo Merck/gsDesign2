@@ -71,36 +71,68 @@ test_that("Validate the sample size rounding under unequal randomization (3:2) f
                      upper = gs_spending_bound,
                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025))
 
+  # ceiling the sample size at FA, but may not be a multiplier of 5
   y1 <- x |> to_integer(round_up_final = TRUE)
-  y2 <- x |> to_integer(round_up_final = TRUE, ratio = 4)
-  y3 <- x |> to_integer(round_up_final = FALSE)
-  y4 <- x |> to_integer(round_up_final = FALSE, ratio = 4)
-
   expect_equal(ceiling(x$analysis$n[2]), y1$analysis$n[2])
+
+  # ceiling the sample size at FA, and is a multiplier of 5
+  y2 <- x |> to_integer(round_up_final = TRUE, ratio = 4)
   expect_equal(ceiling(x$analysis$n[2] / 5) * 5, y2$analysis$n[2])
+
+  # round the sample size at FA, but may not a multiplier of 5
+  y3 <- x |> to_integer(round_up_final = FALSE)
   expect_equal(round(x$analysis$n[2]), y3$analysis$n[2])
+
+  # round the sample size at FA, and is a multiplier of 5
+  y4 <- x |> to_integer(round_up_final = FALSE, ratio = 4)
   expect_equal(round(x$analysis$n[2] / 5, 0) * 5, y4$analysis$n[2])
 
+  # error when ratio is negative
   expect_error(x |> to_integer(ratio = -2))
 })
 
 
-test_that("Validate the sample size rounding for binary endpoint.", {
+test_that("Validate the sample size rounding for binary endpoint under equal randomization.", {
 
-  x <- gs_design_ahr(analysis_time = c(24, 36), ratio = 1.5,
-                     alpha = 0.025,
-                     upper = gs_spending_bound,
-                     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025))
+  x <- gs_design_rd(ratio = 1,
+                    alpha = 0.025,
+                    info_frac = 1:3/3,
+                    upper = gs_spending_bound,
+                    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025))
 
   y1 <- x |> to_integer(round_up_final = TRUE)
+  y2 <- x |> to_integer(round_up_final = FALSE)
+
+  expect_equal(c(round(x$analysis$n[1:2], 0), ceiling(x$analysis$n[3] / 2) * 2), y1$analysis$n)
+  expect_equal(c(round(x$analysis$n[1:2], 0), round(x$analysis$n[3] / 2, 0) * 2), y2$analysis$n)
+
+  expect_error(x |> to_integer(ratio = -2))
+})
+
+test_that("Validate the sample size rounding for binary endpoint under unequal randomization (3:2).", {
+
+  x <- gs_design_rd(ratio = 1.5,
+                    alpha = 0.025,
+                    info_frac = 1:3/3,
+                    upper = gs_spending_bound,
+                    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025))
+
+  # ceiling the sample size at FA, but may not be a multiplier of 5
+  y1 <- x |> to_integer(round_up_final = TRUE)
+  expect_equal(ceiling(x$analysis$n[3]) , y1$analysis$n[3])
+
+  # ceiling the sample size at FA, and is a multiplier of 5
   y2 <- x |> to_integer(round_up_final = TRUE, ratio = 4)
+  expect_equal(ceiling(x$analysis$n[3] / 4) * 4, y2$analysis$n[3])
+
+  # round the sample size at FA, but may not a multiplier of 5
   y3 <- x |> to_integer(round_up_final = FALSE)
+  expect_equal(round(x$analysis$n[3], 0), y3$analysis$n[3])
+
+  # round the sample size at FA, and is a multiplier of 5
   y4 <- x |> to_integer(round_up_final = FALSE, ratio = 4)
+  expect_equal(round(x$analysis$n[3] / 5, 0) * 5, y4$analysis$n[3])
 
-  expect_equal(ceiling(x$analysis$n[2]), y1$analysis$n[2])
-  expect_equal(ceiling(x$analysis$n[2] / 5) * 5, y2$analysis$n[2])
-  expect_equal(round(x$analysis$n[2]), y3$analysis$n[2])
-  expect_equal(round(x$analysis$n[2] / 5, 0) * 5, y4$analysis$n[2])
-
+  # error when ratio is negative
   expect_error(x |> to_integer(ratio = -2))
 })
