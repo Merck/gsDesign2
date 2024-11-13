@@ -412,12 +412,24 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
     n_stratum <- length(x$input$p_c$stratum)
 
     # Update unstratified sample size to integer
+    sample_size_new_ia <- round(x$analysis$n[1:(n_analysis - 1)], 0)
+    if (round_up_final) {
+      if (is_wholenumber(ratio)) {
+        sample_size_new_fa <- ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor
+      } else {
+        sample_size_new_fa <- ceiling(x$analysis$n[n_analysis])
+      }
+    } else {
+      if (is_wholenumber(ratio)) {
+        sample_size_new_fa <- round(x$analysis$n[n_analysis] / multiply_factor, 0) * multiply_factor
+      } else {
+        sample_size_new_fa <- round(x$analysis$n[n_analysis], 0)
+      }
+    }
+
     sample_size_new <- tibble(
       analysis = 1:n_analysis,
-      n = c(
-        floor(x$analysis$n[1:(n_analysis - 1)] / multiply_factor),
-        ceiling(x$analysis$n[n_analysis] / multiply_factor)
-      ) * multiply_factor
+      n = c(sample_size_new_ia, sample_size_new_fa)
     )
 
     # Update sample size per stratum
