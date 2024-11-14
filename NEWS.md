@@ -16,6 +16,7 @@
   + Allow boundary updates when only certain interim analysis data is available (#436, thanks to @LittleBeannie).
   + Allow boundary updates when alpha changes by keeping the same `info_scale` as the original design (#470, @LittleBeannie).
 
+- Rounding of integer design is updated (#488, #484, #486, thanks to @LittleBeannie).
 - Integer design (i.e., integer sample size and events) is updated to ensure exact integer sample size and events  (#452, #460, thanks to @LittleBeannie and @yihui).
 - Change the information fraction displayed at the summary-gt table from under H1 to H0 for logrank tests (#439, thanks to @LittleBeannie).
 - Add the sample size as the output of `ahr()` and `pw_info()` (#427, #433, thanks to @LittleBeannie).
