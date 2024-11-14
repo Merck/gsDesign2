@@ -345,7 +345,6 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
   }
 
   n_analysis <- length(x$analysis$analysis)
-  multiply_factor <- ratio + 1
 
   if (!is_rd) {
     # Updated events to integer
