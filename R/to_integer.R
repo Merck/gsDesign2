@@ -16,10 +16,38 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Rounds sample size to an even number for equal design
+#' Round sample size and events
 #'
 #' @param x An object returned by fixed_design_xxx() and gs_design_xxx().
 #' @param ... Additional parameters (not used).
+#' @details
+#' For the sample size of the fixed design:
+#' - When `ratio` is a positive integer, the sample size is rounded up to a multiple of `ratio + 1`
+#' if `round_up_final = TRUE`, and just rounded to a multiple of `ratio + 1` if `round_up_final = FALSE`.
+#' - When `ratio` is a positive non-integer, the sample size is rounded up if `round_up_final = TRUE`,
+#' (may not be a multiple of `ratio + 1`), and just rounded if `round_up_final = FALSE` (may not be a multiple of `ratio + 1`).
+#' Note the default `ratio` is taken from `x$input$ratio`.
+#'
+#' For the number of events of the fixed design:
+#' - If the continuous event is very close to an integer within 0.01 differences, say 100.001 or 99.999, then the integer events is 100.
+#' - Otherwise, round up if `round_up_final = TRUE` and round if `round_up_final = FALSE`.
+#'
+#' For the sample size of group sequential designs:
+#' - When `ratio` is a positive integer, the final sample size is rounded to a multiple of `ratio + 1`.
+#'   + For 1:1 randomization (experimental:control), set `ratio = 1` to round to an even sample size.
+#'   + For 2:1 randomization, set `ratio = 2` to round to a multiple of 3.
+#'   + For 3:2 randomization, set `ratio = 4` to round to a multiple of 5.
+#'   + Note that for the final analysis, the sample size is rounded up to the nearest multiple of `ratio + 1` if `round_up_final = TRUE`.
+#'   If `round_up_final = FALSE`, the final sample size is rounded to the nearest multiple of `ratio + 1`.
+#' - When `ratio` is positive non-integer, the final sample size MAY NOT be rounded to a multiple of `ratio + 1`.
+#'   + The final sample size is rounded up if `round_up_final = TRUE`.
+#'   + Otherwise, it is just rounded.
+#'
+#' For the events of group sequential designs:
+#' - For events at interim analysis, it is rounded.
+#' - For events at final analysis:
+#'   + If the continuous event is very close to an integer within 0.01 differences, say 100.001 or 99.999, then the integer events is 100.
+#'   + Otherwise, final events is rounded up if `round_up_final = TRUE` and rounded if `round_up_final = FALSE`.
 #'
 #' @return A list similar to the output of fixed_design_xxx() and gs_design_xxx(),
 #'   except the sample size is an integer.
@@ -30,10 +58,6 @@ to_integer <- function(x, ...) {
 }
 
 #' @rdname to_integer
-#'
-#' @param sample_size Logical, indicting if ceiling
-#'   sample size to an even integer.
-#'
 #' @export
 #'
 #' @examples
@@ -89,22 +113,55 @@ to_integer <- function(x, ...) {
 #'   to_integer() |>
 #'   summary()
 #' }
-to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
+to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio, ...) {
+
+  if (ratio < 0) {
+    stop("The ratio must be non-negative.")
+  }
+
+  if (!is_wholenumber(ratio)) {
+    message("The output sample size is just rounded, may not a multiple of (ratio + 1).")
+  }
+
   output_n <- x$analysis$n
   input_n <- expected_accrual(time = x$analysis$time, enroll_rate = x$input$enroll_rate)
 
-  multiply_factor <- x$input$ratio + 1
-  enroll_rate_new <- x$enroll_rate %>%
-    mutate(rate = rate * ceiling(output_n / multiply_factor) * multiply_factor / output_n)
+  multiply_factor <- ratio + 1
+  ss <- output_n / multiply_factor
+  if (is_wholenumber(ratio)) {
+    if (round_up_final) {
+      sample_size_new <- ceiling(ss) * multiply_factor
+    } else {
+      sample_size_new <- round(ss, 0) * multiply_factor
+    }
+  } else {
+    if (round_up_final) {
+      sample_size_new <- ceiling(output_n)
+    } else {
+      sample_size_new <- round(output_n, 0)
+    }
+  }
 
-  # Round up the FA events
-  event_ceiling <- ceiling(x$analysis$event)
+  enroll_rate_new <- x$enroll_rate %>%
+    mutate(rate = rate * sample_size_new / output_n)
+
+  # Round events
+  # if events is very close to an integer, set it as this integer
+  if (abs(x$analysis$event - round(x$analysis$event)) < 0.01) {
+    event_new <- round(x$analysis$event)
+    # ceiling the FA events as default
+  } else if (round_up_final) {
+    event_new <- ceiling(x$analysis$event)
+    # otherwise, round the FA events
+  } else{
+    event_new <- round(x$analysis$event, 0)
+  }
 
   if ((x$design == "ahr") && (input_n != output_n)) {
     x_new <- gs_power_ahr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = event_ceiling,
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = gs_b, lower = gs_b,
@@ -131,7 +188,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = event_ceiling,
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       upper = gs_b, lower = gs_b,
@@ -164,7 +221,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
       fail_rate = x$input$fail_rate,
-      event = event_ceiling,
+      event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
       weight = function(s, arm0, arm1) {
@@ -210,6 +267,11 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' @rdname to_integer
 #' @param round_up_final Events at final analysis is rounded up if `TRUE`;
 #' otherwise, just rounded, unless it is very close to an integer.
+#' @param ratio Positive integer for randomization ratio (experimental:control).
+#' A positive integer will result in rounded sample size, which is a multiple of (ratio + 1).
+#' A positive non-integer will result in round sample size, which may not be a multiple of (ratio + 1).
+#' A negative number will result in an error.
+#'
 #' @export
 #'
 #' @examples
@@ -265,7 +327,7 @@ to_integer.fixed_design <- function(x, sample_size = TRUE, ...) {
 #' x$bound$`nominal p`[1]
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
-to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, ...) {
+to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio, ...) {
   is_ahr <- inherits(x, "ahr")
   is_wlr <- inherits(x, "wlr")
   is_rd  <- inherits(x, "rd")
@@ -274,8 +336,16 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
     return(x)
   }
 
+  if (ratio < 0) {
+    stop("The ratio must be non-negative.")
+  }
+
+  if (!is_wholenumber(ratio)) {
+    message("The output sample size is just rounded, may not a multiple of (ratio + 1).")
+  }
+
   n_analysis <- length(x$analysis$analysis)
-  multiply_factor <- x$input$ratio + 1
+  multiply_factor <- ratio + 1
 
   if (!is_rd) {
     # Updated events to integer
@@ -292,16 +362,35 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
       # ceiling the FA events as default
       } else if (round_up_final) {
         event_fa_new <- ceiling(event[n_analysis])
-      # otherwise, floor the FA events
+      # otherwise, round the FA events
       } else{
-        event_fa_new <- floor(event_fa_new)
+        event_fa_new <- round(event[n_analysis], 0)
       }
 
       event_new <- c(event_ia_new, event_fa_new)
     }
 
     # Updated sample size to integer and enroll rates
-    sample_size_new <- (ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor) %>% as.integer()
+    # if the randomization ratio is a whole number, round the sample size as a multiplier of ratio + 1
+    if(is_wholenumber(ratio)) {
+      ss <- x$analysis$n[n_analysis] / multiply_factor
+
+      if (round_up_final) {
+        sample_size_new <- ceiling(ss) * multiply_factor
+      } else {
+        sample_size_new <- round(ss, 0) * multiply_factor
+      }
+    # if the randomization ratio is NOT a whole number, just round it
+    } else {
+      if (round_up_final) {
+        sample_size_new <- ceiling(x$analysis$n[n_analysis])
+      } else {
+        sample_size_new <- round(x$analysis$n[n_analysis], 0)
+      }
+    }
+
+    sample_size_new <- as.integer(sample_size_new)
+
     enroll_rate <- x$enroll_rate
     enroll_rate_new <- enroll_rate %>%
       mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
@@ -319,7 +408,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
           info_with_new_event <- gs_info_ahr(
             enroll_rate = enroll_rate_new,
             fail_rate = x$input$fail_rate,
-            ratio = x$input$ratio,
+            ratio = ratio,
             event = event_new,
             analysis_time = NULL
           )
@@ -327,7 +416,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
           info_with_new_event <- gs_info_wlr(
             enroll_rate = enroll_rate_new,
             fail_rate = x$input$fail_rate,
-            ratio = x$input$ratio,
+            ratio = ratio,
             event = event_new,
             analysis_time = NULL,
             weight = x$input$weight
@@ -336,7 +425,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
 
         # ensure info0 is based on integer sample size calculation
         # as as they become a slight different number due to the `enroll_rate`
-        q_e <- x$input$ratio / (1 + x$input$ratio)
+        q_e <- ratio / (1 + ratio)
         q_c <- 1 - q_e
         info_with_new_event$info0 <- event_new * q_e * q_c
 
@@ -369,7 +458,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
       fail_rate = x$input$fail_rate,
       event = event_new,
       analysis_time = NULL,
-      ratio = x$input$ratio,
+      ratio = ratio,
       upper = x$input$upper, upar = upar_new,
       lower = x$input$lower, lpar = lpar_new,
       test_upper = x$input$test_upper,
@@ -385,12 +474,24 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
     n_stratum <- length(x$input$p_c$stratum)
 
     # Update unstratified sample size to integer
+    sample_size_new_ia <- round(x$analysis$n[1:(n_analysis - 1)], 0)
+    if (round_up_final) {
+      if (is_wholenumber(ratio)) {
+        sample_size_new_fa <- ceiling(x$analysis$n[n_analysis] / multiply_factor) * multiply_factor
+      } else {
+        sample_size_new_fa <- ceiling(x$analysis$n[n_analysis])
+      }
+    } else {
+      if (is_wholenumber(ratio)) {
+        sample_size_new_fa <- round(x$analysis$n[n_analysis] / multiply_factor, 0) * multiply_factor
+      } else {
+        sample_size_new_fa <- round(x$analysis$n[n_analysis], 0)
+      }
+    }
+
     sample_size_new <- tibble(
       analysis = 1:n_analysis,
-      n = c(
-        floor(x$analysis$n[1:(n_analysis - 1)] / multiply_factor),
-        ceiling(x$analysis$n[n_analysis] / multiply_factor)
-      ) * multiply_factor
+      n = c(sample_size_new_ia, sample_size_new_fa)
     )
 
     # Update sample size per stratum
@@ -425,7 +526,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
           p_e = x$input$p_e,
           n = tbl_n,
           rd0 = x$input$rd,
-          ratio = x$input$ratio,
+          ratio = ratio,
           weight = x$input$weight
         )
 
@@ -449,7 +550,7 @@ to_integer.gs_design <- function(x, sample_size = TRUE, round_up_final = TRUE, .
       p_e = x$input$p_e,
       n = tbl_n,
       rd0 = x$input$rd0,
-      ratio = x$input$ratio,
+      ratio = ratio,
       weight = x$input$weight,
       upper = x$input$upper,
       lower = x$input$lower,
