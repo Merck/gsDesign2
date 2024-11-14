@@ -57,6 +57,7 @@
 #'
 #' # Example 1 ----
 #' # Information fraction driven design
+#' \donttest{
 #' gs_design_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -72,9 +73,11 @@
 #'   analysis_time = 36,
 #'   info_frac = 1:3/3
 #' )
+#' }
 #'
 #' # Example 2 ----
 #' # Calendar time driven design
+#' \donttest{
 #' gs_design_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -90,9 +93,11 @@
 #'   analysis_time = 1:3*12,
 #'   info_frac = NULL
 #' )
+#' }
 #'
 #' # Example 3 ----
 #' # Both calendar time and information fraction driven design
+#' \donttest{
 #' gs_design_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
@@ -108,6 +113,7 @@
 #'   analysis_time = 1:3*12,
 #'   info_frac = c(0.3, 0.7, 1)
 #' )
+#' }
 gs_design_wlr <- function(
     enroll_rate = define_enroll_rate(
       duration = c(2, 2, 10),
