@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.25</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,52 @@
       <small>Source: <a href="https://github.com/Merck/gsDesign2/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.3" id="gsdesign2-113">gsDesign2 1.1.3<a class="anchor" aria-label="anchor" href="#gsdesign2-113"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-3"></a></h3>
+<ul><li>Fix the bug of <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> when <code>info_scale = "h0_h1_info"</code> (<a href="https://github.com/Merck/gsDesign2/issues/402" class="external-link">#402</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>Fix the bug of <code><a href="../reference/gs_spending_combo.html">gs_spending_combo()</a></code> to enable HSD spending function (<a href="https://github.com/Merck/gsDesign2/issues/444" class="external-link">#444</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>Fix the bug of <code><a href="../reference/fixed_design.html">fixed_design_maxcombo()</a></code> regarding the upper bounds (<a href="https://github.com/Merck/gsDesign2/issues/445" class="external-link">#445</a>, thanks to <a href="https://github.com/elong0527" class="external-link">@elong0527</a>).</li>
+<li>Fix the bug of <code><a href="../reference/gs_design_wlr.html">gs_design_wlr()</a></code> when the design is driven by information fraction only (<a href="https://github.com/Merck/gsDesign2/issues/446" class="external-link">#446</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>Fix the bug of <code><a href="../reference/pw_info.html">pw_info()</a></code> when there are many piecewise HRs (<a href="https://github.com/Merck/gsDesign2/issues/460" class="external-link">#460</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="statistical-improvements-1-1-3">Statistical improvements<a class="anchor" aria-label="anchor" href="#statistical-improvements-1-1-3"></a></h3>
+<ul><li>
+<p>The <code><a href="../reference/gs_update_ahr.html">gs_update_ahr()</a></code> function (test version) is updated to</p>
+<ul><li>Enable unchanged futility bounds when it is fixed at the original design (<a href="https://github.com/Merck/gsDesign2/issues/408" class="external-link">#408</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>Allow boundary updates when only certain interim analysis data is available (<a href="https://github.com/Merck/gsDesign2/issues/436" class="external-link">#436</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>Allow boundary updates when alpha changes by keeping the same <code>info_scale</code> as the original design (<a href="https://github.com/Merck/gsDesign2/issues/470" class="external-link">#470</a>, <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+</ul></li>
+<li><p>Rounding of integer design is updated (<a href="https://github.com/Merck/gsDesign2/issues/488" class="external-link">#488</a>, <a href="https://github.com/Merck/gsDesign2/issues/484" class="external-link">#484</a>, <a href="https://github.com/Merck/gsDesign2/issues/486" class="external-link">#486</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</p></li>
+<li><p>Integer design (i.e., integer sample size and events) is updated to ensure exact integer sample size and events (<a href="https://github.com/Merck/gsDesign2/issues/452" class="external-link">#452</a>, <a href="https://github.com/Merck/gsDesign2/issues/460" class="external-link">#460</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a> and <a href="https://github.com/yihui" class="external-link">@yihui</a>).</p></li>
+<li><p>Change the information fraction displayed at the summary-gt table from under H1 to H0 for logrank tests (<a href="https://github.com/Merck/gsDesign2/issues/439" class="external-link">#439</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</p></li>
+<li><p>Add the sample size as the output of <code><a href="../reference/ahr.html">ahr()</a></code> and <code><a href="../reference/pw_info.html">pw_info()</a></code> (<a href="https://github.com/Merck/gsDesign2/issues/427" class="external-link">#427</a>, <a href="https://github.com/Merck/gsDesign2/issues/433" class="external-link">#433</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="user-interface-improvements-1-1-3">User interface improvements<a class="anchor" aria-label="anchor" href="#user-interface-improvements-1-1-3"></a></h3>
+<ul><li>Enable passing named vector of <code>col_decimals</code> and <code>analysis_decimals</code> to <code><a href="../reference/summary.html">summary.gs_design()</a></code> (<a href="https://github.com/Merck/gsDesign2/issues/403" class="external-link">#403</a>, <a href="https://github.com/Merck/gsDesign2/issues/431" class="external-link">#431</a>, <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="coding-practice-improvements-1-1-3">Coding practice improvements<a class="anchor" aria-label="anchor" href="#coding-practice-improvements-1-1-3"></a></h3>
+<ul><li>Add robust check if <code>lower</code> is equivalent to <code>gs_b</code> (<a href="https://github.com/Merck/gsDesign2/issues/413" class="external-link">#413</a>, thanks to <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a> )</li>
+<li>The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="../reference/as_gt.html">as_gt()</a></code> <code><a href="../reference/as_rtf.html">as_rtf()</a></code>, and <code><a href="../reference/to_integer.html">to_integer()</a></code> functions are refactored (<a href="https://github.com/Merck/gsDesign2/issues/448" class="external-link">#448</a>, <a href="https://github.com/Merck/gsDesign2/issues/449" class="external-link">#449</a>, <a href="https://github.com/Merck/gsDesign2/issues/450" class="external-link">#450</a>, <a href="https://github.com/Merck/gsDesign2/issues/465" class="external-link">#465</a>, <a href="https://github.com/Merck/gsDesign2/issues/461" class="external-link">#461</a>, thanks to <a href="https://github.com/yihui" class="external-link">@yihui</a>).</li>
+<li>Remove the <code>full_alpha</code> argument from <code><a href="../reference/as_rtf.html">as_rtf.gs_design()</a></code> (<a href="https://github.com/Merck/gsDesign2/issues/458" class="external-link">#458</a>, thanks to <a href="https://github.com/yihui" class="external-link">@yihui</a>).</li>
+<li>Other coding practice improvement worth mentioning (<a href="https://github.com/Merck/gsDesign2/issues/409" class="external-link">#409</a>, <a href="https://github.com/Merck/gsDesign2/issues/412" class="external-link">#412</a>, <a href="https://github.com/Merck/gsDesign2/issues/429" class="external-link">#429</a>, <a href="https://github.com/Merck/gsDesign2/issues/437" class="external-link">#437</a>, <a href="https://github.com/Merck/gsDesign2/issues/440" class="external-link">#440</a>, <a href="https://github.com/Merck/gsDesign2/issues/447" class="external-link">#447</a>, <a href="https://github.com/Merck/gsDesign2/issues/453" class="external-link">#453</a>, <a href="https://github.com/Merck/gsDesign2/issues/464" class="external-link">#464</a>, <a href="https://github.com/Merck/gsDesign2/issues/467" class="external-link">#467</a>, $475, thanks to <a href="https://github.com/yihui" class="external-link">@yihui</a>, <a href="https://github.com/nanxstats" class="external-link">@nanxstats</a>, and <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-1-1-3">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-1-3"></a></h3>
+<ul><li>Update the documentation of <code><a href="../reference/gs_b.html">gs_b()</a></code> (<a href="https://github.com/Merck/gsDesign2/issues/415" class="external-link">#415</a>, <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="testing-1-1-3">Testing<a class="anchor" aria-label="anchor" href="#testing-1-1-3"></a></h3>
+<ul><li>More developer tests of <code><a href="../reference/gs_power_ahr.html">gs_power_ahr()</a></code> are added (<a href="https://github.com/Merck/gsDesign2/issues/420" class="external-link">#420</a>, <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>More developer tests of <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> are added (<a href="https://github.com/Merck/gsDesign2/issues/422" class="external-link">#422</a>, <a href="https://github.com/Merck/gsDesign2/issues/426" class="external-link">#426</a>, thanks to <a href="https://github.com/yuliasidi" class="external-link">@yuliasidi</a>, <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a> and <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>Independent tests of <code><a href="../reference/ahr_blinded.html">ahr_blinded()</a></code> are added (<a href="https://github.com/Merck/gsDesign2/issues/435" class="external-link">#435</a>, thanks to <a href="https://github.com/DMuriuki" class="external-link">@DMuriuki</a>).</li>
+<li>More developer tests of <code><a href="../reference/to_integer.html">to_integer()</a></code> are added (<a href="https://github.com/Merck/gsDesign2/issues/476" class="external-link">#476</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.2" id="gsdesign2-112">gsDesign2 1.1.2<a class="anchor" aria-label="anchor" href="#gsdesign2-112"></a></h2><p class="text-muted">CRAN release: 2024-04-09</p>
 <div class="section level3">
