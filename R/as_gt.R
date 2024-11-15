@@ -421,5 +421,6 @@ gsd_parts <- function(
 
 #' @export
 as_gt.simtrial_gs_wlr <- function(x, ...) {
-  simtrial:::as_gt.simtrial_gs_wlr(x, ...)
+  f <- utils::getFromNamespace("as_gt.simtrial_gs_wlr", "simtrial")
+  f(x, ...)
 }
