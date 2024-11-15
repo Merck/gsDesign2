@@ -142,7 +142,6 @@ fail_rate <- define_fail_rate(
 
 # Example 1 ----
 # Information fraction driven design
-\donttest{
 gs_design_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -156,13 +155,11 @@ gs_design_wlr(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
   analysis_time = 36,
-  info_frac = 1:3/3
+  info_frac = c(0.6, 1)
 )
-}
 
 # Example 2 ----
 # Calendar time driven design
-\donttest{
 gs_design_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -175,14 +172,12 @@ gs_design_wlr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-  analysis_time = 1:3*12,
+  analysis_time = c(24, 36),
   info_frac = NULL
 )
-}
 
 # Example 3 ----
 # Both calendar time and information fraction driven design
-\donttest{
 gs_design_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -195,8 +190,7 @@ gs_design_wlr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-  analysis_time = 1:3*12,
-  info_frac = c(0.3, 0.7, 1)
+  analysis_time = c(24, 36),
+  info_frac = c(0.6, 1)
 )
-}
 }
