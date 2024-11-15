@@ -70,7 +70,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
 #'   analysis_time = 36,
-#'   info_frac = 1:3/3
+#'   info_frac = c(0.6, 1)
 #' )
 #'
 #' # Example 2 ----
@@ -87,7 +87,7 @@
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-#'   analysis_time = 1:3*12,
+#'   analysis_time = c(24, 36),
 #'   info_frac = NULL
 #' )
 #'
@@ -105,8 +105,8 @@
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2),
-#'   analysis_time = 1:3*12,
-#'   info_frac = c(0.3, 0.7, 1)
+#'   analysis_time = c(24, 36),
+#'   info_frac = c(0.6, 1)
 #' )
 gs_design_wlr <- function(
     enroll_rate = define_enroll_rate(
