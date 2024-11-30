@@ -131,6 +131,6 @@ fixed_design_mb <- function(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "mb", design_par = list(tau = tau)
   )
-  class(y) <- c("fixed_design", class(y))
+  class(y) <- c("design_fixed_mb", "fixed_design", class(y))
   return(y)
 }

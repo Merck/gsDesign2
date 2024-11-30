@@ -78,60 +78,116 @@ as_gt <- function(x, ...) {
 #' ) %>%
 #'   summary() %>%
 #'   as_gt()
-as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
-  method <- fd_method(x)
-  ans <- gt::gt(x) %>%
-    gt::tab_header(title = title %||% fd_title(method)) %>%
+as_gt.design_fixed_summary <- function(x, title, footnote, ...) {
+  gt::gt(x) %>%
+    gt::tab_header(title = title) %>%
     gt::tab_footnote(
-      footnote = footnote %||% fd_footnote(x, method),
+      footnote = footnote,
       locations = gt::cells_title(group = "title")
     )
-  return(ans)
 }
 
-get_method <- function(x, methods) intersect(methods, class(x))[1]
-
-# get the fixed design method
-fd_method <- function(x) {
-  get_method(x, c("ahr", "fh", "mb", "lf", "rd", "maxcombo", "milestone", "rmst"))
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_ahr_summary <- function(
+    x,
+    title = "Fixed Design under AHR Method",
+    footnote = "Power computed with average hazard ratio method.",
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
 }
 
-# get the default title
-fd_title <- function(method) {
-  sprintf("Fixed Design %s Method", switch(
-    method,
-    ahr = "under AHR", fh = "under Fleming-Harrington", mb = "under Magirr-Burman",
-    lf = "under Lachin and Foulkes", maxcombo = "under MaxCombo",
-    milestone = "under Milestone", rmst = "under Restricted Mean Survival Time",
-    rd = "of Risk Difference under Farrington-Manning"
-  ))
-}
-
-# get the default footnote
-fd_footnote <- function(x, method) {
-  switch(
-    method,
-    ahr = "Power computed with average hazard ratio method.",
-    fh = paste(
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_fh_summary <- function(
+    x,
+    title = "Fixed Design under Fleming-Harrington Method",
+    footnote = paste(
       "Power for Fleming-Harrington test", substring(x$Design, 19),
       "using method of Yung and Liu."
     ),
-    lf = paste(
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
+}
+
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_mb_summary <- function(
+    x,
+    title = "Fixed Design under Magirr-Burman Method",
+    footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
+}
+
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_lf_summary <- function(
+    x,
+    title = "Fixed Design under Lachin and Foulkes Method",
+    footnote = paste(
       "Power using Lachin and Foulkes method applied using expected",
       "average hazard ratio (AHR) at time of planned analysis."
     ),
-    rd = paste(
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
+}
+
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_rd_summary <- function(
+    x,
+    title = "Fixed Design of Risk Difference under Farrington-Manning Method",
+    footnote = paste(
       "Risk difference power without continuity correction using method of",
       "Farrington and Manning."
     ),
-    maxcombo = paste0(
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
+}
+
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_maxcombo_summary <- function(
+    x,
+    title = "Fixed Design under MaxCombo Method",
+    footnote = paste0(
       "Power for MaxCombo test with Fleming-Harrington tests ",
       substring(x$Design, 9), "."
     ),
-    # for mb, milestone, and rmst
-    paste("Power for", x$Design, "computed with method of Yung and Liu.")
-  )
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
 }
+
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_milestone_summary <- function(
+    x,
+    title = "Fixed Design under Milestone Method",
+    footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
+}
+
+#' @rdname as_gt
+#' @export
+as_gt.design_fixed_rmst_summary <- function(
+    x,
+    title = "Fixed Design under Restricted Mean Survival Time Method",
+    footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+    ...
+) {
+  NextMethod("as_gt", x, title = title, footnote = footnote, ...)
+}
+
+get_method <- function(x, methods) intersect(methods, class(x))[1]
 
 #' @rdname as_gt
 #'

@@ -2,16 +2,116 @@
 % Please edit documentation in R/as_rtf.R
 \name{as_rtf}
 \alias{as_rtf}
-\alias{as_rtf.fixed_design}
+\alias{as_rtf.design_fixed_summary}
+\alias{as_rtf.design_fixed_ahr_summary}
+\alias{as_rtf.design_fixed_fh_summary}
+\alias{as_rtf.design_fixed_mb_summary}
+\alias{as_rtf.design_fixed_lf_summary}
+\alias{as_rtf.design_fixed_rd_summary}
+\alias{as_rtf.design_fixed_maxcombo_summary}
+\alias{as_rtf.design_fixed_milestone_summary}
+\alias{as_rtf.design_fixed_rmst_summary}
 \alias{as_rtf.gs_design}
 \title{Write summary table of a fixed or group sequential design object to an RTF file}
 \usage{
 as_rtf(x, ...)
 
-\method{as_rtf}{fixed_design}(
+\method{as_rtf}{design_fixed_summary}(
   x,
-  title = NULL,
-  footnote = NULL,
+  title,
+  footnote,
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_ahr_summary}(
+  x,
+  title = "Fixed Design under AHR Method",
+  footnote = "Power computed with average hazard ratio method.",
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_fh_summary}(
+  x,
+  title = "Fixed Design under Fleming-Harrington Method",
+  footnote = paste("Power for Fleming-Harrington test", substring(x$Design, 19),
+    "using method of Yung and Liu."),
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_mb_summary}(
+  x,
+  title = "Fixed Design under Magirr-Burman Method",
+  footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_lf_summary}(
+  x,
+  title = "Fixed Design under Lachin and Foulkes Method",
+  footnote = paste("Power using Lachin and Foulkes method applied using expected",
+    "average hazard ratio (AHR) at time of planned analysis."),
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_rd_summary}(
+  x,
+  title = "Fixed Design of Risk Difference under Farrington-Manning Method",
+  footnote = paste("Risk difference power without continuity correction using method of",
+    "Farrington and Manning."),
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_maxcombo_summary}(
+  x,
+  title = "Fixed Design under MaxCombo Method",
+  footnote = paste0("Power for MaxCombo test with Fleming-Harrington tests ",
+    substring(x$Design, 9), "."),
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_milestone_summary}(
+  x,
+  title = "Fixed Design under Milestone Method",
+  footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
+  col_rel_width = NULL,
+  orientation = c("portrait", "landscape"),
+  text_font_size = 9,
+  file,
+  ...
+)
+
+\method{as_rtf}{design_fixed_rmst_summary}(
+  x,
+  title = "Fixed Design under Restricted Mean Survival Time Method",
+  footnote = paste("Power for", x$Design, "computed with method of Yung and Liu."),
   col_rel_width = NULL,
   orientation = c("portrait", "landscape"),
   text_font_size = 9,

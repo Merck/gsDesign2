@@ -132,6 +132,6 @@ fixed_design_ahr <- function(
     input = input, enroll_rate = d$enroll_rate,
     fail_rate = d$fail_rate, analysis = ans, design = "ahr"
   )
-  class(y) <- c("fixed_design", class(y))
+  class(y) <- c("design_fixed_ahr", "fixed_design", class(y))
   return(y)
 }
