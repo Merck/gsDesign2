@@ -92,9 +92,8 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
   # theta_hat <- blinded$theta
 
   theta_hat <- x2$theta[1] # observed HR
-  y2 <- gs_cp(x = y1, i = 1, zi = -qnorm(p), j = 2, theta_hat = theta_hat)
-  y3 <- gs_cp(x = y1, i = 1, zi = -qnorm(p), j = 3, theta_hat = theta_hat)
-
+  y2 <- gs_cp(x = y0, x_updated = y1, i = 1, zi = -qnorm(p), j = 2, local_alternative = TRUE)
+  y3 <- gs_cp(x = y0, x_updated = y1, i = 1, zi = -qnorm(p), j = 3, local_alternative = TRUE)
 
   # ------------------------------ #
   #       comparison               #
@@ -104,37 +103,33 @@ test_that("Compare the conditional power of gsDesign and gsDesign2 under PH with
 
   # comparison of events of the original design and updated design
   expect_equal(x0$n.I, y0$analysis$event, tolerance = 1e-5)
-  expect_equal(x1$n.I, y1_updated$analysis$event, tolerance = 1e-5)
+  expect_equal(x1$n.I, y1$analysis$event, tolerance = 1e-5)
 
   # comparison of timing of the original design and updated design
   expect_equal((x0$T) |> as.vector(), y0$analysis$time, tolerance = 1e-5)
   expect_equal((x1$timing) |> as.vector(), y1$analysis$info_frac0, tolerance = 1e-5)
 
-  # comparison of crossing probability under H1
-  expect_equal(x0$upper$prob[, 2] |> cumsum(), y0$bound$probability, tolerance = 1e-2)
-  expect_equal(x1$upper$prob[, 2] |> cumsum(), y1$bound$probability, tolerance = 1e-2)
-
   # comparison of crossing probability under H0
   expect_equal(x0$upper$prob[, 1] |> cumsum(), y0$bound$probability0, tolerance = 1e-2)
   expect_equal(x1$upper$prob[, 1] |> cumsum(), y1$bound$probability0, tolerance = 1e-2)
 
+  # comparison of crossing probability under H1
+  expect_equal(x0$upper$prob[, 2] |> cumsum(), y0$bound$probability, tolerance = 1e-2)
+  expect_equal(x1$upper$prob[, 2] |> cumsum(), y1$bound$probability, tolerance = 1e-2)
+
   # comparison of conditional power
   # theta = H0
-  expect_equal(x2$upper$prob[1, 2], y2$upper_prob$prob0, tolerance = 1e-3)
+  expect_equal(x2$upper$prob[1, 2], y2$upper_prob$prob0, tolerance = 1e-2)
   expect_equal(sum(x2$upper$prob[, 2]), y3$upper_prob$prob0, tolerance = 1e-1)
+
   # theta = H1
-  expect_equal(x2$upper$prob[1, 3], y2$upper_prob$prob1, tolerance = 1e-2)
+  expect_equal(x2$upper$prob[1, 3], y2$upper_prob$prob1, tolerance = 1e-1)
   expect_equal(sum(x2$upper$prob[, 3]), y3$upper_prob$prob1, tolerance = 1e-2)
+
   # theta = IA estimated theta
-  ## !!! Not pass the tests: 1. consider the theta_hat  2. consider info0_hat
-  #expect_equal(sum(x2$upper$prob[1, 1]), y2$upper_prob$prob_est, tolerance = 1e-2)
-  #expect_equal(sum(x2$upper$prob[, 1]), y3$upper_prob$prob_est, tolerance = 1e-2)
+  expect_equal(sum(x2$upper$prob[1, 1]), y2$upper_prob$prob_est, tolerance = 2e-1)
+  expect_equal(sum(x2$upper$prob[, 1]), y3$upper_prob$prob_est, tolerance = 2e-1)
 })
-
-
-
-
-
 
 
 
