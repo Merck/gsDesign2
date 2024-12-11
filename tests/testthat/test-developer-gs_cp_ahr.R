@@ -1,3 +1,5 @@
+library(gsDesign)
+
 test_that("Compare the gs_cp_ahr with Shiyu Zhang's double programming", {
   # ------------------------------ #
   #         parameters             #
@@ -39,8 +41,7 @@ test_that("Compare the gs_cp_ahr with Shiyu Zhang's double programming", {
     analysis_time = c(12, 24, 36),
     upper = upper, upar = upar, test_upper = TRUE,
     lower = lower, lpar = lpar, test_lower = FALSE,
-  ) |>
-    to_integer()
+  )
 
   # ------------------------------ #
   # updated design                 #
@@ -82,23 +83,23 @@ test_that("Compare the gs_cp_ahr with Shiyu Zhang's double programming", {
   #  conditional power by Shiyu's  #
   #   double programming          #
   # ------------------------------ #
-  sz12 <- gs_cp(x = x, x_updated = xu, i = 1, zi = -qnorm(0.4), j = 2, local_alternative = TRUE)
-  sz13 <- gs_cp(x = x, x_updated = xu, i = 1, zi = -qnorm(0.4), j = 3, local_alternative = TRUE)
+  sz12 <- gs_cp(x = x, x_updated = xu, i = 1, zi = -qnorm(0.04), j = 2, local_alternative = TRUE)
+  sz13 <- gs_cp(x = x, x_updated = xu, i = 1, zi = -qnorm(0.04), j = 3, local_alternative = TRUE)
 
   # ------------------------------ #
   #       comparison               #
   # ------------------------------ #
-  # theta = H0 ??
-  expect_equal(cp12$cond_power[cp12$scenario == "Under H0"], sz12$upper_prob$prob0, tolerance = 1e-1)
-  expect_equal(cp13$cond_power[cp13$scenario == "Under H0"], sz13$upper_prob$prob0, tolerance = 1e-1)
+  # theta = H0
+  expect_equal(cp12$cond_power[cp12$scenario == "Under H0"], sz12$upper_prob$prob0)
+  expect_equal(cp13$cond_power[cp13$scenario == "Under H0"], sz13$upper_prob$prob0)
 
   # theta = H1
-  expect_equal(cp12$cond_power[cp12$scenario == "Under H1"], sz12$upper_prob$prob1, tolerance = 1e-1)
-  expect_equal(cp13$cond_power[cp13$scenario == "Under H1"], sz13$upper_prob$prob1, tolerance = 1e-2)
+  expect_equal(cp12$cond_power[cp12$scenario == "Under H1"], sz12$upper_prob$prob1)
+  expect_equal(cp13$cond_power[cp13$scenario == "Under H1"], sz13$upper_prob$prob1)
 
   # theta = IA estimated theta
-  expect_equal(cp12$cond_power[cp12$scenario == "Under interim estimation"], sz12$upper_prob$prob1, tolerance = 1e-1)
-  expect_equal(cp13$cond_power[cp13$scenario == "Under interim estimation"], sz13$upper_prob$prob1, tolerance = 1e-2)
+  expect_equal(cp12$cond_power[cp12$scenario == "Under interim estimation"], sz12$upper_prob$prob_est)
+  expect_equal(cp13$cond_power[cp13$scenario == "Under interim estimation"], sz13$upper_prob$prob_est)
 })
 
 test_that("Compare the gs_cp_ahr with gsDesign", {

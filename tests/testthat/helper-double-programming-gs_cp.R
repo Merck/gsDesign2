@@ -52,7 +52,7 @@ gs_cp <- function(x, x_updated, i, zi, j, local_alternative){
   }
 
   # obtain necessary information from x
-  info_frac <- x$analysis$info_frac
+  info_frac <- x$analysis$info_frac0
   info0 <- x$analysis$info0 # under local asymptotic, assume H0 ~= H1
   info <- x$analysis$info
   info0_hat <- x_updated$analysis$info0
@@ -85,7 +85,7 @@ gs_cp <- function(x, x_updated, i, zi, j, local_alternative){
   # compute conditional power under estimated theta
   mu_star_est <- sqrt(info_frac[j])*sqrt(info0[j])*theta1[j] - sqrt(info_frac[i])*sqrt(info0_hat[i])*theta_est[i]
   if(local_alternative){
-    sigma2_star_est <- info_frac[j] - info_frac[i]*info0_hat[i]/info[i]
+    sigma2_star_est <- info_frac[j] - info_frac[i]
   }else{
     sigma2_star_est <- info_frac[j]*info0[j]/info[j] - info_frac[i]*info0_hat[i]/info[i]
   }
