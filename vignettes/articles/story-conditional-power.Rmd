@@ -75,9 +75,9 @@ We now consider a group sequential design with bounds derived using spending fun
 The original design is summarized below.
 ```{r}
 upper <- gs_spending_bound
-lower <- upper <- gs_spending_bound
+lower <- gs_b
 upar <- list(sf = sfLDOF, total_spend = alpha)
-lpar <- list(sf = sfLDOF, total_spend = beta)
+lpar <- rep(-Inf, 3)
 
 x <- gs_design_ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
@@ -86,7 +86,7 @@ x <- gs_design_ahr(
   info_frac = NULL,
   analysis_time = c(12, 24, 36),
   upper = upper, upar = upar, test_upper = TRUE, 
-  lower = lower, lpar = lpar, test_lower = c(TRUE, FALSE, FALSE)
+  lower = lower, lpar = lpar, test_lower = FALSE,
   ) |> 
   to_integer()
 
