@@ -231,8 +231,7 @@ test_that("Snapshot test for gs_power_wlr summary as_gt with colname_spanner and
     as_gt(
       colname_spanner = "Cumulative probability to cross boundaries",
       colname_spannersub = c("under H1", "under H0")
-    ) %>%
-    suppressWarnings() # Can be removed after <https://github.com/Merck/gsDesign2/issues/339> is fixed
+    )
 
   local_edition(3)
   expect_snapshot_output(gt_to_latex(output))
