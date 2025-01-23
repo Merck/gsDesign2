@@ -379,8 +379,8 @@ gsd_footnote_row <- function(x, bound) {
 # a list of information for `as_[gt|rtf].gs_design()` methods: the transformed
 # data, title, and footnote, etc.
 gsd_parts <- function(
-    x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
-    alpha_column = spannersub[2], transform = identity
+  x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
+  transform = identity
 ) {
   method <- intersect(c("ahr", "wlr", "combo", "rd"), class(x))[1]
   if (!inf_bound) x <- filter(x, !is.infinite(Z))
@@ -412,7 +412,7 @@ gsd_parts <- function(
     x = arrange(x2, Analysis),
     title = title, subtitle = subtitle,
     footnote = footnote %||% gsd_footnote(method, columns),
-    alpha = max(filter(x, Bound == bound[1])[[alpha_column]])
+    alpha = max(filter(x, Bound == bound[1])[["Null hypothesis"]])
   )
 }
 

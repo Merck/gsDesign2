@@ -288,7 +288,7 @@ as_rtf.gs_design <- function(
 
   parts <- gsd_parts(
     x, title, subtitle, colname_spannersub, footnote,
-    display_bound, display_columns, display_inf_bound, "Null hypothesis",
+    display_bound, display_columns, display_inf_bound,
     function(x) {
       x2 <- data.frame(lapply(x, function(x) trimws(formatC(x, flag = "-"), "r")))
       names(x2) <- names(x)

@@ -338,14 +338,13 @@
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
-    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250\textsuperscript{\textit{4}} \\ 
+    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
     \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
     \textsuperscript{\textit{3}}wAHR is the weighted AHR.\\
-    \textsuperscript{\textit{4}}Cumulative alpha for final analysis (-Inf) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - Inf = -Inf) under the null hypothesis.\\
     \end{minipage}
     \end{table}
 
