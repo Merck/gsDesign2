@@ -77,29 +77,16 @@
 #' ) |> summary()
 #'
 summary.fixed_design <- function(object, ...) {
-  x <- object
-  p <- x$design_par
-  ans <- x$analysis
-  ans$design <- switch(
-    x$design,
-    ahr = "Average hazard ratio",
-    lf = "Lachin and Foulkes",
-    rd = "Risk difference",
-    milestone = paste0("Milestone: tau = ", p$tau),
-    rmst = paste0("RMST: tau = ", p$tau),
-    mb = paste0("Modestly weighted LR: tau = ", p$tau),
-    fh = paste0(
-      "Fleming-Harrington FH(", p$rho, ", ", p$gamma, ")",
-      if (p$rho == 0 && p$gamma == 0) " (logrank)"
-    ),
-    maxcombo = gsub("FH(0, 0)", "logrank", paste(
-      "MaxCombo:", paste0("FHC(", p[[1]], ", ", p[[2]], ")", collapse = ", ")
-    ), fixed = TRUE)
-  )
+  ans <- object$analysis
+  ans$design <- attr(object, "design_display")
 
   # capitalize names
   ans <- cap_names(ans)
-  ans <- add_class(ans, "fixed_design", x$design)
+  # Propagate attributes for as_gt()/as_rtf() tables
+  attr(ans, "title") <- attr(object, "title")
+  attr(ans, "footnote") <- attr(object, "footnote")
+
+  ans <- add_class(ans, "fixed_design_summary")
   return(ans)
 }
 
@@ -273,7 +260,7 @@ summary.gs_design <- function(object,
   x <- object
   x_bound <- x$bound
   x_analysis <- x$analysis
-  method <- get_method(x, c("ahr", "wlr", "combo", "rd"))
+  method <- x$design
 
   # Prepare the analysis summary row ----
   # get the
@@ -351,9 +338,9 @@ summary.gs_design <- function(object,
   # Set the decimals to display ----
   for (j in col_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
 
-  output <- add_class(
-    output, method, intersect("non_binding", class(object)), method, "gs_design"
-  )
+  output <- add_class(output, "gs_design_summary")
+  attr(output, "binding") <- attr(x, "binding")
+  attr(output, "design") <- x$design
 
   # Save the full alpha as an attribute of the output summary table
   # Use input$alpha when given power to calculate sample size

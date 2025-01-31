@@ -118,7 +118,8 @@ fixed_design_mb <- function(
       info_scale = info_scale
     )
   }
-  # get the output of MB
+
+  # Prepare output ----
   ans <- tibble(
     design = "mb",
     n = d$analysis$n,
@@ -129,10 +130,20 @@ fixed_design_mb <- function(
     alpha = alpha,
     power = (d$bound |> filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
-    design = "mb", design_par = list(tau = tau, w_max = w_max)
+  design_display <- paste0("Modestly weighted LR: tau = ", tau)
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "mb", design_par = list(tau = tau, w_max = w_max)
+    ),
+    class = "fixed_design",
+    design_display = design_display,
+    title = "Fixed Design under Magirr-Burman Method",
+    footnote = paste(
+      "Power for", design_display,
+      "computed with method of Yung and Liu."
+    )
   )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }

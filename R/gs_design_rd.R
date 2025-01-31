@@ -271,14 +271,17 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
     select(analysis, n, rd, rd0, info, info0, info_frac, info_frac0)
 
   # Return the output ----
-  ans <- list(
-    input = input,
-    bound = bound |> filter(!is.infinite(z)),
-    analysis = analysis
+  ans <- structure(
+    list(
+      design = "rd",
+      input = input,
+      bound = bound |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_design_rd"
   )
-
-  ans <- add_class(ans, if (!binding) "non_binding", "rd", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_design_rd"
 
   return(ans)
 }

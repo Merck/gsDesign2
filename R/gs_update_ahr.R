@@ -132,7 +132,7 @@ gs_update_ahr <- function(
     stop("gs_update_ahr(): please input the original design created either by gs_design_ahr or gs_power_ahr.")
   }
 
-  if (!any((c("ahr", "wlr") %in% class(x)))) {
+  if (!x$design %in% c("ahr", "wlr")) {
     stop("gs_update_ahr(): the original design must be created either by gs_design_ahr, gs_power_ahr, gs_design_wlr, or gs_power_wlr.")
   }
 
@@ -303,6 +303,8 @@ gs_update_ahr <- function(
   # ----------------------------------- #
   ans <- list()
 
+  ans$design <- x$design
+
   ans$enroll_rate <- x$enroll_rate
 
   ans$fail_rate <- x$fail_rate
@@ -359,7 +361,10 @@ gs_update_ahr <- function(
     }
   )
 
-  class(ans) <- c(class(x), "updated_design")
+  class(ans) <- "gs_design"
+  attr(ans, "binding") <- attr(x, "binding")
+  attr(ans, "uninteger_is_from") <- attr(x, "uninteger_is_from")
+  attr(ans, "updated_design") <- TRUE
 
   return(ans)
 }

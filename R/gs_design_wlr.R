@@ -329,15 +329,19 @@ gs_design_wlr <- function(
     info_scale = info_scale, r = r, tol = tol)
 
   # final output
-  ans <- list(
-    input = input,
-    enroll_rate = enroll_rate |> mutate(rate = rate * inflac_fct),
-    fail_rate = fail_rate,
-    bounds = bounds |> filter(!is.infinite(z)),
-    analysis = analysis)
-
-  ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_design_wlr"
+  ans <- structure(
+    list(
+      design = "wlr",
+      input = input,
+      enroll_rate = enroll_rate |> mutate(rate = rate * inflac_fct),
+      fail_rate = fail_rate,
+      bounds = bounds |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_design_wlr"
+  )
 
   return(ans)
 }
