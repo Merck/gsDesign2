@@ -308,16 +308,19 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   )
 
   # Return the output ----
-  ans <- list(
-    input = input,
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    bounds = bounds |> filter(!is.infinite(z)),
-    analysis = analysis
+  ans <- structure(
+    list(
+      design = "wlr",
+      input = input,
+      enroll_rate = enroll_rate,
+      fail_rate = fail_rate,
+      bounds = bounds |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_power_wlr"
   )
-
-  ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_power_wlr"
 
   return(ans)
 }
