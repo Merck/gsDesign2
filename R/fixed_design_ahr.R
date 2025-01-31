@@ -132,6 +132,9 @@ fixed_design_ahr <- function(
     input = input, enroll_rate = d$enroll_rate,
     fail_rate = d$fail_rate, analysis = ans, design = "ahr"
   )
+  attr(y, "design_display") <- "Average hazard ratio"
+  attr(y, "title") <- "Fixed Design under AHR Method"
+  attr(y, "footnote") <- "Power computed with average hazard ratio method."
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

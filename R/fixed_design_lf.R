@@ -189,6 +189,12 @@ fixed_design_lf <- function(
     analysis = ans,
     design = "lf"
   )
+  attr(y, "design_display") <- "Lachin and Foulkes"
+  attr(y, "title") <- "Fixed Design under Lachin and Foulkes Method"
+  attr(y, "footnote") <- paste(
+    "Power using Lachin and Foulkes method applied using expected",
+    "average hazard ratio (AHR) at time of planned analysis."
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

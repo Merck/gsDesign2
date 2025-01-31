@@ -2,13 +2,13 @@
 % Please edit documentation in R/as_rtf.R
 \name{as_rtf}
 \alias{as_rtf}
-\alias{as_rtf.fixed_design}
+\alias{as_rtf.fixed_design_summary}
 \alias{as_rtf.gs_design}
 \title{Write summary table of a fixed or group sequential design object to an RTF file}
 \usage{
 as_rtf(x, ...)
 
-\method{as_rtf}{fixed_design}(
+\method{as_rtf}{fixed_design_summary}(
   x,
   title = NULL,
   footnote = NULL,

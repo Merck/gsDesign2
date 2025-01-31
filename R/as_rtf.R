@@ -91,7 +91,7 @@ as_rtf <- function(x, ...) {
 #' ) %>%
 #'   summary() %>%
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
-as_rtf.fixed_design <- function(
+as_rtf.fixed_design_summary <- function(
     x,
     title = NULL,
     footnote = NULL,
@@ -101,9 +101,10 @@ as_rtf.fixed_design <- function(
     file,
     ...) {
   orientation <- match.arg(orientation)
-  method <- fd_method(x)
-  title <- title %||% paste(fd_title(method), "{^a}")
-  footnote <- footnote %||% paste("{^a}", fd_footnote(x, method))
+  if (is.null(title)) title <- attr(x, "title", exact = TRUE)
+  if (is.null(footnote)) footnote <- attr(x, "footnote", exact = TRUE)
+  title <- paste(title, "{^a}")
+  footnote <- paste("{^a}", footnote)
 
   # set default column width
   n_row <- nrow(x)

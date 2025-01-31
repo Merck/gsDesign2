@@ -119,6 +119,12 @@ fixed_design_rmst <- function(
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "rmst", design_par = list(tau = tau), study_duration
   )
+  attr(y, "design_display") <- paste("RMST: tau =", tau)
+  attr(y, "title") <- "Fixed Design under Restricted Mean Survival Time Method"
+  attr(y, "footnote") <- paste(
+    "Power for", attr(y, "design_display"),
+    "computed with method of Yung and Liu."
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

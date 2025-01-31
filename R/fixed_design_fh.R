@@ -132,6 +132,15 @@ fixed_design_fh <- function(
     analysis = ans,
     design = "fh", design_par = list(rho = rho, gamma = gamma)
   )
+  attr(y, "design_display") <- paste0(
+    "Fleming-Harrington FH(", rho, ", ", gamma, ")",
+    if (rho == 0 && gamma == 0) " (logrank)"
+  )
+  attr(y, "title") <- "Fixed Design under Fleming-Harrington Method"
+  attr(y, "footnote") <- paste(
+    "Power for Fleming-Harrington test", substring(attr(y, "design_display"), 19),
+    "using method of Yung and Liu."
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

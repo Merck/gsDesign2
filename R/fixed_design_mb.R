@@ -131,6 +131,10 @@ fixed_design_mb <- function(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "mb", design_par = list(tau = tau)
   )
+  attr(y, "design_display") <- paste0("Modestly weighted LR: tau = ", tau)
+  attr(y, "title") <- "Fixed Design under Magirr-Burman Method"
+  attr(y, "footnote") <- paste("Power for", attr(y, "design_display"),
+                               "computed with method of Yung and Liu.")
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

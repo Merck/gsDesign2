@@ -106,6 +106,12 @@ fixed_design_rd <- function(
     input = input,
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "rd"
   )
+  attr(y, "design_display") <- "Risk difference"
+  attr(y, "title") <- "Fixed Design of Risk Difference under Farrington-Manning Method"
+  attr(y, "footnote") <- paste(
+    "Risk difference power without continuity correction using method of",
+    "Farrington and Manning."
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

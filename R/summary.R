@@ -78,29 +78,16 @@
 #' ) %>% summary()
 #'
 summary.fixed_design <- function(object, ...) {
-  x <- object
-  p <- x$design_par
-  ans <- x$analysis
-  ans$design <- switch(
-    x$design,
-    ahr = "Average hazard ratio",
-    lf = "Lachin and Foulkes",
-    rd = "Risk difference",
-    milestone = paste0("Milestone: tau = ", p$tau),
-    rmst = paste0("RMST: tau = ", p$tau),
-    mb = paste0("Modestly weighted LR: tau = ", p$tau),
-    fh = paste0(
-      "Fleming-Harrington FH(", p$rho, ", ", p$gamma, ")",
-      if (p$rho == 0 && p$gamma == 0) " (logrank)"
-    ),
-    maxcombo = gsub("FH(0, 0)", "logrank", paste(
-      "MaxCombo:", paste0("FHC(", p[[1]], ", ", p[[2]], ")", collapse = ", ")
-    ), fixed = TRUE)
-  )
+  ans <- object$analysis
+  ans$design <- attr(object, "design_display", exact = TRUE)
 
   # capitalize names
   ans <- cap_names(ans)
-  ans <- add_class(ans, "fixed_design", x$design)
+  # Propagate attributes for as_gt()/as_rtf() tables
+  attr(ans, "title") <- attr(object, "title", exact = TRUE)
+  attr(ans, "footnote") <- attr(object, "footnote", exact = TRUE)
+
+  ans <- add_class(ans, "fixed_design_summary")
   return(ans)
 }
 

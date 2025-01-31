@@ -132,6 +132,20 @@ fixed_design_maxcombo <- function(
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "maxcombo", design_par = list(rho = rho, gamma = gamma, tau = tau)
   )
+  attr(y, "design_display") <- gsub(
+    "FH(0, 0)", "logrank", paste(
+      "MaxCombo:", paste0(
+        "FHC(", y$design_par[[1]], ", ", y$design_par[[2]], ")",
+        collapse = ", "
+      )
+    ),
+    fixed = TRUE
+  )
+  attr(y, "title") <- "Fixed Design under MaxCombo Method"
+  attr(y, "footnote") <- paste0(
+    "Power for MaxCombo test with Fleming-Harrington tests ",
+    substring(attr(y, "design_display"), 9), "."
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }

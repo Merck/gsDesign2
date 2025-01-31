@@ -120,6 +120,12 @@ fixed_design_milestone <- function(
     enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
     design = "milestone", design_par = list(tau = tau)
   )
+  attr(y, "design_display") <- paste("Milestone: tau =", tau)
+  attr(y, "title") <- "Fixed Design under Milestone Method"
+  attr(y, "footnote") <- paste(
+    "Power for", attr(y, "design_display"),
+    "computed with method of Yung and Liu."
+  )
   class(y) <- c("fixed_design", class(y))
   return(y)
 }
