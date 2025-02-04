@@ -27,6 +27,7 @@
 #' Otherwise, this should be a vector of length k (total number of analyses)
 #' with the spending time at each analysis
 #' @param observed_data a list of observed datasets by analyses.
+#' @param event_tbl A data frame with 2 columns: (1) analysis and (2) event (events observed at each analysis, per piecewise interval)
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
@@ -224,12 +225,46 @@
 #'
 #' # Updated design due to potential change of multiplicity graph
 #' gs_update_ahr(x = x, alpha = 0.05)
+#'
+#' # ------------------------------------------------- #
+#' # Example D: one-sided design without TTE dataset as input
+#' # ------------------------------------------------- #
+#' # Original design
+#' upper <- gs_spending_bound
+#' upar <- list(sf = sfLDOF, total_spend = alpha)
+#' x <- gs_design_ahr(
+#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'   alpha = alpha, beta = beta, ratio = ratio,
+#'   info_scale = "h0_info",
+#'   info_frac = NULL,
+#'   analysis_time = c(20, 36),
+#'   upper = gs_spending_bound, upar = upar,
+#'   lower = gs_b, lpar = rep(-Inf, 2),
+#'   test_upper = TRUE, test_lower = FALSE) |> to_integer()
+#'
+#' # Updated design with 100 events observed at IA,
+#' # where 30 events observed during the delayed effect
+#' gs_update_ahr(
+#'   x = x,
+#'   ustime = c(100/x$analysis$event[2], 1),
+#'   event_tbl = data.frame(analysis = c(1, 1),
+#'                          event_tbl = c(30, 70)))
+#'
+#' # Updated design with 100 events observed at IA, 170 events at FA
+#' # where 30 events observed during the delayed effect at IA,
+#' # and 40 events observed during the delayed effect at FA.
+#' gs_update_ahr(
+#'   x = x,
+#'   ustime = c(100/x$analysis$event[2], 1),
+#'   event_tbl = data.frame(analysis = c(1, 1, 2, 2),
+#'                          event_tbl = c(30, 70, 40, 130)))
 gs_update_ahr <- function(
     x = NULL,
     alpha = NULL,
     ustime = NULL,
     lstime = NULL,
-    observed_data = NULL) {
+    observed_data = NULL,
+    event_tbl = NULL) {
 
   # ----------------------------------- #
   #         Check inputs                #
@@ -277,10 +312,9 @@ gs_update_ahr <- function(
   #       At design stage,              #
   #       with different alpha          #
   # ----------------------------------- #
-  # If users do not input observed data
-  # which means they are still at the design stage
-  # but with different alpha
-  if (is.null(observed_data)) {
+  # If users do not input observed data, nor event_tbl
+  # which means they update design with a different value of alpha
+  if (is.null(observed_data) && is.null(event_tbl)) {
 
     # Check if ustime and lstime matches the spending time of the original design
     if (!is.null(ustime) && any(ustime != x$input$upar$timing)) {
@@ -354,7 +388,7 @@ gs_update_ahr <- function(
     blinded_est <- NULL
     observed_event <- NULL
     for (i in 1:n_analysis) {
-      if (is.null(observed_data[[i]])) {
+      if (is.null(observed_data[[i]]) && !(i %in% event_tbl$analysis)) {
         # if there is no observed data at analysis i,
         # for example, we only observed IA data and FA data is unavailable yet
         blinded_est_new <- data.frame(event = x$analysis$event[i],
@@ -363,14 +397,38 @@ gs_update_ahr <- function(
                                       info0 = x$analysis$info0[i])
         event_new <- x$analysis$event[i]
       } else {
+        # if both observed_data and event_tbl provided, check if the events matches
+        if (!is.null(observed_data[[i]]) && i %in% event_tbl$analysis) {
+          event_from_observed_data <- simtrial::fit_pwexp(srv = survival::Surv(time = observed_data[[i]]$tte,
+                                                                                event = observed_data[[i]]$event),
+                                                          intervals = all_t[all_t <= x$analysis$time[i]])[, 3]
+          event_from_event_tbl <- event_tbl$event[event_tbl$analysis == i, ]
+          if (event_from_observed_data != event_from_event_tbl) {
+            stop("The events from event_tbl mismatches observed_data.")
+          }
+        }
+
         # if there is observed data at analysis i,
-        # we calculate the blinded estimation
-        blinded_est_new <- ahr_blinded(surv = survival::Surv(time = observed_data[[i]]$tte,
-                                                             event = observed_data[[i]]$event),
-                                       intervals = all_t[all_t <= x$analysis$time[i]],
-                                       hr = pw_hr(all_t[all_t <= x$analysis$time[i]]),
-                                       ratio = x$input$ratio)
-        event_new <- sum(observed_data[[i]]$event)
+        # we calculate the blinded estimation based on the observed_data
+        if (!is.null(observed_data[[i]])) {
+          blinded_est_new <- ahr_blinded(surv = survival::Surv(time = observed_data[[i]]$tte,
+                                                               event = observed_data[[i]]$event),
+                                         intervals = all_t[all_t <= x$analysis$time[i]],
+                                         hr = pw_hr(all_t[all_t <= x$analysis$time[i]]),
+                                         ratio = x$input$ratio)
+          event_new <- sum(observed_data[[i]]$event)
+        # we calculate the blinded estimation based on the event_tbl
+        } else if (i %in% event_tbl$analysis) {
+          q_e <- x$input$ratio / (1 + x$input$ratio)
+          event_i <- event_tbl$event[event_tbl$analysis == i]
+          hr_i <- pw_hr(c(0, x$analysis$time[i]))
+          event_new <- sum(event_i)
+
+          blinded_est_new <- data.frame(event = sum(event_i),
+                                        theta = -sum(log(hr_i) * event_i) / sum(event_i),
+                                        info0 = sum(event_i) * (1 - q_e) * q_e)
+          blinded_est_new$ahr <- exp(-blinded_est_new$theta)
+        }
       }
 
       blinded_est <- rbind(blinded_est, blinded_est_new)
@@ -441,37 +499,37 @@ gs_update_ahr <- function(
     analysis = 1:n_analysis,
     time = x$analysis$time,
     n = x$analysis$n,
-    event = if (is.null(observed_data)) {
+    event = if (is.null(observed_data) && is.null(event_tbl)) {
       x$analysis$event
     } else {
       observed_event
     },
-    ahr = if (is.null(observed_data)) {
+    ahr = if (is.null(observed_data) && is.null(event_tbl)) {
       x$analysis$ahr
     } else {
       exp(-blinded_est$theta)
     },
-    theta = if (is.null(observed_data)) {
+    theta = if (is.null(observed_data) && is.null(event_tbl)) {
       x$analysis$theta
     } else {
       blinded_est$theta
     },
-    info = if (is.null(observed_data)) {
+    info = if (is.null(observed_data) && is.null(event_tbl)) {
       x$analysis$info
     } else {
       blinded_est$info0
     },
-    info0 = if (is.null(observed_data)) {
+    info0 = if (is.null(observed_data) && is.null(event_tbl)) {
       x$analysis$info0
     } else {
       blinded_est$info0
     },
-    info_frac = if (is.null(observed_data)) {
+    info_frac = if (is.null(observed_data) && is.null(event_tbl)) {
       x$analysis$info_frac
     } else {
       upar_update$timing
     },
-    info_frac0 = if (is.null(observed_data)) {
+    info_frac0 = if (is.null(observed_data) && is.null(event_tbl)) {
       x$analysis$info_frac0
     } else {
       observed_event / max(observed_event)
