@@ -408,7 +408,7 @@ gs_update_ahr <- function(
         } else if (i %in% event_tbl$analysis) {
           q_e <- x$input$ratio / (1 + x$input$ratio)
           event_i <- event_tbl$event[event_tbl$analysis == i]
-          hr_i <- x$fail_rate
+          hr_i <- x$fail_rate$hr
           event_new <- sum(event_i)
 
           blinded_est_new <- data.frame(event = sum(event_i),
