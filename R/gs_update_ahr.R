@@ -371,19 +371,6 @@ gs_update_ahr <- function(
     #       At analysis stage,            #
     #       with different alpha          #
     # ----------------------------------- #
-    # Get the piecewise exp model for the failure rates
-    fr_duration <- x$input$fail_rate$duration
-    fr_hr <- x$input$fail_rate$hr
-    all_t <- sort(c(fr_duration, x$analysis$time))
-
-    if (is.infinite(max(x$input$fail_rate$duration))) {
-      hr_interval <- cumsum(c(fr_duration[-length(fr_duration)], max(x$analysis$time) + 50))
-    } else {
-      hr_interval <- cumsum(fr_duration)
-    }
-
-    pw_hr <- stepfun(x = hr_interval, y = c(fr_hr, last(fr_hr)), right = TRUE)
-
     # Calculate the blinded estimation of AHR
     blinded_est <- NULL
     observed_event <- NULL
@@ -401,7 +388,7 @@ gs_update_ahr <- function(
         if (!is.null(observed_data[[i]]) && i %in% event_tbl$analysis) {
           event_from_observed_data <- simtrial::fit_pwexp(srv = survival::Surv(time = observed_data[[i]]$tte,
                                                                                 event = observed_data[[i]]$event),
-                                                          intervals = all_t[all_t <= x$analysis$time[i]])[, 3]
+                                                          intervals = cumsum(x$fail_rate$duration))[, 3]
           event_from_event_tbl <- event_tbl$event[event_tbl$analysis == i, ]
           if (event_from_observed_data != event_from_event_tbl) {
             stop("The events from event_tbl mismatches observed_data.")
@@ -413,15 +400,15 @@ gs_update_ahr <- function(
         if (!is.null(observed_data[[i]])) {
           blinded_est_new <- ahr_blinded(surv = survival::Surv(time = observed_data[[i]]$tte,
                                                                event = observed_data[[i]]$event),
-                                         intervals = all_t[all_t <= x$analysis$time[i]],
-                                         hr = pw_hr(all_t[all_t <= x$analysis$time[i]]),
+                                         intervals = cumsum(x$fail_rate$duration),
+                                         hr = x$input$fail_rate$hr,
                                          ratio = x$input$ratio)
           event_new <- sum(observed_data[[i]]$event)
         # we calculate the blinded estimation based on the event_tbl
         } else if (i %in% event_tbl$analysis) {
           q_e <- x$input$ratio / (1 + x$input$ratio)
           event_i <- event_tbl$event[event_tbl$analysis == i]
-          hr_i <- pw_hr(c(0, x$analysis$time[i]))
+          hr_i <- x$fail_rate
           event_new <- sum(event_i)
 
           blinded_est_new <- data.frame(event = sum(event_i),
