@@ -9,7 +9,8 @@ gs_update_ahr(
   alpha = NULL,
   ustime = NULL,
   lstime = NULL,
-  observed_data = NULL
+  observed_data = NULL,
+  event_tbl = NULL
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ Otherwise, this should be a vector of length k (total number of analyses)
 with the spending time at each analysis}
 
 \item{observed_data}{a list of observed datasets by analyses.}
+
+\item{event_tbl}{A data frame with 2 columns: (1) analysis and (2) event (events observed at each analysis, per piecewise interval)}
 }
 \value{
 A list with input parameters, enrollment rate, analysis, and bound.
@@ -224,4 +227,37 @@ x <- gs_design_ahr(
 
 # Updated design due to potential change of multiplicity graph
 gs_update_ahr(x = x, alpha = 0.05)
+
+# ------------------------------------------------- #
+# Example D: one-sided design without TTE dataset as input
+# ------------------------------------------------- #
+# Original design
+upper <- gs_spending_bound
+upar <- list(sf = sfLDOF, total_spend = alpha)
+x <- gs_design_ahr(
+  enroll_rate = enroll_rate, fail_rate = fail_rate,
+  alpha = alpha, beta = beta, ratio = ratio,
+  info_scale = "h0_info",
+  info_frac = NULL,
+  analysis_time = c(20, 36),
+  upper = gs_spending_bound, upar = upar,
+  lower = gs_b, lpar = rep(-Inf, 2),
+  test_upper = TRUE, test_lower = FALSE) |> to_integer()
+
+# Updated design with 100 events observed at IA,
+# where 30 events observed during the delayed effect
+gs_update_ahr(
+  x = x,
+  ustime = c(100/x$analysis$event[2], 1),
+  event_tbl = data.frame(analysis = c(1, 1),
+                         event_tbl = c(30, 70)))
+
+# Updated design with 100 events observed at IA, 170 events at FA
+# where 30 events observed during the delayed effect at IA,
+# and 40 events observed during the delayed effect at FA.
+gs_update_ahr(
+  x = x,
+  ustime = c(100/x$analysis$event[2], 1),
+  event_tbl = data.frame(analysis = c(1, 1, 2, 2),
+                         event_tbl = c(30, 70, 40, 130)))
 }
