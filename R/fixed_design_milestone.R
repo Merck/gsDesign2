@@ -105,7 +105,8 @@ fixed_design_milestone <- function(
       tau = tau
     )
   }
-  # get the output of MaxCombo
+
+  # Prepare output ----
   ans <- tibble(
     design = "milestone",
     n = d$analysis$n,
@@ -115,17 +116,20 @@ fixed_design_milestone <- function(
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input,
-    enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
-    design = "milestone", design_par = list(tau = tau)
+  design_display <- paste("Milestone: tau =", tau)
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "milestone", design_par = list(tau = tau)
+    ),
+    class = "fixed_design",
+    design_display = design_display,
+    title = "Fixed Design under Milestone Method",
+    footnote = paste(
+      "Power for", design_display,
+      "computed with method of Yung and Liu."
+    )
   )
-  attr(y, "design_display") <- paste("Milestone: tau =", tau)
-  attr(y, "title") <- "Fixed Design under Milestone Method"
-  attr(y, "footnote") <- paste(
-    "Power for", attr(y, "design_display"),
-    "computed with method of Yung and Liu."
-  )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }

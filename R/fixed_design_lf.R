@@ -173,6 +173,8 @@ fixed_design_lf <- function(
       rr[, 1]
     })
   )
+
+  # Prepare output ----
   ans <- tibble(
     design = "lf",
     n = d$n,
@@ -182,19 +184,22 @@ fixed_design_lf <- function(
     alpha = d$alpha,
     power = d$power
   )
-  y <- list(
-    input = input,
-    enroll_rate = enroll_rate %>% mutate(rate = rate * d$n / sum(enroll_rate$duration * enroll_rate$rate)),
-    fail_rate = fail_rate,
-    analysis = ans,
-    design = "lf"
+  y <- structure(
+    list(
+      input = input,
+      enroll_rate = enroll_rate %>% mutate(rate = rate * d$n / sum(enroll_rate$duration * enroll_rate$rate)),
+      fail_rate = fail_rate,
+      analysis = ans,
+      design = "lf"
+    ),
+    class = "fixed_design",
+    design_display = "Lachin and Foulkes",
+    title = "Fixed Design under Lachin and Foulkes Method",
+    footnote = paste(
+      "Power using Lachin and Foulkes method applied using expected",
+      "average hazard ratio (AHR) at time of planned analysis."
+    )
   )
-  attr(y, "design_display") <- "Lachin and Foulkes"
-  attr(y, "title") <- "Fixed Design under Lachin and Foulkes Method"
-  attr(y, "footnote") <- paste(
-    "Power using Lachin and Foulkes method applied using expected",
-    "average hazard ratio (AHR) at time of planned analysis."
-  )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }

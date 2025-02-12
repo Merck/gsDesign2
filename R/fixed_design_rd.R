@@ -94,7 +94,8 @@ fixed_design_rd <- function(
       rd0 = rd0, weight = "unstratified"
     )
   }
-  # get the output of MaxCombo
+
+  # Prepare output ----
   ans <- tibble(
     design = "rd",
     n = d$analysis$n,
@@ -102,16 +103,19 @@ fixed_design_rd <- function(
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input,
-    enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans, design = "rd"
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "rd"
+    ),
+    class = "fixed_design",
+    design_display = "Risk difference",
+    title = "Fixed Design of Risk Difference under Farrington-Manning Method",
+    footnote = paste(
+      "Risk difference power without continuity correction using method of",
+      "Farrington and Manning."
+    )
   )
-  attr(y, "design_display") <- "Risk difference"
-  attr(y, "title") <- "Fixed Design of Risk Difference under Farrington-Manning Method"
-  attr(y, "footnote") <- paste(
-    "Risk difference power without continuity correction using method of",
-    "Farrington and Manning."
-  )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }

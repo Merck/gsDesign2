@@ -118,6 +118,8 @@ fixed_design_fh <- function(
       analysis_time = study_duration
     )
   }
+
+  # Prepare output ----
   ans <- tibble(
     design = "fh",
     n = d$analysis$n,
@@ -127,20 +129,23 @@ fixed_design_fh <- function(
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
-    analysis = ans,
-    design = "fh", design_par = list(rho = rho, gamma = gamma)
-  )
-  attr(y, "design_display") <- paste0(
+  design_display <- paste0(
     "Fleming-Harrington FH(", rho, ", ", gamma, ")",
     if (rho == 0 && gamma == 0) " (logrank)"
   )
-  attr(y, "title") <- "Fixed Design under Fleming-Harrington Method"
-  attr(y, "footnote") <- paste(
-    "Power for Fleming-Harrington test", substring(attr(y, "design_display"), 19),
-    "using method of Yung and Liu."
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "fh", design_par = list(rho = rho, gamma = gamma)
+    ),
+    class = "fixed_design",
+    design_display = design_display,
+    title = "Fixed Design under Fleming-Harrington Method",
+    footnote = paste(
+      "Power for Fleming-Harrington test", substring(design_display, 19),
+      "using method of Yung and Liu."
+    )
   )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }
