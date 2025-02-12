@@ -79,8 +79,8 @@ as_gt <- function(x, ...) {
 #'   summary() %>%
 #'   as_gt()
 as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
-  if (is.null(title)) title <- attr(x, "title", exact = TRUE)
-  if (is.null(footnote)) footnote <- attr(x, "footnote", exact = TRUE)
+  if (is.null(title)) title <- attr(x, "title")
+  if (is.null(footnote)) footnote <- attr(x, "footnote")
 
   ans <- gt::gt(x) %>%
     gt::tab_header(title = title) %>%

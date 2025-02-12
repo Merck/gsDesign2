@@ -101,8 +101,8 @@ as_rtf.fixed_design_summary <- function(
     file,
     ...) {
   orientation <- match.arg(orientation)
-  if (is.null(title)) title <- attr(x, "title", exact = TRUE)
-  if (is.null(footnote)) footnote <- attr(x, "footnote", exact = TRUE)
+  if (is.null(title)) title <- attr(x, "title")
+  if (is.null(footnote)) footnote <- attr(x, "footnote")
   title <- paste(title, "{^a}")
   footnote <- paste("{^a}", footnote)
 

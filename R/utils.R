@@ -46,3 +46,5 @@ is_wholenumber <- function (x, tol = .Machine$double.eps^0.5)  {
   abs(x - round(x)) < tol
 }
 
+# Require exact matching by default when retrieving attributes
+attr = function(...) base::attr(..., exact = TRUE)

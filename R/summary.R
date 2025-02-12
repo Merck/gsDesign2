@@ -79,13 +79,13 @@
 #'
 summary.fixed_design <- function(object, ...) {
   ans <- object$analysis
-  ans$design <- attr(object, "design_display", exact = TRUE)
+  ans$design <- attr(object, "design_display")
 
   # capitalize names
   ans <- cap_names(ans)
   # Propagate attributes for as_gt()/as_rtf() tables
-  attr(ans, "title") <- attr(object, "title", exact = TRUE)
-  attr(ans, "footnote") <- attr(object, "footnote", exact = TRUE)
+  attr(ans, "title") <- attr(object, "title")
+  attr(ans, "footnote") <- attr(object, "footnote")
 
   ans <- add_class(ans, "fixed_design_summary")
   return(ans)
