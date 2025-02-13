@@ -2,13 +2,13 @@
 % Please edit documentation in R/as_gt.R
 \name{as_gt}
 \alias{as_gt}
-\alias{as_gt.fixed_design}
+\alias{as_gt.fixed_design_summary}
 \alias{as_gt.gs_design}
 \title{Convert summary table of a fixed or group sequential design object to a gt object}
 \usage{
 as_gt(x, ...)
 
-\method{as_gt}{fixed_design}(x, title = NULL, footnote = NULL, ...)
+\method{as_gt}{fixed_design_summary}(x, title = NULL, footnote = NULL, ...)
 
 \method{as_gt}{gs_design}(
   x,
