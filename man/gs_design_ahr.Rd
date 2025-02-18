@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_design_ahr.R
 \name{gs_design_ahr}
 \alias{gs_design_ahr}
-\title{Group sequential design using average hazard ratio under non-proportional hazards}
+\title{Calculate sample size and bounds given the power in group sequential design using average hazard ratio under non-proportional hazards}
 \usage{
 gs_design_ahr(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
@@ -28,9 +28,9 @@ gs_design_ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
 \item{alpha}{One-sided Type I error.}
 
@@ -40,18 +40,32 @@ gs_design_ahr(
 
 \item{analysis_time}{Minimum time of analysis.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
+\item{ratio}{Experimental:Control randomization ratio.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound.}
+\item{upper}{Function to compute upper bound.
+\itemize{
+\item \code{gs_b()}: fixed efficacy bounds.
+\item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+}}
 
-\item{upar}{Parameters passed to \code{upper}.}
+\item{upar}{Parameters passed to \code{upper}.
+\itemize{
+\item If \code{upper = gs_b}, then \code{upar} is a numerical vector specifying the fixed efficacy bounds per analysis.
+\item If \code{upper = gs_spending_bound}, then \code{upar} is a list including
+\itemize{
+\item \code{sf} for the spending function family.
+\item \code{total_spend} for total alpha spend.
+\item \code{param} for the parameter of the spending function.
+\item \code{timing} (not required for information-based spending) for the spending time if different from information-based spending.
+}
+}}
 
-\item{lower}{Function to compute lower bound.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper.}}
 
-\item{lpar}{Parameters passed to \code{lower}.}
+\item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})
@@ -87,44 +101,17 @@ expected event count is equal to targeted event.}
 }
 \value{
 A list with input parameters, enrollment rate, analysis, and bound.
+\itemize{
+\item The \verb{$input} is a list including \code{alpha}, \code{beta}, \code{ratio}, etc.
+\item The \verb{$enroll_rate} is a table showing the enrollment for arriving the targeted power (\code{1 - beta}).
+\item The \verb{$fail_rate} is a table showing the failure and dropout rates, which is the same as input.
+\item The \verb{$bound} is a table summarizing the efficacy and futility bound per analysis.
+\item The \code{analysis} is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.
+}
 }
 \description{
-Group sequential design using average hazard ratio under non-proportional hazards
+Calculate sample size and bounds given the power in group sequential design using average hazard ratio under non-proportional hazards
 }
-\details{
-To be added.
-}
-\section{Specification}{
-
-\if{latex}{
- \itemize{
-   \item Validate if input analysis_time is a positive number or positive
-   increasing sequence.
-   \item Validate if input info_frac is a positive number or positive
-   increasing sequence
-   on (0, 1] with final value of 1.
-   \item Validate if input info_frac and analysis_time  have the same
-   length if both have length > 1.
-   \item Get information at input analysis_time
-   \itemize{
-     \item Use \code{gs_info_ahr()} to get the information and effect size
-     based on AHR approximation.
-     \item Extract the final event.
-     \item Check if input If needed for (any) interim analysis timing.
-   }
-   \item Add the analysis column to the information at input analysis_time.
-   \item Add the sample size column to the information at input analysis_time
-   using \code{expected_accural()}.
-   \item Get sample size and bounds using \code{gs_design_npe()} and
-   save them to bounds.
-   \item Add Time, Events, AHR, N that have already been calculated
-   to the bounds.
-   \item Return a list of design enrollment, failure rates, and bounds.
-  }
-}
-\if{html}{The contents of this section are shown in PDF user manual only.}
-}
-
 \examples{
 library(gsDesign)
 library(gsDesign2)
