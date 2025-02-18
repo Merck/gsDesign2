@@ -98,7 +98,7 @@ used when creating integer design via \code{\link[=to_integer]{to_integer()}}.}
 A list with input parameters, enrollment rate, analysis, and bound.
 \itemize{
 \item The \verb{$input} is a list including \code{alpha}, \code{beta}, \code{ratio}, etc.
-\item The \verb{$enroll_rate} is a table showing the enrollment for arriving the targeted power (\code{1 - beta}).
+\item The \verb{$enroll_rate} is a table showing the enrollment, which is the same as input.
 \item The \verb{$fail_rate} is a table showing the failure and dropout rates, which is the same as input.
 \item The \verb{$bound} is a table summarizing the efficacy and futility bound per analysis.
 \item The \code{analysis} is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.

@@ -30,7 +30,7 @@
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'   - The `$input` is a list including `alpha`, `beta`, `ratio`, etc.
-#'   - The `$enroll_rate` is a table showing the enrollment for arriving the targeted power (`1 - beta`).
+#'   - The `$enroll_rate` is a table showing the enrollment, which is the same as input.
 #'   - The `$fail_rate` is a table showing the failure and dropout rates, which is the same as input.
 #'   - The `$bound` is a table summarizing the efficacy and futility bound per analysis.
 #'   - The `analysis` is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.
