@@ -16,11 +16,11 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Group sequential design using average hazard ratio under non-proportional hazards
+#' Calculate sample size and bounds given the power in group sequential design using average hazard ratio under non-proportional hazards
 #'
-#' @param enroll_rate Enrollment rates.
-#' @param fail_rate Failure and dropout rates.
-#' @param ratio Experimental:Control randomization ratio (not yet implemented).
+#' @param enroll_rate Enrollment rates defined by \code{define_enroll_rate()}.
+#' @param fail_rate Failure and dropout rates defined by \code{define_fail_rate()}.
+#' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
 #' @param info_frac Targeted information fraction at each analysis.
@@ -28,9 +28,17 @@
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param upper Function to compute upper bound.
+#'   - \code{gs_b()}: fixed efficacy bounds.
+#'   - \code{gs_spending_bound()}: alpha-spending efficacy bounds.
 #' @param upar Parameters passed to `upper`.
-#' @param lower Function to compute lower bound.
-#' @param lpar Parameters passed to `lower`.
+#'   - If `upper = gs_b`, then `upar` is a numerical vector specifying the fixed efficacy bounds per analysis.
+#'   - If `upper = gs_spending_bound`, then `upar` is a list including
+#'       - `sf` for the spending function family.
+#'       - `total_spend` for total alpha spend.
+#'       - `param` for the parameter of the spending function.
+#'       - `timing` (not required for information-based spending) for the spending time if different from information-based spending.
+#' @param lower Function to compute lower bound, which can be set up similarly as `upper.`
+#' @param lpar Parameters passed to `lower`, which can be set up similarly as `upar.`
 #' @param info_scale Information scale for calculation. Options are:
 #'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
 #'   - `"h0_info"`: variance under null hypothesis is used.
@@ -56,39 +64,11 @@
 #'   expected event count is equal to targeted event.
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
-#'
-#' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input analysis_time is a positive number or positive
-#'    increasing sequence.
-#'    \item Validate if input info_frac is a positive number or positive
-#'    increasing sequence
-#'    on (0, 1] with final value of 1.
-#'    \item Validate if input info_frac and analysis_time  have the same
-#'    length if both have length > 1.
-#'    \item Get information at input analysis_time
-#'    \itemize{
-#'      \item Use \code{gs_info_ahr()} to get the information and effect size
-#'      based on AHR approximation.
-#'      \item Extract the final event.
-#'      \item Check if input If needed for (any) interim analysis timing.
-#'    }
-#'    \item Add the analysis column to the information at input analysis_time.
-#'    \item Add the sample size column to the information at input analysis_time
-#'    using \code{expected_accural()}.
-#'    \item Get sample size and bounds using \code{gs_design_npe()} and
-#'    save them to bounds.
-#'    \item Add Time, Events, AHR, N that have already been calculated
-#'    to the bounds.
-#'    \item Return a list of design enrollment, failure rates, and bounds.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @details
-#' To be added.
-#'
+#'   - The `$input` is a list including `alpha`, `beta`, `ratio`, etc.
+#'   - The `$enroll_rate` is a table showing the enrollment for arriving the targeted power (`1 - beta`).
+#'   - The `$fail_rate` is a table showing the failure and dropout rates, which is the same as input.
+#'   - The `$bound` is a table summarizing the efficacy and futility bound per analysis.
+#'   - The `analysis` is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.
 #' @export
 #'
 #' @examples
