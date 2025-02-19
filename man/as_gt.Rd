@@ -59,7 +59,9 @@ A \code{gt_tbl} object.
 Convert summary table of a fixed or group sequential design object to a gt object
 }
 \examples{
-\dontshow{if (interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (!identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Fixed design examples ----
+
 library(dplyr)
 
 # Enrollment rate
@@ -106,7 +108,9 @@ fixed_design_fh(
   summary() \%>\%
   as_gt()
 \dontshow{\}) # examplesIf}
-\dontshow{if (interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (!identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Group sequential design examples ---
+
 library(dplyr)
 # Example 1 ----
 # The default output
@@ -115,7 +119,7 @@ gs_design_ahr() \%>\%
   summary() \%>\%
   as_gt()
 
-gs_power_ahr() \%>\%
+gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt()
 
@@ -123,7 +127,7 @@ gs_design_wlr() \%>\%
   summary() \%>\%
   as_gt()
 
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt()
 
@@ -142,7 +146,7 @@ gs_power_rd() \%>\%
 # Example 2 ----
 # Usage of title = ..., subtitle = ...
 # to edit the title/subtitle
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt(
     title = "Bound Summary",
@@ -152,7 +156,7 @@ gs_power_wlr() \%>\%
 # Example 3 ----
 # Usage of colname_spanner = ..., colname_spannersub = ...
 # to edit the spanner and its sub-spanner
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt(
     colname_spanner = "Cumulative probability to cross boundaries",
@@ -162,7 +166,7 @@ gs_power_wlr() \%>\%
 # Example 4 ----
 # Usage of footnote = ...
 # to edit the footnote
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt(
     footnote = list(
@@ -180,14 +184,14 @@ gs_power_wlr() \%>\%
 # Example 5 ----
 # Usage of display_bound = ...
 # to either show efficacy bound or futility bound, or both(default)
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt(display_bound = "Efficacy")
 
 # Example 6 ----
 # Usage of display_columns = ...
 # to select the columns to display in the summary table
-gs_power_wlr() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 \dontshow{\}) # examplesIf}
