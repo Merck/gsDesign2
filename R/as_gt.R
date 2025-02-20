@@ -32,7 +32,9 @@ as_gt <- function(x, ...) {
 #'
 #' @export
 #'
-#' @examplesIf interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' @examplesIf !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' # Fixed design examples ----
+#'
 #' library(dplyr)
 #'
 #' # Enrollment rate
@@ -154,7 +156,10 @@ fd_footnote <- function(x, method) {
 #'
 #' @export
 #'
-#' @examplesIf interactive() && !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' @examplesIf !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' \donttest{
+#' # Group sequential design examples ---
+#'
 #' library(dplyr)
 #' # Example 1 ----
 #' # The default output
@@ -163,7 +168,7 @@ fd_footnote <- function(x, method) {
 #'   summary() %>%
 #'   as_gt()
 #'
-#' gs_power_ahr() %>%
+#' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt()
 #'
@@ -171,7 +176,7 @@ fd_footnote <- function(x, method) {
 #'   summary() %>%
 #'   as_gt()
 #'
-#' gs_power_wlr() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt()
 #'
@@ -190,7 +195,7 @@ fd_footnote <- function(x, method) {
 #' # Example 2 ----
 #' # Usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle
-#' gs_power_wlr() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt(
 #'     title = "Bound Summary",
@@ -200,7 +205,7 @@ fd_footnote <- function(x, method) {
 #' # Example 3 ----
 #' # Usage of colname_spanner = ..., colname_spannersub = ...
 #' # to edit the spanner and its sub-spanner
-#' gs_power_wlr() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt(
 #'     colname_spanner = "Cumulative probability to cross boundaries",
@@ -210,7 +215,7 @@ fd_footnote <- function(x, method) {
 #' # Example 4 ----
 #' # Usage of footnote = ...
 #' # to edit the footnote
-#' gs_power_wlr() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt(
 #'     footnote = list(
@@ -228,17 +233,17 @@ fd_footnote <- function(x, method) {
 #' # Example 5 ----
 #' # Usage of display_bound = ...
 #' # to either show efficacy bound or futility bound, or both(default)
-#' gs_power_wlr() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt(display_bound = "Efficacy")
 #'
 #' # Example 6 ----
 #' # Usage of display_columns = ...
 #' # to select the columns to display in the summary table
-#' gs_power_wlr() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-#'
+#' }
 as_gt.gs_design <- function(
     x,
     title = NULL,
