@@ -109,6 +109,7 @@ fixed_design_fh(
   as_gt()
 \dontshow{\}) # examplesIf}
 \dontshow{if (!identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
 # Group sequential design examples ---
 
 library(dplyr)
@@ -194,5 +195,6 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
 gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
+}
 \dontshow{\}) # examplesIf}
 }

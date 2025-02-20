@@ -157,6 +157,7 @@ fd_footnote <- function(x, method) {
 #' @export
 #'
 #' @examplesIf !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' \donttest{
 #' # Group sequential design examples ---
 #'
 #' library(dplyr)
@@ -242,7 +243,7 @@ fd_footnote <- function(x, method) {
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
 #'   summary() %>%
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-#'
+#' }
 as_gt.gs_design <- function(
     x,
     title = NULL,
