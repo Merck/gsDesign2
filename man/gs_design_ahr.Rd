@@ -36,9 +36,9 @@ gs_design_ahr(
 
 \item{beta}{Type II error.}
 
-\item{info_frac}{Targeted information fraction at each analysis.}
+\item{info_frac}{Targeted information fraction at each analysis. See details for properly set it up.}
 
-\item{analysis_time}{Minimum time of analysis.}
+\item{analysis_time}{Targeted time of analysis. See details for properly set it up.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
@@ -47,8 +47,8 @@ default of \code{FALSE} is recommended.}
 
 \item{upper}{Function to compute upper bound.
 \itemize{
-\item \code{gs_b()}: fixed efficacy bounds.
 \item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
 }}
 
 \item{upar}{Parameters passed to \code{upper}.
@@ -63,7 +63,7 @@ default of \code{FALSE} is recommended.}
 }
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper.}}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
@@ -111,6 +111,19 @@ A list with input parameters, enrollment rate, analysis, and bound.
 }
 \description{
 Calculate sample size and bounds given the power in group sequential design using average hazard ratio under non-proportional hazards
+}
+\details{
+The parameters \code{info_frac} and \code{analysis_time} are used to determine the timing for interim and final analyses.
+\itemize{
+\item If the interim analysis is decided by targeted information fraction and the study duration is known,
+then \code{info_frac} is a numerical vector where each element (greater than 0 and less than or equal to 1)
+represents the information fraction for each analysis.
+The \code{analysis_time}, which defaults to 36, indicates the time for the final analysis.
+\item If the interim analysis is determined solely by the targeted analysis timing,
+then \code{analysis_time} will be a vector specifying the time for each analysis.
+\item If both the targeted analysis time and the targeted information fraction are utilized, which arrives latter,
+then both \code{info_frac} and \code{analysis_time} should be provided as vectors.
+}
 }
 \examples{
 library(gsDesign)

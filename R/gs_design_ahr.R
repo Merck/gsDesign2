@@ -23,13 +23,13 @@
 #' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
-#' @param info_frac Targeted information fraction at each analysis.
-#' @param analysis_time Minimum time of analysis.
+#' @param info_frac Targeted information fraction at each analysis. See details for properly set it up.
+#' @param analysis_time Targeted time of analysis. See details for properly set it up.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param upper Function to compute upper bound.
-#'   - \code{gs_b()}: fixed efficacy bounds.
 #'   - \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+#'   - \code{gs_b()}: fixed efficacy bounds.
 #' @param upar Parameters passed to `upper`.
 #'   - If `upper = gs_b`, then `upar` is a numerical vector specifying the fixed efficacy bounds per analysis.
 #'   - If `upper = gs_spending_bound`, then `upar` is a list including
@@ -37,7 +37,7 @@
 #'       - `total_spend` for total alpha spend.
 #'       - `param` for the parameter of the spending function.
 #'       - `timing` (not required for information-based spending) for the spending time if different from information-based spending.
-#' @param lower Function to compute lower bound, which can be set up similarly as `upper.`
+#' @param lower Function to compute lower bound, which can be set up similarly as `upper`. More details can be find in [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
 #' @param lpar Parameters passed to `lower`, which can be set up similarly as `upar.`
 #' @param info_scale Information scale for calculation. Options are:
 #'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
@@ -70,6 +70,17 @@
 #'   - The `$bound` is a table summarizing the efficacy and futility bound per analysis.
 #'   - The `analysis` is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.
 #' @export
+#'
+#' @details
+#' The parameters `info_frac` and `analysis_time` are used to determine the timing for interim and final analyses.
+#'  - If the interim analysis is decided by targeted information fraction and the study duration is known,
+#'    then `info_frac` is a numerical vector where each element (greater than 0 and less than or equal to 1)
+#'    represents the information fraction for each analysis.
+#'    The `analysis_time`, which defaults to 36, indicates the time for the final analysis.
+#'  - If the interim analysis is determined solely by the targeted analysis timing,
+#'    then `analysis_time` will be a vector specifying the time for each analysis.
+#'  - If both the targeted analysis time and the targeted information fraction are utilized, which arrives latter,
+#'    then both `info_frac` and `analysis_time` should be provided as vectors.
 #'
 #' @examples
 #' library(gsDesign)

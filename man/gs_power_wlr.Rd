@@ -34,18 +34,18 @@ gs_power_wlr(
 
 \item{event}{A numerical vector specifying the targeted event at each analysis.}
 
-\item{analysis_time}{Minimum time of analysis.}
+\item{analysis_time}{Targeted time of analysis. See details for properly set it up.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
 \item{upper}{Function to compute upper bound.
 \itemize{
-\item \code{gs_b()}: fixed efficacy bounds.
 \item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper.}}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{upar}{Parameters passed to \code{upper}.
 \itemize{

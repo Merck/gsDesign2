@@ -36,8 +36,8 @@ default of \code{FALSE} is recommended.}
 
 \item{upper}{Function to compute upper bound.
 \itemize{
-\item \code{gs_b()}: fixed efficacy bounds.
 \item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
 }}
 
 \item{upar}{Parameters passed to \code{upper}.
@@ -52,7 +52,7 @@ default of \code{FALSE} is recommended.}
 }
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper.}}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 

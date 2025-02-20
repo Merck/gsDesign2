@@ -23,7 +23,7 @@
 #' non-proportional hazards.
 #'
 #' @inheritParams gs_design_ahr
-#' @param event A numerical vector specifying the targeted event at each analysis.
+#' @param event A numerical vector specifying the targeted event at each analysis. See details for properly set it up.
 #' @param integer Logical value integer whether it is an integer design
 #' (i.e., integer sample size and events) or not. This argument is commonly
 #' used when creating integer design via [to_integer()].
@@ -43,6 +43,14 @@
 #' targeted `analysis_time`.
 #'
 #' @export
+#' @details
+#' The parameters `event` and `analysis_time` are used to determine the timing for interim and final analyses.
+#'  - If the interim analysis is decided by targeted event,
+#'    then `event` is a numerical vector where each element represents the targeted events for each analysis.
+#'  - If the interim analysis is determined solely by the targeted analysis timing,
+#'    then `analysis_time` will be a vector specifying the time for each analysis.
+#'  - If both the targeted analysis time and the targeted event are utilized, which arrives latter,
+#'    then both `event` and `analysis_time` should be provided as vectors.
 #'
 #' @examples
 #' library(gsDesign2)

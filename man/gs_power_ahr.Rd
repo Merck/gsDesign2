@@ -33,12 +33,12 @@ gs_power_ahr(
 
 \item{event}{A numerical vector specifying the targeted event at each analysis.}
 
-\item{analysis_time}{Minimum time of analysis.}
+\item{analysis_time}{Targeted time of analysis. See details for properly set it up.}
 
 \item{upper}{Function to compute upper bound.
 \itemize{
-\item \code{gs_b()}: fixed efficacy bounds.
 \item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
 }}
 
 \item{upar}{Parameters passed to \code{upper}.
@@ -53,7 +53,7 @@ gs_power_ahr(
 }
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper.}}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
@@ -114,6 +114,16 @@ Bound satisfy input upper bound specification in
 \code{\link[=ahr]{ahr()}} computes statistical information at targeted event times.
 The \code{\link[=expected_time]{expected_time()}} function is used to get events and average HR at
 targeted \code{analysis_time}.
+
+The parameters \code{event} and \code{analysis_time} are used to determine the timing for interim and final analyses.
+\itemize{
+\item If the interim analysis is decided by targeted event,
+then \code{event} is a numerical vector where each element represents the targeted events for each analysis.
+\item If the interim analysis is determined solely by the targeted analysis timing,
+then \code{analysis_time} will be a vector specifying the time for each analysis.
+\item If both the targeted analysis time and the targeted event are utilized, which arrives latter,
+then both \code{event} and \code{analysis_time} should be provided as vectors.
+}
 }
 \examples{
 library(gsDesign2)
