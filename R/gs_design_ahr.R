@@ -16,15 +16,15 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Calculate sample size and bounds given the power in group sequential design using average hazard ratio under non-proportional hazards
+#' Calculate sample size and bounds given targeted power and Type I error in group sequential design using average hazard ratio under non-proportional hazards
 #'
 #' @param enroll_rate Enrollment rates defined by \code{define_enroll_rate()}.
 #' @param fail_rate Failure and dropout rates defined by \code{define_fail_rate()}.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
-#' @param info_frac Targeted information fraction at each analysis. See details for properly set it up.
-#' @param analysis_time Targeted time of analysis. See details for properly set it up.
+#' @param info_frac Targeted information fraction for analyses. See details.
+#' @param analysis_time Targeted calendar timing of analyses. See details.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param upper Function to compute upper bound.
@@ -36,8 +36,9 @@
 #'       - `sf` for the spending function family.
 #'       - `total_spend` for total alpha spend.
 #'       - `param` for the parameter of the spending function.
-#'       - `timing` (not required for information-based spending) for the spending time if different from information-based spending.
-#' @param lower Function to compute lower bound, which can be set up similarly as `upper`. More details can be find in [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
+#'       - `timing` specifies spending time if different from information-based spending; see details.
+#' @param lower Function to compute lower bound, which can be set up similarly as `upper`.
+#' See [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
 #' @param lpar Parameters passed to `lower`, which can be set up similarly as `upar.`
 #' @param info_scale Information scale for calculation. Options are:
 #'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
@@ -46,6 +47,9 @@
 #' @param h1_spending Indicator that lower bound to be set by spending
 #'   under alternate hypothesis (input `fail_rate`)
 #'   if spending is used for lower bound.
+#'   If this is `FALSE`, then the lower bound spending is under the null hypothesis.
+#'   This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+#'   See [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
 #' @param test_upper Indicator of which analyses should include an upper
 #'   (efficacy) bound; single value of `TRUE` (default) indicates all analyses;
 #'   otherwise, a logical vector of the same length as `info` should indicate
@@ -59,9 +63,10 @@
 #'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 #'   Larger values provide larger number of grid points and greater accuracy.
 #'   Normally, `r` will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
-#' @param interval An interval that is presumed to include the time at which
+#' @param tol Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.
+#' @param interval An interval presumed to include the times at which
 #'   expected event count is equal to targeted event.
+#'   Normally, this can be ignored by the user as it is set to `c(.01, 1000)`.
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'   - The `$input` is a list including `alpha`, `beta`, `ratio`, etc.
@@ -73,14 +78,14 @@
 #'
 #' @details
 #' The parameters `info_frac` and `analysis_time` are used to determine the timing for interim and final analyses.
-#'  - If the interim analysis is decided by targeted information fraction and the study duration is known,
+#'  - If the interim analysis is determined by targeted information fraction and the study duration is known,
 #'    then `info_frac` is a numerical vector where each element (greater than 0 and less than or equal to 1)
 #'    represents the information fraction for each analysis.
 #'    The `analysis_time`, which defaults to 36, indicates the time for the final analysis.
-#'  - If the interim analysis is determined solely by the targeted analysis timing,
+#'  - If interim analyses are determined solely by the targeted calendar analysis timing from start of study,
 #'    then `analysis_time` will be a vector specifying the time for each analysis.
-#'  - If both the targeted analysis time and the targeted information fraction are utilized, which arrives latter,
-#'    then both `info_frac` and `analysis_time` should be provided as vectors.
+#'  - If both the targeted analysis time and the targeted information fraction are utilized for a given analysis,
+#'    then timing will be the maximum of the two with both `info_frac` and `analysis_time` provided as vectors.
 #'
 #' @examples
 #' library(gsDesign)
