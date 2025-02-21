@@ -97,9 +97,9 @@ fixed_design_rmst(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
 \item{alpha}{One-sided Type I error (strictly between 0 and 1).}
 
@@ -110,7 +110,7 @@ and \code{1 - alpha} otherwise).}
 
 \item{study_duration}{Study duration.}
 
-\item{event}{Targeted event at each analysis.}
+\item{event}{A numerical vector specifying the targeted event at each analysis.}
 
 \item{rho}{A vector of numbers paring with gamma and tau for MaxCombo test.}
 

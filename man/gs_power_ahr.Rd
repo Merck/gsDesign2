@@ -27,35 +27,48 @@ gs_power_ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
-created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
+\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
-\item{event}{Targeted event at each analysis.}
+\item{event}{A numerical vector specifying the targeted event at each analysis.}
 
-\item{analysis_time}{Minimum time of analysis.}
+\item{analysis_time}{Targeted time of analysis. See details for properly set it up.}
 
-\item{upper}{Function to compute upper bound.}
+\item{upper}{Function to compute upper bound.
+\itemize{
+\item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
+}}
 
-\item{upar}{Parameters passed to \code{upper}.}
+\item{upar}{Parameters passed to \code{upper}.
+\itemize{
+\item If \code{upper = gs_b}, then \code{upar} is a numerical vector specifying the fixed efficacy bounds per analysis.
+\item If \code{upper = gs_spending_bound}, then \code{upar} is a list including
+\itemize{
+\item \code{sf} for the spending function family.
+\item \code{total_spend} for total alpha spend.
+\item \code{param} for the parameter of the spending function.
+\item \code{timing} (not required for information-based spending) for the spending time if different from information-based spending.
+}
+}}
 
-\item{lower}{Function to compute lower bound.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
-\item{lpar}{Parameters passed to \code{lower}.}
+\item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{test_lower}{Indicator of which analyses should include an lower bound;
 single value of \code{TRUE} (default) indicates all analyses;
-single value of \code{FALSE} indicated no lower bound;
-otherwise, a logical vector of the same length as \code{info} should indicate
-which analyses will have a lower bound.}
+single value \code{FALSE} indicated no lower bound; otherwise, a logical vector
+of the same length as \code{info} should indicate which analyses will have a
+lower bound.}
 
 \item{test_upper}{Indicator of which analyses should include an upper
 (efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
-otherwise, a logical vector of the same length as \code{info} should
-indicate which analyses will have an efficacy bound.}
+otherwise, a logical vector of the same length as \code{info} should indicate
+which analyses will have an efficacy bound.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
+\item{ratio}{Experimental:Control randomization ratio.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
@@ -82,12 +95,17 @@ expected event count is equal to targeted event.}
 used when creating integer design via \code{\link[=to_integer]{to_integer()}}.}
 }
 \value{
-A tibble with columns \code{analysis}, \code{bound}, \code{z}, \code{probability},
-\code{theta}, \code{time}, \code{ahr}, \code{event}.
-Contains a row for each analysis and each bound.
+A list with input parameters, enrollment rate, analysis, and bound.
+\itemize{
+\item The \verb{$input} is a list including \code{alpha}, \code{beta}, \code{ratio}, etc.
+\item The \verb{$enroll_rate} is a table showing the enrollment, which is the same as input.
+\item The \verb{$fail_rate} is a table showing the failure and dropout rates, which is the same as input.
+\item The \verb{$bound} is a table summarizing the efficacy and futility bound per analysis.
+\item The \code{analysis} is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.
+}
 }
 \description{
-Group sequential design power using average hazard ratio under
+Calculate the power given the sample size in group sequential design power using average hazard ratio under
 non-proportional hazards.
 }
 \details{
@@ -96,21 +114,17 @@ Bound satisfy input upper bound specification in
 \code{\link[=ahr]{ahr()}} computes statistical information at targeted event times.
 The \code{\link[=expected_time]{expected_time()}} function is used to get events and average HR at
 targeted \code{analysis_time}.
-}
-\section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Calculate information and effect size based on AHR approximation
-   using \code{gs_info_ahr()}.
-   \item Return a tibble of with columns Analysis, Bound, Z, Probability,
-   theta, Time, AHR, Events and  contains a row for each analysis
-   and each bound.
-  }
+The parameters \code{event} and \code{analysis_time} are used to determine the timing for interim and final analyses.
+\itemize{
+\item If the interim analysis is decided by targeted event,
+then \code{event} is a numerical vector where each element represents the targeted events for each analysis.
+\item If the interim analysis is determined solely by the targeted analysis timing,
+then \code{analysis_time} will be a vector specifying the time for each analysis.
+\item If both the targeted analysis time and the targeted event are utilized, which arrives latter,
+then both \code{event} and \code{analysis_time} should be provided as vectors.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
-
 \examples{
 library(gsDesign2)
 library(dplyr)

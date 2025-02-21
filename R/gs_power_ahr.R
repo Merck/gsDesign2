@@ -19,66 +19,40 @@
 #' Group sequential design power using average hazard ratio under
 #' non-proportional hazards
 #'
-#' Group sequential design power using average hazard ratio under
+#' Calculate power given the sample size in group sequential design power using average hazard ratio under
 #' non-proportional hazards.
 #'
-#' @inheritParams ahr
-#' @param fail_rate Failure and dropout rates.
-#' @param ratio Experimental:Control randomization ratio (not yet implemented).
-#' @param event Targeted event at each analysis.
-#' @param analysis_time Minimum time of analysis.
-#' @param binding Indicator of whether futility bound is binding;
-#'   default of `FALSE` is recommended.
-#' @param info_scale Information scale for calculation. Options are:
-#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
-#'   - `"h0_info"`: variance under null hypothesis is used.
-#'   - `"h1_info"`: variance under alternative hypothesis is used.
-#' @param upper Function to compute upper bound.
-#' @param upar Parameters passed to `upper`.
-#' @param lower Function to compute lower bound.
-#' @param lpar Parameters passed to `lower`.
-#' @param test_upper Indicator of which analyses should include an upper
-#'   (efficacy) bound; single value of `TRUE` (default) indicates all analyses;
-#'   otherwise, a logical vector of the same length as `info` should
-#'   indicate which analyses will have an efficacy bound.
-#' @param test_lower Indicator of which analyses should include an lower bound;
-#'   single value of `TRUE` (default) indicates all analyses;
-#'   single value of `FALSE` indicated no lower bound;
-#'   otherwise, a logical vector of the same length as `info` should indicate
-#'   which analyses will have a lower bound.
-#' @param r Integer value controlling grid for numerical integration as in
-#'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
-#'   Larger values provide larger number of grid points and greater accuracy.
-#'   Normally, `r` will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
-#' @param interval An interval that is presumed to include the time at which
-#'   expected event count is equal to targeted event.
-#' @param integer Logical value integer whether it is an integer design
-#' (i.e., integer sample size and events) or not. This argument is commonly
-#' used when creating integer design via [to_integer()].
+#' @inheritParams gs_design_ahr
+#' @param event A numerical vector specifying the targeted events at each analysis. See details.
+#' @param integer Indicator of whether integer sample size and events are intended. This argument is
+#' used when using [to_integer()].
 #'
-#' @return A tibble with columns `analysis`, `bound`, `z`, `probability`,
-#'   `theta`, `time`, `ahr`, `event`.
-#'   Contains a row for each analysis and each bound.
+#' @return A list with input parameters, enrollment rate, analysis, and bound.
+#'   - `$input` a list including `alpha`, `beta`, `ratio`, etc.
+#'   - `$enroll_rate` a table showing the enrollment, which is the same as input.
+#'   - `$fail_rate` a table showing the failure and dropout rates, which is the same as input.
+#'   - `$bound` a table summarizing the efficacy and futility bound at each analysis.
+#'   - `analysis` a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information at each analysis.
 #'
 #' @details
-#' Bound satisfy input upper bound specification in
+#' Note that time units are arbitrary, but should be the same for all rate parameters in `enroll_rate`, `fail_rate`, and `analysis_time`.
+#'
+#' Computed bounds satisfy input upper bound specification in
 #' `upper`, `upar`, and lower bound specification in `lower`, `lpar`.
 #' [ahr()] computes statistical information at targeted event times.
 #' The [expected_time()] function is used to get events and average HR at
 #' targeted `analysis_time`.
 #'
-#' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Calculate information and effect size based on AHR approximation
-#'    using \code{gs_info_ahr()}.
-#'    \item Return a tibble of with columns Analysis, Bound, Z, Probability,
-#'    theta, Time, AHR, Events and  contains a row for each analysis
-#'    and each bound.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' The parameters `event` and `analysis_time` are used to determine the timing for interim and final analyses.
+#'  - If analysis timing is to be determined by targeted events,
+#'    then `event` is a numerical vector specifying the targeted events for each analysis;
+#'    note that this can be NULL.
+#'  - If interim analysis is determined by targeted calendar timing relative to start of enrollment,
+#'    then `analysis_time` will be a vector specifying the calendar time from start of study for each analysis;
+#'    note that this can be NULL.
+#'  - A corresponding element of `event` or `analysis_time` should be provided for each analysis.
+#'  - If both `event[i]` and `analysis[i]` are provided for analysis `i`, then the time corresponding to the
+#'  later of these is used  for analysis `i`.
 #'
 #' @export
 #'
@@ -109,6 +83,13 @@
 #' # Example 3 ----
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
 #' # i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
+#' # Note that this assumes targeted final events for the design is 70 events.
+#' # If actual targeted final events were 65, then `timing = c(20, 50, 70) / 65`
+#' # would be added to `upar` and `lpar` lists.
+#' # NOTE: at present the computed information fraction in output `analysis` is based
+#' # on 70 events rather than 65 events when the `timing` argument is used in this way.
+#` # This behavior is likely to be updated in the near future.
+#' # A vignette on this topic will be forthcoming.
 #' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = NULL,
