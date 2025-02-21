@@ -19,38 +19,42 @@
 #' Group sequential design power using average hazard ratio under
 #' non-proportional hazards
 #'
-#' Calculate the power given the sample size in group sequential design power using average hazard ratio under
+#' Calculate power given the sample size in group sequential design power using average hazard ratio under
 #' non-proportional hazards.
 #'
 #' @inheritParams gs_design_ahr
-#' @param event A numerical vector specifying the targeted event at each analysis. See details for properly set it up.
-#' @param integer Logical value integer whether it is an integer design
-#' (i.e., integer sample size and events) or not. This argument is commonly
-#' used when creating integer design via [to_integer()].
+#' @param event A numerical vector specifying the targeted events at each analysis. See details.
+#' @param integer Indicator of whether integer sample size and events are intended. This argument is
+#' used when using [to_integer()].
 #'
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
-#'   - The `$input` is a list including `alpha`, `beta`, `ratio`, etc.
-#'   - The `$enroll_rate` is a table showing the enrollment, which is the same as input.
-#'   - The `$fail_rate` is a table showing the failure and dropout rates, which is the same as input.
-#'   - The `$bound` is a table summarizing the efficacy and futility bound per analysis.
-#'   - The `analysis` is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.
+#'   - `$input` a list including `alpha`, `beta`, `ratio`, etc.
+#'   - `$enroll_rate` a table showing the enrollment, which is the same as input.
+#'   - `$fail_rate` a table showing the failure and dropout rates, which is the same as input.
+#'   - `$bound` a table summarizing the efficacy and futility bound at each analysis.
+#'   - `analysis` a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information at each analysis.
 #'
 #' @details
-#' Bound satisfy input upper bound specification in
+#' Note that time units are arbitrary, but should be the same for all rate parameters in `enroll_rate`, `fail_rate`, and `analysis_time`.
+#'
+#' Computed bounds satisfy input upper bound specification in
 #' `upper`, `upar`, and lower bound specification in `lower`, `lpar`.
 #' [ahr()] computes statistical information at targeted event times.
 #' The [expected_time()] function is used to get events and average HR at
 #' targeted `analysis_time`.
 #'
-#' @export
-#' @details
 #' The parameters `event` and `analysis_time` are used to determine the timing for interim and final analyses.
-#'  - If the interim analysis is decided by targeted event,
-#'    then `event` is a numerical vector where each element represents the targeted events for each analysis.
-#'  - If the interim analysis is determined solely by the targeted analysis timing,
-#'    then `analysis_time` will be a vector specifying the time for each analysis.
-#'  - If both the targeted analysis time and the targeted event are utilized, which arrives latter,
-#'    then both `event` and `analysis_time` should be provided as vectors.
+#'  - If analysis timing is to be determined by targeted events,
+#'    then `event` is a numerical vector specifying the targeted events for each analysis;
+#'    note that this can be NULL.
+#'  - If interim analysis is determined by targeted calendar timing relative to start of enrollment,
+#'    then `analysis_time` will be a vector specifying the calendar time from start of study for each analysis;
+#'    note that this can be NULL.
+#'  - A corresponding element of `event` or `analysis_time` should be provided for each analysis.
+#'  - If both `event[i]` and `analysis[i]` are provided for analysis `i`, then the time corresponding to the
+#'  later of these is used  for analysis `i`.
+#'
+#' @export
 #'
 #' @examples
 #' library(gsDesign2)
@@ -79,6 +83,13 @@
 #' # Example 3 ----
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
 #' # i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
+#' # Note that this assumes targeted final events for the design is 70 events.
+#' # If actual targeted final events were 65, then `timing = c(20, 50, 70) / 65`
+#' # would be added to `upar` and `lpar` lists.
+#' # NOTE: at present the computed information fraction in output `analysis` is based
+#' # on 70 events rather than 65 events when the `timing` argument is used in this way.
+#` # This behavior is likely to be updated in the near future.
+#' # A vignette on this topic will be forthcoming.
 #' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = NULL,
