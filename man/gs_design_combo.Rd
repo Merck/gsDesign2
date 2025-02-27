@@ -25,14 +25,14 @@ gs_design_combo(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
 \item{fh_test}{A data frame to summarize the test in each analysis.
 See examples for its data structure.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
+\item{ratio}{Experimental:Control randomization ratio.}
 
 \item{alpha}{One-sided Type I error.}
 
@@ -41,13 +41,27 @@ See examples for its data structure.}
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound.}
+\item{upper}{Function to compute upper bound.
+\itemize{
+\item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
+}}
 
-\item{upar}{Parameters passed to \code{upper}.}
+\item{upar}{Parameters passed to \code{upper}.
+\itemize{
+\item If \code{upper = gs_b}, then \code{upar} is a numerical vector specifying the fixed efficacy bounds per analysis.
+\item If \code{upper = gs_spending_bound}, then \code{upar} is a list including
+\itemize{
+\item \code{sf} for the spending function family.
+\item \code{total_spend} for total alpha spend.
+\item \code{param} for the parameter of the spending function.
+\item \code{timing} (not required for information-based spending) for the spending time if different from information-based spending.
+}
+}}
 
-\item{lower}{Function to compute lower bound.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
-\item{lpar}{Parameters passed to \code{lower}.}
+\item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{algorithm}{ an object of class \code{\link[mvtnorm]{GenzBretz}},
                     \code{\link[mvtnorm]{Miwa}} or \code{\link[mvtnorm]{TVPACK}}
