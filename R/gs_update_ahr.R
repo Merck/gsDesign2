@@ -117,7 +117,7 @@
 #'   event_tbl = data.frame(analysis = c(1, 1, 2, 2),
 #'                          event = c(50, 140, 50, 250)))
 #'
-#' # Alpha is updated to 0.05 ----
+#' # Alpha is updated to 0.05
 #' gs_update_ahr(x = x, alpha = 0.05)
 gs_update_ahr <- function(
     x = NULL,
