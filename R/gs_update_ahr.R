@@ -323,37 +323,37 @@ gs_update_ahr <- function(
     analysis = 1:n_analysis,
     time = x$analysis$time,
     n = x$analysis$n,
-    event = if (is.null(observed_data) && is.null(event_tbl)) {
+    event = if (is.null(event_tbl)) {
       x$analysis$event
     } else {
       observed_event
     },
-    ahr = if (is.null(observed_data) && is.null(event_tbl)) {
+    ahr = if (is.null(event_tbl)) {
       x$analysis$ahr
     } else {
       exp(-blinded_est$theta)
     },
-    theta = if (is.null(observed_data) && is.null(event_tbl)) {
+    theta = if (is.null(event_tbl)) {
       x$analysis$theta
     } else {
       blinded_est$theta
     },
-    info = if (is.null(observed_data) && is.null(event_tbl)) {
+    info = if (is.null(event_tbl)) {
       x$analysis$info
     } else {
       blinded_est$info0
     },
-    info0 = if (is.null(observed_data) && is.null(event_tbl)) {
+    info0 = if (is.null(event_tbl)) {
       x$analysis$info0
     } else {
       blinded_est$info0
     },
-    info_frac = if (is.null(observed_data) && is.null(event_tbl)) {
+    info_frac = if (is.null(event_tbl)) {
       x$analysis$info_frac
     } else {
       upar_update$timing
     },
-    info_frac0 = if (is.null(observed_data) && is.null(event_tbl)) {
+    info_frac0 = if (is.null(event_tbl)) {
       x$analysis$info_frac0
     } else {
       observed_event / max(observed_event)
