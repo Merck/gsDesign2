@@ -125,7 +125,7 @@ define_fail_rate <- function(
     hr = hr
   )
 
-  check_fail_rate(df)
+  df <- check_fail_rate(df)
 
   class(df) <- c("fail_rate", class(df))
 
