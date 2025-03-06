@@ -60,7 +60,7 @@ define_enroll_rate <- function(
     rate = rate
   )
 
-  check_enroll_rate(df)
+  df <- check_enroll_rate(df)
 
   class(df) <- c("enroll_rate", class(df))
 
