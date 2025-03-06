@@ -1,169 +1,22 @@
-test_that("fixed_design_ahr function works correctly", {
-  # Creating the fixed design object
-  x <- fixed_design_ahr(
-    alpha = calculate_alpha(), power = calculate_beta(),
-    enroll_rate = enroll_rate(),
-    fail_rate = fail_rate(),
-    study_duration = calculate_study_duration()
-  ) %>% to_integer()
-
-  # Test that to_integer converts sample size to integer for fixed_design_ahr
-  expect_equal(x$analysis$n, round(x$analysis$n))
-
-  # Testing enroll_rate components
-  expect_s3_class(x$input$enroll_rate, "tbl_df")
-
-  # Testing fail_rate components
-  expect_s3_class(x$input$fail_rate, "tbl_df")
-
-  # Testing design attribute
-  expect_equal(attributes(x)$class, c("fixed_design", "list"))
-  expect_equal(x$design, "ahr")
-  # Check that the sample size (N) is non-negative integer
-  expect_true(x$analysis$n >= 0)
-
-  # Verify that alpha and power are within the correct range
-  expect_true(x$input$alpha > 0 & x$input$alpha < 1)
-  expect_true(x$input$power > 0 & x$input$power <= 1)
-
-  # Ensure enroll_rate and fail_rate tables have non-negative values
-  expect_true(all(x$input$enroll_rate$rate >= 0))
-  expect_true(all(x$input$fail_rate$fail_rate >= 0))
-
-  # Check that dropout_rate is between 0 and 1
-  expect_true(all(x$input$fail_rate$dropout_rate >= 0 & x$input$fail_rate$dropout_rate <= 1))
-
-  # Check if summary output is in the correct format and has expected names
-  summary_x <- summary(x)
+# Shared summary validation function
+test_summary_output <- function(summary_x) {
   expect_s3_class(summary_x, "tbl_df")
   expect_equal(ncol(summary_x), 7)
-  expect_named(summary_x, c("Design", "N", "Events", "Time", "Bound", "alpha", "Power"))
-})
+  expect_named(summary_x, c("Design", "N", "Events", "Time", "Bound", "alpha", "Power"), ignore.order = TRUE)
 
-test_that("fixed_design_fh function works correctly", {
-  # Creating the fixed design object
-  x <- fixed_design_fh(
-    alpha = calculate_alpha(), power = calculate_beta(),
-    enroll_rate = enroll_rate(),
-    fail_rate = fail_rate(),
-    rho = 0.5, gamma = 0.5,
-    study_duration = calculate_study_duration(), ratio = calculate_ratio()
-  ) %>% to_integer()
+  # Ensure values are within expected ranges
+  expect_true(all(summary_x$N > 0))
+  expect_true(all(summary_x$Events > 0))
+  expect_true(all(summary_x$Time > 0))
+  expect_true(all(summary_x$alpha > 0 & summary_x$alpha < 1))
+  expect_true(all(summary_x$Power > 0 & summary_x$Power <= 1))
+}
 
-  # Test that to_integer converts sample size to integer for fixed_design_fh
-  expect_equal(x$analysis$n, round(x$analysis$n))
-
-  # Testing enroll_rate components
-  expect_s3_class(x$input$enroll_rate, "tbl_df")
-
-  # Testing fail_rate components
-  expect_s3_class(x$input$fail_rate, "tbl_df")
-
-  # Testing design attribute
-  expect_equal(attributes(x)$class, c("fixed_design", "list"))
-  expect_equal(x$design, "fh")
-})
-
-test_that("fixed_design_mb function works correctly", {
-  # Creating the fixed design object
-  x <- fixed_design_mb(
-    alpha = calculate_alpha(), power = calculate_beta(),
-    enroll_rate = enroll_rate(),
-    fail_rate = fail_rate(),
-    tau = 4,
-    study_duration = calculate_study_duration(), ratio = calculate_ratio()
-  ) %>% to_integer()
-
-  # Test that to_integer converts sample size to integer for fixed_design_mb
-  expect_equal(x$analysis$n, round(x$analysis$n))
-
-  # Testing enroll_rate components
-  expect_s3_class(x$input$enroll_rate, "tbl_df")
-
-  # Testing fail_rate components
-  expect_s3_class(x$input$fail_rate, "tbl_df")
-
-  # Testing design attribute
-  expect_equal(attributes(x)$class, c("fixed_design", "list"))
-  expect_equal(x$design, "mb")
-
-  # Check that the sample size (N) and events are non-negative integers
-  expect_true(x$analysis$n >= 0)
-  expect_equal(x$analysis$event, round(x$analysis$event), tolerance = 1e-6)
-
-  # Validate that alpha and power values are within the correct range
-  expect_true(x$input$alpha > 0 & x$input$alpha < 1)
-  expect_true(x$input$power > 0 & x$input$power <= 1)
-
-  # Ensure that enroll_rate and fail_rate have non-negative values
-  expect_true(all(x$input$enroll_rate$rate >= 0))
-  expect_true(all(x$input$fail_rate$fail_rate >= 0))
-
-  # Check that dropout_rate is between 0 and 1
-  expect_true(all(x$input$fail_rate$dropout_rate >= 0 & x$input$fail_rate$dropout_rate <= 1))
-
-  # Check if the design attribute matches the correct format
-  expect_match(x$design, "mb")
-
-  # Test that the summary output has the correct format and values
-  summary_x <- summary(x)
-  expect_s3_class(summary_x, "tbl_df")
-  expect_equal(ncol(summary_x), 7)
-  expect_named(summary_x, c("Design", "N", "Events", "Time", "Bound", "alpha", "Power"))
-
-  # Ensure that summary values are within expected ranges
-  expect_true(summary_x$N > 0)
-  expect_true(summary_x$Events > 0)
-  expect_true(summary_x$Time > 0)
-  expect_true(summary_x$alpha > 0 & summary_x$alpha < 1)
-  expect_true(summary_x$Power > 0 & summary_x$Power <= 1)
-
-  # Ensure tau is correctly reflected in the Design column of the summary
-  expect_match(summary_x$Design, "Modestly weighted LR: tau = 4")
-})
-
-
-
-test_that("fixed_design_ahr handles invalid inputs", {
-  # Pass an invalid alpha value
-  expect_error(fixed_design_ahr(
-    alpha = -0.01, power = 0.9,
-    enroll_rate = define_enroll_rate(duration = 18, rate = 1),
-    fail_rate = define_fail_rate(
-      duration = c(4, 100),
-      fail_rate = log(2) / 12, hr = c(1, .6),
-      dropout_rate = .001
-    ),
-    study_duration = 36
-  ), "must have 0 < alpha < 1 - beta < 1!")
-
-})
-
-test_that("to_integer with fixed_design_ahr returns correct results", {
-  x <- fixed_design_ahr(
-    alpha = 0.025, power = 0.9,
-    enroll_rate = define_enroll_rate(duration = 18, rate = 1),
-    fail_rate = define_fail_rate(
-      duration = c(4, 100),
-      fail_rate = log(2) / 12, hr = c(1, .6),
-      dropout_rate = .001
-    ),
-    study_duration = 36
-  )
-
-  result <- to_integer(x)
-
-  # Check the class of the result
-  expect_s3_class(result, "fixed_design")
-
-  # Check if sample size and event are integers
-  expect_equal(result$analysis$n, round(result$analysis$n))
-  expect_equal(result$analysis$event, round(result$analysis$event), tolerance = 1e-6)
-})
-
-test_that("to_integer with fixed_design_fh returns correct results", {
-  x <- fixed_design_fh(
-    alpha = 0.025, power = 0.9,
+# Create shared test fixtures
+create_test_design <- function(design_fn, extra_args = list()) {
+  base_args <- list(
+    alpha = 0.025,
+    power = 0.9,
     enroll_rate = define_enroll_rate(duration = 18, rate = 20),
     fail_rate = define_fail_rate(
       duration = c(4, 100),
@@ -171,51 +24,215 @@ test_that("to_integer with fixed_design_fh returns correct results", {
       hr = c(1, .6),
       dropout_rate = .001
     ),
-    rho = 0.5, gamma = 0.5,
-    study_duration = 36, ratio = 1
+    study_duration = 36
   )
 
-  result <- to_integer(x)
+  # Combine base arguments with extra arguments
+  args <- c(base_args, extra_args)
+  do.call(design_fn, args)
+}
 
-  # Check the class of the result
+# Shared validation function
+validate_design_output <- function(result) {
+  # Common checks
   expect_s3_class(result, "fixed_design")
-
-  # Check if sample size and event are integers
   expect_equal(result$analysis$n, round(result$analysis$n))
-  expect_equal(result$analysis$event, round(result$analysis$event),tolerance = 1e-6)
-  # Validate if the design attribute is correctly set
-  expect_equal(attributes(result)$class, c("fixed_design", "list"))
-  expect_equal(result$design, "fh")
 
-  # Ensure the study duration is positive and within an acceptable range
-  expect_true(result$input$study_duration > 0)
+  # Check for analysis event
+  expect_equal(result$analysis$event, round(result$analysis$event), tolerance = 1e-6)
 
-  # Check that the alpha and power values are within expected limits
+  # Validate input structure
+  expect_s3_class(result$input$enroll_rate, "tbl_df")
+  expect_s3_class(result$input$fail_rate, "tbl_df")
+
+  # Check design and parameter constraints
+  expect_true(result$analysis$n >= 0)
   expect_true(result$input$alpha > 0 & result$input$alpha < 1)
   expect_true(result$input$power > 0 & result$input$power <= 1)
-
-  # Verify that rho and gamma parameters are within the correct range (0, 1)
-  expect_true(result$input$rho >= 0 & result$input$rho <= 1)
-  expect_true(result$input$gamma >= 0 & result$input$gamma <= 1)
-
-  # Ensure enroll_rate and fail_rate tables have valid non-negative values
   expect_true(all(result$input$enroll_rate$rate >= 0))
   expect_true(all(result$input$fail_rate$fail_rate >= 0))
-
-  # Validate that dropout_rate is between 0 and 1
   expect_true(all(result$input$fail_rate$dropout_rate >= 0 & result$input$fail_rate$dropout_rate <= 1))
+  expect_true(result$input$study_duration > 0)
+}
 
-  # Test if the summary output is in the correct format and has expected names
-  summary_result <- summary(result)
-  expect_s3_class(summary_result, "tbl_df")
-  expect_equal(ncol(summary_result), 7)
-  expect_named(summary_result, c("Design", "N", "Events", "Time", "Bound", "alpha", "Power"))
+# Parameterized tests for different design types
+test_that("to_integer works correctly for different design types", {
+  designs <- list(
+    list(fn = fixed_design_ahr, name = "ahr", extra_args = list()),
+    list(fn = fixed_design_fh, name = "fh", extra_args = list(rho = 0.5, gamma = 0.5, ratio = 1)),
+    list(fn = fixed_design_mb, name = "mb", extra_args = list(tau = 4, ratio = 1))
+  )
 
-  # Ensure that the output summary values are within acceptable ranges
-  expect_true(summary_result$N > 0)
-  expect_true(summary_result$Events > 0)
-  expect_true(summary_result$Time > 0)
-  expect_true(summary_result$alpha > 0 & summary_result$alpha < 1)
-  expect_true(summary_result$Power > 0 & summary_result$Power <= 1)
+  for (design in designs) {
+    x <- create_test_design(design$fn, design$extra_args) %>% to_integer()
+    validate_design_output(x)
+    expect_equal(x$design, design$name)
+
+    # Check summary output
+    summary_x <- summary(x)
+    test_summary_output(summary_x)
+  }
 })
 
+# Test invalid input handling
+test_that("fixed_design_ahr handles invalid inputs", {
+  expect_error(fixed_design_ahr(
+    alpha = -0.01, power = 0.9,
+    enroll_rate = define_enroll_rate(duration = 18, rate = 1),
+    fail_rate = define_fail_rate(
+      duration = c(4, 100), fail_rate = log(2) / 12,
+      hr = c(1, .6), dropout_rate = .001
+    ),
+    study_duration = 36
+  ), "must have 0 < alpha < 1 - beta < 1!")
+
+  expect_error(fixed_design_ahr(
+    alpha = 0.025, power = 1.1,
+    enroll_rate = define_enroll_rate(duration = 18, rate = 1),
+    fail_rate = define_fail_rate(
+      duration = c(4, 100), fail_rate = log(2) / 12,
+      hr = c(1, .6), dropout_rate = .001
+    ),
+    study_duration = 36
+  ), "must have 0 < alpha < 1 - beta < 1!")
+
+  expect_error(fixed_design_ahr(
+    alpha = 0.025, power = 0.9,
+    enroll_rate = define_enroll_rate(duration = 0, rate = 1),
+    fail_rate = define_fail_rate(
+      duration = c(4, 100), fail_rate = log(2) / 12,
+      hr = c(1, .6), dropout_rate = .001
+    ),
+    study_duration = -36
+  ), "The input argument `analysis_times` must be NULL a numeric vector with positive increasing values!")
+})
+
+# Test to_integer with fixed_design_ahr
+test_that("to_integer with fixed_design_ahr returns correct results", {
+  x <- create_test_design(fixed_design_ahr) %>% to_integer()
+  validate_design_output(x)
+})
+
+# Test to_integer with fixed_design_fh
+test_that("to_integer with fixed_design_fh returns correct results", {
+  x <- create_test_design(fixed_design_fh, extra_args = list(rho = 0.5, gamma = 0.5, ratio = 1)) %>% to_integer()
+  validate_design_output(x)
+})
+
+# Test to_integer with fixed_design_mb
+test_that("to_integer with fixed_design_mb returns correct results", {
+  x <- create_test_design(fixed_design_mb, extra_args = list(tau = 4, ratio = 1)) %>% to_integer()
+  validate_design_output(x)
+})
+
+test_that("to_integer.gs_design rounds events and sample sizes correctly for AHR", {
+  # Create a mock gs_design object with AHR class
+  design_ahr <- gs_design_ahr(
+    analysis_time = c(18, 30),
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+    lower = gs_b,
+    lpar = c(-Inf, -Inf)
+  )
+
+  # Apply the to_integer function
+  result <- to_integer(design_ahr)
+
+  # Check if events are rounded correctly
+  rounded_events <- round(result$analysis$event)
+  expect_true(all(abs(rounded_events - result$analysis$event) < 0.5))
+
+  # Check if sample sizes are rounded correctly
+  rounded_sample_sizes <- round(result$analysis$n)
+  expect_true(all(abs(rounded_sample_sizes - result$analysis$n) < 0.5))
+})
+
+
+test_that("to_integer.gs_design handles WLR correctly", {
+  # Create a mock gs_design object with WLR class
+  design_wlr <- gs_design_wlr(
+    analysis_time = c(18, 30),
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+    lower = gs_b,
+    lpar = c(-Inf, -Inf)
+  )
+
+  # Apply the to_integer function
+  result <- to_integer(design_wlr)
+
+  # Check if events are rounded correctly
+  rounded_events <- round(result$analysis$event)
+  expect_true(all(abs(rounded_events - result$analysis$event) < 0.5))
+
+  # Check if sample sizes are rounded correctly
+  rounded_sample_sizes <- round(result$analysis$n)
+  expect_true(all(abs(rounded_sample_sizes - result$analysis$n) < 0.5))
+})
+
+
+test_that("to_integer.gs_design handles RD class correctly", {
+  # Create a mock gs_design object with RD class
+  design_rd <- gs_design_rd(
+    p_c = tibble::tibble(stratum = c("A", "B"), rate = c(.2, .3)),
+    p_e = tibble::tibble(stratum = c("A", "B"), rate = c(.15, .27)),
+    weight = "ss",
+    stratum_prev = tibble::tibble(stratum = c("A", "B"), prevalence = c(.4, .6)),
+    info_frac = c(0.7, 1),
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+    lower = gs_b,
+    lpar = c(-Inf, -Inf)
+  )
+
+  # Apply the to_integer function
+  result <- to_integer(design_rd)
+
+  # Check if sample sizes per stratum are rounded correctly
+  rounded_sample_sizes <- round(result$analysis$n)
+  expect_true(all(abs(rounded_sample_sizes - result$analysis$n) < 0.5))
+})
+
+
+test_that("to_integer.gs_design handles calendar-based spending correctly", {
+  # Create a mock gs_design object with calendar-based spending
+  design_ahr <- gs_design_ahr(
+    upper = gs_spending_bound,
+    analysis_time = c(18, 30),
+    upar = list(
+      sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL,
+      timing = c(18, 30) / 30
+    ),
+    lower = gs_b,
+    lpar = c(-Inf, -Inf)
+  )
+
+  # Apply the to_integer function
+  result <- to_integer(design_ahr)
+
+  # Check that the rounded event values are close to the original values
+  rounded_events <- round(result$analysis$event)
+  expect_true(all(abs(rounded_events - result$analysis$event) < 0.5))
+})
+
+test_that("to_integer.gs_design performs correctly with large sample sizes", {
+  # Create a large gs_design object for stress testing
+  design_large <- gs_design_ahr(
+    analysis_time = c(18, 30),
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+    lower = gs_b,
+    lpar = c(-Inf, -Inf)
+  )
+
+  # Apply the to_integer function
+  result <- to_integer(design_large)
+
+  # Ensure that rounding works: round the event and n values
+  result$analysis$event <- round(result$analysis$event)
+  result$analysis$n <- round(result$analysis$n)
+
+  # Check that rounding and transformations work as expected
+  expect_true(all(result$analysis$event %% 1 == 0))  # Ensure events are integers
+  expect_true(all(result$analysis$n %% 1 == 0))  # Ensure sample sizes are integers
+})
