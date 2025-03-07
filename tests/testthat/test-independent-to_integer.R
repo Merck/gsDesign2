@@ -1,19 +1,5 @@
-# Shared summary validation function
-test_summary_output <- function(summary_x) {
-  expect_s3_class(summary_x, "tbl_df")
-  expect_equal(ncol(summary_x), 7)
-  expect_named(summary_x, c("Design", "N", "Events", "Time", "Bound", "alpha", "Power"), ignore.order = TRUE)
-
-  # Ensure values are within expected ranges
-  expect_true(all(summary_x$N > 0))
-  expect_true(all(summary_x$Events > 0))
-  expect_true(all(summary_x$Time > 0))
-  expect_true(all(summary_x$alpha > 0 & summary_x$alpha < 1))
-  expect_true(all(summary_x$Power > 0 & summary_x$Power <= 1))
-}
-
-# Create shared test fixtures
-create_test_design <- function(design_fn, extra_args = list()) {
+# Create common fixed designs
+create_fixed_design <- function(design_fn, extra_args = list()) {
   base_args <- list(
     alpha = 0.025,
     power = 0.9,
@@ -32,8 +18,8 @@ create_test_design <- function(design_fn, extra_args = list()) {
   do.call(design_fn, args)
 }
 
-# Shared validation function
-validate_design_output <- function(result) {
+# Validate fixed design outputs
+check_fixed_design_output <- function(result) {
   # Common checks
   expect_s3_class(result, "fixed_design")
   expect_equal(result$analysis$n, round(result$analysis$n))
@@ -55,8 +41,22 @@ validate_design_output <- function(result) {
   expect_true(result$input$study_duration > 0)
 }
 
-# Parameterized tests for different design types
-test_that("to_integer works correctly for different design types", {
+# Validate fixed design summary
+check_fixed_design_summary <- function(summary_x) {
+  expect_s3_class(summary_x, "tbl_df")
+  expect_equal(ncol(summary_x), 7)
+  expect_named(summary_x, c("Design", "N", "Events", "Time", "Bound", "alpha", "Power"), ignore.order = TRUE)
+
+  # Ensure values are within expected ranges
+  expect_true(all(summary_x$N > 0))
+  expect_true(all(summary_x$Events > 0))
+  expect_true(all(summary_x$Time > 0))
+  expect_true(all(summary_x$alpha > 0 & summary_x$alpha < 1))
+  expect_true(all(summary_x$Power > 0 & summary_x$Power <= 1))
+}
+
+# Parameterized tests for different fixed design types
+test_that("to_integer works correctly for different fixed design types", {
   designs <- list(
     list(fn = fixed_design_ahr, name = "ahr", extra_args = list()),
     list(fn = fixed_design_fh, name = "fh", extra_args = list(rho = 0.5, gamma = 0.5, ratio = 1)),
@@ -64,13 +64,13 @@ test_that("to_integer works correctly for different design types", {
   )
 
   for (design in designs) {
-    x <- create_test_design(design$fn, design$extra_args) %>% to_integer()
-    validate_design_output(x)
+    x <- create_fixed_design(design$fn, design$extra_args) |> to_integer()
+    check_fixed_design_output(x)
     expect_equal(x$design, design$name)
 
     # Check summary output
     summary_x <- summary(x)
-    test_summary_output(summary_x)
+    check_fixed_design_summary(summary_x)
   }
 })
 
@@ -84,7 +84,7 @@ test_that("fixed_design_ahr handles invalid inputs", {
       hr = c(1, .6), dropout_rate = .001
     ),
     study_duration = 36
-  ), "must have 0 < alpha < 1 - beta < 1!")
+  ), "must have 0 < alpha < 1 - beta < 1")
 
   expect_error(fixed_design_ahr(
     alpha = 0.025, power = 1.1,
@@ -94,7 +94,7 @@ test_that("fixed_design_ahr handles invalid inputs", {
       hr = c(1, .6), dropout_rate = .001
     ),
     study_duration = 36
-  ), "must have 0 < alpha < 1 - beta < 1!")
+  ), "must have 0 < alpha < 1 - beta < 1")
 
   expect_error(fixed_design_ahr(
     alpha = 0.025, power = 0.9,
@@ -104,25 +104,7 @@ test_that("fixed_design_ahr handles invalid inputs", {
       hr = c(1, .6), dropout_rate = .001
     ),
     study_duration = -36
-  ), "The input argument `analysis_times` must be NULL a numeric vector with positive increasing values!")
-})
-
-# Test to_integer with fixed_design_ahr
-test_that("to_integer with fixed_design_ahr returns correct results", {
-  x <- create_test_design(fixed_design_ahr) %>% to_integer()
-  validate_design_output(x)
-})
-
-# Test to_integer with fixed_design_fh
-test_that("to_integer with fixed_design_fh returns correct results", {
-  x <- create_test_design(fixed_design_fh, extra_args = list(rho = 0.5, gamma = 0.5, ratio = 1)) %>% to_integer()
-  validate_design_output(x)
-})
-
-# Test to_integer with fixed_design_mb
-test_that("to_integer with fixed_design_mb returns correct results", {
-  x <- create_test_design(fixed_design_mb, extra_args = list(tau = 4, ratio = 1)) %>% to_integer()
-  validate_design_output(x)
+  ), "The input argument `analysis_times` must be NULL a numeric vector with positive increasing values")
 })
 
 test_that("to_integer.gs_design rounds events and sample sizes correctly for AHR", {
@@ -147,7 +129,6 @@ test_that("to_integer.gs_design rounds events and sample sizes correctly for AHR
   expect_true(all(abs(rounded_sample_sizes - result$analysis$n) < 0.5))
 })
 
-
 test_that("to_integer.gs_design handles WLR correctly", {
   # Create a mock gs_design object with WLR class
   design_wlr <- gs_design_wlr(
@@ -170,7 +151,6 @@ test_that("to_integer.gs_design handles WLR correctly", {
   expect_true(all(abs(rounded_sample_sizes - result$analysis$n) < 0.5))
 })
 
-
 test_that("to_integer.gs_design handles RD class correctly", {
   # Create a mock gs_design object with RD class
   design_rd <- gs_design_rd(
@@ -192,7 +172,6 @@ test_that("to_integer.gs_design handles RD class correctly", {
   rounded_sample_sizes <- round(result$analysis$n)
   expect_true(all(abs(rounded_sample_sizes - result$analysis$n) < 0.5))
 })
-
 
 test_that("to_integer.gs_design handles calendar-based spending correctly", {
   # Create a mock gs_design object with calendar-based spending
@@ -233,6 +212,6 @@ test_that("to_integer.gs_design performs correctly with large sample sizes", {
   result$analysis$n <- round(result$analysis$n)
 
   # Check that rounding and transformations work as expected
-  expect_true(all(result$analysis$event %% 1 == 0))  # Ensure events are integers
-  expect_true(all(result$analysis$n %% 1 == 0))  # Ensure sample sizes are integers
+  expect_true(all(result$analysis$event %% 1 == 0)) # Ensure events are integers
+  expect_true(all(result$analysis$n %% 1 == 0)) # Ensure sample sizes are integers
 })
