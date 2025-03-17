@@ -24,22 +24,17 @@
 #' @param algorithm Numerical algorithms.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Define the analysis time from input fh_test.
-#'    \item Compute arm0 and arm1 using \code{gs_create_arm()}.
-#'    \item Set a unique test.
-#'    \item Compute the information fraction using \code{gs_info_combo()}.
-#'    \item Compute the correlation between tests.
-#'    \item Compute the correlation between analysis.
-#'    \item Compute the overall correlation.
-#'    \item Extract the sample size from  info.
-#'    \item Compute information restricted to actual analysis.
-#'    \item Compute the effect size.
-#'    \item Return a list of info_all = info, info = info_fh, theta = theta_fh, corr = corr_fh.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Define the analysis time from input fh_test.
+#' - Compute arm0 and arm1 using `gs_create_arm()`.
+#' - Set a unique test.
+#' - Compute the information fraction using `gs_info_combo()`.
+#' - Compute the correlation between tests.
+#' - Compute the correlation between analysis.
+#' - Compute the overall correlation.
+#' - Extract the sample size from  info.
+#' - Compute information restricted to actual analysis.
+#' - Compute the effect size.
+#' - Return a list of info_all = info, info = info_fh, theta = theta_fh, corr = corr_fh.
 #'
 #' @noRd
 gs_utility_combo <- function(enroll_rate,
@@ -397,17 +392,11 @@ gs_prob_combo <- function(upper_bound,
 #' @inheritParams pmvnorm_combo
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Create a vector of allocated alpha in each interim analysis from the cumulative allocated alpha.
-#'    \item Create a vector of allocated beta in each interim analysis from the cumulative allocated beta.
-#'    \item Extract the number of analysis.
-#'    \item Find the upper and lower bound by solving multivariate normal distribution using \code{pmvnorm_combo}
-#'    \item
-#'    \item Return a data frame of upper and lower boundaries of group sequential design.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Create a vector of allocated alpha in each interim analysis from the cumulative allocated alpha.
+#' - Create a vector of allocated beta in each interim analysis from the cumulative allocated beta.
+#' - Extract the number of analysis.
+#' - Find the upper and lower bound by solving multivariate normal distribution using `pmvnorm_combo`
+#' - Return a data frame of upper and lower boundaries of group sequential design.
 #'
 #' @examples
 #' library(gsDesign)

@@ -46,20 +46,17 @@ average HR at targeted \code{analysis_time}.
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if input event is a numeric value vector or a vector with increasing values.
-   \item Validate if input analysis_time is a numeric value vector or a vector with increasing values.
-   \item Validate if inputs event and analysis_time have the same length if they are both specified.
-   \item Compute average hazard ratio:
-   \itemize{
-     \item If analysis_time is specified, calculate average hazard ratio using \code{ahr()}.
-     \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
-   }
-   \item Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
-  }
+\itemize{
+\item Validate if input event is a numeric value vector or a vector with increasing values.
+\item Validate if input analysis_time is a numeric value vector or a vector with increasing values.
+\item Validate if inputs event and analysis_time have the same length if they are both specified.
+\item Compute average hazard ratio:
+\itemize{
+\item If analysis_time is specified, calculate average hazard ratio using \code{ahr()}.
+\item If event is specified, calculate average hazard ratio using \code{expected_time()}.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
+\item Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
+}
 }
 
 \examples{

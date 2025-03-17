@@ -35,22 +35,18 @@ The survival at time \eqn{t} is then
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if input enrollment rate is a strictly increasing non-negative numeric vector.
-   \item Validate if input failure rate is of type data.frame.
-   \item Validate if input failure rate contains duration column.
-   \item Validate if input failure rate contains rate column.
-   \item Validate if input lower_tail is logical.
-   \item Convert rates to step function.
-   \item Add times where rates change to enrollment rates.
-   \item Make a tibble of the input time points x, duration, hazard rates at points,
-   cumulative hazard and survival.
-   \item Extract the expected cumulative or survival of piecewise exponential distribution.
-   \item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
-  }
+\itemize{
+\item Validate if input enrollment rate is a strictly increasing non-negative numeric vector.
+\item Validate if input failure rate is of type data.frame.
+\item Validate if input failure rate contains duration column.
+\item Validate if input failure rate contains rate column.
+\item Validate if input lower_tail is logical.
+\item Convert rates to step function.
+\item Add times where rates change to enrollment rates.
+\item Make a tibble of the input time points x, duration, hazard rates at points, cumulative hazard and survival.
+\item Extract the expected cumulative or survival of piecewise exponential distribution.
+\item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

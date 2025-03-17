@@ -39,39 +39,36 @@ and enrollment pattern where the enrollment, failure and dropout rates changes o
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if input enrollment rate contains stratum column.
-   \item Validate if input enrollment rate contains total duration column.
-   \item Validate if input enrollment rate contains rate column.
-   \item Validate if input failure rate contains stratum column.
-   \item Validate if input failure rate contains duration column.
-   \item Validate if input failure rate contains failure rate column.
-   \item Validate if input failure rate contains hazard ratio column.
-   \item Validate if input failure rate contains dropout rate column.
-   \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
-   \item Validate if strata is the same in enrollment rate and failure rate.
-   \item Compute the proportion in each group.
-   \item Compute the expected events by treatment groups, stratum and time period.
-   \item Calculate the expected number of events for all time points in the total
-    duration and for all stratification variables.
-   \itemize{
-     \item Compute the expected events in for each strata.
-       \itemize{
-         \item Combine the expected number of events of all stratification variables.
-         \item Recompute events, hazard ratio and information under
-         the given scenario of the combined data for each strata.
-         }
-       \item Combine the results for all time points by summarizing the results by adding up the number of events,
-      information under the null and the given scenarios.
-      }
-   \item Return a data frame of overall event count, statistical information and average hazard ratio
-   of each value in total_duration.
-   \item Calculation of \code{ahr} for different design scenarios, and the comparison to the
-   simulation studies are defined in vignette/AHRVignette.Rmd.
-  }
+\itemize{
+\item Validate if input enrollment rate contains stratum column.
+\item Validate if input enrollment rate contains total duration column.
+\item Validate if input enrollment rate contains rate column.
+\item Validate if input failure rate contains stratum column.
+\item Validate if input failure rate contains duration column.
+\item Validate if input failure rate contains failure rate column.
+\item Validate if input failure rate contains hazard ratio column.
+\item Validate if input failure rate contains dropout rate column.
+\item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
+\item Validate if strata is the same in enrollment rate and failure rate.
+\item Compute the proportion in each group.
+\item Compute the expected events by treatment groups, stratum and time period.
+\item Calculate the expected number of events for all time points in the total
+duration and for all stratification variables.
+\itemize{
+\item Compute the expected events in for each strata.
+\itemize{
+\item Combine the expected number of events of all stratification variables.
+\item Recompute events, hazard ratio and information under
+the given scenario of the combined data for each strata.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
+\item Combine the results for all time points by summarizing the results by adding up the number of events,
+information under the null and the given scenarios.
+}
+\item Return a data frame of overall event count, statistical information and average hazard ratio
+of each value in total_duration.
+\item Calculation of \code{ahr} for different design scenarios, and the comparison to the
+simulation studies are defined in vignette/AHRVignette.Rmd.
+}
 }
 
 \examples{

@@ -32,9 +32,9 @@ gs_power_wlr(
 
 \item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
-\item{event}{A numerical vector specifying the targeted event at each analysis.}
+\item{event}{A numerical vector specifying the targeted events at each analysis. See details.}
 
-\item{analysis_time}{Targeted time of analysis. See details for properly set it up.}
+\item{analysis_time}{Targeted calendar timing of analyses. See details.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
@@ -45,7 +45,8 @@ default of \code{FALSE} is recommended.}
 \item \code{gs_b()}: fixed efficacy bounds.
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{upar}{Parameters passed to \code{upper}.
 \itemize{
@@ -55,7 +56,7 @@ default of \code{FALSE} is recommended.}
 \item \code{sf} for the spending function family.
 \item \code{total_spend} for total alpha spend.
 \item \code{param} for the parameter of the spending function.
-\item \code{timing} (not required for information-based spending) for the spending time if different from information-based spending.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
 }
 }}
 
@@ -100,14 +101,14 @@ Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
 Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 
-\item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to targeted event.}
+\item{interval}{An interval presumed to include the times at which
+expected event count is equal to targeted event.
+Normally, this can be ignored by the user as it is set to \code{c(.01, 1000)}.}
 
-\item{integer}{Logical value integer whether it is an integer design
-(i.e., integer sample size and events) or not. This argument is commonly
-used when creating integer design via \code{\link[=to_integer]{to_integer()}}.}
+\item{integer}{Indicator of whether integer sample size and events are intended. This argument is
+used when using \code{\link[=to_integer]{to_integer()}}.}
 }
 \value{
 A list with input parameters, enrollment rate,
@@ -118,15 +119,12 @@ Group sequential design power using weighted log rank test under non-proportiona
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Compute information and effect size for Weighted Log-rank test using \code{gs_info_wlr()}.
-   \item Compute group sequential bound computation with non-constant effect using \code{gs_power_npe()}.
-   \item Combine information and effect size and power and return a
-   tibble  with columns Analysis, Bound, Time, Events, Z, Probability, AHR,  theta, info, and info0.
-  }
+\itemize{
+\item Compute information and effect size for Weighted Log-rank test using \code{gs_info_wlr()}.
+\item Compute group sequential bound computation with non-constant effect using \code{gs_power_npe()}.
+\item Combine information and effect size and power and return a
+tibble  with columns Analysis, Bound, Time, Events, Z, Probability, AHR,  theta, info, and info0.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

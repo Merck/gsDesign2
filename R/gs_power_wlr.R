@@ -22,15 +22,10 @@
 #' @inheritParams gs_power_ahr
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Compute information and effect size for Weighted Log-rank test using \code{gs_info_wlr()}.
-#'    \item Compute group sequential bound computation with non-constant effect using \code{gs_power_npe()}.
-#'    \item Combine information and effect size and power and return a
+#' - Compute information and effect size for Weighted Log-rank test using `gs_info_wlr()`.
+#' - Compute group sequential bound computation with non-constant effect using `gs_power_npe()`.
+#' - Combine information and effect size and power and return a
 #'    tibble  with columns Analysis, Bound, Time, Events, Z, Probability, AHR,  theta, info, and info0.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
 #' @export
 #'

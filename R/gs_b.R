@@ -36,19 +36,10 @@
 #' @return Returns the vector input `par` if `k` is `NULL`, otherwise, `par[k]`.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if the input k is null as default.
-#'    \itemize{
-#'      \item If the input k is null as default, return the whole vector of
-#'      Z-values of the boundaries.
-#'      \item If the input k is not null, return the corresponding boundary
-#'      in the vector of Z-values.
-#'      }
-#'    \item Return a vector of boundaries.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Validate if the input k is null as default.
+#'   - If the input k is null as default, return the whole vector of Z-values of the boundaries.
+#'   - If the input k is not null, return the corresponding boundary in the vector of Z-values.
+#' - Return a vector of boundaries.
 #'
 #' @export
 #'

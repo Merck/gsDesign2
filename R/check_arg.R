@@ -32,14 +32,9 @@
 #' will not be executed.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Check if arg is NULL.
-#'    \item Extract the type, length and dim information from arg.
-#'    \item Compare with target values and report error message if it does not match.
-#'  }
-#'  }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Check if arg is NULL.
+#' - Extract the type, length and dim information from arg.
+#' - Compare with target values and report error message if it does not match.
 #'
 #' @examples
 #' tbl <- as.data.frame(matrix(1:9, nrow = 3))

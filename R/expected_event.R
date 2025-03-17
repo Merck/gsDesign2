@@ -45,34 +45,30 @@
 #'   The records in the returned data frame correspond to the input data frame `fail_rate`.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input enrollment rate contains total duration column.
-#'    \item Validate if input enrollment rate contains rate column.
-#'    \item Validate if input failure rate contains duration column.
-#'    \item Validate if input failure rate contains failure rate column.
-#'    \item Validate if input failure rate contains dropout rate column.
-#'    \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
-#'    \item Validate if input simple is logical.
-#'    \item Define a data frame with the start opening for enrollment at zero and cumulative duration.
-#'    Add the event (or failure) time corresponding to the start of the enrollment.
-#'    Finally, add the enrollment rate to the data frame
-#'    corresponding to the start and end (failure) time.
-#'    This will be recursively used to calculate the expected
-#'    number of events later. For details, see vignette/eEventsTheory.Rmd
-#'    \item Define a data frame including the cumulative duration of failure rates, the corresponding start time of
-#'    the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd
-#'    \item Only consider the failure rates in the interval of the end failure rate and total duration.
-#'    \item Compute the failure rates over time using \code{stepfun} which is used
-#'     to group rows by periods defined by fail_rate.
-#'    \item Compute the dropout rate over time using \code{stepfun}.
-#'    \item Compute the enrollment rate over time using \code{stepfun}. Details are
-#'    available in vignette/eEventsTheory.Rmd.
-#'    \item Compute expected events by interval at risk using the notations and descriptions in
-#'    vignette/eEventsTheory.Rmd.
-#'    \item Return \code{expected_event}
-#'  }
-#' }
+#' - Validate if input enrollment rate contains total duration column.
+#' - Validate if input enrollment rate contains rate column.
+#' - Validate if input failure rate contains duration column.
+#' - Validate if input failure rate contains failure rate column.
+#' - Validate if input failure rate contains dropout rate column.
+#' - Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
+#' - Validate if input simple is logical.
+#' - Define a data frame with the start opening for enrollment at zero and cumulative duration.
+#'   Add the event (or failure) time corresponding to the start of the enrollment.
+#'   Finally, add the enrollment rate to the data frame
+#'   corresponding to the start and end (failure) time.
+#'   This will be recursively used to calculate the expected
+#'   number of events later. For details, see `vignette/eEventsTheory.Rmd`
+#' - Define a data frame including the cumulative duration of failure rates, the corresponding start time of
+#'   the enrollment, failure rate and dropout rates.  For details, see `vignette/eEventsTheory.Rmd`
+#' - Only consider the failure rates in the interval of the end failure rate and total duration.
+#' - Compute the failure rates over time using `stepfun` which is used
+#'   to group rows by periods defined by fail_rate.
+#' - Compute the dropout rate over time using `stepfun`.
+#' - Compute the enrollment rate over time using `stepfun`. Details are
+#'   available in vignette/eEventsTheory.Rmd.
+#' - Compute expected events by interval at risk using the notations and descriptions in
+#'   `vignette/eEventsTheory.Rmd`.
+#' - Return `expected_event`
 #'
 #' @details
 #' More periods will generally be supplied in output than those that are input.
@@ -241,21 +237,21 @@ expected_event <- function(
 
 #' Find the "previous" values in a vector
 #'
-#' Fast replacement of \code{dplyr::lag} for the simple case of \code{n = 1L}
+#' Fast replacement of `dplyr::lag` for the simple case of `n = 1L`
 #' and always supplying a new value to insert at the beginning of the vector.
 #'
 #' Important: this function is fast because it provides minimal safety checks.
 #' It relies on the
 #' \href{https://adv-r.hadley.nz/vectors-chap.html#testing-and-coercion}{coercion
-#' rules} of \code{\link[base]{c}}. For best results, \code{x} and \code{first}
+#' rules} of \code{\link[base]{c}}. For best results, `x` and `first`
 #' should be the same type of atomic vector, though it should be fine to mix
-#' \code{numeric} and \code{integer} vectors as long as your own code also
+#' `numeric` and `integer` vectors as long as your own code also
 #' doesn't rely on this distinction. It can also work on lists if needed.
 #'
-#' @param x A vector (\code{length(x) > 0})
-#' @param first A single value (\code{length(first) == 1})
+#' @param x A vector (`length(x) > 0`)
+#' @param first A single value (`length(first) == 1`)
 #'
-#' @return a vector that begins with \code{first} and is followed by \code{x}
+#' @return a vector that begins with `first` and is followed by `x`
 #' with its final value removed
 #'
 #' @examples

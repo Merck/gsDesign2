@@ -20,17 +20,14 @@ to a piecewise exponential approximation.
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if input times is increasing positive finite numbers.
-   \item Validate if input survival is numeric and same length as input times.
-   \item Validate if input survival is positive, non-increasing, less than or equal to 1 and greater than 0.
-   \item Create a tibble of inputs times and survival.
-   \item Calculate the duration, hazard and the rate.
-   \item Return the duration and rate by \code{s2pwe}
- }
- }
-\if{html}{The contents of this section are shown in PDF user manual only.}
+\itemize{
+\item Validate if input times is increasing positive finite numbers.
+\item Validate if input survival is numeric and same length as input times.
+\item Validate if input survival is positive, non-increasing, less than or equal to 1 and greater than 0.
+\item Create a tibble of inputs times and survival.
+\item Calculate the duration, hazard and the rate.
+\item Return the duration and rate by \code{s2pwe}
+}
 }
 
 \examples{

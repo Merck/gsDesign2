@@ -38,12 +38,8 @@
 #'   `total_duration` input.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Use root-finding routine with `AHR()` to find time at which targeted events accrue.
-#'    \item Return a data frame with a single row with the output from `AHR()` got the specified output.
-#'    }
-#'  }
+#' - Use root-finding routine with `AHR()` to find time at which targeted events accrue.
+#' - Return a data frame with a single row with the output from `AHR()` got the specified output.
 #'
 #' @export
 #'

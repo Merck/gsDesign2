@@ -22,18 +22,13 @@
 #' @inheritParams gs_info_wlr
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input analysis_time is a positive number or a positive increasing sequence.
-#'    \item Validate if input info_frac is a positive number
-#'    or positive increasing sequence on (0, 1] with final value of 1.
-#'    \item Validate if inputs info_frac and analysis_time  have the same length if both have length > 1.
-#'    \item Compute information at input analysis_time using \code{gs_info_wlr()}.
-#'    \item Compute sample size and bounds using \code{gs_design_npe()}.
-#'    \item Return a list of design enrollment, failure rates, and bounds.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Validate if input analysis_time is a positive number or a positive increasing sequence.
+#' - Validate if input info_frac is a positive number
+#'   or positive increasing sequence on (0, 1] with final value of 1.
+#' - Validate if inputs info_frac and analysis_time  have the same length if both have length > 1.
+#' - Compute information at input analysis_time using `gs_info_wlr()`.
+#' - Compute sample size and bounds using `gs_design_npe()`.
+#' - Return a list of design enrollment, failure rates, and bounds.
 #'
 #' @export
 #' @return A list with input parameters, enrollment rate, analysis, and bound.

@@ -48,11 +48,12 @@ default of \code{FALSE} is recommended.}
 \item \code{sf} for the spending function family.
 \item \code{total_spend} for total alpha spend.
 \item \code{param} for the parameter of the spending function.
-\item \code{timing} (not required for information-based spending) for the spending time if different from information-based spending.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
 }
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
@@ -71,19 +72,16 @@ Group sequential design power using MaxCombo test under non-proportional hazards
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if lower and upper bounds have been specified.
-   \item Extract info, info_fh, theta_fh and corr_fh from utility.
-   \item Extract sample size via the maximum sample size of info.
-   \item Calculate information fraction either for fixed or group sequential design.
-   \item Compute spending function using \code{gs_bound()}.
-   \item Compute probability of crossing bounds under the null and alternative
-    hypotheses using \code{gs_prob_combo()}.
-   \item Export required information for boundary and crossing probability
-  }
+\itemize{
+\item Validate if lower and upper bounds have been specified.
+\item Extract info, info_fh, theta_fh and corr_fh from utility.
+\item Extract sample size via the maximum sample size of info.
+\item Calculate information fraction either for fixed or group sequential design.
+\item Compute spending function using \code{gs_bound()}.
+\item Compute probability of crossing bounds under the null and alternative
+hypotheses using \code{gs_prob_combo()}.
+\item Export required information for boundary and crossing probability
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

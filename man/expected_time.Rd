@@ -44,12 +44,10 @@ where the enrollment, failure and dropout rates changes over time.
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Use root-finding routine with `AHR()` to find time at which targeted events accrue.
-   \item Return a data frame with a single row with the output from `AHR()` got the specified output.
-   }
- }
+\itemize{
+\item Use root-finding routine with \code{AHR()} to find time at which targeted events accrue.
+\item Return a data frame with a single row with the output from \code{AHR()} got the specified output.
+}
 }
 
 \examples{

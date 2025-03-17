@@ -38,18 +38,13 @@
 #' @return A list with grid points in `z` and numerical integration weights in `w`.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Define odd numbered grid points for real line.
-#'    \item Trim points outside of $[a, b]$ and include those points.
-#'    \item If extreme, include only 1 point where density will be essentially 0.
-#'    \item Define even numbered grid points between the odd ones.
-#'    \item Compute weights for odd numbered grid points.
-#'    \item Combine odd- and even-numbered grid points with their corresponding weights.
-#'    \item Return a tibble of with grid points in z and numerical integration weights in z.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Define odd numbered grid points for real line.
+#' - Trim points outside of $[a, b]$ and include those points.
+#' - If extreme, include only 1 point where density will be essentially 0.
+#' - Define even numbered grid points between the odd ones.
+#' - Compute weights for odd numbered grid points.
+#' - Combine odd- and even-numbered grid points with their corresponding weights.
+#' - Return a tibble of with grid points in z and numerical integration weights in z.
 #'
 #' @noRd
 #'
@@ -83,15 +78,10 @@ gridpts <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
 #' Mean for standard normal distribution under consideration is `mu = theta * sqrt(I)`.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Compute drift at analysis 1.
-#'    \item Compute deviation from drift.
-#'    \item Compute standard normal density, multiply by grid weight.
-#'    \item Return a tibble of z, w, and h.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Compute drift at analysis 1.
+#' - Compute deviation from drift.
+#' - Compute standard normal density, multiply by grid weight.
+#' - Return a tibble of z, w, and h.
 #'
 #' @noRd
 #'
@@ -127,15 +117,10 @@ h1 <- function(r = 18, theta = 0, info = 1, a = -Inf, b = Inf) {
 #'   and variance 1 times the weight in `h`.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Compute the square root of the change in information.
-#'    \item Compute the grid points for group sequential design numerical integration.
-#'    \item Update the integration.
-#'    \item Return a tibble of z, w, and h.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Compute the square root of the change in information.
+#' - Compute the grid points for group sequential design numerical integration.
+#' - Update the integration.
+#' - Return a tibble of z, w, and h.
 #'
 #' @noRd
 #'

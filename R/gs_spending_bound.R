@@ -56,20 +56,15 @@
 #'   generates an error message.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Set the spending time at analysis.
-#'    \item Compute the cumulative spending at analysis.
-#'    \item Compute the incremental spend at each analysis.
-#'    \item Set test_bound a vector of length k > 1 if input as a single value.
-#'    \item Compute spending for current bound.
-#'    \item Iterate to convergence as in gsbound.c from gsDesign.
-#'    \item Compute subdensity for final analysis in rejection region.
-#'    \item Validate the output and return an error message in case of failure.
-#'    \item Return a numeric bound (possibly infinite).
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Set the spending time at analysis.
+#' - Compute the cumulative spending at analysis.
+#' - Compute the incremental spend at each analysis.
+#' - Set test_bound a vector of length k > 1 if input as a single value.
+#' - Compute spending for current bound.
+#' - Iterate to convergence as in gsbound.c from gsDesign.
+#' - Compute subdensity for final analysis in rejection region.
+#' - Validate the output and return an error message in case of failure.
+#' - Return a numeric bound (possibly infinite).
 #'
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
 #'

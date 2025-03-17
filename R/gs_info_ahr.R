@@ -36,20 +36,13 @@
 #'   `ahr` is the expected average hazard ratio at each analysis.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input event is a numeric value vector or a vector with increasing values.
-#'    \item Validate if input analysis_time is a numeric value vector or a vector with increasing values.
-#'    \item Validate if inputs event and analysis_time have the same length if they are both specified.
-#'    \item Compute average hazard ratio:
-#'    \itemize{
-#'      \item If analysis_time is specified, calculate average hazard ratio using \code{ahr()}.
-#'      \item If event is specified, calculate average hazard ratio using \code{expected_time()}.
-#'    }
-#'    \item Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Validate if input event is a numeric value vector or a vector with increasing values.
+#' - Validate if input analysis_time is a numeric value vector or a vector with increasing values.
+#' - Validate if inputs event and analysis_time have the same length if they are both specified.
+#' - Compute average hazard ratio:
+#'   - If analysis_time is specified, calculate average hazard ratio using `ahr()`.
+#'   - If event is specified, calculate average hazard ratio using `expected_time()`.
+#' - Return a data frame of Analysis, Time, AHR, Events, theta, info, info0.
 #'
 #' @details
 #' The [ahr()] function computes statistical information at targeted

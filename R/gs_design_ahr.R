@@ -18,8 +18,8 @@
 
 #' Calculate sample size and bounds given targeted power and Type I error in group sequential design using average hazard ratio under non-proportional hazards
 #'
-#' @param enroll_rate Enrollment rates defined by \code{define_enroll_rate()}.
-#' @param fail_rate Failure and dropout rates defined by \code{define_fail_rate()}.
+#' @param enroll_rate Enrollment rates defined by `define_enroll_rate()`.
+#' @param fail_rate Failure and dropout rates defined by `define_fail_rate()`.
 #' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
@@ -28,8 +28,8 @@
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param upper Function to compute upper bound.
-#'   - \code{gs_spending_bound()}: alpha-spending efficacy bounds.
-#'   - \code{gs_b()}: fixed efficacy bounds.
+#'   - `gs_spending_bound()`: alpha-spending efficacy bounds.
+#'   - `gs_b()`: fixed efficacy bounds.
 #' @param upar Parameters passed to `upper`.
 #'   - If `upper = gs_b`, then `upar` is a numerical vector specifying the fixed efficacy bounds per analysis.
 #'   - If `upper = gs_spending_bound`, then `upar` is a list including

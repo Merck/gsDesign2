@@ -95,32 +95,25 @@
 #' will be used to ensure Type I error and other boundary properties are as specified.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input info is a numeric vector  or NULL, if non-NULL validate if it
-#'    is strictly increasing and positive.
-#'    \item Validate if input info0 is a numeric vector or NULL, if non-NULL validate if it
-#'     is strictly increasing and positive.
-#'    \item Validate if input info1 is a numeric vector or NULL, if non-NULL validate if it
-#'    is strictly increasing and positive.
-#'    \item Validate if input theta is a real vector and has the same length as info.
-#'    \item Validate if input theta1 is a real vector and has the same length as info.
-#'    \item Validate if input test_upper and test_lower are logical and have the same length as info.
-#'    \item Validate if input test_upper value is TRUE.
-#'    \item Validate if input alpha and beta are positive and of length one.
-#'    \item Validate if input alpha and beta are from the unit interval and alpha is smaller than beta.
-#'    \item Initialize bounds, numerical integration grids, boundary crossing probabilities.
-#'    \item Compute fixed sample size for desired power and Type I error.
-#'    \item Find an interval for information inflation to give correct power using \code{gs_power_npe()}.
-
-#'    \item
-#'    \item If there is no interim analysis, return a tibble including Analysis time, upper bound, Z-value,
-#'    Probability of crossing bound, theta, info0 and info1.
-#'    \item If the design is a group sequential design, return a tibble of Analysis,
-#'     Bound, Z, Probability,  theta, info, info0.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Validate if input info is a numeric vector  or NULL, if non-NULL validate if it
+#'   is strictly increasing and positive.
+#' - Validate if input info0 is a numeric vector or NULL, if non-NULL validate if it
+#'   is strictly increasing and positive.
+#' - Validate if input info1 is a numeric vector or NULL, if non-NULL validate if it
+#'   is strictly increasing and positive.
+#' - Validate if input theta is a real vector and has the same length as info.
+#' - Validate if input theta1 is a real vector and has the same length as info.
+#' - Validate if input test_upper and test_lower are logical and have the same length as info.
+#' - Validate if input test_upper value is TRUE.
+#' - Validate if input alpha and beta are positive and of length one.
+#' - Validate if input alpha and beta are from the unit interval and alpha is smaller than beta.
+#' - Initialize bounds, numerical integration grids, boundary crossing probabilities.
+#' - Compute fixed sample size for desired power and Type I error.
+#' - Find an interval for information inflation to give correct power using `gs_power_npe()`.
+#' - If there is no interim analysis, return a tibble including Analysis time, upper bound, Z-value,
+#'   Probability of crossing bound, theta, info0 and info1.
+#' - If the design is a group sequential design, return a tibble of Analysis,
+#'   Bound, Z, Probability,  theta, info, info0.
 #'
 #' @author Keaven Anderson \email{keaven_anderson@@merck.com}
 #'

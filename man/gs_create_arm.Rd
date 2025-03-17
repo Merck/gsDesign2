@@ -23,28 +23,25 @@ Create npsurvSS arm object
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if there is only one stratum.
-   \item Calculate the accrual duration.
-   \item calculate the accrual intervals.
-   \item Calculate the accrual parameter as the proportion of enrollment rate*duration.
-   \item Set cure proportion to zero.
-   \item set survival intervals and shape.
-   \item Set fail rate in fail_rate to the Weibull scale parameter for the survival distribution in the arm 0.
-   \item Set the multiplication of hazard ratio and fail rate to the Weibull scale parameter
-   for the survival distribution in the arm 1.
-   \item Set the shape parameter to one as the exponential distribution for
-   shape parameter for the loss to follow-up distribution
-   \item Set the scale parameter to one as the scale parameter for the loss to follow-up
-    distribution since the exponential distribution is supported only
-   \item Create arm 0 using \code{npsurvSS::create_arm()} using the parameters for arm 0.
-   \item Create arm 1 using \code{npsurvSS::create_arm()} using the parameters for arm 1.
-   \item Set the class of the two arms.
-   \item Return a list of the two arms.
-  }
+\itemize{
+\item Validate if there is only one stratum.
+\item Calculate the accrual duration.
+\item calculate the accrual intervals.
+\item Calculate the accrual parameter as the proportion of enrollment rate*duration.
+\item Set cure proportion to zero.
+\item set survival intervals and shape.
+\item Set fail rate in fail_rate to the Weibull scale parameter for the survival distribution in the arm 0.
+\item Set the multiplication of hazard ratio and fail rate to the Weibull scale parameter
+for the survival distribution in the arm 1.
+\item Set the shape parameter to one as the exponential distribution for
+shape parameter for the loss to follow-up distribution
+\item Set the scale parameter to one as the scale parameter for the loss to follow-up
+distribution since the exponential distribution is supported only
+\item Create arm 0 using \code{npsurvSS::create_arm()} using the parameters for arm 0.
+\item Create arm 1 using \code{npsurvSS::create_arm()} using the parameters for arm 1.
+\item Set the class of the two arms.
+\item Return a list of the two arms.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

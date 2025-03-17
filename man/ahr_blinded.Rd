@@ -47,21 +47,18 @@ specified here.
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate input hr is a numeric vector.
-   \item Validate input hr is non-negative.
-   \item Validate input intervals is a numeric vector > 0.
-   \item Set final value in intervals to Inf
-   \item Validate that hr and intervals have same length.
-   \item For input time-to-event data, count number of events in each input interval by stratum.
-   \item Compute the blinded estimate of average hazard ratio.
-   \item Compute adjustment for information.
-   \item Return a tibble of the sum of events, average hazard ratio,
-   blinded average hazard ratio, and the information.
-  }
+\itemize{
+\item Validate input hr is a numeric vector.
+\item Validate input hr is non-negative.
+\item Validate input intervals is a numeric vector > 0.
+\item Set final value in intervals to Inf
+\item Validate that hr and intervals have same length.
+\item For input time-to-event data, count number of events in each input interval by stratum.
+\item Compute the blinded estimate of average hazard ratio.
+\item Compute adjustment for information.
+\item Return a tibble of the sum of events, average hazard ratio,
+blinded average hazard ratio, and the information.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

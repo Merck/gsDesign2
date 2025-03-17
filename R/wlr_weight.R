@@ -33,16 +33,11 @@
 #' @param power A scalar parameter that controls the power of the weight function.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Compute the sample size via the sum of arm sizes.
-#'    \item Compute the proportion of size in the two arms.
-#'    \item If the input tau is specified, define time up to the cut off time tau.
-#'    \item Compute the CDF using the proportion of the size in the two arms and \code{npsruvSS::psurv()}.
-#'    \item Return the Fleming-Harrington weights for weighted Log-rank test.
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Compute the sample size via the sum of arm sizes.
+#' - Compute the proportion of size in the two arms.
+#' - If the input tau is specified, define time up to the cut off time tau.
+#' - Compute the CDF using the proportion of the size in the two arms and `npsruvSS::psurv()`.
+#' - Return the Fleming-Harrington weights for weighted Log-rank test.
 #'
 #' @name wlr_weight
 

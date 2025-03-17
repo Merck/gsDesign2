@@ -111,39 +111,25 @@ are not supported by \code{gs_power_npe()}.
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Extract the length of input info as the number of interim analysis.
-   \item Validate if input info0 is NULL, so set it equal to info.
-   \item Validate if the length of inputs info and info0 are the same.
-   \item Validate if input theta is a scalar, so replicate
-   the value for all k interim analysis.
-   \item Validate if input theta1 is NULL and if it is a scalar.
-   If it is NULL, set it equal to input theta. If it is a scalar,
-   replicate the value for all k interim analysis.
-   \item Validate if input test_upper is a scalar,
-   so replicate the value for all k interim analysis.
-   \item Validate if input test_lower is a scalar,
-   so replicate the value for all k interim analysis.
-   \item Define vector a to be -Inf with
-   length equal to the number of interim analysis.
-   \item Define vector b to be Inf with
-   length equal to the number of interim analysis.
-   \item Define hgm1_0 and hgm1 to be NULL.
-   \item Define upper_prob and lower_prob to be
-   vectors of NA with length of the number of interim analysis.
-   \item Update lower and upper bounds using \code{gs_b()}.
-   \item If there are no interim analysis, compute probabilities
-   of crossing upper and lower bounds
-   using \code{h1()}.
-   \item Compute cross upper and lower bound probabilities
-   using \code{hupdate()} and \code{h1()}.
-   \item Return a tibble of analysis number, bound, z-values,
-   probability of crossing bounds,
-   theta, theta1, info, and info0.
-  }
+\itemize{
+\item Extract the length of input info as the number of interim analysis.
+\item Validate if input info0 is NULL, so set it equal to info.
+\item Validate if the length of inputs info and info0 are the same.
+\item Validate if input theta is a scalar, so replicate the value for all k interim analysis.
+\item Validate if input theta1 is NULL and if it is a scalar.
+If it is NULL, set it equal to input theta. If it is a scalar,
+replicate the value for all k interim analysis.
+\item Validate if input test_upper is a scalar, so replicate the value for all k interim analysis.
+\item Validate if input test_lower is a scalar, so replicate the value for all k interim analysis.
+\item Define vector a to be -Inf with length equal to the number of interim analysis.
+\item Define vector b to be Inf with length equal to the number of interim analysis.
+\item Define hgm1_0 and hgm1 to be NULL.
+\item Define upper_prob and lower_prob to be vectors of NA with length of the number of interim analysis.
+\item Update lower and upper bounds using \code{gs_b()}.
+\item If there are no interim analysis, compute probabilities of crossing upper and lower bounds using \code{h1()}.
+\item Compute cross upper and lower bound probabilities using \code{hupdate()} and \code{h1()}.
+\item Return a tibble of analysis number, bound, z-values, probability of crossing bounds, theta, theta1, info, and info0.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

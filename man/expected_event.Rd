@@ -56,33 +56,31 @@ maximize flexibility for a variety of purposes.
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if input enrollment rate contains total duration column.
-   \item Validate if input enrollment rate contains rate column.
-   \item Validate if input failure rate contains duration column.
-   \item Validate if input failure rate contains failure rate column.
-   \item Validate if input failure rate contains dropout rate column.
-   \item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
-   \item Validate if input simple is logical.
-   \item Define a data frame with the start opening for enrollment at zero and cumulative duration.
-   Add the event (or failure) time corresponding to the start of the enrollment.
-   Finally, add the enrollment rate to the data frame
-   corresponding to the start and end (failure) time.
-   This will be recursively used to calculate the expected
-   number of events later. For details, see vignette/eEventsTheory.Rmd
-   \item Define a data frame including the cumulative duration of failure rates, the corresponding start time of
-   the enrollment, failure rate and dropout rates.  For details, see vignette/eEventsTheory.Rmd
-   \item Only consider the failure rates in the interval of the end failure rate and total duration.
-   \item Compute the failure rates over time using \code{stepfun} which is used
-    to group rows by periods defined by fail_rate.
-   \item Compute the dropout rate over time using \code{stepfun}.
-   \item Compute the enrollment rate over time using \code{stepfun}. Details are
-   available in vignette/eEventsTheory.Rmd.
-   \item Compute expected events by interval at risk using the notations and descriptions in
-   vignette/eEventsTheory.Rmd.
-   \item Return \code{expected_event}
- }
+\itemize{
+\item Validate if input enrollment rate contains total duration column.
+\item Validate if input enrollment rate contains rate column.
+\item Validate if input failure rate contains duration column.
+\item Validate if input failure rate contains failure rate column.
+\item Validate if input failure rate contains dropout rate column.
+\item Validate if input trial total follow-up (total duration) is a non-empty vector of positive integers.
+\item Validate if input simple is logical.
+\item Define a data frame with the start opening for enrollment at zero and cumulative duration.
+Add the event (or failure) time corresponding to the start of the enrollment.
+Finally, add the enrollment rate to the data frame
+corresponding to the start and end (failure) time.
+This will be recursively used to calculate the expected
+number of events later. For details, see \code{vignette/eEventsTheory.Rmd}
+\item Define a data frame including the cumulative duration of failure rates, the corresponding start time of
+the enrollment, failure rate and dropout rates.  For details, see \code{vignette/eEventsTheory.Rmd}
+\item Only consider the failure rates in the interval of the end failure rate and total duration.
+\item Compute the failure rates over time using \code{stepfun} which is used
+to group rows by periods defined by fail_rate.
+\item Compute the dropout rate over time using \code{stepfun}.
+\item Compute the enrollment rate over time using \code{stepfun}. Details are
+available in vignette/eEventsTheory.Rmd.
+\item Compute expected events by interval at risk using the notations and descriptions in
+\code{vignette/eEventsTheory.Rmd}.
+\item Return \code{expected_event}
 }
 }
 

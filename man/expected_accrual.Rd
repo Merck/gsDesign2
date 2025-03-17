@@ -24,22 +24,19 @@ given a set of piecewise constant enrollment rates and times.
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if input x is a vector of strictly increasing non-negative numeric elements.
-   \item Validate if input enrollment rate is of type data.frame.
-   \item Validate if input enrollment rate contains duration column.
-   \item Validate if input enrollment rate contains rate column.
-   \item Validate if rate in input enrollment rate is non-negative with at least one positive rate.
-   \item Convert rates to step function.
-   \item Add times where rates change to enrollment rates.
-   \item Make a tibble of the input time points x, duration, enrollment rates at points, and
-   expected accrual.
-   \item Extract the expected cumulative or survival enrollment.
-   \item Return \code{expected_accrual}
-  }
+\itemize{
+\item Validate if input x is a vector of strictly increasing non-negative numeric elements.
+\item Validate if input enrollment rate is of type data.frame.
+\item Validate if input enrollment rate contains duration column.
+\item Validate if input enrollment rate contains rate column.
+\item Validate if rate in input enrollment rate is non-negative with at least one positive rate.
+\item Convert rates to step function.
+\item Add times where rates change to enrollment rates.
+\item Make a tibble of the input time points x, duration, enrollment rates at points, and
+expected accrual.
+\item Extract the expected cumulative or survival enrollment.
+\item Return \code{expected_accrual}
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
 }
 
 \examples{

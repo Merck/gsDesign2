@@ -23,19 +23,14 @@
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if lower and upper bounds have been specified.
-#'    \item Extract info, info_fh, theta_fh and corr_fh from utility.
-#'    \item Extract sample size via the maximum sample size of info.
-#'    \item Calculate information fraction either for fixed or group sequential design.
-#'    \item Compute spending function using \code{gs_bound()}.
-#'    \item Compute probability of crossing bounds under the null and alternative
-#'     hypotheses using \code{gs_prob_combo()}.
-#'    \item Export required information for boundary and crossing probability
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Validate if lower and upper bounds have been specified.
+#' - Extract info, info_fh, theta_fh and corr_fh from utility.
+#' - Extract sample size via the maximum sample size of info.
+#' - Calculate information fraction either for fixed or group sequential design.
+#' - Compute spending function using `gs_bound()`.
+#' - Compute probability of crossing bounds under the null and alternative
+#'   hypotheses using `gs_prob_combo()`.
+#' - Export required information for boundary and crossing probability
 #'
 #' @export
 #'

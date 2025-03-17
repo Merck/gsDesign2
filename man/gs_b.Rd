@@ -30,19 +30,14 @@ For instance, for spending function bounds use \code{\link[=gs_spending_bound]{g
 }
 \section{Specification}{
 
-\if{latex}{
- \itemize{
-   \item Validate if the input k is null as default.
-   \itemize{
-     \item If the input k is null as default, return the whole vector of
-     Z-values of the boundaries.
-     \item If the input k is not null, return the corresponding boundary
-     in the vector of Z-values.
-     }
-   \item Return a vector of boundaries.
-  }
+\itemize{
+\item Validate if the input k is null as default.
+\itemize{
+\item If the input k is null as default, return the whole vector of Z-values of the boundaries.
+\item If the input k is not null, return the corresponding boundary in the vector of Z-values.
 }
-\if{html}{The contents of this section are shown in PDF user manual only.}
+\item Return a vector of boundaries.
+}
 }
 
 \examples{

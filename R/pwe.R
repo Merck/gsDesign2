@@ -40,22 +40,16 @@
 #' \deqn{S(t)=\exp(-\Lambda(t)).}
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input enrollment rate is a strictly increasing non-negative numeric vector.
-#'    \item Validate if input failure rate is of type data.frame.
-#'    \item Validate if input failure rate contains duration column.
-#'    \item Validate if input failure rate contains rate column.
-#'    \item Validate if input lower_tail is logical.
-#'    \item Convert rates to step function.
-#'    \item Add times where rates change to enrollment rates.
-#'    \item Make a tibble of the input time points x, duration, hazard rates at points,
-#'    cumulative hazard and survival.
-#'    \item Extract the expected cumulative or survival of piecewise exponential distribution.
-#'    \item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
-#'   }
-#' }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Validate if input enrollment rate is a strictly increasing non-negative numeric vector.
+#' - Validate if input failure rate is of type data.frame.
+#' - Validate if input failure rate contains duration column.
+#' - Validate if input failure rate contains rate column.
+#' - Validate if input lower_tail is logical.
+#' - Convert rates to step function.
+#' - Add times where rates change to enrollment rates.
+#' - Make a tibble of the input time points x, duration, hazard rates at points, cumulative hazard and survival.
+#' - Extract the expected cumulative or survival of piecewise exponential distribution.
+#' - If input lower_tail is true, return the CDF, else return the survival for `ppwe`
 #'
 #' @export
 #'
@@ -138,17 +132,12 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
 #' @return A tibble containing the duration and rate.
 #'
 #' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Validate if input times is increasing positive finite numbers.
-#'    \item Validate if input survival is numeric and same length as input times.
-#'    \item Validate if input survival is positive, non-increasing, less than or equal to 1 and greater than 0.
-#'    \item Create a tibble of inputs times and survival.
-#'    \item Calculate the duration, hazard and the rate.
-#'    \item Return the duration and rate by \code{s2pwe}
-#'  }
-#'  }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#' - Validate if input times is increasing positive finite numbers.
+#' - Validate if input survival is numeric and same length as input times.
+#' - Validate if input survival is positive, non-increasing, less than or equal to 1 and greater than 0.
+#' - Create a tibble of inputs times and survival.
+#' - Calculate the duration, hazard and the rate.
+#' - Return the duration and rate by `s2pwe`
 #'
 #' @export
 #'
