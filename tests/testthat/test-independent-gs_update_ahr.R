@@ -66,9 +66,13 @@ for (i in seq_along(x$analysis$time)){
   data_list[[i]] <- xx$cut_data
 }
 
+delay_event_ia1 <- sum((observed_data %>% filter(fail_time <= 4, cte <= x$analysis$time[1]))$fail)
+delay_event_ia2 <- sum((observed_data %>% filter(fail_time <= 4, cte <= x$analysis$time[2]))$fail)
+delay_event_fa <- sum((observed_data %>% filter(fail_time <= 4, cte <= x$analysis$time[3]))$fail)
+
 observed_event_ia1 <- sum(data_list[[1]]$event)
 observed_event_ia2 <- sum(data_list[[2]]$event)
-observed_event_fa <- sum(data_list[[2]]$event)
+observed_event_fa <- sum(data_list[[3]]$event)
 
 planned_event_ia1 <- x$analysis$event[1]
 planned_event_ia2 <- x$analysis$event[2]
@@ -76,7 +80,10 @@ planned_event_fa <- x$analysis$event[3]
 
 ustime <- c(c(observed_event_ia1, observed_event_ia2) / planned_event_fa, 1)
 y <- gs_update_ahr(x, alpha = x$input$alpha,
-                   observed_data = data_list,
+                   event_tbl = data.frame(analysis =  c(1, 1, 2, 2, 3, 3),
+                                          event = c(delay_event_ia1, observed_event_ia1 - delay_event_ia1,
+                                                    delay_event_ia2, observed_event_ia2 - delay_event_ia2,
+                                                    delay_event_fa, observed_event_fa - delay_event_fa)),
                    ustime = ustime,
                    lstime = ustime)
 
