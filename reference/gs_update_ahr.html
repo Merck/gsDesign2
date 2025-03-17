@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
 <span>  alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ustime <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lstime <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  observed_data <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  event_tbl <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -70,16 +70,24 @@ with the spending time at each analysis.</p></dd>
 <dt id="arg-lstime">lstime<a class="anchor" aria-label="anchor" href="#arg-lstime"></a></dt>
 <dd><p>Default is NULL in which case lower bound spending time is determined by timing.
 Otherwise, this should be a vector of length k (total number of analyses)
-with the spending time at each analysis</p></dd>
+with the spending time at each analysis.</p></dd>
 
 
-<dt id="arg-observed-data">observed_data<a class="anchor" aria-label="anchor" href="#arg-observed-data"></a></dt>
-<dd><p>a list of observed datasets by analyses.</p></dd>
+<dt id="arg-event-tbl">event_tbl<a class="anchor" aria-label="anchor" href="#arg-event-tbl"></a></dt>
+<dd><p>A data frame with two columns: (1) analysis and (2) event,
+which represents the events observed at each analysis per piecewise interval.
+This can be defined via the <code>pw_observed_event()</code> function or manually entered.
+For example, consider a scenario with two intervals in the piecewise model:
+the first interval lasts 6 months with a hazard ratio (HR) of 1,
+and the second interval follows with an HR of 0.6.
+The data frame <code>event_tbl = data.frame(analysis = c(1, 1, 2, 2), event = c(30, 100, 30, 200))</code>
+indicates that 30 events were observed during the delayed effect period,
+130 events were observed at the IA, and 230 events were observed at the FA.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with input parameters, enrollment rate, analysis, and bound.</p>
+    <p>A list with input parameters, enrollment rate, failure rate, analysis, and bound.</p>
     </div>
 
     <div class="section level2">
@@ -109,259 +117,7 @@ with the spending time at each analysis</p></dd>
 <span class="r-in"><span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------------------------------- #</span></span></span>
-<span class="r-in"><span><span class="co"># Example A: one-sided design (efficacy only)</span></span></span>
-<span class="r-in"><span><span class="co"># ------------------------------------------------- #</span></span></span>
-<span class="r-in"><span><span class="co"># Original design</span></span></span>
-<span class="r-in"><span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="va">gs_spending_bound</span></span></span>
-<span class="r-in"><span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sfLDOF</span>, total_spend <span class="op">=</span> <span class="va">alpha</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
-<span class="r-in"><span>  alpha <span class="op">=</span> <span class="va">alpha</span>, beta <span class="op">=</span> <span class="va">beta</span>, ratio <span class="op">=</span> <span class="va">ratio</span>,</span></span>
-<span class="r-in"><span>  info_scale <span class="op">=</span> <span class="st">"h0_info"</span>,</span></span>
-<span class="r-in"><span>  info_frac <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">36</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>, upar <span class="op">=</span> <span class="va">upar</span>,</span></span>
-<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>, test_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Observed dataset at IA and FA</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">observed_data</span> <span class="op">&lt;-</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/sim_pw_surv.html" class="external-link">sim_pw_surv</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">n</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">analysis</span> <span class="op">==</span> <span class="fl">2</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  stratum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>stratum <span class="op">=</span> <span class="st">"All"</span>, p <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  block <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"experimental"</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">enroll_rate</span>,</span></span>
-<span class="r-in"><span>  fail_rate <span class="op">=</span> <span class="op">(</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/to_sim_pw_surv.html" class="external-link">to_sim_pw_surv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">fail_rate</span>,</span></span>
-<span class="r-in"><span>  dropout_rate <span class="op">=</span> <span class="op">(</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/to_sim_pw_surv.html" class="external-link">to_sim_pw_surv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">dropout_rate</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">observed_data_ia</span> <span class="op">&lt;-</span> <span class="va">observed_data</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/cut_data_by_date.html" class="external-link">cut_data_by_date</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">observed_data_fa</span> <span class="op">&lt;-</span> <span class="va">observed_data</span> <span class="op">|&gt;</span> <span class="fu">simtrial</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/simtrial/reference/cut_data_by_date.html" class="external-link">cut_data_by_date</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">observed_event_ia</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_ia</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">observed_event_fa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">observed_data_fa</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">planned_event_ia</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">planned_event_fa</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example A1 ----</span></span></span>
-<span class="r-in"><span><span class="co"># IA spending = observed events / final planned events</span></span></span>
-<span class="r-in"><span><span class="co"># the remaining alpha will be allocated to FA.</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">observed_event_ia</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  20.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  30.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0       z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper       0.315      0.004<span style="text-decoration: underline;">84</span>    2.59          0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper       0.901      0.025<span style="text-decoration: underline;">0</span>     1.99          0.794     0.023<span style="text-decoration: underline;">5</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.96388 366   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 35.81007 366   295 0.6832088 0.3809547 73.75 73.75 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example A2 ----</span></span></span>
-<span class="r-in"><span><span class="co"># IA, FA spending = observed events / final planned events</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">observed_event_ia</span>, <span class="va">observed_event_fa</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  20.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  30.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0       z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper       0.315      0.004<span style="text-decoration: underline;">84</span>    2.59          0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper       0.899      0.024<span style="text-decoration: underline;">5</span>     2.00          0.793     0.023<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.96388 366   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 35.81007 366   295 0.6832088 0.3809547 73.75 73.75 0.9932660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example A3 ----</span></span></span>
-<span class="r-in"><span><span class="co"># IA spending = min(observed events, planned events) / final planned events</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">observed_event_ia</span>, <span class="va">planned_event_ia</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  20.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  30.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0       z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper       0.315      0.004<span style="text-decoration: underline;">84</span>    2.59          0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper       0.901      0.025<span style="text-decoration: underline;">0</span>     1.99          0.794     0.023<span style="text-decoration: underline;">5</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.96388 366   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 35.81007 366   295 0.6832088 0.3809547 73.75 73.75 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example A4 ----</span></span></span>
-<span class="r-in"><span><span class="co"># IA spending = min(observed events, planned events) / final planned events</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">observed_event_ia</span>, <span class="va">planned_event_ia</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">observed_event_fa</span>, <span class="va">planned_event_fa</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  20.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  30.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0       z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper       0.315      0.004<span style="text-decoration: underline;">84</span>    2.59          0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper       0.899      0.024<span style="text-decoration: underline;">5</span>     2.00          0.793     0.023<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower       0          0       -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.96388 366   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 35.81007 366   295 0.6832088 0.3809547 73.75 73.75 0.9932660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># alpha is upadted to 0.05</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  20.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  30.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0       z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper       0.461       0.013<span style="text-decoration: underline;">8</span>    2.20          0.725      0.013<span style="text-decoration: underline;">8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper       0.943       0.049<span style="text-decoration: underline;">2</span>    1.69          0.821      0.045<span style="text-decoration: underline;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower       0           0      -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>          1     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower       0           0      -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">Inf</span>          1     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.96388 366   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 35.81007 366   295 0.6832088 0.3809547 73.75 73.75 0.9932660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ------------------------------------------------- #</span></span></span>
-<span class="r-in"><span><span class="co"># Example B: Two-sided asymmetric design,</span></span></span>
+<span class="r-in"><span><span class="co"># Two-sided asymmetric design,</span></span></span>
 <span class="r-in"><span><span class="co"># beta-spending with non-binding lower bound</span></span></span>
 <span class="r-in"><span><span class="co"># ------------------------------------------------- #</span></span></span>
 <span class="r-in"><span><span class="co"># Original design</span></span></span>
@@ -378,15 +134,19 @@ with the spending time at each analysis</p></dd>
 <span class="r-in"><span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example B1 ----</span></span></span>
-<span class="r-in"><span><span class="co"># IA spending = observed events / final planned events</span></span></span>
-<span class="r-in"><span><span class="co"># the remaining alpha will be allocated to FA.</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">observed_event_ia</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">planned_event_ia</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">planned_event_fa</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Updated design with 190 events observed at IA,</span></span></span>
+<span class="r-in"><span><span class="co"># where 50 events observed during the delayed effect.</span></span></span>
+<span class="r-in"><span><span class="co"># IA spending = observed events / final planned events, the remaining alpha will be allocated to FA.</span></span></span>
 <span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  lstime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  ustime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">190</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lstime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">190</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  event_tbl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>analysis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                         event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">140</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -406,31 +166,32 @@ with the spending time at each analysis</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0        z `~hr at bound` `nominal p`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.315       0.004<span style="text-decoration: underline;">84</span>    2.59           0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.891       0.024<span style="text-decoration: underline;">8</span>     1.99           0.794     0.023<span style="text-decoration: underline;">5</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.038<span style="text-decoration: underline;">7</span>      0.633      0.339          0.952     0.367  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.038<span style="text-decoration: underline;">7</span>      0.633   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.481       0.004<span style="text-decoration: underline;">14</span>    2.64           0.682     0.004<span style="text-decoration: underline;">14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.906       0.023<span style="text-decoration: underline;">7</span>     1.98           0.799     0.023<span style="text-decoration: underline;">7</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.035<span style="text-decoration: underline;">3</span>      0.784      0.787          0.892     0.216  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.035<span style="text-decoration: underline;">3</span>      0.784   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   295 0.6832088 0.3809547 73.75 73.75 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   190 0.6863292 0.3763978 47.50 47.50 0.6109325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6109325</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example B2 ----</span></span></span>
-<span class="r-in"><span><span class="co"># IA, FA spending = observed events / final planned events</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">observed_event_ia</span>, <span class="va">observed_event_fa</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span></span></span>
+<span class="r-in"><span><span class="co"># Updated design with 190 events observed at IA, and 300 events observed at FA,</span></span></span>
+<span class="r-in"><span><span class="co"># where 50 events observed during the delayed effect.</span></span></span>
+<span class="r-in"><span><span class="co"># IA spending = observed events / final planned events, the remaining alpha will be allocated to FA.</span></span></span>
 <span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  lstime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  ustime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">190</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lstime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">190</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  event_tbl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>analysis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                         event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">140</span>, <span class="fl">50</span>, <span class="fl">250</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -450,30 +211,32 @@ with the spending time at each analysis</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0        z `~hr at bound` `nominal p`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.315       0.004<span style="text-decoration: underline;">84</span>    2.59           0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.890       0.024<span style="text-decoration: underline;">3</span>     2.00           0.793     0.023<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.038<span style="text-decoration: underline;">7</span>      0.633      0.339          0.952     0.367  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.038<span style="text-decoration: underline;">7</span>      0.633   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.481       0.004<span style="text-decoration: underline;">14</span>    2.64           0.682     0.004<span style="text-decoration: underline;">14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.939       0.023<span style="text-decoration: underline;">9</span>     1.98           0.796     0.023<span style="text-decoration: underline;">8</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.035<span style="text-decoration: underline;">3</span>      0.784      0.787          0.892     0.216  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.035<span style="text-decoration: underline;">3</span>      0.784   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   295 0.6832088 0.3809547 73.75 73.75 0.9932660</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta info info0 info_frac</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6333333</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example B3 ----</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">observed_event_ia</span>, <span class="va">planned_event_ia</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Updated design with 190 events observed at IA, and 300 events observed at FA,</span></span></span>
+<span class="r-in"><span><span class="co"># where 50 events observed during the delayed effect.</span></span></span>
+<span class="r-in"><span><span class="co"># IA spending = minimal of planned and actual information fraction spending</span></span></span>
 <span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  lstime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  ustime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">190</span>, <span class="va">planned_event_ia</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lstime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">190</span>, <span class="va">planned_event_ia</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  event_tbl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>analysis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                         event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">140</span>, <span class="fl">50</span>, <span class="fl">250</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
@@ -493,70 +256,24 @@ with the spending time at each analysis</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0        z `~hr at bound` `nominal p`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.315       0.004<span style="text-decoration: underline;">84</span>    2.59           0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.891       0.024<span style="text-decoration: underline;">8</span>     1.99           0.794     0.023<span style="text-decoration: underline;">5</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.038<span style="text-decoration: underline;">7</span>      0.633      0.339          0.952     0.367  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.038<span style="text-decoration: underline;">7</span>      0.633   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.481       0.004<span style="text-decoration: underline;">14</span>    2.64           0.682     0.004<span style="text-decoration: underline;">14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.939       0.023<span style="text-decoration: underline;">9</span>     1.98           0.796     0.023<span style="text-decoration: underline;">8</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.035<span style="text-decoration: underline;">3</span>      0.784      0.787          0.892     0.216  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.035<span style="text-decoration: underline;">3</span>      0.784   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   295 0.6832088 0.3809547 73.75 73.75 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta info info0 info_frac</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6333333</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example B4 ----</span></span></span>
-<span class="r-in"><span><span class="co"># IA spending = min(observed events, planned events) / final planned events</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">observed_event_ia</span>, <span class="va">planned_event_ia</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">observed_event_fa</span>, <span class="va">planned_event_fa</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="va">planned_event_fa</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  lstime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="va">observed_data_fa</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  21.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  31.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0        z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.315       0.004<span style="text-decoration: underline;">84</span>    2.59           0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.890       0.024<span style="text-decoration: underline;">3</span>     2.00           0.793     0.023<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.038<span style="text-decoration: underline;">7</span>      0.633      0.339          0.952     0.367  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.038<span style="text-decoration: underline;">7</span>      0.633   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   295 0.6832088 0.3809547 73.75 73.75 0.9932660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6372881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example B5 ----</span></span></span>
-<span class="r-in"><span><span class="co"># alpha is updated to 0.05 ----</span></span></span>
+<span class="r-in"><span><span class="co"># Alpha is updated to 0.05</span></span></span>
 <span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
@@ -589,107 +306,6 @@ with the spending time at each analysis</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6495177</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example B6 ----</span></span></span>
-<span class="r-in"><span><span class="co"># updated boundaries only when IA data is observed</span></span></span>
-<span class="r-in"><span><span class="va">ustime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">observed_event_ia</span> <span class="op">/</span> <span class="va">planned_event_fa</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>  ustime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  lstime <span class="op">=</span> <span class="va">ustime</span>,</span></span>
-<span class="r-in"><span>  observed_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">observed_data_ia</span>, <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  21.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  31.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0        z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.315       0.004<span style="text-decoration: underline;">84</span>    2.59           0.686     0.004<span style="text-decoration: underline;">84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.903       0.024<span style="text-decoration: underline;">7</span>     1.99           0.798     0.023<span style="text-decoration: underline;">3</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.038<span style="text-decoration: underline;">7</span>      0.633      0.339          0.952     0.367  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.038<span style="text-decoration: underline;">7</span>      0.633   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.91897 382   188 0.7356221 0.3070388 47.00 47.00 0.6329966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.06513 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.6045016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "updated_design"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ------------------------------------------------- #</span></span></span>
-<span class="r-in"><span><span class="co"># Example C: Two-sided asymmetric design,</span></span></span>
-<span class="r-in"><span><span class="co"># with calendar spending for efficacy and futility bounds</span></span></span>
-<span class="r-in"><span><span class="co"># beta-spending with non-binding lower bound</span></span></span>
-<span class="r-in"><span><span class="co"># ------------------------------------------------- #</span></span></span>
-<span class="r-in"><span><span class="co"># Original design</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span></span>
-<span class="r-in"><span>  alpha <span class="op">=</span> <span class="va">alpha</span>, beta <span class="op">=</span> <span class="va">beta</span>, ratio <span class="op">=</span> <span class="va">ratio</span>,</span></span>
-<span class="r-in"><span>  info_scale <span class="op">=</span> <span class="st">"h0_info"</span>,</span></span>
-<span class="r-in"><span>  info_frac <span class="op">=</span> <span class="cn">NULL</span>, analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">36</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sfLDOF</span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, timing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">36</span><span class="op">)</span> <span class="op">/</span> <span class="fl">36</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sfLDOF</span>, total_spend <span class="op">=</span> <span class="va">beta</span>, timing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">36</span><span class="op">)</span> <span class="op">/</span> <span class="fl">36</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Updated design due to potential change of multiplicity graph</span></span></span>
-<span class="r-in"><span><span class="fu">gs_update_ahr</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2  10.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2  20.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10  30.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          <span style="color: #BB0000;">Inf</span>    0.077<span style="text-decoration: underline;">0</span>       0.000<span style="text-decoration: underline;">1</span>   0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0        z `~hr at bound` `nominal p`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper      0.418       0.008<span style="text-decoration: underline;">55</span>    2.38           0.711     0.008<span style="text-decoration: underline;">55</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        2 upper      0.940       0.049<span style="text-decoration: underline;">3</span>     1.66           0.825     0.048<span style="text-decoration: underline;">3</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower      0.027<span style="text-decoration: underline;">3</span>      0.601      0.257          0.964     0.399  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 lower      0.027<span style="text-decoration: underline;">3</span>      0.601   -<span style="color: #BB0000;">Inf</span>            <span style="color: #BB0000;">Inf</span>         1      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n event       ahr     theta  info info0 info_frac</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 19.95805 368   195 0.7319980 0.3119776 48.75 48.75      0.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 36.16991 368   300 0.6827856 0.3815744 75.00 75.00      1.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       0.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       1.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "non_binding"    "ahr"            "gs_design"      "list"          </span>
