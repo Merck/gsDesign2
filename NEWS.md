@@ -1,3 +1,9 @@
+# gsDesign2 1.1.4
+
+## User interface improvements
+
+- Bound functions and spending functions can be provided through their names (character strings) now, e.g., `gs_design_ahr(..., upper = "gs_spending_bound", upar = list(sf = "sfLDOF", ...))` (#509, thanks to @yihui).
+
 # gsDesign2 1.1.3
 
 ## Bug fixes
