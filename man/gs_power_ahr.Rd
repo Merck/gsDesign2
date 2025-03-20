@@ -131,6 +131,20 @@ note that this can be NULL.
 later of these is used  for analysis \code{i}.
 }
 }
+\section{Specification}{
+
+\if{latex}{
+ \itemize{
+   \item Calculate information and effect size based on AHR approximation
+   using \code{gs_info_ahr()}.
+   \item Return a tibble of with columns Analysis, Bound, Z, Probability,
+   theta, Time, AHR, Events and  contains a row for each analysis
+   and each bound.
+  }
+}
+\if{html}{The contents of this section are shown in PDF user manual only.}
+}
+
 \examples{
 library(gsDesign2)
 library(dplyr)

@@ -54,6 +54,18 @@
 #'  - If both `event[i]` and `analysis[i]` are provided for analysis `i`, then the time corresponding to the
 #'  later of these is used  for analysis `i`.
 #'
+#' @section Specification:
+#' \if{latex}{
+#'  \itemize{
+#'    \item Calculate information and effect size based on AHR approximation
+#'    using \code{gs_info_ahr()}.
+#'    \item Return a tibble of with columns Analysis, Bound, Z, Probability,
+#'    theta, Time, AHR, Events and  contains a row for each analysis
+#'    and each bound.
+#'   }
+#' }
+#' \if{html}{The contents of this section are shown in PDF user manual only.}
+#'
 #' @export
 #'
 #' @examples

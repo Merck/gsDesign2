@@ -130,6 +130,37 @@ then \code{analysis_time} will be a vector specifying the time for each analysis
 then timing will be the maximum of the two with both \code{info_frac} and \code{analysis_time} provided as vectors.
 }
 }
+\section{Specification}{
+
+\if{latex}{
+ \itemize{
+   \item Validate if input analysis_time is a positive number or positive
+   increasing sequence.
+   \item Validate if input info_frac is a positive number or positive
+   increasing sequence
+   on (0, 1] with final value of 1.
+   \item Validate if input info_frac and analysis_time  have the same
+   length if both have length > 1.
+   \item Get information at input analysis_time
+   \itemize{
+     \item Use \code{gs_info_ahr()} to get the information and effect size
+     based on AHR approximation.
+     \item Extract the final event.
+     \item Check if input If needed for (any) interim analysis timing.
+   }
+   \item Add the analysis column to the information at input analysis_time.
+   \item Add the sample size column to the information at input analysis_time
+   using \code{expected_accural()}.
+   \item Get sample size and bounds using \code{gs_design_npe()} and
+   save them to bounds.
+   \item Add Time, Events, AHR, N that have already been calculated
+   to the bounds.
+   \item Return a list of design enrollment, failure rates, and bounds.
+  }
+}
+\if{html}{The contents of this section are shown in PDF user manual only.}
+}
+
 \examples{
 library(gsDesign)
 library(gsDesign2)
