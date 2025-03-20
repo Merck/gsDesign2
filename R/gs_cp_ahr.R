@@ -18,17 +18,9 @@
 
 #' Conditional power computation under the logrank test
 #'
-#' @param x A original design created by either [gs_design_ahr()] or [gs_power_ahr()].
-#' @param xu A updated design created by either [gs_update_ahr()].
+#' @param x A original design created by either [gs_design_ahr()] or [gs_power_ahr()] or [gs_update_ahr()].
 #' @param i The index of the current analysis.
 #' @param z_i The observed Z-score at analysis i.
-#' @param j The index of the future analysis to calculate conditional power.
-#' @param z_j The critical value at analysis j.
-#' @param local_alternative Logical value whether the local alternative hypothesis is used or not.
-#' @param info_scale Information scale for calculation. Options are:
-#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
-#'   - `"h0_info"`: variance under null hypothesis is used.
-#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #'
 #' @export
 #'
@@ -107,47 +99,78 @@
 #' # ----------------------------- #
 #' # Calculate conditional power
 #' # ---------------------------- #
-#' gs_cp_ahr(x = x, xu = xu,
-#'           i = 1, z_i = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 1] - 0.5,
-#'           j = 2, z_j = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2],
-#'           local_alternative = TRUE)
+#' gs_cp_ahr(x = xu,
+#'           i = 1, z_i = -qnorm(0.04))
 #'
-#' gs_cp_ahr(x = x, xu = xu,
-#'           i = 1, z_i = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 1] - 0.5,
-#'           j = 3, z_j = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3],
-#'           local_alternative = TRUE)
-gs_cp_ahr <- function(x, xu,
-                      i = 1, z_i = 0,
-                      j = 2, z_j = 1.96,
-                      local_alternative = TRUE,
-                      info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
+#' gs_cp_ahr(x = xu,
+#'           i = 1, z_i = -qnorm(0.04))
+gs_cp_ahr <- function(x, i = 1, z_i = 0) {
 
   n_analysis <- nrow(x$analysis)
   # --------------------------------------- #
   #   get theta0, theta1, theta_hat         #
   # --------------------------------------- #
-  theta_hat <- c(xu$analysis$theta[1:i], rep(NA, n_analysis - i))
   theta0 <- rep(0, n_analysis)
-  theta1 <- x$analysis$theta
+  theta <- x$analysis$theta
 
   # --------------------------------------- #
   #   get info0, info1, info_hat            #
   # --------------------------------------- #
-  info_hat <- c(xu$analysis$info[1:i], rep(NA, n_analysis - i))
   info0 <- x$analysis$info0
-  info1 <- x$analysis$info
+  info <- x$analysis$info
 
   # --------------------------------------- #
-  #   calculate conditional power           #
+  #   calculate conditional prob            #
+  #       crossing upper bound              #
   # --------------------------------------- #
-  ans <- gs_cp_npe(i = i, j = j,
-                   z_i = z_i, z_j = z_j,
-                   # 3 theta
-                   theta0 = theta0, theta1 = theta1, theta_hat = theta_hat,
-                   # 3 info
-                   info0 = info0, info1 = info1, info_hat = info_hat,
-                   info_scale = info_scale,
-                   local_alternative = local_alternative)
+  ans_upper <- NULL
 
-  return(ans)
+  for (j in (i+1):n_analysis) {
+    if (j %in% (x$bound %>% filter(bound == "upper"))$analysis) {
+
+      cp_upper <- gs_cp_npe(i = i, j = j,
+                            z_i = z_i,
+                            z_j = (x$bound %>% filter(bound == "upper", analysis == j))$z ,
+                            # 2 theta
+                            theta0 = theta0, theta = theta,
+                            # 2 info
+                            info0 = info0, info = info)
+
+      ans_upper_new <- tibble(analysis = j,
+                              theta_over_analysis = cp_upper$theta_over_analysis,
+                              cond_power = cp_upper$cond_power)
+
+      ans_upper <- rbind(ans_upper, ans_upper_new)
+    }
+  }
+
+
+  # --------------------------------------- #
+  #   calculate conditional prob            #
+  #       crossing lower bound              #
+  # --------------------------------------- #
+  ans_lower <- NULL
+
+  for (j in (i+1):n_analysis) {
+    if (j %in% (x$bound %>% filter(bound == "lower"))$analysis) {
+
+      cp_lower <- gs_cp_npe(i = i, j = j,
+                            z_i = z_i,
+                            z_j = (x$bound %>% filter(bound == "lower", analysis == j))$z ,
+                            # 2 theta
+                            theta0 = theta0, theta = theta,
+                            # 2 info
+                            info0 = info0, info = info)
+
+      ans_lower_new <- tibble(analysis = j,
+                              theta_over_analysis = cp_lower$theta_over_analysis,
+                              cond_power = 1 - cp_lower$cond_power)
+
+      ans_lower <- rbind(ans_lower, ans_lower_new)
+
+    }
+  }
+
+  return(list(upper = ans_upper %>% tidyr::pivot_wider(names_from = analysis, values_from = cond_power),
+              lower = ans_lower %>% tidyr::pivot_wider(names_from = analysis, values_from = cond_power)))
 }
