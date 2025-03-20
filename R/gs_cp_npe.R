@@ -18,150 +18,133 @@
 
 #' Conditional power computation with non-constant effect
 #'
-#' @param theta0 Natural parameter for null hypothesis (default is all zero).
-#' @param theta1 Natural parameter for alternate hypothesis.
-#' @param theta_hat Natural parameter estimated based on observed blinded data.
-#' @param info0 Statistical information under null hypothesis.
-#' @param info1 Statistical information under alternative hypothesis.
-#' @param info_hat Statistical information estimated based on observed blinded data.
-#' @param info_scale Information scale for calculation. Options are:
-#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
-#'   - `"h0_info"`: variance under null hypothesis is used.
-#'   - `"h1_info"`: variance under alternative hypothesis is used.
-#' @param i Index of current analysis.
-#' @param j Index of the future analysis to calculate the conditional power.
-#' @param z_i Interim z-value at analysis i (scalar).
-#' @param z_j Efficacy boundary at analysis j (scalar).
-#' @param local_alternative Logical value whether the local alternative hypothesis is used or not.
+#' @param theta A vector of two, which specifies the natural parameter for treatment effect.
+#'              The first element of `theta` is the treatment effect of the interim analysis i.
+#'              The second element of `theta` is the treatment effect of the future analysis j.
+#' @param info A vector of two, which specifies the statistical information under the treatment effect `theta`.
+#' @param max_info A scalar specifying the planned statistical information at final analysis.
+#' @param a Interim z-value at analysis i (scalar).
+#' @param b Future z-value at analysis j (scalar).
 #'
 #' @export
 #'
 #' @examples
 #' library(gsDesign2)
-#' gs_cp_npe(theta0 = c(0, 0, 0),
-#'           theta1 = c(0.1, 0.2, 0.3),
-#'           theta_hat = NULL,
-#'           info0 = c(10, 20, 30),
-#'           info1 = c(9.8, 19.6, 29.9),
-#'           info_hat = NULL,
-#'           info_scale = "h0_h1_info",
-#'           i = 1, j = 3,
-#'           z_i = 1.5, z_j = 1.96,
-#'           local_alternative = TRUE)
-gs_cp_npe <- function(theta0 = NULL, theta1 = NULL, theta_hat = NULL, # 3 theta
-                      info0 = NULL, info1 = NULL, info_hat = NULL, # 3 info
-                      info_scale = c("h0_h1_info", "h0_info", "h1_info"),
-                      i = NULL, j = NULL,
-                      z_i = NULL, z_j = NULL,
-                      local_alternative = TRUE
+#'
+#' # ---------------------------------- #
+#' #             Example 1              #
+#' # CP under arbitrary theta and info  #
+#' # ---------------------------------- #
+#' gs_cp_npe(theta = c(.1, .2),
+#'           info = c(15, 35),
+#'           a = 1.5, b = 1.96)
+#'
+#' # ---------------------------------- #
+#' #             Example 2              #
+#' # Calculate conditional power and    #
+#' #       error of a design            #
+#' # ---------------------------------- #
+#' x <- gs_design_ahr(
+#'   fail_rate = define_fail_rate(duration = c(4, Inf),
+#'                                fail_rate = log(2) / 10,
+#'                                hr = c(1, 0.7),
+#'                                dropout_rate = 0.0001),
+#'   analysis_time = c(12, 24, 36))
+#'
+#' # Example 2A ----
+#' # Conditional error of FA given IA1 Z-score of 1.75
+#' gs_cp_npe(theta = c(0, 0),
+#'           info = x$analysis$info0[c(1, 3)],
+#'           a = 1.75,
+#'           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
+#'
+#' # Example 2B ----
+#' # Conditional power of FA given
+#' # (1) IA1 Z-score of 1.75;
+#' # (2) H1 assumed treatment effect
+#' gs_cp_npe(theta = x$analysis$theta[c(1, 3)],
+#'           # taking info0 in this example gives minor differences
+#'           info = x$analysis$info[c(1, 3)],
+#'           a = 1.75,
+#'           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
+#'
+#' # Example 2C ----
+#' # Assume at IA1:
+#' # (1) The Z-score is 1.75;
+#' # (2) There are 50 events observed during the first 4 months since study starts
+#' # (3) There are 150 events observed after the 4th month.
+#' # For IA1, we take the blinded estimation of theta and info.
+#' # For FA, we take the planned theta and info.
+#' theta_blinded <- -sum(log(c(1, 0.7)) * c(50, 150)) / 200
+#' info_blinded <- 200 / 4
+#' gs_cp_npe(theta = c(theta_blinded, x$analysis$theta[3]),
+#'           info = c(info_blinded, x$analysis$info0[3]),
+#'           a = 1.75,
+#'           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
+#'
+#' # Example 2D ----
+#' # If the HR is not assumed, say, HR = 1 for the first 4 months and 0.8 afterwards
+#' # At FA, assume there are 70 events during the first 4 months and 700 events afterwards.
+#' # We first calculate the expected events at IA1 under the new HR
+#' e_event_ia1 <- expected_event(enroll_rate = x$enroll_rate,
+#'                               fail_rate = x$fail_rate |> mutate(hr = c(1, 0.8)),
+#'                               total_duration = x$analysis$time[1],
+#'                               simple = FALSE)
+#' # Under the new HR, there are 150 events during the first 4 months and 67 events afterwards.
+#' # If 160 and 67 are the blinded events, we can derive the blinded estimation of treatment effect.
+#' theta_blinded_ia1 <- -sum(log(c(1, 0.8)) * c(150, 67)) / (150 + 67)
+#' info_blinded_ia1 <- (150 + 67) / 4
+#'
+#' # We further calculate the expected events at FA under the new HR
+#' e_event_fa <- expected_event(enroll_rate = x$enroll_rate,
+#'                              fail_rate = x$fail_rate |> mutate(hr = c(1, 0.8)),
+#'                              total_duration = x$analysis$time[3],
+#'                              simple = FALSE)
+#' # Under the new HR, there are 223 events during the first 4 months and 562 events afterwards.
+#' # If 160 and 67 are the blinded events, we can derive the blinded estimation of treatment effect.
+#' theta_blinded_fa <- -sum(log(c(1, 0.8)) * c(223, 562)) / (223 + 562)
+#' info_blinded_fa <- (223 + 562) / 4
+#'
+#' gs_cp_npe(theta = c(theta_blinded_ia1, theta_blinded_fa),
+#'           info = c(info_blinded_ia1, info_blinded_fa),
+#'           a = 1.75,
+#'           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
+gs_cp_npe <- function(theta = NULL,
+                      info = NULL,
+                      max_info = max(info),
+                      a = NULL, b = NULL
                       ) {
-  # --------------------------------------- #
-  #       input checking                    #
-  # --------------------------------------- #
-  n_analysis <- length(info0)
-
-  # check theta0
-  if (is.null(theta0)) {
-    theta0 <- rep(0, n_analysis)
-  } else if (length(theta0) == 1) {
-    theta0 <- rep(theta0, n_analysis)
-  }
-
-  # check theta1
-  if (is.null(theta1)) {
-    stop("Please provide theta1 (treatment effect under H1) to calculate conditional power.")
-  } else if (length(theta1) == 1) {
-    theta1 <- rep(theta1, n_analysis)
-  }
-
-  # check theta_hat
-  if (is.null(theta_hat)) {
-    theta_hat <- rep(0, n_analysis)
-  } else if (length(theta_hat) == 1) {
-    theta_hat <- rep(theta_hat, n_analysis)
-  }
-
-  # check info0
-  if (is.null(info0)) {
-    stop("Please provide info0 (statistical information under H0) to calculate conditional power.")
-  }
-
-  # check info1
-  if (is.null(info1)) {
-    stop("Please provide info1 (statistical information under H1) to calculate conditional power.")
-  }
-
-  # check info_hat
-  if (is.null(info_hat)) {
-    info_hat <- info1
-  }
-
-  # set up info_scale
-  info_scale <- match.arg(info_scale)
-
-  if (info_scale == "h0_info") {
-    info1 <- info0
-    info_hat <- info0
-  }
-
-  if (info_scale == "h1_info") {
-    info0 <- info1
-    info_hat <- info1
+  # ----------------------------------------- #
+  #       input checking                      #
+  # ----------------------------------------- #
+  # check theta
+  if (is.null(theta)) {
+    stop("Please provide theta (arbitrary treatment effect) to calculate conditional power.")
+  } else if (length(theta) == 1) {
+    theta <- rep(theta, 2)
   }
 
   # check info
-  check_info(info0)
-  check_info(info1)
-  if (length(info0) != length(info_hat)) stop("Length of info_hat, info0 must be the same!")
-  if (length(info1) != length(info_hat)) stop("Length of info_hat, info1 must be the same!")
+  if (is.null(info)) {
+    stop("Please provide info (statistical information given the treatment effect theta) to calculate conditional power.")
+  }
+
+  if (max(info) > max_info) {
+    stop("The max(info) should be smaller than max_info.")
+  }
+
+  check_info(info)
 
   # calculate information fraction
-  info_frac <- info0 / max(info0)
+  info_frac <- info / max_info
 
-  # --------------------------------------- #
-  #   calculate conditional error           #
-  # --------------------------------------- #
-  numerator <- sqrt(info_frac[j]) * z_j - sqrt(info_frac[i]) * z_i
-  denominator <- sqrt(info_frac[j] - info_frac[i])
-  conditional_error <- pnorm(numerator / denominator, lower.tail = FALSE)
+  # ----------------------------------------- #
+  #   calculate conditional power under theta #
+  # ----------------------------------------- #
+  numerator1 <- sqrt(b * info_frac[2]) -  a * sqrt(info_frac[1])
+  numerator2 <- theta[2] * sqrt(info_frac[2] * info[2]) - theta[1] * sqrt(info_frac[1] * info[1])
+  denominator <- sqrt(info_frac[2] - info_frac[1])
+  conditional_power <- pnorm((numerator1 - numerator2)  / denominator, lower.tail = FALSE)
 
-  # --------------------------------------- #
-  #   calculate conditional power under H1  #
-  # --------------------------------------- #
-  numerator1 <- z_j * sqrt(info_frac[j]) - z_i * sqrt(info_frac[i])
-  numerator2 <- theta1[j] * sqrt(info_frac[j] * info0[j]) - theta1[i] * sqrt(info_frac[i] * info0[i])
-  denominator <- if (local_alternative) {
-    sqrt(info_frac[j] - info_frac[i])
-  } else {
-    sqrt(info_frac[j] * info0[j] / info1[j] - info_frac[i] * info0[i] / info1[i])
-  }
-  conditional_power_h1 <- pnorm((numerator1 - numerator2)  / denominator, lower.tail = FALSE)
-
-  # --------------------------------------- #
-  #   calculate conditional power with est  #
-  # --------------------------------------- #
-  numerator1 <- z_j * sqrt(info_frac[j]) - z_i * sqrt(info_frac[i])
-  numerator2 <- theta1[j] * sqrt(info_frac[j] * info0[j]) - theta_hat[i] * sqrt(info_frac[i] * info_hat[i])
-  denominator <- if (local_alternative) {
-    sqrt(info_frac[j] - info_frac[i])
-  } else {
-    sqrt(info_frac[j] * info0[j] / info1[j] - info_frac[i] * info_hat[i] / info1[i])
-  }
-  conditional_power_est <- pnorm((numerator1 - numerator2)  / denominator, lower.tail = FALSE)
-
-  # --------------------------------------- #
-  #   output results                        #
-  # --------------------------------------- #
-  ans <- tibble::tibble(scenario = c("Under H0", "Under H1", "Under interim estimation"),
-                        i = i, z_i = z_i,
-                        j = j, z_j = z_j,
-                        cond_power = c(conditional_error, conditional_power_h1, conditional_power_est),
-                        theta_over_analyses = c(paste0(theta0, collapse = ", "),
-                                                paste0(round(theta1, 4), collapse = ", "),
-                                                paste0(round(theta_hat, 4), collapse = ", ")),
-                        info_over_analyses = c(paste0(info0, collapse = ","),
-                                               paste0(round(info1, 4), collapse = ", "),
-                                               paste0(round(info_hat, 4), collapse = ", "))
-  )
-  return(ans)
+  return(conditional_power)
 }
