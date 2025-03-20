@@ -54,7 +54,7 @@ gs_design_wlr(
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
-\item{info_frac}{Targeted information fraction at each analysis. See details for properly set it up.}
+\item{info_frac}{Targeted information fraction for analyses. See details.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
@@ -63,7 +63,7 @@ gs_design_wlr(
 \item \code{"h1_info"}: variance under alternative hypothesis is used.
 }}
 
-\item{analysis_time}{Targeted time of analysis. See details for properly set it up.}
+\item{analysis_time}{Targeted calendar timing of analyses. See details.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
@@ -82,11 +82,12 @@ default of \code{FALSE} is recommended.}
 \item \code{sf} for the spending function family.
 \item \code{total_spend} for total alpha spend.
 \item \code{param} for the parameter of the spending function.
-\item \code{timing} (not required for information-based spending) for the spending time if different from information-based spending.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
 }
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
@@ -103,17 +104,21 @@ lower bound.}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})
-if spending is used for lower bound.}
+if spending is used for lower bound.
+If this is \code{FALSE}, then the lower bound spending is under the null hypothesis.
+This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{r}{Integer value controlling grid for numerical integration as in
 Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
 Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 
-\item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to targeted event.}
+\item{interval}{An interval presumed to include the times at which
+expected event count is equal to targeted event.
+Normally, this can be ignored by the user as it is set to \code{c(.01, 1000)}.}
 }
 \value{
 A list with input parameters, enrollment rate, analysis, and bound.

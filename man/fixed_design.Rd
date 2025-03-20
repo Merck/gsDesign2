@@ -110,7 +110,7 @@ and \code{1 - alpha} otherwise).}
 
 \item{study_duration}{Study duration.}
 
-\item{event}{A numerical vector specifying the targeted event at each analysis.}
+\item{event}{A numerical vector specifying the targeted events at each analysis. See details.}
 
 \item{rho}{A vector of numbers paring with gamma and tau for MaxCombo test.}
 
