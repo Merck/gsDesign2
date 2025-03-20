@@ -30,6 +30,7 @@
 #'
 #' @examples
 #' library(gsDesign2)
+#' library(dplyr)
 #'
 #' # ---------------------------------- #
 #' #             Example 1              #

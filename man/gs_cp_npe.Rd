@@ -24,6 +24,7 @@ Conditional power computation with non-constant effect
 }
 \examples{
 library(gsDesign2)
+library(dplyr)
 
 # ---------------------------------- #
 #             Example 1              #
