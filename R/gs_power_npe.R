@@ -243,6 +243,8 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
   } else if (length(theta1) == 1) {
     theta1 <- rep(theta1, n_analysis)
   }
+  upper <- match.fun(upper)
+  lower <- match.fun(lower)
   if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
   if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
 

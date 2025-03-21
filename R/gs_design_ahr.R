@@ -229,6 +229,8 @@ gs_design_ahr <- function(
     info_frac <- 1
   }
   info_scale <- match.arg(info_scale)
+  upper <- match.fun(upper)
+  lower <- match.fun(lower)
 
   # Check inputs ----
   check_analysis_time(analysis_time)
@@ -243,7 +245,7 @@ gs_design_ahr <- function(
   # Check if alpha is same as alpha spending ----
   if (identical(upper, gs_spending_bound)) {
     if (!is.null(upar$total_spend)) {
-      if (methods::missingArg(alpha)) {
+      if (missing(alpha)) {
         alpha <- upar$total_spend
       } else {
         if (alpha != upar$total_spend) {
