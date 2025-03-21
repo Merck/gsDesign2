@@ -77,11 +77,11 @@
 
 
 <dt id="arg-event">event<a class="anchor" aria-label="anchor" href="#arg-event"></a></dt>
-<dd><p>A numerical vector specifying the targeted event at each analysis.</p></dd>
+<dd><p>A numerical vector specifying the targeted events at each analysis. See details.</p></dd>
 
 
 <dt id="arg-analysis-time">analysis_time<a class="anchor" aria-label="anchor" href="#arg-analysis-time"></a></dt>
-<dd><p>Targeted time of analysis. See details for properly set it up.</p></dd>
+<dd><p>Targeted calendar timing of analyses. See details.</p></dd>
 
 
 <dt id="arg-binding">binding<a class="anchor" aria-label="anchor" href="#arg-binding"></a></dt>
@@ -96,7 +96,8 @@ default of <code>FALSE</code> is recommended.</p></dd>
 
 
 <dt id="arg-lower">lower<a class="anchor" aria-label="anchor" href="#arg-lower"></a></dt>
-<dd><p>Function to compute lower bound, which can be set up similarly as <code>upper</code>. More details can be find in <a href="https://merck.github.io/gsDesign2/articles/story-seven-test-types.html">this vignette</a>.</p></dd>
+<dd><p>Function to compute lower bound, which can be set up similarly as <code>upper</code>.
+See <a href="https://merck.github.io/gsDesign2/articles/story-seven-test-types.html">this vignette</a>.</p></dd>
 
 
 <dt id="arg-upar">upar<a class="anchor" aria-label="anchor" href="#arg-upar"></a></dt>
@@ -104,7 +105,7 @@ default of <code>FALSE</code> is recommended.</p></dd>
 <li><p>If <code>upper = gs_spending_bound</code>, then <code>upar</code> is a list including</p><ul><li><p><code>sf</code> for the spending function family.</p></li>
 <li><p><code>total_spend</code> for total alpha spend.</p></li>
 <li><p><code>param</code> for the parameter of the spending function.</p></li>
-<li><p><code>timing</code> (not required for information-based spending) for the spending time if different from information-based spending.</p></li>
+<li><p><code>timing</code> specifies spending time if different from information-based spending; see details.</p></li>
 </ul></li>
 </ul></dd>
 
@@ -161,18 +162,18 @@ Normally, <code>r</code> will not be changed by the user.</p></dd>
 
 
 <dt id="arg-tol">tol<a class="anchor" aria-label="anchor" href="#arg-tol"></a></dt>
-<dd><p>Tolerance parameter for boundary convergence (on Z-scale).</p></dd>
+<dd><p>Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.</p></dd>
 
 
 <dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
-<dd><p>An interval that is presumed to include the time at which
-expected event count is equal to targeted event.</p></dd>
+<dd><p>An interval presumed to include the times at which
+expected event count is equal to targeted event.
+Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</code>.</p></dd>
 
 
 <dt id="arg-integer">integer<a class="anchor" aria-label="anchor" href="#arg-integer"></a></dt>
-<dd><p>Logical value integer whether it is an integer design
-(i.e., integer sample size and events) or not. This argument is commonly
-used when creating integer design via <code><a href="to_integer.html">to_integer()</a></code>.</p></dd>
+<dd><p>Indicator of whether integer sample size and events are intended. This argument is
+used when using <code><a href="to_integer.html">to_integer()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -263,7 +264,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fe0e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -282,7 +283,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fe0e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -306,7 +307,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e3715788&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e9714628&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -413,7 +414,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fe0e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -432,7 +433,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fe0e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -456,7 +457,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e3715788&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e9714628&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -563,7 +564,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fe0e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -582,7 +583,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fe0e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -606,7 +607,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e3715788&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e9714628&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -826,7 +827,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fd208&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -855,7 +856,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e0cfa668&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -995,7 +996,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fd208&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1024,7 +1025,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e0cfa668&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1049,7 +1050,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e3715788&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e9714628&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -1271,7 +1272,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fd208&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1300,7 +1301,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e0cfa668&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1440,7 +1441,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fd208&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1469,7 +1470,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e0cfa668&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1494,7 +1495,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e3715788&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e9714628&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
@@ -1716,7 +1717,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fd208&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1745,7 +1746,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e0cfa668&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1885,7 +1886,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e35fd208&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1914,7 +1915,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e0cfa668&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1939,7 +1940,7 @@ analysis, and bound.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         arm1)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     (1 - esurv)^rho * esurv^gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5630e3715788&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e9714628&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$info_scale</span>
