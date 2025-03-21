@@ -268,7 +268,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -378,7 +382,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -407,7 +411,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -434,7 +438,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -544,7 +552,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -573,7 +581,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -689,7 +697,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -799,7 +811,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -828,7 +840,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -855,7 +867,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -965,7 +981,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -994,7 +1010,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1110,7 +1126,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -1220,7 +1240,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1249,7 +1269,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1276,7 +1296,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -1386,7 +1410,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1415,7 +1439,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1539,7 +1563,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -1649,7 +1677,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1678,7 +1706,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1705,7 +1733,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -1815,7 +1847,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1844,7 +1876,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1969,7 +2001,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -2079,7 +2115,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -2108,7 +2144,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -2135,7 +2171,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -2245,7 +2285,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -2274,7 +2314,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -2396,7 +2436,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -2506,7 +2550,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -2535,7 +2579,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -2562,7 +2606,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -2672,7 +2720,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -2701,7 +2749,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -2834,7 +2882,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -2944,7 +2996,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -2973,7 +3025,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -3006,7 +3058,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -3116,7 +3172,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -3145,7 +3201,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -3283,7 +3339,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -3393,7 +3453,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -3422,7 +3482,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -3455,7 +3515,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -3565,7 +3629,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -3581,7 +3645,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8df920340&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ac8e27e8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -3718,7 +3782,11 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -3828,7 +3896,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -3857,7 +3925,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -3880,7 +3948,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb43c10&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -3997,7 +4065,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb43c10&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -4013,7 +4081,7 @@ then timing will be the maximum of the two with both <code>info_frac</code> and 
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(par[k])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96424a8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb43c10&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>

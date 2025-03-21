@@ -255,7 +255,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55d8e87b5a58&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5569afc958e0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -295,7 +295,11 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -405,7 +409,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -434,7 +438,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -461,7 +465,11 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -571,7 +579,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -600,7 +608,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -697,7 +705,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55d8e87b5a58&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5569afc958e0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -737,7 +745,11 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -847,7 +859,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -876,7 +888,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -903,7 +915,11 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -1013,7 +1029,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1042,7 +1058,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
@@ -1139,7 +1155,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55d8e87b5a58&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5569afc958e0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$approx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "asymptotic"</span>
@@ -1179,7 +1195,11 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -1289,7 +1309,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar</span>
@@ -1318,7 +1338,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$upar$total_spend</span>
@@ -1345,7 +1365,11 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>             timing &lt;- info/par$max_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.function(sf &lt;- par$sf)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sf &lt;- tryCatch(match.fun(sf), error = function(e) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             getExportedValue("gsDesign", sf)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         })</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spend &lt;- sf(alpha = par$total_spend, t = timing, param = par$param)$spend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     old_spend &lt;- 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     for (i in 1:k) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (test_bound[i]) {</span>
@@ -1455,7 +1479,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e96453f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569afb49120&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign2&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar</span>
@@ -1484,7 +1508,7 @@ Normally, this can be ignored by the user as it is set to <code>c(.01, 1000)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(x) &lt;- "spendfn"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55d8e6c97cd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5569ad140920&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:gsDesign&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $input$lpar$total_spend</span>
