@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_design_ahr.R
 \name{gs_design_ahr}
 \alias{gs_design_ahr}
-\title{Calculate sample size and bounds given the power in group sequential design using average hazard ratio under non-proportional hazards}
+\title{Calculate sample size and bounds given targeted power and Type I error in group sequential design using average hazard ratio under non-proportional hazards}
 \usage{
 gs_design_ahr(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
@@ -36,9 +36,9 @@ gs_design_ahr(
 
 \item{beta}{Type II error.}
 
-\item{info_frac}{Targeted information fraction at each analysis. See details for properly set it up.}
+\item{info_frac}{Targeted information fraction for analyses. See details.}
 
-\item{analysis_time}{Targeted time of analysis. See details for properly set it up.}
+\item{analysis_time}{Targeted calendar timing of analyses. See details.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
@@ -59,17 +59,21 @@ default of \code{FALSE} is recommended.}
 \item \code{sf} for the spending function family.
 \item \code{total_spend} for total alpha spend.
 \item \code{param} for the parameter of the spending function.
-\item \code{timing} (not required for information-based spending) for the spending time if different from information-based spending.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
 }
 }}
 
-\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}. More details can be find in \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})
-if spending is used for lower bound.}
+if spending is used for lower bound.
+If this is \code{FALSE}, then the lower bound spending is under the null hypothesis.
+This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{test_upper}{Indicator of which analyses should include an upper
 (efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
@@ -94,10 +98,11 @@ Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
 Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 
-\item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to targeted event.}
+\item{interval}{An interval presumed to include the times at which
+expected event count is equal to targeted event.
+Normally, this can be ignored by the user as it is set to \code{c(.01, 1000)}.}
 }
 \value{
 A list with input parameters, enrollment rate, analysis, and bound.
@@ -110,21 +115,52 @@ A list with input parameters, enrollment rate, analysis, and bound.
 }
 }
 \description{
-Calculate sample size and bounds given the power in group sequential design using average hazard ratio under non-proportional hazards
+Calculate sample size and bounds given targeted power and Type I error in group sequential design using average hazard ratio under non-proportional hazards
 }
 \details{
 The parameters \code{info_frac} and \code{analysis_time} are used to determine the timing for interim and final analyses.
 \itemize{
-\item If the interim analysis is decided by targeted information fraction and the study duration is known,
+\item If the interim analysis is determined by targeted information fraction and the study duration is known,
 then \code{info_frac} is a numerical vector where each element (greater than 0 and less than or equal to 1)
 represents the information fraction for each analysis.
 The \code{analysis_time}, which defaults to 36, indicates the time for the final analysis.
-\item If the interim analysis is determined solely by the targeted analysis timing,
+\item If interim analyses are determined solely by the targeted calendar analysis timing from start of study,
 then \code{analysis_time} will be a vector specifying the time for each analysis.
-\item If both the targeted analysis time and the targeted information fraction are utilized, which arrives latter,
-then both \code{info_frac} and \code{analysis_time} should be provided as vectors.
+\item If both the targeted analysis time and the targeted information fraction are utilized for a given analysis,
+then timing will be the maximum of the two with both \code{info_frac} and \code{analysis_time} provided as vectors.
 }
 }
+\section{Specification}{
+
+\if{latex}{
+ \itemize{
+   \item Validate if input analysis_time is a positive number or positive
+   increasing sequence.
+   \item Validate if input info_frac is a positive number or positive
+   increasing sequence
+   on (0, 1] with final value of 1.
+   \item Validate if input info_frac and analysis_time  have the same
+   length if both have length > 1.
+   \item Get information at input analysis_time
+   \itemize{
+     \item Use \code{gs_info_ahr()} to get the information and effect size
+     based on AHR approximation.
+     \item Extract the final event.
+     \item Check if input If needed for (any) interim analysis timing.
+   }
+   \item Add the analysis column to the information at input analysis_time.
+   \item Add the sample size column to the information at input analysis_time
+   using \code{expected_accural()}.
+   \item Get sample size and bounds using \code{gs_design_npe()} and
+   save them to bounds.
+   \item Add Time, Events, AHR, N that have already been calculated
+   to the bounds.
+   \item Return a list of design enrollment, failure rates, and bounds.
+  }
+}
+\if{html}{The contents of this section are shown in PDF user manual only.}
+}
+
 \examples{
 library(gsDesign)
 library(gsDesign2)
