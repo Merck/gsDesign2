@@ -123,7 +123,6 @@
 #'           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
 gs_cp_npe <- function(theta = NULL,
                       info = NULL,
-                      max_info = max(info),
                       a = NULL, b = NULL
                       ) {
   # ----------------------------------------- #
@@ -153,9 +152,10 @@ gs_cp_npe <- function(theta = NULL,
   # ----------------------------------------- #
   #   calculate conditional power under theta #
   # ----------------------------------------- #
-  numerator1 <- sqrt(b * info_frac[2]) -  a * sqrt(info_frac[1])
-  numerator2 <- theta[2] * sqrt(info_frac[2] * info[2]) - theta[1] * sqrt(info_frac[1] * info[1])
-  denominator <- sqrt(info_frac[2] - info_frac[1])
+  t_ij <- info[2] / info[1]
+  numerator1 <- b -  a * sqrt(t_ij)
+  numerator2 <- theta[2] * sqrt(info[2]) - theta[1] * sqrt(t_ij * info[1])
+  denominator <- sqrt(1 - t_ij)
   conditional_power <- pnorm((numerator1 - numerator2)  / denominator, lower.tail = FALSE)
 
   return(conditional_power)
