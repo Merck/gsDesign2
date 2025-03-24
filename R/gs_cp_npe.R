@@ -73,10 +73,10 @@ gs_cp_npe <- function(theta = NULL,
   # ----------------------------------------- #
   #   calculate conditional power under theta #
   # ----------------------------------------- #
-  t_ij <- info[2] / info[1]
-  numerator1 <- b -  a * sqrt(t_ij)
-  numerator2 <- theta[2] * sqrt(info[2]) - theta[1] * sqrt(t_ij * info[1])
-  denominator <- sqrt(1 - t_ij)
+  t <- info[2] / info[1]
+  numerator1 <- b -  a * sqrt(t)
+  numerator2 <- theta[2] * sqrt(info[2]) - theta[1] * sqrt(t * info[1])
+  denominator <- sqrt(1 - t)
   conditional_power <- pnorm((numerator1 - numerator2)  / denominator, lower.tail = FALSE)
 
   return(conditional_power)
