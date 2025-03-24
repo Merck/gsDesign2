@@ -34,9 +34,8 @@
 #'              The first element of `theta` is the treatment effect of an interim analysis i.
 #'              The second element of `theta` is the treatment effect of a future analysis j.
 #' @param info A vector of two, which specifies the statistical information under the treatment effect `theta`.
-#' @param max_info A scalar specifying the planned statistical information at final analysis.
 #' @param a Interim z-value at analysis i (scalar).
-#' @param b Future z-value at analysis j (scalar).
+#' @param b Future target z-value at analysis j (scalar).
 #' @return A scalar with the conditional power \eqn{P(Z_2>b\mid Z_1=a)}.
 #' @export
 #'
