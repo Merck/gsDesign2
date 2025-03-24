@@ -7,7 +7,7 @@
 gs_cp_npe(theta = NULL, info = NULL, max_info = max(info), a = NULL, b = NULL)
 }
 \arguments{
-\item{theta}{A vector of two, which specifies the natural parameter for treatment effect.
+\item{theta}{A vector of length two, which specifies the natural parameter for treatment effect.
 The first element of \code{theta} is the treatment effect of the interim analysis i.
 The second element of \code{theta} is the treatment effect of the future analysis j.}
 
@@ -15,12 +15,24 @@ The second element of \code{theta} is the treatment effect of the future analysi
 
 \item{max_info}{A scalar specifying the planned statistical information at final analysis.}
 
-\item{a}{Interim z-value at analysis i (scalar).}
+\item{a}{Interim observed z-value at analysis i (scalar).}
 
-\item{b}{Future z-value at analysis j (scalar).}
+\item{b}{Target z-value at analysis j (scalar).}
 }
 \description{
-Conditional power computation with non-constant effect
+Calculate the conditional power under arbitrary treatment effect and statistical information.
+Given an interim Z-value (\code{a}), a future target Z-value (\code{b}), the interim and future statistical information, the
+underlying treatment effect at the interim and future analysis, this function calculates the conditional power.
+}
+\details{
+The expected value for \eqn{Z_2 - Z_1} is calculated as
+
+\deqn{\mu_{1,2} = E(Z_2 - Z_1) = \theta_2 \sqrt{I_{2}}Z_{j} - \sqrt{I_{i}}Z_{i}}
+
+Define \eqn(t = I_{1}/I_{2}). The basic formula for the conditional power calculation is
+
+\deqn{CP = P(Z_{2} \geq b | Z_{1} = a) =
+1 - \Phi\left(\frac{b -\sqrt{t} a -\sqrt{I_{2}}}\theta_2 - \sqrt{I_{1}}\theta_1}{\sqrt{1-t}}\right).
 }
 \examples{
 library(gsDesign2)
