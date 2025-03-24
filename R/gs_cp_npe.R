@@ -22,23 +22,22 @@
 #' We assume \eqn{Z_1} and \eqn{Z_2} are the z-values at an interim analysis and later analysis, respectively.
 #' We assume further \eqn{Z_1} and \eqn{Z_2} are bivariate normal with standard group sequential assumptions
 #' on independent increments where for \eqn{i=1,2}
-#' \deqn{E(Z_i) = \theta_i\sqrt{I_i}},
-#' \deqn{Var(Z_i) = 1/I_i},
-#' \cov{Z_1, Z_2} = t \equiv I_1/I_2,
+#' \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
+#' \deqn{Var(Z_i) = 1/I_i}
+#' \deqn{Cov(Z_1, Z_2) = t \equiv I_1/I_2}
 #' where \eqn{\theta_1, \theta_2} are real values and \eqn{0<I_1<I_2}.
 #' See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
 #' Returned value is
-#' \deqn{P(Z_2 > b | Z_1 = a)} =
-#'       1 - \Phi\left(\frac{b - \sqrt{t}a-\sqrt{I_{2}}(\theta_{2}-\theta_1\sqrt{t}}{\sqrt(1 - t)}\right)}.}
+#' \deqn{P(Z_2 > b \mid Z_1 = a) = 1 - \Phi\left(\frac{b - \sqrt{t}a - \sqrt{I_2}(\theta_2 - \theta_1\sqrt{t})}{\sqrt{1 - t}}\right)}
 #'
 #' @param theta A vector of length two, which specifies the natural parameter for treatment effect.
-#'              The first element of `theta` is the treatment effect of the interim analysis i.
-#'              The second element of `theta` is the treatment effect of the future analysis j.
+#'              The first element of `theta` is the treatment effect of an interim analysis i.
+#'              The second element of `theta` is the treatment effect of a future analysis j.
 #' @param info A vector of two, which specifies the statistical information under the treatment effect `theta`.
 #' @param max_info A scalar specifying the planned statistical information at final analysis.
 #' @param a Interim z-value at analysis i (scalar).
 #' @param b Future z-value at analysis j (scalar).
-#' @value A scalar with the conditional power \eqn{P(Z_2>b|Z_1=a)}.
+#' @return A scalar with the conditional power \eqn{P(Z_2>b\mid Z_1=a)}.
 #' @export
 #'
 #' @examples
