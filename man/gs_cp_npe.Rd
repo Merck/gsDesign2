@@ -4,7 +4,7 @@
 \alias{gs_cp_npe}
 \title{Conditional power computation with non-constant effect size}
 \usage{
-gs_cp_npe(theta = NULL, info = NULL, max_info = max(info), a = NULL, b = NULL)
+gs_cp_npe(theta = NULL, info = NULL, a = NULL, b = NULL)
 }
 \arguments{
 \item{theta}{A vector of length two, which specifies the natural parameter for treatment effect.
@@ -39,82 +39,10 @@ Returned value is
 library(gsDesign2)
 library(dplyr)
 
-# ---------------------------------- #
-#             Example 1              #
-# CP under arbitrary theta and info  #
-# ---------------------------------- #
+# Calculate conditional power under arbitrary theta and info
+# In practice, the value of theta and info commonly comes from a design.
+# More examples are available at the pkgdown vignettes.
 gs_cp_npe(theta = c(.1, .2),
           info = c(15, 35),
           a = 1.5, b = 1.96)
-
-# ---------------------------------- #
-#             Example 2              #
-# Calculate conditional power and    #
-#       error of a design            #
-# ---------------------------------- #
-x <- gs_design_ahr(
-  fail_rate = define_fail_rate(duration = c(4, Inf),
-                               fail_rate = log(2) / 10,
-                               hr = c(1, 0.7),
-                               dropout_rate = 0.0001),
-  analysis_time = c(12, 24, 36))
-
-# Example 2A ----
-# Conditional error of FA given IA1 Z-score of 1.75
-gs_cp_npe(theta = c(0, 0),
-          info = x$analysis$info0[c(1, 3)],
-          a = 1.75,
-          b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
-
-# Example 2B ----
-# Conditional power of FA given
-# (1) IA1 Z-score of 1.75;
-# (2) H1 assumed treatment effect
-gs_cp_npe(theta = x$analysis$theta[c(1, 3)],
-          # taking info0 in this example gives minor differences
-          info = x$analysis$info[c(1, 3)],
-          a = 1.75,
-          b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
-
-# Example 2C ----
-# Assume at IA1:
-# (1) The Z-score is 1.75;
-# (2) There are 50 events observed during the first 4 months since study starts
-# (3) There are 150 events observed after the 4th month.
-# For IA1, we take the blinded estimation of theta and info.
-# For FA, we take the planned theta and info.
-theta_blinded <- -sum(log(c(1, 0.7)) * c(50, 150)) / 200
-info_blinded <- 200 / 4
-gs_cp_npe(theta = c(theta_blinded, x$analysis$theta[3]),
-          info = c(info_blinded, x$analysis$info0[3]),
-          a = 1.75,
-          b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
-
-# Example 2D ----
-# If the HR is not assumed, say, HR = 1 for the first 4 months and 0.8 afterwards
-# At FA, assume there are 70 events during the first 4 months and 700 events afterwards.
-# We first calculate the expected events at IA1 under the new HR
-e_event_ia1 <- expected_event(enroll_rate = x$enroll_rate,
-                              fail_rate = x$fail_rate |> mutate(hr = c(1, 0.8)),
-                              total_duration = x$analysis$time[1],
-                              simple = FALSE)
-# Under the new HR, there are 150 events during the first 4 months and 67 events afterwards.
-# If 160 and 67 are the blinded events, we can derive the blinded estimation of treatment effect.
-theta_blinded_ia1 <- -sum(log(c(1, 0.8)) * c(150, 67)) / (150 + 67)
-info_blinded_ia1 <- (150 + 67) / 4
-
-# We further calculate the expected events at FA under the new HR
-e_event_fa <- expected_event(enroll_rate = x$enroll_rate,
-                             fail_rate = x$fail_rate |> mutate(hr = c(1, 0.8)),
-                             total_duration = x$analysis$time[3],
-                             simple = FALSE)
-# Under the new HR, there are 223 events during the first 4 months and 562 events afterwards.
-# If 160 and 67 are the blinded events, we can derive the blinded estimation of treatment effect.
-theta_blinded_fa <- -sum(log(c(1, 0.8)) * c(223, 562)) / (223 + 562)
-info_blinded_fa <- (223 + 562) / 4
-
-gs_cp_npe(theta = c(theta_blinded_ia1, theta_blinded_fa),
-          info = c(info_blinded_ia1, info_blinded_fa),
-          a = 1.75,
-          b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
 }
