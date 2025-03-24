@@ -2,37 +2,38 @@
 % Please edit documentation in R/gs_cp_npe.R
 \name{gs_cp_npe}
 \alias{gs_cp_npe}
-\title{Conditional power computation with non-constant effect}
+\title{Conditional power computation with non-constant effect size}
 \usage{
 gs_cp_npe(theta = NULL, info = NULL, max_info = max(info), a = NULL, b = NULL)
 }
 \arguments{
 \item{theta}{A vector of length two, which specifies the natural parameter for treatment effect.
-The first element of \code{theta} is the treatment effect of the interim analysis i.
-The second element of \code{theta} is the treatment effect of the future analysis j.}
+The first element of \code{theta} is the treatment effect of an interim analysis i.
+The second element of \code{theta} is the treatment effect of a future analysis j.}
 
 \item{info}{A vector of two, which specifies the statistical information under the treatment effect \code{theta}.}
 
-\item{max_info}{A scalar specifying the planned statistical information at final analysis.}
+\item{a}{Interim z-value at analysis i (scalar).}
 
-\item{a}{Interim observed z-value at analysis i (scalar).}
-
-\item{b}{Target z-value at analysis j (scalar).}
+\item{b}{Future target z-value at analysis j (scalar).}
+}
+\value{
+A scalar with the conditional power \eqn{P(Z_2>b\mid Z_1=a)}.
 }
 \description{
-Calculate the conditional power under arbitrary treatment effect and statistical information.
-Given an interim Z-value (\code{a}), a future target Z-value (\code{b}), the interim and future statistical information, the
-underlying treatment effect at the interim and future analysis, this function calculates the conditional power.
+Conditional power computation with non-constant effect size
 }
 \details{
-The expected value for \eqn{Z_2 - Z_1} is calculated as
-
-\deqn{\mu_{1,2} = E(Z_2 - Z_1) = \theta_2 \sqrt{I_{2}}Z_{j} - \sqrt{I_{i}}Z_{i}}
-
-Define \eqn(t = I_{1}/I_{2}). The basic formula for the conditional power calculation is
-
-\deqn{CP = P(Z_{2} \geq b | Z_{1} = a) =
-1 - \Phi\left(\frac{b -\sqrt{t} a -\sqrt{I_{2}}}\theta_2 - \sqrt{I_{1}}\theta_1}{\sqrt{1-t}}\right).
+We assume \eqn{Z_1} and \eqn{Z_2} are the z-values at an interim analysis and later analysis, respectively.
+We assume further \eqn{Z_1} and \eqn{Z_2} are bivariate normal with standard group sequential assumptions
+on independent increments where for \eqn{i=1,2}
+\deqn{E(Z_i) = \theta_i\sqrt{I_i}}
+\deqn{Var(Z_i) = 1/I_i}
+\deqn{Cov(Z_1, Z_2) = t \equiv I_1/I_2}
+where \eqn{\theta_1, \theta_2} are real values and \eqn{0<I_1<I_2}.
+See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
+Returned value is
+\deqn{P(Z_2 > b \mid Z_1 = a) = 1 - \Phi\left(\frac{b - \sqrt{t}a - \sqrt{I_2}(\theta_2 - \theta_1\sqrt{t})}{\sqrt{1 - t}}\right)}
 }
 \examples{
 library(gsDesign2)
