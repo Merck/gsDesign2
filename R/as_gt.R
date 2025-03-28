@@ -32,7 +32,7 @@ as_gt <- function(x, ...) {
 #'
 #' @export
 #'
-#' @examplesIf !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' @examples
 #' # Fixed design examples ----
 #'
 #' library(dplyr)
@@ -156,7 +156,7 @@ fd_footnote <- function(x, method) {
 #'
 #' @export
 #'
-#' @examplesIf !identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' @examples
 #' \donttest{
 #' # Group sequential design examples ---
 #'
