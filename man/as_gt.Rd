@@ -31,18 +31,18 @@ as_gt(x, ...)
 \item{title}{A string to specify the title of the gt table.}
 
 \item{footnote}{A list containing \code{content}, \code{location}, and \code{attr}.
-\code{content} is a vector of string to specify the footnote text;
-\code{location} is a vector of string to specify the locations to put the
-superscript of the footnote index;
-\code{attr} is a vector of string to specify the attributes of the footnotes,
-for example, \code{c("colname", "title", "subtitle", "analysis", "spanner")};
-users can use the functions in the \code{gt} package to customize the table.}
+\code{content} is a vector of string to specify the footnote text; \code{location} is
+a vector of string to specify the locations to put the superscript of the
+footnote index; \code{attr} is a vector of string to specify the attributes of
+the footnotes, for example, \code{c("colname", "title", "subtitle", "analysis", "spanner")}; users can use the functions in the \code{gt} package to customize
+the table. To disable footnotes, use \code{footnote = FALSE}.}
 
 \item{subtitle}{A string to specify the subtitle of the gt table.}
 
 \item{colname_spanner}{A string to specify the spanner of the gt table.}
 
-\item{colname_spannersub}{A vector of strings to specify the spanner details of the gt table.}
+\item{colname_spannersub}{A vector of strings to specify the spanner details
+of the gt table.}
 
 \item{display_bound}{A vector of strings specifying the label of the bounds.
 The default is \code{c("Efficacy", "Futility")}.}
