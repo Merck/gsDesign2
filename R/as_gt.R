@@ -274,12 +274,13 @@ as_gt.gs_design <- function(
     gt::tab_header(title = parts$title, subtitle = parts$subtitle)
 
   # Add footnotes ----
-  footnotes <- parts$footnotes
-  for (i in seq_along(footnotes$content)) {
-    att <- footnotes$attr[i]
+  add_footnote <- !isFALSE(footnote)
+  footnote <- parts$footnote
+  for (i in seq_along(footnote$content)) {
+    att <- footnote$attr[i]
     loc <- if (att == "colname") {
       # footnotes are added on the colnames
-      gt::cells_column_labels(columns = footnotes$location[i])
+      gt::cells_column_labels(columns = footnote$location[i])
     } else if (att %in% c("title", "subtitle")) {
       # on the title/subtitle
       gt::cells_title(group = att)
@@ -291,11 +292,11 @@ as_gt.gs_design <- function(
       gt::cells_column_spanners(spanners = colname_spanner)
     }
     if (!is.null(loc))
-      x <- gt::tab_footnote(x, footnote = footnotes$content[i], locations = loc)
+      x <- gt::tab_footnote(x, footnote = footnote$content[i], locations = loc)
   }
 
   # add footnote for non-binding design
-  footnote_nb <- if (!isFALSE(footnote)) gsd_footnote_nb(x_old, parts$alpha)
+  footnote_nb <- if (add_footnote) gsd_footnote_nb(x_old, parts$alpha)
   if (!is.null(footnote_nb)) x <- gt::tab_footnote(
     x,
     footnote = footnote_nb,
@@ -418,7 +419,7 @@ gsd_parts <- function(
   list(
     x = arrange(x2, Analysis),
     title = title, subtitle = subtitle,
-    footnotes = if (!isFALSE(footnote)) footnote %||% gsd_footnote(method, columns),
+    footnote = if (!isFALSE(footnote)) footnote %||% gsd_footnote(method, columns),
     alpha = max(filter(x, Bound == bound[1])[["Null hypothesis"]])
   )
 }
