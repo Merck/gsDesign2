@@ -59,7 +59,6 @@ A \code{gt_tbl} object.
 Convert summary table of a fixed or group sequential design object to a gt object
 }
 \examples{
-\dontshow{if (!identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Fixed design examples ----
 
 library(dplyr)
@@ -107,8 +106,6 @@ fixed_design_fh(
 ) \%>\%
   summary() \%>\%
   as_gt()
-\dontshow{\}) # examplesIf}
-\dontshow{if (!identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 # Group sequential design examples ---
 
@@ -196,5 +193,4 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
   summary() \%>\%
   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 }
-\dontshow{\}) # examplesIf}
 }
