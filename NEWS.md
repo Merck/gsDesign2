@@ -4,6 +4,8 @@
 
 - Bound functions and spending functions can be provided through their names (character strings) now, e.g., `gs_design_ahr(..., upper = "gs_spending_bound", upar = list(sf = "sfLDOF", ...))` (#509, thanks to @yihui).
 
+- The `footnote` argument of `as_gt()` can take the value `FALSE` to disable footnotes (#514, thanks to @yihui).
+
 # gsDesign2 1.1.3
 
 ## Bug fixes
