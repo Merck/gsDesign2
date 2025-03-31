@@ -76,8 +76,8 @@ to_integer <- function(x, ...) {
 #'   ),
 #'   study_duration = 36
 #' )
-#' x |>
-#'   to_integer() |>
+#' x %>%
+#'   to_integer() %>%
 #'   summary()
 #'
 #' # FH
@@ -93,8 +93,8 @@ to_integer <- function(x, ...) {
 #'   rho = 0.5, gamma = 0.5,
 #'   study_duration = 36, ratio = 1
 #' )
-#' x |>
-#'   to_integer() |>
+#' x %>%
+#'   to_integer() %>%
 #'   summary()
 #'
 #' # MB
@@ -109,8 +109,8 @@ to_integer <- function(x, ...) {
 #'   tau = 4,
 #'   study_duration = 36, ratio = 1
 #' )
-#' x |>
-#'   to_integer() |>
+#' x %>%
+#'   to_integer() %>%
 #'   summary()
 #' }
 to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio, ...) {
@@ -283,8 +283,8 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)
-#' ) |>
-#'   to_integer() |>
+#' ) %>%
+#'   to_integer() %>%
 #'   summary()
 #'
 #' gs_design_wlr(
@@ -293,8 +293,8 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)
-#' ) |>
-#'   to_integer() |>
+#' ) %>%
+#'   to_integer() %>%
 #'   summary()
 #'
 #' gs_design_rd(
@@ -307,8 +307,8 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)
-#' ) |>
-#'   to_integer() |>
+#' ) %>%
+#'   to_integer() %>%
 #'   summary()
 #'
 #' # Example 2: Calendar based spending
@@ -321,7 +321,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
 #'   ),
 #'   lower = gs_b,
 #'   lpar = c(-Inf, -Inf)
-#' ) |> to_integer()
+#' ) %>% to_integer()
 #'
 #' # The IA nominal p-value is the same as the IA alpha spending
 #' x$bound$`nominal p`[1]
