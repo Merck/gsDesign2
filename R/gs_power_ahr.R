@@ -122,8 +122,8 @@
 #' # Events = max(events, calculated events for targeted analysis_time)
 #' \donttest{
 #' gs_power_ahr(
-#'   analysis_time = c(12, 24, 36),
-#'   event = c(30, 40, 50),
+#'   analysis_time = c(12, 24, 36), 
+#'   event = c(30, 40, 50), h1_spending = FALSE,
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -152,6 +152,7 @@ gs_power_ahr <- function(
     test_upper = TRUE,
     ratio = 1,
     binding = FALSE,
+    h1_spending = TRUE,
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     r = 18,
     tol = 1e-6,
@@ -207,18 +208,26 @@ gs_power_ahr <- function(
     x$info <- x$info * q
   }
 
+  if (h1_spending) { 
+      theta1 <- x$theta
+      info1 <- x$info
+  } else {
+      theta1 <- 0
+      info1 <- x$info0
+  }
+    
   # Given the above statistical information, calculate the power ----
   y_h1 <- gs_power_npe(
-    theta = x$theta,
-    info = x$info, info0 = x$info0, info1 = x$info, info_scale = info_scale,
+    theta = x$theta, theta0 = 0, theta1 = theta1,
+    info = x$info, info0 = x$info0, info1 = info1, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
     lower = lower, lpar = lpar, test_lower = test_lower,
     binding = binding, r = r, tol = tol
   )
 
   y_h0 <- gs_power_npe(
-    theta = 0, theta0 = 0, theta1 = x$theta,
-    info = x$info0, info0 = x$info0, info1 = x$info, info_scale = info_scale,
+    theta = 0, theta0 = 0, theta1 = theta1,
+    info = x$info0, info0 = x$info0, info1 = info1, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
     lower = if (!two_sided) {
       gs_b
