@@ -248,3 +248,16 @@ test_that("Validate the sample size rounding under unequal randomization (3:2) f
   # error when ratio is negative
   expect_error(x |> to_integer(ratio = -2))
 })
+
+test_that("Validate the boundary is symmetric in symmetric designs.", {
+  x <- gs_design_ahr(analysis_time = 36, info_frac = 1:3/3, 
+                     upper = gs_spending_bound,
+                     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+                     lower = gs_spending_bound,
+                     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+                     binding = TRUE, h1_spending = FALSE) %>%
+  to_integer()
+  
+  expect_equal(x$bound$z[x$bound$bound == "upper"], 
+               -x$bound$z[x$bound$bound == "lower"])
+})
