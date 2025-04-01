@@ -464,6 +464,7 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
       test_upper = x$input$test_upper,
       test_lower = x$input$test_lower,
       binding = x$input$binding,
+      h1_spending = x$input$h1_spending,
       info_scale = x$input$info_scale, r = x$input$r, tol = x$input$tol,
       interval = c(0.01, max(x$analysis$time) + 100),
       integer = TRUE
