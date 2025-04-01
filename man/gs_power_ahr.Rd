@@ -19,6 +19,7 @@ gs_power_ahr(
   test_upper = TRUE,
   ratio = 1,
   binding = FALSE,
+  h1_spending = TRUE,
   info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   r = 18,
   tol = 1e-06,
@@ -73,6 +74,13 @@ which analyses will have an efficacy bound.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
+
+\item{h1_spending}{Indicator that lower bound to be set by spending
+under alternate hypothesis (input \code{fail_rate})
+if spending is used for lower bound.
+If this is \code{FALSE}, then the lower bound spending is under the null hypothesis.
+This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
@@ -200,7 +208,7 @@ gs_power_ahr(
 gs_power_ahr(
   analysis_time = c(12, 24, 36),
   event = c(30, 40, 50),
-  binding = TRUE,
+  binding = TRUE, h1_spending = FALSE,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,

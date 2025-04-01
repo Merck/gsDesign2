@@ -468,6 +468,7 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
       interval = c(0.01, max(x$analysis$time) + 100),
       integer = TRUE
     )
+    if (is_ahr) power_args["h1_spending"] <- x$input["h1_spending"]
     if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
     x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)
   } else {
