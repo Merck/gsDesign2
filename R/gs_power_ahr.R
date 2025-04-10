@@ -122,7 +122,7 @@
 #' # Events = max(events, calculated events for targeted analysis_time)
 #' \donttest{
 #' gs_power_ahr(
-#'   analysis_time = c(12, 24, 36), 
+#'   analysis_time = c(12, 24, 36),
 #'   event = c(30, 40, 50), h1_spending = FALSE,
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
@@ -208,14 +208,14 @@ gs_power_ahr <- function(
     x$info <- x$info * q
   }
 
-  if (h1_spending) { 
+  if (h1_spending) {
       theta1 <- x$theta
       info1 <- x$info
   } else {
       theta1 <- 0
       info1 <- x$info0
   }
-    
+
   # Given the above statistical information, calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$theta, theta0 = 0, theta1 = theta1,
@@ -284,7 +284,8 @@ gs_power_ahr <- function(
     upper = upper, upar = upar,
     lower = lower, lpar = lpar,
     test_lower = test_lower, test_upper = test_upper,
-    ratio = ratio, binding = binding, info_scale = info_scale, r = r, tol = tol
+    ratio = ratio, binding = binding, h1_spending = h1_spending,
+    info_scale = info_scale, r = r, tol = tol
   )
 
   ans <- list(
