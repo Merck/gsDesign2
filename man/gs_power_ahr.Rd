@@ -207,8 +207,8 @@ gs_power_ahr(
 \donttest{
 gs_power_ahr(
   analysis_time = c(12, 24, 36),
-  event = c(30, 40, 50),
-  binding = TRUE, h1_spending = FALSE,
+  event = c(30, 40, 50), h1_spending = FALSE,
+  binding = TRUE,
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
