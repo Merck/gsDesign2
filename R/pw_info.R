@@ -189,7 +189,7 @@ pw_info <- function(
       event_tmp <- event_tmp[,
         .(
           stratum = s,
-          info = (sum(1 / event))^(-1),
+          info = 1/sum(1/event),
           event = sum(event),
           hr = last(fail_rate) / first(fail_rate)
         ),
