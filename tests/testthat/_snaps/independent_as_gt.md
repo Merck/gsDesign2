@@ -1,6 +1,6 @@
 # Snapshot test for fixed_design summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Fixed Design under AHR Method\textsuperscript{\textit{1}}}
     } 
@@ -19,7 +19,7 @@
 
 # Snapshot test for fixed_design summary as_gt with custom title and footnote
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Custom Title\textsuperscript{\textit{1}}}
     } 
@@ -38,7 +38,7 @@
 
 # Snapshot test for fixed_design_fh summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Fixed Design under Fleming-Harrington Method\textsuperscript{\textit{1}}}
     } 
@@ -57,7 +57,7 @@
 
 # Snapshot test for gs_design_ahr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for AHR design} \\ 
     {\small AHR approximations of \textasciitilde{}HR at bound}
@@ -82,7 +82,7 @@
 
 # Snapshot test for gs_power_ahr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for AHR design} \\ 
     {\small AHR approximations of \textasciitilde{}HR at bound}
@@ -118,7 +118,7 @@
 
 # Snapshot test for gs_design_wlr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -144,7 +144,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design\textsuperscript{\textit{1}}} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -182,7 +182,7 @@
 
 # Snapshot test for gs_power_combo summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for MaxCombo design} \\ 
     {\small MaxCombo approximation}
@@ -218,7 +218,7 @@
 
 # Snapshot test for gs_design_rd summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary of Binary Endpoint} \\ 
     {\small measured by risk difference}
@@ -242,7 +242,7 @@
 
 # Snapshot test for gs_power_rd summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary of Binary Endpoint} \\ 
     {\small measured by risk difference}
@@ -276,7 +276,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with custom title and subtitle
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound Summary} \\ 
     {\small from gs\_power\_wlr}
@@ -313,7 +313,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with colname_spanner and colname_spannersub
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -350,7 +350,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with custom footnotes
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design\textsuperscript{\textit{1}}} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -388,7 +388,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with display_bound
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -422,7 +422,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with display_columns
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
