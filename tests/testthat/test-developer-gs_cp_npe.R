@@ -60,15 +60,27 @@ test_that("Compare the gs_cp_npe with gsDesign::gsCP", {
                   minfup = analysis_time[3] - sum(enroll_rate$duration),
                   ratio = ratio)
 
-  # -------------------------------- #
-  #  conditional power by gs_cp_npe  #
-  # -------------------------------- #
-  cp12 <- gs_cp_npe(theta = x$analysis$theta[c(1,2)],
+  # ----------------------------------------- #
+  #  conditional power by gs_cp_npe under H0  #
+  # ----------------------------------------- #
+  cp12_0 <- gs_cp_npe(theta = c(0,0),
+                      info = x$analysis$info0[c(1,2)],
+                      a = -qnorm(0.04),
+                      b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2])
+
+  cp13_0 <- gs_cp_npe(theta = c(0,0),
+                      info = x$analysis$info0[c(1,3)],
+                      a = -qnorm(0.04),
+                      b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
+  # ----------------------------------------- #
+  #  conditional power by gs_cp_npe under H1  #
+  # ----------------------------------------- #
+  cp12_1 <- gs_cp_npe(theta = x$analysis$theta[c(1,2)],
                     info = x$analysis$info[c(1,2)],
                     a = -qnorm(0.04),
                     b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2])
 
-  cp13 <- gs_cp_npe(theta = x$analysis$theta[c(1,3)],
+  cp13_1 <- gs_cp_npe(theta = x$analysis$theta[c(1,3)],
                     info = x$analysis$info[c(1,3)],
                     a = -qnorm(0.04),
                     b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
@@ -81,15 +93,23 @@ test_that("Compare the gs_cp_npe with gsDesign::gsCP", {
   # ------------------------------ #
   #       comparison               #
   # ------------------------------ #
-
+  # under H0
+  # given IA1 assumed blinded data and compute IA2 conditional power
+  expect_equal(xcp_gsd$upper$prob[1, 2],
+               cp12_0,
+               tolerance = 5e-2)
+  # given IA1 assumed blinded data and compute FA conditional power
+  expect_equal(sum(xcp_gsd$upper$prob[, 2]),
+               cp13_0,
+               tolerance = 5e-2)
   # under H1
   # given IA1 assumed blinded data and compute IA2 conditional power
   expect_equal(xcp_gsd$upper$prob[1, 3],
-               cp12,
+               cp12_1,
                tolerance = 5e-2)
   # given IA1 assumed blinded data and compute FA conditional power
   expect_equal(sum(xcp_gsd$upper$prob[, 3]),
-               cp13,
+               cp13_1,
                tolerance = 5e-2)
 
 })
