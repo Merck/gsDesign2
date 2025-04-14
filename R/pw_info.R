@@ -99,8 +99,8 @@ pw_info <- function(
     for (j in seq_along(strata)) {
       # get the stratum specific enroll rate and failure rate
       s <- strata[j]
-      enroll_rate_s <- enroll_rate[stratum == s, ]
-      fail_rate_s <- fail_rate[stratum == s, ]
+      enroll_rate_s <- subset(enroll_rate, stratum == s)
+      fail_rate_s <- subset(fail_rate, stratum == s)
 
       # get the change points of the piecewise exp for the failure rates
       fr_change_point <- fail_rate_s$duration
@@ -153,19 +153,16 @@ pw_info <- function(
     for (j in seq_along(strata)) {
       s <- strata[j]
       # subset to stratum
-      enroll <- enroll_rate[stratum == s, ]
-      fail <- fail_rate[stratum == s, ]
+      enroll <- subset(enroll_rate, stratum == s)
+      fail <- subset(fail_rate, stratum == s)
 
       # update enrollment rates
-      enroll_c <- copy(enroll)
-      enroll_c[, rate := rate * q_c]
-      enroll_e <- copy(enroll)
-      enroll_e[, rate := rate * q_e]
+      enroll_c <- within(enroll, rate <- rate * q_c)
+      enroll_e <- within(enroll, rate <- rate * q_e)
 
       # update failure rates
-      fail_c <- copy(fail)
-      fail_e <- copy(fail)
-      fail_e[, fail_rate := fail_rate * hr]
+      fail_c <- fail
+      fail_e <- within(fail, fail_rate <- fail_rate * hr)
 
       # compute expected number of events
       event_c <- expected_event(
