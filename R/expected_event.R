@@ -225,15 +225,13 @@ expected_event <- function(
       ans, ans$start_fail,
       function(data) {
         data.frame(
-          start_fail = data$start_fail[1],
+          t = data$start_fail[1],
           fail_rate = data$fail_rate[1],
           event = sum(data$event)
         )
       }
     )
     ans <- do.call(rbind, ans)
-    ans$t <- ans$start_fail
-    ans <- ans[, c("t", "fail_rate", "event")]
     row.names(ans) <- seq_len(nrow(ans))
   }
   return(ans)
