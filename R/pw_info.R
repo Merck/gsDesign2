@@ -85,10 +85,6 @@ pw_info <- function(
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
   check_total_duration(total_duration)
   check_ratio(ratio)
-  enroll_rate <- as.data.table(enroll_rate)
-  class(enroll_rate) <- c("enroll_rate", class(enroll_rate))
-  fail_rate <- as.data.table(fail_rate)
-  class(fail_rate) <- c("fail_rate", class(enroll_rate))
 
   # -------------------------------------- #
   #   compute expected accrual over time   #
