@@ -105,12 +105,11 @@ pw_info <- function(
       # get the change points of the piecewise exp for the failure rates
       fr_change_point <- fail_rate_s$duration
       # make the last change point into around 1e6
-      if (is.infinite(max(fr_change_point))) {
-        fr_change_point <- fr_change_point[is.finite(fr_change_point)]
-      } else {
-        fr_change_point <- fr_change_point[-length(fr_change_point)]
-      }
-      fr_change_point <- c(fr_change_point, max(total_duration) + 1e6)
+      k <- is.finite(fr_change_point)
+      fr_change_point <- c(
+        if (all(k)) head(fr_change_point, -1) else fr_change_point[k],
+        max(total_duration) + 1e6
+      )
       temp_fr_change_point <- fr_change_point[which(cumsum(fr_change_point) <= td)]
 
       # get the starting time of each pwexp interval
