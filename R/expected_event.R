@@ -232,7 +232,7 @@ expected_event <- function(
       }
     )
     ans <- do.call(rbind, ans)
-    row.names(ans) <- seq_len(nrow(ans))
+    row.names(ans) <- NULL
   }
   return(ans)
 }
