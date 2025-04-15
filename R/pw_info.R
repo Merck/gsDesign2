@@ -124,9 +124,9 @@ pw_info <- function(
       n <- diff(c(0, cum_n))
 
       # build the accrual table
-      tbl_n_new <- data.frame(time = rep(td, length(n)),
+      tbl_n_new <- data.frame(time = td,
                               t = start_time_fr[start_time_fr < td],
-                              stratum = rep(s, length(n)),
+                              stratum = s,
                               n = n)
 
       tbl_n <- rbind(tbl_n, tbl_n_new)
