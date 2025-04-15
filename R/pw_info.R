@@ -114,6 +114,7 @@ pw_info <- function(
 
       # get the starting time of each pwexp interval
       start_time_fr <- c(0, head(fr_cumsum, -1))
+      start_time_fr <- start_time_fr[start_time_fr < td]
 
       # calculate the cumulative accrual before the td
       # cut by the change points from the pwexp dist of the failure rates
@@ -124,10 +125,7 @@ pw_info <- function(
       n <- diff(c(0, cum_n))
 
       # build the accrual table
-      tbl_n_new <- data.frame(time = td,
-                              t = start_time_fr[start_time_fr < td],
-                              stratum = s,
-                              n = n)
+      tbl_n_new <- data.frame(time = td, t = start_time_fr, stratum = s, n = n)
 
       tbl_n <- rbind(tbl_n, tbl_n_new)
     }
