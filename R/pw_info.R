@@ -111,21 +111,18 @@ pw_info <- function(
         max(total_duration) + 1e6
       )
       fr_cumsum <- cumsum(fr_change_point)
-
-      # get the starting time of each pwexp interval
-      start_time_fr <- c(0, head(fr_cumsum, -1))
-      start_time_fr <- start_time_fr[start_time_fr < td]
+      fr_cumsum <- fr_cumsum[fr_cumsum < td]
 
       # calculate the cumulative accrual before the td
       # cut by the change points from the pwexp dist of the failure rates
-      cum_n <- expected_accrual(time = c(fr_cumsum[fr_cumsum <= td], td),
+      cum_n <- expected_accrual(time = c(fr_cumsum, td),
                                 enroll_rate = enroll_rate_s)
 
       # get the accrual during the interval
       n <- diff(c(0, cum_n))
 
       # build the accrual table
-      tbl_n_new <- data.frame(time = td, t = start_time_fr, stratum = s, n = n)
+      tbl_n_new <- data.frame(time = td, t = c(0, fr_cumsum), stratum = s, n = n)
 
       tbl_n <- rbind(tbl_n, tbl_n_new)
     }
