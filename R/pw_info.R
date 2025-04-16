@@ -175,8 +175,8 @@ pw_info <- function(
       event_list[[j]] <- cbind(rbind(event_c, event_e), stratum = s)
     }
     # summarize events in one stratum
-    event <- rbindlist(event_list)
-    event[, time := td]
+    event <- do.call(rbind, event_list)
+    event$time <- td
 
     ans_list[[i]] <- event
   }
