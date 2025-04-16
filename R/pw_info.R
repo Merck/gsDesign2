@@ -191,7 +191,6 @@ pw_info <- function(
     event <- rbindlist(event_list)
     event[, `:=`(
       time = td,
-      ln_hr = log(hr),
       info0 = event * q_c * q_e)]
 
     # pool strata together for each time period
