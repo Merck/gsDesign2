@@ -174,7 +174,6 @@ pw_info <- function(
       event_e$treatment <- "experimental"
       event_tmp <- rbind(event_c, event_e)
       setDT(event_tmp)
-      event_tmp <- event_tmp[order(t, treatment), ]
 
       # recompute HR, events, info by period
       event_tmp <- event_tmp[,
