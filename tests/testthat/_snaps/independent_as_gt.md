@@ -71,7 +71,7 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 36 N: 476 Events: 291.9 AHR: 0.68 Information fraction: 1} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Efficacy & 1.96 & 0.025 & 0.795 & 0.9 & 0.025 \\ 
+    Efficacy & 1.96 & 0.025 & 0.7934 & 0.9 & 0.025 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
