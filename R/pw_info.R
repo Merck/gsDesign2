@@ -169,26 +169,21 @@ pw_info <- function(
         total_duration = td,
         simple = FALSE)
 
-      # combine control and experimental; by period recompute HR, events, information
+      # combine control and experimental
       event_c$treatment <- "control"
       event_e$treatment <- "experimental"
-      event_tmp <- rbind(event_c, event_e)
-      setDT(event_tmp)
-
-      # recompute HR, events, info by period
-      event_tmp <- event_tmp[,
-        .(
-          stratum = s,
-          info = 1/sum(1/event),
-          event = sum(event),
-          hr = last(fail_rate) / first(fail_rate)
-        ),
-        by = "t"
-      ]
-      event_list[[j]] <- event_tmp
+      event_list[[j]] <- cbind(rbind(event_c, event_e), stratum = s)
     }
     # summarize events in one stratum
     event <- rbindlist(event_list)
+
+    # recompute HR, events, info by stratum and period
+    event <- event[, .(
+      info = 1/sum(1/event),
+      event = sum(event),
+      hr = last(fail_rate) / first(fail_rate)
+    ), by = .(stratum, t)]
+
     event[, `:=`(
       time = td,
       info0 = event * q_c * q_e)]
