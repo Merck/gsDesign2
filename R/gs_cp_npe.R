@@ -73,7 +73,8 @@ gs_cp_npe <- function(theta = NULL,
   # ----------------------------------------- #
   #   calculate conditional power under theta #
   # ----------------------------------------- #
-  t <- info[2] / info[1]
+
+  t <- info[1] / info[2]
   numerator1 <- b -  a * sqrt(t)
   numerator2 <- theta[2] * sqrt(info[2]) - theta[1] * sqrt(t * info[1])
   denominator <- sqrt(1 - t)
