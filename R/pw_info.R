@@ -127,7 +127,7 @@ pw_info <- function(
     }
   }
   # build the accrual table
-  tbl_n <- do.call(rbind, tbl_n)
+  tbl_n <- rbindlist(tbl_n)
 
   # -------------------------------------- #
   #   compute expected events over time    #
