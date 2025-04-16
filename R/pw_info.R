@@ -147,15 +147,14 @@ pw_info <- function(
       s <- strata[j]
       # subset to stratum
       enroll <- subset(enroll_rate, stratum == s)
-      fail <- subset(fail_rate, stratum == s)
 
       # update enrollment rates
       enroll_c <- within(enroll, rate <- rate * q_c)
       enroll_e <- within(enroll, rate <- rate * q_e)
 
       # update failure rates
-      fail_c <- fail
-      fail_e <- within(fail, fail_rate <- fail_rate * hr)
+      fail_c <- subset(fail_rate, stratum == s)
+      fail_e <- within(fail_c, fail_rate <- fail_rate * hr)
 
       # compute expected number of events
       event_c <- expected_event(
