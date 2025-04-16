@@ -212,13 +212,11 @@ pw_info <- function(
   #    output the results                  #
   # -------------------------------------- #
   ans <- merge(tbl_event, tbl_n, by = c("time", "t", "stratum"))
-  ans <- ans[, .(time, stratum, t, hr, n, event, info, info0)]
+  # filter out the rows with 0 events and unneeded columns
+  ans <- ans[!almost_equal(event, 0L), .(time, stratum, t, hr, n, event, info, info0)]
 
   # row re-ordering
   setorderv(ans, cols = c("time", "stratum"))
-
-  # filter out the rows with 0 events
-  ans <- ans[!almost_equal(event, 0L)]
 
   setDF(ans)
   return(ans)
