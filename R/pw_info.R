@@ -90,7 +90,7 @@ pw_info <- function(
   #   compute expected accrual over time   #
   # -------------------------------------- #
   # calculate the sample size accrual during the interval
-  tbl_n <- NULL
+  tbl_n <- list()
   strata <- unique(enroll_rate$stratum)
 
   for (i in seq_along(total_duration)) {
@@ -121,13 +121,13 @@ pw_info <- function(
       # get the accrual during the interval
       n <- diff(c(0, cum_n))
 
-      # build the accrual table
-      tbl_n_new <- data.frame(time = td, t = c(0, fr_cumsum), stratum = s, n = n)
-
-      tbl_n <- rbind(tbl_n, tbl_n_new)
+      tbl_n[[length(tbl_n) + 1]] <- data.frame(
+        time = td, t = c(0, fr_cumsum), stratum = s, n = n
+      )
     }
   }
-
+  # build the accrual table
+  tbl_n <- do.call(rbind, tbl_n)
 
   # -------------------------------------- #
   #   compute expected events over time    #
