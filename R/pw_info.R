@@ -93,36 +93,34 @@ pw_info <- function(
   tbl_n <- list()
   strata <- unique(enroll_rate$stratum)
 
-  for (i in seq_along(total_duration)) {
-    td <- total_duration[i]
+  for (s in strata) {
+    # get the stratum specific enroll rate and failure rate
+    enroll_rate_s <- subset(enroll_rate, stratum == s)
+    fail_rate_s <- subset(fail_rate, stratum == s)
 
-    for (j in seq_along(strata)) {
-      # get the stratum specific enroll rate and failure rate
-      s <- strata[j]
-      enroll_rate_s <- subset(enroll_rate, stratum == s)
-      fail_rate_s <- subset(fail_rate, stratum == s)
+    # get the change points of the piecewise exp for the failure rates
+    fr_change_point <- fail_rate_s$duration
+    # make the last change point into around 1e6
+    k <- is.finite(fr_change_point)
+    fr_change_point <- c(
+      if (all(k)) head(fr_change_point, -1) else fr_change_point[k],
+      max(total_duration) + 1e6
+    )
+    fr_cumsum <- cumsum(fr_change_point)
 
-      # get the change points of the piecewise exp for the failure rates
-      fr_change_point <- fail_rate_s$duration
-      # make the last change point into around 1e6
-      k <- is.finite(fr_change_point)
-      fr_change_point <- c(
-        if (all(k)) head(fr_change_point, -1) else fr_change_point[k],
-        max(total_duration) + 1e6
-      )
-      fr_cumsum <- cumsum(fr_change_point)
-      fr_cumsum <- fr_cumsum[fr_cumsum < td]
+    for (td in total_duration) {
+      fr_trunc <- fr_cumsum[fr_cumsum < td]
 
       # calculate the cumulative accrual before the td
       # cut by the change points from the pwexp dist of the failure rates
-      cum_n <- expected_accrual(time = c(fr_cumsum, td),
+      cum_n <- expected_accrual(time = c(fr_trunc, td),
                                 enroll_rate = enroll_rate_s)
 
       # get the accrual during the interval
       n <- diff(c(0, cum_n))
 
       tbl_n[[length(tbl_n) + 1]] <- data.frame(
-        time = td, t = c(0, fr_cumsum), stratum = s, n = n
+        time = td, t = c(0, fr_trunc), stratum = s, n = n
       )
     }
   }
@@ -138,24 +136,20 @@ pw_info <- function(
 
   # compute expected events by treatment group, stratum
   # and time period listed in total_duration
-  strata <- unique(enroll_rate$stratum)
-  ans_list <- list()
-  for (i in seq_along(total_duration)) {
-    td <- total_duration[i]
-    event_list <- list()
-    for (j in seq_along(strata)) {
-      s <- strata[j]
-      # subset to stratum
-      enroll <- subset(enroll_rate, stratum == s)
+  event_list <- list()
+  for (s in strata) {
+    # subset to stratum
+    enroll <- subset(enroll_rate, stratum == s)
 
-      # update enrollment rates
-      enroll_c <- within(enroll, rate <- rate * q_c)
-      enroll_e <- within(enroll, rate <- rate * q_e)
+    # update enrollment rates
+    enroll_c <- within(enroll, rate <- rate * q_c)
+    enroll_e <- within(enroll, rate <- rate * q_e)
 
-      # update failure rates
-      fail_c <- subset(fail_rate, stratum == s)
-      fail_e <- within(fail_c, fail_rate <- fail_rate * hr)
+    # update failure rates
+    fail_c <- subset(fail_rate, stratum == s)
+    fail_e <- within(fail_c, fail_rate <- fail_rate * hr)
 
+    for (td in total_duration) {
       # compute expected number of events
       event_c <- expected_event(
         enroll_rate = enroll_c,
@@ -172,15 +166,11 @@ pw_info <- function(
       # combine control and experimental
       event_c$treatment <- "control"
       event_e$treatment <- "experimental"
-      event_list[[j]] <- cbind(rbind(event_c, event_e), stratum = s)
+      event <- cbind(rbind(event_c, event_e), time = td, stratum = s)
+      event_list[[length(event_list) + 1]] <- event
     }
-    # summarize events in one stratum
-    event <- do.call(rbind, event_list)
-    event$time <- td
-
-    ans_list[[i]] <- event
   }
-  tbl_event <- rbindlist(ans_list)
+  tbl_event <- rbindlist(event_list)
 
   # recompute HR, events, info by time, stratum, and period
   tbl_event <- tbl_event[, .(
