@@ -170,11 +170,10 @@ pw_info <- function(
         simple = FALSE)
 
       # combine control and experimental; by period recompute HR, events, information
-      setDT(event_c)
-      event_c[, treatment := "control"]
-      setDT(event_e)
-      event_e[, treatment := "experimental"]
-      event_tmp <- rbindlist(list(event_c, event_e))
+      event_c$treatment <- "control"
+      event_e$treatment <- "experimental"
+      event_tmp <- rbind(event_c, event_e)
+      setDT(event_tmp)
       event_tmp <- event_tmp[order(t, treatment), ]
 
       # recompute HR, events, info by period
