@@ -139,10 +139,10 @@ pw_info <- function(
   # compute expected events by treatment group, stratum
   # and time period listed in total_duration
   strata <- unique(enroll_rate$stratum)
-  ans_list <- vector(mode = "list", length = length(total_duration) * length(strata))
+  ans_list <- list()
   for (i in seq_along(total_duration)) {
     td <- total_duration[i]
-    event_list <- vector(mode = "list", length = length(strata))
+    event_list <- list()
     for (j in seq_along(strata)) {
       s <- strata[j]
       # subset to stratum
@@ -207,7 +207,7 @@ pw_info <- function(
       ),
       by = .(time, stratum, hr)
     ]
-    ans_list[[i + j]] <- event
+    ans_list[[i]] <- event
   }
   tbl_event <- rbindlist(ans_list)
 
