@@ -216,11 +216,9 @@ pw_info <- function(
 
   # row re-ordering
   setorderv(ans, cols = c("time", "stratum"))
-  ans <- ans[order(t), .SD, by = .(time, stratum)]
 
   # filter out the rows with 0 events
   ans <- ans[!almost_equal(event, 0L)]
-  setcolorder(ans, neworder = c("time", "stratum", "t", "hr", "n", "event", "info", "info0"))
 
   setDF(ans)
   return(ans)
