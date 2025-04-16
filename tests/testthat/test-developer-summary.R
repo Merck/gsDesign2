@@ -176,7 +176,7 @@ test_that("summary.gs_design() accepts same-length vectors for col_vars and col_
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(
     Z = 1.96,
-    `~HR at bound` = 0.795,
+    `~HR at bound` = 0.7934,
     `Nominal p` = 0.025,
     `Alternate hypothesis` = 0.9,
     `Null hypothesis` = 0.025,
@@ -247,7 +247,7 @@ test_that("summary.gs_design() accepts a named vector for col_decimals", {
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(
     Z = 2,
-    `~HR at bound` = 0.795,
+    `~HR at bound` = 0.7934,
     `Nominal p` = 0,
     `Alternate hypothesis` = 0.9,
     `Null hypothesis` = 0.025,
