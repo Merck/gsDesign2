@@ -176,31 +176,28 @@ pw_info <- function(
     }
     # summarize events in one stratum
     event <- rbindlist(event_list)
+    event[, time := td]
 
-    # recompute HR, events, info by stratum and period
-    event <- event[, .(
-      info = 1/sum(1/event),
-      event = sum(event),
-      hr = last(fail_rate) / first(fail_rate)
-    ), by = .(stratum, t)]
-
-    event[, `:=`(
-      time = td,
-      info0 = event * q_c * q_e)]
-
-    # pool strata together for each time period
-    event <- event[,
-      .(
-        t = min(t),
-        event = sum(event),
-        info0 = sum(info0),
-        info = sum(info)
-      ),
-      by = .(time, stratum, hr)
-    ]
     ans_list[[i]] <- event
   }
   tbl_event <- rbindlist(ans_list)
+
+  # recompute HR, events, info by time, stratum, and period
+  tbl_event <- tbl_event[, .(
+    info = 1/sum(1/event),
+    event = sum(event),
+    hr = last(fail_rate) / first(fail_rate)
+  ), by = .(time, stratum, t)]
+
+  tbl_event[, info0 := event * q_c * q_e, by = .(time)]
+
+  # pool strata together for each time period
+  tbl_event <- tbl_event[, .(
+    t = min(t),
+    event = sum(event),
+    info0 = sum(info0),
+    info = sum(info)
+  ), by = .(time, stratum, hr)]
 
   # -------------------------------------- #
   #    output the results                  #
