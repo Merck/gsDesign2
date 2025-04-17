@@ -27,13 +27,11 @@
 #' library(gsDesign)
 #'
 #' # Text summary of a 1-sided design
-#' x <- gs_design_ahr(fail_rate = define_fail_rate(duration = c(rep(3, 5), Inf),
-#' hr = c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4), fail_rate = log(2) / 10, dropout_rate = 0.001),
-#' info_frac = 1:3/3, test_lower = FALSE)
+#' x <- gs_design_ahr(info_frac = 1:3/3, test_lower = FALSE)
 #' x |> text_summary()
 #' x |> to_integer() |> text_summary()
-#' gs_power_ahr(test_lower = FALSE) |> text_summary()
-#' gs_power_ahr(test_lower = FALSE) |> to_integer() |> text_summary()
+#' gs_power_ahr(event = c(10, 20, 30), test_lower = FALSE) |> text_summary()
+#' gs_power_ahr(event = c(10, 20, 30), test_lower = FALSE) |> to_integer() |> text_summary()
 #'
 #' # Text summary of a 2-sided symmetric design
 #' x <- gs_design_ahr(info_frac = 1:3/3,
