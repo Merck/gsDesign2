@@ -406,5 +406,7 @@ gs_design_ahr <- function(
   )
 
   ans <- add_class(ans, if (!binding) "non_binding", "ahr", "gs_design")
+  attr(ans, 'uninteger_is_from') <- "gs_design_ahr"
+
   return(ans)
 }

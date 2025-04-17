@@ -305,6 +305,8 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   )
 
   ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
+  attr(ans, 'uninteger_is_from') <- "gs_power_wlr"
+
   return(ans)
 }
 

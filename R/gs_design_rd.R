@@ -278,5 +278,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
   )
 
   ans <- add_class(ans, if (!binding) "non_binding", "rd", "gs_design")
+  attr(ans, 'uninteger_is_from') <- "gs_design_rd"
+
   return(ans)
 }

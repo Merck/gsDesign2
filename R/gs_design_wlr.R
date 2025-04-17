@@ -340,6 +340,8 @@ gs_design_wlr <- function(
     analysis = analysis)
 
   ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
+  attr(ans, 'uninteger_is_from') <- "gs_design_wlr"
+
   return(ans)
 }
 
