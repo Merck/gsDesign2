@@ -27,9 +27,13 @@
 #' library(gsDesign)
 #'
 #' # Text summary of a 1-sided design
-#' x <- gs_design_ahr(info_frac = 1:3/3, test_lower = FALSE)
+#' x <- gs_design_ahr(fail_rate = define_fail_rate(duration = c(rep(3, 5), Inf),
+#' hr = c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4), fail_rate = log(2) / 10, dropout_rate = 0.001),
+#' info_frac = 1:3/3, test_lower = FALSE)
 #' x |> text_summary()
 #' x |> to_integer() |> text_summary()
+#' gs_power_ahr(test_lower = FALSE) |> text_summary()
+#' gs_power_ahr(test_lower = FALSE) |> to_integer() |> text_summary()
 #'
 #' # Text summary of a 2-sided symmetric design
 #' x <- gs_design_ahr(info_frac = 1:3/3,
@@ -56,9 +60,23 @@
 #'                    test_lower = c(TRUE, FALSE, FALSE),
 #'                    binding = FALSE, h1_spending = TRUE) |> to_integer()
 #' x |> text_summary()
+#'
+#' # If there are >5 pieces of HRs, we provide a brief summary of HR.
+#' gs_design_ahr(
+#'   fail_rate = define_fail_rate(duration = c(rep(3, 5), Inf),
+#'                                hr = c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4),
+#'                                fail_rate = log(2) / 10, dropout_rate = 0.001),
+#'   info_frac = 1:3/3, test_lower = FALSE) |>
+#'   text_summary()
 text_summary <- function(x, information = FALSE, time_unit = "months") {
 
   n_analysis <- nrow(x$analysis)
+  is_gs_design_ahr <- attributes(x)$uninteger_is_from == "gs_design_ahr"
+  is_gs_power_ahr <- attributes(x)$uninteger_is_from == "gs_power_ahr"
+  is_gs_design_wlr <- attributes(x)$uninteger_is_from == "gs_design_wlr"
+  is_gs_power_wlr <- attributes(x)$uninteger_is_from == "gs_power_wlr"
+  is_gs_design_rd <- attributes(x)$uninteger_is_from == "gs_design_rd"
+  is_gs_power_rd <- attributes(x)$uninteger_is_from == "gs_power_rd"
 
   # ---------------------------------------- #
   # Check if it is two-sided design or not
@@ -110,7 +128,7 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
                ifelse(is_wholenumber(max(x$analysis$n)), max(x$analysis$n), max(x$analysis$n) |> round(1)),
                " and ",
                ifelse(is_wholenumber(max(x$analysis$event)), max(x$analysis$event), max(x$analysis$event) |> round(1)),
-               " events required, ",
+               " events, ",
                sep = "")
 
   # ---------------------------------------- #
@@ -120,27 +138,44 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
     out <- paste(out, " total information ", round(x$analysis$info[n_analysis], 2), ", ", sep = "")
   }
 
-  out <- paste(out, 100 * (1 - x$input$beta), " percent power, ", 100 * x$input$alpha, " percent (1-sided) Type I error", sep = "")
+  # ---------------------------------------- #
+  # Add power and type I error
+  # ---------------------------------------- #
+  # if it is a gs_design_ahr object...
+  if (is_gs_design_ahr) {
+    out <- paste(out, 100 * round(x$bound$probability[x$bound$bound == "upper" & x$bound$analysis == n_analysis], 2), " percent power, ", 100 * x$input$alpha, " percent (1-sided) Type I error", sep = "")
+  } else if (is_gs_power_ahr) {
+    out <- paste(out, 100 * x$input$alpha, " percent (1-sided) Type I error", sep = "")
+  }
 
   # ---------------------------------------- #
   # Add HR assumption
   # ---------------------------------------- #
-  out <- paste(out, " to detect a hazard ratio of ", sep = "")
   if (nrow(x$fail_rate) == 1) {
-    temp <- round(x$fail_rate$hr, 2)
+    temp <- paste("a hazard ratio of ", round(x$fail_rate$hr, 2), sep = "")
   } else if (nrow(x$fail_rate) == 2) {
-    temp <- paste(round(x$fail_rate$hr[1], 2), " during the first ", round(x$fail_rate$duration[1], 2), " ", time_unit,
+    temp <- paste("hazard ratio of ",
+                  round(x$fail_rate$hr[1], 2), " during the first ", round(x$fail_rate$duration[1], 2), " ", time_unit,
                   " and ", round(x$fail_rate$hr[2], 2), " thereafter", sep = "")
-  } else {
-    temp <- paste(x$fail_rate$hr[1:(nrow(fail_rate) - 1)] |> round(2),
+  } else if (nrow(x$fail_rate) <= 5) {
+    temp <- paste(x$fail_rate$hr[1:(nrow(x$fail_rate) - 1)] |> round(2),
                   c(" during the first ", rep(" during the next ", nrow(x$fail_rate) - 2)),
-                  c(x$fail_rate$duration[1:(nrow(fail_rate) - 1)] |> round(2)), time_unit) |>
+                  c(x$fail_rate$duration[1:(nrow(x$fail_rate) - 1)] |> round(2)), time_unit) |>
       paste(collapse = ", ") |>
-      paste(" and ", x$fail_rate$hr[nrow(fail_rate)] |> round(2), " thereafter")
+      paste(" and ", x$fail_rate$hr[nrow(x$fail_rate)] |> round(2), " thereafter")
+    temp <- paste("hazard ratio of ", temp, sep = "")
+  } else {
+    temp <- "piecewise hazard ratio"
   }
 
-  out <- paste(out, temp, sep = "")
-
+  if (is_gs_design_ahr) {
+    out <- paste(out, " to detect ", temp, sep = "")
+  } else if (is_gs_power_ahr) {
+    out_end <- paste(" With ", temp,
+                     ", the power is ",
+                     100 * round(x$bound$probability[x$bound$analysis == n_analysis & x$bound$bound == "upper"], 2),
+                     " percent.", sep = "")
+  }
   # ---------------------------------------- #
   # Add enrollment and study duration
   # ---------------------------------------- #
@@ -181,6 +216,13 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
     } else if (identical(x$input$lower, gs_b)) {
       out <- paste(out, " Futility bounds is fixed as ", paste0(x$input$lpar, collapse = ", ") , lower_tested, ".", sep = "")
     }
+  }
+
+  # ---------------------------------------- #
+  # Add power for gs_power_ahr object
+  # ---------------------------------------- #
+  if (is_gs_power_ahr) {
+    out <- paste(out, out_end, sep = "")
   }
 
   return(out)
