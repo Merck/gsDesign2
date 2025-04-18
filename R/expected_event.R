@@ -135,8 +135,8 @@ expected_event <- function(
   # Divide the time line into sub-intervals ----
 
   ## by piecewise enrollment rates
-  df_1 <- data.frame(start_enroll = c(0, cumsum(enroll_rate$duration)))
-  df_1$end_fail <- total_duration - df_1$start_enroll
+  start_enroll <- c(0, cumsum(enroll_rate$duration))
+  df_1 <- data.frame(start_enroll, end_fail = total_duration - start_enroll)
   df_1 <- df_1[df_1$end_fail > 0, ]
 
   ## by piecewise failure & dropout rates
@@ -153,17 +153,15 @@ expected_event <- function(
 
   # Create 3 step functions (sf) ----
   # Step function to define enrollment rates over time
-  sf_enroll_rate <- stats::stepfun(c(0, cumsum(enroll_rate$duration)),
-    c(0, enroll_rate$rate, 0)
-  )
+  sf_enroll_rate <- stepfun(start_enroll, c(0, enroll_rate$rate, 0))
   # step function to define failure rates over time
   start_fail <- c(0, end_fail)
   N <- nrow(fail_rate)
-  sf_fail_rate <- stats::stepfun(start_fail,
+  sf_fail_rate <- stepfun(start_fail,
     c(0, fail_rate$fail_rate, fail_rate$fail_rate[N])
   )
   # step function to define dropout rates over time
-  sf_dropout_rate <- stats::stepfun(start_fail,
+  sf_dropout_rate <- stepfun(start_fail,
     c(0, fail_rate$dropout_rate, fail_rate$dropout_rate[N])
   )
 
@@ -208,7 +206,7 @@ expected_event <- function(
   if (simple) {
     ans <- as.numeric(sum(df$nbar))
   } else {
-    sf_start_fail <- stats::stepfun(start_fail, c(0, start_fail))
+    sf_start_fail <- stepfun(start_fail, c(0, start_fail))
     ans <- data.frame(
       t = df$end_fail,
       fail_rate = df$fail_rate_var,

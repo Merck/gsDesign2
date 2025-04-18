@@ -100,7 +100,7 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   fail_rate <- tibble(duration = duration, rate = rate)
 
   # Convert rates to step function
-  ratefn <- stats::stepfun(
+  ratefn <- stepfun(
     x = cumsum(fail_rate$duration),
     y = c(fail_rate$rate, fail_rate$rate[nrow(fail_rate)]),
     right = TRUE

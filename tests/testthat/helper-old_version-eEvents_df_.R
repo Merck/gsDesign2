@@ -18,7 +18,6 @@
 
 #' @importFrom dplyr filter select full_join mutate transmute group_by ungroup summarize arrange desc lag last lead "%>%"
 #' @importFrom tibble tibble
-#' @importFrom stats stepfun
 NULL
 
 #' Expected events observed under piecewise exponential model
