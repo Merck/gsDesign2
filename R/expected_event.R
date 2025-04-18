@@ -169,8 +169,8 @@ expected_event <- function(
   # impute the NA by step functions
   df <- merge(df_1, df_2, by = c("start_enroll", "end_fail"), all = TRUE, sort = FALSE)
   df <- df[order(df$end_fail), ]
-  df$end_enroll <- fastlag(df$start_enroll, first = as.numeric(total_duration))
-  df$start_fail <- fastlag(df$end_fail, first = 0)
+  df$end_enroll <- fastlag(df$start_enroll, first = total_duration)
+  df$start_fail <- fastlag(df$end_fail)
   df$duration <- df$end_enroll - df$start_enroll
   df$fail_rate_var <- sf_fail_rate(df$start_fail)
   df$dropout_rate_var <- sf_dropout_rate(df$start_fail)
@@ -185,7 +185,7 @@ expected_event <- function(
   # g: number of expected subjects in a sub-interval
   # big_g: cumulative sum of g (pool all sub-intervals)
   df$g <- df$enroll_rate_var * df$duration
-  df$big_g <- fastlag(cumsum(df$g), first = 0)
+  df$big_g <- fastlag(cumsum(df$g))
   df <- df[order(df$start_fail), ]
   # compute expected events as nbar in a sub-interval
   df$d <- ifelse(
@@ -252,7 +252,4 @@ expected_event <- function(
 #' gsDesign2:::fastlag(1:5, first = 100) == c(100, 1:4)
 #'
 #' @keywords internal
-fastlag <- function(x, first) {
-  stopifnot(is.vector(x), is.vector(first), length(x) > 0, length(first) == 1)
-  c(first, x[-length(x)])
-}
+fastlag <- function(x, first = 0) c(first, head(x, -1))

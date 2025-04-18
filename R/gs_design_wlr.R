@@ -139,12 +139,12 @@ gs_design_wlr <- function(
   msg <- "gs_design_wlr(): analysis_time must be a
   positive number or positive increasing sequence"
   if (!is.vector(analysis_time, mode = "numeric")) stop(msg)
-  if (min(analysis_time - fastlag(analysis_time, first = 0)) <= 0) stop(msg)
+  if (min(analysis_time - fastlag(analysis_time)) <= 0) stop(msg)
   msg <- "gs_design_wlr(): info_frac must be a positive
   number or positive increasing sequence on (0, 1] with final value of 1"
   if (is.null(info_frac)) info_frac <- 1
   if (!is.vector(info_frac, mode = "numeric")) stop(msg)
-  if (min(info_frac - fastlag(info_frac, first = 0)) <= 0) stop(msg)
+  if (min(info_frac - fastlag(info_frac)) <= 0) stop(msg)
   if (max(info_frac) != 1) stop(msg)
   msg <- "gs_design_wlr(): info_frac and analysis_time must have the same length if both have length > 1"
   if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) stop(msg)
