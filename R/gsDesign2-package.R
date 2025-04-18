@@ -23,7 +23,7 @@
 #' @importFrom gsDesign gsDesign sfLDOF
 #' @importFrom stats pnorm qnorm setNames stepfun uniroot
 #' @importFrom tibble tibble
-#' @importFrom utils tail
+#' @import utils
 #' @importFrom Rcpp sourceCpp
 #' @useDynLib gsDesign2, .registration = TRUE
 #' @keywords internal
