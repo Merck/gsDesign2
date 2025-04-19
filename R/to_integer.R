@@ -570,5 +570,20 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
   x_new$analysis$n <- round(x_new$analysis$n)
   if (!is_rd) x_new$analysis$event <- round(x_new$analysis$event)
 
+  # Add attributes to x_new to identify whether it is a gs_design_ahr orbject or gs_power_ahr object
+  if ("analysis_time" %in% names(x$input) && "info_frac" %in% names(x$input) && "ahr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_design_ahr"
+  } else if ("analysis_time" %in% names(x$input) && "event" %in% names(x$input) && "ahr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_power_ahr"
+  } else if ("analysis_time" %in% names(x$input) && "info_frac" %in% names(x$input) && "wlr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_design_wlr"
+  } else if ("analysis_time" %in% names(x$input) && "event" %in% names(x$input) && "wlr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_power_wlr"
+  } else if (!("n" %in% names(x$input)) && "rd" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_design_rd"
+  } else if ("n" %in% names(x$input) && "rd" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_power_rd"
+  }
+
   return(x_new)
 }

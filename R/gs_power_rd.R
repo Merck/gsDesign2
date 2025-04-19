@@ -349,5 +349,7 @@ gs_power_rd <- function(
   )
 
   ans <- add_class(ans, if (!binding) "non_binding", "rd", "gs_design")
+  attr(ans, 'uninteger_is_from') <- "gs_power_rd"
+
   return(ans)
 }
