@@ -93,14 +93,14 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   if (!min(x) >= 0) {
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
-  if (!min(x[x > 0] - fastlag(x[x > 0], first = 0)) > 0) {
+  if (!min(x[x > 0] - fastlag(x[x > 0])) > 0) {
     stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
   }
 
   fail_rate <- tibble(duration = duration, rate = rate)
 
   # Convert rates to step function
-  ratefn <- stats::stepfun(
+  ratefn <- stepfun(
     x = cumsum(fail_rate$duration),
     y = c(fail_rate$rate, fail_rate$rate[nrow(fail_rate)]),
     right = TRUE
@@ -111,7 +111,7 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   # Make a tibble
   xx <- tibble(
     x = xvals,
-    duration = xvals - fastlag(xvals, first = 0),
+    duration = xvals - fastlag(xvals),
     h = ratefn(xvals), # hazard rates at points (right continuous)
     H = cumsum(h * duration), # cumulative hazard
     survival = exp(-H) # survival
@@ -206,9 +206,9 @@ s2pwe <- function(times, survival) {
 
   ans <- tibble(Times = times, Survival = survival) %>%
     mutate(
-      duration = Times - fastlag(Times, first = 0),
+      duration = Times - fastlag(Times),
       H = -log(Survival),
-      rate = (H - fastlag(H, first = 0)) / duration
+      rate = (H - fastlag(H)) / duration
     ) %>%
     select(duration, rate)
   return(ans)

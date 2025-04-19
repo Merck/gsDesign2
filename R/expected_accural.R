@@ -172,7 +172,7 @@ expected_accrual <- function(time = 0:24,
   if (n_strata == 1) {
     xx <- tibble(
       x = xvals,
-      duration = xvals - fastlag(xvals, first = 0),
+      duration = xvals - fastlag(xvals),
       rate = ratefn(xvals), # enrollment rates at points (right continuous)
       eAccrual = cumsum(rate * duration) # expected accrual
     )
@@ -181,7 +181,7 @@ expected_accrual <- function(time = 0:24,
       FUN = function(i) {
         tibble(
           x = xvals[[i]],
-          duration = xvals[[i]] - fastlag(xvals[[i]], first = 0),
+          duration = xvals[[i]] - fastlag(xvals[[i]]),
           rate = ratefn[[i]](xvals[[i]]), # enrollment rates at points (right continuous)
           eAccrual = cumsum(rate * duration) # expected accrual
         )

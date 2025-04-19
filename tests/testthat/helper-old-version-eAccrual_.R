@@ -17,7 +17,6 @@
 
 #' @importFrom dplyr last lag lead
 #' @importFrom tibble tibble
-#' @importFrom stats stepfun
 NULL
 
 #' Piecewise constant expected accrual

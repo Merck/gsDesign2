@@ -135,50 +135,42 @@ expected_event <- function(
   # Divide the time line into sub-intervals ----
 
   ## by piecewise enrollment rates
-  df_1 <- data.frame(start_enroll = c(0, cumsum(enroll_rate$duration)))
-  df_1$end_fail <- total_duration - df_1$start_enroll
+  start_enroll <- c(0, cumsum(enroll_rate$duration))
+  df_1 <- data.frame(start_enroll, end_fail = total_duration - start_enroll)
   df_1 <- df_1[df_1$end_fail > 0, ]
 
   ## by piecewise failure & dropout rates
+  end_fail <- cumsum(fail_rate$duration)
   df_2 <- data.frame(
-    end_fail = cumsum(fail_rate$duration),
+    end_fail = end_fail,
     fail_rate_var = fail_rate$fail_rate,
-    dropout_rate_var = fail_rate$dropout_rate
+    dropout_rate_var = fail_rate$dropout_rate,
+    start_enroll = total_duration - end_fail
   )
-  df_2$start_enroll <- total_duration - df_2$end_fail
 
-  temp <- cumsum(fail_rate$duration)
-  if (temp[length(temp)] < total_duration) {
-    df_2 <- df_2[-nrow(df_2), ]
-  } else {
-    df_2 <- df_2[df_2$start_enroll > 0, ]
-  }
+  N <- length(end_fail)
+  df_2 <- df_2[if (end_fail[N] < total_duration) -N else end_fail < total_duration, ]
 
   # Create 3 step functions (sf) ----
   # Step function to define enrollment rates over time
-  sf_enroll_rate <- stats::stepfun(c(0, cumsum(enroll_rate$duration)),
-    c(0, enroll_rate$rate, 0),
-    right = FALSE
-  )
+  sf_enroll_rate <- stepfun(start_enroll, c(0, enroll_rate$rate, 0))
   # step function to define failure rates over time
-  start_fail <- c(0, cumsum(fail_rate$duration))
-  fail_rate_last <- nrow(fail_rate)
-  sf_fail_rate <- stats::stepfun(start_fail,
-    c(0, fail_rate$fail_rate, fail_rate$fail_rate[fail_rate_last]),
-    right = FALSE
+  start_fail <- c(0, end_fail)
+  N <- nrow(fail_rate)
+  sf_fail_rate <- stepfun(start_fail,
+    c(0, fail_rate$fail_rate, fail_rate$fail_rate[N])
   )
   # step function to define dropout rates over time
-  sf_dropout_rate <- stats::stepfun(start_fail,
-    c(0, fail_rate$dropout_rate, fail_rate$dropout_rate[fail_rate_last]),
-    right = FALSE
+  sf_dropout_rate <- stepfun(start_fail,
+    c(0, fail_rate$dropout_rate, fail_rate$dropout_rate[N])
   )
 
   # combine sub-intervals from enroll + failure + dropout #
   # impute the NA by step functions
   df <- merge(df_1, df_2, by = c("start_enroll", "end_fail"), all = TRUE, sort = FALSE)
   df <- df[order(df$end_fail), ]
-  df$end_enroll <- fastlag(df$start_enroll, first = as.numeric(total_duration))
-  df$start_fail <- fastlag(df$end_fail, first = 0)
+  df$end_enroll <- fastlag(df$start_enroll, first = total_duration)
+  df$start_fail <- fastlag(df$end_fail)
   df$duration <- df$end_enroll - df$start_enroll
   df$fail_rate_var <- sf_fail_rate(df$start_fail)
   df$dropout_rate_var <- sf_dropout_rate(df$start_fail)
@@ -193,7 +185,7 @@ expected_event <- function(
   # g: number of expected subjects in a sub-interval
   # big_g: cumulative sum of g (pool all sub-intervals)
   df$g <- df$enroll_rate_var * df$duration
-  df$big_g <- fastlag(cumsum(df$g), first = 0)
+  df$big_g <- fastlag(cumsum(df$g))
   df <- df[order(df$start_fail), ]
   # compute expected events as nbar in a sub-interval
   df$d <- ifelse(
@@ -214,7 +206,7 @@ expected_event <- function(
   if (simple) {
     ans <- as.numeric(sum(df$nbar))
   } else {
-    sf_start_fail <- stats::stepfun(start_fail, c(0, start_fail), right = FALSE)
+    sf_start_fail <- stepfun(start_fail, c(0, start_fail))
     ans <- data.frame(
       t = df$end_fail,
       fail_rate = df$fail_rate_var,
@@ -225,16 +217,14 @@ expected_event <- function(
       ans, ans$start_fail,
       function(data) {
         data.frame(
-          start_fail = data$start_fail[1],
+          t = data$start_fail[1],
           fail_rate = data$fail_rate[1],
           event = sum(data$event)
         )
       }
     )
     ans <- do.call(rbind, ans)
-    ans$t <- ans$start_fail
-    ans <- ans[, c("t", "fail_rate", "event")]
-    row.names(ans) <- seq_len(nrow(ans))
+    row.names(ans) <- NULL
   }
   return(ans)
 }
@@ -262,7 +252,4 @@ expected_event <- function(
 #' gsDesign2:::fastlag(1:5, first = 100) == c(100, 1:4)
 #'
 #' @keywords internal
-fastlag <- function(x, first) {
-  stopifnot(is.vector(x), is.vector(first), length(x) > 0, length(first) == 1)
-  c(first, x[-length(x)])
-}
+fastlag <- function(x, first = 0) c(first, head(x, -1))
