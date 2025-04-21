@@ -119,18 +119,6 @@ expected_event <- function(
     ),
     total_duration = 25,
     simple = TRUE) {
-  # Check input values ----
-  check_enroll_rate(enroll_rate)
-  check_fail_rate(fail_rate)
-  check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  check_total_duration(total_duration)
-
-  if (length(total_duration) > 1) {
-    stop("gsDesign2: total_duration in `events_df()` must be a numeric number!")
-  }
-  if (!is.logical(simple)) {
-    stop("gsDesign2: simple in `expected_event()` must be logical!")
-  }
 
   # Divide the time line into sub-intervals ----
 
