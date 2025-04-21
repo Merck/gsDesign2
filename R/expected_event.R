@@ -216,28 +216,3 @@ expected_event <- function(
   }
   return(ans)
 }
-
-#' Find the "previous" values in a vector
-#'
-#' Fast replacement of \code{dplyr::lag} for the simple case of \code{n = 1L}
-#' and always supplying a new value to insert at the beginning of the vector.
-#'
-#' Important: this function is fast because it provides minimal safety checks.
-#' It relies on the
-#' \href{https://adv-r.hadley.nz/vectors-chap.html#testing-and-coercion}{coercion
-#' rules} of \code{\link[base]{c}}. For best results, \code{x} and \code{first}
-#' should be the same type of atomic vector, though it should be fine to mix
-#' \code{numeric} and \code{integer} vectors as long as your own code also
-#' doesn't rely on this distinction. It can also work on lists if needed.
-#'
-#' @param x A vector (\code{length(x) > 0})
-#' @param first A single value (\code{length(first) == 1})
-#'
-#' @return a vector that begins with \code{first} and is followed by \code{x}
-#' with its final value removed
-#'
-#' @examples
-#' gsDesign2:::fastlag(1:5, first = 100) == c(100, 1:4)
-#'
-#' @keywords internal
-fastlag <- function(x, first = 0) c(first, head(x, -1))
