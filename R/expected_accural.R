@@ -113,7 +113,7 @@ expected_accrual <- function(time = 0:24,
   if (any(time < 0))
     stop("gsDesign2: time in `expected_accrual()` must be non-negative!")
   if (any(diff(time) <= 0))
-    stop("gsDesign2: t in `expected_accrual()` must be strictly increasing!")
+    stop("gsDesign2: time in `expected_accrual()` must be strictly increasing!")
 
   # check if it is stratified design
   rates <- if ("stratum" %in% names(enroll_rate))
