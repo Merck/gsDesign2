@@ -54,6 +54,9 @@ stepfun2 <- function(x0, y, right = FALSE) {
   }
 }
 
+# append 0 to the beginning of a vector and calculate (first-order) diff
+diff2 <- function(x) diff(c(0, x))
+
 #' Find the "previous" values in a vector
 #'
 #' Fast replacement of \code{dplyr::lag} for the simple case of \code{n = 1L}

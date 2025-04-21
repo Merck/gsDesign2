@@ -127,7 +127,7 @@ expected_accrual <- function(time = 0:24,
     x <- sort(unique(c(time, d)))
     rate <- fn(x) # enrollment rates at points (right continuous)
     i <- x %in% time
-    cumsum(rate * c(head(x, 1), diff(x)))[i] # expected accrual
+    cumsum(rate * diff2(x))[i] # expected accrual
   })
 
   # return survival or CDF
