@@ -116,73 +116,20 @@ expected_accrual <- function(time = 0:24,
     stop("gsDesign2: t in `expected_accrual()` must be strictly increasing!")
 
   # check if it is stratified design
-  n_strata <- if ("stratum" %in% names(enroll_rate)) {
-    length(unique(enroll_rate$stratum))
-  } else 1
+  rates <- if ("stratum" %in% names(enroll_rate))
+    split(enroll_rate, ~stratum) else list(enroll_rate)
 
-  # convert rates to step function
-  ratefn <- if (n_strata == 1) {
-    stepfun2(cumsum(enroll_rate$duration), c(enroll_rate$rate, 0), right = TRUE)
-  } else {
-    lapply(unique(enroll_rate$stratum), function(s) {
-      stepfun2(
-        cumsum((enroll_rate %>% filter(stratum == s))$duration),
-        c((enroll_rate %>% filter(stratum == s))$rate, 0), right = TRUE
-      )
-    })
-  }
-
-  # add times where rates change to enroll_rate
-  if (n_strata == 1) {
-    xvals <- sort(unique(c(time, cumsum(enroll_rate$duration))))
-  } else {
-    xvals <- lapply(unique(enroll_rate$stratum),
-      FUN = function(s) {
-        sort(unique(c(time, cumsum((enroll_rate %>% filter(stratum == s))$duration))))
-      }
-    )
-  }
-
-  # make a tibble
-  if (n_strata == 1) {
-    xx <- tibble(
-      x = xvals,
-      duration = xvals - fastlag(xvals),
-      rate = ratefn(xvals), # enrollment rates at points (right continuous)
-      eAccrual = cumsum(rate * duration) # expected accrual
-    )
-  } else {
-    xx <- lapply(1:n_strata,
-      FUN = function(i) {
-        tibble(
-          x = xvals[[i]],
-          duration = xvals[[i]] - fastlag(xvals[[i]]),
-          rate = ratefn[[i]](xvals[[i]]), # enrollment rates at points (right continuous)
-          eAccrual = cumsum(rate * duration) # expected accrual
-        )
-      }
-    )
-  }
-
-
+  res <- lapply(rates, function(s) {
+    d <- cumsum(s$duration)
+    # convert rates to step function
+    fn <- stepfun2(d, c(s$rate, 0), right = TRUE)
+    # add times where rates change to enroll_rate
+    x <- sort(unique(c(time, d)))
+    rate <- fn(x) # enrollment rates at points (right continuous)
+    i <- x %in% time
+    cumsum(rate * c(head(x, 1), diff(x)))[i] # expected accrual
+  })
 
   # return survival or CDF
-  if (n_strata == 1) {
-    ind <- !is.na(match(xx$x, time))
-    ans <- as.numeric(xx$eAccrual[ind])
-  } else {
-    ind <- lapply(1:n_strata,
-      FUN = function(i) {
-        !is.na(match(xx[[i]]$x, time))
-      }
-    )
-    ans <- lapply(1:n_strata,
-      FUN = function(i) {
-        as.numeric(xx[[i]]$eAccrual[ind[[i]]])
-      }
-    )
-    ans <- Reduce(`+`, ans)
-  }
-
-  return(ans)
+  Reduce(`+`, res)
 }
