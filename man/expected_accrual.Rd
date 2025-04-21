@@ -57,14 +57,6 @@ expected_accrual(
   )
 )
 
-expected_accrual(
-  time = c(5, 10, 20),
-  enroll_rate = define_enroll_rate(
-    duration = c(3, 3, 18),
-    rate = c(5, 10, 20),
-  )
-)
-
 # Example 3: stratified design
 expected_accrual(
   time = c(24, 30, 40),
