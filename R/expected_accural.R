@@ -139,22 +139,15 @@ expected_accrual <- function(time = 0:24,
   }
 
   # convert rates to step function
-  if (n_strata == 1) {
-    ratefn <- stepfun(
-      x = cumsum(enroll_rate$duration),
-      y = c(enroll_rate$rate, 0),
-      right = TRUE
-    )
+  ratefn <- if (n_strata == 1) {
+    stepfun2(cumsum(enroll_rate$duration), c(enroll_rate$rate, 0), right = TRUE)
   } else {
-    ratefn <- lapply(unique(enroll_rate$stratum),
-      FUN = function(s) {
-        stepfun(
-          x = cumsum((enroll_rate %>% filter(stratum == s))$duration),
-          y = c((enroll_rate %>% filter(stratum == s))$rate, 0),
-          right = TRUE
-        )
-      }
-    )
+    lapply(unique(enroll_rate$stratum), function(s) {
+      stepfun2(
+        cumsum((enroll_rate %>% filter(stratum == s))$duration),
+        c((enroll_rate %>% filter(stratum == s))$rate, 0), right = TRUE
+      )
+    })
   }
 
   # add times where rates change to enroll_rate

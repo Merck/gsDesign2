@@ -4,7 +4,7 @@
 \alias{fastlag}
 \title{Find the "previous" values in a vector}
 \usage{
-fastlag(x, first)
+fastlag(x, first = 0)
 }
 \arguments{
 \item{x}{A vector (\code{length(x) > 0})}
