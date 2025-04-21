@@ -118,25 +118,15 @@ expected_accrual <- function(time = 0:24,
                              enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))) {
   # check input value
   # check input enrollment rate assumptions
-  if (!is.numeric(time)) {
-    stop("gsDesign2: time in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")
-  }
-  if (!min(time) >= 0) {
-    stop("gsDesign2: time in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")
-  }
-  if (!min(lead(time, default = max(time) + 1) - time) > 0) {
-    stop("gsDesign2: t in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")
-  }
-
-  # check enrollment rate assumptions
-  check_enroll_rate(enroll_rate)
+  if (any(time < 0))
+    stop("gsDesign2: time in `expected_accrual()` must be non-negative!")
+  if (any(diff(time) <= 0))
+    stop("gsDesign2: t in `expected_accrual()` must be strictly increasing!")
 
   # check if it is stratified design
-  if ("stratum" %in% names(enroll_rate)) {
-    n_strata <- length(unique(enroll_rate$stratum))
-  } else {
-    n_strata <- 1
-  }
+  n_strata <- if ("stratum" %in% names(enroll_rate)) {
+    length(unique(enroll_rate$stratum))
+  } else 1
 
   # convert rates to step function
   ratefn <- if (n_strata == 1) {
