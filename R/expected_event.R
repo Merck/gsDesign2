@@ -140,18 +140,14 @@ expected_event <- function(
   df_2 <- df_2[if (end_fail[N] < total_duration) -N else end_fail < total_duration, ]
 
   # Create 3 step functions (sf) ----
-  # Step function to define enrollment rates over time
-  sf_enroll_rate <- stepfun2(start_enroll, c(0, enroll_rate$rate, 0))
+  rate_fn <- function(x, y, last = tail(y, 1)) stepfun2(x, c(0, y, last))
+  # step function to define enrollment rates over time
+  sf_enroll_rate <- rate_fn(start_enroll, enroll_rate$rate, 0)
   # step function to define failure rates over time
   start_fail <- c(0, end_fail)
-  N <- nrow(fail_rate)
-  sf_fail_rate <- stepfun2(start_fail,
-    c(0, fail_rate$fail_rate, fail_rate$fail_rate[N])
-  )
+  sf_fail_rate <- rate_fn(start_fail, fail_rate$fail_rate)
   # step function to define dropout rates over time
-  sf_dropout_rate <- stepfun2(start_fail,
-    c(0, fail_rate$dropout_rate, fail_rate$dropout_rate[N])
-  )
+  sf_dropout_rate <- rate_fn(start_fail, fail_rate$dropout_rate)
 
   # combine sub-intervals from enroll + failure + dropout #
   # impute the NA by step functions
@@ -194,7 +190,7 @@ expected_event <- function(
   if (simple) {
     ans <- as.numeric(sum(df$nbar))
   } else {
-    sf_start_fail <- stepfun2(start_fail, c(0, start_fail))
+    sf_start_fail <- rate_fn(start_fail, start_fail, NULL)
     ans <- data.frame(
       t = df$end_fail,
       fail_rate = df$fail_rate_var,
