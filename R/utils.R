@@ -59,3 +59,43 @@ diff2 <- function(x) diff(c(0, x))
 
 # append a `first` value to the first `n - 1` values in a vector
 fastlag <- function(x, first = 0) c(first, head(x, -1))
+
+# a (hierarchical) hash table in which keys are functions, and values are hash
+# tables in which keys are lists of function arguments and values are returned
+# values of functions
+fun_hash <- hashtab()
+
+cache_fun <- function(fun, ...) {
+  # obtain the hash table corresponding to `fun`
+  if (is.null(h <- gethash(fun_hash, fun))) {
+    h <- hashtab()
+    sethash(fun_hash, fun, h)
+  }
+  prune_hash(h)
+  args <- list(...)
+  if (is.null(res <- gethash(h, args))) {
+    res <- fun(...)
+    sethash(h, args, res)
+  }
+  res
+}
+
+# prune a hash table to prevent it from growing too big to hog memory (by
+# default, we use an arbitrary limit of ~4Mb)
+prune_hash <- function(h, size = 2^22) {
+  n <- object.size(h)
+  if (n <= size) return()
+
+  # get all keys
+  keys <- list(); i <- 1
+  maphash(h, function(k, v) {
+    keys[[i]] <<- k
+    i <<- i + 1
+  })
+
+  # remove entries until the size is below limit
+  for (k in keys) if (n > size) {
+    remhash(h, k)
+    n <- object.size(h)
+  }
+}

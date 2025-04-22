@@ -111,7 +111,7 @@ expected_time <- function(
   # calculate the difference between the targeted number of events and the
   # accumulated events at time `x`
   event_diff <- function(x) {
-    ans <<- ahr(enroll_rate, fail_rate, x, ratio)
+    ans <<- cache_fun(ahr, enroll_rate, fail_rate, x, ratio)
     ans$event - target_event
   }
 
