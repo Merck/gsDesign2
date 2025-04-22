@@ -131,8 +131,8 @@ expected_event <- function(
   end_fail <- cumsum(fail_rate$duration)
   df_2 <- data.frame(
     end_fail = end_fail,
-    fail_rate_var = fail_rate$fail_rate,
-    dropout_rate_var = fail_rate$dropout_rate,
+    fail_rate = fail_rate$fail_rate,
+    dropout_rate = fail_rate$dropout_rate,
     start_enroll = total_duration - end_fail
   )
 
@@ -153,47 +153,45 @@ expected_event <- function(
   # impute the NA by step functions
   df <- merge(df_1, df_2, by = c("start_enroll", "end_fail"), all = TRUE, sort = FALSE)
   df <- df[order(df$end_fail), ]
-  df$end_enroll <- fastlag(df$start_enroll, first = total_duration)
-  df$start_fail <- fastlag(df$end_fail)
-  df$duration <- df$end_enroll - df$start_enroll
-  df$fail_rate_var <- sf_fail_rate(df$start_fail)
-  df$dropout_rate_var <- sf_dropout_rate(df$start_fail)
-  df$enroll_rate_var <- sf_enroll_rate(df$start_enroll)
-  # create 2 auxiliary variable for failure & dropout rate
-  # q: number of expected events in a sub-interval
-  # big_q: cumulative product of q (pool all sub-intervals)
-  df$q <- exp(-df$duration * (df$fail_rate_var + df$dropout_rate_var))
-  df$big_q <- fastlag(cumprod(df$q), first = 1)
+  df <- within(df, {
+    end_enroll <- fastlag(start_enroll, first = total_duration)
+    start_fail <- fastlag(end_fail)
+    duration <- end_enroll - start_enroll
+    fail_rate <- sf_fail_rate(start_fail)
+    dropout_rate <- sf_dropout_rate(start_fail)
+    enroll_rate <- sf_enroll_rate(start_enroll)
+    # create 2 auxiliary variable for failure & dropout rate
+    # q: number of expected events in a sub-interval
+    # Q: cumulative product of q (pool all sub-intervals)
+    q <- exp(-duration * (fail_rate + dropout_rate))
+    Q <- fastlag(cumprod(q), first = 1)
+  })
   df <- df[order(df$start_fail, decreasing = TRUE), ]
   # create another 2 auxiliary variable for enroll rate
   # g: number of expected subjects in a sub-interval
-  # big_g: cumulative sum of g (pool all sub-intervals)
-  df$g <- df$enroll_rate_var * df$duration
-  df$big_g <- fastlag(cumsum(df$g))
+  # G: cumulative sum of g (pool all sub-intervals)
+  df <- within(df, {
+    g <- enroll_rate * duration
+    G <- fastlag(cumsum(g))
+  })
   df <- df[order(df$start_fail), ]
   # compute expected events as nbar in a sub-interval
-  df$d <- ifelse(
-    df$fail_rate_var == 0,
-    0,
-    df$big_q * (1 - df$q) * df$fail_rate_var / (df$fail_rate_var + df$dropout_rate_var)
-  )
-  df$nbar <- ifelse(
-    df$fail_rate_var == 0,
-    0,
-    df$big_g * df$d +
-      (df$fail_rate_var * df$big_q * df$enroll_rate_var) /
-        (df$fail_rate_var + df$dropout_rate_var) *
-        (df$duration - (1 - df$q) / (df$fail_rate_var + df$dropout_rate_var))
-  )
+  df <- within(df, {
+    i <- fail_rate == 0
+    R <- fail_rate + dropout_rate
+    p <- fail_rate / R
+    d <- ifelse(i, 0, Q * (1 - q) * p)
+    nbar <- ifelse(i, 0, G * d + Q * enroll_rate * p * (duration - (1 - q) / R))
+  })
 
   # Output results ----
   if (simple) {
-    ans <- as.numeric(sum(df$nbar))
+    ans <- sum(df$nbar)
   } else {
     sf_start_fail <- rate_fn(start_fail, start_fail, NULL)
     ans <- data.frame(
       t = df$end_fail,
-      fail_rate = df$fail_rate_var,
+      fail_rate = df$fail_rate,
       event = df$nbar,
       start_fail = sf_start_fail(df$start_fail)
     )
