@@ -126,50 +126,17 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
 #' s2pwe(c(1:6, 9), plnorm(c(1:6, 9), meanlog = 0, sdlog = 2, lower.tail = FALSE))
 s2pwe <- function(times, survival) {
   # Check input values
-  # Check that times are positive, ordered, unique and finite numbers
-  if (!is.numeric(times)) {
-    stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")
-  }
-  if (!min(times) > 0) {
-    stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")
-  }
-  if (!max(times) < Inf) {
-    stop("gsDesign2: times in `s2pwe()` must be increasing positive finite numbers")
-  }
-  len <- length(times)
-  if (!if (len > 1) {
-    min(times[2:len] - times[1:(len - 1)]) > 0
-  }) {
-    stop("gsDesign2: times in `s2pwe()`must be increasing positive finite numbers")
-  }
+  check_positive(times)
+  check_increasing(times)
 
-  # Check that survival is numeric and same length as times
-  if (!is.numeric(survival)) {
-    stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")
-  }
-  if (!length(survival) == len) {
-    stop("gsDesign2: survival in `s2pwe()` must be numeric and of same length as times")
-  }
+  # Check that survival has same length as times
+  if (length(survival) != length(times)) stop("`survival` must be of same length as `times`")
 
   # Check that survival is positive, non-increasing, less than or equal to 1 and gt 0
-  if (!min(survival) > 0) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
-         finite numbers less than or equal to 1 with at least 1 value < 1")
-  }
-  if (!max(survival) <= 1) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
-         finite numbers less than or equal to 1 with at least 1 value < 1")
-  }
-  if (!min(survival) < 1) {
-    stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
-         finite numbers less than or equal to 1 with at least 1 value < 1")
-  }
-  if (len > 1) {
-    if (!min(survival[2:len] - survival[1:(len - 1)]) <= 0) {
-      stop("gsDesign2: survival in `s2pwe()` must be non-increasing positive
-           finite numbers less than or equal to 1 with at least 1 value < 1")
-    }
-  }
+  check_positive(survival)
+  if (any(diff(survival) > 0)) stop("`survival` must be non-increasing")
+  if (head(survival, 1) > 1) stop("`survival` must not be greater than 1")
+  if (tail(survival, 1) >= 1) stop("`survival` must have at least one value < 1")
 
   tibble(duration = diff2(times), rate = diff2(-log(survival)) / duration)
 }
