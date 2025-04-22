@@ -136,27 +136,22 @@ gs_design_wlr <- function(
   # --------------------------------------- #
   #      check input values                 #
   # --------------------------------------- #
-  msg <- "gs_design_wlr(): analysis_time must be a
-  positive number or positive increasing sequence"
-  if (!is.vector(analysis_time, mode = "numeric")) stop(msg)
-  if (min(analysis_time - fastlag(analysis_time)) <= 0) stop(msg)
-  msg <- "gs_design_wlr(): info_frac must be a positive
-  number or positive increasing sequence on (0, 1] with final value of 1"
-  if (is.null(info_frac)) info_frac <- 1
-  if (!is.vector(info_frac, mode = "numeric")) stop(msg)
-  if (min(info_frac - fastlag(info_frac)) <= 0) stop(msg)
-  if (max(info_frac) != 1) stop(msg)
-  msg <- "gs_design_wlr(): info_frac and analysis_time must have the same length if both have length > 1"
-  if ((length(analysis_time) > 1) && (length(info_frac) > 1) && (length(info_frac) != length(analysis_time))) stop(msg)
+  check_increasing(analysis_time)
+  info_frac <- info_frac %||% 1
+  check_info_frac(info_frac)
+  n1 <- length(analysis_time); n2 <- length(info_frac)
+  if (n1 > 1 && n2 > 1 && n1 != n2) stop(
+    "`info_frac` and `analysis_time` must have the same length if both have length > 1"
+  )
   if (all(fail_rate$hr == 1)) {
-    stop("gs_design_wlr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
+    stop("`hr` must not be 1 throughout the study as this is the null hypothesis.")
   }
 
   # ---------------------------------------- #
   #      get some basic parameters           #
   # ---------------------------------------- #
   info_scale <- match.arg(info_scale)
-  n_analysis <- max(length(analysis_time), length(info_frac))
+  n_analysis <- max(n1, n2)
 
   # ---------------------------------------- #
   #      get information at input            #
@@ -187,7 +182,7 @@ gs_design_wlr <- function(
 
   # if it is info frac driven group sequential design
   # relabel the analysis to FA, and back calculate IAs from FA
-  if (n_analysis > 1 && length(analysis_time) == 1 && length(info_frac) > 1) {
+  if (n_analysis > 1 && n1 == 1 && n2 > 1) {
     y$analysis <- n_analysis
   }
 
@@ -200,7 +195,7 @@ gs_design_wlr <- function(
 
   # if it is calendar time driven design,
   # e.g., info_frac = NULL, analysis_time = c(12, 14, 36)
-  if (length(info_frac) == 1) {
+  if (n2 == 1) {
     info_frac <- info_frac_by_time
   } else {
     # if info_frac != NULL
