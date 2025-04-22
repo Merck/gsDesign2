@@ -71,119 +71,34 @@ check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
   }
 }
 
-
-#' A function to check the arguments `analysis_time` used in gsDesign2
-#'
-#' @param analysis_time Analysis time.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' Check the arguments `analysis_time`
+#' @param x Analysis time.
 #' @noRd
-#'
-#' @examples
-#' analysis_time <- 20
-#' check_analysis_time(analysis_time)
-#'
-#' analysis_time <- c(20, 30)
-#' check_analysis_time(analysis_time)
-check_analysis_time <- function(analysis_time) {
-  cond1 <- !is.numeric(analysis_time)
-  cond2 <- !is.vector(analysis_time)
-  cond3 <- min(analysis_time - fastlag(analysis_time)) <= 0
-  if (cond1 || cond2 || cond3) {
-    stop("The input argument `analysis_times` must be NULL a numeric vector with positive increasing values!")
-  }
-}
+check_analysis_time <- check_increasing
 
-
-#' A function to check the arguments `events` used in gsDesign2
+#' Check the argument `event`
 #'
-#' @param events Number of events.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Number of events.
 #' @noRd
-#'
-#' @examples
-#' event <- 20
-#' check_event(events)
-#'
-#' event <- c(20, 30)
-#' check_event(events)
-check_event <- function(event) {
-  cond1 <- !is.numeric(event)
-  cond2 <- !is.vector(event)
-  cond3 <- min(event - fastlag(event)) <= 0
-  if (cond1 || cond2 || cond3) {
-    stop("The input argument `event` must be NULL or a numeric vector with positive increasing values!")
-  }
-}
+check_event <- check_increasing
 
-#' A function to check the arguments `total_duration` used in gsDesign2
+#' Check the argument `total_duration`
 #'
-#' @param totalDuration Total duration.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Total duration.
 #' @noRd
-#'
-#' @examples
-#' total_duration <- 36
-#' check_total_duration(total_duration)
-#'
-#' total_duration <- c(36, 48)
-#' check_total_duration(total_duration)
-check_total_duration <- function(total_duration) {
-  if (!is.numeric(total_duration)) {
-    stop("The input argument `total_duration` must be a non-empty vector of positive numbers!")
-  }
+check_total_duration <- check_positive
 
-  if (sum(!total_duration > 0) != 0) {
-    stop("The input argument `total_duration` must be a non-empty vector of positive numbers!")
-  }
-}
-
-#' A function to check the arguments `ratio` used in gsDesign2
+#' Check the argument `ratio`
 #'
-#' @param ratio Randomization ratio.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Randomization ratio.
 #' @noRd
-#'
-#' @examples
-#' ratio <- 1
-#' check_ratio(ratio)
-check_ratio <- function(ratio) {
-  if (!is.numeric(ratio)) {
-    stop("The input argument `ratio` must be a numerical number!")
-  }
+check_ratio <- check_positive
 
-  if (ratio <= 0) {
-    stop("The input argument `ratio` must be a positive number!")
-  }
-}
-
-#' A function to check the arguments `info` used in `gs_power_npe()`
-#' or `gs_design_npe()` in gsDesign2
+#' Check the argument `info`
 #'
-#' @param info Statistical information.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Statistical information.
 #' @noRd
-#'
-#' @examples
-#' info <- 1:3
-#' check_info(info)
-check_info <- function(info) {
-  if (!is.vector(info, mode = "numeric")) {
-    stop("gs_design_npe() or gs_power_npe(): info must be specified numeric vector!")
-  }
-  if (min(info - fastlag(info)) <= 0) {
-    stop("gs_design_npe() or gs_power_npe(): info much be strictly increasing and positive!")
-  }
-}
+check_info <- check_increasing
 
 #' A function to check the arguments `theta` used in `gs_power_npe()`
 #' or `gs_design_npe()` in gsDesign2
