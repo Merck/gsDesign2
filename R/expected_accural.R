@@ -117,17 +117,19 @@ expected_accrual <- function(time = 0:24,
   rates <- if ("stratum" %in% names(enroll_rate))
     split(enroll_rate, ~stratum) else list(enroll_rate)
 
-  res <- lapply(rates, function(s) {
-    d <- cumsum(s$duration)
-    # convert rates to step function
-    fn <- stepfun2(d, c(s$rate, 0), right = TRUE)
-    # add times where rates change to enroll_rate
-    x <- sort(unique(c(time, d)))
-    rate <- fn(x) # enrollment rates at points (right continuous)
-    i <- x %in% time
-    cumsum(rate * diff2(x))[i] # expected accrual
-  })
+  res <- lapply(rates, function(s) cumulative_rate(time, s$duration, s$rate))
 
-  # return survival or CDF
+  # return survival
   Reduce(`+`, res)
+}
+
+cumulative_rate <- function(time, duration, rate, last = 0) {
+  d <- cumsum(duration)
+  # convert rates to step function
+  f <- stepfun2(d, c(rate, last), right = TRUE)
+  # add times where rates change
+  x <- sort(unique(c(time, d)))
+  rate <- f(x) #  rates at points (right continuous)
+  i <- x %in% time
+  cumsum(rate * diff2(x))[i]
 }

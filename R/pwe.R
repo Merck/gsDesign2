@@ -87,34 +87,11 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   check_non_negative(x)
   check_increasing(x, first = FALSE)
 
-  fail_rate <- tibble(duration = duration, rate = rate)
+  H <- cumulative_rate(x, duration, rate, tail(rate, 1)) # cumulative hazard
+  survival <- exp(-H) # survival
 
-  # Convert rates to step function
-  ratefn <- stepfun2(
-    cumsum(fail_rate$duration),
-    c(fail_rate$rate, fail_rate$rate[nrow(fail_rate)]),
-    right = TRUE
-  )
-  # Add times where rates change to fail_rate
-  xvals <- sort(unique(c(x, cumsum(fail_rate$duration))))
-
-  # Make a tibble
-  xx <- tibble(
-    x = xvals,
-    duration = xvals - fastlag(xvals),
-    h = ratefn(xvals), # hazard rates at points (right continuous)
-    H = cumsum(h * duration), # cumulative hazard
-    survival = exp(-H) # survival
-  )
-
-  # Return survival or CDF
-  ind <- !is.na(match(xx$x, x))
-  survival <- as.numeric(xx$survival[ind])
-  if (lower_tail) {
-    return(1 - survival)
-  } else {
-    return(survival)
-  }
+  # return survival or CDF
+  if (lower_tail) 1 - survival else survival
 }
 
 #' Approximate survival distribution with piecewise exponential distribution
