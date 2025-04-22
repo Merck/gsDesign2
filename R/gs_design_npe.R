@@ -448,16 +448,8 @@ gs_design_npe <- function(
     info = info0 * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
     info_scale = info_scale,
     upper = upper, upar = upar,
-    lower = if (!two_sided) {
-      gs_b
-    } else {
-      lower
-    },
-    lpar = if (!two_sided) {
-      rep(-Inf, n_analysis)
-    } else {
-      lpar
-    },
+    lower = if (two_sided) lower else gs_b,
+    lpar = if (two_sided) lpar else rep(-Inf, n_analysis),
     test_upper = test_upper, test_lower = test_lower,
     binding = binding, r = r, tol = tol
   )
