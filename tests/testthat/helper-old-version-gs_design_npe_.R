@@ -251,7 +251,7 @@ gs_design_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info0 = NULL, in
   if (!is.numeric(alpha)) stop("gs_design_npe(): alpha must be numeric")
   if (!is.numeric(beta)) stop("gs_design_npe(): beta must be numeric")
   if (length(alpha) != 1 || length(beta) != 1) stop("gs_design_npe(): alpha and beta must be length 1")
-  if (alpha <= 0 || 1 - beta <= alpha || beta <= 0) stop("gs_design_npe(): must have 0 < alpha < 1 - beta < 1")
+  if (alpha <= 0 || 1 - beta <= alpha || beta <= 0) stop("gs_design_npe(): `alpha` and `beta` values must satisfy 0 < alpha < 1 - beta < 1!")
 
   ## END OF INPUT CHECKS ############################################################################
 

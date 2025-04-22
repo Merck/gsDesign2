@@ -129,24 +129,14 @@ check_test_ul <- function(x, K, name) {
     stop("`", name, "` must be of length 1 or same length as info!")
 }
 
-#' A function to check the arguments `alpha` and `beta` in gsDesign2
+#' Check the arguments `alpha` and `beta`
 #'
 #' @param alpha Type I error.
 #' @param beta Type II error.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' alpha <- 0.025
-#' beta <- 0.2
-#' check_alpha_beta(alpha, beta)
 check_alpha_beta <- function(alpha, beta) {
-  if (!is.numeric(alpha)) stop("alpha must be numeric!")
-  if (!is.numeric(beta)) stop("beta must be numeric!")
-  if (length(alpha) != 1 || length(beta) != 1) stop("alpha and beta must be length 1!")
-  if (alpha <= 0 || 1 - beta <= alpha || beta <= 0) stop("must have 0 < alpha < 1 - beta < 1!")
+  if (!(0 < alpha && beta > 0 && alpha < 1 - beta))
+    stop("`alpha` and `beta` values must satisfy 0 < alpha < 1 - beta < 1!")
 }
 
 #' A function to check the arguments `IF` in gsDesign2
