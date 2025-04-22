@@ -100,83 +100,33 @@ check_ratio <- check_positive
 #' @noRd
 check_info <- check_increasing
 
-#' A function to check the arguments `theta` used in `gs_power_npe()`
-#' or `gs_design_npe()` in gsDesign2
+#' Check the argument `theta`
 #'
 #' @param theta Treatment effect.
-#' @param n_analysis Number of total analysis.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param K Number of total analysis.
 #' @noRd
-#'
-#' @examples
-#' check_theta(theta = rep(0.5, 3), n_analysis = 3)
-check_theta <- function(theta, n_analysis) {
-  if (!is.vector(theta, mode = "numeric")) {
-    stop("gs_design_npe() or gs_power_npe(): theta must be a real vector!")
-  }
-
-  if (length(theta) != n_analysis) {
-    stop("gs_design_npe() or gs_power_npe(): if length(theta) > 1, must be same as info!")
-  }
-
-  if (theta[n_analysis] < 0) {
-    stop("gs_design_npe() or gs_power_npe(): final effect size must be > 0!")
-  }
+check_theta <- function(theta, K) {
+  if (length(theta) != K) stop("if length(theta) > 1, must be same as info!")
+  if (theta[K] < 0) stop("final effect size of `theta` must be non-negative!")
 }
 
-#' A function to check the arguments `test_upper` used in `gs_power_npe()`
-#' or `gs_design_npe()` in gsDesign2
+#' Check the arguments `test_upper` and `test_lower`
 #'
-#' @param test_upper Test upper or lower.
-#' @param n_analysis Number of total analysis.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Test upper or lower.
+#' @param K Number of total analysis.
 #' @noRd
-#'
-#' @examples
-#' test_upper <- TRUE
-#' check_test_upper(test_upper, 1)
-check_test_upper <- function(test_upper, n_analysis) {
-  ## Check test_upper and test_lower are logical and correct length
-  if (!is.vector(test_upper, mode = "logical")) {
-    stop("gs_design_npe() or gs_power_npe(): test_upper must be logical!")
-  }
-
-  if (!(length(test_upper) == 1 || length(test_upper) == n_analysis)) {
-    stop("gs_design_npe() or gs_power_npe(): test_upper must be length 1 or same length as info!")
-  }
-
+check_test_upper <- function(x, K) {
+  check_test_ul(x, K, "test_upper")
   # check that final test_upper value is TRUE
-  if (!dplyr::last(test_upper)) {
-    stop("gs_design_npe(): last value of test_upper must be TRUE!")
-  }
+  if (!tail(x, 1)) stop("last value of `test_upper` must be TRUE!")
 }
 
-#' A function to check the arguments `text_lower` used in `gs_power_npe`
-#' or `gs_design_npe()` in gsDesign2
-#'
-#' @param test_lower Test upper or lower.
-#' @param n_analysis Number of total analysis.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
-#' @noRd
-#'
-#' @examples
-#' test_lower <- TRUE
-#' check_test_lower(test_lower, 1)
-check_test_lower <- function(test_lower, n_analysis) {
-  ## Check test_upper and test_lower are logical and correct length
-  if (!is.vector(test_lower, mode = "logical")) {
-    stop("gs_design_npe() or gs_power_npe(): test_lower must be logical!")
-  }
+check_test_lower <- function(x, K) check_test_ul(x, K, "test_lower")
 
-  if (!(length(test_lower) == 1 || length(test_lower) == n_analysis)) {
-    stop("gs_design_npe() or gs_power_npe(): test_lower must be length 1 or same length as info!")
-  }
+check_test_ul <- function(x, K, name) {
+  # check length
+  if (!any(length(x) == c(1, K)))
+    stop("`", name, "` must be of length 1 or same length as info!")
 }
 
 #' A function to check the arguments `alpha` and `beta` in gsDesign2
