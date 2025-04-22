@@ -110,10 +110,8 @@ expected_accrual <- function(time = 0:24,
                              enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))) {
   # check input value
   # check input enrollment rate assumptions
-  if (any(time < 0))
-    stop("gsDesign2: time in `expected_accrual()` must be non-negative!")
-  if (any(diff(time) <= 0))
-    stop("gsDesign2: time in `expected_accrual()` must be strictly increasing!")
+  check_non_negative(time)
+  check_increasing(time, first = FALSE)
 
   # check if it is stratified design
   rates <- if ("stratum" %in% names(enroll_rate))

@@ -83,19 +83,9 @@
 #' )
 #' lines(x2, survival, col = 2)
 ppwe <- function(x, duration, rate, lower_tail = FALSE) {
-  # Check input values
-  check_args(x, type = c("numeric", "integer"))
-  check_args(duration, type = c("numeric", "integer"))
-  check_args(rate, type = c("numeric", "integer"))
-  check_args(lower_tail, length = 1, type = "logical")
-
   # Check input enrollment rate assumptions
-  if (!min(x) >= 0) {
-    stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
-  }
-  if (!min(x[x > 0] - fastlag(x[x > 0])) > 0) {
-    stop("gsDesign2: x in `ppwe()` must be a strictly increasing non-negative numeric vector")
-  }
+  check_non_negative(x)
+  check_increasing(x, first = FALSE)
 
   fail_rate <- tibble(duration = duration, rate = rate)
 

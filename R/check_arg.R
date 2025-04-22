@@ -16,220 +16,45 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Check argument type, length, and dimension
-#'
-#' @param arg An argument to be checked.
-#' @param type A character vector of candidate argument type.
-#' @param length A numeric value of argument length or `NULL`.
-#' @param dim A numeric vector of argument dimension or `NULL`.
-#'
-#' @return Detailed error message for failed checks.
-#'
-#' @noRd
-#'
-#' @details
-#' If `type`, `length`, or `dim` is `NULL`, the corresponding check
-#' will not be executed.
-#'
-#' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Check if arg is NULL.
-#'    \item Extract the type, length and dim information from arg.
-#'    \item Compare with target values and report error message if it does not match.
-#'  }
-#'  }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @examples
-#' tbl <- as.data.frame(matrix(1:9, nrow = 3))
-#' check_args(arg = tbl, type = c("data.frame"))
-#'
-#' vec <- c("a", "b", "c")
-#' check_args(arg = vec, type = c("character"), length = c(2, 4))
-check_args <- function(arg, type, length = NULL, dim = NULL) {
-  if (is.null(arg)) {
-    return(NULL)
-  }
-
-  if (any(class(arg) %in% "matrix")) arg <- as.vector(arg)
-
-  check <- list()
-  message <- list()
-
-  if (!is.null(type)) {
-    check[["type"]] <- any(class(arg) %in% type) & (!is.null(class(arg)))
-    message[["type"]] <- paste("The argument type did not match:", paste(type, collapse = "/"))
-  }
-
-  if (!is.null(length)) {
-    check[["length"]] <- all(length(arg) %in% length) & (!is.null(length(arg)))
-    message[["length"]] <- paste("The argument length is not", paste(length, collapse = ", "))
-  }
-
-  if (!is.null(dim)) {
-    check[["dim"]] <- all(dim(arg) == dim) & (!is.null(dim(arg)))
-    message[["dim"]] <- paste("The argument dimension is not", paste(dim, collapse = ","))
-  }
-
-  check <- unlist(check)
-  message <- unlist(message)
-
-  if (!all(unlist(check))) {
-    stop(paste(message[!check], collapse = "\n"))
-  } else {
-    return(NULL)
-  }
+# check if values in a vector are increasing
+check_increasing <- function(x, name = deparse(substitute(x)), first = TRUE) {
+  # if first = TRUE, require x[1] to be positive, otherwise x[1] can be 0
+  d <- if (first) diff2(x) else diff(x)
+  if (any(d <= 0)) stop("`", name, "` must be strictly increasing!")
 }
 
-#' A function to check the arguments `enroll_rate` used in gsDesign2
+check_positive <- function(x, name = deparse(substitute(x))) {
+  if (!is.numeric(x) || any(x <= 0)) stop("`", name, "` must be positive!")
+}
+
+check_non_negative <- function(x, name = deparse(substitute(x)), ...) {
+  if (!is.numeric(x) || any(x < 0)) stop("`", name, "` must not be negative!", ...)
+}
+
+#' Check the argument `enroll_rate`
 #'
 #' @inheritParams ahr
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' # Proper definition
-#' enroll_rate <- define_enroll_rate(
-#'   duration = c(2, 2, 10),
-#'   rate = c(3, 6, 9)
-#' )
-#'
-#' check_enroll_rate(enroll_rate)
-#'
-#' # Non-standard use
-#' enroll_rate <- data.frame(
-#'   duration = c(2, 2, 10),
-#'   rate = c(3, 6, 9)
-#' )
-#'
-#' check_enroll_rate(enroll_rate)
-check_enroll_rate <- function(enroll_rate) {
-  # Suppress any potential warnings about missing columns. The checks below will
-  # verify the required columns
-  suppressWarnings({
-    duration <- enroll_rate$duration
-    rate <- enroll_rate$rate
-    stratum <- enroll_rate$stratum
-  })
-
+check_enroll_rate <- function(x) {
+  if (!"stratum" %in% names(x)) x$stratum <- "All"
   msg <- " Try the helper function define_enroll_rate() to prepare valid input."
-
-  if (is.null(duration)) {
-    stop("The variable `duration` can't be NULL.", msg)
-  }
-
-  if (is.null(rate)) {
-    stop("The variable `rate` can't be NULL.", msg)
-  }
-
-  check_args(duration, type = c("numeric", "integer"))
-  check_args(rate, type = c("numeric", "integer"))
-  check_args(stratum, type = c("character"))
-
-  if (any(duration < 0)) {
-    stop("The enrollment duration `duration` can't be negative.", msg)
-  }
-
-  if (any(rate < 0)) {
-    stop("The enrollment rate `rate` can't be negative.", msg)
-  }
-
-  if (!("stratum" %in% names(enroll_rate))) {
-    enroll_rate$stratum <- rep("All", nrow(enroll_rate))
-  }
-
-  enroll_rate
+  for (j in c("duration", "rate")) check_non_negative(x[[j]], j, msg)
+  x
 }
 
-
-
-#' A function to check the arguments `fail_rate` used in gsDesign2
+#' Check the argument `fail_rate`
 #'
 #' @inheritParams ahr
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' # Proper definition
-#' fail_rate <- define_fail_rate(
-#'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18),
-#'   dropout_rate = .001,
-#'   hr = c(.9, .6)
-#' )
-#'
-#' check_fail_rate(fail_rate)
-#'
-#' # Non-standard use
-#' fail_rate <- define_fail_rate(
-#'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18),
-#'   dropout_rate = .001,
-#'   hr = c(.9, .6)
-#' )
-#'
-#' check_fail_rate(fail_rate)
-check_fail_rate <- function(fail_rate) {
-  # Suppress any potential warnings about missing columns. The checks below will
-  # verify the required columns
-  suppressWarnings({
-    duration <- fail_rate$duration
-    fail_rate_col <- fail_rate$fail_rate
-    dropout_rate <- fail_rate$dropout_rate
-    hr <- fail_rate$hr
-    stratum <- fail_rate$stratum
-  })
+check_fail_rate <- function(x) {
+  if (!"hr" %in% names(x)) x$hr <- 1
+  if (!"stratum" %in% names(x)) x$stratum <- "All"
 
   msg <- " Try the helper function define_fail_rate() to prepare valid input."
+  for (j in c("duration", "fail_rate", "dropout_rate", "hr"))
+    check_non_negative(x[[j]], j, msg)
 
-  if (is.null(duration)) {
-    stop("The variable `duration` can't be NULL.", msg)
-  }
-
-  if (is.null(fail_rate_col)) {
-    stop("The variable `fail_rate` can't be NULL.", msg)
-  }
-
-  if (is.null(dropout_rate)) {
-    stop("The variable `dropout_rate` can't be NULL.", msg)
-  }
-
-  check_args(duration, type = c("numeric", "integer"))
-  check_args(fail_rate_col, type = c("numeric", "integer"))
-  check_args(dropout_rate, type = c("numeric", "integer"))
-  check_args(hr, type = c("numeric", "integer"))
-  check_args(stratum, type = c("character"))
-
-  if (any(duration < 0)) {
-    stop("The enrollment duration `duration` can't be negative.", msg)
-  }
-
-  if (any(fail_rate_col < 0)) {
-    stop("The failure rate `fail_rate` can't be negative.", msg)
-  }
-
-  if (any(dropout_rate < 0)) {
-    stop("The dropout rate `dropout_rate` can't be negative.", msg)
-  }
-
-  if (any(hr < 0)) {
-    stop("The hazard ratio `hr` can't be negative.", msg)
-  }
-
-  if (!("hr" %in% names(fail_rate))) {
-    fail_rate$hr <- rep(1, nrow(fail_rate))
-  }
-
-  if (!("stratum" %in% names(fail_rate))) {
-    fail_rate$stratum <- rep("All", nrow(fail_rate))
-  }
-
-  fail_rate
+  x
 }
 
 
