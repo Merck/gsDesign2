@@ -171,12 +171,5 @@ s2pwe <- function(times, survival) {
     }
   }
 
-  ans <- tibble(Times = times, Survival = survival) %>%
-    mutate(
-      duration = diff2(Times),
-      H = -log(Survival),
-      rate = diff2(H) / duration
-    ) %>%
-    select(duration, rate)
-  return(ans)
+  tibble(duration = diff2(times), rate = diff2(-log(survival)) / duration)
 }
