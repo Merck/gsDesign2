@@ -196,9 +196,9 @@ s2pwe <- function(times, survival) {
 
   ans <- tibble(Times = times, Survival = survival) %>%
     mutate(
-      duration = Times - fastlag(Times),
+      duration = diff2(Times),
       H = -log(Survival),
-      rate = (H - fastlag(H)) / duration
+      rate = diff2(H) / duration
     ) %>%
     select(duration, rate)
   return(ans)
