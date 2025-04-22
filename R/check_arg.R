@@ -139,20 +139,11 @@ check_alpha_beta <- function(alpha, beta) {
     stop("`alpha` and `beta` values must satisfy 0 < alpha < 1 - beta < 1!")
 }
 
-#' A function to check the arguments `IF` in gsDesign2
+#' Check the argument `info_frac`
 #'
-#' @param info_frac Statistical informational fraction.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Statistical informational fraction.
 #' @noRd
-#'
-#' @examples
-#' check_info_frac(1:3 / 3)
-check_info_frac <- function(info_frac) {
-  msg <- "gs_design_ahr(): info_frac must be a positive
-  number or positive increasing sequence on (0, 1] with final value of 1!"
-  if (!is.vector(info_frac, mode = "numeric")) stop(msg)
-  if (min(info_frac - fastlag(info_frac)) <= 0) stop(msg)
-  if (max(info_frac) != 1) stop(msg)
+check_info_frac <- function(x) {
+  check_increasing(x, "info_frac")
+  if (tail(x, 1) != 1) stop("The last value of `info_frac` must be 1!")
 }
