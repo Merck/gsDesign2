@@ -109,7 +109,7 @@ pw_info <- function(
                                 enroll_rate = enroll_rate_s)
 
       # get the accrual during the interval
-      n <- diff(c(0, cum_n))
+      n <- diff2(cum_n)
 
       tbl_n[[length(tbl_n) + 1]] <- data.frame(
         time = td, t = c(0, fr_trunc), stratum = s, n = n
