@@ -190,21 +190,13 @@ expected_event <- function(
   } else {
     sf_start_fail <- rate_fn(start_fail, start_fail, NULL)
     ans <- data.frame(
-      t = df$end_fail,
       fail_rate = df$fail_rate,
       event = df$nbar,
       start_fail = sf_start_fail(df$start_fail)
     )
-    ans <- by(
-      ans, ans$start_fail,
-      function(data) {
-        data.frame(
-          t = data$start_fail[1],
-          fail_rate = data$fail_rate[1],
-          event = sum(data$event)
-        )
-      }
-    )
+    ans <- lapply(split(ans, ~start_fail), function(s) {
+      data.frame(t = s$start_fail[1], fail_rate = s$fail_rate[1], event = sum(s$event))
+    })
     ans <- do.call(rbind, ans)
     row.names(ans) <- NULL
   }
