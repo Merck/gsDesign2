@@ -414,34 +414,28 @@ gs_design_npe <- function(
     min_x <- micro_x
   }
 
-  # use root finding with the above function to find needed sample size inflation
-  # now we can solve for the inflation factor for the enrollment rate to achieve the desired power
-  res <- try(uniroot(errbeta,
-    lower = min_x, upper = max_x,
-    theta = theta, theta0 = theta0, theta1 = theta1,
-    info = info, info0 = info0, info1 = info1, info_scale = info_scale,
-    z_upper = upper, upar = upar, test_upper = test_upper,
-    z_lower = lower, lpar = lpar, test_lower = test_lower,
-    beta = beta, n_analysis = n_analysis, binding = binding, r = r, tol = tol
-  ))
-  if (inherits(res, "try-error")) {
-    stop("gs_design_npe(): Sample size solution not found!")
-  } else {
-    inflation_factor <- res$root
+  ans_h1 <- NULL
+
+  # use gs_power_npe() to compute difference from targeted power for a given
+  # sample size inflation factor
+  errbeta <- function(x) {
+    # calculate the probability under H1
+    ans_h1 <<- cache_fun(
+      gs_power_npe, theta, theta0, theta1, info * x, info0 * x, info1 * x,
+      info_scale, upper, upar, lower, lpar, test_upper, test_lower, binding, r, tol
+    )
+    power <- subset(ans_h1, bound == "upper" & analysis == n_analysis)$probability
+    1 - beta - power
   }
 
-  # Return the output ----
-  # calculate the probability under H1
-  ans_h1 <- gs_power_npe(
-    theta = theta, theta0 = theta0, theta1 = theta1,
-    info = info * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
-    info_scale = info_scale,
-    upper = upper, upar = upar,
-    lower = lower, lpar = lpar,
-    test_upper = test_upper, test_lower = test_lower,
-    binding = binding, r = r, tol = tol
+  # use root finding with the above function to find needed sample size
+  # inflation to achieve the desired power
+  inflation_factor <- tryCatch(
+    uniroot(errbeta, lower = min_x, upper = max_x, check.conv = TRUE)$root,
+    error = function(e) stop("solution not found (", e$message, ")")
   )
 
+  # Return the output ----
   # calculate the probability under H0
   ans_h0 <- gs_power_npe(
     theta = 0, theta0 = theta0, theta1 = theta1,
@@ -468,30 +462,5 @@ gs_design_npe <- function(
 
   ans <- ans %>% arrange(analysis)
 
-  return(ans)
-}
-
-
-## Create a function that uses gs_power_npe to compute difference from targeted power
-## for a given sample size inflation factor
-errbeta <- function(x = 1, n_analysis = 1,
-                    beta = .1,
-                    theta = .1, theta0 = 0, theta1 = .1,
-                    info = 1, info0 = 1, info1 = 1, info_scale = "h0_h1_info",
-                    z_upper = gs_b, upar = qnorm(.975),
-                    z_lower = gs_b, lpar = -Inf,
-                    test_upper = TRUE, test_lower = TRUE,
-                    binding = FALSE, r = 18, tol = 1e-6) {
-  x_temp <- gs_power_npe(
-    theta = theta, theta0 = theta0, theta1 = theta1,
-    info = info * x, info0 = info0 * x, info1 = info1 * x, info_scale = info_scale,
-    upper = z_upper, upar = upar, test_upper = test_upper,
-    lower = z_lower, lpar = lpar, test_lower = test_lower,
-    binding = binding, r = r, tol = tol
-  )
-
-  x_power <- (x_temp[x_temp$bound == "upper" & x_temp$analysis == n_analysis, ])$probability
-
-  ans <- 1 - beta - x_power
   return(ans)
 }
