@@ -57,34 +57,17 @@ check_fail_rate <- function(x) {
   x
 }
 
-
-
-#' A function to check the arguments `enroll_rate` and `fail_rate` used in gsDesign2
+#' Check the arguments `enroll_rate` and `fail_rate`
 #'
 #' @inheritParams ahr
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9))
-#' fail_rate <- define_fail_rate(
-#'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18),
-#'   dropout_rate = .001,
-#'   hr = c(.9, .6)
-#' )
-#' check_enroll_rate_fail_rate(enroll_rate, fail_rate)
 check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
   if ("stratum" %in% colnames(enroll_rate) && "stratum" %in% colnames(fail_rate)) {
-    strata_enroll <- unique(enroll_rate$stratum)
-    strata_fail <- unique(fail_rate$stratum)
-    strata_common <- intersect(strata_enroll, strata_fail)
-
-    if (sum(strata_common %in% strata_enroll) != length(strata_enroll)) {
-      stop("The `Strata` column in the input argument `enroll_rate` and `fail_rate` must be the same!")
-    }
+    s1 <- unique(enroll_rate$stratum)
+    s2 <- unique(fail_rate$stratum)
+    n1 <- length(s1); n2 <- length(s2)
+    if (n1 != n2 || n1 != length(intersect(s1, s2)))
+      stop("The `stratum` column in `enroll_rate` and `fail_rate` must contain same categories!")
   }
 }
 
