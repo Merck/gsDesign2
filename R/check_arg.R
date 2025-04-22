@@ -20,7 +20,9 @@
 check_increasing <- function(x, name = deparse(substitute(x)), first = TRUE) {
   # if first = TRUE, require x[1] to be positive, otherwise x[1] can be 0
   d <- if (first) diff2(x) else diff(x)
-  if (any(d <= 0)) stop("`", name, "` must be strictly increasing!")
+  if (any(d <= 0)) stop(
+    "`", name, "` must be ", if (first) "positive and ", "strictly increasing!"
+  )
 }
 
 check_positive <- function(x, name = deparse(substitute(x))) {
