@@ -466,8 +466,8 @@ gs_bound <- function(alpha,
       }
       upper_bound <- c(upper, .upper)
 
-      p <- pmvnorm_combo(lower_bound,
-        upper_bound,
+      p <- cache_fun(
+        pmvnorm_combo, lower_bound, upper_bound,
         group = analysis[k_ind],
         mean = .theta[k_ind],
         corr = corr[k_ind, k_ind], ...
