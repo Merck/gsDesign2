@@ -31,7 +31,7 @@ gs_bound_summary <- function(x, alpha = NULL) {
   # Support multiple alphas
   alpha_original <- x[["input"]][["alpha"]]
   alpha_new <- unique(sort(c(alpha, alpha_original)))
-  col_efficacy_name <- paste0("α=", alpha_new)
+  col_efficacy_name <- paste0("\u03b1=", alpha_new)
   outlist <- vector("list", length = length(alpha_new))
   for (i in seq_along(alpha_new)) {
     if (alpha_new[i] == alpha_original) {
