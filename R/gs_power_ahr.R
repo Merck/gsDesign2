@@ -215,7 +215,6 @@ gs_power_ahr <- function(
       theta1 <- 0
       info1 <- x$info0
   }
-
   # Given the above statistical information, calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$theta, theta0 = 0, theta1 = theta1,
