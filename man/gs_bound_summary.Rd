@@ -4,10 +4,12 @@
 \alias{gs_bound_summary}
 \title{Bound summary table}
 \usage{
-gs_bound_summary(x)
+gs_bound_summary(x, alpha = NULL)
 }
 \arguments{
 \item{x}{design object}
+
+\item{alpha}{vector of alpha values to compute additional efficacy columns}
 }
 \value{
 A data frame
@@ -23,6 +25,10 @@ gs_bound_summary(x)
 
 x <- gs_design_wlr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 gs_bound_summary(x)
+
+# Report multiple efficacy bounds (only supported for AHR designs)
+x <- gs_design_ahr(analysis_time = 1:3*12, alpha = 0.0125)
+gs_bound_summary(x, alpha = c(0.025, 0.05))
 
 }
 \seealso{
