@@ -21,7 +21,7 @@ test_that("expect equal with mvtnorm for efficacy and futility bounds", {
   alpha.ia <- b.ia$spend
 
   Pb <- function(alpha.t, alpha.ia, r, b) {
-    temp <- mvtnorm::pmvnorm(
+    temp <- cache_fun(mvtnorm::pmvnorm,
       lower = c(-Inf, b),
       upper = c(qnorm(1 - alpha.ia), Inf),
       corr = rbind(c(1, sqrt(r)), c(sqrt(r), 1))
@@ -41,7 +41,7 @@ test_that("expect equal with mvtnorm for efficacy and futility bounds", {
   beta.ia <- a.ia$spend
 
   Pa <- function(beta.t, beta.ia, r, a) {
-    temp <- mvtnorm::pmvnorm(
+    temp <- cache_fun(mvtnorm::pmvnorm,
       lower = c(-Inf, qnorm(beta.ia)),
       upper = c(a, Inf),
       corr = rbind(c(1, sqrt(r)), c(sqrt(r), 1))

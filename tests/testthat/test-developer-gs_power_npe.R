@@ -262,7 +262,7 @@ test_that("Independent Tests - Expect equal with mvtnorm for efficacy and futili
   b_ia <- gsDesign::sfLDOF(alpha = alpha_t, t = r)
   alpha_ia <- b_ia$spend
   prob_b <- function(alpha_t, alpha_ia, r, b) {
-    temp <- mvtnorm::pmvnorm(
+    temp <- cache_fun(mvtnorm::pmvnorm,
       lower = c(-Inf, b),
       upper = c(qnorm(1 - alpha_ia), Inf),
       corr = rbind(c(1, sqrt(r)), c(sqrt(r), 1))
@@ -285,7 +285,7 @@ test_that("Independent Tests - Expect equal with mvtnorm for efficacy and futili
   a_ia <- gsDesign::sfLDOF(alpha = beta_t, t = r)
   beta_ia <- a_ia$spend
   prob_a <- function(beta_t, beta_ia, r, a) {
-    temp <- mvtnorm::pmvnorm(
+    temp <- cache_fun(mvtnorm::pmvnorm,
       lower = c(-Inf, qnorm(beta_ia)),
       upper = c(a, Inf),
       corr = rbind(c(1, sqrt(r)), c(sqrt(r), 1))

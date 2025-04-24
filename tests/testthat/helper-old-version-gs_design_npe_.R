@@ -376,7 +376,7 @@ errbeta_ <- function(x = 1, K = 1, beta = .1, theta = .1, theta1 = .1, info = 1,
                      test_upper = TRUE, test_lower = TRUE,
                      r = 18, Tol = 1e-6) {
   return(1 - beta -
-    gs_power_npe_(
+    cache_fun(gs_power_npe_,
       theta = theta, theta1 = theta1,
       info = info * x, info1 = info1 * x, info0 = info0 * x, binding = binding,
       upper = Zupper, lower = Zlower, upar = upar, lpar = lpar,

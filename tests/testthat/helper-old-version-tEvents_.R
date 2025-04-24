@@ -82,7 +82,7 @@ tEvents_ <- function(enrollRates = tibble::tibble(
                      interval = c(.01, 100)) {
   res <- try(uniroot(
     function(x) {
-      AHR_(enrollRates, failRates, x, ratio)$Events - targetEvents
+      cache_fun(AHR_, enrollRates, failRates, x, ratio)$Events - targetEvents
     },
     interval
   ))
