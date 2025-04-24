@@ -94,11 +94,8 @@ prune_hash <- function(h, size = 2^23) {
   if (n <= size) return()
 
   # get all keys
-  keys <- list(); i <- 1
-  maphash(h, function(k, v) {
-    keys[[i]] <<- k
-    i <<- i + 1
-  })
+  keys <- list(); i <- 0
+  maphash(h, function(k, v) keys[[i <<- i + 1]] <<- k)
 
   # remove entries until the size is below limit
   for (k in keys) if (n > size) {
