@@ -347,7 +347,7 @@ gs_design_ahr <- function(
   allout <- allout %>%
     # Add `~hr at bound`, `hr generic` and `nominal p`
     mutate(
-      "~hr at bound" = exp(-z / sqrt(info)),
+      "~hr at bound" = exp(-z / sqrt(info0)),
       "nominal p" = pnorm(-z)
     ) %>%
     # Add `time`, `event`, `ahr`, `n` from gs_info_ahr call above
