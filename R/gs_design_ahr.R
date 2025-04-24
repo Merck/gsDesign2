@@ -379,7 +379,7 @@ gs_design_ahr <- function(
   # Get analysis summary to output ----
   analysis <- allout %>%
     select(analysis, time, n, event, ahr, theta, info, info0, info_frac) %>%
-    mutate(info_frac0 = event / last(event)) %>%
+    mutate(info_frac0 = event / last_(event)) %>%
     unique() %>%
     arrange(analysis)
 

@@ -87,7 +87,7 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE) {
   check_non_negative(x)
   check_increasing(x, first = FALSE)
 
-  H <- cumulative_rate(x, duration, rate, tail(rate, 1)) # cumulative hazard
+  H <- cumulative_rate(x, duration, rate, last_(rate)) # cumulative hazard
   survival <- exp(-H) # survival
 
   # return survival or CDF
@@ -135,8 +135,8 @@ s2pwe <- function(times, survival) {
   # Check that survival is positive, non-increasing, less than or equal to 1 and gt 0
   check_positive(survival)
   if (any(diff(survival) > 0)) stop("`survival` must be non-increasing")
-  if (head(survival, 1) > 1) stop("`survival` must not be greater than 1")
-  if (tail(survival, 1) >= 1) stop("`survival` must have at least one value < 1")
+  if (survival[1] > 1) stop("`survival` must not be greater than 1")
+  if (last_(survival) >= 1) stop("`survival` must have at least one value < 1")
 
   tibble(duration = diff2(times), rate = diff2(-log(survival)) / duration)
 }

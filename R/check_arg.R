@@ -120,7 +120,7 @@ check_theta <- function(theta, K) {
 check_test_upper <- function(x, K) {
   check_test_ul(x, K, "test_upper")
   # check that final test_upper value is TRUE
-  if (!tail(x, 1)) stop("last value of `test_upper` must be TRUE!")
+  if (!last_(x)) stop("last value of `test_upper` must be TRUE!")
 }
 
 check_test_lower <- function(x, K) check_test_ul(x, K, "test_lower")
@@ -147,5 +147,5 @@ check_alpha_beta <- function(alpha, beta) {
 #' @noRd
 check_info_frac <- function(x) {
   check_increasing(x, "info_frac")
-  if (tail(x, 1) != 1) stop("The last value of `info_frac` must be 1!")
+  if (last_(x) != 1) stop("The last value of `info_frac` must be 1!")
 }

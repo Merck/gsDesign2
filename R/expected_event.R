@@ -140,7 +140,7 @@ expected_event <- function(
   df_2 <- df_2[if (end_fail[N] < total_duration) -N else end_fail < total_duration, ]
 
   # Create 3 step functions (sf) ----
-  rate_fn <- function(x, y, last = tail(y, 1)) stepfun2(x, c(0, y, last))
+  rate_fn <- function(x, y, last = last_(y)) stepfun2(x, c(0, y, last))
   # step function to define enrollment rates over time
   sf_enroll_rate <- rate_fn(start_enroll, enroll_rate$rate, 0)
   # step function to define failure rates over time

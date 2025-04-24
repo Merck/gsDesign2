@@ -3,6 +3,8 @@ if (!exists('%||%', baseenv(), inherits = FALSE)) `%||%` <- function(x, y) {
   if (is.null(x)) y else x
 }
 
+last_ <- function(x) tail(x, 1)
+
 # append elements from y to x
 `%+%` <- function(x, y) {
   # append by names if available, otherwise append by integer indices

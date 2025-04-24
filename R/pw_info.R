@@ -168,7 +168,7 @@ pw_info <- function(
   tbl_event <- tbl_event[, .(
     info = 1/sum(1/event),
     event = sum(event),
-    hr = last(fail_rate) / first(fail_rate)
+    hr = last_(fail_rate) / fail_rate[1]
   ), by = .(time, stratum, t)]
 
   tbl_event[, info0 := event * q_c * q_e, by = .(time)]

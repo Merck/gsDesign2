@@ -170,7 +170,7 @@ gs_info_wlr <- function(
     sigma2_h0[i] <- gs_sigma2_wlr(arm_null, arm_null1, tmax = t, weight = weight, approx = approx)
   }
 
-  n <- tail(avehr$event / p_event, 1) * p_subject
+  n <- last_(avehr$event / p_event) * p_subject
   theta <- (-delta) / sigma2_h1
   data.frame(
     analysis = seq_along(time),
