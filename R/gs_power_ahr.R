@@ -280,10 +280,12 @@ gs_power_ahr <- function(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     event = event, analysis_time = analysis_time,
     info_scale = info_scale,
+    alpha = if (identical(upper, gs_spending_bound)) {upar$total_spend} else {NULL},
     upper = upper, upar = upar,
     lower = lower, lpar = lpar,
     test_lower = test_lower, test_upper = test_upper,
-    ratio = ratio, binding = binding, info_scale = info_scale, r = r, tol = tol
+    ratio = ratio, binding = binding, h1_spending = h1_spending,
+    info_scale = info_scale, r = r, tol = tol
   )
 
   ans <- list(
@@ -295,5 +297,7 @@ gs_power_ahr <- function(
   )
 
   ans <- add_class(ans, if (!binding) "non_binding", "ahr", "gs_design")
+  attr(ans, 'uninteger_is_from') <- "gs_power_ahr"
+
   return(ans)
 }
