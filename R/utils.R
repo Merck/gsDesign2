@@ -78,12 +78,16 @@ cache_fun <- function(fun, ...) {
     res <- fun(...)
     sethash(h, args, res)
   }
+  # we can set this option to TRUE to get a report on the cache size
+  if (getOption("gsDesign2.cache.report", FALSE)) message(
+    "Current cache size: ", format(object.size(fun_hash), units = "auto")
+  )
   res
 }
 
 # prune a hash table to prevent it from growing too big to hog memory (by
-# default, we use an arbitrary limit of ~4Mb)
-prune_hash <- function(h, size = 2^22) {
+# default, we use an arbitrary limit of ~8Mb)
+prune_hash <- function(h, size = 2^23) {
   n <- object.size(h)
   if (n <= size) return()
 
