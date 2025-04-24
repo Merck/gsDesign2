@@ -78,7 +78,7 @@ gs_create_arm <- function(
   accr_param <- enroll_rate$rate * enroll_rate$duration / sum(enroll_rate$rate * enroll_rate$duration)
 
   surv_cure <- 0 # No cure proportion
-  surv_interval <- c(0, c(cumsum(utils::head(fail_rate$duration, -1)), Inf))
+  surv_interval <- c(0, c(cumsum(head(fail_rate$duration, -1)), Inf))
   surv_shape <- 1 # Exponential Distribution
   surv_scale0 <- fail_rate$fail_rate
   surv_scale1 <- fail_rate$hr * fail_rate$fail_rate
