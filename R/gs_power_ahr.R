@@ -247,7 +247,7 @@ gs_power_ahr <- function(
   # Summarize the bounds
   suppressMessages(
     bound <- y_h1 %>%
-      mutate(`~hr at bound` = exp(-z / sqrt(info)), `nominal p` = pnorm(-z)) %>%
+      mutate(`~hr at bound` = exp(-z / sqrt(info0)), `nominal p` = pnorm(-z)) %>%
       left_join(
         y_h0 %>%
           select(analysis, bound, probability) %>%
