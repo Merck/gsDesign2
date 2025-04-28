@@ -104,7 +104,7 @@ test_that("fixed_design_ahr handles invalid inputs", {
       hr = c(1, .6), dropout_rate = .001
     ),
     study_duration = -36
-  ), "`analysis_time` must be positive and strictly increasing!")
+  ), "must be positive and strictly increasing!")
 })
 
 test_that("to_integer.gs_design rounds events and sample sizes correctly for AHR", {

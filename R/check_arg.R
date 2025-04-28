@@ -21,16 +21,21 @@ check_increasing <- function(x, name = deparse(substitute(x)), first = TRUE) {
   # if first = TRUE, require x[1] to be positive, otherwise x[1] can be 0
   d <- if (first) diff2(x) else diff(x)
   if (any(d <= 0)) stop(
-    "`", name, "` must be ", if (first) "positive and ", "strictly increasing!"
+    "`", name, "` (", deparse(x), ") must be ",
+    if (first) "positive and ", "strictly increasing!"
   )
 }
 
 check_positive <- function(x, name = deparse(substitute(x))) {
-  if (!is.numeric(x) || any(x <= 0)) stop("`", name, "` must be positive!")
+  if (!is.numeric(x) || any(x <= 0)) stop(
+    "`", name, "` (", deparse(x), ") must be positive!"
+  )
 }
 
 check_non_negative <- function(x, name = deparse(substitute(x)), ...) {
-  if (!is.numeric(x) || any(x < 0)) stop("`", name, "` must not be negative!", ...)
+  if (!is.numeric(x) || any(x < 0)) stop(
+    "`", name, "` (", deparse(x), ") must not be negative!", ...
+  )
 }
 
 #' Check the argument `enroll_rate`
@@ -120,7 +125,7 @@ check_theta <- function(theta, K) {
 check_test_upper <- function(x, K) {
   check_test_ul(x, K, "test_upper")
   # check that final test_upper value is TRUE
-  if (!last_(x)) stop("last value of `test_upper` must be TRUE!")
+  if (!last_(x)) stop("last value of `test_upper` (", deparse(x), "), must be TRUE!")
 }
 
 check_test_lower <- function(x, K) check_test_ul(x, K, "test_lower")
