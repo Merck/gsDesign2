@@ -1,0 +1,174 @@
+---
+title: "Conditional power and conditional error"
+author: "Yujie Zhao, Shiyu Zhang, and Keaven M. Anderson"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+bibliography: "gsDesign2.bib"
+vignette: >
+  %\VignetteIndexEntry{Conditional power and conditional error}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png"
+)
+options(width = 58)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(gsDesign)
+library(gsDesign2)
+library(gt)
+library(ggplot2)
+library(tibble)
+```
+
+# Introduction
+
+We provide a simple plot of conditional power at the time of interim analysis. While group sequential boundaries should be designed to be the primary decision boundaries, conditional power evaluations can be useful supportive information. In addition to conditional power, we provide a predictive power estimate that averages conditional power based on a flat prior updated using an interim analysis result.
+
+# Design
+
+We consider the default design from `gs_design_ahr()`. We assume enrollment will ramp-up with 25\%, 50\%, and 75\% of the final enrollment rate for 2 months each followed by a steady state 
+100\% enrollment for another 6 months. The rates will be increased later to power the design appropriately. However, the fixed enrollment rate periods will remain unchanged.
+
+We consider a control group exponential time-to-event with a 12 month median. We assume a hazard ratio of 
+1 for 4 months, followed by a hazard ratio of 0.6 thereafter. Finally, we assume a low 0.001 exponential dropout rate per month for both treatment groups.
+
+Here we implement the asymmetric 2-sided design. We will add an early futility analysis where if there is a nominal 1-sided p-value of 0.05 in the wrong direction. This might be considered a disaster check. After this point in time, there may not be a perceived need for further futility analysis. For efficacy, we use alpha-spending approach with the spending function of Lan-DeMets O’Brien-Fleming spending function for $\alpha = 0.025$
+```{r}
+enroll_rate <- define_enroll_rate(
+  duration = c(2, 2, 2, 6),
+  rate = (1:4) / 4)
+
+fail_rate <- define_fail_rate(
+  duration = c(4, Inf),
+  fail_rate = log(2) / 12,
+  hr = c(1, .6),
+  dropout_rate = .001)
+
+x <- gs_design_ahr(
+  alpha = 0.025,
+  beta = 0.15,
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  analysis_time = c(16, 26, 36),
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+  test_upper = c(FALSE, TRUE, TRUE), 
+  lower = gs_b,
+  lpar = c(qnorm(.05), -Inf, -Inf)) |> to_integer()
+
+x |> gs_bound_summary() |> gt()
+```
+
+# Update design at time of interim analysis
+
+Assume when the first interim is performed, there are 145 instead of the planned `r x$analysis$event[1]` events, where there are 90 events observed during the first 4 months when HR = 1, and `r 145-90` events after month 4. The IA1 blinded treatment effect estimation is 
+```{r}
+ia1_theta <- -sum(log(c(1, 0.6)) * c(90, 55)) / 145
+ia1_theta
+```
+
+For IA alpha spending, we take the minimal of planned and actual information fraction and spend the rest of alpha all to FA. We update the bounds as follows:
+```{r}
+ustime <- x$analysis$info_frac
+ustime[1] <- min(145, x$analysis$event[1]) / max(x$analysis$event)
+xu <- gs_update_ahr(
+  x = x,
+  ustime = ustime,
+  event_tbl = data.frame(analysis = c(1, 1), event = c(90, 55)))
+
+xu |> gs_bound_summary() |> gt()
+```
+
+
+# Testing and conditional power
+
+We assume an IA1 observed HR can be possible values from 0.6 to 0.9. We are interested to see the conditional power at IA2 and FA given the IA1 observed HR. The function `hrn2z()` translates a hazard ratio and number of events into an approximate corresponding Z-value, using the Schoenfeld approximation.
+```{r}
+ia1_hr <- seq(0.6, 0.9, 0.1)
+ia1_z <- -hrn2z(hr = ia1_hr, n = 145, ratio = 1)
+```
+
+We demonstrate a conditional power plot that may be of some use. We will assume a wide range of potential underlying hazard ratios for IA2 and FA.  Given the future assumed HR at IA2 and FA from 0.6 to 1.1, we translate the HR to standardized effect size as shown below.
+```{r}
+ia2_hr <- seq(0.6, 1.1, .01)
+fa_hr <- ia2_hr
+
+ia2_theta <- -log(ia2_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
+fa_theta <- -log(fa_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
+```
+
+For each combination of future HR and currently observed HR, we calculate the conditional power via the `gs_cp_npe()` function. 
+
+```{r}
+ia2_cp <- NULL
+fa_cp <- NULL
+
+# calculate IA2 conditional power/error
+for (i in seq_along(ia2_theta)) {
+  for (j in seq_along(ia1_z)) {
+    # conditional power
+    cp <- gs_cp_npe(
+      theta = c(ia1_theta, ia2_theta[i]), 
+      info = c(145, x$analysis$event[2]) / 4,
+      a = ia1_z[j],
+      b = xu$bound$z[xu$bound$analysis == 2 & xu$bound$bound == "upper"])
+    
+    ia2_cp_new <- tibble(furture_analysis = "IA2",
+                         future_hr = ia2_hr[i], 
+                         current_hr = paste0("IA1 HR = ", ia1_hr[j]),
+                         cond_prob = cp)
+    ia2_cp <- rbind(ia2_cp, ia2_cp_new)
+  }
+}
+
+# calculate FA conditional power
+for (i in seq_along(fa_theta)) {
+  for (j in seq_along(ia1_z)) {
+    cp <- gs_cp_npe(
+      theta = c(ia1_theta, fa_theta[i]), 
+      info = c(145, x$analysis$event[3]) / 4,
+      a = ia1_z[j],
+      b = xu$bound$z[xu$bound$analysis == 3 & xu$bound$bound == "upper"])
+    
+    fa_cp_new <- tibble(furture_analysis = "FA",
+                        future_hr = fa_hr[i],
+                        current_hr = paste0("IA1 HR = ", ia1_hr[j]),
+                        cond_prob = cp)
+    fa_cp <- rbind(fa_cp, fa_cp_new)
+  }
+}
+```
+
+```{r}
+# plot the conditional power
+ggplot(data = rbind(ia2_cp, fa_cp),
+       aes(x = future_hr, y = cond_prob, color = furture_analysis, linetype = furture_analysis)) +
+  geom_line() +
+  facet_grid(current_hr ~ .) +
+  ggtitle("Conditional probability of crossing future bound") +
+  xlab("Future HR") + 
+  ylab("Conditional power") +
+  labs(color = "Future analysis", linetype = "Future analysis")
+```
+
+# Assumptions used to plot the above conditional power
+
+- We assume there are 145 at IA1, with 90 events observed during the first 4 months when HR = 1, and 55 events after month 4 when HR = 0.6. 
+- Based on the above assumed blinded event, the IA1 treatment effect is estimated by `-sum(log(c(1, 0.6)) * c(90, 55)) / 145`, and the IA1 statistical information is estimated as 145/4.
+- The statistical information of future analysis is under the null hypothesis, i.e., event/4 for equal randomization.
+- Given the IA1 observed HR, the IA1 Z-score is calculated using the Schoenfeld approximation.
+
+# References
