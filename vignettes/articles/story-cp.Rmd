@@ -35,17 +35,16 @@ library(tibble)
 
 # Introduction
 
-We provide a simple plot of conditional power at the time of interim analysis. While group sequential boundaries should be designed to be the primary decision boundaries, conditional power evaluations can be useful supportive information. In addition to conditional power, we provide a predictive power estimate that averages conditional power based on a flat prior updated using an interim analysis result.
+We provide a simple plot of conditional power at the time of interim analysis. While group sequential boundaries should be designed to be the primary decision boundaries, conditional power evaluations can be useful supportive information. 
 
 # Design
 
-We consider the default design from `gs_design_ahr()`. We assume enrollment will ramp-up with 25\%, 50\%, and 75\% of the final enrollment rate for 2 months each followed by a steady state 
-100\% enrollment for another 6 months. The rates will be increased later to power the design appropriately. However, the fixed enrollment rate periods will remain unchanged.
+We consider the default design from `gs_design_ahr()`. We assume enrollment will ramp-up with 25\%, 50\%, and 75\% of the final enrollment rate for 2 months each followed by a steady state 100\% enrollment for another 6 months. The rates will be increased later to power the design appropriately. However, the fixed enrollment rate periods will remain unchanged.
 
-We consider a control group exponential time-to-event with a 12 month median. We assume a hazard ratio of 
-1 for 4 months, followed by a hazard ratio of 0.6 thereafter. Finally, we assume a low 0.001 exponential dropout rate per month for both treatment groups.
+For the control group, we assume it time-to-event follows exponential distribution with a 12 month median. We assume a hazard ratio of 1 for 4 months, followed by a hazard ratio of 0.6 thereafter. Finally, we assume a low 0.001 exponential dropout rate per month for both treatment groups.
 
-Here we implement the asymmetric 2-sided design. We will add an early futility analysis where if there is a nominal 1-sided p-value of 0.05 in the wrong direction. This might be considered a disaster check. After this point in time, there may not be a perceived need for further futility analysis. For efficacy, we use alpha-spending approach with the spending function of Lan-DeMets O’Brien-Fleming spending function for $\alpha = 0.025$
+Here we implement the asymmetric 2-sided design. We will add an early futility analysis where if there is a nominal 1-sided p-value of 0.05 in the wrong direction. This might be considered a disaster check. After this point in time, there may not be a perceived need for further futility analysis. For efficacy, we use alpha-spending approach with the spending function of Lan-DeMets O’Brien-Fleming spending function for $\alpha = 0.025$.
+
 ```{r}
 enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 2, 6),
@@ -64,7 +63,7 @@ x <- gs_design_ahr(
   fail_rate = fail_rate,
   analysis_time = c(16, 26, 36),
   upper = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+  upar = list(sf = sfLDOF, total_spend = 0.025), 
   test_upper = c(FALSE, TRUE, TRUE), 
   lower = gs_b,
   lpar = c(qnorm(.05), -Inf, -Inf)) |> to_integer()
@@ -74,7 +73,7 @@ x |> gs_bound_summary() |> gt()
 
 # Update design at time of interim analysis
 
-Assume when the first interim is performed, there are 145 instead of the planned `r x$analysis$event[1]` events, where there are 90 events observed during the first 4 months when HR = 1, and `r 145-90` events after month 4. The IA1 blinded treatment effect estimation is 
+Assume when the first interim (IA1) is performed, there are 145 instead of the planned `r x$analysis$event[1]` events, where there are 90 events observed during the first 4 months when HR = 1, and `r 145-90` events after month 4. The IA1 blinded treatment effect estimation is 
 ```{r}
 ia1_theta <- -sum(log(c(1, 0.6)) * c(90, 55)) / 145
 ia1_theta
@@ -95,7 +94,7 @@ xu |> gs_bound_summary() |> gt()
 
 # Testing and conditional power
 
-We assume an IA1 observed HR can be possible values from 0.6 to 0.9. We are interested to see the conditional power at IA2 and FA given the IA1 observed HR. The function `hrn2z()` translates a hazard ratio and number of events into an approximate corresponding Z-value, using the Schoenfeld approximation.
+We assume an IA1 observed HR can be possible values of 0.6, 0.7, 0.8, and 0.9. We are interested to see the conditional power at IA2 and FA given the IA1 observed HR and observed blinded events. The function `hrn2z()` translates a hazard ratio and number of events into an approximate corresponding Z-value, using the Schoenfeld approximation.
 ```{r}
 ia1_hr <- seq(0.6, 0.9, 0.1)
 ia1_z <- -hrn2z(hr = ia1_hr, n = 145, ratio = 1)
@@ -152,10 +151,13 @@ for (i in seq_along(fa_theta)) {
 }
 ```
 
+
+The red/blue line shows the conditional probability of crossing FA/IA2 efficacy bound. 
 ```{r}
 # plot the conditional power
 ggplot(data = rbind(ia2_cp, fa_cp),
-       aes(x = future_hr, y = cond_prob, color = furture_analysis, linetype = furture_analysis)) +
+       aes(x = future_hr, y = cond_prob, 
+           color = furture_analysis, linetype = furture_analysis)) +
   geom_line() +
   facet_grid(current_hr ~ .) +
   ggtitle("Conditional probability of crossing future bound") +
@@ -166,8 +168,8 @@ ggplot(data = rbind(ia2_cp, fa_cp),
 
 # Assumptions used to plot the above conditional power
 
-- We assume there are 145 at IA1, with 90 events observed during the first 4 months when HR = 1, and 55 events after month 4 when HR = 0.6. 
-- Based on the above assumed blinded event, the IA1 treatment effect is estimated by `-sum(log(c(1, 0.6)) * c(90, 55)) / 145`, and the IA1 statistical information is estimated as 145/4.
+- We assume there are 145 observed at IA1, with 90 events observed during the first 4 months when HR = 1, and 55 events after month 4 when HR = 0.6. 
+- Based on the above assumed blinded event, the IA1 blinded treatment effect is estimated by `-sum(log(c(1, 0.6)) * c(90, 55)) / 145`, and the IA1 statistical information is estimated as 145/4.
 - The statistical information of future analysis is under the null hypothesis, i.e., event/4 for equal randomization.
 - Given the IA1 observed HR, the IA1 Z-score is calculated using the Schoenfeld approximation.
 
