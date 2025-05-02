@@ -131,18 +131,20 @@ check_theta <- function(theta, k) {
 #' @param k Number of total analysis.
 #' @noRd
 check_test_upper <- function(x, k) {
-  check_test_ul(x, k, "test_upper")
   # check that final test_upper value is TRUE
   if (!last_(x)) stop("last value of `test_upper` (", deparse(x), "), must be TRUE!")
+  check_test_ul(x, k, "test_upper")
 }
 
 check_test_lower <- function(x, k) check_test_ul(x, k, "test_lower")
 
 check_test_ul <- function(x, k, name) {
   # check length
-  if (!any(length(x) == c(1, k))) stop(
+  n <- length(x)
+  if (n > 1 && n != k) stop(
     "`", name, "` must be of length 1 or same length as the number of analyses (", k, ")!"
   )
+  if (n == 1 && k > 1) rep(x, k) else x
 }
 
 #' Check the arguments `alpha` and `beta`

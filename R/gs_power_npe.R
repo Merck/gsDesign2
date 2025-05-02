@@ -235,8 +235,8 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
   theta1 <- check_theta(theta1, n_analysis)
   upper <- match.fun(upper)
   lower <- match.fun(lower)
-  if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
-  if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
+  test_upper <- check_test_upper(test_upper, n_analysis)
+  test_lower <- check_test_lower(test_lower, n_analysis)
 
   # Set up info ----
   # impute info

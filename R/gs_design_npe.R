@@ -262,10 +262,8 @@ gs_design_npe <- function(
   upper <- match.fun(upper)
   lower <- match.fun(lower)
   # check test_upper & test_lower
-  if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
-  if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
-  check_test_upper(test_upper, n_analysis)
-  check_test_lower(test_lower, n_analysis)
+  test_upper <- check_test_upper(test_upper, n_analysis)
+  test_lower <- check_test_lower(test_lower, n_analysis)
 
   # Set up info ----
   if (is.null(info0)) {
