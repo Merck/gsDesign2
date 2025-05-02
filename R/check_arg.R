@@ -119,7 +119,7 @@ check_theta <- function(theta, K) {
   if (n > 1 && n != K) stop(
     "the length of `theta` (if greater than 1) must be same as the number of analyses!"
   )
-  if (theta[K] < 0) stop("final effect size of `theta` must be non-negative!")
+  if (tail(theta, 1) < 0) stop("final effect size of `theta` must be non-negative!")
 }
 
 #' Check the arguments `test_upper` and `test_lower`
