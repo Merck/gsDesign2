@@ -114,10 +114,10 @@ expected_accrual <- function(time = 0:24,
   check_increasing(time, first = FALSE)
 
   # check if it is stratified design
-  rates <- if ("stratum" %in% names(enroll_rate))
+  rate_group <- if ("stratum" %in% names(enroll_rate))
     split(enroll_rate, ~stratum) else list(enroll_rate)
 
-  res <- lapply(rates, function(s) cumulative_rate(time, s$duration, s$rate))
+  res <- lapply(rate_group, function(s) cumulative_rate(time, s$duration, s$rate))
 
   # return survival
   Reduce(`+`, res)
