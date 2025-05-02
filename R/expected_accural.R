@@ -131,5 +131,5 @@ cumulative_rate <- function(time, duration, rate, last = 0) {
   x <- sort(unique(c(time, d)))
   rate <- f(x) #  rates at points (right continuous)
   i <- x %in% time
-  cumsum(rate * diff2(x))[i]
+  cumsum(rate * diff_one(x))[i]
 }

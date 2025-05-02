@@ -138,5 +138,6 @@ s2pwe <- function(times, survival) {
   if (survival[1] > 1) stop("`survival` must not be greater than 1")
   if (last_(survival) >= 1) stop("`survival` must have at least one value < 1")
 
-  tibble(duration = diff2(times), rate = diff2(-log(survival)) / duration)
+  H <- -log(survival)
+  tibble(duration = diff_one(times), rate = diff_one(H) / duration)
 }

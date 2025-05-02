@@ -58,7 +58,7 @@ stepfun2 <- function(x0, y, right = FALSE) {
 }
 
 # append 0 to the beginning of a vector and calculate (first-order) diff
-diff2 <- function(x) diff(c(0, x))
+diff_one <- function(x) diff(c(0, x))
 
 # append a `first` value to the first `n - 1` values in a vector
 fastlag <- function(x, first = 0) c(first, head(x, -1))
