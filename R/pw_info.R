@@ -93,9 +93,9 @@ pw_info <- function(
     # get the change points of the piecewise exp for the failure rates
     fr_change_point <- fail_rate_s$duration
     # make the last change point into around 1e6
-    k <- is.finite(fr_change_point)
+    i <- is.finite(fr_change_point)
     fr_change_point <- c(
-      if (all(k)) head(fr_change_point, -1) else fr_change_point[k],
+      if (all(i)) head(fr_change_point, -1) else fr_change_point[i],
       max(total_duration) + 1e6
     )
     fr_cumsum <- cumsum(fr_change_point)
