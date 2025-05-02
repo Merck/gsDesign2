@@ -6,8 +6,8 @@
 \usage{
 gs_power_npe(
   theta = 0.1,
-  theta0 = NULL,
-  theta1 = NULL,
+  theta0 = 0,
+  theta1 = theta,
   info = 1,
   info0 = NULL,
   info1 = NULL,
@@ -230,9 +230,7 @@ gs_power_npe(
 # Larger `r` and smaller `tol` give better accuracy, but leads to slow computation
 n_analysis <- 5
 gs_power_npe(
-  theta = rep(0.1, n_analysis),
-  theta0 = NULL,
-  theta1 = NULL,
+  theta = 0.1,
   info = 1:n_analysis,
   info0 = 1:n_analysis,
   info1 = NULL,

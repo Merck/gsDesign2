@@ -122,6 +122,7 @@ check_theta <- function(theta, k) {
   if (last_(theta) < 0) stop(
     "final effect size of `theta` (", deparse(theta), ") must be non-negative!"
   )
+  if (n == 1 && k > 1) rep(theta, k) else theta
 }
 
 #' Check the arguments `test_upper` and `test_lower`

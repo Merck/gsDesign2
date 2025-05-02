@@ -240,7 +240,7 @@
 #'   lpar = -(xx %>% filter(bound == "upper"))$z
 #' )
 gs_design_npe <- function(
-    theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
+    theta = .1, theta0 = 0, theta1 = theta, # 3 theta
     info = 1, info0 = NULL, info1 = NULL, # 3 info
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     alpha = 0.025, beta = .1,
@@ -255,25 +255,9 @@ gs_design_npe <- function(
   check_alpha_beta(alpha, beta)
 
   # check theta, theta0, theta1
-  if (length(theta) == 1) {
-    theta <- rep(theta, n_analysis)
-  }
-
-  if (is.null(theta1)) {
-    theta1 <- theta
-  } else if (length(theta1) == 1) {
-    theta1 <- rep(theta1, n_analysis)
-  }
-
-  if (is.null(theta0)) {
-    theta0 <- rep(0, n_analysis)
-  } else if (length(theta0) == 1) {
-    theta0 <- rep(theta0, n_analysis)
-  }
-
-  check_theta(theta, n_analysis)
-  check_theta(theta0, n_analysis)
-  check_theta(theta1, n_analysis)
+  theta  <- check_theta(theta,  n_analysis)
+  theta0 <- check_theta(theta0, n_analysis)
+  theta1 <- check_theta(theta1, n_analysis)
 
   upper <- match.fun(upper)
   lower <- match.fun(lower)

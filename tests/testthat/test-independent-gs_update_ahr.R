@@ -97,7 +97,7 @@ lpar_update <- x$input$lpar
 upar_update$timing <- ustime
 lpar_update$timing <- ustime
 
-yb <- gs_power_npe(theta = y$analysis$theta, theta0 = 0, theta1 = NULL,
+yb <- gs_power_npe(theta = y$analysis$theta,
                    info0 = y$analysis$info0, info_scale = "h0_info",
                    info = y$analysis$info,
                    upper = x$input$upper, lower = x$input$lower,
