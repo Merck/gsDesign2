@@ -73,8 +73,10 @@ check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
     s1 <- unique(enroll_rate$stratum)
     s2 <- unique(fail_rate$stratum)
     n1 <- length(s1); n2 <- length(s2)
-    if (n1 != n2 || n1 != length(intersect(s1, s2)))
-      stop("The `stratum` column in `enroll_rate` and `fail_rate` must contain same categories!")
+    if (n1 != n2 || n1 != length(intersect(s1, s2))) stop(
+      "`enroll_rate` and `fail_rate` must have same `stratum` values: ",
+      "`enroll_rate` has ", deparse(s1), " but `fail_rate` has ", deparse(s2)
+    )
   }
 }
 
