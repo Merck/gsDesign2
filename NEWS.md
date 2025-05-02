@@ -6,6 +6,8 @@
 
 - The `footnote` argument of `as_gt()` can take the value `FALSE` to disable footnotes (#514, thanks to @yihui).
 
+- Optimized the functions `expected_accural()`, `expected_time()`, `gs_design_ahr()`,  `gs_design_combo()`, `gs_design_npe()`, `gs_design_wlr()`, `pw_info()`, `ppwe()`, `s2pe()`, and `gs_bound()` (#528, thanks to @yihui).
+
 # gsDesign2 1.1.3
 
 ## Bug fixes
