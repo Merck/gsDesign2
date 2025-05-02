@@ -139,8 +139,9 @@ check_test_lower <- function(x, k) check_test_ul(x, k, "test_lower")
 
 check_test_ul <- function(x, k, name) {
   # check length
-  if (!any(length(x) == c(1, k)))
-    stop("`", name, "` must be of length 1 or same length as info!")
+  if (!any(length(x) == c(1, k))) stop(
+    "`", name, "` must be of length 1 or same length as the number of analyses (", k, ")!"
+  )
 }
 
 #' Check the arguments `alpha` and `beta`
