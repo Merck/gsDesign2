@@ -25,3 +25,92 @@ test_that("gs_bound_summary() uses correct HR label", {
   expect_identical(x_wlr_bound$Value[5], "P(Cross) if wAHR=0.8")
 
 })
+
+test_that("gs_bound_summary() uses correct column names", {
+  # column names for single implicit alpha
+  col_expected <- c("Analysis", "Value", "Efficacy", "Futility")
+  x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
+  x_bound <- gs_bound_summary(x)
+  expect_equal(colnames(x_bound), col_expected)
+
+  # column names for multiple alpha values
+  col_expected <- c("Analysis", "Value", "α=0.0125", "α=0.025", "α=0.05", "Futility")
+  x <- gs_design_ahr(analysis_time = 1:3*12, alpha = 0.0125)
+  x_bound <- gs_bound_summary(x, alpha = c(0.025, 0.05))
+  expect_identical(colnames(x_bound), col_expected)
+})
+
+test_that("gs_bound_summary() supports multiple alpha values", {
+  # gs_design_ahr()
+  x_0125 <- gs_design_ahr(analysis_time = 1:3 * 12, alpha = 0.0125)
+  x_0250 <- gs_update_ahr(x_0125, alpha = 0.0250)
+  x_0500 <- gs_update_ahr(x_0125, alpha = 0.0500)
+
+  x_0125_bound <- gs_bound_summary(x_0125)
+  x_0250_bound <- gs_bound_summary(x_0250)
+  x_0500_bound <- gs_bound_summary(x_0500)
+
+  expected <- cbind(
+    x_0125_bound[, c("Analysis", "Value")],
+    `α=0.0125` = x_0125_bound[, "Efficacy"],
+    `α=0.025`  = x_0250_bound[, "Efficacy"],
+    `α=0.05`   = x_0500_bound[, "Efficacy"],
+    x_0125_bound[, "Futility", drop = FALSE]
+  )
+  x_bound <- gs_bound_summary(x_0125, alpha = c(0.025, 0.05))
+  expect_equal(x_bound, expected)
+
+  # gs_power_ahr()
+  x_0250 <- gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1))
+  expect_equal(x_0250[["input"]][["alpha"]], 0.0250)
+  expect_equal(x_0250[["input"]][["upar"]][["total_spend"]], 0.0250)
+  x_0125 <- gs_update_ahr(x_0250, alpha = 0.0125)
+  x_0500 <- gs_update_ahr(x_0250, alpha = 0.0500)
+
+  x_0125_bound <- gs_bound_summary(x_0125)
+  x_0250_bound <- gs_bound_summary(x_0250)
+  x_0500_bound <- gs_bound_summary(x_0500)
+
+  expected <- cbind(
+    x_0250_bound[, c("Analysis", "Value")],
+    `α=0.0125` = x_0125_bound[, "Efficacy"],
+    `α=0.025`  = x_0250_bound[, "Efficacy"],
+    `α=0.05`   = x_0500_bound[, "Efficacy"],
+    x_0250_bound[, "Futility", drop = FALSE]
+  )
+  x_bound <- gs_bound_summary(x_0250, alpha = c(0.0125, 0.05))
+  expect_equal(x_bound, expected)
+})
+
+test_that("The arg `alpha` is only supported for AHR design objects", {
+  x_wlr <- gs_design_wlr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
+
+  expect_error(
+    gs_bound_summary(x_wlr, alpha = 0.5),
+    "The argument `alpha` is only supported for AHR design objects"
+  )
+})
+
+test_that("The arg `alpha` is required to be a numeric vector", {
+  x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
+
+  expect_error(
+    gs_bound_summary(x, alpha = "alternative"),
+    "The argument `alpha` must be a numeric vector"
+  )
+})
+
+test_that("Edge case: when arg `alpha` matches original alpha", {
+  # Redundantly specifying the original alpha does not affect results
+  x <- gs_design_ahr(analysis_time = 1:3*12, alpha = 0.0125)
+
+  x_bound <- gs_bound_summary(x, alpha = c(0.025, 0.05))
+  x_bound_redundant <- gs_bound_summary(x, alpha = c(0.0125, 0.025, 0.05))
+  expect_equal(x_bound_redundant, x_bound)
+
+  # Only specifying the original alpha only affects the column name
+  x_bound <- gs_bound_summary(x)
+  x_bound_same <- gs_bound_summary(x, alpha = 0.0125)
+  expect_equal(colnames(x_bound_same)[3], "α=0.0125")
+  expect_equal(unname(x_bound_same), unname(x_bound))
+})

@@ -164,6 +164,9 @@ gs_power_ahr <- function(
   # Get the info_scale
   info_scale <- match.arg(info_scale)
 
+  upper <- match.fun(upper)
+  lower <- match.fun(lower)
+
   # Check if it is two-sided design or not
   if ((identical(lower, gs_b) && (!is.list(lpar))) || all(!test_lower)) {
     if (all(test_lower == FALSE)) {
@@ -247,7 +250,7 @@ gs_power_ahr <- function(
   # Summarize the bounds
   suppressMessages(
     bound <- y_h1 %>%
-      mutate(`~hr at bound` = exp(-z / sqrt(info)), `nominal p` = pnorm(-z)) %>%
+      mutate(`~hr at bound` = exp(-z / sqrt(info0)), `nominal p` = pnorm(-z)) %>%
       left_join(
         y_h0 %>%
           select(analysis, bound, probability) %>%
