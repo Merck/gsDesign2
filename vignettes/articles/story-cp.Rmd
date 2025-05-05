@@ -117,34 +117,30 @@ ia1_z <- -hrn2z(hr = ia1_hr, n = 145, ratio = 1)
 
 We demonstrate a conditional power plot that may be of some use. 
 The conditional power ignores future interim bounds and targets the probability of crossing the final efficacy bound given the IA1 Z-value.
-We will assume a wide range of potential underlying hazard ratios for IA2 and FA.  Given the future assumed HR at IA2 and FA from 0.6 to 1.1, we translate the HR to standardized effect size as shown below.
+Assuming a future HR between IA1 and FA from 0.6 to 1.1, we translate the HR to standardized effect size as shown below.
 ```{r}
-ia2_hr <- seq(0.6, 1.1, .01)
-fa_hr <- ia2_hr
-
-ia2_theta <- -log(ia2_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
-fa_theta <- -log(fa_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
+future_hr <- seq(0.6, 1.1, .01)
+future_theta <- -log(future_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
 ```
 
-For each combination of future HR and currently observed HR, we calculate the conditional power via the `gs_cp_npe()` function.
-
+For each combination of future HR and currently observed HR, we calculate the simple conditional power via the `gs_cp_npe()` function for both IA2 and the final analysis.
 
 ```{r}
 ia2_cp <- NULL
 fa_cp <- NULL
 
 # calculate IA2 conditional power/error
-for (i in seq_along(ia2_theta)) {
+for (i in seq_along(future_theta)) {
   for (j in seq_along(ia1_z)) {
     # conditional power
     cp <- gs_cp_npe(
-      theta = c(ia1_theta, ia2_theta[i]), 
+      theta = c(ia1_theta, future_theta[i]), 
       info = c(145, x$analysis$event[2]) / 4,
       a = ia1_z[j],
       b = xu$bound$z[xu$bound$analysis == 2 & xu$bound$bound == "upper"])
     
-    ia2_cp_new <- tibble(furture_analysis = "IA2",
-                         future_hr = ia2_hr[i], 
+    ia2_cp_new <- tibble(future_analysis = "IA2",
+                         future_hr = future_hr[i], 
                          current_hr = paste0("IA1 HR = ", ia1_hr[j]),
                          cond_prob = cp)
     ia2_cp <- rbind(ia2_cp, ia2_cp_new)
@@ -152,16 +148,16 @@ for (i in seq_along(ia2_theta)) {
 }
 
 # calculate FA conditional power
-for (i in seq_along(fa_theta)) {
+for (i in seq_along(future_theta)) {
   for (j in seq_along(ia1_z)) {
     cp <- gs_cp_npe(
-      theta = c(ia1_theta, fa_theta[i]), 
+      theta = c(ia1_theta, future_theta[i]), 
       info = c(145, x$analysis$event[3]) / 4,
       a = ia1_z[j],
       b = xu$bound$z[xu$bound$analysis == 3 & xu$bound$bound == "upper"])
     
-    fa_cp_new <- tibble(furture_analysis = "FA",
-                        future_hr = fa_hr[i],
+    fa_cp_new <- tibble(future_analysis = "FA",
+                        future_hr = future_hr[i],
                         current_hr = paste0("IA1 HR = ", ia1_hr[j]),
                         cond_prob = cp)
     fa_cp <- rbind(fa_cp, fa_cp_new)
@@ -175,7 +171,7 @@ The red/blue line shows the conditional probability of crossing FA/IA2 efficacy 
 # plot the conditional power
 ggplot(data = rbind(ia2_cp, fa_cp),
        aes(x = future_hr, y = cond_prob, 
-           color = furture_analysis, linetype = furture_analysis)) +
+           color = future_analysis, linetype = future_analysis)) +
   geom_line() +
   facet_grid(current_hr ~ .) +
   ggtitle("Conditional probability of crossing future bound") +
@@ -190,5 +186,5 @@ ggplot(data = rbind(ia2_cp, fa_cp),
 - Based on the above assumed blinded event, the IA1 blinded treatment effect is estimated by `-sum(log(c(1, 0.6)) * c(90, 55)) / 145`, and the IA1 statistical information is estimated as 145/4.
 - The statistical information of future analysis is under the null hypothesis, i.e., event/4 for equal randomization.
 - Given the IA1 observed HR, the IA1 Z-score is calculated using the Schoenfeld approximation.
+- Conditional power for future analyses ignores intervening interim analyses.
 
-# References
