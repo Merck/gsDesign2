@@ -100,7 +100,7 @@ xu <- gs_update_ahr(
   x = x,
   ustime = ustime,
   event_tbl = data.frame(analysis = c(1, 1), event = c(90, 55)))
-xu$analysis$time <- 17
+xu$analysis$time <- c(17, x$analysis$time[2:3])
 
 xu |> gs_bound_summary() |> gt()
 ```
