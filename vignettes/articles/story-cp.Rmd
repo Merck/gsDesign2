@@ -35,15 +35,18 @@ library(tibble)
 
 # Introduction
 
-We provide a simple plot of conditional power at the time of interim analysis. While group sequential boundaries should be designed to be the primary decision boundaries, conditional power evaluations can be useful supportive information. 
+We provide a simple plot of conditional power at the time of interim analysis. 
+The conditional power evaluations can be useful supportive information for boundaries determined by other methods. 
 
 # Design
 
-We consider the default design from `gs_design_ahr()`. We assume enrollment will ramp-up with 25\%, 50\%, and 75\% of the final enrollment rate for 2 months each followed by a steady state 100\% enrollment for another 6 months. The rates will be increased later to power the design appropriately. However, the fixed enrollment rate periods will remain unchanged.
+We consider the default design from `gs_design_ahr()`. We assume enrollment will ramp-up with 25\%, 50\%, and 75\% of the final enrollment rate for consecutive 2 month periods followed by a steady state 100\% enrollment for another 6 months. The rates will be increased later to power the design appropriately. However, the fixed enrollment rate periods and relative enrollment rates will remain unchanged.
 
-For the control group, we assume it time-to-event follows exponential distribution with a 12 month median. We assume a hazard ratio of 1 for 4 months, followed by a hazard ratio of 0.6 thereafter. Finally, we assume a low 0.001 exponential dropout rate per month for both treatment groups.
+For the control group, we assume an exponential failure rate distribution with a 12 month median. 
+We assume a hazard ratio of 1 for 4 months, followed by a hazard ratio of 0.6 thereafter. 
+Finally, we assume a 0.001 exponential dropout rate per month for both treatment groups.
 
-Here we implement the asymmetric 2-sided design. We will add an early futility analysis where if there is a nominal 1-sided p-value of 0.05 in the wrong direction. This might be considered a disaster check. After this point in time, there may not be a perceived need for further futility analysis. For efficacy, we use alpha-spending approach with the spending function of Lan-DeMets O’Brien-Fleming spending function for $\alpha = 0.025$.
+Here we implement the asymmetric 2-sided design. We will add an early futility analysis where if there is a nominal 1-sided p-value of 0.05 in the wrong direction. This might be considered a disaster check. After this point in time, there may be no perceived need for further futility analysis. For efficacy, we use alpha-spending approach with the Lan-DeMets spending function to approximate O’Brien-Fleming bounds with one-sided Type I error $\alpha = 0.025$.
 
 ```{r}
 enroll_rate <- define_enroll_rate(
@@ -67,19 +70,29 @@ x <- gs_design_ahr(
   test_upper = c(FALSE, TRUE, TRUE), 
   lower = gs_b,
   lpar = c(qnorm(.05), -Inf, -Inf)) |> to_integer()
-
+# Round analysis time to nearest month
+x$analysis$time <- round(x$analysis$time)
 x |> gs_bound_summary() |> gt()
 ```
 
 # Update design at time of interim analysis
 
-Assume when the first interim (IA1) is performed, there are 145 instead of the planned `r x$analysis$event[1]` events, where there are 90 events observed during the first 4 months since randomization when HR = 1, and `r 145-90` events after month 4. The IA1 blinded treatment effect estimation is 
+Assume there are 145 instead of the planned `r x$analysis$event[1]` events at the first IA.
+Assume further there are 90 events observed within 4 months of subject randomization, and `r 145-90` events more than 4 months after randomization. 
+The IA1 blinded estimate of minus the average log hazard ratio (-log(AHR)) based on the original assumptions of HR = 1 for 4 months and 0.6 thereafter is computed as follows:
+
+
 ```{r}
 ia1_theta <- -sum(log(c(1, 0.6)) * c(90, 55)) / 145
 ia1_theta
 ```
 
-For IA alpha spending, we take the minimal of planned and actual information fraction and spend the rest of alpha all to FA. We update the bounds as follows:
+For IA alpha spending, we take the minimum of planned and actual information fraction, allocating remaining $\alpha$ to the FA. 
+Note that in the following, the calendar time of analysis is assumed to be the same as in the planned design.
+Also, the effect size and event counts at analyses after IA1 are assumed the same as at the time of design unless otherwise specified by the user. 
+Just as an example, we assume the actual timing of IA1 is at 17 months after study start.
+We update the design bounds as follows:
+
 ```{r}
 ustime <- x$analysis$info_frac
 ustime[1] <- min(145, x$analysis$event[1]) / max(x$analysis$event)
@@ -87,6 +100,7 @@ xu <- gs_update_ahr(
   x = x,
   ustime = ustime,
   event_tbl = data.frame(analysis = c(1, 1), event = c(90, 55)))
+xu$analysis$time <- 17
 
 xu |> gs_bound_summary() |> gt()
 ```
@@ -94,13 +108,16 @@ xu |> gs_bound_summary() |> gt()
 
 # Testing and conditional power
 
-We assume an IA1 observed HR can be possible values of 0.6, 0.7, 0.8, and 0.9. We are interested to see the conditional power at IA2 and FA given the IA1 observed HR and observed blinded events. The function `hrn2z()` translates a hazard ratio and number of events into an approximate corresponding Z-value, using the Schoenfeld approximation.
+We assume possible IA1 observed HR values of 0.6, 0.7, 0.8, and 0.9. We compute the conditional power at IA2 and FA given the IA1 observed HR and observed blinded events. The function `gsDesign::hrn2z()` translates a hazard ratio and number of events into an approximate corresponding Z-value, using the Schoenfeld approximation.
+
 ```{r}
 ia1_hr <- seq(0.6, 0.9, 0.1)
 ia1_z <- -hrn2z(hr = ia1_hr, n = 145, ratio = 1)
 ```
 
-We demonstrate a conditional power plot that may be of some use. We will assume a wide range of potential underlying hazard ratios for IA2 and FA.  Given the future assumed HR at IA2 and FA from 0.6 to 1.1, we translate the HR to standardized effect size as shown below.
+We demonstrate a conditional power plot that may be of some use. 
+The conditional power ignores future interim bounds and targets the probability of crossing the final efficacy bound given the IA1 Z-value.
+We will assume a wide range of potential underlying hazard ratios for IA2 and FA.  Given the future assumed HR at IA2 and FA from 0.6 to 1.1, we translate the HR to standardized effect size as shown below.
 ```{r}
 ia2_hr <- seq(0.6, 1.1, .01)
 fa_hr <- ia2_hr
@@ -109,7 +126,8 @@ ia2_theta <- -log(ia2_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
 fa_theta <- -log(fa_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
 ```
 
-For each combination of future HR and currently observed HR, we calculate the conditional power via the `gs_cp_npe()` function. 
+For each combination of future HR and currently observed HR, we calculate the conditional power via the `gs_cp_npe()` function.
+
 
 ```{r}
 ia2_cp <- NULL
