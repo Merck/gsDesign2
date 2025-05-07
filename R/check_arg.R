@@ -112,39 +112,39 @@ check_info <- check_increasing
 #' Check the argument `theta`
 #'
 #' @param theta Treatment effect.
-#' @param k Number of total analysis.
+#' @param K Number of total analysis.
 #' @noRd
-check_theta <- function(theta, k) {
+check_theta <- function(theta, K) {
   n <- length(theta)
-  if (n > 1 && n != k) stop(
-    "the length of `theta` (", n, ") differs with the number of analyses (", k, ")!"
+  if (n > 1 && n != K) stop(
+    "the length of `theta` (", n, ") differs with the number of analyses (", K, ")!"
   )
   if (last_(theta) < 0) stop(
     "final effect size of `theta` (", deparse(theta), ") must be non-negative!"
   )
-  if (n == 1 && k > 1) rep(theta, k) else theta
+  if (n == 1 && K > 1) rep(theta, K) else theta
 }
 
 #' Check the arguments `test_upper` and `test_lower`
 #'
 #' @param x Test upper or lower.
-#' @param k Number of total analysis.
+#' @param K Number of total analysis.
 #' @noRd
-check_test_upper <- function(x, k) {
+check_test_upper <- function(x, K) {
   # check that final test_upper value is TRUE
   if (!last_(x)) stop("last value of `test_upper` (", deparse(x), "), must be TRUE!")
-  check_test_ul(x, k, "test_upper")
+  check_test_ul(x, K, "test_upper")
 }
 
-check_test_lower <- function(x, k) check_test_ul(x, k, "test_lower")
+check_test_lower <- function(x, K) check_test_ul(x, K, "test_lower")
 
-check_test_ul <- function(x, k, name) {
+check_test_ul <- function(x, K, name) {
   # check length
   n <- length(x)
-  if (n > 1 && n != k) stop(
-    "`", name, "` must be of length 1 or same length as the number of analyses (", k, ")!"
+  if (n > 1 && n != K) stop(
+    "`", name, "` must be of length 1 or same length as the number of analyses (", K, ")!"
   )
-  if (n == 1 && k > 1) rep(x, k) else x
+  if (n == 1 && K > 1) rep(x, K) else x
 }
 
 #' Check the arguments `alpha` and `beta`

@@ -128,18 +128,18 @@ test_that("check info", {
 })
 
 test_that("check theta", {
-  expect_error(check_theta(c(20, 10), k = 1))
-  expect_error(check_theta(c(20, -10), k = 2))
+  expect_error(check_theta(c(20, 10), K = 1))
+  expect_error(check_theta(c(20, -10), K = 2))
 })
 
 test_that("check test_upper", {
-  expect_error(check_test_upper(c("a", "b"), k = 2))
-  expect_error(check_test_upper(c(TRUE, FALSE, FALSE), k = 1))
-  expect_error(check_test_upper(c(TRUE, FALSE), k = 2))
+  expect_error(check_test_upper(c("a", "b"), K = 2))
+  expect_error(check_test_upper(c(TRUE, FALSE, FALSE), K = 1))
+  expect_error(check_test_upper(c(TRUE, FALSE), K = 2))
 })
 
 test_that("check test_lower", {
-  expect_error(check_test_lower(c(TRUE, FALSE, FALSE), k = 1))
+  expect_error(check_test_lower(c(TRUE, FALSE, FALSE), K = 1))
 })
 
 test_that("check check_alpha_beta", {
