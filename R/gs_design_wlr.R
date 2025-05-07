@@ -62,9 +62,7 @@
 #'   fail_rate = fail_rate,
 #'   ratio = 1,
 #'   alpha = 0.025, beta = 0.2,
-#'   weight = function(x, arm0, arm1) {
-#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-#'   },
+#'   weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
@@ -80,9 +78,7 @@
 #'   fail_rate = fail_rate,
 #'   ratio = 1,
 #'   alpha = 0.025, beta = 0.2,
-#'   weight = function(x, arm0, arm1) {
-#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-#'   },
+#'   weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
@@ -98,9 +94,7 @@
 #'   fail_rate = fail_rate,
 #'   ratio = 1,
 #'   alpha = 0.025, beta = 0.2,
-#'   weight = function(x, arm0, arm1) {
-#'     wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-#'   },
+#'   weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
 #'   lower = gs_spending_bound,
@@ -118,7 +112,7 @@ gs_design_wlr <- function(
       fail_rate = log(2) / c(9, 18), hr = c(.9, .6),
       dropout_rate = rep(.001, 2)
     ),
-    weight = wlr_weight_fh, approx = "asymptotic",
+    weight = "logrank", approx = "asymptotic",
     alpha = 0.025, beta = 0.1, ratio = 1,
     info_frac = NULL,
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
