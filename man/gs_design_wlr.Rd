@@ -8,7 +8,7 @@ gs_design_wlr(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
   fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
     hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
-  weight = wlr_weight_fh,
+  weight = "logrank",
   approx = "asymptotic",
   alpha = 0.025,
   beta = 0.1,
@@ -36,10 +36,9 @@ gs_design_wlr(
 
 \item{weight}{Weight of weighted log rank test:
 \itemize{
-\item \code{"1"} = unweighted.
-\item \code{"n"} = Gehan-Breslow.
-\item \code{"sqrtN"} = Tarone-Ware.
-\item \code{"FH_p[a]_q[b]"} = Fleming-Harrington with p=a and q=b.
+\item \code{"logrank"} = regular logrank test.
+\item \code{list(method = "fh", param = list(rho = ..., gamma = ...))} = Fleming-Harrington weighting functions.
+\item \code{list(method = "mb", param = list(tau = ..., w_max = ...))} = Magirr and Burman weighting functions.
 }}
 
 \item{approx}{Approximate estimation method for Z statistics.
@@ -166,9 +165,7 @@ gs_design_wlr(
   fail_rate = fail_rate,
   ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-  },
+  weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
@@ -184,9 +181,7 @@ gs_design_wlr(
   fail_rate = fail_rate,
   ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-  },
+  weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
@@ -202,9 +197,7 @@ gs_design_wlr(
   fail_rate = fail_rate,
   ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-  },
+  weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
