@@ -1,59 +1,22 @@
 # Test get_combo_weight ----
 test_that("get_combo_weight output correct rho1, rho2, gamma1, gamm2", {
 
-  rho <- c(1, 1, 0, 0)
-  gamma <- c(0, 1, 0, 1)
-  tau <- c(-1, -1, -1, -1)
+  weight <- gsDesign2:::get_combo_weight(rho = 1, gamma = 0, tau = -1)
+  weight <- eval(parse(text = weight[[1]]))
 
-  weight <- gsDesign2:::get_combo_weight(rho, gamma, tau)
-  weight1_rho <- substring(weight[[1]], 125, 130)
-  weight2_rho <- substring(weight[[2]], 125, 130)
-  weight1_gamma <- substring(weight[[1]], 133, 140)
-  weight2_gamma <- substring(weight[[2]], 133, 140)
-  weight1_tau <- substring(weight[[1]], 143, 148)
-  weight2_tau <- substring(weight[[2]], 143, 148)
-
-  res <- list(
-    "weight1_rho" = weight1_rho,
-    "weight2_rho" = weight2_rho,
-    "weight1_gamma" = weight1_gamma,
-    "weight2_gamma" = weight2_gamma
-  )
-
-  # get_combo_weight output correct rho1
-  expect_equal(res$weight2_rho, "rho =1")
-
-  # get_combo_weight output correct rho2
-  expect_equal(res$weight1_gamma, "gamma =0")
-
-  # get_combo_weight output correct gamma1
-  expect_equal(res$weight1_rho, "rho =1")
-
-  # get_combo_weight output correct gamma2
-  expect_equal(res$weight2_gamma, "gamma =1")
+  expect_equal(weight$param$rho, 1)
+  expect_equal(weight$param$gamma, 0)
+  expect_equal(weight$param$tau, NULL)
 })
 
 
 # Test get_combo_weight tau not equal to -1 ----
 test_that("get_combo_weight output correct tau1, tau3", {
 
-  rho <- c(1, 1, 0, 0)
-  gamma <- c(0, 1, 0, 1)
-  tau <- c(1, 1, 0, 0)
-  weight <- gsDesign2:::get_combo_weight(rho, gamma, tau)
-  weight1_tau <- substring(weight[[1]], 143, 148)
-  weight3_tau <- substring(weight[[3]], 143, 148)
+  weight <- gsDesign2:::get_combo_weight(rho = 1, gamma = 0, tau = 1)
+  weight <- eval(parse(text = weight[[1]]))
 
-  res <- list(
-    "weight1_tau" = weight1_tau,
-    "weight3_tau" = weight3_tau
-  )
-
-  # get_combo_weight output correct tau1
-  expect_equal(res$weight1_tau, "tau =1")
-
-  # get_combo_weight output correct tau3
-  expect_equal(res$weight3_tau, "tau =0")
+  expect_equal(weight$param$tau, 1)
 })
 
 # Test gs_delta_combo ----

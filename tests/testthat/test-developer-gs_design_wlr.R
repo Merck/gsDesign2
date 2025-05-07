@@ -5,7 +5,7 @@ fail_rate <- define_fail_rate(duration = c(4, 100),
                               hr = c(1, .6),
                               dropout_rate = 0.001)
 ratio <-  1
-weight <- function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)}
+weight <- list(method = "fh", param = list(rho = 0, gamma = 0.5))
 upper <- gs_spending_bound
 upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 lower <- gs_b
@@ -124,7 +124,7 @@ test_that("Validate if the output info-frac match the planned info-frac, when th
     lower = lower,
     lpar = lpar,
     info_scale = "h0_info",
-    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+    weight = "logrank"
   )
 
   x2 <- gs_design_wlr(
@@ -140,7 +140,7 @@ test_that("Validate if the output info-frac match the planned info-frac, when th
     lower = lower,
     lpar = lpar,
     info_scale = "h0_h1_info",
-    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+    weight = "logrank"
   )
 
   x3 <- gs_design_wlr(
@@ -156,7 +156,7 @@ test_that("Validate if the output info-frac match the planned info-frac, when th
     lower = lower,
     lpar = lpar,
     info_scale = "h1_info",
-    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+    weight = "logrank"
   )
 
   expect_equal(x1$analysis$info_frac[1], 0.75, tolerance = 1e-6)
@@ -178,7 +178,7 @@ test_that("Validate if the output info-frac match the planned info-frac, when th
     lower = lower,
     lpar = lpar,
     info_scale = "h0_info",
-    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+    weight = "logrank"
   )
 
   x2 <- gs_design_wlr(
@@ -194,7 +194,7 @@ test_that("Validate if the output info-frac match the planned info-frac, when th
     lower = lower,
     lpar = lpar,
     info_scale = "h0_h1_info",
-    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+    weight = "logrank"
   )
 
   x3 <- gs_design_wlr(
@@ -210,7 +210,7 @@ test_that("Validate if the output info-frac match the planned info-frac, when th
     lower = lower,
     lpar = lpar,
     info_scale = "h1_info",
-    weight = function(x, arm0, arm1) {wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)}
+    weight = "logrank"
   )
 
   expect_equal(x1$analysis$info_frac[1], 0.75, tolerance = 5e-6)

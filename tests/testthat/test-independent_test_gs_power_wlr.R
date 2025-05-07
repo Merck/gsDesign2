@@ -33,9 +33,7 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
   arm0 <- gs_arm[["arm0"]]
   arm1 <- gs_arm[["arm1"]]
   # calculate all pieces of information
-  weight <- function(x, arm0, arm1) {
-    gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 1)
-  }
+  weight <- list(method = "fh", param = list(rho = 0, gamma = 1))
   gs_info <- gsDesign2::gs_info_wlr(
     enroll_rate,
     fail_rate,
