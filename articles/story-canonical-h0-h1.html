@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -69,9 +74,9 @@ Yilong Zhang, and Keaven M. Anderson</h4>
 
     
     
-<p>When applying the AHR test in the time-to-event endpoint at the <span class="math inline">k</span>-th analysis, we build the standardized
+<p>When applying the AHR test in the time-to-event endpoint at the <span class="math inline">\(k\)</span>-th analysis, we build the standardized
 treatment effect as the test statistics in <span class="citation">Proschan, Lan, and Wittes (2006)</span>:</p>
-<p><span class="math display">
+<p><span class="math display">\[
   Z_k
   =
   \frac{
@@ -79,45 +84,44 @@ treatment effect as the test statistics in <span class="citation">Proschan, Lan,
   }{
     \sqrt{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}
   },
-</span></p>
-<p>where <span class="math inline">d_k</span> is the total number of
-events at analysis <span class="math inline">k</span>. Here, <span class="math inline">\Delta_i = O_i - E_i</span> with <span class="math inline">O_i</span> is the indicator that the <span class="math inline">i</span>-th event occurred in the experimental arm,
-and <span class="math inline">E_i = m_{i,1}/(m_{i,0} + m_{i,1})</span>
-as the null expectation of <span class="math inline">O_i</span> given
-<span class="math inline">m_{i,0}</span> and <span class="math inline">m_{i,1}</span>. The numbers <span class="math inline">m_{i,0}</span> and <span class="math inline">m_{i,1}</span> refer to the number of at-risk
-subjects prior to the <span class="math inline">i</span>-th death in the
-control and experimental group, respectively. When conditioning on <span class="math inline">m_{i,0}</span> and <span class="math inline">m_{i,1}</span>, the <span class="math inline">O_i</span> has a Bernoulli distribution with
-parameter <span class="math inline">E_i</span>. So the null conditional
-mean and variance of <span class="math inline">\Delta_i</span> are 0 and
-<span class="math inline">V_i = E_i(1 - E_i)</span>, respectively.
-Unconditionally, <span class="math inline">\Delta_i</span> are mean 0
-random variables with variance <span class="math inline">E(V_i)</span>
-under the null hypothesis. So, conditioned on <span class="math inline">d_k</span>, we have <span class="math inline">\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)) =
-E(\sum_{i=1}^{d_k} V_i</span>).</p>
+\]</span></p>
+<p>where <span class="math inline">\(d_k\)</span> is the total number of
+events at analysis <span class="math inline">\(k\)</span>. Here, <span class="math inline">\(\Delta_i = O_i - E_i\)</span> with <span class="math inline">\(O_i\)</span> is the indicator that the <span class="math inline">\(i\)</span>-th event occurred in the experimental
+arm, and <span class="math inline">\(E_i = m_{i,1}/(m_{i,0} +
+m_{i,1})\)</span> as the null expectation of <span class="math inline">\(O_i\)</span> given <span class="math inline">\(m_{i,0}\)</span> and <span class="math inline">\(m_{i,1}\)</span>. The numbers <span class="math inline">\(m_{i,0}\)</span> and <span class="math inline">\(m_{i,1}\)</span> refer to the number of at-risk
+subjects prior to the <span class="math inline">\(i\)</span>-th death in
+the control and experimental group, respectively. When conditioning on
+<span class="math inline">\(m_{i,0}\)</span> and <span class="math inline">\(m_{i,1}\)</span>, the <span class="math inline">\(O_i\)</span> has a Bernoulli distribution with
+parameter <span class="math inline">\(E_i\)</span>. So the null
+conditional mean and variance of <span class="math inline">\(\Delta_i\)</span> are 0 and <span class="math inline">\(V_i = E_i(1 - E_i)\)</span>, respectively.
+Unconditionally, <span class="math inline">\(\Delta_i\)</span> are mean
+0 random variables with variance <span class="math inline">\(E(V_i)\)</span> under the null hypothesis. So,
+conditioned on <span class="math inline">\(d_k\)</span>, we have <span class="math inline">\(\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)) =
+E(\sum_{i=1}^{d_k} V_i\)</span>).</p>
 <p>In this vignette, we discuss the statistical information.
 Mathematically, it is the inverse of the variance, depending on whether
 it is under null or alternative hypothesis:</p>
-<p><span class="math display">
+<p><span class="math display">\[
   \begin{array}{c}
     \mathcal I_{k, H_0} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
 H_0), \\
     \mathcal I_{k, H_1} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
 H_1).
   \end{array}
-</span></p>
+\]</span></p>
 <p>The ratio between two statistical information under the null
 hypothesis is called <strong>information fraction</strong>:</p>
-<p><span class="math display">
+<p><span class="math display">\[
   t_k = \frac{\text{Var}(\sum_{i=1}^{d_k} \Delta_i |
 H_0)}{\text{Var}(\sum_{i=1}^{d_K} \Delta_i | H_0)}
   \approx
   \frac{d_k/4}{d_K / 4}
   =
   d_k /d_K,
-</span></p>
-<p>In the rest of this vignette, we will discuss the value of <span class="math inline">\mathcal I_{k, H_0}, \mathcal I_{k, H_1}</span>. To
-derive these statistical information, we introduce the B-values:</p>
-<p><span class="math display">
+\]</span></p>
+<p>In the rest of this vignette, we will discuss the value of <span class="math inline">\(\mathcal I_{k, H_0}, \mathcal I_{k, H_1}\)</span>.
+To derive these statistical information, we introduce the B-values:</p>
+<p><span class="math display">\[
   B_k
   =
   \frac{
@@ -142,16 +146,17 @@ derive these statistical information, we introduce the B-values:</p>
   }_{\sqrt{t_k}}
   =
   \sqrt{t_k} Z_k,
-</span></p>
+\]</span></p>
 <p>As depicted in Section 2.1.3 of <span class="citation">Proschan, Lan,
 and Wittes (2006)</span>, the stochastic process formulation presented
 in <span class="citation">Harrington, Fleming, and Green (1984)</span>
 and <span class="citation">Tsiatis (1982)</span> provides insights that
-sequence of B-values, denoted as <span class="math inline">{B_1, \ldots,
-B_K}</span> with follows a multivariate normal distribution behaves
-asymptotically like Brownian motion.</p>
-<p>For 2 B-values (<span class="math inline">B_i, B_j</span> with <span class="math inline">i \leq j</span>), we have</p>
-<p><span class="math display">
+sequence of B-values, denoted as <span class="math inline">\({B_1,
+\ldots, B_K}\)</span> with follows a multivariate normal distribution
+behaves asymptotically like Brownian motion.</p>
+<p>For 2 B-values (<span class="math inline">\(B_i, B_j\)</span> with
+<span class="math inline">\(i \leq j\)</span>), we have</p>
+<p><span class="math display">\[
   \begin{eqnarray}
     \text{Cov}(B_i, B_j)
     &amp; = &amp;
@@ -202,28 +207,29 @@ asymptotically like Brownian motion.</p>
       \sum_{s=1}^{d_i} \Delta_s
     \right)
   \end{eqnarray}
-</span></p>
+\]</span></p>
 <div class="section level2">
 <h2 id="null-hypothesis">Null hypothesis<a class="anchor" aria-label="anchor" href="#null-hypothesis"></a>
 </h2>
-<p>The distribution of <span class="math inline">\{B_k\}_{k = 1, \ldots,
-K}</span> has the following structure:</p>
+<p>The distribution of <span class="math inline">\(\{B_k\}_{k = 1,
+\ldots, K}\)</span> has the following structure:</p>
 <ul>
 <li>
-<span class="math inline">B_1, B_2, \ldots, B_K</span> have a
+<span class="math inline">\(B_1, B_2, \ldots, B_K\)</span> have a
 multivariate normal distribution.</li>
 <li>
-<span class="math inline">E(B_k \;|\; H_0) = 0</span> for any <span class="math inline">k = 1, \ldots, K</span>.</li>
+<span class="math inline">\(E(B_k \;|\; H_0) = 0\)</span> for any
+<span class="math inline">\(k = 1, \ldots, K\)</span>.</li>
 <li>
-<span class="math inline">\text{Var}(B_k \;|\; H_0) =
-t_k</span>.</li>
+<span class="math inline">\(\text{Var}(B_k \;|\; H_0) =
+t_k\)</span>.</li>
 <li>
-<span class="math inline">\text{Cov}(B_i, B_j \;|\; H_0) =
-t_i</span> for any <span class="math inline">1 \leq i \leq j \leq
-K</span>.</li>
+<span class="math inline">\(\text{Cov}(B_i, B_j \;|\; H_0) =
+t_i\)</span> for any <span class="math inline">\(1 \leq i \leq j \leq
+K\)</span>.</li>
 </ul>
 <p>The derivation of the last 2 statement is</p>
-<p><span class="math display">
+<p><span class="math display">\[
   \begin{eqnarray}
   \text{Var}(B_k\;|\; H_0)
   &amp; = &amp;
@@ -243,47 +249,46 @@ K</span>.</li>
     \right)
   = t_i
   \end{eqnarray}
-</span></p>
-<p>Accordingly, <span class="math inline">\{Z_k\}_{k = 1, \ldots,
-K}</span> has the canonical joint distribution with the following
+\]</span></p>
+<p>Accordingly, <span class="math inline">\(\{Z_k\}_{k = 1, \ldots,
+K}\)</span> has the canonical joint distribution with the following
 properties:</p>
 <ul>
 <li>
-<span class="math inline">Z_1, Z_2, \ldots, Z_K</span> have a
+<span class="math inline">\(Z_1, Z_2, \ldots, Z_K\)</span> have a
 multivariate normal distribution.</li>
 <li>
-<span class="math inline">E(Z_k \;|\; H_0) = 0</span>.</li>
+<span class="math inline">\(E(Z_k \;|\; H_0) = 0\)</span>.</li>
 <li>
-<span class="math inline">\text{Var}(Z_k \;|\; H_0) = 1</span>.</li>
+<span class="math inline">\(\text{Var}(Z_k \;|\; H_0) =
+1\)</span>.</li>
 <li>
-<span class="math inline">\text{Cov}(Z_i, Z_j \;|\; H_0) =
-\sqrt{t_i/t_j}</span> for any <span class="math inline">1 \leq i \leq j
-\leq K</span>.</li>
+<span class="math inline">\(\text{Cov}(Z_i, Z_j \;|\; H_0) =
+\sqrt{t_i/t_j}\)</span> for any <span class="math inline">\(1 \leq i
+\leq j \leq K\)</span>.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="alternative-hypothesis">Alternative hypothesis<a class="anchor" aria-label="anchor" href="#alternative-hypothesis"></a>
 </h2>
-<p>Under the alternative hypothesis, for 2 B-values (<span class="math inline">B_i, B_j</span> with <span class="math inline">i
-\leq j</span>), the distribution of <span class="math inline">\{B_k\}_{k
-= 1, \ldots, K}</span> has the following structure:</p>
+<p>Under the alternative hypothesis, for 2 B-values (<span class="math inline">\(B_i, B_j\)</span> with <span class="math inline">\(i \leq j\)</span>), the distribution of <span class="math inline">\(\{B_k\}_{k = 1, \ldots, K}\)</span> has the
+following structure:</p>
 <ul>
 <li>
-<span class="math inline">B_1, B_2, \ldots, B_K</span> have a
+<span class="math inline">\(B_1, B_2, \ldots, B_K\)</span> have a
 multivariate normal distribution.</li>
 <li>
-<span class="math inline">E(B_k \;|\; H_1) = \theta_k t_k
-\sqrt{\mathcal I_{k, H_0}}</span> for any <span class="math inline">k =
-1, \ldots, K</span>.</li>
+<span class="math inline">\(E(B_k \;|\; H_1) = \theta_k t_k
+\sqrt{\mathcal I_{k, H_0}}\)</span> for any <span class="math inline">\(k = 1, \ldots, K\)</span>.</li>
 <li>
-<span class="math inline">\text{Var}(B_k \;|\; H_1) = t_k \mathcal
-I_{k, H_0} / \mathcal I_{k, H_1}</span>.</li>
+<span class="math inline">\(\text{Var}(B_k \;|\; H_1) = t_k \mathcal
+I_{k, H_0} / \mathcal I_{k, H_1}\)</span>.</li>
 <li>
-<span class="math inline">\text{Cov}(B_i, B_j \;|\; H_1) = t_i \;
-\mathcal I_{i, H_0}/\mathcal I_{i, H_1}</span> for any <span class="math inline">1 \leq i \leq j \leq K</span>.</li>
+<span class="math inline">\(\text{Cov}(B_i, B_j \;|\; H_1) = t_i \;
+\mathcal I_{i, H_0}/\mathcal I_{i, H_1}\)</span> for any <span class="math inline">\(1 \leq i \leq j \leq K\)</span>.</li>
 </ul>
 <p>The last statement is derived as</p>
-<p><span class="math display">
+<p><span class="math display">\[
   \begin{eqnarray}
     \text{Cov}(B_i, B_j \;|\; H_1)
     &amp; = &amp;
@@ -316,27 +321,27 @@ I_{k, H_0} / \mathcal I_{k, H_1}</span>.</li>
     &amp; = &amp;
     t_i\; \mathcal I_{i, H_0}/\mathcal I_{i, H_1}.
   \end{eqnarray}
-</span></p>
-<p>Accordingly, <span class="math inline">Z_k</span> has the canonical
-joint distribution with the following properties:</p>
+\]</span></p>
+<p>Accordingly, <span class="math inline">\(Z_k\)</span> has the
+canonical joint distribution with the following properties:</p>
 <ul>
 <li>
-<span class="math inline">Z_1, Z_2, \ldots, Z_K</span> have a
+<span class="math inline">\(Z_1, Z_2, \ldots, Z_K\)</span> have a
 multivariate normal distribution.</li>
 <li>
-<span class="math inline">E(Z_k \;|\; H_1) = \theta_k \sqrt{\mathcal
-I_{k, H_0}}</span> with the treatment effect as <span class="math inline">\theta_k</span> at the <span class="math inline">k</span>-th analysis.</li>
+<span class="math inline">\(E(Z_k \;|\; H_1) = \theta_k
+\sqrt{\mathcal I_{k, H_0}}\)</span> with the treatment effect as <span class="math inline">\(\theta_k\)</span> at the <span class="math inline">\(k\)</span>-th analysis.</li>
 <li>
-<span class="math inline">\text{Var}(Z_k \;|\; H_1) = \mathcal I_{k,
-H_0} / \mathcal I_{k, H_1}</span>.</li>
+<span class="math inline">\(\text{Var}(Z_k \;|\; H_1) = \mathcal
+I_{k, H_0} / \mathcal I_{k, H_1}\)</span>.</li>
 <li>
-<span class="math inline">\text{Cov}(Z_i, Z_j \;|\; H_1) =
+<span class="math inline">\(\text{Cov}(Z_i, Z_j \;|\; H_1) =
 \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i,
-H_1}}</span> for any <span class="math inline">1 \leq i \leq j \leq
-K</span>.</li>
+H_1}}\)</span> for any <span class="math inline">\(1 \leq i \leq j \leq
+K\)</span>.</li>
 </ul>
 <p>The last statement is because</p>
-<p><span class="math display">
+<p><span class="math display">\[
   \begin{eqnarray}
     \text{Cov}(Z_i, Z_j \;|\; H_1)
     &amp; = &amp;
@@ -350,9 +355,9 @@ K</span>.</li>
     \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i,
 H_1}}
   \end{eqnarray}
-</span></p>
-<p>When the local alternative assumption holds, we have <span class="math inline">\text{Cov}(Z_i, Z_j) \approx
-\sqrt{\frac{t_i}{t_j}}</span>, which is in the format of the canonical
+\]</span></p>
+<p>When the local alternative assumption holds, we have <span class="math inline">\(\text{Cov}(Z_i, Z_j) \approx
+\sqrt{\frac{t_i}{t_j}}\)</span>, which is in the format of the canonical
 joint distribution introduced in Chapter 3 of <span class="citation">Proschan, Lan, and Wittes (2006)</span>.</p>
 </div>
 <div class="section level2">
@@ -371,48 +376,46 @@ joint distribution introduced in Chapter 3 of <span class="citation">Proschan, L
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Expectation mean at the <span class="math inline">k</span>-th analysis under <span class="math inline">H_0</span>
+<td align="left">Expectation mean at the <span class="math inline">\(k\)</span>-th analysis under <span class="math inline">\(H_0\)</span>
 </td>
 <td align="center">0</td>
 <td align="center">0</td>
 </tr>
 <tr class="even">
-<td align="left">Expectation mean at the <span class="math inline">k</span>-th analysis under <span class="math inline">H_1</span>
+<td align="left">Expectation mean at the <span class="math inline">\(k\)</span>-th analysis under <span class="math inline">\(H_1\)</span>
 </td>
-<td align="center"><span class="math inline">\theta_k t_k \sqrt{\mathcal
-I_{k, H_0}}</span></td>
-<td align="center"><span class="math inline">\theta_k \sqrt{\mathcal
-I_{k, H_0}}</span></td>
+<td align="center"><span class="math inline">\(\theta_k t_k
+\sqrt{\mathcal I_{k, H_0}}\)</span></td>
+<td align="center"><span class="math inline">\(\theta_k \sqrt{\mathcal
+I_{k, H_0}}\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">Variance at the <span class="math inline">k</span>-th
-analysis under <span class="math inline">H_0</span>
+<td align="left">Variance at the <span class="math inline">\(k\)</span>-th analysis under <span class="math inline">\(H_0\)</span>
 </td>
-<td align="center"><span class="math inline">t_k</span></td>
+<td align="center"><span class="math inline">\(t_k\)</span></td>
 <td align="center">1</td>
 </tr>
 <tr class="even">
-<td align="left">Variance at the <span class="math inline">k</span>-th
-analysis under <span class="math inline">H_1</span>
+<td align="left">Variance at the <span class="math inline">\(k\)</span>-th analysis under <span class="math inline">\(H_1\)</span>
 </td>
-<td align="center"><span class="math inline">t_k \mathcal I_{k, H_0} /
-\mathcal I_{k, H_1}</span></td>
-<td align="center"><span class="math inline">\mathcal I_{k, H_0} /
-\mathcal I_{k, H_1}</span></td>
+<td align="center"><span class="math inline">\(t_k \mathcal I_{k, H_0} /
+\mathcal I_{k, H_1}\)</span></td>
+<td align="center"><span class="math inline">\(\mathcal I_{k, H_0} /
+\mathcal I_{k, H_1}\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">Covariance between the <span class="math inline">i</span>-th and <span class="math inline">j</span>th
-analysis under <span class="math inline">H_0</span> (<span class="math inline">i\leq j</span>)</td>
-<td align="center"><span class="math inline">t_i</span></td>
-<td align="center"><span class="math inline">\sqrt{t_i/t_j}</span></td>
+<td align="left">Covariance between the <span class="math inline">\(i\)</span>-th and <span class="math inline">\(j\)</span>th analysis under <span class="math inline">\(H_0\)</span> (<span class="math inline">\(i\leq
+j\)</span>)</td>
+<td align="center"><span class="math inline">\(t_i\)</span></td>
+<td align="center"><span class="math inline">\(\sqrt{t_i/t_j}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">Covariance between the <span class="math inline">i</span>-th and <span class="math inline">j</span>th
-analysis under <span class="math inline">H_1</span> (<span class="math inline">i\leq j</span>)</td>
-<td align="center"><span class="math inline">t_i \; \mathcal I_{i,
-H_0}/\mathcal I_{i, H_1}</span></td>
-<td align="center"><span class="math inline">\sqrt{\frac{t_i}{t_j}}
-\frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}</span></td>
+<td align="left">Covariance between the <span class="math inline">\(i\)</span>-th and <span class="math inline">\(j\)</span>th analysis under <span class="math inline">\(H_1\)</span> (<span class="math inline">\(i\leq
+j\)</span>)</td>
+<td align="center"><span class="math inline">\(t_i \; \mathcal I_{i,
+H_0}/\mathcal I_{i, H_1}\)</span></td>
+<td align="center"><span class="math inline">\(\sqrt{\frac{t_i}{t_j}}
+\frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}\)</span></td>
 </tr>
 </tbody>
 </table>

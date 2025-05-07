@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="katex-auto.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -287,7 +292,7 @@ Average hazard ratio
 <h3 id="step-3-group-sequential-design">Step 3: group sequential design<a class="anchor" aria-label="anchor" href="#step-3-group-sequential-design"></a>
 </h3>
 <p>We provide a simple example for a group sequential design that demonstrates a couple of features not available in the gsDesign package. The first is specifying analysis times by calendar time rather than information fraction. The second is not having an efficacy and futility bound at each analysis. This is in addition to having methods for non-proportional hazards as demonstrated in the fixed design above and again here.</p>
-<p>We use an O’Brien-Fleming spending function to derive our efficacy bounds at 24 and 36 months. For futility, we simply require a nominally significant trend in the wrong direction (<span class="math inline">p &lt; 0.1</span>) after 8 months, a trend in favor of experimental treatment after 14 months (<span class="math inline">Z &gt; 0</span>) and no bound later (<span class="math inline">Z = -\infty</span>). Thus, we have two efficacy analyses and two separate, earlier futility analysis. Power is set to 80% due to the somewhat aggressive futility bounds that are used for safety (analysis 1 half way through enrollment) and proof of concept (analysis 2). Such aggressive futility bounds may be desirable when a previous proof of concept for experimental treatment has not been established; essentially, this becomes a Phase II/III design with an interim evaluation of appropriate efficacy trends before completing the trial.</p>
+<p>We use an O’Brien-Fleming spending function to derive our efficacy bounds at 24 and 36 months. For futility, we simply require a nominally significant trend in the wrong direction (<span class="math inline">\(p &lt; 0.1\)</span>) after 8 months, a trend in favor of experimental treatment after 14 months (<span class="math inline">\(Z &gt; 0\)</span>) and no bound later (<span class="math inline">\(Z = -\infty\)</span>). Thus, we have two efficacy analyses and two separate, earlier futility analysis. Power is set to 80% due to the somewhat aggressive futility bounds that are used for safety (analysis 1 half way through enrollment) and proof of concept (analysis 2). Such aggressive futility bounds may be desirable when a previous proof of concept for experimental treatment has not been established; essentially, this becomes a Phase II/III design with an interim evaluation of appropriate efficacy trends before completing the trial.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gsd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>

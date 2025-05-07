@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -86,7 +91,7 @@ proportional hazards assumptions to compare with
 <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>. Since the sample size methods differ
 between the <code><a href="../reference/gs_design_ahr.html">gsDesign2::gs_design_ahr()</a></code> and
 <code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code> functions, we use continuous sample
-sizes so that spending bounds (Z-values, nominal <span class="math inline">p</span>-values, spending) should be identical
+sizes so that spending bounds (Z-values, nominal <span class="math inline">\(p\)</span>-values, spending) should be identical
 except where noted. Indeed, we are able to reproduce bounds to a high
 degree of accuracy. Due to the different sample size methods, sample
 size and other boundary approximations vary slightly.</p>
@@ -729,10 +734,10 @@ approximately 6 digits with precision parameters chosen
 <h3 id="example-2-symmetric-2-sided-design">Example 2: Symmetric 2-sided design<a class="anchor" aria-label="anchor" href="#example-2-symmetric-2-sided-design"></a>
 </h3>
 <p>We now derive a symmetric 2-sided design. This requires use of the
-argument <code>h1_spending = FALSE</code> to use <span class="math inline">\alpha</span>-spending for both the upper and lower
-bounds. While the lower bound is labeled as a futility bound in the
-table, it would be better termed an efficacy bound for control better
-than experimental treatment.</p>
+argument <code>h1_spending = FALSE</code> to use <span class="math inline">\(\alpha\)</span>-spending for both the upper and
+lower bounds. While the lower bound is labeled as a futility bound in
+the table, it would be better termed an efficacy bound for control
+better than experimental treatment.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">lpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -1339,7 +1344,7 @@ digits of accuracy.</p>
 <span><span class="co">#&gt; [1]  1.349247e-07 -9.218765e-07 -4.092976e-07</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility">Example 3: Asymmetric 2-sided design with <span class="math inline">\beta</span>-spending and binding futility<a class="anchor" aria-label="anchor" href="#example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility"></a>
+<h3 id="example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility">Example 3: Asymmetric 2-sided design with <span class="math inline">\(\beta\)</span>-spending and binding futility<a class="anchor" aria-label="anchor" href="#example-3-asymmetric-2-sided-design-with-beta-spending-and-binding-futility"></a>
 </h3>
 <p>Designs with binding futility bounds are generally not considered
 acceptable for Phase 3 trials as Type I error is not controlled if a
@@ -1959,10 +1964,10 @@ to get convergence.</p>
 <span><span class="co">#&gt; [1] -0.02803415 -0.02670908 -0.01598640</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="example-4-asymmetric-2-sided-design-with-beta-spending-and-non-binding-futility-bound">Example 4: Asymmetric 2-sided design with <span class="math inline">\beta</span>-spending and non-binding futility
+<h3 id="example-4-asymmetric-2-sided-design-with-beta-spending-and-non-binding-futility-bound">Example 4: Asymmetric 2-sided design with <span class="math inline">\(\beta\)</span>-spending and non-binding futility
 bound<a class="anchor" aria-label="anchor" href="#example-4-asymmetric-2-sided-design-with-beta-spending-and-non-binding-futility-bound"></a>
 </h3>
-<p>In the gsDesign package, asymmetric designs with non-binding <span class="math inline">\beta</span>-spending used for futility are the
+<p>In the gsDesign package, asymmetric designs with non-binding <span class="math inline">\(\beta\)</span>-spending used for futility are the
 default design. The objectives of this type of design include:</p>
 <ul>
 <li>Meaningful futility bounds to stop a trial early if no treatment
@@ -2593,9 +2598,9 @@ argument to eliminate this evaluation at the final analysis. This is
 arbitrary and largely selected so that the interim futility bounds can
 be meaningful tests. In this case, more than a minor trend in favor of
 control at the first or second interim will cross a futility bound. This
-is less stringent than the <span class="math inline">\beta</span>-spending bounds previously described,
-but still address a potential ethical issue of continuing the trial when
-more than a minor trend in favor of control is present.</p>
+is less stringent than the <span class="math inline">\(\beta\)</span>-spending bounds previously
+described, but still address a potential ethical issue of continuing the
+trial when more than a minor trend in favor of control is present.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">alpha_star</span> <span class="op">&lt;-</span> <span class="fl">.5</span></span>
 <span><span class="va">upar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="va">alpha</span>, param <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -4432,10 +4437,10 @@ I error.</p>
 </tfoot>
 </table>
 </div>
-<p>We see that the targeted bounds are achieved with nominal <span class="math inline">p</span>-values of 0.0001 for each interim efficacy
-bound and the targeted hazard ratios at interim futility bounds. With
-these methods, trial designers have more control over design
-characteristics they may desire. In particular, we note that the
+<p>We see that the targeted bounds are achieved with nominal <span class="math inline">\(p\)</span>-values of 0.0001 for each interim
+efficacy bound and the targeted hazard ratios at interim futility
+bounds. With these methods, trial designers have more control over
+design characteristics they may desire. In particular, we note that the
 Haybittle-Peto efficacy bounds are less stringent at the first interim
 and more stringent at the second interim than corresponding
 O’Brien-Fleming-like bounds we computed with the spending approach. This

@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -670,12 +675,12 @@ slightly over the targeted 90%.</p>
 <h3 id="bounds-for-alternate-alpha">Bounds for alternate alpha<a class="anchor" aria-label="anchor" href="#bounds-for-alternate-alpha"></a>
 </h3>
 <p>At the stage of study design, we may be required to report the
-designs under multiple <span class="math inline">\alpha</span> if alpha
-is reallocated due to rejection of another hypothesis. At the design
-stage, the planned <span class="math inline">\alpha</span> is 0.0125.
-Assume the updated <span class="math inline">\alpha</span> is 0.025 due
-to reallocation of <span class="math inline">\alpha</span> from some
-other hypothesis. The corresponding bounds are</p>
+designs under multiple <span class="math inline">\(\alpha\)</span> if
+alpha is reallocated due to rejection of another hypothesis. At the
+design stage, the planned <span class="math inline">\(\alpha\)</span> is
+0.0125. Assume the updated <span class="math inline">\(\alpha\)</span>
+is 0.025 due to reallocation of <span class="math inline">\(\alpha\)</span> from some other hypothesis. The
+corresponding bounds are</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_update_ahr.html">gs_update_ahr</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
@@ -1209,8 +1214,8 @@ the delayed effect period, At the final analysis, 32 events were
 observed during the delayed effect period. In practice, even if
 attempting to match event counts exactly the observed events at analyses
 often differ from planned. We also assume the protocol specifies that
-the full <span class="math inline">\alpha</span> will be spent at the
-final analysis even in a case like this when there is a shortfall of
+the full <span class="math inline">\(\alpha\)</span> will be spent at
+the final analysis even in a case like this when there is a shortfall of
 events versus the design plan.</p>
 <p>The updated design is</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -1749,9 +1754,9 @@ events versus the design plan.</p>
 bound<a class="anchor" aria-label="anchor" href="#two-sided-asymmetric-design-beta-spending-with-non-binding-lower-bound"></a>
 </h2>
 <p>In this section, we investigate a 2 sided asymmetric design, with a
-non-binding <span class="math inline">\beta</span>-spending used to
-generate futility bounds. <span class="math inline">\beta</span>-spending refers to Type II error (1 -
-power) spending for the lower bound crossing probabilities under the
+non-binding <span class="math inline">\(\beta\)</span>-spending used to
+generate futility bounds. <span class="math inline">\(\beta\)</span>-spending refers to Type II error (1
+- power) spending for the lower bound crossing probabilities under the
 alternative hypothesis. Non-binding bound computation assumes the trial
 continues if the lower bound is crossed for Type I error, but not Type
 II error.</p>
@@ -2326,8 +2331,8 @@ are larger than we had above in the 1-sided example.</p>
 <div class="section level3">
 <h3 id="bounds-for-alternate-alpha-1">Bounds for alternate alpha<a class="anchor" aria-label="anchor" href="#bounds-for-alternate-alpha-1"></a>
 </h3>
-<p>We may want to report the design bounds under multiple <span class="math inline">\alpha</span> in the case Type I error may be
-reallocated from another hypothesis. We assume now that <span class="math inline">\alpha</span> is 0.025 but we still use the same
+<p>We may want to report the design bounds under multiple <span class="math inline">\(\alpha\)</span> in the case Type I error may be
+reallocated from another hypothesis. We assume now that <span class="math inline">\(\alpha\)</span> is 0.025 but we still use the same
 sample size and event timing as for the original alpha = 0.0125. The
 updated bounds are</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">

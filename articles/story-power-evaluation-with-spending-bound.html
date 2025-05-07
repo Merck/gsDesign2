@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -95,22 +100,22 @@ randomization.</p>
 <ul>
 <li><p>We consider a 2-arm trial with an experimental arm and a control
 arm.</p></li>
-<li><p>We will assume <span class="math inline">K=3</span> analyses
-after <span class="math inline">350</span>, <span class="math inline">700</span>, and <span class="math inline">1400</span> patients have been observed with equal
-randomization between the treatment groups.</p></li>
+<li><p>We will assume <span class="math inline">\(K=3\)</span> analyses
+after <span class="math inline">\(350\)</span>, <span class="math inline">\(700\)</span>, and <span class="math inline">\(1400\)</span> patients have been observed with
+equal randomization between the treatment groups.</p></li>
 <li><p>The primary endpoint for the trial is a binary indicator for each
 participant if they have a failed outcome. For this case, we consider
-the parameter <span class="math display">
+the parameter <span class="math display">\[
 \theta = p_1 - p _2
-</span> where <span class="math inline">p_1</span> denotes the
+\]</span> where <span class="math inline">\(p_1\)</span> denotes the
 probability that a trial participant in the control group experiences a
-failure and <span class="math inline">p_2</span> represents the same
+failure and <span class="math inline">\(p_2\)</span> represents the same
 probability for a trial participant in the experimental group.</p></li>
 <li><p>The study was designed with approximately 80% power (Type II
-error <span class="math inline">\beta = 1 - 0.8 = 0.2</span>) and 2.5%
-one-sided Type I error (<span class="math inline">\alpha = 0.025</span>)
-to detect a reduction from a 15% event rate (<span class="math inline">p_1 = 0.15</span>) in the control group to 10%
-(<span class="math inline">p_2 = 0.1</span>) in the experimental
+error <span class="math inline">\(\beta = 1 - 0.8 = 0.2\)</span>) and
+2.5% one-sided Type I error (<span class="math inline">\(\alpha =
+0.025\)</span>) to detect a reduction from a 15% event rate (<span class="math inline">\(p_1 = 0.15\)</span>) in the control group to 10%
+(<span class="math inline">\(p_2 = 0.1\)</span>) in the experimental
 group.</p></li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -118,17 +123,17 @@ group.</p></li>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fl">0.10</span> <span class="co"># assumed failure rate in experimental group</span></span>
 <span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.025</span> <span class="co"># type I error</span></span>
 <span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">0.2</span> <span class="co"># type II error for 80% power</span></span></code></pre></div>
-<p>In this example, the parameter of interest is <span class="math inline">\theta = p_1 - p_2</span>. We denote the alternate
-hypothesis as <span class="math display">
+<p>In this example, the parameter of interest is <span class="math inline">\(\theta = p_1 - p_2\)</span>. We denote the
+alternate hypothesis as <span class="math display">\[
   H_1: \theta = \theta_1= p_1^1 - p_2^1 = 0.15 - 0.10 = 0.05
-</span> and the null hypothesis <span class="math display">
+\]</span> and the null hypothesis <span class="math display">\[
   H_0: \theta = \theta_0 = 0 = p_1^0 - p_2^0
-</span> where <span class="math inline">p^0_1 = p^0_2= (p_1^1+p_2^1)/2 =
-0.125</span> as laid out in <span class="citation">Lachin
-(2009)</span>.</p>
+\]</span> where <span class="math inline">\(p^0_1 = p^0_2=
+(p_1^1+p_2^1)/2 = 0.125\)</span> as laid out in <span class="citation">Lachin (2009)</span>.</p>
 <p>We note that had we considered a success outcome such as objective
-response in an oncology study, we would let <span class="math inline">p_1</span> denote the experimental group and <span class="math inline">p_2</span> the control group response rate. Thus, we
-always set up the notation so the <span class="math inline">p_1&gt;p_2</span> represents superiority for the
+response in an oncology study, we would let <span class="math inline">\(p_1\)</span> denote the experimental group and
+<span class="math inline">\(p_2\)</span> the control group response
+rate. Thus, we always set up the notation so the <span class="math inline">\(p_1&gt;p_2\)</span> represents superiority for the
 experimental group.</p>
 </div>
 <div class="section level2">
@@ -137,29 +142,32 @@ experimental group.</p>
 <p>We assume</p>
 <ul>
 <li>
-<span class="math inline">k</span>: the index of analysis, i.e.,
-<span class="math inline">k = 1, \ldots, K</span>;</li>
+<span class="math inline">\(k\)</span>: the index of analysis, i.e.,
+<span class="math inline">\(k = 1, \ldots, K\)</span>;</li>
 <li>
-<span class="math inline">i</span>: the index of arm, i.e., <span class="math inline">i = 1</span> for the control group and <span class="math inline">i = 2</span> for the experimental group;</li>
+<span class="math inline">\(i\)</span>: the index of arm, i.e.,
+<span class="math inline">\(i = 1\)</span> for the control group and
+<span class="math inline">\(i = 2\)</span> for the experimental
+group;</li>
 <li>
-<span class="math inline">n_{ik}</span>: the number of subjects in
-group <span class="math inline">i</span> and analysis <span class="math inline">k</span>;</li>
+<span class="math inline">\(n_{ik}\)</span>: the number of subjects
+in group <span class="math inline">\(i\)</span> and analysis <span class="math inline">\(k\)</span>;</li>
 <li>
-<span class="math inline">n_k</span>: the number of subjects at
-analysis <span class="math inline">k</span>, i.e., <span class="math inline">n_k = n_{1k} + n_{2k}</span>;</li>
+<span class="math inline">\(n_k\)</span>: the number of subjects at
+analysis <span class="math inline">\(k\)</span>, i.e., <span class="math inline">\(n_k = n_{1k} + n_{2k}\)</span>;</li>
 <li>
-<span class="math inline">X_{ij}</span>: the independent random
-variable whether the <span class="math inline">j</span>-th subject in
-group <span class="math inline">i</span> has response, i.e, <span class="math display">
+<span class="math inline">\(X_{ij}\)</span>: the independent random
+variable whether the <span class="math inline">\(j\)</span>-th subject
+in group <span class="math inline">\(i\)</span> has response, i.e, <span class="math display">\[
 X_{ij} \sim \text{Bernoulli}(p_i);
-</span>
+\]</span>
 </li>
 <li>
-<span class="math inline">Y_{ik}</span>: the number of subject
-having response in group <span class="math inline">i</span> and analysis
-<span class="math inline">k</span>, i.e., <span class="math display">
+<span class="math inline">\(Y_{ik}\)</span>: the number of subject
+having response in group <span class="math inline">\(i\)</span> and
+analysis <span class="math inline">\(k\)</span>, i.e., <span class="math display">\[
 Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
-</span>
+\]</span>
 </li>
 </ul>
 </div>
@@ -167,91 +175,94 @@ Y_{ik} = \sum_{j = 1}^{n_{ik}} X_{ij};
 <h2 id="statistical-testing">Statistical Testing<a class="anchor" aria-label="anchor" href="#statistical-testing"></a>
 </h2>
 <p>In this section, we will discuss the estimation of statistical
-information and variance of proportion under both null hypothesis <span class="math inline">H_0: p_1^0 = p_2^0 \equiv p_0</span> and alternative
-hypothesis <span class="math inline">H_1: \theta = \theta_1= p_1^1 -
-p_2^1</span>. Then, we will introduce the test statistics in the group
-sequential design.</p>
+information and variance of proportion under both null hypothesis <span class="math inline">\(H_0: p_1^0 = p_2^0 \equiv p_0\)</span> and
+alternative hypothesis <span class="math inline">\(H_1: \theta =
+\theta_1= p_1^1 - p_2^1\)</span>. Then, we will introduce the test
+statistics in the group sequential design.</p>
 <div class="section level3">
 <h3 id="estimation-of-statistical-information-under-h1">Estimation of Statistical Information under H1<a class="anchor" aria-label="anchor" href="#estimation-of-statistical-information-under-h1"></a>
 </h3>
 <p>Under the alternative hypothesis, one can estimate the proportion of
-failures in group <span class="math inline">i</span> at analysis <span class="math inline">k</span> as <span class="math display">
+failures in group <span class="math inline">\(i\)</span> at analysis
+<span class="math inline">\(k\)</span> as <span class="math display">\[
   \hat{p}_{ik} = Y_{ik}/n_{ik}.
-</span> We note its variance is <span class="math display">
+\]</span> We note its variance is <span class="math display">\[
 \text{Var}(\hat p_{ik})=\frac{p_{i}(1-p_i)}{n_{ik}},
-</span> and its consistent estimator <span class="math display">
+\]</span> and its consistent estimator <span class="math display">\[
   \widehat{\text{Var}}(\hat p_{ik})=\frac{\hat p_{ik}(1-\hat
 p_{ik})}{n_{ik}},
-</span> for any <span class="math inline">i = 1, 2</span> and <span class="math inline">k = 1, 2, \ldots, K</span>. Letting <span class="math inline">\hat\theta_k = \hat p_{1k} - \hat p_{2k},</span> we
-also have <span class="math display">
+\]</span> for any <span class="math inline">\(i = 1, 2\)</span> and
+<span class="math inline">\(k = 1, 2, \ldots, K\)</span>. Letting <span class="math inline">\(\hat\theta_k = \hat p_{1k} - \hat p_{2k},\)</span>
+we also have <span class="math display">\[
   \sigma^2_k
   \equiv
   \text{Var}(\hat\theta_k)
   =
   \frac{p_1(1-p_1)}{n_{1k}}+\frac{p_2(1-p_2)}{n_{2k}},
-</span> its consistent estimator <span class="math display">
+\]</span> its consistent estimator <span class="math display">\[
   \hat\sigma^2_k
   =
   \frac{\hat p_{1k}(1-\hat p_{1k})}{n_{1k}}+\frac{\hat p_{2k}(1-\hat
 p_{2k})}{n_{2k}},
-</span></p>
+\]</span></p>
 <p>Statistical information for each of these quantities and their
-corresponding estimators are denoted by <span class="math display">
+corresponding estimators are denoted by <span class="math display">\[
   \left\{
   \begin{align}
     \mathcal{I}_k = &amp;1/\sigma^2_k,\\
     \mathcal{\hat I}_k = &amp;1/\hat \sigma^2_k,
   \end{align}
   \right.
-</span></p>
+\]</span></p>
 </div>
 <div class="section level3">
 <h3 id="estimation-of-statistical-information-under-h0">Estimation of Statistical Information under H0<a class="anchor" aria-label="anchor" href="#estimation-of-statistical-information-under-h0"></a>
 </h3>
 <p>Under the null hypothesis, one can estimate the proportion of
-failures in group <span class="math inline">i</span> at analysis <span class="math inline">k</span> as we estimate <span class="math display">
+failures in group <span class="math inline">\(i\)</span> at analysis
+<span class="math inline">\(k\)</span> as we estimate <span class="math display">\[
   \hat{p}_{0k}
   =
   \frac{Y_{1k}+ Y_{2k}}{n_{1k}+ n_{2k}}
   =
   \frac{n_{1k}\hat p_{1k} + n_{2k}\hat p_{2k}}{n_{1k} + n_{2k}}.
-</span> The corresponding null hypothesis estimator <span class="math display">
+\]</span> The corresponding null hypothesis estimator <span class="math display">\[
   \hat\sigma^2_{0k}
   \equiv
   \widehat{\text{Var}}(\hat{p}_{0k})
   =
   \hat p_{0k}(1-\hat p_{0k})\left(\frac{1}{n_{1k}}+
 \frac{1}{n_{2k}}\right),
-</span> for any <span class="math inline">k = 1,2, \ldots, K</span>.</p>
+\]</span> for any <span class="math inline">\(k = 1,2, \ldots,
+K\)</span>.</p>
 <p>Statistical information for each of these quantities and their
-corresponding estimators are denoted by <span class="math display">
+corresponding estimators are denoted by <span class="math display">\[
   \left\{
   \begin{align}
     \mathcal{I}_{0k} =&amp; 1/ \sigma^2_{0k},\\
     \mathcal{\hat I}_{0k} =&amp; 1/\hat \sigma^2_{0k},
   \end{align}
   \right.
-</span> for any <span class="math inline">k = 1, 2, \ldots,
-K</span>.</p>
+\]</span> for any <span class="math inline">\(k = 1, 2, \ldots,
+K\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="testing-statistics">Testing Statistics<a class="anchor" aria-label="anchor" href="#testing-statistics"></a>
 </h3>
 <p>Testing, as recommended by <span class="citation">Lachin
 (2009)</span>, is done with the large sample test with the null
-hypothesis variance estimate and without continuity correction: <span class="math display">
+hypothesis variance estimate and without continuity correction: <span class="math display">\[
 Z_k = \hat\theta_k/\hat\sigma_{0k}=\frac{\hat p_{1k} - \hat
 p_{2k}}{\sqrt{(1/n_{1k}+ 1/n_{2k})\hat p_{0k}(1-\hat p_{0k})} },
-</span> which is asymptotically <span class="math inline">\text{Normal}(0,1)</span> if <span class="math inline">p_1 = p_2</span> and <span class="math inline">\text{Normal}(0, \sigma_{0k}^2/\sigma_k^2)</span>
-more generally for any <span class="math inline">p_1, p_2</span> and
-<span class="math inline">k = 1, 2, \ldots, K</span>.</p>
-<p>If we further assume a constant proportion <span class="math inline">\xi_i</span> randomized to each group <span class="math inline">i=1,2.</span> Thus, <span class="math display">
+\]</span> which is asymptotically <span class="math inline">\(\text{Normal}(0,1)\)</span> if <span class="math inline">\(p_1 = p_2\)</span> and <span class="math inline">\(\text{Normal}(0,
+\sigma_{0k}^2/\sigma_k^2)\)</span> more generally for any <span class="math inline">\(p_1, p_2\)</span> and <span class="math inline">\(k = 1, 2, \ldots, K\)</span>.</p>
+<p>If we further assume a constant proportion <span class="math inline">\(\xi_i\)</span> randomized to each group <span class="math inline">\(i=1,2.\)</span> Thus, <span class="math display">\[
   Z_k
   \approx
   \frac{\sqrt{n_k}(\hat p_{1k} - \hat p_{2k})}{\sqrt{(1/\xi_1+
 1/\xi_2)p_{0}(1- p_0)} }.
-</span></p>
-<p>Then, we have the asymptotic distribution <span class="math display">
+\]</span></p>
+<p>Then, we have the asymptotic distribution <span class="math display">\[
   Z_k
   \sim
   \text{Normal}
@@ -259,26 +270,25 @@ more generally for any <span class="math inline">p_1, p_2</span> and
     \sqrt{n_k}\frac{p_1 - p_2}{\sqrt{(1/\xi_1+ 1/\xi_2) p_0(1- p_0)} },
     \sigma^2_{0k}/\sigma^2_{1k}
   \right),
-</span> where we note that <span class="math display">
+\]</span> where we note that <span class="math display">\[
   \sigma^2_{0k}/\sigma^2_{1k}
   =
   \frac{ p_0(1-p_0)\left(1/\xi_1+
 1/\xi_2\right)}{p_1(1-p_1)/\xi_1+p_2(1-p_2)/\xi_2}.
-</span> We also note by definition that <span class="math inline">\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal
-I_{0k}.</span> Based on an input <span class="math inline">p_1, p_2,
-n_k, \xi_1, \xi_2 = 1-\xi_1</span> we will compute <span class="math inline">\theta, \mathcal{I}_k, \mathcal{I}_{0k}</span> for
-any <span class="math inline">k = 1, 2, \ldots, K</span>.</p>
-<p>We note that <span class="math inline">\chi^2=Z^2_k</span> is the
-<span class="math inline">\chi^2</span> test without continuity
+\]</span> We also note by definition that <span class="math inline">\(\sigma^2_{0k}/\sigma^2_{1k}=\mathcal I_k/\mathcal
+I_{0k}.\)</span> Based on an input <span class="math inline">\(p_1, p_2,
+n_k, \xi_1, \xi_2 = 1-\xi_1\)</span> we will compute <span class="math inline">\(\theta, \mathcal{I}_k, \mathcal{I}_{0k}\)</span>
+for any <span class="math inline">\(k = 1, 2, \ldots, K\)</span>.</p>
+<p>We note that <span class="math inline">\(\chi^2=Z^2_k\)</span> is the
+<span class="math inline">\(\chi^2\)</span> test without continuity
 correction as recommended by <span class="citation">Gordon and Watson
 (1996)</span>. Note finally that this extends in a straightforward way
 the non-inferiority test of <span class="citation">Farrington and
-Manning (1990)</span> if the null hypothesis is <span class="math inline">\theta = p_1 - p_2 - \delta = 0</span> for some
-non-inferiority margin <span class="math inline">\delta &gt; 0</span>;
-<span class="math inline">\delta &lt; 0</span> would correspond to what
-is referred to as super-superiority <span class="citation">Chan
-(2002)</span>, requiring that experimental therapy has been shown to be
-superior to control by at least a margin <span class="math inline">-\delta&gt;0</span>.</p>
+Manning (1990)</span> if the null hypothesis is <span class="math inline">\(\theta = p_1 - p_2 - \delta = 0\)</span> for some
+non-inferiority margin <span class="math inline">\(\delta &gt;
+0\)</span>; <span class="math inline">\(\delta &lt; 0\)</span> would
+correspond to what is referred to as super-superiority <span class="citation">Chan (2002)</span>, requiring that experimental therapy
+has been shown to be superior to control by at least a margin <span class="math inline">\(-\delta&gt;0\)</span>.</p>
 </div>
 </div>
 <div class="section level2">

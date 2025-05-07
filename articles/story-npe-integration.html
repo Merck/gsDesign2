@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -88,34 +93,35 @@ derive boundaries for group sequential designs.</p>
 <div class="section level3">
 <h3 id="asymptotic-normal-and-boundary-crossing-probabilities">Asymptotic normal and boundary crossing probabilities<a class="anchor" aria-label="anchor" href="#asymptotic-normal-and-boundary-crossing-probabilities"></a>
 </h3>
-<p>We assume <span class="math inline">Z_1,\cdots,Z_K</span> has a
-multivariate normal distribution with variance for <span class="math inline">1\leq k\leq K</span> of <span class="math display">\text{Var}(Z_k) = 1</span> and the expected value
-is</p>
-<p><span class="math display">E(Z_{k})=
-\sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .</span></p>
+<p>We assume <span class="math inline">\(Z_1,\cdots,Z_K\)</span> has a
+multivariate normal distribution with variance for <span class="math inline">\(1\leq k\leq K\)</span> of <span class="math display">\[\text{Var}(Z_k) = 1\]</span> and the expected
+value is</p>
+<p><span class="math display">\[E(Z_{k})=
+\sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .\]</span></p>
 </div>
 <div class="section level3">
 <h3 id="notation-for-boundary-crossing-probabilities">Notation for boundary crossing probabilities<a class="anchor" aria-label="anchor" href="#notation-for-boundary-crossing-probabilities"></a>
 </h3>
-<p>We use a shorthand notation in this section to have <span class="math inline">\theta</span> represent <span class="math inline">\theta()</span> and <span class="math inline">\theta=0</span> to represent <span class="math inline">\theta(t)\equiv 0</span> for all <span class="math inline">t</span>. We denote the probability of crossing the
-upper boundary at analysis <span class="math inline">k</span> without
-previously crossing a bound by</p>
-<p><span class="math display">\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq
-b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),</span> <span class="math inline">k=1,2,\ldots,K.</span></p>
-<p>Next, we consider analogous notation for the lower bound. For <span class="math inline">k=1,2,\ldots,K</span> denote the probability of
-crossing a lower bound at analysis <span class="math inline">k</span>
-without previously crossing any bound by</p>
-<p><span class="math display">\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt;
-a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).</span> For
-symmetric testing for analysis <span class="math inline">k</span> we
-would have <span class="math inline">a_k= - b_k</span>, <span class="math inline">\beta_k(0)=\alpha_k(0),</span> <span class="math inline">k=1,2,\ldots,K</span>. The total lower boundary
-crossing probability for a trial is denoted by <span class="math display">\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).</span>
-Note that we can also set <span class="math inline">a_k= -\infty</span>
-for any or all analyses if a lower bound is not desired, <span class="math inline">k=1,2,\ldots,K</span>; thus, we will not use the
-<span class="math inline">\alpha^+(\theta)</span> notation here. For
-<span class="math inline">k&lt;K</span>, we can set <span class="math inline">b_k=\infty</span> where an upper bound is not
-desired. Obviously, for each <span class="math inline">k</span>, we want
-either <span class="math inline">a_k&gt;-\infty</span> or <span class="math inline">b_k&lt;\infty</span>.</p>
+<p>We use a shorthand notation in this section to have <span class="math inline">\(\theta\)</span> represent <span class="math inline">\(\theta()\)</span> and <span class="math inline">\(\theta=0\)</span> to represent <span class="math inline">\(\theta(t)\equiv 0\)</span> for all <span class="math inline">\(t\)</span>. We denote the probability of crossing
+the upper boundary at analysis <span class="math inline">\(k\)</span>
+without previously crossing a bound by</p>
+<p><span class="math display">\[\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq
+b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),\]</span> <span class="math inline">\(k=1,2,\ldots,K.\)</span></p>
+<p>Next, we consider analogous notation for the lower bound. For <span class="math inline">\(k=1,2,\ldots,K\)</span> denote the probability of
+crossing a lower bound at analysis <span class="math inline">\(k\)</span> without previously crossing any bound
+by</p>
+<p><span class="math display">\[\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt;
+a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).\]</span> For
+symmetric testing for analysis <span class="math inline">\(k\)</span> we
+would have <span class="math inline">\(a_k= - b_k\)</span>, <span class="math inline">\(\beta_k(0)=\alpha_k(0),\)</span> <span class="math inline">\(k=1,2,\ldots,K\)</span>. The total lower boundary
+crossing probability for a trial is denoted by <span class="math display">\[\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).\]</span>
+Note that we can also set <span class="math inline">\(a_k=
+-\infty\)</span> for any or all analyses if a lower bound is not
+desired, <span class="math inline">\(k=1,2,\ldots,K\)</span>; thus, we
+will not use the <span class="math inline">\(\alpha^+(\theta)\)</span>
+notation here. For <span class="math inline">\(k&lt;K\)</span>, we can
+set <span class="math inline">\(b_k=\infty\)</span> where an upper bound
+is not desired. Obviously, for each <span class="math inline">\(k\)</span>, we want either <span class="math inline">\(a_k&gt;-\infty\)</span> or <span class="math inline">\(b_k&lt;\infty\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="recursive-algorithms-for-numerical-integration">Recursive algorithms for numerical integration<a class="anchor" aria-label="anchor" href="#recursive-algorithms-for-numerical-integration"></a>
@@ -128,21 +134,22 @@ conditional power identity in equation (1) above which allows building
 recursive numerical integration identities to enable simple, efficient
 numerical integration.</p>
 <p>We define</p>
-<p><span class="math display">g_1(z;\theta) = \frac{d}{dz}P(Z_1\leq z) =
-\phi\left(z - \sqrt{\mathcal{I}_1}\theta(t_1)\right)\tag{2}</span></p>
-<p>and for <span class="math inline">k=2,3,\ldots K</span> we
+<p><span class="math display">\[g_1(z;\theta) = \frac{d}{dz}P(Z_1\leq z)
+= \phi\left(z -
+\sqrt{\mathcal{I}_1}\theta(t_1)\right)\tag{2}\]</span></p>
+<p>and for <span class="math inline">\(k=2,3,\ldots K\)</span> we
 recursively define the subdensity function</p>
-<p><span class="math display">\begin{align}
+<p><span class="math display">\[\begin{align}
 g_k(z; \theta) &amp;= \frac{d}{dz}P_\theta(\{Z_k\leq
 z\}\cap_{j=1}^{k-1}\{a_j\leq Z_j&lt;b_j\}) \\
 &amp;=\int_{a_{k-1}}^{b_{k-1}}\frac{d}{dz}P_\theta(\{Z_k\leq z
 |Z_{k-1}=z_{k-1}\})g_{k-1}(z_{k-1}; \theta)dz_{k-1}\\
 &amp;=\int_{a_{k-1}}^{b_{k-1}}f_k(z_{k-1},z;\theta)g_{k-1}(z_{k-1};
 \theta)dz_{k-1}.\tag{3}
-\end{align}</span></p>
-<p>The bottom line notation here is the same as on p. 347 in <span class="citation">Jennison and Turnbull (1999)</span>. However, <span class="math inline">f_k()</span> here takes a slightly different
+\end{align}\]</span></p>
+<p>The bottom line notation here is the same as on p. 347 in <span class="citation">Jennison and Turnbull (1999)</span>. However, <span class="math inline">\(f_k()\)</span> here takes a slightly different
 form.</p>
-<p><span class="math display">\begin{align}
+<p><span class="math display">\[\begin{align}
 f_k(z_{k-1},z;\theta) &amp;=\frac{d}{dz}P_\theta(\{Z_k\leq z
 |Z_{k-1}=z_{k-1}\})\\
 &amp;=\frac{d}{dz}P_\theta(B_k - B_{k-1} \leq
@@ -153,55 +160,56 @@ t_{k-1}\theta(t_{k-1}))}{\sqrt{t_k-t_{k-1}}}\right)\\
 t_{k-1}\theta(t_{k-1}))}{\sqrt{t_k-t_{k-1}}}\right)\\
 &amp;=\frac{\sqrt{\mathcal{I}_k}}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\phi\left(\frac{z\sqrt{\mathcal{I}_k}-z_{k-1}\sqrt{\mathcal{I}_{k-1}}-(\mathcal{I}_k\theta(t_k)-
 \mathcal{I}_{k-1}\theta(t_{k-1}))}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{3}
-\end{align}</span></p>
+\end{align}\]</span></p>
 <p>We have worked towards this last line due to its comparability to
 equation (19.4) on p. 347 of <span class="citation">Jennison and
-Turnbull (1999)</span> which assumes <span class="math inline">\theta(t_k)=\theta</span> for some constant <span class="math inline">\theta</span>; we re-write that equation slightly
-here as:</p>
-<p><span class="math display">f_k(z_{k-1},z;\theta) =
+Turnbull (1999)</span> which assumes <span class="math inline">\(\theta(t_k)=\theta\)</span> for some constant
+<span class="math inline">\(\theta\)</span>; we re-write that equation
+slightly here as:</p>
+<p><span class="math display">\[f_k(z_{k-1},z;\theta) =
 \frac{\sqrt{\mathcal{I}_k}}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\phi\left(\frac{z\sqrt{\mathcal{I}_k}-z_{k-1}\sqrt{\mathcal{I}_{k-1}}-\theta(\mathcal{I}_k-
-\mathcal{I}_{k-1})}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{4}</span>
+\mathcal{I}_{k-1})}{\sqrt{\mathcal{I}_k-\mathcal{I}_{k-1}}}\right).\tag{4}\]</span>
 This is really the only difference in the computational algorithm for
 boundary crossing probabilities from the <span class="citation">Jennison
 and Turnbull (1999)</span> algorithm. Using the above recursive approach
-we can compute for <span class="math inline">k=1,2,\ldots,K</span></p>
-<p><span class="math display">\alpha_{k}(\theta)=\int_{b_k}^\infty
-g_k(z;\theta)dz\tag{5}</span> and <span class="math display">\beta_{k}(\theta)=\int_{-\infty}^{a_k}
-g_k(z;\theta)dz.\tag{6}</span></p>
+we can compute for <span class="math inline">\(k=1,2,\ldots,K\)</span></p>
+<p><span class="math display">\[\alpha_{k}(\theta)=\int_{b_k}^\infty
+g_k(z;\theta)dz\tag{5}\]</span> and <span class="math display">\[\beta_{k}(\theta)=\int_{-\infty}^{a_k}
+g_k(z;\theta)dz.\tag{6}\]</span></p>
 </div>
 <div class="section level3">
 <h3 id="deriving-spending-boundaries">Deriving spending boundaries<a class="anchor" aria-label="anchor" href="#deriving-spending-boundaries"></a>
 </h3>
 <p>We can now derive boundaries satisfying given boundary crossing
 probabilities using equations (2-6) above. Suppose for we have specified
-<span class="math inline">b_1,\ldots,b_{k-1}</span> and <span class="math inline">a_1,\ldots,a_{k-1}</span> and now wish to derive
-<span class="math inline">a_k</span> and <span class="math inline">b_k</span> such that equations (5) and (6) hold. We
-write the upper bound as a function of the probability of crossing we
+<span class="math inline">\(b_1,\ldots,b_{k-1}\)</span> and <span class="math inline">\(a_1,\ldots,a_{k-1}\)</span> and now wish to derive
+<span class="math inline">\(a_k\)</span> and <span class="math inline">\(b_k\)</span> such that equations (5) and (6) hold.
+We write the upper bound as a function of the probability of crossing we
 wish to derive.</p>
-<p><span class="math display">\pi_k(b;\theta) = \int_b^\infty
-g_k(z;\theta)dz</span> <span class="math display">\pi_k^\prime(b;\theta)
-=\frac{d}{db}\pi_k(b;\theta)= -g_k(b; \theta).\tag{7}</span> If we have
-a value <span class="math inline">\pi_k(b^{(i)};\theta)</span> we can
-use a first order Taylor’s series expansion to approximate</p>
-<p><span class="math display">\pi_k(b;\theta)\approx
-\pi_k(b^{(i)};\theta)+(b-b^{(i)})\pi_k^\prime(b^{(i)};\theta)</span> We
-set <span class="math inline">b^{(i+1)}</span> such that</p>
-<p><span class="math display">\alpha_k(\theta)=\pi_k(b^{(i)}; \theta) +
-(b^{(i+1)}-b^{(i)})\pi^\prime(b^{(i)};\theta).</span></p>
-<p>Solving for <span class="math inline">b^{(i+1)}</span> we have</p>
-<p><span class="math display">b^{(i+i)} = b^{(i)} +
+<p><span class="math display">\[\pi_k(b;\theta) = \int_b^\infty
+g_k(z;\theta)dz\]</span> <span class="math display">\[\pi_k^\prime(b;\theta)
+=\frac{d}{db}\pi_k(b;\theta)= -g_k(b; \theta).\tag{7}\]</span> If we
+have a value <span class="math inline">\(\pi_k(b^{(i)};\theta)\)</span>
+we can use a first order Taylor’s series expansion to approximate</p>
+<p><span class="math display">\[\pi_k(b;\theta)\approx
+\pi_k(b^{(i)};\theta)+(b-b^{(i)})\pi_k^\prime(b^{(i)};\theta)\]</span>
+We set <span class="math inline">\(b^{(i+1)}\)</span> such that</p>
+<p><span class="math display">\[\alpha_k(\theta)=\pi_k(b^{(i)}; \theta)
++ (b^{(i+1)}-b^{(i)})\pi^\prime(b^{(i)};\theta).\]</span></p>
+<p>Solving for <span class="math inline">\(b^{(i+1)}\)</span> we
+have</p>
+<p><span class="math display">\[b^{(i+i)} = b^{(i)} +
 \frac{\alpha_k(\theta) - \pi_k(b^{(i)};\theta)}{\pi_k^\prime(b^{(i)};
 \theta)}= b^{(i)} - \frac{\alpha_k(\theta) -
-\pi_k(b^{(i)};\theta)}{g_k(b^{(i)}; \theta)}\tag{8}</span> and iterate
-until <span class="math inline">|b^{(i+1)}-b^{(i)}|&lt;\epsilon</span>
-for some tolerance level <span class="math inline">\epsilon&gt;0</span>
-and <span class="math inline">\pi_k(b^{(i+1)};\theta)-\alpha_k(\theta)</span> is
-suitably small. A simple starting value for any <span class="math inline">k</span> is</p>
-<p><span class="math display">b^{(0)} = \Phi^{-1}(1- \alpha_k(\theta)) +
-\sqrt{\mathcal{I}_k}\theta(t_k).\tag{9}</span> Normally, <span class="math inline">b_k</span> will be calculated with <span class="math inline">\theta(t_k)=0</span> for <span class="math inline">k=1,2,\ldots,K</span> which simplifies the above.
-However, <span class="math inline">a_k</span> computed analogously will
-often use a non-zero <span class="math inline">\theta</span> to enable
-so-called <span class="math inline">\beta</span>-spending.</p>
+\pi_k(b^{(i)};\theta)}{g_k(b^{(i)}; \theta)}\tag{8}\]</span> and iterate
+until <span class="math inline">\(|b^{(i+1)}-b^{(i)}|&lt;\epsilon\)</span> for some
+tolerance level <span class="math inline">\(\epsilon&gt;0\)</span> and
+<span class="math inline">\(\pi_k(b^{(i+1)};\theta)-\alpha_k(\theta)\)</span>
+is suitably small. A simple starting value for any <span class="math inline">\(k\)</span> is</p>
+<p><span class="math display">\[b^{(0)} = \Phi^{-1}(1- \alpha_k(\theta))
++ \sqrt{\mathcal{I}_k}\theta(t_k).\tag{9}\]</span> Normally, <span class="math inline">\(b_k\)</span> will be calculated with <span class="math inline">\(\theta(t_k)=0\)</span> for <span class="math inline">\(k=1,2,\ldots,K\)</span> which simplifies the
+above. However, <span class="math inline">\(a_k\)</span> computed
+analogously will often use a non-zero <span class="math inline">\(\theta\)</span> to enable so-called <span class="math inline">\(\beta\)</span>-spending.</p>
 </div>
 <div class="section level3">
 <h3 id="numerical-integration">Numerical integration<a class="anchor" aria-label="anchor" href="#numerical-integration"></a>
@@ -218,16 +226,16 @@ Turnbull (1999)</span>.</p>
 </h4>
 <p>We walk through how to perform the basic calculations above. The
 basic scenario will have one interim analysis in addition to the final
-analysis. We will target Type I error <span class="math inline">\alpha=0.025</span> and Type II error <span class="math inline">\beta = 0.1</span>, the latter corresponding to a
-target of 90% power. We will assume a power spending function with <span class="math inline">\rho=2</span> for both bounds. That is, for
-information fraction <span class="math inline">t</span>, the cumulative
-spending will be <span class="math inline">\alpha \times t^2</span> for
-the upper bound and <span class="math inline">\beta \times t^2</span>
-for the lower bound. Statistical information will be 1 for the first
-analysis and 4 for the final analysis, leading to information fraction
-<span class="math inline">t_1= 1/4, t_2=1</span> for the interim and
-final, respectively. We assume <span class="math inline">\theta_1 =
-.5</span>, <span class="math inline">\theta_3=1.5</span>.</p>
+analysis. We will target Type I error <span class="math inline">\(\alpha=0.025\)</span> and Type II error <span class="math inline">\(\beta = 0.1\)</span>, the latter corresponding to
+a target of 90% power. We will assume a power spending function with
+<span class="math inline">\(\rho=2\)</span> for both bounds. That is,
+for information fraction <span class="math inline">\(t\)</span>, the
+cumulative spending will be <span class="math inline">\(\alpha \times
+t^2\)</span> for the upper bound and <span class="math inline">\(\beta
+\times t^2\)</span> for the lower bound. Statistical information will be
+1 for the first analysis and 4 for the final analysis, leading to
+information fraction <span class="math inline">\(t_1= 1/4,
+t_2=1\)</span> for the interim and final, respectively. We assume <span class="math inline">\(\theta_1 = .5\)</span>, <span class="math inline">\(\theta_3=1.5\)</span>.</p>
 <ul>
 <li>Set up overall study parameters</li>
 </ul>
@@ -276,9 +284,9 @@ final, respectively. We assume <span class="math inline">\theta_1 =
 region which we can subsequently use to compute boundary crossing
 probabilities for bounds at the second interim analysis. We begin with
 the null hypothesis. The columns in the resulting table are -
-<code>z</code> - <span class="math inline">Z</span>-values for the grid;
-recall that each interim test statistic is normally distributed with
-variance 1 - <code>w</code> - weights for numerical integration -
+<code>z</code> - <span class="math inline">\(Z\)</span>-values for the
+grid; recall that each interim test statistic is normally distributed
+with variance 1 - <code>w</code> - weights for numerical integration -
 <code>h</code> - weights <code>w</code> times the normal density that
 can be used for numerical integration; we will demonstrate use below</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">

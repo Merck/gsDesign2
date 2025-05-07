@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -136,13 +141,12 @@ properties using simulation.</li>
 <h2 id="enrollment-rates">Enrollment rates<a class="anchor" aria-label="anchor" href="#enrollment-rates"></a>
 </h2>
 <p>Piecewise constant enrollment rates are input in a tabular format.
-Here we assume enrollment will ramp-up with <span class="math inline">25\%</span>, <span class="math inline">50\%</span>,
-and <span class="math inline">75\%</span> of the final enrollment rate
-for <span class="math inline">2</span> months each followed by a steady
-state <span class="math inline">100\%</span> enrollment for another
-<span class="math inline">6</span> months. The rates will be increased
-later to power the design appropriately. However, the fixed enrollment
-rate periods will remain unchanged.</p>
+Here we assume enrollment will ramp-up with <span class="math inline">\(25\%\)</span>, <span class="math inline">\(50\%\)</span>, and <span class="math inline">\(75\%\)</span> of the final enrollment rate for
+<span class="math inline">\(2\)</span> months each followed by a steady
+state <span class="math inline">\(100\%\)</span> enrollment for another
+<span class="math inline">\(6\)</span> months. The rates will be
+increased later to power the design appropriately. However, the fixed
+enrollment rate periods will remain unchanged.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span></span>
 <span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span>,</span>
@@ -639,14 +643,15 @@ for treatment/control hazard rate for each period and stratum. The
 dropout rate for each period is assumed the same for each treatment
 group; this restriction could be eliminated in a future version, if
 needed. Generally, we take advantage of the identity for an exponential
-distribution with median <span class="math inline">m</span>, the
-corresponding failure rate <span class="math inline">\lambda</span>
+distribution with median <span class="math inline">\(m\)</span>, the
+corresponding failure rate <span class="math inline">\(\lambda\)</span>
 is</p>
-<p><span class="math display">\lambda = \log(2) / m.</span></p>
-<p>We consider a control group exponential time-to-event with a <span class="math inline">12</span> month median. We assume a hazard ratio of
-<span class="math inline">1</span> for <span class="math inline">4</span> months, followed by a hazard ratio of <span class="math inline">0.6</span> thereafter. Finally, we assume a low
-<span class="math inline">0.001</span> exponential dropout rate per
-month for both treatment groups.</p>
+<p><span class="math display">\[\lambda = \log(2) / m.\]</span></p>
+<p>We consider a control group exponential time-to-event with a <span class="math inline">\(12\)</span> month median. We assume a hazard ratio
+of <span class="math inline">\(1\)</span> for <span class="math inline">\(4\)</span> months, followed by a hazard ratio of
+<span class="math inline">\(0.6\)</span> thereafter. Finally, we assume
+a low <span class="math inline">\(0.001\)</span> exponential dropout
+rate per month for both treatment groups.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">median_surv</span> <span class="op">&lt;-</span> <span class="fl">12</span></span>
 <span></span>
@@ -1139,8 +1144,8 @@ month for both treatment groups.</p>
 </h2>
 <p>Under the above enrollment, failure and dropout rate assumptions we
 now derive sample size for a trial targeted to complete in 36 months
-with no interim analysis, <span class="math inline">90\%</span> power
-and <span class="math inline">2.5\%</span> Type I error.</p>
+with no interim analysis, <span class="math inline">\(90\%\)</span>
+power and <span class="math inline">\(2.5\%\)</span> Type I error.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">.025</span></span>
 <span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">.1</span> <span class="co"># 1 - targeted power</span></span>
@@ -2127,52 +2132,51 @@ duration for each enrollment rate has not changed.</p>
 <h2 id="group-sequential-design">Group sequential design<a class="anchor" aria-label="anchor" href="#group-sequential-design"></a>
 </h2>
 <p>We will not go into detail for group sequential designs here. In
-brief, however, a sequence of tests <span class="math inline">Z_1,
-Z_2,\ldots, Z_K</span> that follow a multivariate normal distribution
-are performed to test if a new treatment is better than control (<span class="citation">Jennison and Turnbull (1999)</span>). We assume <span class="math inline">Z_k &gt; 0</span> is favorable for the experimental
-treatment. Generally Type I error for this set of tests will be
-controlled under the null hypothesis of no treatment difference by a
-sequence of bounds <span class="math inline">b_1, b_2,\ldots,b_K</span>
-such that for a chosen Type I error <span class="math inline">\alpha
-&gt; 0</span> we have</p>
-<p><span class="math display">
+brief, however, a sequence of tests <span class="math inline">\(Z_1,
+Z_2,\ldots, Z_K\)</span> that follow a multivariate normal distribution
+are performed to test if a new treatment is better than control (<span class="citation">Jennison and Turnbull (1999)</span>). We assume <span class="math inline">\(Z_k &gt; 0\)</span> is favorable for the
+experimental treatment. Generally Type I error for this set of tests
+will be controlled under the null hypothesis of no treatment difference
+by a sequence of bounds <span class="math inline">\(b_1,
+b_2,\ldots,b_K\)</span> such that for a chosen Type I error <span class="math inline">\(\alpha &gt; 0\)</span> we have</p>
+<p><span class="math display">\[
   \alpha = 1 - P_0(\cap_{k=1}^K Z_k &lt; b_k)
-</span> Where <span class="math inline">P_0()</span> refers to a
+\]</span> Where <span class="math inline">\(P_0()\)</span> refers to a
 probability under the null hypothesis. This is referred to as a
 non-binding bound since it is assumed the trial will not be stopped
-early for futility if some <span class="math inline">Z_k</span> is
+early for futility if some <span class="math inline">\(Z_k\)</span> is
 small.</p>
 <div class="section level3">
 <h3 id="simple-efficacy-bound-definition">Simple efficacy bound definition<a class="anchor" aria-label="anchor" href="#simple-efficacy-bound-definition"></a>
 </h3>
 <p><span class="citation">Lan and DeMets (1983)</span> developed the
 spending function method for deriving group sequential bounds. This
-involves use of a non-decreasing spending function <span class="math inline">f(t)</span> for <span class="math inline">t \geq
-0</span> where <span class="math inline">f(0)=0</span> and <span class="math inline">f(t)=\alpha</span> for <span class="math inline">t
-\geq 1</span>. Suppose for <span class="math inline">K&gt;0</span>
-analyses are performed when proportion <span class="math inline">t_1&lt;
-t_2 &lt;\ldots t_K=1</span> of some planned statistical information
-(e.g., proportion of planned events for a time-to-event endpoint trial
-for proportion of observations for a binomial or normal endpoint).
-Bounds through the first <span class="math inline">k</span> analyses
-<span class="math inline">1\leq k\leq K</span> are recursively defined
-by the spending function and the multivariate normal distribution to
+involves use of a non-decreasing spending function <span class="math inline">\(f(t)\)</span> for <span class="math inline">\(t
+\geq 0\)</span> where <span class="math inline">\(f(0)=0\)</span> and
+<span class="math inline">\(f(t)=\alpha\)</span> for <span class="math inline">\(t \geq 1\)</span>. Suppose for <span class="math inline">\(K&gt;0\)</span> analyses are performed when
+proportion <span class="math inline">\(t_1&lt; t_2 &lt;\ldots
+t_K=1\)</span> of some planned statistical information (e.g., proportion
+of planned events for a time-to-event endpoint trial for proportion of
+observations for a binomial or normal endpoint). Bounds through the
+first <span class="math inline">\(k\)</span> analyses <span class="math inline">\(1\leq k\leq K\)</span> are recursively defined by
+the spending function and the multivariate normal distribution to
 satisfy</p>
-<p><span class="math display">
+<p><span class="math display">\[
   f(t_k) = 1 - P_0(\cap_{j=1}^k Z_j &lt; b_j).
-</span> For this quick start, we will only illustrate this type of
+\]</span> For this quick start, we will only illustrate this type of
 efficacy bound.</p>
 <p>Perhaps the most common spending function for this approach is the
 <span class="citation">Lan and DeMets (1983)</span> approximation to the
 O’Brien-Fleming bound with</p>
-<p><span class="math display">
+<p><span class="math display">\[
   f(t) = 2-2\Phi\left(\frac{\Phi^{-1}(1-\alpha/2)}{t^{1/2}}\right).
-</span></p>
+\]</span></p>
 <p><img src="gsDesign2_files/figure-html/unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;"></p>
-<p>Suppose <span class="math inline">K=3</span> and <span class="math inline">t_1=0.5</span>, <span class="math inline">t_2 =
-0.75</span>, <span class="math inline">t_3 = 1</span>. We can use the
-assumptions above for a group sequential design with only an efficacy
-bound using the Lan-DeMets O’Brien-Fleming spending function for <span class="math inline">\alpha = 0.025</span> with</p>
+<p>Suppose <span class="math inline">\(K=3\)</span> and <span class="math inline">\(t_1=0.5\)</span>, <span class="math inline">\(t_2
+= 0.75\)</span>, <span class="math inline">\(t_3 = 1\)</span>. We can
+use the assumptions above for a group sequential design with only an
+efficacy bound using the Lan-DeMets O’Brien-Fleming spending function
+for <span class="math inline">\(\alpha = 0.025\)</span> with</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design1s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>  alpha <span class="op">=</span> <span class="va">alpha</span>,</span>
@@ -3333,13 +3337,11 @@ example designs so far. Stopping when there is a lack of benefit for
 experimental treatment over control or for an overt indication of an
 unfavorable trend generally might be examined early and bounds be less
 stringent. We will add an early futility analysis where if there is a
-nominal 1-sided p-value of <span class="math inline">0.05</span> in the
-wrong direction (<span class="math inline">Z=\Phi^{-1}(0.05)</span>
-after 30% or <span class="math inline">50\%</span> of events have
-accrued. This might be considered a <em>disaster check</em>. After this
-point in time, there may not be a perceived need for further futility
-analysis. For efficacy, we add an infinite bound at this first interim
-analysis.</p>
+nominal 1-sided p-value of <span class="math inline">\(0.05\)</span> in
+the wrong direction (<span class="math inline">\(Z=\Phi^{-1}(0.05)\)</span> after 30% or <span class="math inline">\(50\%\)</span> of events have accrued. This might
+be considered a <em>disaster check</em>. After this point in time, there
+may not be a perceived need for further futility analysis. For efficacy,
+we add an infinite bound at this first interim analysis.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design2sa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span>
 <span>  alpha <span class="op">=</span> <span class="va">alpha</span>,</span>

@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -67,68 +72,71 @@
 
     
     
-<p>In a group sequential design of the <span class="math inline">k</span>-th analysis, the Z-score is <span class="math display">
+<p>In a group sequential design of the <span class="math inline">\(k\)</span>-th analysis, the Z-score is <span class="math display">\[
   Z_k = \delta_k / \sqrt{\text{Var}(\delta_k | H_0)}
-</span> The statistical information <span class="math inline">\mathcal
-I_k</span> is defined as the inverse of the variance of <span class="math inline">\delta_k</span>, i.e., <span class="math display">
+\]</span> The statistical information <span class="math inline">\(\mathcal I_k\)</span> is defined as the inverse of
+the variance of <span class="math inline">\(\delta_k\)</span>, i.e.,
+<span class="math display">\[
   \mathcal I_k = 1 / \text{Var}(\delta_k).
-</span></p>
+\]</span></p>
 <div class="section level2">
 <h2 id="continuous-outcomes">Continuous outcomes<a class="anchor" aria-label="anchor" href="#continuous-outcomes"></a>
 </h2>
-<p>Imagine a trial with a continuous outcome. Let <span class="math inline">X_{0, i} \sim N(\mu_0, \sigma^2)</span> for subjects
-<span class="math inline">i = 1, \ldots, n_0</span> in the control arm
-and <span class="math inline">X_{1,i} \sim N(\mu_1, \sigma^2)</span> for
-patient <span class="math inline">i</span> (<span class="math inline">i
-= 1, \ldots, n_1</span>) in the experimental arm.</p>
-<p>For a superiority design, the tested hypothesis is <span class="math display">
+<p>Imagine a trial with a continuous outcome. Let <span class="math inline">\(X_{0, i} \sim N(\mu_0, \sigma^2)\)</span> for
+subjects <span class="math inline">\(i = 1, \ldots, n_0\)</span> in the
+control arm and <span class="math inline">\(X_{1,i} \sim N(\mu_1,
+\sigma^2)\)</span> for patient <span class="math inline">\(i\)</span>
+(<span class="math inline">\(i = 1, \ldots, n_1\)</span>) in the
+experimental arm.</p>
+<p>For a superiority design, the tested hypothesis is <span class="math display">\[
   H_0: \; \mu_0 = \mu_1 \;\;\; \text{vs.} \;\;\; H_1:\; \mu_1 &gt;
 \mu_0.
-</span> Suppose at the <span class="math inline">k</span>-th analysis,
-there are <span class="math inline">n_{0k}</span> subjects in the
-control arm, and there are <span class="math inline">n_{1k}</span>
-subjects in the experimental arm. We have <span class="math inline">\delta_k</span> as the difference of group means,
-i.e., <span class="math display">
+\]</span> Suppose at the <span class="math inline">\(k\)</span>-th
+analysis, there are <span class="math inline">\(n_{0k}\)</span> subjects
+in the control arm, and there are <span class="math inline">\(n_{1k}\)</span> subjects in the experimental arm.
+We have <span class="math inline">\(\delta_k\)</span> as the difference
+of group means, i.e., <span class="math display">\[
   \delta_k
   =
   \frac{\sum_{i=1}^{n_{1k}} X_{i,1}}{n_{1k}}
   -
   \frac{\sum_{i=1}^{n_{0k}} X_{i,0}}{n_{0k}}.
-</span> It can be estimated as <span class="math inline">\widehat\delta_k = \frac{\sum_{i=1}^{n_{1k}}
-x_{i,1}}{n_{1k}} - \frac{\sum_{i=1}^{n_{0k}} x_{i,0}}{n_{0k}}</span>,
-where <span class="math inline">x_{i,j}</span> are the observation of
-<span class="math inline">X_{i,j}</span> of subject <span class="math inline">i</span> in arm <span class="math inline">j</span>.</p>
-<p>The statistical information <span class="math inline">\mathcal
-I_k</span> is <span class="math display">
+\]</span> It can be estimated as <span class="math inline">\(\widehat\delta_k = \frac{\sum_{i=1}^{n_{1k}}
+x_{i,1}}{n_{1k}} - \frac{\sum_{i=1}^{n_{0k}} x_{i,0}}{n_{0k}}\)</span>,
+where <span class="math inline">\(x_{i,j}\)</span> are the observation
+of <span class="math inline">\(X_{i,j}\)</span> of subject <span class="math inline">\(i\)</span> in arm <span class="math inline">\(j\)</span>.</p>
+<p>The statistical information <span class="math inline">\(\mathcal
+I_k\)</span> is <span class="math display">\[
   \mathcal I_k^{-1}
   =
   \text{Var}(\delta_k | H_0)
   =
   \sigma^2 (1 / n_{1k} + 1 / n_{0k}),
-</span> under both <span class="math inline">H_0</span> and <span class="math inline">H_1</span>, which can be estimated as <span class="math inline">\mathcal I_k = \widehat\sigma^2 (1 / n_{1k} + 1 /
-n_{0k})</span>.</p>
+\]</span> under both <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span>, which can be estimated as <span class="math inline">\(\mathcal I_k = \widehat\sigma^2 (1 / n_{1k} + 1 /
+n_{0k})\)</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="binary-outcomes">Binary outcomes<a class="anchor" aria-label="anchor" href="#binary-outcomes"></a>
 </h2>
-<p>Imagine a trial with a binary outcome. Let <span class="math inline">X_{0, i} \sim B(p_0)</span> for patient <span class="math inline">i = 1, \ldots, n_0</span> and <span class="math inline">X_{1,i} \sim B(p_1)</span> for patient <span class="math inline">i</span> (<span class="math inline">i = 1, \ldots,
-n_1</span>), where <span class="math inline">p_0</span> and <span class="math inline">p_1</span> are failure rate probability. Suppose at
-the <span class="math inline">k</span>-th analysis, there are <span class="math inline">n_{0k}</span> subjects in the control arm, and there
-are <span class="math inline">n_{1k}</span> subjects in the experimental
-arm. For a superiority design, the null and alternative hypothesis is
-<span class="math display">
+<p>Imagine a trial with a binary outcome. Let <span class="math inline">\(X_{0, i} \sim B(p_0)\)</span> for patient <span class="math inline">\(i = 1, \ldots, n_0\)</span> and <span class="math inline">\(X_{1,i} \sim B(p_1)\)</span> for patient <span class="math inline">\(i\)</span> (<span class="math inline">\(i = 1,
+\ldots, n_1\)</span>), where <span class="math inline">\(p_0\)</span>
+and <span class="math inline">\(p_1\)</span> are failure rate
+probability. Suppose at the <span class="math inline">\(k\)</span>-th
+analysis, there are <span class="math inline">\(n_{0k}\)</span> subjects
+in the control arm, and there are <span class="math inline">\(n_{1k}\)</span> subjects in the experimental arm.
+For a superiority design, the null and alternative hypothesis is <span class="math display">\[
   H_0: \; p_0 = p_1 = p \;\;\; \text{vs.} \;\;\; H_1:\; p_0 &gt; p_1.
-</span> The nature-scale treatment effect is <span class="math display">
+\]</span> The nature-scale treatment effect is <span class="math display">\[
   \delta_k
   =
   \frac{\sum_{i=1}^{n_{1k}} X_{i,1}}{n_{1k}}
   -
   \frac{\sum_{i=1}^{n_{0k}} X_{i,0}}{n_{0k}},
-</span> It can be estimated as <span class="math inline">\widehat\delta_k = \frac{\sum_{i=1}^{n_{1k}}
-x_{i,1}}{n_{1k}} - \frac{\sum_{i=1}^{n_{0k}} x_{i,0}}{n_{0k}}</span>,
-where <span class="math inline">x_{i,j}</span> are the observation of
-<span class="math inline">X_{i,j}</span> of subject <span class="math inline">i</span> in arm <span class="math inline">j</span>.</p>
-<p>The statistical information is <span class="math display">
+\]</span> It can be estimated as <span class="math inline">\(\widehat\delta_k = \frac{\sum_{i=1}^{n_{1k}}
+x_{i,1}}{n_{1k}} - \frac{\sum_{i=1}^{n_{0k}} x_{i,0}}{n_{0k}}\)</span>,
+where <span class="math inline">\(x_{i,j}\)</span> are the observation
+of <span class="math inline">\(X_{i,j}\)</span> of subject <span class="math inline">\(i\)</span> in arm <span class="math inline">\(j\)</span>.</p>
+<p>The statistical information is <span class="math display">\[
   \mathcal I_k^{-1}
   =
   \text{Var}(\delta_k)
@@ -139,7 +147,7 @@ where <span class="math inline">x_{i,j}</span> are the observation of
       p_1(1-p_1)/n_{1k} + p_0(1-p_0)/n_{0k}   &amp; \text{under } H_1\\
     \end{array}
   \right..
-</span> Its estimation is <span class="math display">
+\]</span> Its estimation is <span class="math display">\[
   \widehat{\mathcal I}_k^{-1}
   =
   \left\{
@@ -150,10 +158,10 @@ n_{0k}           &amp; \text{under } H_0\\
 p_0)/n_{0k}   &amp; \text{under } H_1\\
     \end{array}
   \right.,
-</span> where <span class="math inline">\bar p =
+\]</span> where <span class="math inline">\(\bar p =
 \frac{\sum_{i=1}^{n_{1k}}x_{i1} + \sum_{i=1}^{n_{0k}}x_{i0}}{n_{1k} +
-n_{0k}}</span>, <span class="math inline">\widehat p_j =
-\frac{\sum_{i=1}^{n_{jk}}x_{ij}}{n_{jk}}</span> for <span class="math inline">j = 0, 1</span>.</p>
+n_{0k}}\)</span>, <span class="math inline">\(\widehat p_j =
+\frac{\sum_{i=1}^{n_{jk}}x_{ij}}{n_{jk}}\)</span> for <span class="math inline">\(j = 0, 1\)</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="survival-outcome">Survival outcome<a class="anchor" aria-label="anchor" href="#survival-outcome"></a>
@@ -163,25 +171,27 @@ simplicity, assume the event is death so that each person can only have
 one event; the same ideas apply for events that can recur, but in those
 cases we restrict attention to the first event for each patients. We use
 the logrank statistics to compare the treatment and control arms. If we
-assume there are <span class="math inline">N_k</span> total number of
-deaths at analysis <span class="math inline">k</span>. The numerator of
-the logrank statistics at analysis <span class="math inline">k</span> is
-<span class="citation">(Proschan, Lan, and Wittes 2006)</span> <span class="math display">
+assume there are <span class="math inline">\(N_k\)</span> total number
+of deaths at analysis <span class="math inline">\(k\)</span>. The
+numerator of the logrank statistics at analysis <span class="math inline">\(k\)</span> is <span class="citation">(Proschan,
+Lan, and Wittes 2006)</span> <span class="math display">\[
   \sum_{i=1}^{N_k} D_i,
-</span> where <span class="math inline">D_i = O_i - E_i</span> with
-<span class="math inline">O_i</span> is the indicator that the <span class="math inline">i</span>th death occurred in a treatment patient,
-and <span class="math inline">E_i = m_{1i} / (m_{0i} + m_{1i})</span> as
-the null expectation of <span class="math inline">O_i</span> given the
-respective numbers, <span class="math inline">m_{0i}</span> and <span class="math inline">m_{1i}</span>, of control and treatment patients at
-risk just prior to the <span class="math inline">i</span>th death.</p>
-<p>Conditioned on <span class="math inline">m_{0i}</span> and <span class="math inline">m_{1i}</span>, the <span class="math inline">O_i</span> has a Bernoulli distribution with
-parameter <span class="math inline">E_i</span>. The null conditional
-mean and variance of <span class="math inline">D_i</span> are 0 and
-<span class="math inline">V_i = E_i(1 − E_i)</span>, respectively.</p>
-<p>Unconditionally, the <span class="math inline">D_i</span> are
-uncorrelated, mean 0 random variables with variance <span class="math inline">E(V_i)</span> under the null hypothesis.</p>
-<p>Thus, conditioned on <span class="math inline">N_k</span>, we have
-<span class="math display">
+\]</span> where <span class="math inline">\(D_i = O_i - E_i\)</span>
+with <span class="math inline">\(O_i\)</span> is the indicator that the
+<span class="math inline">\(i\)</span>th death occurred in a treatment
+patient, and <span class="math inline">\(E_i = m_{1i} / (m_{0i} +
+m_{1i})\)</span> as the null expectation of <span class="math inline">\(O_i\)</span> given the respective numbers, <span class="math inline">\(m_{0i}\)</span> and <span class="math inline">\(m_{1i}\)</span>, of control and treatment patients
+at risk just prior to the <span class="math inline">\(i\)</span>th
+death.</p>
+<p>Conditioned on <span class="math inline">\(m_{0i}\)</span> and <span class="math inline">\(m_{1i}\)</span>, the <span class="math inline">\(O_i\)</span> has a Bernoulli distribution with
+parameter <span class="math inline">\(E_i\)</span>. The null conditional
+mean and variance of <span class="math inline">\(D_i\)</span> are 0 and
+<span class="math inline">\(V_i = E_i(1 − E_i)\)</span>,
+respectively.</p>
+<p>Unconditionally, the <span class="math inline">\(D_i\)</span> are
+uncorrelated, mean 0 random variables with variance <span class="math inline">\(E(V_i)\)</span> under the null hypothesis.</p>
+<p>Thus, conditioned on <span class="math inline">\(N_k\)</span>, we
+have <span class="math display">\[
 \begin{array}{ccl}
   \mathcal I_k^{-1}
   &amp; = &amp;
@@ -205,8 +215,8 @@ uncorrelated, mean 0 random variables with variance <span class="math inline">E(
   \end{array}
   \right.,
 \end{array}
-</span> where <span class="math inline">r</span> is the randomization
-ratio. Its estimation is <span class="math display">
+\]</span> where <span class="math inline">\(r\)</span> is the
+randomization ratio. Its estimation is <span class="math display">\[
 \begin{array}{ccl}
   \widehat{\mathcal I}_k^{-1}
   &amp; = &amp;
@@ -220,7 +230,7 @@ ratio. Its estimation is <span class="math display">
   \end{array}
   \right..
 \end{array}
-</span></p>
+\]</span></p>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

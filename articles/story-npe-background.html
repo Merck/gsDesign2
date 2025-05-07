@@ -11,8 +11,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -105,37 +110,38 @@ that is quite general and applies across many situations. For instance,
 <span class="citation">Proschan, Lan, and Wittes (2006)</span>
 immediately suggest paired observations, time-to-event and binary
 outcomes as endpoints where the theory is applicable.</p>
-<p>We assume for a given integer <span class="math inline">N&gt;0</span>
-that <span class="math inline">X_{i}</span> are independent, <span class="math inline">i=1,2,\ldots</span>. For some integer <span class="math inline">K\leq N</span> we assume we will perform analysis
-<span class="math inline">K</span> times after <span class="math inline">0&lt;n_1&lt;n_2,\ldots ,n_K = N</span> observations
-are available for analysis. Note that we have not confined <span class="math inline">n\leq N</span>, but <span class="math inline">N</span> can be considered the final planned sample
-size. <span class="citation">Proschan, Lan, and Wittes (2006)</span>
-refer to the estimation or E-process which we extend here to</p>
-<p><span class="math display">\hat{\theta}_k = \frac{\sum_{i=1}^{n_k}
-X_{i}}{n_k}\equiv \bar X_{k}.</span> While <span class="citation">Proschan, Lan, and Wittes (2006)</span> has used <span class="math inline">\delta</span> instead of <span class="math inline">\theta</span> in our notation, we stick more closely
-to the notation of <span class="citation">Jennison and Turnbull
-(1999)</span> where <span class="math inline">\theta</span> is used. For
-our example, we see <span class="math inline">\hat{\theta}_k\equiv\bar
-X_k</span> represents the sample average at analysis <span class="math inline">k</span>, <span class="math inline">1\leq k\leq
-K</span>. With a survival endpoint, <span class="math inline">\hat\theta_k</span> would typically represent a Cox
-model coefficient representing the logarithm of the hazard ratio for
-experimental vs control treatment and <span class="math inline">n_k</span> would represent the planned number of
-events at analysis <span class="math inline">k</span>, <span class="math inline">1\leq k\leq K.</span> Denoting <span class="math inline">t_k=n_k/N</span>, we assume that for some
-real-valued function <span class="math inline">\theta(t)</span> for
-<span class="math inline">t \geq 0</span> we have for <span class="math inline">1\leq k\leq K</span></p>
-<p><span class="math display">E(\hat{\theta}_k) =\theta(t_k) =E(\bar
-X_k).</span> In the models of <span class="citation">Proschan, Lan, and
-Wittes (2006)</span> and <span class="citation">Jennison and Turnbull
-(1999)</span> we would have <span class="math inline">\theta(t)</span>
-equal to some constant <span class="math inline">\theta</span>. We
-assume further that for <span class="math inline">i=1,2,\ldots</span>
-<span class="math display">\text{Var}(X_{i})=1.</span> The sample
-average variance under this assumption is for <span class="math inline">1\leq k\leq K</span></p>
-<p><span class="math display">\text{Var}(\hat\theta(t_k))=\text{Var}(\bar X_k)
-=  1/ n_k.</span> The statistical information for the estimate <span class="math inline">\hat\theta(t_k)</span> for <span class="math inline">1\leq k\leq K</span> for this case is <span class="math display"> \mathcal{I}_k \equiv
-\frac{1}{\text{Var}(\hat\theta(t_k))} = n_k.</span> We now see that
-<span class="math inline">t_k</span>, <span class="math inline">1\leq
-k\leq K</span> is the so-called information fraction at analysis <span class="math inline">k</span> in that <span class="math inline">t_k=\mathcal{I}_k/\mathcal{I}_K.</span></p>
+<p>We assume for a given integer <span class="math inline">\(N&gt;0\)</span> that <span class="math inline">\(X_{i}\)</span> are independent, <span class="math inline">\(i=1,2,\ldots\)</span>. For some integer <span class="math inline">\(K\leq N\)</span> we assume we will perform
+analysis <span class="math inline">\(K\)</span> times after <span class="math inline">\(0&lt;n_1&lt;n_2,\ldots ,n_K = N\)</span>
+observations are available for analysis. Note that we have not confined
+<span class="math inline">\(n\leq N\)</span>, but <span class="math inline">\(N\)</span> can be considered the final planned
+sample size. <span class="citation">Proschan, Lan, and Wittes
+(2006)</span> refer to the estimation or E-process which we extend here
+to</p>
+<p><span class="math display">\[\hat{\theta}_k = \frac{\sum_{i=1}^{n_k}
+X_{i}}{n_k}\equiv \bar X_{k}.\]</span> While <span class="citation">Proschan, Lan, and Wittes (2006)</span> has used <span class="math inline">\(\delta\)</span> instead of <span class="math inline">\(\theta\)</span> in our notation, we stick more
+closely to the notation of <span class="citation">Jennison and Turnbull
+(1999)</span> where <span class="math inline">\(\theta\)</span> is used.
+For our example, we see <span class="math inline">\(\hat{\theta}_k\equiv\bar X_k\)</span> represents
+the sample average at analysis <span class="math inline">\(k\)</span>,
+<span class="math inline">\(1\leq k\leq K\)</span>. With a survival
+endpoint, <span class="math inline">\(\hat\theta_k\)</span> would
+typically represent a Cox model coefficient representing the logarithm
+of the hazard ratio for experimental vs control treatment and <span class="math inline">\(n_k\)</span> would represent the planned number of
+events at analysis <span class="math inline">\(k\)</span>, <span class="math inline">\(1\leq k\leq K.\)</span> Denoting <span class="math inline">\(t_k=n_k/N\)</span>, we assume that for some
+real-valued function <span class="math inline">\(\theta(t)\)</span> for
+<span class="math inline">\(t \geq 0\)</span> we have for <span class="math inline">\(1\leq k\leq K\)</span></p>
+<p><span class="math display">\[E(\hat{\theta}_k) =\theta(t_k) =E(\bar
+X_k).\]</span> In the models of <span class="citation">Proschan, Lan,
+and Wittes (2006)</span> and <span class="citation">Jennison and
+Turnbull (1999)</span> we would have <span class="math inline">\(\theta(t)\)</span> equal to some constant <span class="math inline">\(\theta\)</span>. We assume further that for <span class="math inline">\(i=1,2,\ldots\)</span> <span class="math display">\[\text{Var}(X_{i})=1.\]</span> The sample average
+variance under this assumption is for <span class="math inline">\(1\leq
+k\leq K\)</span></p>
+<p><span class="math display">\[\text{Var}(\hat\theta(t_k))=\text{Var}(\bar X_k)
+=  1/ n_k.\]</span> The statistical information for the estimate <span class="math inline">\(\hat\theta(t_k)\)</span> for <span class="math inline">\(1\leq k\leq K\)</span> for this case is <span class="math display">\[ \mathcal{I}_k \equiv
+\frac{1}{\text{Var}(\hat\theta(t_k))} = n_k.\]</span> We now see that
+<span class="math inline">\(t_k\)</span>, <span class="math inline">\(1\leq k\leq K\)</span> is the so-called
+information fraction at analysis <span class="math inline">\(k\)</span>
+in that <span class="math inline">\(t_k=\mathcal{I}_k/\mathcal{I}_K.\)</span></p>
 </div>
 <div class="section level3">
 <h3 id="z-process">Z-process<a class="anchor" aria-label="anchor" href="#z-process"></a>
@@ -144,25 +150,25 @@ k\leq K</span> is the so-called information fraction at analysis <span class="ma
 and Turnbull (1999)</span>) and will be used below to extend the
 computational algorithm in Chapter 19 of <span class="citation">Jennison
 and Turnbull (1999)</span> by defining equivalently in the first and
-second lines below for <span class="math inline">k=1,\ldots,K</span></p>
-<p><span class="math display">Z_{k} =
+second lines below for <span class="math inline">\(k=1,\ldots,K\)</span></p>
+<p><span class="math display">\[Z_{k} =
 \frac{\hat\theta_k}{\sqrt{\text{Var}(\hat\theta_k)}}=
-\sqrt{\mathcal{I}_k}\hat\theta_k= \sqrt{n_k}\bar X_k.</span></p>
-<p>The variance for <span class="math inline">1\leq k\leq K</span> is
-<span class="math display">\text{Var}(Z_k) = 1</span> and the expected
-value is</p>
-<p><span class="math display">E(Z_{k})=
-\sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .</span></p>
+\sqrt{\mathcal{I}_k}\hat\theta_k= \sqrt{n_k}\bar X_k.\]</span></p>
+<p>The variance for <span class="math inline">\(1\leq k\leq K\)</span>
+is <span class="math display">\[\text{Var}(Z_k) = 1\]</span> and the
+expected value is</p>
+<p><span class="math display">\[E(Z_{k})=
+\sqrt{\mathcal{I}_k}\theta(t_{k})= \sqrt{n_k}E(\bar X_k) .\]</span></p>
 </div>
 <div class="section level3">
 <h3 id="b-process">B-process<a class="anchor" aria-label="anchor" href="#b-process"></a>
 </h3>
-<p>B-values are mnemonic for Brownian motion. For <span class="math inline">1\leq k\leq K</span> we define <span class="math display">B_{k}=\sqrt{t_k}Z_k</span> which implies <span class="math display"> E(B_{k}) = \sqrt{t_{k}\mathcal{I}_k}\theta(t_k) =
-t_k \sqrt{\mathcal{I}_K} \theta(t_k) =
-\mathcal{I}_k\theta(t_k)/\sqrt{\mathcal{I}_K}</span> and <span class="math display">\text{Var}(B_k) = t_k.</span></p>
+<p>B-values are mnemonic for Brownian motion. For <span class="math inline">\(1\leq k\leq K\)</span> we define <span class="math display">\[B_{k}=\sqrt{t_k}Z_k\]</span> which implies <span class="math display">\[ E(B_{k}) = \sqrt{t_{k}\mathcal{I}_k}\theta(t_k)
+= t_k \sqrt{\mathcal{I}_K} \theta(t_k) =
+\mathcal{I}_k\theta(t_k)/\sqrt{\mathcal{I}_K}\]</span> and <span class="math display">\[\text{Var}(B_k) = t_k.\]</span></p>
 <p>For our example, we have</p>
-<p><span class="math display">B_k=\frac{1}{\sqrt
-N}\sum_{i=1}^{n_k}X_i.</span> It can be useful to think of <span class="math inline">B_k</span> as a sum of independent random
+<p><span class="math display">\[B_k=\frac{1}{\sqrt
+N}\sum_{i=1}^{n_k}X_i.\]</span> It can be useful to think of <span class="math inline">\(B_k\)</span> as a sum of independent random
 variables.</p>
 </div>
 <div class="section level3">
@@ -183,26 +189,26 @@ variables.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><span class="math inline">\hat\theta_k</span></td>
-<td align="left"><span class="math inline">\bar X_k</span></td>
-<td align="left"><span class="math inline">\theta(t_k)</span></td>
-<td align="left"><span class="math inline">\mathcal{I}_k^{-1}</span></td>
+<td align="left"><span class="math inline">\(\hat\theta_k\)</span></td>
+<td align="left"><span class="math inline">\(\bar X_k\)</span></td>
+<td align="left"><span class="math inline">\(\theta(t_k)\)</span></td>
+<td align="left"><span class="math inline">\(\mathcal{I}_k^{-1}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">Z_k=\sqrt{\mathcal{I}_k}\hat\theta_k</span></td>
-<td align="left"><span class="math inline">\sqrt{n_k}\bar
-X_k</span></td>
-<td align="left"><span class="math inline">\sqrt{\mathcal{I}_k}\theta(t_k)</span></td>
-<td align="left"><span class="math inline">1</span></td>
+<td align="left"><span class="math inline">\(Z_k=\sqrt{\mathcal{I}_k}\hat\theta_k\)</span></td>
+<td align="left"><span class="math inline">\(\sqrt{n_k}\bar
+X_k\)</span></td>
+<td align="left"><span class="math inline">\(\sqrt{\mathcal{I}_k}\theta(t_k)\)</span></td>
+<td align="left"><span class="math inline">\(1\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">B_k=\sqrt{t_k}Z_k</span></td>
-<td align="left"><span class="math inline">\sum_{i=1}^{n_k}X_i/\sqrt
-N</span></td>
-<td align="left"><span class="math inline">t_k\sqrt{\mathcal{I}_K}\
+<td align="left"><span class="math inline">\(B_k=\sqrt{t_k}Z_k\)</span></td>
+<td align="left"><span class="math inline">\(\sum_{i=1}^{n_k}X_i/\sqrt
+N\)</span></td>
+<td align="left"><span class="math inline">\(t_k\sqrt{\mathcal{I}_K}\
   \theta(t_k)=\mathcal{I}_k\
-  \theta(t_k)/\sqrt{\mathcal{I}_K}</span></td>
-<td align="left"><span class="math inline">t_k</span></td>
+  \theta(t_k)/\sqrt{\mathcal{I}_K}\)</span></td>
+<td align="left"><span class="math inline">\(t_k\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -210,31 +216,32 @@ N</span></td>
 <div class="section level3">
 <h3 id="conditional-independence-covariance-and-canonical-form">Conditional independence, covariance and canonical form<a class="anchor" aria-label="anchor" href="#conditional-independence-covariance-and-canonical-form"></a>
 </h3>
-<p>We assume independent increments in the B-process. That is, for <span class="math inline">1\leq j &lt; k\leq K</span> <span class="math display">\tag{1} B_k - B_j \sim \text{Normal}
-(\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_j\theta(t_j)), t_k-t_j)</span>
-independent of <span class="math inline">B_1,\ldots,B_j</span>. As noted
-above, for a given <span class="math inline">1\leq k\leq K</span> we
-have for our example <span class="math display">B_j=\sum_{i=1}^{n_j}X_i
-/ \sqrt N.</span> Because of independence of the sequence <span class="math inline">X_i</span>, <span class="math inline">i=1,2,\ldots</span>, we immediately have for <span class="math inline">1\leq j\leq k\leq K</span> <span class="math display">\text{Cov}(B_j,B_k) = \text{Var}(B_j) = t_j.</span>
-This leads further to <span class="math display">\text{Corr}(B_j,B_k)=\frac{t_j}{\sqrt{t_jt_k}}=\sqrt{t_j/t_k}=\text{Corr}(Z_j,Z_k)=\text{Cov}(Z_j,Z_k)</span>
+<p>We assume independent increments in the B-process. That is, for <span class="math inline">\(1\leq j &lt; k\leq K\)</span> <span class="math display">\[\tag{1} B_k - B_j \sim \text{Normal}
+(\sqrt{\mathcal{I}_K}(t_k\theta(t_k)- t_j\theta(t_j)), t_k-t_j)\]</span>
+independent of <span class="math inline">\(B_1,\ldots,B_j\)</span>. As
+noted above, for a given <span class="math inline">\(1\leq k\leq
+K\)</span> we have for our example <span class="math display">\[B_j=\sum_{i=1}^{n_j}X_i / \sqrt N.\]</span>
+Because of independence of the sequence <span class="math inline">\(X_i\)</span>, <span class="math inline">\(i=1,2,\ldots\)</span>, we immediately have for
+<span class="math inline">\(1\leq j\leq k\leq K\)</span> <span class="math display">\[\text{Cov}(B_j,B_k) = \text{Var}(B_j) =
+t_j.\]</span> This leads further to <span class="math display">\[\text{Corr}(B_j,B_k)=\frac{t_j}{\sqrt{t_jt_k}}=\sqrt{t_j/t_k}=\text{Corr}(Z_j,Z_k)=\text{Cov}(Z_j,Z_k)\]</span>
 which is the covariance structure in the so-called <em>canonical
 form</em> of <span class="citation">Jennison and Turnbull (1999)</span>.
-For our example, we have <span class="math display">B_k=\frac{1}{\sqrt
-N}\sum_{i=1}^{n_k}X_i</span> and <span class="math display">B_k-B_j=\frac{1}{\sqrt N}\sum_{i=n_j +
-1}^{n_k}X_i</span> and the covariance is obvious. We assume independent
-increments in the B-process that will be demonstrated for the simple
-example above. That is, for <span class="math inline">1\leq j &lt; k\leq
-K</span> <span class="math display">\tag{1} B_k - B_j \sim \text{Normal}
-(\mathcal{I}_k\theta(t_k)- \mathcal{I}_j\theta(t_j), t_k-t_j)</span>
-independent of <span class="math inline">B_1,\ldots,B_j</span>. For a
-given <span class="math inline">1\leq j\leq k\leq K</span> we have for
-our example <span class="math display">B_j=\sum_{i=1}^{n_j}X_i / (\sqrt
-N\sigma).</span> Because of independence of the sequence <span class="math inline">X_i</span>, <span class="math inline">i=1,2,\ldots</span>, we immediately have for <span class="math inline">1\leq j\leq k\leq K</span> <span class="math display">\text{Cov}(B_j,B_k) = \text{Var}(B_j) = t_j/t_k
-=\mathcal{I}_j/\mathcal{I}_k.</span> This leads to <span class="math display">\mathcal{I}_j/\mathcal{I}_k=\sqrt{t_j/t_k}=\text{Corr}(B_j,B_k)=\text{Corr}(Z_j,Z_k)=\text{Cov}(Z_j,Z_k)</span>
+For our example, we have <span class="math display">\[B_k=\frac{1}{\sqrt
+N}\sum_{i=1}^{n_k}X_i\]</span> and <span class="math display">\[B_k-B_j=\frac{1}{\sqrt N}\sum_{i=n_j +
+1}^{n_k}X_i\]</span> and the covariance is obvious. We assume
+independent increments in the B-process that will be demonstrated for
+the simple example above. That is, for <span class="math inline">\(1\leq
+j &lt; k\leq K\)</span> <span class="math display">\[\tag{1} B_k - B_j
+\sim \text{Normal} (\mathcal{I}_k\theta(t_k)- \mathcal{I}_j\theta(t_j),
+t_k-t_j)\]</span> independent of <span class="math inline">\(B_1,\ldots,B_j\)</span>. For a given <span class="math inline">\(1\leq j\leq k\leq K\)</span> we have for our
+example <span class="math display">\[B_j=\sum_{i=1}^{n_j}X_i / (\sqrt
+N\sigma).\]</span> Because of independence of the sequence <span class="math inline">\(X_i\)</span>, <span class="math inline">\(i=1,2,\ldots\)</span>, we immediately have for
+<span class="math inline">\(1\leq j\leq k\leq K\)</span> <span class="math display">\[\text{Cov}(B_j,B_k) = \text{Var}(B_j) = t_j/t_k
+=\mathcal{I}_j/\mathcal{I}_k.\]</span> This leads to <span class="math display">\[\mathcal{I}_j/\mathcal{I}_k=\sqrt{t_j/t_k}=\text{Corr}(B_j,B_k)=\text{Corr}(Z_j,Z_k)=\text{Cov}(Z_j,Z_k)\]</span>
 which is the covariance structure in the so-called <em>canonical
 form</em> of <span class="citation">Jennison and Turnbull (1999)</span>.
-The independence of <span class="math inline">B_j</span> and <span class="math display">B_k-B_j=\sum_{i=n_j + 1}^{n_k}X_i/(\sqrt
-N\sigma)</span> is obvious for this example.</p>
+The independence of <span class="math inline">\(B_j\)</span> and <span class="math display">\[B_k-B_j=\sum_{i=n_j + 1}^{n_k}X_i/(\sqrt
+N\sigma)\]</span> is obvious for this example.</p>
 </div>
 </div>
 <div class="section level2">
@@ -244,37 +251,37 @@ N\sigma)</span> is obvious for this example.</p>
 probabilities for a group sequential design. We also define an algorithm
 for computing bounds based on a targeted boundary crossing probability
 at each analysis. The notation will be used elsewhere for defining one-
-and two-sided group sequential hypothesis testing. A value of <span class="math inline">\theta(t)&gt;0</span> will reflect a positive
+and two-sided group sequential hypothesis testing. A value of <span class="math inline">\(\theta(t)&gt;0\)</span> will reflect a positive
 benefit.</p>
-<p>For <span class="math inline">k=1,2,\ldots,K-1</span>, interim
-cutoffs <span class="math inline">-\infty \leq a_k&lt; b_k\leq
-\infty</span> are set; final cutoffs <span class="math inline">-\infty
-\leq a_K\leq b_K &lt;\infty</span> are also set. An infinite efficacy
-bound at an analysis means that bound cannot be crossed at that
-analysis. Thus, <span class="math inline">3K</span> parameters define a
-group sequential design: <span class="math inline">a_k</span>, <span class="math inline">b_k</span>, and <span class="math inline">\mathcal{I}_k</span>, <span class="math inline">k=1,2,\ldots,K</span>.</p>
+<p>For <span class="math inline">\(k=1,2,\ldots,K-1\)</span>, interim
+cutoffs <span class="math inline">\(-\infty \leq a_k&lt; b_k\leq
+\infty\)</span> are set; final cutoffs <span class="math inline">\(-\infty \leq a_K\leq b_K &lt;\infty\)</span> are
+also set. An infinite efficacy bound at an analysis means that bound
+cannot be crossed at that analysis. Thus, <span class="math inline">\(3K\)</span> parameters define a group sequential
+design: <span class="math inline">\(a_k\)</span>, <span class="math inline">\(b_k\)</span>, and <span class="math inline">\(\mathcal{I}_k\)</span>, <span class="math inline">\(k=1,2,\ldots,K\)</span>.</p>
 <div class="section level4">
 <h4 id="notation-for-boundary-crossing-probabilities">Notation for boundary crossing probabilities<a class="anchor" aria-label="anchor" href="#notation-for-boundary-crossing-probabilities"></a>
 </h4>
 <p>We now apply the above distributional assumptions to compute boundary
 crossing probabilities. We use a shorthand notation in this section to
-have <span class="math inline">\theta</span> represent <span class="math inline">\theta()</span> and <span class="math inline">\theta=0</span> to represent <span class="math inline">\theta(t)\equiv 0</span> for all <span class="math inline">t</span>. We denote the probability of crossing the
-upper boundary at analysis <span class="math inline">k</span> without
-previously crossing a bound by</p>
-<p><span class="math display">\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq
-b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),</span> <span class="math inline">k=1,2,\ldots,K.</span></p>
-<p>Next, we consider analogous notation for the lower bound. For <span class="math inline">k=1,2,\ldots,K</span> denote the probability of
-crossing a lower bound at analysis <span class="math inline">k</span>
-without previously crossing any bound by</p>
-<p><span class="math display">\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt;
-a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).</span> For
-symmetric testing for analysis <span class="math inline">k</span> we
-would have <span class="math inline">a_k= - b_k</span>, <span class="math inline">\beta_k(0)=\alpha_k(0),</span> <span class="math inline">k=1,2,\ldots,K</span>. The total lower boundary
-crossing probability for a trial is denoted by <span class="math display">\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).</span>
-Note that we can also set <span class="math inline">a_k= -\infty</span>
-for any or all analyses if a lower bound is not desired, <span class="math inline">k=1,2,\ldots,K</span>. For <span class="math inline">k&lt;K</span>, we can set <span class="math inline">b_k=\infty</span> where an upper bound is not
-desired. Obviously, for each <span class="math inline">k</span>, we want
-either <span class="math inline">a_k&gt;-\infty</span> or <span class="math inline">b_k&lt;\infty</span>.</p>
+have <span class="math inline">\(\theta\)</span> represent <span class="math inline">\(\theta()\)</span> and <span class="math inline">\(\theta=0\)</span> to represent <span class="math inline">\(\theta(t)\equiv 0\)</span> for all <span class="math inline">\(t\)</span>. We denote the probability of crossing
+the upper boundary at analysis <span class="math inline">\(k\)</span>
+without previously crossing a bound by</p>
+<p><span class="math display">\[\alpha_{k}(\theta)=P_{\theta}(\{Z_{k}\geq
+b_{k}\}\cap_{j=1}^{i-1}\{a_{j}\leq Z_{j}&lt; b_{j}\}),\]</span> <span class="math inline">\(k=1,2,\ldots,K.\)</span></p>
+<p>Next, we consider analogous notation for the lower bound. For <span class="math inline">\(k=1,2,\ldots,K\)</span> denote the probability of
+crossing a lower bound at analysis <span class="math inline">\(k\)</span> without previously crossing any bound
+by</p>
+<p><span class="math display">\[\beta_{k}(\theta)=P_{\theta}((Z_{k}&lt;
+a_{k}\}\cap_{j=1}^{k-1}\{ a_{j}\leq Z_{j}&lt; b_{j}\}).\]</span> For
+symmetric testing for analysis <span class="math inline">\(k\)</span> we
+would have <span class="math inline">\(a_k= - b_k\)</span>, <span class="math inline">\(\beta_k(0)=\alpha_k(0),\)</span> <span class="math inline">\(k=1,2,\ldots,K\)</span>. The total lower boundary
+crossing probability for a trial is denoted by <span class="math display">\[\beta(\theta)\equiv\sum_{k=1}^{K}\beta_{k}(\theta).\]</span>
+Note that we can also set <span class="math inline">\(a_k=
+-\infty\)</span> for any or all analyses if a lower bound is not
+desired, <span class="math inline">\(k=1,2,\ldots,K\)</span>. For <span class="math inline">\(k&lt;K\)</span>, we can set <span class="math inline">\(b_k=\infty\)</span> where an upper bound is not
+desired. Obviously, for each <span class="math inline">\(k\)</span>, we
+want either <span class="math inline">\(a_k&gt;-\infty\)</span> or <span class="math inline">\(b_k&lt;\infty\)</span>.</p>
 </div>
 </div>
 <div class="section level2">
