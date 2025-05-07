@@ -135,14 +135,6 @@ upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = 
 lower <- gs_spending_bound
 lpar <- list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 0, timing = NULL)
 
-# weight function in WLR
-wgt00 <- function(x, arm0, arm1) {
-  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-}
-wgt05 <- function(x, arm0, arm1) {
-  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)
-}
-
 # test in COMBO
 fh_test <- rbind(
   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)),
@@ -192,7 +184,7 @@ x_ahr \%>\% summary(col_vars = c("z", "~hr at bound", "nominal p"),
 x_wlr <- gs_design_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  weight = wgt05,
+  weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
   info_frac = NULL,
   analysis_time = sort(unique(x_ahr$analysis$time)),
   ratio = ratio,
