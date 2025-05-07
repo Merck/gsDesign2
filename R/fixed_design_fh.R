@@ -92,9 +92,8 @@ fixed_design_fh <- function(
   )
 
   # Generate design ----
-  weight <- function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = rho, gamma = gamma)
-  }
+  weight <- list(method = "fh", param = list(rho = rho, gamma = gamma))
+
   if (is.null(power)) {
     d <- gs_power_wlr(
       upper = gs_b, lower = gs_b,
