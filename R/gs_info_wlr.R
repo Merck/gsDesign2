@@ -27,10 +27,9 @@
 #' @param event Targeted minimum events at each analysis.
 #' @param analysis_time Targeted minimum study duration at each analysis.
 #' @param weight Weight of weighted log rank test:
-#'   - `"1"` = unweighted.
-#'   - `"n"` = Gehan-Breslow.
-#'   - `"sqrtN"` = Tarone-Ware.
-#'   - `"FH_p[a]_q[b]"` = Fleming-Harrington with p=a and q=b.
+#'   - `"logrank"` = regular logrank test.
+#'   - `list(method = "fh", param = list(rho = ..., gamma = ...))` = Fleming-Harrington weighting functions.
+#'   - `list(method = "mb", param = list(tau = ..., w_max = ...))` = Magirr and Burman weighting functions.
 #' @param approx Approximate estimation method for Z statistics.
 #'   - `"event_driven"` = only work under proportional hazard model with log rank test.
 #'   - `"asymptotic"`.
@@ -87,7 +86,7 @@ gs_info_wlr <- function(
     ratio = 1, # Experimental:Control randomization ratio
     event = NULL, # Event at analyses
     analysis_time = NULL, # Times of analyses
-    weight = wlr_weight_fh,
+    weight = "logrank",
     approx = "asymptotic",
     interval = c(.01, 1000)) {
   if (is.null(analysis_time) && is.null(event)) {
