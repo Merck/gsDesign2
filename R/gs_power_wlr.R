@@ -176,7 +176,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
                          test_upper = TRUE,
                          test_lower = TRUE,
                          ratio = 1,
-                         weight = wlr_weight_fh,
+                         weight = "logrank",
                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          approx = "asymptotic",
                          r = 18,

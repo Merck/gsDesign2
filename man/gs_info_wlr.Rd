@@ -11,7 +11,7 @@ gs_info_wlr(
   ratio = 1,
   event = NULL,
   analysis_time = NULL,
-  weight = wlr_weight_fh,
+  weight = "logrank",
   approx = "asymptotic",
   interval = c(0.01, 1000)
 )
@@ -30,10 +30,9 @@ created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
 \item{weight}{Weight of weighted log rank test:
 \itemize{
-\item \code{"1"} = unweighted.
-\item \code{"n"} = Gehan-Breslow.
-\item \code{"sqrtN"} = Tarone-Ware.
-\item \code{"FH_p[a]_q[b]"} = Fleming-Harrington with p=a and q=b.
+\item \code{"logrank"} = regular logrank test.
+\item \code{list(method = "fh", param = list(rho = ..., gamma = ...))} = Fleming-Harrington weighting functions.
+\item \code{list(method = "mb", param = list(tau = ..., w_max = ...))} = Magirr and Burman weighting functions.
 }}
 
 \item{approx}{Approximate estimation method for Z statistics.

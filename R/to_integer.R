@@ -106,7 +106,7 @@ to_integer <- function(x, ...) {
 #'     fail_rate = log(2) / 12, hr = c(1, .6),
 #'     dropout_rate = .001
 #'   ),
-#'   tau = 4,
+#'   tau = Inf, w_max = 2,
 #'   study_duration = 36, ratio = 1
 #' )
 #' x %>%
@@ -193,12 +193,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       ratio = x$input$ratio,
       upper = gs_b, lower = gs_b,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf,
-      weight = function(s, arm0, arm1) {
-        wlr_weight_fh(s, arm0, arm1,
-          rho = x$design_par$rho,
-          gamma = x$design_par$gamma
-        )
-      }
+      weight = list(method = "fh", param = list(rho = x$design_par$rho, gamma = x$design_par$gamma))
     )
 
     analysis <- tibble(
@@ -224,12 +219,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
-      weight = function(s, arm0, arm1) {
-        wlr_weight_fh(s, arm0, arm1,
-          rho = -1, gamma = 0,
-          tau = x$design_par$tau
-        )
-      },
+      weight = list(method = "mb", param = list(tau = x$design_par$tau, w_max = x$design_par$w_max)),
       upper = gs_b, lower = gs_b,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf
     )

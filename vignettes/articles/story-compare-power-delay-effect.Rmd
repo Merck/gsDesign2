@@ -79,9 +79,7 @@ for (trial_duration in seq(24, 60, 4)) {
     fail_rate = fail_rate,
     ratio = 1,
     alpha = 0.025, beta = 0.15,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),
@@ -94,9 +92,7 @@ for (trial_duration in seq(24, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 0)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),
@@ -158,9 +154,7 @@ for (trial_duration in seq(24, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 15)
-    },
+    weight = list(method = "fh", param = list(rho = -1, gamma = 0, tau = 15)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),
@@ -226,9 +220,7 @@ for (trial_duration in seq(20, 60, 4)) {
     fail_rate = fail_rate,
     ratio = 1,
     alpha = 0.025, beta = 0.15,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
     upper = gs_b,
     upar = qnorm(.975),
     lower = gs_b,
@@ -241,9 +233,7 @@ for (trial_duration in seq(20, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-    },
+    weight = "logrank",
     upper = gs_b,
     upar = qnorm(.975),
     lower = gs_b,
@@ -303,9 +293,7 @@ for (trial_duration in seq(20, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 15)
-    },
+    weight = list(method = "fh", param = list(rho = -1, gamma = 0, tau = 15)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),

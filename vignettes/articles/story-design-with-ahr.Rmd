@@ -451,9 +451,7 @@ do.call(
       gs_design_wlr(
         enroll_rate = enroll_rate %>% filter(Scenario == x),
         fail_rate = fail_rate %>% filter(Scenario == x),
-        weight = function(x, arm0, arm1) {
-          wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5, tau = 4)
-        },
+        weight = list(method = "fh", param = list(rho = 0, gamma = 0.5, tau = 4)),
         alpha = .025,
         beta = .1,
         upar = qnorm(.975),
@@ -480,9 +478,7 @@ do.call(
       gs_design_wlr(
         enroll_rate = enroll_rate %>% filter(Scenario == x),
         fail_rate = fail_rate %>% filter(Scenario == x),
-        weight = function(x, arm0, arm1) {
-          wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-        },
+        weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
         alpha = .025,
         beta = .1,
         upar = qnorm(.975),

@@ -244,11 +244,9 @@ get_combo_weight <- function(rho, gamma, tau) {
     }
 
     text <- paste0(
-      "weight <- function(x, arm0, arm1){
-                            wlr_weight_fh(x, arm0, arm1
-                                ,rho =", rho[i],
-      ", gamma =", gamma[i],
-      ", tau =", tmp_tau, ")}"
+      "weight <- list(method = \"fh\", param = list(rho = ", rho[i],
+      ", gamma = ", gamma[i],
+      ", tau = ", if(!is.null(tmp_tau)){tmp_tau}else{"NULL"}, "))"
     )
 
     weight[[i]] <- text

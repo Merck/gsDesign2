@@ -34,9 +34,7 @@ test_that("Validate the function based on examples with individual functions", {
   arm1 <- gs_arm[["arm1"]]
 
   # FH(0,1) example
-  weight <- function(x, arm0, arm1) {
-    gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 1)
-  }
+  weight <- list(method = "fh", param = list(rho = 0, gamma = 1))
   gs_info <- gsDesign2::gs_info_wlr(
     enroll_rate, fail_rate, ratio,
     analysis_time = analysis_time,

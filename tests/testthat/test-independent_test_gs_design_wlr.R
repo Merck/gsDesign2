@@ -37,9 +37,7 @@ test_that("Validate the function based on examples with simulation results", {
   lrk <- gsDesign2::gs_design_wlr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    weight = function(x, arm0, arm1) {
-      gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-    },
+    weight = "logrank",
     ratio = ratio, alpha = alpha, beta = beta,
     upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
@@ -56,9 +54,7 @@ test_that("Validate the function based on examples with simulation results", {
   fh01 <- gsDesign2::gs_design_wlr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    weight = function(x, arm0, arm1) {
-      gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 1)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 1)),
     ratio = ratio, alpha = alpha, beta = beta,
     upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
@@ -75,9 +71,7 @@ test_that("Validate the function based on examples with simulation results", {
   fh0d5 <- gsDesign2::gs_design_wlr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    weight = function(x, arm0, arm1) {
-      gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
     ratio = ratio, alpha = alpha, beta = beta,
     upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
@@ -94,9 +88,7 @@ test_that("Validate the function based on examples with simulation results", {
   fh5d5 <- gsDesign2::gs_design_wlr(
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    weight = function(x, arm0, arm1) {
-      gsDesign2::wlr_weight_fh(x, arm0, arm1, rho = 0.5, gamma = 0.5)
-    },
+    weight = list(method = "fh", param = list(rho = 0.5, gamma = 0.5)),
     ratio = ratio, alpha = alpha, beta = beta,
     upper = gs_b, lower = gs_b,
     upar = x$upper$bound,
