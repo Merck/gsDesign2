@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -1099,9 +1099,7 @@ logrank regardless of the study durations evaluated.</p>
 <span>    fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>    ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.15</span>,</span>
-<span>    weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span>    <span class="op">}</span>,</span>
+<span>    weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fh"</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
@@ -1114,9 +1112,7 @@ logrank regardless of the study durations evaluated.</p>
 <span>    enroll_rate <span class="op">=</span> <span class="va">fh_05</span><span class="op">$</span><span class="va">enroll_rate</span>,</span>
 <span>    fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>    ratio <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span>    <span class="op">}</span>,</span>
+<span>    weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fh"</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
@@ -1178,9 +1174,7 @@ logrank regardless of the study durations evaluated.</p>
 <span>    enroll_rate <span class="op">=</span> <span class="va">fh_05</span><span class="op">$</span><span class="va">enroll_rate</span>,</span>
 <span>    fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>    ratio <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, gamma <span class="op">=</span> <span class="fl">0</span>, tau <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
-<span>    <span class="op">}</span>,</span>
+<span>    weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fh"</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, gamma <span class="op">=</span> <span class="fl">0</span>, tau <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
@@ -1687,7 +1681,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.81</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.80</td>
+<td headers="MB6 power" class="gt_row gt_right">0.82</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">28</td>
@@ -1700,7 +1694,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.81</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.81</td>
+<td headers="MB6 power" class="gt_row gt_right">0.86</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">32</td>
@@ -1713,7 +1707,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.81</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.89</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">36</td>
@@ -1726,7 +1720,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.81</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.92</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">40</td>
@@ -1739,7 +1733,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.81</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.94</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">44</td>
@@ -1752,7 +1746,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.81</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.96</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">48</td>
@@ -1765,7 +1759,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.81</td>
 <td headers="MC4 power" class="gt_row gt_right">0.80</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.97</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">52</td>
@@ -1778,7 +1772,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.81</td>
 <td headers="MC4 power" class="gt_row gt_right">0.80</td>
 <td headers="MC3 power" class="gt_row gt_right">0.81</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.98</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">56</td>
@@ -1791,7 +1785,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.81</td>
 <td headers="MC4 power" class="gt_row gt_right">0.80</td>
 <td headers="MC3 power" class="gt_row gt_right">0.81</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.99</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">60</td>
@@ -1804,7 +1798,7 @@ logrank regardless of the study durations evaluated.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.81</td>
 <td headers="MC4 power" class="gt_row gt_right">0.80</td>
 <td headers="MC3 power" class="gt_row gt_right">0.81</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.99</td>
 </tr>
 </tbody>
 </table>
@@ -2798,9 +2792,7 @@ period.</p>
 <span>    fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>    ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">0.025</span>, beta <span class="op">=</span> <span class="fl">0.15</span>,</span>
-<span>    weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span>    <span class="op">}</span>,</span>
+<span>    weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fh"</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
 <span>    lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
@@ -2813,9 +2805,7 @@ period.</p>
 <span>    enroll_rate <span class="op">=</span> <span class="va">fh_05</span><span class="op">$</span><span class="va">enroll_rate</span>,</span>
 <span>    fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>    ratio <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="fl">0</span>, gamma <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span>    <span class="op">}</span>,</span>
+<span>    weight <span class="op">=</span> <span class="st">"logrank"</span>,</span>
 <span>    upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
 <span>    lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
@@ -2875,9 +2865,7 @@ period.</p>
 <span>    enroll_rate <span class="op">=</span> <span class="va">fh_05</span><span class="op">$</span><span class="va">enroll_rate</span>,</span>
 <span>    fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>    ratio <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    weight <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/wlr_weight.html">wlr_weight_fh</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">arm0</span>, <span class="va">arm1</span>, rho <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, gamma <span class="op">=</span> <span class="fl">0</span>, tau <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
-<span>    <span class="op">}</span>,</span>
+<span>    weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fh"</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rho <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, gamma <span class="op">=</span> <span class="fl">0</span>, tau <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>    upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span>,</span>
@@ -3398,7 +3386,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.81</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.80</td>
+<td headers="MB6 power" class="gt_row gt_right">0.81</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">28</td>
@@ -3411,7 +3399,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.82</td>
 <td headers="MC4 power" class="gt_row gt_right">0.82</td>
 <td headers="MC3 power" class="gt_row gt_right">0.82</td>
-<td headers="MB6 power" class="gt_row gt_right">0.81</td>
+<td headers="MB6 power" class="gt_row gt_right">0.82</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">32</td>
@@ -3424,7 +3412,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.83</td>
 <td headers="MC4 power" class="gt_row gt_right">0.82</td>
 <td headers="MC3 power" class="gt_row gt_right">0.83</td>
-<td headers="MB6 power" class="gt_row gt_right">0.82</td>
+<td headers="MB6 power" class="gt_row gt_right">0.84</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">36</td>
@@ -3437,7 +3425,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.83</td>
 <td headers="MC4 power" class="gt_row gt_right">0.82</td>
 <td headers="MC3 power" class="gt_row gt_right">0.83</td>
-<td headers="MB6 power" class="gt_row gt_right">0.83</td>
+<td headers="MB6 power" class="gt_row gt_right">0.85</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">40</td>
@@ -3450,7 +3438,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.83</td>
 <td headers="MC4 power" class="gt_row gt_right">0.83</td>
 <td headers="MC3 power" class="gt_row gt_right">0.84</td>
-<td headers="MB6 power" class="gt_row gt_right">0.83</td>
+<td headers="MB6 power" class="gt_row gt_right">0.87</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">44</td>
@@ -3463,7 +3451,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.83</td>
 <td headers="MC4 power" class="gt_row gt_right">0.83</td>
 <td headers="MC3 power" class="gt_row gt_right">0.84</td>
-<td headers="MB6 power" class="gt_row gt_right">0.84</td>
+<td headers="MB6 power" class="gt_row gt_right">0.88</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">48</td>
@@ -3476,7 +3464,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.83</td>
 <td headers="MC4 power" class="gt_row gt_right">0.84</td>
 <td headers="MC3 power" class="gt_row gt_right">0.84</td>
-<td headers="MB6 power" class="gt_row gt_right">0.84</td>
+<td headers="MB6 power" class="gt_row gt_right">0.90</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">52</td>
@@ -3489,7 +3477,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.83</td>
 <td headers="MC4 power" class="gt_row gt_right">0.84</td>
 <td headers="MC3 power" class="gt_row gt_right">0.85</td>
-<td headers="MB6 power" class="gt_row gt_right">0.84</td>
+<td headers="MB6 power" class="gt_row gt_right">0.91</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">56</td>
@@ -3502,7 +3490,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.84</td>
 <td headers="MC4 power" class="gt_row gt_right">0.84</td>
 <td headers="MC3 power" class="gt_row gt_right">0.85</td>
-<td headers="MB6 power" class="gt_row gt_right">0.85</td>
+<td headers="MB6 power" class="gt_row gt_right">0.92</td>
 </tr>
 <tr>
 <td headers="Study duration" class="gt_row gt_right">60</td>
@@ -3515,7 +3503,7 @@ period.</p>
 <td headers="MC2 power" class="gt_row gt_right">0.84</td>
 <td headers="MC4 power" class="gt_row gt_right">0.85</td>
 <td headers="MC3 power" class="gt_row gt_right">0.85</td>
-<td headers="MB6 power" class="gt_row gt_right">0.85</td>
+<td headers="MB6 power" class="gt_row gt_right">0.93</td>
 </tr>
 </tbody>
 </table>
