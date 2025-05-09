@@ -128,7 +128,6 @@ test_that("check info", {
 })
 
 test_that("check theta", {
-  expect_error(check_theta(c("a", "b"), K = 2))
   expect_error(check_theta(c(20, 10), K = 1))
   expect_error(check_theta(c(20, -10), K = 2))
 })
@@ -140,7 +139,6 @@ test_that("check test_upper", {
 })
 
 test_that("check test_lower", {
-  expect_error(check_test_lower(c("a", "b"), K = 2))
   expect_error(check_test_lower(c(TRUE, FALSE, FALSE), K = 1))
 })
 

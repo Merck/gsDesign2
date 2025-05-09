@@ -251,7 +251,7 @@ gs_design_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info0 = NULL, in
   if (!is.numeric(alpha)) stop("gs_design_npe(): alpha must be numeric")
   if (!is.numeric(beta)) stop("gs_design_npe(): beta must be numeric")
   if (length(alpha) != 1 || length(beta) != 1) stop("gs_design_npe(): alpha and beta must be length 1")
-  if (alpha <= 0 || 1 - beta <= alpha || beta <= 0) stop("gs_design_npe(): must have 0 < alpha < 1 - beta < 1")
+  if (alpha <= 0 || 1 - beta <= alpha || beta <= 0) stop("gs_design_npe(): `alpha` and `beta` values must satisfy 0 < alpha < 1 - beta < 1!")
 
   ## END OF INPUT CHECKS ############################################################################
 
@@ -351,7 +351,7 @@ gs_design_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info0 = NULL, in
       info = info, info1 = info1, info0 = info0, binding = binding,
       Zupper = upper, Zlower = lower, upar = upar, lpar = lpar,
       test_upper = test_upper, test_lower = test_lower,
-      r = r, tol = tol
+      r = r, Tol = tol
     )
   )
   if (inherits(res, "try-error")) {
@@ -374,13 +374,13 @@ gs_design_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info0 = NULL, in
 errbeta_ <- function(x = 1, K = 1, beta = .1, theta = .1, theta1 = .1, info = 1, info1 = 1, info0 = 1, binding = FALSE,
                      Zupper = gs_b, Zlower = gs_b, upar = qnorm(.975), lpar = -Inf,
                      test_upper = TRUE, test_lower = TRUE,
-                     r = 18, tol = 1e-6) {
+                     r = 18, Tol = 1e-6) {
   return(1 - beta -
-    gs_power_npe_(
+    cache_fun(gs_power_npe_,
       theta = theta, theta1 = theta1,
       info = info * x, info1 = info1 * x, info0 = info0 * x, binding = binding,
       upper = Zupper, lower = Zlower, upar = upar, lpar = lpar,
       test_upper = test_upper, test_lower = test_lower,
-      r = r, tol = tol
+      r = r, tol = Tol
     )$Probability[K])
 }

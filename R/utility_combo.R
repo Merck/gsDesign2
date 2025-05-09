@@ -444,14 +444,8 @@ gs_bound <- function(alpha,
                      alpha_bound = FALSE,
                      beta_bound = FALSE,
                      ...) {
-  alpha <- c(alpha[1], diff(alpha))
-
-  if (all(is.infinite(beta))) {
-    beta <- beta
-  } else {
-    beta <- c(beta[1], diff(beta))
-  }
-
+  alpha <- diff_one(alpha)
+  if (!all(is.infinite(beta))) beta <- diff_one(beta)
 
   lower <- NULL
   upper <- NULL
@@ -470,8 +464,8 @@ gs_bound <- function(alpha,
       }
       upper_bound <- c(upper, .upper)
 
-      p <- pmvnorm_combo(lower_bound,
-        upper_bound,
+      p <- cache_fun(
+        pmvnorm_combo, lower_bound, upper_bound,
         group = analysis[k_ind],
         mean = .theta[k_ind],
         corr = corr[k_ind, k_ind], ...

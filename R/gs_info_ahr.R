@@ -111,9 +111,10 @@ gs_info_ahr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10),
   }
   # if both `analysis_time` and `event` are provided, check they are of same length
   if (!is.null(analysis_time) && !is.null(event)) {
-    if (length(analysis_time) != length(event)) {
-      stop("gs_info_ahr(): If both event and analysis_time specified, must have same length")
-    }
+    if (length(analysis_time) != length(event)) stop(
+      "`event` (", deparse(event), ") and `analysis_time` (", deparse(analysis_time),
+      ") must be of the same length"
+    )
   }
 
   # -------------------------- #

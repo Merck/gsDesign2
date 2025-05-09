@@ -203,9 +203,7 @@
 #' # Larger `r` and smaller `tol` give better accuracy, but leads to slow computation
 #' n_analysis <- 5
 #' gs_power_npe(
-#'   theta = rep(0.1, n_analysis),
-#'   theta0 = NULL,
-#'   theta1 = NULL,
+#'   theta = 0.1,
 #'   info = 1:n_analysis,
 #'   info0 = 1:n_analysis,
 #'   info1 = NULL,
@@ -223,7 +221,7 @@
 #'   r = 6,
 #'   tol = 1e-6
 #' )
-gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
+gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
                          info = 1, info0 = NULL, info1 = NULL, # 3 info
                          info_scale = c("h0_h1_info", "h0_info", "h1_info"),
                          upper = gs_b, upar = qnorm(.975),
@@ -232,21 +230,13 @@ gs_power_npe <- function(theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
                          r = 18, tol = 1e-6) {
   # Check & set up parameters ----
   n_analysis <- length(info)
-  if (length(theta) == 1 && n_analysis > 1) theta <- rep(theta, n_analysis)
-  if (is.null(theta0)) {
-    theta0 <- rep(0, n_analysis)
-  } else if (length(theta0) == 1) {
-    theta0 <- rep(theta0, n_analysis)
-  }
-  if (is.null(theta1)) {
-    theta1 <- theta
-  } else if (length(theta1) == 1) {
-    theta1 <- rep(theta1, n_analysis)
-  }
+  theta  <- check_theta(theta,  n_analysis)
+  theta0 <- check_theta(theta0, n_analysis)
+  theta1 <- check_theta(theta1, n_analysis)
   upper <- match.fun(upper)
   lower <- match.fun(lower)
-  if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
-  if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
+  test_upper <- check_test_upper(test_upper, n_analysis)
+  test_lower <- check_test_lower(test_lower, n_analysis)
 
   # Set up info ----
   # impute info

@@ -6,8 +6,8 @@
 \usage{
 gs_design_npe(
   theta = 0.1,
-  theta0 = NULL,
-  theta1 = NULL,
+  theta0 = 0,
+  theta1 = theta,
   info = 1,
   info0 = NULL,
   info1 = NULL,
