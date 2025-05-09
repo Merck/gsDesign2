@@ -43,7 +43,7 @@ Other contributors:
   \item Yalin Zhu \email{yalin.zhu@outlook.com} [contributor]
   \item John Blischak \email{jdblischak@gmail.com} [contributor]
   \item Dickson Wanjau \email{dickson.wanjau@merck.com} [contributor]
-  \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder]
+  \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates (02891sr49) [copyright holder]
 }
 
 }
