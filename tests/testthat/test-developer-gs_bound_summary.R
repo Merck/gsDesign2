@@ -114,3 +114,14 @@ test_that("Edge case: when arg `alpha` matches original alpha", {
   expect_equal(colnames(x_bound_same)[3], "α=0.0125")
   expect_equal(unname(x_bound_same), unname(x_bound))
 })
+
+test_that("One-sided design should not have column Futility", {
+  x <- gs_design_ahr(info_frac = 1:3/3, lower = gs_b, lpar = rep(-Inf, 3))
+  x_bound <- gs_bound_summary(x)
+
+  expect_false("Futility" %in% colnames(x_bound))
+
+  x_bound_alpha <- gs_bound_summary(x, alpha = c(0.025, 0.05))
+
+  expect_false("Futility" %in% colnames(x_bound_alpha))
+})

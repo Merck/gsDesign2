@@ -43,7 +43,11 @@ gs_bound_summary <- function(x, alpha = NULL) {
     }
   }
   out <- Reduce(cbind, outlist)
-  out <- out[, c("Analysis", "Value", col_efficacy_name, "Futility")]
+  # Use of union() allows placement of column "Futility" at the far right, but
+  # only if it is returned by gs_bound_summary_single(). This is because
+  # one-sided designs do not produce a Futility column.
+  column_order <- union(c("Analysis", "Value", col_efficacy_name), colnames(out))
+  out <- out[, column_order]
   return(out)
 }
 
@@ -118,5 +122,9 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy") {
     Futility = col_futility
   )
   colnames(out)[3] <- col_efficacy_name
+
+  # One-sided design should not include Futility column
+  if (all(is.na(out[["Futility"]]))) out[["Futility"]] <- NULL
+
   return(out)
 }
