@@ -4,7 +4,7 @@
 \alias{gs_cp_ahr}
 \title{Conditional power computation for group sequential designs using the average hazard ratio method.}
 \usage{
-gs_cp_ahr(x = NULL, i = 1, z_i = 0, hr_i = NULL, hr_future = NULL)
+gs_cp_ahr(x = NULL, i = 1, z_i = 0, hr_future = NULL)
 }
 \arguments{
 \item{x}{A design object of type \code{gs_design_ahr()},  \code{gs_power_ahr()}, or \code{gs_update_ahr()}.}

@@ -58,7 +58,6 @@
 gs_cp_ahr <- function(x = NULL,
                       i = 1,
                       z_i = 0,
-                      hr_i = NULL,
                       hr_future = NULL) {
 
   # ----------------------------------------- #
