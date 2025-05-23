@@ -304,6 +304,13 @@ gs_update_ahr <- function(
   # ----------------------------------- #
   ans <- list()
 
+  ans$input <- list()
+  ans$input$x <- x
+  ans$input$alpha <- alpha
+  ans$input$ustime <- ustime
+  ans$input$lstime <- lstime
+  ans$input$event_tbl <- event_tbl
+
   ans$enroll_rate <- x$enroll_rate
 
   ans$fail_rate <- x$fail_rate
