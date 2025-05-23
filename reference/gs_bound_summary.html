@@ -46,7 +46,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gs_bound_summary</span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gs_bound_summary</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  ddigits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  tdigits <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  timename <span class="op">=</span> <span class="st">"Month"</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -54,11 +61,30 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>design object</p></dd>
+<dd><p>Design object.</p></dd>
+
+
+<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
+<dd><p>Number of digits past the decimal to be printed in the body of
+the table.</p></dd>
+
+
+<dt id="arg-ddigits">ddigits<a class="anchor" aria-label="anchor" href="#arg-ddigits"></a></dt>
+<dd><p>Number of digits past the decimal to be printed for the
+natural parameter delta.</p></dd>
+
+
+<dt id="arg-tdigits">tdigits<a class="anchor" aria-label="anchor" href="#arg-tdigits"></a></dt>
+<dd><p>Number of digits past the decimal point to be shown for
+estimated timing of each analysis.</p></dd>
+
+
+<dt id="arg-timename">timename<a class="anchor" aria-label="anchor" href="#arg-timename"></a></dt>
+<dd><p>Text string indicating time unit.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>vector of alpha values to compute additional efficacy columns</p></dd>
+<dd><p>Vector of alpha values to compute additional efficacy columns.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -76,61 +102,61 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span>info_frac <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>, analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">gs_bound_summary</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Analysis               Value Efficacy Futility</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    IA 1: 31%                   Z   3.8728  -1.6993</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       N: 439         p (1-sided)   0.0001   0.9554</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Events: 99        ~HR at bound   0.4600   1.4060</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Month: 12    P(Cross) if HR=1   0.0001   0.0446</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              P(Cross) if AHR=0.8   0.0025   0.0032</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    IA 2: 77%                   Z   2.3100   1.0889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       N: 527         p (1-sided)   0.0104   0.1381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Events: 248        ~HR at bound   0.7455   0.8707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Month: 25    P(Cross) if HR=1   0.0105   0.8620</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10             P(Cross) if AHR=0.7   0.6348   0.0599</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11       Final                   Z   2.0161   2.0143</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12      N: 527         p (1-sided)   0.0219   0.0220</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Events: 323        ~HR at bound   0.7990   0.7992</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   Month: 36    P(Cross) if HR=1   0.0243   0.9756</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15             P(Cross) if AHR=0.7   0.9000   0.1001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Analysis                Value Efficacy Futility</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    IA 1: 31%                    Z   3.8728  -1.6993</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       N: 439          p (1-sided)   0.0001   0.9554</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Events: 99         ~HR at bound   0.4600   1.4060</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Month: 12     P(Cross) if HR=1   0.0001   0.0446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              P(Cross) if AHR=0.81   0.0025   0.0032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    IA 2: 77%                    Z   2.3100   1.0889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7       N: 527          p (1-sided)   0.0104   0.1381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Events: 248         ~HR at bound   0.7455   0.8707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Month: 25     P(Cross) if HR=1   0.0105   0.8620</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10             P(Cross) if AHR=0.71   0.6348   0.0599</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11       Final                    Z   2.0161   2.0143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12      N: 527          p (1-sided)   0.0219   0.0220</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Events: 323         ~HR at bound   0.7990   0.7992</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   Month: 36     P(Cross) if HR=1   0.0243   0.9756</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15             P(Cross) if AHR=0.68   0.9000   0.1001</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="gs_design_wlr.html">gs_design_wlr</a></span><span class="op">(</span>info_frac <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>, analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">gs_bound_summary</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Analysis                Value Efficacy Futility</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    IA 1: 25%                    Z   4.2955  -2.0871</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       N: 436          p (1-sided)   0.0000   0.9816</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Events: 99         ~HR at bound   0.4213   1.5219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Month: 12     P(Cross) if HR=1   0.0000   0.0184</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              P(Cross) if wAHR=0.8   0.0004   0.0012</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    IA 2: 76%                    Z   2.3156   1.1034</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       N: 523          p (1-sided)   0.0103   0.1349</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Events: 246         ~HR at bound   0.7442   0.8687</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Month: 25     P(Cross) if HR=1   0.0103   0.8651</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10             P(Cross) if wAHR=0.7   0.6323   0.0610</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11       Final                    Z   2.0151   2.0151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12      N: 523          p (1-sided)   0.0219   0.0219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Events: 321         ~HR at bound   0.7985   0.7985</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   Month: 36     P(Cross) if HR=1   0.0242   0.9758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15             P(Cross) if wAHR=0.7   0.9000   0.1000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Analysis                 Value Efficacy Futility</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    IA 1: 25%                     Z   4.2955  -2.0871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       N: 436           p (1-sided)   0.0000   0.9816</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Events: 99          ~HR at bound   0.4213   1.5219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Month: 12      P(Cross) if HR=1   0.0000   0.0184</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              P(Cross) if wAHR=0.81   0.0004   0.0012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    IA 2: 76%                     Z   2.3156   1.1034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7       N: 523           p (1-sided)   0.0103   0.1349</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Events: 246          ~HR at bound   0.7442   0.8687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Month: 25      P(Cross) if HR=1   0.0103   0.8651</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10             P(Cross) if wAHR=0.71   0.6323   0.0610</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11       Final                     Z   2.0151   2.0151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12      N: 523           p (1-sided)   0.0219   0.0219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Events: 321          ~HR at bound   0.7985   0.7985</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   Month: 36      P(Cross) if HR=1   0.0242   0.9758</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15             P(Cross) if wAHR=0.68   0.9000   0.1000</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Report multiple efficacy bounds (only supported for AHR designs)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span>analysis_time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">*</span><span class="fl">12</span>, alpha <span class="op">=</span> <span class="fl">0.0125</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">gs_bound_summary</span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Analysis               Value α=0.0125 α=0.025 α=0.05 Futility</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    IA 1: 31%                   Z   4.3506  3.8728 3.3437  -1.6192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       N: 509         p (1-sided)   0.0000  0.0001 0.0004   0.9473</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Events: 115        ~HR at bound   0.4449  0.4863 0.5366   1.3518</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Month: 12    P(Cross) if HR=1   0.0000  0.0001 0.0004   0.0527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              P(Cross) if AHR=0.8   0.0007  0.0032 0.0139   0.0032</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    IA 2: 74%                   Z   2.6778  2.3579 2.0022   1.1590</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       N: 611         p (1-sided)   0.0037  0.0092 0.0226   0.1232</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Events: 278        ~HR at bound   0.7251  0.7535 0.7863   0.8701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Month: 24    P(Cross) if HR=1   0.0037  0.0092 0.0228   0.8768</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10             P(Cross) if AHR=0.7   0.5336  0.6571 0.7770   0.0556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11       Final                   Z   2.2781  2.0096 1.7134   2.2775</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12      N: 611         p (1-sided)   0.0114  0.0222 0.0433   0.0114</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Events: 375        ~HR at bound   0.7903  0.8125 0.8378   0.7903</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   Month: 36    P(Cross) if HR=1   0.0122  0.0237 0.0445   0.9878</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15             P(Cross) if AHR=0.7   0.9000  0.9252 0.9390   0.1001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Analysis                Value α=0.0125 α=0.025 α=0.05 Futility</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    IA 1: 31%                    Z   4.3506  3.8728 3.3437  -1.6192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       N: 509          p (1-sided)   0.0000  0.0001 0.0004   0.9473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Events: 115         ~HR at bound   0.4449  0.4863 0.5366   1.3518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Month: 12     P(Cross) if HR=1   0.0000  0.0001 0.0004   0.0527</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              P(Cross) if AHR=0.81   0.0007  0.0032 0.0139   0.0032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    IA 2: 74%                    Z   2.6778  2.3579 2.0022   1.1590</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7       N: 611          p (1-sided)   0.0037  0.0092 0.0226   0.1232</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Events: 278         ~HR at bound   0.7251  0.7535 0.7863   0.8701</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Month: 24     P(Cross) if HR=1   0.0037  0.0092 0.0228   0.8768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10             P(Cross) if AHR=0.72   0.5336  0.6571 0.7770   0.0556</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11       Final                    Z   2.2781  2.0096 1.7134   2.2775</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12      N: 611          p (1-sided)   0.0114  0.0222 0.0433   0.0114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Events: 375         ~HR at bound   0.7903  0.8125 0.8378   0.7903</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   Month: 36     P(Cross) if HR=1   0.0122  0.0237 0.0445   0.9878</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15             P(Cross) if AHR=0.68   0.9000  0.9252 0.9390   0.1001</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
