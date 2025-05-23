@@ -2,8 +2,9 @@
 #'
 #' Summarizes the efficacy and futility bounds for each analysis.
 #'
-#' @param x design object
-#' @param alpha vector of alpha values to compute additional efficacy columns
+#' @param x Design object.
+#' @param alpha Vector of alpha values to compute additional efficacy columns.
+#' @inheritParams gsDesign::gsBoundSummary
 #'
 #' @return A data frame
 #'
@@ -23,8 +24,12 @@
 #' gs_bound_summary(x, alpha = c(0.025, 0.05))
 #'
 #' @export
-gs_bound_summary <- function(x, alpha = NULL) {
-  if (is.null(alpha)) return(gs_bound_summary_single(x))
+gs_bound_summary <- function(x, digits = 4, ddigits = 2, tdigits = 0, timename = "Month", alpha = NULL) {
+  if (is.null(alpha)) {
+    out <- gs_bound_summary_single(x, digits = digits, ddigits = ddigits,
+                                   tdigits = tdigits, timename = timename)
+    return(out)
+  }
   if (!inherits(x, "ahr")) stop("The argument `alpha` is only supported for AHR design objects")
   if (!is.numeric(alpha)) stop("The argument `alpha` must be a numeric vector")
 
@@ -35,10 +40,14 @@ gs_bound_summary <- function(x, alpha = NULL) {
   outlist <- vector("list", length = length(alpha_new))
   for (i in seq_along(alpha_new)) {
     if (alpha_new[i] == alpha_original) {
-      outlist[[i]] <- gs_bound_summary_single(x, col_efficacy_name[i])
+      outlist[[i]] <- gs_bound_summary_single(x, col_efficacy_name[i],
+                                              digits = digits, ddigits = ddigits,
+                                              tdigits = tdigits, timename = timename)
     } else {
       x_updated <- gs_update_ahr(x, alpha = alpha_new[i])
-      x_updated_bounds <- gs_bound_summary_single(x_updated, col_efficacy_name[i])
+      x_updated_bounds <- gs_bound_summary_single(x_updated, col_efficacy_name[i],
+                                                  digits = digits, ddigits = ddigits,
+                                                  tdigits = tdigits, timename = timename)
       outlist[[i]] <- x_updated_bounds[col_efficacy_name[i]]
     }
   }
@@ -51,7 +60,8 @@ gs_bound_summary <- function(x, alpha = NULL) {
   return(out)
 }
 
-gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy") {
+gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
+                                    ddigits, tdigits, timename) {
   # Input
   analysis <- x$analysis
   bound <- x$bound
@@ -72,20 +82,22 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy") {
     info <- paste0(info, "%")
     n <- round(analysis$n[i])
     events <- round(analysis$event[i])
-    month <- analysis$time[i]
+    time_value <- round(analysis$time[i], tdigits)
+    # If the value is an integer, force it to have the correct number of decimal places
+    time_value <- format(time_value, nsmall = tdigits)
 
     col_analysis <- c(
       col_analysis,
       if (i == final) "Final" else paste(label, info),
       paste("N:", n),
       paste("Events:", events),
-      paste("Month:", month),
+      paste0(timename, ": ", time_value),
       ""
     )
 
     # Value column
     hr <- analysis[analysis$analysis == i, "ahr"]
-    hr <- round(hr, 1)
+    hr <- round(hr, ddigits)
     hr_label <- "HR"
     # logrank test (gs_xxx_ahr): HR -> AHR
     if (inherits(x, "ahr")) hr_label <- "AHR"
@@ -112,8 +124,8 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy") {
     col_futility <- c(col_futility, as.numeric(row_futility))
   }
 
-  col_efficacy <- round(col_efficacy, 4)
-  col_futility <- round(col_futility, 4)
+  col_efficacy <- round(col_efficacy, digits)
+  col_futility <- round(col_futility, digits)
 
   out <- data.frame(
     Analysis = col_analysis,
