@@ -23,11 +23,8 @@ Generates a textual summary of a group sequential design using the AHR method.
 library(gsDesign)
 
 # Text summary of a 1-sided design
-x <- gs_design_ahr(info_frac = 1:3/3, test_lower = FALSE)
+x <- gs_design_ahr(info_frac = 1:3/3, test_lower = FALSE) \%>\% to_integer()
 x \%>\% text_summary()
-x \%>\% to_integer() \%>\% text_summary()
-gs_power_ahr(event = c(10, 20, 30), test_lower = FALSE) \%>\% text_summary()
-gs_power_ahr(event = c(10, 20, 30), test_lower = FALSE) \%>\% to_integer() \%>\% text_summary()
 
 # Text summary of a 2-sided symmetric design
 x <- gs_design_ahr(info_frac = 1:3/3,
