@@ -4,7 +4,7 @@
 
 - A new function, `gs_cp_npe()`, is now available for calculating simple conditional power under NPH. 
 A vignette has been published on the pkgdown website (#510, #539, #545, thanks to @LittleBeannie).
-- A new design summary function `gs_bound_summary` is available with similar output structure as `gsDesign::gsBoundSummary()` and
+- A new design summary function `gs_bound_summary()` is available with similar output structure as `gsDesign::gsBoundSummary()` and
 supporting for multiple alpha (#522, #537, thanks to @jdblischak).
 - Textual summary of AHR designs are available via the `text_summary()` (#526, thanks to @LittleBeannie).
 
