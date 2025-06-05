@@ -24,7 +24,7 @@ e.g., `gs_design_ahr(..., upper = "gs_spending_bound", upar = list(sf = "sfLDOF"
 ## Bug fixes
 
 - Correct the statistical information of WLR-integer designs in `to_integer()` (#478, thanks to @LittleBeannie).
-- Correct the calculation `info_frac` in `gs_design_wlr` when `info_scale = "h0_info"` (#485, #486, thanks to @LittleBeannie).
+- Correct the calculation `info_frac` in `gs_design_wlr()` when `info_scale = "h0_info"` (#485, #486, thanks to @LittleBeannie).
 - Add the `h1_spending` argument to `gs_power_ahr()` (#518, thanks to @LittleBeannie)
 
 ## Testing
