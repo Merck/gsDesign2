@@ -276,7 +276,6 @@ test_that("verify the crossing prob of a MB design at IA1 under null", {
                     lower = gs_b,
                     test_lower = FALSE) |> to_integer()
 
-  # verify the columns of n (sample size)
   expect_equal((x$bounds |> filter(bound == "upper", analysis == 1))$probability0,
                sfLDOF(alpha = .025, t = x$analysis$info_frac0)$spend[1])
 })
