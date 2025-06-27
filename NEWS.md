@@ -1,3 +1,11 @@
+# gsDesign2 1.1.5
+
+## Bug fixes
+
+- The spending of the WLR design has been corrected. 
+The default spending of a WLR design is information fraction. (#557, thanks to @LittleBeannie).
+
+
 # gsDesign2 1.1.4
 
 ## New functions
