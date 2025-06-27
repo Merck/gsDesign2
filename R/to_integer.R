@@ -415,14 +415,16 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
 
         # ensure info0 is based on integer sample size calculation
         # as as they become a slight different number due to the `enroll_rate`
-        q_e <- ratio / (1 + ratio)
-        q_c <- 1 - q_e
-        info_with_new_event$info0 <- event_new * q_e * q_c
+        if (is_ahr) {
+          q_e <- ratio / (1 + ratio)
+          q_c <- 1 - q_e
+          info_with_new_event$info0 <- event_new * q_e * q_c
 
-        # ensure info is based on integer sample size calculation
-        # as as they become a slight different number due to the `enroll_rate`
-        q <- event_new / event
-        info_with_new_event$info <- x$analysis$info * q
+          # ensure info is based on integer sample size calculation
+          # as as they become a slight different number due to the `enroll_rate`
+          q <- event_new / event
+          info_with_new_event$info <- x$analysis$info * q
+        }
 
         # update timing
         upar_new$timing <- info_with_new_event$info0 / max(info_with_new_event$info0)

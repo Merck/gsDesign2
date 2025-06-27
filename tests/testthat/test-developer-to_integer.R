@@ -250,14 +250,32 @@ test_that("Validate the sample size rounding under unequal randomization (3:2) f
 })
 
 test_that("Validate the boundary is symmetric in symmetric designs.", {
-  x <- gs_design_ahr(analysis_time = 36, info_frac = 1:3/3, 
+  x <- gs_design_ahr(analysis_time = 36, info_frac = 1:3/3,
                      upper = gs_spending_bound,
                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
                      lower = gs_spending_bound,
                      lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
                      binding = TRUE, h1_spending = FALSE) %>%
   to_integer()
-  
-  expect_equal(x$bound$z[x$bound$bound == "upper"], 
+
+  expect_equal(x$bound$z[x$bound$bound == "upper"],
                -x$bound$z[x$bound$bound == "lower"])
+})
+
+test_that("verify the crossing prob of a MB design at IA1 under null", {
+  x <- gs_power_wlr(enroll_rate = define_enroll_rate(duration = 12, rate = 35.8),
+                    fail_rate = define_fail_rate(duration = c(4, 100),
+                                                 fail_rate = log(2)/12,
+                                                 dropout_rate = 0.001,
+                                                 hr = c(1, 0.6)),
+                    analysis_time = c(20, 28, 36),
+                    weight = list(method = "mb", param = list(tau = NULL, w_max = 2)),
+                    upper = gs_spending_bound,
+                    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+                    lpar = rep(-Inf, 3),
+                    lower = gs_b,
+                    test_lower = FALSE) |> to_integer()
+
+  expect_equal((x$bounds |> filter(bound == "upper", analysis == 1))$probability0,
+               sfLDOF(alpha = .025, t = x$analysis$info_frac0)$spend[1])
 })
