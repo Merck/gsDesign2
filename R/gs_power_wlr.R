@@ -169,6 +169,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
                          event = c(30, 40, 50),
                          analysis_time = NULL,
                          binding = FALSE,
+                         h1_spending = TRUE,
                          upper = gs_spending_bound,
                          lower = gs_spending_bound,
                          upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -208,12 +209,21 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
     interval = interval
   )
 
+  # set up H1 spending
+  if (h1_spending) {
+    theta1 <- x$theta
+    info1 <- x$info
+  } else {
+    theta1 <- 0
+    info1 <- x$info0
+  }
+
   # Given the above statistical information calculate the power ----
   y_h1 <- gs_power_npe(
-    theta = x$theta,
+    theta = x$theta, theta0 = 0, theta1 = theta1,
     info = x$info,
     info0 = x$info0,
-    info1 = x$info,
+    info1 = info1,
     info_scale = info_scale,
     binding = binding,
     upper = upper,
@@ -227,12 +237,10 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   )
 
   y_h0 <- gs_power_npe(
-    theta = 0,
-    theta0 = 0,
-    theta1 = x$theta,
+    theta = 0, theta0 = 0, theta1 = theta1,
     info = x$info0,
     info0 = x$info0,
-    info1 = x$info,
+    info1 = info1,
     info_scale = info_scale,
     binding = binding,
     upper = upper,
