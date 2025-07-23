@@ -337,7 +337,7 @@ gs_sigma2_wlr <- function(arm0,
   } else if (approx %in% c("asymptotic", "generalized_schoenfeld")) {
     # if IA time is early than enroll finish, we adjust the accrual to
     # ensure the info0 is approximately proportional to events when it is logrnak test
-    if (tmax < enroll_total_duration && weight == "logrank") {
+    if (tmax < enroll_total_duration && all(weight == "logrank")) {
       arm0 <- arm0
       arm1 <- arm1
 
