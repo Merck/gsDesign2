@@ -220,7 +220,9 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
 
   # Given the above statistical information calculate the power ----
   y_h1 <- gs_power_npe(
-    theta = x$theta, theta0 = 0, theta1 = theta1,
+    theta = x$theta,
+    theta0 = 0,
+    theta1 = theta1,
     info = x$info,
     info0 = x$info0,
     info1 = info1,
@@ -237,7 +239,9 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   )
 
   y_h0 <- gs_power_npe(
-    theta = 0, theta0 = 0, theta1 = theta1,
+    theta = 0,
+    theta0 = 0,
+    theta1 = theta1,
     info = x$info0,
     info0 = x$info0,
     info1 = info1,
