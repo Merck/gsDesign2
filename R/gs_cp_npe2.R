@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Conditional power computation with non-constant effect size for first crossing an upper boundary at analysis j given observed Z value at analysis i
+#' Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
 #'
 #' @details
 #' We assume \eqn{Z_i, i = 1, ..., K} are the z-values at an interim analysis i, respectively.
@@ -24,8 +24,10 @@
 #' \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
 #' \deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}
 #' See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
-#' Returned value is
-#' \deqn{P(\{Z_j > b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+#' Returned value is list of
+#' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+#' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+#' \deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
 #'
 #' @param theta A vector of j-i+1, which specifies the natural parameter for treatment effect.
 #'              The first element of `theta` is the treatment effect of an interim analysis i.
@@ -37,7 +39,9 @@
 #' @param a A vector of length j-i-1, which specifies the futility bounds from analysis i+1 to analysis j-1.
 #' @param b A vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.
 #' @param c Interim z-value at analysis i (scalar).
-#' @return A scalar with the conditional power \eqn{P(\{Z_j > b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+#' @return A list of conditional powers: prob_alpha = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+#'                                       prob_alpha_plus = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+#'                                       prob_beta = eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
 #' @export
 #'
 #' @examples
@@ -47,13 +51,12 @@
 #' # Calculate conditional power under arbitrary theta, info and lower/upper bound
 #' # In practice, the value of theta and info commonly comes from a design.
 #' # More examples are available at the pkgdown vignettes.
-#' gs_cp_npe2(theta = c(),
-#'            t = c(),
-#'            info = c(),
-#'            a = c(),
-#'            b = c(),
-#'            c = 1.96)
-
+#' gs_cp_npe2(theta = c(0.1, 0.2, 0.3),
+#'            t = c(0.15, 0.35, 0.6),
+#'            info = c(15, 35, 60),
+#'            a = c(-0.5),
+#'            b = c(1.8, 2.1),
+#'            c = 1.5)
 gs_cp_npe2 <- function(theta = NULL,
                        t = NULL,
                        info = NULL,
@@ -90,28 +93,91 @@ gs_cp_npe2 <- function(theta = NULL,
     }
   }
 
+  # ---------------------------------------------------------------------
+  #             Calculate Lower/upper bounds for alpha
+  # first cross efficacy bound at analysis j given no efficacy/futility
+  # bound crossing at analysis i+1 to j-1
+  # ---------------------------------------------------------------------
   # Integration limits: D_m = B_m - B_i
   # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [b_j, +Inf)
   # lower bound
-  lower <- rep(0, j - i)
+  lower_alpha <- rep(0, j - i)
   for(m in 1:(j-i-1)){
-    lower[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[i])
+    lower_alpha[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[i])
   }
-  lower[j-i] <- b[j-i] * sqrt(t[j]) - c * sqrt(t[i])
+  lower_alpha[j-i] <- b[j-i] * sqrt(t[j]) - c * sqrt(t[i])
 
   # upper bound
-  upper <- rep(0, j - i)
+  upper_alpha <- rep(0, j - i)
   for(m in 1:(j-i-1)){
-    upper[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
+    upper_alpha[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
   }
-  upper[j-i] <- Inf
+  upper_alpha[j-i] <- Inf
+
+  # ---------------------------------------------------------------------
+  #             Calculate Lower/upper bounds for alpha_plus
+  # first cross efficacy bound at analysis j given no efficacy bound
+  # crossing at analysis i+1 to j-1
+  # ---------------------------------------------------------------------
+  # Integration limits: D_m = B_m - B_i
+  # for D_{i+1},...,D_{j-1} use (-Inf, b); for D_j use [b_j, +Inf)
+  # lower bound
+  lower_alpha_plus <- rep(-Inf, j - i)
+  lower_alpha_plus[j-i] <- b[j-i] * sqrt(t[j]) - c * sqrt(t[i])
+
+  # upper bound
+  upper_alpha_plus <- rep(0, j - i)
+  for(m in 1:(j-i-1)){
+      upper_alpha_plus[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
+  }
+  upper_alpha_plus[j-i] <- Inf
+
+
+
+  # ---------------------------------------------------------------------
+  #             Calculate Lower/upper bounds for beta
+  # Not cross efficacy bound at analysis j given no efficacy/futility
+  # bound crossing at analysis i+1 to j-1
+  # ---------------------------------------------------------------------
+  # Integration limits: D_m = B_m - B_i
+  # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [-Inf, b_j)
+  # lower bound
+  lower_beta <- rep(0, j - i)
+  for(m in 1:(j-i-1)){
+    lower_beta[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[i])
+  }
+  lower_beta[j-i] <- -Inf
+
+  # upper bound
+  upper_beta <- rep(0, j - i)
+  for(m in 1:(j-i)){
+    upper_beta[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
+  }
+
 
   # Compute multivariate normal probability
-  prob <- mvtnorm::pmvnorm(lower=lower,
-                           upper=upper,
-                           mean=mu,
-                           sigma=Sigma)[1]
-  return(prob)
+  prob_alpha <- mvtnorm::pmvnorm(
+    lower = lower_alpha,
+    upper = upper_alpha,
+    mean = mu,
+    sigma = Sigma)[1]
+
+  prob_alpha_plus <- mvtnorm::pmvnorm(
+    lower=lower_alpha_plus,
+    upper=upper_alpha_plus,
+    mean=mu,
+    sigma=Sigma)[1]
+
+  prob_beta <- mvtnorm::pmvnorm(
+    lower=lower_beta,
+    upper=upper_beta,
+    mean=mu,
+    sigma=Sigma)[1]
+
+
+  return(prob = list(prob_alpha = prob_alpha,
+                     prob_alpha_plus = prob_alpha_plus,
+                     prob_beta = prob_beta))
 
 
 }
