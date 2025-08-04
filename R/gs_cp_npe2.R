@@ -44,10 +44,15 @@
 #' library(gsDesign2)
 #' library(dplyr)
 #' library(mvtnorm)
-#' # Calculate conditional power under arbitrary theta and info
+#' # Calculate conditional power under arbitrary theta, info and lower/upper bound
 #' # In practice, the value of theta and info commonly comes from a design.
 #' # More examples are available at the pkgdown vignettes.
-#'
+#' gs_cp_npe2(theta = c(),
+#'            t = c(),
+#'            info = c(),
+#'            a = c(),
+#'            b = c(),
+#'            c = 1.96)
 
 gs_cp_npe2 <- function(theta = NULL,
                        t = NULL,
@@ -66,20 +71,21 @@ gs_cp_npe2 <- function(theta = NULL,
     stop("The vector of lower bound should have the length of vector of lower bound - 1.")
 
   # Build mean vector of length M = j-i
-  i = 1
-  j = length(b_vec)
-  M = j - i # number of increments
+  i <- 1
+  j <- length(b)
+  dim <- j - i # number of increments
 
-  mu = sapply(seq_len(M), function(k){
+  # Build mean vector
+  mu <- sapply(seq_len(dim), function(k){
     idx <- i + k
     theta[idx] * sqrt(t[idx] * info[idx]) - theta[i] * sqrt(t[i] * info[i])
   })
 
-  # Build covariance matrix Sigma (MxM)
-  Sigma <- matrix(0, nrow = M, ncol = M)
+  # Build covariance matrix Sigma (dim x dim)
+  Sigma <- matrix(0, nrow = dim, ncol = dim)
 
-  for(k in seq_len(M)) {
-    for(l in seq_len(M)) {
+  for(k in seq_len(dim)) {
+    for(l in seq_len(dim)) {
       Sigma[k, l] <- t[i + min(k,l)] - t[i]
     }
   }
@@ -87,18 +93,18 @@ gs_cp_npe2 <- function(theta = NULL,
   # Integration limits: D_m = B_m - B_i
   # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [b_j, +Inf)
   # lower bound
-  lower = rep(0, j - i)
+  lower <- rep(0, j - i)
   for(m in 1:(j-i-1)){
-    lower[m] = a[m] * sqrt(t[m]) - c * sqrt(t[i])
+    lower[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[i])
   }
-  lower[j-i] = b[j-i] * sqrt(t[j]) - c * sqrt(t[i])
+  lower[j-i] <- b[j-i] * sqrt(t[j]) - c * sqrt(t[i])
 
   # upper bound
-  upper = rep(0, j - i)
+  upper <- rep(0, j - i)
   for(m in 1:(j-i-1)){
-    upper[m] = b[m] * sqrt(t[m]) - c * sqrt(t[i])
+    upper[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
   }
-  upper[j-i] = Inf
+  upper[j-i] <- Inf
 
   # Compute multivariate normal probability
   prob <- mvtnorm::pmvnorm(lower=lower,
