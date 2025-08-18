@@ -36,10 +36,10 @@ This approach allows the flexibility to approximate a wide variety of scenarios.
 We evaluate the approximations used via simulation using the **simtrial** package; we specifically provide a simulation routine  so that any changes specified by the user should be easily incorporated.
 We consider both non-proportional hazards for a single stratum and multiple strata with different underlying proportional hazards assumptions.
 
-There are two things to note regarding differences between `simtrial::simfix()` and `gsDesign2::ahr()`:
+There are two things to note regarding differences between `simtrial::sim_fixed_n()` and `gsDesign2::ahr()`:
 
-1. `simtrial::simfix()` is less flexible in that it requires all strata are enrolled at the same relative rates throughout the trial whereas `gsDesign2::ahr()` allows, for example, enrollment to start or stop at different times in different strata. In this document, we use the more restrictive parameterization of `simtrial::simfix()` so that we can confirm the asymptotic sample size approximation based on `gsDesign2::ahr()` by simulation.
-1. `simtrial::simfix()` provides more flexibility in test statistics used than `gsDesign2::ahr()` as documented in the pMaxCombo vignette demonstrating use of Fleming-Harrington weighted logrank tests and combinations of such tests.
+1. `simtrial::sim_fixed_n()` is less flexible in that it requires all strata are enrolled at the same relative rates throughout the trial whereas `gsDesign2::ahr()` allows, for example, enrollment to start or stop at different times in different strata. In this document, we use the more restrictive parameterization of `simtrial::sim_fixed_n()` so that we can confirm the asymptotic sample size approximation based on `gsDesign2::ahr()` by simulation.
+1. `simtrial::sim_fixed_n()` provides more flexibility in test statistics used than `gsDesign2::ahr()` as documented in the pMaxCombo vignette demonstrating use of Fleming-Harrington weighted logrank tests and combinations of such tests.
 
 ## Document organization
 
@@ -72,15 +72,15 @@ First, we set the number of simulations to be performed.
 You can increase this to improve accuracy of simulation estimates of power.
 
 ```{r nsim, warning=FALSE, message=FALSE}
-nsim <- 2000
+nsim <- 1000
 ```
 
-Simulations using the `simtrial::simfix()` routine below use blocked randomization.
+Simulations using the `simtrial::sim_fixed_n()` routine below use blocked randomization.
 We set that here and do not change for individual simulations.
 Based on balanced randomization in `block` we set the randomization ratio of experimental to control to 1.
 
 ```{r block,warning=FALSE,message=FALSE}
-block <- rep(c("Control", "Experimental"), 2)
+block <- rep(c("control", "experimental"), 2)
 ratio <- 1
 ```
 
@@ -235,24 +235,24 @@ ggplot(avehrtbl, aes(x = time, y = event)) +
 
 ## Simulation to verify power
 
-We use function `simtrial::simfix()` to simplify setting up and executing a simulation to evaluate the sample size derivation above.
-Arguments for `simtrial::simfix()` are slightly different than the set-up that was used for the `gsDesign2::ahr()` function used above.
+We use function `simtrial::sim_fixed_n()` to simplify setting up and executing a simulation to evaluate the sample size derivation above.
+Arguments for `simtrial::sim_fixed_n()` are slightly different than the set-up that was used for the `gsDesign2::ahr()` function used above.
 Thus, there is some reformatting of input parameters involved.
-One difference from the `gsDesign2::ahr()` parameterization in `simtrial::simfix()` is that `block` is provided to specify fixed block randomization as opposed to `ratio` for `gsDesign2::ahr()`.
+One difference from the `gsDesign2::ahr()` parameterization in `simtrial::sim_fixed_n()` is that `block` is provided to specify fixed block randomization as opposed to `ratio` for `gsDesign2::ahr()`.
 
-```{r simfix1, cache=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
+```{r simfix1, cache=FALSE, warning=FALSE, message=FALSE}
 # Do simulations
 # Cut at targeted study duration
-results1 <- simtrial::simfix(
-  nsim = nsim,
+results1 <- simtrial::sim_fixed_n(
+  n_sim = nsim,
   block = block,
-  sampleSize = sample_size,
-  strata = strata,
+  sample_size = sample_size,
+  stratum = strata,
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = total_duration,
   target_event = ceiling(target_event),
-  timingType = 1:5
+  timing_type = 1:5
 )
 ```
 
@@ -260,15 +260,13 @@ The following summarizes outcomes by the data cutoff chosen. Regardless of cutof
 The statistical information computed in the simulation is computed as one over the simulation variance of the Cox regression coefficient for treatment (i.e., the log hazard ratio).
 
 ```{r summary1, message=FALSE, warning=FALSE}
-# Loading the data saved previously
-results1 <- readRDS("fixtures/results1.rds")
-results1$Positive <- results1$Z <= qnorm(.025)
+results1$Positive <- results1$z <= qnorm(.025)
 results1 %>%
   group_by(cut) %>%
   summarise(
-    Simulations = n(), Power = mean(Positive), sdDur = sd(Duration), Duration = mean(Duration),
-    sdEvents = sd(Events), Events = mean(Events),
-    HR = exp(mean(lnhr)), sdlnhr = sd(lnhr), info = 1 / sdlnhr^2
+    Simulations = n(), Power = mean(Positive), sdDur = sd(duration), Duration = mean(duration),
+    sdEvents = sd(event), Events = mean(event),
+    HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
   ) %>%
   gt() %>%
   fmt_number(column = 2:9, decimals = 3)
@@ -289,7 +287,7 @@ avehr %>% gt()
 ## Design scenario
 
 We set up the design scenario parameter.
-We are limited here to simultaneous enrollment of strata since the `simtrial::simfix()` routine uses `simtrial::simPWSurv()` which is limited to this scenario.
+We are limited here to simultaneous enrollment of strata since the `simtrial::sim_fixed_n()` routine uses `simtrial::sim_pw_surv()` which is limited to this scenario.
 We specify three strata:
 
 - High risk: 1/3 of the population with median time-to-event of 6 months and a treatment effect hazard ratio of 1.2.
@@ -403,7 +401,7 @@ ggplot(avehrtbl, aes(x = time, y = event)) +
 ## Simulation to verify power
 
 We change the enrollment rates by stratum produced by `gsDesign::nSurv()`
-to overall enrollment rates needed for `simtrial::simfix()`.
+to overall enrollment rates needed for `simtrial::sim_fixed_n()`.
 
 ```{r, message=FALSE}
 er <- enroll_rate %>%
@@ -419,29 +417,28 @@ er %>% gt()
 Now we simulate and summarize results.
 Once again, we see that the expected statistical information from the simulation is greater than what would be expected by the Schoenfeld approximation which is the expected events divided by 4.
 
-```{r simfix2, cache=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
-results2 <- simtrial::simfix(
-  nsim = nsim,
+```{r simfix2, cache=FALSE, warning=FALSE, message=FALSE}
+results2 <- simtrial::sim_fixed_n(
+  n_sim = nsim,
   block = block,
-  sampleSize = sample_size,
-  strata = strata,
+  sample_size = sample_size,
+  stratum = strata,
   enroll_rate = er,
   fail_rate = fail_rate,
   total_duration = as.numeric(total_duration),
   target_event = as.numeric(target_event),
-  timingType = 1:5
+  timing_type = 1:5
 )
 ```
 
 ```{r summary2,warning=FALSE,message=FALSE}
-results2 <- readRDS("fixtures/results2.rds")
-results2$Positive <- (pnorm(results2$Z) <= .025)
+results2$Positive <- (pnorm(results2$z) <= .025)
 results2 %>%
   group_by(cut) %>%
   summarize(
-    Simulations = n(), Power = mean(Positive), sdDur = sd(Duration), Duration = mean(Duration),
-    sdEvents = sd(Events), Events = mean(Events),
-    HR = exp(mean(lnhr)), sdlnhr = sd(lnhr), info = 1 / sdlnhr^2
+    Simulations = n(), Power = mean(Positive), sdDur = sd(duration), Duration = mean(duration),
+    sdEvents = sd(event), Events = mean(event),
+    HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
   ) %>%
   gt() %>%
   fmt_number(column = 2:9, decimals = 3)
