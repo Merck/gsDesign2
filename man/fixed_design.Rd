@@ -20,7 +20,8 @@ fixed_design_ahr(
   power = NULL,
   ratio = 1,
   study_duration = 36,
-  event = NULL
+  event = NULL,
+  info_scale = c("h0_h1_info", "h0_info", "h1_info")
 )
 
 fixed_design_fh(
@@ -31,7 +32,8 @@ fixed_design_fh(
   enroll_rate,
   fail_rate,
   rho = 0,
-  gamma = 0
+  gamma = 0,
+  info_scale = c("h0_h1_info", "h0_info", "h1_info")
 )
 
 fixed_design_lf(
@@ -63,7 +65,8 @@ fixed_design_mb(
   enroll_rate,
   fail_rate,
   tau = 6,
-  w_max = Inf
+  w_max = Inf,
+  info_scale = c("h0_h1_info", "h0_info", "h1_info")
 )
 
 fixed_design_milestone(
@@ -83,7 +86,8 @@ fixed_design_rd(
   p_c,
   p_e,
   rd0 = 0,
-  n = NULL
+  n = NULL,
+  info_scale = c("h0_h1_info", "h0_info", "h1_info")
 )
 
 fixed_design_rmst(
@@ -111,6 +115,13 @@ and \code{1 - alpha} otherwise).}
 \item{study_duration}{Study duration.}
 
 \item{event}{A numerical vector specifying the targeted events at each analysis. See details.}
+
+\item{info_scale}{Information scale for calculation. Options are:
+\itemize{
+\item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
+\item \code{"h0_info"}: variance under null hypothesis is used.
+\item \code{"h1_info"}: variance under alternative hypothesis is used.
+}}
 
 \item{rho}{A vector of numbers paring with gamma and tau for MaxCombo test.}
 

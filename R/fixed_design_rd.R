@@ -25,7 +25,10 @@
 #' @param n Sample size. If NULL with power input, the sample size will be
 #' computed to achieve the targeted power
 #' @param ratio Experimental:Control randomization ratio.
-#'
+#' @param info_scale Information scale for calculation. Options are:
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @export
 #'
 #' @rdname fixed_design
@@ -55,8 +58,10 @@ fixed_design_rd <- function(
     p_c,
     p_e,
     rd0 = 0,
-    n = NULL) {
+    n = NULL,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
   # Check inputs ----
+  info_scale <- match.arg(info_scale)
   if (!is.numeric(p_c) || !is.numeric(p_e)) {
     stop("fixed_design_rd: p_c and p_e should be numerical values.")
   }
@@ -82,7 +87,8 @@ fixed_design_rd <- function(
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
       n = tibble(stratum = "All", n = n, analysis = 1),
-      rd0 = rd0, weight = "unstratified"
+      rd0 = rd0, weight = "unstratified",
+      info_scale = info_scale
     )
   } else {
     d <- gs_design_rd(
@@ -91,7 +97,8 @@ fixed_design_rd <- function(
       alpha = alpha, beta = 1 - power, ratio = ratio,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
-      rd0 = rd0, weight = "unstratified"
+      rd0 = rd0, weight = "unstratified",
+      info_scale = info_scale
     )
   }
   # get the output of MaxCombo
