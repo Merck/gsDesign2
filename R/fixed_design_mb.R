@@ -72,11 +72,13 @@ fixed_design_mb <- function(
     enroll_rate,
     fail_rate,
     tau = 6,
-    w_max = Inf) {
+    w_max = Inf,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
   # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
+  info_scale <- match.arg(info_scale)
   if (length(tau) > 1) {
     stop("fixed_design: multiple tau can not be used in Magirr-Burman method!")
   }
@@ -100,7 +102,8 @@ fixed_design_mb <- function(
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
       analysis_time = study_duration,
-      event = NULL
+      event = NULL,
+      info_scale = info_scale
     )
   } else {
     d <- gs_design_wlr(
@@ -112,7 +115,8 @@ fixed_design_mb <- function(
       weight = weight,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
-      analysis_time = study_duration
+      analysis_time = study_duration,
+      info_scale = info_scale
     )
   }
   # get the output of MB

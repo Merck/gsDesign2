@@ -84,11 +84,13 @@ fixed_design_ahr <- function(
     power = NULL,
     ratio = 1,
     study_duration = 36,
-    event = NULL) {
+    event = NULL,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
   # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
+  info_scale <- match.arg(info_scale)
 
   # Save inputs ----
   input <- list(
@@ -106,7 +108,8 @@ fixed_design_ahr <- function(
       fail_rate = fail_rate,
       ratio = ratio,
       analysis_time = study_duration,
-      event = event
+      event = event,
+      info_scale = info_scale
     )
   } else {
     d <- gs_design_ahr(
@@ -116,7 +119,8 @@ fixed_design_ahr <- function(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       ratio = ratio,
-      analysis_time = study_duration
+      analysis_time = study_duration,
+      info_scale = info_scale
     )
   }
   ans <- tibble(
