@@ -89,7 +89,8 @@ with treatment effect measuring in risk difference.</p>
 <span>  power <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  study_duration <span class="op">=</span> <span class="fl">36</span>,</span>
-<span>  event <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  event <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fixed_design_fh</span><span class="op">(</span></span>
@@ -100,7 +101,8 @@ with treatment effect measuring in risk difference.</p>
 <span>  <span class="va">enroll_rate</span>,</span>
 <span>  <span class="va">fail_rate</span>,</span>
 <span>  rho <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  gamma <span class="op">=</span> <span class="fl">0</span></span>
+<span>  gamma <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fixed_design_lf</span><span class="op">(</span></span>
@@ -132,7 +134,8 @@ with treatment effect measuring in risk difference.</p>
 <span>  <span class="va">enroll_rate</span>,</span>
 <span>  <span class="va">fail_rate</span>,</span>
 <span>  tau <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>  w_max <span class="op">=</span> <span class="cn">Inf</span></span>
+<span>  w_max <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fixed_design_milestone</span><span class="op">(</span></span>
@@ -152,7 +155,8 @@ with treatment effect measuring in risk difference.</p>
 <span>  <span class="va">p_c</span>,</span>
 <span>  <span class="va">p_e</span>,</span>
 <span>  rd0 <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  n <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  info_scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h0_h1_info"</span>, <span class="st">"h0_info"</span>, <span class="st">"h1_info"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fixed_design_rmst</span><span class="op">(</span></span>
@@ -197,6 +201,13 @@ and <code>1 - alpha</code> otherwise).</p></dd>
 
 <dt id="arg-event">event<a class="anchor" aria-label="anchor" href="#arg-event"></a></dt>
 <dd><p>A numerical vector specifying the targeted events at each analysis. See details.</p></dd>
+
+
+<dt id="arg-info-scale">info_scale<a class="anchor" aria-label="anchor" href="#arg-info-scale"></a></dt>
+<dd><p>Information scale for calculation. Options are:</p><ul><li><p><code>"h0_h1_info"</code> (default): variance under both null and alternative hypotheses is used.</p></li>
+<li><p><code>"h0_info"</code>: variance under null hypothesis is used.</p></li>
+<li><p><code>"h1_info"</code>: variance under alternative hypothesis is used.</p></li>
+</ul></dd>
 
 
 <dt id="arg-rho">rho<a class="anchor" aria-label="anchor" href="#arg-rho"></a></dt>
