@@ -5,11 +5,11 @@
     {\large Fixed Design under AHR Method\textsuperscript{\textit{1}}}
     } 
     \fontsize{12.0pt}{14.4pt}\selectfont
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
-    Design & N & Events & Time & Bound & alpha & Power \\ 
+    Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
     \midrule\addlinespace[2.5pt]
-    Average hazard ratio & 463.078 & 324.7077 & 36 & 1.959964 & 0.025 & 0.9 \\ 
+    Average hazard ratio & 463.078 & 324.7077 & 36 & 0.697102 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
@@ -24,11 +24,11 @@
     {\large Custom Title\textsuperscript{\textit{1}}}
     } 
     \fontsize{12.0pt}{14.4pt}\selectfont
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
-    Design & N & Events & Time & Bound & alpha & Power \\ 
+    Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
     \midrule\addlinespace[2.5pt]
-    Average hazard ratio & 463.078 & 324.7077 & 36 & 1.959964 & 0.025 & 0.9 \\ 
+    Average hazard ratio & 463.078 & 324.7077 & 36 & 0.697102 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
