@@ -102,7 +102,41 @@ wieand %>%
 
 # Beta-spending futility bound with AHR
 
-Need to summarize here.
+Beta-spending allocates the Type II error rate ($\beta$) across interim analyses in a group sequential design. At each interim analysis, a portion of the total allowed $\beta$ is spent to determine the futility boundary. The cumulative $\beta$ spent up to each analysis is specified by a beta-spending function ($\beta(t)$ with $\beta(0) = 0$ and $\beta(1) = \beta$).
+
+The futility bound of IA1 $a_1$ is
+$$
+  a_1 = \left\{
+  a_1
+  :
+  \text{Pr}
+  \left(
+     \underbrace{Z_1 \leq a_1}_{\text{fail at IA1}} \; | \; H_1
+  \right)
+  =
+  \beta(t_1) 
+  \right\}.
+$$
+The futility bound at IA2 $a_2$ is 
+$$
+  a_2
+  =
+  \left\{
+  a_2
+  :
+  \text{Pr}
+  \left(
+    \underbrace{Z_2 \leq a_2}_{\text{fail at IA2}} \;
+    \text{ and }
+    \underbrace{a_1 < Z_i < b_1}_{\text{continue at IA1}}
+    \; | \;
+    H_1
+  \right)
+  =
+  \beta(t_2) - \beta(t_1)
+  \right\}.
+$$
+The futility bound after IA2 can be derived in the similar logic. 
 
 ```{r}
 betaspending <- gs_power_ahr(
@@ -124,40 +158,44 @@ betaspending %>%
   )
 ```
 
-# Classical beta-spending futility bound
-
-A classical $\beta-$spending bound would assume a constant treatment effect over time using the  proportional hazards assumption. We use the average hazard ratio at the fixed design analysis for this purpose.
-
 # Korn and Freidlin futility bound
 
 The @korn2018interim futility bound is set *when at least 50% of the expected events have occurred and at least two thirds of the observed events have occurred later than 3 months from randomization*.
 The expected timing for this is demonstrated below.
 
-## Accumulation of events by time interval
-
-We consider the accumulation of events over time that occur during the no-effect interval for the first 3 months after randomization and events after this time interval.
-This is done for the overall trial without dividing out by treatment group using the `gsDesign2::AHR()` function.
+We consider the accumulation of events over time that occur during the no-effect interval for the first 3 months after randomization and events after this time interval by 
+This is done for the overall trial without dividing out by treatment group using the `gsDesign2::ahr()` function.
 We consider monthly accumulation of events through the 34.86 months planned trial duration.
 We note in the summary of early expected events below that all events during the first 3 months on-study are expected prior to the first interim analysis.
 
 ```{r}
-event_accumulation <- pw_info(
-  enroll_rate = enroll_rate,
-  fail_rate = fail_rate,
-  total_duration = c(1:34, 34.86),
-  ratio = 1
-)
-head(event_accumulation, n = 7) %>% gt()
+find_ia_time <- function(t) {
+  
+  e_event0 <- expected_event(
+    enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / 2), 
+    fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate),
+    total_duration = t, simple = FALSE)
+  
+  e_event1 <- expected_event(
+    enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / 2), 
+    fail_rate = betaspending$fail_rate %>% 
+      mutate(fail_rate = fail_rate * hr) |>
+      select(stratum, fail_rate, duration, dropout_rate), 
+    total_duration = t, simple = FALSE)
+  
+  total_event <- sum(e_event0$event) + sum(e_event1$event)
+  first3m_event <- sum(e_event0$event[1]) + sum(e_event1$event[1])
+    
+  return(2 / 3 * total_event - (total_event - first3m_event))
+} 
+
+ia1_time <- uniroot(find_ia_time, interval = c(1, 50))$root
 ```
 
-We can look at the proportion of events after the first 3 months as follows:
+The analysis time (in months) when at least 2/3 of the expected events occurred later than 3 months from randomization is 
 
 ```{r}
-event_accumulation %>%
-  group_by(time) %>%
-  summarize(`Total events` = sum(event), "Proportion early" = first(event) / `Total events`) %>%
-  ggplot(aes(x = time, y = `Proportion early`)) +
-  geom_line()
+ia1_time |> round(2)
 ```
 
 For the @korn2018interim bound the targeted timing is when both 50% of events have occurred and at least 2/3 are more than 3 months after enrollment with 3 months being the delayed effect period.
