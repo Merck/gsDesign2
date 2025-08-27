@@ -44,8 +44,8 @@ check_fixed_design_output <- function(result) {
 # Validate fixed design summary
 check_fixed_design_summary <- function(summary_x) {
   expect_s3_class(summary_x, "tbl_df")
-  expect_equal(ncol(summary_x), 7)
-  expect_named(summary_x, c("Design", "N", "Events", "Time", "Bound", "alpha", "Power"), ignore.order = TRUE)
+  expect_equal(ncol(summary_x), 8)
+  expect_named(summary_x, c("Design", "N", "Events", "Time", "AHR", "Bound", "alpha", "Power"), ignore.order = TRUE)
 
   # Ensure values are within expected ranges
   expect_true(all(summary_x$N > 0))
