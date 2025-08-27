@@ -173,6 +173,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       n = x_new$analysis$n,
       event = x_new$analysis$event,
       time = x_new$analysis$time,
+      ahr = x_new$analysis$ahr,
       bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
       power = (x_new$bound %>% filter(bound == "upper"))$probability
@@ -201,6 +202,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       n = x_new$analysis$n,
       event = x_new$analysis$event,
       time = x_new$analysis$time,
+      ahr = x_new$analysis$ahr,
       bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
       power = (x_new$bound %>% filter(bound == "upper"))$probability
@@ -229,6 +231,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       n = x_new$analysis$n,
       event = x_new$analysis$event,
       time = x_new$analysis$time,
+      ahr = x_new$analysis$ahr,
       bound = (x_new$bound %>% filter(bound == "upper"))$z,
       alpha = x$input$alpha,
       power = (x_new$bound %>% filter(bound == "upper"))$probability
