@@ -125,6 +125,7 @@ fixed_design_mb <- function(
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
+    ahr = d$analysis$ahr,
     bound = (d$bound %>% filter(bound == "upper"))$z,
     alpha = alpha,
     power = (d$bound %>% filter(bound == "upper"))$probability
