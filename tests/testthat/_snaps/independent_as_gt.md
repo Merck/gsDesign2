@@ -43,11 +43,11 @@
     {\large Fixed Design under Fleming-Harrington Method\textsuperscript{\textit{1}}}
     } 
     \fontsize{12.0pt}{14.4pt}\selectfont
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
-    Design & N & Events & Time & Bound & alpha & Power \\ 
+    Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
     \midrule\addlinespace[2.5pt]
-    Fleming-Harrington FH(0, 0) (logrank) & 458.3509 & 321.3931 & 36 & 1.959964 & 0.025 & 0.9 \\ 
+    Fleming-Harrington FH(0, 0) (logrank) & 458.3509 & 321.3931 & 36 & 0.6969049 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
