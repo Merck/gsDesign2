@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr filter select full_join mutate transmute group_by ungroup summarize arrange desc lag last lead "%>%"
+#' @importFrom dplyr filter select full_join mutate transmute group_by ungroup summarize arrange desc lag last lead "|>"
 #' @importFrom tibble tibble
 NULL
 
@@ -196,8 +196,8 @@ eEvents_df_ <- function(enrollRates = tibble::tibble(
   )
   # Put everything together as laid out in vignette
   # "Computing expected events by interval at risk"
-  df_join <- dplyr::full_join(df_1, df_2, by = c("startEnroll", "endFail")) %>%
-    dplyr::arrange(endFail) %>%
+  df_join <- dplyr::full_join(df_1, df_2, by = c("startEnroll", "endFail")) |>
+    dplyr::arrange(endFail) |>
     dplyr::mutate(
       endEnroll = dplyr::lag(startEnroll, default = as.numeric(totalDuration)),
       startFail = dplyr::lag(endFail, default = 0),
@@ -207,13 +207,13 @@ eEvents_df_ <- function(enrollRates = tibble::tibble(
       enrollRate = sf.enrollRate(startEnroll),
       q = exp(-duration * (failRate + dropoutRate)),
       Q = dplyr::lag(cumprod(q), default = 1)
-    ) %>%
-    dplyr::arrange(dplyr::desc(startFail)) %>%
+    ) |>
+    dplyr::arrange(dplyr::desc(startFail)) |>
     dplyr::mutate(
       g = enrollRate * duration,
       G = dplyr::lag(cumsum(g), default = 0)
-    ) %>%
-    dplyr::arrange(startFail) %>%
+    ) |>
+    dplyr::arrange(startFail) |>
     dplyr::mutate(
       d = ifelse(failRate == 0, 0, Q * (1 - q) * failRate / (failRate + dropoutRate)),
       nbar = ifelse(failRate == 0, 0,
@@ -223,13 +223,13 @@ eEvents_df_ <- function(enrollRates = tibble::tibble(
   if (simple) {
     return(as.numeric(sum(df_join$nbar)))
   }
-  df_join %>%
+  df_join |>
     dplyr::transmute(
       t = endFail, failRate = failRate, Events = nbar,
       startFail = sf.startFail(startFail)
-    ) %>%
-    dplyr::group_by(startFail) %>%
-    dplyr::summarize(failRate = dplyr::first(failRate), Events = sum(Events)) %>%
-    dplyr::mutate(t = startFail) %>%
+    ) |>
+    dplyr::group_by(startFail) |>
+    dplyr::summarize(failRate = dplyr::first(failRate), Events = sum(Events)) |>
+    dplyr::mutate(t = startFail) |>
     dplyr::select("t", "failRate", "Events")
 }

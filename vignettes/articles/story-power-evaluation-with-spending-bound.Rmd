@@ -214,7 +214,7 @@ For the CAPTURE trial, we have
 
 ```{r}
 h1 <- gs_info_binomial(p1 = .15, p2 = .1, xi1 = .5, n = c(350, 700, 1400))
-h1 %>% gt()
+h1 |> gt()
 ```
 
 We can plug these into `gs_power_npe()` with the intended spending functions. We begin with power under the alternate hypothesis
@@ -230,8 +230,8 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
-) %>%
-  gt() %>%
+) |>
+  gt() |>
   fmt_number(columns = 3:10, decimals = 4)
 ```
 
@@ -247,8 +247,8 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
-) %>%
-  gt() %>%
+) |>
+  gt() |>
   fmt_number(columns = 3:10, decimals = 4)
 ```
 

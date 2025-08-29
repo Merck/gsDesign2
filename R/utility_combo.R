@@ -110,7 +110,7 @@ gs_utility_combo <- function(enroll_rate,
   n <- max(info$n)
 
   # Restricted to actual analysis
-  info_fh <- info %>% left_join(fh_test %>% rename(time = analysis_time), by = c("test", "analysis", "time"))
+  info_fh <- info |> left_join(fh_test |> rename(time = analysis_time), by = c("test", "analysis", "time"))
   corr_fh <- corr_combo[!is.na(info_fh$gamma), !is.na(info_fh$gamma)]
   info_fh <- subset(info_fh, !is.na(gamma))
 

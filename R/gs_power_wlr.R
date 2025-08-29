@@ -259,40 +259,40 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
 
   # Get bounds to output ----
   suppressMessages(
-    bounds <- y_h0 %>%
-      select(analysis, bound, z, probability) %>%
-      rename(probability0 = probability) %>%
+    bounds <- y_h0 |>
+      select(analysis, bound, z, probability) |>
+      rename(probability0 = probability) |>
       left_join(
-        x %>% select(analysis, event)
-      ) %>%
+        x |> select(analysis, event)
+      ) |>
       mutate(
         `~hr at bound` = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
         `nominal p` = pnorm(-z)
-      ) %>%
+      ) |>
       left_join(
-        y_h1 %>% select(analysis, bound, probability)
-      ) %>%
-      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
+        y_h1 |> select(analysis, bound, probability)
+      ) |>
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) |>
       arrange(analysis, desc(bound))
   )
 
   # Get analysis summary to output ----
   suppressMessages(
-    analysis <- x %>%
-      select(analysis, time, event, ahr) %>%
-      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
+    analysis <- x |>
+      select(analysis, time, event, ahr) |>
+      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) |>
       left_join(
-        y_h1 %>%
-          select(analysis, info, info_frac, theta) %>%
+        y_h1 |>
+          select(analysis, info, info_frac, theta) |>
           unique()
-      ) %>%
+      ) |>
       left_join(
-        y_h0 %>%
-          select(analysis, info, info_frac) %>%
-          rename(info0 = info, info_frac0 = info_frac) %>%
+        y_h0 |>
+          select(analysis, info, info_frac) |>
+          rename(info0 = info, info_frac0 = info_frac) |>
           unique()
-      ) %>%
-      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
+      ) |>
+      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) |>
       arrange(analysis)
   )
 
@@ -312,7 +312,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
     input = input,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    bounds = bounds %>% filter(!is.infinite(z)),
+    bounds = bounds |> filter(!is.infinite(z)),
     analysis = analysis
   )
 

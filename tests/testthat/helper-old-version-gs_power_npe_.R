@@ -89,7 +89,7 @@ NULL
 #' library(dplyr)
 #'
 #' # Default (single analysis; Type I error controlled)
-#' gsDesign2:::gs_power_npe_(theta = 0) %>% dplyr::filter(Bound == "Upper")
+#' gsDesign2:::gs_power_npe_(theta = 0) |> dplyr::filter(Bound == "Upper")
 #'
 #' # Fixed bound
 #' gsDesign2:::gs_power_npe_(
@@ -113,7 +113,7 @@ NULL
 #'     sfu = gsDesign::sfLDOF
 #'   )$upper$bound,
 #'   lpar = rep(-Inf, 3)
-#' ) %>% dplyr::filter(Bound == "Upper")
+#' ) |> dplyr::filter(Bound == "Upper")
 #'
 #' # Fixed bound with futility only at analysis 1;
 #' # efficacy only at analyses 2, 3
@@ -192,7 +192,7 @@ NULL
 #'
 #' # Re-use these bounds under alternate hypothesis
 #' # Always use binding = TRUE for power calculations
-#' upar <- (xx %>% dplyr::filter(Bound == "Upper"))$Z
+#' upar <- (xx |> dplyr::filter(Bound == "Upper"))$Z
 #' gsDesign2:::gs_power_npe_(
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
@@ -268,8 +268,8 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
       # Cross upper bound
       upperProb[k] <- if (b[k] < Inf) {
         # hupdate(r = r, theta = theta[k], info = info[k], a = b[k], b = Inf,
-        #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) %>%
-        #   summarise(sum(h)) %>% as.numeric()
+        #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) |>
+        #   summarise(sum(h)) |> as.numeric()
         sum(gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = b[k], b = Inf,
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1
@@ -280,8 +280,8 @@ gs_power_npe_ <- function(theta = .1, theta1 = NULL, info = 1, info1 = NULL, inf
       # Cross lower bound
       lowerProb[k] <- if (a[k] > -Inf) {
         # hupdate(r = r, theta = theta[k], info = info[k], a = -Inf, b = a[k],
-        #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) %>%
-        #   summarise(sum(h)) %>% as.numeric()
+        #         thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1) |>
+        #   summarise(sum(h)) |> as.numeric()
         sum(gsDesign2:::hupdate(
           r = r, theta = theta[k], info = info[k], a = -Inf, b = a[k],
           thetam1 = theta[k - 1], im1 = info[k - 1], gm1 = hgm1

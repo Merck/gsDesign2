@@ -40,7 +40,7 @@ test_that("Validate the function based on examples with individual functions", {
     analysis_time = analysis_time,
     weight = weight
   )
-  fh01 <- gs_info %>% dplyr::mutate_if(is.numeric, round, digits = 5)
+  fh01 <- gs_info |> dplyr::mutate_if(is.numeric, round, digits = 5)
 
   N01 <- sum(enroll_rate$rate * enroll_rate$duration)
   n0 <- N01 / 2

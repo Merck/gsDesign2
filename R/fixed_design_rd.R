@@ -42,14 +42,14 @@
 #'   alpha = 0.025, power = 0.9, p_c = .15, p_e = .1,
 #'   rd0 = 0, ratio = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = NULL, p_c = .15, p_e = .1,
 #'   rd0 = 0, n = 2000, ratio = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_rd <- function(
     alpha = 0.025,
@@ -105,9 +105,9 @@ fixed_design_rd <- function(
   ans <- tibble(
     design = "rd",
     n = d$analysis$n,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input,

@@ -81,7 +81,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = sfLDOF, total_spend = beta),
 #'   test_lower = c(TRUE, FALSE),
-#'   binding = FALSE) %>% to_integer()
+#'   binding = FALSE) |> to_integer()
 #'
 #' planned_event_ia <- x$analysis$event[1]
 #' planned_event_fa <- x$analysis$event[2]
@@ -309,13 +309,13 @@ gs_update_ahr <- function(
   ans$fail_rate <- x$fail_rate
 
   suppressMessages(
-    ans$bound <- x_updated_h0 %>%
-      select(analysis, bound, z, probability, info0) %>%
-      rename(probability0 = probability) %>%
+    ans$bound <- x_updated_h0 |>
+      select(analysis, bound, z, probability, info0) |>
+      rename(probability0 = probability) |>
       mutate(`~hr at bound` = exp(-z / sqrt(info0)),
-             `nominal p` = pnorm(-z)) %>%
-      left_join(x_updated_h1 %>%
-                  select(analysis, bound, z, probability)) %>%
+             `nominal p` = pnorm(-z)) |>
+      left_join(x_updated_h1 |>
+                  select(analysis, bound, z, probability)) |>
       select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`)
   )
 

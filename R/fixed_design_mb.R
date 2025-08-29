@@ -46,7 +46,7 @@
 #'   tau = 4,
 #'   w_max = 2
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_mb(
@@ -62,7 +62,7 @@
 #'   tau = 4,
 #'   w_max = 2
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_mb <- function(
     alpha = 0.025,
@@ -126,9 +126,9 @@ fixed_design_mb <- function(
     event = d$analysis$event,
     time = d$analysis$time,
     ahr = d$analysis$ahr,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,

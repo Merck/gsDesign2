@@ -13,8 +13,8 @@ test_that("expect equal with mvtnorm for efficacy and futility bounds", {
     lpar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.02)
   )
 
-  test1 <- test %>% dplyr::filter(bound == "upper")
-  test2 <- test %>% dplyr::filter(bound == "lower")
+  test1 <- test |> dplyr::filter(bound == "upper")
+  test2 <- test |> dplyr::filter(bound == "lower")
 
   alpha.t <- 0.025
   b.ia <- gsDesign::sfLDOF(alpha = alpha.t, t = r)
@@ -68,7 +68,7 @@ test_that("expect equal with gsDesign::gsProbability outcome for efficacy bounds
       upar = list(sf = gsDesign::sfLDOF, param = NULL, total_spend = 0.025),
       lower = gs_b,
       lpar = rep(-Inf, 3)
-    ) %>% dplyr::filter(bound == "upper")
+    ) |> dplyr::filter(bound == "upper")
 
   x3 <- gsDesign::gsProbability(
     k = 3,

@@ -62,7 +62,7 @@ NULL
 #' library(gsDesign2)
 #' library(dplyr)
 #'
-#' gs_power_ahr() %>% dplyr::filter(abs(Z) < Inf)
+#' gs_power_ahr() |> dplyr::filter(abs(Z) < Inf)
 #'
 #' # 2-sided symmetric O'Brien-Fleming spending bound
 #' # NOT CURRENTLY WORKING
@@ -112,8 +112,8 @@ gs_power_ahr_ <- function(enrollRates = tibble::tibble(
     upper = upper, lower = lower, upar = upar, lpar = lpar,
     test_upper = test_upper, test_lower = test_lower,
     r = r, tol = tol
-  ) %>%
-    dplyr::right_join(x %>% dplyr::select(-c(info, info0, theta)), by = "Analysis") %>%
-    dplyr::select(c(Analysis, Bound, Time, Events, Z, Probability, AHR, theta, info, info0)) %>%
+  ) |>
+    dplyr::right_join(x |> dplyr::select(-c(info, info0, theta)), by = "Analysis") |>
+    dplyr::select(c(Analysis, Bound, Time, Events, Z, Probability, AHR, theta, info, info0)) |>
     dplyr::arrange(dplyr::desc(Bound), Analysis))
 }

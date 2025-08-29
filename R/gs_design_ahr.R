@@ -290,7 +290,7 @@ gs_design_ahr <- function(
             enroll_rate = enroll_rate, fail_rate = fail_rate,
             ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
             interval = c(.01, next_time)
-          ) %>%
+          ) |>
             mutate(theta = -log(ahr), analysis = n_analysis - i),
           y
         )
@@ -304,7 +304,7 @@ gs_design_ahr <- function(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
           interval = c(.01, next_time)
-        ) %>%
+        ) |>
           dplyr::transmute(
             analysis = n_analysis - i, time,
             event, ahr, theta = -log(ahr),
@@ -344,43 +344,43 @@ gs_design_ahr <- function(
     )
   )
 
-  allout <- allout %>%
+  allout <- allout |>
     # Add `~hr at bound`, `hr generic` and `nominal p`
     mutate(
       "~hr at bound" = exp(-z / sqrt(info0)),
       "nominal p" = pnorm(-z)
-    ) %>%
+    ) |>
     # Add `time`, `event`, `ahr`, `n` from gs_info_ahr call above
-    full_join(y %>% select(-c(info, info0, theta)),
+    full_join(y |> select(-c(info, info0, theta)),
       by = "analysis"
-    ) %>%
+    ) |>
     # Select variables to be output
     select(c(
       "analysis", "bound", "time", "n", "event", "z",
       "probability", "probability0", "ahr", "theta",
       "info", "info0", "info_frac", "~hr at bound", "nominal p"
-    )) %>%
+    )) |>
     # Arrange the output table
     arrange(analysis, desc(bound))
 
-  inflac_fct <- (allout %>% filter(analysis == n_analysis, bound == "upper"))$info /
-    (y %>% filter(analysis == n_analysis))$info
+  inflac_fct <- (allout |> filter(analysis == n_analysis, bound == "upper"))$info /
+    (y |> filter(analysis == n_analysis))$info
   allout$event <- allout$event * inflac_fct
   allout$n <- allout$n * inflac_fct
 
   # Get bounds to output ----
-  bound <- allout %>%
+  bound <- allout |>
     select(all_of(c(
       "analysis", "bound", "probability", "probability0",
       "z", "~hr at bound", "nominal p"
-    ))) %>%
+    ))) |>
     arrange(analysis, desc(bound))
 
   # Get analysis summary to output ----
-  analysis <- allout %>%
-    select(analysis, time, n, event, ahr, theta, info, info0, info_frac) %>%
-    mutate(info_frac0 = event / last_(event)) %>%
-    unique() %>%
+  analysis <- allout |>
+    select(analysis, time, n, event, ahr, theta, info, info0, info_frac) |>
+    mutate(info_frac0 = event / last_(event)) |>
+    unique() |>
     arrange(analysis)
 
   # Get input parameter to output ----
@@ -399,9 +399,9 @@ gs_design_ahr <- function(
   # Return the output ----
   ans <- list(
     input = input,
-    enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
+    enroll_rate = enroll_rate |> mutate(rate = rate * inflac_fct),
     fail_rate = fail_rate,
-    bound = bound %>% filter(!is.infinite(z)),
+    bound = bound |> filter(!is.infinite(z)),
     analysis = analysis
   )
 

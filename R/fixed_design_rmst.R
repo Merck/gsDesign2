@@ -45,7 +45,7 @@
 #'   study_duration = 36,
 #'   tau = 18
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_rmst(
@@ -60,7 +60,7 @@
 #'   study_duration = 36,
 #'   tau = 18
 #' )
-#' x %>% summary()
+#' x |> summary()
 fixed_design_rmst <- function(
     alpha = 0.025,
     power = NULL,
@@ -110,9 +110,9 @@ fixed_design_rmst <- function(
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input,

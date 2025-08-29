@@ -163,9 +163,9 @@
 #' # Same upper bound; this represents non-binding Type I error and will total 0.025
 #' gs_power_npe(
 #'   theta = rep(0, 3),
-#'   info = (x %>% filter(bound == "upper"))$info,
+#'   info = (x |> filter(bound == "upper"))$info,
 #'   upper = gs_b,
-#'   upar = (x %>% filter(bound == "upper"))$z,
+#'   upar = (x |> filter(bound == "upper"))$z,
 #'   lower = gs_b,
 #'   lpar = rep(-Inf, 3)
 #' )
@@ -236,8 +236,8 @@
 #'   binding = TRUE,
 #'   upper = gs_b,
 #'   lower = gs_b,
-#'   upar = (xx %>% filter(bound == "upper"))$z,
-#'   lpar = -(xx %>% filter(bound == "upper"))$z
+#'   upar = (xx |> filter(bound == "upper"))$z,
+#'   lpar = -(xx |> filter(bound == "upper"))$z
 #' )
 gs_design_npe <- function(
     theta = .1, theta0 = 0, theta1 = theta, # 3 theta
@@ -432,17 +432,17 @@ gs_design_npe <- function(
 
   # combine probability under H0 and H1
   suppressMessages(
-    ans <- ans_h1 %>%
+    ans <- ans_h1 |>
       full_join(
-        ans_h0 %>%
-          select(analysis, bound, probability) %>%
+        ans_h0 |>
+          select(analysis, bound, probability) |>
           rename(probability0 = probability)
       )
   )
 
-  ans <- ans %>% select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
+  ans <- ans |> select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
 
-  ans <- ans %>% arrange(analysis)
+  ans <- ans |> arrange(analysis)
 
   return(ans)
 }

@@ -57,10 +57,10 @@ NULL
 #' library(dplyr)
 #'
 #' # approximate variance of standard normal (i.e., 1)
-#' gsDesign2:::gridpts_() %>% summarise(var = sum(z^2 * w * dnorm(z)))
+#' gsDesign2:::gridpts_() |> summarise(var = sum(z^2 * w * dnorm(z)))
 #'
 #' # approximate probability above .95 quantile (i.e., .05)
-#' gsDesign2:::gridpts_(a = qnorm(.95), b = Inf) %>% summarise(p05 = sum(w * dnorm(z)))
+#' gsDesign2:::gridpts_(a = qnorm(.95), b = Inf) |> summarise(p05 = sum(w * dnorm(z)))
 gridpts_ <- function(r = 18, mu = 0, a = -Inf, b = Inf) {
   # Define odd numbered grid points for real line
   x <- c(
@@ -135,10 +135,10 @@ NULL
 #' @examples
 #' library(dplyr)
 #' # Replicate variance of 1, mean of 35
-#' gsDesign2:::h1_(theta = 5, I = 49) %>% summarise(mu = sum(z * h), var = sum((z - mu)^2 * h))
+#' gsDesign2:::h1_(theta = 5, I = 49) |> summarise(mu = sum(z * h), var = sum((z - mu)^2 * h))
 #'
 #' # Replicate p-value of .0001 by numerical integration of tail
-#' gsDesign2:::h1_(a = qnorm(.9999)) %>% summarise(p = sum(h))
+#' gsDesign2:::h1_(a = qnorm(.9999)) |> summarise(p = sum(h))
 h1_ <- function(r = 18, theta = 0, I = 1, a = -Inf, b = Inf) {
   # fix for binding message
   z <- w <- h <- NULL
@@ -185,7 +185,7 @@ NULL
 #' @examples
 #' library(dplyr)
 #' # 2nd analysis with no interim bound and drift 0 should have mean 0, variance 1
-#' gsDesign2:::hupdate_() %>% summarise(mu = sum(z * h), var = sum((z - mu)^2 * h))
+#' gsDesign2:::hupdate_() |> summarise(mu = sum(z * h), var = sum((z - mu)^2 * h))
 #'
 #' @noRd
 hupdate_ <- function(r = 18, theta = 0, I = 2, a = -Inf, b = Inf, thetam1 = 0, Im1 = 1, gm1 = gsDesign2:::h1()) {

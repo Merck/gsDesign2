@@ -45,7 +45,7 @@
 #'   study_duration = 36,
 #'   rho = 1, gamma = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_fh(
@@ -60,7 +60,7 @@
 #'   study_duration = 36,
 #'   rho = 1, gamma = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_fh <- function(
     alpha = 0.025,
@@ -128,9 +128,9 @@ fixed_design_fh <- function(
     event = d$analysis$event,
     time = d$analysis$time,
     ahr = d$analysis$ahr,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,

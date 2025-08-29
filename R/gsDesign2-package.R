@@ -18,7 +18,7 @@
 
 #' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
 #'   setDT setcolorder setorderv
-#' @importFrom dplyr "%>%" all_of arrange desc filter full_join group_by lead
+#' @importFrom dplyr all_of arrange desc filter full_join group_by lead
 #'   left_join mutate one_of rename row_number select summarize ungroup
 #' @importFrom gsDesign gsDesign sfLDOF
 #' @importFrom stats pnorm qnorm setNames uniroot

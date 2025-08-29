@@ -185,8 +185,8 @@ x <- tibble(
   "$\\gamma_j$" = c(0, 0, 2, 3)
 )
 
-kable(x) %>%
-  kable_styling(c("striped", "bordered")) %>%
+kable(x) |>
+  kable_styling(c("striped", "bordered")) |>
   add_header_above(c("Failure and dropout rates" = 4, "Enrollment rates" = 3))
 ```
 
@@ -226,7 +226,7 @@ name_tem <- names(x)
 
 names(x) <- c("m", "tm", "lambda", "eta", "j", "omega", "gamma")
 
-y <- x %>%
+y <- x |>
   mutate(
     tdel = tm - lag(tm, default = 0),
     q = exp(-(lambda + eta) * tdel),
@@ -245,11 +245,11 @@ names(yy) <- c(
   "$d_m$", "$G_{j-1}$", "$\\bar{n}_m$"
 )
 
-yy <- yy %>% select(c(1:7, 12, 8:11, 13))
+yy <- yy |> select(c(1:7, 12, 8:11, 13))
 
-yy %>%
-  kable(digits = 4) %>%
-  kable_styling(c("striped", "bordered")) %>%
+yy |>
+  kable(digits = 4) |>
+  kable_styling(c("striped", "bordered")) |>
   add_header_above(c(
     "Failure and dropout rates" = 4,
     "Enrollment" = 4,
@@ -289,9 +289,9 @@ expected_event(
 Now we group rows of `y` above into these same intervals.
 
 ```{r,message=FALSE}
-y %>%
-  mutate(t = c(0, 4, 4, 4)) %>%
-  group_by(t) %>%
+y |>
+  mutate(t = c(0, 4, 4, 4)) |>
+  group_by(t) |>
   summarise(
     fail_rate = first(lambda),
     Events = sum(nbar)
@@ -345,22 +345,22 @@ Now we confirm the expected events in each follow-up interval given the targeted
 #' # Use default enrollment and event rates and cut at calendar time 5 after start
 #' # of randomization
 #' library(dplyr)
-#' simPWSurv(n = 20) %>% cut_data(5)
+#' simPWSurv(n = 20) |> cut_data(5)
 cut_data <- function(x, cut_date) {
-  x %>%
-    filter(enrollTime <= cut_date) %>%
+  x |>
+    filter(enrollTime <= cut_date) |>
     mutate(
       tte = pmin(cte, cut_date) - enrollTime,
       event = fail * (cte <= cut_date)
-    ) %>%
+    ) |>
     select(tte, event, Stratum, Treatment)
 }
 ```
 
 ```{r,warning=FALSE}
-yy <- xx %>%
-  cut_data(7) %>%
-  filter(event == 1) %>%
+yy <- xx |>
+  cut_data(7) |>
+  filter(event == 1) |>
   mutate(tcat = 4 + (tte > 4) + (tte > 5) + (tte > 6))
 cat("Event by interval: ", table(yy$tcat) / nsim * 5, "\n")
 cat("Total events: ", sum(yy$event) / nsim * 5)

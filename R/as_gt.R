@@ -68,8 +68,8 @@ as_gt <- function(x, ...) {
 #'   alpha = alpha, power = 1 - beta,
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   study_duration = study_duration, ratio = ratio
-#' ) %>%
-#'   summary() %>%
+#' ) |>
+#'   summary() |>
 #'   as_gt()
 #'
 #' # Example 2 ----
@@ -77,14 +77,14 @@ as_gt <- function(x, ...) {
 #'   alpha = alpha, power = 1 - beta,
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   study_duration = study_duration, ratio = ratio
-#' ) %>%
-#'   summary() %>%
+#' ) |>
+#'   summary() |>
 #'   as_gt()
 as_gt.fixed_design <- function(x, title = NULL, footnote = NULL, ...) {
   method <- fd_method(x)
-  ans <- gt::gt(x) %>%
+  ans <- gt::gt(x) |>
     gt::tab_header(title = title %||% fd_title(method))
-  if (!isFALSE(footnote)) ans <- ans %>%
+  if (!isFALSE(footnote)) ans <- ans |>
     gt::tab_footnote(
       footnote = footnote %||% fd_footnote(x, method),
       locations = gt::cells_title(group = "title")
@@ -166,39 +166,39 @@ fd_footnote <- function(x, method) {
 #' # Example 1 ----
 #' # The default output
 #'
-#' gs_design_ahr() %>%
-#'   summary() %>%
+#' gs_design_ahr() |>
+#'   summary() |>
 #'   as_gt()
 #'
-#' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_gt()
 #'
-#' gs_design_wlr() %>%
-#'   summary() %>%
+#' gs_design_wlr() |>
+#'   summary() |>
 #'   as_gt()
 #'
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_gt()
 #'
-#' gs_power_combo() %>%
-#'   summary() %>%
+#' gs_power_combo() |>
+#'   summary() |>
 #'   as_gt()
 #'
-#' gs_design_rd() %>%
-#'   summary() %>%
+#' gs_design_rd() |>
+#'   summary() |>
 #'   as_gt()
 #'
-#' gs_power_rd() %>%
-#'   summary() %>%
+#' gs_power_rd() |>
+#'   summary() |>
 #'   as_gt()
 #'
 #' # Example 2 ----
 #' # Usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_gt(
 #'     title = "Bound Summary",
 #'     subtitle = "from gs_power_wlr"
@@ -207,8 +207,8 @@ fd_footnote <- function(x, method) {
 #' # Example 3 ----
 #' # Usage of colname_spanner = ..., colname_spannersub = ...
 #' # to edit the spanner and its sub-spanner
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_gt(
 #'     colname_spanner = "Cumulative probability to cross boundaries",
 #'     colname_spannersub = c("under H1", "under H0")
@@ -217,8 +217,8 @@ fd_footnote <- function(x, method) {
 #' # Example 4 ----
 #' # Usage of footnote = ...
 #' # to edit the footnote
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_gt(
 #'     footnote = list(
 #'       content = c(
@@ -235,15 +235,15 @@ fd_footnote <- function(x, method) {
 #' # Example 5 ----
 #' # Usage of display_bound = ...
 #' # to either show efficacy bound or futility bound, or both(default)
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_gt(display_bound = "Efficacy")
 #'
 #' # Example 6 ----
 #' # Usage of display_columns = ...
 #' # to select the columns to display in the summary table
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 #' }
 as_gt.gs_design <- function(
@@ -264,13 +264,13 @@ as_gt.gs_design <- function(
     display_bound, display_columns, display_inf_bound
   )
 
-  x <- parts$x %>%
-    group_by(Analysis) %>%
-    gt::gt() %>%
+  x <- parts$x |>
+    group_by(Analysis) |>
+    gt::gt() |>
     gt::tab_spanner(
       columns = all_of(colname_spannersub),
       label = colname_spanner
-    ) %>%
+    ) |>
     gt::tab_header(title = parts$title, subtitle = parts$subtitle)
 
   # Add footnotes ----

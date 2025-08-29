@@ -212,9 +212,9 @@ toc()
 tic()
 gs_power_npe(
   theta = rep(0, 3),
-  info = (x %>% filter(Bound == "Upper"))$info,
+  info = (x |> filter(Bound == "Upper"))$info,
   upper = gs_b,
-  upar = (x %>% filter(Bound == "Upper"))$Z,
+  upar = (x |> filter(Bound == "Upper"))$Z,
   lower = gs_b,
   lpar = rep(-Inf, 3)
 )
@@ -286,8 +286,8 @@ gs_power_npe(
   binding = TRUE,
   upper = gs_b,
   lower = gs_b,
-  upar = (xx %>% filter(Bound == "Upper"))$Z,
-  lpar = -(xx %>% filter(Bound == "Upper"))$Z
+  upar = (xx |> filter(Bound == "Upper"))$Z,
+  lpar = -(xx |> filter(Bound == "Upper"))$Z
 )
 toc()
 ```
@@ -712,7 +712,7 @@ gs_power_npe.R
 
 ```{r}
 tic()
-gs_power_npe(theta = 0) %>% filter(Bound == "Upper")
+gs_power_npe(theta = 0) |> filter(Bound == "Upper")
 toc()
 
 
@@ -734,7 +734,7 @@ gs_power_npe(
   info = (1:3) * 40,
   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
   lpar = rep(-Inf, 3)
-) %>%
+) |>
   filter(Bound == "Upper")
 toc()
 
@@ -797,8 +797,8 @@ gs_power_npe(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   binding = TRUE,
-  upar = (x %>% filter(Bound == "Upper"))$Z,
-  lpar = -(x %>% filter(Bound == "Upper"))$Z
+  upar = (x |> filter(Bound == "Upper"))$Z,
+  lpar = -(x |> filter(Bound == "Upper"))$Z
 )
 toc()
 ```
@@ -1194,7 +1194,7 @@ fixed_design(
   fail_rate = fail_rate,
   study_duration = study_duration,
   ratio = ratio
-) %>% summary()
+) |> summary()
 
 toc()
 
@@ -1211,7 +1211,7 @@ fixed_design(
   fail_rate = fail_rate,
   study_duration = study_duration,
   ratio = ratio
-) %>% summary()
+) |> summary()
 
 toc()
 ```

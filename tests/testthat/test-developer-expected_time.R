@@ -6,8 +6,8 @@ test_that("time to targeted events", {
   )
   ratio <- 1
   x <- AHR_(
-    enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum),
-    failRates = fail_rate %>% dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
+    enrollRates = enroll_rate |> dplyr::rename(Stratum = stratum),
+    failRates = fail_rate |> dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     ratio = ratio,
     totalDuration = 20
   )
@@ -24,7 +24,7 @@ test_that("default", {
   enroll_rate <- define_enroll_rate(stratum = "All", duration = c(2, 2, 10), rate = c(3, 6, 9) * 5)
 
   x1 <- expected_time(enroll_rate = enroll_rate)
-  x2 <- tEvents_(enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum)) %>%
+  x2 <- tEvents_(enrollRates = enroll_rate |> dplyr::rename(Stratum = stratum)) |>
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   expect_equal(x1, as.data.frame(x2))
@@ -46,11 +46,11 @@ test_that("time to targeted events by new/old version", {
     target_event = 200
   )
   x2 <- tEvents_(
-    enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum),
-    failRates = fail_rate %>% dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
+    enrollRates = enroll_rate |> dplyr::rename(Stratum = stratum),
+    failRates = fail_rate |> dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     ratio = ratio,
     targetEvents = 200
-  ) %>%
+  ) |>
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
 

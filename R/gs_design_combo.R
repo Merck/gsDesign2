@@ -244,49 +244,49 @@ gs_design_combo <- function(
   # Prepare output
   db <- merge(
     data.frame(analysis = 1:(nrow(prob) / 2), prob, z = unlist(bound)),
-    info_fh %>%
-      tibble::as_tibble() %>%
-      select(analysis, time, n, event) %>%
+    info_fh |>
+      tibble::as_tibble() |>
+      select(analysis, time, n, event) |>
       unique()
-  ) %>%
+  ) |>
     # update sample size and events
     mutate(
       event = event * sample_size / max(n),
       n = n * sample_size / max(n)
-    ) %>%
+    ) |>
     # arrange the dataset by Upper bound first and then Lower bound
     arrange(analysis, desc(bound))
 
 
-  out <- db %>%
+  out <- db |>
     select(
       analysis, bound, time, n, event, z,
       probability, probability_null
-    ) %>%
-    rename(probability0 = probability_null) %>%
+    ) |>
+    rename(probability0 = probability_null) |>
     mutate(`nominal p` = pnorm(z * (-1)))
 
 
   # get bounds to output
-  bounds <- out %>%
-    # rbind(out_H1, out_H0) %>%
-    select(analysis, bound, probability, probability0, z, `nominal p`) %>%
+  bounds <- out |>
+    # rbind(out_H1, out_H0) |>
+    select(analysis, bound, probability, probability0, z, `nominal p`) |>
     arrange(analysis, desc(bound))
 
   # get analysis summary to output
   # check if rho, gamma = 0 is included in fh_test
-  tmp <- fh_test %>%
-    filter(rho == 0 & gamma == 0 & tau == -1) %>%
-    select(test) %>%
-    unlist() %>%
-    as.numeric() %>%
+  tmp <- fh_test |>
+    filter(rho == 0 & gamma == 0 & tau == -1) |>
+    select(test) |>
+    unlist() |>
+    as.numeric() |>
     unique()
 
   if (length(tmp) != 0) {
-    ahr_dis <- utility$info_all %>%
-      filter(test == tmp) %>%
-      select(ahr) %>%
-      unlist() %>%
+    ahr_dis <- utility$info_all |>
+      filter(test == tmp) |>
+      select(ahr) |>
+      unlist() |>
       as.numeric()
   } else {
     ahr_dis <- gs_info_wlr(
@@ -299,26 +299,26 @@ gs_design_combo <- function(
     )$AHR
   }
 
-  analysis <- utility$info_all %>%
-    select(analysis, test, time, n, event) %>%
+  analysis <- utility$info_all |>
+    select(analysis, test, time, n, event) |>
     mutate(
       theta = utility$info_all$theta,
-      event_frac = event / tapply(event, test, function(x) max(x)) %>%
-        unlist() %>%
+      event_frac = event / tapply(event, test, function(x) max(x)) |>
+        unlist() |>
         as.numeric()
-    ) %>%
-    select(analysis, time, n, event, event_frac) %>%
-    unique() %>%
-    mutate(ahr = ahr_dis) %>%
+    ) |>
+    select(analysis, time, n, event, event_frac) |>
+    unique() |>
+    mutate(ahr = ahr_dis) |>
     mutate(
       n = n * sample_size / max(info_fh$n),
       event = event * sample_size / max(info_fh$n)
-    ) %>%
+    ) |>
     arrange(analysis)
 
   # Output ----
   output <- list(
-    enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
+    enroll_rate = enroll_rate |> mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
     fail_rate = fail_rate,
     bounds = bounds,
     analysis = analysis
