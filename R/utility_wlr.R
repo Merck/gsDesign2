@@ -302,8 +302,8 @@ gs_sigma2_wlr <- function(arm0,
   # ----------------------- #
   # get enroll duration and relative rate
   # ----------------------- #
-  enroll_duration <- arm0$accr_interval |> diff()
-  enroll_total_duration <- arm0$accr_interval |> max()
+  enroll_duration <- arm0$accr_interval %>% diff()
+  enroll_total_duration <- arm0$accr_interval %>% max()
   n_enroll_piece <- length(enroll_duration)
   enroll_relative_rate <- rep(-10, n_enroll_piece)
   for (s in 1:n_enroll_piece) {
@@ -345,7 +345,7 @@ gs_sigma2_wlr <- function(arm0,
       arm0$accr_time <- tmax
       arm1$accr_time <- tmax
       # truncate the accrual interval to be stop at the time of analysis
-      arm0$accr_interval <- c(tmax, arm0$accr_interval)[which(c(tmax, arm0$accr_interval) <= tmax)] |> sort()
+      arm0$accr_interval <- c(tmax, arm0$accr_interval)[which(c(tmax, arm0$accr_interval) <= tmax)] %>% sort()
       arm1$accr_interval <- arm0$accr_interval
       truncated_enroll_duration <- diff(arm0$accr_interval)
       # adjust the accrual probability per interval by the truncated interval
