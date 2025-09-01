@@ -30,7 +30,6 @@
 #'
 #' @examples
 #' # WLR test with FH weights ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_fh(

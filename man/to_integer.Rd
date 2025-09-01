@@ -76,7 +76,6 @@ For the events of group sequential designs:
 }
 }
 \examples{
-library(dplyr)
 library(gsDesign2)
 
 # Average hazard ratio

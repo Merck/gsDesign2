@@ -162,7 +162,6 @@ with treatment effect measuring in risk difference.
 }
 \examples{
 # AHR method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_ahr(
@@ -193,7 +192,6 @@ x <- fixed_design_ahr(
 x |> summary()
 
 # WLR test with FH weights ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_fh(
@@ -226,7 +224,6 @@ x <- fixed_design_fh(
 x |> summary()
 
 # LF method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_lf(
@@ -257,7 +254,6 @@ x <- fixed_design_lf(
 x |> summary()
 
 # MaxCombo test ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_maxcombo(
@@ -290,7 +286,6 @@ x <- fixed_design_maxcombo(
 x |> summary()
 
 # WLR test with MB weights ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_mb(
@@ -325,7 +320,6 @@ x <- fixed_design_mb(
 x |> summary()
 
 # Milestone method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_milestone(
@@ -358,7 +352,6 @@ x <- fixed_design_milestone(
 x |> summary()
 
 # Binary endpoint with risk differences ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_rd(
@@ -375,7 +368,6 @@ x <- fixed_design_rd(
 x |> summary()
 
 # RMST method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_rmst(

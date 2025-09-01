@@ -43,7 +43,6 @@
 #' @examples
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' alpha <- 0.025
 #' beta <- 0.1

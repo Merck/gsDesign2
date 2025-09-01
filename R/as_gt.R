@@ -35,8 +35,6 @@ as_gt <- function(x, ...) {
 #' @examples
 #' # Fixed design examples ----
 #'
-#' library(dplyr)
-#'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
 #'   duration = 18,
@@ -162,7 +160,6 @@ fd_footnote <- function(x, method) {
 #' \donttest{
 #' # Group sequential design examples ---
 #'
-#' library(dplyr)
 #' # Example 1 ----
 #' # The default output
 #'

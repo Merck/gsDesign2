@@ -45,7 +45,6 @@ A summary table (data frame).
 Summary for fixed design or group sequential design objects
 }
 \examples{
-library(dplyr)
 
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
@@ -97,7 +96,6 @@ fixed_design_fh(
 # Design parameters ----
 library(gsDesign)
 library(gsDesign2)
-library(dplyr)
 
 # enrollment/failure rates
 enroll_rate <- define_enroll_rate(

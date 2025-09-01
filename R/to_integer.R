@@ -61,7 +61,6 @@ to_integer <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' library(dplyr)
 #' library(gsDesign2)
 #'
 #' # Average hazard ratio

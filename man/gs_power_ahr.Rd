@@ -155,7 +155,6 @@ later of these is used  for analysis \code{i}.
 
 \examples{
 library(gsDesign2)
-library(dplyr)
 
 # Example 1 ----
 # The default output of `gs_power_ahr()` is driven by events,

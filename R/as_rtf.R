@@ -39,7 +39,6 @@ as_rtf <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' library(dplyr)
 #'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
@@ -181,7 +180,6 @@ check_rel_width <- function(width, n_col) {
 #' #'
 #' \donttest{
 #' # the default output
-#' library(dplyr)
 #'
 #' gs_design_ahr() |>
 #'   summary() |>

@@ -36,7 +36,6 @@
 #' @noRd
 #'
 #' @examples
-#' library(dplyr)
 #' library(tidyr)
 #' library(gt)
 #' a <- data.frame(Index = 1:2, a1 = c(1.1234, 5.9876), a2 = c("text 1", "text 2"), a3 = c(3.12, 4.98))

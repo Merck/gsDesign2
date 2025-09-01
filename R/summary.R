@@ -28,7 +28,6 @@
 #' @rdname summary
 #'
 #' @examples
-#' library(dplyr)
 #'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
@@ -125,7 +124,6 @@ summary.fixed_design <- function(object, ...) {
 #' # Design parameters ----
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # enrollment/failure rates
 #' enroll_rate <- define_enroll_rate(

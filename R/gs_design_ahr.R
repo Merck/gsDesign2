@@ -120,7 +120,6 @@
 #' @examples
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # Example 1 ----
 #' # call with defaults

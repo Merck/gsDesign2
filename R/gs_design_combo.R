@@ -31,7 +31,6 @@
 #'
 #' @examples
 #' # The example is slow to run
-#' library(dplyr)
 #' library(mvtnorm)
 #' library(gsDesign)
 #'

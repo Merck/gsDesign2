@@ -83,7 +83,6 @@ displayed in the summary table.}
 Write summary table of a fixed or group sequential design object to an RTF file
 }
 \examples{
-library(dplyr)
 
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
@@ -138,7 +137,6 @@ fixed_design_fh(
 #'
 \donttest{
 # the default output
-library(dplyr)
 
 gs_design_ahr() |>
   summary() |>

@@ -72,7 +72,7 @@ NULL
 #' @examples
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
+#'
 #' # call with defaults
 #' gs_design_ahr()
 #'

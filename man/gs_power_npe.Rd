@@ -147,9 +147,9 @@ are not supported by \code{gs_power_npe()}.
 }
 
 \examples{
+library(dplyr)
 library(gsDesign)
 library(gsDesign2)
-library(dplyr)
 
 # Default (single analysis; Type I error controlled)
 gs_power_npe(theta = 0) |> filter(bound == "upper")

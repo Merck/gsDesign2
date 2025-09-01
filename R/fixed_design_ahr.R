@@ -47,7 +47,6 @@
 #'
 #' @examples
 #' # AHR method ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_ahr(

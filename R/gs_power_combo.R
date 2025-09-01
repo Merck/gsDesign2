@@ -40,7 +40,6 @@
 #' @export
 #'
 #' @examples
-#' library(dplyr)
 #' library(mvtnorm)
 #' library(gsDesign)
 #' library(gsDesign2)

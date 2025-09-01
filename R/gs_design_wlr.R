@@ -39,7 +39,6 @@
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
 #' @examples
-#' library(dplyr)
 #' library(mvtnorm)
 #' library(gsDesign)
 #' library(gsDesign2)
