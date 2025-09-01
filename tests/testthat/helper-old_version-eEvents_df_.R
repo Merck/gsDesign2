@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr filter select full_join mutate transmute group_by ungroup summarize arrange desc lag last lead "|>"
+#' @importFrom dplyr filter select full_join mutate transmute group_by ungroup summarize arrange desc lag last lead
 #' @importFrom tibble tibble
 NULL
 

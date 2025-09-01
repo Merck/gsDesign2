@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr filter mutate transmute full_join group_by summarize ungroup first "|>"
+#' @importFrom dplyr filter mutate transmute full_join group_by summarize ungroup first
 #' @importFrom tibble tibble
 NULL
 
