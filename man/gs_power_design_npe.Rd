@@ -226,7 +226,6 @@ will be used to ensure Type I error and other boundary properties are as specifi
 }
 
 \examples{
-library(dplyr)
 library(gsDesign)
 
 # Example 1 ----

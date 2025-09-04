@@ -382,12 +382,12 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
     theta1 = rep(theta1, 2),
     info_frac = rep(info / max(info), 2),
     info = rep(info, 2)
-  ) %>%
+  ) |>
     mutate(
       info0 = rep(info0, 2),
       info1 = rep(info1, 2)
-    ) %>%
-    # filter(abs(Z) < Inf) %>%
+    ) |>
+    # filter(abs(Z) < Inf) |>
     arrange(desc(bound), analysis)
 
   return(ans)
