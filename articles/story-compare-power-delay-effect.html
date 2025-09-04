@@ -76,7 +76,6 @@ Anderson</h4>
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com" class="external-link">gt</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span>
@@ -103,8 +102,8 @@ months and 0.6 thereafter.</li>
 <span>  dropout_rate <span class="op">=</span> <span class="fl">0.001</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">enroll_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">enroll_rate</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Enrollment Table of Scenario 1"</span><span class="op">)</span></span></code></pre></div>
 <div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#mwlefoodfi table {
@@ -574,8 +573,8 @@ months and 0.6 thereafter.</li>
 </table>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fail_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">fail_rate</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Failure Table of Scenario 1"</span><span class="op">)</span></span></code></pre></div>
 <div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#eexombwkke table {
@@ -1200,11 +1199,11 @@ logrank regardless of the study durations evaluated.</p>
 <span>  <span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">tab_new</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">tab</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">11</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div id="ijezmzkdox" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#ijezmzkdox table {
@@ -1821,8 +1820,8 @@ period.</p>
 <span>  <span class="co"># In Scenario 1: hr = c(1, .6)</span></span>
 <span>  hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.6</span>, <span class="fl">.85</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">enroll_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">enroll_rate</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Enrollment Table of Scenario 2"</span><span class="op">)</span></span></code></pre></div>
 <div id="ebokgspbrj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#ebokgspbrj table {
@@ -2292,8 +2291,8 @@ period.</p>
 </table>
 </div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fail_rate</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">fail_rate</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html" class="external-link">tab_header</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Failure Table of Scenario 2"</span><span class="op">)</span></span></code></pre></div>
 <div id="tqpkdtfspv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#tqpkdtfspv table {
@@ -2892,11 +2891,11 @@ period.</p>
 <span>  <span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">tab_new</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">tab</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">4</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">5</span>, decimals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html" class="external-link">fmt_number</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">11</span>, decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div id="atreztttee" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#atreztttee table {
