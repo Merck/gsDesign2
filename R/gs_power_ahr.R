@@ -70,7 +70,6 @@
 #'
 #' @examples
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # Example 1 ----
 #' # The default output of `gs_power_ahr()` is driven by events,
@@ -249,33 +248,33 @@ gs_power_ahr <- function(
   # Organize the outputs ----
   # Summarize the bounds
   suppressMessages(
-    bound <- y_h1 %>%
-      mutate(`~hr at bound` = exp(-z / sqrt(info0)), `nominal p` = pnorm(-z)) %>%
+    bound <- y_h1 |>
+      mutate(`~hr at bound` = exp(-z / sqrt(info0)), `nominal p` = pnorm(-z)) |>
       left_join(
-        y_h0 %>%
-          select(analysis, bound, probability) %>%
+        y_h0 |>
+          select(analysis, bound, probability) |>
           rename(probability0 = probability)
-      ) %>%
-      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
+      ) |>
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) |>
       arrange(analysis, desc(bound))
   )
   # Summarize the analysis
   suppressMessages(
-    analysis <- x %>%
-      select(analysis, time, event, ahr) %>%
-      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
+    analysis <- x |>
+      select(analysis, time, event, ahr) |>
+      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) |>
       left_join(
-        y_h1 %>%
-          select(analysis, info, info_frac, theta) %>%
+        y_h1 |>
+          select(analysis, info, info_frac, theta) |>
           unique()
-      ) %>%
+      ) |>
       left_join(
-        y_h0 %>%
-          select(analysis, info, info_frac) %>%
-          rename(info0 = info, info_frac0 = info_frac) %>%
+        y_h0 |>
+          select(analysis, info, info_frac) |>
+          rename(info0 = info, info_frac0 = info_frac) |>
           unique()
-      ) %>%
-      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
+      ) |>
+      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) |>
       arrange(analysis)
   )
 
@@ -296,7 +295,7 @@ gs_power_ahr <- function(
     input = input,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    bound = bound %>% filter(!is.infinite(z)),
+    bound = bound |> filter(!is.infinite(z)),
     analysis = analysis
   )
 

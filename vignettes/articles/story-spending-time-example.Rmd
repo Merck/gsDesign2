@@ -128,7 +128,7 @@ xx <- gs_design_ahr(enroll_rate,
 summary(xx,
   analysis_vars = c("time", "n", "event", "ahr", "info_frac"),
   analysis_decimals = c(0, 0, 0, 4, 4)
-) %>% as_gt()
+) |> as_gt()
 ```
 
 ## Power when assumptions design are wrong
@@ -164,8 +164,8 @@ yy <- gs_power_ahr(
   lpar = z_025
 )
 
-yy %>%
-  summary() %>%
+yy |>
+  summary() |>
   as_gt()
 ```
 
@@ -190,8 +190,8 @@ yy <- gs_power_ahr(
 )
 
 # get the summary table of updated design
-yy %>%
-  summary() %>%
+yy |>
+  summary() |>
   as_gt()
 ```
 
@@ -220,8 +220,8 @@ yy <- gs_power_ahr(
   lower = gs_b, lpar = z_025
 )
 
-yy %>%
-  summary() %>%
+yy |>
+  summary() |>
   as_gt()
 ```
 
@@ -245,8 +245,8 @@ yy <- gs_power_ahr(
   lpar = z_025
 )
 
-yy %>%
-  summary() %>%
+yy |>
+  summary() |>
   as_gt()
 ```
 
@@ -377,8 +377,8 @@ xx <- gs_design_ahr(
 )
 
 # get the summary table
-xx %>%
-  summary() %>%
+xx |>
+  summary() |>
   as_gt()
 ```
 
@@ -414,8 +414,8 @@ yy <- gs_power_ahr(
   lpar = lpar
 )
 
-yy %>%
-  summary() %>%
+yy |>
+  summary() |>
   as_gt()
 ```
 
@@ -477,8 +477,8 @@ fho <- gs_power_ahr(
   lpar = c(rep(qnorm(.05), 4), -Inf)
 )
 
-fho %>%
-  summary() %>%
+fho |>
+  summary() |>
   as_gt()
 ```
 
@@ -520,10 +520,10 @@ yy <- gs_power_ahr(
   lpar = lpar
 )
 
-yy %>%
-  summary() %>%
-  filter(Bound == "Efficacy") %>%
-  gt() %>%
+yy |>
+  summary() |>
+  filter(Bound == "Efficacy") |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -542,9 +542,9 @@ yz <- gs_power_ahr(
   lpar = lpar
 )
 
-yz %>%
-  summary() %>%
-  gt() %>%
+yz |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -576,9 +576,9 @@ yy <- gs_power_ahr(
   lpar = lpar
 )
 
-yy %>%
-  summary() %>%
-  gt() %>%
+yy |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -596,9 +596,9 @@ yz <- gs_power_ahr(
   lpar = lpar
 )
 
-yz %>%
-  summary() %>%
-  gt() %>%
+yz |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -665,8 +665,8 @@ lpar <- rep(-Inf, 2) # Z = -infinity for lower bound
 # we will base the combined hypothesis design to ensure power in the biomarker subgroup
 positive <- gs_design_ahr(
   # enroll/failure rates
-  enroll_rate = enroll_rate %>% filter(stratum == "Positive"),
-  fail_rate = fail_rate %>% filter(stratum == "Positive"),
+  enroll_rate = enroll_rate |> filter(stratum == "Positive"),
+  fail_rate = fail_rate |> filter(stratum == "Positive"),
   # Following drives information fraction for interim
   info_frac = c(.8, 1),
   # Total study duration driven by final analysis_time value, i.e., 30
@@ -681,9 +681,9 @@ positive <- gs_design_ahr(
   lpar = lpar
 )
 
-positive %>%
-  summary() %>%
-  gt() %>%
+positive |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -696,18 +696,18 @@ We adjust the overall study enrollment rate to match the design requirement for 
 inflation_factor <- positive$enroll_rate$rate[1] / enroll_rate$rate[1]
 
 # Using this inflation factor, set planned enrollment rates
-planned_enroll_rate <- enroll_rate %>% mutate(rate = rate * inflation_factor)
-planned_enroll_rate %>% gt()
+planned_enroll_rate <- enroll_rate |> mutate(rate = rate * inflation_factor)
+planned_enroll_rate |> gt()
 
 # Store overall enrollment rates for future use
-overall_enroll_rate <- planned_enroll_rate %>%
+overall_enroll_rate <- planned_enroll_rate |>
   summarize(
     stratum = "All",
     duration = first(duration),
     rate = sum(rate)
   )
 
-overall_enroll_rate %>% gt()
+overall_enroll_rate |> gt()
 ```
 
 Now we can examine the power for the overall population based on hazard ratio assumptions in biomarker negative and biomarker positive subgroups and the just calculated enrollment assumption.
@@ -744,9 +744,9 @@ overall_planned_bounds <- gs_power_ahr(
   lpar = lpar
 )
 
-overall_planned_bounds %>%
-  summary() %>%
-  gt() %>%
+overall_planned_bounds |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -806,8 +806,8 @@ The enrollment rates by positive versus negative patients and expected enrollmen
 ```{r}
 # update the enrollment rate due to 60% prevalence
 positive_60_enroll_rate <- rbind(
-  overall_enroll_rate %>% mutate(stratum = "Positive", rate = 0.6 * rate),
-  overall_enroll_rate %>% mutate(stratum = "Negative", rate = 0.4 * rate)
+  overall_enroll_rate |> mutate(stratum = "Positive", rate = 0.6 * rate),
+  overall_enroll_rate |> mutate(stratum = "Negative", rate = 0.4 * rate)
 )
 
 # update the enrollment duration
@@ -816,8 +816,8 @@ positive_60_enroll_rate$duration <- max(positive$analysis$n) /
   0.6
 
 # display the updated enrollment rate table
-positive_60_enroll_rate %>%
-  gt() %>%
+positive_60_enroll_rate |>
+  gt() |>
   fmt_number(columns = "rate", decimals = 1)
 ```
 
@@ -827,8 +827,8 @@ Since we have a simple proportional hazards model, they only thing that is chang
 ```{r}
 positive_60_power <- gs_power_ahr(
   # enrollment/failure rate
-  enroll_rate = positive_60_enroll_rate %>% filter(stratum == "Positive"),
-  fail_rate = fail_rate %>% filter(stratum == "Positive"),
+  enroll_rate = positive_60_enroll_rate |> filter(stratum == "Positive"),
+  fail_rate = fail_rate |> filter(stratum == "Positive"),
   # number of events
   event = positive$analysis$event,
   # analysis time will be calcuated to achieve the targeted events
@@ -841,9 +841,9 @@ positive_60_power <- gs_power_ahr(
   lpar = lpar
 )
 
-positive_60_power %>%
-  summary() %>%
-  gt() %>%
+positive_60_power |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -867,9 +867,9 @@ gs_power_ahr(
   # set lower bound: no futility
   lower = gs_b,
   lpar = rep(-Inf, 2)
-) %>%
-  summary() %>%
-  gt() %>%
+) |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -889,9 +889,9 @@ gs_power_ahr(
   # lower bound: no futility
   lower = gs_b,
   lpar = lpar
-) %>%
-  summary() %>%
-  gt() %>%
+) |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -903,8 +903,8 @@ The enrollment rates by positive versus negative patients and expected enrollmen
 ```{r}
 # set the enrollment rate under 40% prevalence
 positive_40_enroll_rate <- rbind(
-  overall_enroll_rate %>% mutate(stratum = "Positive", rate = 0.4 * rate),
-  overall_enroll_rate %>% mutate(stratum = "Negative", rate = 0.6 * rate)
+  overall_enroll_rate |> mutate(stratum = "Positive", rate = 0.4 * rate),
+  overall_enroll_rate |> mutate(stratum = "Negative", rate = 0.6 * rate)
 )
 
 # update the duration of enrollment table
@@ -912,8 +912,8 @@ positive_40_enroll_rate$duration <- max(positive$analysis$n) /
   positive_40_enroll_rate$rate[1]
 
 # display the enrollment table
-positive_40_enroll_rate %>%
-  gt() %>%
+positive_40_enroll_rate |>
+  gt() |>
   fmt_number(columns = "rate", decimals = 1)
 ```
 
@@ -927,8 +927,8 @@ upar_actual_info_frac$max_info <- max(positive$analysis$info)
 
 positive_40_power <- gs_power_ahr(
   # set enrollment/failure rate
-  enroll_rate = positive_40_enroll_rate %>% filter(stratum == "Positive"),
-  fail_rate = fail_rate %>% filter(stratum == "Positive"),
+  enroll_rate = positive_40_enroll_rate |> filter(stratum == "Positive"),
+  fail_rate = fail_rate |> filter(stratum == "Positive"),
   # set events/analysis time
   event = positive$analysis$event,
   analysis_time = NULL,
@@ -940,9 +940,9 @@ positive_40_power <- gs_power_ahr(
   lpar = rep(-Inf, 2)
 )
 
-positive_40_power %>%
-  summary() %>%
-  gt() %>%
+positive_40_power |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
@@ -961,9 +961,9 @@ gs_power_ahr(
   upar = upar_overall_planned_info_frac,
   lower = gs_b,
   lpar = rep(-Inf, 2)
-) %>%
-  summary() %>%
-  gt() %>%
+) |>
+  summary() |>
+  gt() |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 

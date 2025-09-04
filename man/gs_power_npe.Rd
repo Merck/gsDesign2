@@ -147,12 +147,12 @@ are not supported by \code{gs_power_npe()}.
 }
 
 \examples{
+library(dplyr)
 library(gsDesign)
 library(gsDesign2)
-library(dplyr)
 
 # Default (single analysis; Type I error controlled)
-gs_power_npe(theta = 0) \%>\% filter(bound == "upper")
+gs_power_npe(theta = 0) |> filter(bound == "upper")
 
 # Fixed bound
 gs_power_npe(
@@ -170,7 +170,7 @@ gs_power_npe(
   info = (1:3) * 40,
   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
   lpar = rep(-Inf, 3)
-) \%>\%
+) |>
   filter(bound == "upper")
 
 # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
@@ -222,8 +222,8 @@ gs_power_npe(
   theta = c(.1, .2, .3),
   info = (1:3) * 40,
   binding = TRUE,
-  upar = (x \%>\% filter(bound == "upper"))$z,
-  lpar = -(x \%>\% filter(bound == "upper"))$z
+  upar = (x |> filter(bound == "upper"))$z,
+  lpar = -(x |> filter(bound == "upper"))$z
 )
 
 # Different values of `r` and `tol` lead to different numerical accuracy

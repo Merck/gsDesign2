@@ -46,7 +46,6 @@ NULL
 #' and info0 (information under related null hypothesis) for each value of `totalDuration` input;
 #'
 #' @examples
-#' library(dplyr)
 #' library(gsDesign2)
 #'
 #' # Example 1: default

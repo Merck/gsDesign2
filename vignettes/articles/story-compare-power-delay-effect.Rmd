@@ -21,7 +21,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(gt)
-library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(gsDesign)
@@ -47,12 +46,12 @@ fail_rate <- define_fail_rate(
   dropout_rate = 0.001
 )
 
-enroll_rate %>%
-  gt() %>%
+enroll_rate |>
+  gt() |>
   tab_header(title = "Enrollment Table of Scenario 1")
 
-fail_rate %>%
-  gt() %>%
+fail_rate |>
+  gt() |>
   tab_header(title = "Failure Table of Scenario 1")
 ```
 
@@ -180,11 +179,11 @@ for (trial_duration in seq(24, 60, 4)) {
   tab <- rbind(tab, tab_new)
 }
 
-tab %>%
-  gt() %>%
-  fmt_number(columns = c(2, 3), decimals = 1) %>%
-  fmt_number(columns = 4, decimals = 2) %>%
-  fmt_number(columns = 5, decimals = 4) %>%
+tab |>
+  gt() |>
+  fmt_number(columns = c(2, 3), decimals = 1) |>
+  fmt_number(columns = 4, decimals = 2) |>
+  fmt_number(columns = 5, decimals = 4) |>
   fmt_number(columns = 6:11, decimals = 2)
 ```
 
@@ -202,11 +201,11 @@ fail_rate <- define_fail_rate(
   # In Scenario 1: hr = c(1, .6)
   hr = c(1, .6, .85)
 )
-enroll_rate %>%
-  gt() %>%
+enroll_rate |>
+  gt() |>
   tab_header(title = "Enrollment Table of Scenario 2")
-fail_rate %>%
-  gt() %>%
+fail_rate |>
+  gt() |>
   tab_header(title = "Failure Table of Scenario 2")
 ```
 
@@ -320,10 +319,10 @@ for (trial_duration in seq(20, 60, 4)) {
   tab <- rbind(tab, tab_new)
 }
 
-tab %>%
-  gt() %>%
-  fmt_number(columns = c(2, 3), decimals = 1) %>%
-  fmt_number(columns = 4, decimals = 2) %>%
-  fmt_number(columns = 5, decimals = 4) %>%
+tab |>
+  gt() |>
+  fmt_number(columns = c(2, 3), decimals = 1) |>
+  fmt_number(columns = 4, decimals = 2) |>
+  fmt_number(columns = 5, decimals = 4) |>
   fmt_number(columns = 6:11, decimals = 2)
 ```

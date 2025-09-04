@@ -162,7 +162,6 @@ with treatment effect measuring in risk difference.
 }
 \examples{
 # AHR method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_ahr(
@@ -176,7 +175,7 @@ x <- fixed_design_ahr(
   ),
   study_duration = 36
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_ahr(
@@ -190,10 +189,9 @@ x <- fixed_design_ahr(
   ),
   study_duration = 36
 )
-x \%>\% summary()
+x |> summary()
 
 # WLR test with FH weights ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_fh(
@@ -208,7 +206,7 @@ x <- fixed_design_fh(
   study_duration = 36,
   rho = 1, gamma = 1
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_fh(
@@ -223,10 +221,9 @@ x <- fixed_design_fh(
   study_duration = 36,
   rho = 1, gamma = 1
 )
-x \%>\% summary()
+x |> summary()
 
 # LF method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_lf(
@@ -240,7 +237,7 @@ x <- fixed_design_lf(
   ),
   study_duration = 36
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_lf(
@@ -254,10 +251,9 @@ x <- fixed_design_lf(
   ),
   study_duration = 36
 )
-x \%>\% summary()
+x |> summary()
 
 # MaxCombo test ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_maxcombo(
@@ -272,7 +268,7 @@ x <- fixed_design_maxcombo(
   study_duration = 36,
   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_maxcombo(
@@ -287,10 +283,9 @@ x <- fixed_design_maxcombo(
   study_duration = 36,
   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 )
-x \%>\% summary()
+x |> summary()
 
 # WLR test with MB weights ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_mb(
@@ -306,7 +301,7 @@ x <- fixed_design_mb(
   tau = 4,
   w_max = 2
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_mb(
@@ -322,10 +317,9 @@ x <- fixed_design_mb(
   tau = 4,
   w_max = 2
 )
-x \%>\% summary()
+x |> summary()
 
 # Milestone method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_milestone(
@@ -340,7 +334,7 @@ x <- fixed_design_milestone(
   study_duration = 36,
   tau = 18
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_milestone(
@@ -355,27 +349,25 @@ x <- fixed_design_milestone(
   study_duration = 36,
   tau = 18
 )
-x \%>\% summary()
+x |> summary()
 
 # Binary endpoint with risk differences ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_rd(
   alpha = 0.025, power = 0.9, p_c = .15, p_e = .1,
   rd0 = 0, ratio = 1
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_rd(
   alpha = 0.025, power = NULL, p_c = .15, p_e = .1,
   rd0 = 0, n = 2000, ratio = 1
 )
-x \%>\% summary()
+x |> summary()
 
 # RMST method ----
-library(dplyr)
 
 # Example 1: given power and compute sample size
 x <- fixed_design_rmst(
@@ -390,7 +382,7 @@ x <- fixed_design_rmst(
   study_duration = 36,
   tau = 18
 )
-x \%>\% summary()
+x |> summary()
 
 # Example 2: given sample size and compute power
 x <- fixed_design_rmst(
@@ -405,5 +397,5 @@ x <- fixed_design_rmst(
   study_duration = 36,
   tau = 18
 )
-x \%>\% summary()
+x |> summary()
 }

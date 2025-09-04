@@ -37,7 +37,6 @@ Returned value is
 }
 \examples{
 library(gsDesign2)
-library(dplyr)
 
 # Calculate conditional power under arbitrary theta and info
 # In practice, the value of theta and info commonly comes from a design.

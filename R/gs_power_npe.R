@@ -120,12 +120,12 @@
 #' @export
 #'
 #' @examples
+#' library(dplyr)
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # Default (single analysis; Type I error controlled)
-#' gs_power_npe(theta = 0) %>% filter(bound == "upper")
+#' gs_power_npe(theta = 0) |> filter(bound == "upper")
 #'
 #' # Fixed bound
 #' gs_power_npe(
@@ -143,7 +143,7 @@
 #'   info = (1:3) * 40,
 #'   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
 #'   lpar = rep(-Inf, 3)
-#' ) %>%
+#' ) |>
 #'   filter(bound == "upper")
 #'
 #' # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
@@ -195,8 +195,8 @@
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
 #'   binding = TRUE,
-#'   upar = (x %>% filter(bound == "upper"))$z,
-#'   lpar = -(x %>% filter(bound == "upper"))$z
+#'   upar = (x |> filter(bound == "upper"))$z,
+#'   lpar = -(x |> filter(bound == "upper"))$z
 #' )
 #'
 #' # Different values of `r` and `tol` lead to different numerical accuracy
@@ -358,12 +358,12 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
     theta1 = rep(theta1, 2),
     info_frac = rep(info / max(info), 2),
     info = rep(info, 2)
-  ) %>%
+  ) |>
     mutate(
       info0 = rep(info0, 2),
       info1 = rep(info1, 2)
-    ) %>%
-    # filter(abs(Z) < Inf) %>%
+    ) |>
+    # filter(abs(Z) < Inf) |>
     arrange(desc(bound), analysis)
 
   return(ans)

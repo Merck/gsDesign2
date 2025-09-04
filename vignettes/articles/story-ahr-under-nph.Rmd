@@ -147,7 +147,7 @@ avehr <- ahr(
   total_duration = as.numeric(total_duration)
 )
 
-avehr %>% gt()
+avehr |> gt()
 ```
 
 This result can be explained by the number of events observed before and after the first 3 months of treatment in each treatment group.
@@ -158,7 +158,7 @@ xx <- pw_info(
   fail_rate = fail_rate,
   total_duration = as.numeric(total_duration)
 )
-xx %>% gt()
+xx |> gt()
 ```
 
 Now we can replicate the geometric average hazard ratio (AHR) computed using the `ahr()` routine above.
@@ -166,8 +166,8 @@ We compute the logarithm of each HR above and computed a weighted average weight
 Exponentiating the resulting weighted average gives the geometric mean hazard ratio, which we label as AHR.
 
 ```{r, message=FALSE}
-xx %>%
-  summarize(AHR = exp(sum(event * log(hr) / sum(event)))) %>%
+xx |>
+  summarize(AHR = exp(sum(event * log(hr) / sum(event)))) |>
   gt()
 ```
 
@@ -199,7 +199,7 @@ avehr <- ahr(
   total_duration = as.numeric(total_duration)
 )
 
-avehr %>% gt()
+avehr |> gt()
 ```
 
 We also compute sample size, rounding up to the nearest even integer.
@@ -261,14 +261,14 @@ The statistical information computed in the simulation is computed as one over t
 
 ```{r summary1, message=FALSE, warning=FALSE}
 results1$Positive <- results1$z <= qnorm(.025)
-results1 %>%
-  group_by(cut) %>%
+results1 |>
+  group_by(cut) |>
   summarise(
     Simulations = n(), Power = mean(Positive), sdDur = sd(duration), Duration = mean(duration),
     sdEvents = sd(event), Events = mean(event),
     HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
-  ) %>%
-  gt() %>%
+  ) |>
+  gt() |>
   fmt_number(column = 2:9, decimals = 3)
 ```
 
@@ -279,7 +279,7 @@ In this case, the information approximation under the alternate hypothesis appea
 Nonetheless, the approximation for power appear quite good as noted above.
 
 ```{r}
-avehr %>% gt()
+avehr |> gt()
 ```
 
 # Different proportional hazards by strata
@@ -320,22 +320,22 @@ Now we transform the enrollment rates to account for stratified population.
 
 ```{r avehr2, warning=FALSE, message=FALSE}
 ahr2 <- ahr(enroll_rate, fail_rate, total_duration)
-ahr2 %>% gt()
+ahr2 |> gt()
 ```
 
 We examine the expected events by stratum.
 
 ```{r}
 xx <- pw_info(enroll_rate, fail_rate, total_duration)
-xx %>% gt()
+xx |> gt()
 ```
 
 Getting the average of `log(HR)` weighted by `Events` and exponentiating, we get the overall `AHR` just derived.
 
 ```{r, message=FALSE}
-xx %>%
-  ungroup() %>%
-  summarise(lnhr = sum(event * log(hr)) / sum(event), AHR = exp(lnhr)) %>%
+xx |>
+  ungroup() |>
+  summarise(lnhr = sum(event * log(hr)) / sum(event), AHR = exp(lnhr)) |>
   gt()
 ```
 
@@ -358,13 +358,13 @@ target_event
 Next, we adapt enrollment rates proportionately so that the trial will be powered for the targeted failure rates and follow-up duration.
 
 ```{r inflate2, message=FALSE}
-enroll_rate <- enroll_rate %>% mutate(rate = target_event / ahr2$event * rate)
+enroll_rate <- enroll_rate |> mutate(rate = target_event / ahr2$event * rate)
 
 ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = total_duration
-) %>% gt()
+) |> gt()
 ```
 
 The targeted sample size, rounding up to an even integer, is:
@@ -404,13 +404,13 @@ We change the enrollment rates by stratum produced by `gsDesign::nSurv()`
 to overall enrollment rates needed for `simtrial::sim_fixed_n()`.
 
 ```{r, message=FALSE}
-er <- enroll_rate %>%
-  group_by(stratum) %>%
-  mutate(period = seq_len(n())) %>%
-  group_by(period) %>%
+er <- enroll_rate |>
+  group_by(stratum) |>
+  mutate(period = seq_len(n())) |>
+  group_by(period) |>
   summarise(rate = sum(rate), duration = last(duration))
 
-er %>% gt()
+er |> gt()
 ```
 
 
@@ -433,14 +433,14 @@ results2 <- simtrial::sim_fixed_n(
 
 ```{r summary2,warning=FALSE,message=FALSE}
 results2$Positive <- (pnorm(results2$z) <= .025)
-results2 %>%
-  group_by(cut) %>%
+results2 |>
+  group_by(cut) |>
   summarize(
     Simulations = n(), Power = mean(Positive), sdDur = sd(duration), Duration = mean(duration),
     sdEvents = sd(event), Events = mean(event),
     HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
-  ) %>%
-  gt() %>%
+  ) |>
+  gt() |>
   fmt_number(column = 2:9, decimals = 3)
 ```
 
@@ -453,7 +453,7 @@ ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = total_duration
-) %>% gt()
+) |> gt()
 ```
 
 # References

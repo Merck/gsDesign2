@@ -28,7 +28,6 @@
 #' @rdname summary
 #'
 #' @examples
-#' library(dplyr)
 #'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
@@ -64,7 +63,7 @@
 #'   fail_rate = fail_rate,
 #'   study_duration = study_duration,
 #'   ratio = ratio
-#' ) %>% summary()
+#' ) |> summary()
 #'
 #' # FH ----
 #' # under fixed power
@@ -75,7 +74,7 @@
 #'   fail_rate = fail_rate,
 #'   study_duration = study_duration,
 #'   ratio = ratio
-#' ) %>% summary()
+#' ) |> summary()
 #'
 summary.fixed_design <- function(object, ...) {
   x <- object
@@ -125,7 +124,6 @@ summary.fixed_design <- function(object, ...) {
 #' # Design parameters ----
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # enrollment/failure rates
 #' enroll_rate <- define_enroll_rate(
@@ -185,25 +183,25 @@ summary.fixed_design <- function(object, ...) {
 #'   lpar = lpar
 #' )
 #'
-#' x_ahr %>% summary()
+#' x_ahr |> summary()
 #'
 #' # Customize the digits to display
-#' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
+#' x_ahr |> summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 #'
 #' # Customize the labels of the crossing probability
-#' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
+#' x_ahr |> summary(bound_names = c("A is better", "B is better"))
 #'
 #' # Customize the variables to be summarized for each analysis
-#' x_ahr %>% summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
+#' x_ahr |> summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
 #'
 #' # Customize the digits for the columns
-#' x_ahr %>% summary(col_decimals = c(z = 4))
+#' x_ahr |> summary(col_decimals = c(z = 4))
 #'
 #' # Customize the columns to display
-#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"))
+#' x_ahr |> summary(col_vars = c("z", "~hr at bound", "nominal p"))
 #'
 #' # Customize columns and digits
-#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"),
+#' x_ahr |> summary(col_vars = c("z", "~hr at bound", "nominal p"),
 #'                   col_decimals = c(4, 2, 2))
 #' }
 #'
@@ -223,7 +221,7 @@ summary.fixed_design <- function(object, ...) {
 #'   lower = lower,
 #'   lpar = lpar
 #' )
-#' x_wlr %>% summary()
+#' x_wlr |> summary()
 #' }
 #' # Maxcombo ----
 #' \donttest{
@@ -243,7 +241,7 @@ summary.fixed_design <- function(object, ...) {
 #'   lower = gs_spending_combo,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
-#' x_combo %>% summary()
+#' x_combo |> summary()
 #' }
 #' # Risk difference ----
 #' \donttest{
@@ -263,7 +261,7 @@ summary.fixed_design <- function(object, ...) {
 #'     k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL
 #'   )$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
-#' ) %>% summary()
+#' ) |> summary()
 #' }
 summary.gs_design <- function(object,
                               analysis_vars = NULL,
@@ -294,9 +292,9 @@ summary.gs_design <- function(object,
   analysis_vars <- names(analysis_decimals)
 
   # set the analysis summary header
-  analyses <- x_analysis %>%
-    group_by(analysis) %>%
-    filter(row_number() == 1) %>%
+  analyses <- x_analysis |>
+    group_by(analysis) |>
+    filter(row_number() == 1) |>
     select(all_of(c("analysis", analysis_vars)))
 
   # Merge 2 tables:
@@ -310,7 +308,7 @@ summary.gs_design <- function(object,
   xy$bound <- replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2]))
 
   if (!"probability0" %in% names(xy)) xy$probability0 <- "-"
-  xy <- xy %>% arrange(analysis, desc(bound))
+  xy <- xy |> arrange(analysis, desc(bound))
 
   # Merge 2 tables:
   # (1) Analysis summary table
@@ -349,7 +347,7 @@ summary.gs_design <- function(object,
   col_decimals <- cap_names(col_decimals)
   col_vars <- names(col_decimals)
 
-  output <- output %>% group_by(Analysis) %>% select(all_of(col_vars))
+  output <- output |> group_by(Analysis) |> select(all_of(col_vars))
   # Set the decimals to display ----
   for (j in col_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
 

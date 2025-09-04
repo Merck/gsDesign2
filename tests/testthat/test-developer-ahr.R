@@ -22,10 +22,10 @@ test_that("unstratified population, compared with old version", {
 
   # old version
   x2 <- AHR_(
-    enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum),
-    failRates = fail_rate %>% dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
+    enrollRates = enroll_rate |> dplyr::rename(Stratum = stratum),
+    failRates = fail_rate |> dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     totalDuration = c(15, 30)
-  ) %>%
+  ) |>
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)
@@ -57,10 +57,10 @@ test_that("stratified population, compared with old version", {
   y1 <- x1 |> dplyr::select(-n)
 
   x2 <- AHR_( # old version
-    enrollRates = enroll_rate %>% dplyr::rename(Stratum = stratum),
-    failRates = fail_rate %>% dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
+    enrollRates = enroll_rate |> dplyr::rename(Stratum = stratum),
+    failRates = fail_rate |> dplyr::rename(Stratum = stratum, failRate = fail_rate, dropoutRate = dropout_rate),
     totalDuration = c(15, 30)
-  ) %>%
+  ) |>
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)

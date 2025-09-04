@@ -1,6 +1,6 @@
 ####### test IA by simulation under H0########
-tenFHcorr <- function(x = simPWSurv(n = 200) %>%
-                        cutDataAtCount(100) %>%
+tenFHcorr <- function(x = simPWSurv(n = 200) |>
+                        cutDataAtCount(100) |>
                         tensurv(txval = "Experimental"),
                       rg = tibble(rho = c(0, 0, 1, 1), gamma = c(0, 1, 0, 1)),
                       corr = TRUE) {
@@ -9,8 +9,8 @@ tenFHcorr <- function(x = simPWSurv(n = 200) %>%
   gamave <- (matrix(rg$gamma, nrow = nr, ncol = nr) + matrix(rg$gamma, nrow = nr, ncol = nr, byrow = TRUE)) / 2
   # Convert back to tibble
   rg2 <- tibble(rho = as.numeric(rhoave), gamma = as.numeric(gamave))
-  rgu <- rg2 %>% unique()
-  rgFH <- rg2 %>% left_join(tenFH(x, rgu, returnVariance = TRUE), by = c("rho" = "rho", "gamma" = "gamma"))
+  rgu <- rg2 |> unique()
+  rgFH <- rg2 |> left_join(tenFH(x, rgu, returnVariance = TRUE), by = c("rho" = "rho", "gamma" = "gamma"))
   Z <- rgFH$Z[(0:(nrow(rg) - 1)) * nrow(rg) + seq_len(nrow(rg))]
   c <- matrix(rgFH$Var, nrow = nrow(rg), byrow = TRUE)
   if (corr) c <- stats::cov2cor(c)
@@ -82,14 +82,14 @@ sim_gsd_pMaxCombo_exp1_H0 <- function(N = ceiling(454.60),
 
   # Analysis for each interim analysis
   foo <- function(t, sim, rg) {
-    sim_cut <- sim %>% simtrial::cutData(cutDate = t)
+    sim_cut <- sim |> simtrial::cutData(cutDate = t)
 
     # Total events
     d <- sum(sim_cut$event)
 
     # Weighted log rank test
-    z <- sim_cut %>%
-      tensurv(txval = "Experimental") %>%
+    z <- sim_cut |>
+      tensurv(txval = "Experimental") |>
       tenFHcorr(rg = rg)
     # pMC = pMaxCombo(z)
     bind_cols(
@@ -148,19 +148,19 @@ for (i in 1:10000) {
 
 res <- bind_rows(res)
 sim_gsd_pMaxCombo_exp1_H0_test <-
-  res %>%
-  group_by(scenario, n, t) %>%
+  res |>
+  group_by(scenario, n, t) |>
   summarise(
     events = mean(d),
     lower = mean(lower),
     upper = mean(upper)
-  ) %>%
-  group_by(scenario, n) %>%
+  ) |>
+  group_by(scenario, n) |>
   mutate(
     lower = cumsum(lower),
     upper = cumsum(upper)
-  ) %>%
-  data.frame() %>%
+  ) |>
+  data.frame() |>
   mutate_if(is.numeric, round, digits = 3)
 
 save(res, file = "./simulation/sim_gsd_pMaxCombo_exp1_H0_10000_test.Rdata")
@@ -233,14 +233,14 @@ sim_gsd_pMaxCombo_exp1_H1 <- function(N = ceiling(454.60),
 
   # Analysis for each interim analysis
   foo <- function(t, sim, rg) {
-    sim_cut <- sim %>% simtrial::cutData(cutDate = t)
+    sim_cut <- sim |> simtrial::cutData(cutDate = t)
 
     # Total events
     d <- sum(sim_cut$event)
 
     # Weighted log rank test
-    z <- sim_cut %>%
-      tensurv(txval = "Experimental") %>%
+    z <- sim_cut |>
+      tensurv(txval = "Experimental") |>
       tenFHcorr(rg = rg)
     # pMC = pMaxCombo(z)
     bind_cols(
@@ -299,19 +299,19 @@ for (i in 1:10000) {
 
 res_h1 <- bind_rows(res_h1)
 sim_gsd_pMaxCombo_exp1_H1_test <-
-  res_h1 %>%
-  group_by(scenario, n, t) %>%
+  res_h1 |>
+  group_by(scenario, n, t) |>
   summarise(
     events = mean(d),
     lower = mean(lower),
     upper = mean(upper)
-  ) %>%
-  group_by(scenario, n) %>%
+  ) |>
+  group_by(scenario, n) |>
   mutate(
     lower = cumsum(lower),
     upper = cumsum(upper)
-  ) %>%
-  data.frame() %>%
+  ) |>
+  data.frame() |>
   mutate_if(is.numeric, round, digits = 3)
 
 save(res_h1, file = "./simulation/sim_gsd_pMaxCombo_exp1_H1_10000_test.Rdata")

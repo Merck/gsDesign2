@@ -145,7 +145,7 @@ test_that("Validate the boundary is symmetric in symmetric designs.", {
                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
                      lower = gs_spending_bound,
                      lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-                     binding = TRUE, h1_spending = FALSE) %>%
+                     binding = TRUE, h1_spending = FALSE) |>
   to_integer()
 
   expect_equal(x$bound$z[x$bound$bound == "upper"],

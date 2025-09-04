@@ -164,7 +164,6 @@ then timing will be the maximum of the two with both \code{info_frac} and \code{
 \examples{
 library(gsDesign)
 library(gsDesign2)
-library(dplyr)
 
 # Example 1 ----
 # call with defaults

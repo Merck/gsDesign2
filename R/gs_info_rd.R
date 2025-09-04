@@ -179,16 +179,16 @@ gs_info_rd <- function(
 
   # Pool the input arguments together ----
   suppressMessages(
-    tbl <- n %>%
-      left_join(p_c) %>%
-      rename(p_c = rate) %>%
-      left_join(p_e) %>%
-      rename(p_e = rate) %>%
+    tbl <- n |>
+      left_join(p_c) |>
+      rename(p_c = rate) |>
+      left_join(p_e) |>
+      rename(p_e = rate) |>
       left_join(if ("data.frame" %in% class(rd0)) {
         rd0
       } else {
         tibble(analysis = 1:n_analysis, rd0 = rd0)
-      }) %>%
+      }) |>
       mutate(
         n_e = n / (1 + ratio),
         n_c = n * ratio / (1 + ratio),
@@ -201,12 +201,12 @@ gs_info_rd <- function(
 
   # Calculate the variance of the risk difference ----
   if (is.numeric(rd0) && rd0 == 0) {
-    tbl <- tbl %>% mutate(
+    tbl <- tbl |> mutate(
       sigma2_H0_per_k_per_s = p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / n_c + 1 / n_e),
       sigma2_H1_per_k_per_s = p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e
     )
   } else if ("data.frame" %in% class(rd0) || rd0 != 0) {
-    tbl <- tbl %>% mutate(
+    tbl <- tbl |> mutate(
       sigma2_H0_per_k_per_s = p_c0 * (1 - p_c0) / n_c + p_e0 * (1 - p_e0) / n_e,
       sigma2_H1_per_k_per_s = p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e
     )
@@ -214,34 +214,34 @@ gs_info_rd <- function(
 
   # Assign weights ----
   if (weight == "unstratified") {
-    tbl <- tbl %>% mutate(weight_per_k_per_s = 1)
+    tbl <- tbl |> mutate(weight_per_k_per_s = 1)
   } else if (weight == "ss") {
     suppressMessages(
-      tbl <- tbl %>%
+      tbl <- tbl |>
         left_join(
-          tbl %>%
-            group_by(analysis) %>%
+          tbl |>
+            group_by(analysis) |>
             summarize(sum_ss = sum(n_c * n_e / (n_c + n_e)))
-        ) %>%
-        mutate(weight_per_k_per_s = n_c * n_e / (n_c + n_e) / sum_ss) %>%
+        ) |>
+        mutate(weight_per_k_per_s = n_c * n_e / (n_c + n_e) / sum_ss) |>
         select(-sum_ss)
     )
   } else if (weight == "invar") {
     suppressMessages(
-      tbl <- tbl %>%
+      tbl <- tbl |>
         left_join(
-          tbl %>%
-            group_by(analysis) %>%
+          tbl |>
+            group_by(analysis) |>
             summarize(sum_inv_var_per_s = sum(1 / sigma2_H1_per_k_per_s))
-        ) %>%
-        mutate(weight_per_k_per_s = 1 / sigma2_H1_per_k_per_s / sum_inv_var_per_s) %>%
+        ) |>
+        mutate(weight_per_k_per_s = 1 / sigma2_H1_per_k_per_s / sum_inv_var_per_s) |>
         select(-sum_inv_var_per_s)
     )
   }
 
   # Pool the strata together ----
-  ans <- tbl %>%
-    group_by(analysis) %>%
+  ans <- tbl |>
+    group_by(analysis) |>
     summarize(
       n = sum(n),
       rd = sum((p_c - p_e) * d * weight_per_k_per_s),
@@ -252,14 +252,14 @@ gs_info_rd <- function(
         weight_per_k_per_s^2 * p_c0 * (1 - p_c0) / n_c + weight_per_k_per_s^2 * p_e0 * (1 - p_e0) / n_e
       }),
       sigma2_H1 = sum(weight_per_k_per_s^2 * p_c * (1 - p_c) / n_c + weight_per_k_per_s^2 * p_e * (1 - p_e) / n_e)
-    ) %>%
+    ) |>
     mutate(
       theta1 = rd,
       theta0 = rd0,
       info1 = 1 / sigma2_H1,
       info0 = 1 / sigma2_H0
-    ) %>%
-    ungroup() %>%
+    ) |>
+    ungroup() |>
     select(analysis, n, rd, rd0, theta1, theta0, info1, info0)
 
   return(ans)
