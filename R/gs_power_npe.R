@@ -22,7 +22,7 @@
 #' but also can be applied for the usual homogeneous effect size designs.
 #' They requires treatment effect and statistical information at each analysis
 #' as well as a method of deriving bounds, such as spending.
-#' Initial bound types supported are 1) spending bounds, 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
+#' Initial bound types supported are spending bounds, and fixed bounds.
 #' The above routine enables two things not available in the gsDesign package: 1)
 #' non-constant effect, 2) more flexibility in boundary selection.
 #'
