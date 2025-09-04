@@ -555,7 +555,7 @@ theta_h1 <- abs(p_c - p_e) / sigma_h1
 tibble::tribble(
   ~n_c, ~n_e, ~p_c, ~p_e, ~theta_h1, ~theta_h0, ~info_h1, ~info_h0,
   n_c, n_e, p_c, p_e, theta_h1, theta_h0, info_h1, info_h0,
-) %>% gt::gt()
+) |> gt::gt()
 ```
 
 The above logic is implemented in the function `gs_info_rd()`.
@@ -570,8 +570,8 @@ x <- gs_info_rd(
   weight = "unstratified"
 )
 
-x %>%
-  gt::gt() %>%
+x |>
+  gt::gt() |>
   gt::fmt_number(columns = 5:8, decimals = 6)
 ```
 
@@ -625,8 +625,8 @@ tibble(
   `info_scale = "h0_info"` = y_0$info0[1] / x$info0[1],
   `info_scale = "h1_info"` = y_1$info1[1] / x$info1[1],
   `info_scale = "h0_h1_info"` = y_2$info[1] / x$info1[1]
-) %>%
-  gt::gt() %>%
+) |>
+  gt::gt() |>
   gt::tab_header(title = "The sample size calculated by gsDesign2 under 3 info_scale")
 ```
 
@@ -701,16 +701,16 @@ tibble::tibble(
   gsDesign = x_gsdesign$n,
   EAST_unpool = 645,
   EAST_pool = 651
-) %>%
-  gt::gt() %>%
+) |>
+  gt::gt() |>
   gt::tab_spanner(
     label = "gsDesign2",
     columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)
-  ) %>%
+  ) |>
   gt::tab_spanner(
     label = "EAST",
     columns = c(EAST_unpool, EAST_pool)
-  ) %>%
+  ) |>
   cols_label(
     gsDesign2_info_scale_0 = "info_scale = \"h0_info\"",
     gsDesign2_info_scale_1 = "info_scale = \"h1_info\"",
@@ -744,8 +744,8 @@ x_gs <- gs_info_rd(
   weight = "unstratified"
 )
 
-x_gs %>%
-  gt::gt() %>%
+x_gs |>
+  gt::gt() |>
   gt::tab_header(title = "The statistical information of the group sequential design")
 ```
 
@@ -793,8 +793,8 @@ tibble(
   `info_scale = "h0_info"` = y_gs0$info0 / x_gs$info0[3],
   `info_scale = "h1_info"` = y_gs1$info1 / x_gs$info1[3],
   `info_scale = "h0_h1_info"` = y_gs2$info / x_gs$info1[3]
-) %>%
-  gt::gt() %>%
+) |>
+  gt::gt() |>
   gt::tab_header(
     title = "The sample size calculated by `gsDesign2` under 3 info_scale",
     subtitle = "under group sequential design"
@@ -932,16 +932,16 @@ tibble::tibble(
   gsDesign = x_gsdesign$n.I,
   EAST_unpool = c(617, 1233, 1850),
   EAST_pool = c(619, 1238, 1857)
-) %>%
-  gt::gt() %>%
+) |>
+  gt::gt() |>
   gt::tab_spanner(
     label = "gsDesign2",
     columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)
-  ) %>%
+  ) |>
   gt::tab_spanner(
     label = "EAST",
     columns = c(EAST_unpool, EAST_pool)
-  ) %>%
+  ) |>
   cols_label(
     gsDesign2_info_scale_0 = "info_scale = \"h0_info\"",
     gsDesign2_info_scale_1 = "info_scale = \"h1_info\"",
@@ -972,46 +972,46 @@ info_frac <- 1:3 / 3
 n_c <- n / (1 + ratio)
 n_e <- ratio * n_c
 
-x <- p_c %>%
-  rename(p_c = rate) %>%
-  left_join(p_e) %>%
-  rename(p_e = rate) %>%
-  mutate(p_pool = (p_c + p_e) / 2) %>%
+x <- p_c |>
+  rename(p_c = rate) |>
+  left_join(p_e) |>
+  rename(p_e = rate) |>
+  mutate(p_pool = (p_c + p_e) / 2) |>
   mutate(
     xi_c = (
-      ratio_strata_c %>% mutate(prop = ratio / sum(ratio))
+      ratio_strata_c |> mutate(prop = ratio / sum(ratio))
     )$prop
-  ) %>%
+  ) |>
   mutate(
     xi_e = (
-      ratio_strata_e %>% mutate(prop = ratio / sum(ratio))
+      ratio_strata_e |> mutate(prop = ratio / sum(ratio))
     )$prop
-  ) %>%
+  ) |>
   mutate(n_c = n_c * xi_c, n_e = n_e * xi_e)
 
-x %>%
-  gt::gt() %>%
-  gt::fmt_number(columns = 4:8, decimals = 4) %>%
+x |>
+  gt::gt() |>
+  gt::fmt_number(columns = 4:8, decimals = 4) |>
   gt::tab_footnote(
     footnote = "p_pool = (p_c * n_c + p_e * n_e) / (n_c * n_e).",
     locations = gt::cells_column_labels(columns = p_pool)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "xi_c = sample size of a strata / sample size of the control arm.",
     locations = gt::cells_column_labels(columns = xi_c)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "xi_e = sample size of a strata / sample size of the experimental arm.",
     locations = gt::cells_column_labels(columns = xi_e)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "n_c = total sample size of the control arm.",
     locations = gt::cells_column_labels(columns = n_c)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "n_e = total size of the experimental arm.",
     locations = gt::cells_column_labels(columns = n_e)
-  ) %>%
+  ) |>
   gt::tab_header(title = "Stratified Example")
 ```
 
@@ -1036,25 +1036,25 @@ $$
 $$
 
 ```{r, message=FALSE}
-x <- x %>%
-  union_all(x) %>%
-  union_all(x) %>%
-  mutate(Analysis = rep(1:3, each = 3)) %>%
-  left_join(tibble(Analysis = 1:3, IF = info_frac)) %>%
-  mutate(n_c = n_c * IF, n_e = n_e * IF) %>%
-  select(Analysis, stratum, p_c, p_pool, p_e, n_c, n_e, xi_c, xi_e) %>%
+x <- x |>
+  union_all(x) |>
+  union_all(x) |>
+  mutate(Analysis = rep(1:3, each = 3)) |>
+  left_join(tibble(Analysis = 1:3, IF = info_frac)) |>
+  mutate(n_c = n_c * IF, n_e = n_e * IF) |>
+  select(Analysis, stratum, p_c, p_pool, p_e, n_c, n_e, xi_c, xi_e) |>
   mutate(
     sigma_h0 = sqrt(p_pool * (1 - p_pool) * (1 / n_c + 1 / n_e)),
     sigma_h1 = sqrt(p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e)
   )
 
-x %>%
-  gt() %>%
-  gt::fmt_number(6:11, decimals = 4) %>%
+x |>
+  gt() |>
+  gt::fmt_number(6:11, decimals = 4) |>
   gt::tab_footnote(
     footnote = "sigma_h0 = the H0 sd per stratum per analysis.",
     locations = gt::cells_column_labels(columns = sigma_h0)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "sigma_h1 = the H0 sd per stratum per analysis.",
     locations = gt::cells_column_labels(columns = sigma_h1)
@@ -1068,34 +1068,34 @@ $$
 $$
 
 ```{r, message=FALSE}
-temp <- x %>%
-  group_by(Analysis) %>%
+temp <- x |>
+  group_by(Analysis) |>
   summarise(
     sum_invar_H0 = sum(1 / sigma_h0^2),
     sum_invar_H1 = sum(1 / sigma_h1^2),
     sum_ss = sum((n_c * n_e) / (n_c + n_e))
   )
 
-x <- x %>%
-  left_join(temp) %>%
+x <- x |>
+  left_join(temp) |>
   mutate(
     weight_invar_H0 = 1 / sigma_h0^2 / sum_invar_H0,
     weight_invar_H1 = 1 / sigma_h1^2 / sum_invar_H1,
     weight_ss = (n_c * n_e) / (n_c + n_e) / sum_ss
-  ) %>%
+  ) |>
   select(-c(sum_invar_H0, sum_invar_H1, sum_ss))
 
-x %>%
-  gt() %>%
-  fmt_number(6:14, decimals = 4) %>%
+x |>
+  gt() |>
+  fmt_number(6:14, decimals = 4) |>
   gt::tab_footnote(
     footnote = "weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = weight_invar_H0)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1.",
     locations = gt::cells_column_labels(columns = weight_invar_H1)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "weight_ss = the weight per stratum per analysis calculated by SS.",
     locations = gt::cells_column_labels(columns = weight_ss)
@@ -1134,8 +1134,8 @@ $$
 $$
 
 ```{r}
-x <- x %>%
-  group_by(Analysis) %>%
+x <- x |>
+  group_by(Analysis) |>
   summarise(
     rd_invar_H0 = sum(weight_invar_H0 * abs(p_c - p_e)),
     rd_invar_H1 = sum(weight_invar_H1 * abs(p_c - p_e)),
@@ -1175,34 +1175,34 @@ x <- x %>%
 
 
 ```{r}
-x %>%
-  gt::gt() %>%
-  fmt_number(c(2:4, 6:11), decimals = 6) %>%
+x |>
+  gt::gt() |>
+  fmt_number(c(2:4, 6:11), decimals = 6) |>
   gt::tab_footnote(
     footnote = "info_invar_H0 = the statistical information under H1
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info_invar_H0)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "info_invar_H1 = the statistical information under H1
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info_invar_H1)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "info_ss = the statistical information under H1
     per stratum per analysis calculated by SS.",
     locations = gt::cells_column_labels(columns = info_ss)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "info0_invar_H0 = the statistical information under H0
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info0_invar_H0)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "info0_invar_H1 = the statistical information under H0
     per stratum per analysis calculated by INVAR by using variance under H0.",
     locations = gt::cells_column_labels(columns = info0_invar_H1)
-  ) %>%
+  ) |>
   gt::tab_footnote(
     footnote = "info0_ss = the statistical information under H0
     per stratum per analysis calculated by SS.",
@@ -1310,8 +1310,8 @@ ans_math <- tibble::tibble(
   )
 )
 
-ans_math %>%
-  gt::gt() %>%
+ans_math |>
+  gt::gt() |>
   gt::tab_header(title = "Sample size calculated by INVAR and SS")
 ```
 
@@ -1517,9 +1517,9 @@ ans <- tibble::tibble(
   SS2 = x_ss2$analysis$n[1:3]
 )
 
-ans %>%
-  gt::gt() %>%
-  gt::tab_header(title = "Sample size calculated by INVAR and SS") %>%
+ans |>
+  gt::gt() |>
+  gt::tab_header(title = "Sample size calculated by INVAR and SS") |>
   gt::tab_spanner(
     label = "Inverse variance weighting ",
     columns = c(
@@ -1527,11 +1527,11 @@ ans %>%
       "INVAR1",
       "INVAR2"
     )
-  ) %>%
+  ) |>
   gt::tab_spanner(
     label = "Sample size weighting",
     columns = c(SS0, SS1, SS2)
-  ) %>%
+  ) |>
   cols_label(
     INVAR0 = "info_scale = \"h0_info\"",
     INVAR1 = "info_scale = \"h1_info\"",

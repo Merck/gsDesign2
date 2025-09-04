@@ -97,7 +97,7 @@ fixed_design_size_rmst <- function(enroll_rate,
 
 
   res <- list(
-    enroll_rate = enroll_rate %>% mutate(rate = rate * npsurv[["n"]] / n),
+    enroll_rate = enroll_rate |> mutate(rate = rate * npsurv[["n"]] / n),
     fail_rate = fail_rate,
     bound = bound,
     analysis = analysis

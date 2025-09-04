@@ -66,9 +66,9 @@ for (i in seq_along(x$analysis$time)){
   data_list[[i]] <- xx$cut_data
 }
 
-delay_event_ia1 <- sum((observed_data %>% filter(fail_time <= 4, cte <= x$analysis$time[1]))$fail)
-delay_event_ia2 <- sum((observed_data %>% filter(fail_time <= 4, cte <= x$analysis$time[2]))$fail)
-delay_event_fa <- sum((observed_data %>% filter(fail_time <= 4, cte <= x$analysis$time[3]))$fail)
+delay_event_ia1 <- sum((observed_data |> filter(fail_time <= 4, cte <= x$analysis$time[1]))$fail)
+delay_event_ia2 <- sum((observed_data |> filter(fail_time <= 4, cte <= x$analysis$time[2]))$fail)
+delay_event_fa <- sum((observed_data |> filter(fail_time <= 4, cte <= x$analysis$time[3]))$fail)
 
 observed_event_ia1 <- sum(data_list[[1]]$event)
 observed_event_ia2 <- sum(data_list[[2]]$event)

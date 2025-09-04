@@ -86,7 +86,7 @@ enroll_rate <- define_enroll_rate(
   rate = (1:4) / 4
 )
 
-enroll_rate %>% gt()
+enroll_rate |> gt()
 ```
 
 # Failure and dropout rates
@@ -112,7 +112,7 @@ fail_rate <- define_fail_rate(
   dropout_rate = .001
 )
 
-fail_rate %>% gt()
+fail_rate |> gt()
 ```
 
 # Fixed design
@@ -136,8 +136,8 @@ A quick summary of the targeted sample size is obtained below.
 Note that you would normally round up `N` up to an even number and `Events` to the next integer.
 
 ```{r}
-d %>%
-  summary() %>%
+d |>
+  summary() |>
   as_gt()
 ```
 
@@ -145,7 +145,7 @@ d %>%
 The enrollment rates for each period have been increased proportionately to size the trial for the desired properties; the duration for each enrollment rate has not changed.
 
 ```{r}
-d$enroll_rate %>% gt()
+d$enroll_rate |> gt()
 ```
 
 # Group sequential design
@@ -208,8 +208,8 @@ Bounds at the 3 analyses are as follows.
 Note that expected sample size at time of each data cutoff for analysis is also here in `N`. We filter on the upper bound so that lower bounds with `Z = -Inf` are not shown.
 
 ```{r}
-design1s %>%
-  summary() %>%
+design1s |>
+  summary() |>
   as_gt(
     title = "1-sided group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
@@ -258,8 +258,8 @@ design2ss <- gs_design_ahr(
 Design bounds are confirmed with:
 
 ```{r, message=FALSE}
-design2ss %>%
-  summary() %>%
+design2ss |>
+  summary() |>
   as_gt(
     title = "2-sided symmetric group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
@@ -270,7 +270,7 @@ The bounds can be plotted easily:
 
 ```{r}
 ggplot(
-  data = design2ss$analysis %>% left_join(design2ss$bound, by = "analysis"),
+  data = design2ss$analysis |> left_join(design2ss$bound, by = "analysis"),
   aes(x = event, y = z, group = bound)
 ) +
   geom_line(aes(linetype = bound)) +
@@ -306,8 +306,8 @@ We now have a slightly larger sample size to account for the possibility of an e
 Bounds are now:
 
 ```{r}
-design2sa %>%
-  summary() %>%
+design2sa |>
+  summary() |>
   as_gt(
     title = "2-sided asymmetric group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound

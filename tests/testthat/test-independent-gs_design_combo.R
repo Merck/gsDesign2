@@ -47,7 +47,7 @@ test_that("calculate probability under alternative", {
 
   expect_equal(
     1 - beta,
-    max((gs_design_combo_test2$bounds %>% dplyr::filter(bound == "upper"))$probability),
+    max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability),
     tolerance = 0.0001
   )
 })
@@ -59,7 +59,7 @@ test_that("calculate probability under null", {
 
   expect_equal(
     alpha,
-    max((gs_design_combo_test2$bounds %>% dplyr::filter(bound == "upper"))$probability0),
+    max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability0),
     tolerance = 0.005
   )
 })

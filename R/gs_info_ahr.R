@@ -124,7 +124,7 @@ gs_info_ahr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10),
   if (!is.null(analysis_time)) {
     # calculate events given the `analysis_time`
     avehr <- ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-                 ratio = ratio, total_duration = analysis_time) %>% select(-n)
+                 ratio = ratio, total_duration = analysis_time) |> select(-n)
     # check if the above events >= targeted events
     for (i in seq_along(event)) {
       if (avehr$event[i] < event[i]) {

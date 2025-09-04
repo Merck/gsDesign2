@@ -44,7 +44,6 @@ Group sequential design using average hazard ratio under non-proportional hazard
 \examples{
 library(gsDesign)
 library(gsDesign2)
-library(dplyr)
 
 alpha <- 0.025
 beta <- 0.1
@@ -82,7 +81,7 @@ x <- gs_design_ahr(
   lower = gs_spending_bound,
   lpar = list(sf = sfLDOF, total_spend = beta),
   test_lower = c(TRUE, FALSE),
-  binding = FALSE) \%>\% to_integer()
+  binding = FALSE) |> to_integer()
 
 planned_event_ia <- x$analysis$event[1]
 planned_event_fa <- x$analysis$event[2]

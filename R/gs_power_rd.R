@@ -313,38 +313,38 @@ gs_power_rd <- function(
   # Organize the outputs ----
   # summarize the bounds
   suppressMessages(
-    bound <- y_h1 %>%
+    bound <- y_h1 |>
       mutate(
         `~risk difference at bound` = z / sqrt(info) / theta * (x$rd[1] - x$rd0[1]) + x$rd0[1],
         `nominal p` = pnorm(-z)
-      ) %>%
+      ) |>
       left_join(
-        y_h0 %>%
-          select(analysis, bound, probability) %>%
+        y_h0 |>
+          select(analysis, bound, probability) |>
           rename(probability0 = probability)
-      ) %>%
+      ) |>
       select(analysis, bound, probability, probability0, z, `~risk difference at bound`, `nominal p`)
   )
   # summarize the analysis
   suppressMessages(
-    analysis <- x %>%
-      select(analysis, n, rd, rd0, theta1, theta0) %>%
+    analysis <- x |>
+      select(analysis, n, rd, rd0, theta1, theta0) |>
       left_join(
-        y_h1 %>%
-          select(analysis, info, info_frac) %>%
+        y_h1 |>
+          select(analysis, info, info_frac) |>
           unique()
-      ) %>%
+      ) |>
       left_join(
-        y_h0 %>%
-          select(analysis, info, info_frac) %>%
-          rename(info0 = info, info_frac0 = info_frac) %>%
+        y_h0 |>
+          select(analysis, info, info_frac) |>
+          rename(info0 = info, info_frac0 = info_frac) |>
           unique()
-      ) %>%
+      ) |>
       select(analysis, n, rd, rd0, theta1, theta0, info, info0, info_frac, info_frac0)
   )
 
   ans <- list(
-    bound = bound %>% filter(!is.infinite(z)),
+    bound = bound |> filter(!is.infinite(z)),
     analysis = analysis
   )
 

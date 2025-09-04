@@ -119,5 +119,5 @@ expected_time <- function(
   tryCatch(uniroot(event_diff, interval, check.conv = TRUE), error = function(e) {
     stop("solution not found (", e$message, ")")
   })
-  ans %>% select(-n)
+  ans |> select(-n)
 }

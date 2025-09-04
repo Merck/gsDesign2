@@ -41,7 +41,7 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
     analysis_time = analysis_time,
     weight = weight
   )
-  fh01 <- gs_info %>% dplyr::mutate_if(is.numeric, round, digits = 5)
+  fh01 <- gs_info |> dplyr::mutate_if(is.numeric, round, digits = 5)
 
   up <- gsDesign::gsDesign(
     k = length(fh01$event),
@@ -65,7 +65,7 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
     test_lower = TRUE,
     r = 18,
     tol = 1e-6
-  ) %>% dplyr::arrange(analysis, bound)
+  ) |> dplyr::arrange(analysis, bound)
 
   # output
   gspow <- gsDesign2::gs_power_wlr(
@@ -91,9 +91,9 @@ test_that("Check using gs_info_wlr and gs_power_npe", {
   expect_equal(object = as.numeric(gspow$analysis$time), expected = fh01$time, tolerance = 0.0001)
   expect_equal(object = as.numeric(gspow$analysis$event), expected = fh01$event, tolerance = 1)
 
-  tt <- gspow$bounds %>% dplyr::arrange(analysis, bound)
-  tt1 <- npe %>%
-    dplyr::arrange(analysis, bound) %>%
+  tt <- gspow$bounds |> dplyr::arrange(analysis, bound)
+  tt1 <- npe |>
+    dplyr::arrange(analysis, bound) |>
     dplyr::filter(z > -999999)
   expect_equal(object = as.numeric(tt$z), expected = as.numeric(tt1$z), tolerance = 0.1)
   expect_equal(object = as.numeric(tt$probability), expected = tt1$probability, tolerance = 0.001)

@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @importFrom dplyr filter mutate transmute full_join group_by summarize ungroup first "%>%"
+#' @importFrom dplyr filter mutate transmute full_join group_by summarize ungroup first
 #' @importFrom tibble tibble
 NULL
 
@@ -189,36 +189,36 @@ AHR_ <- function(enrollRates = tibble::tibble(
     events <- NULL
     for (s in strata) {
       # subset to stratum
-      enroll <- enrollRates %>% dplyr::filter(Stratum == s)
-      fail <- failRates %>% dplyr::filter(Stratum == s)
+      enroll <- enrollRates |> dplyr::filter(Stratum == s)
+      fail <- failRates |> dplyr::filter(Stratum == s)
       # Control events
-      enrollc <- enroll %>% dplyr::mutate(rate = rate * Qc)
+      enrollc <- enroll |> dplyr::mutate(rate = rate * Qc)
       control <- eEvents_df_(enrollRates = enrollc, failRates = fail, totalDuration = td, simple = FALSE)
       # Experimental events
-      enrolle <- enroll %>% dplyr::mutate(rate = rate * Qe)
-      fre <- fail %>% dplyr::mutate(failRate = failRate * hr)
+      enrolle <- enroll |> dplyr::mutate(rate = rate * Qe)
+      fre <- fail |> dplyr::mutate(failRate = failRate * hr)
       experimental <- eEvents_df_(enrollRates = enrolle, failRates = fre, totalDuration = td, simple = FALSE)
       # Combine control and experimental; by period recompute HR, events, information
       events <-
         rbind(
-          control %>% dplyr::mutate(Treatment = "Control"),
-          experimental %>% dplyr::mutate(Treatment = "Experimental")
-        ) %>%
-        dplyr::arrange(t, Treatment) %>%
-        dplyr::ungroup() %>%
-        dplyr::group_by(t) %>%
+          control |> dplyr::mutate(Treatment = "Control"),
+          experimental |> dplyr::mutate(Treatment = "Experimental")
+        ) |>
+        dplyr::arrange(t, Treatment) |>
+        dplyr::ungroup() |>
+        dplyr::group_by(t) |>
         dplyr::summarize(
           Stratum = s, info = (sum(1 / Events))^(-1),
           Events = sum(Events), HR = dplyr::last(failRate) / dplyr::first(failRate)
-        ) %>%
+        ) |>
         rbind(events)
     }
     rval <- rbind(
       rval,
-      events %>%
-        dplyr::mutate(Time = td, lnhr = log(HR), info0 = Events * Qc * Qe) %>%
-        dplyr::ungroup() %>%
-        dplyr::group_by(Time, Stratum, HR) %>%
+      events |>
+        dplyr::mutate(Time = td, lnhr = log(HR), info0 = Events * Qc * Qe) |>
+        dplyr::ungroup() |>
+        dplyr::group_by(Time, Stratum, HR) |>
         dplyr::summarize(
           t = min(t),
           Events = sum(Events),
@@ -230,14 +230,14 @@ AHR_ <- function(enrollRates = tibble::tibble(
 
   if (!simple) {
     return(
-      rval %>%
-        dplyr::select(c("Time", "Stratum", "t", "HR", "Events", "info", "info0")) %>%
-        dplyr::group_by(Time, Stratum) %>%
+      rval |>
+        dplyr::select(c("Time", "Stratum", "t", "HR", "Events", "info", "info0")) |>
+        dplyr::group_by(Time, Stratum) |>
         dplyr::arrange(t, .by_group = TRUE)
     )
   }
-  return(rval %>%
-    dplyr::group_by(Time) %>%
+  return(rval |>
+    dplyr::group_by(Time) |>
     dplyr::summarize(
       AHR = exp(sum(log(HR) * Events) / sum(Events)),
       Events = sum(Events),

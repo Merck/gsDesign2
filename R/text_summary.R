@@ -27,24 +27,24 @@
 #' library(gsDesign)
 #'
 #' # Text summary of a 1-sided design
-#' x <- gs_design_ahr(info_frac = 1:3/3, test_lower = FALSE) %>% to_integer()
-#' x %>% text_summary()
+#' x <- gs_design_ahr(info_frac = 1:3/3, test_lower = FALSE) |> to_integer()
+#' x |> text_summary()
 #'
 #' # Text summary of a 2-sided symmetric design
 #' x <- gs_design_ahr(info_frac = 1:3/3,
 #'                    upper = gs_spending_bound, lower = gs_spending_bound,
 #'                    upar = list(sf = sfLDOF, total_spend = 0.025),
 #'                    lpar = list(sf = sfLDOF, total_spend = 0.025),
-#'                    binding = TRUE, h1_spending = FALSE) %>% to_integer()
-#' x %>% text_summary()
+#'                    binding = TRUE, h1_spending = FALSE) |> to_integer()
+#' x |> text_summary()
 #'
 #' # Text summary of a asymmetric 2-sided design with beta-spending and non-binding futility bound
 #' x <- gs_design_ahr(info_frac = 1:3/3, alpha = 0.025, beta = 0.1,
 #'                    upper = gs_spending_bound, lower = gs_spending_bound,
 #'                    upar = list(sf = sfLDOF, total_spend = 0.025),
 #'                    lpar = list(sf = sfHSD, total_spend = 0.1, param = -4),
-#'                    binding = FALSE, h1_spending = TRUE) %>% to_integer()
-#' x %>% text_summary()
+#'                    binding = FALSE, h1_spending = TRUE) |> to_integer()
+#' x |> text_summary()
 #'
 #' # Text summary of a asymmetric 2-sided design with fixed non-binding futility bound
 #' x <- gs_design_ahr(info_frac = 1:3/3, alpha = 0.025, beta = 0.1,
@@ -53,15 +53,15 @@
 #'                    test_upper = c(FALSE, TRUE, TRUE),
 #'                    lpar = c(-1, -Inf, -Inf),
 #'                    test_lower = c(TRUE, FALSE, FALSE),
-#'                    binding = FALSE, h1_spending = TRUE) %>% to_integer()
-#' x %>% text_summary()
+#'                    binding = FALSE, h1_spending = TRUE) |> to_integer()
+#' x |> text_summary()
 #'
 #' # If there are >5 pieces of HRs, we provide a brief summary of HR.
 #' gs_design_ahr(
 #'   fail_rate = define_fail_rate(duration = c(rep(3, 5), Inf),
 #'                                hr = c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4),
 #'                                fail_rate = log(2) / 10, dropout_rate = 0.001),
-#'   info_frac = 1:3/3, test_lower = FALSE) %>%
+#'   info_frac = 1:3/3, test_lower = FALSE) |>
 #'   text_summary()
 text_summary <- function(x, information = FALSE, time_unit = "months") {
 
@@ -120,9 +120,9 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
 
   out <- paste(out,
                "time-to-event outcome with sample size ",
-               ifelse(is_wholenumber(max(x$analysis$n)), max(x$analysis$n), max(x$analysis$n) %>% round(1)),
+               ifelse(is_wholenumber(max(x$analysis$n)), max(x$analysis$n), max(x$analysis$n) |> round(1)),
                " and ",
-               ifelse(is_wholenumber(max(x$analysis$event)), max(x$analysis$event), max(x$analysis$event) %>% round(1)),
+               ifelse(is_wholenumber(max(x$analysis$event)), max(x$analysis$event), max(x$analysis$event) |> round(1)),
                " events, ",
                sep = "")
 
@@ -153,11 +153,11 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
                   round(x$fail_rate$hr[1], 2), " during the first ", round(x$fail_rate$duration[1], 2), " ", time_unit,
                   " and ", round(x$fail_rate$hr[2], 2), " thereafter", sep = "")
   } else if (nrow(x$fail_rate) <= 5) {
-    temp <- paste(x$fail_rate$hr[1:(nrow(x$fail_rate) - 1)] %>% round(2),
+    temp <- paste(x$fail_rate$hr[1:(nrow(x$fail_rate) - 1)] |> round(2),
                   c(" during the first ", rep(" during the next ", nrow(x$fail_rate) - 2)),
-                  c(x$fail_rate$duration[1:(nrow(x$fail_rate) - 1)] %>% round(2)), time_unit) %>%
-      paste(collapse = ", ") %>%
-      paste(" and ", x$fail_rate$hr[nrow(x$fail_rate)] %>% round(2), " thereafter")
+                  c(x$fail_rate$duration[1:(nrow(x$fail_rate) - 1)] |> round(2)), time_unit) |>
+      paste(collapse = ", ") |>
+      paste(" and ", x$fail_rate$hr[nrow(x$fail_rate)] |> round(2), " thereafter")
     temp <- paste("hazard ratio of ", temp, sep = "")
   } else {
     temp <- "piecewise hazard ratio"

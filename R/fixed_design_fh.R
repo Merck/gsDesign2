@@ -30,7 +30,6 @@
 #'
 #' @examples
 #' # WLR test with FH weights ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_fh(
@@ -45,7 +44,7 @@
 #'   study_duration = 36,
 #'   rho = 1, gamma = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_fh(
@@ -60,7 +59,7 @@
 #'   study_duration = 36,
 #'   rho = 1, gamma = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_fh <- function(
     alpha = 0.025,
@@ -70,11 +69,14 @@ fixed_design_fh <- function(
     enroll_rate,
     fail_rate,
     rho = 0,
-    gamma = 0) {
+    gamma = 0,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
   # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
+  info_scale <- match.arg(info_scale)
+
   # check test parameters, like rho, gamma
   if (length(rho) > 1) {
     stop("fixed_design_fh: multiple rho can not be used in Fleming-Harrington method!")
@@ -103,7 +105,8 @@ fixed_design_fh <- function(
       ratio = ratio,
       weight = weight,
       analysis_time = study_duration,
-      event = NULL
+      event = NULL,
+      info_scale = info_scale
     )
   } else {
     d <- gs_design_wlr(
@@ -114,7 +117,8 @@ fixed_design_fh <- function(
       fail_rate = fail_rate,
       ratio = ratio,
       weight = weight,
-      analysis_time = study_duration
+      analysis_time = study_duration,
+      info_scale = info_scale
     )
   }
   ans <- tibble(
@@ -122,9 +126,10 @@ fixed_design_fh <- function(
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    ahr = d$analysis$ahr,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,

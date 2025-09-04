@@ -76,7 +76,6 @@ For the events of group sequential designs:
 }
 }
 \examples{
-library(dplyr)
 library(gsDesign2)
 
 # Average hazard ratio
@@ -91,8 +90,8 @@ x <- fixed_design_ahr(
   ),
   study_duration = 36
 )
-x \%>\%
-  to_integer() \%>\%
+x |>
+  to_integer() |>
   summary()
 
 # FH
@@ -108,8 +107,8 @@ x <- fixed_design_fh(
   rho = 0.5, gamma = 0.5,
   study_duration = 36, ratio = 1
 )
-x \%>\%
-  to_integer() \%>\%
+x |>
+  to_integer() |>
   summary()
 
 # MB
@@ -124,8 +123,8 @@ x <- fixed_design_mb(
   tau = Inf, w_max = 2,
   study_duration = 36, ratio = 1
 )
-x \%>\%
-  to_integer() \%>\%
+x |>
+  to_integer() |>
   summary()
 }
 \donttest{
@@ -136,8 +135,8 @@ gs_design_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
   lower = gs_b,
   lpar = c(-Inf, -Inf)
-) \%>\%
-  to_integer() \%>\%
+) |>
+  to_integer() |>
   summary()
 
 gs_design_wlr(
@@ -146,8 +145,8 @@ gs_design_wlr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
   lower = gs_b,
   lpar = c(-Inf, -Inf)
-) \%>\%
-  to_integer() \%>\%
+) |>
+  to_integer() |>
   summary()
 
 gs_design_rd(
@@ -160,8 +159,8 @@ gs_design_rd(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
   lower = gs_b,
   lpar = c(-Inf, -Inf)
-) \%>\%
-  to_integer() \%>\%
+) |>
+  to_integer() |>
   summary()
 
 # Example 2: Calendar based spending
@@ -174,7 +173,7 @@ x <- gs_design_ahr(
   ),
   lower = gs_b,
   lpar = c(-Inf, -Inf)
-) \%>\% to_integer()
+) |> to_integer()
 
 # The IA nominal p-value is the same as the IA alpha spending
 x$bound$`nominal p`[1]
