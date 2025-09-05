@@ -179,12 +179,15 @@ pw_info <- function(
     event = sum(event),
     info0 = sum(info0),
     info = sum(info)
-  ), by = .(time, stratum, hr)]
+  ), by = .(time, stratum, t, hr)]
 
   # -------------------------------------- #
   #    output the results                  #
   # -------------------------------------- #
-  ans <- merge(tbl_event, tbl_n, by = c("time", "t", "stratum"))
+  # merge 2 tables tbl_n and tbl_event, where they share the same time, t, stratum
+  ans <- tbl_event[tbl_n, on = c("time", "stratum", "t")]
+  ans[, t.1 := NULL]
+
   # filter out the rows with 0 events and unneeded columns
   ans <- ans[!almost_equal(event, 0L), .(time, stratum, t, hr, n, event, info, info0)]
 
