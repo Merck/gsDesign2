@@ -373,7 +373,7 @@ gs_power_npe(
   lpar = c(qnorm(.1), -Inf, -Inf)
 )
 
-# Example 8 ----
+# Example 9 ----
 # gs_power_npe with spending function bounds
 # Lower spending based on non-zero effect
 gs_power_npe(
