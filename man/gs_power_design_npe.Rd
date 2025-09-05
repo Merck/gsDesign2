@@ -48,7 +48,7 @@ gs_power_npe(
 }
 \arguments{
 \item{theta}{Natural parameter for group sequential design representing
-expected incremental drift at all analyses; used for power calculation.}
+expected cumulative drift at all analyses; used for power calculation.}
 
 \item{theta0}{Natural parameter for null hypothesis,
 if needed for upper bound computation.
@@ -67,12 +67,13 @@ impacts null hypothesis bound calculation.}
 
 \item{info1}{Statistical information under hypothesis used for
 futility bound calculation if different from
-\code{info}; impacts futility hypothesis bound calculation.}
+\code{info}; impacts futility bound calculation.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
 \item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
 \item \code{"h0_info"}: variance under null hypothesis is used.
+This is often used for testing methods that use local alternatives, such as the Schoenfeld method.
 \item \code{"h1_info"}: variance under alternative hypothesis is used.
 }}
 
@@ -121,8 +122,8 @@ A tibble with columns of
 \item \code{theta1}: same as the input.
 \item \code{info}: statistical information at each analysis.
 \itemize{
-\item If it is returned by \code{gs_power_ahr}, the \code{info}, \code{info0}, \code{info1} is same as the input.
-\item If it is returned by \code{gs_power_ahr}, the \code{info}, \code{info0}, \code{info1} is change by some constant scale
+\item If it is returned by \code{gs_power_npe}, the \code{info}, \code{info0}, \code{info1} is same as the input.
+\item If it is returned by \code{gs_design_npe}, the \code{info}, \code{info0}, \code{info1} is change by some constant scale
 factor to ensure the design has power \code{1 - beta}.
 }
 \item \code{info0}: statistical information under the null at each analysis.
@@ -148,18 +149,13 @@ bounds and boundary crossing probabilities based on proportionate
 information and effect size at analyses, as well as the
 method of deriving bounds, such as spending.
 
-The requirement is to have a boundary update method that can compute
-each bound without knowledge of future bounds.
-As an example, bounds based on conditional power that require
-knowledge of all future bounds are not supported by this routine;
-a more limited conditional power method will be demonstrated.
-Boundary family designs Wang-Tsiatis designs including the
-original (non-spending-function-based) O'Brien-Fleming and Pocock designs
-are not supported by \code{gs_power_npe()}.
+The only differences in arguments of the 2 functions are the \code{alpha} and \code{beta}
+used in the \code{gs_design_npe()}.
 }
 \details{
 The bound specifications (\code{upper}, \code{lower}, \code{upar}, \code{lpar}) of \code{gs_design_npe()}
 will be used to ensure Type I error and other boundary properties are as specified.
+See the help file of \code{gs_spending_bound()} for details on spending function.
 }
 \section{Specification}{
 

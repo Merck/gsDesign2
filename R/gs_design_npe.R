@@ -16,8 +16,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #' @rdname gs_power_design_npe
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
@@ -25,6 +23,7 @@
 #' @details
 #' The bound specifications (`upper`, `lower`, `upar`, `lpar`) of \code{gs_design_npe()}
 #' will be used to ensure Type I error and other boundary properties are as specified.
+#' See the help file of \code{gs_spending_bound()} for details on spending function.
 #'
 #' @section Specification:
 #' \if{latex}{
