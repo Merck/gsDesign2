@@ -40,20 +40,27 @@
 #'
 #' @param theta Natural parameter for group sequential design representing
 #'   expected cumulative drift at all analyses; used for power calculation.
-#' @param theta0 Natural parameter for null hypothesis,
-#'   if needed for upper bound computation.
-#'   Default is 0.
+#'   It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
+#'   Users are required to provide the value of `theta`.
+#' @param theta0 Natural parameter for null hypothesis.
+#'   It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
+#'   Default is 0. If users provide values other than 0, it impacts upper bound computation.
 #' @param theta1 Natural parameter for alternate hypothesis,
 #'   if needed for lower bound computation.
+#'   It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
 #'   The default is the same as `theta`, which yields the usual beta-spending.
 #'   If set to 0, spending is 2-sided under the null hypothesis.
 #' @param info Statistical information at all analyses for input `theta`.
-#' @param info0 Statistical information under null hypothesis,
-#'   if different than `info`;
-#'   impacts null hypothesis bound calculation.
-#' @param info1 Statistical information under hypothesis used for
-#'   futility bound calculation if different from
-#'   `info`; impacts futility bound calculation.
+#'   It is a vector of all positive numbers with increasing order.
+#'   Users are required to input it corresponding to `theta`.
+#' @param info0 Statistical information under null hypothesis.
+#'   It is a vector of all positive numbers with increasing order.
+#'   Default is set to be the same as `info`.
+#'   If `info0` is different than `info`, it impacts null hypothesis bound calculation.
+#' @param info1 Statistical information under hypothesis used for futility bound calculation.
+#'   It is a vector of all positive numbers with increasing order.
+#'   Default is set to be the same as `info`.
+#'   If `info1` is different from `info`, it impacts futility bound calculation.
 #' @param info_scale Information scale for calculation. Options are:
 #'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
 #'   - `"h0_info"`: variance under null hypothesis is used.

@@ -48,26 +48,33 @@ gs_power_npe(
 }
 \arguments{
 \item{theta}{Natural parameter for group sequential design representing
-expected cumulative drift at all analyses; used for power calculation.}
+expected cumulative drift at all analyses; used for power calculation.
+It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
+Users are required to provide the value of \code{theta}.}
 
-\item{theta0}{Natural parameter for null hypothesis,
-if needed for upper bound computation.
-Default is 0.}
+\item{theta0}{Natural parameter for null hypothesis.
+It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
+Default is 0. If users provide values other than 0, it impacts upper bound computation.}
 
 \item{theta1}{Natural parameter for alternate hypothesis,
 if needed for lower bound computation.
+It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
 The default is the same as \code{theta}, which yields the usual beta-spending.
 If set to 0, spending is 2-sided under the null hypothesis.}
 
-\item{info}{Statistical information at all analyses for input \code{theta}.}
+\item{info}{Statistical information at all analyses for input \code{theta}.
+It is a vector of all positive numbers with increasing order.
+Users are required to input it corresponding to \code{theta}.}
 
-\item{info0}{Statistical information under null hypothesis,
-if different than \code{info};
-impacts null hypothesis bound calculation.}
+\item{info0}{Statistical information under null hypothesis.
+It is a vector of all positive numbers with increasing order.
+Default is set to be the same as \code{info}.
+If \code{info0} is different than \code{info}, it impacts null hypothesis bound calculation.}
 
-\item{info1}{Statistical information under hypothesis used for
-futility bound calculation if different from
-\code{info}; impacts futility bound calculation.}
+\item{info1}{Statistical information under hypothesis used for futility bound calculation.
+It is a vector of all positive numbers with increasing order.
+Default is set to be the same as \code{info}.
+If \code{info1} is different from \code{info}, it impacts futility bound calculation.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
