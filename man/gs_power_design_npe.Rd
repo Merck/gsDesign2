@@ -395,7 +395,7 @@ gs_power_npe(
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
 )
 
-# Example 9 ----
+# Example 10 ----
 # gs_power_npe with two-sided symmetric spend, O'Brien-Fleming spending
 # Typically, 2-sided bounds are binding
 x <- gs_power_npe(
@@ -418,7 +418,7 @@ gs_power_npe(
   lpar = -(x |> dplyr::filter(bound == "upper"))$z
 )
 
-# Example 10 ----
+# Example 11 ----
 # Different values of `r` and `tol` lead to different numerical accuracy
 # Larger `r` and smaller `tol` give better accuracy, but leads to slow computation
 n_analysis <- 5
