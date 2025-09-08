@@ -50,11 +50,11 @@ gs_power_npe(
 \item{theta}{Natural parameter for group sequential design representing
 expected cumulative drift at all analyses; used for power calculation.
 It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
-Users are required to provide the value of \code{theta}.}
+The user must provide a value for \code{theta}.}
 
 \item{theta0}{Natural parameter for null hypothesis.
 It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
-Default is 0. If users provide values other than 0, it impacts upper bound computation.}
+The default is 0. If a value other than 0 is provided, it affects upper bound computation.}
 
 \item{theta1}{Natural parameter for alternate hypothesis,
 if needed for lower bound computation.
@@ -63,8 +63,8 @@ The default is the same as \code{theta}, which yields the usual beta-spending.
 If set to 0, spending is 2-sided under the null hypothesis.}
 
 \item{info}{Statistical information at all analyses for input \code{theta}.
-It is a vector of all positive numbers with increasing order.
-Users are required to input it corresponding to \code{theta}.}
+It is a vector of positive numbers in increasing order.
+The user must provide values corresponding to \code{theta}.}
 
 \item{info0}{Statistical information under null hypothesis.
 It is a vector of all positive numbers with increasing order.
@@ -129,8 +129,8 @@ A tibble with columns of
 \item \code{theta1}: same as the input.
 \item \code{info}: statistical information at each analysis.
 \itemize{
-\item If it is returned by \code{gs_power_npe}, the \code{info}, \code{info0}, \code{info1} is same as the input.
-\item If it is returned by \code{gs_design_npe}, the \code{info}, \code{info0}, \code{info1} is change by some constant scale
+\item If it is returned by \code{gs_power_npe}, the \code{info}, \code{info0}, \code{info1} are same as the input.
+\item If it is returned by \code{gs_design_npe}, the \code{info}, \code{info0}, \code{info1} are changed by a constant scale factor.
 factor to ensure the design has power \code{1 - beta}.
 }
 \item \code{info0}: statistical information under the null at each analysis.
@@ -139,16 +139,16 @@ factor to ensure the design has power \code{1 - beta}.
 }
 }
 \description{
-The following 2 functions allows a non-constant treatment effect over time,
+The following two functions allow a non-constant treatment effect over time,
 but also can be applied for the usual homogeneous effect size designs.
-They requires treatment effect and statistical information at each analysis
+They require treatment effect and statistical information at each analysis
 as well as a method of deriving bounds, such as spending.
-Initial bound types supported are spending bounds, and fixed bounds.
-The above routine enables two things not available in the gsDesign package: 1)
+Initial bound types supported are spending bounds and fixed bounds.
+These routines enables two things not available in the gsDesign package: 1)
 non-constant effect, 2) more flexibility in boundary selection.
 
 \code{gs_power_npe()} derives group sequential bounds and boundary crossing probabilities
-for a design, given treatment effect and information at each analysis, as well as the
+for a design, given treatment effect and information at each analysis and the
 method of deriving bounds, such as spending.
 
 \code{gs_design_npe()} derives group sequential design size,
@@ -156,8 +156,8 @@ bounds and boundary crossing probabilities based on proportionate
 information and effect size at analyses, as well as the
 method of deriving bounds, such as spending.
 
-The only differences in arguments of the 2 functions are the \code{alpha} and \code{beta}
-used in the \code{gs_design_npe()}.
+The only differences in arguments between the two functions are the \code{alpha} and \code{beta}
+parameters used in the \code{gs_design_npe()}.
 }
 \details{
 The bound specifications (\code{upper}, \code{lower}, \code{upar}, \code{lpar}) of \code{gs_design_npe()}
