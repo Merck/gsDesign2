@@ -1,3 +1,14 @@
+# gsDesign2 1.1.6
+
+## Statistical improvements
+- The `gs_power_wlr()` function now includes an `h1_spending` argument, allowing users to specify a spending under the alternative hypothesis (#565, thanks to @LittleBeannie).
+- The following functions now support `info_scale` argument: `fixed_design_ahr()`, `fixed_design_fh()`, `fixed_design_mb()`, and `fixed_design_rd()` (#571, thanks to @LittleBeannie).
+- Functions for fixed designs with integer sample sizes now return the average HR in their output, providing a more complete summary of the design characteristics. (#572, thanks to @LittleBeannie).
+
+## Documentation
+- The documentation for `gs_design_npe()` and `gs_power_npe()` has been consolidated into a single topic for improved clarity and easier navigation. (#567, thanks to @LittleBeannie).
+- The package codebase has been updated to use the native R pipe (`|>`) exclusively, removing the `magrittr` dependency and aligning with modern R practices. (#577, thanks to @jdblischak).
+  
 # gsDesign2 1.1.5
 
 ## Bug fixes
