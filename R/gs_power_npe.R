@@ -16,44 +16,55 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Group sequential bound computation with non-constant effect
+#' @title Group sequential design computation with non-constant effect and information.
 #'
-#' Derives group sequential bounds and boundary crossing probabilities for a design.
-#' It allows a non-constant treatment effect over time,
+#' @description The following two functions allow a non-constant treatment effect over time,
 #' but also can be applied for the usual homogeneous effect size designs.
-#' It requires treatment effect and statistical information at each analysis
+#' They require treatment effect and statistical information at each analysis
 #' as well as a method of deriving bounds, such as spending.
-#' The routine enables two things not available in the gsDesign package:
-#' 1) non-constant effect, 2) more flexibility in boundary selection.
-#' For many applications, the non-proportional-hazards design function
-#' `gs_design_nph()` will be used; it calls this function.
-#' Initial bound types supported are 1) spending bounds,
-#' 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
-#' The requirement is to have a boundary update method that can
-#' each bound without knowledge of future bounds.
-#' As an example, bounds based on conditional power that require
-#' knowledge of all future bounds are not supported by this routine;
-#' a more limited conditional power method will be demonstrated.
-#' Boundary family designs Wang-Tsiatis designs including the
-#' original (non-spending-function-based) O'Brien-Fleming and Pocock designs
-#' are not supported by `gs_power_npe()`.
+#' Initial bound types supported are spending bounds and fixed bounds.
+#' These routines enables two things not available in the gsDesign package: 1)
+#' non-constant effect, 2) more flexibility in boundary selection.
+#'
+#' \code{gs_power_npe()} derives group sequential bounds and boundary crossing probabilities
+#' for a design, given treatment effect and information at each analysis and the
+#' method of deriving bounds, such as spending.
+#'
+#' \code{gs_design_npe()} derives group sequential design size,
+#' bounds and boundary crossing probabilities based on proportionate
+#' information and effect size at analyses, as well as the
+#' method of deriving bounds, such as spending.
+#'
+#' The only differences in arguments between the two functions are the \code{alpha} and \code{beta}
+#' parameters used in the \code{gs_design_npe()}.
 #'
 #' @param theta Natural parameter for group sequential design representing
-#'   expected incremental drift at all analyses; used for power calculation.
-#' @param theta0 Natural parameter for null hypothesis,
-#'   if needed for upper bound computation.
+#'   expected cumulative drift at all analyses; used for power calculation.
+#'   It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
+#'   The user must provide a value for `theta`.
+#' @param theta0 Natural parameter for null hypothesis.
+#'   It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
+#'   The default is 0. If a value other than 0 is provided, it affects upper bound computation.
 #' @param theta1 Natural parameter for alternate hypothesis,
 #'   if needed for lower bound computation.
+#'   It can be a scalar (constant treatment effect) or a vector (non-constant treatment effect).
+#'   The default is the same as `theta`, which yields the usual beta-spending.
+#'   If set to 0, spending is 2-sided under the null hypothesis.
 #' @param info Statistical information at all analyses for input `theta`.
-#' @param info0 Statistical information under null hypothesis,
-#'   if different than `info`;
-#'   impacts null hypothesis bound calculation.
-#' @param info1 Statistical information under hypothesis used for
-#'   futility bound calculation if different from
-#'   `info`; impacts futility hypothesis bound calculation.
+#'   It is a vector of positive numbers in increasing order.
+#'   The user must provide values corresponding to `theta`.
+#' @param info0 Statistical information under null hypothesis.
+#'   It is a vector of all positive numbers with increasing order.
+#'   Default is set to be the same as `info`.
+#'   If `info0` is different than `info`, it impacts null hypothesis bound calculation.
+#' @param info1 Statistical information under hypothesis used for futility bound calculation.
+#'   It is a vector of all positive numbers with increasing order.
+#'   Default is set to be the same as `info`.
+#'   If `info1` is different from `info`, it impacts futility bound calculation.
 #' @param info_scale Information scale for calculation. Options are:
 #'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
 #'   - `"h0_info"`: variance under null hypothesis is used.
+#'   This is often used for testing methods that use local alternatives, such as the Schoenfeld method.
 #'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
@@ -77,10 +88,20 @@
 #'   Normally, `r` will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale).
 #'
-#' @return A tibble with columns as analysis index, bounds, z,
-#'   crossing probability, theta (standardized treatment effect),
-#'   theta1 (standardized treatment effect under alternative hypothesis),
-#'   information fraction, and statistical information.
+#' @return A tibble with columns of
+#'   - `analysis`: analysis index.
+#'   - `bound`: either of value `"upper"` or `"lower"`, indicating the upper and lower bound.
+#'   - `z`: the Z-score bounds.
+#'   - `probability`: cumulative probability of crossing the bound at or before the analysis.
+#'   - `theta`: same as the input.
+#'   - `theta1`: same as the input.
+#'   - `info`: statistical information at each analysis.
+#'      + If it is returned by `gs_power_npe`, the `info`, `info0`, `info1` are same as the input.
+#'      + If it is returned by `gs_design_npe`, the `info`, `info0`, `info1` are changed by a constant scale factor.
+#' factor to ensure the design has power `1 - beta`.
+#'   - `info0`: statistical information under the null at each analysis.
+#'   - `info1`: statistical information under the alternative at each analysis.
+#'   - `info_frac`: information fraction at each analysis, i.e., `info / max(info)`.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -117,17 +138,18 @@
 #' }
 #' \if{html}{The contents of this section are shown in PDF user manual only.}
 #'
+#' @name gs_power_design_npe
+#' @rdname gs_power_design_npe
 #' @export
 #'
 #' @examples
-#' library(dplyr)
-#' library(gsDesign)
-#' library(gsDesign2)
 #'
-#' # Default (single analysis; Type I error controlled)
-#' gs_power_npe(theta = 0) |> filter(bound == "upper")
+#' # Example 6 ----
+#' # Default of gs_power_npe (single analysis; Type I error controlled)
+#' gs_power_npe(theta = 0) |> dplyr::filter(bound == "upper")
 #'
-#' # Fixed bound
+#' # Example 7 ----
+#' # gs_power_npe with fixed bound
 #' gs_power_npe(
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
@@ -144,9 +166,10 @@
 #'   upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF)$upper$bound,
 #'   lpar = rep(-Inf, 3)
 #' ) |>
-#'   filter(bound == "upper")
+#'   dplyr::filter(bound == "upper")
 #'
-#' # Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3
+#' # Example 8 ----
+#' # gs_power_npe with fixed bound testing futility only at analysis 1; efficacy only at analyses 2, 3
 #' gs_power_npe(
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
@@ -156,7 +179,8 @@
 #'   lpar = c(qnorm(.1), -Inf, -Inf)
 #' )
 #'
-#' # Spending function bounds
+#' # Example 9 ----
+#' # gs_power_npe with spending function bounds
 #' # Lower spending based on non-zero effect
 #' gs_power_npe(
 #'   theta = c(.1, .2, .3),
@@ -177,7 +201,8 @@
 #'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
 #' )
 #'
-#' # Two-sided symmetric spend, O'Brien-Fleming spending
+#' # Example 10 ----
+#' # gs_power_npe with two-sided symmetric spend, O'Brien-Fleming spending
 #' # Typically, 2-sided bounds are binding
 #' x <- gs_power_npe(
 #'   theta = rep(0, 3),
@@ -195,10 +220,11 @@
 #'   theta = c(.1, .2, .3),
 #'   info = (1:3) * 40,
 #'   binding = TRUE,
-#'   upar = (x |> filter(bound == "upper"))$z,
-#'   lpar = -(x |> filter(bound == "upper"))$z
+#'   upar = (x |> dplyr::filter(bound == "upper"))$z,
+#'   lpar = -(x |> dplyr::filter(bound == "upper"))$z
 #' )
 #'
+#' # Example 11 ----
 #' # Different values of `r` and `tol` lead to different numerical accuracy
 #' # Larger `r` and smaller `tol` give better accuracy, but leads to slow computation
 #' n_analysis <- 5
