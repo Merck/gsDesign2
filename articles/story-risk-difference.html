@@ -1613,11 +1613,11 @@ shown as follows. <span class="math display">\[
 </table>
 </div>
 <p>By plugging the <code>theta</code> and <code>info</code> above into
-<code><a href="../reference/gs_design_npe.html">gs_design_npe()</a></code>, one can calculate the sample size to
+<code><a href="../reference/gs_power_design_npe.html">gs_design_npe()</a></code>, one can calculate the sample size to
 achieve the 90% power.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># under info_scale = "h0_info"</span></span>
-<span><span class="va">y_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.4</span> <span class="op">-</span> <span class="fl">.28</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0</span>,</span>
@@ -1631,7 +1631,7 @@ achieve the 90% power.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># under info_scale = "h1_info"</span></span>
-<span><span class="va">y_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.4</span> <span class="op">-</span> <span class="fl">.28</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0</span>,</span>
@@ -1645,7 +1645,7 @@ achieve the 90% power.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># under info_scale = "h0_h1_info"</span></span>
-<span><span class="va">y_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.4</span> <span class="op">-</span> <span class="fl">.28</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0</span>,</span>
@@ -3231,7 +3231,7 @@ to calculate the sample size of fixed design first.</p>
 </table>
 </div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">y_gs0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">y_gs0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.05</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x_gs</span><span class="op">$</span><span class="va">info0</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x_gs</span><span class="op">$</span><span class="va">info0</span>,</span>
@@ -3244,7 +3244,7 @@ to calculate the sample size of fixed design first.</p>
 <span>  test_lower <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_gs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_gs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.05</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x_gs</span><span class="op">$</span><span class="va">info1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x_gs</span><span class="op">$</span><span class="va">info1</span>,</span>
@@ -3257,7 +3257,7 @@ to calculate the sample size of fixed design first.</p>
 <span>  test_lower <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_gs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_gs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fl">.05</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x_gs</span><span class="op">$</span><span class="va">info1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x_gs</span><span class="op">$</span><span class="va">info0</span>,</span>
@@ -6990,7 +6990,7 @@ statistical information. <span class="math display">\[
 </div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Sample size under H0 ----</span></span>
-<span><span class="va">y_invar_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_invar_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">rd_invar_H0</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_invar_H0</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_invar_H0</span>,</span>
@@ -7004,7 +7004,7 @@ statistical information. <span class="math display">\[
 <span>  test_lower <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_invar_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_invar_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">rd_invar_H1</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_invar_H1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_invar_H1</span>,</span>
@@ -7018,7 +7018,7 @@ statistical information. <span class="math display">\[
 <span>  test_lower <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">y_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">rd_ss</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_ss</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_ss</span>,</span>
@@ -7033,7 +7033,7 @@ statistical information. <span class="math display">\[
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Sample size under H1 ----</span></span>
-<span><span class="va">yy_invar_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">yy_invar_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">rd_invar_H0</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info_invar_H0</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_invar_H0</span>,</span>
@@ -7047,7 +7047,7 @@ statistical information. <span class="math display">\[
 <span>  test_lower <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">yy_invar_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">yy_invar_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">rd_invar_H1</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info_invar_H1</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_invar_H1</span>,</span>
@@ -7061,7 +7061,7 @@ statistical information. <span class="math display">\[
 <span>  test_lower <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">yy_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
+<span><span class="va">yy_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_design_npe.html">gs_design_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">rd_ss</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info_ss</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">info0_ss</span>,</span>

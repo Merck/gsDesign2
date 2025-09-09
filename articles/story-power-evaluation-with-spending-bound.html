@@ -83,7 +83,7 @@ Anderson</h4>
 </h2>
 <p>This vignette covers how to compute power or Type I error for a
 design derived with a spending bound. We will write this with a general
-non-constant treatment effect using <code><a href="../reference/gs_design_npe.html">gs_design_npe()</a></code> to
+non-constant treatment effect using <code><a href="../reference/gs_power_design_npe.html">gs_design_npe()</a></code> to
 derived the design under one parameter setting and computing power under
 another setting. We will use a trial with a binary endpoint to enable a
 full illustration.</p>
@@ -816,11 +816,11 @@ to calculate the statistical information discussed above.</p>
 </tbody>
 </table>
 </div>
-<p>We can plug these into <code><a href="../reference/gs_power_npe.html">gs_power_npe()</a></code> with the intended
+<p>We can plug these into <code><a href="../reference/gs_power_design_npe.html">gs_power_npe()</a></code> with the intended
 spending functions. We begin with power under the alternate
 hypothesis</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_power_npe.html">gs_power_npe</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gs_power_design_npe.html">gs_power_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">h1</span><span class="op">$</span><span class="va">theta</span>,</span>
 <span>  theta1 <span class="op">=</span> <span class="va">h1</span><span class="op">$</span><span class="va">theta</span>,</span>
 <span>  info <span class="op">=</span> <span class="va">h1</span><span class="op">$</span><span class="va">info</span>,</span>
@@ -1376,7 +1376,7 @@ than the alternative:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu">gs_info_binomial</span><span class="op">(</span>p1 <span class="op">=</span> <span class="fl">.15</span>, p2 <span class="op">=</span> <span class="fl">.12</span>, xi1 <span class="op">=</span> <span class="fl">.5</span>, delta <span class="op">=</span> <span class="fl">.05</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">350</span>, <span class="fl">700</span>, <span class="fl">1400</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/gs_power_npe.html">gs_power_npe</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/gs_power_design_npe.html">gs_power_npe</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="va">h</span><span class="op">$</span><span class="va">theta</span>, theta1 <span class="op">=</span> <span class="va">h</span><span class="op">$</span><span class="va">theta1</span>, info <span class="op">=</span> <span class="va">h</span><span class="op">$</span><span class="va">info</span>,</span>
 <span>  info0 <span class="op">=</span> <span class="va">h</span><span class="op">$</span><span class="va">info0</span>, info1 <span class="op">=</span> <span class="va">h</span><span class="op">$</span><span class="va">info1</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
