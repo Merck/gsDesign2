@@ -25,10 +25,9 @@ library(ggplot2)
 
 # Overview
 
-We set up futility bounds under a non-proportional hazards assumption.
-We consider methods presented by @wieand1994stopping and @korn2018interim for setting such bounds and then consider an alternate futility bound based on $\beta-$spending under a delayed or crossing treatment effect to simplify implementation.
+This vignette demonstrates possible ways to set up futility bounds in clinical trial designs under the assumption of non-proportional hazards. We introduce the methods proposed by @wieand1994stopping and @korn2018interim, and also cover an alternative futility bound based on $\beta$-spending .
 
-We begin with the enrollment and failure rate assumptions which @korn2018interim based on an example by @chen2013statistical.
+We start by specifying the enrollment and failure rate assumptions, following the example used by @korn2018interim (based on @chen2013statistical).
 
 ```{r}
 # Enrollment assumed to be 680 patients over 12 months with no ramp-up
@@ -53,10 +52,7 @@ study_duration <- 34.86
 ratio <- 1
 ```
 
-We now derive a fixed sample size based on these assumptions.
-Ideally, we would allow a targeted event count and variable follow-up in `fixed_design_ahr()` so that the study duration will be computed automatically.
-
-As shown by the following fixed design, 512 events are expected over 34.86 months of study duration given the 680 subjects with a power around 90.45%. 
+In this example, with 680 subjects enrolled over 12 months, we expect 512 events to occur within 34.86 months, yielding approximately 90.45% power.
 ```{r}
 fixedevents <- fixed_design_ahr(
   alpha = 0.025, power = NULL, ratio = ratio,
@@ -72,19 +68,78 @@ fixedevents %>%
   fmt_number(columns = 3:4, decimals = 2) %>%
   fmt_number(columns = 5:6, decimals = 3)
 ```
+# Beta-spending futility bound with AHR
+
+Beta-spending allocates the Type II error rate ($\beta$) across interim analyses in a group sequential design. At each interim analysis, a portion of the total allowed $\beta$ is spent to determine the futility boundary. The cumulative $\beta$ spent up to each analysis is specified by a beta-spending function ($\beta(t)$ with $\beta(0) = 0$ and $\beta(1) = \beta$).
+
+Methodology, the futility bound of IA1 (denoted as $a_1$) is
+$$
+  a_1 = \left\{
+  a_1
+  :
+  \text{Pr}
+  \left(
+     \underbrace{Z_1 \leq a_1}_{\text{fail at IA1}} \; | \; H_1
+  \right)
+  =
+  \beta(t_1) 
+  \right\}.
+$$
+The futility bound at IA2  (denoted as $a_2$) is 
+$$
+  a_2
+  =
+  \left\{
+  a_2
+  :
+  \text{Pr}
+  \left(
+    \underbrace{Z_2 \leq a_2}_{\text{fail at IA2}} \;
+    \text{ and }
+    \underbrace{a_1 < Z_i < b_1}_{\text{continue at IA1}}
+    \; | \;
+    H_1
+  \right)
+  =
+  \beta(t_2) - \beta(t_1)
+  \right\}.
+$$
+The futility bound after IA2 can be derived in the similar logic. 
+
+In this example, the group sequential design with the $\beta$-spending of AHR can be derived as below. 
+```{r}
+betaspending <- gs_power_ahr(
+  enroll_rate = enroll_rate,
+  fail_rate = fail_rate,
+  ratio = ratio,
+  # 2 IAs + 1 FA
+  event = 512 * c(.5, .75, 1),
+  # efficacy bound
+  upper = gs_b,
+  upar = c(rep(Inf, 2), qnorm(.975)),
+  # futility bound
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  test_lower = c(TRUE, TRUE, FALSE)
+)
+
+betaspending %>%
+  summary() %>%
+  as_gt(
+    title = "Group sequential design with futility only",
+    subtitle = "Beta-spending futility bound"
+  )
+```
 
 # Modified Wieand futility bound
 
-The @wieand1994stopping rule recommends stopping after 50% of planned events accrue if the observed HR > 1.
-kornfreidlin2018 modified this by adding a second interim analysis after 75% of planned events and stop if the observed HR > 1
-This is implemented here by requiring a trend in favor of control with a direction $Z$-bound at 0 resulting in the *Nominal p* bound being 0.5 for interim analyses in the table below.
-A fixed bound is specified with the `gs_b()` function for `upper` and `lower` and its corresponding parameters `upar` for the upper (efficacy) bound and `lpar` for the lower (futility) bound.
-The final efficacy bound is for a 1-sided nominal p-value of 0.025; the futility bound lowers this to 0.0247 as noted in the lower-right-hand corner of the table below.
-It is < 0.025 since the probability is computed with the binding assumption.
-This is an arbitrary convention; if the futility bound is ignored,
-this computation yields 0.025.
-In the last row under *Alternate hypothesis* below we see the power is 88.44%.
-@korn2018interim computed 88.4% power for this design with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884) / 100000), 4), "%", sep = "")`.
+The @wieand1994stopping rule recommends stopping the trial if the observed HR exceeds 1 after 50% of planned events. @korn2018interim extends this approach by adding a second interim analysis at 75% of planned events, also stopping if HR > 1.
+
+Here, we implement these futility rules by setting a Z-bound at 0, corresponding to a nominal p-value bound of approximately 0.5 at interim analyses. Fixed bounds are specified via the `gs_b()` function for both efficacy and futility boundaries.
+
+The final efficacy bound is for a 1-sided nominal p-value of 0.025; the futility bound lowers this to 0.0247 as noted in the lower-right-hand corner of the table below. It is < 0.025 since the probability is computed with the binding assumption. This is an arbitrary convention; if the futility bound is ignored, this computation yields 0.025.
+
+The design has 88.44% power. This closely matches the 88.4% power from @korn2018interim with 100,000 simulations which estimate the standard error for the power calculation to be `r paste(100 * round(sqrt(.884 * (1 - .884) / 100000), 4), "%", sep = "")`.
 
 ```{r}
 wieand <- gs_power_ahr(
@@ -109,15 +164,11 @@ wieand %>%
 
 # Korn and Freidlin futility bound
 
-@korn2018interim considered delayed effect scenarios and proposed a futility bound that is a modification of an earlier method proposed by @wieand1994stopping.
+@korn2018interim addressed scenarios with delayed treatment effects by modifying the futility rule proposed by @wieand1994stopping. Their approach sets the futility bound when at least 50% of expected events have occurred, and at least two-thirds of these events happened after 3 months from randomization.
 
-The @korn2018interim futility bound is set *when at least 50% of the expected events have occurred and at least two thirds of the observed events have occurred later than 3 months from randomization*.
-The expected timing for this is demonstrated below.
-
-We consider the accumulation of events over time that occur during the no-effect interval for the first 3 months after randomization and events after this time interval by 
-This is done for the overall trial without dividing out by treatment group using the `gsDesign2::ahr()` function.
-We consider monthly accumulation of events through the 34.86 months planned trial duration.
-We note in the summary of early expected events below that all events during the first 3 months on-study are expected prior to the first interim analysis.
+To illustrate this, we analyze the accumulation of events over time by `gsDesign2::expected_event()` , distinguishing between
++ events occurring during the initial 3-month no-effect period and 
++ event accumulation through the 34.86 months planned trial duration.
 
 ```{r}
 find_ia_time <- function(t) {
@@ -142,13 +193,6 @@ find_ia_time <- function(t) {
 
 ia1_time <- uniroot(find_ia_time, interval = c(1, 50))$root
 ```
-
-The analysis time (in months) when at least 2/3 of the expected events occurred later than 3 months from randomization is 
-```{r}
-ia1_time |> round(2)
-```
-
-We now visualize the expected events accumulation over time.
 
 ```{r}
 # expected total events
@@ -218,14 +262,15 @@ p2 <- ggplot(data = data.frame(time = 1:betaspending$analysis$time[3],
         axis.title.y = element_text(size = 18),
         axis.text.x = element_text(size = 20),
         axis.text.y = element_text(size = 18),
-        plot.title = element_text(size = 16))
+        plot.title = element_text(size = 12))
 
 # plot p1 and p2 together
 cowplot::plot_grid(p1, p2, nrow = 2,
                    rel_heights = c(0.5, 0.5))
 ```
 
-The bound proposed by @korn2018interim is implemented below.
+As shown by the above plot, the IA1 analysis time is `r ia1_time |> round(2)`. 
+With the IA1 analysis time known, we now derive the group sequential design with the futility bound by @korn2018interim.
 ```{r}
 kf <- gs_power_ahr(
   enroll_rate = enroll_rate, 
@@ -233,9 +278,9 @@ kf <- gs_power_ahr(
   ratio = ratio,
   # 2 IAs + 1 FA
   event = 512 * c(.5, .75, 1),
-  analysis_time = c(19.1, 
-                    19.1 + 0.01, 
-                    19.1 + 0.02),
+  analysis_time = c(ia1_time, 
+                    ia1_time + 0.01, 
+                    ia1_time + 0.02),
   # efficacy bound
   upper = gs_b, 
   upar = c(Inf, Inf, qnorm(.975)),
@@ -249,49 +294,18 @@ kf |>
         subtitle = "Korn and Freidlin futility rule stops if HR > 1") 
 ```
 
-# Beta-spending futility bound with AHR
 
-Beta-spending allocates the Type II error rate ($\beta$) across interim analyses in a group sequential design. At each interim analysis, a portion of the total allowed $\beta$ is spent to determine the futility boundary. The cumulative $\beta$ spent up to each analysis is specified by a beta-spending function ($\beta(t)$ with $\beta(0) = 0$ and $\beta(1) = \beta$).
 
-The futility bound of IA1 $a_1$ is
-$$
-  a_1 = \left\{
-  a_1
-  :
-  \text{Pr}
-  \left(
-     \underbrace{Z_1 \leq a_1}_{\text{fail at IA1}} \; | \; H_1
-  \right)
-  =
-  \beta(t_1) 
-  \right\}.
-$$
-The futility bound at IA2 $a_2$ is 
-$$
-  a_2
-  =
-  \left\{
-  a_2
-  :
-  \text{Pr}
-  \left(
-    \underbrace{Z_2 \leq a_2}_{\text{fail at IA2}} \;
-    \text{ and }
-    \underbrace{a_1 < Z_i < b_1}_{\text{continue at IA1}}
-    \; | \;
-    H_1
-  \right)
-  =
-  \beta(t_2) - \beta(t_1)
-  \right\}.
-$$
-The futility bound after IA2 can be derived in the similar logic. 
+# Classical beta-spending futility bound
 
-We consider a beta-spending function that spends 2.5% of Type II error rate at the final analysis.
+A classical $\beta-$spending bound would assume a constant treatment effect over time using the  proportional hazards assumption. We use the average hazard ratio at the fixed design analysis for this purpose.
 ```{r}
-betaspending <- gs_power_ahr(
+betaspending_classic <- gs_power_ahr(
   enroll_rate = enroll_rate,
-  fail_rate = fail_rate,
+  fail_rate = define_fail_rate(duration = Inf, 
+                               fail_rate = -log(.5) / 12,
+                               hr = fixedevents$analysis$ahr,
+                               dropout_rate = 0),
   ratio = ratio,
   # 2 IAs + 1 FA
   event = 512 * c(.5, .75, 1),
@@ -304,13 +318,11 @@ betaspending <- gs_power_ahr(
   test_lower = c(TRUE, TRUE, FALSE)
 )
 
-betaspending %>%
+betaspending_classic %>%
   summary() %>%
   as_gt(
     title = "Group sequential design with futility only",
-    subtitle = "Beta-spending futility bound"
+    subtitle = "Classical beta-spending futility bound"
   )
 ```
-
-
 # References
