@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -25,28 +25,30 @@
 #' @param n Sample size. If NULL with power input, the sample size will be
 #' computed to achieve the targeted power
 #' @param ratio Experimental:Control randomization ratio.
-#'
+#' @param info_scale Information scale for calculation. Options are:
+#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
+#'   - `"h0_info"`: variance under null hypothesis is used.
+#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @export
 #'
 #' @rdname fixed_design
 #'
 #' @examples
 #' # Binary endpoint with risk differences ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = 0.9, p_c = .15, p_e = .1,
 #'   rd0 = 0, ratio = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_rd(
 #'   alpha = 0.025, power = NULL, p_c = .15, p_e = .1,
 #'   rd0 = 0, n = 2000, ratio = 1
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_rd <- function(
     alpha = 0.025,
@@ -55,8 +57,10 @@ fixed_design_rd <- function(
     p_c,
     p_e,
     rd0 = 0,
-    n = NULL) {
+    n = NULL,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
   # Check inputs ----
+  info_scale <- match.arg(info_scale)
   if (!is.numeric(p_c) || !is.numeric(p_e)) {
     stop("fixed_design_rd: p_c and p_e should be numerical values.")
   }
@@ -82,7 +86,8 @@ fixed_design_rd <- function(
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
       n = tibble(stratum = "All", n = n, analysis = 1),
-      rd0 = rd0, weight = "unstratified"
+      rd0 = rd0, weight = "unstratified",
+      info_scale = info_scale
     )
   } else {
     d <- gs_design_rd(
@@ -91,16 +96,17 @@ fixed_design_rd <- function(
       alpha = alpha, beta = 1 - power, ratio = ratio,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
-      rd0 = rd0, weight = "unstratified"
+      rd0 = rd0, weight = "unstratified",
+      info_scale = info_scale
     )
   }
   # get the output of MaxCombo
   ans <- tibble(
     design = "rd",
     n = d$analysis$n,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input,

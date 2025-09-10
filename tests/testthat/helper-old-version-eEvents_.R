@@ -46,7 +46,6 @@ NULL
 #' and info0 (information under related null hypothesis) for each value of `totalDuration` input;
 #'
 #' @examples
-#' library(dplyr)
 #' library(gsDesign2)
 #'
 #' # Example 1: default
@@ -89,7 +88,7 @@ tEvents_ <- function(enrollRates = tibble::tibble(
   res <- try(
     uniroot(
       function(x) {
-        AHR_(enrollRates, failRates, x, ratio)$Events - targetEvents
+        cache_fun(AHR_, enrollRates, failRates, x, ratio)$Events - targetEvents
       },
       interval
     )

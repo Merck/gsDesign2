@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -61,7 +61,6 @@ to_integer <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' library(dplyr)
 #' library(gsDesign2)
 #'
 #' # Average hazard ratio
@@ -106,7 +105,7 @@ to_integer <- function(x, ...) {
 #'     fail_rate = log(2) / 12, hr = c(1, .6),
 #'     dropout_rate = .001
 #'   ),
-#'   tau = 4,
+#'   tau = Inf, w_max = 2,
 #'   study_duration = 36, ratio = 1
 #' )
 #' x |>
@@ -142,7 +141,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
     }
   }
 
-  enroll_rate_new <- x$enroll_rate %>%
+  enroll_rate_new <- x$enroll_rate |>
     mutate(rate = rate * sample_size_new / output_n)
 
   # Round events
@@ -173,9 +172,10 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       n = x_new$analysis$n,
       event = x_new$analysis$event,
       time = x_new$analysis$time,
-      bound = (x_new$bound %>% filter(bound == "upper"))$z,
+      ahr = x_new$analysis$ahr,
+      bound = (x_new$bound |> filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      power = (x_new$bound %>% filter(bound == "upper"))$probability
+      power = (x_new$bound |> filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -193,12 +193,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       ratio = x$input$ratio,
       upper = gs_b, lower = gs_b,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf,
-      weight = function(s, arm0, arm1) {
-        wlr_weight_fh(s, arm0, arm1,
-          rho = x$design_par$rho,
-          gamma = x$design_par$gamma
-        )
-      }
+      weight = list(method = "fh", param = list(rho = x$design_par$rho, gamma = x$design_par$gamma))
     )
 
     analysis <- tibble(
@@ -206,9 +201,10 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       n = x_new$analysis$n,
       event = x_new$analysis$event,
       time = x_new$analysis$time,
-      bound = (x_new$bound %>% filter(bound == "upper"))$z,
+      ahr = x_new$analysis$ahr,
+      bound = (x_new$bound |> filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      power = (x_new$bound %>% filter(bound == "upper"))$probability
+      power = (x_new$bound |> filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -224,12 +220,7 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       event = event_new,
       analysis_time = NULL,
       ratio = x$input$ratio,
-      weight = function(s, arm0, arm1) {
-        wlr_weight_fh(s, arm0, arm1,
-          rho = -1, gamma = 0,
-          tau = x$design_par$tau
-        )
-      },
+      weight = list(method = "mb", param = list(tau = x$design_par$tau, w_max = x$design_par$w_max)),
       upper = gs_b, lower = gs_b,
       upar = qnorm(1 - x$input$alpha), lpar = -Inf
     )
@@ -239,9 +230,10 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       n = x_new$analysis$n,
       event = x_new$analysis$event,
       time = x_new$analysis$time,
-      bound = (x_new$bound %>% filter(bound == "upper"))$z,
+      ahr = x_new$analysis$ahr,
+      bound = (x_new$bound |> filter(bound == "upper"))$z,
       alpha = x$input$alpha,
-      power = (x_new$bound %>% filter(bound == "upper"))$probability
+      power = (x_new$bound |> filter(bound == "upper"))$probability
     )
 
     ans <- list(
@@ -392,7 +384,7 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
     sample_size_new <- as.integer(sample_size_new)
 
     enroll_rate <- x$enroll_rate
-    enroll_rate_new <- enroll_rate %>%
+    enroll_rate_new <- enroll_rate |>
       mutate(rate = rate * sample_size_new / x$analysis$n[n_analysis])
 
     # Updated upar
@@ -425,14 +417,16 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
 
         # ensure info0 is based on integer sample size calculation
         # as as they become a slight different number due to the `enroll_rate`
-        q_e <- ratio / (1 + ratio)
-        q_c <- 1 - q_e
-        info_with_new_event$info0 <- event_new * q_e * q_c
+        if (is_ahr) {
+          q_e <- ratio / (1 + ratio)
+          q_c <- 1 - q_e
+          info_with_new_event$info0 <- event_new * q_e * q_c
 
-        # ensure info is based on integer sample size calculation
-        # as as they become a slight different number due to the `enroll_rate`
-        q <- event_new / event
-        info_with_new_event$info <- x$analysis$info * q
+          # ensure info is based on integer sample size calculation
+          # as as they become a slight different number due to the `enroll_rate`
+          q <- event_new / event
+          info_with_new_event$info <- x$analysis$info * q
+        }
 
         # update timing
         upar_new$timing <- info_with_new_event$info0 / max(info_with_new_event$info0)
@@ -468,6 +462,7 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
       interval = c(0.01, max(x$analysis$time) + 100),
       integer = TRUE
     )
+    if (is_ahr) power_args["h1_spending"] <- x$input["h1_spending"]
     if (is_wlr) power_args[c("weight", "approx")] <- x$input[c("weight", "approx")]
     x_new <- do.call(if (is_wlr) gs_power_wlr else gs_power_ahr, power_args)
   } else {
@@ -501,14 +496,14 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
         stratum = rep(x$input$p_c$stratum, n_analysis)
       )
       tbl_n <- if (n_stratum == 1) {
-        tbl_n %>%
+        tbl_n |>
           left_join(sample_size_new)
       } else {
-        tbl_n %>%
-          left_join(x$input$stratum_prev) %>%
-          left_join(sample_size_new) %>%
-          mutate(n_new = prevalence * n) %>%
-          select(-c(n, prevalence)) %>%
+        tbl_n |>
+          left_join(x$input$stratum_prev) |>
+          left_join(sample_size_new) |>
+          mutate(n_new = prevalence * n) |>
+          select(-c(n, prevalence)) |>
           rename(n = n_new)
       }
     })
@@ -568,6 +563,21 @@ to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio
   # Make n and event of x_new$analysis exactly integers
   x_new$analysis$n <- round(x_new$analysis$n)
   if (!is_rd) x_new$analysis$event <- round(x_new$analysis$event)
+
+  # Add attributes to x_new to identify whether it is a gs_design_ahr orbject or gs_power_ahr object
+  if ("analysis_time" %in% names(x$input) && "info_frac" %in% names(x$input) && "ahr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_design_ahr"
+  } else if ("analysis_time" %in% names(x$input) && "event" %in% names(x$input) && "ahr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_power_ahr"
+  } else if ("analysis_time" %in% names(x$input) && "info_frac" %in% names(x$input) && "wlr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_design_wlr"
+  } else if ("analysis_time" %in% names(x$input) && "event" %in% names(x$input) && "wlr" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_power_wlr"
+  } else if (!("n" %in% names(x$input)) && "rd" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_design_rd"
+  } else if ("n" %in% names(x$input) && "rd" %in% class(x)) {
+    attr(x_new, 'uninteger_is_from') <- "gs_power_rd"
+  }
 
   return(x_new)
 }

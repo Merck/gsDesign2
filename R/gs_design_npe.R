@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -16,83 +16,14 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Group sequential design computation with non-constant effect and information
-#'
-#' Derives group sequential design size,
-#' bounds and boundary crossing probabilities based on proportionate
-#' information and effect size at analyses.
-#' It allows a non-constant treatment effect over time,
-#' but also can be applied for the usual homogeneous effect size designs.
-#' It requires treatment effect and proportionate statistical information
-#' at each analysis as well as a method of deriving bounds, such as spending.
-#' The routine enables two things not available in the gsDesign package:
-#' 1) non-constant effect, 2) more flexibility in boundary selection.
-#' For many applications, the non-proportional-hazards design function
-#' `gs_design_nph()` will be used; it calls this function.
-#' Initial bound types supported are 1) spending bounds,
-#' 2) fixed bounds, and 3) Haybittle-Peto-like bounds.
-#' The requirement is to have a boundary update method that
-#' can each bound without knowledge of future bounds.
-#' As an example, bounds based on conditional power that
-#' require knowledge of all future bounds are not supported by this routine;
-#' a more limited conditional power method will be demonstrated.
-#' Boundary family designs Wang-Tsiatis designs including
-#' the original (non-spending-function-based) O'Brien-Fleming and Pocock designs
-#' are not supported by [gs_power_npe()].
-#'
-#' @param theta Natural parameter for group sequential design
-#'   representing expected incremental drift at all analyses;
-#'   used for power calculation.
-#' @param theta0 Natural parameter used for upper bound spending;
-#'   if `NULL`, this will be set to 0.
-#' @param theta1 Natural parameter used for lower bound spending;
-#'   if `NULL`, this will be set to `theta`
-#'   which yields the usual beta-spending.
-#'   If set to 0, spending is 2-sided under null hypothesis.
-#' @param info Proportionate statistical information at
-#'   all analyses for input `theta`.
-#' @param info0 Proportionate statistical information
-#'   under null hypothesis, if different than alternative;
-#'   impacts null hypothesis bound calculation.
-#' @param info1 Proportionate statistical information
-#'   under alternate hypothesis;
-#'   impacts null hypothesis bound calculation.
-#' @param info_scale Information scale for calculation. Options are:
-#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
-#'   - `"h0_info"`: variance under null hypothesis is used.
-#'   - `"h1_info"`: variance under alternative hypothesis is used.
+#' @rdname gs_power_design_npe
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
-#' @param binding Indicator of whether futility bound is binding;
-#'   default of `FALSE` is recommended.
-#' @param upper Function to compute upper bound.
-#' @param lower Function to compare lower bound.
-#' @param upar Parameters passed to the function provided in `upper`.
-#' @param lpar Parameters passed to the function provided in `lower`.
-#' @param test_upper Indicator of which analyses should include
-#'   an upper (efficacy) bound; single value of `TRUE` (default) indicates
-#'   all analyses; otherwise, a logical vector of the same length as `info`
-#'   should indicate which analyses will have an efficacy bound.
-#' @param test_lower Indicator of which analyses should include an lower bound;
-#'   single value of `TRUE` (default) indicates all analyses;
-#'   single value `FALSE` indicates no lower bound; otherwise,
-#'   a logical vector of the same length as `info` should indicate which
-#'   analyses will have a lower bound.
-#' @param r Integer value controlling grid for numerical integration
-#'   as in Jennison and Turnbull (2000); default is 18, range is 1 to 80.
-#'   Larger values provide larger number of grid points and greater accuracy.
-#'   Normally `r` will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
-#'
-#' @return A tibble with columns analysis, bound, z, probability, theta, info, info0.
-#'
+
 #' @details
-#' The inputs `info` and `info0` should be
-#' vectors of the same length with increasing positive numbers.
-#' The design returned will change these by some constant scale
-#' factor to ensure the design has power `1 - beta`.
-#' The bound specifications in `upper`, `lower`, `upar`, `lpar`
+#' The bound specifications (`upper`, `lower`, `upar`, `lpar`) of \code{gs_design_npe()}
 #' will be used to ensure Type I error and other boundary properties are as specified.
+#' See the help file of \code{gs_spending_bound()} for details on spending function.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -127,11 +58,10 @@
 #' @export
 #'
 #' @examples
-#' library(dplyr)
 #' library(gsDesign)
 #'
 #' # Example 1 ----
-#' # Single analysis
+#' # gs_design_npe with single analysis
 #' # Lachin book p 71 difference of proportions example
 #' pc <- .28 # Control response rate
 #' pe <- .40 # Experimental response rate
@@ -147,7 +77,7 @@
 #'
 #'
 #' # Example 2 ----
-#' # Fixed bound
+#' # gs_design_npe with with fixed bound
 #' x <- gs_design_npe(
 #'   alpha = 0.0125,
 #'   theta = c(.1, .2, .3),
@@ -163,15 +93,15 @@
 #' # Same upper bound; this represents non-binding Type I error and will total 0.025
 #' gs_power_npe(
 #'   theta = rep(0, 3),
-#'   info = (x %>% filter(bound == "upper"))$info,
+#'   info = (x |> dplyr::filter(bound == "upper"))$info,
 #'   upper = gs_b,
-#'   upar = (x %>% filter(bound == "upper"))$z,
+#'   upar = (x |> dplyr::filter(bound == "upper"))$z,
 #'   lower = gs_b,
 #'   lpar = rep(-Inf, 3)
 #' )
 #'
 #' # Example 3 ----
-#' # Spending bound examples
+#' # gs_design_npe with spending bound
 #' # Design with futility only at analysis 1; efficacy only at analyses 2, 3
 #' # Spending bound for efficacy; fixed bound for futility
 #' # NOTE: test_upper and test_lower DO NOT WORK with gs_b; must explicitly make bounds infinite
@@ -201,7 +131,7 @@
 #' )
 #'
 #' # Example 4 ----
-#' # Spending function bounds
+#' # gs_design_npe with spending function bounds
 #' # 2-sided asymmetric bounds
 #' # Lower spending based on non-zero effect
 #' gs_design_npe(
@@ -215,7 +145,7 @@
 #' )
 #'
 #' # Example 5 ----
-#' # Two-sided symmetric spend, O'Brien-Fleming spending
+#' # gs_design_npe with two-sided symmetric spend, O'Brien-Fleming spending
 #' # Typically, 2-sided bounds are binding
 #' xx <- gs_design_npe(
 #'   theta = c(.1, .2, .3),
@@ -236,11 +166,11 @@
 #'   binding = TRUE,
 #'   upper = gs_b,
 #'   lower = gs_b,
-#'   upar = (xx %>% filter(bound == "upper"))$z,
-#'   lpar = -(xx %>% filter(bound == "upper"))$z
+#'   upar = (xx |> dplyr::filter(bound == "upper"))$z,
+#'   lpar = -(xx |> dplyr::filter(bound == "upper"))$z
 #' )
 gs_design_npe <- function(
-    theta = .1, theta0 = NULL, theta1 = NULL, # 3 theta
+    theta = .1, theta0 = 0, theta1 = theta, # 3 theta
     info = 1, info0 = NULL, info1 = NULL, # 3 info
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     alpha = 0.025, beta = .1,
@@ -255,31 +185,15 @@ gs_design_npe <- function(
   check_alpha_beta(alpha, beta)
 
   # check theta, theta0, theta1
-  if (length(theta) == 1) {
-    theta <- rep(theta, n_analysis)
-  }
+  theta  <- check_theta(theta,  n_analysis)
+  theta0 <- check_theta(theta0, n_analysis)
+  theta1 <- check_theta(theta1, n_analysis)
 
-  if (is.null(theta1)) {
-    theta1 <- theta
-  } else if (length(theta1) == 1) {
-    theta1 <- rep(theta1, n_analysis)
-  }
-
-  if (is.null(theta0)) {
-    theta0 <- rep(0, n_analysis)
-  } else if (length(theta0) == 1) {
-    theta0 <- rep(theta0, n_analysis)
-  }
-
-  check_theta(theta, n_analysis)
-  check_theta(theta0, n_analysis)
-  check_theta(theta1, n_analysis)
-
+  upper <- match.fun(upper)
+  lower <- match.fun(lower)
   # check test_upper & test_lower
-  if (length(test_upper) == 1 && n_analysis > 1) test_upper <- rep(test_upper, n_analysis)
-  if (length(test_lower) == 1 && n_analysis > 1) test_lower <- rep(test_lower, n_analysis)
-  check_test_upper(test_upper, n_analysis)
-  check_test_lower(test_lower, n_analysis)
+  test_upper <- check_test_upper(test_upper, n_analysis)
+  test_lower <- check_test_lower(test_lower, n_analysis)
 
   # Set up info ----
   if (is.null(info0)) {
@@ -412,92 +326,53 @@ gs_design_npe <- function(
     min_x <- micro_x
   }
 
-  # use root finding with the above function to find needed sample size inflation
-  # now we can solve for the inflation factor for the enrollment rate to achieve the desired power
-  res <- try(uniroot(errbeta,
-    lower = min_x, upper = max_x,
-    theta = theta, theta0 = theta0, theta1 = theta1,
-    info = info, info0 = info0, info1 = info1, info_scale = info_scale,
-    z_upper = upper, upar = upar, test_upper = test_upper,
-    z_lower = lower, lpar = lpar, test_lower = test_lower,
-    beta = beta, n_analysis = n_analysis, binding = binding, r = r, tol = tol
-  ))
-  if (inherits(res, "try-error")) {
-    stop("gs_design_npe(): Sample size solution not found!")
-  } else {
-    inflation_factor <- res$root
+  ans_h1 <- NULL
+
+  # use gs_power_npe() to compute difference from targeted power for a given
+  # sample size inflation factor
+  errbeta <- function(x) {
+    # calculate the probability under H1
+    ans_h1 <<- cache_fun(
+      gs_power_npe, theta, theta0, theta1, info * x, info0 * x, info1 * x,
+      info_scale, upper, upar, lower, lpar, test_upper, test_lower, binding, r, tol
+    )
+    power <- subset(ans_h1, bound == "upper" & analysis == n_analysis)$probability
+    1 - beta - power
   }
 
-  # Return the output ----
-  # calculate the probability under H1
-  ans_h1 <- gs_power_npe(
-    theta = theta, theta0 = theta0, theta1 = theta1,
-    info = info * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
-    info_scale = info_scale,
-    upper = upper, upar = upar,
-    lower = lower, lpar = lpar,
-    test_upper = test_upper, test_lower = test_lower,
-    binding = binding, r = r, tol = tol
+  # use root finding with the above function to find needed sample size
+  # inflation to achieve the desired power
+  inflation_factor <- tryCatch(
+    uniroot(errbeta, lower = min_x, upper = max_x, check.conv = TRUE)$root,
+    error = function(e) stop("solution not found (", e$message, ")")
   )
 
+  # Return the output ----
   # calculate the probability under H0
   ans_h0 <- gs_power_npe(
     theta = 0, theta0 = theta0, theta1 = theta1,
     info = info0 * inflation_factor, info0 = info0 * inflation_factor, info1 = info1 * inflation_factor,
     info_scale = info_scale,
     upper = upper, upar = upar,
-    lower = if (!two_sided) {
-      gs_b
-    } else {
-      lower
-    },
-    lpar = if (!two_sided) {
-      rep(-Inf, n_analysis)
-    } else {
-      lpar
-    },
+    lower = if (two_sided) lower else gs_b,
+    lpar = if (two_sided) lpar else rep(-Inf, n_analysis),
     test_upper = test_upper, test_lower = test_lower,
     binding = binding, r = r, tol = tol
   )
 
   # combine probability under H0 and H1
   suppressMessages(
-    ans <- ans_h1 %>%
+    ans <- ans_h1 |>
       full_join(
-        ans_h0 %>%
-          select(analysis, bound, probability) %>%
+        ans_h0 |>
+          select(analysis, bound, probability) |>
           rename(probability0 = probability)
       )
   )
 
-  ans <- ans %>% select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
+  ans <- ans |> select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
 
-  ans <- ans %>% arrange(analysis)
+  ans <- ans |> arrange(analysis)
 
-  return(ans)
-}
-
-
-## Create a function that uses gs_power_npe to compute difference from targeted power
-## for a given sample size inflation factor
-errbeta <- function(x = 1, n_analysis = 1,
-                    beta = .1,
-                    theta = .1, theta0 = 0, theta1 = .1,
-                    info = 1, info0 = 1, info1 = 1, info_scale = "h0_h1_info",
-                    z_upper = gs_b, upar = qnorm(.975),
-                    z_lower = gs_b, lpar = -Inf,
-                    test_upper = TRUE, test_lower = TRUE,
-                    binding = FALSE, r = 18, tol = 1e-6) {
-  x_temp <- gs_power_npe(
-    theta = theta, theta0 = theta0, theta1 = theta1,
-    info = info * x, info0 = info0 * x, info1 = info1 * x, info_scale = info_scale,
-    upper = z_upper, upar = upar, test_upper = test_upper,
-    lower = z_lower, lpar = lpar, test_lower = test_lower,
-    binding = binding, r = r, tol = tol
-  )
-
-  x_power <- (x_temp[x_temp$bound == "upper" & x_temp$analysis == n_analysis, ])$probability
-
-  ans <- 1 - beta - x_power
   return(ans)
 }

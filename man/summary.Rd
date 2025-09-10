@@ -45,7 +45,6 @@ A summary table (data frame).
 Summary for fixed design or group sequential design objects
 }
 \examples{
-library(dplyr)
 
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
@@ -81,7 +80,7 @@ fixed_design_ahr(
   fail_rate = fail_rate,
   study_duration = study_duration,
   ratio = ratio
-) \%>\% summary()
+) |> summary()
 
 # FH ----
 # under fixed power
@@ -92,12 +91,11 @@ fixed_design_fh(
   fail_rate = fail_rate,
   study_duration = study_duration,
   ratio = ratio
-) \%>\% summary()
+) |> summary()
 
 # Design parameters ----
 library(gsDesign)
 library(gsDesign2)
-library(dplyr)
 
 # enrollment/failure rates
 enroll_rate <- define_enroll_rate(
@@ -135,14 +133,6 @@ upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = 
 lower <- gs_spending_bound
 lpar <- list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 0, timing = NULL)
 
-# weight function in WLR
-wgt00 <- function(x, arm0, arm1) {
-  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-}
-wgt05 <- function(x, arm0, arm1) {
-  wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)
-}
-
 # test in COMBO
 fh_test <- rbind(
   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)),
@@ -165,25 +155,25 @@ x_ahr <- gs_design_ahr(
   lpar = lpar
 )
 
-x_ahr \%>\% summary()
+x_ahr |> summary()
 
 # Customize the digits to display
-x_ahr \%>\% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
+x_ahr |> summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 
 # Customize the labels of the crossing probability
-x_ahr \%>\% summary(bound_names = c("A is better", "B is better"))
+x_ahr |> summary(bound_names = c("A is better", "B is better"))
 
 # Customize the variables to be summarized for each analysis
-x_ahr \%>\% summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
+x_ahr |> summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
 
 # Customize the digits for the columns
-x_ahr \%>\% summary(col_decimals = c(z = 4))
+x_ahr |> summary(col_decimals = c(z = 4))
 
 # Customize the columns to display
-x_ahr \%>\% summary(col_vars = c("z", "~hr at bound", "nominal p"))
+x_ahr |> summary(col_vars = c("z", "~hr at bound", "nominal p"))
 
 # Customize columns and digits
-x_ahr \%>\% summary(col_vars = c("z", "~hr at bound", "nominal p"),
+x_ahr |> summary(col_vars = c("z", "~hr at bound", "nominal p"),
                   col_decimals = c(4, 2, 2))
 }
 
@@ -192,7 +182,7 @@ x_ahr \%>\% summary(col_vars = c("z", "~hr at bound", "nominal p"),
 x_wlr <- gs_design_wlr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
-  weight = wgt05,
+  weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
   info_frac = NULL,
   analysis_time = sort(unique(x_ahr$analysis$time)),
   ratio = ratio,
@@ -203,7 +193,7 @@ x_wlr <- gs_design_wlr(
   lower = lower,
   lpar = lpar
 )
-x_wlr \%>\% summary()
+x_wlr |> summary()
 }
 # Maxcombo ----
 \donttest{
@@ -223,7 +213,7 @@ x_combo <- gs_design_combo(
   lower = gs_spending_combo,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 )
-x_combo \%>\% summary()
+x_combo |> summary()
 }
 # Risk difference ----
 \donttest{
@@ -243,6 +233,6 @@ gs_design_rd(
     k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL
   )$upper$bound,
   lpar = c(qnorm(.1), rep(-Inf, 2))
-) \%>\% summary()
+) |> summary()
 }
 }

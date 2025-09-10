@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -107,47 +107,17 @@ expected_time <- function(
     target_event = 150,
     ratio = 1,
     interval = c(.01, 100)) {
-  # Check inputs ----
-  check_ratio(ratio)
-  if (length(target_event) > 1) {
-    stop("expected_time(): the input target_event` should be a positive numer, rather than a vector!")
+  ans <- NULL
+  # calculate the difference between the targeted number of events and the
+  # accumulated events at time `x`
+  event_diff <- function(x) {
+    ans <<- cache_fun(ahr, enroll_rate, fail_rate, x, ratio)
+    ans$event - target_event
   }
 
   # Perform uniroot AHR() over total_duration ----
-  res <- try(
-    uniroot(event_diff, interval, enroll_rate, fail_rate, ratio, target_event)
-  )
-
-  if (inherits(res, "try-error")) {
-    stop("expected_time(): solution not found!")
-  } else {
-    ans <- ahr(
-      enroll_rate = enroll_rate, fail_rate = fail_rate,
-      total_duration = res$root, ratio = ratio
-    )
-    return(ans |> select(-n))
-  }
-}
-
-#' Considering the enrollment rate, failure rate, and randomization ratio,
-#' calculate the difference between the targeted number of events and the
-#' accumulated events at time `x`
-#'
-#' A helper function passed to `uniroot()`
-#'
-#' @param x Duration
-#' @inheritParams expected_time
-#'
-#' @return A single numeric value that represents the difference between the
-#'   expected number of events for the provided duration (`x`) and the targeted
-#'   number of events (`target_event`)
-#'
-#' @keywords internal
-event_diff <- function(x, enroll_rate, fail_rate, ratio, target_event) {
-  expected <- ahr(
-    enroll_rate = enroll_rate, fail_rate = fail_rate,
-    total_duration = x, ratio = ratio
-  )
-  ans <- expected$event - target_event
-  return(ans)
+  tryCatch(uniroot(event_diff, interval, check.conv = TRUE), error = function(e) {
+    stop("solution not found (", e$message, ")")
+  })
+  ans |> select(-n)
 }

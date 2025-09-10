@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -60,7 +60,7 @@ define_enroll_rate <- function(
     rate = rate
   )
 
-  check_enroll_rate(df)
+  df <- check_enroll_rate(df)
 
   class(df) <- c("enroll_rate", class(df))
 
@@ -125,7 +125,7 @@ define_fail_rate <- function(
     hr = hr
   )
 
-  check_fail_rate(df)
+  df <- check_fail_rate(df)
 
   class(df) <- c("fail_rate", class(df))
 

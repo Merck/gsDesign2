@@ -11,6 +11,7 @@ gs_power_wlr(
   event = c(30, 40, 50),
   analysis_time = NULL,
   binding = FALSE,
+  h1_spending = TRUE,
   upper = gs_spending_bound,
   lower = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -18,7 +19,7 @@ gs_power_wlr(
   test_upper = TRUE,
   test_lower = TRUE,
   ratio = 1,
-  weight = wlr_weight_fh,
+  weight = "logrank",
   info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   approx = "asymptotic",
   r = 18,
@@ -28,24 +29,46 @@ gs_power_wlr(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
-\item{event}{Targeted event at each analysis.}
+\item{event}{A numerical vector specifying the targeted events at each analysis. See details.}
 
-\item{analysis_time}{Minimum time of analysis.}
+\item{analysis_time}{Targeted calendar timing of analyses. See details.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound.}
+\item{h1_spending}{Indicator that lower bound to be set by spending
+under alternate hypothesis (input \code{fail_rate})
+if spending is used for lower bound.
+If this is \code{FALSE}, then the lower bound spending is under the null hypothesis.
+This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
-\item{lower}{Function to compute lower bound.}
+\item{upper}{Function to compute upper bound.
+\itemize{
+\item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
+}}
 
-\item{upar}{Parameters passed to \code{upper}.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
-\item{lpar}{Parameters passed to \code{lower}.}
+\item{upar}{Parameters passed to \code{upper}.
+\itemize{
+\item If \code{upper = gs_b}, then \code{upar} is a numerical vector specifying the fixed efficacy bounds per analysis.
+\item If \code{upper = gs_spending_bound}, then \code{upar} is a list including
+\itemize{
+\item \code{sf} for the spending function family.
+\item \code{total_spend} for total alpha spend.
+\item \code{param} for the parameter of the spending function.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
+}
+}}
+
+\item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{test_upper}{Indicator of which analyses should include an upper
 (efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
@@ -58,14 +81,13 @@ single value \code{FALSE} indicated no lower bound; otherwise, a logical vector
 of the same length as \code{info} should indicate which analyses will have a
 lower bound.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
+\item{ratio}{Experimental:Control randomization ratio.}
 
 \item{weight}{Weight of weighted log rank test:
 \itemize{
-\item \code{"1"} = unweighted.
-\item \code{"n"} = Gehan-Breslow.
-\item \code{"sqrtN"} = Tarone-Ware.
-\item \code{"FH_p[a]_q[b]"} = Fleming-Harrington with p=a and q=b.
+\item \code{"logrank"} = regular logrank test.
+\item \code{list(method = "fh", param = list(rho = ..., gamma = ...))} = Fleming-Harrington weighting functions.
+\item \code{list(method = "mb", param = list(tau = ..., w_max = ...))} = Magirr and Burman weighting functions.
 }}
 
 \item{info_scale}{Information scale for calculation. Options are:
@@ -86,14 +108,14 @@ Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
 Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 
-\item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to targeted event.}
+\item{interval}{An interval presumed to include the times at which
+expected event count is equal to targeted event.
+Normally, this can be ignored by the user as it is set to \code{c(.01, 1000)}.}
 
-\item{integer}{Logical value integer whether it is an integer design
-(i.e., integer sample size and events) or not. This argument is commonly
-used when creating integer design via \code{\link[=to_integer]{to_integer()}}.}
+\item{integer}{Indicator of whether integer sample size and events are intended. This argument is
+used when using \code{\link[=to_integer]{to_integer()}}.}
 }
 \value{
 A list with input parameters, enrollment rate,

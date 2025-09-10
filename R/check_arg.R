@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -16,480 +16,152 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Check argument type, length, and dimension
-#'
-#' @param arg An argument to be checked.
-#' @param type A character vector of candidate argument type.
-#' @param length A numeric value of argument length or `NULL`.
-#' @param dim A numeric vector of argument dimension or `NULL`.
-#'
-#' @return Detailed error message for failed checks.
-#'
-#' @noRd
-#'
-#' @details
-#' If `type`, `length`, or `dim` is `NULL`, the corresponding check
-#' will not be executed.
-#'
-#' @section Specification:
-#' \if{latex}{
-#'  \itemize{
-#'    \item Check if arg is NULL.
-#'    \item Extract the type, length and dim information from arg.
-#'    \item Compare with target values and report error message if it does not match.
-#'  }
-#'  }
-#' \if{html}{The contents of this section are shown in PDF user manual only.}
-#'
-#' @examples
-#' tbl <- as.data.frame(matrix(1:9, nrow = 3))
-#' check_args(arg = tbl, type = c("data.frame"))
-#'
-#' vec <- c("a", "b", "c")
-#' check_args(arg = vec, type = c("character"), length = c(2, 4))
-check_args <- function(arg, type, length = NULL, dim = NULL) {
-  if (is.null(arg)) {
-    return(NULL)
-  }
-
-  if (any(class(arg) %in% "matrix")) arg <- as.vector(arg)
-
-  check <- list()
-  message <- list()
-
-  if (!is.null(type)) {
-    check[["type"]] <- any(class(arg) %in% type) & (!is.null(class(arg)))
-    message[["type"]] <- paste("The argument type did not match:", paste(type, collapse = "/"))
-  }
-
-  if (!is.null(length)) {
-    check[["length"]] <- all(length(arg) %in% length) & (!is.null(length(arg)))
-    message[["length"]] <- paste("The argument length is not", paste(length, collapse = ", "))
-  }
-
-  if (!is.null(dim)) {
-    check[["dim"]] <- all(dim(arg) == dim) & (!is.null(dim(arg)))
-    message[["dim"]] <- paste("The argument dimension is not", paste(dim, collapse = ","))
-  }
-
-  check <- unlist(check)
-  message <- unlist(message)
-
-  if (!all(unlist(check))) {
-    stop(paste(message[!check], collapse = "\n"))
-  } else {
-    return(NULL)
-  }
+# check if values in a vector are increasing
+check_increasing <- function(x, name = deparse(substitute(x)), first = TRUE) {
+  # if first = TRUE, require x[1] to be positive, otherwise x[1] can be 0
+  d <- if (first) diff_one(x) else diff(x)
+  if (any(d <= 0)) stop(
+    "`", name, "` (", deparse(x), ") must be ",
+    if (first) "positive and ", "strictly increasing!"
+  )
 }
 
-#' A function to check the arguments `enroll_rate` used in gsDesign2
+check_positive <- function(x, name = deparse(substitute(x))) {
+  if (!is.numeric(x) || any(x <= 0)) stop(
+    "`", name, "` (", deparse(x), ") must be positive!"
+  )
+}
+
+check_non_negative <- function(x, name = deparse(substitute(x)), ...) {
+  if (!is.numeric(x) || any(x < 0)) stop(
+    "`", name, "` (", deparse(x), ") must not be negative!", ...
+  )
+}
+
+#' Check the argument `enroll_rate`
 #'
 #' @inheritParams ahr
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' # Proper definition
-#' enroll_rate <- define_enroll_rate(
-#'   duration = c(2, 2, 10),
-#'   rate = c(3, 6, 9)
-#' )
-#'
-#' check_enroll_rate(enroll_rate)
-#'
-#' # Non-standard use
-#' enroll_rate <- data.frame(
-#'   duration = c(2, 2, 10),
-#'   rate = c(3, 6, 9)
-#' )
-#'
-#' check_enroll_rate(enroll_rate)
-check_enroll_rate <- function(enroll_rate) {
-  # Suppress any potential warnings about missing columns. The checks below will
-  # verify the required columns
-  suppressWarnings({
-    duration <- enroll_rate$duration
-    rate <- enroll_rate$rate
-    stratum <- enroll_rate$stratum
-  })
-
+check_enroll_rate <- function(x) {
+  if (!"stratum" %in% names(x)) x$stratum <- "All"
   msg <- " Try the helper function define_enroll_rate() to prepare valid input."
-
-  if (is.null(duration)) {
-    stop("The variable `duration` can't be NULL.", msg)
-  }
-
-  if (is.null(rate)) {
-    stop("The variable `rate` can't be NULL.", msg)
-  }
-
-  check_args(duration, type = c("numeric", "integer"))
-  check_args(rate, type = c("numeric", "integer"))
-  check_args(stratum, type = c("character"))
-
-  if (any(duration < 0)) {
-    stop("The enrollment duration `duration` can't be negative.", msg)
-  }
-
-  if (any(rate < 0)) {
-    stop("The enrollment rate `rate` can't be negative.", msg)
-  }
-
-  if (!("stratum" %in% names(enroll_rate))) {
-    enroll_rate$stratum <- rep("All", nrow(enroll_rate))
-  }
-
-  enroll_rate
+  for (j in c("duration", "rate")) check_non_negative(x[[j]], j, msg)
+  x
 }
 
-
-
-#' A function to check the arguments `fail_rate` used in gsDesign2
+#' Check the argument `fail_rate`
 #'
 #' @inheritParams ahr
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' # Proper definition
-#' fail_rate <- define_fail_rate(
-#'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18),
-#'   dropout_rate = .001,
-#'   hr = c(.9, .6)
-#' )
-#'
-#' check_fail_rate(fail_rate)
-#'
-#' # Non-standard use
-#' fail_rate <- define_fail_rate(
-#'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18),
-#'   dropout_rate = .001,
-#'   hr = c(.9, .6)
-#' )
-#'
-#' check_fail_rate(fail_rate)
-check_fail_rate <- function(fail_rate) {
-  # Suppress any potential warnings about missing columns. The checks below will
-  # verify the required columns
-  suppressWarnings({
-    duration <- fail_rate$duration
-    fail_rate_col <- fail_rate$fail_rate
-    dropout_rate <- fail_rate$dropout_rate
-    hr <- fail_rate$hr
-    stratum <- fail_rate$stratum
-  })
+check_fail_rate <- function(x) {
+  if (!"hr" %in% names(x)) x$hr <- 1
+  if (!"stratum" %in% names(x)) x$stratum <- "All"
 
   msg <- " Try the helper function define_fail_rate() to prepare valid input."
+  for (j in c("duration", "fail_rate", "dropout_rate", "hr"))
+    check_non_negative(x[[j]], j, msg)
 
-  if (is.null(duration)) {
-    stop("The variable `duration` can't be NULL.", msg)
-  }
-
-  if (is.null(fail_rate_col)) {
-    stop("The variable `fail_rate` can't be NULL.", msg)
-  }
-
-  if (is.null(dropout_rate)) {
-    stop("The variable `dropout_rate` can't be NULL.", msg)
-  }
-
-  check_args(duration, type = c("numeric", "integer"))
-  check_args(fail_rate_col, type = c("numeric", "integer"))
-  check_args(dropout_rate, type = c("numeric", "integer"))
-  check_args(hr, type = c("numeric", "integer"))
-  check_args(stratum, type = c("character"))
-
-  if (any(duration < 0)) {
-    stop("The enrollment duration `duration` can't be negative.", msg)
-  }
-
-  if (any(fail_rate_col < 0)) {
-    stop("The failure rate `fail_rate` can't be negative.", msg)
-  }
-
-  if (any(dropout_rate < 0)) {
-    stop("The dropout rate `dropout_rate` can't be negative.", msg)
-  }
-
-  if (any(hr < 0)) {
-    stop("The hazard ratio `hr` can't be negative.", msg)
-  }
-
-  if (!("hr" %in% names(fail_rate))) {
-    fail_rate$hr <- rep(1, nrow(fail_rate))
-  }
-
-  if (!("stratum" %in% names(fail_rate))) {
-    fail_rate$stratum <- rep("All", nrow(fail_rate))
-  }
-
-  fail_rate
+  x
 }
 
-
-
-#' A function to check the arguments `enroll_rate` and `fail_rate` used in gsDesign2
+#' Check the arguments `enroll_rate` and `fail_rate`
 #'
 #' @inheritParams ahr
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' enroll_rate <- define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9))
-#' fail_rate <- define_fail_rate(
-#'   duration = c(3, 100),
-#'   fail_rate = log(2) / c(9, 18),
-#'   dropout_rate = .001,
-#'   hr = c(.9, .6)
-#' )
-#' check_enroll_rate_fail_rate(enroll_rate, fail_rate)
 check_enroll_rate_fail_rate <- function(enroll_rate, fail_rate) {
   if ("stratum" %in% colnames(enroll_rate) && "stratum" %in% colnames(fail_rate)) {
-    strata_enroll <- unique(enroll_rate$stratum)
-    strata_fail <- unique(fail_rate$stratum)
-    strata_common <- intersect(strata_enroll, strata_fail)
-
-    if (sum(strata_common %in% strata_enroll) != length(strata_enroll)) {
-      stop("The `Strata` column in the input argument `enroll_rate` and `fail_rate` must be the same!")
-    }
+    s1 <- unique(enroll_rate$stratum)
+    s2 <- unique(fail_rate$stratum)
+    n1 <- length(s1); n2 <- length(s2)
+    if (n1 != n2 || n1 != length(intersect(s1, s2))) stop(
+      "`enroll_rate` and `fail_rate` must have same `stratum` values: ",
+      "`enroll_rate` has ", deparse(s1), " but `fail_rate` has ", deparse(s2)
+    )
   }
 }
 
-
-#' A function to check the arguments `analysis_time` used in gsDesign2
-#'
-#' @param analysis_time Analysis time.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' Check the arguments `analysis_time`
+#' @param x Analysis time.
 #' @noRd
-#'
-#' @examples
-#' analysis_time <- 20
-#' check_analysis_time(analysis_time)
-#'
-#' analysis_time <- c(20, 30)
-#' check_analysis_time(analysis_time)
-check_analysis_time <- function(analysis_time) {
-  cond1 <- !is.numeric(analysis_time)
-  cond2 <- !is.vector(analysis_time)
-  cond3 <- min(analysis_time - fastlag(analysis_time, first = 0)) <= 0
-  if (cond1 || cond2 || cond3) {
-    stop("The input argument `analysis_times` must be NULL a numeric vector with positive increasing values!")
-  }
-}
+check_analysis_time <- check_increasing
 
-
-#' A function to check the arguments `events` used in gsDesign2
+#' Check the argument `event`
 #'
-#' @param events Number of events.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Number of events.
 #' @noRd
-#'
-#' @examples
-#' event <- 20
-#' check_event(events)
-#'
-#' event <- c(20, 30)
-#' check_event(events)
-check_event <- function(event) {
-  cond1 <- !is.numeric(event)
-  cond2 <- !is.vector(event)
-  cond3 <- min(event - fastlag(event, first = 0)) <= 0
-  if (cond1 || cond2 || cond3) {
-    stop("The input argument `event` must be NULL or a numeric vector with positive increasing values!")
-  }
-}
+check_event <- check_increasing
 
-#' A function to check the arguments `total_duration` used in gsDesign2
+#' Check the argument `total_duration`
 #'
-#' @param totalDuration Total duration.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Total duration.
 #' @noRd
-#'
-#' @examples
-#' total_duration <- 36
-#' check_total_duration(total_duration)
-#'
-#' total_duration <- c(36, 48)
-#' check_total_duration(total_duration)
-check_total_duration <- function(total_duration) {
-  if (!is.numeric(total_duration)) {
-    stop("The input argument `total_duration` must be a non-empty vector of positive numbers!")
-  }
+check_total_duration <- check_positive
 
-  if (sum(!total_duration > 0) != 0) {
-    stop("The input argument `total_duration` must be a non-empty vector of positive numbers!")
-  }
-}
-
-#' A function to check the arguments `ratio` used in gsDesign2
+#' Check the argument `ratio`
 #'
-#' @param ratio Randomization ratio.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Randomization ratio.
 #' @noRd
-#'
-#' @examples
-#' ratio <- 1
-#' check_ratio(ratio)
-check_ratio <- function(ratio) {
-  if (!is.numeric(ratio)) {
-    stop("The input argument `ratio` must be a numerical number!")
-  }
+check_ratio <- check_positive
 
-  if (ratio <= 0) {
-    stop("The input argument `ratio` must be a positive number!")
-  }
-}
-
-#' A function to check the arguments `info` used in `gs_power_npe()`
-#' or `gs_design_npe()` in gsDesign2
+#' Check the argument `info`
 #'
-#' @param info Statistical information.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Statistical information.
 #' @noRd
-#'
-#' @examples
-#' info <- 1:3
-#' check_info(info)
-check_info <- function(info) {
-  if (!is.vector(info, mode = "numeric")) {
-    stop("gs_design_npe() or gs_power_npe(): info must be specified numeric vector!")
-  }
-  if (min(info - fastlag(info, first = 0)) <= 0) {
-    stop("gs_design_npe() or gs_power_npe(): info much be strictly increasing and positive!")
-  }
-}
+check_info <- check_increasing
 
-#' A function to check the arguments `theta` used in `gs_power_npe()`
-#' or `gs_design_npe()` in gsDesign2
+#' Check the argument `theta`
 #'
 #' @param theta Treatment effect.
-#' @param n_analysis Number of total analysis.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param K Number of total analysis.
 #' @noRd
-#'
-#' @examples
-#' check_theta(theta = rep(0.5, 3), n_analysis = 3)
-check_theta <- function(theta, n_analysis) {
-  if (!is.vector(theta, mode = "numeric")) {
-    stop("gs_design_npe() or gs_power_npe(): theta must be a real vector!")
-  }
-
-  if (length(theta) != n_analysis) {
-    stop("gs_design_npe() or gs_power_npe(): if length(theta) > 1, must be same as info!")
-  }
-
-  if (theta[n_analysis] < 0) {
-    stop("gs_design_npe() or gs_power_npe(): final effect size must be > 0!")
-  }
+check_theta <- function(theta, K) {
+  n <- length(theta)
+  if (n > 1 && n != K) stop(
+    "the length of `theta` (", n, ") differs with the number of analyses (", K, ")!"
+  )
+  if (last_(theta) < 0) stop(
+    "final effect size of `theta` (", deparse(theta), ") must be non-negative!"
+  )
+  if (n == 1 && K > 1) rep(theta, K) else theta
 }
 
-#' A function to check the arguments `test_upper` used in `gs_power_npe()`
-#' or `gs_design_npe()` in gsDesign2
+#' Check the arguments `test_upper` and `test_lower`
 #'
-#' @param test_upper Test upper or lower.
-#' @param n_analysis Number of total analysis.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Test upper or lower.
+#' @param K Number of total analysis.
 #' @noRd
-#'
-#' @examples
-#' test_upper <- TRUE
-#' check_test_upper(test_upper, 1)
-check_test_upper <- function(test_upper, n_analysis) {
-  ## Check test_upper and test_lower are logical and correct length
-  if (!is.vector(test_upper, mode = "logical")) {
-    stop("gs_design_npe() or gs_power_npe(): test_upper must be logical!")
-  }
-
-  if (!(length(test_upper) == 1 || length(test_upper) == n_analysis)) {
-    stop("gs_design_npe() or gs_power_npe(): test_upper must be length 1 or same length as info!")
-  }
-
+check_test_upper <- function(x, K) {
   # check that final test_upper value is TRUE
-  if (!dplyr::last(test_upper)) {
-    stop("gs_design_npe(): last value of test_upper must be TRUE!")
-  }
+  if (!last_(x)) stop("last value of `test_upper` (", deparse(x), "), must be TRUE!")
+  check_test_ul(x, K, "test_upper")
 }
 
-#' A function to check the arguments `text_lower` used in `gs_power_npe`
-#' or `gs_design_npe()` in gsDesign2
-#'
-#' @param test_lower Test upper or lower.
-#' @param n_analysis Number of total analysis.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
-#' @noRd
-#'
-#' @examples
-#' test_lower <- TRUE
-#' check_test_lower(test_lower, 1)
-check_test_lower <- function(test_lower, n_analysis) {
-  ## Check test_upper and test_lower are logical and correct length
-  if (!is.vector(test_lower, mode = "logical")) {
-    stop("gs_design_npe() or gs_power_npe(): test_lower must be logical!")
-  }
+check_test_lower <- function(x, K) check_test_ul(x, K, "test_lower")
 
-  if (!(length(test_lower) == 1 || length(test_lower) == n_analysis)) {
-    stop("gs_design_npe() or gs_power_npe(): test_lower must be length 1 or same length as info!")
-  }
+check_test_ul <- function(x, K, name) {
+  # check length
+  n <- length(x)
+  if (n > 1 && n != K) stop(
+    "`", name, "` must be of length 1 or same length as the number of analyses (", K, ")!"
+  )
+  if (n == 1 && K > 1) rep(x, K) else x
 }
 
-#' A function to check the arguments `alpha` and `beta` in gsDesign2
+#' Check the arguments `alpha` and `beta`
 #'
 #' @param alpha Type I error.
 #' @param beta Type II error.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
 #' @noRd
-#'
-#' @examples
-#' alpha <- 0.025
-#' beta <- 0.2
-#' check_alpha_beta(alpha, beta)
 check_alpha_beta <- function(alpha, beta) {
-  if (!is.numeric(alpha)) stop("alpha must be numeric!")
-  if (!is.numeric(beta)) stop("beta must be numeric!")
-  if (length(alpha) != 1 || length(beta) != 1) stop("alpha and beta must be length 1!")
-  if (alpha <= 0 || 1 - beta <= alpha || beta <= 0) stop("must have 0 < alpha < 1 - beta < 1!")
+  if (!(0 < alpha && beta > 0 && alpha < 1 - beta))
+    stop("`alpha` and `beta` values must satisfy 0 < alpha < 1 - beta < 1!")
 }
 
-#' A function to check the arguments `IF` in gsDesign2
+#' Check the argument `info_frac`
 #'
-#' @param info_frac Statistical informational fraction.
-#'
-#' @return `TRUE` or `FALSE`.
-#'
+#' @param x Statistical informational fraction.
 #' @noRd
-#'
-#' @examples
-#' check_info_frac(1:3 / 3)
-check_info_frac <- function(info_frac) {
-  msg <- "gs_design_ahr(): info_frac must be a positive
-  number or positive increasing sequence on (0, 1] with final value of 1!"
-  if (!is.vector(info_frac, mode = "numeric")) stop(msg)
-  if (min(info_frac - fastlag(info_frac, first = 0)) <= 0) stop(msg)
-  if (max(info_frac) != 1) stop(msg)
+check_info_frac <- function(x) {
+  check_increasing(x, "info_frac")
+  if (last_(x) != 1) stop("The last value of `info_frac` must be 1!")
 }

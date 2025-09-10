@@ -80,7 +80,7 @@ test_that("gsDesign2:::hupdate() returns results as expected ", {
   #   im1 = gstry$n.I[1],
   #   gm1 = null.01,
   #   a = gstry$upper$bound[2],
-  #   b = Inf) %>% summarise(p = sum(h))
+  #   b = Inf) |> summarise(p = sum(h))
 })
 
 test_that("gsDesign2:::hupdate() returns probability almost zero for extreme case", {

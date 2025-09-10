@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -40,7 +40,6 @@
 #' @export
 #'
 #' @examples
-#' library(dplyr)
 #' library(mvtnorm)
 #' library(gsDesign)
 #' library(gsDesign2)
@@ -182,33 +181,33 @@ gs_power_combo <- function(
   # Prepare output
   db <- merge(
     data.frame(analysis = 1:(nrow(prob) / 2), prob, z = unlist(bound)),
-    info_fh %>%
-      tibble::as_tibble() %>%
-      select(analysis, time, n, event) %>%
+    info_fh |>
+      tibble::as_tibble() |>
+      select(analysis, time, n, event) |>
       unique()
-  ) %>%
+  ) |>
     arrange(analysis, desc(bound))
 
   # Get bounds to output ----
-  bound <- db %>%
-    mutate(`nominal p` = pnorm(z * (-1))) %>%
-    select(analysis, bound, probability, probability_null, z, `nominal p`) %>%
-    rename(probability0 = probability_null) %>%
+  bound <- db |>
+    mutate(`nominal p` = pnorm(z * (-1))) |>
+    select(analysis, bound, probability, probability_null, z, `nominal p`) |>
+    rename(probability0 = probability_null) |>
     arrange(analysis, desc(bound))
 
   # Get analysis summary to output ----
   # check if rho, gamma = 0 is included in fh_test
-  tmp <- fh_test %>%
-    filter(rho == 0 & gamma == 0 & tau == -1) %>%
-    select(test) %>%
-    unlist() %>%
-    as.numeric() %>%
+  tmp <- fh_test |>
+    filter(rho == 0 & gamma == 0 & tau == -1) |>
+    select(test) |>
+    unlist() |>
+    as.numeric() |>
     unique()
   if (length(tmp) != 0) {
-    ahr_dis <- utility$info_all %>%
-      filter(test == tmp) %>%
-      select(ahr) %>%
-      unlist() %>%
+    ahr_dis <- utility$info_all |>
+      filter(test == tmp) |>
+      select(ahr) |>
+      unlist() |>
       as.numeric()
   } else {
     ahr_dis <- gs_info_wlr(
@@ -221,26 +220,26 @@ gs_power_combo <- function(
     )$ahr
   }
 
-  analysis <- utility$info_all %>%
-    select(analysis, test, time, n, event) %>%
+  analysis <- utility$info_all |>
+    select(analysis, test, time, n, event) |>
     mutate(
       theta = utility$info_all$theta,
-      event_frac = event / tapply(event, test, function(x) max(x)) %>%
-        unlist() %>%
+      event_frac = event / tapply(event, test, function(x) max(x)) |>
+        unlist() |>
         as.numeric()
-    ) %>%
-    select(analysis, time, n, event, event_frac) %>%
-    unique() %>%
-    mutate(ahr = ahr_dis) %>%
+    ) |>
+    select(analysis, time, n, event, event_frac) |>
+    unique() |>
+    mutate(ahr = ahr_dis) |>
     mutate(
       n = n * sample_size / max(info_fh$n),
       event = event * n / max(info_fh$n)
-    ) %>%
+    ) |>
     arrange(analysis)
 
   # Output ----
   output <- list(
-    enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
+    enroll_rate = enroll_rate |> mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
     fail_rate = fail_rate,
     bound = bound,
     analysis = analysis

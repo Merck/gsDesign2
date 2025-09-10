@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -110,7 +110,7 @@ gs_utility_combo <- function(enroll_rate,
   n <- max(info$n)
 
   # Restricted to actual analysis
-  info_fh <- info %>% left_join(fh_test %>% rename(time = analysis_time), by = c("test", "analysis", "time"))
+  info_fh <- info |> left_join(fh_test |> rename(time = analysis_time), by = c("test", "analysis", "time"))
   corr_fh <- corr_combo[!is.na(info_fh$gamma), !is.na(info_fh$gamma)]
   info_fh <- subset(info_fh, !is.na(gamma))
 
@@ -244,11 +244,9 @@ get_combo_weight <- function(rho, gamma, tau) {
     }
 
     text <- paste0(
-      "weight <- function(x, arm0, arm1){
-                            wlr_weight_fh(x, arm0, arm1
-                                ,rho =", rho[i],
-      ", gamma =", gamma[i],
-      ", tau =", tmp_tau, ")}"
+      "weight <- list(method = \"fh\", param = list(rho = ", rho[i],
+      ", gamma = ", gamma[i],
+      ", tau = ", if(!is.null(tmp_tau)){tmp_tau}else{"NULL"}, "))"
     )
 
     weight[[i]] <- text
@@ -446,14 +444,8 @@ gs_bound <- function(alpha,
                      alpha_bound = FALSE,
                      beta_bound = FALSE,
                      ...) {
-  alpha <- c(alpha[1], diff(alpha))
-
-  if (all(is.infinite(beta))) {
-    beta <- beta
-  } else {
-    beta <- c(beta[1], diff(beta))
-  }
-
+  alpha <- diff_one(alpha)
+  if (!all(is.infinite(beta))) beta <- diff_one(beta)
 
   lower <- NULL
   upper <- NULL
@@ -472,8 +464,8 @@ gs_bound <- function(alpha,
       }
       upper_bound <- c(upper, .upper)
 
-      p <- pmvnorm_combo(lower_bound,
-        upper_bound,
+      p <- cache_fun(
+        pmvnorm_combo, lower_bound, upper_bound,
         group = analysis[k_ind],
         mean = .theta[k_ind],
         corr = corr[k_ind, k_ind], ...

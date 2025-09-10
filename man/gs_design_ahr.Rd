@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_design_ahr.R
 \name{gs_design_ahr}
 \alias{gs_design_ahr}
-\title{Group sequential design using average hazard ratio under non-proportional hazards}
+\title{Calculate sample size and bounds given targeted power and Type I error in group sequential design using average hazard ratio under non-proportional hazards}
 \usage{
 gs_design_ahr(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
@@ -28,34 +28,52 @@ gs_design_ahr(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
 \item{alpha}{One-sided Type I error.}
 
 \item{beta}{Type II error.}
 
-\item{info_frac}{Targeted information fraction at each analysis.}
+\item{info_frac}{Targeted information fraction for analyses. See details.}
 
-\item{analysis_time}{Minimum time of analysis.}
+\item{analysis_time}{Targeted calendar timing of analyses. See details.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
+\item{ratio}{Experimental:Control randomization ratio.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound.}
+\item{upper}{Function to compute upper bound.
+\itemize{
+\item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
+}}
 
-\item{upar}{Parameters passed to \code{upper}.}
+\item{upar}{Parameters passed to \code{upper}.
+\itemize{
+\item If \code{upper = gs_b}, then \code{upar} is a numerical vector specifying the fixed efficacy bounds per analysis.
+\item If \code{upper = gs_spending_bound}, then \code{upar} is a list including
+\itemize{
+\item \code{sf} for the spending function family.
+\item \code{total_spend} for total alpha spend.
+\item \code{param} for the parameter of the spending function.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
+}
+}}
 
-\item{lower}{Function to compute lower bound.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
-\item{lpar}{Parameters passed to \code{lower}.}
+\item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})
-if spending is used for lower bound.}
+if spending is used for lower bound.
+If this is \code{FALSE}, then the lower bound spending is under the null hypothesis.
+This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{test_upper}{Indicator of which analyses should include an upper
 (efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
@@ -80,19 +98,37 @@ Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
 Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 
-\item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to targeted event.}
+\item{interval}{An interval presumed to include the times at which
+expected event count is equal to targeted event.
+Normally, this can be ignored by the user as it is set to \code{c(.01, 1000)}.}
 }
 \value{
 A list with input parameters, enrollment rate, analysis, and bound.
+\itemize{
+\item The \verb{$input} is a list including \code{alpha}, \code{beta}, \code{ratio}, etc.
+\item The \verb{$enroll_rate} is a table showing the enrollment for arriving the targeted power (\code{1 - beta}).
+\item The \verb{$fail_rate} is a table showing the failure and dropout rates, which is the same as input.
+\item The \verb{$bound} is a table summarizing the efficacy and futility bound per analysis.
+\item The \code{analysis} is a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information per analysis.
+}
 }
 \description{
-Group sequential design using average hazard ratio under non-proportional hazards
+Calculate sample size and bounds given targeted power and Type I error in group sequential design using average hazard ratio under non-proportional hazards
 }
 \details{
-To be added.
+The parameters \code{info_frac} and \code{analysis_time} are used to determine the timing for interim and final analyses.
+\itemize{
+\item If the interim analysis is determined by targeted information fraction and the study duration is known,
+then \code{info_frac} is a numerical vector where each element (greater than 0 and less than or equal to 1)
+represents the information fraction for each analysis.
+The \code{analysis_time}, which defaults to 36, indicates the time for the final analysis.
+\item If interim analyses are determined solely by the targeted calendar analysis timing from start of study,
+then \code{analysis_time} will be a vector specifying the time for each analysis.
+\item If both the targeted analysis time and the targeted information fraction are utilized for a given analysis,
+then timing will be the maximum of the two with both \code{info_frac} and \code{analysis_time} provided as vectors.
+}
 }
 \section{Specification}{
 
@@ -128,7 +164,6 @@ To be added.
 \examples{
 library(gsDesign)
 library(gsDesign2)
-library(dplyr)
 
 # Example 1 ----
 # call with defaults

@@ -26,8 +26,10 @@ Authors:
 \itemize{
   \item Keaven Anderson \email{keaven_anderson@merck.com}
   \item Yilong Zhang \email{elong0527@gmail.com}
-  \item Jianxiao Yang \email{yangjx@ucla.edu}
+  \item John Blischak \email{jdblischak@gmail.com}
+  \item Yihui Xie \email{yihui.xie@merck.com}
   \item Nan Xiao \email{nan.xiao1@merck.com}
+  \item Jianxiao Yang \email{yangjx@ucla.edu}
 }
 
 Other contributors:
@@ -41,9 +43,9 @@ Other contributors:
   \item Hiroaki Fukuda \email{hiroaki.fukuda@merck.com} [contributor]
   \item Hongtao Zhang \email{hongtao.zhang1@merck.com} [contributor]
   \item Yalin Zhu \email{yalin.zhu@outlook.com} [contributor]
-  \item John Blischak \email{jdblischak@gmail.com} [contributor]
+  \item Shiyu Zhang \email{shiyu.zhang@merck.com} [contributor]
   \item Dickson Wanjau \email{dickson.wanjau@merck.com} [contributor]
-  \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder]
+  \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates (02891sr49) [copyright holder]
 }
 
 }

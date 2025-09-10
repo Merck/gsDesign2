@@ -8,7 +8,7 @@ gs_design_wlr(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = c(3, 6, 9)),
   fail_rate = tibble(stratum = "All", duration = c(3, 100), fail_rate = log(2)/c(9, 18),
     hr = c(0.9, 0.6), dropout_rate = rep(0.001, 2)),
-  weight = wlr_weight_fh,
+  weight = "logrank",
   approx = "asymptotic",
   alpha = 0.025,
   beta = 0.1,
@@ -30,16 +30,15 @@ gs_design_wlr(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates.}
+\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
 
-\item{fail_rate}{Failure and dropout rates.}
+\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
 
 \item{weight}{Weight of weighted log rank test:
 \itemize{
-\item \code{"1"} = unweighted.
-\item \code{"n"} = Gehan-Breslow.
-\item \code{"sqrtN"} = Tarone-Ware.
-\item \code{"FH_p[a]_q[b]"} = Fleming-Harrington with p=a and q=b.
+\item \code{"logrank"} = regular logrank test.
+\item \code{list(method = "fh", param = list(rho = ..., gamma = ...))} = Fleming-Harrington weighting functions.
+\item \code{list(method = "mb", param = list(tau = ..., w_max = ...))} = Magirr and Burman weighting functions.
 }}
 
 \item{approx}{Approximate estimation method for Z statistics.
@@ -52,9 +51,9 @@ gs_design_wlr(
 
 \item{beta}{Type II error.}
 
-\item{ratio}{Experimental:Control randomization ratio (not yet implemented).}
+\item{ratio}{Experimental:Control randomization ratio.}
 
-\item{info_frac}{Targeted information fraction at each analysis.}
+\item{info_frac}{Targeted information fraction for analyses. See details.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
@@ -63,18 +62,33 @@ gs_design_wlr(
 \item \code{"h1_info"}: variance under alternative hypothesis is used.
 }}
 
-\item{analysis_time}{Minimum time of analysis.}
+\item{analysis_time}{Targeted calendar timing of analyses. See details.}
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
-\item{upper}{Function to compute upper bound.}
+\item{upper}{Function to compute upper bound.
+\itemize{
+\item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
+}}
 
-\item{upar}{Parameters passed to \code{upper}.}
+\item{upar}{Parameters passed to \code{upper}.
+\itemize{
+\item If \code{upper = gs_b}, then \code{upar} is a numerical vector specifying the fixed efficacy bounds per analysis.
+\item If \code{upper = gs_spending_bound}, then \code{upar} is a list including
+\itemize{
+\item \code{sf} for the spending function family.
+\item \code{total_spend} for total alpha spend.
+\item \code{param} for the parameter of the spending function.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
+}
+}}
 
-\item{lower}{Function to compute lower bound.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
-\item{lpar}{Parameters passed to \code{lower}.}
+\item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{test_upper}{Indicator of which analyses should include an upper
 (efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
@@ -89,17 +103,21 @@ lower bound.}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})
-if spending is used for lower bound.}
+if spending is used for lower bound.
+If this is \code{FALSE}, then the lower bound spending is under the null hypothesis.
+This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{r}{Integer value controlling grid for numerical integration as in
 Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
 Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 
-\item{interval}{An interval that is presumed to include the time at which
-expected event count is equal to targeted event.}
+\item{interval}{An interval presumed to include the times at which
+expected event count is equal to targeted event.
+Normally, this can be ignored by the user as it is set to \code{c(.01, 1000)}.}
 }
 \value{
 A list with input parameters, enrollment rate, analysis, and bound.
@@ -124,7 +142,6 @@ Group sequential design using weighted log-rank test under non-proportional haza
 }
 
 \examples{
-library(dplyr)
 library(mvtnorm)
 library(gsDesign)
 library(gsDesign2)
@@ -147,9 +164,7 @@ gs_design_wlr(
   fail_rate = fail_rate,
   ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-  },
+  weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
@@ -165,9 +180,7 @@ gs_design_wlr(
   fail_rate = fail_rate,
   ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-  },
+  weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
@@ -183,9 +196,7 @@ gs_design_wlr(
   fail_rate = fail_rate,
   ratio = 1,
   alpha = 0.025, beta = 0.2,
-  weight = function(x, arm0, arm1) {
-    wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-  },
+  weight = list(method = "mb", param = list(tau = Inf, w_max = 2)),
   upper = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,

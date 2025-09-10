@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -18,12 +18,12 @@
 
 #' @importFrom data.table ":=" as.data.table copy first last rbindlist setDF
 #'   setDT setcolorder setorderv
-#' @importFrom dplyr "%>%" all_of arrange desc filter full_join group_by lead
+#' @importFrom dplyr all_of arrange desc filter full_join group_by lead
 #'   left_join mutate one_of rename row_number select summarize ungroup
 #' @importFrom gsDesign gsDesign sfLDOF
-#' @importFrom stats pnorm qnorm setNames stepfun uniroot
+#' @importFrom stats pnorm qnorm setNames uniroot
 #' @importFrom tibble tibble
-#' @importFrom utils tail
+#' @import utils
 #' @importFrom Rcpp sourceCpp
 #' @useDynLib gsDesign2, .registration = TRUE
 #' @keywords internal

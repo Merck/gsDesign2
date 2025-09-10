@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -61,14 +61,6 @@
 #'   )
 #' )
 #'
-#' expected_accrual(
-#'   time = c(5, 10, 20),
-#'   enroll_rate = define_enroll_rate(
-#'     duration = c(3, 3, 18),
-#'     rate = c(5, 10, 20),
-#'   )
-#' )
-#'
 #' # Example 3: stratified design
 #' expected_accrual(
 #'   time = c(24, 30, 40),
@@ -118,96 +110,26 @@ expected_accrual <- function(time = 0:24,
                              enroll_rate = define_enroll_rate(duration = c(3, 3, 18), rate = c(5, 10, 20))) {
   # check input value
   # check input enrollment rate assumptions
-  if (!is.numeric(time)) {
-    stop("gsDesign2: time in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")
-  }
-  if (!min(time) >= 0) {
-    stop("gsDesign2: time in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")
-  }
-  if (!min(lead(time, default = max(time) + 1) - time) > 0) {
-    stop("gsDesign2: t in `expected_accrual()` must be a strictly increasing non-negative numeric vector!")
-  }
-
-  # check enrollment rate assumptions
-  check_enroll_rate(enroll_rate)
+  check_non_negative(time)
+  check_increasing(time, first = FALSE)
 
   # check if it is stratified design
-  if ("stratum" %in% names(enroll_rate)) {
-    n_strata <- length(unique(enroll_rate$stratum))
-  } else {
-    n_strata <- 1
-  }
+  rate_group <- if ("stratum" %in% names(enroll_rate))
+    split(enroll_rate, ~stratum) else list(enroll_rate)
 
+  res <- lapply(rate_group, function(s) cumulative_rate(time, s$duration, s$rate))
+
+  # return survival
+  Reduce(`+`, res)
+}
+
+cumulative_rate <- function(time, duration, rate, last = 0) {
+  d <- cumsum(duration)
   # convert rates to step function
-  if (n_strata == 1) {
-    ratefn <- stepfun(
-      x = cumsum(enroll_rate$duration),
-      y = c(enroll_rate$rate, 0),
-      right = TRUE
-    )
-  } else {
-    ratefn <- lapply(unique(enroll_rate$stratum),
-      FUN = function(s) {
-        stepfun(
-          x = cumsum((enroll_rate %>% filter(stratum == s))$duration),
-          y = c((enroll_rate %>% filter(stratum == s))$rate, 0),
-          right = TRUE
-        )
-      }
-    )
-  }
-
-  # add times where rates change to enroll_rate
-  if (n_strata == 1) {
-    xvals <- sort(unique(c(time, cumsum(enroll_rate$duration))))
-  } else {
-    xvals <- lapply(unique(enroll_rate$stratum),
-      FUN = function(s) {
-        sort(unique(c(time, cumsum((enroll_rate %>% filter(stratum == s))$duration))))
-      }
-    )
-  }
-
-  # make a tibble
-  if (n_strata == 1) {
-    xx <- tibble(
-      x = xvals,
-      duration = xvals - fastlag(xvals, first = 0),
-      rate = ratefn(xvals), # enrollment rates at points (right continuous)
-      eAccrual = cumsum(rate * duration) # expected accrual
-    )
-  } else {
-    xx <- lapply(1:n_strata,
-      FUN = function(i) {
-        tibble(
-          x = xvals[[i]],
-          duration = xvals[[i]] - fastlag(xvals[[i]], first = 0),
-          rate = ratefn[[i]](xvals[[i]]), # enrollment rates at points (right continuous)
-          eAccrual = cumsum(rate * duration) # expected accrual
-        )
-      }
-    )
-  }
-
-
-
-  # return survival or CDF
-  if (n_strata == 1) {
-    ind <- !is.na(match(xx$x, time))
-    ans <- as.numeric(xx$eAccrual[ind])
-  } else {
-    ind <- lapply(1:n_strata,
-      FUN = function(i) {
-        !is.na(match(xx[[i]]$x, time))
-      }
-    )
-    ans <- lapply(1:n_strata,
-      FUN = function(i) {
-        as.numeric(xx[[i]]$eAccrual[ind[[i]]])
-      }
-    )
-    ans <- Reduce(`+`, ans)
-  }
-
-  return(ans)
+  f <- stepfun2(d, c(rate, last), right = TRUE)
+  # add times where rates change
+  x <- sort(unique(c(time, d)))
+  rate <- f(x) #  rates at points (right continuous)
+  i <- x %in% time
+  cumsum(rate * diff_one(x))[i]
 }

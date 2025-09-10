@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -78,7 +78,7 @@ gs_create_arm <- function(
   accr_param <- enroll_rate$rate * enroll_rate$duration / sum(enroll_rate$rate * enroll_rate$duration)
 
   surv_cure <- 0 # No cure proportion
-  surv_interval <- c(0, c(cumsum(utils::head(fail_rate$duration, -1)), Inf))
+  surv_interval <- c(0, c(cumsum(head(fail_rate$duration, -1)), Inf))
   surv_shape <- 1 # Exponential Distribution
   surv_scale0 <- fail_rate$fail_rate
   surv_scale1 <- fail_rate$hr * fail_rate$fail_rate
@@ -177,11 +177,29 @@ prob_event.arm <- function(arm, tmin = 0, tmax = arm$total_time) {
 }
 
 #' @noRd
+#' @examples
+#' enroll_rate <- define_enroll_rate(
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
+#'
+#' fail_rate <- define_fail_rate(
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6),
+#'   dropout_rate = .001
+#' )
+#'
+#' x <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' arm0 <- x$arm0
+#' arm1 <- x$arm1
+#' gs_delta_wlr(arm0, arm1, tmax = 10, weight = "logrank")
+#' gs_delta_wlr(arm0, arm1, tmax = 10, weight = list(method = "mb", param = list(tau = Inf, w_max = 2)))
 gs_delta_wlr <- function(
     arm0,
     arm1,
     tmax = NULL,
-    weight = wlr_weight_fh,
+    weight = "logrank",
     approx = "asymptotic",
     normalization = FALSE) {
   if (is.null(tmax)) {
@@ -190,6 +208,18 @@ gs_delta_wlr <- function(
 
   p1 <- arm1$size / (arm0$size + arm1$size)
   p0 <- 1 - p1
+
+  if (identical(weight, "logrank")) {
+    weight_fun <- wlr_weight_1
+  } else {
+    weight_fun <- switch(
+      weight$method,
+      "fh" = function(x, arm0, arm1) {
+        wlr_weight_fh(x, arm0, arm1, rho = weight$param$rho, gamma = weight$param$gamma)},
+      "mb" = function(x, arm0, arm1) {
+        wlr_weight_mb(x, arm0, arm1, tau = weight$param$tau, w_max = weight$param$w_max)}
+    )
+  }
 
   if (approx == "event_driven") {
     if (sum(arm0$surv_shape != arm1$surv_shape) > 0 || length(unique(arm1$surv_scale / arm0$surv_scale)) > 1) {
@@ -208,7 +238,7 @@ gs_delta_wlr <- function(
         term1 <- p1 * prob_risk(arm1, x, tmax)
         term <- (term0 * term1) / (term0 + term1)
         term <- ifelse(is.na(term), 0, term)
-        weight(x, arm0, arm1) * term * (npsurvSS::hsurv(x, arm1) - npsurvSS::hsurv(x, arm0))
+        weight_fun(x, arm0, arm1) * term * (npsurvSS::hsurv(x, arm1) - npsurvSS::hsurv(x, arm0))
       },
       lower = 0,
       upper = tmax, rel.tol = 1e-5
@@ -222,7 +252,7 @@ gs_delta_wlr <- function(
           log_hr_ratio <- log(npsurvSS::hsurv(x, arm1) / npsurvSS::hsurv(x, arm0))
         }
 
-        weight(x, arm0, arm1) *
+        weight_fun(x, arm0, arm1) *
           log_hr_ratio *
           p0 * prob_risk(arm0, x, tmax) * p1 * prob_risk(arm1, x, tmax) /
           (p0 * prob_risk(arm0, x, tmax) + p1 * prob_risk(arm1, x, tmax))^2 *
@@ -239,10 +269,28 @@ gs_delta_wlr <- function(
 }
 
 #' @noRd
+#' @examples
+#' enroll_rate <- define_enroll_rate(
+#'   duration = c(2, 2, 10),
+#'   rate = c(3, 6, 9)
+#' )
+#'
+#' fail_rate <- define_fail_rate(
+#'   duration = c(3, 100),
+#'   fail_rate = log(2) / c(9, 18),
+#'   hr = c(.9, .6),
+#'   dropout_rate = .001
+#' )
+#'
+#' x <- gs_create_arm(enroll_rate, fail_rate, ratio = 1)
+#' arm0 <- x$arm0
+#' arm1 <- x$arm1
+#' gs_sigma2_wlr(arm0, arm1, tmax = 10, weight = "logrank")
+#' gs_sigma2_wlr(arm0, arm1, tmax = 10, weight = list(method = "mb", param = list(tau = Inf, w_max = 2)))
 gs_sigma2_wlr <- function(arm0,
                           arm1,
                           tmax = NULL,
-                          weight = wlr_weight_fh,
+                          weight = "logrank",
                           approx = "asymptotic") {
   if (is.null(tmax)) {
     tmax <- arm0$total_time
@@ -251,13 +299,63 @@ gs_sigma2_wlr <- function(arm0,
   p1 <- arm1$size / (arm0$size + arm1$size)
   p0 <- 1 - p1
 
+  # ----------------------- #
+  # get enroll duration and relative rate
+  # ----------------------- #
+  enroll_duration <- arm0$accr_interval |> diff()
+  enroll_total_duration <- arm0$accr_interval |> max()
+  n_enroll_piece <- length(enroll_duration)
+  enroll_relative_rate <- rep(-10, n_enroll_piece)
+  for (s in 1:n_enroll_piece) {
+    enroll_relative_rate[s] <- arm0$accr_param[s] / arm0$accr_param[n_enroll_piece] * enroll_duration[n_enroll_piece] / enroll_duration[s]
+  }
+
+  # ----------------------- #
+  #    get the weights
+  # ----------------------- #
+  if (identical(weight, "logrank")) {
+    weight_fun <- wlr_weight_1
+  } else {
+    weight_fun <- switch(
+      weight$method,
+      "fh" = function(x, arm0, arm1) {
+        wlr_weight_fh(x, arm0, arm1, rho = weight$param$rho, gamma = weight$param$gamma, tau = if("tau" %in% names(weight$param)){weight$param$tau}else{NULL})},
+      "mb" = function(x, arm0, arm1) {
+        wlr_weight_mb(x, arm0, arm1, tau = weight$param$tau, w_max = weight$param$w_max)}
+    )
+  }
+
+  # ----------------------- #
+  #     derive sigma2
+  # ----------------------- #
+  # from Section 2.3.3 of Yung and Liu 2020, the WLR test statistics is U/sqrt(V)
+  # for the denominator V, by low of large numbers, we have V/n -> sigma2 in probability, where n is the number of subjects
   if (approx == "event_driven") {
+    # “event_driven" is only for logrank test of PH
     nu <- p0 * prob_event(arm0, tmax = tmax) + p1 * prob_event(arm1, tmax = tmax)
     sigma2 <- p0 * p1 * nu
   } else if (approx %in% c("asymptotic", "generalized_schoenfeld")) {
+    # if IA time is early than enroll finish, we adjust the accrual to
+    # ensure the info0 is approximately proportional to events when it is logrnak test
+    if (tmax < enroll_total_duration) {
+      arm0 <- arm0
+      arm1 <- arm1
+
+      # adjust the accrual time to the time of analysis
+      arm0$accr_time <- tmax
+      arm1$accr_time <- tmax
+      # truncate the accrual interval to be stop at the time of analysis
+      arm0$accr_interval <- c(tmax, arm0$accr_interval)[which(c(tmax, arm0$accr_interval) <= tmax)] |> sort()
+      arm1$accr_interval <- arm0$accr_interval
+      truncated_enroll_duration <- diff(arm0$accr_interval)
+      # adjust the accrual probability per interval by the truncated interval
+      arm0$accr_param <- truncated_enroll_duration * enroll_relative_rate[1:length(truncated_enroll_duration)] / sum(truncated_enroll_duration * enroll_relative_rate[1:length(truncated_enroll_duration)])
+      arm1$accr_param <- arm0$accr_param
+    }
+
     sigma2 <- stats::integrate(
       function(x) {
-        weight(x, arm0, arm1)^2 *
+        weight_fun(x, arm0, arm1)^2 *
           p0 * prob_risk(arm0, x, tmax) * p1 * prob_risk(arm1, x, tmax) /
           (p0 * prob_risk(arm0, x, tmax) + p1 * prob_risk(arm1, x, tmax))^2 *
           (p0 * dens_event(arm0, x, tmax) + p1 * dens_event(arm1, x, tmax))

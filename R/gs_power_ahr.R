@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -19,54 +19,40 @@
 #' Group sequential design power using average hazard ratio under
 #' non-proportional hazards
 #'
-#' Group sequential design power using average hazard ratio under
+#' Calculate power given the sample size in group sequential design power using average hazard ratio under
 #' non-proportional hazards.
 #'
-#' @inheritParams ahr
-#' @param fail_rate Failure and dropout rates.
-#' @param ratio Experimental:Control randomization ratio (not yet implemented).
-#' @param event Targeted event at each analysis.
-#' @param analysis_time Minimum time of analysis.
-#' @param binding Indicator of whether futility bound is binding;
-#'   default of `FALSE` is recommended.
-#' @param info_scale Information scale for calculation. Options are:
-#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
-#'   - `"h0_info"`: variance under null hypothesis is used.
-#'   - `"h1_info"`: variance under alternative hypothesis is used.
-#' @param upper Function to compute upper bound.
-#' @param upar Parameters passed to `upper`.
-#' @param lower Function to compute lower bound.
-#' @param lpar Parameters passed to `lower`.
-#' @param test_upper Indicator of which analyses should include an upper
-#'   (efficacy) bound; single value of `TRUE` (default) indicates all analyses;
-#'   otherwise, a logical vector of the same length as `info` should
-#'   indicate which analyses will have an efficacy bound.
-#' @param test_lower Indicator of which analyses should include an lower bound;
-#'   single value of `TRUE` (default) indicates all analyses;
-#'   single value of `FALSE` indicated no lower bound;
-#'   otherwise, a logical vector of the same length as `info` should indicate
-#'   which analyses will have a lower bound.
-#' @param r Integer value controlling grid for numerical integration as in
-#'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
-#'   Larger values provide larger number of grid points and greater accuracy.
-#'   Normally, `r` will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
-#' @param interval An interval that is presumed to include the time at which
-#'   expected event count is equal to targeted event.
-#' @param integer Logical value integer whether it is an integer design
-#' (i.e., integer sample size and events) or not. This argument is commonly
-#' used when creating integer design via [to_integer()].
+#' @inheritParams gs_design_ahr
+#' @param event A numerical vector specifying the targeted events at each analysis. See details.
+#' @param integer Indicator of whether integer sample size and events are intended. This argument is
+#' used when using [to_integer()].
 #'
-#' @return A tibble with columns `analysis`, `bound`, `z`, `probability`,
-#'   `theta`, `time`, `ahr`, `event`.
-#'   Contains a row for each analysis and each bound.
+#' @return A list with input parameters, enrollment rate, analysis, and bound.
+#'   - `$input` a list including `alpha`, `beta`, `ratio`, etc.
+#'   - `$enroll_rate` a table showing the enrollment, which is the same as input.
+#'   - `$fail_rate` a table showing the failure and dropout rates, which is the same as input.
+#'   - `$bound` a table summarizing the efficacy and futility bound at each analysis.
+#'   - `analysis` a table summarizing the analysis time, sample size, events, average HR, treatment effect and statistical information at each analysis.
 #'
 #' @details
-#' Bound satisfy input upper bound specification in
+#' Note that time units are arbitrary, but should be the same for all rate parameters in `enroll_rate`, `fail_rate`, and `analysis_time`.
+#'
+#' Computed bounds satisfy input upper bound specification in
 #' `upper`, `upar`, and lower bound specification in `lower`, `lpar`.
 #' [ahr()] computes statistical information at targeted event times.
 #' The [expected_time()] function is used to get events and average HR at
 #' targeted `analysis_time`.
+#'
+#' The parameters `event` and `analysis_time` are used to determine the timing for interim and final analyses.
+#'  - If analysis timing is to be determined by targeted events,
+#'    then `event` is a numerical vector specifying the targeted events for each analysis;
+#'    note that this can be NULL.
+#'  - If interim analysis is determined by targeted calendar timing relative to start of enrollment,
+#'    then `analysis_time` will be a vector specifying the calendar time from start of study for each analysis;
+#'    note that this can be NULL.
+#'  - A corresponding element of `event` or `analysis_time` should be provided for each analysis.
+#'  - If both `event[i]` and `analysis[i]` are provided for analysis `i`, then the time corresponding to the
+#'  later of these is used  for analysis `i`.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -84,7 +70,6 @@
 #'
 #' @examples
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # Example 1 ----
 #' # The default output of `gs_power_ahr()` is driven by events,
@@ -109,6 +94,13 @@
 #' # Example 3 ----
 #' # 2-sided symmetric O'Brien-Fleming spending bound, driven by event,
 #' # i.e., `event = c(20, 50, 70)`, `analysis_time = NULL`
+#' # Note that this assumes targeted final events for the design is 70 events.
+#' # If actual targeted final events were 65, then `timing = c(20, 50, 70) / 65`
+#' # would be added to `upar` and `lpar` lists.
+#' # NOTE: at present the computed information fraction in output `analysis` is based
+#' # on 70 events rather than 65 events when the `timing` argument is used in this way.
+#` # This behavior is likely to be updated in the near future.
+#' # A vignette on this topic will be forthcoming.
 #' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = NULL,
@@ -130,7 +122,7 @@
 #' \donttest{
 #' gs_power_ahr(
 #'   analysis_time = c(12, 24, 36),
-#'   event = c(30, 40, 50),
+#'   event = c(30, 40, 50), h1_spending = FALSE,
 #'   binding = TRUE,
 #'   upper = gs_spending_bound,
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -159,6 +151,7 @@ gs_power_ahr <- function(
     test_upper = TRUE,
     ratio = 1,
     binding = FALSE,
+    h1_spending = TRUE,
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     r = 18,
     tol = 1e-6,
@@ -169,6 +162,9 @@ gs_power_ahr <- function(
 
   # Get the info_scale
   info_scale <- match.arg(info_scale)
+
+  upper <- match.fun(upper)
+  lower <- match.fun(lower)
 
   # Check if it is two-sided design or not
   if ((identical(lower, gs_b) && (!is.list(lpar))) || all(!test_lower)) {
@@ -214,18 +210,26 @@ gs_power_ahr <- function(
     x$info <- x$info * q
   }
 
+  if (h1_spending) {
+      theta1 <- x$theta
+      info1 <- x$info
+  } else {
+      theta1 <- 0
+      info1 <- x$info0
+  }
+
   # Given the above statistical information, calculate the power ----
   y_h1 <- gs_power_npe(
-    theta = x$theta,
-    info = x$info, info0 = x$info0, info1 = x$info, info_scale = info_scale,
+    theta = x$theta, theta0 = 0, theta1 = theta1,
+    info = x$info, info0 = x$info0, info1 = info1, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
     lower = lower, lpar = lpar, test_lower = test_lower,
     binding = binding, r = r, tol = tol
   )
 
   y_h0 <- gs_power_npe(
-    theta = 0, theta0 = 0, theta1 = x$theta,
-    info = x$info0, info0 = x$info0, info1 = x$info, info_scale = info_scale,
+    theta = 0, theta0 = 0, theta1 = theta1,
+    info = x$info0, info0 = x$info0, info1 = info1, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
     lower = if (!two_sided) {
       gs_b
@@ -244,33 +248,33 @@ gs_power_ahr <- function(
   # Organize the outputs ----
   # Summarize the bounds
   suppressMessages(
-    bound <- y_h1 %>%
-      mutate(`~hr at bound` = exp(-z / sqrt(info)), `nominal p` = pnorm(-z)) %>%
+    bound <- y_h1 |>
+      mutate(`~hr at bound` = exp(-z / sqrt(info0)), `nominal p` = pnorm(-z)) |>
       left_join(
-        y_h0 %>%
-          select(analysis, bound, probability) %>%
+        y_h0 |>
+          select(analysis, bound, probability) |>
           rename(probability0 = probability)
-      ) %>%
-      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
+      ) |>
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) |>
       arrange(analysis, desc(bound))
   )
   # Summarize the analysis
   suppressMessages(
-    analysis <- x %>%
-      select(analysis, time, event, ahr) %>%
-      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
+    analysis <- x |>
+      select(analysis, time, event, ahr) |>
+      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) |>
       left_join(
-        y_h1 %>%
-          select(analysis, info, info_frac, theta) %>%
+        y_h1 |>
+          select(analysis, info, info_frac, theta) |>
           unique()
-      ) %>%
+      ) |>
       left_join(
-        y_h0 %>%
-          select(analysis, info, info_frac) %>%
-          rename(info0 = info, info_frac0 = info_frac) %>%
+        y_h0 |>
+          select(analysis, info, info_frac) |>
+          rename(info0 = info, info_frac0 = info_frac) |>
           unique()
-      ) %>%
-      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
+      ) |>
+      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) |>
       arrange(analysis)
   )
 
@@ -279,20 +283,24 @@ gs_power_ahr <- function(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
     event = event, analysis_time = analysis_time,
     info_scale = info_scale,
+    alpha = if (identical(upper, gs_spending_bound)) {upar$total_spend} else {NULL},
     upper = upper, upar = upar,
     lower = lower, lpar = lpar,
     test_lower = test_lower, test_upper = test_upper,
-    ratio = ratio, binding = binding, info_scale = info_scale, r = r, tol = tol
+    ratio = ratio, binding = binding, h1_spending = h1_spending,
+    info_scale = info_scale, r = r, tol = tol
   )
 
   ans <- list(
     input = input,
     enroll_rate = enroll_rate,
     fail_rate = fail_rate,
-    bound = bound %>% filter(!is.infinite(z)),
+    bound = bound |> filter(!is.infinite(z)),
     analysis = analysis
   )
 
   ans <- add_class(ans, if (!binding) "non_binding", "ahr", "gs_design")
+  attr(ans, 'uninteger_is_from') <- "gs_power_ahr"
+
   return(ans)
 }

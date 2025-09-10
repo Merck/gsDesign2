@@ -1,15 +1,15 @@
 # Snapshot test for fixed_design summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Fixed Design under AHR Method\textsuperscript{\textit{1}}}
     } 
     \fontsize{12.0pt}{14.4pt}\selectfont
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
-    Design & N & Events & Time & Bound & alpha & Power \\ 
+    Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
     \midrule\addlinespace[2.5pt]
-    Average hazard ratio & 463.078 & 324.7077 & 36 & 1.959964 & 0.025 & 0.9 \\ 
+    Average hazard ratio & 463.078 & 324.7077 & 36 & 0.697102 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
@@ -19,16 +19,16 @@
 
 # Snapshot test for fixed_design summary as_gt with custom title and footnote
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Custom Title\textsuperscript{\textit{1}}}
     } 
     \fontsize{12.0pt}{14.4pt}\selectfont
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
-    Design & N & Events & Time & Bound & alpha & Power \\ 
+    Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
     \midrule\addlinespace[2.5pt]
-    Average hazard ratio & 463.078 & 324.7077 & 36 & 1.959964 & 0.025 & 0.9 \\ 
+    Average hazard ratio & 463.078 & 324.7077 & 36 & 0.697102 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
@@ -38,16 +38,16 @@
 
 # Snapshot test for fixed_design_fh summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Fixed Design under Fleming-Harrington Method\textsuperscript{\textit{1}}}
     } 
     \fontsize{12.0pt}{14.4pt}\selectfont
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
-    Design & N & Events & Time & Bound & alpha & Power \\ 
+    Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
     \midrule\addlinespace[2.5pt]
-    Fleming-Harrington FH(0, 0) (logrank) & 458.3509 & 321.3931 & 36 & 1.959964 & 0.025 & 0.9 \\ 
+    Fleming-Harrington FH(0, 0) (logrank) & 458.3509 & 321.3931 & 36 & 0.6969049 & 1.959964 & 0.025 & 0.9 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
@@ -57,7 +57,7 @@
 
 # Snapshot test for gs_design_ahr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for AHR design} \\ 
     {\small AHR approximations of \textasciitilde{}HR at bound}
@@ -82,7 +82,7 @@
 
 # Snapshot test for gs_power_ahr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for AHR design} \\ 
     {\small AHR approximations of \textasciitilde{}HR at bound}
@@ -96,18 +96,18 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -1.17 & 0.8792 & 1.5392 & 0.0349 & 0.1208 \\ 
-    Efficacy & 2.67 & 0.0038 & 0.3743 & 0.0231 & 0.0038 \\ 
+    Futility & -1.17 & 0.8792 & 1.5336 & 0.0349 & 0.1208 \\ 
+    Efficacy & 2.67 & 0.0038 & 0.3774 & 0.0231 & 0.0038 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.74 Information fraction: 0.8} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.66 & 0.7462 & 1.2359 & 0.0668 & 0.2655 \\ 
-    Efficacy & 2.29 & 0.0110 & 0.4812 & 0.0897 & 0.0122 \\ 
+    Futility & -0.66 & 0.7462 & 1.2331 & 0.0668 & 0.2655 \\ 
+    Efficacy & 2.29 & 0.0110 & 0.4849 & 0.0897 & 0.0122 \\ 
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Futility & -0.23 & 0.5897 & 1.0670 & 0.1008 & 0.4303 \\ 
-    Efficacy & 2.03 & 0.0211 & 0.5595 & 0.2070 & 0.0250 \\ 
+    Futility & -0.23 & 0.5897 & 1.0662 & 0.1008 & 0.4303 \\ 
+    Efficacy & 2.03 & 0.0211 & 0.5631 & 0.2070 & 0.0250 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
@@ -118,7 +118,7 @@
 
 # Snapshot test for gs_design_wlr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -144,7 +144,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design\textsuperscript{\textit{1}}} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -182,7 +182,7 @@
 
 # Snapshot test for gs_power_combo summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for MaxCombo design} \\ 
     {\small MaxCombo approximation}
@@ -218,7 +218,7 @@
 
 # Snapshot test for gs_design_rd summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary of Binary Endpoint} \\ 
     {\small measured by risk difference}
@@ -242,7 +242,7 @@
 
 # Snapshot test for gs_power_rd summary as_gt
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary of Binary Endpoint} \\ 
     {\small measured by risk difference}
@@ -276,7 +276,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with custom title and subtitle
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound Summary} \\ 
     {\small from gs\_power\_wlr}
@@ -313,7 +313,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with colname_spanner and colname_spannersub
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -338,20 +338,19 @@
     \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
     Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
-    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250\textsuperscript{\textit{4}} \\ 
+    Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
     \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
     \textsuperscript{\textit{3}}wAHR is the weighted AHR.\\
-    \textsuperscript{\textit{4}}Cumulative alpha for final analysis (-Inf) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - Inf = -Inf) under the null hypothesis.\\
     \end{minipage}
     \end{table}
 
 # Snapshot test for gs_power_wlr summary as_gt with custom footnotes
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design\textsuperscript{\textit{1}}} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -389,7 +388,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with display_bound
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}
@@ -423,7 +422,7 @@
 
 # Snapshot test for gs_power_wlr summary as_gt with display_columns
 
-    \begin{table}[!t]
+    \begin{table}[t]
     \caption*{
     {\large Bound summary for WLR design} \\ 
     {\small WLR approximation of \textasciitilde{}wHR at bound}

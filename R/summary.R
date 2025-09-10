@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -28,7 +28,6 @@
 #' @rdname summary
 #'
 #' @examples
-#' library(dplyr)
 #'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
@@ -64,7 +63,7 @@
 #'   fail_rate = fail_rate,
 #'   study_duration = study_duration,
 #'   ratio = ratio
-#' ) %>% summary()
+#' ) |> summary()
 #'
 #' # FH ----
 #' # under fixed power
@@ -75,7 +74,7 @@
 #'   fail_rate = fail_rate,
 #'   study_duration = study_duration,
 #'   ratio = ratio
-#' ) %>% summary()
+#' ) |> summary()
 #'
 summary.fixed_design <- function(object, ...) {
   x <- object
@@ -125,7 +124,6 @@ summary.fixed_design <- function(object, ...) {
 #' # Design parameters ----
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # enrollment/failure rates
 #' enroll_rate <- define_enroll_rate(
@@ -163,14 +161,6 @@ summary.fixed_design <- function(object, ...) {
 #' lower <- gs_spending_bound
 #' lpar <- list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 0, timing = NULL)
 #'
-#' # weight function in WLR
-#' wgt00 <- function(x, arm0, arm1) {
-#'   wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-#' }
-#' wgt05 <- function(x, arm0, arm1) {
-#'   wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = .5)
-#' }
-#'
 #' # test in COMBO
 #' fh_test <- rbind(
 #'   data.frame(rho = 0, gamma = 0, tau = -1, test = 1, analysis = 1:3, analysis_time = c(12, 24, 36)),
@@ -193,25 +183,25 @@ summary.fixed_design <- function(object, ...) {
 #'   lpar = lpar
 #' )
 #'
-#' x_ahr %>% summary()
+#' x_ahr |> summary()
 #'
 #' # Customize the digits to display
-#' x_ahr %>% summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
+#' x_ahr |> summary(analysis_vars = c("time", "event", "info_frac"), analysis_decimals = c(1, 0, 2))
 #'
 #' # Customize the labels of the crossing probability
-#' x_ahr %>% summary(bound_names = c("A is better", "B is better"))
+#' x_ahr |> summary(bound_names = c("A is better", "B is better"))
 #'
 #' # Customize the variables to be summarized for each analysis
-#' x_ahr %>% summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
+#' x_ahr |> summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
 #'
 #' # Customize the digits for the columns
-#' x_ahr %>% summary(col_decimals = c(z = 4))
+#' x_ahr |> summary(col_decimals = c(z = 4))
 #'
 #' # Customize the columns to display
-#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"))
+#' x_ahr |> summary(col_vars = c("z", "~hr at bound", "nominal p"))
 #'
 #' # Customize columns and digits
-#' x_ahr %>% summary(col_vars = c("z", "~hr at bound", "nominal p"),
+#' x_ahr |> summary(col_vars = c("z", "~hr at bound", "nominal p"),
 #'                   col_decimals = c(4, 2, 2))
 #' }
 #'
@@ -220,7 +210,7 @@ summary.fixed_design <- function(object, ...) {
 #' x_wlr <- gs_design_wlr(
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   weight = wgt05,
+#'   weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
 #'   info_frac = NULL,
 #'   analysis_time = sort(unique(x_ahr$analysis$time)),
 #'   ratio = ratio,
@@ -231,7 +221,7 @@ summary.fixed_design <- function(object, ...) {
 #'   lower = lower,
 #'   lpar = lpar
 #' )
-#' x_wlr %>% summary()
+#' x_wlr |> summary()
 #' }
 #' # Maxcombo ----
 #' \donttest{
@@ -251,7 +241,7 @@ summary.fixed_design <- function(object, ...) {
 #'   lower = gs_spending_combo,
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.2)
 #' )
-#' x_combo %>% summary()
+#' x_combo |> summary()
 #' }
 #' # Risk difference ----
 #' \donttest{
@@ -271,7 +261,7 @@ summary.fixed_design <- function(object, ...) {
 #'     k = 3, test.type = 1, sfu = gsDesign::sfLDOF, sfupar = NULL
 #'   )$upper$bound,
 #'   lpar = c(qnorm(.1), rep(-Inf, 2))
-#' ) %>% summary()
+#' ) |> summary()
 #' }
 summary.gs_design <- function(object,
                               analysis_vars = NULL,
@@ -302,9 +292,9 @@ summary.gs_design <- function(object,
   analysis_vars <- names(analysis_decimals)
 
   # set the analysis summary header
-  analyses <- x_analysis %>%
-    group_by(analysis) %>%
-    filter(row_number() == 1) %>%
+  analyses <- x_analysis |>
+    group_by(analysis) |>
+    filter(row_number() == 1) |>
     select(all_of(c("analysis", analysis_vars)))
 
   # Merge 2 tables:
@@ -318,7 +308,7 @@ summary.gs_design <- function(object,
   xy$bound <- replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2]))
 
   if (!"probability0" %in% names(xy)) xy$probability0 <- "-"
-  xy <- xy %>% arrange(analysis, desc(bound))
+  xy <- xy |> arrange(analysis, desc(bound))
 
   # Merge 2 tables:
   # (1) Analysis summary table
@@ -357,7 +347,7 @@ summary.gs_design <- function(object,
   col_decimals <- cap_names(col_decimals)
   col_vars <- names(col_decimals)
 
-  output <- output %>% group_by(Analysis) %>% select(all_of(col_vars))
+  output <- output |> group_by(Analysis) |> select(all_of(col_vars))
   # Set the decimals to display ----
   for (j in col_vars) output[[j]] <- round2(output[[j]], col_decimals[j])
 

@@ -61,13 +61,14 @@ fixedevents <- fixed_design_ahr(
   study_duration = study_duration
 )
 
-fixedevents %>%
-  summary() %>%
-  select(-Bound) %>%
-  as_gt(footnote = "Power based on 512 events") %>%
-  fmt_number(columns = 3:4, decimals = 2) %>%
+fixedevents |>
+  summary() |>
+  select(-Bound) |>
+  as_gt(footnote = "Power based on 512 events") |>
+  fmt_number(columns = 3:4, decimals = 2) |>
   fmt_number(columns = 5:6, decimals = 3)
 ```
+
 # Beta-spending futility bound with AHR
 
 Beta-spending allocates the Type II error rate ($\beta$) across interim analyses in a group sequential design. At each interim analysis, a portion of the total allowed $\beta$ is spent to determine the futility boundary. The cumulative $\beta$ spent up to each analysis is specified by a beta-spending function ($\beta(t)$ with $\beta(0) = 0$ and $\beta(1) = \beta$).
@@ -123,8 +124,8 @@ betaspending <- gs_power_ahr(
   test_lower = c(TRUE, TRUE, FALSE)
 )
 
-betaspending %>%
-  summary() %>%
+betaspending |>
+  summary() |>
   as_gt(
     title = "Group sequential design with futility only",
     subtitle = "Beta-spending futility bound"
@@ -153,6 +154,7 @@ wieand <- gs_power_ahr(
   lower = gs_b, lpar = c(0, 0, -Inf),
   
 )
+
 wieand %>%
   summary() %>%
   as_gt(

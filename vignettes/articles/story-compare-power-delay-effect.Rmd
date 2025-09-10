@@ -21,7 +21,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(gt)
-library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(gsDesign)
@@ -47,12 +46,12 @@ fail_rate <- define_fail_rate(
   dropout_rate = 0.001
 )
 
-enroll_rate %>%
-  gt() %>%
+enroll_rate |>
+  gt() |>
   tab_header(title = "Enrollment Table of Scenario 1")
 
-fail_rate %>%
-  gt() %>%
+fail_rate |>
+  gt() |>
   tab_header(title = "Failure Table of Scenario 1")
 ```
 
@@ -79,9 +78,7 @@ for (trial_duration in seq(24, 60, 4)) {
     fail_rate = fail_rate,
     ratio = 1,
     alpha = 0.025, beta = 0.15,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),
@@ -94,9 +91,7 @@ for (trial_duration in seq(24, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 0)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),
@@ -158,9 +153,7 @@ for (trial_duration in seq(24, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 15)
-    },
+    weight = list(method = "fh", param = list(rho = -1, gamma = 0, tau = 15)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),
@@ -186,11 +179,11 @@ for (trial_duration in seq(24, 60, 4)) {
   tab <- rbind(tab, tab_new)
 }
 
-tab %>%
-  gt() %>%
-  fmt_number(columns = c(2, 3), decimals = 1) %>%
-  fmt_number(columns = 4, decimals = 2) %>%
-  fmt_number(columns = 5, decimals = 4) %>%
+tab |>
+  gt() |>
+  fmt_number(columns = c(2, 3), decimals = 1) |>
+  fmt_number(columns = 4, decimals = 2) |>
+  fmt_number(columns = 5, decimals = 4) |>
   fmt_number(columns = 6:11, decimals = 2)
 ```
 
@@ -208,11 +201,11 @@ fail_rate <- define_fail_rate(
   # In Scenario 1: hr = c(1, .6)
   hr = c(1, .6, .85)
 )
-enroll_rate %>%
-  gt() %>%
+enroll_rate |>
+  gt() |>
   tab_header(title = "Enrollment Table of Scenario 2")
-fail_rate %>%
-  gt() %>%
+fail_rate |>
+  gt() |>
   tab_header(title = "Failure Table of Scenario 2")
 ```
 
@@ -226,9 +219,7 @@ for (trial_duration in seq(20, 60, 4)) {
     fail_rate = fail_rate,
     ratio = 1,
     alpha = 0.025, beta = 0.15,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0.5)
-    },
+    weight = list(method = "fh", param = list(rho = 0, gamma = 0.5)),
     upper = gs_b,
     upar = qnorm(.975),
     lower = gs_b,
@@ -241,9 +232,7 @@ for (trial_duration in seq(20, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = 0, gamma = 0)
-    },
+    weight = "logrank",
     upper = gs_b,
     upar = qnorm(.975),
     lower = gs_b,
@@ -303,9 +292,7 @@ for (trial_duration in seq(20, 60, 4)) {
     enroll_rate = fh_05$enroll_rate,
     fail_rate = fail_rate,
     ratio = 1,
-    weight = function(x, arm0, arm1) {
-      wlr_weight_fh(x, arm0, arm1, rho = -1, gamma = 0, tau = 15)
-    },
+    weight = list(method = "fh", param = list(rho = -1, gamma = 0, tau = 15)),
     upper = gs_b,
     lower = gs_b,
     upar = qnorm(.975),
@@ -332,10 +319,10 @@ for (trial_duration in seq(20, 60, 4)) {
   tab <- rbind(tab, tab_new)
 }
 
-tab %>%
-  gt() %>%
-  fmt_number(columns = c(2, 3), decimals = 1) %>%
-  fmt_number(columns = 4, decimals = 2) %>%
-  fmt_number(columns = 5, decimals = 4) %>%
+tab |>
+  gt() |>
+  fmt_number(columns = c(2, 3), decimals = 1) |>
+  fmt_number(columns = 4, decimals = 2) |>
+  fmt_number(columns = 5, decimals = 4) |>
   fmt_number(columns = 6:11, decimals = 2)
 ```

@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -30,7 +30,6 @@
 #'
 #' @examples
 #' # Milestone method ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_milestone(
@@ -45,7 +44,7 @@
 #'   study_duration = 36,
 #'   tau = 18
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_milestone(
@@ -60,7 +59,7 @@
 #'   study_duration = 36,
 #'   tau = 18
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_milestone <- function(
     alpha = 0.025,
@@ -111,9 +110,9 @@ fixed_design_milestone <- function(
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input,

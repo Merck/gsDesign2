@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -31,7 +31,6 @@
 #'
 #' @examples
 #' # The example is slow to run
-#' library(dplyr)
 #' library(mvtnorm)
 #' library(gsDesign)
 #'
@@ -187,6 +186,7 @@ gs_design_combo <- function(
   # Find sample size and bound
   sample_size <- max(info$n)
   n0 <- 0
+  prob <- NULL
   while ((abs(sample_size - n0)) > 1e-2) {
     n0 <- sample_size
 
@@ -204,32 +204,25 @@ gs_design_combo <- function(
       ...
     )
 
+    # calculate the difference between the derived power and the targeted power
+    # (1 - beta), based on the provided sample size, upper and lower boundaries,
+    # and treatment effect
+    get_combo_power <- function(n, ...) {
+      # Probability Cross Boundary
+      prob <<- cache_fun(
+        gs_prob_combo,
+        upper_bound = bound$upper, lower_bound = bound$lower,
+        analysis = info_fh$analysis, theta = theta_fh * sqrt(n),
+        corr = corr_fh, algorithm = algorithm, ...
+      )
+      max(subset(prob, bound == "upper")$probability) - (1 - beta)
+    }
+
     sample_size_results <- uniroot(
-      f = get_combo_power,
-      interval = c(1, n_upper_bound),
-      # arguments passed to f(), i.e. get_combo_power()
-      bound = bound,
-      info_fh = info_fh,
-      theta_fh = theta_fh,
-      corr_fh = corr_fh,
-      algorithm = algorithm,
-      beta = beta,
-      ...,
-      # further arguments to uniroot()
-      extendInt = "yes"
+      get_combo_power, c(1, n_upper_bound), ..., extendInt = "yes"
     )
     sample_size <- sample_size_results$root
   }
-
-  # Probability Cross Boundary
-  prob <- gs_prob_combo(
-    upper_bound = bound$upper,
-    lower_bound = bound$lower,
-    analysis = info_fh$analysis,
-    theta = theta_fh * sqrt(sample_size),
-    corr = corr_fh,
-    algorithm = algorithm, ...
-  )
 
   # Probability Cross Boundary under Null
   prob_null <- gs_prob_combo(
@@ -250,49 +243,49 @@ gs_design_combo <- function(
   # Prepare output
   db <- merge(
     data.frame(analysis = 1:(nrow(prob) / 2), prob, z = unlist(bound)),
-    info_fh %>%
-      tibble::as_tibble() %>%
-      select(analysis, time, n, event) %>%
+    info_fh |>
+      tibble::as_tibble() |>
+      select(analysis, time, n, event) |>
       unique()
-  ) %>%
+  ) |>
     # update sample size and events
     mutate(
       event = event * sample_size / max(n),
       n = n * sample_size / max(n)
-    ) %>%
+    ) |>
     # arrange the dataset by Upper bound first and then Lower bound
     arrange(analysis, desc(bound))
 
 
-  out <- db %>%
+  out <- db |>
     select(
       analysis, bound, time, n, event, z,
       probability, probability_null
-    ) %>%
-    rename(probability0 = probability_null) %>%
+    ) |>
+    rename(probability0 = probability_null) |>
     mutate(`nominal p` = pnorm(z * (-1)))
 
 
   # get bounds to output
-  bounds <- out %>%
-    # rbind(out_H1, out_H0) %>%
-    select(analysis, bound, probability, probability0, z, `nominal p`) %>%
+  bounds <- out |>
+    # rbind(out_H1, out_H0) |>
+    select(analysis, bound, probability, probability0, z, `nominal p`) |>
     arrange(analysis, desc(bound))
 
   # get analysis summary to output
   # check if rho, gamma = 0 is included in fh_test
-  tmp <- fh_test %>%
-    filter(rho == 0 & gamma == 0 & tau == -1) %>%
-    select(test) %>%
-    unlist() %>%
-    as.numeric() %>%
+  tmp <- fh_test |>
+    filter(rho == 0 & gamma == 0 & tau == -1) |>
+    select(test) |>
+    unlist() |>
+    as.numeric() |>
     unique()
 
   if (length(tmp) != 0) {
-    ahr_dis <- utility$info_all %>%
-      filter(test == tmp) %>%
-      select(ahr) %>%
-      unlist() %>%
+    ahr_dis <- utility$info_all |>
+      filter(test == tmp) |>
+      select(ahr) |>
+      unlist() |>
       as.numeric()
   } else {
     ahr_dis <- gs_info_wlr(
@@ -305,26 +298,26 @@ gs_design_combo <- function(
     )$AHR
   }
 
-  analysis <- utility$info_all %>%
-    select(analysis, test, time, n, event) %>%
+  analysis <- utility$info_all |>
+    select(analysis, test, time, n, event) |>
     mutate(
       theta = utility$info_all$theta,
-      event_frac = event / tapply(event, test, function(x) max(x)) %>%
-        unlist() %>%
+      event_frac = event / tapply(event, test, function(x) max(x)) |>
+        unlist() |>
         as.numeric()
-    ) %>%
-    select(analysis, time, n, event, event_frac) %>%
-    unique() %>%
-    mutate(ahr = ahr_dis) %>%
+    ) |>
+    select(analysis, time, n, event, event_frac) |>
+    unique() |>
+    mutate(ahr = ahr_dis) |>
     mutate(
       n = n * sample_size / max(info_fh$n),
       event = event * sample_size / max(info_fh$n)
-    ) %>%
+    ) |>
     arrange(analysis)
 
   # Output ----
   output <- list(
-    enroll_rate = enroll_rate %>% mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
+    enroll_rate = enroll_rate |> mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
     fail_rate = fail_rate,
     bounds = bounds,
     analysis = analysis
@@ -336,32 +329,4 @@ gs_design_combo <- function(
   }
 
   return(output)
-}
-
-#' Function to calculate power
-#'
-#' A helper function passed to `uniroot()`
-#'
-#' This function calculates the difference between the derived power and the
-#' targeted power (1 - beta), based on the provided sample size, upper and lower
-#' boundaries, and treatment effect.
-#'
-#' @param n Input sample size
-#' @inheritParams gs_design_combo
-#'
-#' @return The optimal sample size (a single numeric value)
-#'
-#' @keywords internal
-get_combo_power <- function(n, bound, info_fh, theta_fh, corr_fh, algorithm, beta, ...) {
-  # Probability Cross Boundary
-  prob <- gs_prob_combo(
-    upper_bound = bound$upper,
-    lower_bound = bound$lower,
-    analysis = info_fh$analysis,
-    theta = theta_fh * sqrt(n),
-    corr = corr_fh,
-    algorithm = algorithm, ...
-  )
-
-  max(subset(prob, bound == "upper")$probability) - (1 - beta)
 }

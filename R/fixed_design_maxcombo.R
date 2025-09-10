@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -32,7 +32,6 @@
 #'
 #' @examples
 #' # MaxCombo test ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_maxcombo(
@@ -47,7 +46,7 @@
 #'   study_duration = 36,
 #'   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_maxcombo(
@@ -62,7 +61,7 @@
 #'   study_duration = 36,
 #'   rho = c(0, 0.5), gamma = c(0, 0), tau = c(-1, -1)
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_maxcombo <- function(
     alpha = 0.025,
@@ -93,7 +92,7 @@ fixed_design_maxcombo <- function(
     rho = rho,
     gamma = gamma,
     tau = tau
-  ) %>%
+  ) |>
     mutate(test = seq(1, length(rho)), analysis = 1, analysis_time = study_duration)
   # check if power is NULL or not
   if (is.null(power)) {
@@ -123,9 +122,9 @@ fixed_design_maxcombo <- function(
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input,

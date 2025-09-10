@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -119,18 +119,6 @@ expected_event <- function(
     ),
     total_duration = 25,
     simple = TRUE) {
-  # Check input values ----
-  check_enroll_rate(enroll_rate)
-  check_fail_rate(fail_rate)
-  check_enroll_rate_fail_rate(enroll_rate, fail_rate)
-  check_total_duration(total_duration)
-
-  if (length(total_duration) > 1) {
-    stop("gsDesign2: total_duration in `events_df()` must be a numeric number!")
-  }
-  if (!is.logical(simple)) {
-    stop("gsDesign2: simple in `expected_event()` must be logical!")
-  }
 
   # Divide the time line into sub-intervals ----
 
@@ -177,8 +165,8 @@ expected_event <- function(
   # impute the NA by step functions
   df <- merge(df_1, df_2, by = c("start_enroll", "end_fail"), all = TRUE, sort = FALSE)
   df <- df[order(df$end_fail), ]
-  df$end_enroll <- fastlag(df$start_enroll, first = as.numeric(total_duration))
-  df$start_fail <- fastlag(df$end_fail, first = 0)
+  df$end_enroll <- fastlag(df$start_enroll, first = total_duration)
+  df$start_fail <- fastlag(df$end_fail)
   df$duration <- df$end_enroll - df$start_enroll
   df$fail_rate_var <- sf_fail_rate(df$start_fail)
   df$dropout_rate_var <- sf_dropout_rate(df$start_fail)
@@ -193,7 +181,7 @@ expected_event <- function(
   # g: number of expected subjects in a sub-interval
   # big_g: cumulative sum of g (pool all sub-intervals)
   df$g <- df$enroll_rate_var * df$duration
-  df$big_g <- fastlag(cumsum(df$g), first = 0)
+  df$big_g <- fastlag(cumsum(df$g))
   df <- df[order(df$start_fail), ]
   # compute expected events as nbar in a sub-interval
   df$d <- ifelse(
@@ -212,57 +200,19 @@ expected_event <- function(
 
   # Output results ----
   if (simple) {
-    ans <- as.numeric(sum(df$nbar))
+    ans <- sum(df$nbar)
   } else {
     sf_start_fail <- stats::stepfun(start_fail, c(0, start_fail), right = FALSE)
     ans <- data.frame(
-      t = df$end_fail,
       fail_rate = df$fail_rate_var,
       event = df$nbar,
       start_fail = sf_start_fail(df$start_fail)
     )
-    ans <- by(
-      ans, ans$start_fail,
-      function(data) {
-        data.frame(
-          start_fail = data$start_fail[1],
-          fail_rate = data$fail_rate[1],
-          event = sum(data$event)
-        )
-      }
-    )
+    ans <- lapply(split(ans, ~start_fail), function(s) {
+      data.frame(t = s$start_fail[1], fail_rate = s$fail_rate[1], event = sum(s$event))
+    })
     ans <- do.call(rbind, ans)
-    ans$t <- ans$start_fail
-    ans <- ans[, c("t", "fail_rate", "event")]
-    row.names(ans) <- seq_len(nrow(ans))
+    row.names(ans) <- NULL
   }
   return(ans)
-}
-
-#' Find the "previous" values in a vector
-#'
-#' Fast replacement of \code{dplyr::lag} for the simple case of \code{n = 1L}
-#' and always supplying a new value to insert at the beginning of the vector.
-#'
-#' Important: this function is fast because it provides minimal safety checks.
-#' It relies on the
-#' \href{https://adv-r.hadley.nz/vectors-chap.html#testing-and-coercion}{coercion
-#' rules} of \code{\link[base]{c}}. For best results, \code{x} and \code{first}
-#' should be the same type of atomic vector, though it should be fine to mix
-#' \code{numeric} and \code{integer} vectors as long as your own code also
-#' doesn't rely on this distinction. It can also work on lists if needed.
-#'
-#' @param x A vector (\code{length(x) > 0})
-#' @param first A single value (\code{length(first) == 1})
-#'
-#' @return a vector that begins with \code{first} and is followed by \code{x}
-#' with its final value removed
-#'
-#' @examples
-#' gsDesign2:::fastlag(1:5, first = 100) == c(100, 1:4)
-#'
-#' @keywords internal
-fastlag <- function(x, first) {
-  stopifnot(is.vector(x), is.vector(first), length(x) > 0, length(first) == 1)
-  c(first, x[-length(x)])
 }

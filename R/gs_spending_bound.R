@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -121,7 +121,13 @@ gs_spending_bound <- function(k = 1,
   }
 
   # Compute cumulative spending at each analyses ----
-  spend <- par$sf(alpha = par$total_spend, t = timing, param = par$param)$spend
+  if (!is.function(sf <- par$sf)) sf <- tryCatch(match.fun(sf), error = function(e) {
+    # in case gsDesign is not attached (i.e. library(gsDesign)) or the spending
+    # function is not imported into gsDesign2 from gsDesign, we will get it from
+    # gsDesign's namespace
+    getExportedValue('gsDesign', sf)
+  })
+  spend <- sf(alpha = par$total_spend, t = timing, param = par$param)$spend
 
   # Compute incremental spending at each analyses ----
   old_spend <- 0

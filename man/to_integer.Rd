@@ -76,7 +76,6 @@ For the events of group sequential designs:
 }
 }
 \examples{
-library(dplyr)
 library(gsDesign2)
 
 # Average hazard ratio
@@ -121,7 +120,7 @@ x <- fixed_design_mb(
     fail_rate = log(2) / 12, hr = c(1, .6),
     dropout_rate = .001
   ),
-  tau = 4,
+  tau = Inf, w_max = 2,
   study_duration = 36, ratio = 1
 )
 x |>

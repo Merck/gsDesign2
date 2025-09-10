@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -47,7 +47,6 @@
 #'
 #' @examples
 #' # AHR method ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_ahr(
@@ -61,7 +60,7 @@
 #'   ),
 #'   study_duration = 36
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_ahr(
@@ -75,7 +74,7 @@
 #'   ),
 #'   study_duration = 36
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_ahr <- function(
     enroll_rate,
@@ -84,11 +83,13 @@ fixed_design_ahr <- function(
     power = NULL,
     ratio = 1,
     study_duration = 36,
-    event = NULL) {
+    event = NULL,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
   # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
+  info_scale <- match.arg(info_scale)
 
   # Save inputs ----
   input <- list(
@@ -106,7 +107,8 @@ fixed_design_ahr <- function(
       fail_rate = fail_rate,
       ratio = ratio,
       analysis_time = study_duration,
-      event = event
+      event = event,
+      info_scale = info_scale
     )
   } else {
     d <- gs_design_ahr(
@@ -116,7 +118,8 @@ fixed_design_ahr <- function(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       ratio = ratio,
-      analysis_time = study_duration
+      analysis_time = study_duration,
+      info_scale = info_scale
     )
   }
   ans <- tibble(
@@ -124,9 +127,10 @@ fixed_design_ahr <- function(
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    ahr = d$analysis$ahr,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
   y <- list(
     input = input, enroll_rate = d$enroll_rate,
