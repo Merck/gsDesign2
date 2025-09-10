@@ -155,8 +155,8 @@ wieand <- gs_power_ahr(
   
 )
 
-wieand %>%
-  summary() %>%
+wieand |>
+  summary() |>
   as_gt(
     title = "Group sequential design with futility only at interim analyses",
     subtitle = "Wieand futility rule stops if HR > 1"
@@ -176,13 +176,13 @@ To illustrate this, we analyze the accumulation of events over time by `gsDesign
 find_ia_time <- function(t) {
   
   e_event0 <- expected_event(
-    enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / (1 + ratio)), 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)), 
     fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate),
     total_duration = t, simple = FALSE)
   
   e_event1 <- expected_event(
-    enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / (1 + ratio) * ratio), 
-    fail_rate = betaspending$fail_rate %>% 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio), 
+    fail_rate = betaspending$fail_rate |> 
       mutate(fail_rate = fail_rate * hr) |>
       select(stratum, fail_rate, duration, dropout_rate), 
     total_duration = t, simple = FALSE)
@@ -200,19 +200,19 @@ ia1_time <- uniroot(find_ia_time, interval = c(1, 50))$root
 # expected total events
 e_event_overtime <- sapply(1:betaspending$analysis$time[3], function(t){
   e_event0 <- expected_event(
-    enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / (1 + ratio)), 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)), 
     fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate),
     total_duration = t, simple = TRUE)
   
   e_event1 <- expected_event(
-    enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / (1 + ratio) * ratio), 
-    fail_rate = betaspending$fail_rate %>% 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio), 
+    fail_rate = betaspending$fail_rate |> 
       mutate(fail_rate = fail_rate * hr) |>
       select(stratum, fail_rate, duration, dropout_rate), 
     total_duration = t, simple = TRUE)
   
   sum(e_event0) + sum(e_event1)
-}) %>% unlist()
+}) |> unlist()
 
 
 # visualization of expected total events
@@ -234,11 +234,11 @@ p1 <- ggplot(data = data.frame(time = 1:betaspending$analysis$time[3],
 
 # expected events occur first 3 months
 e_event_first3m <- sapply(1:betaspending$analysis$time[3], function(t){
-  expected_event(enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / (1 + ratio)), 
+  expected_event(enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)), 
                  fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate), 
                  total_duration = t, simple = FALSE)$event[1] +
-  expected_event(enroll_rate = betaspending$enroll_rate %>% mutate(rate = rate / (1 + ratio) * ratio), 
-                 fail_rate = betaspending$fail_rate %>% 
+  expected_event(enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio), 
+                 fail_rate = betaspending$fail_rate |> 
                    mutate(fail_rate = fail_rate * hr) |>
                    select(stratum, fail_rate, duration, dropout_rate), 
                  total_duration = t, simple = FALSE)$event[1]
@@ -320,8 +320,8 @@ betaspending_classic <- gs_power_ahr(
   test_lower = c(TRUE, TRUE, FALSE)
 )
 
-betaspending_classic %>%
-  summary() %>%
+betaspending_classic |>
+  summary() |>
   as_gt(
     title = "Group sequential design with futility only",
     subtitle = "Classical beta-spending futility bound"
