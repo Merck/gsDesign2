@@ -19,28 +19,14 @@ x <- gsDesign::gsSurv(
   T = NULL,
   minfup = NULL,
   ratio = 1
-)
+) |> gsDesign::toInteger()
 
-# Update x with gsDesign() to get integer event counts
-x <- gsDesign::gsDesign(
-  k = x$k,
-  test.type = 1,
-  alpha = x$alpha,
-  beta = x$beta,
-  sfu = x$upper$sf,
-  sfupar = x$upper$param,
-  n.I = ceiling(x$n.I),
-  maxn.IPlan = ceiling(x$n.I[x$k]),
-  delta = x$delta,
-  delta1 = x$delta1,
-  delta0 = x$delta0
-)
 y <- gsDesign::gsBoundSummary(
   x,
   ratio = 1,
   digits = 4,
   ddigits = 2,
-  tdigits = 1,
+  tdigits = 4,
   timename = "Month",
   logdelta = TRUE
 )
@@ -54,16 +40,16 @@ test_that("under same number of events, compare the power", {
 
   out <- gs_power_ahr(
     enroll_rate = define_enroll_rate(
-      duration = c(2, 2, 2, 6),
-      rate = c(6, 12, 18, 24)
+      duration = x$R,
+      rate = x$gamma |> as.vector()
     ),
     fail_rate = define_fail_rate(
-      duration = 1,
-      fail_rate = log(2) / 9,
-      hr = 0.65,
-      dropout_rate = 0.001
+      duration = Inf,
+      fail_rate = x$lambdaC |> as.vector(),
+      dropout_rate = x$etaE |> as.vector(),
+      hr = x$hr
     ),
-    ratio = 1,
+    ratio = x$ratio,
     # Set number of events the same as the design x above from gsDesign()
     event = x$n.I,
     analysis_time = NULL,
@@ -84,20 +70,20 @@ test_that("under same power setting, compare the number of events", {
 
   out <- gs_power_ahr(
     enroll_rate = define_enroll_rate(
-      duration = c(2, 2, 2, 6),
-      rate = c(6, 12, 18, 24)
+      duration = x$R,
+      rate = x$gamma |> as.vector()
     ),
     fail_rate = define_fail_rate(
-      duration = 1,
-      fail_rate = log(2) / 9,
-      dropout_rate = 0.001,
-      hr = 0.65
+      duration = Inf,
+      fail_rate = x$lambdaC |> as.vector(),
+      dropout_rate = x$etaE |> as.vector(),
+      hr = x$hr
     ),
-    ratio = 1,
+    ratio = x$ratio,
     event = NULL,
     # Adjust the times s.t. power ~= 0.801 and information fraction ~= 0.7
     # (same as the design x above from gsDesign())
-    analysis_time = c(21, 34.9),
+    analysis_time = sub("^Month: ", "", y$Analysis[startsWith(y$Analysis, "Month: ")]) |> as.numeric(),
     binding = FALSE,
     upper = gs_spending_bound,
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL, theta = 0),
@@ -108,5 +94,5 @@ test_that("under same power setting, compare the number of events", {
   )
 
   # In case test fails, check whether caused by small tolerance
-  expect_equal(out$analysis$event[1:2], x$n.I, tolerance = 0.02)
+  expect_equal(out$analysis$event[1:2], x$n.I, tolerance = 0.002)
 })
