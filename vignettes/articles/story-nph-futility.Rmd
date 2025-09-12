@@ -25,7 +25,10 @@ library(ggplot2)
 
 # Overview
 
-This vignette demonstrates possible ways to set up futility bounds in clinical trial designs under the assumption of non-proportional hazards. We introduce the methods proposed by @wieand1994stopping and @korn2018interim, and also cover an alternative futility bound based on $\beta$-spending .
+This vignette demonstrates possible ways to set up futility bounds in clinical trial designs under the assumption of non-proportional hazards. 
+We review the methods proposed by @wieand1994stopping and @korn2018interim.
+To be more consistent with common practice, we propose a futility bound based on $\beta$-spending that automatically accounts for
+non-proportional hazards as assumed in the design.
 
 We start by specifying the enrollment and failure rate assumptions, following the example used by @korn2018interim (based on @chen2013statistical).
 
@@ -45,14 +48,15 @@ fail_rate <- define_fail_rate(
 )
 
 ## Study duration was 34.8 in Korn & Freidlin Table 1
-## We change to 34.86 here to obtain 512 expected events more precisely
+## We change to 34.86 here to obtain 512 expected events they presented
 study_duration <- 34.86
 
 # randomization ratio (exp:control)
 ratio <- 1
 ```
 
-In this example, with 680 subjects enrolled over 12 months, we expect 512 events to occur within 34.86 months, yielding approximately 90.45% power.
+In this example, with 680 subjects enrolled over 12 months, we expect 512 events to occur within 34.86 months, 
+yielding approximately 90.45% power if no interim analyses are performed.
 ```{r}
 fixedevents <- fixed_design_ahr(
   alpha = 0.025, power = NULL, ratio = ratio,
@@ -71,7 +75,9 @@ fixedevents |>
 
 # Beta-spending futility bound with AHR
 
-Beta-spending allocates the Type II error rate ($\beta$) across interim analyses in a group sequential design. At each interim analysis, a portion of the total allowed $\beta$ is spent to determine the futility boundary. The cumulative $\beta$ spent up to each analysis is specified by a beta-spending function ($\beta(t)$ with $\beta(0) = 0$ and $\beta(1) = \beta$).
+Beta-spending allocates the Type II error rate ($\beta$) across interim analyses in a group sequential design. 
+At each interim analysis, a portion of the total allowed $\beta$ is spent to determine the futility boundary. 
+The cumulative $\beta$ spent up to each analysis is specified by a beta-spending function ($\beta(t)$ with $\beta(0) = 0$ and $\beta(1) = \beta$).
 
 Methodology, the futility bound of IA1 (denoted as $a_1$) is
 $$
