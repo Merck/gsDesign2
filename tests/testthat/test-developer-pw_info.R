@@ -112,3 +112,16 @@ test_that("When there are many pieces of HRs", {
     ratio = 2)
   )
 })
+
+test_that("When control median changes but HR remain unchanged", {
+  x <- pw_info(
+    enroll_rate = define_enroll_rate(duration = 12, rate = 20),
+    fail_rate = define_fail_rate(duration = c(9, Inf),
+                                 fail_rate = log(2) / c(10, 20),
+                                 hr = c(0.72, 0.72),
+                                 dropout_rate = 0.001),
+    total_duration = 50,
+    ratio = 1)
+
+  expect_equal(sum(x$n),  20 * 12)
+})
