@@ -78,6 +78,7 @@ fixedevents |>
 Beta-spending allocates the Type II error rate ($\beta$) across interim analyses in a group sequential design. 
 At each interim analysis, a portion of the total allowed $\beta$ is spent to determine the futility boundary. 
 The cumulative $\beta$ spent up to each analysis is specified by a beta-spending function ($\beta(t)$ with $\beta(0) = 0$ and $\beta(1) = \beta$).
+The AHR model for the NPH alternate hypothesis accounts for the assumed early lack of benefit.
 
 Methodology, the futility bound of IA1 (denoted as $a_1$) is
 $$
@@ -333,4 +334,13 @@ betaspending_classic |>
     subtitle = "Classical beta-spending futility bound"
   )
 ```
+
+# Conclusion
+
+As an alternative ad hoc methods to account for delayed effects as proposed by @wieand1994stopping and @korn2018interim,
+we propose a method for $\beta$-spending that automatically accounts for delayed effects.
+We have shown that results compare favorably to the ad hoc methods, but control Type II error 
+and adapt to the timing and distribution of event times at the time of interim analysis.
+
+
 # References
