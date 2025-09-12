@@ -178,12 +178,16 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       power = (x_new$bound |> filter(bound == "upper"))$probability
     )
 
-    ans <- list(
-      input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate,
-      analysis = analysis, design = "ahr"
+    ans <- structure(
+      list(
+        input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate,
+        analysis = analysis, design = "ahr"
+      ),
+      class = "fixed_design",
+      design_display = attr(x, "design_display"),
+      title = attr(x, "title"),
+      footnote = attr(x, "footnote")
     )
-
-    ans <- add_class(ans, "fixed_design")
   } else if ((x$design == "fh") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
@@ -207,12 +211,16 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       power = (x_new$bound |> filter(bound == "upper"))$probability
     )
 
-    ans <- list(
-      input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate,
-      analysis = analysis, design = "fh", design_par = x$design_par
+    ans <- structure(
+      list(
+        input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate,
+        analysis = analysis, design = "fh", design_par = x$design_par
+      ),
+      class = "fixed_design",
+      design_display = attr(x, "design_display"),
+      title = attr(x, "title"),
+      footnote = attr(x, "footnote")
     )
-
-    ans <- add_class(ans, "fixed_design")
   } else if ((x$design == "mb") && (input_n != output_n)) {
     x_new <- gs_power_wlr(
       enroll_rate = enroll_rate_new,
@@ -236,12 +244,16 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
       power = (x_new$bound |> filter(bound == "upper"))$probability
     )
 
-    ans <- list(
-      input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate,
-      analysis = analysis, design = "mb", design_par = x$design_par
+    ans <- structure(
+      list(
+        input = x$input, enroll_rate = x_new$enroll_rate, fail_rate = x_new$fail_rate,
+        analysis = analysis, design = "mb", design_par = x$design_par
+      ),
+      class = "fixed_design",
+      design_display = attr(x, "design_display"),
+      title = attr(x, "title"),
+      footnote = attr(x, "footnote")
     )
-
-    ans <- add_class(ans, "fixed_design")
   } else {
     message("The input object is not applicable to get an integer sample size.")
     ans <- x
@@ -320,9 +332,9 @@ to_integer.fixed_design <- function(x, round_up_final = TRUE, ratio = x$input$ra
 #' gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend
 #' }
 to_integer.gs_design <- function(x, round_up_final = TRUE, ratio = x$input$ratio, ...) {
-  is_ahr <- inherits(x, "ahr")
-  is_wlr <- inherits(x, "wlr")
-  is_rd  <- inherits(x, "rd")
+  is_ahr <- x$design == "ahr"
+  is_wlr <- x$design == "wlr"
+  is_rd  <- x$design == "rd"
   if (!(is_ahr || is_wlr || is_rd)) {
     message("The input object is not applicable to get an integer sample size.")
     return(x)

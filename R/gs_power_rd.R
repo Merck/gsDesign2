@@ -343,13 +343,16 @@ gs_power_rd <- function(
       select(analysis, n, rd, rd0, theta1, theta0, info, info0, info_frac, info_frac0)
   )
 
-  ans <- list(
-    bound = bound |> filter(!is.infinite(z)),
-    analysis = analysis
+  ans <- structure(
+    list(
+      design = "rd",
+      bound = bound |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_power_rd"
   )
-
-  ans <- add_class(ans, if (!binding) "non_binding", "rd", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_power_rd"
 
   return(ans)
 }

@@ -103,3 +103,6 @@ prune_hash <- function(h, size = 2^23) {
     n <- object.size(h)
   }
 }
+
+# Require exact matching by default when retrieving attributes
+attr = function(...) base::attr(..., exact = TRUE)

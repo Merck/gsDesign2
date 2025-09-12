@@ -238,17 +238,17 @@ gs_power_combo <- function(
     arrange(analysis)
 
   # Output ----
-  output <- list(
-    enroll_rate = enroll_rate |> mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
-    fail_rate = fail_rate,
-    bound = bound,
-    analysis = analysis
+  output <- structure(
+    list(
+      design = "combo",
+      enroll_rate = enroll_rate |> mutate(rate = rate * max(analysis$n) / sum(rate * duration)),
+      fail_rate = fail_rate,
+      bound = bound,
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding
   )
-
-  class(output) <- c("combo", "gs_design", class(output))
-  if (!binding) {
-    class(output) <- c("non_binding", class(output))
-  }
 
   return(output)
 }

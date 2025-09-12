@@ -103,7 +103,8 @@ fixed_design_rmst <- function(
       tau = tau
     )
   }
-  # get the output
+
+  # Prepare output ----
   ans <- tibble(
     design = "rmst",
     n = d$analysis$n,
@@ -113,11 +114,21 @@ fixed_design_rmst <- function(
     alpha = alpha,
     power = (d$bound |> filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input,
-    enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
-    design = "rmst", design_par = list(tau = tau), study_duration
+  design_display <- paste("RMST: tau =", tau)
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "rmst", design_par = list(tau = tau),
+      study_duration
+    ),
+    class = "fixed_design",
+    design_display = design_display,
+    title = "Fixed Design under Restricted Mean Survival Time Method",
+    footnote = paste(
+      "Power for", design_display,
+      "computed with method of Yung and Liu."
+    )
   )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }

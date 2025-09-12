@@ -116,7 +116,8 @@ fixed_design_maxcombo <- function(
       lower = gs_b, lpar = -Inf
     )
   }
-  # get the output of MaxCombo
+
+  # Prepare output ----
   ans <- tibble(
     design = "maxcombo",
     n = d$analysis$n,
@@ -126,11 +127,30 @@ fixed_design_maxcombo <- function(
     alpha = alpha,
     power = (d$bound |> filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input,
-    enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
-    design = "maxcombo", design_par = list(rho = rho, gamma = gamma, tau = tau)
+  design_display <- gsub(
+    "FH(0, 0)", "logrank", paste(
+      "MaxCombo:", paste0(
+        "FHC(", rho, ", ", gamma, ")",
+        collapse = ", "
+      )
+    ),
+    fixed = TRUE
   )
-  class(y) <- c("fixed_design", class(y))
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "maxcombo",
+      design_par = list(rho = rho, gamma = gamma, tau = tau)
+    ),
+    class = "fixed_design",
+    design_display = design_display,
+    title = "Fixed Design under MaxCombo Method",
+    footnote = paste0(
+      "Power for MaxCombo test with Fleming-Harrington tests ",
+      substring(design_display, 9),
+      "."
+    )
+  )
+
   return(y)
 }

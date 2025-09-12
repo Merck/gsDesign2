@@ -122,6 +122,8 @@ fixed_design_ahr <- function(
       info_scale = info_scale
     )
   }
+
+  # Prepare output ----
   ans <- tibble(
     design = "ahr",
     n = d$analysis$n,
@@ -132,10 +134,16 @@ fixed_design_ahr <- function(
     alpha = alpha,
     power = (d$bound |> filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input, enroll_rate = d$enroll_rate,
-    fail_rate = d$fail_rate, analysis = ans, design = "ahr"
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "ahr"
+    ),
+    class = "fixed_design",
+    design_display = "Average hazard ratio",
+    title = "Fixed Design under AHR Method",
+    footnote = "Power computed with average hazard ratio method."
   )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }
