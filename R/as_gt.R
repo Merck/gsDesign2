@@ -83,11 +83,16 @@ as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
   if (is.null(footnote)) footnote <- attr(x, "footnote")
 
   ans <- gt::gt(x) |>
-    gt::tab_header(title = title) |>
-    gt::tab_footnote(
-      footnote = footnote,
-      locations = gt::cells_title(group = "title")
-    )
+    gt::tab_header(title = title)
+
+  if (!isFALSE(footnote)) {
+    ans <- ans |>
+      gt::tab_footnote(
+        footnote = footnote,
+        locations = gt::cells_title(group = "title")
+      )
+  }
+
   return(ans)
 }
 
