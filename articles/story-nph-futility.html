@@ -65,7 +65,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Futility bounds at design and analysis under non-proportional hazards</h1>
                         <h4 data-toc-skip class="author">Keaven M.
-Anderson</h4>
+Anderson and Yujie Zhao</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/Merck/gsDesign2/blob/main/vignettes/articles/story-nph-futility.Rmd" class="external-link"><code>vignettes/articles/story-nph-futility.Rmd</code></a></small>
@@ -83,27 +83,20 @@ Anderson</h4>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>We set up futility bounds under a non-proportional hazards
-assumption. We consider methods presented by <span class="citation">Korn
-and Freidlin (2018)</span> for setting such bounds and then consider an
-alternate futility bound based on <span class="math inline">\(\beta-\)</span>spending under a delayed or
-crossing treatment effect to simplify implementation. Finally, we show
-how to update this <span class="math inline">\(\beta-\)</span>spending
-bound based on blinded interim data. We will consider an example to
-reproduce a line of <span class="citation">Korn and Freidlin
-(2018)</span> Table 1 with the alternative futility bounds
-considered.</p>
-<div class="section level3">
-<h3 id="initial-design-set-up-for-fixed-analysis">Initial design set-up for fixed analysis<a class="anchor" aria-label="anchor" href="#initial-design-set-up-for-fixed-analysis"></a>
-</h3>
-<p><span class="citation">Korn and Freidlin (2018)</span> considered
-delayed effect scenarios and proposed a futility bound that is a
-modification of an earlier method proposed by <span class="citation">Wieand, Schroeder, and O’Fallon (1994)</span>. We begin
-with the enrollment and failure rate assumptions which <span class="citation">Korn and Freidlin (2018)</span> based on an example by
-<span class="citation">Chen (2013)</span>.</p>
+<p>This vignette demonstrates possible ways to set up futility bounds in
+clinical trial designs under the assumption of non-proportional hazards.
+We review the methods proposed by <span class="citation">Wieand,
+Schroeder, and O’Fallon (1994)</span> and <span class="citation">Korn
+and Freidlin (2018)</span>. To be more consistent with common practice,
+we propose a futility bound based on <span class="math inline">\(\beta\)</span>-spending that automatically
+accounts for non-proportional hazards as assumed in the design.</p>
+<p>We start by specifying the enrollment and failure rate assumptions,
+following the example used by <span class="citation">Korn and Freidlin
+(2018)</span> (based on <span class="citation">Chen (2013)</span>).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Enrollment assumed to be 680 patients over 12 months with no ramp-up</span></span>
 <span><span class="va">enroll_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_enroll_rate.html">define_enroll_rate</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="fl">12</span>, rate <span class="op">=</span> <span class="fl">680</span> <span class="op">/</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Failure rates</span></span>
 <span><span class="co">## Control exponential with median of 12 mos</span></span>
 <span><span class="co">## Delayed effect with HR = 1 for 3 months and HR = .693 thereafter</span></span>
@@ -114,16 +107,19 @@ with the enrollment and failure rate assumptions which <span class="citation">Ko
 <span>  hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.693</span><span class="op">)</span>,</span>
 <span>  dropout_rate <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span>
+<span></span>
 <span><span class="co">## Study duration was 34.8 in Korn &amp; Freidlin Table 1</span></span>
-<span><span class="co">## We change to 34.86 here to obtain 512 expected events more precisely</span></span>
-<span><span class="va">study_duration</span> <span class="op">&lt;-</span> <span class="fl">34.86</span></span></code></pre></div>
-<p>We now derive a fixed sample size based on these assumptions.
-Ideally, we would allow a targeted event count and variable follow-up in
-<code><a href="../reference/fixed_design.html">fixed_design_ahr()</a></code> so that the study duration will be
-computed automatically.</p>
+<span><span class="co">## We change to 34.86 here to obtain 512 expected events they presented</span></span>
+<span><span class="va">study_duration</span> <span class="op">&lt;-</span> <span class="fl">34.86</span></span>
+<span></span>
+<span><span class="co"># randomization ratio (exp:control)</span></span>
+<span><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code></pre></div>
+<p>In this example, with 680 subjects enrolled over 12 months, we expect
+512 events to occur within 34.86 months, yielding approximately 90.45%
+power if no interim analyses are performed.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fixedevents</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fixed_design.html">fixed_design_ahr</a></span><span class="op">(</span></span>
-<span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, power <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.025</span>, power <span class="op">=</span> <span class="cn">NULL</span>, ratio <span class="op">=</span> <span class="va">ratio</span>,</span>
 <span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
 <span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
 <span>  study_duration <span class="op">=</span> <span class="va">study_duration</span></span>
@@ -616,41 +612,69 @@ computed automatically.</p>
 </table>
 </div>
 </div>
-</div>
 <div class="section level2">
-<h2 id="modified-wieand-futility-bound">Modified Wieand futility bound<a class="anchor" aria-label="anchor" href="#modified-wieand-futility-bound"></a>
+<h2 id="beta-spending-futility-bound-with-ahr">Beta-spending futility bound with AHR<a class="anchor" aria-label="anchor" href="#beta-spending-futility-bound-with-ahr"></a>
 </h2>
-<p>The <span class="citation">Wieand, Schroeder, and O’Fallon
-(1994)</span> rule recommends stopping after 50% of planned events
-accrue if the observed HR &gt; 1. kornfreidlin2018 modified this by
-adding a second interim analysis after 75% of planned events and stop if
-the observed HR &gt; 1 This is implemented here by requiring a trend in
-favor of control with a direction <span class="math inline">\(Z\)</span>-bound at 0 resulting in the <em>Nominal
-p</em> bound being 0.5 for interim analyses in the table below. A fixed
-bound is specified with the <code><a href="../reference/gs_b.html">gs_b()</a></code> function for
-<code>upper</code> and <code>lower</code> and its corresponding
-parameters <code>upar</code> for the upper (efficacy) bound and
-<code>lpar</code> for the lower (futility) bound. The final efficacy
-bound is for a 1-sided nominal p-value of 0.025; the futility bound
-lowers this to 0.0247 as noted in the lower-right-hand corner of the
-table below. It is &lt; 0.025 since the probability is computed with the
-binding assumption. This is an arbitrary convention; if the futility
-bound is ignored, this computation yields 0.025. In the last row under
-<em>Alternate hypothesis</em> below we see the power is 88.44%. <span class="citation">Korn and Freidlin (2018)</span> computed 88.4% power
-for this design with 100,000 simulations which estimate the standard
-error for the power calculation to be 0.1%.</p>
+<p>Beta-spending allocates the Type II error rate (<span class="math inline">\(\beta\)</span>) across interim analyses in a group
+sequential design. At each interim analysis, a portion of the total
+allowed <span class="math inline">\(\beta\)</span> is spent to determine
+the futility boundary. The cumulative <span class="math inline">\(\beta\)</span> spent up to each analysis is
+specified by a beta-spending function (<span class="math inline">\(\beta(t)\)</span> with <span class="math inline">\(\beta(0) = 0\)</span> and <span class="math inline">\(\beta(1) = \beta\)</span>). The AHR model for the
+NPH alternate hypothesis accounts for the assumed early lack of
+benefit.</p>
+<p>Methodology, the futility bound of IA1 (denoted as <span class="math inline">\(a_1\)</span>) is <span class="math display">\[
+  a_1 = \left\{
+  a_1
+  :
+  \text{Pr}
+  \left(
+     \underbrace{Z_1 \leq a_1}_{\text{fail at IA1}} \; | \; H_1
+  \right)
+  =
+  \beta(t_1)
+  \right\}.
+\]</span> The futility bound at IA2 (denoted as <span class="math inline">\(a_2\)</span>) is <span class="math display">\[
+  a_2
+  =
+  \left\{
+  a_2
+  :
+  \text{Pr}
+  \left(
+    \underbrace{Z_2 \leq a_2}_{\text{fail at IA2}} \;
+    \text{ and }
+    \underbrace{a_1 &lt; Z_i &lt; b_1}_{\text{continue at IA1}}
+    \; | \;
+    H_1
+  \right)
+  =
+  \beta(t_2) - \beta(t_1)
+  \right\}.
+\]</span> The futility bound after IA2 can be derived in the similar
+logic.</p>
+<p>In this example, the group sequential design with the <span class="math inline">\(\beta\)</span>-spending of AHR can be derived as
+below.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wieand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
-<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
-<span>  upper <span class="op">=</span> <span class="va">gs_b</span>, upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
-<span>  event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">betaspending</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
+<span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
+<span>  ratio <span class="op">=</span> <span class="va">ratio</span>,</span>
+<span>  <span class="co"># 2 IAs + 1 FA</span></span>
+<span>  event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  <span class="co"># efficacy bound</span></span>
+<span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
+<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="co"># futility bound</span></span>
+<span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">wieand</span> <span class="op">|&gt;</span></span>
+<span></span>
+<span><span class="va">betaspending</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Group sequential design with futility only at interim analyses"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Wieand futility rule stops if HR &gt; 1"</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Group sequential design with futility only"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Beta-spending futility bound"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#eexombwkke table {
@@ -1104,10 +1128,10 @@ error for the power calculation to be 0.1%.</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Group sequential design with futility only at interim analyses</td>
+<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Group sequential design with futility only</td>
     </tr>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Wieand futility rule stops if HR &gt; 1</td>
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Beta-spending futility bound</td>
     </tr>
 <tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
@@ -1131,22 +1155,22 @@ error for the power calculation to be 0.1%.</p>
     </tr>
 <tr class="gt_row_group_first">
 <td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Z" class="gt_row gt_right">0.00</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Nominal p" class="gt_row gt_right">0.500</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  ~HR at bound" class="gt_row gt_right">1.0000</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Alternate hypothesis" class="gt_row gt_right">0.0462</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Null hypothesis" class="gt_row gt_right">0.5000</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Z" class="gt_row gt_right">-1.29</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Nominal p" class="gt_row gt_right">0.9015</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  ~HR at bound" class="gt_row gt_right">1.1750</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Alternate hypothesis" class="gt_row gt_right">0.0015</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Null hypothesis" class="gt_row gt_right">0.0985</td>
 </tr>
 <tr class="gt_group_heading_row">
 <th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75">Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75</th>
     </tr>
 <tr class="gt_row_group_first">
 <td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Z" class="gt_row gt_right">0.00</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Nominal p" class="gt_row gt_right">0.500</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  ~HR at bound" class="gt_row gt_right">1.0000</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Alternate hypothesis" class="gt_row gt_right">0.0469</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Null hypothesis" class="gt_row gt_right">0.5980</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Z" class="gt_row gt_right">0.20</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Nominal p" class="gt_row gt_right">0.4206</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  ~HR at bound" class="gt_row gt_right">0.9797</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Alternate hypothesis" class="gt_row gt_right">0.0095</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Null hypothesis" class="gt_row gt_right">0.5799</td>
 </tr>
 <tr class="gt_group_heading_row">
 <th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1">Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1</th>
@@ -1154,11 +1178,10 @@ error for the power calculation to be 0.1%.</p>
 <tr class="gt_row_group_first">
 <td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
 <td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Z" class="gt_row gt_right">1.96</td>
-<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Nominal p" class="gt_row gt_right">0.025</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0250</td>
 <td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8409</td>
-<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8844</td>
-<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> 0.0247</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9031</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -1170,35 +1193,50 @@ error for the power calculation to be 0.1%.</p>
 <td class="gt_footnote" colspan="6">
 <span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
     </tr>
-<tr>
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0247) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0003 = 0.0247) under the null hypothesis.</td>
-    </tr>
 </tfoot>
 </table>
 </div>
 </div>
 <div class="section level2">
-<h2 id="beta-spending-futility-bound-with-ahr">Beta-spending futility bound with AHR<a class="anchor" aria-label="anchor" href="#beta-spending-futility-bound-with-ahr"></a>
+<h2 id="modified-wieand-futility-bound">Modified Wieand futility bound<a class="anchor" aria-label="anchor" href="#modified-wieand-futility-bound"></a>
 </h2>
-<p>Need to summarize here.</p>
+<p>The <span class="citation">Wieand, Schroeder, and O’Fallon
+(1994)</span> rule recommends stopping the trial if the observed HR
+exceeds 1 after 50% of planned events. <span class="citation">Korn and
+Freidlin (2018)</span> extends this approach by adding a second interim
+analysis at 75% of planned events, also stopping if HR &gt; 1.</p>
+<p>Here, we implement these futility rules by setting a Z-bound at 0,
+corresponding to a nominal p-value bound of approximately 0.5 at interim
+analyses. Fixed bounds are specified via the <code><a href="../reference/gs_b.html">gs_b()</a></code>
+function for both efficacy and futility boundaries.</p>
+<p>The final efficacy bound is for a 1-sided nominal p-value of 0.025;
+the futility bound lowers this to 0.0247 as noted in the
+lower-right-hand corner of the table below. It is &lt; 0.025 since the
+probability is computed with the binding assumption. This is an
+arbitrary convention; if the futility bound is ignored, this computation
+yields 0.025.</p>
+<p>The design has 88.44% power. This closely matches the 88.4% power
+from <span class="citation">Korn and Freidlin (2018)</span> with 100,000
+simulations which estimate the standard error for the power calculation
+to be 0.1%.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">betaspending</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
-<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
-<span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
-<span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
-<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
-<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">wieand</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
+<span>  ratio <span class="op">=</span> <span class="va">ratio</span>,</span>
+<span>  <span class="co"># 2 IAs + 1 FA</span></span>
 <span>  event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="co"># efficacy bound</span></span>
+<span>  upper <span class="op">=</span> <span class="va">gs_b</span>, upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="co"># futility bound</span></span>
+<span>  lower <span class="op">=</span> <span class="va">gs_b</span>, lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>  </span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">betaspending</span> <span class="op">|&gt;</span></span>
+<span><span class="va">wieand</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Group sequential design with futility only"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Beta-spending futility bound"</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Group sequential design with futility only at interim analyses"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Wieand futility rule stops if HR &gt; 1"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div id="ulbfdpbcyv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#ulbfdpbcyv table {
@@ -1652,10 +1690,10 @@ error for the power calculation to be 0.1%.</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Group sequential design with futility only</td>
+<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Group sequential design with futility only at interim analyses</td>
     </tr>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Beta-spending futility bound</td>
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Wieand futility rule stops if HR &gt; 1</td>
     </tr>
 <tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
@@ -1679,22 +1717,22 @@ error for the power calculation to be 0.1%.</p>
     </tr>
 <tr class="gt_row_group_first">
 <td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Z" class="gt_row gt_right">-1.29</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Nominal p" class="gt_row gt_right">0.9015</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  ~HR at bound" class="gt_row gt_right">1.1750</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Alternate hypothesis" class="gt_row gt_right">0.0015</td>
-<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Null hypothesis" class="gt_row gt_right">0.0985</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Z" class="gt_row gt_right">0.00</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Nominal p" class="gt_row gt_right">0.500</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  ~HR at bound" class="gt_row gt_right">1.0000</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Alternate hypothesis" class="gt_row gt_right">0.0462</td>
+<td headers="Analysis: 1 Time: 15.4 N: 680 Events: 256 AHR: 0.81 Information fraction: 0.5  Null hypothesis" class="gt_row gt_right">0.5000</td>
 </tr>
 <tr class="gt_group_heading_row">
 <th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75">Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75</th>
     </tr>
 <tr class="gt_row_group_first">
 <td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Bound" class="gt_row gt_left">Futility</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Z" class="gt_row gt_right">0.20</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Nominal p" class="gt_row gt_right">0.4206</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  ~HR at bound" class="gt_row gt_right">0.9797</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Alternate hypothesis" class="gt_row gt_right">0.0095</td>
-<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Null hypothesis" class="gt_row gt_right">0.5799</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Z" class="gt_row gt_right">0.00</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Nominal p" class="gt_row gt_right">0.500</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  ~HR at bound" class="gt_row gt_right">1.0000</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Alternate hypothesis" class="gt_row gt_right">0.0469</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Null hypothesis" class="gt_row gt_right">0.5980</td>
 </tr>
 <tr class="gt_group_heading_row">
 <th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1">Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1</th>
@@ -1702,10 +1740,11 @@ error for the power calculation to be 0.1%.</p>
 <tr class="gt_row_group_first">
 <td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
 <td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Z" class="gt_row gt_right">1.96</td>
-<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0250</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Nominal p" class="gt_row gt_right">0.025</td>
 <td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8409</td>
-<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9031</td>
-<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8844</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> 0.0247</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -1717,46 +1756,148 @@ error for the power calculation to be 0.1%.</p>
 <td class="gt_footnote" colspan="6">
 <span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
     </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0247) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0003 = 0.0247) under the null hypothesis.</td>
+    </tr>
 </tfoot>
 </table>
 </div>
 </div>
 <div class="section level2">
-<h2 id="classical-beta-spending-futility-bound">Classical beta-spending futility bound<a class="anchor" aria-label="anchor" href="#classical-beta-spending-futility-bound"></a>
-</h2>
-<p>A classical <span class="math inline">\(\beta-\)</span>spending bound
-would assume a constant treatment effect over time using the
-proportional hazards assumption. We use the average hazard ratio at the
-fixed design analysis for this purpose.</p>
-</div>
-<div class="section level2">
 <h2 id="korn-and-freidlin-futility-bound">Korn and Freidlin futility bound<a class="anchor" aria-label="anchor" href="#korn-and-freidlin-futility-bound"></a>
 </h2>
-<p>The <span class="citation">Korn and Freidlin (2018)</span> futility
-bound is set <em>when at least 50% of the expected events have occurred
-and at least two thirds of the observed events have occurred later than
-3 months from randomization</em>. The expected timing for this is
-demonstrated below.</p>
-<div class="section level3">
-<h3 id="accumulation-of-events-by-time-interval">Accumulation of events by time interval<a class="anchor" aria-label="anchor" href="#accumulation-of-events-by-time-interval"></a>
-</h3>
-<p>We consider the accumulation of events over time that occur during
-the no-effect interval for the first 3 months after randomization and
-events after this time interval. This is done for the overall trial
-without dividing out by treatment group using the
-<code>gsDesign2::AHR()</code> function. We consider monthly accumulation
-of events through the 34.86 months planned trial duration. We note in
-the summary of early expected events below that all events during the
-first 3 months on-study are expected prior to the first interim
-analysis.</p>
+<p><span class="citation">Korn and Freidlin (2018)</span> addressed
+scenarios with delayed treatment effects by modifying the futility rule
+proposed by <span class="citation">Wieand, Schroeder, and O’Fallon
+(1994)</span>. Their approach sets the futility bound when at least 50%
+of expected events have occurred, and at least two-thirds of these
+events happened after 3 months from randomization.</p>
+<p>To illustrate this, we analyze the accumulation of events over time
+by <code><a href="../reference/expected_event.html">gsDesign2::expected_event()</a></code> , distinguishing between +
+events occurring during the initial 3-month no-effect period and + event
+accumulation through the 34.86 months planned trial duration.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pw_info.html">pw_info</a></span><span class="op">(</span></span>
-<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
+<code class="sourceCode R"><span><span class="va">find_ia_time</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">e_event0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/expected_event.html">expected_event</a></span><span class="op">(</span></span>
+<span>    enroll_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">enroll_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="va">rate</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>    fail_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">stratum</span>, <span class="va">fail_rate</span>, <span class="va">duration</span>, <span class="va">dropout_rate</span><span class="op">)</span>,</span>
+<span>    total_duration <span class="op">=</span> <span class="va">t</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">e_event1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/expected_event.html">expected_event</a></span><span class="op">(</span></span>
+<span>    enroll_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">enroll_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="va">rate</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span> <span class="op">*</span> <span class="va">ratio</span><span class="op">)</span>, </span>
+<span>    fail_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> </span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fail_rate <span class="op">=</span> <span class="va">fail_rate</span> <span class="op">*</span> <span class="va">hr</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">stratum</span>, <span class="va">fail_rate</span>, <span class="va">duration</span>, <span class="va">dropout_rate</span><span class="op">)</span>, </span>
+<span>    total_duration <span class="op">=</span> <span class="va">t</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">total_event</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e_event0</span><span class="op">$</span><span class="va">event</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e_event1</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span>
+<span>  <span class="va">first3m_event</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e_event0</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e_event1</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>    </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">total_event</span> <span class="op">-</span> <span class="op">(</span><span class="va">total_event</span> <span class="op">-</span> <span class="va">first3m_event</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span> </span>
+<span></span>
+<span><span class="va">ia1_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/uniroot.html" class="external-link">uniroot</a></span><span class="op">(</span><span class="va">find_ia_time</span>, interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">root</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># expected total events</span></span>
+<span><span class="va">e_event_overtime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">betaspending</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">e_event0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/expected_event.html">expected_event</a></span><span class="op">(</span></span>
+<span>    enroll_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">enroll_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="va">rate</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>    fail_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">stratum</span>, <span class="va">fail_rate</span>, <span class="va">duration</span>, <span class="va">dropout_rate</span><span class="op">)</span>,</span>
+<span>    total_duration <span class="op">=</span> <span class="va">t</span>, simple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">e_event1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/expected_event.html">expected_event</a></span><span class="op">(</span></span>
+<span>    enroll_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">enroll_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="va">rate</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span> <span class="op">*</span> <span class="va">ratio</span><span class="op">)</span>, </span>
+<span>    fail_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> </span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fail_rate <span class="op">=</span> <span class="va">fail_rate</span> <span class="op">*</span> <span class="va">hr</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">stratum</span>, <span class="va">fail_rate</span>, <span class="va">duration</span>, <span class="va">dropout_rate</span><span class="op">)</span>, </span>
+<span>    total_duration <span class="op">=</span> <span class="va">t</span>, simple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e_event0</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e_event1</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># visualization of expected total events</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">betaspending</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span>
+<span>                               event <span class="op">=</span> <span class="va">e_event_overtime</span><span class="op">)</span>, </span>
+<span>             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">event</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">ia1_time</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, </span>
+<span>             color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span>, <span class="fl">12</span>, <span class="fl">18</span>, <span class="fl">24</span>, <span class="fl">30</span>, <span class="fl">36</span><span class="op">)</span>,</span>
+<span>                     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"6"</span>, <span class="st">"12"</span>, <span class="st">"18"</span>, <span class="st">"24"</span>, <span class="st">"30"</span>, <span class="st">"36"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Months"</span>, y <span class="op">=</span>  <span class="st">"Events"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Expected events since study starts"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
+<span>        axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,</span>
+<span>        axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># expected events occur first 3 months</span></span>
+<span><span class="va">e_event_first3m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">betaspending</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/expected_event.html">expected_event</a></span><span class="op">(</span>enroll_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">enroll_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="va">rate</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                 fail_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">stratum</span>, <span class="va">fail_rate</span>, <span class="va">duration</span>, <span class="va">dropout_rate</span><span class="op">)</span>, </span>
+<span>                 total_duration <span class="op">=</span> <span class="va">t</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/expected_event.html">expected_event</a></span><span class="op">(</span>enroll_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">enroll_rate</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="va">rate</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ratio</span><span class="op">)</span> <span class="op">*</span> <span class="va">ratio</span><span class="op">)</span>, </span>
+<span>                 fail_rate <span class="op">=</span> <span class="va">betaspending</span><span class="op">$</span><span class="va">fail_rate</span> <span class="op">|&gt;</span> </span>
+<span>                   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fail_rate <span class="op">=</span> <span class="va">fail_rate</span> <span class="op">*</span> <span class="va">hr</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>                   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">stratum</span>, <span class="va">fail_rate</span>, <span class="va">duration</span>, <span class="va">dropout_rate</span><span class="op">)</span>, </span>
+<span>                 total_duration <span class="op">=</span> <span class="va">t</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># visualization of expected events occur first 3 months</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">betaspending</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span>
+<span>                               prop <span class="op">=</span> <span class="op">(</span><span class="va">e_event_overtime</span> <span class="op">-</span> <span class="va">e_event_first3m</span><span class="op">)</span> <span class="op">/</span> <span class="va">e_event_overtime</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, </span>
+<span>             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">prop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">12</span>, <span class="fl">18</span>, <span class="fl">24</span>, <span class="fl">30</span>, <span class="fl">36</span><span class="op">)</span>,</span>
+<span>                     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"6"</span>, <span class="st">"12"</span>, <span class="st">"18"</span>, <span class="st">"24"</span>, <span class="st">"30"</span>, <span class="st">"36"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span>, <span class="fl">50</span>, <span class="fl">70</span>, <span class="fl">90</span>, <span class="fl">100</span><span class="op">)</span>,</span>
+<span>                     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"10%"</span>, <span class="st">"30%"</span>, <span class="st">"50%"</span>, <span class="st">"70%"</span>, <span class="st">"90%"</span>, <span class="st">"100%"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">*</span><span class="fl">100</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, </span>
+<span>             color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">ia1_time</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, </span>
+<span>             color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Months"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"Proportion"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Proportion of expected events occuring 3 months after study start"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
+<span>        axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,</span>
+<span>        axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot p1 and p2 together</span></span>
+<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, nrow <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                   rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="story-nph-futility_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p>As shown by the above plot, the IA1 analysis time is 19.1. With the
+IA1 analysis time known, we now derive the group sequential design with
+the futility bound by <span class="citation">Korn and Freidlin
+(2018)</span>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>, </span>
 <span>  fail_rate <span class="op">=</span> <span class="va">fail_rate</span>,</span>
-<span>  total_duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">34</span>, <span class="fl">34.86</span><span class="op">)</span>,</span>
-<span>  ratio <span class="op">=</span> <span class="fl">1</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">event_accumulation</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  ratio <span class="op">=</span> <span class="va">ratio</span>,</span>
+<span>  <span class="co"># 2 IAs + 1 FA</span></span>
+<span>  event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ia1_time</span>, </span>
+<span>                    <span class="va">ia1_time</span> <span class="op">+</span> <span class="fl">0.01</span>, </span>
+<span>                    <span class="va">ia1_time</span> <span class="op">+</span> <span class="fl">0.02</span><span class="op">)</span>,</span>
+<span>  <span class="co"># efficacy bound</span></span>
+<span>  upper <span class="op">=</span> <span class="va">gs_b</span>, </span>
+<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="co"># futility bound</span></span>
+<span>  lower <span class="op">=</span> <span class="va">gs_b</span>, </span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">kf</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Group sequential design with futility only"</span>,</span>
+<span>        subtitle <span class="op">=</span> <span class="st">"Korn and Freidlin futility rule stops if HR &gt; 1"</span><span class="op">)</span> </span></code></pre></div>
 <div id="kgufivjubq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#kgufivjubq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2207,111 +2348,646 @@ analysis.</p>
 }
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="time">time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="stratum">stratum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="t">t</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="hr">hr</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="event">event</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info">info</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info0">info0</th>
-    </tr></thead>
+<thead>
+<tr class="gt_heading">
+<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Group sequential design with futility only</td>
+    </tr>
+<tr class="gt_heading">
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Korn and Freidlin futility rule stops if HR &gt; 1</td>
+    </tr>
+<tr class="gt_col_headings gt_spanner_row">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
+</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
+</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
+        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
+      </th>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
+    </tr>
+</thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="time" class="gt_row gt_right">1</td>
-<td headers="stratum" class="gt_row gt_left">All</td>
-<td headers="t" class="gt_row gt_right">0</td>
-<td headers="hr" class="gt_row gt_right">1.000</td>
-<td headers="n" class="gt_row gt_right">56.66667</td>
-<td headers="event" class="gt_row gt_right">1.605536</td>
-<td headers="info" class="gt_row gt_right">0.4013840</td>
-<td headers="info0" class="gt_row gt_right">0.4013840</td>
+<tr class="gt_group_heading_row">
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63">Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63  Z" class="gt_row gt_right">0.00</td>
+<td headers="Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63  Nominal p" class="gt_row gt_right">0.500</td>
+<td headers="Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63  ~HR at bound" class="gt_row gt_right">1.0000</td>
+<td headers="Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63  Alternate hypothesis" class="gt_row gt_right">0.0143</td>
+<td headers="Analysis: 1 Time: 19.1 N: 680 Events: 324.6 AHR: 0.78 Information fraction: 0.63  Null hypothesis" class="gt_row gt_right">0.5000</td>
 </tr>
-<tr>
-<td headers="time" class="gt_row gt_right">2</td>
-<td headers="stratum" class="gt_row gt_left">All</td>
-<td headers="t" class="gt_row gt_right">0</td>
-<td headers="hr" class="gt_row gt_right">1.000</td>
-<td headers="n" class="gt_row gt_right">113.33333</td>
-<td headers="event" class="gt_row gt_right">6.301416</td>
-<td headers="info" class="gt_row gt_right">1.5753540</td>
-<td headers="info0" class="gt_row gt_right">1.5753540</td>
+<tr class="gt_group_heading_row">
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75">Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Z" class="gt_row gt_right">0.00</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Nominal p" class="gt_row gt_right">0.500</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  ~HR at bound" class="gt_row gt_right">1.0000</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Alternate hypothesis" class="gt_row gt_right">0.0152</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.77 Information fraction: 0.75  Null hypothesis" class="gt_row gt_right">0.5644</td>
 </tr>
-<tr>
-<td headers="time" class="gt_row gt_right">3</td>
-<td headers="stratum" class="gt_row gt_left">All</td>
-<td headers="t" class="gt_row gt_right">0</td>
-<td headers="hr" class="gt_row gt_right">1.000</td>
-<td headers="n" class="gt_row gt_right">170.00000</td>
-<td headers="event" class="gt_row gt_right">13.914192</td>
-<td headers="info" class="gt_row gt_right">3.4785480</td>
-<td headers="info0" class="gt_row gt_right">3.4785480</td>
-</tr>
-<tr>
-<td headers="time" class="gt_row gt_right">4</td>
-<td headers="stratum" class="gt_row gt_left">All</td>
-<td headers="t" class="gt_row gt_right">0</td>
-<td headers="hr" class="gt_row gt_right">1.000</td>
-<td headers="n" class="gt_row gt_right">170.00000</td>
-<td headers="event" class="gt_row gt_right">22.930062</td>
-<td headers="info" class="gt_row gt_right">5.7325155</td>
-<td headers="info0" class="gt_row gt_right">5.7325155</td>
-</tr>
-<tr>
-<td headers="time" class="gt_row gt_right">4</td>
-<td headers="stratum" class="gt_row gt_left">All</td>
-<td headers="t" class="gt_row gt_right">3</td>
-<td headers="hr" class="gt_row gt_right">0.693</td>
-<td headers="n" class="gt_row gt_right">56.66667</td>
-<td headers="event" class="gt_row gt_right">1.145602</td>
-<td headers="info" class="gt_row gt_right">0.2772752</td>
-<td headers="info0" class="gt_row gt_right">0.2864004</td>
-</tr>
-<tr>
-<td headers="time" class="gt_row gt_right">5</td>
-<td headers="stratum" class="gt_row gt_left">All</td>
-<td headers="t" class="gt_row gt_right">0</td>
-<td headers="hr" class="gt_row gt_right">1.000</td>
-<td headers="n" class="gt_row gt_right">170.00000</td>
-<td headers="event" class="gt_row gt_right">31.945932</td>
-<td headers="info" class="gt_row gt_right">7.9864829</td>
-<td headers="info0" class="gt_row gt_right">7.9864829</td>
-</tr>
-<tr>
-<td headers="time" class="gt_row gt_right">5</td>
-<td headers="stratum" class="gt_row gt_left">All</td>
-<td headers="t" class="gt_row gt_right">3</td>
-<td headers="hr" class="gt_row gt_right">0.693</td>
-<td headers="n" class="gt_row gt_right">113.33333</td>
-<td headers="event" class="gt_row gt_right">4.506946</td>
-<td headers="info" class="gt_row gt_right">1.0919515</td>
-<td headers="info0" class="gt_row gt_right">1.1267364</td>
+<tr class="gt_group_heading_row">
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1">Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Z" class="gt_row gt_right">1.96</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Nominal p" class="gt_row gt_right">0.025</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8409</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9015</td>
+<td headers="Analysis: 3 Time: 34.9 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
 </tr>
 </tbody>
+<tfoot class="gt_footnotes">
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
+    </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
+    </tr>
+</tfoot>
 </table>
 </div>
-<p>We can look at the proportion of events after the first 3 months as
-follows:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">event_accumulation</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>`Total events` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">event</span><span class="op">)</span>, <span class="st">"Proportion early"</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="va">event</span><span class="op">)</span> <span class="op">/</span> <span class="va">`Total events`</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">`Proportion early`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="story-nph-futility_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>For the <span class="citation">Korn and Freidlin (2018)</span> bound
-the targeted timing is when both 50% of events have occurred and at
-least 2/3 are more than 3 months after enrollment with 3 months being
-the delayed effect period. We see above that about 1/3 of events are
-still within 3 months of enrollment at month 20.</p>
 </div>
-<div class="section level3">
-<h3 id="korn-and-freidlin-bound">Korn and Freidlin bound<a class="anchor" aria-label="anchor" href="#korn-and-freidlin-bound"></a>
-</h3>
-<p>The bound proposed by <span class="citation">Korn and Freidlin
-(2018)</span></p>
+<div class="section level2">
+<h2 id="classical-beta-spending-futility-bound">Classical beta-spending futility bound<a class="anchor" aria-label="anchor" href="#classical-beta-spending-futility-bound"></a>
+</h2>
+<p>A classical <span class="math inline">\(\beta-\)</span>spending bound
+would assume a constant treatment effect over time using the
+proportional hazards assumption. We use the average hazard ratio at the
+fixed design analysis for this purpose.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">betaspending_classic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_power_ahr.html">gs_power_ahr</a></span><span class="op">(</span></span>
+<span>  enroll_rate <span class="op">=</span> <span class="va">enroll_rate</span>,</span>
+<span>  fail_rate <span class="op">=</span> <span class="fu"><a href="../reference/define_fail_rate.html">define_fail_rate</a></span><span class="op">(</span>duration <span class="op">=</span> <span class="cn">Inf</span>, </span>
+<span>                               fail_rate <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">12</span>,</span>
+<span>                               hr <span class="op">=</span> <span class="va">fixedevents</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">ahr</span>,</span>
+<span>                               dropout_rate <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  ratio <span class="op">=</span> <span class="va">ratio</span>,</span>
+<span>  <span class="co"># 2 IAs + 1 FA</span></span>
+<span>  event <span class="op">=</span> <span class="fl">512</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  <span class="co"># efficacy bound</span></span>
+<span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span>
+<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.975</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="co"># futility bound</span></span>
+<span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">betaspending_classic</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Group sequential design with futility only"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Classical beta-spending futility bound"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#txvafbsnay table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#txvafbsnay thead, #txvafbsnay tbody, #txvafbsnay tfoot, #txvafbsnay tr, #txvafbsnay td, #txvafbsnay th {
+  border-style: none;
+}
+
+#txvafbsnay p {
+  margin: 0;
+  padding: 0;
+}
+
+#txvafbsnay .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#txvafbsnay .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#txvafbsnay .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#txvafbsnay .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#txvafbsnay .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#txvafbsnay .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#txvafbsnay .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#txvafbsnay .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#txvafbsnay .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#txvafbsnay .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#txvafbsnay .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#txvafbsnay .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#txvafbsnay .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#txvafbsnay .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#txvafbsnay .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#txvafbsnay .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#txvafbsnay .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#txvafbsnay .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#txvafbsnay .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#txvafbsnay .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#txvafbsnay .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#txvafbsnay .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#txvafbsnay .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#txvafbsnay .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#txvafbsnay .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#txvafbsnay .gt_left {
+  text-align: left;
+}
+
+#txvafbsnay .gt_center {
+  text-align: center;
+}
+
+#txvafbsnay .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#txvafbsnay .gt_font_normal {
+  font-weight: normal;
+}
+
+#txvafbsnay .gt_font_bold {
+  font-weight: bold;
+}
+
+#txvafbsnay .gt_font_italic {
+  font-style: italic;
+}
+
+#txvafbsnay .gt_super {
+  font-size: 65%;
+}
+
+#txvafbsnay .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#txvafbsnay .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#txvafbsnay .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#txvafbsnay .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#txvafbsnay .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#txvafbsnay .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#txvafbsnay .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#txvafbsnay .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#txvafbsnay div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading">
+<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Group sequential design with futility only</td>
+    </tr>
+<tr class="gt_heading">
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Classical beta-spending futility bound</td>
+    </tr>
+<tr class="gt_col_headings gt_spanner_row">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
+</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
+</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
+        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
+      </th>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
+    </tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="gt_group_heading_row">
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5">Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5  Z" class="gt_row gt_right">-0.68</td>
+<td headers="Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5  Nominal p" class="gt_row gt_right">0.7503</td>
+<td headers="Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5  ~HR at bound" class="gt_row gt_right">1.0881</td>
+<td headers="Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5  Alternate hypothesis" class="gt_row gt_right">0.0015</td>
+<td headers="Analysis: 1 Time: 15.7 N: 680 Events: 256 AHR: 0.75 Information fraction: 0.5  Null hypothesis" class="gt_row gt_right">0.2497</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75">Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75  Bound" class="gt_row gt_left">Futility</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75  Z" class="gt_row gt_right">0.46</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75  Nominal p" class="gt_row gt_right">0.3235</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75  ~HR at bound" class="gt_row gt_right">0.9543</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75  Alternate hypothesis" class="gt_row gt_right">0.0095</td>
+<td headers="Analysis: 2 Time: 22.9 N: 680 Events: 384 AHR: 0.75 Information fraction: 0.75  Null hypothesis" class="gt_row gt_right">0.6795</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1">Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Bound" class="gt_row gt_left">Efficacy</td>
+<td headers="Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Z" class="gt_row gt_right">1.96</td>
+<td headers="Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0250</td>
+<td headers="Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8409</td>
+<td headers="Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.9037</td>
+<td headers="Analysis: 3 Time: 34.4 N: 680 Events: 512 AHR: 0.75 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> 0.0249</td>
+</tr>
+</tbody>
+<tfoot class="gt_footnotes">
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
+    </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
+    </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0249) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0001 = 0.0249) under the null hypothesis.</td>
+    </tr>
+</tfoot>
+</table>
 </div>
+</div>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>As an alternative ad hoc methods to account for delayed effects as
+proposed by <span class="citation">Wieand, Schroeder, and O’Fallon
+(1994)</span> and <span class="citation">Korn and Freidlin
+(2018)</span>, we propose a method for <span class="math inline">\(\beta\)</span>-spending that automatically
+accounts for delayed effects. We have shown that results compare
+favorably to the ad hoc methods, but control Type II error and adapt to
+the timing and distribution of event times at the time of interim
+analysis.</p>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
