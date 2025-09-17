@@ -3,12 +3,8 @@
 
 #' @export
 print.gs_design <- function(x, ...) {
-  x_names <- names(x)
-  for (i in seq_along(x)) {
-    if (x_names[i] != "input") {
-      print(x[i])
-    }
-  }
+  print(x[names(x) != "input"])
+  invisible(x)
 }
 
 #' @export
