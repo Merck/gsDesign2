@@ -30,7 +30,7 @@ gs_bound_summary <- function(x, digits = 4, ddigits = 2, tdigits = 0, timename =
                                    tdigits = tdigits, timename = timename)
     return(out)
   }
-  if (!inherits(x, "ahr")) stop("The argument `alpha` is only supported for AHR design objects")
+  if (!x$design == "ahr") stop("The argument `alpha` is only supported for AHR design objects")
   if (!is.numeric(alpha)) stop("The argument `alpha` must be a numeric vector")
 
   # Support multiple alphas
@@ -100,9 +100,9 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
     hr <- round(hr, ddigits)
     hr_label <- "HR"
     # logrank test (gs_xxx_ahr): HR -> AHR
-    if (inherits(x, "ahr")) hr_label <- "AHR"
+    if (x$design == "ahr") hr_label <- "AHR"
     # weighted logrank test (gs_xxx_wlr): HR -> wAHR
-    if (inherits(x, "wlr")) hr_label <- "wAHR"
+    if (x$design == "wlr") hr_label <- "wAHR"
     col_value <- c(
       col_value,
       "Z", "p (1-sided)", "~HR at bound", "P(Cross) if HR=1",

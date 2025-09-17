@@ -396,16 +396,19 @@ gs_design_ahr <- function(
   )
 
   # Return the output ----
-  ans <- list(
-    input = input,
-    enroll_rate = enroll_rate |> mutate(rate = rate * inflac_fct),
-    fail_rate = fail_rate,
-    bound = bound |> filter(!is.infinite(z)),
-    analysis = analysis
+  ans <- structure(
+    list(
+      design = "ahr",
+      input = input,
+      enroll_rate = enroll_rate |> mutate(rate = rate * inflac_fct),
+      fail_rate = fail_rate,
+      bound = bound |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_design_ahr"
   )
-
-  ans <- add_class(ans, if (!binding) "non_binding", "ahr", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_design_ahr"
 
   return(ans)
 }

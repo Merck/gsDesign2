@@ -291,16 +291,19 @@ gs_power_ahr <- function(
     info_scale = info_scale, r = r, tol = tol
   )
 
-  ans <- list(
-    input = input,
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    bound = bound |> filter(!is.infinite(z)),
-    analysis = analysis
+  ans <- structure(
+    list(
+      design = "ahr",
+      input = input,
+      enroll_rate = enroll_rate,
+      fail_rate = fail_rate,
+      bound = bound |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_power_ahr"
   )
-
-  ans <- add_class(ans, if (!binding) "non_binding", "ahr", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_power_ahr"
 
   return(ans)
 }
