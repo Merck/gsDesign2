@@ -39,9 +39,9 @@
 #' @param a A vector of length j-i-1, which specifies the futility bounds from analysis i+1 to analysis j-1.
 #' @param b A vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.
 #' @param c Interim z-value at analysis i (scalar).
-#' @return A list of conditional powers: prob_alpha = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
-#'                                       prob_alpha_plus = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
-#'                                       prob_beta = eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+#' @return A list of conditional powers: prob_alpha is a vector of c(alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+#'                                       prob_alpha_plus is a vector of c(alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+#'                                       prob_beta is a vector of c(beta_i,i+1, ..., beta_i,j-1, beta_i,j) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
 #' @export
 #'
 #' @examples
@@ -101,131 +101,141 @@ gs_cp_npe2 <- function(theta = NULL,
   if(length(theta) != length(info))
     stop("The input of theta should have the same length of the input of info.")
 
+  if(length(theta) - length(b) != 1)
+    stop("The length of theta should equal to length of b + 1. ")
+
+  if(length(b) - length(a) != 1) # note that the input of a could be NULL
+    stop("The length of b should equal to length of a + 1. ")
   # ------------------------------ #
   #        Initialization
   # ------------------------------ #
-  i <- 1
+
   # the conditional power is calculated from analysis i to analysis j
   # the analysis j is decided by the length of b (efficacy bound)
-  j <- length(b)
   # let D_m = B_m - B_i, where m = i+1, i+2, ..., j
-  dim <- j - i
+  dim <- length(b)  # = j-i
+  prob_alpha <- rep(0, dim)
+  prob_alpha_plus <- rep(0, dim)
+  prob_beta <- rep(0, dim)
 
-  # ------------------------------ #
-  #       Build the asymptotic
-  #         mean of B_j - B_i
-  #       vector of length dim
-  # ------------------------------ #
+  for(x in 1:dim){
+    # x ranges from 1 to j-i, represents cases for alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j
 
-  mu <- sapply(seq_len(dim), function(k){
-    idx <- i + k
-    theta[idx] * sqrt(t[idx] * info[idx]) - theta[i] * sqrt(t[i] * info[i])
-  })
+    # ------------------------------ #
+    #       Build the asymptotic
+    #         mean of B_x - B_i
+    #       vector of length x
+    # ------------------------------ #
 
-  # ------------------------------ #
-  #       Build the asymptotic
-  #     covariance of B_j - B_i
-  #        matrix of (dim x dim)
-  # ------------------------------ #
-  Sigma <- matrix(0, nrow = dim, ncol = dim)
+    mu <- sapply(seq_len(x), function(k){
+      idx <- k + 1 # i.e., start from i+1
+      theta[idx] * sqrt(t[idx] * info[idx]) - theta[1] * sqrt(t[1] * info[1]) #first element of `theta` is the treatment effect of IA i.
+    })
 
-  for(k in seq_len(dim)) {
-    for(l in seq_len(dim)) {
-      Sigma[k, l] <- t[i + min(k, l)] - t[i]
+    # ------------------------------ #
+    #       Build the asymptotic
+    #     covariance of B_x - B_i
+    #        matrix of (x x x)
+    # ------------------------------ #
+    Sigma <- matrix(0, nrow = x, ncol = x)
+
+    for(k in seq_len(x)) {
+      for(l in seq_len(x)) {
+        Sigma[k, l] <- t[1 + min(k, l)] - t[1]
+      }
     }
+
+    # -------------------------------------------- #
+    #   Calculate integration limit
+    #        for alpha(i, x), x = i + 1, ..., j
+    # -------------------------------------------- #
+    # alpha(i, x) is the conditional probability of first cross efficacy bound
+    # at analysis x given no efficacy/futility bound crossing before
+    # D_m = B_m - B_i, where m = i+1, i+2, ..., j
+    # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [b_j, +Inf)
+    # integration lower bound
+    lower_alpha <- rep(0, x)
+    for (m in 1:(x - 1)) {
+      ## ?? here looks wrong: when m = 1, it is a[1]*sqrt(t[1]) - c*sqrt(t[i]) where i is always 1 -- which is wrong
+      ##                      when m = 1, it is B2 - B1, which should be a[2]*sqrt(t[2]) - c*sqrt(t[i])
+      ## corrected -  since 'a' is vector of length (j-i-1) that specifies futility bounds from analysis i+1 to analysis j-1.
+      ## for example, j = 4 and i = 2, then 'a' contains futility bound at analysis #3, and t[1] here is the IF for analysis i
+      ## 't' is a vector of length j-i+1, indicating the IF for analysis i to j.
+      lower_alpha[m] <- a[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+    }
+    lower_alpha[x] <- b[x] * sqrt(t[dim + 1]) - c * sqrt(t[1])
+
+    # integration upper bound
+    # Note: should we consider the case where j = 4, i = 3, in this case, dim = 1, length of a is 0 --> we simply integrate from bj (the only element in b) to Inf
+    upper_alpha <- rep(0, x)
+    for(m in 1:(x - 1)){
+      ## ?? same as above
+      upper_alpha[m] <- b[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+    }
+    upper_alpha[x] <- Inf
+
+    # Compute multivariate normal probability
+    prob_alpha[x] <- mvtnorm::pmvnorm(
+      lower = lower_alpha,
+      upper = upper_alpha,
+      mean = mu,
+      sigma = Sigma)[1]
+
+    # --------------------------------------------------------------------------------- #
+    #             Calculate Lower/upper bounds for alpha_plus
+    # first cross efficacy bound at analysis x given no efficacy bound crossing before
+    # --------------------------------------------------------------------------------- #
+    # Integration limits: D_m = B_m - B_i
+    # for D_{i+1},...,D_{j-1} use (-Inf, b); for D_j use [b_j, +Inf)
+    # lower bound
+    lower_alpha_plus <- rep(-Inf, x - 1)
+    lower_alpha_plus[x] <- b[x] * sqrt(t[x + 1]) - c * sqrt(t[1])
+
+    # upper bound
+    upper_alpha_plus <- rep(0, x)
+    for(m in 1:(x - 1)){
+      upper_alpha_plus[m] <- b[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+    }
+    upper_alpha_plus[x] <- Inf
+
+
+    prob_alpha_plus[x] <- mvtnorm::pmvnorm(
+      lower = lower_alpha_plus,
+      upper = upper_alpha_plus,
+      mean = mu,
+      sigma = Sigma)[1]
+
+    # --------------------------------------------------------------------------------------- #
+    #             Calculate Lower/upper bounds for beta
+    # Not cross efficacy bound at analysis x given no efficacy/futility bound crossing before
+    # --------------------------------------------------------------------------------------- #
+    # Integration limits: D_m = B_m - B_i
+    # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [-Inf, b_j)
+    # lower bound
+    lower_beta <- rep(0, x)
+    for(m in 1:(x - 1)){
+      lower_beta[m] <- a[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+    }
+    lower_beta[x] <- -Inf
+
+    # upper bound
+    upper_beta <- rep(0, x)
+    for(m in 1:x){
+      upper_beta[m] <- b[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+    }
+
+    prob_beta[x] <- mvtnorm::pmvnorm(
+      lower = lower_beta,
+      upper = upper_beta,
+      mean = mu,
+      sigma = Sigma)[1]
+
   }
-
-  # ------------------------------ #
-  #   Calculate integration limit
-  #        for alpha(i,j)
-  # ------------------------------ #
-  # alpha(i,j) is the conditional probability of first cross efficacy bound
-  # at analysis j given no efficacy/futility bound crossing between analysis i amd j
-  # D_m = B_m - B_i, where m = i+1, i+2, ..., j
-  # for D_{i+1},...,D_{j-1} use [a, b);
-  # for D_j use [b_j, +Inf)
-  # integration lower bound
-  lower_alpha <- rep(0, j - i)
-  for (m in 1:(j - i - 1)) {
-    ## ?? here looks wrong: when m = 1, it is a[1]*sqrt(t[1]) - c*sqrt(t[i]) where i is always 1 -- which is wrong
-    ##                      when m = 1, it is B2 - B1, which should be a[2]*sqrt(t[2]) - c*sqrt(t[i])
-    lower_alpha[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[i])
-  }
-  lower_alpha[j-i] <- b[j-i] * sqrt(t[j]) - c * sqrt(t[i])
-
-  # integration upper bound
-  upper_alpha <- rep(0, j - i)
-  for(m in 1:(j - i - 1)){
-    ## ?? same as above
-    upper_alpha[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
-  }
-  upper_alpha[j-i] <- Inf
-
-  # ---------------------------------------------------------------------
-  #             Calculate Lower/upper bounds for alpha_plus
-  # first cross efficacy bound at analysis j given no efficacy bound
-  # crossing at analysis i+1 to j-1
-  # ---------------------------------------------------------------------
-  # Integration limits: D_m = B_m - B_i
-  # for D_{i+1},...,D_{j-1} use (-Inf, b); for D_j use [b_j, +Inf)
-  # lower bound
-  lower_alpha_plus <- rep(-Inf, j - i)
-  lower_alpha_plus[j-i] <- b[j-i] * sqrt(t[j]) - c * sqrt(t[i])
-
-  # upper bound
-  upper_alpha_plus <- rep(0, j - i)
-  for(m in 1:(j-i-1)){
-    upper_alpha_plus[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
-  }
-  upper_alpha_plus[j-i] <- Inf
-
-
-
-  # ---------------------------------------------------------------------
-  #             Calculate Lower/upper bounds for beta
-  # Not cross efficacy bound at analysis j given no efficacy/futility
-  # bound crossing at analysis i+1 to j-1
-  # ---------------------------------------------------------------------
-  # Integration limits: D_m = B_m - B_i
-  # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [-Inf, b_j)
-  # lower bound
-  lower_beta <- rep(0, j - i)
-  for(m in 1:(j-i-1)){
-    lower_beta[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[i])
-  }
-  lower_beta[j-i] <- -Inf
-
-  # upper bound
-  upper_beta <- rep(0, j - i)
-  for(m in 1:(j-i)){
-    upper_beta[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[i])
-  }
-
-
-  # Compute multivariate normal probability
-  prob_alpha <- mvtnorm::pmvnorm(
-    lower = lower_alpha,
-    upper = upper_alpha,
-    mean = mu,
-    sigma = Sigma)[1]
-
-  prob_alpha_plus <- mvtnorm::pmvnorm(
-    lower = lower_alpha_plus,
-    upper = upper_alpha_plus,
-    mean = mu,
-    sigma = Sigma)[1]
-
-  prob_beta <- mvtnorm::pmvnorm(
-    lower = lower_beta,
-    upper = upper_beta,
-    mean = mu,
-    sigma = Sigma)[1]
 
 
   return(prob = list(prob_alpha = prob_alpha,
                      prob_alpha_plus = prob_alpha_plus,
                      prob_beta = prob_beta))
-
 
 }
 
