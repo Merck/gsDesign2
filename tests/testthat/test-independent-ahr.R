@@ -71,3 +71,16 @@ test_that("AHR results are consistent with simulation results for single stratum
   expect_true(all.equal(simulation_ahr3$AHR, actual$ahr, tolerance = 5e-3))
   expect_true(all.equal(simulation_ahr3$Events, actual$event, tolerance = 7e-3))
 })
+
+test_that("The sample size returned from the ahr() function is correct", {
+  x <- ahr(
+    enroll_rate = define_enroll_rate(duration = 24, rate = 10),
+    fail_rate = define_fail_rate(duration = c(4, 2, 38),
+                                 fail_rate = rep(log(2)/14, 3),
+                                 hr = c(0.7, 0.7, 0.7),
+                                 dropout_rate = - log(1 - 0.15)/12),
+    total_duration = c(seq(1, 48, 1)))
+
+  expect_equal(x |> dplyr::filter(time <= 24) |> dplyr::pull(n), 1:24*10)
+  expect_equal(x |> dplyr::filter(time > 24) |> dplyr::pull(n) |> unique(), 24*10)
+})

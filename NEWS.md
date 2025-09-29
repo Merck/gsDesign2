@@ -1,12 +1,54 @@
+# gsDesign2 1.1.6
+
+## Statistical improvements
+- The `gs_power_wlr()` function now includes an `h1_spending` argument, allowing users to specify a spending under the alternative hypothesis (#565, thanks to @LittleBeannie).
+- The following functions now support `info_scale` argument: `fixed_design_ahr()`, `fixed_design_fh()`, `fixed_design_mb()`, and `fixed_design_rd()` (#571, thanks to @LittleBeannie).
+- Functions for fixed designs with integer sample sizes now return the average HR in their output, providing a more complete summary of the design characteristics. (#572, thanks to @LittleBeannie).
+
+## Documentation
+- The documentation for `gs_design_npe()` and `gs_power_npe()` has been consolidated into a single topic for improved clarity and easier navigation. (#567, thanks to @LittleBeannie).
+- The package codebase has been updated to use the native R pipe (`|>`) exclusively, removing the `magrittr` dependency and aligning with modern R practices. (#577, thanks to @jdblischak).
+  
+# gsDesign2 1.1.5
+
+## Bug fixes
+
+- The spending of the WLR design has been corrected. 
+The default spending of a WLR design is information fraction. (#557, thanks to @LittleBeannie).
+
+
 # gsDesign2 1.1.4
+
+## New functions
+
+- A new function, `gs_cp_npe()`, is now available for calculating simple conditional power under NPH. 
+A vignette has been published on the pkgdown website (#510, #539, #545, thanks to @LittleBeannie).
+- A new design summary function `gs_bound_summary()` is available with similar output structure as `gsDesign::gsBoundSummary()` and
+supporting for multiple alpha (#468, #522, #537, thanks to @jdblischak).
+- Textual summary of AHR designs are available via the `text_summary()` (#526, thanks to @LittleBeannie).
 
 ## User interface improvements
 
-- Bound functions and spending functions can be provided through their names (character strings) now, e.g., `gs_design_ahr(..., upper = "gs_spending_bound", upar = list(sf = "sfLDOF", ...))` (#509, thanks to @yihui).
-
+- The integer event is rounded in IAs and rounded up in FA as defaults in `to_integer()` (#483, thanks to @LittleBeannie).
+- The integer sample size is rounded to the nearest multiple of randomization ratio + 1 when `round_up_final = TRUE`
+(#488, thanks to @LittleBeannie)..
+- The updated design can be derived with the input of events per analysis per interval (#499, thanks to @LittleBeannie).
+- Bound functions and spending functions can be provided through their names (character strings) now, 
+e.g., `gs_design_ahr(..., upper = "gs_spending_bound", upar = list(sf = "sfLDOF", ...))` (#509, thanks to @yihui).
 - The `footnote` argument of `as_gt()` can take the value `FALSE` to disable footnotes (#514, thanks to @yihui).
+- Optimized the functions `expected_accural()`, `expected_time()`, `gs_design_ahr()`,  `gs_design_combo()`, 
+`gs_design_npe()`, `gs_design_wlr()`, `pw_info()`, `ppwe()`, `s2pe()`, and `gs_bound()` (#528, thanks to @yihui).
+- Weights of a WLR design functions can be provided as string now (#533, thanks to @LittleBeannie).
 
-- Optimized the functions `expected_accural()`, `expected_time()`, `gs_design_ahr()`,  `gs_design_combo()`, `gs_design_npe()`, `gs_design_wlr()`, `pw_info()`, `ppwe()`, `s2pe()`, and `gs_bound()` (#528, thanks to @yihui).
+## Bug fixes
+
+- Correct the statistical information of WLR-integer designs in `to_integer()` (#478, thanks to @LittleBeannie).
+- Correct the calculation `info_frac` in `gs_design_wlr()` when `info_scale = "h0_info"` (#485, #486, thanks to @LittleBeannie).
+- Add the `h1_spending` argument to `gs_power_ahr()` (#518, thanks to @LittleBeannie)
+
+## Testing
+
+- Add the developer tests of `gs_cp_npe()` (#519, thanks to @shiyuskaya)
 
 # gsDesign2 1.1.3
 

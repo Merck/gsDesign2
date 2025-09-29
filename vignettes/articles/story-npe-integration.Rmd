@@ -25,7 +25,6 @@ knitr::opts_chunk$set(
 
 ```{r, message=FALSE, warning=FALSE}
 library(tibble)
-library(dplyr)
 library(knitr)
 library(gsDesign2)
 ```
@@ -197,7 +196,7 @@ The columns in the resulting table are
 # Set up grid over continuation region
 # Null hypothesis
 grid1_0 <- gsDesign2:::h1(theta = 0, info = info[1], a = a1, b = b1)
-grid1_0 %>% head()
+grid1_0 |> head()
 ```
 The probability of not crossing a bound under the null hypothesis is computed as follows:
 

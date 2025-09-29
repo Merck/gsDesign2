@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -30,7 +30,6 @@
 #'
 #' @examples
 #' # RMST method ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_rmst(
@@ -45,7 +44,7 @@
 #'   study_duration = 36,
 #'   tau = 18
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_rmst(
@@ -60,7 +59,7 @@
 #'   study_duration = 36,
 #'   tau = 18
 #' )
-#' x %>% summary()
+#' x |> summary()
 fixed_design_rmst <- function(
     alpha = 0.025,
     power = NULL,
@@ -104,21 +103,32 @@ fixed_design_rmst <- function(
       tau = tau
     )
   }
-  # get the output
+
+  # Prepare output ----
   ans <- tibble(
     design = "rmst",
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input,
-    enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
-    design = "rmst", design_par = list(tau = tau), study_duration
+  design_display <- paste("RMST: tau =", tau)
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "rmst", design_par = list(tau = tau),
+      study_duration
+    ),
+    class = "fixed_design",
+    design_display = design_display,
+    title = "Fixed Design under Restricted Mean Survival Time Method",
+    footnote = paste(
+      "Power for", design_display,
+      "computed with method of Yung and Liu."
+    )
   )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }

@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -39,7 +39,6 @@
 #' @return A list with input parameters, enrollment rate, analysis, and bound.
 #'
 #' @examples
-#' library(dplyr)
 #' library(mvtnorm)
 #' library(gsDesign)
 #' library(gsDesign2)
@@ -158,7 +157,7 @@ gs_design_wlr <- function(
   y <- gs_info_wlr(enroll_rate, fail_rate,
                    ratio = ratio, event = NULL,
                    analysis_time = analysis_time, weight = weight, approx = approx,
-                   interval = interval) %>%
+                   interval = interval) |>
     dplyr::select(-c(n, delta, sigma2))
 
   # get the FA events given the FA analysis time
@@ -226,8 +225,8 @@ gs_design_wlr <- function(
                            interval = c(0.01, next_time),
                            input_info_frac = info_frac[n_analysis - i])$root
 
-        y_ia <- y_ia %>%
-          dplyr::select(-c(n, delta, sigma2)) %>%
+        y_ia <- y_ia |>
+          dplyr::select(-c(n, delta, sigma2)) |>
           dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
         y <- dplyr::bind_rows(y_ia, y)
       # if it is driven by both info frac and analysis time,
@@ -238,11 +237,11 @@ gs_design_wlr <- function(
                            interval = c(0.01, y$event[y$analysis == n_analysis - i + 1]),
                            input_info_frac = info_frac[n_analysis - i])$root
 
-        y_ia <- y_ia %>%
-          dplyr::select(-c(n, delta, sigma2)) %>%
+        y_ia <- y_ia |>
+          dplyr::select(-c(n, delta, sigma2)) |>
           dplyr::mutate(theta = -log(ahr), analysis = n_analysis - i)
 
-        y_exclude_ia <- y %>%  filter(analysis != n_analysis - i)
+        y_exclude_ia <- y |>  filter(analysis != n_analysis - i)
         y <- dplyr::bind_rows(y_ia, y_exclude_ia)
       }
 
@@ -250,7 +249,7 @@ gs_design_wlr <- function(
     }
   }
 
-  y <- y %>% arrange(analysis)
+  y <- y |> arrange(analysis)
   y$analysis <- 1:n_analysis
   y$n <- expected_accrual(time = y$time, enroll_rate = enroll_rate)
 
@@ -278,27 +277,27 @@ gs_design_wlr <- function(
       upper = upper, upar = upar, test_upper = test_upper,
       lower = lower, lpar = lpar, test_lower = test_lower,
       r = r, tol = tol
-    ) %>%
+    ) |>
       full_join(
-        y %>% select(-c(info, info0, theta)),
+        y |> select(-c(info, info0, theta)),
         by = "analysis"
-      ) %>%
+      ) |>
       select(c(
         "analysis", "bound", "time", "n", "event", "z",
         "probability", "probability0", "ahr",
         "theta", "info", "info0", "info_frac"
-      )) %>%
+      )) |>
       arrange(analysis, desc(bound))
   )
 
   # calculate sample size and event
-  inflac_fct <- (allout %>% filter(analysis == n_analysis, bound == "upper"))$info /
-    (y %>% filter(analysis == n_analysis))$info
+  inflac_fct <- (allout |> filter(analysis == n_analysis, bound == "upper"))$info /
+    (y |> filter(analysis == n_analysis))$info
   allout$event <- allout$event * inflac_fct
   allout$n <- allout$n * inflac_fct
 
   # add `~hr at bound` and `nominal p`
-  allout <- allout %>% mutate(
+  allout <- allout |> mutate(
     "~hr at bound" = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
     "nominal p" = pnorm(-z))
 
@@ -306,15 +305,15 @@ gs_design_wlr <- function(
   #      return the output                   #
   # ---------------------------------------- #
   # bounds table
-  bounds <- allout %>%
-    select(all_of(c("analysis", "bound", "probability", "probability0", "z", "~hr at bound", "nominal p"))) %>%
+  bounds <- allout |>
+    select(all_of(c("analysis", "bound", "probability", "probability0", "z", "~hr at bound", "nominal p"))) |>
     arrange(analysis, desc(bound))
 
   # analysis table
-  analysis <- allout %>%
-    select(analysis, time, n, event, ahr, theta, info, info0, info_frac) %>%
-    mutate(info_frac0 = info0 / max(info0)) %>%
-    unique() %>%
+  analysis <- allout |>
+    select(analysis, time, n, event, ahr, theta, info, info0, info_frac) |>
+    mutate(info_frac0 = info0 / max(info0)) |>
+    unique() |>
     arrange(analysis)
 
   # input table
@@ -330,15 +329,19 @@ gs_design_wlr <- function(
     info_scale = info_scale, r = r, tol = tol)
 
   # final output
-  ans <- list(
-    input = input,
-    enroll_rate = enroll_rate %>% mutate(rate = rate * inflac_fct),
-    fail_rate = fail_rate,
-    bounds = bounds %>% filter(!is.infinite(z)),
-    analysis = analysis)
-
-  ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_design_wlr"
+  ans <- structure(
+    list(
+      design = "wlr",
+      input = input,
+      enroll_rate = enroll_rate |> mutate(rate = rate * inflac_fct),
+      fail_rate = fail_rate,
+      bounds = bounds |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_design_wlr"
+  )
 
   return(ans)
 }

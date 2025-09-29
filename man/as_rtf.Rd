@@ -2,13 +2,13 @@
 % Please edit documentation in R/as_rtf.R
 \name{as_rtf}
 \alias{as_rtf}
-\alias{as_rtf.fixed_design}
-\alias{as_rtf.gs_design}
+\alias{as_rtf.fixed_design_summary}
+\alias{as_rtf.gs_design_summary}
 \title{Write summary table of a fixed or group sequential design object to an RTF file}
 \usage{
 as_rtf(x, ...)
 
-\method{as_rtf}{fixed_design}(
+\method{as_rtf}{fixed_design_summary}(
   x,
   title = NULL,
   footnote = NULL,
@@ -19,7 +19,7 @@ as_rtf(x, ...)
   ...
 )
 
-\method{as_rtf}{gs_design}(
+\method{as_rtf}{gs_design_summary}(
   x,
   title = NULL,
   subtitle = NULL,
@@ -83,7 +83,6 @@ displayed in the summary table.}
 Write summary table of a fixed or group sequential design object to an RTF file
 }
 \examples{
-library(dplyr)
 
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
@@ -117,14 +116,14 @@ x <- fixed_design_ahr(
   alpha = alpha, power = 1 - beta,
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   study_duration = study_duration, ratio = ratio
-) \%>\% summary()
-x \%>\% as_rtf(file = tempfile(fileext = ".rtf"))
-x \%>\% as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
-x \%>\% as_rtf(
+) |> summary()
+x |> as_rtf(file = tempfile(fileext = ".rtf"))
+x |> as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
+x |> as_rtf(
   footnote = "Power computed with average hazard ratio method given the sample size",
   file = tempfile(fileext = ".rtf")
 )
-x \%>\% as_rtf(text_font_size = 10, file = tempfile(fileext = ".rtf"))
+x |> as_rtf(text_font_size = 10, file = tempfile(fileext = ".rtf"))
 
 # FH ----
 # under fixed power
@@ -132,47 +131,46 @@ fixed_design_fh(
   alpha = alpha, power = 1 - beta,
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   study_duration = study_duration, ratio = ratio
-) \%>\%
-  summary() \%>\%
+) |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 \donttest{
 # the default output
-library(dplyr)
 
-gs_design_ahr() \%>\%
-  summary() \%>\%
+gs_design_ahr() |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 
-gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
-  summary() \%>\%
+gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 
-gs_design_wlr() \%>\%
-  summary() \%>\%
+gs_design_wlr() |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 
-gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
-  summary() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 
 
-gs_power_combo() \%>\%
-  summary() \%>\%
+gs_power_combo() |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 
-gs_design_rd() \%>\%
-  summary() \%>\%
+gs_design_rd() |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 
-gs_power_rd() \%>\%
-  summary() \%>\%
+gs_power_rd() |>
+  summary() |>
   as_rtf(file = tempfile(fileext = ".rtf"))
 
 # usage of title = ..., subtitle = ...
 # to edit the title/subtitle
-gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
-  summary() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+  summary() |>
   as_rtf(
     title = "Bound Summary",
     subtitle = "from gs_power_wlr",
@@ -181,8 +179,8 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
 
 # usage of colname_spanner = ..., colname_spannersub = ...
 # to edit the spanner and its sub-spanner
-gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
-  summary() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+  summary() |>
   as_rtf(
     colname_spanner = "Cumulative probability to cross boundaries",
     colname_spannersub = c("under H1", "under H0"),
@@ -191,8 +189,8 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
 
 # usage of footnote = ...
 # to edit the footnote
-gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
-  summary() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+  summary() |>
   as_rtf(
     footnote = list(
       content = c(
@@ -209,8 +207,8 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
 
 # usage of display_bound = ...
 # to either show efficacy bound or futility bound, or both(default)
-gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
-  summary() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+  summary() |>
   as_rtf(
     display_bound = "Efficacy",
     file = tempfile(fileext = ".rtf")
@@ -218,8 +216,8 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
 
 # usage of display_columns = ...
 # to select the columns to display in the summary table
-gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) \%>\%
-  summary() \%>\%
+gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+  summary() |>
   as_rtf(
     display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
     file = tempfile(fileext = ".rtf")

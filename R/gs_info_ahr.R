@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -124,7 +124,7 @@ gs_info_ahr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10),
   if (!is.null(analysis_time)) {
     # calculate events given the `analysis_time`
     avehr <- ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
-                 ratio = ratio, total_duration = analysis_time) %>% select(-n)
+                 ratio = ratio, total_duration = analysis_time) |> select(-n)
     # check if the above events >= targeted events
     for (i in seq_along(event)) {
       if (avehr$event[i] < event[i]) {

@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -41,7 +41,6 @@
 #'
 #' @examples
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' # Calculate conditional power under arbitrary theta and info
 #' # In practice, the value of theta and info commonly comes from a design.

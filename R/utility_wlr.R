@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -299,6 +299,20 @@ gs_sigma2_wlr <- function(arm0,
   p1 <- arm1$size / (arm0$size + arm1$size)
   p0 <- 1 - p1
 
+  # ----------------------- #
+  # get enroll duration and relative rate
+  # ----------------------- #
+  enroll_duration <- arm0$accr_interval |> diff()
+  enroll_total_duration <- arm0$accr_interval |> max()
+  n_enroll_piece <- length(enroll_duration)
+  enroll_relative_rate <- rep(-10, n_enroll_piece)
+  for (s in 1:n_enroll_piece) {
+    enroll_relative_rate[s] <- arm0$accr_param[s] / arm0$accr_param[n_enroll_piece] * enroll_duration[n_enroll_piece] / enroll_duration[s]
+  }
+
+  # ----------------------- #
+  #    get the weights
+  # ----------------------- #
   if (identical(weight, "logrank")) {
     weight_fun <- wlr_weight_1
   } else {
@@ -311,10 +325,34 @@ gs_sigma2_wlr <- function(arm0,
     )
   }
 
+  # ----------------------- #
+  #     derive sigma2
+  # ----------------------- #
+  # from Section 2.3.3 of Yung and Liu 2020, the WLR test statistics is U/sqrt(V)
+  # for the denominator V, by low of large numbers, we have V/n -> sigma2 in probability, where n is the number of subjects
   if (approx == "event_driven") {
+    # “event_driven" is only for logrank test of PH
     nu <- p0 * prob_event(arm0, tmax = tmax) + p1 * prob_event(arm1, tmax = tmax)
     sigma2 <- p0 * p1 * nu
   } else if (approx %in% c("asymptotic", "generalized_schoenfeld")) {
+    # if IA time is early than enroll finish, we adjust the accrual to
+    # ensure the info0 is approximately proportional to events when it is logrnak test
+    if (tmax < enroll_total_duration) {
+      arm0 <- arm0
+      arm1 <- arm1
+
+      # adjust the accrual time to the time of analysis
+      arm0$accr_time <- tmax
+      arm1$accr_time <- tmax
+      # truncate the accrual interval to be stop at the time of analysis
+      arm0$accr_interval <- c(tmax, arm0$accr_interval)[which(c(tmax, arm0$accr_interval) <= tmax)] |> sort()
+      arm1$accr_interval <- arm0$accr_interval
+      truncated_enroll_duration <- diff(arm0$accr_interval)
+      # adjust the accrual probability per interval by the truncated interval
+      arm0$accr_param <- truncated_enroll_duration * enroll_relative_rate[1:length(truncated_enroll_duration)] / sum(truncated_enroll_duration * enroll_relative_rate[1:length(truncated_enroll_duration)])
+      arm1$accr_param <- arm0$accr_param
+    }
+
     sigma2 <- stats::integrate(
       function(x) {
         weight_fun(x, arm0, arm1)^2 *

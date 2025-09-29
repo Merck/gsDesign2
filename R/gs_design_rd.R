@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -172,7 +172,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
       n = if (is.null(stratum_prev)) {
         1
       } else {
-        (stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x
+        (stratum_prev |> mutate(x = prevalence / sum(prevalence)))$x
       }
     ),
     rd0 = rd0,
@@ -190,7 +190,7 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
       n = if (is.null(stratum_prev)) {
         info_frac
       } else {
-        rep((stratum_prev %>% mutate(x = prevalence / sum(prevalence)))$x, each = k) * info_frac
+        rep((stratum_prev |> mutate(x = prevalence / sum(prevalence)))$x, each = k) * info_frac
       }
     ),
     rd0 = rd0,
@@ -224,14 +224,14 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
 
   # Get statistical information ----
   inflac_fct <- if (info_scale == "h0_info") {
-    (y_gs %>% filter(bound == "upper", analysis == k))$info0 / x_fix$info0[1]
+    (y_gs |> filter(bound == "upper", analysis == k))$info0 / x_fix$info0[1]
   } else if (info_scale == "h1_info") {
-    (y_gs %>% filter(bound == "upper", analysis == k))$info1 / x_fix$info1[1]
+    (y_gs |> filter(bound == "upper", analysis == k))$info1 / x_fix$info1[1]
   } else if (info_scale == "h0_h1_info") {
-    (y_gs %>% filter(bound == "upper", analysis == k))$info / x_fix$info1[1]
+    (y_gs |> filter(bound == "upper", analysis == k))$info / x_fix$info1[1]
   }
 
-  allout <- y_gs %>%
+  allout <- y_gs |>
     mutate(
       rd = x_fix$rd,
       rd0 = rd0,
@@ -243,11 +243,11 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
         info0 / max(info0)
       },
       n = inflac_fct * info_frac
-    ) %>%
+    ) |>
     select(c(
       analysis, bound, n, rd, rd0, z, probability, probability0,
       info, info0, info_frac, info_frac0, `~risk difference at bound`, `nominal p`
-    )) %>%
+    )) |>
     arrange(analysis, desc(bound))
 
   # Get input parameters to output ----
@@ -262,23 +262,26 @@ gs_design_rd <- function(p_c = tibble::tibble(stratum = "All", rate = .2),
   )
 
   # Get bounds to output ----
-  bound <- allout %>%
+  bound <- allout |>
     select(analysis, bound, probability, probability0, z, `~risk difference at bound`, `nominal p`)
 
   # Get analysis summary to output ----
-  analysis <- allout %>%
-    filter(bound == "upper") %>%
+  analysis <- allout |>
+    filter(bound == "upper") |>
     select(analysis, n, rd, rd0, info, info0, info_frac, info_frac0)
 
   # Return the output ----
-  ans <- list(
-    input = input,
-    bound = bound %>% filter(!is.infinite(z)),
-    analysis = analysis
+  ans <- structure(
+    list(
+      design = "rd",
+      input = input,
+      bound = bound |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_design_rd"
   )
-
-  ans <- add_class(ans, if (!binding) "non_binding", "rd", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_design_rd"
 
   return(ans)
 }

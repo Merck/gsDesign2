@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -97,7 +97,7 @@ fixed_design_size_rmst <- function(enroll_rate,
 
 
   res <- list(
-    enroll_rate = enroll_rate %>% mutate(rate = rate * npsurv[["n"]] / n),
+    enroll_rate = enroll_rate |> mutate(rate = rate * npsurv[["n"]] / n),
     fail_rate = fail_rate,
     bound = bound,
     analysis = analysis

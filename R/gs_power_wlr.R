@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -169,6 +169,7 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
                          event = c(30, 40, 50),
                          analysis_time = NULL,
                          binding = FALSE,
+                         h1_spending = TRUE,
                          upper = gs_spending_bound,
                          lower = gs_spending_bound,
                          upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -208,12 +209,23 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
     interval = interval
   )
 
+  # set up H1 spending
+  if (h1_spending) {
+    theta1 <- x$theta
+    info1 <- x$info
+  } else {
+    theta1 <- 0
+    info1 <- x$info0
+  }
+
   # Given the above statistical information calculate the power ----
   y_h1 <- gs_power_npe(
     theta = x$theta,
+    theta0 = 0,
+    theta1 = theta1,
     info = x$info,
     info0 = x$info0,
-    info1 = x$info,
+    info1 = info1,
     info_scale = info_scale,
     binding = binding,
     upper = upper,
@@ -229,10 +241,10 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   y_h0 <- gs_power_npe(
     theta = 0,
     theta0 = 0,
-    theta1 = x$theta,
+    theta1 = theta1,
     info = x$info0,
     info0 = x$info0,
-    info1 = x$info,
+    info1 = info1,
     info_scale = info_scale,
     binding = binding,
     upper = upper,
@@ -247,40 +259,40 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
 
   # Get bounds to output ----
   suppressMessages(
-    bounds <- y_h0 %>%
-      select(analysis, bound, z, probability) %>%
-      rename(probability0 = probability) %>%
+    bounds <- y_h0 |>
+      select(analysis, bound, z, probability) |>
+      rename(probability0 = probability) |>
       left_join(
-        x %>% select(analysis, event)
-      ) %>%
+        x |> select(analysis, event)
+      ) |>
       mutate(
         `~hr at bound` = gsDesign::zn2hr(z = z, n = event, ratio = ratio),
         `nominal p` = pnorm(-z)
-      ) %>%
+      ) |>
       left_join(
-        y_h1 %>% select(analysis, bound, probability)
-      ) %>%
-      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) %>%
+        y_h1 |> select(analysis, bound, probability)
+      ) |>
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) |>
       arrange(analysis, desc(bound))
   )
 
   # Get analysis summary to output ----
   suppressMessages(
-    analysis <- x %>%
-      select(analysis, time, event, ahr) %>%
-      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) %>%
+    analysis <- x |>
+      select(analysis, time, event, ahr) |>
+      mutate(n = expected_accrual(time = x$time, enroll_rate = enroll_rate)) |>
       left_join(
-        y_h1 %>%
-          select(analysis, info, info_frac, theta) %>%
+        y_h1 |>
+          select(analysis, info, info_frac, theta) |>
           unique()
-      ) %>%
+      ) |>
       left_join(
-        y_h0 %>%
-          select(analysis, info, info_frac) %>%
-          rename(info0 = info, info_frac0 = info_frac) %>%
+        y_h0 |>
+          select(analysis, info, info_frac) |>
+          rename(info0 = info, info_frac0 = info_frac) |>
           unique()
-      ) %>%
-      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) %>%
+      ) |>
+      select(analysis, time, n, event, ahr, theta, info, info0, info_frac, info_frac0) |>
       arrange(analysis)
   )
 
@@ -296,16 +308,19 @@ gs_power_wlr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10)
   )
 
   # Return the output ----
-  ans <- list(
-    input = input,
-    enroll_rate = enroll_rate,
-    fail_rate = fail_rate,
-    bounds = bounds %>% filter(!is.infinite(z)),
-    analysis = analysis
+  ans <- structure(
+    list(
+      design = "wlr",
+      input = input,
+      enroll_rate = enroll_rate,
+      fail_rate = fail_rate,
+      bounds = bounds |> filter(!is.infinite(z)),
+      analysis = analysis
+    ),
+    class = "gs_design",
+    binding = binding,
+    uninteger_is_from = "gs_power_wlr"
   )
-
-  ans <- add_class(ans, if (!binding) "non_binding", "wlr", "gs_design")
-  attr(ans, 'uninteger_is_from') <- "gs_power_wlr"
 
   return(ans)
 }

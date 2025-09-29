@@ -25,7 +25,6 @@ knitr::opts_chunk$set(
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 library(tibble)
-library(dplyr)
 library(knitr)
 library(gsDesign2)
 ```
@@ -116,7 +115,7 @@ mt <- tibble::tribble(
   \\theta(t_k)/\\sqrt{\\mathcal{I}_K}$",
   "$t_k$"
 )
-mt %>% kable(escape = FALSE)
+mt |> kable(escape = FALSE)
 ```
 
 ## Conditional independence, covariance and canonical form

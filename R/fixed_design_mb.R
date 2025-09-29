@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -30,7 +30,6 @@
 #'
 #' @examples
 #' # WLR test with MB weights ----
-#' library(dplyr)
 #'
 #' # Example 1: given power and compute sample size
 #' x <- fixed_design_mb(
@@ -46,7 +45,7 @@
 #'   tau = 4,
 #'   w_max = 2
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 #' # Example 2: given sample size and compute power
 #' x <- fixed_design_mb(
@@ -62,7 +61,7 @@
 #'   tau = 4,
 #'   w_max = 2
 #' )
-#' x %>% summary()
+#' x |> summary()
 #'
 fixed_design_mb <- function(
     alpha = 0.025,
@@ -72,11 +71,13 @@ fixed_design_mb <- function(
     enroll_rate,
     fail_rate,
     tau = 6,
-    w_max = Inf) {
+    w_max = Inf,
+    info_scale = c("h0_h1_info", "h0_info", "h1_info")) {
   # Check inputs ----
   check_enroll_rate(enroll_rate)
   check_fail_rate(fail_rate)
   check_enroll_rate_fail_rate(enroll_rate, fail_rate)
+  info_scale <- match.arg(info_scale)
   if (length(tau) > 1) {
     stop("fixed_design: multiple tau can not be used in Magirr-Burman method!")
   }
@@ -100,7 +101,8 @@ fixed_design_mb <- function(
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
       analysis_time = study_duration,
-      event = NULL
+      event = NULL,
+      info_scale = info_scale
     )
   } else {
     d <- gs_design_wlr(
@@ -112,23 +114,36 @@ fixed_design_mb <- function(
       weight = weight,
       upper = gs_b, upar = qnorm(1 - alpha),
       lower = gs_b, lpar = -Inf,
-      analysis_time = study_duration
+      analysis_time = study_duration,
+      info_scale = info_scale
     )
   }
-  # get the output of MB
+
+  # Prepare output ----
   ans <- tibble(
     design = "mb",
     n = d$analysis$n,
     event = d$analysis$event,
     time = d$analysis$time,
-    bound = (d$bound %>% filter(bound == "upper"))$z,
+    ahr = d$analysis$ahr,
+    bound = (d$bound |> filter(bound == "upper"))$z,
     alpha = alpha,
-    power = (d$bound %>% filter(bound == "upper"))$probability
+    power = (d$bound |> filter(bound == "upper"))$probability
   )
-  y <- list(
-    input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate, analysis = ans,
-    design = "mb", design_par = list(tau = tau, w_max = w_max)
+  design_display <- paste0("Modestly weighted LR: tau = ", tau)
+  y <- structure(
+    list(
+      input = input, enroll_rate = d$enroll_rate, fail_rate = d$fail_rate,
+      analysis = ans, design = "mb", design_par = list(tau = tau, w_max = w_max)
+    ),
+    class = "fixed_design",
+    design_display = design_display,
+    title = "Fixed Design under Magirr-Burman Method",
+    footnote = paste(
+      "Power for", design_display,
+      "computed with method of Yung and Liu."
+    )
   )
-  class(y) <- c("fixed_design", class(y))
+
   return(y)
 }

@@ -45,9 +45,9 @@ test_that("Validate the function based on examples with simulation results", {
     analysis_time = c(12, 24, 36)
   )
   lrk_bnd <-
-    lrk$bounds %>%
-    dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(analysis, bound, probability) %>%
+    lrk$bounds |>
+    dplyr::mutate_if(is.numeric, round, digits = 2) |>
+    dplyr::select(analysis, bound, probability) |>
     tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # FH(0,1)
@@ -62,9 +62,9 @@ test_that("Validate the function based on examples with simulation results", {
     analysis_time = analysis_time
   )
   fh01_bnd <-
-    fh01$bounds %>%
-    dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(analysis, bound, probability) %>%
+    fh01$bounds |>
+    dplyr::mutate_if(is.numeric, round, digits = 2) |>
+    dplyr::select(analysis, bound, probability) |>
     tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # FH(0,0.5)
@@ -79,9 +79,9 @@ test_that("Validate the function based on examples with simulation results", {
     analysis_time = analysis_time
   )
   fh0d5_bnd <-
-    fh0d5$bounds %>%
-    dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(analysis, bound, probability) %>%
+    fh0d5$bounds |>
+    dplyr::mutate_if(is.numeric, round, digits = 2) |>
+    dplyr::select(analysis, bound, probability) |>
     tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # FH(0.5,0.5)
@@ -96,9 +96,9 @@ test_that("Validate the function based on examples with simulation results", {
     analysis_time = analysis_time
   )
   fh5d5_bnd <-
-    fh5d5$bounds %>%
-    dplyr::mutate_if(is.numeric, round, digits = 2) %>%
-    dplyr::select(analysis, bound, probability) %>%
+    fh5d5$bounds |>
+    dplyr::mutate_if(is.numeric, round, digits = 2) |>
+    dplyr::select(analysis, bound, probability) |>
     tidyr::pivot_wider(names_from = bound, values_from = probability)
 
   # logrank part

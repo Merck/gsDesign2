@@ -217,3 +217,93 @@ test_that("Validate if the output info-frac match the planned info-frac, when th
   expect_equal(x2$analysis$info_frac0[1], 0.75, tolerance = 5e-6)
   expect_equal(x3$analysis$info_frac[1], 0.75, tolerance = 5e-6)
 })
+
+test_that("Validate if WLR design under logrank test generates similar design as in AHR", {
+  x1 <- gs_design_ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    alpha = 0.025,
+    beta = 0.1,
+    analysis_time = c(9, 27, 36),
+    info_frac = NULL,
+    ratio = ratio,
+    binding = FALSE,
+    upper = "gs_spending_bound",
+    upar = list(sf = "sfLDOF", total_spend = 0.025, param = NULL),
+    lower = "gs_spending_bound",
+    lpar = list(sf = "sfLDOF", total_spend = 0.1, param = NULL),
+    h1_spending = TRUE,
+    info_scale = "h0_h1_info")
+
+  x2 <- gs_design_wlr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    alpha = 0.025,
+    beta = 0.1,
+    analysis_time = c(9, 27, 36),
+    info_frac = NULL,
+    ratio = ratio,
+    binding = FALSE,
+    weight = "logrank",
+    upper = "gs_spending_bound",
+    upar = list(sf = "sfLDOF", total_spend = 0.025, param = NULL),
+    lower = "gs_spending_bound",
+    lpar = list(sf = "sfLDOF", total_spend = 0.1, param = NULL),
+    h1_spending = TRUE,
+    info_scale = "h0_h1_info")
+
+  # sample size is approximately close
+  expect_equal(x1$analysis$n, x2$analysis$n, tolerance = 1e-2)
+
+  # events is approximately close
+  expect_equal(x1$analysis$event, x2$analysis$event, tolerance = 1e-2)
+
+  # ahr is approximately close
+  expect_equal(x1$analysis$ahr, x2$analysis$ahr, tolerance = 1e-2)
+
+  # theta is approximately close
+  expect_equal(x1$analysis$theta, x2$analysis$theta, tolerance = 5e-2)
+
+  # info is approximately close
+  expect_equal(x1$analysis$info, x2$analysis$info, tolerance = 1e-2)
+
+  # info0 is approximately close
+  expect_equal(x1$analysis$info0, x2$analysis$info0, tolerance = 1e-2)
+
+  # info_frac is approximately close
+  expect_equal(x1$analysis$info_frac, x2$analysis$info_frac, tolerance = 1e-2)
+
+  # info_frac0 is approximately close
+  expect_equal(x1$analysis$info_frac0, x2$analysis$info_frac0, tolerance = 1e-2)
+
+  # upper bound is approximately close
+  expect_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bound$z[x2$bound$bound == "upper"], tolerance = 1e-2)
+
+  # lower bound is approximately close
+  expect_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bound$z[x2$bound$bound == "lower"], tolerance = 5e-2)
+
+  # probability of crossing upper bound under H0 is approximately close
+  expect_equal(x1$bound$probability0[x1$bound$bound == "upper"], x2$bound$probability0[x2$bound$bound == "upper"], tolerance = 1e-2)
+
+  # probability of crossing lower bound under H0 is approximately close
+  expect_equal(x1$bound$probability0[x1$bound$bound == "lower"], x2$bound$probability0[x2$bound$bound == "lower"], tolerance = 1e-2)
+
+  # probability of crossing upper bound under H1 is approximately close
+  expect_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bound$probability[x2$bound$bound == "upper"], tolerance = 1e-2)
+
+  # probability of crossing lower bound under H1 is approximately close
+  expect_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bound$probability[x2$bound$bound == "lower"], tolerance = 1e-2)
+
+  # hr at upper bound is approximately close
+  expect_equal(x1$bound$`~hr at bound`[x1$bound$bound == "upper"], x2$bound$`~hr at bound`[x2$bound$bound == "upper"], tolerance = 1e-2)
+
+  # hr at lower bound is approximately close
+  expect_equal(x1$bound$`~hr at bound`[x1$bound$bound == "lower"], x2$bound$`~hr at bound`[x2$bound$bound == "lower"], tolerance = 5e-2)
+
+  # nominal p at upper bound is approximately close
+  expect_equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 1e-2)
+
+  # nominal p at lower bound is approximately close
+  expect_equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 1e-2)
+
+})

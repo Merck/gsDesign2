@@ -88,7 +88,6 @@ Group sequential design power using MaxCombo test under non-proportional hazards
 }
 
 \examples{
-library(dplyr)
 library(mvtnorm)
 library(gsDesign)
 library(gsDesign2)

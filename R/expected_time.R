@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -119,5 +119,5 @@ expected_time <- function(
   tryCatch(uniroot(event_diff, interval, check.conv = TRUE), error = function(e) {
     stop("solution not found (", e$message, ")")
   })
-  ans %>% select(-n)
+  ans |> select(-n)
 }

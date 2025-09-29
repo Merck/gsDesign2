@@ -131,5 +131,5 @@ gs_info_ahr_ <- function(enrollRates = tibble::tibble(
   }
   avehr$Analysis <- 1:nrow(avehr)
   avehr$theta <- -log(avehr$AHR)
-  return(avehr %>% dplyr::transmute(Analysis, Time, Events, AHR, theta, info, info0))
+  return(avehr |> dplyr::transmute(Analysis, Time, Events, AHR, theta, info, info0))
 }

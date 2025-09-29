@@ -11,6 +11,7 @@ gs_power_wlr(
   event = c(30, 40, 50),
   analysis_time = NULL,
   binding = FALSE,
+  h1_spending = TRUE,
   upper = gs_spending_bound,
   lower = gs_spending_bound,
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
@@ -38,6 +39,13 @@ gs_power_wlr(
 
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
+
+\item{h1_spending}{Indicator that lower bound to be set by spending
+under alternate hypothesis (input \code{fail_rate})
+if spending is used for lower bound.
+If this is \code{FALSE}, then the lower bound spending is under the null hypothesis.
+This is for two-sided symmetric or asymmetric testing under the null hypothesis;
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
 \item{upper}{Function to compute upper bound.
 \itemize{

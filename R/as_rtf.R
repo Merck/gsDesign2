@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -39,7 +39,6 @@ as_rtf <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' library(dplyr)
 #'
 #' # Enrollment rate
 #' enroll_rate <- define_enroll_rate(
@@ -73,14 +72,14 @@ as_rtf <- function(x, ...) {
 #'   alpha = alpha, power = 1 - beta,
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   study_duration = study_duration, ratio = ratio
-#' ) %>% summary()
-#' x %>% as_rtf(file = tempfile(fileext = ".rtf"))
-#' x %>% as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
-#' x %>% as_rtf(
+#' ) |> summary()
+#' x |> as_rtf(file = tempfile(fileext = ".rtf"))
+#' x |> as_rtf(title = "Fixed design", file = tempfile(fileext = ".rtf"))
+#' x |> as_rtf(
 #'   footnote = "Power computed with average hazard ratio method given the sample size",
 #'   file = tempfile(fileext = ".rtf")
 #' )
-#' x %>% as_rtf(text_font_size = 10, file = tempfile(fileext = ".rtf"))
+#' x |> as_rtf(text_font_size = 10, file = tempfile(fileext = ".rtf"))
 #'
 #' # FH ----
 #' # under fixed power
@@ -88,10 +87,10 @@ as_rtf <- function(x, ...) {
 #'   alpha = alpha, power = 1 - beta,
 #'   enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'   study_duration = study_duration, ratio = ratio
-#' ) %>%
-#'   summary() %>%
+#' ) |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
-as_rtf.fixed_design <- function(
+as_rtf.fixed_design_summary <- function(
     x,
     title = NULL,
     footnote = NULL,
@@ -101,9 +100,10 @@ as_rtf.fixed_design <- function(
     file,
     ...) {
   orientation <- match.arg(orientation)
-  method <- fd_method(x)
-  title <- title %||% paste(fd_title(method), "{^a}")
-  footnote <- footnote %||% paste("{^a}", fd_footnote(x, method))
+  if (is.null(title)) title <- attr(x, "title")
+  if (is.null(footnote)) footnote <- attr(x, "footnote")
+  title <- paste(title, "{^a}")
+  footnote <- paste("{^a}", footnote)
 
   # set default column width
   n_row <- nrow(x)
@@ -125,10 +125,10 @@ as_rtf.fixed_design <- function(
   text_indent <- matrix(0, nrow = n_row, ncol = n_col)
 
   # Use r2rtf
-  ans <- x %>%
-    r2rtf::rtf_page(orientation = orientation) %>%
-    r2rtf::rtf_title(title) %>%
-    r2rtf::rtf_colheader(colheader, rel_width, text_font_size = text_font_size) %>%
+  ans <- x |>
+    r2rtf::rtf_page(orientation = orientation) |>
+    r2rtf::rtf_title(title) |>
+    r2rtf::rtf_colheader(colheader, rel_width, text_font_size = text_font_size) |>
     r2rtf::rtf_body(
       rel_width,
       border_left = border_left,
@@ -181,41 +181,40 @@ check_rel_width <- function(width, n_col) {
 #' #'
 #' \donttest{
 #' # the default output
-#' library(dplyr)
 #'
-#' gs_design_ahr() %>%
-#'   summary() %>%
+#' gs_design_ahr() |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
-#' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
-#' gs_design_wlr() %>%
-#'   summary() %>%
+#' gs_design_wlr() |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #'
-#' gs_power_combo() %>%
-#'   summary() %>%
+#' gs_power_combo() |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
-#' gs_design_rd() %>%
-#'   summary() %>%
+#' gs_design_rd() |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
-#' gs_power_rd() %>%
-#'   summary() %>%
+#' gs_power_rd() |>
+#'   summary() |>
 #'   as_rtf(file = tempfile(fileext = ".rtf"))
 #'
 #' # usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_rtf(
 #'     title = "Bound Summary",
 #'     subtitle = "from gs_power_wlr",
@@ -224,8 +223,8 @@ check_rel_width <- function(width, n_col) {
 #'
 #' # usage of colname_spanner = ..., colname_spannersub = ...
 #' # to edit the spanner and its sub-spanner
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_rtf(
 #'     colname_spanner = "Cumulative probability to cross boundaries",
 #'     colname_spannersub = c("under H1", "under H0"),
@@ -234,8 +233,8 @@ check_rel_width <- function(width, n_col) {
 #'
 #' # usage of footnote = ...
 #' # to edit the footnote
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_rtf(
 #'     footnote = list(
 #'       content = c(
@@ -252,8 +251,8 @@ check_rel_width <- function(width, n_col) {
 #'
 #' # usage of display_bound = ...
 #' # to either show efficacy bound or futility bound, or both(default)
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_rtf(
 #'     display_bound = "Efficacy",
 #'     file = tempfile(fileext = ".rtf")
@@ -261,14 +260,14 @@ check_rel_width <- function(width, n_col) {
 #'
 #' # usage of display_columns = ...
 #' # to select the columns to display in the summary table
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) %>%
-#'   summary() %>%
+#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
+#'   summary() |>
 #'   as_rtf(
 #'     display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"),
 #'     file = tempfile(fileext = ".rtf")
 #'   )
 #' }
-as_rtf.gs_design <- function(
+as_rtf.gs_design_summary <- function(
     x,
     title = NULL,
     subtitle = NULL,
@@ -373,17 +372,17 @@ as_rtf.gs_design <- function(
 
   # Output ----
   # use r2rtf
-  ans <- x %>%
-    r2rtf::rtf_page(orientation = orientation) %>%
-    r2rtf::rtf_title(title, subtitle, text_convert = FALSE) %>%
+  ans <- x |>
+    r2rtf::rtf_page(orientation = orientation) |>
+    r2rtf::rtf_title(title, subtitle, text_convert = FALSE) |>
     r2rtf::rtf_colheader(
       colheader[1], rel_width_head[[1]], border_left_head[[1]],
       text_font_size = text_font_size
-    ) %>%
+    ) |>
     r2rtf::rtf_colheader(
       colheader[2], rel_width_head[[2]], border_left_head[[2]],
       border_top = border_top_head, text_font_size = text_font_size
-    ) %>%
+    ) |>
     r2rtf::rtf_body(
       rel_width_body, page_by = "Analysis",
       border_left = border_left_body,

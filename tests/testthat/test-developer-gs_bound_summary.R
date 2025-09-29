@@ -18,11 +18,11 @@ test_that("gs_bound_summary() uses correct HR label", {
 
   x_ahr <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
   x_ahr_bound <- gs_bound_summary(x_ahr)
-  expect_identical(x_ahr_bound$Value[5], "P(Cross) if AHR=0.8")
+  expect_identical(x_ahr_bound$Value[5], "P(Cross) if AHR=0.81")
 
   x_wlr <- gs_design_wlr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
   x_wlr_bound <- gs_bound_summary(x_wlr)
-  expect_identical(x_wlr_bound$Value[5], "P(Cross) if wAHR=0.8")
+  expect_identical(x_wlr_bound$Value[5], "P(Cross) if wAHR=0.81")
 
 })
 
@@ -113,4 +113,71 @@ test_that("Edge case: when arg `alpha` matches original alpha", {
   x_bound_same <- gs_bound_summary(x, alpha = 0.0125)
   expect_equal(colnames(x_bound_same)[3], "α=0.0125")
   expect_equal(unname(x_bound_same), unname(x_bound))
+})
+
+test_that("One-sided design should not have column Futility", {
+  x <- gs_design_ahr(info_frac = 1:3/3, lower = gs_b, lpar = rep(-Inf, 3))
+  x_bound <- gs_bound_summary(x)
+
+  expect_false("Futility" %in% colnames(x_bound))
+
+  x_bound_alpha <- gs_bound_summary(x, alpha = c(0.025, 0.05))
+
+  expect_false("Futility" %in% colnames(x_bound_alpha))
+})
+
+test_that("Arg `digits` controls number of digits in table body", {
+  x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
+  x_bound_5 <- gs_bound_summary(x, digits = 5)
+  x_bound_1 <- gs_bound_summary(x, digits = 1)
+
+  efficacy_5 <- nchar(format(x_bound_5$Efficacy))
+  efficacy_1 <- nchar(format(x_bound_1$Efficacy))
+  expect_equal(unique(efficacy_5 - efficacy_1), 5 - 1)
+
+  futility_5 <- nchar(format(x_bound_5$Futility))
+  futility_1 <- nchar(format(x_bound_1$Futility))
+  expect_equal(unique(futility_5 - futility_1), 5 - 1)
+})
+
+test_that("Arg `ddigits` controls number of digits for delta value", {
+  x <- gs_design_ahr(info_frac = 1:3 / 3)
+
+  x_bound_1 <- gs_bound_summary(x, ddigits = 1)
+  expect_identical(
+    x_bound_1$Value[c(5, 10, 15)],
+    c("P(Cross) if AHR=0.8", "P(Cross) if AHR=0.7", "P(Cross) if AHR=0.7")
+  )
+
+  x_bound_2 <- gs_bound_summary(x, ddigits = 2)
+  expect_identical(
+    x_bound_2$Value[c(5, 10, 15)],
+    c("P(Cross) if AHR=0.81", "P(Cross) if AHR=0.73", "P(Cross) if AHR=0.68")
+  )
+
+  x_bound_3 <- gs_bound_summary(x, ddigits = 3)
+  expect_identical(
+    x_bound_3$Value[c(5, 10, 15)],
+    c("P(Cross) if AHR=0.806", "P(Cross) if AHR=0.729", "P(Cross) if AHR=0.683")
+  )
+})
+
+test_that("Arg `tdigits` controls number of digits for estimated timing", {
+  x <- gs_design_ahr(info_frac = 1:3 / 3)
+  x_bound <- gs_bound_summary(x, tdigits = 2)
+
+  expect_identical(
+    x_bound$Analysis[c(4, 9, 14)],
+    c("Month: 12.53", "Month: 21.29", "Month: 36.00")
+  )
+})
+
+test_that("Arg `timename` controls time unit label", {
+  x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
+  x_bound <- gs_bound_summary(x, timename = "Fortnight")
+
+  expect_identical(
+    x_bound$Analysis[c(4, 9, 14)],
+    c("Fortnight: 12", "Fortnight: 25", "Fortnight: 36")
+  )
 })

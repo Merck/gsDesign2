@@ -4,12 +4,30 @@
 \alias{gs_bound_summary}
 \title{Bound summary table}
 \usage{
-gs_bound_summary(x, alpha = NULL)
+gs_bound_summary(
+  x,
+  digits = 4,
+  ddigits = 2,
+  tdigits = 0,
+  timename = "Month",
+  alpha = NULL
+)
 }
 \arguments{
-\item{x}{design object}
+\item{x}{Design object.}
 
-\item{alpha}{vector of alpha values to compute additional efficacy columns}
+\item{digits}{Number of digits past the decimal to be printed in the body of
+the table.}
+
+\item{ddigits}{Number of digits past the decimal to be printed for the
+natural parameter delta.}
+
+\item{tdigits}{Number of digits past the decimal point to be shown for
+estimated timing of each analysis.}
+
+\item{timename}{Text string indicating time unit.}
+
+\item{alpha}{Vector of alpha values to compute additional efficacy columns.}
 }
 \value{
 A data frame

@@ -81,7 +81,6 @@ Group sequential design using MaxCombo test under non-proportional hazards
 }
 \examples{
 # The example is slow to run
-library(dplyr)
 library(mvtnorm)
 library(gsDesign)
 

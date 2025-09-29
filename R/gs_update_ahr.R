@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -43,7 +43,6 @@
 #' @examples
 #' library(gsDesign)
 #' library(gsDesign2)
-#' library(dplyr)
 #'
 #' alpha <- 0.025
 #' beta <- 0.1
@@ -81,7 +80,7 @@
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = sfLDOF, total_spend = beta),
 #'   test_lower = c(TRUE, FALSE),
-#'   binding = FALSE) %>% to_integer()
+#'   binding = FALSE) |> to_integer()
 #'
 #' planned_event_ia <- x$analysis$event[1]
 #' planned_event_fa <- x$analysis$event[2]
@@ -133,7 +132,7 @@ gs_update_ahr <- function(
     stop("gs_update_ahr(): please input the original design created either by gs_design_ahr or gs_power_ahr.")
   }
 
-  if (!any((c("ahr", "wlr") %in% class(x)))) {
+  if (!x$design %in% c("ahr", "wlr")) {
     stop("gs_update_ahr(): the original design must be created either by gs_design_ahr, gs_power_ahr, gs_design_wlr, or gs_power_wlr.")
   }
 
@@ -303,26 +302,21 @@ gs_update_ahr <- function(
   #         Tidy outputs                #
   # ----------------------------------- #
   ans <- list()
-
-  ans$input <- list()
-  ans$input$x <- x
-  ans$input$alpha <- alpha
-  ans$input$ustime <- ustime
-  ans$input$lstime <- lstime
-  ans$input$event_tbl <- event_tbl
+  
+  ans$design <- x$design
 
   ans$enroll_rate <- x$enroll_rate
 
   ans$fail_rate <- x$fail_rate
 
   suppressMessages(
-    ans$bound <- x_updated_h0 %>%
-      select(analysis, bound, z, probability, info0) %>%
-      rename(probability0 = probability) %>%
+    ans$bound <- x_updated_h0 |>
+      select(analysis, bound, z, probability, info0) |>
+      rename(probability0 = probability) |>
       mutate(`~hr at bound` = exp(-z / sqrt(info0)),
-             `nominal p` = pnorm(-z)) %>%
-      left_join(x_updated_h1 %>%
-                  select(analysis, bound, z, probability)) %>%
+             `nominal p` = pnorm(-z)) |>
+      left_join(x_updated_h1 |>
+                  select(analysis, bound, z, probability)) |>
       select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`)
   )
 
@@ -367,7 +361,10 @@ gs_update_ahr <- function(
     }
   )
 
-  class(ans) <- c(class(x), "updated_design")
+  class(ans) <- "gs_design"
+  attr(ans, "binding") <- attr(x, "binding")
+  attr(ans, "uninteger_is_from") <- attr(x, "uninteger_is_from")
+  attr(ans, "updated_design") <- TRUE
 
   return(ans)
 }

@@ -33,7 +33,7 @@ test_that("data frame returned from expected_event not as expected", {
     fail_rate = fail_rate,
     total_duration = total_duration,
     simple = FALSE
-  ) %>%
+  ) |>
     data.frame()
   # Expected checked with alternate calculations in gsSurvNPH vignette
   expected <- data.frame(
