@@ -138,7 +138,6 @@ gs_cp_npe2 <- function(theta = NULL,
     #        matrix of (x x x)
     # ------------------------------ #
     Sigma <- matrix(0, nrow = x, ncol = x)
-
     for(k in seq_len(x)) {
       for(l in seq_len(x)) {
         Sigma[k, l] <- t[1 + min(k, l)] - t[1]
@@ -161,15 +160,14 @@ gs_cp_npe2 <- function(theta = NULL,
       ## corrected -  since 'a' is vector of length (j-i-1) that specifies futility bounds from analysis i+1 to analysis j-1.
       ## for example, j = 4 and i = 2, then 'a' contains futility bound at analysis #3, and t[1] here is the IF for analysis i
       ## 't' is a vector of length j-i+1, indicating the IF for analysis i to j.
-      lower_alpha[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[1])
+      lower_alpha[m] <- a[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
     }
-    lower_alpha[x] <- b[x] * sqrt(t[x]) - c * sqrt(t[1])
+    lower_alpha[x] <- b[x] * sqrt(t[dim + 1]) - c * sqrt(t[1])
 
     # integration upper bound
     # Note: should we consider the case where j = 4, i = 3, in this case, dim = 1, length of a is 0 --> we simply integrate from bj (the only element in b) to Inf
     upper_alpha <- rep(0, x)
     for(m in 1:(x - 1)){
-      ## ?? same as above
       upper_alpha[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[1])
     }
     upper_alpha[x] <- Inf
