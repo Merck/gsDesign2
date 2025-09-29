@@ -119,14 +119,14 @@ gs_cp_npe2 <- function(theta = NULL,
   prob_beta <- rep(0, dim)
 
   for(x in 1:dim){
-    # x ranges from 1 to j-i, represents cases for alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j
+    # x ranges from 1 to j-i, represents cases for alpha_{i,i+1}, ..., alpha_{i,j-1}, alpha_{i,j}
+    # x is the increment from i
 
     # ------------------------------ #
     #       Build the asymptotic
     #         mean of B_x - B_i
     #       vector of length x
     # ------------------------------ #
-
     mu <- sapply(seq_len(x), function(k){
       idx <- k + 1 # i.e., start from i+1
       theta[idx] * sqrt(t[idx] * info[idx]) - theta[1] * sqrt(t[1] * info[1]) #first element of `theta` is the treatment effect of IA i.
@@ -149,9 +149,9 @@ gs_cp_npe2 <- function(theta = NULL,
     #   Calculate integration limit
     #        for alpha(i, x), x = i + 1, ..., j
     # -------------------------------------------- #
-    # alpha(i, x) is the conditional probability of first cross efficacy bound
-    # at analysis x given no efficacy/futility bound crossing before
-    # D_m = B_m - B_i, where m = i+1, i+2, ..., j
+    # alpha_{i, i+x} is the conditional probability of first cross efficacy bound
+    # at analysis i+x given no efficacy/futility bound crossing before.
+    # Let's denote D_m = B_m - B_i, where m = i+1, i+2, ..., i+x
     # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [b_j, +Inf)
     # integration lower bound
     lower_alpha <- rep(0, x)
@@ -161,16 +161,16 @@ gs_cp_npe2 <- function(theta = NULL,
       ## corrected -  since 'a' is vector of length (j-i-1) that specifies futility bounds from analysis i+1 to analysis j-1.
       ## for example, j = 4 and i = 2, then 'a' contains futility bound at analysis #3, and t[1] here is the IF for analysis i
       ## 't' is a vector of length j-i+1, indicating the IF for analysis i to j.
-      lower_alpha[m] <- a[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+      lower_alpha[m] <- a[m] * sqrt(t[m]) - c * sqrt(t[1])
     }
-    lower_alpha[x] <- b[x] * sqrt(t[dim + 1]) - c * sqrt(t[1])
+    lower_alpha[x] <- b[x] * sqrt(t[x]) - c * sqrt(t[1])
 
     # integration upper bound
     # Note: should we consider the case where j = 4, i = 3, in this case, dim = 1, length of a is 0 --> we simply integrate from bj (the only element in b) to Inf
     upper_alpha <- rep(0, x)
     for(m in 1:(x - 1)){
       ## ?? same as above
-      upper_alpha[m] <- b[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+      upper_alpha[m] <- b[m] * sqrt(t[m]) - c * sqrt(t[1])
     }
     upper_alpha[x] <- Inf
 
