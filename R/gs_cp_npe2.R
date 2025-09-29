@@ -83,8 +83,8 @@
 #' gs_cp_npe2(theta = x$analysis$theta,
 #'            t = x$analysis$info_frac,
 #'            info = x$analysis$info,
-#'            a = rep(-Inf, 3),
-#'            b = x$bound$z[x$bound$bound == "upper"],
+#'            a = -Inf,
+#'            b = x$bound$z[x$bound$bound == "upper"][2:3],
 #'            c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 gs_cp_npe2 <- function(theta = NULL,
                        t = NULL,

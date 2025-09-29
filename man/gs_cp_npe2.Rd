@@ -24,9 +24,9 @@ The last element of \code{theta} is the treatment effect of a future analysis j.
 \item{c}{Interim z-value at analysis i (scalar).}
 }
 \value{
-A list of conditional powers: prob_alpha = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
-prob_alpha_plus = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
-prob_beta = eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+A list of conditional powers: prob_alpha is a vector of c(alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+prob_alpha_plus is a vector of c(alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+prob_beta is a vector of c(beta_i,i+1, ..., beta_i,j-1, beta_i,j) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
 }
 \description{
 Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
@@ -73,7 +73,7 @@ xu <- gs_update_ahr(x, alpha = NULL, ustime = ustime, lstime = NULL, event_tbl =
 gs_cp_npe2(theta = x$analysis$theta,
            t = x$analysis$info_frac,
            info = x$analysis$info,
-           a = rep(-Inf, 3),
-           b = x$bound$z[x$bound$bound == "upper"],
+           a = -Inf,
+           b = x$bound$z[x$bound$bound == "upper"][2:3],
            c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 }
