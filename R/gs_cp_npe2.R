@@ -119,7 +119,8 @@ gs_cp_npe2 <- function(theta = NULL,
   prob_beta <- rep(0, dim)
 
   for(x in 1:dim){
-    # x ranges from 1 to j-i, represents cases for alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j
+    # x ranges from 1 to j-i, represents cases for alpha_{i,i+1}, ..., {alpha_i,j-1}, alpha_{i,j}
+    # x is the increment from i
 
     # ------------------------------ #
     #       Build the asymptotic
