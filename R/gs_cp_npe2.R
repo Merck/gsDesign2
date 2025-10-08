@@ -141,8 +141,8 @@ gs_cp_npe2 <- function(theta = NULL,
   if(length(theta) - length(b) != 1)
     stop("The length of theta should equal to length of b + 1. ")
 
-  if(length(b) - length(a) != 1) # note that the input of a could be NULL
-    stop("The length of b should equal to length of a + 1. ")
+  if(length(b) != length(a))
+    stop("The length of b should equal to length of a. ")
   # ------------------------------ #
   #        Initialization
   # ------------------------------ #
