@@ -104,7 +104,7 @@
 #'            # IA1, IA2, and IA3's statistical information
 #'            info = x$analysis$info[1:3],
 #'            # IA2 and IA3's futility bound
-#'            a = c(-Inf, Inf)
+#'            a = c(-Inf, Inf),
 #'            # IA2 and IA3's efficacy bound
 #'            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis %in% c(2, 3)],
 #'            # IA1's Z-score
@@ -118,7 +118,7 @@
 #'            # IA1, IA2, IA3 and FA's statistical information
 #'            info = x$analysis$info[1:3],
 #'            # IA2, IA3 and FA's futility bound
-#'            a = c(-Inf, Inf)
+#'            a = c(-Inf, Inf),
 #'            # IA2, IA3 and FA's efficacy bound
 #'            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis %in% c(2, 3)],
 #'            # IA1's Z-score

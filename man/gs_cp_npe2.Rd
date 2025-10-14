@@ -17,7 +17,7 @@ The last element of \code{theta} is the treatment effect of a future analysis j.
 
 \item{info}{A vector of j-i+1, which specifies the statistical information under the treatment effect \code{theta}.}
 
-\item{a}{A vector of length j-i-1, which specifies the futility bounds from analysis i+1 to analysis j-1.}
+\item{a}{A vector of length j-i, which specifies the futility bounds from analysis i+1 to analysis j.}
 
 \item{b}{A vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.}
 
@@ -55,7 +55,7 @@ enroll_rate <- define_enroll_rate(duration = c(2, 2, 2, 18), rate = c(1, 2, 3, 4
 fail_rate <- define_fail_rate(duration = c(3, Inf), fail_rate = log(2) / 10, dropout_rate = 0.001, hr = c(1, 0.7))
 x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    alpha = 0.025, beta = 0.1, ratio = 1,
-                   info_frac = c(0.4, 0.8, 1), analysis_time = 30,
+                   info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
                    binding = FALSE,
                    upper = "gs_spending_bound",
                    upar = list(sf = "sfLDOF", total_spend = 0.025, param = NULL),
@@ -64,16 +64,53 @@ x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    h1_spending = TRUE,
                    test_lower = FALSE,
                    info_scale = "h0_h1_info") |> to_integer()
+
 # update design based on IA1 observed data ----
 # assume at IA1, we observed 150 events (planned of 140) during the non-effect period, and 180 events (planned of 170) afterwards.
 event_tbl <- data.frame(analysis = c(1, 1), event = c(150, 180))
-ustime <- c(150+180, x$analysis$event[2:3]) / max(x$analysis$event)
+ustime <- c(150+180, x$analysis$event[2:4]) / max(x$analysis$event)
 xu <- gs_update_ahr(x, alpha = NULL, ustime = ustime, lstime = NULL, event_tbl = event_tbl)
-# calculate conditional power at IA1 based on non-constant treatment effect ----
-gs_cp_npe2(theta = x$analysis$theta,
-           t = x$analysis$info_frac,
-           info = x$analysis$info,
+
+# calculate conditional power
+# case 1: currently at IA1, compute conditional power at IA2
+gs_cp_npe2(# IA1 and IA2's theta
+           theta = x$analysis$theta[1:2],
+           # IA1 and IA2's information fraction
+           t = x$analysis$info_frac[1:2],
+           # IA1 and IA2's statistical information
+           info = x$analysis$info[1:2],
+           # IA2's futility bound
            a = -Inf,
-           b = x$bound$z[x$bound$bound == "upper"][2:3],
+           # IA2's efficacy bound
+           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2],
+           # IA1's Z-score
+           c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+
+# case 2: currently at IA1, compute conditional power at IA2 and IA3
+gs_cp_npe2(# IA1, IA2 and IA3's theta
+           theta = x$analysis$theta[1:3],
+           # IA1, IA2 and IA3's information fraction
+           t = x$analysis$info_frac[1:3],
+           # IA1, IA2, and IA3's statistical information
+           info = x$analysis$info[1:3],
+           # IA2 and IA3's futility bound
+           a = c(-Inf, Inf),
+           # IA2 and IA3's efficacy bound
+           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis \%in\% c(2, 3)],
+           # IA1's Z-score
+           c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+
+# case 3: currently at IA1, compute conditional power at IA2, IA3 and FA
+gs_cp_npe2(# IA1, IA2, IA3 and FA's theta
+           theta = x$analysis$theta[1:3],
+           # IA1, IA2, IA3 and FA's information fraction
+           t = x$analysis$info_frac[1:3],
+           # IA1, IA2, IA3 and FA's statistical information
+           info = x$analysis$info[1:3],
+           # IA2, IA3 and FA's futility bound
+           a = c(-Inf, Inf),
+           # IA2, IA3 and FA's efficacy bound
+           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis \%in\% c(2, 3)],
+           # IA1's Z-score
            c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 }
