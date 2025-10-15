@@ -51,8 +51,12 @@ gs_cp_npe2(theta = c(0.1, 0.2, 0.3),
 
 # Example 2
 # original design ----
-enroll_rate <- define_enroll_rate(duration = c(2, 2, 2, 18), rate = c(1, 2, 3, 4))
-fail_rate <- define_fail_rate(duration = c(3, Inf), fail_rate = log(2) / 10, dropout_rate = 0.001, hr = c(1, 0.7))
+enroll_rate <- define_enroll_rate(duration = c(2, 2, 2, 18),
+                                  rate = c(1, 2, 3, 4))
+fail_rate <- define_fail_rate(duration = c(3, Inf),
+                              fail_rate = log(2) / 10,
+                              dropout_rate = 0.001,
+                              hr = c(1, 0.7))
 x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    alpha = 0.025, beta = 0.1, ratio = 1,
                    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
