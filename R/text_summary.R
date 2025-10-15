@@ -189,7 +189,8 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
   }
 
   analysis_seq <- c(paste("IA", 1:(n_analysis - 1), sep = ""), "FA")
-  upper_text <- x$input$upar$sf(alpha = x$input$upar$total_spend, t = x$analysis$info_frac, param = x$input$upar$param)
+  sfu <- get_sf(x$input$upar$sf)
+  upper_text <- sfu(alpha = x$input$upar$total_spend, t = x$analysis$info_frac, param = x$input$upar$param)
   upper_tested <- if (!all(x$input$test_upper)) {
     paste(", tested at", paste("tested at", paste(analysis_seq[x$input$test_upper], collapse = ", ")))
   }
@@ -206,7 +207,8 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
     }
 
     if (identical(x$input$lower, gs_spending_bound)) {
-      lower_text <- x$input$lpar$sf(alpha = x$input$lpar$total_spend, t = x$analysis$info_frac, param = x$input$lpar$param)
+      sfl <- get_sf(x$input$lpar$sf)
+      lower_text <- sfl(alpha = x$input$lpar$total_spend, t = x$analysis$info_frac, param = x$input$lpar$param)
       out <- paste(out, " Futility bounds derived using a ", summary(lower_text), lower_tested, ".", sep = "")
     } else if (identical(x$input$lower, gs_b)) {
       out <- paste(out, " Futility bounds is fixed as ", paste0(x$input$lpar, collapse = ", ") , lower_tested, ".", sep = "")

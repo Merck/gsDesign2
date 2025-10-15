@@ -106,3 +106,13 @@ prune_hash <- function(h, size = 2^23) {
 
 # Require exact matching by default when retrieving attributes
 attr = function(...) base::attr(..., exact = TRUE)
+
+# get the spending function if it's specified as a string
+get_sf <- function(f) {
+  if (is.function(f)) f else tryCatch(match.fun(f), error = function(e) {
+    # in case gsDesign is not attached (i.e. library(gsDesign)) or the spending
+    # function is not imported into gsDesign2 from gsDesign, we will get it from
+    # gsDesign's namespace
+    getExportedValue('gsDesign', f)
+  })
+}
