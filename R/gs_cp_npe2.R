@@ -75,12 +75,6 @@
 #'                    test_lower = FALSE,
 #'                    info_scale = "h0_h1_info") |> to_integer()
 #'
-#' # update design based on IA1 observed data ----
-#' # assume at IA1, we observed 150 events (planned of 140) during the non-effect period, and 180 events (planned of 170) afterwards.
-#' event_tbl <- data.frame(analysis = c(1, 1), event = c(150, 180))
-#' ustime <- c(150+180, x$analysis$event[2:4]) / max(x$analysis$event)
-#' xu <- gs_update_ahr(x, alpha = NULL, ustime = ustime, lstime = NULL, event_tbl = event_tbl)
-#'
 #' # calculate conditional power
 #' # case 1: currently at IA1, compute conditional power at IA2
 #' gs_cp_npe2(# IA1 and IA2's theta
@@ -195,11 +189,6 @@ gs_cp_npe2 <- function(theta = NULL,
       lower_alpha[x] <- b[x] * sqrt(t[x + 1]) - c * sqrt(t[1])
     }else{
       for (m in 1:(x - 1)) {
-        ## ?? here looks wrong: when m = 1, it is a[1]*sqrt(t[1]) - c*sqrt(t[i]) where i is always 1 -- which is wrong
-        ##                      when m = 1, it is B2 - B1, which should be a[2]*sqrt(t[2]) - c*sqrt(t[i])
-        ## corrected -  since 'a' is vector of length (j-i-1) that specifies futility bounds from analysis i+1 to analysis j-1.
-        ## for example, j = 4 and i = 2, then 'a' contains futility bound at analysis #3, and t[1] here is the IF for analysis i
-        ## 't' is a vector of length j-i+1, indicating the IF for analysis i to j.
         lower_alpha[m] <- a[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
       }
       lower_alpha[x] <- b[x] * sqrt(t[x + 1]) - c * sqrt(t[1])

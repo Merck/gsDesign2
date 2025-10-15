@@ -65,12 +65,6 @@ x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    test_lower = FALSE,
                    info_scale = "h0_h1_info") |> to_integer()
 
-# update design based on IA1 observed data ----
-# assume at IA1, we observed 150 events (planned of 140) during the non-effect period, and 180 events (planned of 170) afterwards.
-event_tbl <- data.frame(analysis = c(1, 1), event = c(150, 180))
-ustime <- c(150+180, x$analysis$event[2:4]) / max(x$analysis$event)
-xu <- gs_update_ahr(x, alpha = NULL, ustime = ustime, lstime = NULL, event_tbl = event_tbl)
-
 # calculate conditional power
 # case 1: currently at IA1, compute conditional power at IA2
 gs_cp_npe2(# IA1 and IA2's theta
