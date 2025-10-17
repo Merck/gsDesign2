@@ -22,7 +22,7 @@
 #' We assume \eqn{Z_i, i = 1, ..., K} are the z-values at an interim analysis i, respectively.
 #' We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
 #' \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
-#' \deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}
+#' \deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}}
 #' See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
 #' Returned value is list of
 #' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
@@ -141,19 +141,19 @@ gs_cp_npe2 <- function(theta = NULL,
 
   if(length(b) != length(a))
     stop("The length of b should equal to length of a. ")
-  # ------------------------------ #
+  # ------------------------------ #a
   #        Initialization
   # ------------------------------ #
 
   # the conditional power is calculated from analysis i to analysis j
   # the analysis j is decided by the length of b (efficacy bound)
   # let D_m = B_m - B_i, where m = i+1, i+2, ..., j
-  dim <- length(b)  # = j-i
-  prob_alpha <- rep(0, dim)
-  prob_alpha_plus <- rep(0, dim)
-  prob_beta <- rep(0, dim)
+  n_future_analysis <- length(b)  # = j-i
+  prob_alpha <- rep(0, n_future_analysis)
+  prob_alpha_plus <- rep(0, n_future_analysis)
+  prob_beta <- rep(0, n_future_analysis)
 
-  for(x in 1:dim){
+  for(x in 1:n_future_analysis){
     # x ranges from 1 to j-i, represents cases for alpha_{i,i+1}, ..., {alpha_i,j-1}, alpha_{i,j}
     # x is the increment from i
 
@@ -173,11 +173,11 @@ gs_cp_npe2 <- function(theta = NULL,
     #     covariance of B_x - B_i
     #        matrix of (x x x)
     # ------------------------------ #
-    Sigma <- matrix(0, nrow = x, ncol = x)
+    cov_matrix <- matrix(0, nrow = x, ncol = x)
 
     for(k in seq_len(x)) {
       for(l in seq_len(x)) {
-        Sigma[k, l] <- t[1 + min(k, l)] - t[1]
+        cov_matrix[k, l] <- t[1 + min(k, l)] - t[1]
       }
     }
 
@@ -185,9 +185,9 @@ gs_cp_npe2 <- function(theta = NULL,
     #             Calculate Lower/upper bounds for alpha
     # first cross efficacy bound at analysis x given no efficacy/futility bound crossing before
     # ----------------------------------------------------------------------------------------- #
-    # D_m = B_m - B_i
+    # Integration limits: D_m = B_m - B_i
     # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [b_j, +Inf)
-    # integration lower bound
+    # lower bound
     lower_alpha <- rep(0, x)
     if(x == 1){
       lower_alpha[x] <- b[x] * sqrt(t[x + 1]) - c * sqrt(t[1])
@@ -198,14 +198,12 @@ gs_cp_npe2 <- function(theta = NULL,
       lower_alpha[x] <- b[x] * sqrt(t[x + 1]) - c * sqrt(t[1])
     }
 
-    # integration upper bound
-    # Note: should we consider the case where j = 4, i = 3, in this case, dim = 1, length of a is 0 --> we simply integrate from bj (the only element in b) to Inf
+    # upper bound
     upper_alpha <- rep(0, x)
     if(x == 1){
       upper_alpha[x] = Inf
     }else{
       for(m in 1:(x - 1)){
-        ## ?? same as above
         upper_alpha[m] <- b[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
       }
       upper_alpha[x] <- Inf
@@ -216,7 +214,7 @@ gs_cp_npe2 <- function(theta = NULL,
       lower = lower_alpha,
       upper = upper_alpha,
       mean = mu,
-      sigma = Sigma)[1]
+      sigma = cov_matrix)[1]
 
     # --------------------------------------------------------------------------------- #
     #             Calculate Lower/upper bounds for alpha_plus
@@ -244,19 +242,18 @@ gs_cp_npe2 <- function(theta = NULL,
       upper_alpha_plus[x] <- Inf
     }
 
-
     prob_alpha_plus[x] <- mvtnorm::pmvnorm(
       lower = lower_alpha_plus,
       upper = upper_alpha_plus,
       mean = mu,
-      sigma = Sigma)[1]
+      sigma = cov_matrix)[1]
 
-    # --------------------------------------------------------------------------------------- #
+    # ---------------------------------------------------------------------------------------------- #
     #             Calculate Lower/upper bounds for beta
-    # Not cross efficacy bound at analysis x given no efficacy/futility bound crossing before
-    # --------------------------------------------------------------------------------------- #
+    # First crossing the futility bound at analysis x given no efficacy/futility bound crossing before
+    # ---------------------------------------------------------------------------------------------- #
     # Integration limits: D_m = B_m - B_i
-    # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [-Inf, b_j)
+    # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [-Inf, a_j)
     # lower bound
     lower_beta <- rep(0, x)
     if(x == 1){
@@ -274,16 +271,15 @@ gs_cp_npe2 <- function(theta = NULL,
       upper_beta[x] <- b[x] * sqrt(t[x + 1]) - c * sqrt(t[1])
     }else{
       for(m in 1:x){
-        upper_beta[m] <- b[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
+        upper_beta[m] <- a[m] * sqrt(t[m + 1]) - c * sqrt(t[1])
       }
     }
-
 
     prob_beta[x] <- mvtnorm::pmvnorm(
       lower = lower_beta,
       upper = upper_beta,
       mean = mu,
-      sigma = Sigma)[1]
+      sigma = cov_matrix)[1]
 
   }
 
