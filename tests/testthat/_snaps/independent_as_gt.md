@@ -2,9 +2,9 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Fixed Design under AHR Method\textsuperscript{\textit{1}}}
+    {\fontsize{20}{25}\selectfont  Fixed Design under AHR Method\textsuperscript{\textit{1}}\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
     Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
@@ -21,9 +21,9 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Custom Title\textsuperscript{\textit{1}}}
+    {\fontsize{20}{25}\selectfont  Custom Title\textsuperscript{\textit{1}}\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
     Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
@@ -40,9 +40,9 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Fixed Design under Fleming-Harrington Method\textsuperscript{\textit{1}}}
+    {\fontsize{20}{25}\selectfont  Fixed Design under Fleming-Harrington Method\textsuperscript{\textit{1}}\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr}
     \toprule
     Design & N & Events & Time & AHR & Bound & alpha & Power \\ 
@@ -59,10 +59,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for AHR design} \\ 
-    {\small AHR approximations of \textasciitilde{}HR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for AHR design\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  AHR approximations of \textasciitilde{}HR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -84,10 +84,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for AHR design} \\ 
-    {\small AHR approximations of \textasciitilde{}HR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for AHR design\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  AHR approximations of \textasciitilde{}HR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -120,10 +120,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for WLR design} \\ 
-    {\small WLR approximation of \textasciitilde{}wHR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for WLR design\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -146,10 +146,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for WLR design\textsuperscript{\textit{1}}} \\ 
-    {\small WLR approximation of \textasciitilde{}wHR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for WLR design\textsuperscript{\textit{1}}\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability\textsuperscript{\textit{2}}} \\ 
@@ -184,10 +184,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for MaxCombo design} \\ 
-    {\small MaxCombo approximation}
+    {\fontsize{20}{25}\selectfont  Bound summary for MaxCombo design\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  MaxCombo approximation\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr}
     \toprule
      &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -220,10 +220,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary of Binary Endpoint} \\ 
-    {\small measured by risk difference}
+    {\fontsize{20}{25}\selectfont  Bound summary of Binary Endpoint\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  measured by risk difference\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -244,10 +244,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary of Binary Endpoint} \\ 
-    {\small measured by risk difference}
+    {\fontsize{20}{25}\selectfont  Bound summary of Binary Endpoint\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  measured by risk difference\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -278,10 +278,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound Summary} \\ 
-    {\small from gs\_power\_wlr}
+    {\fontsize{20}{25}\selectfont  Bound Summary\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  from gs\_power\_wlr\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -315,10 +315,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for WLR design} \\ 
-    {\small WLR approximation of \textasciitilde{}wHR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for WLR design\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative probability to cross boundaries} \\ 
@@ -352,10 +352,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for WLR design\textsuperscript{\textit{1}}} \\ 
-    {\small WLR approximation of \textasciitilde{}wHR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for WLR design\textsuperscript{\textit{1}}\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability\textsuperscript{\textit{2}}} \\ 
@@ -390,10 +390,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for WLR design} \\ 
-    {\small WLR approximation of \textasciitilde{}wHR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for WLR design\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
      &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
@@ -424,10 +424,10 @@
 
     \begin{table}[t]
     \caption*{
-    {\large Bound summary for WLR design} \\ 
-    {\small WLR approximation of \textasciitilde{}wHR at bound}
+    {\fontsize{20}{25}\selectfont  Bound summary for WLR design\fontsize{12}{15}\selectfont } \\ 
+    {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
     } 
-    \fontsize{12.0pt}{14.4pt}\selectfont
+    \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr}
     \toprule
      &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
