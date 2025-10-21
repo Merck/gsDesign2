@@ -64,9 +64,17 @@ test_that("Compare the gs_cp_npe2 with gsDesign::gsCP", {
                              # IA2 and FA's efficacy bound
                              b = x_gsd$upper$bound[2:3]
                              )
+
+  gsDesign2_simple_cp <- gs_cp_npe(theta = c(-log(0.8), -log(0.8)),
+                                   info = x_gsd$n.I[1:2] / 4,
+                                   a = -qnorm(0.04),
+                                   b = x_gsd$upper$bound[2])
   # IA2's CP given IA1
   expect_equal(gsDesign_cp$upper$prob[1],
                gsDesign2_cp$prob_alpha[1])
+
+  expect_equal(gsDesign_cp$upper$prob[1],
+               gsDesign2_simple_cp)
 
   # FA's CP given IA1
   expect_equal(gsDesign_cp$upper$prob[2],
