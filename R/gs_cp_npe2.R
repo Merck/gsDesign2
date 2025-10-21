@@ -71,9 +71,9 @@
 #'                    alpha = 0.025, beta = 0.1, ratio = 1,
 #'                    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
 #'                    binding = FALSE,
-#'                    upper = "gs_spending_bound",
-#'                    upar = list(sf = "sfLDOF", total_spend = 0.025, param = NULL),
-#'                    lower = "gs_b",
+#'                    upper = gs_spending_bound,
+#'                    upar = list(sf = sfLDOF, total_spend = 0.025, param = NULL),
+#'                    lower = gs_b,
 #'                    lpar = c(-Inf, -Inf, -Inf),
 #'                    h1_spending = TRUE,
 #'                    test_lower = FALSE,
@@ -110,15 +110,15 @@
 #'
 #' # case 3: currently at IA1, compute conditional power at IA2, IA3 and FA
 #' gs_cp_npe2(# IA1, IA2, IA3 and FA's theta
-#'            theta = x$analysis$theta[1:3],
+#'            theta = x$analysis$theta[1:4],
 #'            # IA1, IA2, IA3 and FA's information fraction
-#'            t = x$analysis$info_frac[1:3],
+#'            t = x$analysis$info_frac[1:4],
 #'            # IA1, IA2, IA3 and FA's statistical information
-#'            info = x$analysis$info[1:3],
+#'            info = x$analysis$info[1:4],
 #'            # IA2, IA3 and FA's futility bound
-#'            a = c(-Inf, Inf),
+#'            a = c(-Inf, -Inf, -Inf),
 #'            # IA2, IA3 and FA's efficacy bound
-#'            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis %in% c(2, 3)],
+#'            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis %in% c(2, 3, 4)],
 #'            # IA1's Z-score
 #'            c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 gs_cp_npe2 <- function(theta = NULL,
@@ -168,11 +168,10 @@ gs_cp_npe2 <- function(theta = NULL,
       theta[idx] * sqrt(t[idx] * info[idx]) - theta[1] * sqrt(t[1] * info[1]) #first element of `theta` is the treatment effect of IA i.
     })
 
-    # ------------------------------ #
+    # ---------------------------------- #
     #       Build the asymptotic
-    #     covariance of B_x - B_i
-    #        matrix of (x x x)
-    # ------------------------------ #
+    #     covariance matrix of B_x - B_i
+    # ---------------------------------- #
     cov_matrix <- matrix(0, nrow = x, ncol = x)
 
     for(k in seq_len(x)) {
