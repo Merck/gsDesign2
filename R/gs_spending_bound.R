@@ -121,12 +121,7 @@ gs_spending_bound <- function(k = 1,
   }
 
   # Compute cumulative spending at each analyses ----
-  if (!is.function(sf <- par$sf)) sf <- tryCatch(match.fun(sf), error = function(e) {
-    # in case gsDesign is not attached (i.e. library(gsDesign)) or the spending
-    # function is not imported into gsDesign2 from gsDesign, we will get it from
-    # gsDesign's namespace
-    getExportedValue('gsDesign', sf)
-  })
+  sf <- get_sf(par$sf)
   spend <- sf(alpha = par$total_spend, t = timing, param = par$param)$spend
 
   # Compute incremental spending at each analyses ----
