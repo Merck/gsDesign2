@@ -1,0 +1,90 @@
+# Contributing
+
+Thanks for considering contributing to {gsDesign2}! We welcome your Pull
+Requests to improve our software. For potentially larger changes, we advise
+first opening an Issue to discuss the new feature.
+
+## Overview of package architecture
+
+The goal of {gsDesign2} is to enable fixed or group sequential design under
+non-proportional hazards. When designing a trial, there are a few key important
+decisions that affect how the software should behave:
+
+* Is it a fixed or group sequential design?
+* Which method to use for testing? For example, average hazard ratio (ahr) or
+  weighted log rank (wlr)
+* For a group sequential design, is the futility bound binding or non-binding?
+
+Internally, {gsDesign2} stores the above decisions using multiple different
+implementations.
+
+The main functions have the pattern `{fixed,gs}_{design,power}_{method}`, where:
+
+* The prefix indicates if the trial is a fixed (`fixed`) or group sequential
+  (`gs`) design
+* The middle portion indicates which input information is used to calculate the
+  trial details:
+  * `design`: given power and type I error, calculate sample size and bounds
+  * `power`: given sample size, calculate power
+* The suffix indicates which test method is used, e.g. average hazard ratio
+  (`ahr`) or weighted log rank (`wlr`)
+
+Importantly, these characteristics are stored in the output object.
+
+* The type of design is specified by the class of the object: `"fixed_design"`
+  or `"gs_design"`
+* The method for testing is specified by the list element `design`, which
+  contains a string abbreviation of the test that matches the original function:
+  `"ahr"`, `"wlr"`, etc
+* The binding status of the futility bound is specified by the attribute
+  `binding`, which is either `TRUE` or `FALSE`
+
+Since the only class designation used by the package is `"fixed_design"` or
+`"gs_design"`, it only contains S3 methods related to this distinction.
+Specifically, the package provides S3 methods for `print()`, `summary()`, and
+`to_integer()`. Furthermore, the `summary()` S3 method returns corresponding
+objects of class `"fixed_design_summary"` or `"gs_design_summary"`, and the
+package provides the S3 methods `as_gt()` and `as_rtf()` to convert the summary
+tables to [gt][] or [RTF][] format, respectively.
+
+[gt]: https://github.com/rstudio/gt
+[rtf]: https://en.wikipedia.org/wiki/Rich_Text_Format
+
+## How to query the trial characteristics from the design object
+
+If you contribute code to {gsDesign2}, you may need to write different logic
+based on the characteristics of the trial design. Given the general overview
+above, below are the practical steps for querying a design object.
+
+To determine if it is a fixed or group sequential design, use `inherits()`:
+
+```R
+if (inherits(x, "gs_design")) {
+```
+
+To determine the testing method, query the list element `design`. You can use
+nested if-else statements or `switch()`.
+
+```R
+if (x$design == "ahr") {
+  # code for ahr designs
+} else if (x$design == "wlr") {
+  # code for wlr designs
+} else if (x$design == "rd") {
+  # code for rd designs
+} else {
+  # something else
+}
+
+result <- switch(x$design, ahr = 1, wlr = 2, rd = 3)
+```
+
+To determine if the futility is binding, query the attribute `binding`.
+
+```R
+if (attr(x, "binding")) {
+  # code for design with binding futility bound
+} else {
+  # code for design with non-binding futility bound
+}
+```
