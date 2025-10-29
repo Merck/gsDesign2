@@ -279,3 +279,21 @@ test_that("verify the crossing prob of a MB design at IA1 under null", {
   expect_equal((x$bounds |> filter(bound == "upper", analysis == 1))$probability0,
                sfLDOF(alpha = .025, t = x$analysis$info_frac0)$spend[1])
 })
+
+test_that("The attribute `uninteger_is_from` matches the input design object", {
+  for (design_func in c("gs_design_ahr", "gs_design_rd", "gs_design_wlr")) {
+    x <- get(design_func)() |> to_integer()
+    expect_identical(attr(x, "uninteger_is_from"), design_func)
+  }
+
+  lpar <- list(sf = gsDesign::sfLDOF, total_spend = 0.1)
+  for (power_func in c("gs_power_ahr", "gs_power_rd", "gs_power_wlr")) {
+    if (power_func == "gs_power_rd") {
+      x <- get(power_func)()
+    } else {
+      x <- get(power_func)(lpar = lpar)
+    }
+    x <- to_integer(x)
+    expect_identical(attr(x, "uninteger_is_from"), power_func)
+  }
+})
