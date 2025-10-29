@@ -208,10 +208,10 @@ expected_event <- function(
       event = df$nbar,
       start_fail = sf_start_fail(df$start_fail)
     )
-    ans <- lapply(split(ans, ~start_fail), function(s) {
-      data.frame(t = s$start_fail[1], fail_rate = s$fail_rate[1], event = sum(s$event))
-    })
-    ans <- do.call(rbind, ans)
+    # Use aggregate for more efficient grouping (performance improvement)
+    ans <- aggregate(event ~ start_fail + fail_rate, data = ans, FUN = sum)
+    ans <- ans[, c("start_fail", "fail_rate", "event")]
+    names(ans)[1] <- "t"
     row.names(ans) <- NULL
   }
   return(ans)

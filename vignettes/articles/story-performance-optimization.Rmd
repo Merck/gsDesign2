@@ -1,0 +1,154 @@
+---
+title: "Performance Optimization Tips for gsDesign2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Performance Optimization Tips for gsDesign2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+The `gsDesign2` package provides powerful tools for group sequential design under non-proportional hazards. While the computational complexity of these designs can be substantial, there are several strategies to optimize performance.
+
+## Key Performance Improvements
+
+### Recent Performance Improvements
+
+Recent versions include the following performance optimizations:
+
+1. **Optimized Loop Operations**: Replaced inefficient `rbind` operations in loops with pre-allocated lists, reducing time complexity from O(n²) to O(n) in `gs_info_ahr()`.
+
+2. **Improved Aggregation**: Replaced `lapply` + `split` + `do.call(rbind)` patterns with more efficient `aggregate()` operations in `expected_event()`.
+
+3. **Function Memoization**: The package includes automatic caching of expensive function calls to avoid redundant computations.
+
+## Performance Tips for Users
+
+### 1. Use Vectorized Operations
+
+When possible, specify multiple analysis times in a single call rather than calling functions repeatedly:
+
+```{r, eval=FALSE}
+# Efficient: Single call with multiple times
+gs_info_ahr(analysis_time = c(18, 27, 36))
+
+# Less efficient: Multiple individual calls
+result1 <- gs_info_ahr(analysis_time = 18)
+result2 <- gs_info_ahr(analysis_time = 27)
+result3 <- gs_info_ahr(analysis_time = 36)
+```
+
+### 2. Enable Cache Reporting (Optional)
+
+To monitor cache performance during development:
+
+```{r, eval=FALSE}
+options(gsDesign2.cache.report = TRUE)
+# Your analysis code here
+options(gsDesign2.cache.report = FALSE)
+```
+
+### 3. Reduce Complexity When Possible
+
+- **Fewer strata**: Stratified designs are more computationally intensive. Use stratification only when necessary.
+- **Fewer change points**: Piecewise constant rates with many change points increase computation time.
+- **Calendar-based designs**: Using `analysis_time` is generally faster than event-driven designs with complex `event` and `analysis_time` combinations.
+
+### 4. Parallel Processing for Multiple Scenarios
+
+When evaluating multiple independent design scenarios, consider using parallel processing:
+
+```{r, eval=FALSE}
+library(parallel)
+
+scenarios <- list(
+  list(alpha = 0.025, beta = 0.1),
+  list(alpha = 0.025, beta = 0.2),
+  list(alpha = 0.01, beta = 0.1)
+)
+
+results <- mclapply(scenarios, function(s) {
+  gs_design_ahr(alpha = s$alpha, beta = s$beta)
+}, mc.cores = 3)
+```
+
+## Benchmarking Your Code
+
+For critical analyses, benchmark your code to identify bottlenecks:
+
+```{r, eval=FALSE}
+library(tictoc)
+
+tic("Design calculation")
+design <- gs_design_ahr(
+  analysis_time = c(12, 24, 36),
+  alpha = 0.025,
+  beta = 0.2
+)
+toc()
+```
+
+## Expected Performance
+
+Typical performance for common operations (may vary by system):
+
+- `gs_info_ahr()` with 3 analyses: 1-3 seconds
+- `gs_design_ahr()` with 3 analyses: 3-10 seconds  
+- `gs_design_combo()` with spending bounds: 10-30 seconds
+- `gs_power_wlr()` with 3 analyses: 5-15 seconds
+
+Complex designs with:
+- Multiple strata
+- Many piecewise rate changes
+- Both event and time-driven analyses
+- Spending function boundary derivation
+
+...may require 30-60 seconds or more.
+
+## Troubleshooting Slow Performance
+
+If you experience unexpectedly slow performance:
+
+1. **Check input complexity**: Simplify enrollment and failure rate specifications where possible.
+
+2. **Verify convergence parameters**: The `interval` parameter in some functions affects root-finding performance. Tighten the interval if you know approximate solution bounds.
+
+3. **Update to latest version**: Performance improvements are ongoing. Ensure you're using the latest package version:
+
+```{r, eval=FALSE}
+packageVersion("gsDesign2")
+```
+
+4. **Profile your code**: Use R's profiling tools to identify specific bottlenecks:
+
+```{r, eval=FALSE}
+Rprof("profile.out")
+# Your code here
+Rprof(NULL)
+summaryRprof("profile.out")
+```
+
+## Reporting Performance Issues
+
+If you encounter performance issues not addressed by these tips, please report them on GitHub with:
+
+- A minimal reproducible example
+- Your system specifications
+- Package version information
+- Expected vs. actual timing
+
+This helps us continue improving the package for all users.
+
+## Additional Resources
+
+- See `inst/example_run_time/timer.Rmd` for detailed timing examples
+- Check the package NEWS for recent performance improvements
+- Visit our GitHub issues for known performance considerations

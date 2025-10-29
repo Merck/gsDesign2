@@ -134,12 +134,14 @@ gs_info_ahr <- function(enroll_rate = define_enroll_rate(duration = c(2, 2, 10),
       }
     }
   } else {
+    # Pre-allocate list to avoid repeated rbind (performance improvement)
+    avehr_list <- vector("list", length(event))
     for (i in seq_along(event)) {
-      avehr <- rbind(avehr,
-                     expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate,
-                                   ratio = ratio, target_event = event[i],
-                                   interval = interval))
+      avehr_list[[i]] <- expected_time(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                                       ratio = ratio, target_event = event[i],
+                                       interval = interval)
     }
+    avehr <- do.call(rbind, avehr_list)
   }
 
   # -------------------------- #
