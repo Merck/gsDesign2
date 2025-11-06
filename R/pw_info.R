@@ -175,7 +175,6 @@ pw_info <- function(
 
   # pool strata together for each time period
   tbl_event <- tbl_event[, .(
-    t = min(t),
     event = sum(event),
     info0 = sum(info0),
     info = sum(info)
@@ -186,7 +185,6 @@ pw_info <- function(
   # -------------------------------------- #
   # merge 2 tables tbl_n and tbl_event, where they share the same time, t, stratum
   ans <- tbl_event[tbl_n, on = c("time", "stratum", "t")]
-  ans[, t.1 := NULL]
 
   # filter out the rows with 0 events and unneeded columns
   ans <- ans[!almost_equal(event, 0L), .(time, stratum, t, hr, n, event, info, info0)]
