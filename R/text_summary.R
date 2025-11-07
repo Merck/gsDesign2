@@ -63,6 +63,15 @@
 #'                                fail_rate = log(2) / 10, dropout_rate = 0.001),
 #'   info_frac = 1:3/3, test_lower = FALSE) |>
 #'   text_summary()
+#'
+#' # Text summary of a fixed design created with gs_design_ahr()
+#' x <- gs_design_ahr(
+#'   upper = gs_b,
+#'   lower = gs_b,
+#'   upar = qnorm(1 - 0.025),
+#'   lpar = -Inf
+#' )
+#' x |> text_summary()
 text_summary <- function(x, information = FALSE, time_unit = "months") {
 
   n_analysis <- nrow(x$analysis)
@@ -175,26 +184,29 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
   # Add enrollment and study duration
   # ---------------------------------------- #
   out <- paste(out, ". Enrollment and total study durations are assumed to be ", round(sum(x$enroll_rate$duration), 1),
-               " and ", round(max(x$analysis$time), 1), " ", time_unit, ", respectively",
+               " and ", round(max(x$analysis$time), 1), " ", time_unit, ", respectively.",
                sep = "")
 
   # ---------------------------------------- #
   # Add upper bounds derivation
   # ---------------------------------------- #
-  if (identical(x$input$upper, gs_spending_bound) && identical(x$input$lower, gs_spending_bound) &&
-      identical(x$input$upar, x$input$lpar) && x$input$binding && !x$input$h1_spending) {
-    out <- paste(out, ". Bounds derived using a ", sep = "")
-  } else {
-    out <- paste(out, ". Efficacy bounds derived using a", sep = "")
-  }
+  # A fixed design with one analysis has no bounds
+  if (n_analysis > 1) {
+    if (identical(x$input$upper, gs_spending_bound) && identical(x$input$lower, gs_spending_bound) &&
+        identical(x$input$upar, x$input$lpar) && x$input$binding && !x$input$h1_spending) {
+      out <- paste(out, " Bounds derived using a ", sep = "")
+    } else {
+      out <- paste(out, " Efficacy bounds derived using a", sep = "")
+    }
 
-  analysis_seq <- c(paste("IA", 1:(n_analysis - 1), sep = ""), "FA")
-  sfu <- get_sf(x$input$upar$sf)
-  upper_text <- sfu(alpha = x$input$upar$total_spend, t = x$analysis$info_frac, param = x$input$upar$param)
-  upper_tested <- if (!all(x$input$test_upper)) {
-    paste(", tested at", paste("tested at", paste(analysis_seq[x$input$test_upper], collapse = ", ")))
+    analysis_seq <- c(paste("IA", 1:(n_analysis - 1), sep = ""), "FA")
+    sfu <- get_sf(x$input$upar$sf)
+    upper_text <- sfu(alpha = x$input$upar$total_spend, t = x$analysis$info_frac, param = x$input$upar$param)
+    upper_tested <- if (!all(x$input$test_upper)) {
+      paste(", tested at", paste("tested at", paste(analysis_seq[x$input$test_upper], collapse = ", ")))
+    }
+    out <- paste(out, " ", summary(upper_text), upper_tested, ".", sep = "")
   }
-  out <- paste(out, " ", summary(upper_text), upper_tested, ".", sep = "")
 
   # ---------------------------------------- #
   # Add lower bounds derivation

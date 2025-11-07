@@ -59,4 +59,13 @@ gs_design_ahr(
                                fail_rate = log(2) / 10, dropout_rate = 0.001),
   info_frac = 1:3/3, test_lower = FALSE) |>
   text_summary()
+
+# Text summary of a fixed design created with gs_design_ahr()
+x <- gs_design_ahr(
+  upper = gs_b,
+  lower = gs_b,
+  upar = qnorm(1 - 0.025),
+  lpar = -Inf
+)
+x |> text_summary()
 }
