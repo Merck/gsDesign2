@@ -116,6 +116,16 @@
 <span class="r-in"><span>  info_frac <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">/</span><span class="fl">3</span>, test_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">text_summary</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "One-sided group sequential design with 3 analyses, time-to-event outcome with sample size 290.5 and 218 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect piecewise hazard ratio. Enrollment and total study durations are assumed to be 14 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Text summary of a fixed design created with gs_design_ahr()</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="gs_design_ahr.html">gs_design_ahr</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
+<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">|&gt;</span> <span class="fu">text_summary</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "One-sided group sequential design with 1 analyses, time-to-event outcome with sample size 476 and 291.9 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect hazard ratio of 0.9 during the first 3 months and 0.6 thereafter. Enrollment and total study durations are assumed to be 14 and 36 months, respectively."</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -123,7 +133,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">
