@@ -343,9 +343,18 @@ gs_power_rd <- function(
       select(analysis, n, rd, rd0, theta1, theta0, info, info0, info_frac, info_frac0)
   )
 
+  # Get input parameters to output ----
+  input <- list(
+    p_c = p_c, p_e = p_e, n = n, rd0 = rd0, ratio = ratio, weight = weight,
+    upper = upper, lower = lower, upar = upar, lpar = lpar,
+    info_scale = info_scale, binding = binding, test_upper = test_upper,
+    test_lower = test_lower, r = r, tol = tol
+  )
+
   ans <- structure(
     list(
       design = "rd",
+      input = input,
       bound = bound |> filter(!is.infinite(z)),
       analysis = analysis
     ),
