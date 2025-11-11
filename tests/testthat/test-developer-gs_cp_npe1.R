@@ -1,6 +1,6 @@
 library(gsDesign)
 
-test_that("Compare the gs_cp_npe with gsDesign::gsCP", {
+test_that("Compare the gs_cp_npe1 with gsDesign::gsCP", {
   # ------------------------------ #
   #         parameters             #
   # ------------------------------ #
@@ -63,26 +63,26 @@ test_that("Compare the gs_cp_npe with gsDesign::gsCP", {
   # ----------------------------------------- #
   #  conditional power by gs_cp_npe under H0  #
   # ----------------------------------------- #
-  cp12_0 <- gs_cp_npe(theta = c(0,0),
+  cp12_0 <- gs_cp_npe1(theta = c(0,0),
                       info = x$analysis$info0[c(1,2)],
-                      a = -qnorm(0.04),
+                      c = -qnorm(0.04),
                       b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2])
 
-  cp13_0 <- gs_cp_npe(theta = c(0,0),
+  cp13_0 <- gs_cp_npe1(theta = c(0,0),
                       info = x$analysis$info0[c(1,3)],
-                      a = -qnorm(0.04),
+                      c = -qnorm(0.04),
                       b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
   # ----------------------------------------- #
   #  conditional power by gs_cp_npe under H1  #
   # ----------------------------------------- #
-  cp12_1 <- gs_cp_npe(theta = x$analysis$theta[c(1,2)],
+  cp12_1 <- gs_cp_npe1(theta = x$analysis$theta[c(1,2)],
                     info = x$analysis$info[c(1,2)],
-                    a = -qnorm(0.04),
+                    c = -qnorm(0.04),
                     b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2])
 
-  cp13_1 <- gs_cp_npe(theta = x$analysis$theta[c(1,3)],
+  cp13_1 <- gs_cp_npe1(theta = x$analysis$theta[c(1,3)],
                     info = x$analysis$info[c(1,3)],
-                    a = -qnorm(0.04),
+                    c = -qnorm(0.04),
                     b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
 
   # ------------------------------ #

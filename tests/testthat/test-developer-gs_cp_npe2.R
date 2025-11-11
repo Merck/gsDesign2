@@ -65,9 +65,9 @@ test_that("Compare the gs_cp_npe2 with gsDesign::gsCP", {
                              b = x_gsd$upper$bound[2:3]
                              )
 
-  gsDesign2_simple_cp <- gs_cp_npe(theta = c(-log(0.8), -log(0.8)),
+  gsDesign2_simple_cp <- gs_cp_npe1(theta = c(-log(0.8), -log(0.8)),
                                    info = x_gsd$n.I[1:2] / 4,
-                                   a = -qnorm(0.04),
+                                   c = -qnorm(0.04),
                                    b = x_gsd$upper$bound[2])
   # IA2's CP given IA1
   expect_equal(gsDesign_cp$upper$prob[1],
