@@ -32,7 +32,15 @@ prob_beta is a vector of c(beta_i,i+1, ..., beta_i,j-1, beta_i,j) where beta_i,j
 Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
 }
 \details{
-
+We assume \eqn{Z_i, i = 1, ..., K} are the z-values at an interim analysis i, respectively.
+We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
+\deqn{E(Z_i) = \theta_i\sqrt{I_i}}
+\deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}}
+See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
+Returned value is list of
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
 }
 \examples{
 library(gsDesign2)
@@ -61,9 +69,9 @@ x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    alpha = 0.025, beta = 0.1, ratio = 1,
                    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
                    binding = FALSE,
-                   upper = "gs_spending_bound",
-                   upar = list(sf = "sfLDOF", total_spend = 0.025, param = NULL),
-                   lower = "gs_b",
+                   upper = gs_spending_bound,
+                   upar = list(sf = sfLDOF, total_spend = 0.025, param = NULL),
+                   lower = gs_b,
                    lpar = c(-Inf, -Inf, -Inf),
                    h1_spending = TRUE,
                    test_lower = FALSE,
@@ -100,15 +108,15 @@ gs_cp_npe2(# IA1, IA2 and IA3's theta
 
 # case 3: currently at IA1, compute conditional power at IA2, IA3 and FA
 gs_cp_npe2(# IA1, IA2, IA3 and FA's theta
-           theta = x$analysis$theta[1:3],
+           theta = x$analysis$theta[1:4],
            # IA1, IA2, IA3 and FA's information fraction
-           t = x$analysis$info_frac[1:3],
+           t = x$analysis$info_frac[1:4],
            # IA1, IA2, IA3 and FA's statistical information
-           info = x$analysis$info[1:3],
+           info = x$analysis$info[1:4],
            # IA2, IA3 and FA's futility bound
-           a = c(-Inf, Inf),
+           a = c(-Inf, -Inf, -Inf),
            # IA2, IA3 and FA's efficacy bound
-           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis \%in\% c(2, 3)],
+           b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis \%in\% c(2, 3, 4)],
            # IA1's Z-score
            c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 }
