@@ -101,9 +101,11 @@ fixed_design_rmst(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
+created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
-\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum
+created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 
 \item{alpha}{One-sided Type I error (strictly between 0 and 1).}
 

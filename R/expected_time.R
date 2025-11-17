@@ -27,7 +27,6 @@
 #'
 #' @inheritParams ahr
 #' @param target_event The targeted number of events to be achieved.
-#' @param ratio Experimental:Control randomization ratio.
 #' @param interval An interval that is presumed to include the time at which
 #'   expected event count is equal to `target_event`.
 #'

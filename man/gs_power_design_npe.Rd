@@ -88,13 +88,28 @@ This is often used for testing methods that use local alternatives, such as the 
 
 \item{beta}{Type II error.}
 
-\item{upper}{Function to compute upper bound.}
+\item{upper}{Function to compute upper bound.
+\itemize{
+\item \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+\item \code{gs_b()}: fixed efficacy bounds.
+}}
 
-\item{upar}{Parameters passed to \code{upper}.}
+\item{upar}{Parameters passed to \code{upper}.
+\itemize{
+\item If \code{upper = gs_b}, then \code{upar} is a numerical vector specifying the fixed efficacy bounds per analysis.
+\item If \code{upper = gs_spending_bound}, then \code{upar} is a list including
+\itemize{
+\item \code{sf} for the spending function family.
+\item \code{total_spend} for total alpha spend.
+\item \code{param} for the parameter of the spending function.
+\item \code{timing} specifies spending time if different from information-based spending; see details.
+}
+}}
 
-\item{lower}{Function to compare lower bound.}
+\item{lower}{Function to compute lower bound, which can be set up similarly as \code{upper}.
+See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html}{this vignette}.}
 
-\item{lpar}{parameters passed to \code{lower}.}
+\item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
 \item{test_upper}{Indicator of which analyses should include
 an upper (efficacy) bound;
@@ -116,7 +131,7 @@ Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
 Normally, \code{r} will not be changed by the user.}
 
-\item{tol}{Tolerance parameter for boundary convergence (on Z-scale).}
+\item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 }
 \value{
 A tibble with columns of
