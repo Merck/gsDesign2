@@ -30,9 +30,11 @@ gs_design_wlr(
 )
 }
 \arguments{
-\item{enroll_rate}{Enrollment rates defined by \code{define_enroll_rate()}.}
+\item{enroll_rate}{An \code{enroll_rate} data frame with or without stratum
+created by \code{\link[=define_enroll_rate]{define_enroll_rate()}}.}
 
-\item{fail_rate}{Failure and dropout rates defined by \code{define_fail_rate()}.}
+\item{fail_rate}{A \code{fail_rate} data frame with or without stratum
+created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 
 \item{weight}{Weight of weighted log rank test:
 \itemize{
@@ -59,6 +61,7 @@ gs_design_wlr(
 \itemize{
 \item \code{"h0_h1_info"} (default): variance under both null and alternative hypotheses is used.
 \item \code{"h0_info"}: variance under null hypothesis is used.
+This is often used for testing methods that use local alternatives, such as the Schoenfeld method.
 \item \code{"h1_info"}: variance under alternative hypothesis is used.
 }}
 
@@ -90,16 +93,17 @@ See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
-\item{test_upper}{Indicator of which analyses should include an upper
-(efficacy) bound; single value of \code{TRUE} (default) indicates all analyses;
-otherwise, a logical vector of the same length as \code{info} should indicate
-which analyses will have an efficacy bound.}
+\item{test_upper}{Indicator of which analyses should include
+an upper (efficacy) bound;
+single value of \code{TRUE} (default) indicates all analyses; otherwise,
+a logical vector of the same length as \code{info} should
+indicate which analyses will have an efficacy bound.}
 
-\item{test_lower}{Indicator of which analyses should include an lower bound;
+\item{test_lower}{Indicator of which analyses should include a lower bound;
 single value of \code{TRUE} (default) indicates all analyses;
-single value \code{FALSE} indicated no lower bound; otherwise, a logical vector
-of the same length as \code{info} should indicate which analyses will have a
-lower bound.}
+single value of \code{FALSE} indicated no lower bound; otherwise,
+a logical vector of the same length as \code{info} should
+indicate which analyses will have a lower bound.}
 
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})

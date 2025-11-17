@@ -22,7 +22,7 @@ created by \code{\link[=define_fail_rate]{define_fail_rate()}}.}
 \item{total_duration}{Total follow-up from start of enrollment to data
 cutoff; this can be a single value or a vector of positive numbers.}
 
-\item{ratio}{Ratio of experimental to control randomization.}
+\item{ratio}{Experimental:Control randomization ratio.}
 }
 \value{
 A data frame with \code{time} (from \code{total_duration}), \code{stratum}, \code{t},
