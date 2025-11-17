@@ -17,53 +17,23 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Calculate sample size and bounds given targeted power and Type I error in group sequential design using average hazard ratio under non-proportional hazards
+#' @inheritParams gs_power_design_npe
 #'
-#' @param enroll_rate Enrollment rates defined by \code{define_enroll_rate()}.
-#' @param fail_rate Failure and dropout rates defined by \code{define_fail_rate()}.
+#' @param enroll_rate An `enroll_rate` data frame with or without stratum
+#'   created by [define_enroll_rate()].
+#' @param fail_rate A `fail_rate` data frame with or without stratum
+#'   created by [define_fail_rate()].
 #' @param ratio Experimental:Control randomization ratio.
 #' @param alpha One-sided Type I error.
 #' @param beta Type II error.
 #' @param info_frac Targeted information fraction for analyses. See details.
 #' @param analysis_time Targeted calendar timing of analyses. See details.
-#' @param binding Indicator of whether futility bound is binding;
-#'   default of `FALSE` is recommended.
-#' @param upper Function to compute upper bound.
-#'   - \code{gs_spending_bound()}: alpha-spending efficacy bounds.
-#'   - \code{gs_b()}: fixed efficacy bounds.
-#' @param upar Parameters passed to `upper`.
-#'   - If `upper = gs_b`, then `upar` is a numerical vector specifying the fixed efficacy bounds per analysis.
-#'   - If `upper = gs_spending_bound`, then `upar` is a list including
-#'       - `sf` for the spending function family.
-#'       - `total_spend` for total alpha spend.
-#'       - `param` for the parameter of the spending function.
-#'       - `timing` specifies spending time if different from information-based spending; see details.
-#' @param lower Function to compute lower bound, which can be set up similarly as `upper`.
-#' See [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
-#' @param lpar Parameters passed to `lower`, which can be set up similarly as `upar.`
-#' @param info_scale Information scale for calculation. Options are:
-#'   - `"h0_h1_info"` (default): variance under both null and alternative hypotheses is used.
-#'   - `"h0_info"`: variance under null hypothesis is used.
-#'   - `"h1_info"`: variance under alternative hypothesis is used.
 #' @param h1_spending Indicator that lower bound to be set by spending
 #'   under alternate hypothesis (input `fail_rate`)
 #'   if spending is used for lower bound.
 #'   If this is `FALSE`, then the lower bound spending is under the null hypothesis.
 #'   This is for two-sided symmetric or asymmetric testing under the null hypothesis;
 #'   See [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
-#' @param test_upper Indicator of which analyses should include an upper
-#'   (efficacy) bound; single value of `TRUE` (default) indicates all analyses;
-#'   otherwise, a logical vector of the same length as `info` should indicate
-#'   which analyses will have an efficacy bound.
-#' @param test_lower Indicator of which analyses should include an lower bound;
-#'   single value of `TRUE` (default) indicates all analyses;
-#'   single value `FALSE` indicated no lower bound; otherwise, a logical vector
-#'   of the same length as `info` should indicate which analyses will have a
-#'   lower bound.
-#' @param r Integer value controlling grid for numerical integration as in
-#'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
-#'   Larger values provide larger number of grid points and greater accuracy.
-#'   Normally, `r` will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.
 #' @param interval An interval presumed to include the times at which
 #'   expected event count is equal to targeted event.
 #'   Normally, this can be ignored by the user as it is set to `c(.01, 1000)`.

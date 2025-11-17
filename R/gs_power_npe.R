@@ -69,9 +69,18 @@
 #' @param binding Indicator of whether futility bound is binding;
 #'   default of `FALSE` is recommended.
 #' @param upper Function to compute upper bound.
-#' @param lower Function to compare lower bound.
+#'   - \code{gs_spending_bound()}: alpha-spending efficacy bounds.
+#'   - \code{gs_b()}: fixed efficacy bounds.
+#' @param lower Function to compute lower bound, which can be set up similarly as `upper`.
+#' See [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
 #' @param upar Parameters passed to `upper`.
-#' @param lpar parameters passed to `lower`.
+#'   - If `upper = gs_b`, then `upar` is a numerical vector specifying the fixed efficacy bounds per analysis.
+#'   - If `upper = gs_spending_bound`, then `upar` is a list including
+#'       - `sf` for the spending function family.
+#'       - `total_spend` for total alpha spend.
+#'       - `param` for the parameter of the spending function.
+#'       - `timing` specifies spending time if different from information-based spending; see details.
+#' @param lpar Parameters passed to `lower`, which can be set up similarly as `upar.`
 #' @param test_upper Indicator of which analyses should include
 #'   an upper (efficacy) bound;
 #'   single value of `TRUE` (default) indicates all analyses; otherwise,
@@ -86,7 +95,7 @@
 #'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 #'   Larger values provide larger number of grid points and greater accuracy.
 #'   Normally, `r` will not be changed by the user.
-#' @param tol Tolerance parameter for boundary convergence (on Z-scale).
+#' @param tol Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.
 #'
 #' @return A tibble with columns of
 #'   - `analysis`: analysis index.
