@@ -77,11 +77,13 @@
 
 
 <dl><dt id="arg-enroll-rate">enroll_rate<a class="anchor" aria-label="anchor" href="#arg-enroll-rate"></a></dt>
-<dd><p>Enrollment rates defined by <code><a href="define_enroll_rate.html">define_enroll_rate()</a></code>.</p></dd>
+<dd><p>An <code>enroll_rate</code> data frame with or without stratum
+created by <code><a href="define_enroll_rate.html">define_enroll_rate()</a></code>.</p></dd>
 
 
 <dt id="arg-fail-rate">fail_rate<a class="anchor" aria-label="anchor" href="#arg-fail-rate"></a></dt>
-<dd><p>Failure and dropout rates defined by <code><a href="define_fail_rate.html">define_fail_rate()</a></code>.</p></dd>
+<dd><p>A <code>fail_rate</code> data frame with or without stratum
+created by <code><a href="define_fail_rate.html">define_fail_rate()</a></code>.</p></dd>
 
 
 <dt id="arg-weight">weight<a class="anchor" aria-label="anchor" href="#arg-weight"></a></dt>
@@ -115,7 +117,8 @@
 
 <dt id="arg-info-scale">info_scale<a class="anchor" aria-label="anchor" href="#arg-info-scale"></a></dt>
 <dd><p>Information scale for calculation. Options are:</p><ul><li><p><code>"h0_h1_info"</code> (default): variance under both null and alternative hypotheses is used.</p></li>
-<li><p><code>"h0_info"</code>: variance under null hypothesis is used.</p></li>
+<li><p><code>"h0_info"</code>: variance under null hypothesis is used.
+This is often used for testing methods that use local alternatives, such as the Schoenfeld method.</p></li>
 <li><p><code>"h1_info"</code>: variance under alternative hypothesis is used.</p></li>
 </ul></dd>
 
@@ -155,18 +158,19 @@ See <a href="https://merck.github.io/gsDesign2/articles/story-seven-test-types.h
 
 
 <dt id="arg-test-upper">test_upper<a class="anchor" aria-label="anchor" href="#arg-test-upper"></a></dt>
-<dd><p>Indicator of which analyses should include an upper
-(efficacy) bound; single value of <code>TRUE</code> (default) indicates all analyses;
-otherwise, a logical vector of the same length as <code>info</code> should indicate
-which analyses will have an efficacy bound.</p></dd>
+<dd><p>Indicator of which analyses should include
+an upper (efficacy) bound;
+single value of <code>TRUE</code> (default) indicates all analyses; otherwise,
+a logical vector of the same length as <code>info</code> should
+indicate which analyses will have an efficacy bound.</p></dd>
 
 
 <dt id="arg-test-lower">test_lower<a class="anchor" aria-label="anchor" href="#arg-test-lower"></a></dt>
-<dd><p>Indicator of which analyses should include an lower bound;
+<dd><p>Indicator of which analyses should include a lower bound;
 single value of <code>TRUE</code> (default) indicates all analyses;
-single value <code>FALSE</code> indicated no lower bound; otherwise, a logical vector
-of the same length as <code>info</code> should indicate which analyses will have a
-lower bound.</p></dd>
+single value of <code>FALSE</code> indicated no lower bound; otherwise,
+a logical vector of the same length as <code>info</code> should
+indicate which analyses will have a lower bound.</p></dd>
 
 
 <dt id="arg-h-spending">h1_spending<a class="anchor" aria-label="anchor" href="#arg-h-spending"></a></dt>

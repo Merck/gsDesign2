@@ -134,17 +134,39 @@ gs_power_npe(
 
   Function to compute upper bound.
 
+  - [`gs_spending_bound()`](https://merck.github.io/gsDesign2/reference/gs_spending_bound.md):
+    alpha-spending efficacy bounds.
+
+  - [`gs_b()`](https://merck.github.io/gsDesign2/reference/gs_b.md):
+    fixed efficacy bounds.
+
 - upar:
 
   Parameters passed to `upper`.
 
+  - If `upper = gs_b`, then `upar` is a numerical vector specifying the
+    fixed efficacy bounds per analysis.
+
+  - If `upper = gs_spending_bound`, then `upar` is a list including
+
+    - `sf` for the spending function family.
+
+    - `total_spend` for total alpha spend.
+
+    - `param` for the parameter of the spending function.
+
+    - `timing` specifies spending time if different from
+      information-based spending; see details.
+
 - lower:
 
-  Function to compare lower bound.
+  Function to compute lower bound, which can be set up similarly as
+  `upper`. See [this
+  vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
 
 - lpar:
 
-  parameters passed to `lower`.
+  Parameters passed to `lower`, which can be set up similarly as `upar.`
 
 - test_upper:
 
@@ -175,7 +197,8 @@ gs_power_npe(
 
 - tol:
 
-  Tolerance parameter for boundary convergence (on Z-scale).
+  Tolerance parameter for boundary convergence (on Z-scale); normally
+  not changed by the user.
 
 ## Value
 

@@ -28,12 +28,12 @@ gs_power_combo(
 
 - enroll_rate:
 
-  Enrollment rates defined by
+  An `enroll_rate` data frame with or without stratum created by
   [`define_enroll_rate()`](https://merck.github.io/gsDesign2/reference/define_enroll_rate.md).
 
 - fail_rate:
 
-  Failure and dropout rates defined by
+  A `fail_rate` data frame with or without stratum created by
   [`define_fail_rate()`](https://merck.github.io/gsDesign2/reference/define_fail_rate.md).
 
 - fh_test:

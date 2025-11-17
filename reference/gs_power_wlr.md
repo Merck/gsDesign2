@@ -35,12 +35,12 @@ gs_power_wlr(
 
 - enroll_rate:
 
-  Enrollment rates defined by
+  An `enroll_rate` data frame with or without stratum created by
   [`define_enroll_rate()`](https://merck.github.io/gsDesign2/reference/define_enroll_rate.md).
 
 - fail_rate:
 
-  Failure and dropout rates defined by
+  A `fail_rate` data frame with or without stratum created by
   [`define_fail_rate()`](https://merck.github.io/gsDesign2/reference/define_fail_rate.md).
 
 - event:
@@ -113,8 +113,8 @@ gs_power_wlr(
 
 - test_lower:
 
-  Indicator of which analyses should include an lower bound; single
-  value of `TRUE` (default) indicates all analyses; single value `FALSE`
+  Indicator of which analyses should include a lower bound; single value
+  of `TRUE` (default) indicates all analyses; single value of `FALSE`
   indicated no lower bound; otherwise, a logical vector of the same
   length as `info` should indicate which analyses will have a lower
   bound.
@@ -142,7 +142,9 @@ gs_power_wlr(
   - `"h0_h1_info"` (default): variance under both null and alternative
     hypotheses is used.
 
-  - `"h0_info"`: variance under null hypothesis is used.
+  - `"h0_info"`: variance under null hypothesis is used. This is often
+    used for testing methods that use local alternatives, such as the
+    Schoenfeld method.
 
   - `"h1_info"`: variance under alternative hypothesis is used.
 

@@ -37,7 +37,7 @@ ahr(
 
 - ratio:
 
-  Ratio of experimental to control randomization.
+  Experimental:Control randomization ratio.
 
 ## Value
 
