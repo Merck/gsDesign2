@@ -119,8 +119,8 @@
 #' # Total number of expected events
 #' sapply(c("Biomarker-positive", "Biomarker-negative"),
 #'        function(ss){
-#'          expected_event(enroll_rate = enroll_rate |> filter(stratum == ss),
-#'                         fail_rate = failure_rate |> filter(stratum == ss),
+#'          expected_event(enroll_rate = enroll_rate[enroll_rate$stratum == ss, ],
+#'                         fail_rate = failure_rate[failure_rate$stratum == ss, ],
 #'                         total_duration = 36,
 #'                         simple = TRUE)}) |> sum()
 expected_event <- function(
