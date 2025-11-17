@@ -137,7 +137,7 @@ expected_event <- function(
     simple = TRUE) {
 
   # Report error where there is >=2 strata
-  if(length(unique(fail_rate$stratum)) >= 2) {stop("Please calculate the expected event by stratum, see examples. ")}
+  if(length(unique(fail_rate$stratum)) >= 2 || length(unique(enroll_rate$stratum)) >= 2) {stop("Please calculate the expected event by stratum, see examples. ")}
 
   # Divide the time line into sub-intervals ----
 
