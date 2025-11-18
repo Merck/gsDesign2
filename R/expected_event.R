@@ -116,13 +116,13 @@
 #'                                  duration = c(3, 100, 3, 100),
 #'                                  fail_rate = log(2) / c(8, 12, 8, 10),
 #'                                  dropout_rate = 0.001)
-#' # Total number of expected events
+#' # Number of expected events by stratum
 #' sapply(c("Biomarker-positive", "Biomarker-negative"),
 #'        function(ss){
 #'          expected_event(enroll_rate = enroll_rate[enroll_rate$stratum == ss, ],
 #'                         fail_rate = failure_rate[failure_rate$stratum == ss, ],
 #'                         total_duration = 36,
-#'                         simple = TRUE)}) |> sum()
+#'                         simple = TRUE)})
 expected_event <- function(
     enroll_rate = define_enroll_rate(
       duration = c(2, 2, 10),
