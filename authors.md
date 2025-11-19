@@ -45,7 +45,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Merck/gsDesign2/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Merck/gsDesign2/blob/v1.1.7/DESCRIPTION)
 
 Anderson K, Zhao Y, Zhang Y, Blischak J, Xie Y, Xiao N, Yang J (2025).
 *gsDesign2: Group Sequential Design with Non-Constant Effect*. R package
