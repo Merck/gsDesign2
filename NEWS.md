@@ -1,8 +1,19 @@
 # gsDesign2 1.1.7
 
-## User interface improvements
+## Documentation
 
+- The vignette discussing the futility boundary design is finalized (#583, thanks to @LittleBeannie)
+- An example calculating expected events for multiple strata is added (#597, thanks to @LittleBeannie)
+- The documentation of common parameters is unified by `@inheritparams` (#598, thanks to @LittleBeannie)
+- A contributing guide with overview of package architecture is added (#596, thanks to @jdblischak)
+
+## Programming improvements
+
+- The S3 classes are re-factored (#584, thanks to @jdblischak)
+- The input parameters are not displayed when printing the objects  (#586, thanks to @jdblischak)
 - `text_summary()` supports design objects with spending functions specified as character strings (#587, thanks to @yihui).
+- The attribute assignment `uninteger_is_from` is fixed in `to_integer()` (#591, thanks to @jdblischak)
+- `text_summary()` is updated to support fixed designs from `gs_design_ahr()` (#592, thanks to @jdblischak)
 
 # gsDesign2 1.1.6
 

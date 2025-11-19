@@ -109,13 +109,15 @@
 #' )
 #'
 #' # Single time period example, multiple strata
-#' enroll_rate <- define_enroll_rate(stratum = rep(c("Biomarker-positive", "Biomarker-negative"), each = 4),
-#'                                   duration = c(2, 2, 2, 6, 2, 2, 2, 6),
-#'                                   rate = c(1:4, 1:4))
-#' failure_rate <- define_fail_rate(stratum = rep(c("Biomarker-positive", "Biomarker-negative"), each = 2),
-#'                                  duration = c(3, 100, 3, 100),
-#'                                  fail_rate = log(2) / c(8, 12, 8, 10),
-#'                                  dropout_rate = 0.001)
+#' enroll_rate <- define_enroll_rate(
+#'   stratum = rep(c("Biomarker-positive", "Biomarker-negative"), each = 4),
+#'   duration = c(2, 2, 2, 6, 2, 2, 2, 6),
+#'   rate = c(1:4, 1:4))
+#' failure_rate <- define_fail_rate(
+#'   stratum = rep(c("Biomarker-positive", "Biomarker-negative"), each = 2),
+#'   duration = c(3, 100, 3, 100),
+#'   fail_rate = log(2) / c(8, 12, 8, 10),
+#'   dropout_rate = 0.001)
 #' # Number of expected events by stratum
 #' sapply(c("Biomarker-positive", "Biomarker-negative"),
 #'        function(ss){
