@@ -2,12 +2,42 @@
 
 ## gsDesign2 1.1.7
 
-### User interface improvements
+### Documentation
 
+- The vignette discussing the futility boundary design is finalized
+  ([\#583](https://github.com/Merck/gsDesign2/issues/583), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie))
+- An example calculating expected events for multiple strata is added
+  ([\#597](https://github.com/Merck/gsDesign2/issues/597), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie))
+- The documentation of common parameters is unified by `@inheritparams`
+  ([\#598](https://github.com/Merck/gsDesign2/issues/598), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie))
+- A contributing guide with overview of package architecture is added
+  ([\#596](https://github.com/Merck/gsDesign2/issues/596), thanks to
+  [@jdblischak](https://github.com/jdblischak))
+
+### Programming improvements
+
+- The S3 classes are re-factored
+  ([\#584](https://github.com/Merck/gsDesign2/issues/584), thanks to
+  [@jdblischak](https://github.com/jdblischak))
+- The input parameters are not displayed when printing the objects
+  ([\#586](https://github.com/Merck/gsDesign2/issues/586), thanks to
+  [@jdblischak](https://github.com/jdblischak))
 - [`text_summary()`](https://merck.github.io/gsDesign2/reference/text_summary.md)
   supports design objects with spending functions specified as character
   strings ([\#587](https://github.com/Merck/gsDesign2/issues/587),
   thanks to [@yihui](https://github.com/yihui)).
+- The attribute assignment `uninteger_is_from` is fixed in
+  [`to_integer()`](https://merck.github.io/gsDesign2/reference/to_integer.md)
+  ([\#591](https://github.com/Merck/gsDesign2/issues/591), thanks to
+  [@jdblischak](https://github.com/jdblischak))
+- [`text_summary()`](https://merck.github.io/gsDesign2/reference/text_summary.md)
+  is updated to support fixed designs from
+  [`gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md)
+  ([\#592](https://github.com/Merck/gsDesign2/issues/592), thanks to
+  [@jdblischak](https://github.com/jdblischak))
 
 ## gsDesign2 1.1.6
 
