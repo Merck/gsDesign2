@@ -119,7 +119,7 @@ h1 <- function(r = 18, theta = 0, info = 1, a = -Inf, b = Inf) {
 #' @param b Upper limit of integration (scalar `> a`).
 #' @param thetam1 Drift parameter for previous analysis.
 #' @param im1 Information at previous analysis.
-#' @param gm1 Numerical integration grid from [h1()] or previous run of [hupdate()].
+#' @param gm1 Numerical integration grid from `h1()` or previous run of `hupdate()`.
 #'
 #' @return A list with grid points in `z`,
 #'   numerical integration weights in `w`,
