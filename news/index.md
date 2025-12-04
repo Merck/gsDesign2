@@ -2,6 +2,8 @@
 
 ## gsDesign2 1.1.7
 
+CRAN release: 2025-11-19
+
 ### Documentation
 
 - The vignette discussing the futility boundary design is finalized
