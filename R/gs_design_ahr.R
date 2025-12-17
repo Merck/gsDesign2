@@ -337,6 +337,7 @@ gs_design_ahr <- function(
   allout$event <- allout$event * inflac_fct
   allout$n <- allout$n * inflac_fct
 
+
   # Get bounds to output ----
   bound <- allout |>
     select(all_of(c(
@@ -344,6 +345,42 @@ gs_design_ahr <- function(
       "z", "~hr at bound", "nominal p"
     ))) |>
     arrange(analysis, desc(bound))
+
+  # Output spending time to the bounds table
+  info0 <- (allout |> filter(bound == "upper"))$info0
+  info <- (allout |> filter(bound == "upper"))$info
+  info0_final <- (allout |> filter(analysis == n_analysis, bound == "upper"))$info0
+  info_final <- (allout |> filter(analysis == n_analysis, bound == "upper"))$info
+
+  bound$spending_time <- NA
+
+  if (identical(upper, gs_spending_bound)) {
+
+    if (!is.null(upar$timing)) {
+      spending_time_upper <- upar$timing
+    } else {
+      spending_time_upper <- info0 / info0_final
+    }
+
+
+    bound$spending_time[which(bound$bound == "upper")] <- spending_time_upper
+  }
+
+  if (identical(lower, gs_spending_bound)) {
+    if (!is.null(lpar$timing)) {
+      spending_time_lower <- lpar$timing
+    } else if (h1_spending) {
+      spending_time_lower <- info / info_final
+    } else if (!h1_spending) {
+      spending_time_lower <- info0 / info0_final
+    }
+
+    bound$spending_time[which(bound$bound == "lower")] <- spending_time_lower
+  }
+
+  if (all(is.na(bound$spending_time))){
+    bound$spending_time <- NULL
+  }
 
   # Get analysis summary to output ----
   analysis <- allout |>

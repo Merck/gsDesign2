@@ -14,6 +14,7 @@
   col_vars = NULL,
   col_decimals = NULL,
   bound_names = c("Efficacy", "Futility"),
+  display_spending_time = FALSE,
   ...
 )
 }
@@ -37,6 +38,9 @@ vector is named, you only have to specify the number of digits for the
 columns you want to be displayed differently than the defaults.}
 
 \item{bound_names}{Names for bounds; default is \code{c("Efficacy", "Futility")}.}
+
+\item{display_spending_time}{A logical value (TRUE/FALSE) indicating if the spending time
+is summarized in the table.}
 }
 \value{
 A summary table (data frame).

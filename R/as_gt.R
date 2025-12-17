@@ -271,11 +271,18 @@ as_gt.gs_design_summary <- function(
 # get different default columns to display
 gsd_columns <- function(columns, method, x) {
   # set different default columns to display
-  if (is.null(columns)) columns <- c(
-    "Analysis", "Bound", "Z", "Nominal p",
-    sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
-    "Alternate hypothesis", "Null hypothesis"
-  )
+  if (is.null(columns) && "Spending time" %in% names(x)){
+    columns <- c(
+      "Analysis", "Bound", "Z", "Spending time", "Nominal p",
+      sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
+      "Alternate hypothesis", "Null hypothesis")
+  } else if (is.null(columns) && !("Spending time" %in% names(x))) {
+    columns <- c(
+      "Analysis", "Bound", "Z", "Nominal p",
+      sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
+      "Alternate hypothesis", "Null hypothesis")
+  }
+
   # filter the columns to display as the output: if `Probability` is selected to
   # output, transform it to `c("Alternate hypothesis", "Null hypothesis")`
   if (any(i <- columns == "Probability"))

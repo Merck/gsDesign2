@@ -104,6 +104,8 @@ summary.fixed_design <- function(object, ...) {
 #'   vector is named, you only have to specify the number of digits for the
 #'   columns you want to be displayed differently than the defaults.
 #' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
+#' @param display_spending_time A logical value (TRUE/FALSE) indicating if the spending time
+#' is summarized in the table.
 #'
 #' @export
 #'
@@ -256,6 +258,7 @@ summary.gs_design <- function(object,
                               col_vars = NULL,
                               col_decimals = NULL,
                               bound_names = c("Efficacy", "Futility"),
+                              display_spending_time = FALSE,
                               ...) {
   x <- object
   x_bound <- x$bound
@@ -318,12 +321,22 @@ summary.gs_design <- function(object,
   )
 
   # Prepare the columns decimals ----
-  default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
-  default_vars <- c(
-    "analysis", "bound", "z",
-    sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
-    "nominal p", "Alternate hypothesis", "Null hypothesis"
-  )
+  if (display_spending_time) {
+    default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4, 4)
+    default_vars <- c(
+      "analysis", "bound", "z", "spending_time",
+      sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
+    )
+  } else {
+    default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
+    default_vars <- c(
+      "analysis", "bound", "z",
+      sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
+      "nominal p", "Alternate hypothesis", "Null hypothesis"
+    )
+  }
+
 
   # Filter columns and update decimal places
   col_decimals <- get_decimals(col_vars, col_decimals, default_vars, default_decimals)
@@ -388,7 +401,8 @@ cap_names <- function(x) {
     map, ahr = "AHR", event = "Events", rd = "Risk difference",
     probability = "Alternate hypothesis", probability0 = "Null hypothesis",
     info_frac0 = "Information fraction", info_frac = "Information fraction",
-    event_frac = "Event fraction"
+    event_frac = "Event fraction",
+    spending_time = "Spending time"
   )
   replace_names(x, map)
 }
