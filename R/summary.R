@@ -321,20 +321,16 @@ summary.gs_design <- function(object,
   )
 
   # Prepare the columns decimals ----
+  default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4, 4)
+  default_vars <- c(
+    "analysis", "bound", "z",
+    sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
+    "nominal p", "Alternate hypothesis", "Null hypothesis"
+  )
+
   if (display_spending_time) {
-    default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4, 4)
-    default_vars <- c(
-      "analysis", "bound", "z", "spending_time",
-      sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
-      "nominal p", "Alternate hypothesis", "Null hypothesis"
-    )
-  } else {
-    default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
-    default_vars <- c(
-      "analysis", "bound", "z",
-      sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
-      "nominal p", "Alternate hypothesis", "Null hypothesis"
-    )
+    default_decimals <- c(default_decimals[1:3], 4, default_decimals[4:length(default_decimals)])
+    default_vars <- c(default_vars[1:3], "spending_time", default_vars[4:length(default_vars)])
   }
 
 
