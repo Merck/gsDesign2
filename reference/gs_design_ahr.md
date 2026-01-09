@@ -238,10 +238,11 @@ gs_design_ahr()
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 1 × 7
+#> # A tibble: 1 × 8
 #>   analysis bound probability probability0     z `~hr at bound` `nominal p`
 #>      <dbl> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
 #> 1        1 upper         0.9        0.025  1.96          0.795      0.0250
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 1 × 10
@@ -272,10 +273,11 @@ gs_design_ahr(analysis_time = 40)
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 1 × 7
+#> # A tibble: 1 × 8
 #>   analysis bound probability probability0     z `~hr at bound` `nominal p`
 #>      <dbl> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
 #> 1        1 upper         0.9        0.025  1.96          0.791      0.0250
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 1 × 10
@@ -306,7 +308,7 @@ gs_design_ahr(analysis_time = c(12, 24, 36))
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 6 × 7
+#> # A tibble: 6 × 8
 #>   analysis bound probability probability0      z `~hr at bound` `nominal p`
 #>      <int> <chr>       <dbl>        <dbl>  <dbl>          <dbl>       <dbl>
 #> 1        1 upper     0.00248    0.0000538  3.87           0.459   0.0000538
@@ -315,6 +317,7 @@ gs_design_ahr(analysis_time = c(12, 24, 36))
 #> 4        2 lower     0.0556     0.830      0.953          0.884   0.170    
 #> 5        3 upper     0.900      0.0244     2.01           0.799   0.0222   
 #> 6        3 lower     0.100      0.976      2.01           0.799   0.0223   
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -348,7 +351,7 @@ gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 6 × 7
+#> # A tibble: 6 × 8
 #>   analysis bound probability probability0     z `~hr at bound` `nominal p`
 #>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
 #> 1        1 upper    0.000295   0.00000737  4.33          0.380  0.00000737
@@ -357,6 +360,7 @@ gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
 #> 4        2 lower    0.0570     0.843       1.01          0.878  0.157     
 #> 5        3 upper    0.900      0.0244      2.01          0.799  0.0221    
 #> 6        3 lower    0.100      0.976       2.01          0.799  0.0221    
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -391,7 +395,7 @@ gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 6 × 7
+#> # A tibble: 6 × 8
 #>   analysis bound probability probability0     z `~hr at bound` `nominal p`
 #>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
 #> 1        1 upper     0.00251    0.0000538  3.87          0.460   0.0000538
@@ -400,6 +404,7 @@ gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 #> 4        2 lower     0.0599     0.862      1.09          0.871   0.138    
 #> 5        3 upper     0.900      0.0243     2.02          0.799   0.0219   
 #> 6        3 lower     0.100      0.976      2.01          0.799   0.0220   
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -431,7 +436,7 @@ gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 6 × 7
+#> # A tibble: 6 × 8
 #>   analysis bound probability probability0     z `~hr at bound` `nominal p`
 #>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
 #> 1        1 upper     0.00510     0.000104  3.71          0.490    0.000104
@@ -440,6 +445,7 @@ gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
 #> 4        2 lower     0.0655      0.896     1.26          0.856    0.104   
 #> 5        3 upper     0.900       0.0241    2.03          0.799    0.0214  
 #> 6        3 lower     0.100       0.976     2.02          0.799    0.0216  
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -482,7 +488,7 @@ gs_design_ahr(
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 6 × 7
+#> # A tibble: 6 × 8
 #>   analysis bound probability probability0     z `~hr at bound` `nominal p`
 #>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
 #> 1        1 upper 0.00226        0.0000538  3.87          0.449   0.0000538
@@ -491,6 +497,7 @@ gs_design_ahr(
 #> 4        2 lower 0.00000125     0.00921   -2.36          1.37    0.991    
 #> 5        3 upper 0.900          0.0250     2.01          0.794   0.0222   
 #> 6        3 lower 0.00000128     0.0250    -2.01          1.26    0.978    
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -532,7 +539,7 @@ gs_design_ahr(
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 6 × 7
+#> # A tibble: 6 × 8
 #>   analysis bound probability probability0      z `~hr at bound` `nominal p`
 #>      <int> <chr>       <dbl>        <dbl>  <dbl>          <dbl>       <dbl>
 #> 1        1 upper     0.00305    0.0000538  3.87           0.481   0.0000538
@@ -541,6 +548,7 @@ gs_design_ahr(
 #> 4        2 lower     0.0823     0.874      1.13           0.871   0.129    
 #> 5        3 upper     0.900      0.0250     1.98           0.813   0.0240   
 #> 6        3 lower     0.100      0.975      1.97           0.813   0.0243   
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -581,12 +589,13 @@ gs_design_ahr(
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 3 × 7
+#> # A tibble: 3 × 8
 #>   analysis bound probability probability0     z `~hr at bound` `nominal p`
 #>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
 #> 1        1 upper    0.000619   0.00000679  4.35          0.435  0.00000679
 #> 2        2 upper    0.505      0.00371     2.68          0.719  0.00371   
 #> 3        3 upper    0.900      0.0125      2.28          0.785  0.0114    
+#> # ℹ 1 more variable: spending_time <dbl>
 #> 
 #> $analysis
 #> # A tibble: 3 × 10

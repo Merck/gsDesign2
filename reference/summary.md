@@ -16,6 +16,7 @@ summary(
   col_vars = NULL,
   col_decimals = NULL,
   bound_names = c("Efficacy", "Futility"),
+  display_spending_time = FALSE,
   ...
 )
 ```
@@ -56,6 +57,11 @@ summary(
 - bound_names:
 
   Names for bounds; default is `c("Efficacy", "Futility")`.
+
+- display_spending_time:
+
+  A logical value (TRUE/FALSE) indicating if the spending time is
+  summarized in the table.
 
 ## Value
 
