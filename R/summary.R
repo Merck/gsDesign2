@@ -321,7 +321,7 @@ summary.gs_design <- function(object,
   )
 
   # Prepare the columns decimals ----
-  default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4, 4)
+  default_decimals <- c(NA, NA, 2, if (method != "combo") 4, 4, 4, 4)
   default_vars <- c(
     "analysis", "bound", "z",
     sprintf("~%s at bound", switch(method, ahr = "hr", wlr = "whr", rd = "risk difference")),
