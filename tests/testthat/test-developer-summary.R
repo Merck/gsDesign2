@@ -287,3 +287,12 @@ test_that("summary.gs_design() accepts a named vector for col_decimals", {
     "'col_decimals' must be a named vector if 'col_vars' is not provided"
   )
 })
+
+# Output of spending time
+test_that("summary.gs_design() outputs spending time correctly", {
+  x <- gs_design_ahr(info_frac = 1:3/3) |> summary(display_spending_time = TRUE)
+  expect_true("Spending time" %in% names(x))
+
+  x <- gs_design_ahr(info_frac = 1:3/3) |> summary(display_spending_time = FALSE)
+  expect_false("Spending time" %in% names(x))
+})
