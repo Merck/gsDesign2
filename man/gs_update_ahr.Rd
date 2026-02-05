@@ -178,7 +178,7 @@ event_tbl <- data.frame(analysis = c(1, 1, 1, 1,
                                  75, 210, 76, 136,
                                  # event per interval per stratum at FA
                                  77, 245, 77, 170))
-observed_event <- (event_tbl |> group_by(analysis) |> summarize(x = sum(event)))$x
+observed_event <- (event_tbl |> dplyr::group_by(analysis) |> dplyr::summarize(x = sum(event)))$x
 
 ustime <- pmin(x$analysis$event,
                observed_event) / x$analysis$event[3]
