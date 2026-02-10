@@ -119,4 +119,76 @@ gs_update_ahr(
 
 # Alpha is updated to 0.05
 gs_update_ahr(x = x, alpha = 0.05)
+
+# ------------------------------------------------- #
+# Two-sided asymmetric stratified design,
+# beta-spending with non-binding lower bound
+# ------------------------------------------------- #
+enroll_rate <- define_enroll_rate(stratum = c("A", "B"), duration = c(12, 12), rate = c(1, 1))
+
+# We assumme there are 2 strata, "A" and "B".
+# For each stratum, there are delayed effect for the first 3 months.
+# After the delayed effect, the HR is 0.8 for stratum A and 0.5 for stratum B.
+fail_rate <- define_fail_rate(stratum = c("A", "A", "B", "B"),
+                              duration = c(3, Inf, 3, Inf),
+                              fail_rate = log(2) / c(9, 9, 9, 15),
+                              hr = c(1, 0.8, 1, 0.5),
+                              dropout_rate = rep(0.001, 4))
+
+# The original design assumes there are 2 IAs and 1 FA cutting by calendar time.
+# The efficacy testing is conducted at IA2 and FA.
+# The futility testing is conducted at IA1.
+x <- gs_design_ahr(enroll_rate = enroll_rate,
+                  fail_rate = fail_rate,
+                  alpha = 0.0125,
+                  beta = 0.1,
+                  analysis = c(20, 28, 36),
+                  upper = "gs_spending_bound",
+                  upar = list(sf = "sfLDOF", total_spend = 0.0125),
+                  lower = "gs_spending_bound",
+                  lpar = list(sf = "sfHSD", total_spend = 0.1, param = -8),
+                  test_upper = c(FALSE, TRUE, TRUE),
+                  test_lower = c(TRUE, FALSE, FALSE)) |> to_integer()
+
+# At time of analysis
+# For IA1,
+# - There are 70 events observed during the delayed effect period for stratum A.
+# - There are 150 events observed after the delayed effect period for stratum A.
+# - There are 75 events observed during the delayed effect period for stratum B.
+# - There are 90 events observed after the delayed effect period for stratum B.
+# For IA2,
+# - There are 75 events observed during the delayed effect period for stratum A.
+# - There are 210 events observed after the delayed effect period for stratum A.
+# - There are 76 events observed during the delayed effect period for stratum B.
+# - There are 136 events observed after the delayed effect period for stratum B.
+# For FA,
+# - There are 77 events observed during the delayed effect period for stratum A.
+# - There are 245 events observed after the delayed effect period for stratum A.
+# - There are 77 events observed during the delayed effect period for stratum B.
+# - There are 170 events observed after the delayed effect period for stratum B.
+event_tbl <- data.frame(analysis = c(1, 1, 1, 1,
+                                    2, 2, 2, 2,
+                                    3, 3, 3, 3),
+                       stratum = c("A", "A", "B", "B", # IA1
+                                   "A", "A", "B", "B", # IA2
+                                   "A", "A", "B", "B"),# FA
+                                 # event per interval per stratum at IA1
+                       event = c(70, 150, 75, 90,
+                                 # event per interval per stratum at IA2
+                                 75, 210, 76, 136,
+                                 # event per interval per stratum at FA
+                                 77, 245, 77, 170))
+observed_event <- (event_tbl |> dplyr::group_by(analysis) |> dplyr::summarize(x = sum(event)))$x
+
+ustime <- pmin(x$analysis$event,
+               observed_event) / x$analysis$event[3]
+ustime[3] <- 1
+lstime <- ustime
+
+xu <- gs_update_ahr(x = x,
+                    alpha = 0.015,
+                    ustime = ustime,
+                    lstime = lstime,
+                    event_tbl = event_tbl
+                    )
 }

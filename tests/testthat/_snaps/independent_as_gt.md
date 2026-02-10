@@ -14,7 +14,7 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} Power computed with average hazard ratio method.\\
+    \textsuperscript{\textit{1}}Power computed with average hazard ratio method.\\
     \end{minipage}
     \end{table}
 
@@ -34,7 +34,7 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} Custom footnote.\\
+    \textsuperscript{\textit{1}}Custom footnote.\\
     \end{minipage}
     \end{table}
 
@@ -54,7 +54,7 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} Power for Fleming-Harrington test  FH(0, 0) (logrank) using method of Yung and Liu.\\
+    \textsuperscript{\textit{1}}Power for Fleming-Harrington test  FH(0, 0) (logrank) using method of Yung and Liu.\\
     \end{minipage}
     \end{table}
 
@@ -68,7 +68,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}HR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -79,8 +79,8 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} Approximate hazard ratio to cross bound.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
     \end{minipage}
     \end{table}
 
@@ -94,7 +94,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}HR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -116,8 +116,8 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} Approximate hazard ratio to cross bound.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
     \end{minipage}
     \end{table}
 
@@ -131,7 +131,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -142,9 +142,9 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} Approximate hazard ratio to cross bound.\\
-    \textsuperscript{\textit{3}} wAHR is the weighted AHR.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
+    \textsuperscript{\textit{3}}wAHR is the weighted AHR.\\
     \end{minipage}
     \end{table}
 
@@ -158,7 +158,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability\textsuperscript{\textit{2}}} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}}\textsuperscript{\textit{2}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -180,10 +180,10 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} this table is generated by gs\_power\_wlr.\\
-    \textsuperscript{\textit{2}} the crossing probability.\\
-    \textsuperscript{\textit{3}} approximate weighted hazard ratio to cross bound.\\
-    \textsuperscript{\textit{4}} wAHR is the weighted AHR.\\
+    \textsuperscript{\textit{1}}this table is generated by gs\_power\_wlr.\\
+    \textsuperscript{\textit{2}}the crossing probability.\\
+    \textsuperscript{\textit{3}}approximate weighted hazard ratio to cross bound.\\
+    \textsuperscript{\textit{4}}wAHR is the weighted AHR.\\
     \end{minipage}
     \end{table}
 
@@ -197,7 +197,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr}
     \toprule
-     &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){4-5}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -219,8 +219,8 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} EF is event fraction. AHR is under regular weighted log rank test.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}EF is event fraction. AHR is under regular weighted log rank test.\\
     \end{minipage}
     \end{table}
 
@@ -234,7 +234,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}Risk difference at bound & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -245,7 +245,7 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
     \end{minipage}
     \end{table}
 
@@ -259,7 +259,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}Risk difference at bound & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -274,13 +274,13 @@
     \midrule\addlinespace[2.5pt]
     \multicolumn{6}{l}{Analysis: 3 N: 60 Risk difference: 0.05 Information fraction: 1} \\[2.5pt] 
     \midrule\addlinespace[2.5pt]
-    Efficacy & 1.99 & 0.0231 & 0.1951 & 0.0705 & 0.0238\textsuperscript{\textit{2}} \\ 
+    Efficacy & 1.99 & 0.0231 & 0.1951 & 0.0705 & \textsuperscript{\textit{2}}0.0238 \\ 
     \bottomrule
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} Cumulative alpha for final analysis (0.0238) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0012 = 0.0238) under the null hypothesis.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}Cumulative alpha for final analysis (0.0238) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0012 = 0.0238) under the null hypothesis.\\
     \end{minipage}
     \end{table}
 
@@ -294,7 +294,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -316,9 +316,9 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} Approximate hazard ratio to cross bound.\\
-    \textsuperscript{\textit{3}} wAHR is the weighted AHR.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
+    \textsuperscript{\textit{3}}wAHR is the weighted AHR.\\
     \end{minipage}
     \end{table}
 
@@ -332,7 +332,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative probability to cross boundaries} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative probability to cross boundaries}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & under H1 & under H0 \\ 
     \midrule\addlinespace[2.5pt]
@@ -354,9 +354,9 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} Approximate hazard ratio to cross bound.\\
-    \textsuperscript{\textit{3}} wAHR is the weighted AHR.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
+    \textsuperscript{\textit{3}}wAHR is the weighted AHR.\\
     \end{minipage}
     \end{table}
 
@@ -370,7 +370,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability\textsuperscript{\textit{2}}} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}}\textsuperscript{\textit{2}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -392,10 +392,10 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} this table is generated by gs\_power\_wlr.\\
-    \textsuperscript{\textit{2}} the crossing probability.\\
-    \textsuperscript{\textit{3}} approximate weighted hazard ratio to cross bound.\\
-    \textsuperscript{\textit{4}} wAHR is the weighted AHR.\\
+    \textsuperscript{\textit{1}}this table is generated by gs\_power\_wlr.\\
+    \textsuperscript{\textit{2}}the crossing probability.\\
+    \textsuperscript{\textit{3}}approximate weighted hazard ratio to cross bound.\\
+    \textsuperscript{\textit{4}}wAHR is the weighted AHR.\\
     \end{minipage}
     \end{table}
 
@@ -409,7 +409,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
-     &  &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){5-6}
     Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at bound\textsuperscript{\textit{2}} & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -428,9 +428,9 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} Approximate hazard ratio to cross bound.\\
-    \textsuperscript{\textit{3}} wAHR is the weighted AHR.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}Approximate hazard ratio to cross bound.\\
+    \textsuperscript{\textit{3}}wAHR is the weighted AHR.\\
     \end{minipage}
     \end{table}
 
@@ -444,7 +444,7 @@
     \fontsize{12.0pt}{14.0pt}\selectfont
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr}
     \toprule
-     &  &  & \multicolumn{2}{c}{Cumulative boundary crossing probability} \\ 
+     &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
     \cmidrule(lr){4-5}
     Bound & Nominal p\textsuperscript{\textit{1}} & Z & Alternate hypothesis & Null hypothesis \\ 
     \midrule\addlinespace[2.5pt]
@@ -466,8 +466,8 @@
     \end{tabular*}
     \begin{minipage}{\linewidth}
     \vspace{.05em}
-    \textsuperscript{\textit{1}} One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
-    \textsuperscript{\textit{2}} wAHR is the weighted AHR.\\
+    \textsuperscript{\textit{1}}One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.\\
+    \textsuperscript{\textit{2}}wAHR is the weighted AHR.\\
     \end{minipage}
     \end{table}
 
