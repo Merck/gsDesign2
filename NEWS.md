@@ -1,3 +1,18 @@
+# gsDesign2 1.1.8
+
+## New features
+
+- The `gs_design_ahr()` function has been updated to allow outputting spending time (#602, thanks to @LittleBeannie).
+
+## Documentation
+
+- Documentation has been migrated to roxygen2 7.3.3 for improved maintainability and consistency (#601, thanks to @jdblischak).
+- An example demonstrating how to update a stratified design at the time of analysis has been added to the `gs_update_ahr()` function documentation (#608, thanks to @LittleBeannie).
+
+## Testing
+
+- Additional developer tests of `gs_design_ahr()` have been added (#604, thanks to @LittleBeannie).
+
 # gsDesign2 1.1.7
 
 ## Documentation
