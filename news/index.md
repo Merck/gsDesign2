@@ -1,5 +1,36 @@
 # Changelog
 
+## gsDesign2 1.1.8
+
+### New features
+
+- The
+  [`gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md)
+  function has been updated to allow outputting spending time
+  ([\#602](https://github.com/Merck/gsDesign2/issues/602), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie)).
+
+### Documentation
+
+- Documentation has been migrated to roxygen2 7.3.3 for improved
+  maintainability and consistency
+  ([\#601](https://github.com/Merck/gsDesign2/issues/601), thanks to
+  [@jdblischak](https://github.com/jdblischak)).
+- An example demonstrating how to update a stratified design at the time
+  of analysis has been added to the
+  [`gs_update_ahr()`](https://merck.github.io/gsDesign2/reference/gs_update_ahr.md)
+  function documentation
+  ([\#608](https://github.com/Merck/gsDesign2/issues/608), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie)).
+
+### Testing
+
+- Additional developer tests of
+  [`gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md)
+  have been added
+  ([\#604](https://github.com/Merck/gsDesign2/issues/604), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie)).
+
 ## gsDesign2 1.1.7
 
 CRAN release: 2025-11-19

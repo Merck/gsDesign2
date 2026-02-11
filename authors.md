@@ -49,12 +49,12 @@ Source:
 
 Anderson K, Zhao Y, Zhang Y, Blischak J, Xie Y, Xiao N, Yang J (2026).
 *gsDesign2: Group Sequential Design with Non-Constant Effect*. R package
-version 1.1.7, <https://merck.github.io/gsDesign2/>.
+version 1.1.8, <https://merck.github.io/gsDesign2/>.
 
     @Manual{,
       title = {gsDesign2: Group Sequential Design with Non-Constant Effect},
       author = {Keaven Anderson and Yujie Zhao and Yilong Zhang and John Blischak and Yihui Xie and Nan Xiao and Jianxiao Yang},
       year = {2026},
-      note = {R package version 1.1.7},
+      note = {R package version 1.1.8},
       url = {https://merck.github.io/gsDesign2/},
     }
