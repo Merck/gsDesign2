@@ -374,7 +374,7 @@ gs_update_ahr <- function(
   #         Tidy outputs                #
   # ----------------------------------- #
   ans <- list()
-
+  
   ans$design <- x$design
 
   ans$enroll_rate <- x$enroll_rate

@@ -2,46 +2,87 @@
 % Please edit documentation in R/gs_cp_npe.R
 \name{gs_cp_npe}
 \alias{gs_cp_npe}
-\title{Conditional power computation with non-constant effect size}
+\title{Conditional power computation with non-constant effect size
+We assume \eqn{Z_i, i = 1, ..., K} are the z-values at an interim analysis i, respectively.
+We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
+\deqn{E(Z_i) = \theta_i\sqrt{I_i}}
+\deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}}
+See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
+For simple conditional power, the returned value is
+\deqn{P(Z_j > b \mid Z_i = c) = 1 - \Phi\left(\frac{b - \sqrt{t}c - \sqrt{I_j}(\theta_j - \theta_i\sqrt{t})}{\sqrt{1 - t}}\right)}
+For non-simple conditional power, the returned value is the list of
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.}
 \usage{
-gs_cp_npe(theta = NULL, info = NULL, a = NULL, b = NULL)
+gs_cp_npe(
+  theta = NULL,
+  t = NULL,
+  info = NULL,
+  a = NULL,
+  b = NULL,
+  c = NULL,
+  simple_cp = FALSE
+)
 }
 \arguments{
-\item{theta}{A vector of length two, which specifies the natural parameter for treatment effect.
+\item{theta}{For simple conditional power, \code{theta} is a vector of length two, which specifies the natural parameter for treatment effect.
 The first element of \code{theta} is the treatment effect of an interim analysis i.
-The second element of \code{theta} is the treatment effect of a future analysis j.}
+The second element of \code{theta} is the treatment effect of a future analysis j.
 
-\item{info}{A vector of two, which specifies the statistical information under the treatment effect \code{theta}.}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{         For non-simple conditional power, `theta` is a vector of j-i+1, which specifies the natural parameter for treatment effect.
+         The first element of `theta` is the treatment effect of an interim analysis i.
+         The second element of `theta` is the treatment effect of an interim analysis i+1.
+         ...
+         The last element of `theta` is the treatment effect of a future analysis j.
+}\if{html}{\out{</div>}}}
 
-\item{a}{Interim z-value at analysis i (scalar).}
+\item{t}{For non-simple conditional power, \code{t} is a vector of j-i+1, which specifies the information fraction under the treatment effect \code{theta}.}
 
-\item{b}{Future target z-value at analysis j (scalar).}
+\item{info}{For simple conditional power, \code{info} is a vector of length two, which specifies the statistical information under the treatment effect \code{theta}.
+For non-simple conditional power, \code{info} is a vector of j-i+1, which specifies the statistical information under the treatment effect \code{theta}.}
+
+\item{a}{For non-simple conditional power, \code{a} is a vector of length j-i, which specifies the futility bounds from analysis i+1 to analysis j.}
+
+\item{b}{For simple conditional power, \code{b} is a scalar which specifies the future target z-value at analysis j.
+For non-simple conditional power, \code{b} is a vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.}
+
+\item{c}{For both simple and non-simple conditional power, \code{c} is the interim z-value at analysis i (scalar).}
 }
 \value{
-A scalar with the conditional power \eqn{P(Z_2>b\mid Z_1=a)}.
+For simple conditional power, the function returns a scalar with the conditional power \eqn{P(Z_2 > b\mid Z_1 = c)}.
+For non-simple conditional power, the function returns a list of conditional powers:
+prob_alpha is a vector of c(alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+prob_alpha_plus is a vector of c(alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+prob_beta is a vector of c(beta_i,i+1, ..., beta_i,j-1, beta_i,j) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
 }
 \description{
 Conditional power computation with non-constant effect size
-}
-\details{
-We assume \eqn{Z_1} and \eqn{Z_2} are the z-values at an interim analysis and later analysis, respectively.
-We assume further \eqn{Z_1} and \eqn{Z_2} are bivariate normal with standard group sequential assumptions
-on independent increments where for \eqn{i=1,2}
+We assume \eqn{Z_i, i = 1, ..., K} are the z-values at an interim analysis i, respectively.
+We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
 \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
-\deqn{Var(Z_i) = 1/I_i}
-\deqn{Cov(Z_1, Z_2) = t \equiv I_1/I_2}
-where \eqn{\theta_1, \theta_2} are real values and \eqn{0<I_1<I_2}.
+\deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}}
 See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
-Returned value is
-\deqn{P(Z_2 > b \mid Z_1 = a) = 1 - \Phi\left(\frac{b - \sqrt{t}a - \sqrt{I_2}(\theta_2 - \theta_1\sqrt{t})}{\sqrt{1 - t}}\right)}
+For simple conditional power, the returned value is
+\deqn{P(Z_j > b \mid Z_i = c) = 1 - \Phi\left(\frac{b - \sqrt{t}c - \sqrt{I_j}(\theta_j - \theta_i\sqrt{t})}{\sqrt{1 - t}}\right)}
+For non-simple conditional power, the returned value is the list of
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
+\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
 }
 \examples{
 library(gsDesign2)
-
-# Calculate conditional power under arbitrary theta and info
+library(dplyr)
+library(mvtnorm)
+# Example 1 ----
+# Calculate conditional power under arbitrary theta, info and lower/upper bound
 # In practice, the value of theta and info commonly comes from a design.
 # More examples are available at the pkgdown vignettes.
-gs_cp_npe(theta = c(.1, .2),
-          info = c(15, 35),
-          a = 1.5, b = 1.96)
+gs_cp_npe(theta = c(0.1, 0.2, 0.3),
+           t = c(0.15, 0.35, 0.6),
+           info = c(15, 35, 60),
+           a = c(-0.5, -0.5),
+           b = c(1.8, 2.1),
+           c = 1.5,
+           simple_cp = TRUE)
 }
