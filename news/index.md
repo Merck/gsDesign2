@@ -2,6 +2,8 @@
 
 ## gsDesign2 1.1.8
 
+CRAN release: 2026-02-12
+
 ### New features
 
 - The

@@ -131,6 +131,7 @@ oneSided <- gsSurv(
   sfu = upar$sf, sfupar = upar$param,
 )
 oneSided |> gsBoundSummary()
+#> Method: LachinFoulkes 
 #>     Analysis              Value Efficacy
 #>    IA 1: 35%                  Z   3.6128
 #>       N: 356        p (1-sided)   0.0002
@@ -155,7 +156,7 @@ approximately 6 digits with precision parameters chosen (`r=32`,
 
 ``` r
 one_sided$bound$z - oneSided$upper$bound
-#> [1] -1.349247e-07  9.218765e-07  3.515345e-07
+#> [1] -1.349247e-07  9.218238e-07  3.514185e-07
 ```
 
 ### Example 2: Symmetric 2-sided design
@@ -209,6 +210,7 @@ Symmetric <-
     sfu = upar$sf, sfupar = upar$param
   )
 Symmetric |> gsBoundSummary()
+#> Method: LachinFoulkes 
 #>     Analysis              Value Efficacy Futility
 #>    IA 1: 35%                  Z   3.6128  -3.6128
 #>       N: 356        p (1-sided)   0.0002   0.0002
@@ -232,9 +234,9 @@ of accuracy.
 
 ``` r
 dplyr::filter(symmetric$bound, bound == "upper")$z - Symmetric$upper$bound
-#> [1] -1.349247e-07  9.218765e-07  4.092976e-07
+#> [1] -1.349247e-07  9.218238e-07  4.091816e-07
 dplyr::filter(symmetric$bound, bound == "lower")$z - Symmetric$lower$bound
-#> [1]  1.349247e-07 -9.218765e-07 -4.092976e-07
+#> [1]  1.349247e-07 -9.218238e-07 -4.091816e-07
 ```
 
 ### Example 3: Asymmetric 2-sided design with \\\beta\\-spending and binding futility
@@ -293,6 +295,7 @@ asymmetricBinding <- gsSurv(
   sfu = upar$sf, sfupar = upar$param, sfl = lpar$sf, sflpar = lpar$param
 )
 asymmetricBinding |> gsBoundSummary()
+#> Method: LachinFoulkes 
 #>     Analysis              Value Efficacy Futility
 #>    IA 1: 35%                  Z   3.6128   0.1436
 #>       N: 380        p (1-sided)   0.0002   0.4429
@@ -319,9 +322,9 @@ order to get convergence.
 
 ``` r
 dplyr::filter(asymmetric_binding$bound, bound == "upper")$z - asymmetricBinding$upper$bound
-#> [1] -1.349247e-07  2.505869e-04  6.494308e-03
+#> [1] -1.349247e-07  2.505868e-04  6.494307e-03
 dplyr::filter(asymmetric_binding$bound, bound == "lower")$z - asymmetricBinding$lower$bound
-#> [1] -0.02803395 -0.02670879 -0.01598602
+#> [1] -0.02803395 -0.02670878 -0.01598602
 ```
 
 ### Example 4: Asymmetric 2-sided design with \\\beta\\-spending and non-binding futility bound
@@ -377,6 +380,7 @@ asymmetricNonBinding <- gsSurv(
   sfu = upar$sf, sfupar = upar$param, sfl = lpar$sf, sflpar = lpar$param
 )
 asymmetricNonBinding |> gsBoundSummary()
+#> Method: LachinFoulkes 
 #>     Analysis              Value Efficacy Futility
 #>    IA 1: 35%                  Z   3.6128   0.1860
 #>       N: 398        p (1-sided)   0.0002   0.4262
@@ -400,7 +404,7 @@ of accuracy.
 
 ``` r
 dplyr::filter(asymmetric_nonbinding$bound, bound == "upper")$z - asymmetricNonBinding$upper$bound
-#> [1] -1.349247e-07  9.218765e-07  3.515345e-07
+#> [1] -1.349247e-07  9.218238e-07  3.514185e-07
 dplyr::filter(asymmetric_nonbinding$bound, bound == "lower")$z - asymmetricNonBinding$lower$bound
 #> [1] -0.03267431 -0.03311079 -0.02427000
 ```
@@ -463,6 +467,7 @@ asymmetricSafetyBinding <- gsSurv(
   sfu = upar$sf, sfupar = upar$param, sfl = lpar$sf, sflpar = lpar$param
 )
 asymmetricSafetyBinding |> gsBoundSummary()
+#> Method: LachinFoulkes 
 #>     Analysis              Value Efficacy Futility
 #>    IA 1: 35%                  Z   3.6128  -0.7271
 #>       N: 356        p (1-sided)   0.0002   0.7664
@@ -488,9 +493,9 @@ this did not require the alternate arguments for `r` and `tol`.
 
 ``` r
 dplyr::filter(asymmetric_safety_binding$bound, bound == "upper")$z - asymmetricSafetyBinding$upper$bound
-#> [1] -1.349247e-07  9.211210e-07  4.185954e-07
+#> [1] -1.349247e-07  9.210684e-07  4.184788e-07
 dplyr::filter(asymmetric_safety_binding$bound, bound == "lower")$z - asymmetricSafetyBinding$lower$bound[1:2]
-#> [1]  4.348992e-08 -3.276118e-08
+#> [1]  4.348992e-08 -3.267008e-08
 ```
 
 ### Example 6: Asymmetric 2-sided design with null hypothesis spending and non-binding futility bound
@@ -549,6 +554,7 @@ asymmetricSafetyNonBinding <- gsSurv(
   sfu = upar$sf, sfupar = upar$param, sfl = lpar$sf, sflpar = lpar$param
 )
 asymmetricSafetyBinding |> gsBoundSummary()
+#> Method: LachinFoulkes 
 #>     Analysis              Value Efficacy Futility
 #>    IA 1: 35%                  Z   3.6128  -0.7271
 #>       N: 356        p (1-sided)   0.0002   0.7664
