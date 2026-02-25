@@ -173,7 +173,7 @@ gs_info_rd <- function(
     ),
     rd0 = 0,
     ratio = 1,
-    weight = c("unstratified", "ss", "invar")) {
+    weight = c("unstratified", "ss", "invar", "mr")) {
   n_analysis <- max(n$analysis)
   weight <- match.arg(weight)
 
@@ -236,6 +236,24 @@ gs_info_rd <- function(
         ) |>
         mutate(weight_per_k_per_s = 1 / sigma2_H1_per_k_per_s / sum_inv_var_per_s) |>
         select(-sum_inv_var_per_s)
+    )
+  } else if (weight == "mr") {
+    suppressMessages(
+      tbl <- tbl |>
+        left_join(
+          tbl |>
+            group_by(analysis) |>
+            summarize(sum_inv_var_per_s = sum(1 / sigma2_H1_per_k_per_s))
+        ) |>
+        ungroup() |>
+        group_by(analysis) |>
+        mutate(alpha_per_k_per_s = (p_c - p_e) * sum_inv_var_per_s - sum((p_c - p_e) / sigma2_H1_per_k_per_s),
+               beta_per_k_per_s = 1/sigma2_H1_per_k_per_s * (1 + alpha_per_k_per_s * sum((p_c - p_e) * n / max(n))),
+               weight_per_k_per_s = beta_per_k_per_s / sum_inv_var_per_s -
+                                       alpha_per_k_per_s / sigma2_H1_per_k_per_s / (sum_inv_var_per_s + sum(alpha_per_k_per_s * (p_c - p_e) / sigma2_H1_per_k_per_s)) *
+                                       sum((p_c - p_e) * beta_per_k_per_s) / sum_inv_var_per_s
+        ) |>
+        select(-c(sum_inv_var_per_s, alpha_per_k_per_s, beta_per_k_per_s))
     )
   }
 
