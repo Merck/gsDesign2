@@ -243,7 +243,7 @@ gs_power_rd <- function(
     ),
     rd0 = 0,
     ratio = 1,
-    weight = c("unstratified", "ss", "invar"),
+    weight = c("unstratified", "ss", "invar", "mr"),
     upper = gs_b,
     lower = gs_b,
     upar = gsDesign(k = 3, test.type = 1, sfu = sfLDOF, sfupar = NULL)$upper$bound,
