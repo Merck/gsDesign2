@@ -53,11 +53,15 @@ completely ignoring any futility bound.
 \examples{
 # Derive Group Sequential Design using gsDesign2
 x <- gsDesign2::gs_design_ahr(
-  info_frac = 1:3/3,
+  enroll_rate = define_enroll_rate(duration = c(2, 2, 2, 6), rate = c(2.5,5,7.5,10)),
+  fail_rate = define_fail_rate(duration = Inf, fail_rate = log(2) / 6, hr = 0.6, dropout_rate = .001),
+  info_frac = c(.5, .65, .8, 1),
+  analysis_time = 30,
   upper = gs_spending_bound,
   upar = list(sf = "sfLDOF", total_spend = 0.025),
-  lower = gs_b,
-  lpar = rep(-Inf, 3)
+  lower = gs_spending_bound,
+  lpar = list(sf = "sfHSD", total_spend = 0.1, param = 2),
+  binding = FALSE
 )
 
 # Analysis at interim analysis 2
