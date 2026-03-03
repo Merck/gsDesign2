@@ -39,8 +39,10 @@
 #' @examples
 #' # Derive Group Sequential Design using gsDesign2
 #' x <- gsDesign2::gs_design_ahr(
-#'   enroll_rate = define_enroll_rate(duration = c(2, 2, 2, 6), rate = c(2.5,5,7.5,10)),
-#'   fail_rate = define_fail_rate(duration = Inf, fail_rate = log(2) / 6, hr = 0.6, dropout_rate = .001),
+#'   enroll_rate = define_enroll_rate(duration = c(2, 2, 2, 6),
+#'                                    rate = c(2.5, 5, 7.5, 10)),
+#'   fail_rate = define_fail_rate(duration = Inf, fail_rate = log(2) / 6,
+#'                                hr = 0.6, dropout_rate = .001),
 #'   info_frac = c(.5, .65, .8, 1),
 #'   analysis_time = 30,
 #'   upper = gs_spending_bound,
@@ -65,8 +67,8 @@ sequential_pval <- function(gs_design,
   q_e <- gs_design$input$ratio / (1 + gs_design$input$ratio)
 
   # gs_design should be object returned from gs_design_ahr or gs_power_ahr with >=2 analyses
-  if (x$design != "ahr") stop("gs_design must be an object created with gs_design_ahr() or gs_power_ahr()")
-  if (nrow(x$analysis) == 1) stop("gs_design must be an GSD object with more than 1 analysis")
+  if (gs_design$design != "ahr") stop("gs_design must be an object created with gs_design_ahr() or gs_power_ahr()")
+  if (nrow(gs_design$analysis) == 1) stop("gs_design must be an GSD object with more than 1 analysis")
 
   # check if gs_design is 1-sided, or has non-binding futility bounds
   one_sided <- all(gs_design$bound$bound == "upper")
@@ -111,14 +113,14 @@ sequential_pval <- function(gs_design,
   # check upper end of p-value interval input
   probhi <- sf_upper(alpha = max(interval), t = ustime, param = sf_param)$spend
   if (length(z) > 1) probhi <- probhi - c(0, probhi[1:(length(z) - 1)])
-  if (min(gsBound1(I = event * (1 - q_e) * q_e, theta = 0, a = rep(-20, length(z)),
-                   probhi = probhi)$b - z) > 0) return(max(interval))
+  if (min(gsDesign::gsBound1(I = event * (1 - q_e) * q_e, theta = 0, a = rep(-20, length(z)),
+                             probhi = probhi)$b - z) > 0) return(max(interval))
 
   # check lower end of p-value interval input
   probhi <- sf_upper(alpha = min(interval), t = ustime, param = sf_param)$spend
   if (length(z) > 1) probhi <- probhi - c(0, probhi[1:(length(z) - 1)])
-  if (min(gsBound1(I = event * (1 - q_e) * q_e, theta = 0, a = rep(-20, length(z)),
-                   probhi = probhi)$b - z) < 0) return(min(interval))
+  if (min(gsDesign::gsBound1(I = event * (1 - q_e) * q_e, theta = 0, a = rep(-20, length(z)),
+                             probhi = probhi)$b - z) < 0) return(min(interval))
 
   # if answer is between interval bounds, find it with root-finding
   x <- try(uniroot(sequential_zdiff, interval = -qnorm(interval), gs_design = gs_design,
@@ -148,6 +150,6 @@ sequential_zdiff <- function(x,
   probhi <- sf_upper(alpha = alpha, t = ustime, param = sf_param)$spend
   if (length(z) > 1) probhi <- probhi - c(0, probhi[1:(length(z) - 1)])
 
-  return(min(gsBound1(I = event * (1 - q_e) * q_e, theta = 0, a = rep(-20, length(z)),
-                      probhi = probhi)$b - z))
+  return(min(gsDesign::gsBound1(I = event * (1 - q_e) * q_e, theta = 0, a = rep(-20, length(z)),
+                                probhi = probhi)$b - z))
 }
