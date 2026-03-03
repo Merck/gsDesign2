@@ -10,7 +10,7 @@ gs_info_rd(
   n = tibble::tibble(stratum = "All", n = c(100, 200, 300), analysis = 1:3),
   rd0 = 0,
   ratio = 1,
-  weight = c("unstratified", "ss", "invar")
+  weight = c("unstratified", "ss", "invar", "mr")
 )
 }
 \arguments{
