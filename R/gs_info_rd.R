@@ -92,6 +92,27 @@
 #' )
 #'
 #' # Example 5 ----
+#' # stratified case under minimal risk weighting and H0: rd0 = 0
+#' gs_info_rd(
+#'   p_c = tibble::tibble(
+#'     stratum = c("S1", "S2", "S3"),
+#'     rate = c(.15, .2, .25)
+#'   ),
+#'   p_e = tibble::tibble(
+#'     stratum = c("S1", "S2", "S3"),
+#'     rate = c(.1, .16, .19)
+#'   ),
+#'   n = tibble::tibble(
+#'     stratum = rep(c("S1", "S2", "S3"), each = 3),
+#'     analysis = rep(1:3, 3),
+#'     n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)
+#'   ),
+#'   rd0 = 0,
+#'   ratio = 1,
+#'   weight = "mr"
+#' )
+#'
+#' # Example 6 ----
 #' # stratified case under sample size weighting and H0: rd0 != 0
 #' gs_info_rd(
 #'   p_c = tibble::tibble(
@@ -109,33 +130,13 @@
 #'   ),
 #'   rd0 = 0.02,
 #'   ratio = 1,
+#'   # users can switch to either "invar" or "mr" weighting as well
 #'   weight = "ss"
-#' )
-#'
-#' # Example 6 ----
-#' # stratified case under inverse variance weighting and H0: rd0 != 0
-#' gs_info_rd(
-#'   p_c = tibble::tibble(
-#'     stratum = c("S1", "S2", "S3"),
-#'     rate = c(.15, .2, .25)
-#'   ),
-#'   p_e = tibble::tibble(
-#'     stratum = c("S1", "S2", "S3"),
-#'     rate = c(.1, .16, .19)
-#'   ),
-#'   n = tibble::tibble(
-#'     stratum = rep(c("S1", "S2", "S3"), each = 3),
-#'     analysis = rep(1:3, 3),
-#'     n = c(50, 100, 200, 40, 80, 160, 60, 120, 240)
-#'   ),
-#'   rd0 = 0.02,
-#'   ratio = 1,
-#'   weight = "invar"
 #' )
 #'
 #' # Example 7 ----
 #' # stratified case under inverse variance weighting and H0: rd0 != 0 and
-#' # rd0 difference for different statum
+#' # rd0 difference for different stratum
 #' gs_info_rd(
 #'   p_c = tibble::tibble(
 #'     stratum = c("S1", "S2", "S3"),
