@@ -72,7 +72,7 @@ sequential_pval <- function(gs_design,
 
   # check if gs_design is 1-sided, or has non-binding futility bounds
   one_sided <- all(gs_design$bound$bound == "upper")
-  nonbinding <- gs_design$input$binding == FALSE
+  nonbinding <- !gs_design$input$binding
   if (!(one_sided || nonbinding)) stop("gs_design must be one-sided or have non-binding futility bounds")
 
   # if event is specified, check if it is an increasing numerical vector
@@ -107,7 +107,7 @@ sequential_pval <- function(gs_design,
 
   # Get spending function and parameters from gs_design
   # sf is a character string, so we need to get the actual function from gsDesign namespace
-  sf_upper <- get(gs_design$input$upar$sf, envir = asNamespace("gsDesign"))
+  sf_upper <- get_sf(gs_design$input$upar$sf)
   sf_param <- gs_design$input$upar$param
 
   # check upper end of p-value interval input
@@ -134,7 +134,6 @@ sequential_pval <- function(gs_design,
 #' This function calculates the difference between:
 #' Computed efficacy bound at a given alpha level (using the spending function)
 #' Observed Z-statistic
-#' @keywords internal
 #' @noRd
 sequential_zdiff <- function(x,
                              gs_design,
@@ -144,7 +143,7 @@ sequential_zdiff <- function(x,
   q_e <- gs_design$input$ratio / (1 + gs_design$input$ratio)
   alpha <- pnorm(-x)
 
-  sf_upper <- get(gs_design$input$upar$sf, envir = asNamespace("gsDesign"))
+  sf_upper <- get_sf(gs_design$input$upar$sf)
   sf_param <- gs_design$input$upar$param
 
   probhi <- sf_upper(alpha = alpha, t = ustime, param = sf_param)$spend
