@@ -1,3 +1,10 @@
+# gsDesign2 1.1.9
+
+## New features
+
+- The minimal risk weighting strategy has been added to `gs_design_rd()` and `gs_power_rd()` for risk difference design (#611, thanks to @LittleBeannie).
+- The `sequential_pval()` function has been added to calculate the sequential p-value for a AHR group sequential design (#605, thanks to @LittleBeannie).
+
 # gsDesign2 1.1.8
 
 ## New features
