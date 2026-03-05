@@ -143,7 +143,7 @@ sequential_zdiff <- function(x,
   q_e <- gs_design$input$ratio / (1 + gs_design$input$ratio)
   alpha <- pnorm(-x)
 
-  sf_upper <- get(gs_design$input$upar$sf, envir = asNamespace("gsDesign"))
+  sf_upper <- get_sf(gs_design$input$upar$sf)
   sf_param <- gs_design$input$upar$param
 
   probhi <- sf_upper(alpha = alpha, t = ustime, param = sf_param)$spend
