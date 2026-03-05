@@ -72,7 +72,7 @@ sequential_pval <- function(gs_design,
 
   # check if gs_design is 1-sided, or has non-binding futility bounds
   one_sided <- all(gs_design$bound$bound == "upper")
-  nonbinding <- gs_design$input$binding == FALSE
+  nonbinding <- !gs_design$input$binding
   if (!(one_sided || nonbinding)) stop("gs_design must be one-sided or have non-binding futility bounds")
 
   # if event is specified, check if it is an increasing numerical vector
