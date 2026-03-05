@@ -38,7 +38,7 @@
 #'
 #' @examples
 #' # Derive Group Sequential Design using gsDesign2
-#' x <- gsDesign2::gs_design_ahr(
+#' x <- gs_design_ahr(
 #'   enroll_rate = define_enroll_rate(duration = c(2, 2, 2, 6),
 #'                                    rate = c(2.5, 5, 7.5, 10)),
 #'   fail_rate = define_fail_rate(duration = Inf, fail_rate = log(2) / 6,

@@ -4,12 +4,12 @@ test_that("Comparision with gsDesign::sequentialPValue", {
   ratio <- 1
 
   # Enrollment
-  enroll_rate <- gsDesign2::define_enroll_rate(
+  enroll_rate <- define_enroll_rate(
     duration = c(2, 2, 10),
     rate = (1:3) / 3)
 
   # Failure and dropout
-  fail_rate <- gsDesign2::define_fail_rate(
+  fail_rate <- define_fail_rate(
     duration = Inf, fail_rate = log(2) / 9,
     hr = 0.6, dropout_rate = .0001)
 
@@ -20,8 +20,8 @@ test_that("Comparision with gsDesign::sequentialPValue", {
   ratio <- 1
 
   # Spending
-  upper <- gsDesign2::gs_spending_bound
-  lower <- gsDesign2::gs_b
+  upper <- gs_spending_bound
+  lower <- gs_b
   upar <- list(sf = "sfLDOF", total_spend = alpha)
   lpar <- rep(-Inf, 3)
 
