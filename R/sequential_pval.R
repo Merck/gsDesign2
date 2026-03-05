@@ -107,7 +107,7 @@ sequential_pval <- function(gs_design,
 
   # Get spending function and parameters from gs_design
   # sf is a character string, so we need to get the actual function from gsDesign namespace
-  sf_upper <- get(gs_design$input$upar$sf, envir = asNamespace("gsDesign"))
+  sf_upper <- get_sf(gs_design$input$upar$sf)
   sf_param <- gs_design$input$upar$param
 
   # check upper end of p-value interval input
