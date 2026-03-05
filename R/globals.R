@@ -52,7 +52,8 @@ utils::globalVariables(
       c(
         "prevalence", "z", "info", "theta", "rd", "info0", "n",
         "probability", "probability0", "info_frac0",
-        "~risk difference at bound", "nominal p"
+        "~risk difference at bound", "nominal p",
+        "alpha_per_k_per_s", "beta_per_k_per_s"
       ),
       # From `gs_design_wlr()`
       c(
