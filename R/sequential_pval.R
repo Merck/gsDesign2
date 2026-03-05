@@ -134,7 +134,6 @@ sequential_pval <- function(gs_design,
 #' This function calculates the difference between:
 #' Computed efficacy bound at a given alpha level (using the spending function)
 #' Observed Z-statistic
-#' @keywords internal
 #' @noRd
 sequential_zdiff <- function(x,
                              gs_design,
