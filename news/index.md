@@ -9,7 +9,8 @@
   and
   [`gs_power_rd()`](https://merck.github.io/gsDesign2/reference/gs_power_rd.md)
   for risk difference design
-  ([\#611](https://github.com/Merck/gsDesign2/issues/611), thanks to
+  ([\#611](https://github.com/Merck/gsDesign2/issues/611),
+  [\#614](https://github.com/Merck/gsDesign2/issues/614), thanks to
   [@LittleBeannie](https://github.com/LittleBeannie)).
 - The
   [`sequential_pval()`](https://merck.github.io/gsDesign2/reference/sequential_pval.md)

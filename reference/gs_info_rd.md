@@ -154,9 +154,9 @@ gs_info_rd(
 #> # A tibble: 3 × 8
 #>   analysis     n     rd   rd0 theta1 theta0 info1 info0
 #>      <int> <dbl>  <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl>
-#> 1        1   150 0.0519     0 0.0519      0  264.  263.
-#> 2        2   300 0.0531     0 0.0531      0  495.  492.
-#> 3        3   600 0.0552     0 0.0552      0  798.  794.
+#> 1        1   150 0.0507     0 0.0507      0  271.  269.
+#> 2        2   300 0.0508     0 0.0508      0  541.  539.
+#> 3        3   600 0.0508     0 0.0508      0 1083. 1078.
 
 # Example 6 ----
 # stratified case under sample size weighting and H0: rd0 != 0
