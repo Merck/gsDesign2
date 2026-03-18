@@ -248,11 +248,11 @@ gs_info_rd <- function(
         ) |>
         ungroup() |>
         group_by(analysis) |>
-        mutate(alpha_per_k_per_s = (p_c - p_e) * sum_inv_var_per_s - sum((p_c - p_e) / sigma2_H1_per_k_per_s),
-               beta_per_k_per_s = 1/sigma2_H1_per_k_per_s * (1 + alpha_per_k_per_s * sum((p_c - p_e) * n / max(n))),
+        mutate(alpha_per_k_per_s = (p_e - p_c) * sum_inv_var_per_s - sum((p_e - p_c) / sigma2_H1_per_k_per_s),
+               beta_per_k_per_s = 1/sigma2_H1_per_k_per_s * (1 + alpha_per_k_per_s * sum((p_e - p_c) * n / sum(n))),
                weight_per_k_per_s = beta_per_k_per_s / sum_inv_var_per_s -
-                                       alpha_per_k_per_s / sigma2_H1_per_k_per_s / (sum_inv_var_per_s + sum(alpha_per_k_per_s * (p_c - p_e) / sigma2_H1_per_k_per_s)) *
-                                       sum((p_c - p_e) * beta_per_k_per_s) / sum_inv_var_per_s
+                                       alpha_per_k_per_s / sigma2_H1_per_k_per_s / (sum_inv_var_per_s + sum(alpha_per_k_per_s * (p_e - p_c) / sigma2_H1_per_k_per_s)) *
+                                       sum((p_e - p_c) * beta_per_k_per_s) / sum_inv_var_per_s
         ) |>
         select(-c(sum_inv_var_per_s, alpha_per_k_per_s, beta_per_k_per_s))
     )
