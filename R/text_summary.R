@@ -185,7 +185,13 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
   # ---------------------------------------- #
   # Add enrollment and study duration
   # ---------------------------------------- #
-  out <- paste(out, ". Enrollment and total study durations are assumed to be ", round(sum(x$enroll_rate$duration), 1),
+  enroll_duration_per_strata <- tapply(
+    X = x$enroll_rate$duration,
+    INDEX = x$enroll_rate$stratum,
+    FUN = sum
+  )
+  out <- paste(out, ". Enrollment and total study durations are assumed to be ",
+               round(max(enroll_duration_per_strata), 1),
                " and ", round(max(x$analysis$time), 1), " ", time_unit, ", respectively.",
                sep = "")
 

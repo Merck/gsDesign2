@@ -128,7 +128,7 @@ test_that("Text summary for two strata with proportional hazards", {
 
   expect_identical(
     text_summary(x),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 538.3 and 388.2 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect a hazard ratio of 0.8 in stratum A and a hazard ratio of 0.6 in stratum B. Enrollment and total study durations are assumed to be 24 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 538.3 and 388.2 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect a hazard ratio of 0.8 in stratum A and a hazard ratio of 0.6 in stratum B. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
   )
 
   y <- gs_power_ahr(
@@ -150,7 +150,7 @@ test_that("Text summary for two strata with proportional hazards", {
 
   expect_identical(
     text_summary(y),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 538.3 and 388.2 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 24 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With a hazard ratio of 0.8 in stratum A and a hazard ratio of 0.6 in stratum B, the power is 90 percent."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 538.3 and 388.2 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With a hazard ratio of 0.8 in stratum A and a hazard ratio of 0.6 in stratum B, the power is 90 percent."
   )
 })
 
@@ -186,7 +186,7 @@ test_that("Text summary for two strata with two-piece non-proportional hazards",
 
   expect_identical(
     text_summary(x),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 848.8 and 618.5 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect hazard ratio of 1 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 1 during the first 3 months and 0.6 thereafter in stratum B. Enrollment and total study durations are assumed to be 24 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 848.8 and 618.5 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect hazard ratio of 1 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 1 during the first 3 months and 0.6 thereafter in stratum B. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
   )
 
   y <- gs_power_ahr(
@@ -208,7 +208,7 @@ test_that("Text summary for two strata with two-piece non-proportional hazards",
 
   expect_identical(
     text_summary(y),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 848.8 and 618.5 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 24 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With hazard ratio of 1 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 1 during the first 3 months and 0.6 thereafter in stratum B, the power is 90 percent."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 848.8 and 618.5 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With hazard ratio of 1 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 1 during the first 3 months and 0.6 thereafter in stratum B, the power is 90 percent."
   )
 })
 
@@ -244,7 +244,7 @@ test_that("Text summary for two strata with 6 pieces non-proportional hazards", 
 
   expect_identical(
     text_summary(x),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect piecewise hazard ratio in stratum A and piecewise hazard ratio in stratum B. Enrollment and total study durations are assumed to be 24 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect piecewise hazard ratio in stratum A and piecewise hazard ratio in stratum B. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
   )
 
   y <- gs_power_ahr(
@@ -266,7 +266,7 @@ test_that("Text summary for two strata with 6 pieces non-proportional hazards", 
 
   expect_identical(
     text_summary(y),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 24 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With piecewise hazard ratio in stratum A and piecewise hazard ratio in stratum B, the power is 90 percent."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With piecewise hazard ratio in stratum A and piecewise hazard ratio in stratum B, the power is 90 percent."
   )
 })
 
@@ -302,7 +302,7 @@ test_that("Text summary for >2 strata with >=3 pieces non-proportional hazards",
 
   expect_identical(
     text_summary(x),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect piecewise hazard ratio in 3 strata. Enrollment and total study durations are assumed to be 36 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect piecewise hazard ratio in 3 strata. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
   )
 
   y <- gs_power_ahr(
@@ -324,7 +324,7 @@ test_that("Text summary for >2 strata with >=3 pieces non-proportional hazards",
 
   expect_identical(
     text_summary(y),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 36 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With piecewise hazard ratio in 3 strata, the power is 90 percent."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 283.6 and 217.8 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With piecewise hazard ratio in 3 strata, the power is 90 percent."
   )
 })
 
@@ -360,7 +360,7 @@ test_that("Text summary for >2 strata with <3 pieces non-proportional hazards", 
 
   expect_identical(
     text_summary(x),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 1402.7 and 1167.7 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum B and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum C. Enrollment and total study durations are assumed to be 36 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 1402.7 and 1167.7 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum B and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum C. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
   )
 
   y <- gs_power_ahr(
@@ -382,6 +382,71 @@ test_that("Text summary for >2 strata with <3 pieces non-proportional hazards", 
 
   expect_identical(
     text_summary(y),
-    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 1402.7 and 1167.7 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 36 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum B and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum C, the power is 90 percent."
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 1402.7 and 1167.7 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 12 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum B and hazard ratio of 0.9 during the first 3 months and 0.8 thereafter in stratum C, the power is 90 percent."
+  )
+})
+
+test_that("Text summary for two strata with piecewise enrollment rates", {
+  # The two strata have very different enrollment lengths. Meant to test code
+  # logic, not be a realistic example
+  #
+  # stratum A = 1 + 2 + 3 =  6
+  # stratum B = 4 + 5 + 6 = 15
+  enroll_rate <- define_enroll_rate(
+    stratum = rep(c("A", "B"), each = 3),
+    duration = 1:6,
+    rate = rep(c(0.5, 0.75, 1), 2)
+  )
+
+  x <- gs_design_ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = define_fail_rate(
+      stratum = c("A", "A", "B", "B"),
+      duration = c(3, Inf, 3, Inf),
+      fail_rate = log(2) / c(9, 9, 18, 18),
+      hr = c(1, 0.8, 1, 0.6),
+      dropout_rate = 0.001
+    ),
+    alpha = 0.025,
+    beta = 0.1,
+    info_frac = NULL,
+    analysis_time = c(24, 36),
+    ratio = 1,
+    binding = FALSE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1),
+    h1_spending = TRUE,
+    test_upper = TRUE,
+    test_lower = TRUE,
+    info_scale = "h0_h1_info"
+  )
+
+  expect_identical(
+    text_summary(x),
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 682.4 and 450.1 events, 90 percent power, 2.5 percent (1-sided) Type I error to detect hazard ratio of 1 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 1 during the first 3 months and 0.6 thereafter in stratum B. Enrollment and total study durations are assumed to be 15 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters)."
+  )
+
+  y <- gs_power_ahr(
+    enroll_rate = x$enroll_rate,
+    fail_rate = x$fail_rate,
+    event = NULL,
+    analysis_time = x$analysis$time,
+    ratio = 1,
+    binding = FALSE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1),
+    h1_spending = TRUE,
+    test_upper = TRUE,
+    test_lower = TRUE,
+    info_scale = "h0_h1_info"
+  )
+
+  expect_identical(
+    text_summary(y),
+    "Asymmetric two-sided group sequential design with non-binding futility bound, 2 analyses, time-to-event outcome with sample size 682.4 and 450.1 events, 2.5 percent (1-sided) Type I error. Enrollment and total study durations are assumed to be 15 and 36 months, respectively. Efficacy bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). Futility bounds derived using a Lan-DeMets O'Brien-Fleming approximation spending function (no parameters). With hazard ratio of 1 during the first 3 months and 0.8 thereafter in stratum A and hazard ratio of 1 during the first 3 months and 0.6 thereafter in stratum B, the power is 90 percent."
   )
 })
