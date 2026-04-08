@@ -155,21 +155,23 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
   # ---------------------------------------- #
   # Add HR assumption
   # ---------------------------------------- #
-  if (nrow(x$fail_rate) == 1) {
-    temp <- paste("a hazard ratio of ", round(x$fail_rate$hr, 2), sep = "")
-  } else if (nrow(x$fail_rate) == 2) {
-    temp <- paste("hazard ratio of ",
-                  round(x$fail_rate$hr[1], 2), " during the first ", round(x$fail_rate$duration[1], 2), " ", time_unit,
-                  " and ", round(x$fail_rate$hr[2], 2), " thereafter", sep = "")
-  } else if (nrow(x$fail_rate) <= 5) {
-    temp <- paste(x$fail_rate$hr[1:(nrow(x$fail_rate) - 1)] |> round(2),
-                  c(" during the first ", rep(" during the next ", nrow(x$fail_rate) - 2)),
-                  c(x$fail_rate$duration[1:(nrow(x$fail_rate) - 1)] |> round(2)), time_unit) |>
-      paste(collapse = ", ") |>
-      paste(" and ", x$fail_rate$hr[nrow(x$fail_rate)] |> round(2), " thereafter")
-    temp <- paste("hazard ratio of ", temp, sep = "")
+  strata <- unique(x$fail_rate$stratum)
+  nstrata <- length(strata)
+  hr_per_stratum <- table(x$fail_rate$stratum)
+  if (nstrata > 2 && max(hr_per_stratum) >= 3) {
+    temp <- paste("piecewise hazard ratio in", nstrata, "strata")
   } else {
-    temp <- "piecewise hazard ratio"
+    temp <- character(length = nstrata)
+    for (i in seq_len(nstrata)) {
+      temp[i] <- text_summary_hr_per_stratum(
+        x$fail_rate[x$fail_rate$stratum == strata[i], ],
+        time_unit = time_unit
+      )
+      if (strata[i] != "All") {
+        temp[i] <- paste(temp[i], "in stratum", strata[i])
+      }
+    }
+    temp <- paste(temp, collapse = " and ")
   }
 
   if (is_gs_design_ahr) {
@@ -235,4 +237,24 @@ text_summary <- function(x, information = FALSE, time_unit = "months") {
   }
 
   return(out)
+}
+
+# Text summary of hazard ratio assumption for a single stratum
+text_summary_hr_per_stratum <- function(fail_rate, time_unit) {
+  if (nrow(fail_rate) == 1) {
+    temp <- paste("a hazard ratio of ", round(fail_rate$hr, 2), sep = "")
+  } else if (nrow(fail_rate) == 2) {
+    temp <- paste("hazard ratio of ",
+                  round(fail_rate$hr[1], 2), " during the first ", round(fail_rate$duration[1], 2), " ", time_unit,
+                  " and ", round(fail_rate$hr[2], 2), " thereafter", sep = "")
+  } else if (nrow(fail_rate) <= 5) {
+    temp <- paste(fail_rate$hr[1:(nrow(fail_rate) - 1)] |> round(2),
+                  c(" during the first ", rep(" during the next ", nrow(fail_rate) - 2)),
+                  c(fail_rate$duration[1:(nrow(fail_rate) - 1)] |> round(2)), time_unit) |>
+      paste(collapse = ", ") |>
+      paste(" and ", fail_rate$hr[nrow(fail_rate)] |> round(2), " thereafter")
+    temp <- paste("hazard ratio of ", temp, sep = "")
+  } else {
+    temp <- "piecewise hazard ratio"
+  }
 }
