@@ -19,6 +19,14 @@
   ([\#605](https://github.com/Merck/gsDesign2/issues/605), thanks to
   [@LittleBeannie](https://github.com/LittleBeannie)).
 
+### Bug fixes
+
+- The text summary of a stratified design now reports the correct
+  enrollment duration and hazard ratios
+  ([\#617](https://github.com/Merck/gsDesign2/issues/617),
+  [\#619](https://github.com/Merck/gsDesign2/issues/619), thanks to
+  [@jdblischak](https://github.com/jdblischak)).
+
 ## gsDesign2 1.1.8
 
 CRAN release: 2026-02-12
