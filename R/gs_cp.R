@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2026 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the gsDesign2 program.
@@ -22,22 +22,16 @@
 #' We assume \eqn{Z_i, i = 1, ..., K} are the z-statistics at an interim analysis i, respectively.
 #' We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
 #' \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
-#' \deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}}
+#' \deqn{Cov(Z_i, Z_j) = I_i/I_j.
 #' See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
 #' Returned value is list of
 #' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
 #' \deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #'
-#' @param theta A vector of j-i+1, which specifies the natural parameter for treatment effect.
-#'              The first element of `theta` is the treatment effect of an interim analysis i.
-#'              The second element of `theta` is the treatment effect of an interim analysis i+1.
-#'              ...
-#'              The last element of `theta` is the treatment effect of a future analysis j.
-#' @param t A vector of j-i+1, which specifies the information fraction under the treatment effect `theta`.
-#' @param info A vector of j-i+1, which specifies the statistical information under the treatment effect `theta`.
-#' @param a A vector of length j-i, which specifies the futility bounds from analysis i+1 to analysis j.
-#' @param b A vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.
+#' @param x An object of type gsDesign2.
+#' @param theta Optional numeric vector with length \eqn{j-i+1}, which specifies the natural parameter for treatment effect of interim analysis \eqn{i} through analysis \eqn{j}.
+#' @param i Index of current analysis, with default of 1.
 #' @param zi Numeric scalar z-value observed at analysis \eqn{i}.
 #' @return A list of conditional powers: prob_alpha is a numeric vector of (\eqn{alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j}), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #'                                       prob_alpha_plus is a numeric vector of (\eqn{alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j}), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
@@ -48,18 +42,7 @@
 #' library(gsDesign2)
 #' library(dplyr)
 #' library(mvtnorm)
-#' # Example 1 ----
-#' # Calculate conditional power under arbitrary theta, info and lower/upper bound
-#' # In practice, the value of theta and info commonly comes from a design.
-#' # More examples are available at the pkgdown vignettes.
-#' gs_cp_npe2(theta = c(0.1, 0.2, 0.3),
-#'            t = c(0.15, 0.35, 0.6),
-#'            info = c(15, 35, 60),
-#'            a = c(-0.5, -0.5),
-#'            b = c(1.8, 2.1),
-#'            zi = 1.5)
-#'
-#' # Example 2
+#' # Example 1
 #' # original design ----
 #' enroll_rate <- define_enroll_rate(duration = c(2, 2, 2, 18),
 #'                                   rate = c(1, 2, 3, 4))
@@ -73,148 +56,132 @@
 #'                    binding = FALSE,
 #'                    upper = gs_spending_bound,
 #'                    upar = list(sf = sfLDOF, total_spend = 0.025, param = NULL),
-#'                    lower = gs_b,
-#'                    lpar = c(-Inf, -Inf, -Inf),
+#'                    lower = gs_spending_bound,
+#'                    lpar = list(sf = sfLDOF, total_spend = 0.1),
 #'                    h1_spending = TRUE,
-#'                    test_lower = FALSE,
+#'                    test_lower = TRUE,
 #'                    info_scale = "h0_h1_info") |> to_integer()
 #'
 #' # calculate conditional power
-#' # case 1: currently at IA1, compute conditional power at IA2
-#' gs_cp_npe2(# IA1 and IA2's theta
-#'            theta = x$analysis$theta[1:2],
-#'            # IA1 and IA2's information fraction
-#'            t = x$analysis$info_frac[1:2],
-#'            # IA1 and IA2's statistical information
-#'            info = x$analysis$info[1:2],
-#'            # IA2's futility bound
-#'            a = -Inf,
-#'            # IA2's efficacy bound
-#'            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2],
-#'            # IA1's Z-score
-#'            zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+#' # case 1: currently at IA1, compute conditional power at IA2, IA3 and FA
+#' gs_cp(x = x, i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 #'
-#' # case 2: currently at IA1, compute conditional power at IA2 and IA3
-#' gs_cp_npe2(# IA1, IA2 and IA3's theta
-#'            theta = x$analysis$theta[1:3],
-#'            # IA1, IA2 and IA3's information fraction
-#'            t = x$analysis$info_frac[1:3],
-#'            # IA1, IA2, and IA3's statistical information
-#'            info = x$analysis$info[1:3],
-#'            # IA2 and IA3's futility bound
-#'            a = c(-Inf, Inf),
-#'            # IA2 and IA3's efficacy bound
-#'            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis %in% c(2, 3)],
-#'            # IA1's Z-score
-#'            zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+#' # case 2: currently at IA1, compute conditional power at IA2, IA3 and FA, with user-input theta
+#' gs_cp(x = x, i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 #'
-#' # case 3: currently at IA1, compute conditional power at IA2, IA3 and FA
-#' gs_cp_npe2(# IA1, IA2, IA3 and FA's theta
-#'            theta = x$analysis$theta[1:4],
-#'            # IA1, IA2, IA3 and FA's information fraction
-#'            t = x$analysis$info_frac[1:4],
-#'            # IA1, IA2, IA3 and FA's statistical information
-#'            info = x$analysis$info[1:4],
-#'            # IA2, IA3 and FA's futility bound
-#'            a = c(-Inf, -Inf, -Inf),
-#'            # IA2, IA3 and FA's efficacy bound
-#'            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis %in% c(2, 3, 4)],
-#'            # IA1's Z-score
-#'            zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
-gs_cp_npe2 <- function(theta = NULL,
-                       t = NULL,
-                       info = NULL,
-                       a = NULL,
-                       b = NULL,
-                       zi = NULL){
+gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
   # ------------------------------ #
   #        Input checking
   # ------------------------------ #
-  if(length(theta) != length(t))
-    stop("The input of theta should have the same length of the input of t.")
+  # check x
+  if(is.null(x)){
+    stop("Please provide a design object of type gsDesign2 to calculate conditional power.")
+  }
 
-  if(length(theta) != length(info))
-    stop("The input of theta should have the same length of the input of info.")
-
-  if(length(theta) - length(b) != 1)
-    stop("The length of theta should equal to length of b + 1. ")
-
-  if(length(b) != length(a))
-    stop("The length of b should equal to length of a. ")
+  # check theta
+  if(!is.null(theta) && length(theta) != dim(x$analysis)[1] - i + 1){
+    stop("Please provide the vector of theta from current analysis i to final analysis.")
+  }
+  # check i
+  if(i > dim(x$analysis)[1]){
+    stop("i cannot be larger than the number of analysis of design x.")
+  }
 
   # check zi
   if (is.null(zi) || length(zi) != 1 || !is.finite(zi)) {
     stop("Please provide a finite scalar Z-score `zi` for analysis `i`.")
   }
-  # ------------------------------ #
+  # ------------------------------ #a
   #        Initialization
   # ------------------------------ #
 
   # the conditional power is calculated from analysis i to analysis j
   # the analysis j is decided by the length of b (efficacy bound)
   # let D_m = B_m - B_i, where m = i+1, i+2, ..., j
-  n_future_analysis <- length(b)  # = j-i
+
+  k_max <- dim(x$analysis)[1]
+  n_future_analysis <- k_max - i
   prob_alpha <- rep(0, n_future_analysis)
   prob_alpha_plus <- rep(0, n_future_analysis)
   prob_beta <- rep(0, n_future_analysis)
 
-  for(x in 1:n_future_analysis){
-    # x ranges from 1 to j-i, represents cases for alpha_{i,i+1}, ..., {alpha_i,j-1}, alpha_{i,j}
-    # x is the increment from i
+  # futility bound from analysis i+1 to analysis j
+  if("lower" %in% unique(x$bound$bound)){
+    a <- x$bound$z[x$bound$bound == "lower"][(i+1):k_max]
+  }else{
+    a <- rep(-Inf, k_max)
+  }
+
+  # efficacy bound from analysis i+1 to analysis j
+  if("upper" %in% unique(x$bound$bound)){
+    b <- x$bound$z[x$bound$bound == "upper"][(i+1):k_max]
+  }else{
+    b <- rep(Inf, k_max)
+  }
+
+  # statistical information from analysis i to analysis j
+  info <- x$analysis$info[i:k_max]
+  # information fraction from analysis i to analysis j
+  t <- x$analysis$info_frac[i:k_max]
+
+  if(is.null(theta)){theta <- x$analysis$theta[i:k_max]}
+
+  for(y in seq_len(n_future_analysis)){
+    # y ranges from 1 to j-i, represents cases for alpha_{i,i+1}, ..., {alpha_i,j-1}, alpha_{i,j}
+    # y is the increment from i
 
     # ------------------------------ #
     #       Build the asymptotic
-    #         mean of B_x - B_i
-    #       vector of length x
+    #         mean of B_k - B_i
+    #       vector of length y
     # ------------------------------ #
-
-    mu <- sapply(seq_len(x), function(k){
+    mu <- sapply(seq_len(y), function(k){
       idx <- k + 1 # i.e., start from i+1
       theta[idx] * sqrt(t[idx] * info[idx]) - theta[1] * sqrt(t[1] * info[1]) #first element of `theta` is the treatment effect of IA i.
     })
 
     # ---------------------------------- #
     #       Build the asymptotic
-    #     covariance matrix of B_x - B_i
+    #     covariance matrix of B_y - B_i
     # ---------------------------------- #
-    cov_matrix <- matrix(0, nrow = x, ncol = x)
+    cov_matrix <- matrix(0, nrow = y, ncol = y)
 
-    for(k in seq_len(x)) {
-      for(l in seq_len(x)) {
+    for(k in seq_len(y)) {
+      for(l in seq_len(y)) {
         cov_matrix[k, l] <- t[1 + min(k, l)] - t[1]
       }
     }
 
     # ----------------------------------------------------------------------------------------- #
     #             Calculate Lower/upper bounds for alpha
-    # first cross efficacy bound at analysis x given no efficacy/futility bound crossing before
+    # first cross efficacy bound at analysis y given no efficacy/futility bound crossing before
     # ----------------------------------------------------------------------------------------- #
     # Integration limits: D_m = B_m - B_i
     # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [b_j, +Inf)
     # lower bound
-    lower_alpha <- rep(0, x)
-    if(x == 1){
-      lower_alpha[x] <- b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
+    lower_alpha <- rep(0, y)
+    if(y == 1){
+      lower_alpha[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
     }else{
-      for (m in 1:(x - 1)) {
+      for (m in 1:(y - 1)) {
         lower_alpha[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
-      lower_alpha[x] <- b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
+      lower_alpha[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
     }
 
     # upper bound
-    upper_alpha <- rep(0, x)
-    if(x == 1){
-      upper_alpha[x] = Inf
+    upper_alpha <- rep(0, y)
+    if(y == 1){
+      upper_alpha[y] = Inf
     }else{
-      for(m in 1:(x - 1)){
+      for(m in 1:(y - 1)){
         upper_alpha[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
-      upper_alpha[x] <- Inf
+      upper_alpha[y] <- Inf
     }
 
     # Compute multivariate normal probability
-    prob_alpha[x] <- mvtnorm::pmvnorm(
+    prob_alpha[y] <- mvtnorm::pmvnorm(
       lower = lower_alpha,
       upper = upper_alpha,
       mean = mu,
@@ -222,31 +189,31 @@ gs_cp_npe2 <- function(theta = NULL,
 
     # --------------------------------------------------------------------------------- #
     #             Calculate Lower/upper bounds for alpha_plus
-    # first cross efficacy bound at analysis x given no efficacy bound crossing before
+    # first cross efficacy bound at analysis y given no efficacy bound crossing before
     # --------------------------------------------------------------------------------- #
     # Integration limits: D_m = B_m - B_i
     # for D_{i+1},...,D_{j-1} use (-Inf, bm); for D_j use [b_j, +Inf)
     # lower bound
-    lower_alpha_plus <- rep(0, x)
-    if(x == 1){
-      lower_alpha_plus[x] = b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
+    lower_alpha_plus <- rep(0, y)
+    if(y == 1){
+      lower_alpha_plus[y] = b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
     }else{
-      lower_alpha_plus <- rep(-Inf, x - 1)
-      lower_alpha_plus[x] <- b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
+      lower_alpha_plus <- rep(-Inf, y - 1)
+      lower_alpha_plus[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
     }
 
     # upper bound
-    upper_alpha_plus <- rep(0, x)
-    if(x == 1){
-      upper_alpha_plus[x] <- Inf
+    upper_alpha_plus <- rep(0, y)
+    if(y == 1){
+      upper_alpha_plus[y] <- Inf
     }else{
-      for(m in 1:(x - 1)){
+      for(m in 1:(y - 1)){
         upper_alpha_plus[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
-      upper_alpha_plus[x] <- Inf
+      upper_alpha_plus[y] <- Inf
     }
 
-    prob_alpha_plus[x] <- mvtnorm::pmvnorm(
+    prob_alpha_plus[y] <- mvtnorm::pmvnorm(
       lower = lower_alpha_plus,
       upper = upper_alpha_plus,
       mean = mu,
@@ -254,32 +221,32 @@ gs_cp_npe2 <- function(theta = NULL,
 
     # ---------------------------------------------------------------------------------------------- #
     #             Calculate Lower/upper bounds for beta
-    # First crossing the futility bound at analysis x given no efficacy/futility bound crossing before
+    # First crossing the futility bound at analysis y given no efficacy/futility bound crossing before
     # ---------------------------------------------------------------------------------------------- #
     # Integration limits: D_m = B_m - B_i
     # for D_{i+1},...,D_{j-1} use [a, b); for D_j use [-Inf, a_j)
     # lower bound
-    lower_beta <- rep(0, x)
-    if(x == 1){
-      lower_beta[x] <- -Inf
+    lower_beta <- rep(0, y)
+    if(y == 1){
+      lower_beta[y] <- -Inf
     }else{
-      for(m in 1:(x - 1)){
+      for(m in 1:(y - 1)){
         lower_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
-      lower_beta[x] <- -Inf
+      lower_beta[y] <- -Inf
     }
 
     # upper bound
-    upper_beta <- rep(0, x)
-    if(x == 1){
-      upper_beta[x] <- b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
+    upper_beta <- rep(0, y)
+    if(y == 1){
+      upper_beta[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
     }else{
-      for(m in 1:x){
+      for(m in 1:y){
         upper_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
     }
 
-    prob_beta[x] <- mvtnorm::pmvnorm(
+    prob_beta[y] <- mvtnorm::pmvnorm(
       lower = lower_beta,
       upper = upper_beta,
       mean = mu,
@@ -287,9 +254,8 @@ gs_cp_npe2 <- function(theta = NULL,
 
   }
 
-
   return(list(prob_alpha = prob_alpha,
-                     prob_alpha_plus = prob_alpha_plus,
-                     prob_beta = prob_beta))
+              prob_alpha_plus = prob_alpha_plus,
+              prob_beta = prob_beta))
 
 }
