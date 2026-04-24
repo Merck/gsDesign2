@@ -42,7 +42,7 @@
 #' @return A list of conditional powers: prob_alpha is a numeric vector of (\eqn{alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j}), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #'                                       prob_alpha_plus is a numeric vector of (\eqn{alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j}), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
 #'                                       prob_beta is a numeric vector of (\eqn{beta_i,i+1, ..., beta_i,j-1, beta_i,j}) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
-#' @export
+#' @noRd
 #'
 #' @examples
 #' library(gsDesign2)
