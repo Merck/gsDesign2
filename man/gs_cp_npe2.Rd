@@ -4,7 +4,7 @@
 \alias{gs_cp_npe2}
 \title{Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i}
 \usage{
-gs_cp_npe2(theta = NULL, t = NULL, info = NULL, a = NULL, b = NULL, c = NULL)
+gs_cp_npe2(theta = NULL, t = NULL, info = NULL, a = NULL, b = NULL, zi = NULL)
 }
 \arguments{
 \item{theta}{A vector of j-i+1, which specifies the natural parameter for treatment effect.
@@ -21,26 +21,26 @@ The last element of \code{theta} is the treatment effect of a future analysis j.
 
 \item{b}{A vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.}
 
-\item{c}{Interim z-value at analysis i (scalar).}
+\item{zi}{Numeric scalar z-value observed at analysis \eqn{i}.}
 }
 \value{
-A list of conditional powers: prob_alpha is a vector of c(alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
-prob_alpha_plus is a vector of c(alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
-prob_beta is a vector of c(beta_i,i+1, ..., beta_i,j-1, beta_i,j) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+A list of conditional powers: prob_alpha is a numeric vector of (\eqn{alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j}), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+prob_alpha_plus is a numeric vector of (\eqn{alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j}), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
+prob_beta is a numeric vector of (\eqn{beta_i,i+1, ..., beta_i,j-1, beta_i,j}) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 }
 \description{
 Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
 }
 \details{
-We assume \eqn{Z_i, i = 1, ..., K} are the z-values at an interim analysis i, respectively.
+We assume \eqn{Z_i, i = 1, ..., K} are the z-statistics at an interim analysis i, respectively.
 We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
 \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
 \deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}}
 See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
 Returned value is list of
-\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
-\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = c)}.
-\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = c)}.
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
+\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 }
 \examples{
 library(gsDesign2)
@@ -55,7 +55,7 @@ gs_cp_npe2(theta = c(0.1, 0.2, 0.3),
            info = c(15, 35, 60),
            a = c(-0.5, -0.5),
            b = c(1.8, 2.1),
-           c = 1.5)
+           zi = 1.5)
 
 # Example 2
 # original design ----
@@ -90,7 +90,7 @@ gs_cp_npe2(# IA1 and IA2's theta
            # IA2's efficacy bound
            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2],
            # IA1's Z-score
-           c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+           zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 
 # case 2: currently at IA1, compute conditional power at IA2 and IA3
 gs_cp_npe2(# IA1, IA2 and IA3's theta
@@ -104,7 +104,7 @@ gs_cp_npe2(# IA1, IA2 and IA3's theta
            # IA2 and IA3's efficacy bound
            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis \%in\% c(2, 3)],
            # IA1's Z-score
-           c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+           zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 
 # case 3: currently at IA1, compute conditional power at IA2, IA3 and FA
 gs_cp_npe2(# IA1, IA2, IA3 and FA's theta
@@ -118,5 +118,5 @@ gs_cp_npe2(# IA1, IA2, IA3 and FA's theta
            # IA2, IA3 and FA's efficacy bound
            b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis \%in\% c(2, 3, 4)],
            # IA1's Z-score
-           c = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+           zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 }

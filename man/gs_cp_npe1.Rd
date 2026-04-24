@@ -4,36 +4,35 @@
 \alias{gs_cp_npe1}
 \title{Conditional power computation with non-constant effect size}
 \usage{
-gs_cp_npe1(theta = NULL, info = NULL, c = NULL, b = NULL)
+gs_cp_npe1(theta = NULL, info = NULL, zi = NULL, zj = NULL)
 }
 \arguments{
-\item{theta}{A vector of length two, which specifies the natural parameter for treatment effect.
+\item{theta}{A numeric vector of length two, which specifies the natural parameter for treatment effect.
 The first element of \code{theta} is the treatment effect of an interim analysis i.
 The second element of \code{theta} is the treatment effect of a future analysis j.}
 
 \item{info}{A vector of length two, which specifies the statistical information under the treatment effect \code{theta}.}
 
-\item{c}{Interim z-value at analysis i (scalar).}
+\item{zi}{Numeric scalar z-value observed at analysis \eqn{i}.}
 
-\item{b}{Future target z-value at analysis j (scalar).}
+\item{zj}{Numeric scalar at the future analysis \eqn{j}.}
 }
 \value{
-A scalar with the conditional power \eqn{P(Z_2 > b \mid Z_1 = c)}.
+A scalar with the conditional power \eqn{P(Z_j > z_i \mid Z_i = z_i)}.
 }
 \description{
 Conditional power computation with non-constant effect size
 }
 \details{
-We assume \eqn{Z_1} and \eqn{Z_2} are the z-values at an interim analysis and later analysis, respectively.
-We assume further \eqn{Z_1} and \eqn{Z_2} are bivariate normal with standard group sequential assumptions
-on independent increments where for \eqn{i=1,2}
+Suppose there are \eqn{K} analyses. Let \eqn{Z_i} and \eqn{Z_j} be the Z-statistics at a current analysis \eqn{i} and a future analysis \eqn{j}, respectively.
+Let's denote the statistical information at the \eqn{i}-th analysis as \eqn{I_i}.
+We further assume \eqn{Z_i} and \eqn{Z_j} are bivariate normal with standard group sequential assumptions on independent increments, then
 \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
 \deqn{Var(Z_i) = 1/I_i}
-\deqn{Cov(Z_1, Z_2) = t \equiv I_1/I_2}
-where \eqn{\theta_1, \theta_2} are real values and \eqn{0<I_1<I_2}.
+\deqn{Cov(Z_i, Z_j) = t \equiv I_i/I_j}.
 See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
 Returned value is
-\deqn{P(Z_2 > b \mid Z_1 = c) = 1 - \Phi\left(\frac{b - \sqrt{t}c - \sqrt{I_2}(\theta_2 - \theta_1\sqrt{t})}{\sqrt{1 - t}}\right)}
+\deqn{P(Z_j > z_j \mid Z_i = z_i) = 1 - \Phi\left(\frac{z_j - \sqrt{t}z_i - \sqrt{I_j}(\theta_j - \theta_i\sqrt{t})}{\sqrt{1 - t}}\right)}
 }
 \examples{
 library(gsDesign2)
@@ -41,7 +40,6 @@ library(gsDesign2)
 # Calculate conditional power under arbitrary theta and info
 # In practice, the value of theta and info commonly comes from a design.
 # More examples are available at the pkgdown vignettes.
-gs_cp_npe1(theta = c(.1, .2),
-          info = c(15, 35),
-          c = 1.5, b = 1.96)
+gs_cp_npe1(theta = c(.1, .2), info = c(15, 35), zi = 1.5, zj = 1.96)
+
 }

@@ -22,7 +22,7 @@
 #' We assume \eqn{Z_i, i = 1, ..., K} are the z-statistics at an interim analysis i, respectively.
 #' We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
 #' \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
-#' \deqn{Cov(Z_i, Z_j) = I_i/I_j.
+#' \deqn{Cov(Z_i, Z_j) = I_i/I_j}.
 #' See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
 #' Returned value is list of
 #' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
