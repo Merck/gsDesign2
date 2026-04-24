@@ -38,7 +38,7 @@ and \eqn{\theta_i} natural parameter for treatment effect at analysis \eqn{i}.
 }
 \examples{
 library(gsDesign2)
-
+library(gsDesign)
 # Calculate conditional power with optional user-input theta (if NULL, will come from the input design)
 alpha <- 0.025
 beta <- 0.1

@@ -40,6 +40,7 @@
 #'
 #' @examples
 #' library(gsDesign2)
+#' library(gsDesign)
 #' library(dplyr)
 #' library(mvtnorm)
 #' # Example 1

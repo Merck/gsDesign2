@@ -1,5 +1,3 @@
-library(gsDesign)
-
 test_that("Compare the gs_cp_npe1 with gsDesign::gsCP", {
   # ------------------------------ #
   #         parameters             #
