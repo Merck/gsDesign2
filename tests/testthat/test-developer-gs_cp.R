@@ -1,3 +1,5 @@
+library(gsDesign)
+
 test_that("Compare the gs_cp with gsDesign::gsCP", {
   # ------------------------------ #
   #         parameters             #
