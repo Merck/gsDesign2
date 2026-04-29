@@ -270,7 +270,7 @@ summary.gs_design <- function(object,
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
   default_vars <- if (method == "rd") c("n", "rd", "info_frac") else c(
-    "time", "n", "event", "ahr",
+   if(!attributes(object)$updated_design){"time"}, "n", "event", "ahr",
     switch(method, ahr = "info_frac0", wlr = "info_frac0", combo = "event_frac")
   )
   default_decimals <- if (method == "rd") c(1, 4, 2) else c(1, 1, 1, 2, 2)
