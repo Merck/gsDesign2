@@ -394,7 +394,6 @@ gs_update_ahr <- function(
 
   ans$analysis <- data.frame(
     analysis = 1:n_analysis,
-    time = x$analysis$time,
     n = x$analysis$n,
     event = if (is.null(event_tbl)) {
       x$analysis$event
