@@ -6,7 +6,7 @@ test_that("The default of `gs_power_npe` is a single analysis with type I error 
     dplyr::filter(Bound == "Upper") |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("fixed bound", {
@@ -29,7 +29,7 @@ test_that("fixed bound", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("Same fixed efficacy bounds, no futility bound (i.e., non-binding bound), null hypothesis", {
@@ -48,7 +48,7 @@ test_that("Same fixed efficacy bounds, no futility bound (i.e., non-binding boun
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3", {
@@ -71,7 +71,7 @@ test_that("Fixed bound with futility only at analysis 1; efficacy only at analys
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("Spending function bounds - Lower spending based on non-zero effect", {
@@ -94,7 +94,7 @@ test_that("Spending function bounds - Lower spending based on non-zero effect", 
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("Same bounds, but power under different theta", {
@@ -117,7 +117,7 @@ test_that("Same bounds, but power under different theta", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("Two-sided symmetric spend, O'Brien-Fleming spending", {
@@ -142,7 +142,7 @@ test_that("Two-sided symmetric spend, O'Brien-Fleming spending", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("Re-use these bounds under alternate hypothesis - Always use binding = TRUE for power calculations", {
@@ -173,7 +173,7 @@ test_that("Re-use these bounds under alternate hypothesis - Always use binding =
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1, x2)
+  expect_equal(x1, as.data.frame(x2))
 })
 
 test_that("info != info0 != info1 - If one inputs info in upar", {
@@ -206,7 +206,7 @@ test_that("info != info0 != info1 - If one inputs info in upar", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  expect_equal(x1_c, x2)
+  expect_equal(x1_c, as.data.frame(x2))
 })
 
 test_that("Developer Tests 1-sided test", {
@@ -238,7 +238,7 @@ test_that("Developer Tests 1-sided test", {
     n.I = (1:3) * 400,
     b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound, a = rep(-20, 3), r = r
   )
-  expect_equal(x, y)
+  expect_equal(x, as.data.frame(y))
   expect_equal(x$z[x$bound == "upper"], z$upper$bound)
   expect_equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob))
 })
