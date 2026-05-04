@@ -68,10 +68,9 @@ x <- gs_design_ahr(
   upper = gs_spending_bound,
   upar = list(sf = sfLDOF, total_spend = 0.025), 
   test_upper = c(TRUE, TRUE, TRUE), 
-  #lower = gs_b,
   lower = gs_spending_bound,
   lpar = list(sf = sfHSD, total_spend = 0.15, param = 3)) |> to_integer()
-  # lpar = c(qnorm(.05), -Inf, -Inf)) |> to_integer()
+
 # Round analysis time to nearest month
 x$analysis$time <- round(x$analysis$time)
 x |> gs_bound_summary() |> gt()
