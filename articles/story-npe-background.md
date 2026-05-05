@@ -9,11 +9,10 @@ the concept here. The model is likely to be useful for rank-based
 survival tests beyond the logrank test that will be considered initially
 by Tsiatis (1982). It could also be useful in other situations where
 treatment effect may vary over time in a trial for some reason. We
-generalize the framework of Chapter 2 of Proschan, Lan, and Wittes
-(2006) to incorporate the possibility of the treatment effect changing
-during the course of a trial in some systematic way. This vignettes
-addresses distribution theory and initial technical issues around
-computing
+generalize the framework of Chapter 2 of Proschan et al. (2006) to
+incorporate the possibility of the treatment effect changing during the
+course of a trial in some systematic way. This vignettes addresses
+distribution theory and initial technical issues around computing
 
 - boundary crossing probabilities
 - bounds satisfying targeted boundary crossing probabilities
@@ -30,36 +29,35 @@ power and sample size are provided in a separate vignette.
 
 We consider a simple example here to motivate distribution theory that
 is quite general and applies across many situations. For instance,
-Proschan, Lan, and Wittes (2006) immediately suggest paired
-observations, time-to-event and binary outcomes as endpoints where the
-theory is applicable.
+Proschan et al. (2006) immediately suggest paired observations,
+time-to-event and binary outcomes as endpoints where the theory is
+applicable.
 
 We assume for a given integer \\N\>0\\ that \\X\_{i}\\ are independent,
 \\i=1,2,\ldots\\. For some integer \\K\leq N\\ we assume we will perform
 analysis \\K\\ times after \\0\<n_1\<n_2,\ldots ,n_K = N\\ observations
 are available for analysis. Note that we have not confined \\n\leq N\\,
-but \\N\\ can be considered the final planned sample size. Proschan,
-Lan, and Wittes (2006) refer to the estimation or E-process which we
-extend here to
+but \\N\\ can be considered the final planned sample size. Proschan et
+al. (2006) refer to the estimation or E-process which we extend here to
 
 \\\hat{\theta}\_k = \frac{\sum\_{i=1}^{n_k} X\_{i}}{n_k}\equiv \bar
-X\_{k}.\\ While Proschan, Lan, and Wittes (2006) has used \\\delta\\
-instead of \\\theta\\ in our notation, we stick more closely to the
-notation of Jennison and Turnbull (1999) where \\\theta\\ is used. For
-our example, we see \\\hat{\theta}\_k\equiv\bar X_k\\ represents the
-sample average at analysis \\k\\, \\1\leq k\leq K\\. With a survival
-endpoint, \\\hat\theta_k\\ would typically represent a Cox model
-coefficient representing the logarithm of the hazard ratio for
-experimental vs control treatment and \\n_k\\ would represent the
-planned number of events at analysis \\k\\, \\1\leq k\leq K.\\ Denoting
-\\t_k=n_k/N\\, we assume that for some real-valued function
-\\\theta(t)\\ for \\t \geq 0\\ we have for \\1\leq k\leq K\\
+X\_{k}.\\ While Proschan et al. (2006) has used \\\delta\\ instead of
+\\\theta\\ in our notation, we stick more closely to the notation of
+Jennison and Turnbull (1999) where \\\theta\\ is used. For our example,
+we see \\\hat{\theta}\_k\equiv\bar X_k\\ represents the sample average
+at analysis \\k\\, \\1\leq k\leq K\\. With a survival endpoint,
+\\\hat\theta_k\\ would typically represent a Cox model coefficient
+representing the logarithm of the hazard ratio for experimental vs
+control treatment and \\n_k\\ would represent the planned number of
+events at analysis \\k\\, \\1\leq k\leq K.\\ Denoting \\t_k=n_k/N\\, we
+assume that for some real-valued function \\\theta(t)\\ for \\t \geq 0\\
+we have for \\1\leq k\leq K\\
 
 \\E(\hat{\theta}\_k) =\theta(t_k) =E(\bar X_k).\\ In the models of
-Proschan, Lan, and Wittes (2006) and Jennison and Turnbull (1999) we
-would have \\\theta(t)\\ equal to some constant \\\theta\\. We assume
-further that for \\i=1,2,\ldots\\ \\\text{Var}(X\_{i})=1.\\ The sample
-average variance under this assumption is for \\1\leq k\leq K\\
+Proschan et al. (2006) and Jennison and Turnbull (1999) we would have
+\\\theta(t)\\ equal to some constant \\\theta\\. We assume further that
+for \\i=1,2,\ldots\\ \\\text{Var}(X\_{i})=1.\\ The sample average
+variance under this assumption is for \\1\leq k\leq K\\
 
 \\\text{Var}(\hat\theta(t_k))=\text{Var}(\bar X_k) = 1/ n_k.\\ The
 statistical information for the estimate \\\hat\theta(t_k)\\ for \\1\leq
@@ -99,11 +97,11 @@ of \\B_k\\ as a sum of independent random variables.
 
 ### Summary of E-, Z- and B-processes
 
-| Statistic                                 | Example                          | Expected value                                                                                | Variance                |
-|:------------------------------------------|:---------------------------------|:----------------------------------------------------------------------------------------------|:------------------------|
-| \\\hat\theta_k\\                          | \\\bar X_k\\                     | \\\theta(t_k)\\                                                                               | \\\mathcal{I}\_k^{-1}\\ |
-| \\Z_k=\sqrt{\mathcal{I}\_k}\hat\theta_k\\ | \\\sqrt{n_k}\bar X_k\\           | \\\sqrt{\mathcal{I}\_k}\theta(t_k)\\                                                          | \\1\\                   |
-| \\B_k=\sqrt{t_k}Z_k\\                     | \\\sum\_{i=1}^{n_k}X_i/\sqrt N\\ | \\t_k\sqrt{\mathcal{I}\_K}\\ \theta(t_k)=\mathcal{I}\_k\\ \theta(t_k)/\sqrt{\mathcal{I}\_K}\\ | \\t_k\\                 |
+| Statistic | Example | Expected value | Variance |
+|:---|:---|:---|:---|
+| \\\hat\theta_k\\ | \\\bar X_k\\ | \\\theta(t_k)\\ | \\\mathcal{I}\_k^{-1}\\ |
+| \\Z_k=\sqrt{\mathcal{I}\_k}\hat\theta_k\\ | \\\sqrt{n_k}\bar X_k\\ | \\\sqrt{\mathcal{I}\_k}\theta(t_k)\\ | \\1\\ |
+| \\B_k=\sqrt{t_k}Z_k\\ | \\\sum\_{i=1}^{n_k}X_i/\sqrt N\\ | \\t_k\sqrt{\mathcal{I}\_K}\\ \theta(t_k)=\mathcal{I}\_k\\ \theta(t_k)/\sqrt{\mathcal{I}\_K}\\ | \\t_k\\ |
 
 ### Conditional independence, covariance and canonical form
 
@@ -186,8 +184,8 @@ Jennison, Christopher, and Bruce W Turnbull. 1999. *Group Sequential
 Methods with Applications to Clinical Trials*. Chapman & Hall/CRC.
 
 Proschan, Michael A., K. K. Gordon Lan, and Janet Turk Wittes. 2006.
-*Statistical Monitoring of Clinical Trials: A Unified Approach*. New
-York, NY: Springer.
+*Statistical Monitoring of Clinical Trials: A Unified Approach*.
+Springer.
 
 Tsiatis, Anastasios A. 1982. “Repeated Significance Testing for a
 General Class of Statistics Used in Censored Survival Analysis.”

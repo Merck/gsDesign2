@@ -1,6 +1,7 @@
 # Approximating an arbitrary survival distribution
 
 ``` r
+
 library(tibble)
 library(ggplot2)
 library(gsDesign)
@@ -37,6 +38,7 @@ duration of 1 unit of time (say, month) followed by a final rate which
 extends to infinity.
 
 ``` r
+
 log_normal_rate <- s2pwe(
   times = c(1:6, 9),
   survival = plnorm(c(1:6, 9), meanlog = 0, sdlog = 2, lower.tail = FALSE)
@@ -67,6 +69,7 @@ its approximation match exactly as indicated by the circles on the
 graph.
 
 ``` r
+
 # Use a large number of points to plot lognormal survival
 times <- seq(0, 12, .025)
 
@@ -113,6 +116,7 @@ we set the default of `lower.tail=FALSE` so that the survival function
 computation is the default:
 
 ``` r
+
 p_pm <- function(x, theta, lambda, lower_tail = FALSE) {
   exp(-theta * (1 - exp(-lambda * x)))
 }
@@ -124,6 +128,7 @@ exponential distribution with a median of 10. We set \\\theta =
 piecewise exponential approximation.
 
 ``` r
+
 lambda <- log(2) / 10
 theta <- -log(.4)
 times <- 0:40
@@ -164,6 +169,7 @@ We compute \\\theta\\ and \\\lambda\\ values with a cure rate of 0.4 and
 a survival rate of 0.6 at 30 months:
 
 ``` r
+
 theta <- -log(0.4)
 lambda <- -log((theta + log(.6)) / theta) / 30
 ```
@@ -171,6 +177,7 @@ lambda <- -log((theta + log(.6)) / theta) / 30
 We confirm the survival at time 30:
 
 ``` r
+
 p_pm(30, theta, lambda)
 ```
 

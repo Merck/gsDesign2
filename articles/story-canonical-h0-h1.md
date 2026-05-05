@@ -2,7 +2,7 @@
 
 When applying the AHR test in the time-to-event endpoint at the \\k\\-th
 analysis, we build the standardized treatment effect as the test
-statistics in Proschan, Lan, and Wittes (2006):
+statistics in Proschan et al. (2006):
 
 \\ Z_k = \frac{ \sum\_{i=1}^{d_k} \Delta_i }{
 \sqrt{\text{Var}(\sum\_{i=1}^{d_k} \Delta_i \| H_0)} }, \\
@@ -49,11 +49,11 @@ information, we introduce the B-values:
 \sqrt{\text{Var}(\sum\_{i=1}^{d_K} \Delta_i \| H_0)} } }\_{\sqrt{t_k}} =
 \sqrt{t_k} Z_k, \\
 
-As depicted in Section 2.1.3 of Proschan, Lan, and Wittes (2006), the
-stochastic process formulation presented in Harrington, Fleming, and
-Green (1984) and Tsiatis (1982) provides insights that sequence of
-B-values, denoted as \\{B_1, \ldots, B_K}\\ with follows a multivariate
-normal distribution behaves asymptotically like Brownian motion.
+As depicted in Section 2.1.3 of Proschan et al. (2006), the stochastic
+process formulation presented in Harrington et al. (1984) and Tsiatis
+(1982) provides insights that sequence of B-values, denoted as \\{B_1,
+\ldots, B_K}\\ with follows a multivariate normal distribution behaves
+asymptotically like Brownian motion.
 
 For 2 B-values (\\B_i, B_j\\ with \\i \leq j\\), we have
 
@@ -150,30 +150,30 @@ H_0}}{\mathcal I\_{i, H_1}} \end{eqnarray} \\
 
 When the local alternative assumption holds, we have \\\text{Cov}(Z_i,
 Z_j) \approx \sqrt{\frac{t_i}{t_j}}\\, which is in the format of the
-canonical joint distribution introduced in Chapter 3 of Proschan, Lan,
-and Wittes (2006).
+canonical joint distribution introduced in Chapter 3 of Proschan et al.
+(2006).
 
 ## Summary
 
-|                                                                                  |                       B-value                        |                                   Z-score                                    |
-|:---------------------------------------------------------------------------------|:----------------------------------------------------:|:----------------------------------------------------------------------------:|
-| Expectation mean at the \\k\\-th analysis under \\H_0\\                          |                          0                           |                                      0                                       |
-| Expectation mean at the \\k\\-th analysis under \\H_1\\                          |     \\\theta_k t_k \sqrt{\mathcal I\_{k, H_0}}\\     |                   \\\theta_k \sqrt{\mathcal I\_{k, H_0}}\\                   |
-| Variance at the \\k\\-th analysis under \\H_0\\                                  |                       \\t_k\\                        |                                      1                                       |
-| Variance at the \\k\\-th analysis under \\H_1\\                                  | \\t_k \mathcal I\_{k, H_0} / \mathcal I\_{k, H_1}\\  |               \\\mathcal I\_{k, H_0} / \mathcal I\_{k, H_1}\\                |
-| Covariance between the \\i\\-th and \\j\\th analysis under \\H_0\\ (\\i\leq j\\) |                       \\t_i\\                        |                              \\\sqrt{t_i/t_j}\\                              |
+|  | B-value | Z-score |
+|:---|:--:|:--:|
+| Expectation mean at the \\k\\-th analysis under \\H_0\\ | 0 | 0 |
+| Expectation mean at the \\k\\-th analysis under \\H_1\\ | \\\theta_k t_k \sqrt{\mathcal I\_{k, H_0}}\\ | \\\theta_k \sqrt{\mathcal I\_{k, H_0}}\\ |
+| Variance at the \\k\\-th analysis under \\H_0\\ | \\t_k\\ | 1 |
+| Variance at the \\k\\-th analysis under \\H_1\\ | \\t_k \mathcal I\_{k, H_0} / \mathcal I\_{k, H_1}\\ | \\\mathcal I\_{k, H_0} / \mathcal I\_{k, H_1}\\ |
+| Covariance between the \\i\\-th and \\j\\th analysis under \\H_0\\ (\\i\leq j\\) | \\t_i\\ | \\\sqrt{t_i/t_j}\\ |
 | Covariance between the \\i\\-th and \\j\\th analysis under \\H_1\\ (\\i\leq j\\) | \\t_i \\ \mathcal I\_{i, H_0}/\mathcal I\_{i, H_1}\\ | \\\sqrt{\frac{t_i}{t_j}} \frac{\mathcal I\_{i, H_0}}{\mathcal I\_{i, H_1}}\\ |
 
 ## References
 
 Harrington, DP, TR Fleming, and SJ Green. 1984. “Procedures for Serial
-Testing in Censored Survival Data.” In *Strukturen Und Prozesse Neue
+Testing in Censored Survival Data.” *Strukturen Und Prozesse Neue
 Ansätze in Der Biometrie: 28. Biometrisches Kolloquium Der Biometrischen
-Gesellschaft Aachen, 16.–19. März 1982 Proceedings*, 124–38. Springer.
+Gesellschaft Aachen, 16.–19. März 1982 Proceedings*, 124–38.
 
 Proschan, Michael A., K. K. Gordon Lan, and Janet Turk Wittes. 2006.
-*Statistical Monitoring of Clinical Trials: A Unified Approach*. New
-York, NY: Springer.
+*Statistical Monitoring of Clinical Trials: A Unified Approach*.
+Springer.
 
 Tsiatis, Anastasios A. 1982. “Group Sequential Methods for Survival
 Analysis with Staggered Entry.” *Lecture Notes-Monograph Series* 2:

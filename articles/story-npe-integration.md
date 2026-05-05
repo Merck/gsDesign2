@@ -1,6 +1,7 @@
 # Numerical integration non-proportional effect size in group sequential design
 
 ``` r
+
 library(tibble)
 library(knitr)
 library(gsDesign2)
@@ -171,6 +172,7 @@ analysis and 4 for the final analysis, leading to information fraction
 - Set up overall study parameters
 
 ``` r
+
 # Information for both null and alternative
 info <- c(1, 4)
 # information fraction
@@ -190,6 +192,7 @@ theta <- c(1, 3) / 2
 - Calculate interim bounds
 
 ``` r
+
 # Upper bound under null hypothesis
 b1 <- qnorm(alphaspend[1], lower.tail = FALSE)
 # Lower bound under alternate hypothesis
@@ -203,6 +206,7 @@ cat(
 ```
 
 ``` r
+
 # Lower bound under alternate hypothesis
 a1 <- qnorm(betaspend[1], mean = sqrt(info[1]) * theta[1])
 # Compare probability of crossing vs target for bounds:
@@ -225,6 +229,7 @@ distributed with variance 1 - `w` - weights for numerical integration -
 numerical integration; we will demonstrate use below
 
 ``` r
+
 # Set up grid over continuation region
 # Null hypothesis
 grid1_0 <- gsDesign2:::h1(theta = 0, info = info[1], a = a1, b = b1)
@@ -307,6 +312,7 @@ The probability of not crossing a bound under the null hypothesis is
 computed as follows:
 
 ``` r
+
 prob_h0_continue <- sum(grid1_0$h)
 cat(
   "Probability of continuing trial under null hypothesis\n",
@@ -322,6 +328,7 @@ We now set up numerical integration grid under the alternate hypothesis
 and the compute continuation probability.
 
 ``` r
+
 grid1_1 <- gsDesign2:::h1(theta = theta[1], info = info[1], a = a1, b = b1)
 prob_h1_continue <- sum(grid1_1$h)
 h1mean <- sqrt(info[1]) * theta[1]
@@ -341,6 +348,7 @@ The initial estimate of the second analysis bounds are computed the same
 way as the actual first analysis bounds.
 
 ``` r
+
 # Upper bound under null hypothesis
 # incremental spend
 spend0 <- alphaspend[2] - alphaspend[1]
@@ -365,6 +373,7 @@ update our numerical integration grids. Under the null hypothesis, we
 need to update to the interval above `b2_0`.
 
 ``` r
+
 # Upper rejection region grid under H0
 grid2_0 <- gsDesign2:::hupdate(theta = 0, info = info[2], a = b2_0, b = Inf, im1 = info[1], gm1 = grid1_0)
 pupper_0 <- sum(grid2_0$h)
@@ -386,6 +395,7 @@ subdensity at the bound, which is the estimated derivative in the
 boundary crossing probability, we compute:
 
 ``` r
+
 # First point in grid is at bound
 # Compute derivative
 dpdb2 <- grid2_0$h[1] / grid2_0$w[1]
@@ -418,6 +428,7 @@ closer to the targeted boundary probability. We now update the lower
 bound in an analogous fashion.
 
 ``` r
+
 # Lower rejection region grid under H1
 grid2_1 <- gsDesign2:::hupdate(
   theta = theta[2], info = info[2], a = -Inf, b = a2_0,
@@ -460,6 +471,7 @@ cat(
   [`gs_power_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
 
 ``` r
+
 gs_power_npe(
   theta = theta, theta1 = theta, info = info, binding = TRUE,
   upper = gs_spending_bound,
@@ -467,13 +479,11 @@ gs_power_npe(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfPower, total_spend = 0.1, param = 2)
 )
-#> # A tibble: 4 × 10
-#>   analysis bound     z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr> <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  2.96     0.00704   0.5    0.5      0.25     1     1     1
-#> 2        2 upper  1.98     0.845     1.5    1.5      1        4     4     4
-#> 3        1 lower -2.00     0.00625   0.5    0.5      0.25     1     1     1
-#> 4        2 lower  1.70     0.100     1.5    1.5      1        4     4     4
+#>   analysis bound         z probability theta theta1 info_frac info info0 info1
+#> 1        1 upper  2.955167 0.007040961   0.5    0.5      0.25    1     1     1
+#> 2        2 upper  1.977819 0.844612849   1.5    1.5      1.00    4     4     4
+#> 3        1 lower -1.997705 0.006250000   0.5    0.5      0.25    1     1     1
+#> 4        2 lower  1.702317 0.100000000   1.5    1.5      1.00    4     4     4
 ```
 
 ## References

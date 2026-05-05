@@ -1,6 +1,7 @@
 # Computing spending boundaries in group sequential design
 
 ``` r
+
 library(gsDesign2)
 library(gsDesign)
 ```
@@ -46,6 +47,7 @@ in Examples 1–5.
 For all of our examples, we will use the following design assumptions:
 
 ``` r
+
 trial_duration <- 36 # Planned trial duration
 info_frac <- c(.35, .7, 1) # Information fraction at analyses
 # 16 month planned enrollment with constant rate
@@ -90,6 +92,7 @@ Type I error for the study. The upper bound provides the Type I error
 control for the design as it is not specified elsewhere.
 
 ``` r
+
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 
 one_sided <- gsDesign2::gs_design_ahr(
@@ -122,6 +125,7 @@ alternate hypothesis at interim analyses as well as slightly different
 approximate hazard ratios required to cross bounds.
 
 ``` r
+
 oneSided <- gsSurv(
   alpha = alpha, beta = beta, timing = info_frac, T = trial_duration, minfup = minfup,
   lambdaC = fail_rate$fail_rate, eta = fail_rate$dropout_rate, hr = fail_rate$hr,
@@ -155,6 +159,7 @@ approximately 6 digits with precision parameters chosen (`r=32`,
 `tol=1e-08`):
 
 ``` r
+
 one_sided$bound$z - oneSided$upper$bound
 #> [1] -1.349247e-07  9.218238e-07  3.514185e-07
 ```
@@ -168,6 +173,7 @@ bound in the table, it would be better termed an efficacy bound for
 control better than experimental treatment.
 
 ``` r
+
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 lpar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 
@@ -202,6 +208,7 @@ We compare with
 [`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
 
 ``` r
+
 Symmetric <-
   gsSurv(
     test.type = 2, # Two-sided symmetric bound
@@ -233,6 +240,7 @@ Comparing Z-value bounds directly, we again see approximately 6 digits
 of accuracy.
 
 ``` r
+
 dplyr::filter(symmetric$bound, bound == "upper")$z - Symmetric$upper$bound
 #> [1] -1.349247e-07  9.218238e-07  4.091816e-07
 dplyr::filter(symmetric$bound, bound == "lower")$z - Symmetric$lower$bound
@@ -254,6 +262,7 @@ than a comparable design with a non-binding futility bound presented in
 Example 4.
 
 ``` r
+
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 lpar <- list(sf = gsDesign::sfHSD, total_spend = beta, param = -.5)
 
@@ -288,6 +297,7 @@ We compare with
 [`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
 
 ``` r
+
 asymmetricBinding <- gsSurv(
   test.type = 3, # Two-sided asymmetric bound, binding futility
   alpha = alpha, beta = beta, timing = info_frac, T = trial_duration, minfup = minfup, r = 32, tol = 1e-07,
@@ -321,6 +331,7 @@ the call to
 order to get convergence.
 
 ``` r
+
 dplyr::filter(asymmetric_binding$bound, bound == "upper")$z - asymmetricBinding$upper$bound
 #> [1] -1.349247e-07  2.505868e-04  6.494307e-03
 dplyr::filter(asymmetric_binding$bound, bound == "lower")$z - asymmetricBinding$lower$bound
@@ -339,6 +350,7 @@ objectives of this type of design include:
   futility bound is crossed.
 
 ``` r
+
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 lpar <- list(sf = gsDesign::sfHSD, total_spend = beta, param = -.5)
 
@@ -373,6 +385,7 @@ We compare with
 [`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
 
 ``` r
+
 asymmetricNonBinding <- gsSurv(
   test.type = 4, # Two-sided asymmetric bound, non-binding futility
   alpha = alpha, beta = beta, timing = info_frac, T = trial_duration, minfup = minfup, r = 32, tol = 1e-08,
@@ -403,6 +416,7 @@ Comparing Z-value bounds directly, we again see approximately 6 digits
 of accuracy.
 
 ``` r
+
 dplyr::filter(asymmetric_nonbinding$bound, bound == "upper")$z - asymmetricNonBinding$upper$bound
 #> [1] -1.349247e-07  9.218238e-07  3.514185e-07
 dplyr::filter(asymmetric_nonbinding$bound, bound == "lower")$z - asymmetricNonBinding$lower$bound
@@ -426,6 +440,7 @@ still address a potential ethical issue of continuing the trial when
 more than a minor trend in favor of control is present.
 
 ``` r
+
 alpha_star <- .5
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 lpar <- list(sf = gsDesign::sfHSD, total_spend = alpha_star, param = 1)
@@ -459,6 +474,7 @@ asymmetric_safety_binding |>
 [TABLE]
 
 ``` r
+
 asymmetricSafetyBinding <- gsSurv(
   test.type = 5, # Two-sided asymmetric bound, binding futility, H0 futility spending
   astar = alpha_star, # Total Type I error spend for futility
@@ -492,6 +508,7 @@ of accuracy. For
 this did not require the alternate arguments for `r` and `tol`.
 
 ``` r
+
 dplyr::filter(asymmetric_safety_binding$bound, bound == "upper")$z - asymmetricSafetyBinding$upper$bound
 #> [1] -1.349247e-07  9.210684e-07  4.184788e-07
 dplyr::filter(asymmetric_safety_binding$bound, bound == "lower")$z - asymmetricSafetyBinding$lower$bound[1:2]
@@ -507,6 +524,7 @@ efficacy bound at interim 1 allowing a team to decide that it is too
 early to stop a trial for efficacy without longer-term data.
 
 ``` r
+
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 lpar <- list(sf = gsDesign::sfHSD, total_spend = alpha_star, param = 1)
 
@@ -546,6 +564,7 @@ design is not strictly comparable since the option to eliminate some
 futility and efficacy analyses is not enabled.
 
 ``` r
+
 asymmetricSafetyNonBinding <- gsSurv(
   test.type = 6, # Two-sided asymmetric bound, binding futility, H0 futility spending
   astar = alpha_star, # Total Type I error spend for futility
@@ -592,6 +611,7 @@ and 0.9 are observed at interim analyses 1 and 2 with 104 and 209 events
 observed, respectively. The final analysis is planned for 300 events.
 
 ``` r
+
 # Targeted events at interim and final analysis
 # This is based on above designs and then adjusted, as necessary
 targeted_events <- c(104, 209, 300)
@@ -601,6 +621,7 @@ We wish to translate the hazard ratios specified to corresponding
 Z-values; this can be done as follows.
 
 ``` r
+
 interim_futility_z <- -gsDesign::hrn2z(hr = c(1, .9), n = targeted_events[1:2])
 interim_futility_z
 #> [1] 0.0000000 0.7615897
@@ -613,6 +634,7 @@ based on bounds rather than the spending approach were bounds are
 computed based on specified spending.
 
 ``` r
+
 lower <- gs_b
 # Allows specifying fixed Z-values for futility
 # Translated HR bounds to Z-value scale
@@ -627,18 +649,20 @@ Type I error allowed. We allow the user to substitute this code for what
 follows to verify this.
 
 ``` r
+
 upper <- gs_b
 upar <- qnorm(c(.001, .001, .0023), lower.tail = FALSE)
 ```
 
 The alternative approach is to use a fixed spending approach at each
-analysis as suggested by Fleming, Harrington, and O’Brien (1984). Again,
-with some iteration not shown, we use a piecewise linear spending
-function to select interim bounds that match the desired Haybittle-Peto
-interim bounds. However, using this approach a slightly more liberal
-final bound is achieved that still controls Type I error.
+analysis as suggested by Fleming et al. (1984). Again, with some
+iteration not shown, we use a piecewise linear spending function to
+select interim bounds that match the desired Haybittle-Peto interim
+bounds. However, using this approach a slightly more liberal final bound
+is achieved that still controls Type I error.
 
 ``` r
+
 upper <- gs_spending_bound
 upar <- list(
   sf = gsDesign::sfLinear,

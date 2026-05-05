@@ -1,6 +1,7 @@
 # Futility bounds at design and analysis under non-proportional hazards
 
 ``` r
+
 library(gsDesign2)
 library(gt)
 library(dplyr)
@@ -12,17 +13,17 @@ library(ggplot2)
 
 This vignette demonstrates possible ways to set up futility bounds in
 clinical trial designs under the assumption of non-proportional hazards.
-We review the methods proposed by Wieand, Schroeder, and O’Fallon (1994)
-and Korn and Freidlin (2018). To be more consistent with common
-practice, we propose a futility bound based on \\\beta\\-spending that
-automatically accounts for non-proportional hazards as assumed in the
-design.
+We review the methods proposed by Wieand et al. (1994) and Korn and
+Freidlin (2018). To be more consistent with common practice, we propose
+a futility bound based on \\\beta\\-spending that automatically accounts
+for non-proportional hazards as assumed in the design.
 
 We start by specifying the enrollment and failure rate assumptions,
 following the example used by Korn and Freidlin (2018) (based on Chen
 (2013)).
 
 ``` r
+
 # Enrollment assumed to be 680 patients over 12 months with no ramp-up
 enroll_rate <- define_enroll_rate(duration = 12, rate = 680 / 12)
 
@@ -50,6 +51,7 @@ In this example, with 680 subjects enrolled over 12 months, we expect
 power if no interim analyses are performed.
 
 ``` r
+
 fixedevents <- fixed_design_ahr(
   alpha = 0.025, power = NULL, ratio = ratio,
   enroll_rate = enroll_rate,
@@ -94,6 +96,7 @@ In this example, the group sequential design with the \\\beta\\-spending
 of AHR can be derived as below.
 
 ``` r
+
 betaspending <- gs_power_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -121,10 +124,10 @@ betaspending |>
 
 ## Modified Wieand futility bound
 
-The Wieand, Schroeder, and O’Fallon (1994) rule recommends stopping the
-trial if the observed HR exceeds 1 after 50% of planned events. Korn and
-Freidlin (2018) extends this approach by adding a second interim
-analysis at 75% of planned events, also stopping if HR \> 1.
+The Wieand et al. (1994) rule recommends stopping the trial if the
+observed HR exceeds 1 after 50% of planned events. Korn and Freidlin
+(2018) extends this approach by adding a second interim analysis at 75%
+of planned events, also stopping if HR \> 1.
 
 Here, we implement these futility rules by setting a Z-bound at 0,
 corresponding to a nominal p-value bound of approximately 0.5 at interim
@@ -143,6 +146,7 @@ Korn and Freidlin (2018) with 100,000 simulations which estimate the
 standard error for the power calculation to be 0.1%.
 
 ``` r
+
 wieand <- gs_power_ahr(
   enroll_rate = enroll_rate, fail_rate = fail_rate,
   ratio = ratio,
@@ -168,10 +172,10 @@ wieand |>
 ## Korn and Freidlin futility bound
 
 Korn and Freidlin (2018) addressed scenarios with delayed treatment
-effects by modifying the futility rule proposed by Wieand, Schroeder,
-and O’Fallon (1994). Their approach sets the futility bound when at
-least 50% of expected events have occurred, and at least two-thirds of
-these events happened after 3 months from randomization.
+effects by modifying the futility rule proposed by Wieand et al. (1994).
+Their approach sets the futility bound when at least 50% of expected
+events have occurred, and at least two-thirds of these events happened
+after 3 months from randomization.
 
 To illustrate this, we analyze the accumulation of events over time by
 [`gsDesign2::expected_event()`](https://merck.github.io/gsDesign2/reference/expected_event.md)
@@ -180,6 +184,7 @@ no-effect period and + event accumulation through the 34.86 months
 planned trial duration.
 
 ``` r
+
 find_ia_time <- function(t) {
   
   e_event0 <- expected_event(
@@ -204,6 +209,7 @@ ia1_time <- uniroot(find_ia_time, interval = c(1, 50))$root
 ```
 
 ``` r
+
 # expected total events
 e_event_overtime <- sapply(1:betaspending$analysis$time[3], function(t){
   e_event0 <- expected_event(
@@ -285,6 +291,7 @@ analysis time known, we now derive the group sequential design with the
 futility bound by Korn and Freidlin (2018).
 
 ``` r
+
 kf <- gs_power_ahr(
   enroll_rate = enroll_rate, 
   fail_rate = fail_rate,
@@ -316,6 +323,7 @@ effect over time using the proportional hazards assumption. We use the
 average hazard ratio at the fixed design analysis for this purpose.
 
 ``` r
+
 betaspending_classic <- gs_power_ahr(
   enroll_rate = enroll_rate,
   fail_rate = define_fail_rate(duration = Inf, 
@@ -347,12 +355,11 @@ betaspending_classic |>
 ## Conclusion
 
 As an alternative ad hoc methods to account for delayed effects as
-proposed by Wieand, Schroeder, and O’Fallon (1994) and Korn and Freidlin
-(2018), we propose a method for \\\beta\\-spending that automatically
-accounts for delayed effects. We have shown that results compare
-favorably to the ad hoc methods, but control Type II error and adapt to
-the timing and distribution of event times at the time of interim
-analysis.
+proposed by Wieand et al. (1994) and Korn and Freidlin (2018), we
+propose a method for \\\beta\\-spending that automatically accounts for
+delayed effects. We have shown that results compare favorably to the ad
+hoc methods, but control Type II error and adapt to the timing and
+distribution of event times at the time of interim analysis.
 
 ## References
 

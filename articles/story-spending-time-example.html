@@ -121,17 +121,16 @@ concept of spending time is an effective way to adapt. Traditionally
 <span class="citation">Lan and DeMets (1983)</span>, spending has been
 done according to targeting a specific number of events for an outcome
 at the end of the trial. However, for delayed treatment effect scenarios
-there is substantial literature (e.g., <span class="citation">Lin et al.
-(2020)</span>, <span class="citation">Roychoudhury et al. (2021)</span>)
-documenting the importance of adequate follow-up duration in addition to
-requiring an adequate number of events under the traditional
-proportional hazards assumption.</p>
+there is substantial literature (e.g., <span class="citation"><span class="nocase">Lin et al.</span> (2020)</span>, <span class="citation">Roychoudhury et al. (2021)</span>) documenting the
+importance of adequate follow-up duration in addition to requiring an
+adequate number of events under the traditional proportional hazards
+assumption.</p>
 <p>While other approaches could be taken, we have found the spending
 time approach generalizes well for addressing a variety of scenarios.
 The fact that spending does not need to correspond to information
 fraction was perhaps first raised by <span class="citation">Lan and
 DeMets (1989)</span> where calendar-time spending was discussed.
-However, we note that <span class="citation">Proschan, Lan, and Wittes
+However, we note that <span class="citation">Proschan et al.
 (2006)</span> has raised other scenarios where spending alternatives are
 considered. Two specific spending approaches are suggested here:</p>
 <ul>
@@ -141,12 +140,11 @@ counts. This is suggested for the delayed effect examples.</li>
 e.g., in the multiple population example, spending in the overall
 population at the same rate as in the biomarker positive subgroup
 regardless of event counts over time in the overall population. This is
-consistent with <span class="citation">Follmann, Proschan, and Geller
-(1994)</span> as applied when multiple experimental treatments are
-compared to a common control. Spending time in this case corresponds to
-the approach of <span class="citation">Fleming, Harrington, and O’Brien
-(1984)</span> where fixed incremental spending is set for a potentially
-variable number of interim analyses.</li>
+consistent with <span class="citation">Follmann et al. (1994)</span> as
+applied when multiple experimental treatments are compared to a common
+control. Spending time in this case corresponds to the approach of <span class="citation">Fleming et al. (1984)</span> where fixed incremental
+spending is set for a potentially variable number of interim
+analyses.</li>
 </ul>
 <p>This document is fairly long in that it demonstrates a number of
 scenarios relevant to the spending time concept. The layout is intended
@@ -3546,10 +3544,10 @@ assumptions.</p>
 concept that may be helpful in practice. However, skipping the following
 two subsections can be done if these are not of interest. The first
 demonstrates calendar spending as in <span class="citation">Lan and
-DeMets (1989)</span>. The second is a basically the method of <span class="citation">Fleming, Harrington, and O’Brien (1984)</span> where a
-fixed incremental spend is used for a potentially variable number of
-interim analyses, with the final bound computed based on the unspent
-one-sided Type I error assigned to a hypothesis.</p>
+DeMets (1989)</span>. The second is a basically the method of <span class="citation">Fleming et al. (1984)</span> where a fixed incremental
+spend is used for a potentially variable number of interim analyses,
+with the final bound computed based on the unspent one-sided Type I
+error assigned to a hypothesis.</p>
 <div class="section level4">
 <h4 id="calendar-spending">Calendar spending<a class="anchor" aria-label="anchor" href="#calendar-spending"></a>
 </h4>
@@ -4099,17 +4097,16 @@ document.</p>
 <div class="section level4">
 <h4 id="fixed-incremental-spend-with-a-variable-number-of-analyses">Fixed incremental spend with a variable number of analyses<a class="anchor" aria-label="anchor" href="#fixed-incremental-spend-with-a-variable-number-of-analyses"></a>
 </h4>
-<p>As noted, this method was proposed by <span class="citation">Fleming,
-Harrington, and O’Brien (1984)</span>. The general strategy demonstrated
-is to do an interim analyses every 6 months until a both a final
-targeted follow-up time and cumulative number of events is achieved.
-Once efficacy analyses start, a fixed incremental spend of 0.001 is used
-at each interim. When the criteria for final analysis is met, the
-remaining <span class="math inline">\(\alpha\)</span> is spent.
-Cumulative spending at months 18 and 24 will be 0.001 and 0.002,
-respectively, with the full cumulative <span class="math inline">\(\alpha\)</span>-spending of 0.025 at the final
-analysis. This is done by setting the spending time at 18 and 24 months
-to 1/25, 2/25 and 1; i.e., 1/25 incremental <span class="math inline">\(\alpha\)</span>-spending is incorporated at each
+<p>As noted, this method was proposed by <span class="citation">Fleming
+et al. (1984)</span>. The general strategy demonstrated is to do an
+interim analyses every 6 months until a both a final targeted follow-up
+time and cumulative number of events is achieved. Once efficacy analyses
+start, a fixed incremental spend of 0.001 is used at each interim. When
+the criteria for final analysis is met, the remaining <span class="math inline">\(\alpha\)</span> is spent. Cumulative spending at
+months 18 and 24 will be 0.001 and 0.002, respectively, with the full
+cumulative <span class="math inline">\(\alpha\)</span>-spending of 0.025
+at the final analysis. This is done by setting the spending time at 18
+and 24 months to 1/25, 2/25 and 1; i.e., 1/25 incremental <span class="math inline">\(\alpha\)</span>-spending is incorporated at each
 interim analysis and any remaining <span class="math inline">\(\alpha\)</span> is spent at the final analysis.
 This enables a strategy such as analyzing every 6 months until both a
 minimum targeted follow-up and minimum number of events are observed, at
@@ -5300,7 +5297,6 @@ finding.</p>
 <span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
 <span>  lpar <span class="op">=</span> <span class="va">lpar</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Unknown or uninitialised column: `Events`.</span></span>
 <span></span>
 <span><span class="va">yz</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -12489,31 +12485,30 @@ are at the final analysis when the most complete risk-benefit assessment
 can be made. We gave two options to this:
 <ul>
 <li>Use a fixed, small incremental <span class="math inline">\(\alpha\)</span>-spend at each interim such as
-proposed by <span class="citation">Fleming, Harrington, and O’Brien
-(1984)</span> with a variable number of interim analyses to ensure
-adequate follow-up.</li>
+proposed by <span class="citation">Fleming et al. (1984)</span> with a
+variable number of interim analyses to ensure adequate follow-up.</li>
 <li>Use the minimum of planned and actual spending at interim
 analyses.</li>
 </ul>
 </li>
 </ul>
-<p>When implementing the <span class="citation">Fleming, Harrington, and
-O’Brien (1984)</span> approach, we also suggested a simple approach to
-futility that may be quite useful practically in a scenario with a
-potentially delayed onset of treatment effect. This basically looks for
-evidence of a favorable control group effect relative to experimental by
-setting a nominal p-value cutoff at a 1-sided 0.05 level for early
-interim futility analyses. Where crossing survival curves or inferior
-survival curves may exist, this may be a useful way to ensure continuing
-a trial is ethical; this approach is perhaps most useful when the
-experimental treatment is replacing components of the control treatment
-or in a case where add-on treatment may be toxic or potentially have
-other detrimental effects.</p>
+<p>When implementing the <span class="citation">Fleming et al.
+(1984)</span> approach, we also suggested a simple approach to futility
+that may be quite useful practically in a scenario with a potentially
+delayed onset of treatment effect. This basically looks for evidence of
+a favorable control group effect relative to experimental by setting a
+nominal p-value cutoff at a 1-sided 0.05 level for early interim
+futility analyses. Where crossing survival curves or inferior survival
+curves may exist, this may be a useful way to ensure continuing a trial
+is ethical; this approach is perhaps most useful when the experimental
+treatment is replacing components of the control treatment or in a case
+where add-on treatment may be toxic or potentially have other
+detrimental effects.</p>
 <p>In addition to the delayed effect example, we considered an example
 testing in both a biomarker positive subgroup and the overall
 population. Using a common spending time for all hypotheses with a
-common interim analysis strategy as advocated by <span class="citation">Follmann, Proschan, and Geller (1994)</span> can be
-helpful to implement spending so that all hypotheses have adequate <span class="math inline">\(\alpha\)</span> to spend at the final analysis and
+common interim analysis strategy as advocated by <span class="citation">Follmann et al. (1994)</span> can be helpful to
+implement spending so that all hypotheses have adequate <span class="math inline">\(\alpha\)</span> to spend at the final analysis and
 also to ensure full utilization of <span class="math inline">\(\alpha\)</span>-spending. We suggested again using
 the minimum of planned and actual spending at interim analysis. Spending
 can be based on a key hypothesis (e.g., the biomarker positive
@@ -12523,15 +12518,15 @@ testing is also more simply implemented with this strategy <span class="citation
 <p>In summary, we have illustrated both the motivation and the
 illustration of the spending time approach through examples we have
 commonly encountered. Approaches suggested included an implementation of
-<span class="citation">Fleming, Harrington, and O’Brien (1984)</span>
-with a fixed incremental <span class="math inline">\(\alpha\)</span>-spend at each interim analysis as
-well as the use of the minimum of planned and actual spending at interim
-analyses.</p>
+<span class="citation">Fleming et al. (1984)</span> with a fixed
+incremental <span class="math inline">\(\alpha\)</span>-spend at each
+interim analysis as well as the use of the minimum of planned and actual
+spending at interim analyses.</p>
 </div>
 <div class="section level3">
 <h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-anderson2022unified" class="csl-entry">
 Anderson, Keaven M, Zifang Guo, Jing Zhao, and Linda Z Sun. 2022.
 <span>“A Unified Framework for Weighted Parametric Group Sequential
@@ -12553,16 +12548,15 @@ Boundaries for Clinical Trials.”</span> <em>Biometrika</em> 70 (3):
 659–63.
 </div>
 <div id="ref-lan1989group" class="csl-entry">
-———. 1989. <span>“Group Sequential Procedures: Calendar Versus
-Information Time.”</span> <em>Statistics in Medicine</em> 8 (10):
-1191–98.
+Lan, K. K. Gordon, and David L DeMets. 1989. <span>“Group Sequential
+Procedures: Calendar Versus Information Time.”</span> <em>Statistics in
+Medicine</em> 8 (10): 1191–98.
 </div>
 <div id="ref-lin2020alternative" class="csl-entry">
-Lin, Ray S, Ji Lin, Satrajit Roychoudhury, Keaven M Anderson, Tianle Hu,
-Bo Huang, Larry F Leon, et al. 2020. <span>“Alternative Analysis Methods
-for Time to Event Endpoints Under Nonproportional Hazards: A Comparative
-Analysis.”</span> <em>Statistics in Biopharmaceutical Research</em> 12
-(2): 187–98.
+<span class="nocase">Lin, Ray S, Ji Lin, Satrajit Roychoudhury, et
+al.</span> 2020. <span>“Alternative Analysis Methods for Time to Event
+Endpoints Under Nonproportional Hazards: A Comparative Analysis.”</span>
+<em>Statistics in Biopharmaceutical Research</em> 12 (2): 187–98.
 </div>
 <div id="ref-maurer2013multiple" class="csl-entry">
 Maurer, Willi, and Frank Bretz. 2013. <span>“Multiple Testing in Group
@@ -12578,7 +12572,7 @@ Considerations in Designing of Immuno-Oncology Trials.”</span>
 <div id="ref-proschan2006statistical" class="csl-entry">
 Proschan, Michael A., K. K. Gordon Lan, and Janet Turk Wittes. 2006.
 <em>Statistical Monitoring of Clinical Trials: A Unified Approach</em>.
-New York, NY: Springer.
+Springer.
 </div>
 <div id="ref-roychoudhury2021robust" class="csl-entry">
 Roychoudhury, Satrajit, Keaven M Anderson, Jiabu Ye, and Pralay

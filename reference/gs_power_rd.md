@@ -146,14 +146,16 @@ gs_power_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper    0.000309     0.000104  3.71                       0.629
-#> 2        2 upper    0.0182       0.00605   2.51                       0.301
-#> 3        3 upper    0.0728       0.0250    1.99                       0.195
-#> 4        1 lower    0.0571       0.100    -1.28                      -0.217
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound  probability probability0         z ~risk difference at bound
+#> 1        1 upper 0.0003091285 0.0001035057  3.710303                 0.6291125
+#> 2        2 upper 0.0181812128 0.0060484866  2.511427                 0.3011095
+#> 3        3 upper 0.0728412074 0.0249830182  1.993048                 0.1951084
+#> 4        1 lower 0.0571429811 0.1000000000 -1.281552                -0.2172976
+#>      nominal p
+#> 1 0.0001035057
+#> 2 0.0060122074
+#> 3 0.0231281218
+#> 4 0.9000000000
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -191,14 +193,16 @@ gs_power_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper    0.000309     0.000116  3.71                       0.571
-#> 2        2 upper    0.0182       0.00680   2.51                       0.276
-#> 3        3 upper    0.0728       0.0281    1.99                       0.181
-#> 4        1 lower    0.0571       0.0949   -1.28                      -0.191
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound  probability probability0         z ~risk difference at bound
+#> 1        1 upper 0.0003091285 0.0001162159  3.710303                 0.5712012
+#> 2        2 upper 0.0181812128 0.0067985887  2.511427                 0.2759986
+#> 3        3 upper 0.0728412074 0.0280730655  1.993048                 0.1805976
+#> 4        1 lower 0.0571429811 0.0949329260 -1.281552                -0.1905679
+#>      nominal p
+#> 1 0.0001035057
+#> 2 0.0060122074
+#> 3 0.0231281218
+#> 4 0.9000000000
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -235,14 +239,16 @@ gs_power_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper    0.000309     0.000116  3.71                       0.571
-#> 2        2 upper    0.0182       0.00680   2.51                       0.276
-#> 3        3 upper    0.0728       0.0281    1.99                       0.181
-#> 4        1 lower    0.0571       0.0949   -1.28                      -0.191
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound  probability probability0         z ~risk difference at bound
+#> 1        1 upper 0.0003091285 0.0001162159  3.710303                 0.5712012
+#> 2        2 upper 0.0181809114 0.0067984607  2.511434                 0.2759993
+#> 3        3 upper 0.0728406608 0.0280728068  1.993051                 0.1805979
+#> 4        1 lower 0.0571429811 0.0949329260 -1.281552                -0.1905679
+#>      nominal p
+#> 1 0.0001035057
+#> 2 0.0060120917
+#> 3 0.0231279272
+#> 4 0.9000000000
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -281,14 +287,16 @@ gs_power_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper    0.000437     0.000104  3.71                       0.456
-#> 2        2 upper    0.0237       0.00604   2.51                       0.228
-#> 3        3 upper    0.0795       0.0237    1.99                       0.166
-#> 4        1 lower    0.0470       0.100    -1.28                      -0.157
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound  probability probability0         z ~risk difference at bound
+#> 1        1 upper 0.0004374648 0.0001035057  3.710303                 0.4556368
+#> 2        2 upper 0.0237074382 0.0060370551  2.511427                 0.2278406
+#> 3        3 upper 0.0795090157 0.0236920419  1.993048                 0.1658102
+#> 4        1 lower 0.0470452990 0.1000000000 -1.281552                -0.1573785
+#>      nominal p
+#> 1 0.0001035057
+#> 2 0.0060122074
+#> 3 0.0231281218
+#> 4 0.9000000000
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -327,14 +335,16 @@ gs_power_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper    0.000443     0.000104  3.71                       0.449
-#> 2        2 upper    0.0240       0.00604   2.51                       0.225
-#> 3        3 upper    0.0803       0.0237    1.99                       0.164
-#> 4        1 lower    0.0467       0.100    -1.28                      -0.155
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound  probability probability0         z ~risk difference at bound
+#> 1        1 upper 0.0004427274 0.0001035057  3.710303                 0.4492645
+#> 2        2 upper 0.0239817291 0.0060373908  2.511427                 0.2246733
+#> 3        3 upper 0.0803017559 0.0236948429  1.993048                 0.1635101
+#> 4        1 lower 0.0466790577 0.1000000000 -1.281552                -0.1551775
+#>      nominal p
+#> 1 0.0001035057
+#> 2 0.0060122074
+#> 3 0.0231281218
+#> 4 0.9000000000
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -373,14 +383,16 @@ gs_power_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper    0.000437     0.000194  3.71                      0.285 
-#> 2        2 upper    0.0237       0.0109    2.51                      0.153 
-#> 3        3 upper    0.0795       0.0401    1.99                      0.117 
-#> 4        1 lower    0.0470       0.0744   -1.28                     -0.0717
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound  probability probability0         z ~risk difference at bound
+#> 1        1 upper 0.0004374648 0.0001942497  3.710303                0.28537089
+#> 2        2 upper 0.0237074382 0.0108531061  2.511427                0.15269839
+#> 3        3 upper 0.0795090157 0.0400648305  1.993048                0.11657078
+#> 4        1 lower 0.0470452990 0.0743583639 -1.281552               -0.07166003
+#>      nominal p
+#> 1 0.0001035057
+#> 2 0.0060122074
+#> 3 0.0231281218
+#> 4 0.9000000000
 #> 
 #> $analysis
 #> # A tibble: 3 × 10
@@ -419,14 +431,16 @@ gs_power_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper    0.000443     0.000267  3.71                      0.197 
-#> 2        2 upper    0.0240       0.0145    2.51                      0.113 
-#> 3        3 upper    0.0803       0.0518    1.99                      0.0906
-#> 4        1 lower    0.0467       0.0632   -1.28                     -0.0275
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound  probability probability0         z ~risk difference at bound
+#> 1        1 upper 0.0004427274  0.000267021  3.710303                0.19650137
+#> 2        2 upper 0.0239817291  0.014517313  2.511427                0.11326589
+#> 3        3 upper 0.0803017559  0.051793142  1.993048                0.09059827
+#> 4        1 lower 0.0466790577  0.063159416 -1.281552               -0.02751015
+#>      nominal p
+#> 1 0.0001035057
+#> 2 0.0060122074
+#> 3 0.0231281218
+#> 4 0.9000000000
 #> 
 #> $analysis
 #> # A tibble: 3 × 10

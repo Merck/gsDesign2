@@ -1,6 +1,7 @@
 # Conditional power
 
 ``` r
+
 library(gsDesign)
 library(gsDesign2)
 library(gt)
@@ -38,6 +39,7 @@ Lan-DeMets spending function to approximate O’Brien-Fleming bounds with
 one-sided Type I error \\\alpha = 0.025\\.
 
 ``` r
+
 enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 2, 6),
   rate = (1:4) / 4)
@@ -92,6 +94,7 @@ based on the original assumptions of HR = 1 for 4 months and 0.6
 thereafter is computed as follows:
 
 ``` r
+
 ia1_theta <- -sum(log(c(1, 0.6)) * c(90, 55)) / 145
 ia1_theta
 #> [1] 0.1937614
@@ -107,6 +110,7 @@ assume the actual timing of IA1 is at 17 months after study start. We
 update the design bounds as follows:
 
 ``` r
+
 ustime <- x$analysis$info_frac
 ustime[1] <- min(145, x$analysis$event[1]) / max(x$analysis$event)
 xu <- gs_update_ahr(
@@ -146,6 +150,7 @@ translates a hazard ratio and number of events into an approximate
 corresponding Z-value, using the Schoenfeld approximation.
 
 ``` r
+
 ia1_hr <- seq(0.6, 0.9, 0.1)
 ia1_z <- -hrn2z(hr = ia1_hr, n = 145, ratio = 1)
 ```
@@ -157,6 +162,7 @@ Assuming a future HR between IA1 and FA from 0.6 to 1.1, we translate
 the HR to standardized effect size as shown below.
 
 ``` r
+
 future_hr <- seq(0.6, 1.1, .01)
 future_theta <- -log(future_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
 ```
@@ -167,6 +173,7 @@ calculate the simple conditional power via the
 function for both IA2 and the final analysis.
 
 ``` r
+
 ia2_cp <- NULL
 fa_cp <- NULL
 q_e <- x$input$ratio / (1 + x$input$ratio)
@@ -211,6 +218,7 @@ The red/blue line shows the conditional probability of crossing FA/IA2
 efficacy bound.
 
 ``` r
+
 # plot the conditional power
 ggplot(data = rbind(ia2_cp, fa_cp),
        aes(x = future_hr, y = cond_prob, 

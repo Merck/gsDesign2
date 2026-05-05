@@ -1,6 +1,7 @@
 # Power evaluation with spending bounds
 
 ``` r
+
 library(tibble)
 library(gt)
 library(gsDesign2)
@@ -44,6 +45,7 @@ The detailed introduction of this trial is listed as follows.
   in the control group to 10% (\\p_2 = 0.1\\) in the experimental group.
 
 ``` r
+
 p0 <- 0.15 # assumed failure rate in control group
 p1 <- 0.10 # assumed failure rate in experimental group
 alpha <- 0.025 # type I error
@@ -162,6 +164,7 @@ We begin with developing a function `gs_info_binomial()` to calculate
 the statistical information discussed above.
 
 ``` r
+
 gs_info_binomial <- function(p1, p2, xi1, n, delta = NULL) {
   if (is.null(delta)) delta <- p1 - p2
   # Compute (constant) effect size at each analysis theta
@@ -193,6 +196,7 @@ gs_info_binomial <- function(p1, p2, xi1, n, delta = NULL) {
 For the CAPTURE trial, we have
 
 ``` r
+
 h1 <- gs_info_binomial(p1 = .15, p2 = .1, xi1 = .5, n = c(350, 700, 1400))
 h1 |> gt()
 ```
@@ -209,6 +213,7 @@ with the intended spending functions. We begin with power under the
 alternate hypothesis
 
 ``` r
+
 gs_power_npe(
   theta = h1$theta,
   theta1 = h1$theta,
@@ -224,19 +229,20 @@ gs_power_npe(
   fmt_number(columns = 3:10, decimals = 4)
 ```
 
-| analysis | bound | z       | probability | theta  | theta1 | info_frac | info       | info0      | info1      |
-|----------|-------|---------|-------------|--------|--------|-----------|------------|------------|------------|
-| 1        | upper | 4.3326  | 0.0017      | 0.0500 | 0.0500 | 0.2500    | 804.5977   | 800.0000   | 804.5977   |
-| 2        | upper | 2.9632  | 0.1692      | 0.0500 | 0.0500 | 0.5000    | 1,609.1954 | 1,600.0000 | 1,609.1954 |
-| 3        | upper | 1.9686  | 0.7939      | 0.0500 | 0.0500 | 1.0000    | 3,218.3908 | 3,200.0000 | 3,218.3908 |
-| 1        | lower | −0.6292 | 0.0202      | 0.0500 | 0.0500 | 0.2500    | 804.5977   | 800.0000   | 804.5977   |
-| 2        | lower | 0.2947  | 0.0537      | 0.0500 | 0.0500 | 0.5000    | 1,609.1954 | 1,600.0000 | 1,609.1954 |
-| 3        | lower | 1.9441  | 0.1999      | 0.0500 | 0.0500 | 1.0000    | 3,218.3908 | 3,200.0000 | 3,218.3908 |
+| analysis | bound | z | probability | theta | theta1 | info_frac | info | info0 | info1 |
+|----|----|----|----|----|----|----|----|----|----|
+| 1 | upper | 4.3326 | 0.0017 | 0.0500 | 0.0500 | 0.2500 | 804.5977 | 800.0000 | 804.5977 |
+| 2 | upper | 2.9632 | 0.1692 | 0.0500 | 0.0500 | 0.5000 | 1,609.1954 | 1,600.0000 | 1,609.1954 |
+| 3 | upper | 1.9686 | 0.7939 | 0.0500 | 0.0500 | 1.0000 | 3,218.3908 | 3,200.0000 | 3,218.3908 |
+| 1 | lower | −0.6292 | 0.0202 | 0.0500 | 0.0500 | 0.2500 | 804.5977 | 800.0000 | 804.5977 |
+| 2 | lower | 0.2947 | 0.0537 | 0.0500 | 0.0500 | 0.5000 | 1,609.1954 | 1,600.0000 | 1,609.1954 |
+| 3 | lower | 1.9441 | 0.1999 | 0.0500 | 0.0500 | 1.0000 | 3,218.3908 | 3,200.0000 | 3,218.3908 |
 
 Now we examine information for a smaller assumed treatment difference
 than the alternative:
 
 ``` r
+
 h <- gs_info_binomial(p1 = .15, p2 = .12, xi1 = .5, delta = .05, n = c(350, 700, 1400))
 
 gs_power_npe(
@@ -251,14 +257,14 @@ gs_power_npe(
   fmt_number(columns = 3:10, decimals = 4)
 ```
 
-| analysis | bound | z       | probability | theta  | theta1 | info_frac | info       | info0      | info1      |
-|----------|-------|---------|-------------|--------|--------|-----------|------------|------------|------------|
-| 1        | upper | 4.3326  | 0.0002      | 0.0300 | 0.0500 | 0.2500    | 750.7508   | 749.3042   | 753.3362   |
-| 2        | upper | 2.9632  | 0.0359      | 0.0300 | 0.0500 | 0.5000    | 1,501.5015 | 1,498.6084 | 1,506.6724 |
-| 3        | upper | 1.9686  | 0.3644      | 0.0300 | 0.0500 | 1.0000    | 3,003.0030 | 2,997.2169 | 3,013.3448 |
-| 1        | lower | −0.6751 | 0.0671      | 0.0300 | 0.0500 | 0.2500    | 750.7508   | 749.3042   | 753.3362   |
-| 2        | lower | 0.2298  | 0.1945      | 0.0300 | 0.0500 | 0.5000    | 1,501.5015 | 1,498.6084 | 1,506.6724 |
-| 3        | lower | 1.8514  | 0.5943      | 0.0300 | 0.0500 | 1.0000    | 3,003.0030 | 2,997.2169 | 3,013.3448 |
+| analysis | bound | z | probability | theta | theta1 | info_frac | info | info0 | info1 |
+|----|----|----|----|----|----|----|----|----|----|
+| 1 | upper | 4.3326 | 0.0002 | 0.0300 | 0.0500 | 0.2500 | 750.7508 | 749.3042 | 753.3362 |
+| 2 | upper | 2.9632 | 0.0359 | 0.0300 | 0.0500 | 0.5000 | 1,501.5015 | 1,498.6084 | 1,506.6724 |
+| 3 | upper | 1.9686 | 0.3644 | 0.0300 | 0.0500 | 1.0000 | 3,003.0030 | 2,997.2169 | 3,013.3448 |
+| 1 | lower | −0.6751 | 0.0671 | 0.0300 | 0.0500 | 0.2500 | 750.7508 | 749.3042 | 753.3362 |
+| 2 | lower | 0.2298 | 0.1945 | 0.0300 | 0.0500 | 0.5000 | 1,501.5015 | 1,498.6084 | 1,506.6724 |
+| 3 | lower | 1.8514 | 0.5943 | 0.0300 | 0.0500 | 1.0000 | 3,003.0030 | 2,997.2169 | 3,013.3448 |
 
 ## References
 

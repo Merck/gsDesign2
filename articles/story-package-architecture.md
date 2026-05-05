@@ -76,6 +76,7 @@ can use nested if-else statements or
 [`switch()`](https://rdrr.io/r/base/switch.html).
 
 ``` r
+
 if (x$design == "ahr") {
   # code for ahr designs
 } else if (x$design == "wlr") {
@@ -92,6 +93,7 @@ result <- switch(x$design, ahr = 1, wlr = 2, rd = 3)
 To determine if the futility is binding, query the attribute `binding`.
 
 ``` r
+
 if (attr(x, "binding")) {
   # code for design with binding futility bound
 } else {

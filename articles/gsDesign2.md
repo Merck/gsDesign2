@@ -49,6 +49,7 @@ discussed throughout the document.
   simulation.
 
 ``` r
+
 library(gsDesign)
 library(gsDesign2)
 library(knitr)
@@ -67,6 +68,7 @@ increased later to power the design appropriately. However, the fixed
 enrollment rate periods will remain unchanged.
 
 ``` r
+
 enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 2, 6),
   rate = (1:4) / 4
@@ -102,6 +104,7 @@ low \\0.001\\ exponential dropout rate per month for both treatment
 groups.
 
 ``` r
+
 median_surv <- 12
 
 fail_rate <- define_fail_rate(
@@ -126,6 +129,7 @@ derive sample size for a trial targeted to complete in 36 months with no
 interim analysis, \\90\\\\ power and \\2.5\\\\ Type I error.
 
 ``` r
+
 alpha <- .025
 beta <- .1 # 1 - targeted power
 d <- fixed_design_ahr(
@@ -142,22 +146,24 @@ you would normally round up `N` up to an even number and `Events` to the
 next integer.
 
 ``` r
+
 d |>
   summary() |>
   as_gt()
 ```
 
-| Fixed Design under AHR Method¹                     |          |          |      |           |          |       |       |
-|----------------------------------------------------|----------|----------|------|-----------|----------|-------|-------|
-| Design                                             | N        | Events   | Time | AHR       | Bound    | alpha | Power |
-| Average hazard ratio                               | 433.6922 | 315.2547 | 36   | 0.6934128 | 1.959964 | 0.025 | 0.9   |
-| ¹ Power computed with average hazard ratio method. |          |          |      |           |          |       |       |
+| Fixed Design under AHR Method¹ |  |  |  |  |  |  |  |
+|----|----|----|----|----|----|----|----|
+| Design | N | Events | Time | AHR | Bound | alpha | Power |
+| Average hazard ratio | 433.6922 | 315.2547 | 36 | 0.6934128 | 1.959964 | 0.025 | 0.9 |
+| ¹ Power computed with average hazard ratio method. |  |  |  |  |  |  |  |
 
 The enrollment rates for each period have been increased proportionately
 to size the trial for the desired properties; the duration for each
 enrollment rate has not changed.
 
 ``` r
+
 d$enroll_rate |> gt()
 ```
 
@@ -214,6 +220,7 @@ efficacy bound using the Lan-DeMets O’Brien-Fleming spending function
 for \\\alpha = 0.025\\ with
 
 ``` r
+
 design1s <- gs_design_ahr(
   alpha = alpha,
   beta = beta,
@@ -232,6 +239,7 @@ at time of each data cutoff for analysis is also here in `N`. We filter
 on the upper bound so that lower bounds with `Z = -Inf` are not shown.
 
 ``` r
+
 design1s |>
   summary() |>
   as_gt(
@@ -246,6 +254,7 @@ gsDesign to replicate above bounds (this will not replicate sample
 size).
 
 ``` r
+
 x <- gsDesign(k = 3, test.type = 1, timing = design1s$analysis$info_frac, sfu = sfLDOF)
 cat(
   "gsDesign\n  Upper bound: ", x$upper$bound,
@@ -275,6 +284,7 @@ We will consider both symmetric and asymmetric 2-sided designs.
 Our first 2-sided design is a symmetric design.
 
 ``` r
+
 design2ss <- gs_design_ahr(
   alpha = alpha,
   beta = beta,
@@ -292,6 +302,7 @@ design2ss <- gs_design_ahr(
 Design bounds are confirmed with:
 
 ``` r
+
 design2ss |>
   summary() |>
   as_gt(
@@ -305,6 +316,7 @@ design2ss |>
 The bounds can be plotted easily:
 
 ``` r
+
 ggplot(
   data = design2ss$analysis |> left_join(design2ss$bound, by = "analysis"),
   aes(x = event, y = z, group = bound)
@@ -333,6 +345,7 @@ there may not be a perceived need for further futility analysis. For
 efficacy, we add an infinite bound at this first interim analysis.
 
 ``` r
+
 design2sa <- gs_design_ahr(
   alpha = alpha,
   beta = beta,
@@ -351,6 +364,7 @@ We now have a slightly larger sample size to account for the possibility
 of an early futility stop. Bounds are now:
 
 ``` r
+
 design2sa |>
   summary() |>
   as_gt(

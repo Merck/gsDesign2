@@ -135,13 +135,11 @@ gs_update_ahr(
 #> 2 All          Inf    0.0770       0.0001   0.6
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0        z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl>    <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.481       0.00414    2.64           0.682     0.00414
-#> 2        2 upper      0.906       0.0237     1.98           0.799     0.0237 
-#> 3        1 lower      0.0353      0.784      0.787          0.892     0.216  
-#> 4        2 lower      0.0353      0.784   -Inf            Inf         1      
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574
+#> 2        2 upper  0.90644887  0.023652865 1.9827196    0.7986285 0.023699381
+#> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
+#> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
 #>   analysis     time   n event       ahr     theta  info info0 info_frac
@@ -180,13 +178,11 @@ gs_update_ahr(
 #> 2 All          Inf    0.0770       0.0001   0.6
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0        z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl>    <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.481       0.00414    2.64           0.682     0.00414
-#> 2        2 upper      0.939       0.0239     1.98           0.796     0.0238 
-#> 3        1 lower      0.0353      0.784      0.787          0.892     0.216  
-#> 4        2 lower      0.0353      0.784   -Inf            Inf         1      
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574
+#> 2        2 upper  0.93925499  0.023873317 1.9806560    0.7955620 0.023814933
+#> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
+#> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
 #>   analysis     time   n event       ahr     theta info info0 info_frac
@@ -225,13 +221,11 @@ gs_update_ahr(
 #> 2 All          Inf    0.0770       0.0001   0.6
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0        z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl>    <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.481       0.00414    2.64           0.682     0.00414
-#> 2        2 upper      0.939       0.0239     1.98           0.796     0.0238 
-#> 3        1 lower      0.0353      0.784      0.787          0.892     0.216  
-#> 4        2 lower      0.0353      0.784   -Inf            Inf         1      
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574
+#> 2        2 upper  0.93925499  0.023873317 1.9806560    0.7955620 0.023814933
+#> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
+#> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
 #>   analysis     time   n event       ahr     theta info info0 info_frac
@@ -263,13 +257,11 @@ gs_update_ahr(x = x, alpha = 0.05)
 #> 2 All          Inf    0.0770       0.0001   0.6
 #> 
 #> $bound
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0        z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl>    <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.518        0.0150    2.17           0.737      0.0150
-#> 2        2 upper      0.933        0.0487    1.69           0.826      0.0455
-#> 3        1 lower      0.0413       0.684     0.478          0.935      0.316 
-#> 4        2 lower      0.0413       0.684  -Inf            Inf          1     
+#>   analysis bound probability probability0         z ~hr at bound  nominal p
+#> 1        1 upper  0.51773954   0.01501825 2.1696086    0.7368977 0.01501825
+#> 2        2 upper  0.93344812   0.04865843 1.6902088    0.8255661 0.04549401
+#> 3        1 lower  0.04125608   0.68360277 0.4777973    0.9349751 0.31639723
+#> 4        2 lower  0.04125608   0.68360277      -Inf          Inf 1.00000000
 #> 
 #> $analysis
 #>   analysis     time   n event       ahr     theta  info info0 info_frac

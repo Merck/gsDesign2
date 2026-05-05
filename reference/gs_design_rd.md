@@ -211,18 +211,16 @@ gs_design_rd(
 #> [1] "rd"
 #> 
 #> $bound
-#> # A tibble: 2 × 7
-#>   analysis bound probability probability0     z `~risk difference at bound`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>                       <dbl>
-#> 1        1 upper       0.616      0.00738  2.44                      0.0339
-#> 2        2 upper       0.900      0.0250   2.00                      0.0232
-#> # ℹ 1 more variable: `nominal p` <dbl>
+#>   analysis bound probability probability0        z ~risk difference at bound
+#> 1        1 upper   0.6160548  0.007384489 2.437995                0.03386142
+#> 2        2 upper   0.9000000  0.025000000 1.999933                0.02324004
+#>     nominal p
+#> 1 0.007384489
+#> 2 0.022753752
 #> 
 #> $analysis
-#> # A tibble: 2 × 8
-#>   analysis     n    rd   rd0  info info0 info_frac info_frac0
-#>      <int> <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1        1 3426. 0.038     0 5184. 5172.       0.7        0.7
-#> 2        2 4894. 0.038     0 7406. 7388.       1          1  
+#>   analysis        n    rd rd0     info    info0 info_frac info_frac0
+#> 1        1 3426.132 0.038   0 5183.883 5171.832       0.7        0.7
+#> 2        2 4894.474 0.038   0 7405.547 7388.331       1.0        1.0
 #> 
 ```

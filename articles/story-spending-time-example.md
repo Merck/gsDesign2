@@ -1,6 +1,7 @@
 # Spending time examples
 
 ``` r
+
 library(gsDesign)
 library(gsDesign2)
 library(tibble)
@@ -54,9 +55,9 @@ While other approaches could be taken, we have found the spending time
 approach generalizes well for addressing a variety of scenarios. The
 fact that spending does not need to correspond to information fraction
 was perhaps first raised by Lan and DeMets (1989) where calendar-time
-spending was discussed. However, we note that Proschan, Lan, and Wittes
-(2006) has raised other scenarios where spending alternatives are
-considered. Two specific spending approaches are suggested here:
+spending was discussed. However, we note that Proschan et al. (2006) has
+raised other scenarios where spending alternatives are considered. Two
+specific spending approaches are suggested here:
 
 - Spending according to the minimum of planned and observed event
   counts. This is suggested for the delayed effect examples.
@@ -64,11 +65,11 @@ considered. Two specific spending approaches are suggested here:
   in the multiple population example, spending in the overall population
   at the same rate as in the biomarker positive subgroup regardless of
   event counts over time in the overall population. This is consistent
-  with Follmann, Proschan, and Geller (1994) as applied when multiple
-  experimental treatments are compared to a common control. Spending
-  time in this case corresponds to the approach of Fleming, Harrington,
-  and O’Brien (1984) where fixed incremental spending is set for a
-  potentially variable number of interim analyses.
+  with Follmann et al. (1994) as applied when multiple experimental
+  treatments are compared to a common control. Spending time in this
+  case corresponds to the approach of Fleming et al. (1984) where fixed
+  incremental spending is set for a potentially variable number of
+  interim analyses.
 
 This document is fairly long in that it demonstrates a number of
 scenarios relevant to the spending time concept. The layout is intended
@@ -104,6 +105,7 @@ for approximating treatment effect as in Mukhopadhyay et al. (2020) and
 the asymptotic group sequential theory of Tsiatis (1982).
 
 ``` r
+
 # control median
 m <- 12
 
@@ -130,6 +132,7 @@ part way between the early HR of 1 and the later HR of 0.6 assumed for
 experimental versus control therapy.
 
 ``` r
+
 # bounds for fixed design are just a fixed bound for nominal p = 0.025, 1-sided
 z_025 <- qnorm(.975)
 
@@ -167,6 +170,7 @@ hazard ratio of 0.78 at the expected time of analysis rather than the
 targeted average hazard ratio of 0.70 under the original assumptions.
 
 ``` r
+
 # update the median of control arm
 am <- 10 # alternate control median (the original is 12)
 
@@ -213,6 +217,7 @@ investment where there is an clinically relevant underlying survival
 benefit.
 
 ``` r
+
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
@@ -242,6 +247,7 @@ analyze after 30 months, the power of the trial is 87% with 288 events
 expected.
 
 ``` r
+
 # alternate control median
 am <- 16 # the original is 12
 
@@ -279,6 +285,7 @@ example, the time cutoff alone would not have ensured sufficient
 follow-up to power the trial.
 
 ``` r
+
 # calculate the power when trial duration is 30 month and the events is the targeted events
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
@@ -331,6 +338,7 @@ spending function when specifying the use of information fraction for
 design.
 
 ``` r
+
 # Spending for design with planned information fraction (IF)
 upar_design_if <- list(
   # total_spend represents one-sided Type I error
@@ -353,6 +361,7 @@ calendar analysis times and use calendar fraction for spending, we would
 need to specify spending time for the design.
 
 ``` r
+
 # CF is for calendar fraction
 upar_design_cf <- upar_design_if
 # Now switch spending time to calendar fraction
@@ -367,6 +376,7 @@ is performed. It is critical to set the maximum planned information to
 update the information fraction calculation in this case.
 
 ``` r
+
 # We now need to change max_info from spending as specified for design
 upar_actual_info_frac <- upar_design_if
 # Note that we still have timing = NULL, unchanged from information-based design
@@ -388,6 +398,7 @@ used for computing correlations in the asymptotic distribution
 approximation for design tests.
 
 ``` r
+
 # Copy original upper planned spending
 upar_planned_info_frac <- upar_design_if
 # Interim and final spending time will always be the same, regardless of
@@ -408,6 +419,7 @@ planned. The interim analysis is far enough into the trial that there is
 a substantial probability of stopping early under design assumptions.
 
 ``` r
+
 # Control median
 m <- 12
 
@@ -462,10 +474,10 @@ We consider two alternate approaches to demonstrate the spending time
 concept that may be helpful in practice. However, skipping the following
 two subsections can be done if these are not of interest. The first
 demonstrates calendar spending as in Lan and DeMets (1989). The second
-is a basically the method of Fleming, Harrington, and O’Brien (1984)
-where a fixed incremental spend is used for a potentially variable
-number of interim analyses, with the final bound computed based on the
-unspent one-sided Type I error assigned to a hypothesis.
+is a basically the method of Fleming et al. (1984) where a fixed
+incremental spend is used for a potentially variable number of interim
+analyses, with the final bound computed based on the unspent one-sided
+Type I error assigned to a hypothesis.
 
 #### Calendar spending
 
@@ -485,6 +497,7 @@ strategy. We will not examine calendar-based spending further in this
 document.
 
 ``` r
+
 yy <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = xx$fail_rate,
@@ -509,22 +522,21 @@ yy |>
 
 #### Fixed incremental spend with a variable number of analyses
 
-As noted, this method was proposed by Fleming, Harrington, and O’Brien
-(1984). The general strategy demonstrated is to do an interim analyses
-every 6 months until a both a final targeted follow-up time and
-cumulative number of events is achieved. Once efficacy analyses start, a
-fixed incremental spend of 0.001 is used at each interim. When the
-criteria for final analysis is met, the remaining \\\alpha\\ is spent.
-Cumulative spending at months 18 and 24 will be 0.001 and 0.002,
-respectively, with the full cumulative \\\alpha\\-spending of 0.025 at
-the final analysis. This is done by setting the spending time at 18 and
-24 months to 1/25, 2/25 and 1; i.e., 1/25 incremental
-\\\alpha\\-spending is incorporated at each interim analysis and any
-remaining \\\alpha\\ is spent at the final analysis. This enables a
-strategy such as analyzing every 6 months until both a minimum targeted
-follow-up and minimum number of events are observed, at which time the
-final analysis is performed. We will skip efficacy analyses at the first
-two interim analyses at months 6 and 12.
+As noted, this method was proposed by Fleming et al. (1984). The general
+strategy demonstrated is to do an interim analyses every 6 months until
+a both a final targeted follow-up time and cumulative number of events
+is achieved. Once efficacy analyses start, a fixed incremental spend of
+0.001 is used at each interim. When the criteria for final analysis is
+met, the remaining \\\alpha\\ is spent. Cumulative spending at months 18
+and 24 will be 0.001 and 0.002, respectively, with the full cumulative
+\\\alpha\\-spending of 0.025 at the final analysis. This is done by
+setting the spending time at 18 and 24 months to 1/25, 2/25 and 1; i.e.,
+1/25 incremental \\\alpha\\-spending is incorporated at each interim
+analysis and any remaining \\\alpha\\ is spent at the final analysis.
+This enables a strategy such as analyzing every 6 months until both a
+minimum targeted follow-up and minimum number of events are observed, at
+which time the final analysis is performed. We will skip efficacy
+analyses at the first two interim analyses at months 6 and 12.
 
 For futility, we simply use a nominal 1-sided p-value of 0.05 favoring
 control at each interim. We note that this only raises a flag if the
@@ -563,6 +575,7 @@ study team should have a complete discussion of futility bound
 considerations at the time of design.
 
 ``` r
+
 # Cumulative spending at IA3 and IA4 will be 0.001 and 0.002, respectively.
 # Power spending function sfPower with param = 1 is linear in timing
 # which makes setting the above cumulative spending targets simple by
@@ -620,6 +633,7 @@ example it is valuable to limit spending at the interim analysis to the
 minimum of planned spending as opposed to using event-based spending.
 
 ``` r
+
 # Alternate control median
 am <- 10
 
@@ -653,12 +667,12 @@ yy |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                         | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|-------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 22.1 N: 517 Events: 315 AHR: 0.8 Information fraction: 0.83 |        |              |           |                      |                 |
-| Efficacy                                                                      | 2.0500 | 0.7936       | 0.0201    | 0.4832               | 0.0201          |
-| Analysis: 2 Time: 30 N: 517 Events: 381.8 AHR: 0.76 Information fraction: 1   |        |              |           |                      |                 |
-| Efficacy                                                                      | 2.1700 | 0.8008       | 0.0150    | 0.7091               | 0.0250          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 22.1 N: 517 Events: 315 AHR: 0.8 Information fraction: 0.83 |  |  |  |  |  |
+| Efficacy | 2.0500 | 0.7936 | 0.0201 | 0.4832 | 0.0201 |
+| Analysis: 2 Time: 30 N: 517 Events: 381.8 AHR: 0.76 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.1700 | 0.8008 | 0.0150 | 0.7091 | 0.0250 |
 
 Just as important, the general design principle of making interim
 analysis criteria more stringent that final is ensured for this
@@ -668,6 +682,7 @@ would have made a difference to ensure a statistically significant
 finding.
 
 ``` r
+
 yz <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
@@ -678,7 +693,6 @@ yz <- gs_power_ahr(
   lower = gs_b,
   lpar = lpar
 )
-#> Warning: Unknown or uninitialised column: `Events`.
 
 yz |>
   summary() |>
@@ -686,12 +700,12 @@ yz |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                         | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|-------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 22.1 N: 517 Events: 315 AHR: 0.8 Information fraction: 0.83 |        |              |           |                      |                 |
-| Efficacy                                                                      | 2.2500 | 0.7760       | 0.0122    | 0.4054               | 0.0122          |
-| Analysis: 2 Time: 30 N: 517 Events: 381.8 AHR: 0.76 Information fraction: 1   |        |              |           |                      |                 |
-| Efficacy                                                                      | 2.0200 | 0.8136       | 0.0219    | 0.7549               | 0.0250          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 22.1 N: 517 Events: 315 AHR: 0.8 Information fraction: 0.83 |  |  |  |  |  |
+| Efficacy | 2.2500 | 0.7760 | 0.0122 | 0.4054 | 0.0122 |
+| Analysis: 2 Time: 30 N: 517 Events: 381.8 AHR: 0.76 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.0200 | 0.8136 | 0.0219 | 0.7549 | 0.0250 |
 
 ### Scenario with longer control median
 
@@ -705,6 +719,7 @@ expected (0.680 vs 0.723 at the interim). First, we show the result
 using planned spending.
 
 ``` r
+
 # Alternate control median
 am <- 16
 
@@ -732,18 +747,19 @@ yy |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                            | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 22.1 N: 517 Events: 226.3 AHR: 0.72 Information fraction: 0.66 |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.2500 | 0.7414       | 0.0122    | 0.5774               | 0.0122          |
-| Analysis: 2 Time: 38.5 N: 517 Events: 344.6 AHR: 0.68 Information fraction: 1    |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.0700 | 0.7998       | 0.0191    | 0.9464               | 0.0250          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 22.1 N: 517 Events: 226.3 AHR: 0.72 Information fraction: 0.66 |  |  |  |  |  |
+| Efficacy | 2.2500 | 0.7414 | 0.0122 | 0.5774 | 0.0122 |
+| Analysis: 2 Time: 38.5 N: 517 Events: 344.6 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.0700 | 0.7998 | 0.0191 | 0.9464 | 0.0250 |
 
 Since the number of events was less than expected, if we had used the
 actual number of events the interim bound would be more stringent than
 above and we obtain slightly greater power.
 
 ``` r
+
 yz <- gs_power_ahr(
   enroll_rate = xx$enroll_rate,
   fail_rate = fail_rate,
@@ -761,12 +777,12 @@ yz |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                            | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 22.1 N: 517 Events: 226.3 AHR: 0.72 Information fraction: 0.66 |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.5100 | 0.7166       | 0.0061    | 0.4770               | 0.0061          |
-| Analysis: 2 Time: 38.5 N: 517 Events: 344.6 AHR: 0.68 Information fraction: 1    |        |              |           |                      |                 |
-| Efficacy                                                                         | 1.9900 | 0.8066       | 0.0230    | 0.9567               | 0.0250          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 22.1 N: 517 Events: 226.3 AHR: 0.72 Information fraction: 0.66 |  |  |  |  |  |
+| Efficacy | 2.5100 | 0.7166 | 0.0061 | 0.4770 | 0.0061 |
+| Analysis: 2 Time: 38.5 N: 517 Events: 344.6 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 1.9900 | 0.8066 | 0.0230 | 0.9567 | 0.0250 |
 
 ### Summary for spending time motivation assuming delayed benefit
 
@@ -792,6 +808,7 @@ the hazard ratio. For this case, we assume proportional hazards within
 negative (HR = 0.8) and positive (HR = 0.6) patients.
 
 ``` r
+
 # we assume an exponential failure rate with a median of 12
 # for the control group regardless of population.
 m <- 12
@@ -828,6 +845,7 @@ population with one-sided Type I error controlled at \\\alpha =
 ### Planned design for biomarker positive population
 
 ``` r
+
 # Since execution will be event-based for biomarker population,
 # there will be no need to change spending plan for different scenarios.
 
@@ -867,12 +885,12 @@ positive |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                            | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 22.6 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.5600 | 0.6597       | 0.0052    | 0.7176               | 0.0052          |
-| Analysis: 2 Time: 30 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1     |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.2900 | 0.7167       | 0.0109    | 0.9000               | 0.0125          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 22.6 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |  |  |  |  |  |
+| Efficacy | 2.5600 | 0.6597 | 0.0052 | 0.7176 | 0.0052 |
+| Analysis: 2 Time: 30 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.2900 | 0.7167 | 0.0109 | 0.9000 | 0.0125 |
 
 ### Planned design for overall population
 
@@ -880,6 +898,7 @@ We adjust the overall study enrollment rate to match the design
 requirement for the biomarker positive population.
 
 ``` r
+
 # Get enrollment rate inflation factor compared to originally input rate
 inflation_factor <- positive$enroll_rate$rate[1] / enroll_rate$rate[1]
 
@@ -894,6 +913,7 @@ planned_enroll_rate |> gt()
 | Negative | 12       | 24.40522 |
 
 ``` r
+
 
 # Store overall enrollment rates for future use
 overall_enroll_rate <- planned_enroll_rate |>
@@ -926,6 +946,7 @@ design if the observed biomarker positive prevalence is different than
 what was assumed for the design.
 
 ``` r
+
 # Set total spend for overall population, O'Brien-Fleming spending function, and
 # same spending time as biomarker subgroup
 upar_overall_planned_info_frac <- list(
@@ -958,12 +979,12 @@ overall_planned_bounds |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                            | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 22.6 N: 585.7 Events: 317.1 AHR: 0.7 Information fraction: 0.8 |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.5600 | 0.7501       | 0.0052    | 0.7407               | 0.0052          |
-| Analysis: 2 Time: 30 N: 585.7 Events: 394.1 AHR: 0.7 Information fraction: 1     |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.2900 | 0.7939       | 0.0110    | 0.9100               | 0.0125          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 22.6 N: 585.7 Events: 317.1 AHR: 0.7 Information fraction: 0.8 |  |  |  |  |  |
+| Efficacy | 2.5600 | 0.7501 | 0.0052 | 0.7407 | 0.0052 |
+| Analysis: 2 Time: 30 N: 585.7 Events: 394.1 AHR: 0.7 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.2900 | 0.7939 | 0.0110 | 0.9100 | 0.0125 |
 
 ### Alternate scenarios overview
 
@@ -989,6 +1010,7 @@ reasonable, the design planner should think carefully about other
 variations to suit their clinical trial team needs.
 
 ``` r
+
 ## Setting spending alternatives
 
 # Using information (event)-based spending time relative to overall population plan
@@ -1030,6 +1052,7 @@ prevalence the design anticipated. The enrollment rates by positive
 versus negative patients and expected enrollment duration are now:
 
 ``` r
+
 # update the enrollment rate due to 60% prevalence
 positive_60_enroll_rate <- rbind(
   overall_enroll_rate |> mutate(stratum = "Positive", rate = 0.6 * rate),
@@ -1058,6 +1081,7 @@ only thing that is changing here from the original design is that this
 takes slightly less time.
 
 ``` r
+
 positive_60_power <- gs_power_ahr(
   # enrollment/failure rate
   enroll_rate = positive_60_enroll_rate |> filter(stratum == "Positive"),
@@ -1080,12 +1104,12 @@ positive_60_power |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                            | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 21.5 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.5600 | 0.6597       | 0.0052    | 0.7176               | 0.0052          |
-| Analysis: 2 Time: 28.9 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1   |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.2900 | 0.7167       | 0.0109    | 0.9001               | 0.0125          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 21.5 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |  |  |  |  |  |
+| Efficacy | 2.5600 | 0.6597 | 0.0052 | 0.7176 | 0.0052 |
+| Analysis: 2 Time: 28.9 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.2900 | 0.7167 | 0.0109 | 0.9001 | 0.0125 |
 
 ##### Overall population power
 
@@ -1099,6 +1123,7 @@ hazard ratio is stronger than originally planned and the power for the
 overall population is still over 90%.
 
 ``` r
+
 gs_power_ahr(
   # set the enrollment/failure rate
   enroll_rate = positive_60_enroll_rate,
@@ -1118,18 +1143,19 @@ gs_power_ahr(
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                           | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|---------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 21.5 N: 488.1 Events: 262 AHR: 0.68 Information fraction: 0.8 |        |              |           |                      |                 |
-| Efficacy                                                                        | 2.5600 | 0.7288       | 0.0052    | 0.7214               | 0.0052          |
-| Analysis: 2 Time: 28.9 N: 488.1 Events: 325.9 AHR: 0.68 Information fraction: 1 |        |              |           |                      |                 |
-| Efficacy                                                                        | 2.2900 | 0.7758       | 0.0110    | 0.8994               | 0.0125          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 21.5 N: 488.1 Events: 262 AHR: 0.68 Information fraction: 0.8 |  |  |  |  |  |
+| Efficacy | 2.5600 | 0.7288 | 0.0052 | 0.7214 | 0.0052 |
+| Analysis: 2 Time: 28.9 N: 488.1 Events: 325.9 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.2900 | 0.7758 | 0.0110 | 0.8994 | 0.0125 |
 
 If we had used information-based (i.e., event-based) spending, we would
 not have reached full spending at final analysis and thus would have
 lower power.
 
 ``` r
+
 gs_power_ahr(
   # set the enrollment/failure rate
   enroll_rate = positive_60_enroll_rate,
@@ -1149,12 +1175,12 @@ gs_power_ahr(
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                           | Z   | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|---------------------------------------------------------------------------------|-----|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 21.5 N: 488.1 Events: 262 AHR: 0.68 Information fraction: 0.8 |     |              |           |                      |                 |
-| NA                                                                              | NA  | NA           | NA        | NA                   | NA              |
-| Analysis: 2 Time: 28.9 N: 488.1 Events: 325.9 AHR: 0.68 Information fraction: 1 |     |              |           |                      |                 |
-| NA                                                                              | NA  | NA           | NA        | NA                   | NA              |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 21.5 N: 488.1 Events: 262 AHR: 0.68 Information fraction: 0.8 |  |  |  |  |  |
+| NA | NA | NA | NA | NA | NA |
+| Analysis: 2 Time: 28.9 N: 488.1 Events: 325.9 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
+| NA | NA | NA | NA | NA | NA |
 
 #### Biomarker subgroup prevalence lower than planned
 
@@ -1163,6 +1189,7 @@ prevalence the design anticipated. The enrollment rates by positive
 versus negative patients and expected enrollment duration will now be:
 
 ``` r
+
 # set the enrollment rate under 40% prevalence
 positive_40_enroll_rate <- rbind(
   overall_enroll_rate |> mutate(stratum = "Positive", rate = 0.4 * rate),
@@ -1190,6 +1217,7 @@ Now we can compute the power for the biomarker positive group with the
 targeted events.
 
 ``` r
+
 upar_actual_info_frac$total_spend <- 0.0125
 upar_actual_info_frac$max_info <- max(positive$analysis$info)
 
@@ -1214,12 +1242,12 @@ positive_40_power |>
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                            | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 24.3 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.5300 | 0.6629       | 0.0057    | 0.7276               | 0.0057          |
-| Analysis: 2 Time: 31.7 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1   |        |              |           |                      |                 |
-| Efficacy                                                                         | 2.3000 | 0.7157       | 0.0107    | 0.8985               | 0.0125          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 24.3 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |  |  |  |  |  |
+| Efficacy | 2.5300 | 0.6629 | 0.0057 | 0.7276 | 0.0057 |
+| Analysis: 2 Time: 31.7 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.3000 | 0.7157 | 0.0107 | 0.8985 | 0.0125 |
 
 ##### Overall population power
 
@@ -1229,6 +1257,7 @@ overall effect size, the larger adapted sample size ensures power
 retention.
 
 ``` r
+
 gs_power_ahr(
   enroll_rate = positive_40_enroll_rate,
   fail_rate = fail_rate,
@@ -1244,12 +1273,12 @@ gs_power_ahr(
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| Bound                                                                              | Z      | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|------------------------------------------------------------------------------------|--------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 24.3 N: 732.2 Events: 399.8 AHR: 0.72 Information fraction: 0.81 |        |              |           |                      |                 |
-| Efficacy                                                                           | 2.5600 | 0.7741       | 0.0052    | 0.7751               | 0.0052          |
-| Analysis: 2 Time: 31.7 N: 732.2 Events: 496.3 AHR: 0.72 Information fraction: 1    |        |              |           |                      |                 |
-| Efficacy                                                                           | 2.2900 | 0.8141       | 0.0110    | 0.9279               | 0.0125          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 24.3 N: 732.2 Events: 399.8 AHR: 0.72 Information fraction: 0.81 |  |  |  |  |  |
+| Efficacy | 2.5600 | 0.7741 | 0.0052 | 0.7751 | 0.0052 |
+| Analysis: 2 Time: 31.7 N: 732.2 Events: 496.3 AHR: 0.72 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.2900 | 0.8141 | 0.0110 | 0.9279 | 0.0125 |
 
 ### Summary of findings
 
@@ -1266,15 +1295,15 @@ with a potentially delayed treatment effect:
   are at the final analysis when the most complete risk-benefit
   assessment can be made. We gave two options to this:
   - Use a fixed, small incremental \\\alpha\\-spend at each interim such
-    as proposed by Fleming, Harrington, and O’Brien (1984) with a
-    variable number of interim analyses to ensure adequate follow-up.
+    as proposed by Fleming et al. (1984) with a variable number of
+    interim analyses to ensure adequate follow-up.
   - Use the minimum of planned and actual spending at interim analyses.
 
-When implementing the Fleming, Harrington, and O’Brien (1984) approach,
-we also suggested a simple approach to futility that may be quite useful
-practically in a scenario with a potentially delayed onset of treatment
-effect. This basically looks for evidence of a favorable control group
-effect relative to experimental by setting a nominal p-value cutoff at a
+When implementing the Fleming et al. (1984) approach, we also suggested
+a simple approach to futility that may be quite useful practically in a
+scenario with a potentially delayed onset of treatment effect. This
+basically looks for evidence of a favorable control group effect
+relative to experimental by setting a nominal p-value cutoff at a
 1-sided 0.05 level for early interim futility analyses. Where crossing
 survival curves or inferior survival curves may exist, this may be a
 useful way to ensure continuing a trial is ethical; this approach is
@@ -1285,23 +1314,23 @@ may be toxic or potentially have other detrimental effects.
 In addition to the delayed effect example, we considered an example
 testing in both a biomarker positive subgroup and the overall
 population. Using a common spending time for all hypotheses with a
-common interim analysis strategy as advocated by Follmann, Proschan, and
-Geller (1994) can be helpful to implement spending so that all
-hypotheses have adequate \\\alpha\\ to spend at the final analysis and
-also to ensure full utilization of \\\alpha\\-spending. We suggested
-again using the minimum of planned and actual spending at interim
-analysis. Spending can be based on a key hypothesis (e.g., the biomarker
-positive population) or the minimum spending time among all hypotheses
-being tested. Taking advantage of know correlations to ensure full
-\\\alpha\\ utilization in multiple hypothesis testing is also more
-simply implemented with this strategy Anderson et al. (2022).
+common interim analysis strategy as advocated by Follmann et al. (1994)
+can be helpful to implement spending so that all hypotheses have
+adequate \\\alpha\\ to spend at the final analysis and also to ensure
+full utilization of \\\alpha\\-spending. We suggested again using the
+minimum of planned and actual spending at interim analysis. Spending can
+be based on a key hypothesis (e.g., the biomarker positive population)
+or the minimum spending time among all hypotheses being tested. Taking
+advantage of know correlations to ensure full \\\alpha\\ utilization in
+multiple hypothesis testing is also more simply implemented with this
+strategy Anderson et al. (2022).
 
 In summary, we have illustrated both the motivation and the illustration
 of the spending time approach through examples we have commonly
-encountered. Approaches suggested included an implementation of Fleming,
-Harrington, and O’Brien (1984) with a fixed incremental \\\alpha\\-spend
-at each interim analysis as well as the use of the minimum of planned
-and actual spending at interim analyses.
+encountered. Approaches suggested included an implementation of Fleming
+et al. (1984) with a fixed incremental \\\alpha\\-spend at each interim
+analysis as well as the use of the minimum of planned and actual
+spending at interim analyses.
 
 ### References
 
@@ -1320,13 +1349,14 @@ Follmann, Dean A, Michael A Proschan, and Nancy L Geller. 1994.
 Lan, K. K. Gordon, and David L DeMets. 1983. “Discrete Sequential
 Boundaries for Clinical Trials.” *Biometrika* 70 (3): 659–63.
 
-———. 1989. “Group Sequential Procedures: Calendar Versus Information
-Time.” *Statistics in Medicine* 8 (10): 1191–98.
+Lan, K. K. Gordon, and David L DeMets. 1989. “Group Sequential
+Procedures: Calendar Versus Information Time.” *Statistics in Medicine*
+8 (10): 1191–98.
 
-Lin, Ray S, Ji Lin, Satrajit Roychoudhury, Keaven M Anderson, Tianle Hu,
-Bo Huang, Larry F Leon, et al. 2020. “Alternative Analysis Methods for
-Time to Event Endpoints Under Nonproportional Hazards: A Comparative
-Analysis.” *Statistics in Biopharmaceutical Research* 12 (2): 187–98.
+Lin, Ray S, Ji Lin, Satrajit Roychoudhury, et al. 2020. “Alternative
+Analysis Methods for Time to Event Endpoints Under Nonproportional
+Hazards: A Comparative Analysis.” *Statistics in Biopharmaceutical
+Research* 12 (2): 187–98.
 
 Maurer, Willi, and Frank Bretz. 2013. “Multiple Testing in Group
 Sequential Trials Using Graphical Approaches.” *Statistics in
@@ -1338,8 +1368,8 @@ Considerations in Designing of Immuno-Oncology Trials.” *Journal of
 Biopharmaceutical Statistics* 30 (6): 1130–46.
 
 Proschan, Michael A., K. K. Gordon Lan, and Janet Turk Wittes. 2006.
-*Statistical Monitoring of Clinical Trials: A Unified Approach*. New
-York, NY: Springer.
+*Statistical Monitoring of Clinical Trials: A Unified Approach*.
+Springer.
 
 Roychoudhury, Satrajit, Keaven M Anderson, Jiabu Ye, and Pralay
 Mukhopadhyay. 2021. “Robust Design and Analysis of Clinical Trials with

@@ -1,6 +1,7 @@
 # Trial design with spending under NPH
 
 ``` r
+
 library(gsDesign)
 library(gsDesign2)
 ```
@@ -20,6 +21,7 @@ there are 4 analysis (3 interim analyses + 1 final analysis) conducted
 18, 24, 30, and 36 months after trial enrollment is opened.
 
 ``` r
+
 n_analysis <- 4
 analysis_time <- c(18, 24, 30, 36)
 ```
@@ -31,6 +33,7 @@ These rates will be updated by a constant multiple at the time of design
 as we will note below.
 
 ``` r
+
 enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 2, 6),
   rate = c(8, 12, 16, 24)
@@ -55,6 +58,7 @@ piecewise exponential distribution with a median of 8 month for the
 first 3 months and 14 months thereafter.
 
 ``` r
+
 fail_rate <- define_fail_rate(
   duration = c(3, 100),
   fail_rate = log(2) / c(8, 14),
@@ -79,6 +83,7 @@ We can derive power for the above enrollment rates and failure rates as
 follows:
 
 ``` r
+
 fixed_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -97,6 +102,7 @@ We now compute sample size and then translate from a continuous sample
 size to an integer sample size.
 
 ``` r
+
 fixed_design <- fixed_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -122,6 +128,7 @@ based on the proportion of events expected at each analysis divided by
 the total expected events at the final analysis.
 
 ``` r
+
 gs <- gs_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -139,11 +146,11 @@ gs |>
   gt::gt()
 ```
 
-| Bound                                                                          | Z    | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|--------------------------------------------------------------------------------|------|--------------|-----------|----------------------|-----------------|
-| Analysis: 1 Time: 23.9 N: 434 Events: 232 AHR: 0.71 Information fraction: 0.77 |      |              |           |                      |                 |
-| Futility                                                                       | 1.04 | 0.8720       | 0.1486    | 0.0582               | 0.8514          |
-| Efficacy                                                                       | 2.31 | 0.7383       | 0.0104    | 0.6235               | 0.0104          |
-| Analysis: 2 Time: 35.8 N: 434 Events: 303 AHR: 0.68 Information fraction: 1    |      |              |           |                      |                 |
-| Futility                                                                       | 1.94 | 0.7998       | 0.0260    | 0.0988               | 0.9723          |
-| Efficacy                                                                       | 2.02 | 0.7933       | 0.0219    | 0.8998               | 0.0244          |
+| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
+|----|----|----|----|----|----|
+| Analysis: 1 Time: 23.9 N: 434 Events: 232 AHR: 0.71 Information fraction: 0.77 |  |  |  |  |  |
+| Futility | 1.04 | 0.8720 | 0.1486 | 0.0582 | 0.8514 |
+| Efficacy | 2.31 | 0.7383 | 0.0104 | 0.6235 | 0.0104 |
+| Analysis: 2 Time: 35.8 N: 434 Events: 303 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
+| Futility | 1.94 | 0.7998 | 0.0260 | 0.0988 | 0.9723 |
+| Efficacy | 2.02 | 0.7933 | 0.0219 | 0.8998 | 0.0244 |

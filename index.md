@@ -15,12 +15,14 @@ features are encouraged as this is still a young package.
 Install the released version of gsDesign2 from CRAN:
 
 ``` r
+
 install.packages("gsDesign2")
 ```
 
 Or install the development version from GitHub with:
 
 ``` r
+
 remotes::install_github("Merck/gsDesign2")
 ```
 
@@ -36,6 +38,7 @@ dropout rate. The `enroll_rate` specification indicates an expected
 enrollment duration of 12 months with exponential inter-arrival times.
 
 ``` r
+
 library(gsDesign2)
 
 # Basic example
@@ -61,6 +64,7 @@ rows and strata as needed can be specified to approximate whatever
 patterns you wish.
 
 ``` r
+
 fail_rate |> gt::gt()
 ```
 
@@ -78,6 +82,7 @@ and 90% power. We specify a trial duration of 36 months with
 analysis:
 
 ``` r
+
 fd <- fixed_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -91,6 +96,7 @@ fd <- fixed_design_ahr(
 The input enrollment rates have now been scaled to achieve power:
 
 ``` r
+
 fd$enroll_rate |> gt::gt()
 ```
 
@@ -111,16 +117,17 @@ summary is obtained below. The columns are:
   targeted events.
 
 ``` r
+
 fd |>
   summary() |>
   as_gt()
 ```
 
-| Fixed Design under AHR Method¹                     |          |          |      |          |       |       |
-|----------------------------------------------------|----------|----------|------|----------|-------|-------|
-| Design                                             | N        | Events   | Time | Bound    | alpha | Power |
-| Average hazard ratio                               | 420.6346 | 311.0028 | 36   | 1.959964 | 0.025 | 0.9   |
-| ¹ Power computed with average hazard ratio method. |          |          |      |          |       |       |
+| Fixed Design under AHR Method¹ |  |  |  |  |  |  |
+|----|----|----|----|----|----|----|
+| Design | N | Events | Time | Bound | alpha | Power |
+| Average hazard ratio | 420.6346 | 311.0028 | 36 | 1.959964 | 0.025 | 0.9 |
+| ¹ Power computed with average hazard ratio method. |  |  |  |  |  |  |
 
 ### Step 3: group sequential design
 
@@ -147,6 +154,7 @@ interim evaluation of appropriate efficacy trends before completing the
 trial.
 
 ``` r
+
 gsd <- gs_design_ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -175,25 +183,26 @@ a trial are situation dependent, but we hope the suggestions here are
 provocative for what might be considered.
 
 ``` r
+
 gsd |>
   summary() |>
   as_gt()
 ```
 
-| Bound summary for AHR design                                                                                                                                                                                                                                                                                   |       |            |               |                                          |                 |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|------------|---------------|------------------------------------------|-----------------|
-| AHR approximations of ~HR at bound                                                                                                                                                                                                                                                                             |       |            |               |                                          |                 |
-| Bound                                                                                                                                                                                                                                                                                                          | Z     | Nominal p¹ | ~HR at bound² | Cumulative boundary crossing probability |                 |
-|                                                                                                                                                                                                                                                                                                                |       |            |               | Alternate hypothesis                     | Null hypothesis |
-| Analysis: 1 Time: 8 N: 279.3 Events: 53.3 AHR: 0.91 Information fraction: 0.17                                                                                                                                                                                                                                 |       |            |               |                                          |                 |
-| Futility                                                                                                                                                                                                                                                                                                       | -1.28 | 0.9000     | 1.4208        | 0.0539                                   | 0.1000          |
-| Analysis: 2 Time: 14 N: 419 Events: 137.3 AHR: 0.82 Information fraction: 0.44                                                                                                                                                                                                                                 |       |            |               |                                          |                 |
-| Futility                                                                                                                                                                                                                                                                                                       | 0.00  | 0.5000     | 1.0000        | 0.1450                                   | 0.5091          |
-| Efficacy                                                                                                                                                                                                                                                                                                       | 3.17  | 0.0008     | 0.5821        | 0.0230                                   | 0.0008          |
-| Analysis: 3 Time: 24 N: 419 Events: 238.6 AHR: 0.72 Information fraction: 0.77                                                                                                                                                                                                                                 |       |            |               |                                          |                 |
-| Efficacy                                                                                                                                                                                                                                                                                                       | 2.31  | 0.0104     | 0.7413        | 0.5553                                   | 0.0106          |
-| Analysis: 4 Time: 36 N: 419 Events: 309.8 AHR: 0.69 Information fraction: 1                                                                                                                                                                                                                                    |       |            |               |                                          |                 |
-| Efficacy                                                                                                                                                                                                                                                                                                       | 2.02  | 0.0218     | 0.7951        | 0.8000                                   | ³ 0.0244        |
-| ¹ One-sided p-value for experimental vs control treatment. Value \< 0.5 favors experimental, \> 0.5 favors control.                                                                                                                                                                                            |       |            |               |                                          |                 |
-| ² Approximate hazard ratio to cross bound.                                                                                                                                                                                                                                                                     |       |            |               |                                          |                 |
-| ³ Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0006 = 0.0244) under the null hypothesis. |       |            |               |                                          |                 |
+| Bound summary for AHR design |  |  |  |  |  |
+|----|----|----|----|----|----|
+| AHR approximations of ~HR at bound |  |  |  |  |  |
+| Bound | Z | Nominal p¹ | ~HR at bound² | Cumulative boundary crossing probability |  |
+|  |  |  |  | Alternate hypothesis | Null hypothesis |
+| Analysis: 1 Time: 8 N: 279.3 Events: 53.3 AHR: 0.91 Information fraction: 0.17 |  |  |  |  |  |
+| Futility | -1.28 | 0.9000 | 1.4208 | 0.0539 | 0.1000 |
+| Analysis: 2 Time: 14 N: 419 Events: 137.3 AHR: 0.82 Information fraction: 0.44 |  |  |  |  |  |
+| Futility | 0.00 | 0.5000 | 1.0000 | 0.1450 | 0.5091 |
+| Efficacy | 3.17 | 0.0008 | 0.5821 | 0.0230 | 0.0008 |
+| Analysis: 3 Time: 24 N: 419 Events: 238.6 AHR: 0.72 Information fraction: 0.77 |  |  |  |  |  |
+| Efficacy | 2.31 | 0.0104 | 0.7413 | 0.5553 | 0.0106 |
+| Analysis: 4 Time: 36 N: 419 Events: 309.8 AHR: 0.69 Information fraction: 1 |  |  |  |  |  |
+| Efficacy | 2.02 | 0.0218 | 0.7951 | 0.8000 | ³ 0.0244 |
+| ¹ One-sided p-value for experimental vs control treatment. Value \< 0.5 favors experimental, \> 0.5 favors control. |  |  |  |  |  |
+| ² Approximate hazard ratio to cross bound. |  |  |  |  |  |
+| ³ Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0006 = 0.0244) under the null hypothesis. |  |  |  |  |  |

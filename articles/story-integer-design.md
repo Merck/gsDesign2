@@ -1,6 +1,7 @@
 # Integer designs
 
 ``` r
+
 library(gsDesign)
 library(gsDesign2)
 library(tibble)
@@ -13,6 +14,7 @@ library(gt)
 ### Binary outcome
 
 ``` r
+
 x <- gs_design_rd(
   p_c = tibble(stratum = "All", rate = 0.2),
   p_e = tibble(stratum = "All", rate = 0.15),
@@ -44,6 +46,7 @@ the new design also changes a little bit, that is, from 0.9 to
 0.9001336.
 
 ``` r
+
 tibble(
   Design = rep(c("Original design", "Integer design"), each = 3),
   `Sample size` = c(x$analysis$n, xi$analysis$n),
@@ -66,22 +69,23 @@ tibble(
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
-| Comparison between the original/integer design |        |                      |        |
-|------------------------------------------------|--------|----------------------|--------|
-| on binary endpoints (unstratified design)      |        |                      |        |
-| Sample size                                    | Z      | Information fraction | Power  |
-| Original design                                |        |                      |        |
-| 1,243.3070                                     | 2.9626 | 0.5000               | 0.2598 |
-| 1,989.2912                                     | 2.2662 | 0.8000               | 0.7501 |
-| 2,486.6140                                     | 2.0278 | 1.0000               | 0.9000 |
-| Integer design                                 |        |                      |        |
-| 1,243.0000                                     | 2.9626 | 0.4996               | 0.2597 |
-| 1,989.0000                                     | 2.2662 | 0.7994               | 0.7500 |
-| 2,488.0000                                     | 2.0280 | 1.0000               | 0.9001 |
+| Comparison between the original/integer design |  |  |  |
+|----|----|----|----|
+| on binary endpoints (unstratified design) |  |  |  |
+| Sample size | Z | Information fraction | Power |
+| Original design |  |  |  |
+| 1,243.3070 | 2.9626 | 0.5000 | 0.2598 |
+| 1,989.2912 | 2.2662 | 0.8000 | 0.7501 |
+| 2,486.6140 | 2.0278 | 1.0000 | 0.9000 |
+| Integer design |  |  |  |
+| 1,243.0000 | 2.9626 | 0.4996 | 0.2597 |
+| 1,989.0000 | 2.2662 | 0.7994 | 0.7500 |
+| 2,488.0000 | 2.0280 | 1.0000 | 0.9001 |
 
 ### Survival outcome
 
 ``` r
+
 x <- gs_design_ahr(
   analysis_time = c(12, 24, 36),
   upper = gs_spending_bound,
@@ -96,6 +100,7 @@ Notice that with the integer design, the (i) number of events, (ii)
 sample size, (iii) power, (iv) information fraction will be different.
 
 ``` r
+
 tibble(
   Design = rep(c("Original design", "Integer design"), each = 3),
   Events = c(x$analysis$event, xi$analysis$event),
@@ -119,22 +124,23 @@ tibble(
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
-| Comparison between the original/integer design |             |        |                      |             |
-|------------------------------------------------|-------------|--------|----------------------|-------------|
-| on survival endpoints (unstratified design)    |             |        |                      |             |
-| Events                                         | Sample size | Z      | Information fraction | Power       |
-| Original design                                |             |        |                      |             |
-| 91.9812                                        | 405.7098    | 3.7103 | 0.3091               | 0.003627376 |
-| 221.2005                                       | 486.8518    | 2.5122 | 0.7376               | 0.481734802 |
-| 298.6001                                       | 486.8518    | 1.9828 | 1.0000               | 0.900000000 |
-| Integer design                                 |             |        |                      |             |
-| 92.0000                                        | 406.0000    | 3.7103 | 0.3088               | 0.003620194 |
-| 221.0000                                       | 488.0000    | 2.5122 | 0.7360               | 0.479605447 |
-| 299.0000                                       | 488.0000    | 1.9830 | 1.0000               | 0.900134291 |
+| Comparison between the original/integer design |  |  |  |  |
+|----|----|----|----|----|
+| on survival endpoints (unstratified design) |  |  |  |  |
+| Events | Sample size | Z | Information fraction | Power |
+| Original design |  |  |  |  |
+| 91.9812 | 405.7098 | 3.7103 | 0.3091 | 0.003627376 |
+| 221.2005 | 486.8518 | 2.5122 | 0.7376 | 0.481734802 |
+| 298.6001 | 486.8518 | 1.9828 | 1.0000 | 0.900000000 |
+| Integer design |  |  |  |  |
+| 92.0000 | 406.0000 | 3.7103 | 0.3088 | 0.003620194 |
+| 221.0000 | 488.0000 | 2.5122 | 0.7360 | 0.479605447 |
+| 299.0000 | 488.0000 | 1.9830 | 1.0000 | 0.900134291 |
 
 ## Stratified design
 
 ``` r
+
 x <- gs_design_rd(
   p_c = tibble(
     stratum = c("biomarker positive", "biomarker negative"),
@@ -171,6 +177,7 @@ analysis, we ceiling the sample size from 4894.4740364 to 4896 and also
 make sure the integer sample size is a multiplier of 2.
 
 ``` r
+
 tibble(
   Design = rep(c("Original design", "Integer design"), each = 2),
   `Sample size` = c(x$analysis$n, xi$analysis$n),
@@ -193,13 +200,13 @@ tibble(
   fmt_number(columns = 2:5, decimals = 4)
 ```
 
-| Comparison between the original/integer design |        |                      |        |
-|------------------------------------------------|--------|----------------------|--------|
-| on binary endpoints (unstratified design)      |        |                      |        |
-| Sample size                                    | Z      | Information fraction | Power  |
-| Original design                                |        |                      |        |
-| 3,426.1318                                     | 2.4380 | 0.7000               | 0.6161 |
-| 4,894.4740                                     | 1.9999 | 1.0000               | 0.9000 |
-| Integer design                                 |        |                      |        |
-| 3,426.0000                                     | 2.4380 | 0.6998               | 0.6160 |
-| 4,896.0000                                     | 2.0000 | 1.0000               | 0.9001 |
+| Comparison between the original/integer design |  |  |  |
+|----|----|----|----|
+| on binary endpoints (unstratified design) |  |  |  |
+| Sample size | Z | Information fraction | Power |
+| Original design |  |  |  |
+| 3,426.1318 | 2.4380 | 0.7000 | 0.6161 |
+| 4,894.4740 | 1.9999 | 1.0000 | 0.9000 |
+| Integer design |  |  |  |
+| 3,426.0000 | 2.4380 | 0.6998 | 0.6160 |
+| 4,896.0000 | 2.0000 | 1.0000 | 0.9001 |

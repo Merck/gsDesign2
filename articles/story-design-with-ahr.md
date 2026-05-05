@@ -35,6 +35,7 @@ The primary packages needed is **gsDesign2**. Other packages used are
 supportive.
 
 ``` r
+
 library(gsDesign)
 library(gsDesign2)
 library(ggplot2)
@@ -52,6 +53,7 @@ enrollment is assumed to have reached steady state. We will later assume
 a similar ramp-up period with 24 months expected enrollment duration.
 
 ``` r
+
 # Set the enrollment table of totally 24 month
 enroll24 <- define_enroll_rate(
   duration = c(rep(2, 3), 18), # 6 month ramp-up of enrollment, 24 months enrollment time target
@@ -98,6 +100,7 @@ We will consider the following failure rate assumptions:
   - Hazard ratio of 1.5 for 4 months followed by a hazard ratio of 0.5.
 
 ``` r
+
 month <- c(0, 4, 6, 44)
 duration <- month - c(0, month[1:3])
 control_rate <- log(2) / c(rep(16, 4), rep(14, 4), rep(14, 4))
@@ -125,6 +128,7 @@ ggplot(s, aes(x = Month, y = Survival, col = Scenario, lty = Treatment)) +
 ![](story-design-with-ahr_files/figure-html/unnamed-chunk-2-1.png)
 
 ``` r
+
 # get 4 scenarios
 control_median <- c(14, 12, 12, 12)
 month <- c(0, 4, 6, 44)
@@ -141,6 +145,7 @@ hr <- c(
 The survival curves for these 4 scenarios are shown below:
 
 ``` r
+
 # Put parameters together in a tibble
 s <- tibble(
   Scenario = c(rep("PH", 4), rep("Shorter delayed effect", 4), rep("Longer delayed effect", 4), rep("Crossing", 4)),
@@ -166,6 +171,7 @@ s <- rbind(
 ```
 
 ``` r
+
 # plot the survival curve
 ggplot(s, aes(x = Month, y = Survival, col = Scenario, lty = Treatment, shape = Treatment)) +
   geom_line() +
@@ -183,6 +189,7 @@ ratio approaches that of the *PH* scenario after a study duration of
 about 36 months.
 
 ``` r
+
 # Durations to be used in common for all failure rate scenarios
 dur <- month[2:4] - month[1:3]
 
@@ -228,6 +235,7 @@ hr <- do.call(
 ```
 
 ``` r
+
 ggplot(hr, aes(x = time, y = ahr, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
@@ -243,6 +251,7 @@ NPH scenarios events accumulate faster than under the PH scenario both
 due to a lower control median and/or a delayed effect.
 
 ``` r
+
 ggplot(hr, aes(x = time, y = event, col = Scenario)) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 42, 6)) +
@@ -272,6 +281,7 @@ survival curves or a large effect delay would require substantially
 larger sample sizes due to not achieving a similar AHR by month 36.
 
 ``` r
+
 ss_ahr_fixed <- do.call(
   rbind,
   lapply(
@@ -306,14 +316,14 @@ ss_ahr_fixed |>
   )
 ```
 
-| Sample Size and Events Required by Scenario                     |     |       |       |                        |
-|-----------------------------------------------------------------|-----|-------|-------|------------------------|
-| 36 Month Trial duration, 2.5% One-sided Type 1 Error, 90% Power |     |       |       |                        |
-| time                                                            | n   | event | ahr   | Scenario               |
-| 36                                                              | 518 | 332   | 0.700 | PH                     |
-| 36                                                              | 476 | 341   | 0.703 | Shorter delayed effect |
-| 36                                                              | 696 | 504   | 0.749 | Longer delayed effect  |
-| 36                                                              | 760 | 544   | 0.755 | Crossing               |
+| Sample Size and Events Required by Scenario |  |  |  |  |
+|----|----|----|----|----|
+| 36 Month Trial duration, 2.5% One-sided Type 1 Error, 90% Power |  |  |  |  |
+| time | n | event | ahr | Scenario |
+| 36 | 518 | 332 | 0.700 | PH |
+| 36 | 476 | 341 | 0.703 | Shorter delayed effect |
+| 36 | 696 | 504 | 0.749 | Longer delayed effect |
+| 36 | 760 | 544 | 0.755 | Crossing |
 
 Assuming the shorter delayed effect is the primary scenario for which we
 wish to protect power, how long should the trial be to optimize the
@@ -328,6 +338,7 @@ tradeoff between time, sample size and power under a presumed delayed
 effect of 4 months followed by a hazard ratio of 0.6 thereafter.
 
 ``` r
+
 do.call(
   rbind,
   lapply(
@@ -357,14 +368,14 @@ do.call(
   )
 ```
 
-| Sample Size and Events Required by Trial Duration          |       |       |       |                        |
-|------------------------------------------------------------|-------|-------|-------|------------------------|
-| Delayed Effect of 4 Months, HR = 0.6 Thereafter; 90% Power |       |       |       |                        |
-| time                                                       | n     | event | ahr   | Scenario               |
-| 24                                                         | 1,037 | 522   | 0.752 | Shorter delayed effect |
-| 30                                                         | 623   | 390   | 0.719 | Shorter delayed effect |
-| 36                                                         | 476   | 341   | 0.703 | Shorter delayed effect |
-| 42                                                         | 404   | 316   | 0.694 | Shorter delayed effect |
+| Sample Size and Events Required by Trial Duration |  |  |  |  |
+|----|----|----|----|----|
+| Delayed Effect of 4 Months, HR = 0.6 Thereafter; 90% Power |  |  |  |  |
+| time | n | event | ahr | Scenario |
+| 24 | 1,037 | 522 | 0.752 | Shorter delayed effect |
+| 30 | 623 | 390 | 0.719 | Shorter delayed effect |
+| 36 | 476 | 341 | 0.703 | Shorter delayed effect |
+| 42 | 404 | 316 | 0.694 | Shorter delayed effect |
 
 ### Alternate Hypothesis Mapping
 
@@ -372,6 +383,7 @@ Under the different scenarios of interest, we can examine the expected
 number of events in time periods of interest.
 
 ``` r
+
 events_by_time_period <- NULL
 
 for (g in c("PH", "Shorter delayed effect", "Longer delayed effect", "Crossing")) {
@@ -403,6 +415,7 @@ comparison, we compute blinded AHR that decreases with each analysis
 under the alternate hypothesis.
 
 ``` r
+
 # Time periods for each scenario were 0-4, 4-6, and 6+
 # Thus H1 has HR as follows
 hr1 <- tibble(t = c(0, 4, 6), hr1 = c(1, .6, .6))
@@ -437,6 +450,7 @@ after 12, 20, and 28 months.
 #### AHR method
 
 ``` r
+
 analysis_time <- c(12, 20, 28, 36)
 upar <- list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL, theta = 0)
 lpar <- list(sf = gsDesign::sfHSD, total_spend = .1, param = -2, timing = NULL, theta = NULL)
@@ -464,6 +478,7 @@ By scenario, we now wish to compute the adjusted expected futility
 bounds and the power implied.
 
 ``` r
+
 do.call(
   rbind,
   lapply(
@@ -493,24 +508,24 @@ do.call(
   fmt_number(columns = 5:10, decimals = 4)
 ```
 
-| analysis | time | n   | event | ahr    | theta   | info    | info0   | info_frac | info_frac0 | Scenario               |
-|----------|------|-----|-------|--------|---------|---------|---------|-----------|------------|------------------------|
-| 1        | 12   | 60  | 10.5  | 0.7000 | 0.3567  | 2.5533  | 2.6161  | 0.1611    | 0.1632     | PH                     |
-| 2        | 20   | 100 | 31.8  | 0.7000 | 0.3567  | 7.7993  | 7.9576  | 0.4922    | 0.4964     | PH                     |
-| 3        | 28   | 100 | 50.8  | 0.7000 | 0.3567  | 12.4964 | 12.6892 | 0.7887    | 0.7916     | PH                     |
-| 4        | 36   | 100 | 64.1  | 0.7000 | 0.3567  | 15.8446 | 16.0303 | 1.0000    | 1.0000     | PH                     |
-| 1        | 12   | 60  | 14.0  | 0.8808 | 0.1269  | 3.4499  | 3.4942  | 0.1957    | 0.1952     | Shorter delayed effect |
-| 2        | 20   | 100 | 39.5  | 0.7929 | 0.2321  | 9.6905  | 9.8760  | 0.5497    | 0.5518     | Shorter delayed effect |
-| 3        | 28   | 100 | 58.9  | 0.7275 | 0.3181  | 14.4480 | 14.7332 | 0.8195    | 0.8232     | Shorter delayed effect |
-| 4        | 36   | 100 | 71.6  | 0.7032 | 0.3522  | 17.6301 | 17.8976 | 1.0000    | 1.0000     | Shorter delayed effect |
-| 1        | 12   | 60  | 14.4  | 0.9495 | 0.0518  | 3.5860  | 3.6055  | 0.2005    | 0.1991     | Longer delayed effect  |
-| 2        | 20   | 100 | 40.7  | 0.8625 | 0.1479  | 10.0422 | 10.1692 | 0.5615    | 0.5614     | Longer delayed effect  |
-| 3        | 28   | 100 | 60.1  | 0.7835 | 0.2439  | 14.7861 | 15.0221 | 0.8268    | 0.8294     | Longer delayed effect  |
-| 4        | 36   | 100 | 72.4  | 0.7487 | 0.2895  | 17.8840 | 18.1125 | 1.0000    | 1.0000     | Longer delayed effect  |
-| 1        | 12   | 60  | 15.8  | 1.2074 | −0.1885 | 3.7638  | 3.9617  | 0.2226    | 0.2215     | Crossing               |
-| 2        | 20   | 100 | 42.2  | 0.9844 | 0.0157  | 9.9118  | 10.5546 | 0.5863    | 0.5902     | Crossing               |
-| 3        | 28   | 100 | 60.0  | 0.8173 | 0.2017  | 14.0482 | 14.9960 | 0.8310    | 0.8385     | Crossing               |
-| 4        | 36   | 100 | 71.5  | 0.7549 | 0.2811  | 16.9053 | 17.8842 | 1.0000    | 1.0000     | Crossing               |
+| analysis | time | n | event | ahr | theta | info | info0 | info_frac | info_frac0 | Scenario |
+|----|----|----|----|----|----|----|----|----|----|----|
+| 1 | 12 | 60 | 10.5 | 0.7000 | 0.3567 | 2.5533 | 2.6161 | 0.1611 | 0.1632 | PH |
+| 2 | 20 | 100 | 31.8 | 0.7000 | 0.3567 | 7.7993 | 7.9576 | 0.4922 | 0.4964 | PH |
+| 3 | 28 | 100 | 50.8 | 0.7000 | 0.3567 | 12.4964 | 12.6892 | 0.7887 | 0.7916 | PH |
+| 4 | 36 | 100 | 64.1 | 0.7000 | 0.3567 | 15.8446 | 16.0303 | 1.0000 | 1.0000 | PH |
+| 1 | 12 | 60 | 14.0 | 0.8808 | 0.1269 | 3.4499 | 3.4942 | 0.1957 | 0.1952 | Shorter delayed effect |
+| 2 | 20 | 100 | 39.5 | 0.7929 | 0.2321 | 9.6905 | 9.8760 | 0.5497 | 0.5518 | Shorter delayed effect |
+| 3 | 28 | 100 | 58.9 | 0.7275 | 0.3181 | 14.4480 | 14.7332 | 0.8195 | 0.8232 | Shorter delayed effect |
+| 4 | 36 | 100 | 71.6 | 0.7032 | 0.3522 | 17.6301 | 17.8976 | 1.0000 | 1.0000 | Shorter delayed effect |
+| 1 | 12 | 60 | 14.4 | 0.9495 | 0.0518 | 3.5860 | 3.6055 | 0.2005 | 0.1991 | Longer delayed effect |
+| 2 | 20 | 100 | 40.7 | 0.8625 | 0.1479 | 10.0422 | 10.1692 | 0.5615 | 0.5614 | Longer delayed effect |
+| 3 | 28 | 100 | 60.1 | 0.7835 | 0.2439 | 14.7861 | 15.0221 | 0.8268 | 0.8294 | Longer delayed effect |
+| 4 | 36 | 100 | 72.4 | 0.7487 | 0.2895 | 17.8840 | 18.1125 | 1.0000 | 1.0000 | Longer delayed effect |
+| 1 | 12 | 60 | 15.8 | 1.2074 | −0.1885 | 3.7638 | 3.9617 | 0.2226 | 0.2215 | Crossing |
+| 2 | 20 | 100 | 42.2 | 0.9844 | 0.0157 | 9.9118 | 10.5546 | 0.5863 | 0.5902 | Crossing |
+| 3 | 28 | 100 | 60.0 | 0.8173 | 0.2017 | 14.0482 | 14.9960 | 0.8310 | 0.8385 | Crossing |
+| 4 | 36 | 100 | 71.5 | 0.7549 | 0.2811 | 16.9053 | 17.8842 | 1.0000 | 1.0000 | Crossing |
 
 #### Weighted Logrank Method
 
@@ -521,6 +536,7 @@ The fixed design under the first weighting scheme for four scenario are
 summarized as follows.
 
 ``` r
+
 do.call(
   rbind,
   lapply(
@@ -548,6 +564,7 @@ The fixed design under the second weighting scheme for four scenario are
 summarized as follows.
 
 ``` r
+
 # Ignore tau or (tau can be -1)
 do.call(
   rbind,
@@ -572,19 +589,19 @@ do.call(
   fmt_number(columns = 3:6, decimals = 4)
 ```
 
-| analysis | time | n        | event    | ahr    | theta  | info     | info0    | info_frac | info_frac0 | Scenario               |
-|----------|------|----------|----------|--------|--------|----------|----------|-----------|------------|------------------------|
-| 1        | 44   | 490.0869 | 360.6618 | 0.6974 | 0.5587 | 32.80428 | 34.23109 | 1         | 1          | PH                     |
-| 1        | 44   | 298.0746 | 238.4018 | 0.6430 | 0.6602 | 23.15996 | 24.75957 | 1         | 1          | Shorter delayed effect |
-| 1        | 44   | 380.2982 | 306.6089 | 0.6772 | 0.5797 | 30.26797 | 31.94557 | 1         | 1          | Longer delayed effect  |
-| 1        | 44   | 258.3378 | 204.8707 | 0.6216 | 0.7138 | 19.76247 | 21.21076 | 1         | 1          | Crossing               |
+| analysis | time | n | event | ahr | theta | info | info0 | info_frac | info_frac0 | Scenario |
+|----|----|----|----|----|----|----|----|----|----|----|
+| 1 | 44 | 490.0869 | 360.6618 | 0.6974 | 0.5587 | 32.80428 | 34.23109 | 1 | 1 | PH |
+| 1 | 44 | 298.0746 | 238.4018 | 0.6430 | 0.6602 | 23.15996 | 24.75957 | 1 | 1 | Shorter delayed effect |
+| 1 | 44 | 380.2982 | 306.6089 | 0.6772 | 0.5797 | 30.26797 | 31.94557 | 1 | 1 | Longer delayed effect |
+| 1 | 44 | 258.3378 | 204.8707 | 0.6216 | 0.7138 | 19.76247 | 21.21076 | 1 | 1 | Crossing |
 
 ## References
 
-Lin, Ray S, Ji Lin, Satrajit Roychoudhury, Keaven M Anderson, Tianle Hu,
-Bo Huang, Larry F Leon, et al. 2020. “Alternative Analysis Methods for
-Time to Event Endpoints Under Nonproportional Hazards: A Comparative
-Analysis.” *Statistics in Biopharmaceutical Research* 12 (2): 187–98.
+Lin, Ray S, Ji Lin, Satrajit Roychoudhury, et al. 2020. “Alternative
+Analysis Methods for Time to Event Endpoints Under Nonproportional
+Hazards: A Comparative Analysis.” *Statistics in Biopharmaceutical
+Research* 12 (2): 187–98.
 
 Mukhopadhyay, Pralay, Wenmei Huang, Paul Metcalfe, Fredrik Öhrn, Mary
 Jenner, and Andrew Stone. 2020. “Statistical and Practical

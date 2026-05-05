@@ -86,6 +86,7 @@ simulations to be performed. You can increase this to improve accuracy
 of simulation estimates of power.
 
 ``` r
+
 nsim <- 1000
 ```
 
@@ -96,6 +97,7 @@ change for individual simulations. Based on balanced randomization in
 `block` we set the randomization ratio of experimental to control to 1.
 
 ``` r
+
 block <- rep(c("control", "experimental"), 2)
 ratio <- 1
 ```
@@ -113,8 +115,7 @@ We load packages needed below.
   approximation provided by the
   [`gsDesign2::ahr()`](https://merck.github.io/gsDesign2/reference/ahr.md)
   routine that computes an expected average hazard ratio for the trial
-  (Kalbfleisch and Prentice (1981), Schemper, Wakounig, and Heinze
-  (2009)).
+  (Kalbfleisch and Prentice (1981), Schemper et al. (2009)).
 - Hidden underneath this is the `gsDesign2::eEvents_df()` routine that
   provides expected event counts for each period and stratum where the
   hazard ratio differs. This is the basic calculation used in the
@@ -122,6 +123,7 @@ We load packages needed below.
   routine.
 
 ``` r
+
 library(gsDesign)
 library(gsDesign2)
 library(ggplot2)
@@ -144,6 +146,7 @@ the experimental group versus control is 1 for the first 3 months
 followed by 0.55 thereafter.
 
 ``` r
+
 # Note: this is done differently for multiple strata; see below!
 enroll_rate <- define_enroll_rate(
   duration = c(2, 2, 10),
@@ -163,6 +166,7 @@ total_duration <- 30
 Since there is a single stratum, we set `strata` to the default:
 
 ``` r
+
 strata <- tibble::tibble(stratum = "All", p = 1)
 ```
 
@@ -183,6 +187,7 @@ Cox regression coefficient for treatment effect; this will be checked
 with simulation later.
 
 ``` r
+
 avehr <- ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -200,6 +205,7 @@ This result can be explained by the number of events observed before and
 after the first 3 months of treatment in each treatment group.
 
 ``` r
+
 xx <- pw_info(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -221,6 +227,7 @@ hazard ratio. Exponentiating the resulting weighted average gives the
 geometric mean hazard ratio, which we label as AHR.
 
 ``` r
+
 xx |>
   summarize(AHR = exp(sum(event * log(hr) / sum(event)))) |>
   gt()
@@ -240,6 +247,7 @@ above, the randomization ratio (experimental/control), Type I error and
 Type II error (1 - power).
 
 ``` r
+
 target_event <- gsDesign::nEvents(
   hr = avehr$ahr, # average hazard ratio computed above
   ratio = 1, # randomization ratio
@@ -257,6 +265,7 @@ this targeted number of events; we round up the number of events
 required to the next higher integer.
 
 ``` r
+
 # Update enroll_rate to obtain targeted events
 enroll_rate$rate <- ceiling(target_event) / avehr$event * enroll_rate$rate
 avehr <- ahr(
@@ -275,6 +284,7 @@ avehr |> gt()
 We also compute sample size, rounding up to the nearest even integer.
 
 ``` r
+
 # round up sample size in both treatment groups
 sample_size <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
 sample_size
@@ -293,6 +303,7 @@ the trial as quickly as possible, noting that the required sample size
 will decrease with longer follow-up.
 
 ``` r
+
 avehrtbl <- ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -308,6 +319,7 @@ ggplot(avehrtbl, aes(x = time, y = ahr)) +
 ![](story-ahr-under-nph_files/figure-html/avehrplot-1.png)
 
 ``` r
+
 
 ggplot(avehrtbl, aes(x = time, y = event)) +
   geom_line() +
@@ -336,6 +348,7 @@ opposed to `ratio` for
 [`gsDesign2::ahr()`](https://merck.github.io/gsDesign2/reference/ahr.md).
 
 ``` r
+
 # Do simulations
 # Cut at targeted study duration
 results1 <- simtrial::sim_fixed_n(
@@ -358,6 +371,7 @@ computed as one over the simulation variance of the Cox regression
 coefficient for treatment (i.e., the log hazard ratio).
 
 ``` r
+
 results1$Positive <- results1$z <= qnorm(.025)
 results1 |>
   group_by(cut) |>
@@ -370,13 +384,13 @@ results1 |>
   fmt_number(column = 2:9, decimals = 3)
 ```
 
-| cut                              | Simulations | Power | sdDur | Duration | sdEvents | Events  | HR    | sdlnhr | info     |
-|----------------------------------|-------------|-------|-------|----------|----------|---------|-------|--------|----------|
-| Max(min follow-up, event cut)    | 1,000.000   | 0.000 | 0.993 | 30.594   | 7.283    | 314.294 | 0.691 | 0.120  | 69.23210 |
-| Max(planned duration, event cut) | 1,000.000   | 0.000 | 0.937 | 30.571   | 7.137    | 314.103 | 0.691 | 0.120  | 69.13649 |
-| Minimum follow-up                | 1,000.000   | 0.000 | 0.489 | 30.027   | 11.939   | 310.040 | 0.693 | 0.121  | 68.69517 |
-| Planned duration                 | 1,000.000   | 0.000 | 0.000 | 30.000   | 11.862   | 309.760 | 0.693 | 0.121  | 68.60037 |
-| Targeted events                  | 1,000.000   | 0.000 | 1.601 | 29.870   | 0.000    | 309.000 | 0.694 | 0.122  | 67.01854 |
+| cut | Simulations | Power | sdDur | Duration | sdEvents | Events | HR | sdlnhr | info |
+|----|----|----|----|----|----|----|----|----|----|
+| Max(min follow-up, event cut) | 1,000.000 | 0.000 | 0.993 | 30.594 | 7.283 | 314.294 | 0.691 | 0.120 | 69.23210 |
+| Max(planned duration, event cut) | 1,000.000 | 0.000 | 0.937 | 30.571 | 7.137 | 314.103 | 0.691 | 0.120 | 69.13649 |
+| Minimum follow-up | 1,000.000 | 0.000 | 0.489 | 30.027 | 11.939 | 310.040 | 0.693 | 0.121 | 68.69517 |
+| Planned duration | 1,000.000 | 0.000 | 0.000 | 30.000 | 11.862 | 309.760 | 0.693 | 0.121 | 68.60037 |
+| Targeted events | 1,000.000 | 0.000 | 1.601 | 29.870 | 0.000 | 309.000 | 0.694 | 0.122 | 67.01854 |
 
 The column `HR` above is the exponentiated mean of the Cox regression
 coefficients (geometric mean of HR). We see that the `HR` estimate below
@@ -390,6 +404,7 @@ overpower the trial. Nonetheless, the approximation for power appear
 quite good as noted above.
 
 ``` r
+
 avehr |> gt()
 ```
 
@@ -416,6 +431,7 @@ which is limited to this scenario. We specify three strata:
   (median 100, HR = 1).
 
 ``` r
+
 strata <- tibble::tibble(stratum = c("High", "Moderate", "Low"), p = c(1 / 3, 1 / 2, 1 / 6))
 
 enroll_rate <- define_enroll_rate(
@@ -441,6 +457,7 @@ Now we transform the enrollment rates to account for stratified
 population.
 
 ``` r
+
 ahr2 <- ahr(enroll_rate, fail_rate, total_duration)
 ahr2 |> gt()
 ```
@@ -452,6 +469,7 @@ ahr2 |> gt()
 We examine the expected events by stratum.
 
 ``` r
+
 xx <- pw_info(enroll_rate, fail_rate, total_duration)
 xx |> gt()
 ```
@@ -466,6 +484,7 @@ Getting the average of `log(HR)` weighted by `Events` and
 exponentiating, we get the overall `AHR` just derived.
 
 ``` r
+
 xx |>
   ungroup() |>
   summarise(lnhr = sum(event * log(hr)) / sum(event), AHR = exp(lnhr)) |>
@@ -483,6 +502,7 @@ the average hazard ratio for the overall population and use that across
 strata. First, we derive the targeted events:
 
 ``` r
+
 target_event <- gsDesign::nEvents(
   hr = ahr2$ahr,
   ratio = 1,
@@ -498,6 +518,7 @@ Next, we adapt enrollment rates proportionately so that the trial will
 be powered for the targeted failure rates and follow-up duration.
 
 ``` r
+
 enroll_rate <- enroll_rate |> mutate(rate = target_event / ahr2$event * rate)
 
 ahr(
@@ -514,6 +535,7 @@ ahr(
 The targeted sample size, rounding up to an even integer, is:
 
 ``` r
+
 sample_size <- ceiling(sum(enroll_rate$rate * enroll_rate$duration) / 2) * 2
 sample_size
 #> [1] 340
@@ -529,6 +551,7 @@ event accumulation versus treatment effect for different trial
 durations.
 
 ``` r
+
 avehrtbl <- ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
@@ -544,6 +567,7 @@ ggplot(avehrtbl, aes(x = time, y = ahr)) +
 ![](story-ahr-under-nph_files/figure-html/avehrplot2-1.png)
 
 ``` r
+
 
 ggplot(avehrtbl, aes(x = time, y = event)) +
   geom_line() +
@@ -561,6 +585,7 @@ to overall enrollment rates needed for
 [`simtrial::sim_fixed_n()`](https://merck.github.io/simtrial/reference/sim_fixed_n.html).
 
 ``` r
+
 er <- enroll_rate |>
   group_by(stratum) |>
   mutate(period = seq_len(n())) |>
@@ -583,6 +608,7 @@ what would be expected by the Schoenfeld approximation which is the
 expected events divided by 4.
 
 ``` r
+
 results2 <- simtrial::sim_fixed_n(
   n_sim = nsim,
   block = block,
@@ -597,6 +623,7 @@ results2 <- simtrial::sim_fixed_n(
 ```
 
 ``` r
+
 results2$Positive <- (pnorm(results2$z) <= .025)
 results2 |>
   group_by(cut) |>
@@ -609,13 +636,13 @@ results2 |>
   fmt_number(column = 2:9, decimals = 3)
 ```
 
-| cut                              | Simulations | Power | sdDur | Duration | sdEvents | Events  | HR    | sdlnhr | info     |
-|----------------------------------|-------------|-------|-------|----------|----------|---------|-------|--------|----------|
-| Max(min follow-up, event cut)    | 1,000.000   | 0.000 | 1.662 | 36.908   | 4.853    | 219.292 | 0.640 | 0.144  | 48.54706 |
-| Max(planned duration, event cut) | 1,000.000   | 0.000 | 1.414 | 36.942   | 5.016    | 219.319 | 0.640 | 0.144  | 48.39566 |
-| Minimum follow-up                | 1,000.000   | 0.000 | 1.161 | 36.022   | 8.457    | 215.866 | 0.642 | 0.144  | 48.34920 |
-| Planned duration                 | 1,000.000   | 0.000 | 0.000 | 36.000   | 8.795    | 215.559 | 0.642 | 0.144  | 48.39239 |
-| Targeted events                  | 1,000.000   | 0.000 | 2.259 | 36.078   | 0.000    | 216.000 | 0.643 | 0.147  | 46.57092 |
+| cut | Simulations | Power | sdDur | Duration | sdEvents | Events | HR | sdlnhr | info |
+|----|----|----|----|----|----|----|----|----|----|
+| Max(min follow-up, event cut) | 1,000.000 | 0.000 | 1.662 | 36.908 | 4.853 | 219.292 | 0.640 | 0.144 | 48.54706 |
+| Max(planned duration, event cut) | 1,000.000 | 0.000 | 1.414 | 36.942 | 5.016 | 219.319 | 0.640 | 0.144 | 48.39566 |
+| Minimum follow-up | 1,000.000 | 0.000 | 1.161 | 36.022 | 8.457 | 215.866 | 0.642 | 0.144 | 48.34920 |
+| Planned duration | 1,000.000 | 0.000 | 0.000 | 36.000 | 8.795 | 215.559 | 0.642 | 0.144 | 48.39239 |
+| Targeted events | 1,000.000 | 0.000 | 2.259 | 36.078 | 0.000 | 216.000 | 0.643 | 0.147 | 46.57092 |
 
 Finally, compare the simulation results above to the asymptotic
 approximation below. The achieved power by simulation is just below the
@@ -625,6 +652,7 @@ requires both the targeted events and minimum follow-up seems a
 reasonable convention to preserved targeted design power.
 
 ``` r
+
 ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,

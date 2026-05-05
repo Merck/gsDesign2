@@ -90,16 +90,16 @@ the following table. We include the `test.type` argument from the
 [`gsDesign::gsDesign()`](https://keaven.github.io/gsDesign/reference/gsDesign.html)
 function for reference.
 
-| `test.type` |     Upper bound     |      Lower bound      |                  Design type                  |
-|:-----------:|:-------------------:|:---------------------:|:---------------------------------------------:|
-|      1      | \\\alpha_k^{+}(0)\\ |         None          |              One-sided efficacy               |
-|      2      |   \\\alpha_k(0)\\   |    \\\alpha_k(0)\\    |               2-sided symmetric               |
-|      3      |   \\\alpha_k(0)\\   | \\\beta_k(\theta_a)\\ |   \\\beta\\-spending with binding futility    |
-|      4      | \\\alpha_k^{+}(0)\\ | \\\beta_k(\theta_a)\\ | \\\beta\\-spending with non-binding futility  |
-|      5      |   \\\alpha_k(0)\\   | \\\beta_i(\theta_1)\\ |   \\\theta\\-spending with binding futility   |
-|      6      |  \\\alpha^{+}(0)\\  | \\\beta_i(\theta_1)\\ | \\\theta\\-spending with non-binding futility |
+| `test.type` | Upper bound | Lower bound | Design type |
+|:--:|:--:|:--:|:--:|
+| 1 | \\\alpha_k^{+}(0)\\ | None | One-sided efficacy |
+| 2 | \\\alpha_k(0)\\ | \\\alpha_k(0)\\ | 2-sided symmetric |
+| 3 | \\\alpha_k(0)\\ | \\\beta_k(\theta_a)\\ | \\\beta\\-spending with binding futility |
+| 4 | \\\alpha_k^{+}(0)\\ | \\\beta_k(\theta_a)\\ | \\\beta\\-spending with non-binding futility |
+| 5 | \\\alpha_k(0)\\ | \\\beta_i(\theta_1)\\ | \\\theta\\-spending with binding futility |
+| 6 | \\\alpha^{+}(0)\\ | \\\beta_i(\theta_1)\\ | \\\theta\\-spending with non-binding futility |
 
-Boundary crossing probabilities used to set Z-value boundaries
+Boundary crossing probabilities used to set Z-value boundaries {.table}
 
 This can be reduced to just two types distinguishing by whether or not
 lower bounds are binding or non-binding:
@@ -110,7 +110,7 @@ lower bounds are binding or non-binding:
 |   1, 4, 6   | \\\alpha_k^{+}(0)\\ | \\\beta_k(\theta)\\ | Non-binding lower bound |
 
 Reduced options for boundary crossing probabilities used to set Z-value
-boundaries
+boundaries {.table}
 
 In this second table we have used \\\theta=0\\ to derive the upper bound
 to control Type I error in all cases. We have chosen some arbitrary

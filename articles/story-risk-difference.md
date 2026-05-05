@@ -1,6 +1,7 @@
 # Group sequential design for binary outcomes
 
 ``` r
+
 library(tibble)
 library(dplyr)
 library(knitr)
@@ -27,8 +28,8 @@ method of Farrington and Manning (1990) for a trial to test the
 difference between two binomial event rates. The routine can be used for
 a test of superiority, non-inferiority or super-superiority. For a
 design that tests for superiority, the methods are consistent with those
-of Fleiss, Tytun, and Ury (1980), but without the continuity correction.
-Methods for sample size and power are the same as
+of Fleiss et al. (1980), but without the continuity correction. Methods
+for sample size and power are the same as
 [`gsDesign::nBinomial()`](https://keaven.github.io/gsDesign/reference/varBinomial.html)
 when testing on the risk-difference scale for a single stratum. This is
 also consistent with the **Hmisc** R package routines `bsamsize()` and
@@ -326,6 +327,7 @@ this *not huge* sample size the normal density fits quite well other
 than some flatness in the middle.
 
 ``` r
+
 # Hypothesized failure rate
 p <- .125
 #  Other parameters
@@ -383,6 +385,7 @@ desire 90% power for a two-sided test for two proportions at \\\alpha =
 First, we set the parameters.
 
 ``` r
+
 p_c <- .28
 p_e <- .4
 p_pool <- (p_c + p_e) / 2
@@ -406,6 +409,7 @@ p^{pool} \right) \left(\frac{1}{N \xi_C} + \frac{1}{N \xi_E} \right)
 \frac{2}{N} \end{array} \\ And their calculation results are
 
 ``` r
+
 sigma_h0 <- sqrt(p_pool * (1 - p_pool) * 4 / n)
 sigma_h1 <- sqrt((p_c * (1 - p_c) + p_e * (1 - p_e)) * 2 / n)
 
@@ -421,6 +425,7 @@ p_e\|}{\sigma\_{H_1}} \end{array}. \\
 And their calculation results are
 
 ``` r
+
 theta_h0 <- 0
 theta_h1 <- abs(p_c - p_e) / sigma_h1
 
@@ -438,6 +443,7 @@ The above logic is implemented in the function
 [`gs_info_rd()`](https://merck.github.io/gsDesign2/reference/gs_info_rd.md).
 
 ``` r
+
 x <- gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .28),
   p_e = tibble::tibble(stratum = "All", rate = .4),
@@ -461,6 +467,7 @@ By plugging the `theta` and `info` above into
 one can calculate the sample size to achieve the 90% power.
 
 ``` r
+
 # under info_scale = "h0_info"
 y_0 <- gs_design_npe(
   theta = .4 - .28,
@@ -512,16 +519,17 @@ tibble(
   gt::tab_header(title = "The sample size calculated by gsDesign2 under 3 info_scale")
 ```
 
-| The sample size calculated by gsDesign2 under 3 info_scale |                        |                           |
-|------------------------------------------------------------|------------------------|---------------------------|
-| info_scale = "h0_info"                                     | info_scale = "h1_info" | info_scale = "h0_h1_info" |
-| 654.9627                                                   | 644.4553               | 650.7984                  |
+| The sample size calculated by gsDesign2 under 3 info_scale |  |  |
+|----|----|----|
+| info_scale = "h0_info" | info_scale = "h1_info" | info_scale = "h0_h1_info" |
+| 654.9627 | 644.4553 | 650.7984 |
 
 The above logic is implement in
 [`gs_design_rd()`](https://merck.github.io/gsDesign2/reference/gs_design_rd.md)
 to calculate the sample size given fixed power in one-step.
 
 ``` r
+
 z_info_scale_0 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .28),
   p_e = tibble::tibble(stratum = "All", rate = .4),
@@ -579,6 +587,7 @@ Sample size calculated by EAST
 #### Summary
 
 ``` r
+
 tibble::tibble(
   gsDesign2_info_scale_0 = z_info_scale_0$analysis$n,
   gsDesign2_info_scale_1 = z_info_scale_1$analysis$n,
@@ -625,6 +634,7 @@ The logic of
 is to calculate the sample size of fixed design first.
 
 ``` r
+
 x_gs <- gs_info_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
   p_e = tibble::tibble(stratum = "All", rate = .1),
@@ -639,14 +649,15 @@ x_gs |>
   gt::tab_header(title = "The statistical information of the group sequential design")
 ```
 
-| The statistical information of the group sequential design |           |      |     |        |        |           |           |
-|------------------------------------------------------------|-----------|------|-----|--------|--------|-----------|-----------|
-| analysis                                                   | n         | rd   | rd0 | theta1 | theta0 | info1     | info0     |
-| 1                                                          | 0.3333333 | 0.05 | 0   | 0.05   | 0      | 0.7662835 | 0.7619048 |
-| 2                                                          | 0.6666667 | 0.05 | 0   | 0.05   | 0      | 1.5325670 | 1.5238095 |
-| 3                                                          | 1.0000000 | 0.05 | 0   | 0.05   | 0      | 2.2988506 | 2.2857143 |
+| The statistical information of the group sequential design |  |  |  |  |  |  |  |
+|----|----|----|----|----|----|----|----|
+| analysis | n | rd | rd0 | theta1 | theta0 | info1 | info0 |
+| 1 | 0.3333333 | 0.05 | 0 | 0.05 | 0 | 0.7662835 | 0.7619048 |
+| 2 | 0.6666667 | 0.05 | 0 | 0.05 | 0 | 1.5325670 | 1.5238095 |
+| 3 | 1.0000000 | 0.05 | 0 | 0.05 | 0 | 2.2988506 | 2.2857143 |
 
 ``` r
+
 y_gs0 <- gs_design_npe(
   theta = .05,
   info = x_gs$info0,
@@ -698,21 +709,22 @@ tibble(
   )
 ```
 
-| The sample size calculated by \`gsDesign2\` under 3 info_scale |                        |                           |
-|----------------------------------------------------------------|------------------------|---------------------------|
-| under group sequential design                                  |                        |                           |
-| info_scale = "h0_info"                                         | info_scale = "h1_info" | info_scale = "h0_h1_info" |
-| 620.1976                                                       | 616.6536               | 618.3786                  |
-| 620.1976                                                       | 616.6536               | 618.3786                  |
-| 1240.3952                                                      | 1233.3072              | 1236.7572                 |
-| 1240.3952                                                      | 1233.3072              | 1236.7572                 |
-| 1860.5927                                                      | 1849.9608              | 1855.1358                 |
-| 1860.5927                                                      | 1849.9608              | 1855.1358                 |
+| The sample size calculated by \`gsDesign2\` under 3 info_scale |  |  |
+|----|----|----|
+| under group sequential design |  |  |
+| info_scale = "h0_info" | info_scale = "h1_info" | info_scale = "h0_h1_info" |
+| 620.1976 | 616.6536 | 618.3786 |
+| 620.1976 | 616.6536 | 618.3786 |
+| 1240.3952 | 1233.3072 | 1236.7572 |
+| 1240.3952 | 1233.3072 | 1236.7572 |
+| 1860.5927 | 1849.9608 | 1855.1358 |
+| 1860.5927 | 1849.9608 | 1855.1358 |
 
 The above logic is implemented in
 [`gs_design_rd()`](https://merck.github.io/gsDesign2/reference/gs_design_rd.md).
 
 ``` r
+
 x_gsdesign2_info_scale_0 <- gs_design_rd(
   p_c = tibble::tibble(stratum = "All", rate = .15),
   p_e = tibble::tibble(stratum = "All", rate = .1),
@@ -768,6 +780,7 @@ x_gsdesign2_info_scale_2 <- gs_design_rd(
 #### `gsDesign`
 
 ``` r
+
 n_fix <- nBinomial(
   # Control event rate
   p1 = .15,
@@ -851,6 +864,7 @@ Sample size calculated by EAST
 #### Summary
 
 ``` r
+
 tibble::tibble(
   gsDesign2_info_scale_0 = x_gsdesign2_info_scale_0$analysis$n,
   gsDesign2_info_scale_1 = x_gsdesign2_info_scale_1$analysis$n,
@@ -885,6 +899,7 @@ In this example, we consider 3 strata in a group sequential design with
 3 analyses.
 
 ``` r
+
 ratio <- 1
 prevalence_ratio <- c(4, 5, 6)
 p_c_by_stratum <- c(.3, .37, .6)
@@ -943,17 +958,17 @@ x |>
   gt::tab_header(title = "Stratified Example")
 ```
 
-| Stratified Example                                                      |      |      |         |        |        |        |        |
-|-------------------------------------------------------------------------|------|------|---------|--------|--------|--------|--------|
-| stratum                                                                 | p_c  | p_e  | p_pool¹ | xi_c²  | xi_e³  | n_c⁴   | n_e⁵   |
-| S1                                                                      | 0.30 | 0.25 | 0.2750  | 0.2667 | 0.2667 | 0.1333 | 0.1333 |
-| S2                                                                      | 0.37 | 0.30 | 0.3350  | 0.3333 | 0.3333 | 0.1667 | 0.1667 |
-| S3                                                                      | 0.60 | 0.50 | 0.5500  | 0.4000 | 0.4000 | 0.2000 | 0.2000 |
-| ¹ p_pool = (p_c \* n_c + p_e \* n_e) / (n_c \* n_e).                    |      |      |         |        |        |        |        |
-| ² xi_c = sample size of a strata / sample size of the control arm.      |      |      |         |        |        |        |        |
-| ³ xi_e = sample size of a strata / sample size of the experimental arm. |      |      |         |        |        |        |        |
-| ⁴ n_c = total sample size of the control arm.                           |      |      |         |        |        |        |        |
-| ⁵ n_e = total size of the experimental arm.                             |      |      |         |        |        |        |        |
+| Stratified Example |  |  |  |  |  |  |  |
+|----|----|----|----|----|----|----|----|
+| stratum | p_c | p_e | p_pool¹ | xi_c² | xi_e³ | n_c⁴ | n_e⁵ |
+| S1 | 0.30 | 0.25 | 0.2750 | 0.2667 | 0.2667 | 0.1333 | 0.1333 |
+| S2 | 0.37 | 0.30 | 0.3350 | 0.3333 | 0.3333 | 0.1667 | 0.1667 |
+| S3 | 0.60 | 0.50 | 0.5500 | 0.4000 | 0.4000 | 0.2000 | 0.2000 |
+| ¹ p_pool = (p_c \* n_c + p_e \* n_e) / (n_c \* n_e). |  |  |  |  |  |  |  |
+| ² xi_c = sample size of a strata / sample size of the control arm. |  |  |  |  |  |  |  |
+| ³ xi_e = sample size of a strata / sample size of the experimental arm. |  |  |  |  |  |  |  |
+| ⁴ n_c = total sample size of the control arm. |  |  |  |  |  |  |  |
+| ⁵ n_e = total size of the experimental arm. |  |  |  |  |  |  |  |
 
 First, we calculate the variance \\ \left\\ \begin{array}{ll}
 \sigma^2\_{H_0,k,s} & = p\_{k,s}^{pool} \left(1 - p^{pool}\_{k,s}
@@ -966,6 +981,7 @@ p\_{C,s})}{N\_{C,k,s}} + \frac{p\_{E,s} (1 - p\_{E,s})}{N\_{E,k,s}} =
 (1 - p\_{E,s})}{\frac{r \xi_s}{1+r} N\_{k}} \end{array} \right. \\
 
 ``` r
+
 x <- x |>
   union_all(x) |>
   union_all(x) |>
@@ -991,19 +1007,19 @@ x |>
   )
 ```
 
-| Analysis                                         | stratum | p_c  | p_pool | p_e  | n_c    | n_e    | xi_c   | xi_e   | sigma_h0¹ | sigma_h1² |
-|--------------------------------------------------|---------|------|--------|------|--------|--------|--------|--------|-----------|-----------|
-| 1                                                | S1      | 0.30 | 0.275  | 0.25 | 0.0444 | 0.0444 | 0.2667 | 0.2667 | 2.9953    | 2.9906    |
-| 1                                                | S2      | 0.37 | 0.335  | 0.30 | 0.0556 | 0.0556 | 0.3333 | 0.3333 | 2.8319    | 2.8241    |
-| 1                                                | S3      | 0.60 | 0.550  | 0.50 | 0.0667 | 0.0667 | 0.4000 | 0.4000 | 2.7249    | 2.7111    |
-| 2                                                | S1      | 0.30 | 0.275  | 0.25 | 0.0889 | 0.0889 | 0.2667 | 0.2667 | 2.1180    | 2.1147    |
-| 2                                                | S2      | 0.37 | 0.335  | 0.30 | 0.1111 | 0.1111 | 0.3333 | 0.3333 | 2.0025    | 1.9970    |
-| 2                                                | S3      | 0.60 | 0.550  | 0.50 | 0.1333 | 0.1333 | 0.4000 | 0.4000 | 1.9268    | 1.9170    |
-| 3                                                | S1      | 0.30 | 0.275  | 0.25 | 0.1333 | 0.1333 | 0.2667 | 0.2667 | 1.7293    | 1.7266    |
-| 3                                                | S2      | 0.37 | 0.335  | 0.30 | 0.1667 | 0.1667 | 0.3333 | 0.3333 | 1.6350    | 1.6305    |
-| 3                                                | S3      | 0.60 | 0.550  | 0.50 | 0.2000 | 0.2000 | 0.4000 | 0.4000 | 1.5732    | 1.5652    |
-| ¹ sigma_h0 = the H0 sd per stratum per analysis. |         |      |        |      |        |        |        |        |           |           |
-| ² sigma_h1 = the H0 sd per stratum per analysis. |         |      |        |      |        |        |        |        |           |           |
+| Analysis | stratum | p_c | p_pool | p_e | n_c | n_e | xi_c | xi_e | sigma_h0¹ | sigma_h1² |
+|----|----|----|----|----|----|----|----|----|----|----|
+| 1 | S1 | 0.30 | 0.275 | 0.25 | 0.0444 | 0.0444 | 0.2667 | 0.2667 | 2.9953 | 2.9906 |
+| 1 | S2 | 0.37 | 0.335 | 0.30 | 0.0556 | 0.0556 | 0.3333 | 0.3333 | 2.8319 | 2.8241 |
+| 1 | S3 | 0.60 | 0.550 | 0.50 | 0.0667 | 0.0667 | 0.4000 | 0.4000 | 2.7249 | 2.7111 |
+| 2 | S1 | 0.30 | 0.275 | 0.25 | 0.0889 | 0.0889 | 0.2667 | 0.2667 | 2.1180 | 2.1147 |
+| 2 | S2 | 0.37 | 0.335 | 0.30 | 0.1111 | 0.1111 | 0.3333 | 0.3333 | 2.0025 | 1.9970 |
+| 2 | S3 | 0.60 | 0.550 | 0.50 | 0.1333 | 0.1333 | 0.4000 | 0.4000 | 1.9268 | 1.9170 |
+| 3 | S1 | 0.30 | 0.275 | 0.25 | 0.1333 | 0.1333 | 0.2667 | 0.2667 | 1.7293 | 1.7266 |
+| 3 | S2 | 0.37 | 0.335 | 0.30 | 0.1667 | 0.1667 | 0.3333 | 0.3333 | 1.6350 | 1.6305 |
+| 3 | S3 | 0.60 | 0.550 | 0.50 | 0.2000 | 0.2000 | 0.4000 | 0.4000 | 1.5732 | 1.5652 |
+| ¹ sigma_h0 = the H0 sd per stratum per analysis. |  |  |  |  |  |  |  |  |  |  |
+| ² sigma_h1 = the H0 sd per stratum per analysis. |  |  |  |  |  |  |  |  |  |  |
 
 Second, we calculate the weight by using inverse variance
 
@@ -1011,6 +1027,7 @@ Second, we calculate the weight by using inverse variance
 \\
 
 ``` r
+
 temp <- x |>
   group_by(Analysis) |>
   summarise(
@@ -1045,20 +1062,20 @@ x |>
   )
 ```
 
-| Analysis                                                                                                | stratum | p_c  | p_pool | p_e  | n_c    | n_e    | xi_c   | xi_e   | sigma_h0 | sigma_h1 | weight_invar_H0¹ | weight_invar_H1² | weight_ss³ |
-|---------------------------------------------------------------------------------------------------------|---------|------|--------|------|--------|--------|--------|--------|----------|----------|------------------|------------------|------------|
-| 1                                                                                                       | S1      | 0.30 | 0.275  | 0.25 | 0.0444 | 0.0444 | 0.2667 | 0.2667 | 2.9953   | 2.9906   | 0.3006           | 0.2996           | 0.2667     |
-| 1                                                                                                       | S2      | 0.37 | 0.335  | 0.30 | 0.0556 | 0.0556 | 0.3333 | 0.3333 | 2.8319   | 2.8241   | 0.3362           | 0.3359           | 0.3333     |
-| 1                                                                                                       | S3      | 0.60 | 0.550  | 0.50 | 0.0667 | 0.0667 | 0.4000 | 0.4000 | 2.7249   | 2.7111   | 0.3632           | 0.3645           | 0.4000     |
-| 2                                                                                                       | S1      | 0.30 | 0.275  | 0.25 | 0.0889 | 0.0889 | 0.2667 | 0.2667 | 2.1180   | 2.1147   | 0.3006           | 0.2996           | 0.2667     |
-| 2                                                                                                       | S2      | 0.37 | 0.335  | 0.30 | 0.1111 | 0.1111 | 0.3333 | 0.3333 | 2.0025   | 1.9970   | 0.3362           | 0.3359           | 0.3333     |
-| 2                                                                                                       | S3      | 0.60 | 0.550  | 0.50 | 0.1333 | 0.1333 | 0.4000 | 0.4000 | 1.9268   | 1.9170   | 0.3632           | 0.3645           | 0.4000     |
-| 3                                                                                                       | S1      | 0.30 | 0.275  | 0.25 | 0.1333 | 0.1333 | 0.2667 | 0.2667 | 1.7293   | 1.7266   | 0.3006           | 0.2996           | 0.2667     |
-| 3                                                                                                       | S2      | 0.37 | 0.335  | 0.30 | 0.1667 | 0.1667 | 0.3333 | 0.3333 | 1.6350   | 1.6305   | 0.3362           | 0.3359           | 0.3333     |
-| 3                                                                                                       | S3      | 0.60 | 0.550  | 0.50 | 0.2000 | 0.2000 | 0.4000 | 0.4000 | 1.5732   | 1.5652   | 0.3632           | 0.3645           | 0.4000     |
-| ¹ weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0. |         |      |        |      |        |        |        |        |          |          |                  |                  |            |
-| ² weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1. |         |      |        |      |        |        |        |        |          |          |                  |                  |            |
-| ³ weight_ss = the weight per stratum per analysis calculated by SS.                                     |         |      |        |      |        |        |        |        |          |          |                  |                  |            |
+| Analysis | stratum | p_c | p_pool | p_e | n_c | n_e | xi_c | xi_e | sigma_h0 | sigma_h1 | weight_invar_H0¹ | weight_invar_H1² | weight_ss³ |
+|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
+| 1 | S1 | 0.30 | 0.275 | 0.25 | 0.0444 | 0.0444 | 0.2667 | 0.2667 | 2.9953 | 2.9906 | 0.3006 | 0.2996 | 0.2667 |
+| 1 | S2 | 0.37 | 0.335 | 0.30 | 0.0556 | 0.0556 | 0.3333 | 0.3333 | 2.8319 | 2.8241 | 0.3362 | 0.3359 | 0.3333 |
+| 1 | S3 | 0.60 | 0.550 | 0.50 | 0.0667 | 0.0667 | 0.4000 | 0.4000 | 2.7249 | 2.7111 | 0.3632 | 0.3645 | 0.4000 |
+| 2 | S1 | 0.30 | 0.275 | 0.25 | 0.0889 | 0.0889 | 0.2667 | 0.2667 | 2.1180 | 2.1147 | 0.3006 | 0.2996 | 0.2667 |
+| 2 | S2 | 0.37 | 0.335 | 0.30 | 0.1111 | 0.1111 | 0.3333 | 0.3333 | 2.0025 | 1.9970 | 0.3362 | 0.3359 | 0.3333 |
+| 2 | S3 | 0.60 | 0.550 | 0.50 | 0.1333 | 0.1333 | 0.4000 | 0.4000 | 1.9268 | 1.9170 | 0.3632 | 0.3645 | 0.4000 |
+| 3 | S1 | 0.30 | 0.275 | 0.25 | 0.1333 | 0.1333 | 0.2667 | 0.2667 | 1.7293 | 1.7266 | 0.3006 | 0.2996 | 0.2667 |
+| 3 | S2 | 0.37 | 0.335 | 0.30 | 0.1667 | 0.1667 | 0.3333 | 0.3333 | 1.6350 | 1.6305 | 0.3362 | 0.3359 | 0.3333 |
+| 3 | S3 | 0.60 | 0.550 | 0.50 | 0.2000 | 0.2000 | 0.4000 | 0.4000 | 1.5732 | 1.5652 | 0.3632 | 0.3645 | 0.4000 |
+| ¹ weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| ² weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1. |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| ³ weight_ss = the weight per stratum per analysis calculated by SS. |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
 Third, we calculate the weighted risk difference and weighted
 statistical information. \\ \left\\ \begin{array}{ll} \delta\_{H_0,k} &
@@ -1072,6 +1089,7 @@ p\_{C,k,s})}{N\_{C,k,s}} + \sum\_{s=1}^S w\_{k,s}^2 \frac{p\_{E,k,s}
 (1 - p\_{E,k,s})}{N\_{E,k,s}} \right\]^{-1} \end{array} \right. \\ \\
 
 ``` r
+
 x <- x |>
   group_by(Analysis) |>
   summarise(
@@ -1112,6 +1130,7 @@ x <- x |>
 ```
 
 ``` r
+
 x |>
   gt::gt() |>
   fmt_number(c(2:4, 6:11), decimals = 6) |>
@@ -1147,19 +1166,20 @@ x |>
   )
 ```
 
-| Analysis                                                                                                                         | rd_invar_H0 | rd_invar_H1 | rd_ss    | rd0 | info_invar_H0¹ | info_invar_H1² | info_ss³ | info0_invar_H0⁴ | info0_invar_H1⁵ | info0_ss⁶ |
-|----------------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------|-----|----------------|----------------|----------|-----------------|-----------------|-----------|
-| 1                                                                                                                                | 0.074884    | 0.074944    | 0.076667 | 0   | 0.373240       | 0.373244       | 0.370617 | 0.370829        | 0.370826        | 0.368039  |
-| 2                                                                                                                                | 0.074884    | 0.074944    | 0.076667 | 0   | 0.746481       | 0.746487       | 0.741235 | 0.741659        | 0.741652        | 0.736079  |
-| 3                                                                                                                                | 0.074884    | 0.074944    | 0.076667 | 0   | 1.119721       | 1.119731       | 1.111852 | 1.112488        | 1.112479        | 1.104118  |
-| ¹ info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.  |             |             |          |     |                |                |          |                 |                 |           |
-| ² info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.  |             |             |          |     |                |                |          |                 |                 |           |
-| ³ info_ss = the statistical information under H1 per stratum per analysis calculated by SS.                                      |             |             |          |     |                |                |          |                 |                 |           |
-| ⁴ info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0. |             |             |          |     |                |                |          |                 |                 |           |
-| ⁵ info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0. |             |             |          |     |                |                |          |                 |                 |           |
-| ⁶ info0_ss = the statistical information under H0 per stratum per analysis calculated by SS.                                     |             |             |          |     |                |                |          |                 |                 |           |
+| Analysis | rd_invar_H0 | rd_invar_H1 | rd_ss | rd0 | info_invar_H0¹ | info_invar_H1² | info_ss³ | info0_invar_H0⁴ | info0_invar_H1⁵ | info0_ss⁶ |
+|----|----|----|----|----|----|----|----|----|----|----|
+| 1 | 0.074884 | 0.074944 | 0.076667 | 0 | 0.373240 | 0.373244 | 0.370617 | 0.370829 | 0.370826 | 0.368039 |
+| 2 | 0.074884 | 0.074944 | 0.076667 | 0 | 0.746481 | 0.746487 | 0.741235 | 0.741659 | 0.741652 | 0.736079 |
+| 3 | 0.074884 | 0.074944 | 0.076667 | 0 | 1.119721 | 1.119731 | 1.111852 | 1.112488 | 1.112479 | 1.104118 |
+| ¹ info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
+| ² info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
+| ³ info_ss = the statistical information under H1 per stratum per analysis calculated by SS. |  |  |  |  |  |  |  |  |  |  |
+| ⁴ info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
+| ⁵ info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
+| ⁶ info0_ss = the statistical information under H0 per stratum per analysis calculated by SS. |  |  |  |  |  |  |  |  |  |  |
 
 ``` r
+
 # Sample size under H0 ----
 y_invar_h0 <- gs_design_npe(
   theta = x$rd_invar_H0,
@@ -1278,6 +1298,7 @@ The above logic is implemented in
 [`gs_design_rd()`](https://merck.github.io/gsDesign2/reference/gs_design_rd.md).
 
 ``` r
+
 ## sample size weighting + information scale = "h0_info"
 x_ss0 <- gs_design_rd(
   p_c = p_c,
@@ -1299,6 +1320,7 @@ x_ss0 <- gs_design_rd(
 ```
 
 ``` r
+
 ## sample size weighting + information scale = "h1_info"
 x_ss1 <- gs_design_rd(
   p_c = p_c,
@@ -1320,6 +1342,7 @@ x_ss1 <- gs_design_rd(
 ```
 
 ``` r
+
 ## sample size weighting + information scale = "h0_h1_info"
 x_ss2 <- gs_design_rd(
   p_c = p_c,
@@ -1341,6 +1364,7 @@ x_ss2 <- gs_design_rd(
 ```
 
 ``` r
+
 ## inverse variance weighting + information scale = "h0_info"
 x_invar0 <- gs_design_rd(
   p_c = p_c,
@@ -1362,6 +1386,7 @@ x_invar0 <- gs_design_rd(
 ```
 
 ``` r
+
 ## inverse variance weighting + information scale = "h1_info"
 x_invar1 <- gs_design_rd(
   p_c = p_c,
@@ -1383,6 +1408,7 @@ x_invar1 <- gs_design_rd(
 ```
 
 ``` r
+
 ## inverse variance weighting + information scale = "h0_h1_info"
 x_invar2 <- gs_design_rd(
   p_c = p_c,
@@ -1404,6 +1430,7 @@ x_invar2 <- gs_design_rd(
 ```
 
 ``` r
+
 ## inverse variance weighting + information scale = "h0_info"
 x_invar_h1_0 <- gs_design_rd(
   p_c = p_c,
@@ -1425,6 +1452,7 @@ x_invar_h1_0 <- gs_design_rd(
 ```
 
 ``` r
+
 ## inverse variance weighting + information scale = "h1_info"
 x_invar_h1_1 <- gs_design_rd(
   p_c = p_c,
@@ -1446,6 +1474,7 @@ x_invar_h1_1 <- gs_design_rd(
 ```
 
 ``` r
+
 ## inverse variance weighting + information scale = "h0_h1_info"
 x_invar_h1_2 <- gs_design_rd(
   p_c = p_c,
@@ -1467,6 +1496,7 @@ x_invar_h1_2 <- gs_design_rd(
 ```
 
 ``` r
+
 ans <- tibble::tibble(
   INVAR0 = x_invar0$analysis$n[1:3],
   INVAR1 = x_invar1$analysis$n[1:3],
@@ -1522,8 +1552,8 @@ Lachin, John M. 1981. “Introduction to Sample Size Determination and
 Power Analysis for Clinical Trials.” *Controlled Clinical Trials* 2 (2):
 93–113.
 
-———. 2009. *Biostatistical Methods: The Assessment of Relative Risks*.
-John Wiley & Sons.
+Lachin, John M. 2009. *Biostatistical Methods: The Assessment of
+Relative Risks*. John Wiley & Sons.
 
 Mantel, Nathan, and William Haenszel. 1959. “Statistical Aspects of the
 Analysis of Data from Retrospective Studies of Disease.” *Journal of the

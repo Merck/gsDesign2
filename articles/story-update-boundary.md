@@ -1,6 +1,7 @@
 # Efficacy and futility boundary update
 
 ``` r
+
 library(gsDesign2)
 library(gt)
 ```
@@ -21,6 +22,7 @@ delayed treatment effect; that is, in the first 3 months HR = 1 and the
 HR is 0.6 thereafter.
 
 ``` r
+
 alpha <- 0.0125
 beta <- 0.1
 ratio <- 1
@@ -51,6 +53,7 @@ also imply the null hypothesis information will be used for the
 information fraction used in spending functions to derive the design.
 
 ``` r
+
 info_scale <- "h0_info"
 ```
 
@@ -61,6 +64,7 @@ the Lan and DeMets (1983) spending function with a total alpha of
 0.0125, which approximates an O’Brien-Fleming bound.
 
 ``` r
+
 upper <- gs_spending_bound
 upar <- list(sf = gsDesign::sfLDOF, total_spend = alpha, param = NULL)
 
@@ -93,6 +97,7 @@ We note that rounding up the final targeted events increases power
 slightly over the targeted 90%.
 
 ``` r
+
 x |>
   summary() |>
   as_gt() |>
@@ -110,6 +115,7 @@ another hypothesis. At the design stage, the planned \\\alpha\\ is
 \\\alpha\\ from some other hypothesis. The corresponding bounds are
 
 ``` r
+
 gs_update_ahr(
   x = x,
   alpha = 0.025
@@ -142,6 +148,7 @@ like this when there is a shortfall of events versus the design plan.
 The updated design is
 
 ``` r
+
 # Set spending fraction for interim according to observed events 
 # divided by planned final events.
 # Final spending fraction is 1 per plan even if there is a shortfall
@@ -176,6 +183,7 @@ and for futility is 0.1. In addition, we assume there is no futility
 test for the final analysis.
 
 ``` r
+
 # Upper and lower bounds uses spending with Lan-DeMets spending approximating
 # O'Brien-Fleming bound
 upper <- gs_spending_bound
@@ -214,6 +222,7 @@ Since we added futility bounds, the sample size and number of events are
 larger than we had above in the 1-sided example.
 
 ``` r
+
 x |>
   summary() |>
   as_gt() |>
@@ -231,6 +240,7 @@ now that \\\alpha\\ is 0.025 but we still use the same sample size and
 event timing as for the original alpha = 0.0125. The updated bounds are
 
 ``` r
+
 gs_update_ahr(
   x = x,
   alpha = 0.025
@@ -249,6 +259,7 @@ We assume the observed events same as for the 1-sided example above.
 The updated design is
 
 ``` r
+
 # Update spending fraction as above
 ustime <- c(240 / max(x$analysis$event), 1)
 

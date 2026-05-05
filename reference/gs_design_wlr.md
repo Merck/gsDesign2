@@ -241,20 +241,19 @@ gs_design_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.648       0.00381  2.67          0.629     0.00381
-#> 2        1 lower      0.0976      0.959    1.74          0.738     0.0406 
-#> 3        2 upper      0.800       0.0141   1.98          0.742     0.0238 
-#> 4        2 lower      0.197       0.985    1.91          0.750     0.0280 
+#>   analysis bound probability probability0        z ~hr at bound   nominal p
+#> 1        1 upper  0.64849767  0.003808068 2.668630    0.6286465 0.003808068
+#> 2        1 lower  0.09755484  0.959449751 1.744336    0.7382942 0.040550249
+#> 3        2 upper  0.79999961  0.014100210 1.980967    0.7424480 0.023797474
+#> 4        2 lower  0.19672399  0.984554626 1.911120    0.7502850 0.027994609
 #> 
 #> $analysis
-#> # A tibble: 2 × 10
-#>   analysis  time     n event   ahr theta  info info0 info_frac info_frac0
-#>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1        1  24.1  267.  132. 0.690 0.371  66.3  67.8     0.610      0.600
-#> 2        2  36    267.  177. 0.657 0.259 109.  113.      1          1    
+#>   analysis     time        n    event       ahr     theta      info     info0
+#> 1        1 24.13302 267.1275 132.2063 0.6900748 0.3709552  66.32949  67.78105
+#> 2        2 36.00000 267.1275 176.9938 0.6571048 0.2593958 108.73427 112.96839
+#>   info_frac info_frac0
+#> 1 0.6100146  0.6000002
+#> 2 1.0000000  1.0000000
 #> 
 
 # Example 2 ----
@@ -289,20 +288,19 @@ gs_design_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.326       0.00366 2.68           0.643     0.00366
-#> 2        1 lower      0.0977      0.821   0.918          0.860     0.179  
-#> 3        2 upper      0.800       0.0228  1.98           0.755     0.0238 
-#> 4        2 lower      0.198       0.975   1.93           0.760     0.0267 
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper  0.32626250  0.003661778 2.6817619    0.6433691 0.003661778
+#> 2        1 lower  0.09772849  0.820715674 0.9180959    0.8598580 0.179284326
+#> 3        2 upper  0.79999972  0.022769009 1.9801832    0.7551913 0.023841476
+#> 4        2 lower  0.19829993  0.974937472 1.9309710    0.7604795 0.026743319
 #> 
 #> $analysis
-#> # A tibble: 2 × 10
-#>   analysis  time     n event   ahr theta  info info0 info_frac info_frac0
-#>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1        1    24  300.  148. 0.690 0.256  73.9  75.5     0.605      0.595
-#> 2        2    36  300.  199. 0.657 0.259 122.  127.      1          1    
+#>   analysis time        n    event       ahr     theta      info     info0
+#> 1        1   24 300.2519 147.8941 0.6902269 0.2561850  73.94117  75.54355
+#> 2        2   36 300.2519 198.9415 0.6571048 0.2593958 122.21758 126.97674
+#>   info_frac info_frac0
+#> 1 0.6049962    0.59494
+#> 2 1.0000000    1.00000
 #> 
 
 # Example 3 ----
@@ -337,19 +335,18 @@ gs_design_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.648       0.00381  2.67          0.629     0.00381
-#> 2        1 lower      0.0976      0.959    1.74          0.738     0.0406 
-#> 3        2 upper      0.800       0.0141   1.98          0.742     0.0238 
-#> 4        2 lower      0.197       0.985    1.91          0.750     0.0280 
+#>   analysis bound probability probability0        z ~hr at bound   nominal p
+#> 1        1 upper  0.64849271  0.003807973 2.668638    0.6286456 0.003807973
+#> 2        1 lower  0.09755399  0.959448880 1.744326    0.7382954 0.040551120
+#> 3        2 upper  0.79999962  0.014100260 1.980967    0.7424484 0.023797502
+#> 4        2 lower  0.19672405  0.984554570 1.911120    0.7502853 0.027994592
 #> 
 #> $analysis
-#> # A tibble: 2 × 10
-#>   analysis  time     n event   ahr theta  info info0 info_frac info_frac0
-#>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1        1  24.1  267.  132. 0.690 0.371  66.3  67.8     0.610      0.600
-#> 2        2  36    267.  177. 0.657 0.259 109.  113.      1          1    
+#>   analysis     time        n    event       ahr     theta      info     info0
+#> 1        1 24.13293 267.1282 132.2063 0.6900749 0.3709551  66.32933  67.78088
+#> 2        2 36.00000 267.1282 176.9943 0.6571048 0.2593958 108.73458 112.96871
+#>   info_frac info_frac0
+#> 1 0.6100114  0.5999969
+#> 2 1.0000000  1.0000000
 #> 
 ```

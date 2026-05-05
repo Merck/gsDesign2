@@ -292,16 +292,20 @@ x <- gs_design_npe(
   lpar = c(-1, 0, 0)
 )
 x
-#> # A tibble: 6 × 10
-#>   analysis bound     z probability probability0 theta info_frac  info info0
-#>      <int> <chr> <dbl>       <dbl>        <dbl> <dbl>     <dbl> <dbl> <dbl>
-#> 1        1 upper  4.17    0.000278    0.0000152   0.1     0.333  51.6  51.6
-#> 2        1 lower -1       0.0429      0.159       0.1     0.333  51.6  51.6
-#> 3        2 upper  2.85    0.208       0.00222     0.2     0.667 103.  103. 
-#> 4        2 lower  0       0.0537      0.513       0.2     0.667 103.  103. 
-#> 5        3 upper  2.26    0.900       0.0125      0.3     1     155.  155. 
-#> 6        3 lower  0       0.0537      0.606       0.3     1     155.  155. 
-#> # ℹ 1 more variable: info1 <dbl>
+#>   analysis bound         z  probability probability0 theta info_frac      info
+#> 1        1 upper  4.170845 0.0002775712 1.517362e-05   0.1 0.3333333  51.58274
+#> 2        1 lower -1.000000 0.0428790458 1.586553e-01   0.1 0.3333333  51.58274
+#> 3        2 upper  2.845813 0.2076724793 2.220491e-03   0.2 0.6666667 103.16548
+#> 4        2 lower  0.000000 0.0537297034 5.125858e-01   0.2 0.6666667 103.16548
+#> 5        3 upper  2.263724 0.9000056035 1.248248e-02   0.3 1.0000000 154.74822
+#> 6        3 lower  0.000000 0.0537312146 6.063484e-01   0.3 1.0000000 154.74822
+#>       info0     info1
+#> 1  51.58274  51.58274
+#> 2  51.58274  51.58274
+#> 3 103.16548 103.16548
+#> 4 103.16548 103.16548
+#> 5 154.74822 154.74822
+#> 6 154.74822 154.74822
 
 # Same upper bound; this represents non-binding Type I error and will total 0.025
 gs_power_npe(
@@ -312,15 +316,20 @@ gs_power_npe(
   lower = gs_b,
   lpar = rep(-Inf, 3)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound       z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr>   <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper    4.17   0.0000152     0      0     0.333  51.6  51.6  51.6
-#> 2        2 upper    2.85   0.00222       0      0     0.667 103.  103.  103. 
-#> 3        3 upper    2.26   0.0125        0      0     1     155.  155.  155. 
-#> 4        1 lower -Inf      0             0      0     0.333  51.6  51.6  51.6
-#> 5        2 lower -Inf      0             0      0     0.667 103.  103.  103. 
-#> 6        3 lower -Inf      0             0      0     1     155.  155.  155. 
+#>   analysis bound        z  probability theta theta1 info_frac      info
+#> 1        1 upper 4.170845 1.517362e-05     0      0 0.3333333  51.58274
+#> 2        2 upper 2.845813 2.220501e-03     0      0 0.6666667 103.16548
+#> 3        3 upper 2.263724 1.250024e-02     0      0 1.0000000 154.74822
+#> 4        1 lower     -Inf 0.000000e+00     0      0 0.3333333  51.58274
+#> 5        2 lower     -Inf 0.000000e+00     0      0 0.6666667 103.16548
+#> 6        3 lower     -Inf 0.000000e+00     0      0 1.0000000 154.74822
+#>       info0     info1
+#> 1  51.58274  51.58274
+#> 2 103.16548 103.16548
+#> 3 154.74822 154.74822
+#> 4  51.58274  51.58274
+#> 5 103.16548 103.16548
+#> 6 154.74822 154.74822
 
 # Example 3 ----
 # gs_design_npe with spending bound
@@ -338,16 +347,20 @@ gs_design_npe(
   lpar = c(-1, -Inf, -Inf),
   test_upper = c(FALSE, TRUE, TRUE)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound       z probability probability0 theta info_frac  info info0
-#>      <int> <chr>   <dbl>       <dbl>        <dbl> <dbl>     <dbl> <dbl> <dbl>
-#> 1        1 upper  Inf         0           0         0.1     0.333  44.6  44.6
-#> 2        1 lower   -1         0.0477      0.159     0.1     0.333  44.6  44.6
-#> 3        2 upper    2.51      0.267       0.00605   0.2     0.667  89.1  89.1
-#> 4        2 lower -Inf         0.0477      0.159     0.2     0.667  89.1  89.1
-#> 5        3 upper    1.99      0.900       0.0249    0.3     1     134.  134. 
-#> 6        3 lower -Inf         0.0477      0.159     0.3     1     134.  134. 
-#> # ℹ 1 more variable: info1 <dbl>
+#>   analysis bound         z probability probability0 theta info_frac      info
+#> 1        1 upper       Inf   0.0000000  0.000000000   0.1 0.3333333  44.55550
+#> 2        1 lower -1.000000   0.0477076  0.158655254   0.1 0.3333333  44.55550
+#> 3        2 upper  2.509315   0.2670769  0.006048281   0.2 0.6666667  89.11101
+#> 4        2 lower      -Inf   0.0477076  0.158655254   0.2 0.6666667  89.11101
+#> 5        3 upper  1.992888   0.8999998  0.024947293   0.3 1.0000000 133.66651
+#> 6        3 lower      -Inf   0.0477076  0.158655254   0.3 1.0000000 133.66651
+#>       info0     info1
+#> 1  44.55550  44.55550
+#> 2  44.55550  44.55550
+#> 3  89.11101  89.11101
+#> 4  89.11101  89.11101
+#> 5 133.66651 133.66651
+#> 6 133.66651 133.66651
 
 # one can try `info_scale = "h1_info"` or `info_scale = "h0_info"` here
 gs_design_npe(
@@ -361,16 +374,20 @@ gs_design_npe(
   lpar = c(-1, -Inf, -Inf),
   test_upper = c(FALSE, TRUE, TRUE)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound       z probability probability0 theta info_frac  info info0
-#>      <int> <chr>   <dbl>       <dbl>        <dbl> <dbl>     <dbl> <dbl> <dbl>
-#> 1        1 upper  Inf         0           0         0.1     0.333  44.6  44.6
-#> 2        1 lower   -1         0.0477      0.159     0.1     0.333  44.6  44.6
-#> 3        2 upper    2.51      0.267       0.00605   0.2     0.667  89.1  89.1
-#> 4        2 lower -Inf         0.0477      0.159     0.2     0.667  89.1  89.1
-#> 5        3 upper    1.99      0.900       0.0249    0.3     1     134.  134. 
-#> 6        3 lower -Inf         0.0477      0.159     0.3     1     134.  134. 
-#> # ℹ 1 more variable: info1 <dbl>
+#>   analysis bound         z probability probability0 theta info_frac      info
+#> 1        1 upper       Inf   0.0000000  0.000000000   0.1 0.3333333  44.55550
+#> 2        1 lower -1.000000   0.0477076  0.158655254   0.1 0.3333333  44.55550
+#> 3        2 upper  2.509315   0.2670769  0.006048281   0.2 0.6666667  89.11101
+#> 4        2 lower      -Inf   0.0477076  0.158655254   0.2 0.6666667  89.11101
+#> 5        3 upper  1.992888   0.8999998  0.024947293   0.3 1.0000000 133.66651
+#> 6        3 lower      -Inf   0.0477076  0.158655254   0.3 1.0000000 133.66651
+#>       info0     info1
+#> 1  44.55550  44.55550
+#> 2  44.55550  44.55550
+#> 3  89.11101  89.11101
+#> 4  89.11101  89.11101
+#> 5 133.66651 133.66651
+#> 6 133.66651 133.66651
 
 # Example 4 ----
 # gs_design_npe with spending function bounds
@@ -385,16 +402,20 @@ gs_design_npe(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound      z probability probability0 theta info_frac  info info0
-#>      <int> <chr>  <dbl>       <dbl>        <dbl> <dbl>     <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71     0.000145     0.000104   0.1     0.333  43.5  32.7
-#> 2        1 lower -1.34     0.0139       0.0909     0.1     0.333  43.5  32.7
-#> 3        2 upper  2.51     0.258        0.00605    0.2     0.667  87.1  65.3
-#> 4        2 lower  0.150    0.0460       0.562      0.2     0.667  87.1  65.3
-#> 5        3 upper  1.99     0.900        0.0249     0.3     1     131.   98.0
-#> 6        3 lower  2.00     0.0908       0.976      0.3     1     131.   98.0
-#> # ℹ 1 more variable: info1 <dbl>
+#>   analysis bound          z  probability probability0 theta info_frac      info
+#> 1        1 upper  3.7103029 0.0001448358 0.0001035057   0.1 0.3333333  43.54986
+#> 2        1 lower -1.3350350 0.0138507196 0.0909324478   0.1 0.3333333  43.54986
+#> 3        2 upper  2.5114338 0.2584942092 0.0060483766   0.2 0.6666667  87.09972
+#> 4        2 lower  0.1503316 0.0459829116 0.5623935172   0.2 0.6666667  87.09972
+#> 5        3 upper  1.9930511 0.8999994407 0.0249432388   0.3 1.0000000 130.64958
+#> 6        3 lower  2.0018760 0.0908269980 0.9755024218   0.3 1.0000000 130.64958
+#>      info0     info1
+#> 1 32.66239  43.54986
+#> 2 32.66239  43.54986
+#> 3 65.32479  87.09972
+#> 4 65.32479  87.09972
+#> 5 97.98718 130.64958
+#> 6 97.98718 130.64958
 
 # Example 5 ----
 # gs_design_npe with two-sided symmetric spend, O'Brien-Fleming spending
@@ -409,16 +430,20 @@ xx <- gs_design_npe(
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL)
 )
 xx
-#> # A tibble: 6 × 10
-#>   analysis bound      z probability probability0 theta info_frac  info info0
-#>      <int> <chr>  <dbl>       <dbl>        <dbl> <dbl>     <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71     0.00104      0.000104   0.1     0.333  39.8  39.8
-#> 2        1 lower -3.08     0.000104     0.00104    0.1     0.333  39.8  39.8
-#> 3        2 upper  2.51     0.233        0.00605    0.2     0.667  79.5  79.5
-#> 4        2 lower -0.728    0.00605      0.233      0.2     0.667  79.5  79.5
-#> 5        3 upper  1.99     0.900        0.0250     0.3     1     119.  119. 
-#> 6        3 lower  1.28     0.0250       0.900      0.3     1     119.  119. 
-#> # ℹ 1 more variable: info1 <dbl>
+#>   analysis bound          z  probability probability0 theta info_frac      info
+#> 1        1 upper  3.7103029 0.0010356714 0.0001035057   0.1 0.3333333  39.75242
+#> 2        1 lower -3.0798077 0.0001035057 0.0010356714   0.1 0.3333333  39.75242
+#> 3        2 upper  2.5114338 0.2332809784 0.0060483891   0.2 0.6666667  79.50483
+#> 4        2 lower -0.7281241 0.0060483891 0.2332809784   0.2 0.6666667  79.50483
+#> 5        3 upper  1.9930482 0.9000060668 0.0250000000   0.3 1.0000000 119.25725
+#> 6        3 lower  1.2831008 0.0250000000 0.9000060668   0.3 1.0000000 119.25725
+#>       info0     info1
+#> 1  39.75242  39.75242
+#> 2  39.75242  39.75242
+#> 3  79.50483  79.50483
+#> 4  79.50483  79.50483
+#> 5 119.25725 119.25725
+#> 6 119.25725 119.25725
 
 # Re-use these bounds under alternate hypothesis
 # Always use binding = TRUE for power calculations
@@ -431,23 +456,19 @@ gs_power_npe(
   upar = (xx |> dplyr::filter(bound == "upper"))$z,
   lpar = -(xx |> dplyr::filter(bound == "upper"))$z
 )
-#> # A tibble: 6 × 10
-#>   analysis bound     z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr> <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71  0.00104      0.1    0.1     0.333    40    40    40
-#> 2        2 upper  2.51  0.235        0.2    0.2     0.667    80    80    80
-#> 3        3 upper  1.99  0.902        0.3    0.3     1       120   120   120
-#> 4        1 lower -3.71  0.00000704   0.1    0.1     0.333    40    40    40
-#> 5        2 lower -2.51  0.0000151    0.2    0.2     0.667    80    80    80
-#> 6        3 lower -1.99  0.0000151    0.3    0.3     1       120   120   120
+#>   analysis bound         z  probability theta theta1 info_frac info info0 info1
+#> 1        1 upper  3.710303 1.042508e-03   0.1    0.1 0.3333333   40    40    40
+#> 2        2 upper  2.511434 2.349812e-01   0.2    0.2 0.6666667   80    80    80
+#> 3        3 upper  1.993048 9.020716e-01   0.3    0.3 1.0000000  120   120   120
+#> 4        1 lower -3.710303 7.035242e-06   0.1    0.1 0.3333333   40    40    40
+#> 5        2 lower -2.511434 1.510031e-05   0.2    0.2 0.6666667   80    80    80
+#> 6        3 lower -1.993048 1.512598e-05   0.3    0.3 1.0000000  120   120   120
 
 # Example 6 ----
 # Default of gs_power_npe (single analysis; Type I error controlled)
 gs_power_npe(theta = 0) |> dplyr::filter(bound == "upper")
-#> # A tibble: 1 × 10
-#>   analysis bound     z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr> <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  1.96      0.0250     0      0         1     1     1     1
+#>   analysis bound        z probability theta theta1 info_frac info info0 info1
+#> 1        1 upper 1.959964       0.025     0      0         1    1     1     1
 
 # Example 7 ----
 # gs_power_npe with fixed bound
@@ -459,15 +480,13 @@ gs_power_npe(
   lower = gs_b,
   lpar = c(-1, 0, 0)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound     z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr> <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71     0.00104   0.1    0.1     0.333    40    40    40
-#> 2        2 upper  2.51     0.235     0.2    0.2     0.667    80    80    80
-#> 3        3 upper  1.99     0.869     0.3    0.3     1       120   120   120
-#> 4        1 lower -1        0.0513    0.1    0.1     0.333    40    40    40
-#> 5        2 lower  0        0.0715    0.2    0.2     0.667    80    80    80
-#> 6        3 lower  0        0.0715    0.3    0.3     1       120   120   120
+#>   analysis bound         z probability theta theta1 info_frac info info0 info1
+#> 1        1 upper  3.710303 0.001042508   0.1    0.1 0.3333333   40    40    40
+#> 2        2 upper  2.511427 0.234899008   0.2    0.2 0.6666667   80    80    80
+#> 3        3 upper  1.993048 0.868689026   0.3    0.3 1.0000000  120   120   120
+#> 4        1 lower -1.000000 0.051291779   0.1    0.1 0.3333333   40    40    40
+#> 5        2 lower  0.000000 0.071509147   0.2    0.2 0.6666667   80    80    80
+#> 6        3 lower  0.000000 0.071522125   0.3    0.3 1.0000000  120   120   120
 
 # Same fixed efficacy bounds, no futility bound (i.e., non-binding bound), null hypothesis
 gs_power_npe(
@@ -477,12 +496,10 @@ gs_power_npe(
   lpar = rep(-Inf, 3)
 ) |>
   dplyr::filter(bound == "upper")
-#> # A tibble: 3 × 10
-#>   analysis bound     z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr> <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71    0.000104     0      0     0.333    40    40    40
-#> 2        2 upper  2.51    0.00605      0      0     0.667    80    80    80
-#> 3        3 upper  1.99    0.0250       0      0     1       120   120   120
+#>   analysis bound        z  probability theta theta1 info_frac info info0 info1
+#> 1        1 upper 3.710303 0.0001035057     0      0 0.3333333   40    40    40
+#> 2        2 upper 2.511427 0.0060485045     0      0 0.6666667   80    80    80
+#> 3        3 upper 1.993048 0.0250002354     0      0 1.0000000  120   120   120
 
 # Example 8 ----
 # gs_power_npe with fixed bound testing futility only at analysis 1; efficacy only at analyses 2, 3
@@ -494,15 +511,13 @@ gs_power_npe(
   lower = gs_b,
   lpar = c(qnorm(.1), -Inf, -Inf)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound       z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr>   <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  Inf         0        0.1    0.1     0.333    40    40    40
-#> 2        2 upper    3         0.113    0.2    0.2     0.667    80    80    80
-#> 3        3 upper    2         0.887    0.3    0.3     1       120   120   120
-#> 4        1 lower   -1.28      0.0278   0.1    0.1     0.333    40    40    40
-#> 5        2 lower -Inf         0.0278   0.2    0.2     0.667    80    80    80
-#> 6        3 lower -Inf         0.0278   0.3    0.3     1       120   120   120
+#>   analysis bound         z probability theta theta1 info_frac info info0 info1
+#> 1        1 upper       Inf  0.00000000   0.1    0.1 0.3333333   40    40    40
+#> 2        2 upper  3.000000  0.11291848   0.2    0.2 0.6666667   80    80    80
+#> 3        3 upper  2.000000  0.88742529   0.3    0.3 1.0000000  120   120   120
+#> 4        1 lower -1.281552  0.02780962   0.1    0.1 0.3333333   40    40    40
+#> 5        2 lower      -Inf  0.02780962   0.2    0.2 0.6666667   80    80    80
+#> 6        3 lower      -Inf  0.02780962   0.3    0.3 1.0000000  120   120   120
 
 # Example 9 ----
 # gs_power_npe with spending function bounds
@@ -515,15 +530,20 @@ gs_power_npe(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound       z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr>   <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71       0.00104   0.1    0.1     0.333    40    40    40
-#> 2        2 upper  2.51       0.235     0.2    0.2     0.667    80    80    80
-#> 3        3 upper  1.99       0.883     0.3    0.3     1       120   120   120
-#> 4        1 lower -1.36       0.0230    0.1    0.1     0.333    40    40    40
-#> 5        2 lower  0.0726     0.0552    0.2    0.2     0.667    80    80    80
-#> 6        3 lower  1.86       0.100     0.3    0.3     1       120   120   120
+#>   analysis bound           z probability theta theta1 info_frac info info0
+#> 1        1 upper  3.71030287 0.001042508   0.1    0.1 0.3333333   40    40
+#> 2        2 upper  2.51143381 0.234968841   0.2    0.2 0.6666667   80    80
+#> 3        3 upper  1.99305108 0.882718886   0.3    0.3 1.0000000  120   120
+#> 4        1 lower -1.36250263 0.023023722   0.1    0.1 0.3333333   40    40
+#> 5        2 lower  0.07264138 0.055155914   0.2    0.2 0.6666667   80    80
+#> 6        3 lower  1.85908660 0.100000000   0.3    0.3 1.0000000  120   120
+#>   info1
+#> 1    40
+#> 2    80
+#> 3   120
+#> 4    40
+#> 5    80
+#> 6   120
 
 # Same bounds, but power under different theta
 gs_power_npe(
@@ -534,15 +554,13 @@ gs_power_npe(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
 )
-#> # A tibble: 6 × 10
-#>   analysis bound      z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr>  <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71      0.00288  0.15   0.15     0.333    40    40    40
-#> 2        2 upper  2.51      0.391    0.25   0.25     0.667    80    80    80
-#> 3        3 upper  1.99      0.931    0.35   0.35     1       120   120   120
-#> 4        1 lower -1.05      0.0230   0.15   0.15     0.333    40    40    40
-#> 5        2 lower  0.520     0.0552   0.25   0.25     0.667    80    80    80
-#> 6        3 lower  2.41      0.100    0.35   0.35     1       120   120   120
+#>   analysis bound         z probability theta theta1 info_frac info info0 info1
+#> 1        1 upper  3.710303 0.002875773  0.15   0.15 0.3333333   40    40    40
+#> 2        2 upper  2.511434 0.391439113  0.25   0.25 0.6666667   80    80    80
+#> 3        3 upper  1.993051 0.931364287  0.35   0.35 1.0000000  120   120   120
+#> 4        1 lower -1.046275 0.023023722  0.15   0.15 0.3333333   40    40    40
+#> 5        2 lower  0.519855 0.055155914  0.25   0.25 0.6666667   80    80    80
+#> 6        3 lower  2.408073 0.100000000  0.35   0.35 1.0000000  120   120   120
 
 # Example 10 ----
 # gs_power_npe with two-sided symmetric spend, O'Brien-Fleming spending
@@ -566,15 +584,13 @@ gs_power_npe(
   upar = (x |> dplyr::filter(bound == "upper"))$z,
   lpar = -(x |> dplyr::filter(bound == "upper"))$z
 )
-#> # A tibble: 6 × 10
-#>   analysis bound     z probability theta theta1 info_frac  info info0 info1
-#>      <int> <chr> <dbl>       <dbl> <dbl>  <dbl>     <dbl> <dbl> <dbl> <dbl>
-#> 1        1 upper  3.71  0.00104      0.1    0.1     0.333    40    40    40
-#> 2        2 upper  2.51  0.235        0.2    0.2     0.667    80    80    80
-#> 3        3 upper  1.99  0.902        0.3    0.3     1       120   120   120
-#> 4        1 lower -3.71  0.00000704   0.1    0.1     0.333    40    40    40
-#> 5        2 lower -2.51  0.0000151    0.2    0.2     0.667    80    80    80
-#> 6        3 lower -1.99  0.0000151    0.3    0.3     1       120   120   120
+#>   analysis bound         z  probability theta theta1 info_frac info info0 info1
+#> 1        1 upper  3.710303 1.042508e-03   0.1    0.1 0.3333333   40    40    40
+#> 2        2 upper  2.511434 2.349812e-01   0.2    0.2 0.6666667   80    80    80
+#> 3        3 upper  1.993051 9.020711e-01   0.3    0.3 1.0000000  120   120   120
+#> 4        1 lower -3.710303 7.035242e-06   0.1    0.1 0.3333333   40    40    40
+#> 5        2 lower -2.511434 1.510031e-05   0.2    0.2 0.6666667   80    80    80
+#> 6        3 lower -1.993051 1.512598e-05   0.3    0.3 1.0000000  120   120   120
 
 # Example 11 ----
 # Different values of `r` and `tol` lead to different numerical accuracy
@@ -599,17 +615,15 @@ gs_power_npe(
   r = 6,
   tol = 1e-6
 )
-#> # A tibble: 10 × 10
-#>    analysis bound       z probability theta theta1 info_frac  info info0 info1
-#>       <int> <chr>   <dbl>       <dbl> <dbl>  <dbl>     <dbl> <int> <int> <int>
-#>  1        1 upper    4.88 0.000000890   0.1    0.1       0.2     1     1     1
-#>  2        2 upper    3.36 0.000650      0.1    0.1       0.4     2     2     2
-#>  3        3 upper    2.68 0.00627       0.1    0.1       0.6     3     3     3
-#>  4        4 upper    2.29 0.0200        0.1    0.1       0.8     4     4     4
-#>  5        5 upper    2.03 0.0408        0.1    0.1       1       5     5     5
-#>  6        1 lower -Inf    0             0.1    0.1       0.2     1     1     1
-#>  7        2 lower -Inf    0             0.1    0.1       0.4     2     2     2
-#>  8        3 lower -Inf    0             0.1    0.1       0.6     3     3     3
-#>  9        4 lower -Inf    0             0.1    0.1       0.8     4     4     4
-#> 10        5 lower -Inf    0             0.1    0.1       1       5     5     5
+#>    analysis bound        z  probability theta theta1 info_frac info info0 info1
+#> 1         1 upper 4.876885 8.901578e-07   0.1    0.1       0.2    1     1     1
+#> 2         2 upper 3.359204 6.500358e-04   0.1    0.1       0.4    2     2     2
+#> 3         3 upper 2.681324 6.271330e-03   0.1    0.1       0.6    3     3     3
+#> 4         4 upper 2.290483 2.003375e-02   0.1    0.1       0.8    4     4     4
+#> 5         5 upper 2.031517 4.083845e-02   0.1    0.1       1.0    5     5     5
+#> 6         1 lower     -Inf 0.000000e+00   0.1    0.1       0.2    1     1     1
+#> 7         2 lower     -Inf 0.000000e+00   0.1    0.1       0.4    2     2     2
+#> 8         3 lower     -Inf 0.000000e+00   0.1    0.1       0.6    3     3     3
+#> 9         4 lower     -Inf 0.000000e+00   0.1    0.1       0.8    4     4     4
+#> 10        5 lower     -Inf 0.000000e+00   0.1    0.1       1.0    5     5     5
 ```

@@ -1,6 +1,7 @@
 # Computing expected events by interval at risk
 
 ``` r
+
 library(gsDesign2)
 ```
 
@@ -12,9 +13,8 @@ dropout rates similar to Lachin and Foulkes (1986). Specifically, we
 design this to enable computation of an *average hazard ratio* which we
 will use elsewhere to approximate sample size for fixed or group
 sequential designs under a non-proportional hazards assumption
-(Kalbfleisch and Prentice (1981), Schemper, Wakounig, and Heinze
-(2009)). The expected events calculation outlined here is implemented in
-the function
+(Kalbfleisch and Prentice (1981), Schemper et al. (2009)). The expected
+events calculation outlined here is implemented in the function
 [`expected_event()`](https://merck.github.io/gsDesign2/reference/expected_event.md).
 
 ## General formulation and notation
@@ -82,8 +82,8 @@ calculating the expected number of events over time in the scenario
 described above. However, we alter their algorithm to compute the
 expected number of events \\E\\\bar n(t_1,t_2)\\\\ in each follow-up
 period with a constant failure rate; this will later enable computing an
-average hazard ratio (Kalbfleisch and Prentice (1981), Schemper,
-Wakounig, and Heinze (2009)).
+average hazard ratio (Kalbfleisch and Prentice (1981), Schemper et al.
+(2009)).
 
 We define a piecewise time-to-event and dropout random variables on the
 patient time scale. We assume \\0=t_0\<t_1\<...\<t_M=\infty\\ and for
@@ -181,6 +181,7 @@ enable computation of \\\bar n_m\\, the expected events in each time
 interval.
 
 ``` r
+
 name_tem <- names(x)
 
 names(x) <- c("m", "tm", "lambda", "eta", "j", "omega", "gamma")
@@ -227,6 +228,7 @@ First, we sum the \\\bar{n}\_m\\ values `sum(y$nbar)` to get 1.083773
 and compare to:
 
 ``` r
+
 event <- gsDesign::eEvents(
   lambda = y$lambda,
   eta = y$eta,
@@ -243,6 +245,7 @@ event
 Next, we examine by the periods defined by `fail_rate`:
 
 ``` r
+
 expected_event(
   enroll_rate = define_enroll_rate(duration = c(1, 1), rate = c(3, 2)),
   fail_rate = define_fail_rate(duration = c(4, 3), fail_rate = c(.03, .06), dropout_rate = c(.001, .002)),
@@ -257,6 +260,7 @@ expected_event(
 Now we group rows of `y` above into these same intervals.
 
 ``` r
+
 y |>
   mutate(t = c(0, 4, 4, 4)) |>
   group_by(t) |>
@@ -276,10 +280,12 @@ simulate a large dataset and confirm the simulation has the targeted
 enrollment pattern.
 
 ``` r
+
 nsim <- 1e6
 ```
 
 ``` r
+
 xx <- simtrial::simPWSurv(
   n = nsim,
   block = (rep("xx", 4)),
@@ -298,6 +304,7 @@ saveRDS(xx, file = "fixtures/compute_expected_events.rds", compress = "xz")
 ```
 
 ``` r
+
 xx <- readRDS("fixtures/compute_expected_events.rds")
 ecat <- 1 + (xx$enrollTime > 1) + (xx$enrollTime > 2)
 cat("Enrollment pattern: ", table(ecat) / nsim)
@@ -308,6 +315,7 @@ Now we confirm the expected events in each follow-up interval given the
 targeted enrollment.
 
 ``` r
+
 #' This function is borrowed from Merck/simtrial.
 #' We copy it here to make gsDesign2 self-contained.
 #'
@@ -333,6 +341,7 @@ cut_data <- function(x, cut_date) {
 ```
 
 ``` r
+
 yy <- xx |>
   cut_data(7) |>
   filter(event == 1) |>

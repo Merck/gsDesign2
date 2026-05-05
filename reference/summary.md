@@ -70,6 +70,7 @@ A summary table (data frame).
 ## Examples
 
 ``` r
+
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
   duration = 18,

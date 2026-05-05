@@ -64,13 +64,13 @@ one event; the same ideas apply for events that can recur, but in those
 cases we restrict attention to the first event for each patients. We use
 the logrank statistics to compare the treatment and control arms. If we
 assume there are \\N_k\\ total number of deaths at analysis \\k\\. The
-numerator of the logrank statistics at analysis \\k\\ is (Proschan, Lan,
-and Wittes 2006) \\ \sum\_{i=1}^{N_k} D_i, \\ where \\D_i = O_i - E_i\\
-with \\O_i\\ is the indicator that the \\i\\th death occurred in a
-treatment patient, and \\E_i = m\_{1i} / (m\_{0i} + m\_{1i})\\ as the
-null expectation of \\O_i\\ given the respective numbers, \\m\_{0i}\\
-and \\m\_{1i}\\, of control and treatment patients at risk just prior to
-the \\i\\th death.
+numerator of the logrank statistics at analysis \\k\\ is (Proschan et
+al. 2006) \\ \sum\_{i=1}^{N_k} D_i, \\ where \\D_i = O_i - E_i\\ with
+\\O_i\\ is the indicator that the \\i\\th death occurred in a treatment
+patient, and \\E_i = m\_{1i} / (m\_{0i} + m\_{1i})\\ as the null
+expectation of \\O_i\\ given the respective numbers, \\m\_{0i}\\ and
+\\m\_{1i}\\, of control and treatment patients at risk just prior to the
+\\i\\th death.
 
 Conditioned on \\m\_{0i}\\ and \\m\_{1i}\\, the \\O_i\\ has a Bernoulli
 distribution with parameter \\E_i\\. The null conditional mean and
@@ -97,5 +97,5 @@ m\_{1i})} \frac{m\_{0i}}{(m\_{0i} + m\_{1i})} & \text{under } H_1
 ## References
 
 Proschan, Michael A., K. K. Gordon Lan, and Janet Turk Wittes. 2006.
-*Statistical Monitoring of Clinical Trials: A Unified Approach*. New
-York, NY: Springer.
+*Statistical Monitoring of Clinical Trials: A Unified Approach*.
+Springer.

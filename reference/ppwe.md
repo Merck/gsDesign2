@@ -50,6 +50,7 @@ The contents of this section are shown in PDF user manual only.
 ## Examples
 
 ``` r
+
 # Plot a survival function with 2 different sets of time values
 # to demonstrate plot precision corresponding to input parameters.
 

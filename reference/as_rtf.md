@@ -115,6 +115,7 @@ as_rtf(
 ## Examples
 
 ``` r
+
 # Enrollment rate
 enroll_rate <- define_enroll_rate(
   duration = 18,

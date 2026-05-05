@@ -247,13 +247,11 @@ gs_power_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper     0.00441      0.00381  2.67          0.377     0.00381
-#> 2        1 lower     0.0915       0.100   -1.28          1.60      0.9    
-#> 3        2 upper     0.0161       0.0122   2.29          0.485     0.0110 
-#> 4        3 upper     0.0376       0.0250   2.03          0.563     0.0211 
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper  0.00441383  0.003808063  2.668630    0.3774013 0.003808063
+#> 2        1 lower  0.09154369  0.100000000 -1.281552    1.5967280 0.900000000
+#> 3        2 upper  0.01610019  0.012212156  2.288719    0.4849273 0.011047838
+#> 4        3 upper  0.03762726  0.025003975  2.030702    0.5630598 0.021142598
 #> 
 #> $analysis
 #>   analysis     time        n    event       ahr      theta      info     info0
@@ -303,13 +301,11 @@ gs_power_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.0152      0.00381  2.67          0.546     0.00381
-#> 2        1 lower      0.0372      0.100   -1.28          1.34      0.9    
-#> 3        2 upper      0.622       0.0140   2.29          0.747     0.0110 
-#> 4        3 upper      0.842       0.0262   2.03          0.789     0.0211 
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper  0.01524044  0.003808063  2.668630    0.5460264 0.003808063
+#> 2        1 lower  0.03722282  0.100000000 -1.281552    1.3372033 0.900000000
+#> 3        2 upper  0.62184674  0.013972843  2.288719    0.7470084 0.011047838
+#> 4        3 upper  0.84166072  0.026176770  2.030702    0.7890003 0.021142598
 #> 
 #> $analysis
 #>   analysis time        n     event       ahr     theta     info    info0
@@ -359,13 +355,11 @@ gs_power_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 4 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper      0.0152      0.00381  2.67          0.546     0.00381
-#> 2        1 lower      0.0372      0.100   -1.28          1.34      0.9    
-#> 3        2 upper      0.622       0.0140   2.29          0.747     0.0110 
-#> 4        3 upper      0.842       0.0262   2.03          0.789     0.0211 
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper  0.01524044  0.003808063  2.668630    0.5460264 0.003808063
+#> 2        1 lower  0.03722282  0.100000000 -1.281552    1.3372033 0.900000000
+#> 3        2 upper  0.62184674  0.013972843  2.288719    0.7470084 0.011047838
+#> 4        3 upper  0.84166072  0.026176770  2.030702    0.7890003 0.021142598
 #> 
 #> $analysis
 #>   analysis time        n     event       ahr     theta     info    info0
@@ -408,15 +402,13 @@ gs_power_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 6 × 7
-#>   analysis bound probability probability0      z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl>  <dbl>          <dbl>       <dbl>
-#> 1        1 upper     0.00441      0.00380  2.67           0.377     0.00380
-#> 2        1 lower     0.0981       0.107   -1.24           1.57      0.893  
-#> 3        2 upper     0.0161       0.0122   2.29           0.485     0.0110 
-#> 4        2 lower     0.152        0.175   -1.03           1.39      0.849  
-#> 5        3 upper     0.0376       0.0250   2.03           0.563     0.0211 
-#> 6        3 lower     0.200        0.246   -0.823          1.26      0.795  
+#>   analysis bound probability probability0         z ~hr at bound   nominal p
+#> 1        1 upper 0.004406704  0.003801818  2.669181    0.3773254 0.003801818
+#> 2        1 lower 0.098052129  0.106939244 -1.242971    1.5743916 0.893060756
+#> 3        2 upper 0.016083715  0.012198958  2.289102    0.4848686 0.011036707
+#> 4        2 lower 0.151908085  0.175484064 -1.032357    1.3860527 0.849047639
+#> 5        3 upper 0.037624764  0.024999973  2.030628    0.5630717 0.021146372
+#> 6        3 lower 0.200011733  0.246299344 -0.822957    1.2620879 0.794733770
 #> 
 #> $analysis
 #>   analysis     time        n    event       ahr      theta      info     info0
@@ -459,15 +451,13 @@ gs_power_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 6 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper    0.000101    0.0000121  4.22          0.384   0.0000121
-#> 2        1 lower    0.0131      0.0427    -1.72          1.48    0.957    
-#> 3        2 upper    0.662       0.0142     2.19          0.756   0.0142   
-#> 4        2 lower    0.162       0.946      1.61          0.814   0.0536   
-#> 5        3 upper    0.810       0.0226     2.04          0.789   0.0209   
-#> 6        3 lower    0.200       0.980      2.13          0.780   0.0167   
+#>   analysis bound  probability probability0         z ~hr at bound    nominal p
+#> 1        1 upper 0.0001007196 1.205109e-05  4.223047    0.3838367 1.205109e-05
+#> 2        1 lower 0.0131221657 4.266668e-02 -1.720545    1.4771554 9.573333e-01
+#> 3        2 upper 0.6617929637 1.423798e-02  2.190753    0.7563933 1.423484e-02
+#> 4        2 lower 0.1624075802 9.464630e-01  1.611318    0.8143626 5.355520e-02
+#> 5        3 upper 0.8101441292 2.258665e-02  2.035169    0.7885891 2.091694e-02
+#> 6        3 lower 0.2000371763 9.796421e-01  2.127943    0.7800971 1.667092e-02
 #> 
 #> $analysis
 #>   analysis time        n     event       ahr     theta     info    info0
@@ -510,15 +500,13 @@ gs_power_wlr(
 #> 2 All          100    0.0462        0.001   0.6
 #> 
 #> $bounds
-#> # A tibble: 6 × 7
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <int> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper    0.000101    0.0000121  4.22          0.384   0.0000121
-#> 2        1 lower    0.0131      0.0427    -1.72          1.48    0.957    
-#> 3        2 upper    0.662       0.0142     2.19          0.756   0.0142   
-#> 4        2 lower    0.162       0.946      1.61          0.814   0.0536   
-#> 5        3 upper    0.810       0.0226     2.04          0.789   0.0209   
-#> 6        3 lower    0.200       0.980      2.13          0.780   0.0167   
+#>   analysis bound  probability probability0         z ~hr at bound    nominal p
+#> 1        1 upper 0.0001007196 1.205109e-05  4.223047    0.3838367 1.205109e-05
+#> 2        1 lower 0.0131221657 4.266668e-02 -1.720545    1.4771554 9.573333e-01
+#> 3        2 upper 0.6617929637 1.423798e-02  2.190753    0.7563933 1.423484e-02
+#> 4        2 lower 0.1624075802 9.464630e-01  1.611318    0.8143626 5.355520e-02
+#> 5        3 upper 0.8101441292 2.258665e-02  2.035169    0.7885891 2.091694e-02
+#> 6        3 lower 0.2000371763 9.796421e-01  2.127943    0.7800971 1.667092e-02
 #> 
 #> $analysis
 #>   analysis time        n     event       ahr     theta     info    info0
