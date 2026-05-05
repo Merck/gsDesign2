@@ -254,31 +254,30 @@ gs_design_ahr <- function(
 
         y$analysis <- n_analysis
 
-        y <- rbind(
-          expected_time(
-            enroll_rate = enroll_rate, fail_rate = fail_rate,
-            ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
-            interval = c(.01, next_time)
-          ) |>
-            mutate(theta = -log(ahr), analysis = n_analysis - i),
-          y
+        et <- expected_time(
+          enroll_rate = enroll_rate, fail_rate = fail_rate,
+          ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
+          interval = c(.01, next_time)
         )
+        et$theta <- -log(et$ahr)
+        et$analysis <- n_analysis - i
+        y <- rbind(et, y)
 
         next_time <- y$time[1]
         # If the planned info_frac input by the user > event fraction
         # Equivalently, the planned info_frac happens later than planned calendar time
         # We will wait until the planned info_frac arrives
       } else if (info_frac[n_analysis - i] > if_alt[n_analysis - i]) {
-        y[n_analysis - i, ] <- expected_time(
+        et <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
           interval = c(.01, next_time)
-        ) |>
-          dplyr::transmute(
-            analysis = n_analysis - i, time,
-            event, ahr, theta = -log(ahr),
-            info, info0
-          )
+        )
+        y[n_analysis - i, ] <- data.frame(
+          analysis = n_analysis - i, time = et$time,
+          event = et$event, ahr = et$ahr, theta = -log(et$ahr),
+          info = et$info, info0 = et$info0
+        )
 
         next_time <- y$time[n_analysis - i]
       }
