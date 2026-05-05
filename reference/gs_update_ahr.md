@@ -142,12 +142,9 @@ gs_update_ahr(
 #> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
-#>   analysis     time   n event       ahr     theta  info info0 info_frac
-#> 1        1 19.91897 382   190 0.6863292 0.3763978 47.50 47.50 0.6109325
-#> 2        2 36.06513 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000
-#>   info_frac0
-#> 1  0.6109325
-#> 2  1.0000000
+#>   analysis   n event       ahr     theta  info info0 info_frac info_frac0
+#> 1        1 382   190 0.6863292 0.3763978 47.50 47.50 0.6109325  0.6109325
+#> 2        2 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000  1.0000000
 #> 
 
 # Updated design with 190 events observed at IA, and 300 events observed at FA,
@@ -185,12 +182,9 @@ gs_update_ahr(
 #> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
-#>   analysis     time   n event       ahr     theta info info0 info_frac
-#> 1        1 19.91897 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325
-#> 2        2 36.06513 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000
-#>   info_frac0
-#> 1  0.6333333
-#> 2  1.0000000
+#>   analysis   n event       ahr     theta info info0 info_frac info_frac0
+#> 1        1 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325  0.6333333
+#> 2        2 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000  1.0000000
 #> 
 
 # Updated design with 190 events observed at IA, and 300 events observed at FA,
@@ -228,12 +222,9 @@ gs_update_ahr(
 #> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
-#>   analysis     time   n event       ahr     theta info info0 info_frac
-#> 1        1 19.91897 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325
-#> 2        2 36.06513 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000
-#>   info_frac0
-#> 1  0.6333333
-#> 2  1.0000000
+#>   analysis   n event       ahr     theta info info0 info_frac info_frac0
+#> 1        1 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325  0.6333333
+#> 2        2 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000  1.0000000
 #> 
 
 # Alpha is updated to 0.05
@@ -264,12 +255,9 @@ gs_update_ahr(x = x, alpha = 0.05)
 #> 4        2 lower  0.04125608   0.68360277      -Inf          Inf 1.00000000
 #> 
 #> $analysis
-#>   analysis     time   n event       ahr     theta  info info0 info_frac
-#> 1        1 19.91897 382   202 0.7322996 0.3115656 50.50 50.50 0.6495177
-#> 2        2 36.06513 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000
-#>   info_frac0
-#> 1  0.6495177
-#> 2  1.0000000
+#>   analysis   n event       ahr     theta  info info0 info_frac info_frac0
+#> 1        1 382   202 0.7322996 0.3115656 50.50 50.50 0.6495177  0.6495177
+#> 2        2 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000  1.0000000
 #> 
 
 # ------------------------------------------------- #
