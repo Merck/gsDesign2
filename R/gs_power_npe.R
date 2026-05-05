@@ -384,7 +384,7 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
     }
   }
 
-  ans <- tibble(
+  ans <- data.frame(
     analysis = rep(1:n_analysis, 2),
     bound = c(rep("upper", n_analysis), rep("lower", n_analysis)),
     z = c(b, a),
@@ -392,14 +392,10 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
     theta = rep(theta, 2),
     theta1 = rep(theta1, 2),
     info_frac = rep(info / max(info), 2),
-    info = rep(info, 2)
-  ) |>
-    mutate(
-      info0 = rep(info0, 2),
-      info1 = rep(info1, 2)
-    ) |>
-    # filter(abs(Z) < Inf) |>
-    arrange(desc(bound), analysis)
+    info = rep(info, 2),
+    info0 = rep(info0, 2),
+    info1 = rep(info1, 2)
+  )
 
   return(ans)
 }
