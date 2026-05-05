@@ -397,5 +397,5 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
     info1 = rep(info1, 2)
   )
 
-  return(ans)
+  return(tibble::as_tibble(ans))
 }
