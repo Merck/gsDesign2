@@ -360,19 +360,13 @@ gs_design_npe <- function(
     binding = binding, r = r, tol = tol
   )
 
-  # combine probability under H0 and H1
-  suppressMessages(
-    ans <- ans_h1 |>
-      full_join(
-        ans_h0 |>
-          select(analysis, bound, probability) |>
-          rename(probability0 = probability)
-      )
-  )
+  # combine probability under H0 and H1 via direct merge on analysis+bound
+  ans_h0_sub <- ans_h0[, c("analysis", "bound", "probability")]
+  names(ans_h0_sub)[3] <- "probability0"
+  ans <- merge(ans_h1, ans_h0_sub, by = c("analysis", "bound"), all.x = TRUE)
 
-  ans <- ans |> select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
-
-  ans <- ans |> arrange(analysis)
+  ans <- ans[order(ans$analysis), c("analysis", "bound", "z", "probability", "probability0", "theta", "info_frac", "info", "info0", "info1")]
+  rownames(ans) <- NULL
 
   return(ans)
 }
