@@ -87,14 +87,12 @@ cache_fun <- function(fun, ...) {
   res
 }
 
-# prune a hash table to prevent it from growing too big (by default, limit to
-# 1024 entries per function, which is generous for typical usage)
-prune_hash <- function(h, max_entries = 1024L) {
-  n <- numhash(h)
-  if (n <= max_entries) return()
-
-  # remove all entries when limit is exceeded (simple and fast)
-  clrhash(h)
+# prune a hash table to prevent it from growing too big. Uses numhash() for an
+# O(1) entry count check on each call. Clears when the count exceeds the limit.
+# With max_entries = 100 and typical entries of a few KB each, memory usage per
+# function is bounded to well under 1MB.
+prune_hash <- function(h, max_entries = 100L) {
+  if (numhash(h) > max_entries) clrhash(h)
 }
 
 # Require exact matching by default when retrieving attributes
