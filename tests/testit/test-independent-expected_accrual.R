@@ -16,17 +16,17 @@ assert("expected_accrual doesn't match with the double programming test_eAccrual
 
 assert("expected_accrual fail to identify a non-numerical input", {
   x <- c(0:20, "NA")
-  (has_error(expected_accrual(time = x)))
+  (has_error(expected_accrual(time = x), "must not be negative"))
 })
 
 assert("expected_accrual fail to identify a negative input", {
   x <- -20:-1
-  (has_error(expected_accrual(time = x)))
+  (has_error(expected_accrual(time = x), "must not be negative"))
 })
 
 assert("expected_accrual fail to identify a non-increasing input", {
   x <- 20:1
-  (has_error(expected_accrual(time = x)))
+  (has_error(expected_accrual(time = x), "strictly increasing"))
 })
 
 # Add test cases for stratified design

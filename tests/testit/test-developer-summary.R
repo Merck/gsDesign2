@@ -46,7 +46,7 @@ assert("summary.gs_design() accepts same-length vectors for analysis_vars and an
       x,
       analysis_vars = c("info_frac", "ahr", "event", "n", "time"),
       analysis_decimals = c(4, 4),
-    )))
+    ), "'analysis_vars' and 'analysis_decimals' must be of the same length"))
 })
 
 assert("summary.gs_design() accepts a named vector for analysis_decimals", {
@@ -89,7 +89,8 @@ assert("summary.gs_design() accepts a named vector for analysis_decimals", {
   (observed %==% "Analysis: 1 Information fraction: 0.42 AHR: 0.81 Events: 160.4")
 
   # Throw error is analysis_decimals is unnamed
-  (has_error(summary(x, analysis_decimals = c(4, 4))))
+  (has_error(summary(x, analysis_decimals = c(4, 4)),
+    "'analysis_decimals' must be a named vector if 'analysis_vars' is not provided"))
 })
 
 assert("The column 'Bound' is always included in summary.gs_design() output", {
@@ -203,7 +204,7 @@ assert("summary.gs_design() accepts same-length vectors for col_vars and col_dec
       x,
       col_vars = c("Null hypothesis", "Alternate hypothesis", "nominal p"),
       col_decimals = c(0, 0),
-    )))
+    ), "'col_vars' and 'col_decimals' must be of the same length"))
 })
 
 assert("summary.gs_design() accepts a named vector for col_decimals", {
@@ -249,7 +250,8 @@ assert("summary.gs_design() accepts a named vector for col_decimals", {
   (isTRUE(all.equal(observed, expected)))
 
   # Throw error is col_decimals is unnamed
-  (has_error(summary(x, col_decimals = c(4, 4))))
+  (has_error(summary(x, col_decimals = c(4, 4)),
+    "'col_decimals' must be a named vector if 'col_vars' is not provided"))
 })
 
 # Output of spending time
