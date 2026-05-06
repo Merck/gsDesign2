@@ -37,12 +37,12 @@ assert("gsDesign2:::h1() returns results as expected ", {
     b = gstry$upper$bound,
     n.I = gstry$n.I, theta = gstry$theta
   )
-  (isTRUE(all.equal(as.numeric(c(upper.null, upper.alt)), x$upper$prob[1, ], tolerance = 0.0001)))
-  (isTRUE(all.equal(as.numeric(c(lower.null, lower.alt)), x$lower$prob[1, ], tolerance = 0.0001)))
+  (all.equal(as.numeric(c(upper.null, upper.alt)), x$upper$prob[1, ], tolerance = 0.0001))
+  (all.equal(as.numeric(c(lower.null, lower.alt)), x$lower$prob[1, ], tolerance = 0.0001))
 })
 
 assert("gsDesign2:::h1() returns probability almost zero for extreme case", {
   exmtest1 <- sum(gsDesign2:::h1(theta = 9, info = 0.5, a = -Inf, b = 0)$h)
   exmtest2 <- sum(gsDesign2:::h1(theta = 1, info = 0.5, a = 9, b = Inf)$h)
-  (isTRUE(all.equal(as.numeric(c(exmtest1, exmtest2)), c(0, 0), tolerance = 0.0001)))
+  (all.equal(as.numeric(c(exmtest1, exmtest2)), c(0, 0), tolerance = 0.0001))
 })

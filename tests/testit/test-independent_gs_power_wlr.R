@@ -88,17 +88,17 @@ assert("Check using gs_info_wlr and gs_power_npe", {
   )
 
   # tests
-  (isTRUE(all.equal(as.numeric(gspow$analysis$time), fh01$time, tolerance = 0.0001)))
-  (isTRUE(all.equal(as.numeric(gspow$analysis$event), fh01$event, tolerance = 1)))
+  (all.equal(as.numeric(gspow$analysis$time), fh01$time, tolerance = 0.0001))
+  (all.equal(as.numeric(gspow$analysis$event), fh01$event, tolerance = 1))
 
   tt <- gspow$bounds |> dplyr::arrange(analysis, bound)
   tt1 <- npe |>
     dplyr::arrange(analysis, bound) |>
     dplyr::filter(z > -999999)
-  (isTRUE(all.equal(as.numeric(tt$z), as.numeric(tt1$z), tolerance = 0.1)))
-  (isTRUE(all.equal(as.numeric(tt$probability), tt1$probability, tolerance = 0.001)))
-  (isTRUE(all.equal(as.numeric(gspow$analysis$ahr), fh01$ahr, tolerance = 0.01)))
-  (isTRUE(all.equal(as.numeric(gspow$analysis$theta), fh01$theta, tolerance = 0.001)))
-  (isTRUE(all.equal(as.numeric(gspow$analysis$info), fh01$info, tolerance = 0.001)))
-  (isTRUE(all.equal(as.numeric(gspow$analysis$info0), fh01$info0, tolerance = 0.001)))
+  (all.equal(as.numeric(tt$z), as.numeric(tt1$z), tolerance = 0.1))
+  (all.equal(as.numeric(tt$probability), tt1$probability, tolerance = 0.001))
+  (all.equal(as.numeric(gspow$analysis$ahr), fh01$ahr, tolerance = 0.01))
+  (all.equal(as.numeric(gspow$analysis$theta), fh01$theta, tolerance = 0.001))
+  (all.equal(as.numeric(gspow$analysis$info), fh01$info, tolerance = 0.001))
+  (all.equal(as.numeric(gspow$analysis$info0), fh01$info0, tolerance = 0.001))
 })

@@ -12,5 +12,5 @@ assert("gs_spending_combo spend output identical as gsDesign spending", {
   par <- list(sf = gsDesign::sfLDOF, total_spend = alpha)
   spend_combo <- gsDesign2::gs_spending_combo(par, info = info_frac)
 
-  (isTRUE(all.equal(spend_test, spend_combo)))
+  (all.equal(spend_test, spend_combo))
 })

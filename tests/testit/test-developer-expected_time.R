@@ -17,7 +17,7 @@ assert("time to targeted events", {
     ratio = ratio,
     target_event = x$Events
   )
-  (isTRUE(all.equal(20, y$time)))
+  (all.equal(20, y$time))
 })
 
 assert("default", {
@@ -27,7 +27,7 @@ assert("default", {
   x2 <- tEvents_(enrollRates = enroll_rate |> dplyr::rename(Stratum = stratum)) |>
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
-  (isTRUE(all.equal(x1, as.data.frame(x2))))
+  (all.equal(x1, as.data.frame(x2)))
 
 })
 
@@ -54,5 +54,5 @@ assert("time to targeted events by new/old version", {
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
 
-  (isTRUE(all.equal(x1, as.data.frame(x2))))
+  (all.equal(x1, as.data.frame(x2)))
 })

@@ -20,24 +20,24 @@ assert("compare results with AHR in the situation of single analysis", {
     analysis_time = analysis_time
   )
 
-  (isTRUE(all.equal(out$analysis |> dplyr::select(time, ahr) |> as.data.frame(), ahr(
+  (all.equal(out$analysis |> dplyr::select(time, ahr) |> as.data.frame(), ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration
     ) |>
       dplyr::select(time, ahr) |>
-      as.data.frame())))
+      as.data.frame()))
 
   # update enroll_rate for AHR to make Events/info/info0 also match in outputs
   enroll_rate1 <- enroll_rate |> dplyr::mutate(rate = rate * c(out$analysis$n / (duration %*% rate)))
 
-  (isTRUE(all.equal(out$analysis |> dplyr::select(time, ahr, event, info, info0) |> as.data.frame(), ahr(
+  (all.equal(out$analysis |> dplyr::select(time, ahr, event, info, info0) |> as.data.frame(), ahr(
       enroll_rate = enroll_rate1,
       fail_rate = fail_rate,
       total_duration = total_duration
     ) |>
       dplyr::select(time, ahr, event, info, info0) |>
-      as.data.frame())))
+      as.data.frame()))
 })
 
 assert("compare results with gsDesign2::AHR in the situation with IF and multiple analysis times specified", {
@@ -60,7 +60,7 @@ assert("compare results with gsDesign2::AHR in the situation with IF and multipl
     analysis_time = analysis_time
   )
 
-  (isTRUE(all.equal(out$analysis |>
+  (all.equal(out$analysis |>
       dplyr::select(time, ahr) |>
       dplyr::distinct(.keep_all = TRUE) |>
       as.data.frame(), ahr(
@@ -69,12 +69,12 @@ assert("compare results with gsDesign2::AHR in the situation with IF and multipl
       total_duration = total_duration
     ) |>
       dplyr::select(time, ahr) |>
-      as.data.frame())))
+      as.data.frame()))
 
   # update enroll_rate for AHR to make Events/info/info0 also match in outputs
   enroll_rate1 <- enroll_rate |> dplyr::mutate(rate = rate * c(max(out$analysis$n) / (duration %*% rate)))
 
-  (isTRUE(all.equal(out$analysis |>
+  (all.equal(out$analysis |>
       dplyr::select(time, ahr, event, info, info0) |>
       dplyr::distinct(.keep_all = TRUE) |>
       as.data.frame(), ahr(
@@ -83,5 +83,5 @@ assert("compare results with gsDesign2::AHR in the situation with IF and multipl
       total_duration = total_duration
     ) |>
       dplyr::select(time, ahr, event, info, info0) |>
-      as.data.frame())))
+      as.data.frame()))
 })

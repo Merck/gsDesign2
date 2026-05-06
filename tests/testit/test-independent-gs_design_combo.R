@@ -5,7 +5,7 @@ assert("calculate analysis number as planned", {
   fh_test <- res$fh_test
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (isTRUE(all.equal(max(fh_test$analysis), max(gs_design_combo_test2$analysis$analysis))))
+  (all.equal(max(fh_test$analysis), max(gs_design_combo_test2$analysis$analysis)))
 })
 
 assert("calculate analysisTimes as planned", {
@@ -13,7 +13,7 @@ assert("calculate analysisTimes as planned", {
   fh_test <- res$fh_test
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (isTRUE(all.equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$time))))
+  (all.equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$time)))
 })
 
 assert("calculate N and each analysis Events N as planned", {
@@ -32,7 +32,7 @@ assert("calculate N and each analysis Events N as planned", {
     enrollsum <- enroll_rate$duration * enroll_rate$rate
     N <- max(gs_design_combo_test2$analysis$n)
 
-    (isTRUE(all.equal(event * N / enrollsum, unique(gs_design_combo_test2$analysis$event)[i], tolerance = 0.01)))
+    (all.equal(event * N / enrollsum, unique(gs_design_combo_test2$analysis$event)[i], tolerance = 0.01))
   }
 })
 
@@ -41,7 +41,7 @@ assert("calculate probability under alternative", {
   beta <- res$beta
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (isTRUE(all.equal(1 - beta, max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability), tolerance = 0.0001)))
+  (all.equal(1 - beta, max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability), tolerance = 0.0001))
 })
 
 assert("calculate probability under null", {
@@ -49,7 +49,7 @@ assert("calculate probability under null", {
   alpha <- res$alpha
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (isTRUE(all.equal(alpha, max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability0), tolerance = 0.005)))
+  (all.equal(alpha, max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability0), tolerance = 0.005))
 })
 
 assert("arguments are passed via ... to mvtnorm::pmvnorm()", {

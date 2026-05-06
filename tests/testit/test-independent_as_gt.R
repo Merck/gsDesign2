@@ -23,9 +23,9 @@ assert("fail_rate produces the expected output", {
     hr = c(1, 0.6)
   )
 
-  (isTRUE(all.equal(result$stratum, expected_result$stratum)))
-  (isTRUE(all.equal(result$duration, expected_result$duration)))
+  (all.equal(result$stratum, expected_result$stratum))
+  (all.equal(result$duration, expected_result$duration))
   (all(abs(result$fail_rate - expected_result$fail_rate) < 1e-4))
-  (isTRUE(all.equal(result$dropout_rate, expected_result$dropout_rate)))
-  (isTRUE(all.equal(result$hr, expected_result$hr)))
+  (all.equal(result$dropout_rate, expected_result$dropout_rate))
+  (all.equal(result$hr, expected_result$hr))
 })

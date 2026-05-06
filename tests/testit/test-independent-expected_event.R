@@ -3,7 +3,7 @@ assert("expected events is different from gsDesign::eEvents and expected_event",
   fail_rate <- define_fail_rate(duration = c(1, 1, 1), fail_rate = c(.05, .02, .01), hr = 1, dropout_rate = .01)
   total_duration <- 20
 
-  (isTRUE(all.equal(expected_event(
+  (all.equal(expected_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration,
@@ -15,7 +15,7 @@ assert("expected events is different from gsDesign::eEvents and expected_event",
       gamma = enroll_rate$rate,
       R = enroll_rate$duration,
       T = total_duration
-    )$d)))
+    )$d))
 })
 
 assert("data frame returned from expected_event not as expected", {
@@ -37,7 +37,7 @@ assert("data frame returned from expected_event not as expected", {
     fail_rate = c(0.03, 0.06),
     event = c(0.5642911, 0.5194821)
   )
-  (isTRUE(all.equal(xx, expected)))
+  (all.equal(xx, expected))
 })
 
 # Double programming tests
@@ -51,7 +51,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- res$total_duration
   simple <- res$simple
 
-  (isTRUE(all.equal(test_expected_event(
+  (all.equal(test_expected_event(
       enrollRates = enroll_rate,
       failRates = failRates,
       totalDuration = total_duration
@@ -60,7 +60,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
       fail_rate = fail_rate,
       total_duration = total_duration,
       simple = simple
-    ))))
+    )))
 })
 
 # Test 2: with multiple fail rates, long FU
@@ -72,7 +72,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- 80
   simple <- res$simple
 
-  (isTRUE(all.equal(test_expected_event(
+  (all.equal(test_expected_event(
       enrollRates = enroll_rate,
       failRates = failRates,
       totalDuration = total_duration
@@ -81,7 +81,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
       fail_rate = fail_rate,
       total_duration = total_duration,
       simple = simple
-    ))))
+    )))
 })
 
 # Test 3: with multiple fail rates and with multiple enrollment duration
@@ -105,7 +105,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- 80
   simple <- TRUE
 
-  (isTRUE(all.equal(test_expected_event(
+  (all.equal(test_expected_event(
       enrollRates = enroll_rate,
       failRates = failRates,
       totalDuration = total_duration
@@ -114,5 +114,5 @@ assert("expected events is different from double-programmed vs. expected_event, 
       fail_rate = fail_rate,
       total_duration = total_duration,
       simple = simple
-    ))))
+    )))
 })

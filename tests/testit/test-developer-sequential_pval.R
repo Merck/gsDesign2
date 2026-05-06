@@ -52,5 +52,5 @@ assert("Comparision with gsDesign::sequentialPValue", {
   seq_pva_gsd <- sequentialPValue(x_gsd, n.I = c(40, 120), Z = c(1.5,2))
   seq_pva_gsd2 <- sequential_pval(x_gsd2, event = c(40, 120) * (x_gsd2$analysis$event[3] / x_gsd$n.I[3]), z = c(1.5, 2))
 
-  (isTRUE(all.equal(seq_pva_gsd, seq_pva_gsd2)))
+  (all.equal(seq_pva_gsd, seq_pva_gsd2))
 })

@@ -1,5 +1,5 @@
 assert("expected_accrual doesn't match with the double programming test_eAccrual function", {
-  (isTRUE(all.equal(expected_accrual(
+  (all.equal(expected_accrual(
       time = 0:30,
       enroll_rate = define_enroll_rate(
         duration = c(3, 13, 18),
@@ -11,7 +11,7 @@ assert("expected_accrual doesn't match with the double programming test_eAccrual
         duration = c(3, 13, 18),
         rate = c(5, 20, 8)
       )
-    ))))
+    )))
 })
 
 assert("expected_accrual fail to identify a non-numerical input", {
@@ -39,7 +39,7 @@ assert("expected_accrual fail to identify a non-dataframe input", {
       rate = c(30, 30)
     )
   )
-  (isTRUE(all.equal(x, 33 * 30 * 2)))
+  (all.equal(x, 33 * 30 * 2))
 })
 
 assert("expected_accrual fail to identify a non-dataframe input", {
@@ -51,7 +51,7 @@ assert("expected_accrual fail to identify a non-dataframe input", {
       rate = c(30, 30)
     )
   )
-  (isTRUE(all.equal(x, 33 * 30 * 2)))
+  (all.equal(x, 33 * 30 * 2))
 })
 
 assert("expected_accrual fail to identify a non-dataframe input", {
@@ -63,7 +63,7 @@ assert("expected_accrual fail to identify a non-dataframe input", {
       rate = c(30, 30)
     )
   )
-  (isTRUE(all.equal(x, 30 * 30 * 2)))
+  (all.equal(x, 30 * 30 * 2))
 })
 
 assert("expected_accrual fail to identify a non-dataframe input", {
@@ -75,7 +75,7 @@ assert("expected_accrual fail to identify a non-dataframe input", {
       rate = c(30, 30)
     )
   )
-  (isTRUE(all.equal(x, 10 * 30 * 2)))
+  (all.equal(x, 10 * 30 * 2))
 })
 
 assert("expected_accrual fail to identify a non-dataframe input", {
@@ -87,5 +87,5 @@ assert("expected_accrual fail to identify a non-dataframe input", {
       rate = c(30, 30)
     )
   )
-  (isTRUE(all.equal(x, c(5, 10, 20, 33, 33) * 30 * 2)))
+  (all.equal(x, c(5, 10, 20, 33, 33) * 30 * 2))
 })

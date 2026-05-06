@@ -81,6 +81,6 @@ assert("The sample size returned from the ahr() function is correct", {
                                  dropout_rate = - log(1 - 0.15)/12),
     total_duration = c(seq(1, 48, 1)))
 
-  (isTRUE(all.equal(x |> dplyr::filter(time <= 24) |> dplyr::pull(n), 1:24*10)))
-  (isTRUE(all.equal(x |> dplyr::filter(time > 24) |> dplyr::pull(n) |> unique(), 24*10)))
+  (all.equal(x |> dplyr::filter(time <= 24) |> dplyr::pull(n), 1:24*10))
+  (all.equal(x |> dplyr::filter(time > 24) |> dplyr::pull(n) |> unique(), 24*10))
 })

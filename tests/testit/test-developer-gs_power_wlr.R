@@ -7,6 +7,6 @@ assert("Validate 2-sided symetric design", {
                     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
                     binding = TRUE, h1_spending = FALSE)
 
-  (isTRUE(all.equal(x$bound$z[x$bound$bound == "upper"], -x$bound$z[x$bound$bound == "lower"])))
+  (all.equal(x$bound$z[x$bound$bound == "upper"], -x$bound$z[x$bound$bound == "lower"]))
 
 })

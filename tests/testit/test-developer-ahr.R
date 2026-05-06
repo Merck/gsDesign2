@@ -29,10 +29,10 @@ assert("unstratified population, compared with old version", {
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)
-  (isTRUE(all.equal(as.data.frame(y1), as.data.frame(x2))))
+  (all.equal(as.data.frame(y1), as.data.frame(x2)))
 
   # verify the columns of n (sample size)
-  (isTRUE(all.equal(x1$n, expected_accrual(time = c(15, 30), enroll_rate = enroll_rate))))
+  (all.equal(x1$n, expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)))
 })
 
 assert("stratified population, compared with old version", {
@@ -63,10 +63,10 @@ assert("stratified population, compared with old version", {
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)
-  (isTRUE(all.equal(as.data.frame(y1), as.data.frame(x2))))
+  (all.equal(as.data.frame(y1), as.data.frame(x2)))
 
   # verify the columns of n (sample size)
-  (isTRUE(all.equal(x1$n, expected_accrual(time = c(15, 30), enroll_rate = enroll_rate))))
+  (all.equal(x1$n, expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)))
 })
 
 assert("stratified population, compared with pw_info", {
@@ -89,15 +89,15 @@ assert("stratified population, compared with pw_info", {
   # Same example, give results by strata and time period
   y <- pw_info(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 
-  (isTRUE(all.equal(x$event[x$time == 15], sum(y$event[y$time == 15]))))
-  (isTRUE(all.equal(x$event[x$time == 30], sum(y$event[y$time == 30]))))
+  (all.equal(x$event[x$time == 15], sum(y$event[y$time == 15])))
+  (all.equal(x$event[x$time == 30], sum(y$event[y$time == 30])))
 
-  (isTRUE(all.equal(x$n[x$time == 15], sum(y$n[y$time == 15]))))
-  (isTRUE(all.equal(x$n[x$time == 30], sum(y$n[y$time == 30]))))
+  (all.equal(x$n[x$time == 15], sum(y$n[y$time == 15])))
+  (all.equal(x$n[x$time == 30], sum(y$n[y$time == 30])))
 
-  (isTRUE(all.equal(x$info[x$time == 15], sum(y$info[y$time == 15]))))
-  (isTRUE(all.equal(x$info[x$time == 30], sum(y$info[y$time == 30]))))
+  (all.equal(x$info[x$time == 15], sum(y$info[y$time == 15])))
+  (all.equal(x$info[x$time == 30], sum(y$info[y$time == 30])))
 
-  (isTRUE(all.equal(x$info0[x$time == 15], sum(y$info0[y$time == 15]))))
-  (isTRUE(all.equal(x$info0[x$time == 30], sum(y$info0[y$time == 30]))))
+  (all.equal(x$info0[x$time == 15], sum(y$info0[y$time == 15])))
+  (all.equal(x$info0[x$time == 30], sum(y$info0[y$time == 30])))
 })
