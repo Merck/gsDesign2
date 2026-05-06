@@ -159,7 +159,7 @@ gs_cp_npe2 <- function(theta = NULL,
   prob_alpha_plus <- rep(0, n_future_analysis)
   prob_beta <- rep(0, n_future_analysis)
 
-  for(x in 1:n_future_analysis){
+  for(x in seq_len(n_future_analysis)){
     # x ranges from 1 to j-i, represents cases for alpha_{i,i+1}, ..., {alpha_i,j-1}, alpha_{i,j}
     # x is the increment from i
 
@@ -168,11 +168,10 @@ gs_cp_npe2 <- function(theta = NULL,
     #         mean of B_x - B_i
     #       vector of length x
     # ------------------------------ #
-
-    mu <- sapply(seq_len(x), function(k){
+    mu <- vapply(seq_len(x), function(k){
       idx <- k + 1 # i.e., start from i+1
       theta[idx] * sqrt(t[idx] * info[idx]) - theta[1] * sqrt(t[1] * info[1]) #first element of `theta` is the treatment effect of IA i.
-    })
+    }, numeric(1))
 
     # ---------------------------------- #
     #       Build the asymptotic

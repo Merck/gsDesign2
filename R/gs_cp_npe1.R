@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Conditional power computation with non-constant effect size
+#' Simple conditional power computation with non-constant effect size
 #'
 #' @details
 #' Suppose there are \eqn{K} analyses. Let \eqn{Z_i} and \eqn{Z_j} be the Z-statistics at a current analysis \eqn{i} and a future analysis \eqn{j}, respectively.

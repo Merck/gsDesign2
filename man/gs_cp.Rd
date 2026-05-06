@@ -9,16 +9,25 @@ gs_cp(x = NULL, theta = NULL, i = 1, zi = NULL)
 \arguments{
 \item{x}{An object of type gsDesign2.}
 
-\item{theta}{Optional numeric vector with length \eqn{j-i+1}, which specifies the natural parameter for treatment effect of interim analysis \eqn{i} through analysis \eqn{j}.}
+\item{theta}{Optional numeric vector with length \eqn{j-i+1}, which specifies the natural parameter for treatment effect of interim analysis \eqn{i} through analysis \eqn{j}. The default is \code{NULL}.}
 
 \item{i}{Index of current analysis, with default of 1.}
 
 \item{zi}{Numeric scalar z-value observed at analysis \eqn{i}.}
 }
 \value{
-A list of conditional powers: prob_alpha is a numeric vector of (\eqn{alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j}), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
-prob_alpha_plus is a numeric vector of (\eqn{alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j}), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
-prob_beta is a numeric vector of (\eqn{beta_i,i+1, ..., beta_i,j-1, beta_i,j}) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+A list with the following elements:
+\describe{
+\item{\code{prob_alpha}}{A numeric vector of
+\eqn{(\alpha_{i,i+1}, \ldots, \alpha_{i,j-1}, \alpha_{i,j})}, where
+\eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.}
+\item{\code{prob_alpha_plus}}{A numeric vector of
+\eqn{(\alpha^+_{i,i+1}, \ldots, \alpha^+_{i,j-1}, \alpha^+_{i,j})}, where
+\eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.}
+\item{\code{prob_beta}}{A numeric vector of
+\eqn{(\beta_{i,i+1}, \ldots, \beta_{i,j-1}, \beta_{i,j})}, where
+\eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.}
+}
 }
 \description{
 Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
@@ -29,10 +38,11 @@ We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribut
 \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
 \deqn{Cov(Z_i, Z_j) = I_i/I_j}.
 See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
-Returned value is list of
-\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
-\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
-\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+
+The returned value is list of
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i).}
+\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i).}
+\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i).}
 }
 \examples{
 library(gsDesign2)
@@ -60,10 +70,10 @@ x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    info_scale = "h0_h1_info") |> to_integer()
 
 # calculate conditional power
-# case 1: currently at IA1, compute conditional power at IA2, IA3 and FA
+# case 1: currently at IA1, compute conditional power at IA2, IA3 and FA, with default theta = NULL
 gs_cp(x = x, i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 
 # case 2: currently at IA1, compute conditional power at IA2, IA3 and FA, with user-input theta
-gs_cp(x = x, i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+gs_cp(x = x, theta = c(0.15, 0.2, 0.25, 0.3), i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_cp_simple.R
 \name{gs_cp_simple}
 \alias{gs_cp_simple}
-\title{Conditional power computation with non-constant effect size}
+\title{Simple conditional power computation with non-constant effect size}
 \usage{
 gs_cp_simple(x = NULL, theta = NULL, i = 1, zi = NULL)
 }
@@ -21,12 +21,12 @@ A numeric vector with the conditional power
 \eqn{P(Z_j > b_j \mid Z_i = z_i)} for \eqn{j = i+1, ..., K}.
 }
 \description{
-Conditional power computation with non-constant effect size
+Simple conditional power computation with non-constant effect size
 }
 \details{
 Suppose there are \eqn{K} analyses. Let \eqn{Z_i} and \eqn{Z_j} be the Z-statistics at a current analysis \eqn{i} and a future analysis \eqn{j}, respectively.
 Let's denote the statistical information at the \eqn{i}-th analysis as \eqn{I_i}.
-We further assume \eqn{Z_i} and \eqn{Z_j} are bivariate normal with standard group sequential assumptions on independent increments, then
+We further assume \eqn{Z_i} and \eqn{Z_j} are bivariate normal under standard group sequential assumptions with independent increments, then
 \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
 \deqn{Var(Z_i) = 1/I_i}
 \deqn{Cov(Z_i, Z_j) = t \equiv I_i/I_j}
@@ -34,7 +34,7 @@ See https://merck.github.io/gsDesign2/articles/story-npe-background.html for ass
 Returned value is
 \deqn{P(Z_j > b_j \mid Z_i = z_i) = 1 - \Phi\left(\frac{b_j - \sqrt{t}z_i - \sqrt{I_j}(\theta_j - \theta_i\sqrt{t})}{\sqrt{1 - t}}\right)}
 where \eqn{b_j} is the efficacy bound at analysis \eqn{j}, \eqn{z_i} is the observed Z-value at analysis \eqn{i},
-and \eqn{\theta_i} natural parameter for treatment effect at analysis \eqn{i}.
+and \eqn{\theta_i} is the natural parameter for treatment effect at analysis \eqn{i}.
 }
 \examples{
 library(gsDesign2)
