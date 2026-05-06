@@ -2,15 +2,15 @@ assert("gs_bound_summary() summarizes the correct number of analyses", {
 
   x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
   x_bound <- gs_bound_summary(x)
-  (all.equal(nrow(x_bound), 3 * 5))
+  (all_equal(nrow(x_bound), 3 * 5))
 
   x <- gs_design_ahr(info_frac = c(.25, 1), analysis_time = c(12, 36))
   x_bound <- gs_bound_summary(x)
-  (all.equal(nrow(x_bound), 2 * 5))
+  (all_equal(nrow(x_bound), 2 * 5))
 
   x <- gs_design_ahr(info_frac = 1, analysis_time = 36)
   x_bound <- gs_bound_summary(x)
-  (all.equal(nrow(x_bound), 1 * 5))
+  (all_equal(nrow(x_bound), 1 * 5))
 
 })
 
@@ -31,7 +31,7 @@ assert("gs_bound_summary() uses correct column names", {
   col_expected <- c("Analysis", "Value", "Efficacy", "Futility")
   x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
   x_bound <- gs_bound_summary(x)
-  (all.equal(colnames(x_bound), col_expected))
+  (all_equal(colnames(x_bound), col_expected))
 
   # column names for multiple alpha values
   col_expected <- c("Analysis", "Value", "α=0.0125", "α=0.025", "α=0.05", "Futility")
@@ -58,12 +58,12 @@ assert("gs_bound_summary() supports multiple alpha values", {
     x_0125_bound[, "Futility", drop = FALSE]
   )
   x_bound <- gs_bound_summary(x_0125, alpha = c(0.025, 0.05))
-  (all.equal(x_bound, expected))
+  (all_equal(x_bound, expected))
 
   # gs_power_ahr()
   x_0250 <- gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1))
-  (all.equal(x_0250[["input"]][["alpha"]], 0.0250))
-  (all.equal(x_0250[["input"]][["upar"]][["total_spend"]], 0.0250))
+  (all_equal(x_0250[["input"]][["alpha"]], 0.0250))
+  (all_equal(x_0250[["input"]][["upar"]][["total_spend"]], 0.0250))
   x_0125 <- gs_update_ahr(x_0250, alpha = 0.0125)
   x_0500 <- gs_update_ahr(x_0250, alpha = 0.0500)
 
@@ -79,7 +79,7 @@ assert("gs_bound_summary() supports multiple alpha values", {
     x_0250_bound[, "Futility", drop = FALSE]
   )
   x_bound <- gs_bound_summary(x_0250, alpha = c(0.0125, 0.05))
-  (all.equal(x_bound, expected))
+  (all_equal(x_bound, expected))
 })
 
 assert("The arg `alpha` is only supported for AHR design objects", {
@@ -100,13 +100,13 @@ assert("Edge case: when arg `alpha` matches original alpha", {
 
   x_bound <- gs_bound_summary(x, alpha = c(0.025, 0.05))
   x_bound_redundant <- gs_bound_summary(x, alpha = c(0.0125, 0.025, 0.05))
-  (all.equal(x_bound_redundant, x_bound))
+  (all_equal(x_bound_redundant, x_bound))
 
   # Only specifying the original alpha only affects the column name
   x_bound <- gs_bound_summary(x)
   x_bound_same <- gs_bound_summary(x, alpha = 0.0125)
-  (all.equal(colnames(x_bound_same)[3], "α=0.0125"))
-  (all.equal(unname(x_bound_same), unname(x_bound)))
+  (all_equal(colnames(x_bound_same)[3], "α=0.0125"))
+  (all_equal(unname(x_bound_same), unname(x_bound)))
 })
 
 assert("One-sided design should not have column Futility", {
@@ -127,11 +127,11 @@ assert("Arg `digits` controls number of digits in table body", {
 
   efficacy_5 <- nchar(format(x_bound_5$Efficacy))
   efficacy_1 <- nchar(format(x_bound_1$Efficacy))
-  (all.equal(unique(efficacy_5 - efficacy_1), 5 - 1))
+  (all_equal(unique(efficacy_5 - efficacy_1), 5 - 1))
 
   futility_5 <- nchar(format(x_bound_5$Futility))
   futility_1 <- nchar(format(x_bound_1$Futility))
-  (all.equal(unique(futility_5 - futility_1), 5 - 1))
+  (all_equal(unique(futility_5 - futility_1), 5 - 1))
 })
 
 assert("Arg `ddigits` controls number of digits for delta value", {

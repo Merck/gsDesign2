@@ -1,87 +1,87 @@
 assert("Call with defaults", {
   x1 <- gs_design_ahr()
   x2 <- gs_design_ahr_()
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"], check.attributes = FALSE))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"], check.attributes = FALSE))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
 })
 
 assert("Single analysis", {
   x1 <- gs_design_ahr(analysis_time = 40)
   x2 <- gs_design_ahr_(analysisTimes = 40)
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
 })
 
 assert("Multiple analysisTimes", {
   x1 <- gs_design_ahr(analysis_time = c(12, 24, 36))
   x2 <- gs_design_ahr_(analysisTimes = c(12, 24, 36))
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
 })
 
 assert("Specified information fraction", {
   x1 <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = 36)
   x2 <- gs_design_ahr_(IF = c(.25, .75, 1), analysisTimes = 36)
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
 })
 
 assert("Multiple analysis times & IF and driven by times", {
   x1 <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
   x2 <- gs_design_ahr_(IF = c(.25, .75, 1), analysisTimes = c(12, 25, 36))
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
 })
 
 assert("Multiple analysis times & IF and driven by IF", {
   x1 <- gs_design_ahr(info_frac = c(1 / 3, .8, 1), analysis_time = c(12, 25, 36))
   x2 <- gs_design_ahr_(IF = c(1 / 3, .8, 1), analysisTimes = c(12, 25, 36))
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
 })
 
 assert("2-sided symmetric design with O'Brien-Fleming spending", {
@@ -101,16 +101,16 @@ assert("2-sided symmetric design with O'Brien-Fleming spending", {
     lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     h1_spending = FALSE
   )
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
 })
 
 assert("Pocock lower spending under H1 (NPH)", {
@@ -130,16 +130,16 @@ assert("Pocock lower spending under H1 (NPH)", {
     lpar = list(sf = gsDesign::sfLDPocock, total_spend = 0.1, param = NULL, timing = NULL),
     h1_spending = TRUE
   )
-  (all.equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$analysis$time, x2$bounds$Time[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$event, x2$bounds$Events[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bounds$Z[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bounds$Probability[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$ahr, x2$bounds$AHR[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$theta, x2$bounds$theta[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info, x2$bounds$info[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$analysis$info0, x2$bounds$info0[x2$bounds$Bound == "Upper"]))
+  (all_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bounds$Z[x2$bounds$Bound == "Lower"]))
+  (all_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bounds$Probability[x2$bounds$Bound == "Lower"]))
 })
 
 assert("Spending time when both efficacy and futility bound are fixed", {
@@ -167,7 +167,7 @@ assert("Pre-specificed spending time", {
                      lower = gs_b,
                      lpar = rep(-Inf, 3))
 
-  (all.equal(x$bound$spending_time, c(12, 24, 36) / 36))
+  (all_equal(x$bound$spending_time, c(12, 24, 36) / 36))
 
   # two-sided design
   x <- gs_design_ahr(alpha = 0.025,
@@ -178,8 +178,8 @@ assert("Pre-specificed spending time", {
                      lower = gs_spending_bound,
                      lpar = list(sf = gsDesign::sfLDOF, timing = c(15, 24, 36) / 36, total_spend = 0.1))
 
-  (all.equal((x$bound |> filter(bound == "upper"))$spending_time, c(12, 24, 36) / 36))
-  (all.equal((x$bound |> filter(bound == "lower"))$spending_time, c(15, 24, 36) / 36))
+  (all_equal((x$bound |> filter(bound == "upper"))$spending_time, c(12, 24, 36) / 36))
+  (all_equal((x$bound |> filter(bound == "lower"))$spending_time, c(15, 24, 36) / 36))
 })
 
 assert("Spending time when the analyses are driven by information fraction", {
@@ -192,7 +192,7 @@ assert("Spending time when the analyses are driven by information fraction", {
                      lower = gs_b,
                      lpar = rep(-Inf, 3))
 
-  (all.equal(x$bound$spending_time, 1:3/3))
+  (all_equal(x$bound$spending_time, 1:3/3))
 
   # two-sided design with futility bound spending under H1
   x <- gs_design_ahr(alpha = 0.025,
@@ -204,8 +204,8 @@ assert("Spending time when the analyses are driven by information fraction", {
                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
                      h1_spending = TRUE)
 
-  (all.equal((x$bound |> filter(bound == "upper"))$spending_time, 1:3/3))
-  (all.equal((x$bound |> filter(bound == "lower"))$spending_time, x$analysis$info / max(x$analysis$info)))
+  (all_equal((x$bound |> filter(bound == "upper"))$spending_time, 1:3/3))
+  (all_equal((x$bound |> filter(bound == "lower"))$spending_time, x$analysis$info / max(x$analysis$info)))
 
   # two-sided design with futility bound spending under H0
   x <- gs_design_ahr(alpha = 0.025,
@@ -217,8 +217,8 @@ assert("Spending time when the analyses are driven by information fraction", {
                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
                      h1_spending = FALSE)
 
-  (all.equal((x$bound |> filter(bound == "upper"))$spending_time, 1:3/3))
-  (all.equal((x$bound |> filter(bound == "lower"))$spending_time, x$analysis$info0 / max(x$analysis$info0)))
+  (all_equal((x$bound |> filter(bound == "upper"))$spending_time, 1:3/3))
+  (all_equal((x$bound |> filter(bound == "lower"))$spending_time, x$analysis$info0 / max(x$analysis$info0)))
 })
 
 assert("Spending time when some analyses are skipped", {
@@ -234,6 +234,6 @@ assert("Spending time when some analyses are skipped", {
                      h1_spending = TRUE,
                      test_lower = c(FALSE, TRUE, TRUE))
 
-  (all.equal((x$bound |> filter(bound == "upper"))$spending_time, 1:3/3))
-  (all.equal((x$bound |> filter(bound == "lower"))$spending_time, x$analysis$info[2:3] / max(x$analysis$info)))
+  (all_equal((x$bound |> filter(bound == "upper"))$spending_time, 1:3/3))
+  (all_equal((x$bound |> filter(bound == "lower"))$spending_time, x$analysis$info[2:3] / max(x$analysis$info)))
 })

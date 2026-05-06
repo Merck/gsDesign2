@@ -21,9 +21,9 @@ assert("Validate info-frac driven design with a known study duration",{
 
 
   # validate the info frac
-  (all.equal(x$analysis$info_frac0, c(0.3, 0.7, 1), tolerance = 5e-5))
+  (all_equal(x$analysis$info_frac0, c(0.3, 0.7, 1), tolerance = 5e-5))
   # validate the final analysis time
-  (all.equal(max(x$analysis$time), 36))
+  (all_equal(max(x$analysis$time), 36))
 })
 
 assert("Validate calendar-time driven design",{
@@ -35,7 +35,7 @@ assert("Validate calendar-time driven design",{
                      analysis_time = c(12, 24, 36), info_frac = NULL)
 
   # validate the analysis time
-  (all.equal(x$analysis$time, c(12, 24, 36)))
+  (all_equal(x$analysis$time, c(12, 24, 36)))
 })
 
 assert("Validate calendar-time and info-frac driven design -- A",{
@@ -58,8 +58,8 @@ assert("Validate calendar-time and info-frac driven design -- A",{
   idx_driven_by_time <- which(diff_time == 0)
   idx_driven_by_info_frac <- which(diff_info_frac == 0)
 
-  (all.equal(x$analysis$time[idx_driven_by_time], analysis_time[idx_driven_by_time]))
-  (all.equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5))
+  (all_equal(x$analysis$time[idx_driven_by_time], analysis_time[idx_driven_by_time]))
+  (all_equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5))
 })
 
 assert("Validate calendar-time and info-frac driven design -- B",{
@@ -82,8 +82,8 @@ assert("Validate calendar-time and info-frac driven design -- B",{
   idx_driven_by_time <- which(diff_time == 0)
   idx_driven_by_info_frac <- which(diff_info_frac == 0)
 
-  (all.equal(x$analysis$time[idx_driven_by_time], analysis_time[idx_driven_by_time]))
-  (all.equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5))
+  (all_equal(x$analysis$time[idx_driven_by_time], analysis_time[idx_driven_by_time]))
+  (all_equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5))
 })
 
 assert("Validate calendar-time and info-frac driven design -- C",{
@@ -106,8 +106,8 @@ assert("Validate calendar-time and info-frac driven design -- C",{
   idx_driven_by_time <- which(diff_time == 0)
   idx_driven_by_info_frac <- which(diff_info_frac == 0)
 
-  (all.equal(x$analysis$time[idx_driven_by_time], analysis_time[idx_driven_by_time]))
-  (all.equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5))
+  (all_equal(x$analysis$time[idx_driven_by_time], analysis_time[idx_driven_by_time]))
+  (all_equal(x$analysis$info_frac[idx_driven_by_info_frac], info_frac[idx_driven_by_info_frac], tolerance = 1e-5))
 })
 
 assert("Validate if the output info-frac match the planned info-frac, when the design is only driven by info frac", {
@@ -159,9 +159,9 @@ assert("Validate if the output info-frac match the planned info-frac, when the d
     weight = "logrank"
   )
 
-  (all.equal(x1$analysis$info_frac[1], 0.75, tolerance = 1e-6))
-  (all.equal(x2$analysis$info_frac0[1], 0.75, tolerance = 1e-6))
-  (all.equal(x3$analysis$info_frac[1], 0.75, tolerance = 1e-6))
+  (all_equal(x1$analysis$info_frac[1], 0.75, tolerance = 1e-6))
+  (all_equal(x2$analysis$info_frac0[1], 0.75, tolerance = 1e-6))
+  (all_equal(x3$analysis$info_frac[1], 0.75, tolerance = 1e-6))
 })
 
 assert("Validate if the output info-frac match the planned info-frac, when the design is driven by both info frac and analysis time", {
@@ -213,9 +213,9 @@ assert("Validate if the output info-frac match the planned info-frac, when the d
     weight = "logrank"
   )
 
-  (all.equal(x1$analysis$info_frac[1], 0.75, tolerance = 5e-6))
-  (all.equal(x2$analysis$info_frac0[1], 0.75, tolerance = 5e-6))
-  (all.equal(x3$analysis$info_frac[1], 0.75, tolerance = 5e-6))
+  (all_equal(x1$analysis$info_frac[1], 0.75, tolerance = 5e-6))
+  (all_equal(x2$analysis$info_frac0[1], 0.75, tolerance = 5e-6))
+  (all_equal(x3$analysis$info_frac[1], 0.75, tolerance = 5e-6))
 })
 
 assert("Validate if WLR design under logrank test generates similar design as in AHR", {
@@ -253,57 +253,57 @@ assert("Validate if WLR design under logrank test generates similar design as in
     info_scale = "h0_h1_info")
 
   # sample size is approximately close
-  (all.equal(x1$analysis$n, x2$analysis$n, tolerance = 1e-2))
+  (all_equal(x1$analysis$n, x2$analysis$n, tolerance = 1e-2))
 
   # events is approximately close
-  (all.equal(x1$analysis$event, x2$analysis$event, tolerance = 1e-2))
+  (all_equal(x1$analysis$event, x2$analysis$event, tolerance = 1e-2))
 
   # ahr is approximately close
-  (all.equal(x1$analysis$ahr, x2$analysis$ahr, tolerance = 1e-2))
+  (all_equal(x1$analysis$ahr, x2$analysis$ahr, tolerance = 1e-2))
 
   # theta is approximately close
-  (all.equal(x1$analysis$theta, x2$analysis$theta, tolerance = 5e-2))
+  (all_equal(x1$analysis$theta, x2$analysis$theta, tolerance = 5e-2))
 
   # info is approximately close
-  (all.equal(x1$analysis$info, x2$analysis$info, tolerance = 1e-2))
+  (all_equal(x1$analysis$info, x2$analysis$info, tolerance = 1e-2))
 
   # info0 is approximately close
-  (all.equal(x1$analysis$info0, x2$analysis$info0, tolerance = 1e-2))
+  (all_equal(x1$analysis$info0, x2$analysis$info0, tolerance = 1e-2))
 
   # info_frac is approximately close
-  (all.equal(x1$analysis$info_frac, x2$analysis$info_frac, tolerance = 1e-2))
+  (all_equal(x1$analysis$info_frac, x2$analysis$info_frac, tolerance = 1e-2))
 
   # info_frac0 is approximately close
-  (all.equal(x1$analysis$info_frac0, x2$analysis$info_frac0, tolerance = 1e-2))
+  (all_equal(x1$analysis$info_frac0, x2$analysis$info_frac0, tolerance = 1e-2))
 
   # upper bound is approximately close
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bound$z[x2$bound$bound == "upper"], tolerance = 1e-2))
+  (all_equal(x1$bound$z[x1$bound$bound == "upper"], x2$bound$z[x2$bound$bound == "upper"], tolerance = 1e-2))
 
   # lower bound is approximately close
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bound$z[x2$bound$bound == "lower"], tolerance = 5e-2))
+  (all_equal(x1$bound$z[x1$bound$bound == "lower"], x2$bound$z[x2$bound$bound == "lower"], tolerance = 5e-2))
 
   # probability of crossing upper bound under H0 is approximately close
-  (all.equal(x1$bound$probability0[x1$bound$bound == "upper"], x2$bound$probability0[x2$bound$bound == "upper"], tolerance = 1e-2))
+  (all_equal(x1$bound$probability0[x1$bound$bound == "upper"], x2$bound$probability0[x2$bound$bound == "upper"], tolerance = 1e-2))
 
   # probability of crossing lower bound under H0 is approximately close
-  (all.equal(x1$bound$probability0[x1$bound$bound == "lower"], x2$bound$probability0[x2$bound$bound == "lower"], tolerance = 1e-2))
+  (all_equal(x1$bound$probability0[x1$bound$bound == "lower"], x2$bound$probability0[x2$bound$bound == "lower"], tolerance = 1e-2))
 
   # probability of crossing upper bound under H1 is approximately close
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bound$probability[x2$bound$bound == "upper"], tolerance = 1e-2))
+  (all_equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bound$probability[x2$bound$bound == "upper"], tolerance = 1e-2))
 
   # probability of crossing lower bound under H1 is approximately close
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bound$probability[x2$bound$bound == "lower"], tolerance = 1e-2))
+  (all_equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bound$probability[x2$bound$bound == "lower"], tolerance = 1e-2))
 
   # hr at upper bound is approximately close
-  (all.equal(x1$bound$`~hr at bound`[x1$bound$bound == "upper"], x2$bound$`~hr at bound`[x2$bound$bound == "upper"], tolerance = 1e-2))
+  (all_equal(x1$bound$`~hr at bound`[x1$bound$bound == "upper"], x2$bound$`~hr at bound`[x2$bound$bound == "upper"], tolerance = 1e-2))
 
   # hr at lower bound is approximately close
-  (all.equal(x1$bound$`~hr at bound`[x1$bound$bound == "lower"], x2$bound$`~hr at bound`[x2$bound$bound == "lower"], tolerance = 5e-2))
+  (all_equal(x1$bound$`~hr at bound`[x1$bound$bound == "lower"], x2$bound$`~hr at bound`[x2$bound$bound == "lower"], tolerance = 5e-2))
 
   # nominal p at upper bound is approximately close
-  (all.equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 1e-2))
+  (all_equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 1e-2))
 
   # nominal p at lower bound is approximately close
-  (all.equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 1e-2))
+  (all_equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 1e-2))
 
 })

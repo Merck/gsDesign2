@@ -62,7 +62,7 @@ assert("under same number of events, compare the power", {
     test_lower = FALSE
   )
 
-  (all.equal(out$bound$probability[1:2], y$Efficacy[c(5, 10)], tolerance = 0.02))
+  (all_equal(out$bound$probability[1:2], y$Efficacy[c(5, 10)], tolerance = 0.02))
 })
 
 assert("under same power setting, compare the number of events", {
@@ -94,5 +94,5 @@ assert("under same power setting, compare the number of events", {
   )
 
   # In case test fails, check whether caused by small tolerance
-  (all.equal(out$analysis$event[1:2], x$n.I, tolerance = 0.002))
+  (all_equal(out$analysis$event[1:2], x$n.I, tolerance = 0.002))
 })

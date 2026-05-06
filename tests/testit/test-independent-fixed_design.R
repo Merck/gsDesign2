@@ -36,7 +36,7 @@ assert("AHR", {
     ratio = ratio
   )
 
-  (all.equal(y$analysis$power, 0.9))
+  (all_equal(y$analysis$power, 0.9))
 })
 
 assert("FH", {
@@ -63,7 +63,7 @@ assert("FH", {
   )
 
   (y$analysis$power >= 0.9)
-  (all.equal(y$analysis$power, 0.9, tolerance = 0.01))
+  (all_equal(y$analysis$power, 0.9, tolerance = 0.01))
 })
 
 assert("MB", {
@@ -88,7 +88,7 @@ assert("MB", {
   )
 
   (y$analysis$power >= 0.9)
-  (all.equal(y$analysis$power, 0.9, tolerance = 0.01))
+  (all_equal(y$analysis$power, 0.9, tolerance = 0.01))
 })
 
 assert("LF", {
@@ -110,7 +110,7 @@ assert("LF", {
     ratio = ratio
   )
 
-  (all.equal(y$analysis$power, 0.9, tolerance = 0.01))
+  (all_equal(y$analysis$power, 0.9, tolerance = 0.01))
 })
 
 assert("MaxCombo", {
@@ -138,7 +138,7 @@ assert("MaxCombo", {
     tau = c(-1, 4, 6)
   )
 
-  (all.equal(y$analysis$power, 0.9, tolerance = 1e-4))
+  (all_equal(y$analysis$power, 0.9, tolerance = 1e-4))
 })
 
 assert("RMST", {
@@ -162,7 +162,7 @@ assert("RMST", {
     tau = 18
   )
 
-  (all.equal(y$analysis$power, 0.9))
+  (all_equal(y$analysis$power, 0.9))
 })
 
 assert("RD", {
@@ -185,5 +185,5 @@ assert("RD", {
     ratio = ratio
   )
 
-  (all.equal(y$analysis$power, 0.9, tolerance = sqrt(.Machine$double.eps) * 2e+5))
+  (all_equal(y$analysis$power, 0.9, tolerance = sqrt(.Machine$double.eps) * 2e+5))
 })

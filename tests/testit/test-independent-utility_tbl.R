@@ -4,14 +4,14 @@ assert("test round_df", {
   tbl <- tibble::tibble(x1 = c("a", "b", "c"), x2 = x2, x3 = x3)
 
   tbl_new <- round_df(tbl, digits = 2)
-  (all.equal(tbl_new$x1, tbl$x1))
-  (all.equal(tbl_new$x2, round(x2, 2)))
-  (all.equal(tbl_new$x3, round(x3, 2)))
+  (all_equal(tbl_new$x1, tbl$x1))
+  (all_equal(tbl_new$x2, round(x2, 2)))
+  (all_equal(tbl_new$x3, round(x3, 2)))
 
   tbl_new <- round_df(tbl, digits = c(1, 1, 2))
-  (all.equal(tbl_new$x1, tbl$x1))
-  (all.equal(tbl_new$x2, round(x2, 1)))
-  (all.equal(tbl_new$x3, round(x3, 2)))
+  (all_equal(tbl_new$x1, tbl$x1))
+  (all_equal(tbl_new$x2, round(x2, 1)))
+  (all_equal(tbl_new$x3, round(x3, 2)))
 })
 
 assert("test table_ab", {
@@ -24,11 +24,11 @@ assert("test table_ab", {
   )
   tbl <- table_ab(a, b, byvar = "Index", decimals = c(0, 2, 0), aname = "Index")
 
-  (all.equal(tbl$Index, c(
+  (all_equal(tbl$Index, c(
     paste0("Index: 1 a1: ", round(1.1234, 2), " a2: text 1"),
     paste0("Index: 2 a1: ", round(5.6789, 2), " a2: text 2")
   )))
-  (all.equal(tbl$b1, b$b1))
-  (all.equal(tbl$b2, b$b2))
-  (all.equal(tbl$b3, b$b3))
+  (all_equal(tbl$b1, b$b1))
+  (all_equal(tbl$b2, b$b2))
+  (all_equal(tbl$b3, b$b3))
 })

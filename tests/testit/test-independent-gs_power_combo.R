@@ -58,13 +58,13 @@ assert("calculate analysis number as planned", {
   # calculate analysis number as planned
   fh_test <- res$fh_test
   gs_power_combo_test1 <- res$gs_power_combo_test1
-  (all.equal(max(fh_test$analysis), max(gs_power_combo_test1$analysis$analysis)))
+  (all_equal(max(fh_test$analysis), max(gs_power_combo_test1$analysis$analysis)))
 
   # calculate analysisTimes as planned
   fh_test <- res$fh_test
   gs_power_combo_test1 <- res$gs_power_combo_test1
 
-  (all.equal(unique(fh_test$analysis_time), unique(gs_power_combo_test1$analysis$time)))
+  (all_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test1$analysis$time)))
 
   # calculate N and each analysis Events N as planned
   enroll_rate <- res$enroll_rate
@@ -78,20 +78,20 @@ assert("calculate analysis number as planned", {
       fail_rate = fail_rate,
       td = unique(fh_test$analysis_time)[i]
     )
-    (all.equal(event, unique(gs_power_combo_test1$analysis$event)[i], tolerance = 0.01))
+    (all_equal(event, unique(gs_power_combo_test1$analysis$event)[i], tolerance = 0.01))
   }
 
   # calculate analysis number as planned
   fh_test <- res$fh_test
   gs_power_combo_test2 <- res$gs_power_combo_test2
 
-  (all.equal(max(fh_test$analysis), max(gs_power_combo_test2$analysis$analysis)))
+  (all_equal(max(fh_test$analysis), max(gs_power_combo_test2$analysis$analysis)))
 
   # calculate analysisTimes as planned
   fh_test <- res$fh_test
   gs_power_combo_test2 <- res$gs_power_combo_test2
 
-  (all.equal(unique(fh_test$analysis_time), unique(gs_power_combo_test2$analysis$time)))
+  (all_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test2$analysis$time)))
 
   # calculate N and each analysis Events N as planned
   enroll_rate <- res$enroll_rate
@@ -105,7 +105,7 @@ assert("calculate analysis number as planned", {
       fail_rate = fail_rate,
       td = unique(fh_test$analysis_time)[i]
     )
-    (all.equal(event, unique(gs_power_combo_test2$analysis$event)[i], tolerance = 0.01))
+    (all_equal(event, unique(gs_power_combo_test2$analysis$event)[i], tolerance = 0.01))
   }
 })
 

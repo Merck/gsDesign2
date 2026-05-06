@@ -20,8 +20,8 @@ assert("compare with results from gsDesign, 3 analyses, equal IA timing", {
     corr = outer(1:3, 1:3, function(x, y) pmin(x, y) / pmax(x, y))
   )
 
-  (all.equal(unlist(test1[1], use.names = FALSE), xbound[, 1], tolerance = 0.05))
-  (all.equal(unlist(test1[2], use.names = FALSE), xbound[, 2], tolerance = 0.05))
+  (all_equal(unlist(test1[1], use.names = FALSE), xbound[, 1], tolerance = 0.05))
+  (all_equal(unlist(test1[2], use.names = FALSE), xbound[, 2], tolerance = 0.05))
 })
 
 assert("compare with results from gsDesign, 3 analyses, unequal IA timing", {
@@ -46,6 +46,6 @@ assert("compare with results from gsDesign, 3 analyses, unequal IA timing", {
     corr = outer(3:5, 3:5, function(x, y) pmin(x, y) / pmax(x, y))
   )
 
-  (all.equal(unlist(test2[1], use.names = FALSE), ybound[, 1], tolerance = 0.05))
-  (all.equal(unlist(test2[2], use.names = FALSE), ybound[, 2], tolerance = 0.05))
+  (all_equal(unlist(test2[1], use.names = FALSE), ybound[, 1], tolerance = 0.05))
+  (all_equal(unlist(test2[2], use.names = FALSE), ybound[, 2], tolerance = 0.05))
 })

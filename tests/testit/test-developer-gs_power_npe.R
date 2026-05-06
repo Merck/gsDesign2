@@ -6,7 +6,7 @@ assert("The default of `gs_power_npe` is a single analysis with type I error con
     dplyr::filter(Bound == "Upper") |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("fixed bound", {
@@ -29,7 +29,7 @@ assert("fixed bound", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("Same fixed efficacy bounds, no futility bound (i.e., non-binding bound), null hypothesis", {
@@ -48,7 +48,7 @@ assert("Same fixed efficacy bounds, no futility bound (i.e., non-binding bound),
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3", {
@@ -71,7 +71,7 @@ assert("Fixed bound with futility only at analysis 1; efficacy only at analyses 
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("Spending function bounds - Lower spending based on non-zero effect", {
@@ -94,7 +94,7 @@ assert("Spending function bounds - Lower spending based on non-zero effect", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("Same bounds, but power under different theta", {
@@ -117,7 +117,7 @@ assert("Same bounds, but power under different theta", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("Two-sided symmetric spend, O'Brien-Fleming spending", {
@@ -142,7 +142,7 @@ assert("Two-sided symmetric spend, O'Brien-Fleming spending", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("Re-use these bounds under alternate hypothesis - Always use binding = TRUE for power calculations", {
@@ -173,7 +173,7 @@ assert("Re-use these bounds under alternate hypothesis - Always use binding = TR
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1, as.data.frame(x2)))
+  (all_equal(x1, as.data.frame(x2)))
 })
 
 assert("info != info0 != info1 - If one inputs info in upar", {
@@ -206,7 +206,7 @@ assert("info != info0 != info1 - If one inputs info in upar", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1_c, as.data.frame(x2)))
+  (all_equal(x1_c, as.data.frame(x2)))
 })
 
 assert("Developer Tests 1-sided test", {
@@ -238,9 +238,9 @@ assert("Developer Tests 1-sided test", {
     n.I = (1:3) * 400,
     b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound, a = rep(-20, 3), r = r
   )
-  (all.equal(x, as.data.frame(y)))
-  (all.equal(x$z[x$bound == "upper"], z$upper$bound))
-  (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob)))
+  (all_equal(x, as.data.frame(y)))
+  (all_equal(x$z[x$bound == "upper"], z$upper$bound))
+  (all_equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob)))
 })
 
 assert("Independent Tests - Expect equal with mvtnorm for efficacy and futility bounds", {
@@ -271,8 +271,8 @@ assert("Independent Tests - Expect equal with mvtnorm for efficacy and futility 
   }
   b <- uniroot(prob_b, c(1.96, 4), alpha_t = alpha_t, alpha_ia = alpha_ia, r = r)
   pb <- 1 - pnorm(b$root)
-  (all.equal(test1$z, c(qnorm(1 - alpha_ia), b$root), tolerance = 0.001))
-  (all.equal(test1$probability, cumsum(c(b_ia$spend, pb)), tolerance = 0.001))
+  (all_equal(test1$z, c(qnorm(1 - alpha_ia), b$root), tolerance = 0.001))
+  (all_equal(test1$probability, cumsum(c(b_ia$spend, pb)), tolerance = 0.001))
   beta_t <- 0.02
   a_ia <- gsDesign::sfLDOF(alpha = beta_t, t = r)
   beta_ia <- a_ia$spend
@@ -286,8 +286,8 @@ assert("Independent Tests - Expect equal with mvtnorm for efficacy and futility 
   }
   a <- uniroot(prob_a, c(-4, 1.96), beta_t = beta_t, beta_ia = beta_ia, r = r)
   pa <- pnorm(a$root)
-  (all.equal(test2$z, c(qnorm(beta_ia), a$root), tolerance = 0.001))
-  (all.equal(test2$probability, cumsum(c(a_ia$spend, pa)), tolerance = 0.001))
+  (all_equal(test2$z, c(qnorm(beta_ia), a$root), tolerance = 0.001))
+  (all_equal(test2$probability, cumsum(c(a_ia$spend, pa)), tolerance = 0.001))
 })
 
 assert("Expect equal with gsDesign::gsProbability outcome for efficacy bounds", {
@@ -316,7 +316,7 @@ assert("Expect equal with gsDesign::gsProbability outcome for efficacy bounds", 
     a = rep(-20, 3),
     b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF, n.I = info)$upper$bound
   )
-  (all.equal(x, y))
-  (all.equal(x$z[x$bound == "upper"], z$upper$bound, tolerance = 1e-5))
-  (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 1e-5))
+  (all_equal(x, y))
+  (all_equal(x$z[x$bound == "upper"], z$upper$bound, tolerance = 1e-5))
+  (all_equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 1e-5))
 })

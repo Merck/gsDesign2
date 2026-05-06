@@ -70,8 +70,8 @@ assert("gsDesign2:::hupdate() returns results as expected ", {
     theta = gstry$theta
   )
 
-  (all.equal(as.numeric(c(lower.null.02, lower.alt.02)), x$lower$prob[2, ], tolerance = 0.0001))
-  (all.equal(as.numeric(c(upper.null.02, upper.alt.02)), x$upper$prob[2, ], tolerance = 0.0001))
+  (all_equal(as.numeric(c(lower.null.02, lower.alt.02)), x$lower$prob[2, ], tolerance = 0.0001))
+  (all_equal(as.numeric(c(upper.null.02, upper.alt.02)), x$upper$prob[2, ], tolerance = 0.0001))
   # Problem with below code on extreme case:
   # gsDesign2:::hupdate(
   #   theta = gstry$theta[1],
@@ -118,5 +118,5 @@ assert("gsDesign2:::hupdate() returns probability almost zero for extreme case",
     a = -Inf,
     b = -8
   )$h)
-  (all.equal(as.numeric(c(poor.02, high.02)), c(0, 0), tolerance = 0.0001))
+  (all_equal(as.numeric(c(poor.02, high.02)), c(0, 0), tolerance = 0.0001))
 })

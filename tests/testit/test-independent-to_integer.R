@@ -22,10 +22,10 @@ create_fixed_design <- function(design_fn, extra_args = list()) {
 check_fixed_design_output <- function(result) {
   # Common checks
   (inherits(result, "fixed_design"))
-  (all.equal(result$analysis$n, round(result$analysis$n)))
+  (all_equal(result$analysis$n, round(result$analysis$n)))
 
   # Check for analysis event
-  (all.equal(result$analysis$event, round(result$analysis$event), tolerance = 1e-6))
+  (all_equal(result$analysis$event, round(result$analysis$event), tolerance = 1e-6))
 
   # Validate input structure
   (inherits(result$input$enroll_rate, "tbl_df"))
@@ -44,7 +44,7 @@ check_fixed_design_output <- function(result) {
 # Validate fixed design summary
 check_fixed_design_summary <- function(summary_x) {
   (inherits(summary_x, "tbl_df"))
-  (all.equal(ncol(summary_x), 8))
+  (all_equal(ncol(summary_x), 8))
   (names(summary_x) %==% c("Design", "N", "Events", "Time", "AHR", "Bound", "alpha", "Power"))
 
   # Ensure values are within expected ranges
@@ -66,7 +66,7 @@ assert("to_integer works correctly for different fixed design types", {
   for (design in designs) {
     x <- create_fixed_design(design$fn, design$extra_args) |> to_integer()
     check_fixed_design_output(x)
-    (all.equal(x$design, design$name))
+    (all_equal(x$design, design$name))
 
     # Check summary output
     summary_x <- summary(x)

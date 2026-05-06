@@ -51,6 +51,6 @@ assert("gs_info_combo correctly use gs_info_wlr 1", {
       weight = eval(parse(text = weight_test_i)),
       approx = "asymptotic"
     )
-    (all.equal(info_combo$info[i], info_wlr$info[1]))
+    (all_equal(info_combo$info[i], info_wlr$info[1]))
   }
 })

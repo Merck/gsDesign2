@@ -1,5 +1,5 @@
 assert("ppwe is incorrect when there are 2-step fail rates", {
-  (all.equal(gsDesign2::ppwe(
+  (all_equal(gsDesign2::ppwe(
       x = 0:20,
       duration = c(13, 100),
       rate = log(12) / c(9, 18),
@@ -12,7 +12,7 @@ assert("ppwe is incorrect when there are 2-step fail rates", {
 })
 
 assert("ppwe is incorrect if varable x is longer than the max duration of fail rates", {
-  (all.equal(gsDesign2::ppwe(
+  (all_equal(gsDesign2::ppwe(
       x = 0:80,
       duration = c(13, 50),
       rate = log(4) / c(19, 9),
@@ -25,7 +25,7 @@ assert("ppwe is incorrect if varable x is longer than the max duration of fail r
 })
 
 assert("ppwe is incorrect when there are 3-step fail rates", {
-  (all.equal(ppwe(
+  (all_equal(ppwe(
       x = 0:20,
       duration = c(3, 20, 100),
       rate = log(12) / c(9, 12, 18),

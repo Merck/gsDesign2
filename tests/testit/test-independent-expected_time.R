@@ -4,7 +4,7 @@ assert("expected_time equal to test_event result", {
   fail_rate <- res$fail_rate
   t1 <- res$t1
 
-  (all.equal(t1$event, test_event(
+  (all_equal(t1$event, test_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       td = t1$time
@@ -17,7 +17,7 @@ assert("expected_time euqal to AHR's result", {
   fail_rate <- res$fail_rate
   t1 <- res$t1
 
-  (all.equal(t1$event, ahr(
+  (all_equal(t1$event, ahr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = t1$time,

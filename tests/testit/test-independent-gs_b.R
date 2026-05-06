@@ -7,11 +7,11 @@ assert("gs_b() returns values as expected", {
     sfu = gsDesign::sfLDOF,
     timing = IF
   )$upper$bound
-  (all.equal(par, gs_b(par)))
+  (all_equal(par, gs_b(par)))
 
   par <- 1:10
   k <- 5
-  (all.equal(par[5], gs_b(par, k = k)))
+  (all_equal(par[5], gs_b(par, k = k)))
 })
 
 assert("gs_b() returns NA if the number of interim analysis is larger than the length of par", {

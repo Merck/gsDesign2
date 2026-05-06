@@ -34,8 +34,8 @@ assert("AHR results are consistent with simulation results for single stratum an
     total_duration = c(12, 24, 36)
   )
 
-  (all.equal(simulation_ahr1$AHR, actual$ahr, tolerance = 0.005))
-  (all.equal(simulation_ahr1$Events, actual$event, tolerance = 0.005))
+  (all_equal(simulation_ahr1$AHR, actual$ahr, tolerance = 0.005))
+  (all_equal(simulation_ahr1$Events, actual$event, tolerance = 0.005))
 })
 
 assert("AHR results are consistent with simulation results for single stratum and single cutoff", {
@@ -51,8 +51,8 @@ assert("AHR results are consistent with simulation results for single stratum an
     total_duration = total_duration
   )
 
-  (all.equal(simulation_ahr2$AHR, actual$ahr, tolerance = 1e-3))
-  (all.equal(simulation_ahr2$Events, actual$event, tolerance = 2e-3))
+  (all_equal(simulation_ahr2$AHR, actual$ahr, tolerance = 1e-3))
+  (all_equal(simulation_ahr2$Events, actual$event, tolerance = 2e-3))
 })
 
 assert("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
@@ -68,8 +68,8 @@ assert("AHR results are consistent with simulation results for single stratum an
     total_duration = total_duration
   )
 
-  (all.equal(simulation_ahr3$AHR, actual$ahr, tolerance = 5e-3))
-  (all.equal(simulation_ahr3$Events, actual$event, tolerance = 7e-3))
+  (all_equal(simulation_ahr3$AHR, actual$ahr, tolerance = 5e-3))
+  (all_equal(simulation_ahr3$Events, actual$event, tolerance = 7e-3))
 })
 
 assert("The sample size returned from the ahr() function is correct", {
@@ -81,6 +81,6 @@ assert("The sample size returned from the ahr() function is correct", {
                                  dropout_rate = - log(1 - 0.15)/12),
     total_duration = c(seq(1, 48, 1)))
 
-  (all.equal(x |> dplyr::filter(time <= 24) |> dplyr::pull(n), 1:24*10))
-  (all.equal(x |> dplyr::filter(time > 24) |> dplyr::pull(n) |> unique(), 24*10))
+  (all_equal(x |> dplyr::filter(time <= 24) |> dplyr::pull(n), 1:24*10))
+  (all_equal(x |> dplyr::filter(time > 24) |> dplyr::pull(n) |> unique(), 24*10))
 })

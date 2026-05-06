@@ -11,7 +11,7 @@ assert("Output column of n matches with expected_accrual with Inf in the fail_ra
                 total_duration = my_time)
   x2 <- expected_accrual(enroll_rate = enroll_rate,
                          time = my_time)
-  (all.equal(cumsum(x1$n), x2))
+  (all_equal(cumsum(x1$n), x2))
 
   # A single time point after the delayed effect at 3 months
   my_time  <-  10
@@ -20,7 +20,7 @@ assert("Output column of n matches with expected_accrual with Inf in the fail_ra
                 total_duration = my_time)
   x2 <- expected_accrual(enroll_rate = enroll_rate,
                          time = c(fail_rate$duration[1], my_time))
-  (all.equal(cumsum(x1$n), x2))
+  (all_equal(cumsum(x1$n), x2))
 
   # Two time points, one before and one after the delayed effect at 3 months
   my_time  <- c(2, 10)
@@ -29,8 +29,8 @@ assert("Output column of n matches with expected_accrual with Inf in the fail_ra
                 fail_rate = fail_rate,
                 total_duration = my_time)
 
-  (all.equal(sum(x1$n[x1$time == 2]), expected_accrual(enroll_rate = enroll_rate, time = 2)))
-  (all.equal(sum(x1$n[x1$time == 10]), expected_accrual(enroll_rate = enroll_rate, time = 10)))
+  (all_equal(sum(x1$n[x1$time == 2]), expected_accrual(enroll_rate = enroll_rate, time = 2)))
+  (all_equal(sum(x1$n[x1$time == 10]), expected_accrual(enroll_rate = enroll_rate, time = 10)))
 })
 
 assert("Output column of n matches with expected_accrual without Inf in the fail_rate", {
@@ -46,7 +46,7 @@ assert("Output column of n matches with expected_accrual without Inf in the fail
                 total_duration = my_time)
   x2 <- expected_accrual(enroll_rate = enroll_rate,
                          time = my_time)
-  (all.equal(cumsum(x1$n), x2))
+  (all_equal(cumsum(x1$n), x2))
 
   # A single time point after the delayed effect at 3 months
   my_time  <-  10
@@ -55,7 +55,7 @@ assert("Output column of n matches with expected_accrual without Inf in the fail
                 total_duration = my_time)
   x2 <- expected_accrual(enroll_rate = enroll_rate,
                          time = c(fail_rate$duration[1], my_time))
-  (all.equal(cumsum(x1$n), x2))
+  (all_equal(cumsum(x1$n), x2))
 
   # Two time points, one before and one after the delayed effect at 3 months
   my_time  <- c(2, 10)
@@ -64,15 +64,15 @@ assert("Output column of n matches with expected_accrual without Inf in the fail
                 fail_rate = fail_rate,
                 total_duration = my_time)
 
-  (all.equal(sum(x1$n[x1$time == 2]), expected_accrual(enroll_rate = enroll_rate, time = 2)))
-  (all.equal(sum(x1$n[x1$time == 10]), expected_accrual(enroll_rate = enroll_rate, time = 10)))
+  (all_equal(sum(x1$n[x1$time == 2]), expected_accrual(enroll_rate = enroll_rate, time = 2)))
+  (all_equal(sum(x1$n[x1$time == 10]), expected_accrual(enroll_rate = enroll_rate, time = 10)))
 
 })
 
 assert("Column order is consistent", {
   observed <- colnames(pw_info())
   expected <- c("time", "stratum", "t", "hr", "n", "event", "info", "info0")
-  (all.equal(observed, expected))
+  (all_equal(observed, expected))
 })
 
 assert("When there are many pieces of HRs", {
@@ -121,5 +121,5 @@ assert("When control median changes but HR remain unchanged", {
     total_duration = 50,
     ratio = 1)
 
-  (all.equal(sum(x$n), 20 * 12))
+  (all_equal(sum(x$n), 20 * 12))
 })

@@ -3,7 +3,7 @@ assert("expected events is different from gsDesign::eEvents and expected_event",
   fail_rate <- define_fail_rate(duration = c(1, 1, 1), fail_rate = c(.05, .02, .01), hr = 1, dropout_rate = .01)
   total_duration <- 20
 
-  (all.equal(expected_event(
+  (all_equal(expected_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       total_duration = total_duration,
@@ -37,7 +37,7 @@ assert("data frame returned from expected_event not as expected", {
     fail_rate = c(0.03, 0.06),
     event = c(0.5642911, 0.5194821)
   )
-  (all.equal(xx, expected))
+  (all_equal(xx, expected))
 })
 
 # Double programming tests
@@ -51,7 +51,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- res$total_duration
   simple <- res$simple
 
-  (all.equal(test_expected_event(
+  (all_equal(test_expected_event(
       enrollRates = enroll_rate,
       failRates = failRates,
       totalDuration = total_duration
@@ -72,7 +72,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- 80
   simple <- res$simple
 
-  (all.equal(test_expected_event(
+  (all_equal(test_expected_event(
       enrollRates = enroll_rate,
       failRates = failRates,
       totalDuration = total_duration
@@ -105,7 +105,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- 80
   simple <- TRUE
 
-  (all.equal(test_expected_event(
+  (all_equal(test_expected_event(
       enrollRates = enroll_rate,
       failRates = failRates,
       totalDuration = total_duration

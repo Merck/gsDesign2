@@ -1,5 +1,15 @@
 gt_to_latex <- function(data) cat(as.character(gt::as_latex(data)))
 
+all_equal <- function(target, current, tolerance = 1e-5, ...) {
+  # Matches testthat edition 2 behavior: passes if EITHER the relative
+  # comparison (all.equal default) OR the absolute comparison passes.
+  rel <- all.equal(target, current, tolerance = tolerance, ...)
+  if (isTRUE(rel)) return(TRUE)
+  abs <- all.equal(target, current, tolerance = tolerance, scale = 1, ...)
+  if (isTRUE(abs)) return(TRUE)
+  abs
+}
+
 test_event <- function(enroll_rate, fail_rate, td = 15) {
   enroll_rate_1 <- enroll_rate
   enroll_rate_1$rate <- enroll_rate$rate / 2

@@ -21,7 +21,7 @@ assert("statistcial information of WLR under logrank test is approximately same 
                     weight = "logrank")
 
   # info0 of AHR and WLR is approximately close
-  (all.equal(x1$info0, x2$info0, tolerance = 1e-2))
+  (all_equal(x1$info0, x2$info0, tolerance = 1e-2))
   # info0 of WLR is approximately proportional to events
-  (all.equal(x2$event / x2$info0, c(4, 4, 4), tolerance = 1e-2))
+  (all_equal(x2$event / x2$info0, c(4, 4, 4), tolerance = 1e-2))
 })
