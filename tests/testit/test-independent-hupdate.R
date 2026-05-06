@@ -1,0 +1,122 @@
+assert("gsDesign2:::hupdate() returns results as expected ", {
+  # The design
+  gstry <- gsDesign::gsDesign(
+    k = 3,
+    sfl = gsDesign::sfLDOF,
+    delta = 0
+  )
+  # Probabilities calculated based on function gsDesign2:::h1(),
+  # IA1 needs to full between low and upper bound
+  # in order to continue to IA2.
+  null.01 <- gsDesign2:::h1(
+    theta = gstry$theta[1],
+    info = gstry$n.I[1],
+    a = gstry$lower$bound[1],
+    b = gstry$upper$bound[1]
+  )
+  # IA2 to reject H0, we integrate from upper bound to Inf
+  upper.null.02 <- sum(gsDesign2:::hupdate(
+    theta = gstry$theta[1],
+    thetam1 = gstry$theta[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
+    gm1 = null.01,
+    a = gstry$upper$bound[2],
+    b = Inf
+  )$h)
+  # IA2 to accept H0, we integrate from -Inf to lower bound
+  lower.null.02 <- sum(gsDesign2:::hupdate(
+    theta = gstry$theta[1],
+    thetam1 = gstry$theta[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
+    gm1 = null.01,
+    a = -Inf,
+    b = gstry$lower$bound[2]
+  )$h)
+
+  alt.01 <- gsDesign2:::h1(
+    theta = gstry$theta[2],
+    info = gstry$n.I[1],
+    a = gstry$lower$bound[1],
+    b = gstry$upper$bound[1]
+  )
+  # IA2 to reject H0, we integrate from upper bound to Inf
+  upper.alt.02 <- sum(gsDesign2:::hupdate(
+    theta = gstry$theta[2],
+    thetam1 = gstry$theta[2],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
+    gm1 = alt.01,
+    a = gstry$upper$bound[2],
+    b = Inf
+  )$h)
+  # IA2 to accept H0, we integrate from -Inf to lower bound
+  lower.alt.02 <- sum(gsDesign2:::hupdate(
+    theta = gstry$theta[2],
+    thetam1 = gstry$theta[2],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
+    gm1 = alt.01,
+    a = -Inf,
+    b = gstry$lower$bound[2]
+  )$h)
+  # Probabilities calculated based on function gsProbability
+  x <- gsDesign::gsProbability(
+    k = 3,
+    a = gstry$lower$bound,
+    b = gstry$upper$bound,
+    n.I = gstry$n.I,
+    theta = gstry$theta
+  )
+
+  (isTRUE(all.equal(as.numeric(c(lower.null.02, lower.alt.02)), x$lower$prob[2, ], tolerance = 0.0001)))
+  (isTRUE(all.equal(as.numeric(c(upper.null.02, upper.alt.02)), x$upper$prob[2, ], tolerance = 0.0001)))
+  # Problem with below code on extreme case:
+  # gsDesign2:::hupdate(
+  #   theta = gstry$theta[1],
+  #   thetam1 = gstry$theta[1],
+  #   info = gstry$n.I[1] + 0.00000000000001,
+  #   im1 = gstry$n.I[1],
+  #   gm1 = null.01,
+  #   a = gstry$upper$bound[2],
+  #   b = Inf) |> summarise(p = sum(h))
+})
+
+assert("gsDesign2:::hupdate() returns probability almost zero for extreme case", {
+  # The design
+  gstry <- gsDesign::gsDesign(
+    k = 3,
+    sfl = gsDesign::sfLDOF,
+    delta = 0
+  )
+  null.01 <- gsDesign2:::h1(
+    theta = gstry$theta[1],
+    info = gstry$n.I[1],
+    a = gstry$lower$bound[1],
+    b = gstry$upper$bound[1]
+  )
+  # IA2 to reject H0, we integrate from upper bound to Inf
+  # -8 is an arbitrary extreme case for theta
+  poor.02 <- sum(gsDesign2:::hupdate(
+    theta = -8,
+    thetam1 = gstry$theta[1],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
+    gm1 = null.01,
+    a = gstry$upper$bound[2],
+    b = Inf
+  )$h)
+  # IA2 to accept H0, we integrate from -Inf to lower bound
+  # -8 is an arbitrary extreme case for the bound
+  high.02 <- sum(gsDesign2:::hupdate(
+    theta = gstry$theta[2],
+    thetam1 = gstry$theta[2],
+    info = gstry$n.I[2],
+    im1 = gstry$n.I[1],
+    gm1 = null.01,
+    a = -Inf,
+    b = -8
+  )$h)
+  (isTRUE(all.equal(as.numeric(c(poor.02, high.02)), c(0, 0), tolerance = 0.0001)))
+})

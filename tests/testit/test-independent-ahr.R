@@ -1,0 +1,86 @@
+load("fixtures/simulation_test_data.Rdata")
+
+enroll_rate <- define_enroll_rate(
+  duration = c(2, 2, 10),
+  rate = c(3, 6, 9)
+)
+
+fail_rate <- define_fail_rate(
+  stratum = "All",
+  duration = c(3, 100),
+  fail_rate = log(2) / c(9, 18),
+  hr = c(.9, .6),
+  dropout_rate = rep(.001, 2)
+  )
+
+test_ahr <- list(
+  "simulation_ahr1" = simulation_AHR1,
+  "simulation_ahr2" = simulation_AHR2,
+  "simulation_ahr3" = simulation_AHR3,
+  "enroll_rate" = enroll_rate,
+  "fail_rate" = fail_rate
+)
+
+
+assert("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
+  res <- test_ahr
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  simulation_ahr1 <- res$simulation_ahr1
+
+  actual <- ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = c(12, 24, 36)
+  )
+
+  (all.equal(simulation_ahr1$AHR, actual$ahr, tolerance = 0.005))
+  (all.equal(simulation_ahr1$Events, actual$event, tolerance = 0.005))
+})
+
+assert("AHR results are consistent with simulation results for single stratum and single cutoff", {
+  res <- test_ahr
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  simulation_ahr2 <- res$simulation_ahr2
+
+  total_duration <- 30
+  actual <- ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = total_duration
+  )
+
+  (all.equal(simulation_ahr2$AHR, actual$ahr, tolerance = 1e-3))
+  (all.equal(simulation_ahr2$Events, actual$event, tolerance = 2e-3))
+})
+
+assert("AHR results are consistent with simulation results for single stratum and multiple cutoff", {
+  res <- test_ahr
+  enroll_rate <- res$enroll_rate
+  fail_rate <- res$fail_rate
+  simulation_ahr3 <- res$simulation_ahr3
+
+  total_duration <- c(15, 30)
+  actual <- ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = total_duration
+  )
+
+  (all.equal(simulation_ahr3$AHR, actual$ahr, tolerance = 5e-3))
+  (all.equal(simulation_ahr3$Events, actual$event, tolerance = 7e-3))
+})
+
+assert("The sample size returned from the ahr() function is correct", {
+  x <- ahr(
+    enroll_rate = define_enroll_rate(duration = 24, rate = 10),
+    fail_rate = define_fail_rate(duration = c(4, 2, 38),
+                                 fail_rate = rep(log(2)/14, 3),
+                                 hr = c(0.7, 0.7, 0.7),
+                                 dropout_rate = - log(1 - 0.15)/12),
+    total_duration = c(seq(1, 48, 1)))
+
+  (isTRUE(all.equal(x |> dplyr::filter(time <= 24) |> dplyr::pull(n), 1:24*10)))
+  (isTRUE(all.equal(x |> dplyr::filter(time > 24) |> dplyr::pull(n) |> unique(), 24*10)))
+})
