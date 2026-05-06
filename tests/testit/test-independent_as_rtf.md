@@ -1,4 +1,4 @@
-Snapshot test for fixed_design_ahr summary as_rtf
+## `fixed_design_ahr()` summary `as_rtf()`
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -76,7 +76,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for fixed_design_ahr summary as_rtf with custom title
+## `fixed_design_ahr()` summary `as_rtf()` with custom title
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -157,7 +157,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for fixed_design_ahr summary as_rtf with custom footnote
+## `fixed_design_ahr()` summary `as_rtf()` with custom footnote
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -238,7 +238,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_design_ahr summary as_rtf
+## `gs_design_ahr()` summary `as_rtf()`
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -318,7 +318,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_design_wlr summary as_rtf
+## `gs_design_wlr()` summary `as_rtf()`
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -398,7 +398,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_power_wlr summary as_rtf
+## `gs_power_wlr()` summary `as_rtf()`
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -556,7 +556,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_design_rd summary as_rtf
+## `gs_design_rd()` summary `as_rtf()`
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -636,7 +636,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_power_wlr summary as_rtf with custom title and subtitle
+## `gs_power_wlr()` summary `as_rtf()` with custom title and subtitle
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -798,7 +798,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_power_wlr summary as_rtf with custom spanner and sub-spanner
+## `gs_power_wlr()` summary `as_rtf()` with custom spanner and sub-spanner
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -960,7 +960,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_power_wlr summary as_rtf with custom footnote
+## `gs_power_wlr()` summary `as_rtf()` with custom footnote
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -1130,7 +1130,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_power_wlr summary as_rtf with custom columns to display
+## `gs_power_wlr()` summary `as_rtf()` with custom columns to display
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -1277,7 +1277,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_power_wlr summary as_rtf with efficacy bounds displayed
+## `gs_power_wlr()` summary `as_rtf()` with efficacy bounds displayed
 
 ```r
 path <- tempfile(fileext = ".rtf")
@@ -1393,7 +1393,7 @@ cat(readLines(path), sep = "\n")
 }
 ```
 
-Snapshot test for gs_power_wlr summary as_rtf with futility bounds displayed
+## `gs_power_wlr()` summary `as_rtf()` with futility bounds displayed
 
 ```r
 path <- tempfile(fileext = ".rtf")

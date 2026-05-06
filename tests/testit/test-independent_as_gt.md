@@ -1,4 +1,4 @@
-Snapshot test for fixed_design summary as_gt
+## `fixed_design()` summary `as_gt()`
 
 ```r
 enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
@@ -41,7 +41,7 @@ Average hazard ratio & 463.078 & 324.7077 & 36 & 0.697102 & 1.959964 & 0.025 & 0
 \end{table}
 ```
 
-Snapshot test for fixed_design summary as_gt with custom title and footnote
+## `fixed_design()` summary `as_gt()` with custom title and footnote
 
 ```r
 enroll_rate <- define_enroll_rate(duration = 18, rate = 20)
@@ -84,7 +84,7 @@ Average hazard ratio & 463.078 & 324.7077 & 36 & 0.697102 & 1.959964 & 0.025 & 0
 \end{table}
 ```
 
-Snapshot test for fixed_design_fh summary as_gt
+## `fixed_design_fh()` summary `as_gt()`
 
 ```r
 enroll_rate <- define_enroll_rate(
@@ -131,7 +131,7 @@ Fleming-Harrington FH(0, 0) (logrank) & 458.3509 & 321.3931 & 36 & 0.6969049 & 1
 \end{table}
 ```
 
-Snapshot test for gs_design_ahr summary as_gt
+## `gs_design_ahr()` summary `as_gt()`
 
 ```r
 output <- gs_design_ahr() |>
@@ -166,7 +166,7 @@ Efficacy & 1.96 & 0.025 & 0.795 & 0.9 & 0.025 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_ahr summary as_gt
+## `gs_power_ahr()` summary `as_gt()`
 
 ```r
 output <- gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
@@ -212,7 +212,7 @@ Efficacy & 2.03 & 0.0211 & 0.5631 & 0.2070 & 0.0250 \\
 \end{table}
 ```
 
-Snapshot test for gs_design_wlr summary as_gt
+## `gs_design_wlr()` summary `as_gt()`
 
 ```r
 output <- gs_design_wlr() |>
@@ -248,7 +248,7 @@ Efficacy & 1.96 & 0.025 & 0.7941 & 0.9 & 0.025 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_wlr summary as_gt
+## `gs_power_wlr()` summary `as_gt()`
 
 ```r
 output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
@@ -307,7 +307,7 @@ Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_combo summary as_gt
+## `gs_power_combo()` summary `as_gt()`
 
 ```r
 with_seed <- function(seed, code) {
@@ -367,7 +367,7 @@ Efficacy & 1 & 0.1587 & 0.9674 & 0.1956 \\
 \end{table}
 ```
 
-Snapshot test for gs_design_rd summary as_gt
+## `gs_design_rd()` summary `as_gt()`
 
 ```r
 output <- gs_design_rd() |>
@@ -401,7 +401,7 @@ Efficacy & 1.96 & 0.025 & 0.0302 & 0.9 & 0.025 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_rd summary as_gt
+## `gs_power_rd()` summary `as_gt()`
 
 ```r
 output <- gs_power_rd() |>
@@ -445,7 +445,7 @@ Efficacy & 1.99 & 0.0231 & 0.1951 & 0.0705 & \textsuperscript{\textit{2}}0.0238 
 \end{table}
 ```
 
-Snapshot test for gs_power_wlr summary as_gt with custom title and subtitle
+## `gs_power_wlr()` summary `as_gt()` with custom title and subtitle
 
 ```r
 output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
@@ -492,7 +492,7 @@ Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_wlr summary as_gt with colname_spanner and colname_spannersub
+## `gs_power_wlr()` summary `as_gt()` with colname_spanner and colname_spannersub
 
 ```r
 output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
@@ -542,7 +542,7 @@ Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_wlr summary as_gt with custom footnotes
+## `gs_power_wlr()` summary `as_gt()` with custom footnotes
 
 ```r
 output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
@@ -601,7 +601,7 @@ Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_wlr summary as_gt with display_bound
+## `gs_power_wlr()` summary `as_gt()` with display_bound
 
 ```r
 output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
@@ -645,7 +645,7 @@ Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\
 \end{table}
 ```
 
-Snapshot test for gs_power_wlr summary as_gt with display_columns
+## `gs_power_wlr()` summary `as_gt()` with display_columns
 
 ```r
 output <- gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
