@@ -6,7 +6,7 @@ assert("The default of `gs_power_npe` is a single analysis with type I error con
     dplyr::filter(Bound == "Upper") |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("fixed bound", {
@@ -29,7 +29,7 @@ assert("fixed bound", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("Same fixed efficacy bounds, no futility bound (i.e., non-binding bound), null hypothesis", {
@@ -48,7 +48,7 @@ assert("Same fixed efficacy bounds, no futility bound (i.e., non-binding bound),
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3", {
@@ -71,7 +71,7 @@ assert("Fixed bound with futility only at analysis 1; efficacy only at analyses 
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("Spending function bounds - Lower spending based on non-zero effect", {
@@ -94,7 +94,7 @@ assert("Spending function bounds - Lower spending based on non-zero effect", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("Same bounds, but power under different theta", {
@@ -117,7 +117,7 @@ assert("Same bounds, but power under different theta", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("Two-sided symmetric spend, O'Brien-Fleming spending", {
@@ -142,7 +142,7 @@ assert("Two-sided symmetric spend, O'Brien-Fleming spending", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("Re-use these bounds under alternate hypothesis - Always use binding = TRUE for power calculations", {
@@ -173,7 +173,7 @@ assert("Re-use these bounds under alternate hypothesis - Always use binding = TR
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1, x2)))
+  (isTRUE(all.equal(x1, as.data.frame(x2))))
 })
 
 assert("info != info0 != info1 - If one inputs info in upar", {
@@ -206,7 +206,7 @@ assert("info != info0 != info1 - If one inputs info in upar", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (isTRUE(all.equal(x1_c, x2)))
+  (isTRUE(all.equal(x1_c, as.data.frame(x2))))
 })
 
 assert("Developer Tests 1-sided test", {
@@ -238,7 +238,7 @@ assert("Developer Tests 1-sided test", {
     n.I = (1:3) * 400,
     b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound, a = rep(-20, 3), r = r
   )
-  (isTRUE(all.equal(x, y)))
+  (isTRUE(all.equal(x, as.data.frame(y))))
   (isTRUE(all.equal(x$z[x$bound == "upper"], z$upper$bound)))
   (isTRUE(all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob))))
 })

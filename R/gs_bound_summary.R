@@ -82,16 +82,19 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
     info <- paste0(info, "%")
     n <- round(analysis$n[i])
     events <- round(analysis$event[i])
-    time_value <- round(analysis$time[i], tdigits)
-    # If the value is an integer, force it to have the correct number of decimal places
-    time_value <- format(time_value, nsmall = tdigits)
+    time_value <- analysis$time[i]
+    if (!is.null(time_value)) {
+      time_value <- round(time_value, tdigits)
+      # If the value is an integer, force it to have the correct number of decimal places
+      time_value <- format(time_value, nsmall = tdigits)
+    }
 
     col_analysis <- c(
       col_analysis,
       if (i == final) "Final" else paste(label, info),
       paste("N:", n),
       paste("Events:", events),
-      paste0(timename, ": ", time_value),
+      if (is.null(time_value)) "" else paste0(timename, ": ", time_value),
       ""
     )
 

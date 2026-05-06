@@ -90,7 +90,7 @@ assert("fixed design with 3 equal info", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(-c(theta1, info1)) |>
     dplyr::arrange(analysis, bound)
-  (isTRUE(all.equal(x1_c, x2)))
+  (isTRUE(all.equal(x1_c, as.data.frame(x2))))
 })
 
 assert("fixed design with 3 unequal info", {
@@ -128,7 +128,7 @@ assert("fixed design with 3 unequal info", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(-c(theta1, info1)) |>
     dplyr::arrange(analysis, bound)
-  (isTRUE(all.equal(x1_c, x2)))
+  (isTRUE(all.equal(x1_c, as.data.frame(x2))))
 })
 
 assert("futility at IA1; efficacy only at IA2 +FA", {
@@ -170,7 +170,7 @@ assert("futility at IA1; efficacy only at IA2 +FA", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(-c(theta1, info1)) |>
     dplyr::arrange(analysis, bound)
-  (isTRUE(all.equal(x1_c, x2)))
+  (isTRUE(all.equal(x1_c, as.data.frame(x2))))
 })
 
 assert("spending bounds", {
@@ -216,7 +216,7 @@ assert("spending bounds", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(analysis, bound, z, probability, theta, info, info0, info1) |>
     dplyr::arrange(analysis, bound)
-  (isTRUE(all.equal(x1_c, x2)))
+  (isTRUE(all.equal(x1_c, as.data.frame(x2))))
 })
 
 assert("2-sided symmetric spend", {
@@ -266,5 +266,5 @@ assert("2-sided symmetric spend", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(analysis, bound, z, probability, theta, info, info0, info1) |>
     dplyr::arrange(analysis, bound)
-  (isTRUE(all.equal(x1_c, x2)))
+  (isTRUE(all.equal(x1_c, as.data.frame(x2))))
 })
