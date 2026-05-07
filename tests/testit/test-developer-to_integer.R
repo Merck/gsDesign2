@@ -294,14 +294,16 @@ assert("verify the crossing prob of a MB design at IA1 under null", {
 assert("The attribute `uninteger_is_from` matches the input design object", {
   design_funcs <- c("gs_design_ahr", "gs_design_rd", "gs_design_wlr")
   res <- vapply(design_funcs, function(f) {
-    attr(get(f)() |> to_integer(), "uninteger_is_from")
+    fun <- getFromNamespace(f, "gsDesign2")
+    attr(to_integer(fun()), "uninteger_is_from")
   }, character(1))
   (unname(res) %==% design_funcs)
 
   lpar <- list(sf = gsDesign::sfLDOF, total_spend = 0.1)
   power_funcs <- c("gs_power_ahr", "gs_power_rd", "gs_power_wlr")
   res <- vapply(power_funcs, function(f) {
-    x <- if (f == "gs_power_rd") get(f)() else get(f)(lpar = lpar)
+    fun <- getFromNamespace(f, "gsDesign2")
+    x <- if (f == "gs_power_rd") fun() else fun(lpar = lpar)
     attr(to_integer(x), "uninteger_is_from")
   }, character(1))
   (unname(res) %==% power_funcs)
