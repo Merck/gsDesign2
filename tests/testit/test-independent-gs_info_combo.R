@@ -40,7 +40,7 @@ assert("gs_info_combo correctly use gs_info_wlr 1", {
   fail_rate <- res$fail_rate
   info_combo <- res$info_combo
 
-  for (i in 1:4) {
+  expected <- vapply(1:4, function(i) {
     weight_test_i <- gsDesign2:::get_combo_weight(rho[i], gamma[i], tau[i])
     info_wlr <- gsDesign2::gs_info_wlr(
       enroll_rate = enroll_rate,
@@ -51,6 +51,7 @@ assert("gs_info_combo correctly use gs_info_wlr 1", {
       weight = eval(parse(text = weight_test_i)),
       approx = "asymptotic"
     )
-    (all_equal(info_combo$info[i], info_wlr$info[1]))
-  }
+    info_wlr$info[1]
+  }, numeric(1))
+  (info_combo$info %==% expected)
 })

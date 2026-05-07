@@ -15,7 +15,7 @@ assert("verify by gs_power_npe", {
     lower = gs_b, lpar = -(x |> dplyr::filter(bound == "upper"))$z,
     binding = TRUE # Always use binding = TRUE for power calculations
   )
-  (all_equal(y$probability[y$analysis == 3 & y$bound == "upper"], 1 - beta, tolerance = 1e-2))
+  (all.equal(y$probability[y$analysis == 3 & y$bound == "upper"], 1 - beta, tolerance = 0.01))
   # old version
   x <- gs_design_npe_(
     theta = c(.1, .2, .3), info = (1:3) * 40, beta = 0.1,
@@ -31,7 +31,7 @@ assert("verify by gs_power_npe", {
     lower = gs_b, lpar = -(x |> dplyr::filter(Bound == "Upper"))$Z,
     binding = TRUE # Always use binding = TRUE for power calculations
   )
-  (all_equal(y$Probability[y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 1e-2))
+  (all.equal(y$Probability[y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 0.01))
 })
 
 assert("examples in spec - Lachin book p71", {
@@ -52,7 +52,7 @@ assert("examples in spec - Lachin book p71", {
   x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all_equal(x1_c, x2))
+  (x1_c %==% x2)
 })
 
 assert("fixed design with 3 equal info", {
@@ -90,7 +90,7 @@ assert("fixed design with 3 equal info", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(-c(theta1, info1)) |>
     dplyr::arrange(analysis, bound)
-  (all_equal(as.data.frame(x1_c), as.data.frame(x2), check.attributes = FALSE))
+  (as.data.frame(x1_c) %==% as.data.frame(x2))
 })
 
 assert("fixed design with 3 unequal info", {
@@ -128,7 +128,7 @@ assert("fixed design with 3 unequal info", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(-c(theta1, info1)) |>
     dplyr::arrange(analysis, bound)
-  (all_equal(as.data.frame(x1_c), as.data.frame(x2), check.attributes = FALSE))
+  (as.data.frame(x1_c) %==% as.data.frame(x2))
 })
 
 assert("futility at IA1; efficacy only at IA2 +FA", {
@@ -170,7 +170,7 @@ assert("futility at IA1; efficacy only at IA2 +FA", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(-c(theta1, info1)) |>
     dplyr::arrange(analysis, bound)
-  (all_equal(as.data.frame(x1_c), as.data.frame(x2), check.attributes = FALSE))
+  (as.data.frame(x1_c) %==% as.data.frame(x2))
 })
 
 assert("spending bounds", {
@@ -216,7 +216,7 @@ assert("spending bounds", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(analysis, bound, z, probability, theta, info, info0, info1) |>
     dplyr::arrange(analysis, bound)
-  (all_equal(as.data.frame(x1_c), as.data.frame(x2), check.attributes = FALSE))
+  (as.data.frame(x1_c) %==% as.data.frame(x2))
 })
 
 assert("2-sided symmetric spend", {
@@ -266,5 +266,5 @@ assert("2-sided symmetric spend", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(analysis, bound, z, probability, theta, info, info0, info1) |>
     dplyr::arrange(analysis, bound)
-  (all_equal(as.data.frame(x1_c), as.data.frame(x2), check.attributes = FALSE))
+  (as.data.frame(x1_c) %==% as.data.frame(x2))
 })

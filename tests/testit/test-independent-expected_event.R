@@ -3,19 +3,17 @@ assert("expected events is different from gsDesign::eEvents and expected_event",
   fail_rate <- define_fail_rate(duration = c(1, 1, 1), fail_rate = c(.05, .02, .01), hr = 1, dropout_rate = .01)
   total_duration <- 20
 
-  (all_equal(expected_event(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      total_duration = total_duration,
-      simple = TRUE
-    ), gsDesign::eEvents(
-      lambda = fail_rate$fail_rate,
-      S = fail_rate$duration[1:(nrow(fail_rate) - 1)],
-      eta = fail_rate$dropout_rate,
-      gamma = enroll_rate$rate,
-      R = enroll_rate$duration,
-      T = total_duration
-    )$d))
+  res <- expected_event(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    total_duration = total_duration, simple = TRUE
+  )
+  expected <- gsDesign::eEvents(
+    lambda = fail_rate$fail_rate,
+    S = fail_rate$duration[1:(nrow(fail_rate) - 1)],
+    eta = fail_rate$dropout_rate, gamma = enroll_rate$rate,
+    R = enroll_rate$duration, T = total_duration
+  )$d
+  (res %==% expected)
 })
 
 assert("data frame returned from expected_event not as expected", {
@@ -37,7 +35,7 @@ assert("data frame returned from expected_event not as expected", {
     fail_rate = c(0.03, 0.06),
     event = c(0.5642911, 0.5194821)
   )
-  (all_equal(xx, expected))
+  (all.equal(xx, expected))
 })
 
 # Double programming tests
@@ -51,16 +49,15 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- res$total_duration
   simple <- res$simple
 
-  (all_equal(test_expected_event(
-      enrollRates = enroll_rate,
-      failRates = failRates,
-      totalDuration = total_duration
-    ), expected_event(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      total_duration = total_duration,
-      simple = simple
-    )))
+  res <- test_expected_event(
+    enrollRates = enroll_rate, failRates = failRates,
+    totalDuration = total_duration
+  )
+  expected <- expected_event(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    total_duration = total_duration, simple = simple
+  )
+  (all.equal(res, expected))
 })
 
 # Test 2: with multiple fail rates, long FU
@@ -72,16 +69,15 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- 80
   simple <- res$simple
 
-  (all_equal(test_expected_event(
-      enrollRates = enroll_rate,
-      failRates = failRates,
-      totalDuration = total_duration
-    ), expected_event(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      total_duration = total_duration,
-      simple = simple
-    )))
+  res <- test_expected_event(
+    enrollRates = enroll_rate, failRates = failRates,
+    totalDuration = total_duration
+  )
+  expected <- expected_event(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    total_duration = total_duration, simple = simple
+  )
+  (res %==% expected)
 })
 
 # Test 3: with multiple fail rates and with multiple enrollment duration
@@ -105,14 +101,13 @@ assert("expected events is different from double-programmed vs. expected_event, 
   total_duration <- 80
   simple <- TRUE
 
-  (all_equal(test_expected_event(
-      enrollRates = enroll_rate,
-      failRates = failRates,
-      totalDuration = total_duration
-    ), expected_event(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      total_duration = total_duration,
-      simple = simple
-    )))
+  res <- test_expected_event(
+    enrollRates = enroll_rate, failRates = failRates,
+    totalDuration = total_duration
+  )
+  expected <- expected_event(
+    enroll_rate = enroll_rate, fail_rate = fail_rate,
+    total_duration = total_duration, simple = simple
+  )
+  (all.equal(res, expected))
 })

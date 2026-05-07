@@ -60,16 +60,15 @@ assert("gs_delta_combo correctly use gs_delta_wlr 1", {
   arm <- res$arm
   delta <- res$delta
 
-  for (i in 1:4) {
+  expected <- vapply(1:4, function(i) {
     weight_test1 <- gsDesign2:::get_combo_weight(rho[i], gamma[i], tau[i])
-    delta_test1 <- gsDesign2:::gs_delta_wlr(
+    gsDesign2:::gs_delta_wlr(
       arm0 = arm$arm0, arm1 = arm$arm1,
       tmax = 30, weight = eval(parse(text = weight_test1)),
       approx = "asymptotic", normalization = FALSE
     )
-
-    (delta[i] %==% delta_test1)
-  }
+  }, numeric(1))
+  (delta %==% expected)
 })
 
 # Test gs_sigma2_combo ----
@@ -113,18 +112,18 @@ assert("gs_sigma2_combo correctly use gs_sigma2_wlr 1", {
   arm <- res$arm
   sigma2 <- res$sigma2
 
+  expected <- matrix(NA_real_, 4, 4)
   for (i in 1:4) {
     for (j in 1:4) {
       weight_test_ij <- gsDesign2:::get_combo_weight(rho1[i, j], gamma1[i, j], tau[i])
-      sigma_ij <- gsDesign2:::gs_sigma2_wlr(
+      expected[i, j] <- gsDesign2:::gs_sigma2_wlr(
         arm0 = arm$arm0, arm1 = arm$arm1,
         tmax = 30, weight = eval(parse(text = weight_test_ij)),
         approx = "asymptotic"
       )
-
-      (all_equal(sigma2[i, j], sigma_ij))
     }
   }
+  (sigma2 %==% expected)
 })
 
 # Test gs_info_combo ----
@@ -172,20 +171,20 @@ assert("gs_info_combo correctly use gs_info_wlr 1", {
   fail_rate <- res$fail_rate
   info_combo <- res$info_combo
 
-  for (i in 1:4) {
+  expected <- vapply(1:4, function(i) {
     weight_test_i <- gsDesign2:::get_combo_weight(rho[i], gamma[i], tau[i])
     info_wlr <- gsDesign2::gs_info_wlr(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
-      ratio = 1, # Experimental:Control randomization ratio
-      event = NULL, # Events at analyses
-      analysis_time = 30, # Times of analyses
+      ratio = 1,
+      event = NULL,
+      analysis_time = 30,
       weight = eval(parse(text = weight_test_i)),
       approx = "asymptotic"
     )
-
-    (all_equal(info_combo$info[i], info_wlr$info[1]))
-  }
+    info_wlr$info[1]
+  }, numeric(1))
+  (info_combo$info %==% expected)
 })
 
 # Test gs_prob_combo ----
@@ -255,10 +254,10 @@ assert("p efficacy", {
   res <- list("prob" = prob, "p_efficacy" = p_efficacy, "p_futility" = p_futility)
 
   # p efficacy
-  (all_equal(res$prob$probability[1], res$p_efficacy[1], tolerance = 0.001))
+  (all.equal(res$prob$probability[1], res$p_efficacy[1], tolerance = 0.001))
 
   # p futility
-  (all_equal(res$prob$probability[2], res$p_futility[1], tolerance = 0.001))
+  (all.equal(res$prob$probability[2], res$p_futility[1], tolerance = 0.001))
 })
 
 
@@ -347,16 +346,16 @@ assert("p efficacy1", {
   )
 
   # p efficacy1
-  (all_equal(res$prob$probability[1], res$p_efficacy_1[1], tolerance = 0.001))
+  (res$prob$probability[1] %==% res$p_efficacy_1[1])
 
   # p futility1
-  (all_equal(res$prob$probability[3], res$p_futility_1[1], tolerance = 0.001))
+  (res$prob$probability[3] %==% res$p_futility_1[1])
 
   # p efficacy2
-  (all_equal(res$prob$probability[2], res$p_efficacy_1[1] + res$p_efficacy_2[1], tolerance = 0.001))
+  (all.equal(res$prob$probability[2], res$p_efficacy_1[1] + res$p_efficacy_2[1], tolerance = 0.001))
 
   # p futility2
-  (all_equal(res$prob$probability[4], res$p_futility_1[1] + res$p_futility_2[1], tolerance = 0.001))
+  (all.equal(res$prob$probability[4], res$p_futility_1[1] + res$p_futility_2[1], tolerance = 0.001))
 })
 
 
@@ -421,7 +420,7 @@ assert("pmvnorm_combo calculate p for One test for all group or lower bound is -
   p <- res$p
   p_test <- res$p_test
 
-  (all_equal(p[1], p_test[1], tolerance = 0.001))
+  (all.equal(p[1], p_test[1], tolerance = 0.001))
 })
 
 # Log-rank multiple analysis ----
@@ -478,11 +477,11 @@ assert("gs_utility_combo output correct info as gs_info_combo", {
   )
 
   # gs_utility_combo output correct info as gs_info_combo
-  (all_equal(res$utility_combo$info[1:11], res$info_combo_test[1:11]))
+  (res$utility_combo$info[1:11] %==% res$info_combo_test[1:11])
 
   # gs_utility_combo output correct theta effect as gs_info_combo
   theta_test <- (-info_combo_test$delta) / sqrt(info_combo_test$sigma2)
-  (all_equal(res$utility_combo$theta, theta_test))
+  (res$utility_combo$theta %==% theta_test)
 
   # gs_utility_combo output correct correlation matrix as gs_info_combo
 
@@ -500,7 +499,7 @@ assert("gs_utility_combo output correct info as gs_info_combo", {
   }
   corr_test <- cov2cor(cov)
 
-  (all_equal(utility_combo$corr, corr_test))
+  (all.equal(utility_combo$corr, corr_test))
 })
 
 
@@ -569,14 +568,14 @@ assert("gs_utility_combo output correct info as gs_info_combo", {
   # gs_utility_combo output correct info as gs_info_combo
   utility_combo <- res$utility_combo
   info_combo_test <- res$info_combo_test
-  (all_equal(utility_combo$info[1:11], info_combo_test[1:11]))
+  (all.equal(utility_combo$info[1:11], info_combo_test[1:11]))
 
   # gs_utility_combo output correct theta effect as gs_info_combo
   utility_combo <- res$utility_combo
   info_combo_test <- res$info_combo_test
   theta_test <- (-info_combo_test$delta) / sqrt(info_combo_test$sigma2)
 
-  (all_equal(utility_combo$theta, theta_test))
+  (utility_combo$theta %==% theta_test)
 
   # gs_utility_combo output correct correlation matrix as gs_info_combo
   rho <- res$rho
@@ -597,6 +596,6 @@ assert("gs_utility_combo output correct info as gs_info_combo", {
   )
   corr_test <- cov2cor(sigma2)
 
-  (all_equal(utility_combo$corr, corr_test))
+  (all.equal(utility_combo$corr, corr_test))
 })
 

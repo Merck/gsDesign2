@@ -21,10 +21,10 @@ assert("Correct computation of blinded AHR and information adjustment", {
 
   result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr, ratio = ratio)
 
-  (all_equal(result$event, expected_event))
-  (all_equal(result$ahr, expected_ahr, tolerance = 0.001))
-  (all_equal(result$theta, expected_theta, tolerance = 0.001))
-  (all_equal(result$info0, expected_info0))
+  (result$event %==% expected_event)
+  (result$ahr %==% expected_ahr)
+  (result$theta %==% expected_theta)
+  (result$info0 %==% expected_info0)
 })
 
 assert("ahr_blinded computes theta with constant hazard ratios correctly", {
@@ -37,7 +37,7 @@ assert("ahr_blinded computes theta with constant hazard ratios correctly", {
   result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr)
 
   # When all hr = 1, theta should be 0
-  (all_equal(result$theta, 0))
+  (result$theta %==% 0)
 })
 
 assert("ahr_blinded handles zero events", {
@@ -47,10 +47,10 @@ assert("ahr_blinded handles zero events", {
 
   result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr)
 
-  (all_equal(result$event, 0))
+  (result$event %==% 0)
   (is.nan(result$ahr))
   (is.nan(result$theta))
-  (all_equal(result$info0, 0))
+  (result$info0 %==% 0)
 })
 
 assert("ahr_blinded handles all events in the first interval", {
@@ -63,8 +63,8 @@ assert("ahr_blinded handles all events in the first interval", {
 
   # All events are in the first interval, so result should reflect hr[1]
   expected_theta <- -sum(log(hr[1]) * sum(surv[, "status"])) / sum(surv[, "status"])
-  (all_equal(result$theta, expected_theta))
-  (all_equal(result$event, sum(surv[, "status"])))
+  (result$theta %==% expected_theta)
+  (result$event %==% sum(surv[, "status"]))
 })
 
 assert("ahr_blinded handles very small hazard ratios", {
@@ -87,7 +87,7 @@ assert("ahr_blinded handles very high randomization ratio", {
   result <- ahr_blinded(surv = surv, intervals = intervals, hr = hr, ratio = ratio)
 
   # info0 should be near 0
-  (all_equal(result$info0, 0, tolerance = 0.05))
+  (all.equal(result$info0, 0, tolerance = 0.05))
 })
 
 assert("ahr_blinded returns a tibble with correct structure and types", {

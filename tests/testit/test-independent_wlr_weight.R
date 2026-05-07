@@ -40,7 +40,7 @@ assert("Validate the function based on simple calculation", {
   # wlr_weight_n()
   pckwlrn <- gsDesign2::wlr_weight_n(x = 1:36, arm0, arm1, power = 0.666)
 
-  (all_equal(as.numeric(pckwlrn), wlrn, tolerance = 0.0001))
-  (all_equal(as.numeric(fhwei), pckfhwei, tolerance = 0.0001))
-  (all_equal(as.numeric(FH00wt), 1, tolerance = 0))
+  (all.equal(as.numeric(pckwlrn), wlrn, tolerance = 0.0001))
+  (all.equal(as.numeric(fhwei), pckfhwei, tolerance = 0.0001))
+  (as.numeric(FH00wt) %==% 1)
 })

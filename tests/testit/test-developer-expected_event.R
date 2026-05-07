@@ -20,8 +20,8 @@ assert("expected event vs gsDesign", {
     enroll_rate, fail_rate, total_duration,
     simple = TRUE
   )
-  (all_equal(x1, x2))
-  (all_equal(x2, x3))
+  (x1 %==% x2)
+  (x2 %==% x3)
 })
 
 assert("expected_event returns consistent results (regression tests)", {
@@ -32,7 +32,7 @@ assert("expected_event returns consistent results (regression tests)", {
   # Default arguments, simple output (total event count only)
   observed <- expected_event()
   expected <- 57.3537033783035
-  (all_equal(observed, expected))
+  (all.equal(observed, expected))
 
   # Event count by time period
   observed <- expected_event(simple = FALSE)
@@ -41,12 +41,12 @@ assert("expected_event returns consistent results (regression tests)", {
     fail_rate = c(0.0770163533955495, 0.0385081766977747),
     event = c(22.2482399817186, 35.1054633965849)
   )
-  (all_equal(observed, expected))
+  (all.equal(observed, expected))
 
   # Early cutoff
   observed <- expected_event(total_duration = .5)
   expected <- 0.0285092329152224
-  (all_equal(observed, expected))
+  (all.equal(observed, expected))
 
   # Single time period example
   observed <- expected_event(
@@ -60,7 +60,7 @@ assert("expected_event returns consistent results (regression tests)", {
     fail_rate = 0.115524530093324,
     event = 80.4097370913342
   )
-  (all_equal(observed, expected))
+  (all.equal(observed, expected))
 
   # Single time period example, multiple enrollment periods
   observed <- expected_event(
@@ -73,7 +73,7 @@ assert("expected_event returns consistent results (regression tests)", {
     fail_rate = 0.115524530093324,
     event = 118.848383110223
   )
-  (all_equal(observed, expected))
+  (all.equal(observed, expected))
 
   # example from https://github.com/Merck/gsDesign2/issues/250
   observed <- expected_event(
@@ -87,5 +87,5 @@ assert("expected_event returns consistent results (regression tests)", {
     fail_rate = c(0.05, 0.02, 0.01),
     event = c(2.91177332078756, 1.11333393252082, 3.45481304353542)
   )
-  (all_equal(observed, expected))
+  (all.equal(observed, expected))
 })

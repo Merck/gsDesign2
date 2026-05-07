@@ -27,7 +27,7 @@ assert("given sample size, the output power arrives at the target", {
     alpha = 0.025
   )
 
-  (all_equal(x1$bound$probability, x2))
+  (x1$bound$probability %==% x2)
 })
 
 assert("given power, the output sample size arrives at the target power", {
@@ -60,5 +60,5 @@ assert("given power, the output sample size arrives at the target power", {
     test = list(test = "rmst difference", milestone = arm0$total_time)
   )
 
-  (all_equal(x1$analysis$n, x2[["n"]]))
+  (all.equal(x1$analysis$n, x2[["n"]]))
 })

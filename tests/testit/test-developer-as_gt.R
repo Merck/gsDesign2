@@ -7,16 +7,16 @@ assert("footnote=FALSE removes footnote", {
   )
   y <- summary(x)
   z1 <- as_gt(y)
-  (all_equal(nrow(z1$`_footnotes`), 1))
+  (nrow(z1$`_footnotes`) %==% 1L)
   z2 <- as_gt(y, footnote = FALSE)
-  (all_equal(nrow(z2$`_footnotes`), 0))
+  (nrow(z2$`_footnotes`) %==% 0L)
 
   # gs design
   x <- gs_design_ahr()
   y <- summary(x)
   z1 <- as_gt(y)
-  (all_equal(nrow(z1$`_footnotes`), 2))
+  (nrow(z1$`_footnotes`) %==% 2L)
   z2 <- as_gt(y, footnote = FALSE)
-  (all_equal(nrow(z2$`_footnotes`), 0))
+  (nrow(z2$`_footnotes`) %==% 0L)
 
 })

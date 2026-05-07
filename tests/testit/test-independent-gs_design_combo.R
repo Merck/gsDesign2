@@ -5,7 +5,7 @@ assert("calculate analysis number as planned", {
   fh_test <- res$fh_test
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (all_equal(max(fh_test$analysis), max(gs_design_combo_test2$analysis$analysis)))
+  (all.equal(max(fh_test$analysis), max(gs_design_combo_test2$analysis$analysis)))
 })
 
 assert("calculate analysisTimes as planned", {
@@ -13,7 +13,7 @@ assert("calculate analysisTimes as planned", {
   fh_test <- res$fh_test
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (all_equal(unique(fh_test$analysis_time), unique(gs_design_combo_test2$analysis$time)))
+  (unique(fh_test$analysis_time) %==% unique(gs_design_combo_test2$analysis$time))
 })
 
 assert("calculate N and each analysis Events N as planned", {
@@ -23,17 +23,17 @@ assert("calculate N and each analysis Events N as planned", {
   fail_rate <- res$fail_rate
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  for (i in 1:max(fh_test$analysis)) {
-    event <- test_event(
+  enrollsum <- enroll_rate$duration * enroll_rate$rate
+  N <- max(gs_design_combo_test2$analysis$n)
+  res <- vapply(1:max(fh_test$analysis), function(i) {
+    test_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       td = unique(fh_test$analysis_time)[i]
-    )
-    enrollsum <- enroll_rate$duration * enroll_rate$rate
-    N <- max(gs_design_combo_test2$analysis$n)
-
-    (all_equal(event * N / enrollsum, unique(gs_design_combo_test2$analysis$event)[i], tolerance = 0.01))
-  }
+    ) * N / enrollsum
+  }, numeric(1))
+  expected <- unique(gs_design_combo_test2$analysis$event)
+  (all.equal(res, expected, tolerance = 0.01))
 })
 
 assert("calculate probability under alternative", {
@@ -41,7 +41,10 @@ assert("calculate probability under alternative", {
   beta <- res$beta
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (all_equal(1 - beta, max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability), tolerance = 0.0001))
+  res <- 1 - beta
+  expected <- max((gs_design_combo_test2$bounds |>
+    dplyr::filter(bound == "upper"))$probability)
+  (all.equal(res, expected, tolerance = 0.0001))
 })
 
 assert("calculate probability under null", {
@@ -49,7 +52,10 @@ assert("calculate probability under null", {
   alpha <- res$alpha
   gs_design_combo_test2 <- res$gs_design_combo_test2
 
-  (all_equal(alpha, max((gs_design_combo_test2$bounds |> dplyr::filter(bound == "upper"))$probability0), tolerance = 0.005))
+  res <- alpha
+  expected <- max((gs_design_combo_test2$bounds |>
+    dplyr::filter(bound == "upper"))$probability0)
+  (all.equal(res, expected, tolerance = 0.005, scale = 1))
 })
 
 assert("arguments are passed via ... to mvtnorm::pmvnorm()", {

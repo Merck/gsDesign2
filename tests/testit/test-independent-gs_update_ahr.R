@@ -88,7 +88,7 @@ y <- gs_update_ahr(x, alpha = x$input$alpha,
                    lstime = ustime)
 
 assert("Ex1: blinded ahr computed correctly", {
-  (all_equal(y$analysis$ahr, ahr_info$ahr))
+  (y$analysis$ahr %==% ahr_info$ahr)
 })
 
 # Double programming for futility bound
@@ -105,15 +105,14 @@ yb <- gs_power_npe(theta = y$analysis$theta,
                    binding = x$input$binding, r = x$input$r
                    )
 assert("Ex1: blinded theta computed correctly", {
-  (all_equal(y$analysis$theta, ahr_info$theta))
+  (y$analysis$theta %==% ahr_info$theta)
 })
 
 assert("Ex1: blinded information computed correctly", {
-  (all_equal(y$analysis$info0, ahr_info$info0))
+  (y$analysis$info0 %==% ahr_info$info0)
 })
 
 lower_bound <- (yb |> filter(bound == "lower"))$z
 assert("Ex1: futility bound computed correctly", {
-  (all_equal((y$bound |> filter(bound == "lower"))$z, lower_bound))
+  (filter(y$bound, bound == "lower")$z %==% lower_bound)
 })
-

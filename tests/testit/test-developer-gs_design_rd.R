@@ -26,7 +26,7 @@ assert("fixed design", {
     h1_spending = FALSE
   )
 
-  (all_equal(x1, x2$analysis$n))
+  (x1 %==% x2$analysis$n)
 })
 
 assert("Stratified GSD: if RD is constant across strata, then MR weights are equal to the INVAR weights", {
@@ -60,7 +60,6 @@ assert("Stratified GSD: if RD is constant across strata, then MR weights are equ
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
     lpar = rep(-Inf, 2))
 
-  (all_equal(x_invar$analysis, x_mr$analysis))
-  (all_equal(x_invar$bound, x_mr$bound))
+  (x_invar$analysis %==% x_mr$analysis)
+  (x_invar$bound %==% x_mr$bound)
 })
-

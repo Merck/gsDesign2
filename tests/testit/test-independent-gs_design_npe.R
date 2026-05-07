@@ -35,15 +35,15 @@ assert("One-sided design fails to reproduce gsDesign package bounds", {
   ) |> dplyr::filter(bound == "upper")
 
   # Compare boundaries
-  (all_equal(gsd$upper$bound, gsdv$z, tolerance = 7e-6))
-  (all_equal(gsd$n.I, gsdv$info, tolerance = .001))
+  (all.equal(gsd$upper$bound, gsdv$z, tolerance = 7e-6))
+  (all.equal(gsd$n.I, gsdv$info, tolerance = .001))
 
   # Compare statistical information
   # While tolerance should not be problematic, it seems large
-  (all_equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
+  (all.equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
 
   # Compare crossing boundaries probability
-  (all_equal(gsdv$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend))
+  (all.equal(gsdv$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend))
 })
 
 assert("Two-sided symmetric design fails to reproduce gsDesign test.type=2 bounds", {
@@ -73,15 +73,17 @@ assert("Two-sided symmetric design fails to reproduce gsDesign test.type=2 bound
     tol = 1e-6
   )
   # Compare boundaries
-  (all_equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
-  (all_equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 7e-6))
+  (all.equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
+  (all.equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 7e-6))
 
   # Compare statistical information
   # While tolerance should not be problematic, it seems large
-  (all_equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
+  (all.equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
 
   # Compare crossing boundaries probability
-  (all_equal((gsdv |> dplyr::filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend))
+  res <- (gsdv |> dplyr::filter(bound == "upper"))$probability0
+  expected <- sfu(alpha = alpha, t = timing, param = sfupar)$spend
+  (all.equal(res, expected))
 })
 
 assert("Two-sided asymmetric design fails to reproduce gsDesign test.type=3 bounds", {
@@ -110,16 +112,20 @@ assert("Two-sided asymmetric design fails to reproduce gsDesign test.type=3 boun
     lpar = list(sf = sfl, total_spend = beta, param = sflpar)
   )
   # Compare boundaries
-  (all_equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
-  (all_equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
+  (all.equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
+  (all.equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
 
   # Compare statistical information
   # While tolerance should not be problematic, it seems large
-  (all_equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
+  (all.equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
 
   # Compare crossing boundaries probability under null hypothesis (theta = 0)
-  (all_equal((gsdv |> dplyr::filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend))
-  (all_equal((gsdv |> dplyr::filter(bound == "lower"))$probability, sfl(alpha = beta, t = timing, param = sflpar)$spend))
+  res <- (gsdv |> dplyr::filter(bound == "upper"))$probability0
+  expected <- sfu(alpha = alpha, t = timing, param = sfupar)$spend
+  (all.equal(res, expected))
+  res <- (gsdv |> dplyr::filter(bound == "lower"))$probability
+  expected <- sfl(alpha = beta, t = timing, param = sflpar)$spend
+  (all.equal(res, expected))
 })
 
 assert("Two-sided asymmetric design fails to reproduce gsDesign test.type=4 bounds", {
@@ -149,21 +155,21 @@ assert("Two-sided asymmetric design fails to reproduce gsDesign test.type=4 boun
   )
 
   # Compare boundaries
-  (all_equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
-  (all_equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
+  (all.equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
+  (all.equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
 
   # Compare statistical information
   # While tolerance should not be problematic, it seems large
-  (all_equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
+  (all.equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
 
   # Compare crossing boundaries probability under null hypothesis (theta = 0)
-  (all_equal(gsdv$probability0, gsDesign::gsBoundSummary(gsd) |>
+  (all.equal(gsdv$probability0, gsDesign::gsBoundSummary(gsd) |>
       subset(Value == "P(Cross) if delta=0") |>
       dplyr::select(Efficacy, Futility) |>
       t() |>
       as.numeric(), tolerance = .0001))
 
-  (all_equal(gsdv$probability, gsDesign::gsBoundSummary(gsd) |>
+  (all.equal(gsdv$probability, gsDesign::gsBoundSummary(gsd) |>
       subset(Value == "P(Cross) if delta=1") |>
       dplyr::select(Efficacy, Futility) |>
       t() |>
@@ -198,26 +204,29 @@ assert("Two-sided asymmetric design fails to reproduce gsDesign test.type=5 boun
   )
 
   # Compare boundaries
-  (all_equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
-  (all_equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
+  (all.equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
+  (all.equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
 
   # Compare statistical information
   # While tolerance should not be problematic, it seems large
-  (all_equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
+  (all.equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
 
   # Compare crossing boundaries probability under null hypothesis (theta = 0)
-  (all_equal((gsdv |> dplyr::filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend))
-  (all_equal((gs_power_npe(
-      theta = 0, info = (gsdv |> dplyr::filter(bound == "upper"))$info,
-      theta1 = 0, # Spending for lower bound under H0
-      binding = TRUE, # Use this for test.type=3 and 5
-      upper = gs_spending_bound,
-      upar = list(sf = sfu, total_spend = alpha, param = sfupar),
-      lower = gs_spending_bound,
-      lpar = list(sf = sfl, total_spend = astar, param = sflpar)
-    ) |>
-      dplyr::filter(bound == "lower")
-    )$probability, sfl(alpha = astar, t = timing, param = sflpar)$spend))
+  res <- (gsdv |> dplyr::filter(bound == "upper"))$probability0
+  expected <- sfu(alpha = alpha, t = timing, param = sfupar)$spend
+  (all.equal(res, expected))
+  res <- (gs_power_npe(
+    theta = 0, info = (gsdv |> dplyr::filter(bound == "upper"))$info,
+    theta1 = 0, # Spending for lower bound under H0
+    binding = TRUE, # Use this for test.type=3 and 5
+    upper = gs_spending_bound,
+    upar = list(sf = sfu, total_spend = alpha, param = sfupar),
+    lower = gs_spending_bound,
+    lpar = list(sf = sfl, total_spend = astar, param = sflpar)
+  ) |>
+    dplyr::filter(bound == "lower"))$probability
+  expected <- sfl(alpha = astar, t = timing, param = sflpar)$spend
+  (all.equal(res, expected))
 })
 
 assert("Two-sided asymmetric design fails to reproduce gsDesign test.type=6 bounds", {
@@ -248,24 +257,27 @@ assert("Two-sided asymmetric design fails to reproduce gsDesign test.type=6 boun
   )
 
   # Compare boundaries
-  (all_equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
-  (all_equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
+  (all.equal(gsd$upper$bound, (gsdv |> dplyr::filter(bound == "upper"))$z, tolerance = 7e-6))
+  (all.equal(gsd$lower$bound, (gsdv |> dplyr::filter(bound == "lower"))$z, tolerance = 9e-6))
 
   # Compare statistical information
   # While tolerance should not be problematic, it seems large
-  (all_equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
+  (all.equal(gsd$n.I, (gsdv |> dplyr::filter(bound == "upper"))$info, tolerance = .04))
 
   # Compare crossing boundaries probability under null hypothesis (theta = 0)
-  (all_equal((gsdv |> dplyr::filter(bound == "upper"))$probability0, sfu(alpha = alpha, t = timing, param = sfupar)$spend, tolerance = 1e-5))
-  (all_equal((gs_power_npe(
-      theta = 0, info = (gsdv |> dplyr::filter(bound == "upper"))$info,
-      theta1 = 0, # Spending for lower bound under H0
-      binding = TRUE, # Use this for test.type=3 and 5
-      upper = gs_spending_bound,
-      upar = list(sf = sfu, total_spend = alpha, param = sfupar),
-      lower = gs_spending_bound,
-      lpar = list(sf = sfl, total_spend = astar, param = sflpar)
-    ) |>
-      dplyr::filter(bound == "lower")
-    )$probability, sfl(alpha = astar, t = timing, param = sflpar)$spend))
+  res <- (gsdv |> dplyr::filter(bound == "upper"))$probability0
+  expected <- sfu(alpha = alpha, t = timing, param = sfupar)$spend
+  (all.equal(res, expected, tolerance = 0.0001))
+  res <- (gs_power_npe(
+    theta = 0, info = (gsdv |> dplyr::filter(bound == "upper"))$info,
+    theta1 = 0, # Spending for lower bound under H0
+    binding = TRUE, # Use this for test.type=3 and 5
+    upper = gs_spending_bound,
+    upar = list(sf = sfu, total_spend = alpha, param = sfupar),
+    lower = gs_spending_bound,
+    lpar = list(sf = sfl, total_spend = astar, param = sflpar)
+  ) |>
+    dplyr::filter(bound == "lower"))$probability
+  expected <- sfl(alpha = astar, t = timing, param = sflpar)$spend
+  (all.equal(res, expected, tolerance = 0.0001))
 })

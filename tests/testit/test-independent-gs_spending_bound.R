@@ -93,8 +93,8 @@ assert("compare gs_spending_bound with gsDesign results with equal IA timing for
 
   test2 <- cbind(a, a2, a3)
 
-  (all_equal(as.numeric(test1), x$upper$bound, tolerance = 0.0001))
-  (all_equal(as.numeric(test2), x$lower$bound, tolerance = 0.0001))
+  (all.equal(as.numeric(test1), x$upper$bound, tolerance = 0.0001))
+  (all.equal(as.numeric(test2), x$lower$bound, tolerance = 0.0001))
 })
 
 assert("compare gs_spending_bound with gsDesign results with unequal IA timing for upper and lower bound", {
@@ -196,6 +196,6 @@ assert("compare gs_spending_bound with gsDesign results with unequal IA timing f
 
   test4 <- cbind(a, a2, a3)
 
-  (all_equal(as.numeric(test3), y$upper$bound, tolerance = 0.0001))
-  (all_equal(as.numeric(test4), y$lower$bound, tolerance = 0.0001))
+  (all.equal(as.numeric(test3), y$upper$bound, tolerance = 0.0001))
+  (all.equal(as.numeric(test4), y$lower$bound, tolerance = 0.0001))
 })

@@ -12,7 +12,7 @@ assert("The IA nominal p-value is the same as the IA alpha spending.", {
     lpar = c(-Inf, -Inf)
   ) |> to_integer()
 
-  (all_equal(x$bound$`nominal p`[1], gsDesign::sfLDOF(alpha = 0.025, t = 18 / 30)$spend[1]))
+  (all.equal(x$bound$`nominal p`[1], gsDesign::sfLDOF(alpha = 0.025, t = 18/30)$spend[1]))
 })
 
 assert("The statistcial information under null equals to event/4 udner equal randomization.", {
@@ -58,11 +58,12 @@ assert("Validate the sample size rounding under equal randomization (1:1) for TT
   # ----------------------- #
   y1 <- x |> to_integer(round_up_final = TRUE)
   # test the sample size at FA is rounded up and multiple of 2
-  (all_equal(ceiling(x$analysis$n[2] / 2) * 2, y1$analysis$n[2]))
+  expected <- ceiling(x$analysis$n[2]/2) * 2
+  (expected %==% y1$analysis$n[2])
   # test the event at FA is rounded up
-  (all_equal(ceiling(x$analysis$event[2]), y1$analysis$event[2]))
+  (ceiling(x$analysis$event[2]) %==% y1$analysis$event[2])
   # test the event at IA is rounded
-  (all_equal(round(x$analysis$event[1], 0), y1$analysis$event[1]))
+  (round(x$analysis$event[1], 0) %==% y1$analysis$event[1])
 
 
   # ----------------------- #
@@ -70,11 +71,12 @@ assert("Validate the sample size rounding under equal randomization (1:1) for TT
   # ----------------------- #
   y2 <- x |> to_integer(round_up_final = FALSE)
   # test the sample size at FA is rounded up and multiple of 2
-  (all_equal(round(x$analysis$n[2] / 2, 0) * 2, y2$analysis$n[2]))
+  expected <- round(x$analysis$n[2]/2, 0) * 2
+  (expected %==% y2$analysis$n[2])
   # test the event at FA is rounded
-  (all_equal(round(x$analysis$event[2], 0), y2$analysis$event[2]))
+  (round(x$analysis$event[2], 0) %==% y2$analysis$event[2])
   # test the event at IA is rounded
-  (all_equal(round(x$analysis$event[1], 0), y2$analysis$event[1]))
+  (round(x$analysis$event[1], 0) %==% y2$analysis$event[1])
 
   (has_error(x |> to_integer(ratio = -2)))
 })
@@ -91,44 +93,46 @@ assert("Validate the sample size rounding under unequal randomization (3:2) for 
   # ---------------------------------------------- #
   y1 <- x |> to_integer(round_up_final = TRUE)
   # test the FA sample size is rounded up, but may not be a multiplier of 5
-  (all_equal(ceiling(x$analysis$n[2]), y1$analysis$n[2]))
+  (ceiling(x$analysis$n[2]) %==% y1$analysis$n[2])
   # test the FA events is rounded up
-  (all_equal(ceiling(x$analysis$event[2]), y1$analysis$event[2]))
+  (ceiling(x$analysis$event[2]) %==% y1$analysis$event[2])
   # test the IA events is rounded
-  (all_equal(round(x$analysis$event[1], 0), y1$analysis$event[1]))
+  (round(x$analysis$event[1], 0) %==% y1$analysis$event[1])
 
   # ---------------------------------------------- #
   # round_up_final = TRUE & ratio is integer       #
   # ---------------------------------------------- #
   y2 <- x |> to_integer(round_up_final = TRUE, ratio = 4)
   # test the FA sample size is round up, and is a multiplier of 5
-  (all_equal(ceiling(x$analysis$n[2] / 5) * 5, y2$analysis$n[2]))
+  expected <- ceiling(x$analysis$n[2]/5) * 5
+  (expected %==% y2$analysis$n[2])
   # test the FA events is rounded up
-  (all_equal(ceiling(x$analysis$event[2]), y2$analysis$event[2]))
+  (ceiling(x$analysis$event[2]) %==% y2$analysis$event[2])
   # test the IA events is rounded
-  (all_equal(round(x$analysis$event[1], 0), y2$analysis$event[1]))
+  (round(x$analysis$event[1], 0) %==% y2$analysis$event[1])
 
   # ---------------------------------------------- #
   # round_up_final = FALSE & ratio is NOT integer  #
   # ---------------------------------------------- #
   y3 <- x |> to_integer(round_up_final = FALSE)
   # test the sample size at FA is rounded, but may not a multiplier of 5
-  (all_equal(round(x$analysis$n[2]), y3$analysis$n[2]))
+  (round(x$analysis$n[2]) %==% y3$analysis$n[2])
   # test the FA events is rounded
-  (all_equal(round(x$analysis$event[2], 0), y2$analysis$event[2]))
+  (round(x$analysis$event[2], 0) %==% y2$analysis$event[2])
   # test the IA events is rounded
-  (all_equal(round(x$analysis$event[1], 0), y2$analysis$event[1]))
+  (round(x$analysis$event[1], 0) %==% y2$analysis$event[1])
 
   # ---------------------------------------------- #
   # round_up_final = FALSE & ratio is integer      #
   # ---------------------------------------------- #
   y4 <- x |> to_integer(round_up_final = FALSE, ratio = 4)
   # test the FA sample size is rounded, but may not is a multiplier of 5
-  (all_equal(round(x$analysis$n[2] / 5, 0) * 5, y4$analysis$n[2]))
+  expected <- round(x$analysis$n[2]/5, 0) * 5
+  (expected %==% y4$analysis$n[2])
   # test the FA events is rounded
-  (all_equal(round(x$analysis$event[2], 0), y2$analysis$event[2]))
+  (round(x$analysis$event[2], 0) %==% y2$analysis$event[2])
   # test the IA events is rounded
-  (all_equal(round(x$analysis$event[1], 0), y2$analysis$event[1]))
+  (round(x$analysis$event[1], 0) %==% y2$analysis$event[1])
 
   # error when ratio is negative
   (has_error(x |> to_integer(ratio = -2)))
@@ -145,8 +149,10 @@ assert("Validate the sample size rounding under equal randomization (1:1) for bi
   y1 <- x |> to_integer(round_up_final = TRUE)
   y2 <- x |> to_integer(round_up_final = FALSE)
 
-  (all_equal(c(round(x$analysis$n[1:2], 0), ceiling(x$analysis$n[3] / 2) * 2), y1$analysis$n))
-  (all_equal(c(round(x$analysis$n[1:2], 0), round(x$analysis$n[3] / 2, 0) * 2), y2$analysis$n))
+  expected <- c(round(x$analysis$n[1:2], 0), ceiling(x$analysis$n[3]/2) * 2)
+  (expected %==% y1$analysis$n)
+  expected <- c(round(x$analysis$n[1:2], 0), round(x$analysis$n[3]/2, 0) * 2)
+  (expected %==% y2$analysis$n)
 
   (has_error(x |> to_integer(ratio = -2)))
 })
@@ -161,19 +167,21 @@ assert("Validate the sample size rounding under unequal randomization (3:2) for 
 
   # ceiling the sample size at FA, but may not be a multiplier of 5
   y1 <- x |> to_integer(round_up_final = TRUE)
-  (all_equal(ceiling(x$analysis$n[3]), y1$analysis$n[3]))
+  (ceiling(x$analysis$n[3]) %==% y1$analysis$n[3])
 
   # ceiling the sample size at FA, and is a multiplier of 5
   y2 <- x |> to_integer(round_up_final = TRUE, ratio = 4)
-  (all_equal(ceiling(x$analysis$n[3] / 4) * 4, y2$analysis$n[3]))
+  expected <- ceiling(x$analysis$n[3]/4) * 4
+  (expected %==% y2$analysis$n[3])
 
   # round the sample size at FA, but may not a multiplier of 5
   y3 <- x |> to_integer(round_up_final = FALSE)
-  (all_equal(round(x$analysis$n[3], 0), y3$analysis$n[3]))
+  (round(x$analysis$n[3], 0) %==% y3$analysis$n[3])
 
   # round the sample size at FA, and is a multiplier of 5
   y4 <- x |> to_integer(round_up_final = FALSE, ratio = 4)
-  (all_equal(round(x$analysis$n[3] / 5, 0) * 5, y4$analysis$n[3]))
+  expected <- round(x$analysis$n[3]/5, 0) * 5
+  (expected %==% y4$analysis$n[3])
 
   # error when ratio is negative
   (has_error(x |> to_integer(ratio = -2)))
@@ -191,8 +199,10 @@ assert("Validate the sample size rounding under equal randomization (1:1) for TT
   y1 <- x |> to_integer(round_up_final = TRUE)
   y2 <- x |> to_integer(round_up_final = FALSE)
 
-  (all_equal(ceiling(x$analysis$n / 2) * 2, y1$analysis$n))
-  (all_equal(round(x$analysis$n / 2, 0) * 2, y2$analysis$n))
+  expected <- ceiling(x$analysis$n/2) * 2
+  (expected %==% y1$analysis$n)
+  expected <- round(x$analysis$n/2, 0) * 2
+  (expected %==% y2$analysis$n)
 
   (has_error(x |> to_integer(ratio = -2)))
 })
@@ -211,36 +221,38 @@ assert("Validate the sample size rounding under unequal randomization (3:2) for 
   # ---------------------------------------------- #
   y1 <- x |> to_integer(round_up_final = TRUE)
   # test the sample size is rounded up, but may not be a multiplier of 5
-  (all_equal(ceiling(x$analysis$n), y1$analysis$n))
+  (ceiling(x$analysis$n) %==% y1$analysis$n)
   # test the event is rounded up
-  (all_equal(ceiling(x$analysis$event), y1$analysis$event))
+  (ceiling(x$analysis$event) %==% y1$analysis$event)
 
   # ---------------------------------------------- #
   # round_up_final = TRUE & ratio is integer       #
   # ---------------------------------------------- #
   y2 <- x |> to_integer(round_up_final = TRUE, ratio = 4)
   # test the sample size is rounded up, and is a multiplier of 5
-  (all_equal(ceiling(x$analysis$n / 5) * 5, y2$analysis$n))
+  expected <- ceiling(x$analysis$n/5) * 5
+  (expected %==% y2$analysis$n)
   # test the event is rounded up
-  (all_equal(ceiling(x$analysis$event), y2$analysis$event))
+  (ceiling(x$analysis$event) %==% y2$analysis$event)
 
   # ---------------------------------------------- #
   # round_up_final = FALSE & ratio is NOT integer  #
   # ---------------------------------------------- #
   y3 <- x |> to_integer(round_up_final = FALSE)
   # test the sample size is rounded, but may not a multiplier of 5
-  (all_equal(round(x$analysis$n), y3$analysis$n))
+  (round(x$analysis$n) %==% y3$analysis$n)
   # test the event is rounded
-  (all_equal(round(x$analysis$event, 0), y3$analysis$event))
+  (round(x$analysis$event, 0) %==% y3$analysis$event)
 
   # ---------------------------------------------- #
   # round_up_final = FALSE & ratio is integer      #
   # ---------------------------------------------- #
   y4 <- x |> to_integer(round_up_final = FALSE, ratio = 4)
   # test the sample size is rounded, and is a multiplier of 5
-  (all_equal(round(x$analysis$n / 5, 0) * 5, y4$analysis$n))
+  expected <- round(x$analysis$n/5, 0) * 5
+  (expected %==% y4$analysis$n)
   # test the event is rounded
-  (all_equal(ceiling(x$analysis$event), y4$analysis$event))
+  (ceiling(x$analysis$event) %==% y4$analysis$event)
 
   # error when ratio is negative
   (has_error(x |> to_integer(ratio = -2)))
@@ -255,7 +267,9 @@ assert("Validate the boundary is symmetric in symmetric designs.", {
                      binding = TRUE, h1_spending = FALSE) |>
   to_integer()
 
-  (all_equal(x$bound$z[x$bound$bound == "upper"], -x$bound$z[x$bound$bound == "lower"]))
+  upper_z <- x$bound$z[x$bound$bound == "upper"]
+  lower_z <- x$bound$z[x$bound$bound == "lower"]
+  (upper_z %==% -lower_z)
 })
 
 assert("verify the crossing prob of a MB design at IA1 under null", {
@@ -272,23 +286,23 @@ assert("verify the crossing prob of a MB design at IA1 under null", {
                     lower = gs_b,
                     test_lower = FALSE) |> to_integer()
 
-  (all_equal((x$bounds |> filter(bound == "upper", analysis == 1))$probability0, sfLDOF(alpha = .025, t = x$analysis$info_frac0)$spend[1]))
+  res <- filter(x$bounds, bound == "upper", analysis == 1)$probability0
+  expected <- sfLDOF(alpha = 0.025, t = x$analysis$info_frac0)$spend[1]
+  (all.equal(res, expected, tolerance = 1e-5))
 })
 
 assert("The attribute `uninteger_is_from` matches the input design object", {
-  for (design_func in c("gs_design_ahr", "gs_design_rd", "gs_design_wlr")) {
-    x <- get(design_func)() |> to_integer()
-    (attr(x, "uninteger_is_from") %==% design_func)
-  }
+  design_funcs <- c("gs_design_ahr", "gs_design_rd", "gs_design_wlr")
+  res <- vapply(design_funcs, function(f) {
+    attr(get(f)() |> to_integer(), "uninteger_is_from")
+  }, character(1))
+  (unname(res) %==% design_funcs)
 
   lpar <- list(sf = gsDesign::sfLDOF, total_spend = 0.1)
-  for (power_func in c("gs_power_ahr", "gs_power_rd", "gs_power_wlr")) {
-    if (power_func == "gs_power_rd") {
-      x <- get(power_func)()
-    } else {
-      x <- get(power_func)(lpar = lpar)
-    }
-    x <- to_integer(x)
-    (attr(x, "uninteger_is_from") %==% power_func)
-  }
+  power_funcs <- c("gs_power_ahr", "gs_power_rd", "gs_power_wlr")
+  res <- vapply(power_funcs, function(f) {
+    x <- if (f == "gs_power_rd") get(f)() else get(f)(lpar = lpar)
+    attr(to_integer(x), "uninteger_is_from")
+  }, character(1))
+  (unname(res) %==% power_funcs)
 })

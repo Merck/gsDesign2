@@ -29,10 +29,11 @@ assert("unstratified population, compared with old version", {
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)
-  (all_equal(as.data.frame(y1), as.data.frame(x2)))
+  (as.data.frame(y1) %==% as.data.frame(x2))
 
   # verify the columns of n (sample size)
-  (all_equal(x1$n, expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)))
+  expected <- expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)
+  (x1$n %==% expected)
 })
 
 assert("stratified population, compared with old version", {
@@ -63,10 +64,11 @@ assert("stratified population, compared with old version", {
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)
-  (all_equal(as.data.frame(y1), as.data.frame(x2)))
+  (as.data.frame(y1) %==% as.data.frame(x2))
 
   # verify the columns of n (sample size)
-  (all_equal(x1$n, expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)))
+  expected <- expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)
+  (x1$n %==% expected)
 })
 
 assert("stratified population, compared with pw_info", {
@@ -89,15 +91,15 @@ assert("stratified population, compared with pw_info", {
   # Same example, give results by strata and time period
   y <- pw_info(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 
-  (all_equal(x$event[x$time == 15], sum(y$event[y$time == 15])))
-  (all_equal(x$event[x$time == 30], sum(y$event[y$time == 30])))
+  (x$event[x$time == 15] %==% sum(y$event[y$time == 15]))
+  (x$event[x$time == 30] %==% sum(y$event[y$time == 30]))
 
-  (all_equal(x$n[x$time == 15], sum(y$n[y$time == 15])))
-  (all_equal(x$n[x$time == 30], sum(y$n[y$time == 30])))
+  (x$n[x$time == 15] %==% sum(y$n[y$time == 15]))
+  (x$n[x$time == 30] %==% sum(y$n[y$time == 30]))
 
-  (all_equal(x$info[x$time == 15], sum(y$info[y$time == 15])))
-  (all_equal(x$info[x$time == 30], sum(y$info[y$time == 30])))
+  (x$info[x$time == 15] %==% sum(y$info[y$time == 15]))
+  (x$info[x$time == 30] %==% sum(y$info[y$time == 30]))
 
-  (all_equal(x$info0[x$time == 15], sum(y$info0[y$time == 15])))
-  (all_equal(x$info0[x$time == 30], sum(y$info0[y$time == 30])))
+  (x$info0[x$time == 15] %==% sum(y$info0[y$time == 15]))
+  (x$info0[x$time == 30] %==% sum(y$info0[y$time == 30]))
 })

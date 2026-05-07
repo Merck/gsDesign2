@@ -58,13 +58,13 @@ assert("calculate analysis number as planned", {
   # calculate analysis number as planned
   fh_test <- res$fh_test
   gs_power_combo_test1 <- res$gs_power_combo_test1
-  (all_equal(max(fh_test$analysis), max(gs_power_combo_test1$analysis$analysis)))
+  (all.equal(max(fh_test$analysis), max(gs_power_combo_test1$analysis$analysis)))
 
   # calculate analysisTimes as planned
   fh_test <- res$fh_test
   gs_power_combo_test1 <- res$gs_power_combo_test1
 
-  (all_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test1$analysis$time)))
+  (unique(fh_test$analysis_time) %==% unique(gs_power_combo_test1$analysis$time))
 
   # calculate N and each analysis Events N as planned
   enroll_rate <- res$enroll_rate
@@ -72,26 +72,27 @@ assert("calculate analysis number as planned", {
   fh_test <- res$fh_test
   gs_power_combo_test1 <- res$gs_power_combo_test1
 
-  for (i in 1:max(fh_test$analysis)) {
-    event <- test_event(
+  actual <- vapply(1:max(fh_test$analysis), function(i) {
+    test_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       td = unique(fh_test$analysis_time)[i]
     )
-    (all_equal(event, unique(gs_power_combo_test1$analysis$event)[i], tolerance = 0.01))
-  }
+  }, numeric(1))
+  expected <- unique(gs_power_combo_test1$analysis$event)
+  (actual %==% expected)
 
   # calculate analysis number as planned
   fh_test <- res$fh_test
   gs_power_combo_test2 <- res$gs_power_combo_test2
 
-  (all_equal(max(fh_test$analysis), max(gs_power_combo_test2$analysis$analysis)))
+  (all.equal(max(fh_test$analysis), max(gs_power_combo_test2$analysis$analysis)))
 
   # calculate analysisTimes as planned
   fh_test <- res$fh_test
   gs_power_combo_test2 <- res$gs_power_combo_test2
 
-  (all_equal(unique(fh_test$analysis_time), unique(gs_power_combo_test2$analysis$time)))
+  (unique(fh_test$analysis_time) %==% unique(gs_power_combo_test2$analysis$time))
 
   # calculate N and each analysis Events N as planned
   enroll_rate <- res$enroll_rate
@@ -99,14 +100,15 @@ assert("calculate analysis number as planned", {
   fh_test <- res$fh_test
   gs_power_combo_test2 <- res$gs_power_combo_test2
 
-  for (i in 1:max(fh_test$analysis)) {
-    event <- test_event(
+  actual <- vapply(1:max(fh_test$analysis), function(i) {
+    test_event(
       enroll_rate = enroll_rate,
       fail_rate = fail_rate,
       td = unique(fh_test$analysis_time)[i]
     )
-    (all_equal(event, unique(gs_power_combo_test2$analysis$event)[i], tolerance = 0.01))
-  }
+  }, numeric(1))
+  expected <- unique(gs_power_combo_test2$analysis$event)
+  (actual %==% expected)
 })
 
 assert("arguments are passed via ... to mvtnorm::pmvnorm()", {

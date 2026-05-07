@@ -22,10 +22,10 @@ create_fixed_design <- function(design_fn, extra_args = list()) {
 check_fixed_design_output <- function(result) {
   # Common checks
   (inherits(result, "fixed_design"))
-  (all_equal(result$analysis$n, round(result$analysis$n)))
+  (result$analysis$n %==% round(result$analysis$n))
 
   # Check for analysis event
-  (all_equal(result$analysis$event, round(result$analysis$event), tolerance = 1e-6))
+  (result$analysis$event %==% round(result$analysis$event))
 
   # Validate input structure
   (inherits(result$input$enroll_rate, "tbl_df"))
@@ -44,7 +44,7 @@ check_fixed_design_output <- function(result) {
 # Validate fixed design summary
 check_fixed_design_summary <- function(summary_x) {
   (inherits(summary_x, "tbl_df"))
-  (all_equal(ncol(summary_x), 8))
+  (ncol(summary_x) %==% 8L)
   (names(summary_x) %==% c("Design", "N", "Events", "Time", "AHR", "Bound", "alpha", "Power"))
 
   # Ensure values are within expected ranges
@@ -63,15 +63,15 @@ assert("to_integer works correctly for different fixed design types", {
     list(fn = fixed_design_mb, name = "mb", extra_args = list(tau = 4, ratio = 1))
   )
 
-  for (design in designs) {
+  res <- vapply(designs, function(design) {
     x <- create_fixed_design(design$fn, design$extra_args) |> to_integer()
     check_fixed_design_output(x)
-    (all_equal(x$design, design$name))
-
     # Check summary output
-    summary_x <- summary(x)
-    check_fixed_design_summary(summary_x)
-  }
+    check_fixed_design_summary(summary(x))
+    x$design
+  }, character(1))
+  expected <- vapply(designs, `[[`, character(1), "name")
+  (res %==% expected)
 })
 
 # Test invalid input handling

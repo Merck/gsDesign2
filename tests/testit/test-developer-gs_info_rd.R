@@ -33,21 +33,37 @@ assert("Testing weights calculation", {
   # the weight 0.41 and 0.59 comes from Table IV of "Minimum risk weights for comparing treatments in stratified binomial trials"
   x <- gs_info_rd(p_c = p_c, p_e = p_e, n = n, rd0 = 0, ratio = 1, weight = "invar")
 
-  (all_equal(1/x$info0, 0.41^2 * p_pool_stratum1 * (1 - p_pool_stratum1) * (1 / n_c_stratum1 + 1 / n_e_stratum1) +
-                 0.59^2 * p_pool_stratum2 * (1 - p_pool_stratum2) * (1 / n_c_stratum2 + 1 / n_e_stratum2), tolerance = 1e-4))
+  res <- 1 / x$info0
+  expected <- 0.41^2 * p_pool_stratum1 * (1 - p_pool_stratum1) *
+    (1/n_c_stratum1 + 1/n_e_stratum1) +
+    0.59^2 * p_pool_stratum2 * (1 - p_pool_stratum2) *
+    (1/n_c_stratum2 + 1/n_e_stratum2)
+  (all.equal(res, expected, tolerance = 0.0001, scale = 1))
 
-  (all_equal(1/x$info1, 0.41^2 * p_c_stratum1 * (1 - p_c_stratum1) / n_c_stratum1 + 0.41^2 * p_e_stratum1 * (1 - p_e_stratum1) / n_e_stratum1 +
-                 0.59^2 * p_c_stratum2 * (1 - p_c_stratum2) / n_c_stratum2 + 0.59^2 * p_e_stratum2 * (1 - p_e_stratum2) / n_e_stratum2, tolerance = 1e-4))
+  res <- 1 / x$info1
+  expected <- 0.41^2 * p_c_stratum1 * (1 - p_c_stratum1)/n_c_stratum1 +
+    0.41^2 * p_e_stratum1 * (1 - p_e_stratum1)/n_e_stratum1 +
+    0.59^2 * p_c_stratum2 * (1 - p_c_stratum2)/n_c_stratum2 +
+    0.59^2 * p_e_stratum2 * (1 - p_e_stratum2)/n_e_stratum2
+  (all.equal(res, expected, tolerance = 0.0001))
 
   # Testing the SS weight via the aggregated info0, info1
   # the weight 0.63 and 0.37 comes from Table IV of "Minimum risk weights for comparing treatments in stratified binomial trials"
   x <- gs_info_rd(p_c = p_c, p_e = p_e, n = n, rd0 = 0, ratio = 1, weight = "ss")
 
-  (all_equal(1/x$info0, 0.63^2 * p_pool_stratum1 * (1 - p_pool_stratum1) * (1 / n_c_stratum1 + 1 / n_e_stratum1) +
-                 0.37^2 * p_pool_stratum2 * (1 - p_pool_stratum2) * (1 / n_c_stratum2 + 1 / n_e_stratum2), tolerance = 1e-4))
+  res <- 1 / x$info0
+  expected <- 0.63^2 * p_pool_stratum1 * (1 - p_pool_stratum1) *
+    (1/n_c_stratum1 + 1/n_e_stratum1) +
+    0.37^2 * p_pool_stratum2 * (1 - p_pool_stratum2) *
+    (1/n_c_stratum2 + 1/n_e_stratum2)
+  (res %==% expected)
 
-  (all_equal(1/x$info1, 0.63^2 * p_c_stratum1 * (1 - p_c_stratum1) / n_c_stratum1 + 0.63^2 * p_e_stratum1 * (1 - p_e_stratum1) / n_e_stratum1 +
-                 0.37^2 * p_c_stratum2 * (1 - p_c_stratum2) / n_c_stratum2 + 0.37^2 * p_e_stratum2 * (1 - p_e_stratum2) / n_e_stratum2, tolerance = 1e-4))
+  res <- 1 / x$info1
+  expected <- 0.63^2 * p_c_stratum1 * (1 - p_c_stratum1)/n_c_stratum1 +
+    0.63^2 * p_e_stratum1 * (1 - p_e_stratum1)/n_e_stratum1 +
+    0.37^2 * p_c_stratum2 * (1 - p_c_stratum2)/n_c_stratum2 +
+    0.37^2 * p_e_stratum2 * (1 - p_e_stratum2)/n_e_stratum2
+  (all.equal(res, expected, tolerance = 0.0001))
 
   # Testing the MR weight following formula (10)
   # the weight 0.47 and 0.53 comes from Table IV of "Minimum risk weights for comparing treatments in stratified binomial trials"
@@ -61,16 +77,23 @@ assert("Testing weights calculation", {
 
   w1 <- (V2+(delta1-delta2)^2*f1) / (V1 + V2 + (delta1 - delta2)^2)
   w2 <- 1 - w1
-  (all_equal(c(w1, w2), c(0.47, 0.53), tolerance = 5e-3))
+  (all.equal(c(w1, w2), c(0.47, 0.53), tolerance = 0.005, scale = 1))
 
   x <- gs_info_rd(p_c = p_c, p_e = p_e, n = n, rd0 = 0, ratio = 1, weight = "mr")
 
-  (all_equal(1/x$info0, w1^2 * p_pool_stratum1 * (1 - p_pool_stratum1) * (1 / n_c_stratum1 + 1 / n_e_stratum1) +
-                 w2^2 * p_pool_stratum2 * (1 - p_pool_stratum2) * (1 / n_c_stratum2 + 1 / n_e_stratum2), tolerance = 1e-4))
+  res <- 1 / x$info0
+  expected <- w1^2 * p_pool_stratum1 * (1 - p_pool_stratum1) *
+    (1/n_c_stratum1 + 1/n_e_stratum1) +
+    w2^2 * p_pool_stratum2 * (1 - p_pool_stratum2) *
+    (1/n_c_stratum2 + 1/n_e_stratum2)
+  (res %==% expected)
 
-  (all_equal(1/x$info1, w1^2 * p_c_stratum1 * (1 - p_c_stratum1) / n_c_stratum1 + w1^2 * p_e_stratum1 * (1 - p_e_stratum1) / n_e_stratum1 +
-                 w2^2 * p_c_stratum2 * (1 - p_c_stratum2) / n_c_stratum2 + w2^2 * p_e_stratum2 * (1 - p_e_stratum2) / n_e_stratum2, tolerance = 1e-4))
+  res <- 1 / x$info1
+  expected <- w1^2 * p_c_stratum1 * (1 - p_c_stratum1)/n_c_stratum1 +
+    w1^2 * p_e_stratum1 * (1 - p_e_stratum1)/n_e_stratum1 +
+    w2^2 * p_c_stratum2 * (1 - p_c_stratum2)/n_c_stratum2 +
+    w2^2 * p_e_stratum2 * (1 - p_e_stratum2)/n_e_stratum2
+  (all.equal(res, expected, tolerance = 0.0001))
 
 
 })
-

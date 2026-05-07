@@ -6,15 +6,17 @@ assert("results match if only put in targeted analysis times", {
   fail_rate <- res$fail_rate
   total_duration <- c(18, 27, 36)
 
-  (all_equal(gs_info_ahr(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      analysis_time = total_duration
-    ) |> dplyr::select(time, ahr, event, info, info0), ahr(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      total_duration = total_duration
-    ) |> dplyr::select(-n)))
+  res <- gs_info_ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    analysis_time = total_duration
+  ) |> dplyr::select(time, ahr, event, info, info0)
+  expected <- ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = total_duration
+  ) |> dplyr::select(-n)
+  (res %==% expected)
 })
 
 assert("results match if only put in targeted events", {
@@ -27,17 +29,19 @@ assert("results match if only put in targeted events", {
 
   total_duration <- out1$time
 
-  (all_equal(out1 |> dplyr::select(time, ahr, event, info, info0), ahr(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      total_duration = total_duration
-    ) |> dplyr::select(-n)))
+  res <- out1 |> dplyr::select(time, ahr, event, info, info0)
+  expected <- ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = total_duration
+  ) |> dplyr::select(-n)
+  (res %==% expected)
 
   # Since above test is based on the output "time", here is to check whether
   # the output "Time" is reasonable.
 
   # "Time" should be at the time points when targeted event numbers are achieved
-  (all_equal(round(out1$event), round(event)))
+  (round(out1$event) %==% round(event))
 })
 
 assert("results match if put in both analysis time and targeted events", {
@@ -56,18 +60,21 @@ assert("results match if put in both analysis time and targeted events", {
 
   total_duration <- out1$time
 
-  (all_equal(out1 |> dplyr::select(time, ahr, event, info, info0), ahr(
-      enroll_rate = enroll_rate,
-      fail_rate = fail_rate,
-      total_duration = total_duration
-    ) |> dplyr::select(-n)))
+  res <- out1 |> dplyr::select(time, ahr, event, info, info0)
+  expected <- ahr(
+    enroll_rate = enroll_rate,
+    fail_rate = fail_rate,
+    total_duration = total_duration
+  ) |> dplyr::select(-n)
+  (res %==% expected)
 
   # Since above test is based on the output "Time",
   # here is to check whether the output "Time" is reasonable.
 
   # Either being equal to the corresponding element in the input
   # analysis_time or at the time point when targeted event number achieved.
-  (all_equal(max((1 - (out1$time == analysis_time)) * (1 - (round(out1$event) == round(event)))), 0))
+  res <- max((1 - (out1$time == analysis_time)) * (1 - (round(out1$event) == round(event))))
+  (res %==% 0)
 
   # "Time" >= input analysis_time
   (max(out1$time - analysis_time) >= 0)

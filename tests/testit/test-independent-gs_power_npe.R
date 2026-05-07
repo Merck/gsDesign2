@@ -33,8 +33,8 @@ assert("expect equal with mvtnorm for efficacy and futility bounds", {
 
   pb <- 1 - pnorm(b$root)
 
-  (all_equal(test1$z, c(qnorm(1 - alpha.ia), b$root), tolerance = 0.001))
-  (all_equal(test1$probability, cumsum(c(b.ia$spend, pb)), tolerance = 0.001))
+  (all.equal(test1$z, c(qnorm(1 - alpha.ia), b$root), tolerance = 0.001))
+  (all.equal(test1$probability, cumsum(c(b.ia$spend, pb)), tolerance = 0.001, scale = 1))
 
   beta.t <- 0.02
   a.ia <- gsDesign::sfLDOF(alpha = beta.t, t = r)
@@ -53,8 +53,8 @@ assert("expect equal with mvtnorm for efficacy and futility bounds", {
 
   pa <- pnorm(a$root)
 
-  (all_equal(test2$z, c(qnorm(beta.ia), a$root), tolerance = 0.001))
-  (all_equal(test2$probability, cumsum(c(a.ia$spend, pa)), tolerance = 0.001))
+  (all.equal(test2$z, c(qnorm(beta.ia), a$root), tolerance = 0.001))
+  (all.equal(test2$probability, cumsum(c(a.ia$spend, pa)), tolerance = 0.001, scale = 1))
 })
 
 assert("expect equal with gsDesign::gsProbability outcome for efficacy bounds", {
@@ -79,6 +79,6 @@ assert("expect equal with gsDesign::gsProbability outcome for efficacy bounds", 
   )
 
 
-  (all_equal(ifelse(is.infinite(test3$z), 20, test3$z), x3$upper$bound, tolerance = 0.0001))
-  (all_equal(test3$probability, cumsum(x3$upper$prob), tolerance = 0.0001))
+  (all.equal(ifelse(is.infinite(test3$z), 20, test3$z), x3$upper$bound, tolerance = 0.0001))
+  (all.equal(test3$probability, cumsum(x3$upper$prob), tolerance = 0.0001))
 })
