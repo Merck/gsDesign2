@@ -29,7 +29,7 @@ assert("unstratified population, compared with old version", {
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)
-  (as.data.frame(y1) %==% as.data.frame(x2))
+  (all.equal(as.data.frame(y1), as.data.frame(x2)))
 
   # verify the columns of n (sample size)
   expected <- expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)
@@ -64,7 +64,7 @@ assert("stratified population, compared with old version", {
     dplyr::rename(time = Time, ahr = AHR, event = Events)
 
   # verify columns without n (sample size)
-  (as.data.frame(y1) %==% as.data.frame(x2))
+  (all.equal(as.data.frame(y1), as.data.frame(x2)))
 
   # verify the columns of n (sample size)
   expected <- expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)
