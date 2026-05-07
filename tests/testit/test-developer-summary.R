@@ -135,7 +135,7 @@ assert("The full alpha is correctly carried over", {
   # without col_vars
   observed <- summary(x)
 
-  (all_equal(attributes(observed)$full_alpha, a_level))
+  (attributes(observed)$full_alpha %==% a_level)
 })
 
 # Maintain previous behavior
@@ -153,7 +153,7 @@ assert("summary.gs_design() accepts same-length vectors for col_vars and col_dec
     `Null hypothesis` = 0.025,
     check.names = FALSE
   )
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # specify the decimals for each variable
   x_sum <- summary(
@@ -170,7 +170,7 @@ assert("summary.gs_design() accepts same-length vectors for col_vars and col_dec
     `Null hypothesis` = 0,
     check.names = FALSE
   )
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # Drop variables and also specify the decimals
   x_sum <- summary(
@@ -180,7 +180,7 @@ assert("summary.gs_design() accepts same-length vectors for col_vars and col_dec
   )
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(`Nominal p` = 0, `Null hypothesis` = 0, check.names = FALSE)
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # Rearrange variables
   x_sum <- summary(
@@ -197,7 +197,7 @@ assert("summary.gs_design() accepts same-length vectors for col_vars and col_dec
     Z = 2,
     check.names = FALSE
   )
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # Throw error if unnamed col_decimals does not match length of col_vars
   (has_error(summary(
@@ -221,7 +221,7 @@ assert("summary.gs_design() accepts a named vector for col_decimals", {
     `Null hypothesis` = 0.025,
     check.names = FALSE
   )
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # Specify decimals and also drop some variables
   x_sum <- summary(
@@ -231,7 +231,7 @@ assert("summary.gs_design() accepts a named vector for col_decimals", {
   )
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(Z = 2, `Nominal p` = 0, `Null hypothesis` = 0.025, check.names = FALSE)
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # Specify decimals and rearrange some variables
   x_sum <- summary(
@@ -241,13 +241,13 @@ assert("summary.gs_design() accepts a named vector for col_decimals", {
   )
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(`Null hypothesis` = 0.025, `Nominal p` = 0, Z = 2, check.names = FALSE)
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # Only drop variables
   x_sum <- summary(x, col_vars = c("z", "nominal p", "Null hypothesis"))
   observed <- as.data.frame(x_sum)[, -1:-2]
   expected <- data.frame(Z = 1.96, `Nominal p` = 0.025, `Null hypothesis` = 0.025, check.names = FALSE)
-  (all_equal(observed, expected))
+  (observed %==% expected)
 
   # Throw error is col_decimals is unnamed
   (has_error(summary(x, col_decimals = c(4, 4)),

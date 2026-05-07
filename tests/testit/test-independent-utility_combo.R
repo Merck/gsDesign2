@@ -4,9 +4,9 @@ assert("get_combo_weight output correct rho1, rho2, gamma1, gamm2", {
   weight <- gsDesign2:::get_combo_weight(rho = 1, gamma = 0, tau = -1)
   weight <- eval(parse(text = weight[[1]]))
 
-  (all_equal(weight$param$rho, 1))
-  (all_equal(weight$param$gamma, 0))
-  (all_equal(weight$param$tau, NULL))
+  (weight$param$rho %==% 1)
+  (weight$param$gamma %==% 0)
+  (weight$param$tau %==% NULL)
 })
 
 
@@ -16,7 +16,7 @@ assert("get_combo_weight output correct tau1, tau3", {
   weight <- gsDesign2:::get_combo_weight(rho = 1, gamma = 0, tau = 1)
   weight <- eval(parse(text = weight[[1]]))
 
-  (all_equal(weight$param$tau, 1))
+  (weight$param$tau %==% 1)
 })
 
 # Test gs_delta_combo ----

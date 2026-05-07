@@ -1,5 +1,5 @@
 assert("test wlr_weight_1", {
-  (all_equal(gsDesign2::wlr_weight_1(), 1))
+  (gsDesign2::wlr_weight_1() %==% 1)
 })
 
 assert("test wlr_weight_n", {
