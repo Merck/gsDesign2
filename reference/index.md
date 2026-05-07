@@ -91,8 +91,12 @@ Functions for risk differences.
 
 Functions for conditional power.
 
-- [`gs_cp_npe()`](https://merck.github.io/gsDesign2/reference/gs_cp_npe.md)
-  : Conditional power computation with non-constant effect size
+- [`gs_cp()`](https://merck.github.io/gsDesign2/reference/gs_cp.md) :
+  Conditional power computation with non-constant effect size for
+  non-/crossing an upper boundary at analysis j given observed Z value
+  at analysis i
+- [`gs_cp_simple()`](https://merck.github.io/gsDesign2/reference/gs_cp_simple.md)
+  : Simple conditional power computation with non-constant effect size
 
 ## Input definition
 

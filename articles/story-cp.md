@@ -58,9 +58,10 @@ x <- gs_design_ahr(
   analysis_time = c(16, 26, 36),
   upper = gs_spending_bound,
   upar = list(sf = sfLDOF, total_spend = 0.025), 
-  test_upper = c(FALSE, TRUE, TRUE), 
-  lower = gs_b,
-  lpar = c(qnorm(.05), -Inf, -Inf)) |> to_integer()
+  test_upper = c(TRUE, TRUE, TRUE), 
+  lower = gs_spending_bound,
+  lpar = list(sf = sfHSD, total_spend = 0.15, param = 3)) |> to_integer()
+
 # Round analysis time to nearest month
 x$analysis$time <- round(x$analysis$time)
 x |> gs_bound_summary() |> gt()
@@ -68,25 +69,25 @@ x |> gs_bound_summary() |> gt()
 
 | Analysis    | Value                | Efficacy | Futility |
 |-------------|----------------------|----------|----------|
-| IA 1: 49%   | Z                    | NA       | -1.6449  |
-| N: 388      | p (1-sided)          | NA       | 0.9500   |
-| Events: 138 | ~HR at bound         | NA       | 1.3232   |
-| Month: 16   | P(Cross) if HR=1     | NA       | 0.0500   |
-|             | P(Cross) if AHR=0.81 | NA       | 0.0020   |
-| IA 2: 80%   | Z                    | 2.2420   | NA       |
-| N: 388      | p (1-sided)          | 0.0125   | NA       |
-| Events: 227 | ~HR at bound         | 0.7426   | NA       |
-| Month: 26   | P(Cross) if HR=1     | 0.0125   | NA       |
-|             | P(Cross) if AHR=0.72 | 0.5896   | NA       |
-| Final       | Z                    | 2.0263   | NA       |
-| N: 388      | p (1-sided)          | 0.0214   | NA       |
-| Events: 282 | ~HR at bound         | 0.7856   | NA       |
-| Month: 36   | P(Cross) if HR=1     | 0.0250   | NA       |
-|             | P(Cross) if AHR=0.69 | 0.8501   | NA       |
+| IA 1: 49%   | Z                    | 3.0103   | 0.2907   |
+| N: 544      | p (1-sided)          | 0.0013   | 0.3856   |
+| Events: 192 | ~HR at bound         | 0.6476   | 0.9589   |
+| Month: 16   | P(Cross) if HR=1     | 0.0013   | 0.6144   |
+|             | P(Cross) if AHR=0.81 | 0.0642   | 0.1206   |
+| IA 2: 80%   | Z                    | 2.2595   | 1.4315   |
+| N: 544      | p (1-sided)          | 0.0119   | 0.0761   |
+| Events: 317 | ~HR at bound         | 0.7758   | 0.8515   |
+| Month: 26   | P(Cross) if HR=1     | 0.0123   | 0.9271   |
+|             | P(Cross) if AHR=0.72 | 0.7242   | 0.1431   |
+| Final       | Z                    | 2.0282   | 1.9089   |
+| N: 544      | p (1-sided)          | 0.0213   | 0.0281   |
+| Events: 395 | ~HR at bound         | 0.8154   | 0.8252   |
+| Month: 36   | P(Cross) if HR=1     | 0.0228   | 0.9730   |
+|             | P(Cross) if AHR=0.69 | 0.8498   | 0.1494   |
 
 ## Update design at time of interim analysis
 
-Assume there are 145 instead of the planned 138 events at the first IA.
+Assume there are 145 instead of the planned 192 events at the first IA.
 Assume further there are 90 events observed within 4 months of subject
 randomization, and 55 events more than 4 months after randomization. The
 IA1 blinded estimate of minus the average log hazard ratio (-log(AHR))
@@ -124,23 +125,23 @@ xu |> gs_bound_summary() |> gt()
 
 | Analysis    | Value                | Efficacy | Futility |
 |-------------|----------------------|----------|----------|
-| IA 1: 51%   | Z                    | Inf      | -1.6449  |
-| N: 388      | p (1-sided)          | 0.0000   | 0.9500   |
-| Events: 145 | ~HR at bound         | 0.0000   | 1.3142   |
-| Month: 17   | P(Cross) if HR=1     | 0.0000   | 0.0500   |
-|             | P(Cross) if AHR=0.82 | 0.0000   | 0.0025   |
-| IA 2: 80%   | Z                    | 2.2509   | -Inf     |
-| N: 388      | p (1-sided)          | 0.0122   | 1.0000   |
-| Events: 227 | ~HR at bound         | 0.7417   | Inf      |
-| Month: 26   | P(Cross) if HR=1     | 0.0122   | 0.0500   |
-|             | P(Cross) if AHR=0.72 | 0.5960   | 0.0025   |
-| Final       | Z                    | 2.0229   | -Inf     |
-| N: 388      | p (1-sided)          | 0.0215   | 1.0000   |
-| Events: 282 | ~HR at bound         | 0.7859   | Inf      |
-| Month: 36   | P(Cross) if HR=1     | 0.0250   | 0.0500   |
-|             | P(Cross) if AHR=0.69 | 0.8555   | 0.0025   |
+| IA 1: 37%   | Z                    | 3.5196   | -0.0849  |
+| N: 544      | p (1-sided)          | 0.0002   | 0.5338   |
+| Events: 145 | ~HR at bound         | 0.5573   | 1.0142   |
+| Month: 17   | P(Cross) if HR=1     | 0.0002   | 0.4662   |
+|             | P(Cross) if AHR=0.82 | 0.0093   | 0.1054   |
+| IA 2: 80%   | Z                    | 2.2576   | 1.5168   |
+| N: 544      | p (1-sided)          | 0.0120   | 0.0647   |
+| Events: 317 | ~HR at bound         | 0.7760   | 0.8433   |
+| Month: 26   | P(Cross) if HR=1     | 0.0120   | 0.9376   |
+|             | P(Cross) if AHR=0.72 | 0.7243   | 0.1436   |
+| Final       | Z                    | 2.0228   | 1.9453   |
+| N: 544      | p (1-sided)          | 0.0215   | 0.0259   |
+| Events: 395 | ~HR at bound         | 0.8158   | 0.8222   |
+| Month: 36   | P(Cross) if HR=1     | 0.0221   | 0.9755   |
+|             | P(Cross) if AHR=0.69 | 0.8476   | 0.1500   |
 
-## Testing and conditional power
+## Testing and simple conditional power
 
 We assume possible IA1 observed HR values of 0.6, 0.7, 0.8, and 0.9. We
 compute the conditional power at IA2 and FA given the IA1 observed HR
@@ -156,79 +157,76 @@ ia1_z <- -hrn2z(hr = ia1_hr, n = 145, ratio = 1)
 ```
 
 We demonstrate a conditional power plot that may be of some use. The
-conditional power ignores future interim bounds and targets the
+simple conditional power ignores future interim bounds and targets the
 probability of crossing the final efficacy bound given the IA1 Z-value.
 Assuming a future HR between IA1 and FA from 0.6 to 1.1, we translate
-the HR to standardized effect size as shown below.
+the HR to natural treatment effect parameter as shown below.
 
 ``` r
 
 future_hr <- seq(0.6, 1.1, .01)
-future_theta <- -log(future_hr) * sqrt(x$input$ratio / (1 + x$input$ratio)^2)
+future_theta <- -log(future_hr)
 ```
 
 For each combination of future HR and currently observed HR, we
 calculate the simple conditional power via the
-[`gs_cp_npe()`](https://merck.github.io/gsDesign2/reference/gs_cp_npe.md)
+[`gs_cp_simple()`](https://merck.github.io/gsDesign2/reference/gs_cp_simple.md)
 function for both IA2 and the final analysis.
 
 ``` r
 
 ia2_cp <- NULL
 fa_cp <- NULL
-q_e <- x$input$ratio / (1 + x$input$ratio)
 
-# calculate IA2 conditional power/error
+# calculate IA2 and FA conditional power/error
 for (i in seq_along(future_theta)) {
   for (j in seq_along(ia1_z)) {
-    # conditional power
-    cp <- gs_cp_npe(
-      theta = c(ia1_theta, future_theta[i]), 
-      info = c(145, x$analysis$event[2]) * q_e * (1- q_e),
-      a = ia1_z[j],
-      b = xu$bound$z[xu$bound$analysis == 2 & xu$bound$bound == "upper"])
-    
+    cp <- gs_cp_simple(
+      x = xu,
+      theta = c(ia1_theta, future_theta[i], future_theta[i]),
+      i = 1,
+      zi = ia1_z[j]
+    )
+    # calculate IA2 conditional power
     ia2_cp_new <- tibble(future_analysis = "IA2",
                          future_hr = future_hr[i], 
                          current_hr = paste0("IA1 HR = ", ia1_hr[j]),
-                         cond_prob = cp)
-    ia2_cp <- rbind(ia2_cp, ia2_cp_new)
-  }
-}
-
-# calculate FA conditional power
-for (i in seq_along(future_theta)) {
-  for (j in seq_along(ia1_z)) {
-    cp <- gs_cp_npe(
-      theta = c(ia1_theta, future_theta[i]), 
-      info = c(145, x$analysis$event[3]) * q_e * (1- q_e),
-      a = ia1_z[j],
-      b = xu$bound$z[xu$bound$analysis == 3 & xu$bound$bound == "upper"])
-    
+                         cond_prob = cp[1])
+    # calculate FA conditional power
     fa_cp_new <- tibble(future_analysis = "FA",
                         future_hr = future_hr[i],
                         current_hr = paste0("IA1 HR = ", ia1_hr[j]),
-                        cond_prob = cp)
+                        cond_prob = cp[2])
+    
+    ia2_cp <- rbind(ia2_cp, ia2_cp_new)
     fa_cp <- rbind(fa_cp, fa_cp_new)
   }
 }
 ```
 
-The red/blue line shows the conditional probability of crossing FA/IA2
-efficacy bound.
+The panels show the simple conditional probability of crossing the
+future efficacy bound at FA and IA2, separately. Within each panel,
+curves correspond to different observed IA1 HR values.
 
 ``` r
 
-# plot the conditional power
-ggplot(data = rbind(ia2_cp, fa_cp),
-       aes(x = future_hr, y = cond_prob, 
-           color = future_analysis, linetype = future_analysis)) +
+# plot the simple conditional power
+ggplot(
+  data = rbind(ia2_cp, fa_cp),
+  aes(
+    x = future_hr,
+    y = cond_prob,
+    color = current_hr,
+    linetype = current_hr
+  )
+) +
   geom_line() +
-  facet_grid(current_hr ~ .) +
-  ggtitle("Conditional probability of crossing future bound") +
-  xlab("Future HR") + 
-  ylab("Conditional power") +
-  labs(color = "Future analysis", linetype = "Future analysis")
+  facet_wrap(~ future_analysis, ncol = 1) +
+  coord_cartesian(ylim = c(0, 1)) +
+  ggtitle("Simple conditional probability of crossing future bound") +
+  xlab("Future HR") +
+  ylab("Conditional probability") +
+  labs(color = "Current analysis", linetype = "Current analysis")
 ```
 
 ![](story-cp_files/figure-html/unnamed-chunk-8-1.png)
@@ -247,3 +245,182 @@ ggplot(data = rbind(ia2_cp, fa_cp),
   Schoenfeld approximation.
 - Conditional power for future analyses ignores intervening interim
   analyses.
+
+## Conditional power accounting for future interim analyses
+
+The simple conditional power above calculates the probability of
+crossing a future bound at each analysis separately. It does not account
+for the possibility that the trial may cross a futility or efficacy
+bound earlier at an intervening interim analysis.
+
+The function
+[`gs_cp()`](https://merck.github.io/gsDesign2/reference/gs_cp.md)
+accounts for future interim analyses by calculating path probabilities
+conditional on the current Z-value.
+
+In this example,
+
+For `prob_alpha`:
+
+- `prob_alpha[1]` is the conditional probability of crossing the
+  efficacy bound at IA2.
+- `prob_alpha[2]` is the conditional probability of staying between the
+  IA2 futility and efficacy bounds, then crossing the efficacy bound at
+  FA.
+- `sum(prob_alpha)` is the cumulative conditional probability of
+  crossing an efficacy bound by FA, accounting for future futility and
+  efficacy bound crossings.
+
+For `prob_alpha_plus`:
+
+- `prob_alpha_plus[1]` is the conditional probability of crossing the
+  efficacy bound at IA2.
+- `prob_alpha_plus[2]` is the conditional probability of not crossing
+  the IA2 efficacy bound, then crossing the efficacy bound at FA. Unlike
+  `prob_alpha[2]`, this does not require the IA2 Z-value to stay above
+  the futility bound.
+- `sum(prob_alpha_plus)` is the cumulative conditional probability of
+  crossing an efficacy bound by FA when future futility bounds are
+  ignored.
+
+For `prob_beta`:
+
+- `prob_beta[1]` is the conditional probability of not crossing the
+  efficacy bound at IA2.
+- `prob_beta[2]` is the conditional probability of staying between the
+  IA2 futility and efficacy bounds, then not crossing the efficacy bound
+  at FA.
+
+We calculate these quantities for the same IA1 observed HR values used
+above, then plot the case with IA1 HR = 0.6 as an example.
+
+``` r
+
+gs_cp_tbl <- NULL
+
+for (i in seq_along(future_theta)) {
+  for (j in seq_along(ia1_z)) {
+    cp <- gs_cp(
+      x = xu,
+      theta = c(ia1_theta, future_theta[i], future_theta[i]),
+      i = 1,
+      zi = ia1_z[j]
+    )
+
+    cp_new <- tibble(
+      probability_type = c(rep("prob_alpha", 3), 
+                           rep("prob_alpha_plus", 3), 
+                           rep("prob_beta", 2)),
+      future_analysis = c(rep(c("IA2", "FA", "By FA"), 2),
+                          "IA2", "FA"),
+      future_hr = future_hr[i],
+      current_hr = paste0("IA1 HR = ", ia1_hr[j]),
+      cond_prob = c(
+        cp$prob_alpha[1],
+        cp$prob_alpha[2],
+        sum(cp$prob_alpha),
+        cp$prob_alpha_plus[1],
+        cp$prob_alpha_plus[2],
+        sum(cp$prob_alpha_plus),
+        cp$prob_beta[1],
+        cp$prob_beta[2]
+      )
+    )
+
+    gs_cp_tbl <- rbind(gs_cp_tbl, cp_new)
+  }
+}
+
+gs_cp_tbl$future_analysis <- factor(
+  gs_cp_tbl$future_analysis,
+  levels = c("IA2", "FA", "By FA")
+)
+
+gs_cp_tbl$probability_type <- factor(
+  gs_cp_tbl$probability_type,
+  levels = c("prob_alpha", "prob_alpha_plus", "prob_beta")
+)
+```
+
+To summarize the efficacy-crossing probabilities, we focus on
+`prob_alpha` and `prob_alpha_plus`. For each quantity, the IA2 curve
+gives the conditional probability of crossing the efficacy bound at IA2,
+while the by-FA curve gives the cumulative conditional probability of
+crossing an efficacy bound by FA.
+
+The difference between `prob_alpha` and `prob_alpha_plus` reflects the
+role of future futility bounds. `prob_alpha` requires the trial to
+remain between the futility and efficacy bounds at any intervening
+analysis before crossing efficacy, whereas `prob_alpha_plus` ignores
+future futility bounds and only requires no earlier efficacy crossing.
+In this design, the two curves are close because the future futility
+bound has little impact on the efficacy-crossing probability for the
+illustrated case.
+
+``` r
+
+gs_cp_plot_tbl <- subset(gs_cp_tbl, current_hr == "IA1 HR = 0.6")
+
+efficacy_plot_tbl <- subset(
+  gs_cp_plot_tbl,
+  probability_type %in% c("prob_alpha", "prob_alpha_plus") &
+    future_analysis %in% c("IA2", "By FA")
+)
+
+efficacy_plot_tbl <- droplevels(efficacy_plot_tbl)
+
+ggplot(
+  data = efficacy_plot_tbl,
+  aes(
+    x = future_hr,
+    y = cond_prob,
+    color = probability_type,
+    linetype = future_analysis
+  )
+) +
+  geom_line() +
+  coord_cartesian(ylim = c(0, 1)) +
+  ggtitle("Conditional efficacy crossing probability given IA1 HR = 0.6") +
+  xlab("Future HR") +
+  ylab("Conditional probability") +
+  labs(color = "Probability", linetype = "Analysis")
+```
+
+![](story-cp_files/figure-html/unnamed-chunk-10-1.png)
+
+We next show `prob_beta`, which is interpreted analysis by analysis.
+Here `prob_beta[1]` is the conditional probability of not crossing the
+efficacy bound at IA2, and `prob_beta[2]` is the conditional probability
+of staying between the IA2 futility and efficacy bounds, then not
+crossing the efficacy bound at FA.
+
+``` r
+
+gs_cp_plot_tbl <- subset(gs_cp_tbl, current_hr == "IA1 HR = 0.6")
+
+beta_plot_tbl <- subset(
+  gs_cp_plot_tbl,
+  probability_type == "prob_beta" &
+    future_analysis %in% c("IA2", "FA")
+)
+
+
+beta_plot_tbl <- droplevels(beta_plot_tbl)
+
+ggplot(
+  data = beta_plot_tbl,
+  aes(
+    x = future_hr,
+    y = cond_prob,
+    linetype = future_analysis
+  )
+) +
+  geom_line(color = "#0072B2") +
+  coord_cartesian(ylim = c(0, 1)) +
+  ggtitle("Conditional probability of not crossing efficacy given IA1 HR = 0.6") +
+  xlab("Future HR") +
+  ylab("Conditional probability") +
+  labs(linetype = "Analysis")
+```
+
+![](story-cp_files/figure-html/unnamed-chunk-11-1.png)

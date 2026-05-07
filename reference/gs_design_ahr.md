@@ -209,11 +209,6 @@ The contents of this section are shown in PDF user manual only.
 
 ``` r
 library(gsDesign)
-#> 
-#> Attaching package: ‘gsDesign’
-#> The following objects are masked from ‘package:gsDesign2’:
-#> 
-#>     as_gt, as_rtf
 library(gsDesign2)
 
 # Example 1 ----

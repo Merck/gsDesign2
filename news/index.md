@@ -160,10 +160,9 @@ CRAN release: 2025-06-06
 
 ### New functions
 
-- A new function,
-  [`gs_cp_npe()`](https://merck.github.io/gsDesign2/reference/gs_cp_npe.md),
-  is now available for calculating simple conditional power under NPH. A
-  vignette has been published on the pkgdown website
+- A new function, `gs_cp_npe()`, is now available for calculating simple
+  conditional power under NPH. A vignette has been published on the
+  pkgdown website
   ([\#510](https://github.com/Merck/gsDesign2/issues/510),
   [\#539](https://github.com/Merck/gsDesign2/issues/539),
   [\#545](https://github.com/Merck/gsDesign2/issues/545), thanks to
@@ -241,8 +240,7 @@ CRAN release: 2025-06-06
 
 ### Testing
 
-- Add the developer tests of
-  [`gs_cp_npe()`](https://merck.github.io/gsDesign2/reference/gs_cp_npe.md)
+- Add the developer tests of `gs_cp_npe()`
   ([\#519](https://github.com/Merck/gsDesign2/issues/519), thanks to
   [@shiyuskaya](https://github.com/shiyuskaya))
 

@@ -128,9 +128,10 @@ one-sided Type I error <span class="math inline">\(\alpha =
 <span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">26</span>, <span class="fl">36</span><span class="op">)</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
 <span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sfLDOF</span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>, </span>
-<span>  test_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>, </span>
-<span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span>
-<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.05</span><span class="op">)</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  test_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="va">sfHSD</span>, total_spend <span class="op">=</span> <span class="fl">0.15</span>, param <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Round analysis time to nearest month</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">time</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/gs_bound_summary.html">gs_bound_summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -594,92 +595,92 @@ one-sided Type I error <span class="math inline">\(\alpha =
 <tr>
 <td headers="Analysis" class="gt_row gt_left">IA 1: 49%</td>
 <td headers="Value" class="gt_row gt_left">Z</td>
-<td headers="Efficacy" class="gt_row gt_right">NA</td>
-<td headers="Futility" class="gt_row gt_right">-1.6449</td>
+<td headers="Efficacy" class="gt_row gt_right">3.0103</td>
+<td headers="Futility" class="gt_row gt_right">0.2907</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">N: 388</td>
+<td headers="Analysis" class="gt_row gt_left">N: 544</td>
 <td headers="Value" class="gt_row gt_left">p (1-sided)</td>
-<td headers="Efficacy" class="gt_row gt_right">NA</td>
-<td headers="Futility" class="gt_row gt_right">0.9500</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0013</td>
+<td headers="Futility" class="gt_row gt_right">0.3856</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">Events: 138</td>
+<td headers="Analysis" class="gt_row gt_left">Events: 192</td>
 <td headers="Value" class="gt_row gt_left">~HR at bound</td>
-<td headers="Efficacy" class="gt_row gt_right">NA</td>
-<td headers="Futility" class="gt_row gt_right">1.3232</td>
+<td headers="Efficacy" class="gt_row gt_right">0.6476</td>
+<td headers="Futility" class="gt_row gt_right">0.9589</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Month: 16</td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if HR=1</td>
-<td headers="Efficacy" class="gt_row gt_right">NA</td>
-<td headers="Futility" class="gt_row gt_right">0.0500</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0013</td>
+<td headers="Futility" class="gt_row gt_right">0.6144</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left"></td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if AHR=0.81</td>
-<td headers="Efficacy" class="gt_row gt_right">NA</td>
-<td headers="Futility" class="gt_row gt_right">0.0020</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0642</td>
+<td headers="Futility" class="gt_row gt_right">0.1206</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">IA 2: 80%</td>
 <td headers="Value" class="gt_row gt_left">Z</td>
-<td headers="Efficacy" class="gt_row gt_right">2.2420</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">2.2595</td>
+<td headers="Futility" class="gt_row gt_right">1.4315</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">N: 388</td>
+<td headers="Analysis" class="gt_row gt_left">N: 544</td>
 <td headers="Value" class="gt_row gt_left">p (1-sided)</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0125</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0119</td>
+<td headers="Futility" class="gt_row gt_right">0.0761</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">Events: 227</td>
+<td headers="Analysis" class="gt_row gt_left">Events: 317</td>
 <td headers="Value" class="gt_row gt_left">~HR at bound</td>
-<td headers="Efficacy" class="gt_row gt_right">0.7426</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.7758</td>
+<td headers="Futility" class="gt_row gt_right">0.8515</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Month: 26</td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if HR=1</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0125</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0123</td>
+<td headers="Futility" class="gt_row gt_right">0.9271</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left"></td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if AHR=0.72</td>
-<td headers="Efficacy" class="gt_row gt_right">0.5896</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.7242</td>
+<td headers="Futility" class="gt_row gt_right">0.1431</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Final</td>
 <td headers="Value" class="gt_row gt_left">Z</td>
-<td headers="Efficacy" class="gt_row gt_right">2.0263</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">2.0282</td>
+<td headers="Futility" class="gt_row gt_right">1.9089</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">N: 388</td>
+<td headers="Analysis" class="gt_row gt_left">N: 544</td>
 <td headers="Value" class="gt_row gt_left">p (1-sided)</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0214</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0213</td>
+<td headers="Futility" class="gt_row gt_right">0.0281</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">Events: 282</td>
+<td headers="Analysis" class="gt_row gt_left">Events: 395</td>
 <td headers="Value" class="gt_row gt_left">~HR at bound</td>
-<td headers="Efficacy" class="gt_row gt_right">0.7856</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.8154</td>
+<td headers="Futility" class="gt_row gt_right">0.8252</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Month: 36</td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if HR=1</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0250</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0228</td>
+<td headers="Futility" class="gt_row gt_right">0.9730</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left"></td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if AHR=0.69</td>
-<td headers="Efficacy" class="gt_row gt_right">0.8501</td>
-<td headers="Futility" class="gt_row gt_right">NA</td>
+<td headers="Efficacy" class="gt_row gt_right">0.8498</td>
+<td headers="Futility" class="gt_row gt_right">0.1494</td>
 </tr>
 </tbody>
 </table>
@@ -688,7 +689,7 @@ one-sided Type I error <span class="math inline">\(\alpha =
 <div class="section level2">
 <h2 id="update-design-at-time-of-interim-analysis">Update design at time of interim analysis<a class="anchor" aria-label="anchor" href="#update-design-at-time-of-interim-analysis"></a>
 </h2>
-<p>Assume there are 145 instead of the planned 138 events at the first
+<p>Assume there are 145 instead of the planned 192 events at the first
 IA. Assume further there are 90 events observed within 4 months of
 subject randomization, and 55 events more than 4 months after
 randomization. The IA1 blinded estimate of minus the average log hazard
@@ -1174,101 +1175,101 @@ follows:</p>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="Analysis" class="gt_row gt_left">IA 1: 51%</td>
+<td headers="Analysis" class="gt_row gt_left">IA 1: 37%</td>
 <td headers="Value" class="gt_row gt_left">Z</td>
-<td headers="Efficacy" class="gt_row gt_right">Inf</td>
-<td headers="Futility" class="gt_row gt_right">-1.6449</td>
+<td headers="Efficacy" class="gt_row gt_right">3.5196</td>
+<td headers="Futility" class="gt_row gt_right">-0.0849</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">N: 388</td>
+<td headers="Analysis" class="gt_row gt_left">N: 544</td>
 <td headers="Value" class="gt_row gt_left">p (1-sided)</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0000</td>
-<td headers="Futility" class="gt_row gt_right">0.9500</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0002</td>
+<td headers="Futility" class="gt_row gt_right">0.5338</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Events: 145</td>
 <td headers="Value" class="gt_row gt_left">~HR at bound</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0000</td>
-<td headers="Futility" class="gt_row gt_right">1.3142</td>
+<td headers="Efficacy" class="gt_row gt_right">0.5573</td>
+<td headers="Futility" class="gt_row gt_right">1.0142</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Month: 17</td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if HR=1</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0000</td>
-<td headers="Futility" class="gt_row gt_right">0.0500</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0002</td>
+<td headers="Futility" class="gt_row gt_right">0.4662</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left"></td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if AHR=0.82</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0000</td>
-<td headers="Futility" class="gt_row gt_right">0.0025</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0093</td>
+<td headers="Futility" class="gt_row gt_right">0.1054</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">IA 2: 80%</td>
 <td headers="Value" class="gt_row gt_left">Z</td>
-<td headers="Efficacy" class="gt_row gt_right">2.2509</td>
-<td headers="Futility" class="gt_row gt_right">-Inf</td>
+<td headers="Efficacy" class="gt_row gt_right">2.2576</td>
+<td headers="Futility" class="gt_row gt_right">1.5168</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">N: 388</td>
+<td headers="Analysis" class="gt_row gt_left">N: 544</td>
 <td headers="Value" class="gt_row gt_left">p (1-sided)</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0122</td>
-<td headers="Futility" class="gt_row gt_right">1.0000</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0120</td>
+<td headers="Futility" class="gt_row gt_right">0.0647</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">Events: 227</td>
+<td headers="Analysis" class="gt_row gt_left">Events: 317</td>
 <td headers="Value" class="gt_row gt_left">~HR at bound</td>
-<td headers="Efficacy" class="gt_row gt_right">0.7417</td>
-<td headers="Futility" class="gt_row gt_right">Inf</td>
+<td headers="Efficacy" class="gt_row gt_right">0.7760</td>
+<td headers="Futility" class="gt_row gt_right">0.8433</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Month: 26</td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if HR=1</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0122</td>
-<td headers="Futility" class="gt_row gt_right">0.0500</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0120</td>
+<td headers="Futility" class="gt_row gt_right">0.9376</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left"></td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if AHR=0.72</td>
-<td headers="Efficacy" class="gt_row gt_right">0.5960</td>
-<td headers="Futility" class="gt_row gt_right">0.0025</td>
+<td headers="Efficacy" class="gt_row gt_right">0.7243</td>
+<td headers="Futility" class="gt_row gt_right">0.1436</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Final</td>
 <td headers="Value" class="gt_row gt_left">Z</td>
-<td headers="Efficacy" class="gt_row gt_right">2.0229</td>
-<td headers="Futility" class="gt_row gt_right">-Inf</td>
+<td headers="Efficacy" class="gt_row gt_right">2.0228</td>
+<td headers="Futility" class="gt_row gt_right">1.9453</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">N: 388</td>
+<td headers="Analysis" class="gt_row gt_left">N: 544</td>
 <td headers="Value" class="gt_row gt_left">p (1-sided)</td>
 <td headers="Efficacy" class="gt_row gt_right">0.0215</td>
-<td headers="Futility" class="gt_row gt_right">1.0000</td>
+<td headers="Futility" class="gt_row gt_right">0.0259</td>
 </tr>
 <tr>
-<td headers="Analysis" class="gt_row gt_left">Events: 282</td>
+<td headers="Analysis" class="gt_row gt_left">Events: 395</td>
 <td headers="Value" class="gt_row gt_left">~HR at bound</td>
-<td headers="Efficacy" class="gt_row gt_right">0.7859</td>
-<td headers="Futility" class="gt_row gt_right">Inf</td>
+<td headers="Efficacy" class="gt_row gt_right">0.8158</td>
+<td headers="Futility" class="gt_row gt_right">0.8222</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left">Month: 36</td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if HR=1</td>
-<td headers="Efficacy" class="gt_row gt_right">0.0250</td>
-<td headers="Futility" class="gt_row gt_right">0.0500</td>
+<td headers="Efficacy" class="gt_row gt_right">0.0221</td>
+<td headers="Futility" class="gt_row gt_right">0.9755</td>
 </tr>
 <tr>
 <td headers="Analysis" class="gt_row gt_left"></td>
 <td headers="Value" class="gt_row gt_left">P(Cross) if AHR=0.69</td>
-<td headers="Efficacy" class="gt_row gt_right">0.8555</td>
-<td headers="Futility" class="gt_row gt_right">0.0025</td>
+<td headers="Efficacy" class="gt_row gt_right">0.8476</td>
+<td headers="Futility" class="gt_row gt_right">0.1500</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="section level2">
-<h2 id="testing-and-conditional-power">Testing and conditional power<a class="anchor" aria-label="anchor" href="#testing-and-conditional-power"></a>
+<h2 id="testing-and-simple-conditional-power">Testing and simple conditional power<a class="anchor" aria-label="anchor" href="#testing-and-simple-conditional-power"></a>
 </h2>
 <p>We assume possible IA1 observed HR values of 0.6, 0.7, 0.8, and 0.9.
 We compute the conditional power at IA2 and FA given the IA1 observed HR
@@ -1279,68 +1280,66 @@ corresponding Z-value, using the Schoenfeld approximation.</p>
 <code class="sourceCode R"><span><span class="va">ia1_hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">0.9</span>, <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="va">ia1_z</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">hrn2z</a></span><span class="op">(</span>hr <span class="op">=</span> <span class="va">ia1_hr</span>, n <span class="op">=</span> <span class="fl">145</span>, ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p>We demonstrate a conditional power plot that may be of some use. The
-conditional power ignores future interim bounds and targets the
+simple conditional power ignores future interim bounds and targets the
 probability of crossing the final efficacy bound given the IA1 Z-value.
 Assuming a future HR between IA1 and FA from 0.6 to 1.1, we translate
-the HR to standardized effect size as shown below.</p>
+the HR to natural treatment effect parameter as shown below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">future_hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">1.1</span>, <span class="fl">.01</span><span class="op">)</span></span>
-<span><span class="va">future_theta</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">future_hr</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">input</span><span class="op">$</span><span class="va">ratio</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">x</span><span class="op">$</span><span class="va">input</span><span class="op">$</span><span class="va">ratio</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">future_theta</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">future_hr</span><span class="op">)</span></span></code></pre></div>
 <p>For each combination of future HR and currently observed HR, we
-calculate the simple conditional power via the <code><a href="../reference/gs_cp_npe.html">gs_cp_npe()</a></code>
-function for both IA2 and the final analysis.</p>
+calculate the simple conditional power via the
+<code><a href="../reference/gs_cp_simple.html">gs_cp_simple()</a></code> function for both IA2 and the final
+analysis.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ia2_cp</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="va">fa_cp</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">q_e</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">input</span><span class="op">$</span><span class="va">ratio</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">x</span><span class="op">$</span><span class="va">input</span><span class="op">$</span><span class="va">ratio</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># calculate IA2 conditional power/error</span></span>
+<span><span class="co"># calculate IA2 and FA conditional power/error</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">future_theta</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">ia1_z</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="co"># conditional power</span></span>
-<span>    <span class="va">cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_cp_npe.html">gs_cp_npe</a></span><span class="op">(</span></span>
-<span>      theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ia1_theta</span>, <span class="va">future_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, </span>
-<span>      info <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">145</span>, <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="va">q_e</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span> <span class="va">q_e</span><span class="op">)</span>,</span>
-<span>      a <span class="op">=</span> <span class="va">ia1_z</span><span class="op">[</span><span class="va">j</span><span class="op">]</span>,</span>
-<span>      b <span class="op">=</span> <span class="va">xu</span><span class="op">$</span><span class="va">bound</span><span class="op">$</span><span class="va">z</span><span class="op">[</span><span class="va">xu</span><span class="op">$</span><span class="va">bound</span><span class="op">$</span><span class="va">analysis</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">&amp;</span> <span class="va">xu</span><span class="op">$</span><span class="va">bound</span><span class="op">$</span><span class="va">bound</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">]</span><span class="op">)</span></span>
-<span>    </span>
+<span>    <span class="va">cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_cp_simple.html">gs_cp_simple</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">xu</span>,</span>
+<span>      theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ia1_theta</span>, <span class="va">future_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">future_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>      i <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>      zi <span class="op">=</span> <span class="va">ia1_z</span><span class="op">[</span><span class="va">j</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span>    <span class="co"># calculate IA2 conditional power</span></span>
 <span>    <span class="va">ia2_cp_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>future_analysis <span class="op">=</span> <span class="st">"IA2"</span>,</span>
 <span>                         future_hr <span class="op">=</span> <span class="va">future_hr</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, </span>
 <span>                         current_hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"IA1 HR = "</span>, <span class="va">ia1_hr</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>                         cond_prob <span class="op">=</span> <span class="va">cp</span><span class="op">)</span></span>
-<span>    <span class="va">ia2_cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">ia2_cp</span>, <span class="va">ia2_cp_new</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co"># calculate FA conditional power</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">future_theta</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">ia1_z</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_cp_npe.html">gs_cp_npe</a></span><span class="op">(</span></span>
-<span>      theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ia1_theta</span>, <span class="va">future_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, </span>
-<span>      info <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">145</span>, <span class="va">x</span><span class="op">$</span><span class="va">analysis</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="va">q_e</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span> <span class="va">q_e</span><span class="op">)</span>,</span>
-<span>      a <span class="op">=</span> <span class="va">ia1_z</span><span class="op">[</span><span class="va">j</span><span class="op">]</span>,</span>
-<span>      b <span class="op">=</span> <span class="va">xu</span><span class="op">$</span><span class="va">bound</span><span class="op">$</span><span class="va">z</span><span class="op">[</span><span class="va">xu</span><span class="op">$</span><span class="va">bound</span><span class="op">$</span><span class="va">analysis</span> <span class="op">==</span> <span class="fl">3</span> <span class="op">&amp;</span> <span class="va">xu</span><span class="op">$</span><span class="va">bound</span><span class="op">$</span><span class="va">bound</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">]</span><span class="op">)</span></span>
-<span>    </span>
+<span>                         cond_prob <span class="op">=</span> <span class="va">cp</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="co"># calculate FA conditional power</span></span>
 <span>    <span class="va">fa_cp_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>future_analysis <span class="op">=</span> <span class="st">"FA"</span>,</span>
 <span>                        future_hr <span class="op">=</span> <span class="va">future_hr</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
 <span>                        current_hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"IA1 HR = "</span>, <span class="va">ia1_hr</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>                        cond_prob <span class="op">=</span> <span class="va">cp</span><span class="op">)</span></span>
+<span>                        cond_prob <span class="op">=</span> <span class="va">cp</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">ia2_cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">ia2_cp</span>, <span class="va">ia2_cp_new</span><span class="op">)</span></span>
 <span>    <span class="va">fa_cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">fa_cp</span>, <span class="va">fa_cp_new</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>The red/blue line shows the conditional probability of crossing
-FA/IA2 efficacy bound.</p>
+<p>The panels show the simple conditional probability of crossing the
+future efficacy bound at FA and IA2, separately. Within each panel,
+curves correspond to different observed IA1 HR values.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># plot the conditional power</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">ia2_cp</span>, <span class="va">fa_cp</span><span class="op">)</span>,</span>
-<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">future_hr</span>, y <span class="op">=</span> <span class="va">cond_prob</span>, </span>
-<span>           color <span class="op">=</span> <span class="va">future_analysis</span>, linetype <span class="op">=</span> <span class="va">future_analysis</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="co"># plot the simple conditional power</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">ia2_cp</span>, <span class="va">fa_cp</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">future_hr</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">cond_prob</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">current_hr</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="va">current_hr</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">current_hr</span> <span class="op">~</span> <span class="va">.</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Conditional probability of crossing future bound"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Future HR"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Conditional power"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Future analysis"</span>, linetype <span class="op">=</span> <span class="st">"Future analysis"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">future_analysis</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Simple conditional probability of crossing future bound"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Future HR"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Conditional probability"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Current analysis"</span>, linetype <span class="op">=</span> <span class="st">"Current analysis"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="story-cp_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level2">
@@ -1361,6 +1360,177 @@ Schoenfeld approximation.</li>
 <li>Conditional power for future analyses ignores intervening interim
 analyses.</li>
 </ul>
+</div>
+<div class="section level2">
+<h2 id="conditional-power-accounting-for-future-interim-analyses">Conditional power accounting for future interim analyses<a class="anchor" aria-label="anchor" href="#conditional-power-accounting-for-future-interim-analyses"></a>
+</h2>
+<p>The simple conditional power above calculates the probability of
+crossing a future bound at each analysis separately. It does not account
+for the possibility that the trial may cross a futility or efficacy
+bound earlier at an intervening interim analysis.</p>
+<p>The function <code><a href="../reference/gs_cp.html">gs_cp()</a></code> accounts for future interim
+analyses by calculating path probabilities conditional on the current
+Z-value.</p>
+<p>In this example,</p>
+<p>For <code>prob_alpha</code>:</p>
+<ul>
+<li>
+<code>prob_alpha[1]</code> is the conditional probability of
+crossing the efficacy bound at IA2.</li>
+<li>
+<code>prob_alpha[2]</code> is the conditional probability of staying
+between the IA2 futility and efficacy bounds, then crossing the efficacy
+bound at FA.</li>
+<li>
+<code>sum(prob_alpha)</code> is the cumulative conditional
+probability of crossing an efficacy bound by FA, accounting for future
+futility and efficacy bound crossings.</li>
+</ul>
+<p>For <code>prob_alpha_plus</code>:</p>
+<ul>
+<li>
+<code>prob_alpha_plus[1]</code> is the conditional probability of
+crossing the efficacy bound at IA2.</li>
+<li>
+<code>prob_alpha_plus[2]</code> is the conditional probability of
+not crossing the IA2 efficacy bound, then crossing the efficacy bound at
+FA. Unlike <code>prob_alpha[2]</code>, this does not require the IA2
+Z-value to stay above the futility bound.</li>
+<li>
+<code>sum(prob_alpha_plus)</code> is the cumulative conditional
+probability of crossing an efficacy bound by FA when future futility
+bounds are ignored.</li>
+</ul>
+<p>For <code>prob_beta</code>:</p>
+<ul>
+<li>
+<code>prob_beta[1]</code> is the conditional probability of not
+crossing the efficacy bound at IA2.</li>
+<li>
+<code>prob_beta[2]</code> is the conditional probability of staying
+between the IA2 futility and efficacy bounds, then not crossing the
+efficacy bound at FA.</li>
+</ul>
+<p>We calculate these quantities for the same IA1 observed HR values
+used above, then plot the case with IA1 HR = 0.6 as an example.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gs_cp_tbl</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">future_theta</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">ia1_z</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gs_cp.html">gs_cp</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">xu</span>,</span>
+<span>      theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ia1_theta</span>, <span class="va">future_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">future_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>      i <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>      zi <span class="op">=</span> <span class="va">ia1_z</span><span class="op">[</span><span class="va">j</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span>    <span class="va">cp_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>      probability_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"prob_alpha"</span>, <span class="fl">3</span><span class="op">)</span>, </span>
+<span>                           <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"prob_alpha_plus"</span>, <span class="fl">3</span><span class="op">)</span>, </span>
+<span>                           <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"prob_beta"</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      future_analysis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IA2"</span>, <span class="st">"FA"</span>, <span class="st">"By FA"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                          <span class="st">"IA2"</span>, <span class="st">"FA"</span><span class="op">)</span>,</span>
+<span>      future_hr <span class="op">=</span> <span class="va">future_hr</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
+<span>      current_hr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"IA1 HR = "</span>, <span class="va">ia1_hr</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>      cond_prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>        <span class="va">cp</span><span class="op">$</span><span class="va">prob_alpha</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>        <span class="va">cp</span><span class="op">$</span><span class="va">prob_alpha</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cp</span><span class="op">$</span><span class="va">prob_alpha</span><span class="op">)</span>,</span>
+<span>        <span class="va">cp</span><span class="op">$</span><span class="va">prob_alpha_plus</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>        <span class="va">cp</span><span class="op">$</span><span class="va">prob_alpha_plus</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">cp</span><span class="op">$</span><span class="va">prob_alpha_plus</span><span class="op">)</span>,</span>
+<span>        <span class="va">cp</span><span class="op">$</span><span class="va">prob_beta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>        <span class="va">cp</span><span class="op">$</span><span class="va">prob_beta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span>    <span class="va">gs_cp_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">gs_cp_tbl</span>, <span class="va">cp_new</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">gs_cp_tbl</span><span class="op">$</span><span class="va">future_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
+<span>  <span class="va">gs_cp_tbl</span><span class="op">$</span><span class="va">future_analysis</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IA2"</span>, <span class="st">"FA"</span>, <span class="st">"By FA"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gs_cp_tbl</span><span class="op">$</span><span class="va">probability_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
+<span>  <span class="va">gs_cp_tbl</span><span class="op">$</span><span class="va">probability_type</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"prob_alpha"</span>, <span class="st">"prob_alpha_plus"</span>, <span class="st">"prob_beta"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>To summarize the efficacy-crossing probabilities, we focus on
+<code>prob_alpha</code> and <code>prob_alpha_plus</code>. For each
+quantity, the IA2 curve gives the conditional probability of crossing
+the efficacy bound at IA2, while the by-FA curve gives the cumulative
+conditional probability of crossing an efficacy bound by FA.</p>
+<p>The difference between <code>prob_alpha</code> and
+<code>prob_alpha_plus</code> reflects the role of future futility
+bounds. <code>prob_alpha</code> requires the trial to remain between the
+futility and efficacy bounds at any intervening analysis before crossing
+efficacy, whereas <code>prob_alpha_plus</code> ignores future futility
+bounds and only requires no earlier efficacy crossing. In this design,
+the two curves are close because the future futility bound has little
+impact on the efficacy-crossing probability for the illustrated
+case.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gs_cp_plot_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">gs_cp_tbl</span>, <span class="va">current_hr</span> <span class="op">==</span> <span class="st">"IA1 HR = 0.6"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">efficacy_plot_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
+<span>  <span class="va">gs_cp_plot_tbl</span>,</span>
+<span>  <span class="va">probability_type</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"prob_alpha"</span>, <span class="st">"prob_alpha_plus"</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">future_analysis</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IA2"</span>, <span class="st">"By FA"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">efficacy_plot_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels</a></span><span class="op">(</span><span class="va">efficacy_plot_tbl</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">efficacy_plot_tbl</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">future_hr</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">cond_prob</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">probability_type</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="va">future_analysis</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Conditional efficacy crossing probability given IA1 HR = 0.6"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Future HR"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Conditional probability"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Probability"</span>, linetype <span class="op">=</span> <span class="st">"Analysis"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="story-cp_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
+<p>We next show <code>prob_beta</code>, which is interpreted analysis by
+analysis. Here <code>prob_beta[1]</code> is the conditional probability
+of not crossing the efficacy bound at IA2, and <code>prob_beta[2]</code>
+is the conditional probability of staying between the IA2 futility and
+efficacy bounds, then not crossing the efficacy bound at FA.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gs_cp_plot_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">gs_cp_tbl</span>, <span class="va">current_hr</span> <span class="op">==</span> <span class="st">"IA1 HR = 0.6"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">beta_plot_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
+<span>  <span class="va">gs_cp_plot_tbl</span>,</span>
+<span>  <span class="va">probability_type</span> <span class="op">==</span> <span class="st">"prob_beta"</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">future_analysis</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IA2"</span>, <span class="st">"FA"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">beta_plot_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels</a></span><span class="op">(</span><span class="va">beta_plot_tbl</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">beta_plot_tbl</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">future_hr</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">cond_prob</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="va">future_analysis</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#0072B2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Conditional probability of not crossing efficacy given IA1 HR = 0.6"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Future HR"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Conditional probability"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="st">"Analysis"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="story-cp_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
