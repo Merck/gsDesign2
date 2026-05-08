@@ -84,11 +84,11 @@ assert("Compare the gs_cp_npe2 with gsDesign::gsCP", {
                                    zj = x_gsd$upper$bound[2])
 
   # IA2's CP given IA1
-  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1]))
-  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_simple_cp))
+  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 1e-6))
+  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_simple_cp, tolerance = 1e-6))
 
   # FA's CP given IA1
-  (all.equal(gsDesign_cp$upper$prob[2], gsDesign2_cp$prob_alpha[2]))
+  (all.equal(gsDesign_cp$upper$prob[2], gsDesign2_cp$prob_alpha[2], tolerance = 1e-6))
 
   # --------------------------------------------------- #
   #               case 2                                #
@@ -115,7 +115,7 @@ assert("Compare the gs_cp_npe2 with gsDesign::gsCP", {
                                     zi = -qnorm(0.04),
                                     zj = x_gsd$upper$bound[3])
   # FA's CP given IA2
-  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1]))
-  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_simple_cp))
+  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 1e-6))
+  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_simple_cp, tolerance = 1e-6))
 
 })

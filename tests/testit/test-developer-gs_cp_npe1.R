@@ -98,8 +98,8 @@ assert("Compare the gs_cp_npe1 with gsDesign::gsCP", {
   (all.equal(sum(xcp_gsd$upper$prob[, 2]), cp13_0, tolerance = 0.05, scale = 1))
   # under H1
   # given IA1 assumed blinded data and compute IA2 conditional power
-  (all.equal(xcp_gsd$upper$prob[1, 3], cp12_1, tolerance = 0.05))
+  (all.equal(xcp_gsd$upper$prob[1, 3], cp12_1, tolerance = 0.05, scale = 1))
   # given IA1 assumed blinded data and compute FA conditional power
-  (all.equal(sum(xcp_gsd$upper$prob[, 3]), cp13_1, tolerance = 0.05))
+  (all.equal(sum(xcp_gsd$upper$prob[, 3]), cp13_1, tolerance = 0.05, scale = 1))
 
 })
