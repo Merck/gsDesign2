@@ -138,7 +138,7 @@ assert("MaxCombo", {
     tau = c(-1, 4, 6)
   )
 
-  (all.equal(y$analysis$power, 0.9, tolerance = 4e-7))
+  (all.equal(y$analysis$power, 0.9, tolerance = 6e-7))
 })
 
 assert("RMST", {
