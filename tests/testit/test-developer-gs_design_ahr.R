@@ -54,15 +54,15 @@ assert("Specified information fraction", {
   u2 <- x2$bounds[x2$bounds$Bound == "Upper", ]
   l1 <- x1$bound[x1$bound$bound == "lower", ]
   l2 <- x2$bounds[x2$bounds$Bound == "Lower", ]
-  (all.equal(x1$analysis$time, u2$Time, tolerance = 1e-5))
-  (all.equal(x1$analysis$event, u2$Events, tolerance = 1e-5))
-  (all.equal(u1$z, u2$Z, tolerance = 1e-5))
+  (all.equal(x1$analysis$time, u2$Time, tolerance = 2e-7))
+  (all.equal(x1$analysis$event, u2$Events, tolerance = 4e-8))
+  (all.equal(u1$z, u2$Z, tolerance = 7e-8))
   (all.equal(u1$probability, u2$Probability))
-  (all.equal(x1$analysis$ahr, u2$AHR, tolerance = 1e-5))
-  (all.equal(x1$analysis$theta, u2$theta, tolerance = 1e-5))
-  (all.equal(x1$analysis$info, u2$info, tolerance = 1e-5))
-  (all.equal(x1$analysis$info0, u2$info0, tolerance = 1e-5))
-  (all.equal(l1$z, l2$Z, tolerance = 1e-5))
+  (all.equal(x1$analysis$ahr, u2$AHR, tolerance = 2e-8))
+  (all.equal(x1$analysis$theta, u2$theta, tolerance = 1e-7))
+  (all.equal(x1$analysis$info, u2$info, tolerance = 4e-8))
+  (all.equal(x1$analysis$info0, u2$info0, tolerance = 4e-8))
+  (all.equal(l1$z, l2$Z, tolerance = 2e-7))
   (all.equal(l1$probability, l2$Probability))
 })
 

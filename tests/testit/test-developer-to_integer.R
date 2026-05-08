@@ -288,7 +288,7 @@ assert("verify the crossing prob of a MB design at IA1 under null", {
 
   res <- filter(x$bounds, bound == "upper", analysis == 1)$probability0
   expected <- sfLDOF(alpha = 0.025, t = x$analysis$info_frac0)$spend[1]
-  (all.equal(res, expected, tolerance = 1e-5))
+  (all.equal(res, expected, tolerance = 6e-6))
 })
 
 assert("The attribute `uninteger_is_from` matches the input design object", {

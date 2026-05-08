@@ -21,7 +21,7 @@ assert("Validate info-frac driven design with a known study duration",{
 
 
   # validate the info frac
-  (all.equal(x$analysis$info_frac0, c(0.3, 0.7, 1), tolerance = 5e-5))
+  (all.equal(x$analysis$info_frac0, c(0.3, 0.7, 1), tolerance = 4e-5))
   # validate the final analysis time
   (max(x$analysis$time) %==% 36)
 })
@@ -159,9 +159,9 @@ assert("Validate if the output info-frac match the planned info-frac, when the d
     weight = "logrank"
   )
 
-  (all.equal(x1$analysis$info_frac[1], 0.75, tolerance = 1e-6))
-  (all.equal(x2$analysis$info_frac0[1], 0.75, tolerance = 1e-6))
-  (all.equal(x3$analysis$info_frac[1], 0.75, tolerance = 1e-6))
+  (all.equal(x1$analysis$info_frac[1], 0.75, tolerance = 6e-7))
+  (all.equal(x2$analysis$info_frac0[1], 0.75, tolerance = 6e-7))
+  (all.equal(x3$analysis$info_frac[1], 0.75, tolerance = 9e-7))
 })
 
 assert("Validate if the output info-frac match the planned info-frac, when the design is driven by both info frac and analysis time", {
@@ -213,9 +213,9 @@ assert("Validate if the output info-frac match the planned info-frac, when the d
     weight = "logrank"
   )
 
-  (all.equal(x1$analysis$info_frac[1], 0.75, tolerance = 5e-6))
-  (all.equal(x2$analysis$info_frac0[1], 0.75, tolerance = 5e-6))
-  (all.equal(x3$analysis$info_frac[1], 0.75, tolerance = 5e-6))
+  (all.equal(x1$analysis$info_frac[1], 0.75, tolerance = 6e-7))
+  (all.equal(x2$analysis$info_frac0[1], 0.75, tolerance = 6e-7))
+  (all.equal(x3$analysis$info_frac[1], 0.75, tolerance = 9e-7))
 })
 
 assert("Validate if WLR design under logrank test generates similar design as in AHR", {
@@ -253,57 +253,57 @@ assert("Validate if WLR design under logrank test generates similar design as in
     info_scale = "h0_h1_info")
 
   # sample size is approximately close
-  (all.equal(x1$analysis$n, x2$analysis$n, tolerance = 0.01))
+  (all.equal(x1$analysis$n, x2$analysis$n, tolerance = 0.005))
 
   # events is approximately close
-  (all.equal(x1$analysis$event, x2$analysis$event, tolerance = 0.01))
+  (all.equal(x1$analysis$event, x2$analysis$event, tolerance = 0.005))
 
   # ahr is approximately close
-  (all.equal(x1$analysis$ahr, x2$analysis$ahr, tolerance = 0.01))
+  (all.equal(x1$analysis$ahr, x2$analysis$ahr, tolerance = 0.002))
 
   # theta is approximately close
-  (all.equal(x1$analysis$theta, x2$analysis$theta, tolerance = 0.05))
+  (all.equal(x1$analysis$theta, x2$analysis$theta, tolerance = 0.04))
 
   # info is approximately close
-  (all.equal(x1$analysis$info, x2$analysis$info, tolerance = 0.01))
+  (all.equal(x1$analysis$info, x2$analysis$info, tolerance = 0.008))
 
   # info0 is approximately close
-  (all.equal(x1$analysis$info0, x2$analysis$info0, tolerance = 0.01))
+  (all.equal(x1$analysis$info0, x2$analysis$info0, tolerance = 0.008))
 
   # info_frac is approximately close
-  (all.equal(x1$analysis$info_frac, x2$analysis$info_frac, tolerance = 0.01, scale = 1))
+  (all.equal(x1$analysis$info_frac, x2$analysis$info_frac, tolerance = 0.006, scale = 1))
 
   # info_frac0 is approximately close
-  (all.equal(x1$analysis$info_frac0, x2$analysis$info_frac0, tolerance = 0.01))
+  (all.equal(x1$analysis$info_frac0, x2$analysis$info_frac0, tolerance = 0.006))
 
   # upper bound is approximately close
-  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bound$z[x2$bound$bound == "upper"], tolerance = 0.01))
+  (all.equal(x1$bound$z[x1$bound$bound == "upper"], x2$bound$z[x2$bound$bound == "upper"], tolerance = 0.005))
 
   # lower bound is approximately close
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bound$z[x2$bound$bound == "lower"], tolerance = 0.05))
+  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$bound$z[x2$bound$bound == "lower"], tolerance = 0.02))
 
   # probability of crossing upper bound under H0 is approximately close
-  (all.equal(x1$bound$probability0[x1$bound$bound == "upper"], x2$bound$probability0[x2$bound$bound == "upper"], tolerance = 0.01))
+  (all.equal(x1$bound$probability0[x1$bound$bound == "upper"], x2$bound$probability0[x2$bound$bound == "upper"], tolerance = 0.008))
 
   # probability of crossing lower bound under H0 is approximately close
-  (all.equal(x1$bound$probability0[x1$bound$bound == "lower"], x2$bound$probability0[x2$bound$bound == "lower"], tolerance = 0.01))
+  (all.equal(x1$bound$probability0[x1$bound$bound == "lower"], x2$bound$probability0[x2$bound$bound == "lower"], tolerance = 0.002))
 
   # probability of crossing upper bound under H1 is approximately close
-  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bound$probability[x2$bound$bound == "upper"], tolerance = 0.01))
+  (all.equal(x1$bound$probability[x1$bound$bound == "upper"], x2$bound$probability[x2$bound$bound == "upper"], tolerance = 0.0004))
 
   # probability of crossing lower bound under H1 is approximately close
   (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$bound$probability[x2$bound$bound == "lower"], tolerance = 0.01))
 
   # hr at upper bound is approximately close
-  (all.equal(x1$bound$`~hr at bound`[x1$bound$bound == "upper"], x2$bound$`~hr at bound`[x2$bound$bound == "upper"], tolerance = 0.01))
+  (all.equal(x1$bound$`~hr at bound`[x1$bound$bound == "upper"], x2$bound$`~hr at bound`[x2$bound$bound == "upper"], tolerance = 0.003))
 
   # hr at lower bound is approximately close
-  (all.equal(x1$bound$`~hr at bound`[x1$bound$bound == "lower"], x2$bound$`~hr at bound`[x2$bound$bound == "lower"], tolerance = 0.05))
+  (all.equal(x1$bound$`~hr at bound`[x1$bound$bound == "lower"], x2$bound$`~hr at bound`[x2$bound$bound == "lower"], tolerance = 0.02))
 
   # nominal p at upper bound is approximately close
-  (all.equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 0.01))
+  (all.equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 0.006))
 
   # nominal p at lower bound is approximately close
-  (all.equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 0.01))
+  (all.equal(x1$bound$`nominal p`[x1$bound$bound == "upper"], x2$bound$`nominal p`[x2$bound$bound == "upper"], tolerance = 0.006))
 
 })

@@ -63,7 +63,7 @@ assert("FH", {
   )
 
   (y$analysis$power >= 0.9)
-  (all.equal(y$analysis$power, 0.9, tolerance = 0.01))
+  (all.equal(y$analysis$power, 0.9, tolerance = 0.002))
 })
 
 assert("MB", {
@@ -88,7 +88,7 @@ assert("MB", {
   )
 
   (y$analysis$power >= 0.9)
-  (all.equal(y$analysis$power, 0.9, tolerance = 0.01))
+  (all.equal(y$analysis$power, 0.9, tolerance = 0.0005))
 })
 
 assert("LF", {
@@ -110,7 +110,7 @@ assert("LF", {
     ratio = ratio
   )
 
-  (all.equal(y$analysis$power, 0.9, tolerance = 0.01))
+  (all.equal(y$analysis$power, 0.9, tolerance = 0.0002))
 })
 
 assert("MaxCombo", {
@@ -138,7 +138,7 @@ assert("MaxCombo", {
     tau = c(-1, 4, 6)
   )
 
-  (all.equal(y$analysis$power, 0.9, tolerance = 0.0001))
+  (all.equal(y$analysis$power, 0.9, tolerance = 4e-7))
 })
 
 assert("RMST", {

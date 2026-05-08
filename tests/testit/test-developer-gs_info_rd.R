@@ -38,7 +38,7 @@ assert("Testing weights calculation", {
     (1/n_c_stratum1 + 1/n_e_stratum1) +
     0.59^2 * p_pool_stratum2 * (1 - p_pool_stratum2) *
     (1/n_c_stratum2 + 1/n_e_stratum2)
-  (all.equal(res, expected, tolerance = 0.0001, scale = 1))
+  (all.equal(res, expected, tolerance = 4e-6, scale = 1))
 
   res <- 1 / x$info1
   expected <- 0.41^2 * p_c_stratum1 * (1 - p_c_stratum1)/n_c_stratum1 +
@@ -77,7 +77,7 @@ assert("Testing weights calculation", {
 
   w1 <- (V2+(delta1-delta2)^2*f1) / (V1 + V2 + (delta1 - delta2)^2)
   w2 <- 1 - w1
-  (all.equal(c(w1, w2), c(0.47, 0.53), tolerance = 0.005, scale = 1))
+  (all.equal(c(w1, w2), c(0.47, 0.53), tolerance = 0.003, scale = 1))
 
   x <- gs_info_rd(p_c = p_c, p_e = p_e, n = n, rd0 = 0, ratio = 1, weight = "mr")
 

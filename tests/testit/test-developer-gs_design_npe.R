@@ -15,7 +15,7 @@ assert("verify by gs_power_npe", {
     lower = gs_b, lpar = -(x |> dplyr::filter(bound == "upper"))$z,
     binding = TRUE # Always use binding = TRUE for power calculations
   )
-  (all.equal(y$probability[y$analysis == 3 & y$bound == "upper"], 1 - beta, tolerance = 0.01))
+  (all.equal(y$probability[y$analysis == 3 & y$bound == "upper"], 1 - beta, tolerance = 0.003))
   # old version
   x <- gs_design_npe_(
     theta = c(.1, .2, .3), info = (1:3) * 40, beta = 0.1,
@@ -31,7 +31,7 @@ assert("verify by gs_power_npe", {
     lower = gs_b, lpar = -(x |> dplyr::filter(Bound == "Upper"))$Z,
     binding = TRUE # Always use binding = TRUE for power calculations
   )
-  (all.equal(y$Probability[y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 0.01))
+  (all.equal(y$Probability[y$Analysis == 3 & y$Bound == "Upper"], 1 - beta, tolerance = 0.003))
 })
 
 assert("examples in spec - Lachin book p71", {

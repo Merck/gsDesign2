@@ -80,12 +80,12 @@ assert("Compare the gs_cp with gsDesign::gsCP", {
   )
 
   # IA2's CP given IA1
-  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 1e-2))
-  (all.equal(gsDesign2_cp$prob_alpha[1], gsDesign2_npe2$prob_alpha[1], tolerance = 1e-2))
+  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 0.002, scale = 1))
+  (all.equal(gsDesign2_cp$prob_alpha[1], gsDesign2_npe2$prob_alpha[1], tolerance = 0.002, scale = 1))
 
   # FA's CP given IA1
-  (all.equal(gsDesign_cp$upper$prob[2], gsDesign2_cp$prob_alpha[2], tolerance = 1e-2))
-  (all.equal(gsDesign2_cp$prob_alpha[2], gsDesign2_npe2$prob_alpha[2], tolerance = 1e-2))
+  (all.equal(gsDesign_cp$upper$prob[2], gsDesign2_cp$prob_alpha[2], tolerance = 0.005, scale = 1))
+  (all.equal(gsDesign2_cp$prob_alpha[2], gsDesign2_npe2$prob_alpha[2], tolerance = 0.001, scale = 1))
 
   # --------------------------------------------------- #
   #               case 2                                #
@@ -110,7 +110,7 @@ assert("Compare the gs_cp with gsDesign::gsCP", {
   )
 
   # FA's CP given IA2
-  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 1e-2))
-  (all.equal(gsDesign2_cp$prob_alpha[1], gsDesign2_npe2$prob_alpha[1], tolerance = 1e-2))
+  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 0.002, scale = 1))
+  (all.equal(gsDesign2_cp$prob_alpha[1], gsDesign2_npe2$prob_alpha[1], tolerance = 0.005, scale = 1))
 
 })

@@ -240,7 +240,7 @@ assert("Developer Tests 1-sided test", {
   )
   (x %==% as.data.frame(y))
   (x$z[x$bound == "upper"] %==% z$upper$bound)
-  (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 1e-5))
+  (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 3e-8))
 })
 
 assert("Independent Tests - Expect equal with mvtnorm for efficacy and futility bounds", {
@@ -271,8 +271,8 @@ assert("Independent Tests - Expect equal with mvtnorm for efficacy and futility 
   }
   b <- uniroot(prob_b, c(1.96, 4), alpha_t = alpha_t, alpha_ia = alpha_ia, r = r)
   pb <- 1 - pnorm(b$root)
-  (all.equal(test1$z, c(qnorm(1 - alpha_ia), b$root), tolerance = 0.001))
-  (all.equal(test1$probability, cumsum(c(b_ia$spend, pb)), tolerance = 0.001, scale = 1))
+  (all.equal(test1$z, c(qnorm(1 - alpha_ia), b$root), tolerance = 1e-5))
+  (all.equal(test1$probability, cumsum(c(b_ia$spend, pb)), tolerance = 0.0002, scale = 1))
   beta_t <- 0.02
   a_ia <- gsDesign::sfLDOF(alpha = beta_t, t = r)
   beta_ia <- a_ia$spend
@@ -286,8 +286,8 @@ assert("Independent Tests - Expect equal with mvtnorm for efficacy and futility 
   }
   a <- uniroot(prob_a, c(-4, 1.96), beta_t = beta_t, beta_ia = beta_ia, r = r)
   pa <- pnorm(a$root)
-  (all.equal(test2$z, c(qnorm(beta_ia), a$root), tolerance = 0.001))
-  (all.equal(test2$probability, cumsum(c(a_ia$spend, pa)), tolerance = 0.001, scale = 1))
+  (all.equal(test2$z, c(qnorm(beta_ia), a$root), tolerance = 1e-5))
+  (all.equal(test2$probability, cumsum(c(a_ia$spend, pa)), tolerance = 0.0002, scale = 1))
 })
 
 assert("Expect equal with gsDesign::gsProbability outcome for efficacy bounds", {
@@ -317,6 +317,6 @@ assert("Expect equal with gsDesign::gsProbability outcome for efficacy bounds", 
     b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF, n.I = info)$upper$bound
   )
   (x %==% y)
-  (all.equal(x$z[x$bound == "upper"], z$upper$bound, tolerance = 1e-5))
-  (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 1e-5))
+  (all.equal(x$z[x$bound == "upper"], z$upper$bound, tolerance = 2e-6))
+  (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 6e-6))
 })
