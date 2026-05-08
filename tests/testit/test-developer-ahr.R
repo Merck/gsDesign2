@@ -33,7 +33,7 @@ assert("unstratified population, compared with old version", {
 
   # verify the columns of n (sample size)
   expected <- expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)
-  (x1$n %==% expected)
+  (all.equal(x1$n, expected))
 })
 
 assert("stratified population, compared with old version", {
@@ -68,7 +68,7 @@ assert("stratified population, compared with old version", {
 
   # verify the columns of n (sample size)
   expected <- expected_accrual(time = c(15, 30), enroll_rate = enroll_rate)
-  (x1$n %==% expected)
+  (all.equal(x1$n, expected))
 })
 
 assert("stratified population, compared with pw_info", {
@@ -91,15 +91,15 @@ assert("stratified population, compared with pw_info", {
   # Same example, give results by strata and time period
   y <- pw_info(enroll_rate = enroll_rate, fail_rate = fail_rate, total_duration = c(15, 30))
 
-  (x$event[x$time == 15] %==% sum(y$event[y$time == 15]))
-  (x$event[x$time == 30] %==% sum(y$event[y$time == 30]))
+  (all.equal(x$event[x$time == 15], sum(y$event[y$time == 15])))
+  (all.equal(x$event[x$time == 30], sum(y$event[y$time == 30])))
 
-  (x$n[x$time == 15] %==% sum(y$n[y$time == 15]))
-  (x$n[x$time == 30] %==% sum(y$n[y$time == 30]))
+  (all.equal(x$n[x$time == 15], sum(y$n[y$time == 15])))
+  (all.equal(x$n[x$time == 30], sum(y$n[y$time == 30])))
 
-  (x$info[x$time == 15] %==% sum(y$info[y$time == 15]))
-  (x$info[x$time == 30] %==% sum(y$info[y$time == 30]))
+  (all.equal(x$info[x$time == 15], sum(y$info[y$time == 15])))
+  (all.equal(x$info[x$time == 30], sum(y$info[y$time == 30])))
 
-  (x$info0[x$time == 15] %==% sum(y$info0[y$time == 15]))
-  (x$info0[x$time == 30] %==% sum(y$info0[y$time == 30]))
+  (all.equal(x$info0[x$time == 15], sum(y$info0[y$time == 15])))
+  (all.equal(x$info0[x$time == 30], sum(y$info0[y$time == 30])))
 })

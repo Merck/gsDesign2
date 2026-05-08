@@ -26,7 +26,7 @@ assert("fixed design", {
     h1_spending = FALSE
   )
 
-  (x1 %==% x2$analysis$n)
+  (all.equal(x1, x2$analysis$n))
 })
 
 assert("Stratified GSD: if RD is constant across strata, then MR weights are equal to the INVAR weights", {

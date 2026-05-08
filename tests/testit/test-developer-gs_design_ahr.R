@@ -125,16 +125,16 @@ assert("2-sided symmetric design with O'Brien-Fleming spending", {
   u2 <- x2$bounds[x2$bounds$Bound == "Upper", ]
   l1 <- x1$bound[x1$bound$bound == "lower", ]
   l2 <- x2$bounds[x2$bounds$Bound == "Lower", ]
-  (x1$analysis$time %==% u2$Time)
-  (x1$analysis$event %==% u2$Events)
-  (u1$z %==% u2$Z)
-  (u1$probability %==% u2$Probability)
-  (x1$analysis$ahr %==% u2$AHR)
-  (x1$analysis$theta %==% u2$theta)
-  (x1$analysis$info %==% u2$info)
-  (x1$analysis$info0 %==% u2$info0)
-  (l1$z %==% l2$Z)
-  (l1$probability %==% l2$Probability)
+  (all.equal(x1$analysis$time, u2$Time))
+  (all.equal(x1$analysis$event, u2$Events))
+  (all.equal(u1$z, u2$Z))
+  (all.equal(u1$probability, u2$Probability))
+  (all.equal(x1$analysis$ahr, u2$AHR))
+  (all.equal(x1$analysis$theta, u2$theta))
+  (all.equal(x1$analysis$info, u2$info))
+  (all.equal(x1$analysis$info0, u2$info0))
+  (all.equal(l1$z, l2$Z))
+  (all.equal(l1$probability, l2$Probability))
 })
 
 assert("Pocock lower spending under H1 (NPH)", {

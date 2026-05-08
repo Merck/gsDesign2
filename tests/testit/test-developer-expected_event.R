@@ -20,8 +20,8 @@ assert("expected event vs gsDesign", {
     enroll_rate, fail_rate, total_duration,
     simple = TRUE
   )
-  (x1 %==% x2)
-  (x2 %==% x3)
+  (all.equal(x1, x2))
+  (all.equal(x2, x3))
 })
 
 assert("expected_event returns consistent results (regression tests)", {

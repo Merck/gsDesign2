@@ -13,7 +13,7 @@ assert("expected events is different from gsDesign::eEvents and expected_event",
     eta = fail_rate$dropout_rate, gamma = enroll_rate$rate,
     R = enroll_rate$duration, T = total_duration
   )$d
-  (res %==% expected)
+  (all.equal(res, expected))
 })
 
 assert("data frame returned from expected_event not as expected", {

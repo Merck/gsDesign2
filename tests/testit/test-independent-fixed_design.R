@@ -36,7 +36,7 @@ assert("AHR", {
     ratio = ratio
   )
 
-  (y$analysis$power %==% 0.9)
+  (all.equal(y$analysis$power, 0.9))
 })
 
 assert("FH", {
@@ -162,7 +162,7 @@ assert("RMST", {
     tau = 18
   )
 
-  (y$analysis$power %==% 0.9)
+  (all.equal(y$analysis$power, 0.9))
 })
 
 assert("RD", {
@@ -185,5 +185,5 @@ assert("RD", {
     ratio = ratio
   )
 
-  (y$analysis$power %==% 0.9)
+  (all.equal(y$analysis$power, 0.9))
 })

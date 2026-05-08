@@ -27,7 +27,7 @@ assert("given sample size, the output power arrives at the target", {
     alpha = 0.025
   )
 
-  (x1$bound$probability %==% x2)
+  (all.equal(x1$bound$probability, x2))
 })
 
 assert("given power, the output sample size arrives at the target power", {

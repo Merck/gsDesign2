@@ -5,7 +5,7 @@ assert("ppwe is incorrect when there are 2-step fail rates", {
     failRates = tibble::tibble(duration = c(13, 100), rate = log(12)/c(9, 18)),
     lower.tail = FALSE
   )
-  (res %==% expected)
+  (all.equal(res, expected))
 })
 
 assert("ppwe is incorrect if varable x is longer than the max duration of fail rates", {

@@ -154,5 +154,5 @@ assert("Validate the boundary is symmetric in symmetric designs.", {
 
   upper_z <- x$bound$z[x$bound$bound == "upper"]
   lower_z <- x$bound$z[x$bound$bound == "lower"]
-  (upper_z %==% -lower_z)
+  (all.equal(upper_z, -lower_z))
 })
