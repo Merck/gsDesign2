@@ -85,13 +85,15 @@ assert("gs_bound_summary() supports multiple alpha values", {
 assert("The arg `alpha` is only supported for AHR design objects", {
   x_wlr <- gs_design_wlr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 
-  (has_error(gs_bound_summary(x_wlr, alpha = 0.5)))
+  (has_error(gs_bound_summary(x_wlr, alpha = 0.5),
+    "The argument `alpha` is only supported for AHR design objects"))
 })
 
 assert("The arg `alpha` is required to be a numeric vector", {
   x <- gs_design_ahr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 
-  (has_error(gs_bound_summary(x, alpha = "alternative")))
+  (has_error(gs_bound_summary(x, alpha = "alternative"),
+    "The argument `alpha` must be a numeric vector"))
 })
 
 assert("Edge case: when arg `alpha` matches original alpha", {

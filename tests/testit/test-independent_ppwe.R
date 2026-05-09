@@ -38,15 +38,15 @@ assert("ppwe is incorrect when there are 3-step fail rates", {
 
 assert("ppwe fail to identify a non-numerical input", {
   x <- c(0:20, "NA")
-  (has_error(gsDesign2::ppwe(x = x, duration = 1, rate = 1)))
+  (has_error(gsDesign2::ppwe(x = x, duration = 1, rate = 1), "must not be negative"))
 })
 
 assert("ppwe fail to identify a negative input", {
   x <- -20:-1
-  (has_error(gsDesign2::ppwe(x = x, duration = 1, rate = 1)))
+  (has_error(gsDesign2::ppwe(x = x, duration = 1, rate = 1), "must not be negative"))
 })
 
 assert("ppwe fail to identify a non-increasing input", {
   x <- 20:1
-  (has_error(ppwe(x = x, duration = 1, rate = 1)))
+  (has_error(ppwe(x = x, duration = 1, rate = 1), "must be strictly increasing"))
 })

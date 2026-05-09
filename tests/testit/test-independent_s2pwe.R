@@ -9,7 +9,7 @@ assert("s2pwe fails to come up with the correct answer", {
 assert("s2pwe fails to identify non-numeric value", {
   times <- c(1, "NA")
   survival <- c(0.5, 0.4)
-  (has_error(gsDesign2::s2pwe(times = times, survival = survival)))
+  (has_error(gsDesign2::s2pwe(times = times, survival = survival), "must be positive"))
 })
 
 assert("s2pwe fails to identify non-positive value", {
@@ -21,35 +21,35 @@ assert("s2pwe fails to identify non-positive value", {
 assert("s2pwe fails to identify non-increasing value", {
   times4 <- c(1, 2, 1)
   survival <- c(0.5, 0.4, 0.3)
-  (has_error(gsDesign2::s2pwe(times = times4, survival = survival)))
+  (has_error(gsDesign2::s2pwe(times = times4, survival = survival), "strictly increasing"))
 })
 
 assert("s2pwe fails to identify non-numerical survival", {
   times5 <- c(1, 2)
   survival <- c(0.5, "NA")
-  (has_error(gsDesign2::s2pwe(times = times5, survival = survival)))
+  (has_error(gsDesign2::s2pwe(times = times5, survival = survival), "must be positive"))
 })
 
 assert("s2pwe survival and time should have the same length", {
   times6 <- c(1, 2, 5)
   survival <- c(0.5, 0.3)
-  (has_error(gsDesign2::s2pwe(times = times6, survival = survival)))
+  (has_error(gsDesign2::s2pwe(times = times6, survival = survival), "same length"))
 })
 
 assert("s2pwe fails to identify non-positive survival", {
   times <- c(1, 3)
   survival2 <- c(0.5, -0.1)
-  (has_error(gsDesign2::s2pwe(times = times, survival = survival2)))
+  (has_error(gsDesign2::s2pwe(times = times, survival = survival2), "must be positive"))
 })
 
 assert("s2pwe fails to identify large than 1 survival", {
   times <- c(1, 3)
   survival3 <- c(0.5, 1.5)
-  (has_error(gsDesign2::s2pwe(times = times, survival = survival3)))
+  (has_error(gsDesign2::s2pwe(times = times, survival = survival3), "must be non-increasing"))
 })
 
 assert("s2pwe fails to identify an increasing survival series", {
   times <- c(1, 3)
   survival4 <- c(0.5, 0.9)
-  (has_error(gsDesign2::s2pwe(times = times, survival = survival4)))
+  (has_error(gsDesign2::s2pwe(times = times, survival = survival4), "must be non-increasing"))
 })

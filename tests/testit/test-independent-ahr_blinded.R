@@ -1,10 +1,10 @@
 assert("ahr_blinded throws an error for non-numeric or negative hr", {
-  (has_error(ahr_blinded(hr = c(1, -2, 3))))
-  (has_error(ahr_blinded(hr = "abc")))
+  (has_error(ahr_blinded(hr = c(1, -2, 3)), "'hr' must be a vector of positive numbers."))
+  (has_error(ahr_blinded(hr = "abc"), "'hr' must be a vector of positive numbers."))
 })
 
 assert("ahr_blinded throws an error when intervals and hr are not aligned", {
-  (has_error(ahr_blinded(intervals = c(3, 6), hr = c(1))))
+  (has_error(ahr_blinded(intervals = c(3, 6), hr = c(1)), "The piecewise model specified 'hr' and 'intervals' differ in length."))
 })
 
 assert("Correct computation of blinded AHR and information adjustment", {

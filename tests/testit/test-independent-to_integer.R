@@ -84,7 +84,7 @@ assert("fixed_design_ahr handles invalid inputs", {
       hr = c(1, .6), dropout_rate = .001
     ),
     study_duration = 36
-  )))
+  ), "`alpha` and `beta` values must satisfy 0 < alpha < 1 - beta < 1!"))
 
   (has_error(fixed_design_ahr(
     alpha = 0.025, power = 1.1,
@@ -94,7 +94,7 @@ assert("fixed_design_ahr handles invalid inputs", {
       hr = c(1, .6), dropout_rate = .001
     ),
     study_duration = 36
-  )))
+  ), "`alpha` and `beta` values must satisfy 0 < alpha < 1 - beta < 1!"))
 
   (has_error(fixed_design_ahr(
     alpha = 0.025, power = 0.9,
@@ -104,7 +104,7 @@ assert("fixed_design_ahr handles invalid inputs", {
       hr = c(1, .6), dropout_rate = .001
     ),
     study_duration = -36
-  )))
+  ), "must be positive and strictly increasing!"))
 })
 
 assert("to_integer.gs_design rounds events and sample sizes correctly for AHR", {
