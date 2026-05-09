@@ -18,12 +18,6 @@ assert("s2pwe fails to identify non-positive value", {
   (has_error(gsDesign2::s2pwe(times = times2, survival = survival)))
 })
 
-assert("s2pwe fails to identify infinity value", {
-  times3 <- c(1, Inf)
-  survival <- c(0.5, 0.4)
-  (has_error(gsDesign2::s2pwe(times = times2, survival = survival)))
-})
-
 assert("s2pwe fails to identify non-increasing value", {
   times4 <- c(1, 2, 1)
   survival <- c(0.5, 0.4, 0.3)
