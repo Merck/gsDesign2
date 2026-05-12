@@ -177,15 +177,13 @@ if (requireNamespace("pkg", quietly = TRUE)) assert("uses pkg", {
 ## Running Tests
 
 ```bash
-cd tests
-Rscript test-all.R
+Rscript tests/*.R
 ```
 
 Run a subset of tests by passing a regex filter:
 
 ```bash
-cd tests
-Rscript -e "testit::test_pkg('gsDesign2', filter = 'independent-ahr')"
+Rscript tests/*.R --filter=independent-ahr
 ```
 
 ## Common Mistakes to Avoid
