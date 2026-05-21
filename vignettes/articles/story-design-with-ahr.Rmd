@@ -53,7 +53,7 @@ library(gsDesign)
 library(gsDesign2)
 library(ggplot2)
 library(dplyr)
-library(gt)
+library(lt)
 library(tidyr)
 library(tibble)
 ```
@@ -288,10 +288,10 @@ ss_ahr_fixed <- do.call(
 )
 
 ss_ahr_fixed |>
-  gt() |>
-  fmt_number(columns = 1:3, decimals = 0) |>
-  fmt_number(columns = 4, decimals = 3) |>
-  tab_header(
+  lt() |>
+  lt_format(columns = 1:3, decimals = 0) |>
+  lt_format(columns = 4, decimals = 3) |>
+  lt_header(
     title = "Sample Size and Events Required by Scenario",
     subtitle = "36 Month Trial duration, 2.5% One-sided Type 1 Error, 90% Power"
   )
@@ -323,10 +323,10 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = 1:3, decimals = 0) |>
-  fmt_number(columns = 4, decimals = 3) |>
-  tab_header(
+  lt() |>
+  lt_format(columns = 1:3, decimals = 0) |>
+  lt_format(columns = 4, decimals = 3) |>
+  lt_header(
     title = "Sample Size and Events Required by Trial Duration",
     subtitle = "Delayed Effect of 4 Months, HR = 0.6 Thereafter; 90% Power"
   )
@@ -370,8 +370,8 @@ ahr_by_analysis <- events_by_time_period |>
 
 ahr_by_analysis |>
   pivot_wider(names_from = Scenario, values_from = AHR1) |>
-  gt() |>
-  fmt_number(columns = 2:5, decimals = 3)
+  lt() |>
+  lt_format(columns = 2:5, decimals = 3)
 ```
 
 ## Group Sequential Design
@@ -402,7 +402,7 @@ nph_asymmetric <- gs_design_ahr(
   lpar = lpar
 )
 
-summary(nph_asymmetric) |> as_gt()
+summary(nph_asymmetric) |> as_lt()
 ```
 
 By scenario, we now wish to compute the adjusted expected futility bounds and the power implied.
@@ -432,9 +432,9 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = "event", decimals = 1) |>
-  fmt_number(columns = 5:10, decimals = 4)
+  lt() |>
+  lt_format(columns = "event", decimals = 1) |>
+  lt_format(columns = 5:10, decimals = 4)
 ```
 
 ### Weighted Logrank Method
@@ -462,8 +462,8 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 The fixed design under the second weighting scheme for four scenario are summarized as follows.
@@ -489,8 +489,8 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 # References
