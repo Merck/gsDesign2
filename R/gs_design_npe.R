@@ -360,19 +360,17 @@ gs_design_npe <- function(
     binding = binding, r = r, tol = tol
   )
 
-  # combine probability under H0 and H1
-  suppressMessages(
-    ans <- ans_h1 |>
-      full_join(
-        ans_h0 |>
-          select(analysis, bound, probability) |>
-          rename(probability0 = probability)
-      )
+  # combine probability under H0 and H1 via direct merge on analysis+bound
+  ans_h0_sub <- data.frame(
+    analysis = ans_h0$analysis,
+    bound = ans_h0$bound,
+    probability0 = ans_h0$probability,
+    stringsAsFactors = FALSE
   )
+  ans <- merge(as.data.frame(ans_h1), ans_h0_sub, by = c("analysis", "bound"), all.x = TRUE)
 
-  ans <- ans |> select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
+  ans <- ans[order(ans$analysis, ans$bound != "upper"), c("analysis", "bound", "z", "probability", "probability0", "theta", "info_frac", "info", "info0", "info1")]
+  rownames(ans) <- NULL
 
-  ans <- ans |> arrange(analysis)
-
-  return(ans)
+  return(tibble::as_tibble(ans))
 }
