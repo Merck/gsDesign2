@@ -69,7 +69,7 @@ library(gsDesign)
 library(gsDesign2)
 library(knitr)
 library(dplyr)
-library(gt)
+library(lt)
 library(ggplot2)
 ```
 
@@ -86,7 +86,7 @@ enroll_rate <- define_enroll_rate(
   rate = (1:4) / 4
 )
 
-enroll_rate |> gt()
+enroll_rate |> lt()
 ```
 
 # Failure and dropout rates
@@ -112,7 +112,7 @@ fail_rate <- define_fail_rate(
   dropout_rate = .001
 )
 
-fail_rate |> gt()
+fail_rate |> lt()
 ```
 
 # Fixed design
@@ -138,14 +138,14 @@ Note that you would normally round up `N` up to an even number and `Events` to t
 ```{r}
 d |>
   summary() |>
-  as_gt()
+  as_lt()
 ```
 
 
 The enrollment rates for each period have been increased proportionately to size the trial for the desired properties; the duration for each enrollment rate has not changed.
 
 ```{r}
-d$enroll_rate |> gt()
+d$enroll_rate |> lt()
 ```
 
 # Group sequential design
@@ -210,7 +210,7 @@ Note that expected sample size at time of each data cutoff for analysis is also 
 ```{r}
 design1s |>
   summary() |>
-  as_gt(
+  as_lt(
     title = "1-sided group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
   )
@@ -260,7 +260,7 @@ Design bounds are confirmed with:
 ```{r, message=FALSE}
 design2ss |>
   summary() |>
-  as_gt(
+  as_lt(
     title = "2-sided symmetric group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
   )
@@ -308,7 +308,7 @@ Bounds are now:
 ```{r}
 design2sa |>
   summary() |>
-  as_gt(
+  as_lt(
     title = "2-sided asymmetric group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound
     for efficacy, futility disaster check at IA1, IA2 only"

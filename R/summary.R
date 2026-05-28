@@ -82,7 +82,7 @@ summary.fixed_design <- function(object, ...) {
 
   # capitalize names
   ans <- cap_names(ans)
-  # Propagate attributes for as_gt()/as_rtf() tables
+  # Propagate attributes for as_lt()/as_rtf() tables
   attr(ans, "title") <- attr(object, "title")
   attr(ans, "footnote") <- attr(object, "footnote")
 

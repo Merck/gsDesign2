@@ -28,7 +28,7 @@ options(width = 58)
 ```{r, message=FALSE, warning=FALSE}
 library(gsDesign)
 library(gsDesign2)
-library(gt)
+library(lt)
 library(ggplot2)
 library(tibble)
 ```
@@ -73,7 +73,7 @@ x <- gs_design_ahr(
 
 # Round analysis time to nearest month
 x$analysis$time <- round(x$analysis$time)
-x |> gs_bound_summary() |> gt()
+x |> gs_bound_summary() |> lt()
 ```
 
 # Update design at time of interim analysis
@@ -103,7 +103,7 @@ xu <- gs_update_ahr(
   event_tbl = data.frame(analysis = c(1, 1), event = c(90, 55)))
 xu$analysis$time <- c(17, x$analysis$time[2:3])
 
-xu |> gs_bound_summary() |> gt()
+xu |> gs_bound_summary() |> lt()
 ```
 
 

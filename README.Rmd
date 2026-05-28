@@ -96,13 +96,11 @@ rows and strata as needed can be specified to approximate whatever
 patterns you wish.
 
 ```{r, eval = FALSE}
-fail_rate |> gt::gt()
+fail_rate |> lt()
 ```
 
-```{r, echo = FALSE, eval = getRversion() >= "4.1"}
-fail_rate |>
-  gt::gt() |>
-  gt::as_raw_html(inline_css = FALSE)
+```{r, echo = FALSE}
+knitr::kable(fail_rate)
 ```
 
 ### Step 2: derive a fixed design with no interim analyses
@@ -126,13 +124,11 @@ fd <- fixed_design_ahr(
 The input enrollment rates have now been scaled to achieve power:
 
 ```{r, eval = FALSE}
-fd$enroll_rate |> gt::gt()
+fd$enroll_rate |> lt()
 ```
 
-```{r, echo = FALSE, eval = getRversion() >= "4.1"}
-fd$enroll_rate |>
-  gt::gt() |>
-  gt::as_raw_html(inline_css = FALSE)
+```{r, echo = FALSE}
+knitr::kable(fd$enroll_rate)
 ```
 
 The failure and dropout rates remain unchanged from what was input.
@@ -149,14 +145,11 @@ The summary is obtained below. The columns are:
 ```{r, eval = FALSE}
 fd |>
   summary() |>
-  as_gt()
+  as_lt()
 ```
 
-```{r, echo = FALSE, eval = getRversion() >= "4.1"}
-fd |>
-  summary() |>
-  as_gt() |>
-  gt::as_raw_html(inline_css = FALSE)
+```{r, echo = FALSE}
+knitr::kable(fd |> summary())
 ```
 
 ### Step 3: group sequential design
@@ -200,8 +193,7 @@ gsd <- gs_design_ahr(
 ```
 
 Now we summarize the derived design. The summary table is further described
-in the vignette [summarize group sequential designs in gt
-tables](https://merck.github.io/gsDesign2/articles/story-summarize-designs.html).
+in the vignette [summarize group sequential designs](https://merck.github.io/gsDesign2/articles/story-summarize-designs.html).
 Note that the design trend in favor of experimental treatment
 is very minor at 8 months due to the delayed effect assumption used
 (see AHR at analysis 1 in table). The design trend at 16 months is somewhat
@@ -213,12 +205,9 @@ provocative for what might be considered.
 ```{r, eval = FALSE}
 gsd |>
   summary() |>
-  as_gt()
+  as_lt()
 ```
 
-```{r, echo = FALSE, eval = getRversion() >= "4.1"}
-gsd |>
-  summary() |>
-  as_gt() |>
-  gt::as_raw_html(inline_css = FALSE)
+```{r, echo = FALSE}
+knitr::kable(gsd |> summary())
 ```
