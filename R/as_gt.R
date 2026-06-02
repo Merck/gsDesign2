@@ -16,6 +16,30 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#' Convert a design summary to a gt table (deprecated)
+#'
+#' @description
+#' **Deprecated.**
+#'
+#' `as_gt()` is deprecated in favor of [as_lt()], which produces a lightweight
+#' HTML table with nearly identical appearance and no dependency on the `gt`
+#' package. `as_gt()` is currently a thin wrapper around `as_lt()` and will be
+#' removed in a future release; please switch to `as_lt()`.
+#'
+#' @param x A summary object of a fixed or group sequential design.
+#' @param ... Additional arguments passed to [as_lt()].
+#'
+#' @return An `lt_tbl` object (previously a `gt_tbl` object).
+#'
+#' @seealso [as_lt()]
+#'
+#' @export
+as_gt <- function(x, ...) {
+  .Deprecated("as_lt", package = "gsDesign2",
+    msg = "as_gt() is deprecated; please use as_lt() instead.")
+  as_lt(x, ...)
+}
+
 # get different default columns to display
 gsd_columns <- function(columns, method, x) {
   # set different default columns to display

@@ -1,5 +1,5 @@
 count_footnotes <- function(x) {
-  sum(vapply(x$ops, function(op) op$type == "footnote", logical(1)))
+  length(x$footnotes)
 }
 
 assert("as_lt: footnote=FALSE removes footnote", {
