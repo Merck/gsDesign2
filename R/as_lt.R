@@ -28,14 +28,6 @@ as_lt <- function(x, ...) {
   UseMethod("as_lt", x)
 }
 
-# Apply lt's bundled gt-like theme so as_lt() output resembles the gt tables
-# that as_gt() used to produce. lt::lt_css() resolves the bare filename to the
-# stylesheet shipped with lt, and dedups it across a knitted document so it is
-# emitted once even with many tables.
-lt_gt_style <- function(x) {
-  lt::lt_css(x, "lt-gt.css")
-}
-
 #' @rdname as_lt
 #'
 #' @export
@@ -98,7 +90,7 @@ as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
       lt::lt_footnote(text = footnote, where = "title")
   }
 
-  lt_gt_style(ans)
+  ans
 }
 
 #' @rdname as_lt
@@ -264,5 +256,5 @@ as_lt.gs_design_summary <- function(
                            columns = colname_spannersub[2], rows = rows)
   }
 
-  lt_gt_style(ans)
+  ans
 }
