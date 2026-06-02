@@ -28,11 +28,12 @@ as_lt <- function(x, ...) {
   UseMethod("as_lt", x)
 }
 
-# Apply the bundled gt-style theme so as_lt() output resembles the gt tables
-# that as_gt() used to produce. lt::lt_css() dedups this stylesheet across a
-# knitted document, so it is emitted once even with many tables.
+# Apply lt's bundled gt-like theme so as_lt() output resembles the gt tables
+# that as_gt() used to produce. lt::lt_css() resolves the bare filename to the
+# stylesheet shipped with lt, and dedups it across a knitted document so it is
+# emitted once even with many tables.
 lt_gt_style <- function(x) {
-  lt::lt_css(x, system.file("css", "gt-style.css", package = "gsDesign2"))
+  lt::lt_css(x, "lt-gt.css")
 }
 
 #' @rdname as_lt
