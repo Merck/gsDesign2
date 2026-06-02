@@ -16,20 +16,14 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Convert a design summary to a gt table (deprecated)
+#' Deprecated: superseded by [as_lt()]
 #'
-#' @description
-#' **Deprecated.**
-#'
-#' `as_gt()` is deprecated in favor of [as_lt()], which produces a lightweight
-#' HTML table with nearly identical appearance and no dependency on the `gt`
-#' package. `as_gt()` is currently a thin wrapper around `as_lt()` and will be
-#' removed in a future release; please switch to `as_lt()`.
+#' `as_gt()` is deprecated; use [as_lt()] instead. It now calls [as_lt()].
 #'
 #' @param x A summary object of a fixed or group sequential design.
 #' @param ... Additional arguments passed to [as_lt()].
 #'
-#' @return An `lt_tbl` object (previously a `gt_tbl` object).
+#' @return An `lt_tbl` object.
 #'
 #' @seealso [as_lt()]
 #'

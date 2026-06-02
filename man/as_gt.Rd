@@ -2,7 +2,7 @@
 % Please edit documentation in R/as_gt.R
 \name{as_gt}
 \alias{as_gt}
-\title{Convert a design summary to a gt table (deprecated)}
+\title{Deprecated: superseded by \code{\link[=as_lt]{as_lt()}}}
 \usage{
 as_gt(x, ...)
 }
@@ -12,15 +12,10 @@ as_gt(x, ...)
 \item{...}{Additional arguments passed to \code{\link[=as_lt]{as_lt()}}.}
 }
 \value{
-An \code{lt_tbl} object (previously a \code{gt_tbl} object).
+An \code{lt_tbl} object.
 }
 \description{
-\strong{Deprecated.}
-
-\code{as_gt()} is deprecated in favor of \code{\link[=as_lt]{as_lt()}}, which produces a lightweight
-HTML table with nearly identical appearance and no dependency on the \code{gt}
-package. \code{as_gt()} is currently a thin wrapper around \code{as_lt()} and will be
-removed in a future release; please switch to \code{as_lt()}.
+\code{as_gt()} is deprecated; use \code{\link[=as_lt]{as_lt()}} instead. It now calls \code{\link[=as_lt]{as_lt()}}.
 }
 \seealso{
 \code{\link[=as_lt]{as_lt()}}
