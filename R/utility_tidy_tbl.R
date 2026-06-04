@@ -46,7 +46,7 @@
 #'   b3 = (10:8) / 3
 #' )
 #' table_ab(a, b, byvar = "Index", decimals = c(0, 2, 0, 1), aname = "Index") |>
-#'   lt(row_group = "Index") |>
+#'   lt() |> lt_group(~ Index) |>
 #'   lt_format("b3", decimals = 2) |>
 #'   lt_header(title = "Grouped data table") |>
 #'   lt_footnote(

@@ -219,7 +219,7 @@ as_lt.gs_design_summary <- function(
     display_bound, display_columns, display_inf_bound
   )
 
-  ans <- lt::lt(as.data.frame(parts$x), row_group = "Analysis") |>
+  ans <- lt::lt(as.data.frame(parts$x)) |> lt::lt_group(~ Analysis) |>
     lt::lt_spanner(
       label = colname_spanner,
       columns = colname_spannersub
