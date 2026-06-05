@@ -16,22 +16,22 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Deprecated: superseded by [as_lt()]
+#' Deprecated: use lt() instead
 #'
-#' `as_gt()` is deprecated; use [as_lt()] instead. It now calls [as_lt()].
+#' `as_gt()` is deprecated; use [lt::lt()] instead.
 #'
 #' @param x A summary object of a fixed or group sequential design.
-#' @param ... Additional arguments passed to [as_lt()].
+#' @param ... Additional arguments passed to [lt::lt()].
 #'
 #' @return An `lt_tbl` object.
 #'
-#' @seealso [as_lt()]
+#' @seealso [lt::lt()]
 #'
 #' @export
 as_gt <- function(x, ...) {
-  .Deprecated("as_lt", package = "gsDesign2",
-    msg = "as_gt() is deprecated; please use as_lt() instead.")
-  as_lt(x, ...)
+  .Deprecated("lt", package = "lt",
+    msg = "as_gt() is deprecated; please use lt::lt() instead.")
+  lt::lt(x, ...)
 }
 
 # get different default columns to display

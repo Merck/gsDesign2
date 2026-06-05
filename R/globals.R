@@ -25,7 +25,7 @@ utils::globalVariables(
       c("stratum", "rate", "hr", "treatment", "time", "info0", "info"),
       # From `ahr_blinded()`
       c("status"),
-      # From `as_lt.gs_design()`
+      # From `lt.gs_design_summary()`
       c("Bound", "Alternate hypothesis", "Null hypothesis", "Analysis"),
       # From `expected_accrual()`
       c("stratum", "rate", "duration"),

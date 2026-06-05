@@ -16,21 +16,22 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Convert summary table of a fixed or group sequential design object to an lt table
+#' Create an lt table from a design summary
 #'
-#' @param x A summary object of a fixed or group sequential design.
+#' S3 methods for [lt::lt()] that convert fixed or group sequential design
+#' summaries into formatted lt tables.
+#'
+#' @param data A summary object of a fixed or group sequential design.
 #' @param ... Additional arguments (not used).
 #'
 #' @return An `lt_tbl` object.
 #'
-#' @export
-as_lt <- function(x, ...) {
-  UseMethod("as_lt", x)
-}
+#' @name lt-methods
+NULL
 
-#' @rdname as_lt
+#' @rdname lt-methods
 #'
-#' @export
+#' @exportS3Method lt::lt
 #'
 #' @examples
 #' # Fixed design examples ----
@@ -68,7 +69,7 @@ as_lt <- function(x, ...) {
 #'   study_duration = study_duration, ratio = ratio
 #' ) |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' # Example 2 ----
 #' fixed_design_fh(
@@ -77,12 +78,12 @@ as_lt <- function(x, ...) {
 #'   study_duration = study_duration, ratio = ratio
 #' ) |>
 #'   summary() |>
-#'   as_lt()
-as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
-  if (is.null(title)) title <- attr(x, "title")
-  if (is.null(footnote)) footnote <- attr(x, "footnote")
+#'   lt::lt()
+lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
+  if (is.null(title)) title <- attr(data, "title")
+  if (is.null(footnote)) footnote <- attr(data, "footnote")
 
-  ans <- lt::lt(as.data.frame(x)) |>
+  ans <- lt::lt(as.data.frame(data), ...) |>
     lt::lt_header(title = title)
 
   if (!isFALSE(footnote)) {
@@ -93,7 +94,7 @@ as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
   ans
 }
 
-#' @rdname as_lt
+#' @rdname lt-methods
 #'
 #' @param title A string to specify the title of the table.
 #' @param subtitle A string to specify the subtitle of the table.
@@ -112,7 +113,7 @@ as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #'   displayed in the summary table.
 #' @param display_inf_bound Logical, whether to display the +/-inf bound.
 #'
-#' @export
+#' @exportS3Method lt::lt
 #'
 #' @examples
 #' \donttest{
@@ -123,38 +124,38 @@ as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #'
 #' gs_design_ahr() |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' gs_design_wlr() |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' gs_power_combo() |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' gs_design_rd() |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' gs_power_rd() |>
 #'   summary() |>
-#'   as_lt()
+#'   lt::lt()
 #'
 #' # Example 2 ----
 #' # Usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   as_lt(
+#'   lt::lt(
 #'     title = "Bound Summary",
 #'     subtitle = "from gs_power_wlr"
 #'   )
@@ -164,7 +165,7 @@ as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #' # to edit the spanner and its sub-spanner
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   as_lt(
+#'   lt::lt(
 #'     colname_spanner = "Cumulative probability to cross boundaries",
 #'     colname_spannersub = c("under H1", "under H0")
 #'   )
@@ -174,7 +175,7 @@ as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #' # to edit the footnote
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   as_lt(
+#'   lt::lt(
 #'     footnote = list(
 #'       content = c(
 #'         "approximate weighted hazard ratio to cross bound.",
@@ -192,17 +193,17 @@ as_lt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #' # to either show efficacy bound or futility bound, or both(default)
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   as_lt(display_bound = "Efficacy")
+#'   lt::lt(display_bound = "Efficacy")
 #'
 #' # Example 6 ----
 #' # Usage of display_columns = ...
 #' # to select the columns to display in the summary table
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   as_lt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
+#'   lt::lt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 #' }
-as_lt.gs_design_summary <- function(
-    x,
+lt.gs_design_summary <- function(
+    data,
     title = NULL,
     subtitle = NULL,
     colname_spanner = "Cumulative boundary crossing probability",
@@ -213,13 +214,14 @@ as_lt.gs_design_summary <- function(
     display_inf_bound = FALSE,
     ...) {
 
-  x_old <- x
+  x_old <- data
   parts <- gsd_parts(
-    x, title, subtitle, colname_spannersub, footnote,
+    data, title, subtitle, colname_spannersub, footnote,
     display_bound, display_columns, display_inf_bound
   )
 
-  ans <- lt::lt(as.data.frame(parts$x)) |> lt::lt_group(~ Analysis) |>
+  ans <- lt::lt(as.data.frame(parts$x), ...) |>
+    lt::lt_group(~ Analysis, sep = TRUE) |>
     lt::lt_spanner(
       label = colname_spanner,
       columns = colname_spannersub
@@ -258,3 +260,4 @@ as_lt.gs_design_summary <- function(
 
   ans
 }
+

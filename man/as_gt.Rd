@@ -2,21 +2,21 @@
 % Please edit documentation in R/as_gt.R
 \name{as_gt}
 \alias{as_gt}
-\title{Deprecated: superseded by \code{\link[=as_lt]{as_lt()}}}
+\title{Deprecated: use lt() instead}
 \usage{
 as_gt(x, ...)
 }
 \arguments{
 \item{x}{A summary object of a fixed or group sequential design.}
 
-\item{...}{Additional arguments passed to \code{\link[=as_lt]{as_lt()}}.}
+\item{...}{Additional arguments passed to \code{\link[lt:lt]{lt::lt()}}.}
 }
 \value{
 An \code{lt_tbl} object.
 }
 \description{
-\code{as_gt()} is deprecated; use \code{\link[=as_lt]{as_lt()}} instead. It now calls \code{\link[=as_lt]{as_lt()}}.
+\code{as_gt()} is deprecated; use \code{\link[lt:lt]{lt::lt()}} instead.
 }
 \seealso{
-\code{\link[=as_lt]{as_lt()}}
+\code{\link[lt:lt]{lt::lt()}}
 }
