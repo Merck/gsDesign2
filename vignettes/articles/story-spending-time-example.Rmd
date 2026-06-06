@@ -128,7 +128,7 @@ xx <- gs_design_ahr(enroll_rate,
 summary(xx,
   analysis_vars = c("time", "n", "event", "ahr", "info_frac"),
   analysis_decimals = c(0, 0, 0, 4, 4)
-) |> as_lt()
+) |> lt::lt()
 ```
 
 ## Power when assumptions design are wrong
@@ -166,7 +166,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_lt()
+  lt::lt()
 ```
 
 Now we also require 30 months trial duration in addition to the targeted events.
@@ -192,7 +192,7 @@ yy <- gs_power_ahr(
 # get the summary table of updated design
 yy |>
   summary() |>
-  as_lt()
+  lt::lt()
 ```
 
 ## Scenario 2: low control event rates
@@ -222,7 +222,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_lt()
+  lt::lt()
 ```
 
 If we also require adequate events, we restore power to 94.5, above the originally targeted level of 90%.
@@ -247,7 +247,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_lt()
+  lt::lt()
 ```
 
 ## Conclusions for fixed design
@@ -379,7 +379,7 @@ xx <- gs_design_ahr(
 # get the summary table
 xx |>
   summary() |>
-  as_lt()
+  lt::lt()
 ```
 
 ## Two alternate approaches
@@ -416,7 +416,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_lt()
+  lt::lt()
 ```
 
 ### Fixed incremental spend with a variable number of analyses
@@ -479,7 +479,7 @@ fho <- gs_power_ahr(
 
 fho |>
   summary() |>
-  as_lt()
+  lt::lt()
 ```
 
 ## Scenario with less treatment effect

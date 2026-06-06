@@ -100,7 +100,7 @@ one_sided <- gsDesign2::gs_design_ahr(
 
 one_sided |>
   summary() |>
-  gsDesign2::as_lt(title = "Efficacy bound only", subtitle = "alpha-spending")
+  lt::lt(title = "Efficacy bound only", subtitle = "alpha-spending")
 ```
 
 Now we check this with `gsDesign::gsSurv().` As noted above, sample size and event counts vary slightly from the design derived using `gs_design_ahr()`.
@@ -153,7 +153,7 @@ symmetric <- gs_design_ahr(
 
 symmetric |>
   summary() |>
-  gsDesign2::as_lt(
+  lt::lt(
     title = "2-sided Symmetric Design",
     subtitle = "Single spending function"
   )
@@ -209,7 +209,7 @@ asymmetric_binding <- gs_design_ahr(
 
 asymmetric_binding |>
   summary() |>
-  gsDesign2::as_lt(
+  lt::lt(
     title = "2-sided asymmetric design with binding futility",
     subtitle = "Both alpha- and beta-spending used"
   )
@@ -265,7 +265,7 @@ asymmetric_nonbinding <- gs_design_ahr(
 
 asymmetric_nonbinding |>
   summary() |>
-  gsDesign2::as_lt(
+  lt::lt(
     title = "2-sided asymmetric design with non-binding futility",
     subtitle = "Both alpha- and beta-spending used"
   )
@@ -325,7 +325,7 @@ asymmetric_safety_binding <- gs_design_ahr(
 
 asymmetric_safety_binding |>
   summary() |>
-  gsDesign2::as_lt(
+  lt::lt(
     title = "2-sided asymmetric safety design with binding futility",
     subtitle = "Alpha-spending used for both bounds, asymmetrically"
   )
@@ -381,7 +381,7 @@ asymmetric_safety_nonbinding <- gs_design_ahr(
 
 asymmetric_safety_nonbinding |>
   summary() |>
-  gsDesign2::as_lt(
+  lt::lt(
     title = "2-sided asymmetric safety design with non-binding futility",
     subtitle = "Alpha-spending used for both bounds, asymmetrically"
   ) |>
@@ -477,7 +477,7 @@ asymmetric_fixed_bounds <- gs_design_ahr(
 
 asymmetric_fixed_bounds |>
   summary() |>
-  gsDesign2::as_lt(
+  lt::lt(
     title = "2-sided asymmetric safety design with fixed non-binding futility",
     subtitle = "Futility bounds computed to approximate HR"
   ) |>

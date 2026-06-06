@@ -68,7 +68,7 @@ fixedevents <- fixed_design_ahr(
 fixedevents |>
   summary() |>
   select(-Bound) |>
-  as_lt(footnote = "Power based on 512 events") |>
+  lt::lt(footnote = "Power based on 512 events") |>
   lt_format(columns = 3:4, decimals = 2) |>
   lt_format(columns = 5:6, decimals = 3)
 ```
@@ -133,7 +133,7 @@ betaspending <- gs_power_ahr(
 
 betaspending |>
   summary() |>
-  as_lt(
+  lt::lt(
     title = "Group sequential design with futility only",
     subtitle = "Beta-spending futility bound"
   )
@@ -164,7 +164,7 @@ wieand <- gs_power_ahr(
 
 wieand |>
   summary() |>
-  as_lt(
+  lt::lt(
     title = "Group sequential design with futility only at interim analyses",
     subtitle = "Wieand futility rule stops if HR > 1"
   )
@@ -299,7 +299,7 @@ kf <- gs_power_ahr(
 
 kf |>
   summary() |>
-  as_lt(title = "Group sequential design with futility only",
+  lt::lt(title = "Group sequential design with futility only",
         subtitle = "Korn and Freidlin futility rule stops if HR > 1") 
 ```
 
@@ -329,7 +329,7 @@ betaspending_classic <- gs_power_ahr(
 
 betaspending_classic |>
   summary() |>
-  as_lt(
+  lt::lt(
     title = "Group sequential design with futility only",
     subtitle = "Classical beta-spending futility bound"
   )

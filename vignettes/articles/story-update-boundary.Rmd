@@ -116,7 +116,7 @@ over the targeted 90\%.
 ```{r}
 x |>
   summary() |>
-  as_lt(title = "Planned design")
+  lt::lt(title = "Planned design")
 ```
 
 ## Bounds for alternate alpha
@@ -131,7 +131,7 @@ gs_update_ahr(
   alpha = 0.025
   ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_lt(title = "Updated design",
+  lt::lt(title = "Updated design",
         subtitle = "For alternate alpha = 0.025")
 ```
 The above updated boundaries utilize the planned treatment effect and the planned statistical information under null hypothesis, considering the original design has `info_scale = "h0_info"`.
@@ -163,7 +163,7 @@ gs_update_ahr(
                          event = c(30, 210, 32, 320))
 ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_lt(title = "Updated design",
+  lt::lt(title = "Updated design",
         subtitle = paste0("With observed 240 events at IA and 352 events at FA"))
 ```
 
@@ -222,7 +222,7 @@ larger than we had above in the 1-sided example.
 ```{r}
 x |>
   summary() |>
-  as_lt(title = "Planned design",
+  lt::lt(title = "Planned design",
         subtitle = "2-sided asymmetric design, non-binding futility")
 ```
 
@@ -237,7 +237,7 @@ gs_update_ahr(
   alpha = 0.025
   ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_lt(title = "Updated design",
+  lt::lt(title = "Updated design",
         subtitle = "For alpha = 0.025")
 ```
 
@@ -259,7 +259,7 @@ gs_update_ahr(
                          event = c(30, 210, 32, 320))
   ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_lt(title = "Updated design",
+  lt::lt(title = "Updated design",
         subtitle = paste0("With observed 240 events at IA and 352 events at FA"))
 ```
 
