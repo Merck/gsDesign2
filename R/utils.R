@@ -74,9 +74,10 @@ cache_fun <- function(fun, ...) {
     h <- hashtab()
     sethash(fun_hash, fun, h)
   }
-  prune_hash(h)
   args <- list(...)
   if (is.null(res <- gethash(h, args))) {
+    # only prune before inserting (not on cache hits)
+    prune_hash(h)
     res <- fun(...)
     sethash(h, args, res)
   }
@@ -87,21 +88,14 @@ cache_fun <- function(fun, ...) {
   res
 }
 
-# prune a hash table to prevent it from growing too big to hog memory (by
-# default, we use an arbitrary limit of ~8Mb)
-prune_hash <- function(h, size = 2^23) {
-  n <- object.size(h)
-  if (n <= size) return()
-
-  # get all keys
-  keys <- list(); i <- 0
-  maphash(h, function(k, v) keys[[i <<- i + 1]] <<- k)
-
-  # remove entries until the size is below limit
-  for (k in keys) if (n > size) {
-    remhash(h, k)
-    n <- object.size(h)
-  }
+# Prune a hash table when it grows too large. We use a pure entry-count limit
+# because object.size() is both slow (~2ms) and wildly inaccurate for our use
+# case: it overcounts by ~600x for gs_power_npe entries because it walks into
+# shared namespace environments of function arguments. True incremental cost per
+# entry is ~3 KB (gs_power_npe) to ~5 KB (ahr), so 1024 entries ≈ 3-5 MB real
+# memory — well within acceptable limits for an interactive R session.
+prune_hash <- function(h, max_entries = 1024L) {
+  if (numhash(h) > max_entries) clrhash(h)
 }
 
 # Require exact matching by default when retrieving attributes
