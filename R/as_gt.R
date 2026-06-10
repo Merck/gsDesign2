@@ -111,7 +111,7 @@ as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #'   "spanner")`; users can use the functions in the `gt` package to customize
 #'   the table. To disable footnotes, use `footnote = FALSE`.
 #' @param display_bound A vector of strings specifying the label of the bounds.
-#'   The default is `c("Efficacy", "Futility")`.
+#'   The default is `c("Efficacy", "Futility", "Harm")`.
 #' @param display_columns A vector of strings specifying the variables to be
 #'   displayed in the summary table.
 #' @param display_inf_bound Logical, whether to display the +/-inf bound.
@@ -128,7 +128,22 @@ as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #' gs_design_ahr() |>
 #'   summary() |>
 #'   as_gt()
-#'
+#' 
+#' gs_design_ahr(
+#'   analysis_time = c(12, 24, 36),
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+#'   test_upper = c(FALSE, TRUE, TRUE),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
+#'   test_lower = c(TRUE, TRUE, FALSE),
+#'   harm = gs_spending_bound,
+#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+#'   test_harm = c(TRUE, TRUE, FALSE)
+#'   ) |>
+#'  summary() |>
+#'  as_gt() 
+#' 
 #' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
 #'   as_gt()
@@ -193,7 +208,7 @@ as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #'
 #' # Example 5 ----
 #' # Usage of display_bound = ...
-#' # to either show efficacy bound or futility bound, or both(default)
+#' # to show selected bounds
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
 #'   as_gt(display_bound = "Efficacy")
@@ -212,7 +227,7 @@ as_gt.gs_design_summary <- function(
     colname_spanner = "Cumulative boundary crossing probability",
     colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
     footnote = NULL,
-    display_bound = c("Efficacy", "Futility"),
+    display_bound = c("Efficacy", "Futility", "Harm"),
     display_columns = NULL,
     display_inf_bound = FALSE,
     ...) {
@@ -364,6 +379,7 @@ gsd_parts <- function(
   x2 <- x2[, columns]
   x2 <- subset(x2, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
   x2 <- subset(x2, Bound %in% bound)
+  x2$Bound <- factor(x2$Bound, levels = bound)
 
   i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x2))
   names(x2)[i] <- spannersub
@@ -382,10 +398,10 @@ gsd_parts <- function(
   )
 
   list(
-    x = arrange(x2, Analysis),
+    x = arrange(x2, Analysis, Bound),
     title = title, subtitle = subtitle,
     footnote = if (!isFALSE(footnote)) footnote %||% gsd_footnote(method, columns),
-    alpha = max(filter(x, Bound == bound[1])[["Null hypothesis"]])
+    alpha = max(filter(x, Bound == "Efficacy")[["Null hypothesis"]])
   )
 }
 
