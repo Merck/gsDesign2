@@ -73,6 +73,7 @@
 #'   - \code{gs_b()}: fixed efficacy bounds.
 #' @param lower Function to compute lower bound, which can be set up similarly as `upper`.
 #' See [this vignette](https://merck.github.io/gsDesign2/articles/story-seven-test-types.html).
+#' @param harm Function to compute harm bound, which can be set up similarly as `lower`.
 #' @param upar Parameters passed to `upper`.
 #'   - If `upper = gs_b`, then `upar` is a numerical vector specifying the fixed efficacy bounds per analysis.
 #'   - If `upper = gs_spending_bound`, then `upar` is a list including
@@ -81,6 +82,7 @@
 #'       - `param` for the parameter of the spending function.
 #'       - `timing` specifies spending time if different from information-based spending; see details.
 #' @param lpar Parameters passed to `lower`, which can be set up similarly as `upar.`
+#' @param hpar Parameters passed to `harm`, which can be set up similarly as `lpar.`
 #' @param test_upper Indicator of which analyses should include
 #'   an upper (efficacy) bound;
 #'   single value of `TRUE` (default) indicates all analyses; otherwise,
@@ -91,6 +93,11 @@
 #'   single value of `FALSE` indicated no lower bound; otherwise,
 #'   a logical vector of the same length as `info` should
 #'   indicate which analyses will have a lower bound.
+#' @param test_harm Indicator of which analyses should include a harm bound;
+#'   single value of `TRUE` (default) indicates all analyses;
+#'   single value of `FALSE` indicates no harm bound; otherwise,
+#'   a logical vector of the same length as `info` should
+#'   indicate which analyses will have a harm bound.
 #' @param r Integer value controlling grid for numerical integration as in
 #'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 #'   Larger values provide larger number of grid points and greater accuracy.
@@ -99,7 +106,7 @@
 #'
 #' @return A tibble with columns of
 #'   - `analysis`: analysis index.
-#'   - `bound`: either of value `"upper"` or `"lower"`, indicating the upper and lower bound.
+#'   - `bound`: one of value `"upper"`, `"lower"`, or `"harm"`, indicating the upper, lower, and harm bound.
 #'   - `z`: the Z-score bounds.
 #'   - `probability`: cumulative probability of crossing the bound at or before the analysis.
 #'   - `theta`: same as the input.
@@ -188,7 +195,7 @@
 #'   lpar = c(qnorm(.1), -Inf, -Inf)
 #' )
 #'
-#' # Example 9 ----
+#' # Example 9a ----
 #' # gs_power_npe with spending function bounds
 #' # Lower spending based on non-zero effect
 #' gs_power_npe(
@@ -208,6 +215,21 @@
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+#' )
+#'
+#' # Example 9b ----
+#' # gs_power_npe with an additional harm bound under the null hypothesis
+#' gs_power_npe(
+#'   theta = c(.1, .2, .3),
+#'   info = (1:3) * 40,
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+#'   test_lower = c(TRUE, TRUE, TRUE),
+#'   harm = gs_spending_bound,
+#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+#'   test_harm = c(TRUE, TRUE, TRUE)
 #' )
 #'
 #' # Example 10 ----
@@ -262,7 +284,9 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
                          upper = gs_b, upar = qnorm(.975),
                          lower = gs_b, lpar = -Inf,
                          test_upper = TRUE, test_lower = TRUE, binding = FALSE,
-                         r = 18, tol = 1e-6) {
+                         harm = gs_b, hpar = -Inf, test_harm = FALSE,
+                         r = 18, tol = 1e-6
+                         ) {
   # Check & set up parameters ----
   n_analysis <- length(info)
   theta  <- check_theta(theta,  n_analysis)
@@ -270,8 +294,14 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
   theta1 <- check_theta(theta1, n_analysis)
   upper <- match.fun(upper)
   lower <- match.fun(lower)
+  harm <- match.fun(harm)
   test_upper <- check_test_upper(test_upper, n_analysis)
   test_lower <- check_test_lower(test_lower, n_analysis)
+  test_harm <- check_test_ul(test_harm, n_analysis, "test_harm")
+
+  if (identical(harm, gs_b) && length(hpar) == 1 && n_analysis > 1) {
+    hpar <- rep(hpar, n_analysis)
+  }
 
   # Set up info ----
   # impute info
@@ -305,24 +335,39 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
   # Initialization ----
   a <- rep(-Inf, n_analysis)
   b <- rep(Inf, n_analysis)
+  harm_z <- rep(-Inf, n_analysis)
   hgm1_0 <- NULL
   hgm1_1 <- NULL
   hgm1 <- NULL
+  hgm1_harm0 <- NULL  # harm-bound grid under theta0
+  hgm1_harm <- NULL   # harm-bound grid under the input theta
   upper_prob <- rep(NA, n_analysis)
   lower_prob <- rep(NA, n_analysis)
+  harm_prob <- rep(NA, n_analysis)
 
   # Calculate crossing prob under H1 ----
   for (k in 1:n_analysis) {
-    # compute/update lower/upper bound
+    # compute/update lower/upper/harm bound
     a[k] <- lower(
       k = k, par = lpar, hgm1 = hgm1_1, info = info1, r = r, tol = tol, test_bound = test_lower,
       theta = theta1, efficacy = FALSE
     )
     b[k] <- upper(k = k, par = upar, hgm1 = hgm1_0, info = info0, r = r, tol = tol, test_bound = test_upper)
+    harm_z[k] <- harm(
+      k = k, par = hpar, hgm1 = hgm1_harm0, info = info0, r = r, tol = tol, test_bound = test_harm,
+      theta = theta0, efficacy = FALSE
+    )
+    if (!test_harm[k]) {
+      harm_z[k] <- -Inf
+    }
+    # Cap harm bound: if harm > futility, set to futility
+    if (!is.na(a[k]) && !is.na(harm_z[k]) && harm_z[k] > a[k]) {
+      harm_z[k] <- a[k]
+    }
 
     # if it is the first analysis
     if (k == 1) {
-      # compute the probability to cross upper/lower bound
+      # compute the probability to cross upper/lower/harm bound
       upper_prob[1] <- if (b[1] < Inf) {
         pnorm(sqrt(info[1]) * (theta[1] - b[1] / sqrt(info0[1])))
       } else {
@@ -330,6 +375,11 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
       }
       lower_prob[1] <- if (a[1] > -Inf) {
         pnorm(-sqrt(info[1]) * (theta[1] - a[1] / sqrt(info0[1])))
+      } else {
+        0
+      }
+      harm_prob[1] <- if (harm_z[1] > -Inf) {
+        pnorm(-sqrt(info[1]) * (theta[1] - harm_z[1] / sqrt(info0[1])))
       } else {
         0
       }
@@ -341,6 +391,8 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
       }, b = b[1])
       hgm1_1 <- h1(r = r, theta = theta1[1], info = info1[1], a = a[1], b = b[1])
       hgm1 <- h1(r = r, theta = theta[1], info = info[1], a = a[1], b = b[1])
+      hgm1_harm0 <- h1(r = r, theta = theta0[1], info = info0[1], a = harm_z[1], b = b[1])
+      hgm1_harm <- h1(r = r, theta = theta[1], info = info[1], a = harm_z[1], b = b[1])
     } else {
       # compute the probability to cross upper bound
       upper_prob[k] <- if (b[k] < Inf) {
@@ -358,6 +410,16 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
           theta = theta[k], thetam1 = theta[k - 1],
           info = info[k], im1 = info[k - 1],
           a = -Inf, b = a[k], gm1 = hgm1, r = r
+        )$h)
+      } else {
+        0
+      }
+      # compute the probability to cross harm bound
+      harm_prob[k] <- if (harm_z[k] > -Inf) {
+        sum(hupdate(
+          theta = theta[k], thetam1 = theta[k - 1],
+          info = info[k], im1 = info[k - 1],
+          a = -Inf, b = harm_z[k], gm1 = hgm1_harm, r = r
         )$h)
       } else {
         0
@@ -380,22 +442,47 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
           a = a[k], b = b[k], thetam1 = theta[k - 1],
           im1 = info[k - 1], gm1 = hgm1
         )
+        hgm1_harm0 <- hupdate(
+          r = r, theta = theta0[k], info = info0[k],
+          a = harm_z[k], b = b[k], thetam1 = theta0[k - 1],
+          im1 = info0[k - 1], gm1 = hgm1_harm0
+        )
+        hgm1_harm <- hupdate(
+          r = r, theta = theta[k], info = info[k],
+          a = harm_z[k], b = b[k], thetam1 = theta[k - 1],
+          im1 = info[k - 1], gm1 = hgm1_harm
+        )
       }
     }
   }
 
-  ans <- data.frame(
-    analysis = rep(1:n_analysis, 2),
-    bound = c(rep("upper", n_analysis), rep("lower", n_analysis)),
-    z = c(b, a),
-    probability = c(cumsum(upper_prob), cumsum(lower_prob)),
-    theta = rep(theta, 2),
-    theta1 = rep(theta1, 2),
-    info_frac = rep(info / max(info), 2),
-    info = rep(info, 2),
-    info0 = rep(info0, 2),
-    info1 = rep(info1, 2)
-  )
+  if (all(!test_harm)) {
+    ans <- data.frame(
+      analysis = rep(1:n_analysis, 2),
+      bound = c(rep("upper", n_analysis), rep("lower", n_analysis)),
+      z = c(b, a),
+      probability = c(cumsum(upper_prob), cumsum(lower_prob)),
+      theta = rep(theta, 2),
+      theta1 = rep(theta1, 2),
+      info_frac = rep(info / max(info), 2),
+      info = rep(info, 2),
+      info0 = rep(info0, 2),
+      info1 = rep(info1, 2)
+    )
+  } else {
+    ans <- data.frame(
+      analysis = rep(1:n_analysis, 3),
+      bound = c(rep("upper", n_analysis), rep("lower", n_analysis), rep("harm", n_analysis)),
+      z = c(b, a, harm_z),
+      probability = c(cumsum(upper_prob), cumsum(lower_prob), cumsum(harm_prob)),
+      theta = rep(theta, 3),
+      theta1 = rep(theta1, 3),
+      info_frac = rep(info / max(info), 3),
+      info = rep(info, 3),
+      info0 = rep(info0, 3),
+      info1 = rep(info1, 3)
+    )
+  }
 
   return(ans)
 }

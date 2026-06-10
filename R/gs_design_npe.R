@@ -21,7 +21,7 @@
 #' @param beta Type II error.
 
 #' @details
-#' The bound specifications (`upper`, `lower`, `upar`, `lpar`) of \code{gs_design_npe()}
+#' The bound specifications (`upper`, `lower`, `harm`, `upar`, `lpar`, `hpar`) of \code{gs_design_npe()}
 #' will be used to ensure Type I error and other boundary properties are as specified.
 #' See the help file of \code{gs_spending_bound()} for details on spending function.
 #'
@@ -130,7 +130,7 @@
 #'   test_upper = c(FALSE, TRUE, TRUE)
 #' )
 #'
-#' # Example 4 ----
+#' # Example 4a ----
 #' # gs_design_npe with spending function bounds
 #' # 2-sided asymmetric bounds
 #' # Lower spending based on non-zero effect
@@ -142,6 +142,21 @@
 #'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
 #'   lower = gs_spending_bound,
 #'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+#' )
+#'
+#' # Example 4b ----
+#' # gs_design_npe with an additional harm bound under the null hypothesis
+#' gs_design_npe(
+#'   theta = c(.1, .2, .3),
+#'   info = (1:3) * 40,
+#'   info0 = (1:3) * 30,
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+#'   harm = gs_spending_bound,
+#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+#'   test_harm = c(TRUE, FALSE, TRUE)
 #' )
 #'
 #' # Example 5 ----
@@ -177,6 +192,7 @@ gs_design_npe <- function(
     upper = gs_b, upar = qnorm(.975),
     lower = gs_b, lpar = -Inf,
     test_upper = TRUE, test_lower = TRUE, binding = FALSE,
+    harm = gs_b, hpar = -Inf, test_harm = FALSE,
     r = 18, tol = 1e-6) {
   # Check & set up parameters ----
   n_analysis <- length(info)
@@ -191,9 +207,15 @@ gs_design_npe <- function(
 
   upper <- match.fun(upper)
   lower <- match.fun(lower)
+  harm <- match.fun(harm)
   # check test_upper & test_lower
   test_upper <- check_test_upper(test_upper, n_analysis)
   test_lower <- check_test_lower(test_lower, n_analysis)
+  test_harm <- check_test_ul(test_harm, n_analysis, "test_harm")
+
+  if (identical(harm, gs_b) && length(hpar) == 1 && n_analysis > 1) {
+    hpar <- rep(hpar, n_analysis)
+  }
 
   # Set up info ----
   if (is.null(info0)) {
@@ -248,6 +270,41 @@ gs_design_npe <- function(
   min_x <- ((qnorm(alpha) / sqrt(info0[n_analysis]) + qnorm(beta) / sqrt(info[n_analysis])) / theta[n_analysis])^2
   # for a fixed design, this is all you need.
   if (n_analysis == 1) {
+    if (any(test_harm)) {
+      ans_h1 <- gs_power_npe(
+        theta = theta, theta0 = theta0, theta1 = theta1,
+        info = info * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
+        info_scale = info_scale,
+        upper = gs_b, upar = qnorm(1 - alpha), test_upper = test_upper,
+        lower = if (two_sided) lower else gs_b,
+        lpar = if (two_sided) lpar else rep(-Inf, n_analysis),
+        test_lower = test_lower, binding = binding,
+        harm = harm, hpar = hpar, test_harm = test_harm,
+        r = r, tol = tol
+      )
+      ans_h0 <- gs_power_npe(
+        theta = 0, theta0 = theta0, theta1 = theta1,
+        info = info0 * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
+        info_scale = info_scale,
+        upper = gs_b, upar = qnorm(1 - alpha), test_upper = test_upper,
+        lower = if (two_sided) lower else gs_b,
+        lpar = if (two_sided) lpar else rep(-Inf, n_analysis),
+        test_lower = test_lower, binding = binding,
+        harm = harm, hpar = hpar, test_harm = test_harm,
+        r = r, tol = tol
+      )
+      suppressMessages(
+        ans <- ans_h1 |>
+          full_join(
+            ans_h0 |>
+              select(analysis, bound, probability) |>
+              rename(probability0 = probability)
+          )
+      )
+      ans <- ans |> select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
+      return(ans)
+    }
+
     ans <- tibble(
       analysis = 1, bound = "upper", z = qnorm(1 - alpha),
       probability = 1 - beta, probability0 = alpha, theta = theta,
@@ -265,7 +322,9 @@ gs_design_npe <- function(
     info = info * min_x, info0 = info0 * min_x, info1 = info * min_x, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
     lower = lower, lpar = lpar, test_lower = test_lower,
-    binding = binding, r = r, tol = tol
+    binding = binding,
+    harm = harm, hpar = hpar, test_harm = test_harm,
+    r = r, tol = tol
   )
   min_power <- (min_temp[min_temp$bound == "upper" & min_temp$analysis == n_analysis, ])$probability
 
@@ -283,7 +342,9 @@ gs_design_npe <- function(
         info = info * max_x, info0 = info0 * max_x, info1 = info * max_x, info_scale = info_scale,
         upper = upper, upar = upar, test_upper = test_upper,
         lower = lower, lpar = lpar, test_lower = test_lower,
-        binding = binding, r = r, tol = tol
+        binding = binding,
+        harm = harm, hpar = hpar, test_harm = test_harm,
+        r = r, tol = tol
       )
       max_power <- (max_temp[max_temp$bound == "upper" & max_temp$analysis == n_analysis, ])$probability
 
@@ -308,7 +369,9 @@ gs_design_npe <- function(
         info = info * micro_x, info0 = info0 * micro_x, info1 = info * micro_x, info_scale = info_scale,
         upper = upper, upar = upar, test_upper = test_upper,
         lower = lower, lpar = lpar, test_lower = test_lower,
-        binding = binding, r = r, tol = tol
+        binding = binding,
+        harm = harm, hpar = hpar, test_harm = test_harm,
+        r = r, tol = tol
       )
       micro_power <- (micro_temp[micro_temp$bound == "upper" & micro_temp$analysis == n_analysis, ])$probability
 
@@ -333,8 +396,15 @@ gs_design_npe <- function(
   errbeta <- function(x) {
     # calculate the probability under H1
     ans_h1 <<- cache_fun(
-      gs_power_npe, theta, theta0, theta1, info * x, info0 * x, info1 * x,
-      info_scale, upper, upar, lower, lpar, test_upper, test_lower, binding, r, tol
+      gs_power_npe,
+      theta = theta, theta0 = theta0, theta1 = theta1,
+      info = info * x, info0 = info0 * x, info1 = info1 * x,
+      info_scale = info_scale,
+      upper = upper, upar = upar, test_upper = test_upper,
+      lower = lower, lpar = lpar, test_lower = test_lower,
+      binding = binding,
+      harm = harm, hpar = hpar, test_harm = test_harm,
+      r = r, tol = tol
     )
     power <- subset(ans_h1, bound == "upper" & analysis == n_analysis)$probability
     1 - beta - power
@@ -357,7 +427,9 @@ gs_design_npe <- function(
     lower = if (two_sided) lower else gs_b,
     lpar = if (two_sided) lpar else rep(-Inf, n_analysis),
     test_upper = test_upper, test_lower = test_lower,
-    binding = binding, r = r, tol = tol
+    binding = binding,
+    harm = harm, hpar = hpar, test_harm = test_harm,
+    r = r, tol = tol
   )
 
   # combine probability under H0 and H1
