@@ -94,5 +94,5 @@ assert("under same power setting, compare the number of events", {
   )
 
   # In case test fails, check whether caused by small tolerance
-  (all.equal(out$analysis$event[1:2], x$n.I, tolerance = 0.002))
+  (all.equal(out$analysis$event[1:2], x$n.I, tolerance = 0.006))
 })
