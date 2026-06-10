@@ -130,6 +130,29 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 #' )
 #' }
+#' Example 5 ----
+#' # 2-sided asymmetric O'Brien-Fleming spending bound with harm bound
+#' # driven by both `event` and `analysis_time`, i.e.,
+#' # both `event` and `analysis_time` are not `NULL`,
+#' # then the analysis will driven by the maximal one, i.e.,
+#' # Time = max(analysis_time, calculated Time for targeted event)
+#' # Events = max(events, calculated events for targeted analysis_time)
+#' \donttest{
+#' gs_power_ahr(
+#'   analysis_time = c(12, 24, 36),
+#'   event = c(30, 40, 50), h1_spending = FALSE,
+#'   binding = TRUE,
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+#'   test_upper = c(TRUE, TRUE, TRUE),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
+#'   test_lower = c(TRUE, TRUE, TRUE),
+#'   harm = gs_spending_bound,
+#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+#'   test_harm = c(TRUE, TRUE, TRUE)
+#' )
+#' }
 gs_power_ahr <- function(
     enroll_rate = define_enroll_rate(
       duration = c(2, 2, 10),
@@ -147,8 +170,11 @@ gs_power_ahr <- function(
     upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL),
+    harm = gs_b,
+    hpar = -Inf,
     test_lower = TRUE,
     test_upper = TRUE,
+    test_harm = FALSE,
     ratio = 1,
     binding = FALSE,
     h1_spending = TRUE,
@@ -165,6 +191,7 @@ gs_power_ahr <- function(
 
   upper <- match.fun(upper)
   lower <- match.fun(lower)
+  harm <- match.fun(harm)
 
   # Check if it is two-sided design or not
   if ((identical(lower, gs_b) && (!is.list(lpar))) || all(!test_lower)) {
@@ -187,6 +214,12 @@ gs_power_ahr <- function(
   if (two_sided && identical(lower, gs_spending_bound)) {
     if (is.null(lpar$total_spend) && any(test_lower)) {
       stop("gs_power_ahr: please input the total_spend to the futility spending function.")
+    }
+  }
+
+  if (identical(harm, gs_spending_bound)) {
+    if (is.null(hpar$total_spend) && any(test_harm)) {
+      stop("gs_power_ahr: please input the total_spend to the harm spending function.")
     }
   }
 
@@ -224,6 +257,7 @@ gs_power_ahr <- function(
     info = x$info, info0 = x$info0, info1 = info1, info_scale = info_scale,
     upper = upper, upar = upar, test_upper = test_upper,
     lower = lower, lpar = lpar, test_lower = test_lower,
+    harm = harm, hpar = hpar, test_harm = test_harm,
     binding = binding, r = r, tol = tol
   )
 
@@ -242,6 +276,7 @@ gs_power_ahr <- function(
       lpar
     },
     test_lower = test_lower,
+    harm = harm, hpar = hpar, test_harm = test_harm,
     binding = binding, r = r, tol = tol
   )
 
@@ -286,7 +321,8 @@ gs_power_ahr <- function(
     alpha = if (identical(upper, gs_spending_bound)) {upar$total_spend} else {NULL},
     upper = upper, upar = upar,
     lower = lower, lpar = lpar,
-    test_lower = test_lower, test_upper = test_upper,
+    harm = harm, hpar = hpar,
+    test_lower = test_lower, test_upper = test_upper, test_harm = test_harm,
     ratio = ratio, binding = binding, h1_spending = h1_spending,
     info_scale = info_scale, r = r, tol = tol
   )
