@@ -320,3 +320,37 @@ assert("Expect equal with gsDesign::gsProbability outcome for efficacy bounds", 
   (all.equal(x$z[x$bound == "upper"], z$upper$bound, tolerance = 2e-6))
   (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 6e-6))
 })
+
+assert("Harm bound - Cap harm bound at futility bound", {
+  x <- gs_power_npe(
+    theta = c(.1, .2, .3),
+    info = (1:3) * 40,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+    test_lower = c(TRUE, TRUE, TRUE),
+    harm = gs_spending_bound,
+    hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+    test_harm = c(TRUE, TRUE, TRUE)
+  )
+  harm_bound <- x |> dplyr::filter(bound == "harm") |> dplyr::pull(z)
+  futility_bound <- x |> dplyr::filter(bound == "lower") |> dplyr::pull(z)
+  (all(harm_bound <= futility_bound))
+
+  x <- gs_power_npe(
+    theta = c(.1, .2, .3),
+    info = (1:3) * 40,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+    test_lower = c(TRUE, TRUE, FALSE),
+    harm = gs_spending_bound,
+    hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+    test_harm = c(TRUE, TRUE, TRUE)
+  )
+  harm_bound <- x |> dplyr::filter(bound == "harm") |> dplyr::pull(z)
+  futility_bound <- x |> dplyr::filter(bound == "lower") |> dplyr::pull(z)
+  (all(harm_bound <= futility_bound))
+})
