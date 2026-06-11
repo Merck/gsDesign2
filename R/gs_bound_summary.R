@@ -1,6 +1,6 @@
 #' Bound summary table
 #'
-#' Summarizes the efficacy and futility bounds for each analysis.
+#' Summarizes the efficacy, futility, and harm bounds for each analysis.
 #'
 #' @param x Design object.
 #' @param alpha Vector of alpha values to compute additional efficacy columns.
@@ -52,12 +52,23 @@ gs_bound_summary <- function(x, digits = 4, ddigits = 2, tdigits = 0, timename =
     }
   }
   out <- Reduce(cbind, outlist)
-  # Use of union() allows placement of column "Futility" at the far right, but
-  # only if it is returned by gs_bound_summary_single(). This is because
-  # one-sided designs do not produce a Futility column.
+  # Use of union() allows placement of columns "Futility" and "Harm" at the far
+  # right, but only if they are returned by gs_bound_summary_single(). This is
+  # because one-sided designs do not produce a Futility column, and designs
+  # without harm bounds do not produce a Harm column.
   column_order <- union(c("Analysis", "Value", col_efficacy_name), colnames(out))
   out <- out[, column_order]
   return(out)
+}
+
+gs_bound_summary_values <- function(bound, analysis, bound_name, columns) {
+  row_bound <- bound[
+    bound$analysis == analysis & bound$bound == bound_name,
+    columns,
+    drop = FALSE
+  ]
+  if (nrow(row_bound) == 0) return(rep(NA_real_, length(columns)))
+  as.numeric(unlist(row_bound[1, columns], use.names = FALSE))
 }
 
 gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
@@ -72,6 +83,8 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
   col_value <- character()
   col_efficacy <- numeric()
   col_futility <- numeric()
+  col_harm <- numeric()
+  bound_columns <- c("z", "nominal p", "~hr at bound", "probability0", "probability")
 
   for (i in seq_len(nrow(analysis))) {
 
@@ -113,33 +126,31 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
     )
 
     # Efficacy column
-    row_efficacy <- bound[
-      bound$analysis == i & bound$bound == "upper",
-      c("z", "nominal p", "~hr at bound", "probability0", "probability")
-    ]
-    col_efficacy <- c(col_efficacy, as.numeric(row_efficacy))
+    col_efficacy <- c(col_efficacy, gs_bound_summary_values(bound, i, "upper", bound_columns))
 
     # Futility column
-    row_futility <- bound[
-      bound$analysis == i & bound$bound == "lower",
-      c("z", "nominal p", "~hr at bound", "probability0", "probability")
-    ]
-    col_futility <- c(col_futility, as.numeric(row_futility))
+    col_futility <- c(col_futility, gs_bound_summary_values(bound, i, "lower", bound_columns))
+
+    # Harm column
+    col_harm <- c(col_harm, gs_bound_summary_values(bound, i, "harm", bound_columns))
   }
 
   col_efficacy <- round(col_efficacy, digits)
   col_futility <- round(col_futility, digits)
+  col_harm <- round(col_harm, digits)
 
   out <- data.frame(
     Analysis = col_analysis,
     Value = col_value,
     Efficacy = col_efficacy,
-    Futility = col_futility
+    Futility = col_futility,
+    Harm = col_harm
   )
   colnames(out)[3] <- col_efficacy_name
 
   # One-sided design should not include Futility column
   if (all(is.na(out[["Futility"]]))) out[["Futility"]] <- NULL
+  if (all(is.na(out[["Harm"]]))) out[["Harm"]] <- NULL
 
   return(out)
 }

@@ -33,7 +33,7 @@ estimated timing of each analysis.}
 A data frame
 }
 \description{
-Summarizes the efficacy and futility bounds for each analysis.
+Summarizes the efficacy, futility, and harm bounds for each analysis.
 }
 \examples{
 library(gsDesign2)

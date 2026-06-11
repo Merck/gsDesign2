@@ -23,6 +23,9 @@ gs_design_npe(
   test_upper = TRUE,
   test_lower = TRUE,
   binding = FALSE,
+  harm = gs_b,
+  hpar = -Inf,
+  test_harm = FALSE,
   r = 18,
   tol = 1e-06
 )
@@ -42,6 +45,9 @@ gs_power_npe(
   test_upper = TRUE,
   test_lower = TRUE,
   binding = FALSE,
+  harm = gs_b,
+  hpar = -Inf,
+  test_harm = FALSE,
   r = 18,
   tol = 1e-06
 )
@@ -126,6 +132,16 @@ indicate which analyses will have a lower bound.}
 \item{binding}{Indicator of whether futility bound is binding;
 default of \code{FALSE} is recommended.}
 
+\item{harm}{Function to compute harm bound, which can be set up similarly as \code{lower}.}
+
+\item{hpar}{Parameters passed to \code{harm}, which can be set up similarly as \code{lpar.}}
+
+\item{test_harm}{Indicator of which analyses should include a harm bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value of \code{FALSE} indicates no harm bound; otherwise,
+a logical vector of the same length as \code{info} should
+indicate which analyses will have a harm bound.}
+
 \item{r}{Integer value controlling grid for numerical integration as in
 Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 Larger values provide larger number of grid points and greater accuracy.
@@ -137,7 +153,7 @@ Normally, \code{r} will not be changed by the user.}
 A tibble with columns of
 \itemize{
 \item \code{analysis}: analysis index.
-\item \code{bound}: either of value \code{"upper"} or \code{"lower"}, indicating the upper and lower bound.
+\item \code{bound}: one of value \code{"upper"}, \code{"lower"}, or \code{"harm"}, indicating the upper, lower, and harm bound.
 \item \code{z}: the Z-score bounds.
 \item \code{probability}: cumulative probability of crossing the bound at or before the analysis.
 \item \code{theta}: same as the input.
@@ -175,7 +191,7 @@ The only differences in arguments between the two functions are the \code{alpha}
 parameters used in the \code{gs_design_npe()}.
 }
 \details{
-The bound specifications (\code{upper}, \code{lower}, \code{upar}, \code{lpar}) of \code{gs_design_npe()}
+The bound specifications (\code{upper}, \code{lower}, \code{harm}, \code{upar}, \code{lpar}, \code{hpar}) of \code{gs_design_npe()}
 will be used to ensure Type I error and other boundary properties are as specified.
 See the help file of \code{gs_spending_bound()} for details on spending function.
 }
@@ -316,7 +332,7 @@ gs_design_npe(
   test_upper = c(FALSE, TRUE, TRUE)
 )
 
-# Example 4 ----
+# Example 4a ----
 # gs_design_npe with spending function bounds
 # 2-sided asymmetric bounds
 # Lower spending based on non-zero effect
@@ -328,6 +344,21 @@ gs_design_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+)
+
+# Example 4b ----
+# gs_design_npe with an additional harm bound under the null hypothesis
+gs_design_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  info0 = (1:3) * 30,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+  test_harm = c(TRUE, FALSE, TRUE)
 )
 
 # Example 5 ----
@@ -391,7 +422,7 @@ gs_power_npe(
   lpar = c(qnorm(.1), -Inf, -Inf)
 )
 
-# Example 9 ----
+# Example 9a ----
 # gs_power_npe with spending function bounds
 # Lower spending based on non-zero effect
 gs_power_npe(
@@ -411,6 +442,21 @@ gs_power_npe(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -1, timing = NULL)
+)
+
+# Example 9b ----
+# gs_power_npe with an additional harm bound under the null hypothesis
+gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+  test_lower = c(TRUE, TRUE, TRUE),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+  test_harm = c(TRUE, TRUE, TRUE)
 )
 
 # Example 10 ----

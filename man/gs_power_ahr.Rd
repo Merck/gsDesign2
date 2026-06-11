@@ -15,8 +15,11 @@ gs_power_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL),
+  harm = gs_b,
+  hpar = -Inf,
   test_lower = TRUE,
   test_upper = TRUE,
+  test_harm = FALSE,
   ratio = 1,
   binding = FALSE,
   h1_spending = TRUE,
@@ -61,6 +64,10 @@ See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
+\item{harm}{Function to compute harm bound, which can be set up similarly as \code{lower}.}
+
+\item{hpar}{Parameters passed to \code{harm}, which can be set up similarly as \code{lpar.}}
+
 \item{test_lower}{Indicator of which analyses should include a lower bound;
 single value of \code{TRUE} (default) indicates all analyses;
 single value of \code{FALSE} indicated no lower bound; otherwise,
@@ -72,6 +79,12 @@ an upper (efficacy) bound;
 single value of \code{TRUE} (default) indicates all analyses; otherwise,
 a logical vector of the same length as \code{info} should
 indicate which analyses will have an efficacy bound.}
+
+\item{test_harm}{Indicator of which analyses should include a harm bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value of \code{FALSE} indicates no harm bound; otherwise,
+a logical vector of the same length as \code{info} should
+indicate which analyses will have a harm bound.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
@@ -216,6 +229,29 @@ gs_power_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
+)
+}
+# Example 5 ----
+# 2-sided asymmetric O'Brien-Fleming spending bound with harm bound
+# driven by both `event` and `analysis_time`, i.e.,
+# both `event` and `analysis_time` are not `NULL`,
+# then the analysis will driven by the maximal one, i.e.,
+# Time = max(analysis_time, calculated Time for targeted event)
+# Events = max(events, calculated events for targeted analysis_time)
+\donttest{
+gs_power_ahr(
+  analysis_time = c(12, 24, 36),
+  event = c(30, 40, 50), h1_spending = FALSE,
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  test_upper = c(TRUE, TRUE, TRUE),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
+  test_lower = c(TRUE, TRUE, TRUE),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+  test_harm = c(TRUE, TRUE, TRUE)
 )
 }
 }
