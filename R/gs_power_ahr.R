@@ -130,7 +130,7 @@
 #'   lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.025)
 #' )
 #' }
-#' Example 5 ----
+#' # Example 5 ----
 #' # 2-sided asymmetric O'Brien-Fleming spending bound with harm bound
 #' # driven by both `event` and `analysis_time`, i.e.,
 #' # both `event` and `analysis_time` are not `NULL`,
