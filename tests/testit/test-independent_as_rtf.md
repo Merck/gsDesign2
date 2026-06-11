@@ -462,20 +462,6 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx6000
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -1.17}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.8798}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.535}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0341}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1202}\cell
-\intbl\row\pard
-\trowd\trgaph108\trleft0\trqc
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx1500
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx3000
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx4500
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx6000
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Efficacy}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.68}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0037}\cell
@@ -484,10 +470,6 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0037}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8 {\super c}}\cell
-\intbl\row\pard
-\trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx1500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx3000
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx4500
@@ -495,11 +477,15 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.66}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7452}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.232}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0664}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.2664}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -1.17}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.8798}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.535}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0341}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1202}\cell
+\intbl\row\pard
+\trowd\trgaph108\trleft0\trqc
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8 {\super c}}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx1500
@@ -516,10 +502,6 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0121}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
-\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1 {\super c}}\cell
-\intbl\row\pard
-\trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx1500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx3000
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx4500
@@ -527,11 +509,15 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.065}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.66}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7452}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.232}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0664}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.2664}\cell
+\intbl\row\pard
+\trowd\trgaph108\trleft0\trqc
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1 {\super c}}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx1500
@@ -546,6 +532,20 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.2071}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.025}\cell
+\intbl\row\pard
+\trowd\trgaph108\trleft0\trqc
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx1500
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx3000
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx4500
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx6000
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
+\clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.065}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrdb\brdrw15\clvertalt\cellx9000
