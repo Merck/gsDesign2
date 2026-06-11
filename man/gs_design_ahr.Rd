@@ -18,9 +18,12 @@ gs_design_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = alpha),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = beta),
+  harm = gs_b,
+  hpar = -Inf,
   h1_spending = TRUE,
   test_upper = TRUE,
   test_lower = TRUE,
+  test_harm = FALSE,
   info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   r = 18,
   tol = 1e-06,
@@ -70,6 +73,10 @@ See \href{https://merck.github.io/gsDesign2/articles/story-seven-test-types.html
 
 \item{lpar}{Parameters passed to \code{lower}, which can be set up similarly as \code{upar.}}
 
+\item{harm}{Function to compute harm bound, which can be set up similarly as \code{lower}.}
+
+\item{hpar}{Parameters passed to \code{harm}, which can be set up similarly as \code{lpar.}}
+
 \item{h1_spending}{Indicator that lower bound to be set by spending
 under alternate hypothesis (input \code{fail_rate})
 if spending is used for lower bound.
@@ -88,6 +95,12 @@ single value of \code{TRUE} (default) indicates all analyses;
 single value of \code{FALSE} indicated no lower bound; otherwise,
 a logical vector of the same length as \code{info} should
 indicate which analyses will have a lower bound.}
+
+\item{test_harm}{Indicator of which analyses should include a harm bound;
+single value of \code{TRUE} (default) indicates all analyses;
+single value of \code{FALSE} indicates no harm bound; otherwise,
+a logical vector of the same length as \code{info} should
+indicate which analyses will have a harm bound.}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
@@ -176,6 +189,12 @@ gs_design_ahr()
 # Example 2 ----
 # Single analysis
 gs_design_ahr(analysis_time = 40)
+gs_design_ahr(
+  analysis_time = 40, 
+  upper = gs_b, upar = -qnorm(0.025), test_upper = TRUE,
+  lower = gs_b, lpar = -1, test_lower = TRUE,
+  harm = gs_b, hpar = -2, test_harm = TRUE
+)
 
 # Example 3 ----
 # Multiple analysis_time
@@ -244,6 +263,22 @@ gs_design_ahr(
   )$upper$bound,
   lower = gs_b,
   lpar = rep(-Inf, 3)
+)
+}
+
+# Example 8 ----
+# Design with an additional harm bound
+\donttest{
+gs_design_ahr(
+  analysis_time = c(12, 24, 36),
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+  test_lower = c(TRUE, TRUE, FALSE),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+  test_harm = c(TRUE, TRUE, FALSE)
 )
 }
 }

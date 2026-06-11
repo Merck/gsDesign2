@@ -336,7 +336,7 @@ assert("Harm bound - Cap harm bound at futility bound", {
   )
   harm_bound <- x |> dplyr::filter(bound == "harm") |> dplyr::pull(z)
   futility_bound <- x |> dplyr::filter(bound == "lower") |> dplyr::pull(z)
-  (all(harm_bound <= futility_bound))
+  (harm_bound <= futility_bound)
 
   x <- gs_power_npe(
     theta = c(.1, .2, .3),
@@ -352,5 +352,5 @@ assert("Harm bound - Cap harm bound at futility bound", {
   )
   harm_bound <- x |> dplyr::filter(bound == "harm") |> dplyr::pull(z)
   futility_bound <- x |> dplyr::filter(bound == "lower") |> dplyr::pull(z)
-  (all(harm_bound <= futility_bound))
+  (harm_bound <= futility_bound)
 })
