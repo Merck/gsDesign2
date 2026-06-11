@@ -1,5 +1,4 @@
 # Test as_rtf() snapshot
-source("tests/testit/helper-support-as_rtf.R")
 
 assert("gs_power_wlr_example() produces expected as_rtf output", {
   path <- tempfile(fileext = ".rtf")
