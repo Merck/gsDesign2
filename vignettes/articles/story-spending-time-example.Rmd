@@ -28,7 +28,7 @@ library(gsDesign)
 library(gsDesign2)
 library(tibble)
 library(dplyr)
-library(gt)
+library(lt)
 ```
 
 # Overview
@@ -128,7 +128,7 @@ xx <- gs_design_ahr(enroll_rate,
 summary(xx,
   analysis_vars = c("time", "n", "event", "ahr", "info_frac"),
   analysis_decimals = c(0, 0, 0, 4, 4)
-) |> as_gt()
+) |> lt::lt()
 ```
 
 ## Power when assumptions design are wrong
@@ -166,7 +166,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt::lt()
 ```
 
 Now we also require 30 months trial duration in addition to the targeted events.
@@ -192,7 +192,7 @@ yy <- gs_power_ahr(
 # get the summary table of updated design
 yy |>
   summary() |>
-  as_gt()
+  lt::lt()
 ```
 
 ## Scenario 2: low control event rates
@@ -222,7 +222,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt::lt()
 ```
 
 If we also require adequate events, we restore power to 94.5, above the originally targeted level of 90%.
@@ -247,7 +247,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt::lt()
 ```
 
 ## Conclusions for fixed design
@@ -379,7 +379,7 @@ xx <- gs_design_ahr(
 # get the summary table
 xx |>
   summary() |>
-  as_gt()
+  lt::lt()
 ```
 
 ## Two alternate approaches
@@ -416,7 +416,7 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt::lt()
 ```
 
 ### Fixed incremental spend with a variable number of analyses
@@ -479,7 +479,7 @@ fho <- gs_power_ahr(
 
 fho |>
   summary() |>
-  as_gt()
+  lt::lt()
 ```
 
 ## Scenario with less treatment effect
@@ -523,8 +523,8 @@ yy <- gs_power_ahr(
 yy |>
   summary() |>
   filter(Bound == "Efficacy") |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 Just as important, the general design principle of making interim analysis criteria more stringent that final is ensured for this alternate scenario.
@@ -544,8 +544,8 @@ yz <- gs_power_ahr(
 
 yz |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 ## Scenario with longer control median
@@ -578,8 +578,8 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 Since the number of events was less than expected, if we had used the actual number of events the interim bound would be more stringent than above and we obtain slightly greater power.
@@ -598,8 +598,8 @@ yz <- gs_power_ahr(
 
 yz |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 ## Summary for spending time motivation assuming delayed benefit
@@ -683,8 +683,8 @@ positive <- gs_design_ahr(
 
 positive |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 ## Planned design for overall population
@@ -697,7 +697,7 @@ inflation_factor <- positive$enroll_rate$rate[1] / enroll_rate$rate[1]
 
 # Using this inflation factor, set planned enrollment rates
 planned_enroll_rate <- enroll_rate |> mutate(rate = rate * inflation_factor)
-planned_enroll_rate |> gt()
+planned_enroll_rate |> lt()
 
 # Store overall enrollment rates for future use
 overall_enroll_rate <- planned_enroll_rate |>
@@ -707,7 +707,7 @@ overall_enroll_rate <- planned_enroll_rate |>
     rate = sum(rate)
   )
 
-overall_enroll_rate |> gt()
+overall_enroll_rate |> lt()
 ```
 
 Now we can examine the power for the overall population based on hazard ratio assumptions in biomarker negative and biomarker positive subgroups and the just calculated enrollment assumption.
@@ -746,8 +746,8 @@ overall_planned_bounds <- gs_power_ahr(
 
 overall_planned_bounds |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 ## Alternate scenarios overview
@@ -817,8 +817,8 @@ positive_60_enroll_rate$duration <- max(positive$analysis$n) /
 
 # display the updated enrollment rate table
 positive_60_enroll_rate |>
-  gt() |>
-  fmt_number(columns = "rate", decimals = 1)
+  lt() |>
+  lt_format(columns = "rate", decimals = 1)
 ```
 
 Now we can compute the power for the biomarker positive group with the targeted events.
@@ -843,8 +843,8 @@ positive_60_power <- gs_power_ahr(
 
 positive_60_power |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 #### Overall population power
@@ -869,8 +869,8 @@ gs_power_ahr(
   lpar = rep(-Inf, 2)
 ) |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 If we had used information-based (i.e., event-based) spending, we would not have reached full spending at final analysis and thus would have lower power.
@@ -891,8 +891,8 @@ gs_power_ahr(
   lpar = lpar
 ) |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 ### Biomarker subgroup prevalence lower than planned
@@ -913,8 +913,8 @@ positive_40_enroll_rate$duration <- max(positive$analysis$n) /
 
 # display the enrollment table
 positive_40_enroll_rate |>
-  gt() |>
-  fmt_number(columns = "rate", decimals = 1)
+  lt() |>
+  lt_format(columns = "rate", decimals = 1)
 ```
 
 #### Biomarker positive subgroup power
@@ -942,8 +942,8 @@ positive_40_power <- gs_power_ahr(
 
 positive_40_power |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 #### Overall population power
@@ -963,8 +963,8 @@ gs_power_ahr(
   lpar = rep(-Inf, 2)
 ) |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 ## Summary of findings

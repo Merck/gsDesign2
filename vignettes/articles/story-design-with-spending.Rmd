@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
 ```{r, message=FALSE, warning=FALSE}
 library(gsDesign)
 library(gsDesign2)
+library(lt)
 ```
 
 # Overview
@@ -53,8 +54,8 @@ enroll_rate <- define_enroll_rate(
 )
 
 enroll_rate |>
-  gt::gt() |>
-  gt::tab_header(title = "Planned Relative Enrollment Rates")
+  lt() |>
+  lt_header(title = "Planned Relative Enrollment Rates")
 ```
 
 We assume a hazard ratio (HR) of 0.9 for the first 3 months 0.6 thereafter.
@@ -69,8 +70,8 @@ fail_rate <- define_fail_rate(
 )
 
 fail_rate |>
-  gt::gt() |>
-  gt::tab_header(title = "Table of Failure Rate Assumptions")
+  lt() |>
+  lt_header(title = "Table of Failure Rate Assumptions")
 ```
 
 # Fixed design with no interim analysis
@@ -124,5 +125,5 @@ gs <- gs_design_ahr(
 
 gs |>
   summary() |>
-  gt::gt()
+  lt()
 ```
