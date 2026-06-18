@@ -100,7 +100,9 @@ indicate which analyses will have a lower bound.}
 single value of \code{TRUE} (default) indicates all analyses;
 single value of \code{FALSE} indicates no harm bound; otherwise,
 a logical vector of the same length as \code{info} should
-indicate which analyses will have a harm bound.}
+indicate which analyses will have a harm bound.
+For fixed designs, the harm bound is typically not included.
+For group sequential designs, the harm bound is always smaller than the lower bound (if any).}
 
 \item{info_scale}{Information scale for calculation. Options are:
 \itemize{
