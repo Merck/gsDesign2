@@ -350,7 +350,9 @@ assert("Harm bound - Cap harm bound at futility bound", {
     hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
     test_harm = c(TRUE, TRUE, TRUE)
   )
+  harm_analysis <- x |> dplyr::filter(bound == "harm") |> dplyr::pull(analysis)
   harm_bound <- x |> dplyr::filter(bound == "harm") |> dplyr::pull(z)
-  futility_bound <- x |> dplyr::filter(bound == "lower") |> dplyr::pull(z)
+  futility_bound <- x |> dplyr::filter(bound == "lower", analysis %in% harm_analysis) |> dplyr::pull(z)
   (harm_bound <= futility_bound)
+  (harm_analysis %==% 1:2)
 })
