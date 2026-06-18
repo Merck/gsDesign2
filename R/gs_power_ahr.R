@@ -223,6 +223,10 @@ gs_power_ahr <- function(
     }
   }
 
+  if (n_analysis == 1 && test_harm) {
+    stop("gs_power_ahr() harm bound cannot be tested if there is only one analysis.")
+  }
+
   # Calculate the asymptotic variance and statistical information ----
   x <- gs_info_ahr(
     enroll_rate = enroll_rate, fail_rate = fail_rate,

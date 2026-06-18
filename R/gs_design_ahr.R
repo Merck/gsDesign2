@@ -227,6 +227,9 @@ gs_design_ahr <- function(
   lower <- match.fun(lower)
   harm <- match.fun(harm)
 
+  # Number of analyses (including final analysis)
+  n_analysis <- max(length(analysis_time), length(info_frac))
+
   # Check inputs ----
   check_analysis_time(analysis_time)
   check_info_frac(info_frac)
@@ -235,6 +238,9 @@ gs_design_ahr <- function(
   }
   if (all(fail_rate$hr == 1)) {
     stop("gs_design_ahr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
+  }
+  if (n_analysis == 1 && test_harm) {
+    stop("gs_design_ahr() harm bound cannot be tested if there is only one analysis.")
   }
 
   # Check if alpha is same as alpha spending ----
@@ -260,9 +266,6 @@ gs_design_ahr <- function(
   # Event fraction driven by the calendar time
   final_event <- y$event[nrow(y)]
   if_alt <- y$event / final_event
-
-  # Number of analyses (including final analysis)
-  n_analysis <- max(length(analysis_time), length(info_frac))
 
   # Initialize the next_time as the study duration
   next_time <- max(analysis_time)
@@ -388,7 +391,6 @@ gs_design_ahr <- function(
     } else {
       spending_time_upper <- info0 / info0_final
     }
-
 
     bound$spending_time[which(bound$bound == "upper")] <- spending_time_upper
   }
