@@ -98,6 +98,8 @@
 #'   single value of `FALSE` indicates no harm bound; otherwise,
 #'   a logical vector of the same length as `info` should
 #'   indicate which analyses will have a harm bound.
+#'   For fixed designs, the harm bound is typically not included.
+#'   For group sequential designs, the harm bound is always smaller than the lower bound (if any).
 #' @param r Integer value controlling grid for numerical integration as in
 #'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 #'   Larger values provide larger number of grid points and greater accuracy.
@@ -470,6 +472,11 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
       info1 = rep(info1, 2)
     )
   } else {
+    # harm bound is only provided when futility is tested
+    inactive_lower <- is.infinite(a)
+    harm_z[inactive_lower] <- -Inf
+    harm_prob[inactive_lower] <- 0
+
     ans <- data.frame(
       analysis = rep(1:n_analysis, 3),
       bound = c(rep("upper", n_analysis), rep("lower", n_analysis), rep("harm", n_analysis)),
