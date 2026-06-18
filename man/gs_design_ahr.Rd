@@ -191,12 +191,6 @@ gs_design_ahr()
 # Example 2 ----
 # Single analysis
 gs_design_ahr(analysis_time = 40)
-gs_design_ahr(
-  analysis_time = 40, 
-  upper = gs_b, upar = -qnorm(0.025), test_upper = TRUE,
-  lower = gs_b, lpar = -1, test_lower = TRUE,
-  harm = gs_b, hpar = -2, test_harm = TRUE
-)
 
 # Example 3 ----
 # Multiple analysis_time
