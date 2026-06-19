@@ -138,7 +138,7 @@ as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 #'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
 #'   test_lower = c(TRUE, TRUE, FALSE),
 #'   harm = gs_spending_bound,
-#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4),
 #'   test_harm = c(TRUE, TRUE, FALSE)
 #'   ) |>
 #'  summary() |>

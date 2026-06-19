@@ -230,7 +230,7 @@
 #'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
 #'   test_lower = c(TRUE, TRUE, TRUE),
 #'   harm = gs_spending_bound,
-#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4, timing = NULL),
+#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4, timing = NULL),
 #'   test_harm = c(TRUE, TRUE, TRUE)
 #' )
 #'
