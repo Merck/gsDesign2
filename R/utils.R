@@ -51,9 +51,13 @@ is_wholenumber <- function (x, tol = .Machine$double.eps^0.5)  {
 # a faster version of stats::stepfun() since we don't need to consider interpolation
 stepfun2 <- function(x0, y, right = FALSE) {
   x0; y  # avoid lazy evaluation: evaluate right now
-  function(x) {
-    i <- findInterval(x, x0, left.open = right)
-    y[i + 1]
+  if (length(x0) <= 10L) {
+    if (right)
+      function(x) { i <- 1L; for (b in x0) i <- i + (x > b); y[i] }
+    else
+      function(x) { i <- 1L; for (b in x0) i <- i + (x >= b); y[i] }
+  } else {
+    function(x) y[findInterval(x, x0, left.open = right) + 1L]
   }
 }
 

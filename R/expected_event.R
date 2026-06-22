@@ -164,23 +164,11 @@ expected_event <- function(
   }
 
   # Create 3 step functions (sf) ----
-  # Step function to define enrollment rates over time
-  sf_enroll_rate <- stats::stepfun(c(0, cumsum(enroll_rate$duration)),
-    c(0, enroll_rate$rate, 0),
-    right = FALSE
-  )
-  # step function to define failure rates over time
+  sf_enroll_rate <- stepfun2(c(0, cumsum(enroll_rate$duration)), c(0, enroll_rate$rate, 0))
   start_fail <- c(0, cumsum(fail_rate$duration))
   fail_rate_last <- nrow(fail_rate)
-  sf_fail_rate <- stats::stepfun(start_fail,
-    c(0, fail_rate$fail_rate, fail_rate$fail_rate[fail_rate_last]),
-    right = FALSE
-  )
-  # step function to define dropout rates over time
-  sf_dropout_rate <- stats::stepfun(start_fail,
-    c(0, fail_rate$dropout_rate, fail_rate$dropout_rate[fail_rate_last]),
-    right = FALSE
-  )
+  sf_fail_rate <- stepfun2(start_fail, c(0, fail_rate$fail_rate, fail_rate$fail_rate[fail_rate_last]))
+  sf_dropout_rate <- stepfun2(start_fail, c(0, fail_rate$dropout_rate, fail_rate$dropout_rate[fail_rate_last]))
 
   # combine sub-intervals from enroll + failure + dropout #
   # impute the NA by step functions
@@ -223,7 +211,7 @@ expected_event <- function(
   if (simple) {
     ans <- sum(df$nbar)
   } else {
-    sf_start_fail <- stats::stepfun(start_fail, c(0, start_fail), right = FALSE)
+    sf_start_fail <- stepfun2(start_fail, c(0, start_fail))
     ans <- data.frame(
       fail_rate = df$fail_rate_var,
       event = df$nbar,
