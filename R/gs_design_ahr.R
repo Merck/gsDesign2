@@ -233,9 +233,6 @@ gs_design_ahr <- function(
   if (all(fail_rate$hr == 1)) {
     stop("gs_design_ahr() hr must not be equal to 1 throughout the study as this is the null hypothesis.")
   }
-  if (n_analysis == 1 && test_harm) {
-    stop("gs_design_ahr() harm bound cannot be tested if there is only one analysis.")
-  }
 
   # Check if alpha is same as alpha spending ----
   if (identical(upper, gs_spending_bound)) {

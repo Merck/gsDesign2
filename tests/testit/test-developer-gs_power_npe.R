@@ -321,6 +321,16 @@ assert("Expect equal with gsDesign::gsProbability outcome for efficacy bounds", 
   (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 6e-6))
 })
 
+assert("Harm bound is not provided for fixed designs", {
+  (has_error(
+    gs_power_npe(
+      theta = 0.1, info = 40,
+      upper = gs_b, upar = -qnorm(0.025), test_upper = TRUE,
+      lower = gs_b, lpar = -Inf, test_lower = FALSE,
+      harm = gs_b, hpar = -2, test_harm = TRUE)
+  ))
+})
+
 assert("Harm bound - Cap harm bound at futility bound", {
   x <- gs_power_npe(
     theta = c(.1, .2, .3),

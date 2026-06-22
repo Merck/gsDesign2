@@ -291,6 +291,10 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
                          ) {
   # Check & set up parameters ----
   n_analysis <- length(info)
+  if (n_analysis == 1 && test_harm) {
+    stop("gs_power_npe() harm bound cannot be tested if there is only one analysis.")
+  }
+  
   theta  <- check_theta(theta,  n_analysis)
   theta0 <- check_theta(theta0, n_analysis)
   theta1 <- check_theta(theta1, n_analysis)
