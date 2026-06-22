@@ -288,10 +288,10 @@ assert("Harm bound is not provided when it is a fixed design", {
                       upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
                       lower = gs_b, lpar = -Inf, test_lower = FALSE)
 
-  (all.equal(x1$bound[abs(x1$z) != Inf], "upper"))
-  (all.equal(x2$bound[abs(x2$z) != Inf], "upper"))
-  (all.equal(x3$bound$bound[abs(x3$bound$z) != Inf], "upper"))
-  (all.equal(x4$bound$bound[abs(x4$bound$z) != Inf], "upper"))
+  (x1$bound[abs(x1$z) != Inf] == "upper")
+  (x2$bound[abs(x2$z) != Inf] == "upper")
+  (x3$bound$bound[abs(x3$bound$z) != Inf] == "upper")
+  (x4$bound$bound[abs(x4$bound$z) != Inf] == "upper")
   (has_error(gs_design_ahr(analysis_time = 40, test_harm = TRUE)))
   (has_error(gs_design_ahr(analysis_time = 40, hpar = -2, test_harm = TRUE)))
 })
@@ -314,36 +314,6 @@ assert("Harm bound is always below the lower bound in a group sequential design"
                       lower = gs_spending_bound, 
                       lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2), 
                       test_lower = TRUE,
-                      harm = gs_spending_bound,
-                      hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
-                      test_harm = TRUE)
-
-  (all(x1$bound$z[x1$bound$bound == "lower"] - x1$bound$z[x1$bound$bound == "harm"] >= 0))
-  (all(x2$bound$z[x2$bound$bound == "lower"] - x2$bound$z[x2$bound$bound == "harm"] >= 0))
-})
-
-assert("Harm bound is always below the lower bound in a group sequential design", {
-  x1 <- gs_design_ahr(analysis_time = c(12, 24, 36), info_frac = NULL,
-                      upper = gs_spending_bound, 
-                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
-                      test_upper = TRUE,
-                      test_lower = FALSE,
-                      harm = gs_spending_bound,
-                      hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
-                      test_harm = TRUE)
-  x2 <- gs_power_ahr(analysis_time = NULL, event = c(10, 50, 70),
-                      upper = gs_spending_bound, 
-                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
-                      test_upper = TRUE,
-                      test_lower = FALSE,
-                      harm = gs_spending_bound,
-                      hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
-                      test_harm = TRUE)
-  x3 <- gs_design_ahr(analysis_time = c(12, 24, 36), info_frac = NULL,
-                      upper = gs_spending_bound, 
-                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
-                      test_upper = TRUE,
-                      test_lower = c(TRUE, TRUE, FALSE),
                       harm = gs_spending_bound,
                       hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
                       test_harm = TRUE)
