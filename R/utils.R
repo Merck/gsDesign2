@@ -48,9 +48,14 @@ is_wholenumber <- function (x, tol = .Machine$double.eps^0.5)  {
   abs(x - round(x)) < tol
 }
 
-# a faster version of stats::stepfun() since we don't need to consider interpolation
+# a faster version of stats::stepfun() since we don't need to consider interpolation;
+# right = FALSE means left-closed intervals [x0[i], x0[i+1]), i.e., the function jumps
+# at x0[i] (right-continuous); right = TRUE means right-closed (x0[i], x0[i+1]]
 stepfun2 <- function(x0, y, right = FALSE) {
   x0; y  # avoid lazy evaluation: evaluate right now
+  # for small breakpoint vectors, a for-loop of vectorized comparisons (x >= b)
+  # is faster than findInterval(), which has dispatch overhead and uses binary
+  # search (overkill for 3-5 breakpoints)
   if (length(x0) <= 10L) {
     if (right)
       function(x) { i <- 1L; for (b in x0) i <- i + (x > b); y[i] }
