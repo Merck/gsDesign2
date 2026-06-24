@@ -233,17 +233,16 @@ gs_design_ahr()
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 1 × 8
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <dbl> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper         0.9        0.025  1.96          0.795      0.0250
-#> # ℹ 1 more variable: spending_time <dbl>
+#>   analysis bound probability probability0        z ~hr at bound nominal p
+#> 1        1 upper         0.9        0.025 1.959964    0.7949976     0.025
+#>   spending_time
+#> 1             1
 #> 
 #> $analysis
-#> # A tibble: 1 × 10
-#>   analysis  time     n event   ahr theta  info info0 info_frac info_frac0
-#>      <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1        1    36  476.  292. 0.683 0.381  71.7  73.0         1          1
+#>   analysis time        n    event       ahr     theta     info    info0
+#> 1        1   36 476.0087 291.9497 0.6833395 0.3807634 71.70066 72.98742
+#>   info_frac info_frac0
+#> 1         1          1
 #> 
 
 # Example 2 ----
@@ -268,17 +267,16 @@ gs_design_ahr(analysis_time = 40)
 #> 2 All          100    0.0385        0.001   0.6
 #> 
 #> $bound
-#> # A tibble: 1 × 8
-#>   analysis bound probability probability0     z `~hr at bound` `nominal p`
-#>      <dbl> <chr>       <dbl>        <dbl> <dbl>          <dbl>       <dbl>
-#> 1        1 upper         0.9        0.025  1.96          0.791      0.0250
-#> # ℹ 1 more variable: spending_time <dbl>
+#>   analysis bound probability probability0        z ~hr at bound nominal p
+#> 1        1 upper         0.9        0.025 1.959964    0.7910651     0.025
+#>   spending_time
+#> 1             1
 #> 
 #> $analysis
-#> # A tibble: 1 × 10
-#>   analysis  time     n event   ahr theta  info info0 info_frac info_frac0
-#>      <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1        1    40  428.  280. 0.678 0.389  68.8  69.9         1          1
+#>   analysis time        n    event       ahr     theta     info   info0
+#> 1        1   40 427.7175 279.7264 0.6778349 0.3888515 68.82523 69.9316
+#>   info_frac info_frac0
+#> 1         1          1
 #> 
 
 # Example 3 ----
@@ -622,12 +620,12 @@ gs_design_ahr(
 #> $bound
 #>   analysis bound  probability probability0        z ~hr at bound    nominal p
 #> 1        1 upper 0.0006187876 6.787365e-06 4.350629    0.4352554 6.787365e-06
-#> 2        2 upper 0.5046620214 3.708221e-03 2.677778    0.7188168 3.705614e-03
-#> 3        3 upper 0.8999996284 1.250000e-02 2.278051    0.7852612 1.136178e-02
+#> 3        2 upper 0.5046620214 3.708221e-03 2.677778    0.7188168 3.705614e-03
+#> 5        3 upper 0.8999996284 1.250000e-02 2.278051    0.7852612 1.136178e-02
 #>   spending_time
 #> 1     0.3080415
-#> 2     0.7407917
-#> 3     1.0000000
+#> 3     0.7407917
+#> 5     1.0000000
 #> 
 #> $analysis
 #>   analysis time        n    event       ahr     theta     info    info0
@@ -672,8 +670,8 @@ gs_design_ahr(
 #> $bound
 #>   analysis bound  probability probability0        z ~hr at bound    nominal p
 #> 1        1 upper 9.381159e-05 5.871061e-07 4.859940    0.3950765 5.871061e-07
-#> 2        2 upper 5.129257e-01 3.925339e-03 2.658446    0.7206655 3.925096e-03
-#> 3        3 upper 8.999996e-01 1.254926e-02 2.280095    0.7851982 1.130103e-02
+#> 3        2 upper 5.129257e-01 3.925339e-03 2.658446    0.7206655 3.925096e-03
+#> 5        3 upper 8.999996e-01 1.254926e-02 2.280095    0.7851982 1.130103e-02
 #> 
 #> $analysis
 #>   analysis time        n    event       ahr     theta     info    info0
