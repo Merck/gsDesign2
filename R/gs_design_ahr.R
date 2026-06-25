@@ -254,31 +254,30 @@ gs_design_ahr <- function(
 
         y$analysis <- n_analysis
 
-        y <- rbind(
-          expected_time(
-            enroll_rate = enroll_rate, fail_rate = fail_rate,
-            ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
-            interval = c(.01, next_time)
-          ) |>
-            mutate(theta = -log(ahr), analysis = n_analysis - i),
-          y
+        et <- expected_time(
+          enroll_rate = enroll_rate, fail_rate = fail_rate,
+          ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
+          interval = c(.01, next_time)
         )
+        et$theta <- -log(et$ahr)
+        et$analysis <- n_analysis - i
+        y <- rbind(et, y)
 
         next_time <- y$time[1]
         # If the planned info_frac input by the user > event fraction
         # Equivalently, the planned info_frac happens later than planned calendar time
         # We will wait until the planned info_frac arrives
       } else if (info_frac[n_analysis - i] > if_alt[n_analysis - i]) {
-        y[n_analysis - i, ] <- expected_time(
+        et <- expected_time(
           enroll_rate = enroll_rate, fail_rate = fail_rate,
           ratio = ratio, target_event = info_frac[n_analysis - i] * final_event,
           interval = c(.01, next_time)
-        ) |>
-          dplyr::transmute(
-            analysis = n_analysis - i, time,
-            event, ahr, theta = -log(ahr),
-            info, info0
-          )
+        )
+        y[n_analysis - i, ] <- data.frame(
+          analysis = n_analysis - i, time = et$time,
+          event = et$event, ahr = et$ahr, theta = -log(et$ahr),
+          info = et$info, info0 = et$info0
+        )
 
         next_time <- y$time[n_analysis - i]
       }
@@ -313,44 +312,42 @@ gs_design_ahr <- function(
     )
   )
 
-  allout <- allout |>
-    # Add `~hr at bound`, `hr generic` and `nominal p`
-    mutate(
-      "~hr at bound" = exp(-z / sqrt(info0)),
-      "nominal p" = pnorm(-z)
-    ) |>
-    # Add `time`, `event`, `ahr`, `n` from gs_info_ahr call above
-    full_join(y |> select(-c(info, info0, theta)),
-      by = "analysis"
-    ) |>
-    # Select variables to be output
-    select(c(
-      "analysis", "bound", "time", "n", "event", "z",
-      "probability", "probability0", "ahr", "theta",
-      "info", "info0", "info_frac", "~hr at bound", "nominal p"
-    )) |>
-    # Arrange the output table
-    arrange(analysis, desc(bound))
+  # Add computed columns
+  allout[["~hr at bound"]] <- exp(-allout$z / sqrt(allout$info0))
+  allout[["nominal p"]] <- pnorm(-allout$z)
 
-  inflac_fct <- (allout |> filter(analysis == n_analysis, bound == "upper"))$info /
-    (y |> filter(analysis == n_analysis))$info
+  # Merge time, event, ahr, n from gs_info_ahr call above
+  y_merge <- y[, setdiff(names(y), c("info", "info0", "theta")), drop = FALSE]
+  allout <- merge(allout, y_merge, by = "analysis", all.x = TRUE)
+
+  # Select and reorder columns
+  out_cols <- c("analysis", "bound", "time", "n", "event", "z",
+                "probability", "probability0", "ahr", "theta",
+                "info", "info0", "info_frac", "~hr at bound", "nominal p")
+  allout <- allout[, out_cols, drop = FALSE]
+
+  # Sort: by analysis, then upper before lower
+  allout <- allout[order(allout$analysis, allout$bound != "upper"), ]
+  rownames(allout) <- NULL
+
+  inflac_fct <- allout$info[allout$analysis == n_analysis & allout$bound == "upper"] /
+    y$info[y$analysis == n_analysis]
   allout$event <- allout$event * inflac_fct
   allout$n <- allout$n * inflac_fct
 
 
   # Get bounds to output ----
-  bound <- allout |>
-    select(all_of(c(
-      "analysis", "bound", "probability", "probability0",
-      "z", "~hr at bound", "nominal p"
-    ))) |>
-    arrange(analysis, desc(bound))
+  bound <- allout[, c("analysis", "bound", "probability", "probability0",
+                       "z", "~hr at bound", "nominal p"), drop = FALSE]
+  bound <- bound[order(bound$analysis, bound$bound != "upper"), ]
+  rownames(bound) <- NULL
 
   # Output spending time to the bounds table
-  info0 <- (allout |> filter(bound == "upper"))$info0
-  info <- (allout |> filter(bound == "upper"))$info
-  info0_final <- (allout |> filter(analysis == n_analysis, bound == "upper"))$info0
-  info_final <- (allout |> filter(analysis == n_analysis, bound == "upper"))$info
+  upper_rows <- allout$bound == "upper"
+  info0 <- allout$info0[upper_rows]
+  info <- allout$info[upper_rows]
+  info0_final <- allout$info0[allout$analysis == n_analysis & upper_rows]
+  info_final <- allout$info[allout$analysis == n_analysis & upper_rows]
 
   bound$spending_time <- NA
 
@@ -383,11 +380,10 @@ gs_design_ahr <- function(
   }
 
   # Get analysis summary to output ----
-  analysis <- allout |>
-    select(analysis, time, n, event, ahr, theta, info, info0, info_frac) |>
-    mutate(info_frac0 = event / last_(event)) |>
-    unique() |>
-    arrange(analysis)
+  analysis <- unique(allout[, c("analysis", "time", "n", "event", "ahr", "theta", "info", "info0", "info_frac"), drop = FALSE])
+  analysis$info_frac0 <- analysis$event / last_(analysis$event)
+  analysis <- analysis[order(analysis$analysis), ]
+  rownames(analysis) <- NULL
 
   # Get input parameter to output ----
   input <- list(
@@ -403,13 +399,16 @@ gs_design_ahr <- function(
   )
 
   # Return the output ----
+  enroll_rate_out <- enroll_rate
+  enroll_rate_out$rate <- enroll_rate_out$rate * inflac_fct
+
   ans <- structure(
     list(
       design = "ahr",
       input = input,
-      enroll_rate = enroll_rate |> mutate(rate = rate * inflac_fct),
+      enroll_rate = enroll_rate_out,
       fail_rate = fail_rate,
-      bound = bound |> filter(!is.infinite(z)),
+      bound = bound[is.finite(bound$z), ],
       analysis = analysis
     ),
     class = "gs_design",
