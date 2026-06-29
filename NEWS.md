@@ -3,11 +3,30 @@
 ## New features
 
 - The minimal risk weighting strategy has been added to `gs_design_rd()` and `gs_power_rd()` for risk difference design (#611, #614, thanks to @LittleBeannie).
-- The `sequential_pval()` function has been added to calculate the sequential p-value for a AHR group sequential design (#605, thanks to @LittleBeannie).
+- The `sequential_pval()` function has been added to calculate the sequential p-value for an AHR group sequential design (#605, thanks to @LittleBeannie).
+- The `gs_cp()` and `gs_cp_simple()` functions are now available for conditional power computation for AHR designs with non-constant effect size (#550, thanks to @LittleBeannie and @shiyuskaya).
 
 ## Bug fixes
 
+- The minor formula mistakes in `gs_info_rd()` have been corrected (#615, thanks to @LittleBeannie).
 - The text summary of a stratified design now reports the correct enrollment duration and hazard ratios (#617, #619, thanks to @jdblischak).
+- The updated design summary no longer reports the `Time` column (#622, thanks to @LittleBeannie).
+- The change point used in the expected accrual calculation has been updated (#628, thanks to @LittleBeannie).
+
+## Improvements
+
+- `gs_design_ahr()` has been optimized to be about 2x faster (#623, thanks to @yihui).
+- Return object preparation from `gs_power_npe()` has been optimized (#624, thanks to @jdblischak).
+
+## Documentation
+
+- The README example has been corrected to use the proper `test_upper` value (#621, thanks to @LittleBeannie).
+
+## Testing
+
+- Developer and independent tests have been migrated from testthat to testit (#625, thanks to @yihui).
+- Test names and tolerances have been updated for cross-platform consistency (#637, #639, thanks to @jdblischak).
+- GitHub Actions workflows have been updated for Node 24, Codecov v6, and automated action updates (#626, #632, #633, #634, thanks to @jdblischak).
 
 # gsDesign2 1.1.8
 
