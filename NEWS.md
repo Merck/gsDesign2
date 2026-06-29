@@ -3,7 +3,7 @@
 ## New features
 
 - The minimal risk weighting strategy has been added to `gs_design_rd()` and `gs_power_rd()` for risk difference design (#611, #614, thanks to @LittleBeannie).
-- The `sequential_pval()` function has been added to calculate the sequential p-value for a AHR group sequential design (#605, thanks to @LittleBeannie).
+- The `sequential_pval()` function has been added to calculate the sequential p-value for an AHR group sequential design (#605, thanks to @LittleBeannie).
 - The `gs_cp()` and `gs_cp_simple()` functions are now available for conditional power computation for AHR designs with non-constant effect size (#550, thanks to @LittleBeannie and @shiyuskaya).
 
 ## Bug fixes
