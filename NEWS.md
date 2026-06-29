@@ -15,7 +15,7 @@
 
 ## Improvements
 
-- `gs_design_ahr()` has been optimized for substantially faster run time (#623, thanks to @yihui).
+- `gs_design_ahr()` has been optimized to be about 2x faster (#623, thanks to @yihui).
 - Return object preparation from `gs_power_npe()` has been optimized (#624, thanks to @jdblischak).
 
 ## Documentation
