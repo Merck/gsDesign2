@@ -108,8 +108,10 @@ x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    info_scale = "h0_h1_info") |> to_integer()
 
 # calculate conditional power
-# case 1: currently at IA1, compute conditional power at IA2, IA3 and FA, with default theta = NULL
-gs_cp(x = x, i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+# case 1: currently at IA1, compute conditional power at IA2, IA3 and FA, 
+# with default theta = NULL
+gs_cp(x = x, i = 1, 
+zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 #> $prob_alpha
 #> [1] 0.4092021 0.4521861 0.1219315
 #> 
@@ -120,8 +122,12 @@ gs_cp(x = x, i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 #> [1] 0.5907979 0.0000000 0.0000000
 #> 
 
-# case 2: currently at IA1, compute conditional power at IA2, IA3 and FA, with user-input theta
-gs_cp(x = x, theta = c(0.15, 0.2, 0.25, 0.3), i = 1, zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+# case 2: currently at IA1, compute conditional power at IA2, IA3 and FA, 
+# with user-input theta
+gs_cp(x = x, 
+  theta = c(0.15, 0.2, 0.25, 0.3), 
+  i = 1, 
+  zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 #> $prob_alpha
 #> [1] 0.53387369 0.43584552 0.02968923
 #> 

@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,11 +44,31 @@
 <div class="section level3">
 <h3 id="new-features-1-1-9">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-9"></a></h3>
 <ul><li>The minimal risk weighting strategy has been added to <code><a href="../reference/gs_design_rd.html">gs_design_rd()</a></code> and <code><a href="../reference/gs_power_rd.html">gs_power_rd()</a></code> for risk difference design (<a href="https://github.com/Merck/gsDesign2/issues/611" class="external-link">#611</a>, <a href="https://github.com/Merck/gsDesign2/issues/614" class="external-link">#614</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
-<li>The <code><a href="../reference/sequential_pval.html">sequential_pval()</a></code> function has been added to calculate the sequential p-value for a AHR group sequential design (<a href="https://github.com/Merck/gsDesign2/issues/605" class="external-link">#605</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>The <code><a href="../reference/sequential_pval.html">sequential_pval()</a></code> function has been added to calculate the sequential p-value for an AHR group sequential design (<a href="https://github.com/Merck/gsDesign2/issues/605" class="external-link">#605</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>The <code><a href="../reference/gs_cp.html">gs_cp()</a></code> and <code><a href="../reference/gs_cp_simple.html">gs_cp_simple()</a></code> functions are now available for conditional power computation for AHR designs with non-constant effect size (<a href="https://github.com/Merck/gsDesign2/issues/550" class="external-link">#550</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a> and <a href="https://github.com/shiyuskaya" class="external-link">@shiyuskaya</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-1-9">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-9"></a></h3>
-<ul><li>The text summary of a stratified design now reports the correct enrollment duration and hazard ratios (<a href="https://github.com/Merck/gsDesign2/issues/617" class="external-link">#617</a>, <a href="https://github.com/Merck/gsDesign2/issues/619" class="external-link">#619</a>, thanks to <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>).</li>
+<ul><li>The minor formula mistakes in <code><a href="../reference/gs_info_rd.html">gs_info_rd()</a></code> have been corrected (<a href="https://github.com/Merck/gsDesign2/issues/615" class="external-link">#615</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>The text summary of a stratified design now reports the correct enrollment duration and hazard ratios (<a href="https://github.com/Merck/gsDesign2/issues/617" class="external-link">#617</a>, <a href="https://github.com/Merck/gsDesign2/issues/619" class="external-link">#619</a>, thanks to <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>).</li>
+<li>The updated design summary no longer reports the <code>Time</code> column (<a href="https://github.com/Merck/gsDesign2/issues/622" class="external-link">#622</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+<li>The change point used in the expected accrual calculation has been updated (<a href="https://github.com/Merck/gsDesign2/issues/628" class="external-link">#628</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-1-1-9">Improvements<a class="anchor" aria-label="anchor" href="#improvements-1-1-9"></a></h3>
+<ul><li>
+<code><a href="../reference/gs_design_ahr.html">gs_design_ahr()</a></code> has been optimized to be about 2x faster (<a href="https://github.com/Merck/gsDesign2/issues/623" class="external-link">#623</a>, thanks to <a href="https://github.com/yihui" class="external-link">@yihui</a>).</li>
+<li>Return object preparation from <code><a href="../reference/gs_power_design_npe.html">gs_power_npe()</a></code> has been optimized (<a href="https://github.com/Merck/gsDesign2/issues/624" class="external-link">#624</a>, thanks to <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-1-1-9">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-1-9"></a></h3>
+<ul><li>The README example has been corrected to use the proper <code>test_upper</code> value (<a href="https://github.com/Merck/gsDesign2/issues/621" class="external-link">#621</a>, thanks to <a href="https://github.com/LittleBeannie" class="external-link">@LittleBeannie</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="testing-1-1-9">Testing<a class="anchor" aria-label="anchor" href="#testing-1-1-9"></a></h3>
+<ul><li>Developer and independent tests have been migrated from testthat to testit (<a href="https://github.com/Merck/gsDesign2/issues/625" class="external-link">#625</a>, thanks to <a href="https://github.com/yihui" class="external-link">@yihui</a>).</li>
+<li>Test names and tolerances have been updated for cross-platform consistency (<a href="https://github.com/Merck/gsDesign2/issues/637" class="external-link">#637</a>, <a href="https://github.com/Merck/gsDesign2/issues/639" class="external-link">#639</a>, thanks to <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>).</li>
+<li>GitHub Actions workflows have been updated for Node 24, Codecov v6, and automated action updates (<a href="https://github.com/Merck/gsDesign2/issues/626" class="external-link">#626</a>, <a href="https://github.com/Merck/gsDesign2/issues/632" class="external-link">#632</a>, <a href="https://github.com/Merck/gsDesign2/issues/633" class="external-link">#633</a>, <a href="https://github.com/Merck/gsDesign2/issues/634" class="external-link">#634</a>, thanks to <a href="https://github.com/jdblischak" class="external-link">@jdblischak</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">

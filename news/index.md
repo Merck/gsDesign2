@@ -14,17 +14,71 @@
   [@LittleBeannie](https://github.com/LittleBeannie)).
 - The
   [`sequential_pval()`](https://merck.github.io/gsDesign2/reference/sequential_pval.md)
-  function has been added to calculate the sequential p-value for a AHR
+  function has been added to calculate the sequential p-value for an AHR
   group sequential design
   ([\#605](https://github.com/Merck/gsDesign2/issues/605), thanks to
   [@LittleBeannie](https://github.com/LittleBeannie)).
+- The [`gs_cp()`](https://merck.github.io/gsDesign2/reference/gs_cp.md)
+  and
+  [`gs_cp_simple()`](https://merck.github.io/gsDesign2/reference/gs_cp_simple.md)
+  functions are now available for conditional power computation for AHR
+  designs with non-constant effect size
+  ([\#550](https://github.com/Merck/gsDesign2/issues/550), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie) and
+  [@shiyuskaya](https://github.com/shiyuskaya)).
 
 ### Bug fixes
 
+- The minor formula mistakes in
+  [`gs_info_rd()`](https://merck.github.io/gsDesign2/reference/gs_info_rd.md)
+  have been corrected
+  ([\#615](https://github.com/Merck/gsDesign2/issues/615), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie)).
 - The text summary of a stratified design now reports the correct
   enrollment duration and hazard ratios
   ([\#617](https://github.com/Merck/gsDesign2/issues/617),
   [\#619](https://github.com/Merck/gsDesign2/issues/619), thanks to
+  [@jdblischak](https://github.com/jdblischak)).
+- The updated design summary no longer reports the `Time` column
+  ([\#622](https://github.com/Merck/gsDesign2/issues/622), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie)).
+- The change point used in the expected accrual calculation has been
+  updated ([\#628](https://github.com/Merck/gsDesign2/issues/628),
+  thanks to [@LittleBeannie](https://github.com/LittleBeannie)).
+
+### Improvements
+
+- [`gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md)
+  has been optimized to be about 2x faster
+  ([\#623](https://github.com/Merck/gsDesign2/issues/623), thanks to
+  [@yihui](https://github.com/yihui)).
+- Return object preparation from
+  [`gs_power_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
+  has been optimized
+  ([\#624](https://github.com/Merck/gsDesign2/issues/624), thanks to
+  [@jdblischak](https://github.com/jdblischak)).
+
+### Documentation
+
+- The README example has been corrected to use the proper `test_upper`
+  value ([\#621](https://github.com/Merck/gsDesign2/issues/621), thanks
+  to [@LittleBeannie](https://github.com/LittleBeannie)).
+
+### Testing
+
+- Developer and independent tests have been migrated from testthat to
+  testit ([\#625](https://github.com/Merck/gsDesign2/issues/625), thanks
+  to [@yihui](https://github.com/yihui)).
+- Test names and tolerances have been updated for cross-platform
+  consistency ([\#637](https://github.com/Merck/gsDesign2/issues/637),
+  [\#639](https://github.com/Merck/gsDesign2/issues/639), thanks to
+  [@jdblischak](https://github.com/jdblischak)).
+- GitHub Actions workflows have been updated for Node 24, Codecov v6,
+  and automated action updates
+  ([\#626](https://github.com/Merck/gsDesign2/issues/626),
+  [\#632](https://github.com/Merck/gsDesign2/issues/632),
+  [\#633](https://github.com/Merck/gsDesign2/issues/633),
+  [\#634](https://github.com/Merck/gsDesign2/issues/634), thanks to
   [@jdblischak](https://github.com/jdblischak)).
 
 ## gsDesign2 1.1.8

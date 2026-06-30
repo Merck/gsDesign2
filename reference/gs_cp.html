@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,8 +141,10 @@ $$P(\{Z_j \leq b_j\} \&amp; \{\cap_{m=i+1}^{j-1} a_m \leq Z_m &lt; b_m\} \mid Z_
 <span class="r-in"><span>                   info_scale <span class="op">=</span> <span class="st">"h0_h1_info"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="to_integer.html">to_integer</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># calculate conditional power</span></span></span>
-<span class="r-in"><span><span class="co"># case 1: currently at IA1, compute conditional power at IA2, IA3 and FA, with default theta = NULL</span></span></span>
-<span class="r-in"><span><span class="fu">gs_cp</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, i <span class="op">=</span> <span class="fl">1</span>, zi <span class="op">=</span> <span class="op">-</span><span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">hrn2z</a></span><span class="op">(</span>hr <span class="op">=</span> <span class="fl">0.8</span>, n <span class="op">=</span> <span class="fl">150</span><span class="op">+</span><span class="fl">180</span>, ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># case 1: currently at IA1, compute conditional power at IA2, IA3 and FA, </span></span></span>
+<span class="r-in"><span><span class="co"># with default theta = NULL</span></span></span>
+<span class="r-in"><span><span class="fu">gs_cp</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, i <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>zi <span class="op">=</span> <span class="op">-</span><span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">hrn2z</a></span><span class="op">(</span>hr <span class="op">=</span> <span class="fl">0.8</span>, n <span class="op">=</span> <span class="fl">150</span><span class="op">+</span><span class="fl">180</span>, ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prob_alpha</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4092021 0.4521861 0.1219315</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -153,8 +155,12 @@ $$P(\{Z_j \leq b_j\} \&amp; \{\cap_{m=i+1}^{j-1} a_m \leq Z_m &lt; b_m\} \mid Z_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5907979 0.0000000 0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># case 2: currently at IA1, compute conditional power at IA2, IA3 and FA, with user-input theta</span></span></span>
-<span class="r-in"><span><span class="fu">gs_cp</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">0.2</span>, <span class="fl">0.25</span>, <span class="fl">0.3</span><span class="op">)</span>, i <span class="op">=</span> <span class="fl">1</span>, zi <span class="op">=</span> <span class="op">-</span><span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">hrn2z</a></span><span class="op">(</span>hr <span class="op">=</span> <span class="fl">0.8</span>, n <span class="op">=</span> <span class="fl">150</span><span class="op">+</span><span class="fl">180</span>, ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># case 2: currently at IA1, compute conditional power at IA2, IA3 and FA, </span></span></span>
+<span class="r-in"><span><span class="co"># with user-input theta</span></span></span>
+<span class="r-in"><span><span class="fu">gs_cp</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, </span></span>
+<span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">0.2</span>, <span class="fl">0.25</span>, <span class="fl">0.3</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>  i <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>  zi <span class="op">=</span> <span class="op">-</span><span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">hrn2z</a></span><span class="op">(</span>hr <span class="op">=</span> <span class="fl">0.8</span>, n <span class="op">=</span> <span class="fl">150</span><span class="op">+</span><span class="fl">180</span>, ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prob_alpha</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.53387369 0.43584552 0.02968923</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
