@@ -2,6 +2,8 @@
 
 ## gsDesign2 1.1.9
 
+CRAN release: 2026-06-30
+
 ### New features
 
 - The minimal risk weighting strategy has been added to
