@@ -992,11 +992,11 @@ x <- p_c |>
 x |>
   lt() |>
   lt_format(columns = 4:8, decimals = 4) |>
-  lt_footnote(text = "p_pool = (p_c * n_c + p_e * n_e) / (n_c * n_e).", where = "column", columns = "p_pool") |>
-  lt_footnote(text = "xi_c = sample size of a strata / sample size of the control arm.", where = "column", columns = "xi_c") |>
-  lt_footnote(text = "xi_e = sample size of a strata / sample size of the experimental arm.", where = "column", columns = "xi_e") |>
-  lt_footnote(text = "n_c = total sample size of the control arm.", where = "column", columns = "n_c") |>
-  lt_footnote(text = "n_e = total size of the experimental arm.", where = "column", columns = "n_e") |>
+  lt_footnote("p_pool = (p_c * n_c + p_e * n_e) / (n_c * n_e).", where = "column", columns = "p_pool") |>
+  lt_footnote("xi_c = sample size of a strata / sample size of the control arm.", where = "column", columns = "xi_c") |>
+  lt_footnote("xi_e = sample size of a strata / sample size of the experimental arm.", where = "column", columns = "xi_e") |>
+  lt_footnote("n_c = total sample size of the control arm.", where = "column", columns = "n_c") |>
+  lt_footnote("n_e = total size of the experimental arm.", where = "column", columns = "n_e") |>
   lt_header(title = "Stratified Example")
 ```
 
@@ -1036,8 +1036,8 @@ x <- x |>
 x |>
   lt() |>
   lt_format(6:11, decimals = 4) |>
-  lt_footnote(text = "sigma_h0 = the H0 sd per stratum per analysis.", where = "column", columns = "sigma_h0") |>
-  lt_footnote(text = "sigma_h1 = the H0 sd per stratum per analysis.", where = "column", columns = "sigma_h1")
+  lt_footnote("sigma_h0 = the H0 sd per stratum per analysis.", where = "column", columns = "sigma_h0") |>
+  lt_footnote("sigma_h1 = the H0 sd per stratum per analysis.", where = "column", columns = "sigma_h1")
 ```
 
 Second, we calculate the weight by using inverse variance
@@ -1067,9 +1067,9 @@ x <- x |>
 x |>
   lt() |>
   lt_format(6:14, decimals = 4) |>
-  lt_footnote(text = "weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "weight_invar_H0") |>
-  lt_footnote(text = "weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1.", where = "column", columns = "weight_invar_H1") |>
-  lt_footnote(text = "weight_ss = the weight per stratum per analysis calculated by SS.", where = "column", columns = "weight_ss")
+  lt_footnote("weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "weight_invar_H0") |>
+  lt_footnote("weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1.", where = "column", columns = "weight_invar_H1") |>
+  lt_footnote("weight_ss = the weight per stratum per analysis calculated by SS.", where = "column", columns = "weight_ss")
 ```
 
 Third, we calculate the weighted risk difference and weighted
@@ -1148,12 +1148,12 @@ x <- x |>
 x |>
   lt() |>
   lt_format(c(2:4, 6:11), decimals = 6) |>
-  lt_footnote(text = "info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info_invar_H0") |>
-  lt_footnote(text = "info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info_invar_H1") |>
-  lt_footnote(text = "info_ss = the statistical information under H1 per stratum per analysis calculated by SS.", where = "column", columns = "info_ss") |>
-  lt_footnote(text = "info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info0_invar_H0") |>
-  lt_footnote(text = "info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info0_invar_H1") |>
-  lt_footnote(text = "info0_ss = the statistical information under H0 per stratum per analysis calculated by SS.", where = "column", columns = "info0_ss")
+  lt_footnote("info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info_invar_H0") |>
+  lt_footnote("info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info_invar_H1") |>
+  lt_footnote("info_ss = the statistical information under H1 per stratum per analysis calculated by SS.", where = "column", columns = "info_ss") |>
+  lt_footnote("info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info0_invar_H0") |>
+  lt_footnote("info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info0_invar_H1") |>
+  lt_footnote("info0_ss = the statistical information under H0 per stratum per analysis calculated by SS.", where = "column", columns = "info0_ss")
 ```
 
 ```{r}

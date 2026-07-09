@@ -88,7 +88,7 @@ lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
 
   if (!isFALSE(footnote)) {
     ans <- ans |>
-      lt::lt_footnote(text = footnote, where = "title")
+      lt::lt_footnote(footnote, where = "title")
   }
 
   ans
