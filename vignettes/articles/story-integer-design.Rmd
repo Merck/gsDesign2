@@ -81,8 +81,8 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
   lt() |>
+  lt_group(~ Design, sep = TRUE) |>
   lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on binary endpoints (unstratified design)"
@@ -121,8 +121,8 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
   lt() |>
+  lt_group(~ Design, sep = TRUE) |>
   lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on survival endpoints (unstratified design)"
@@ -183,8 +183,8 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
   lt() |>
+  lt_group(~ Design, sep = TRUE) |>
   lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on binary endpoints (unstratified design)"
