@@ -2,7 +2,7 @@
 # Use knitr::knit() directly to avoid pandoc reformatting raw HTML tables.
 knit: |
   (function(inputFile, encoding) {
-    options(lt.lt_html = list(fragment = TRUE, css = FALSE))
+    options(lt.lt_static = list(fragment = TRUE, css = FALSE))
     output = knitr::knit(inputFile, encoding = encoding)
     body = xfun::yaml_body(xfun::read_utf8(output), parse = FALSE)$body
     body = body[cumsum(nzchar(body)) > 0]
