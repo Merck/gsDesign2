@@ -16,11 +16,11 @@ This project uses **testit** for testing. testit assertions are plain R expressi
 tests/
 ├── test-all.R              # Runner: library(testit); test_pkg("gsDesign2")
 └── testit/
-    ├── helper.R            # Shared setup (sourced before test files)
-    ├── helper-*.R          # Additional helpers
+    ├── helper.R            # Shared setup (auto-sourced before test files)
+    ├── helper-*.R          # Additional helpers (also auto-sourced)
     ├── fixtures/           # Test data (.Rdata, .rds, etc.)
     ├── test-*.R            # Test files
-    └── test-*.md           # Snapshot files (paired with .R files)
+    └── test-*.md           # Snapshot files (standalone, no .R file needed)
 ```
 
 ## Core Pattern
@@ -131,7 +131,7 @@ assert("output structure is correct", {
 
 ## Snapshot Tests
 
-Create a `.md` file alongside the `.R` file (same base name). Format:
+A `.md` snapshot file is a standalone test — it does NOT require a paired `.R` file. The `.md` file contains both the code and the expected output. Format:
 
 ````markdown
 ## `function_name()` description
@@ -154,7 +154,7 @@ testit runs the R code block and compares output to the text block. To initializ
 3. **Use `all.equal(..., tolerance = t)` with the tightest tolerance that passes** — don't use overly loose tolerances.
 4. **Group related assertions in one `assert()` block** — each block should test one logical concept.
 5. **Use descriptive assert messages** — they appear in failure output.
-6. **Shared setup goes in `helper.R`** — it's sourced before all test files.
+6. **Shared setup goes in `helper*.R` files** — testit auto-sources all `helper*.R` files before test files. Never `source()` them manually.
 7. **Load fixture data with `load("fixtures/file.Rdata")`** — paths are relative to `tests/testit/`.
 8. **Use `all.equal()` only when exact comparison fails in CI** — typically macOS produces slightly different floating-point results while `identical()` works fine on Windows/Linux.
 

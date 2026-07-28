@@ -271,3 +271,53 @@ assert("Spending time when some analyses are skipped", {
   expected <- x$analysis$info[2:3] / max(x$analysis$info)
   (filter(x$bound, bound == "lower")$spending_time %==% expected)
 })
+
+assert("Harm bound is not provided when it is a fixed design", {
+  x1 <- gs_power_npe(theta = 0.5, theta1 = 0.5, theta0 = 0,
+                      info = 10, info1 = 10, info0 = 11,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+  x2 <- gs_design_npe(theta = 0.5, theta1 = 0.5, theta0 = 0,
+                      info = 10, info1 = 10, info0 = 11,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+  x3 <- gs_design_ahr(analysis_time = 36, info_frac = NULL,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+  x4 <- gs_power_ahr(analysis_time = 36, event = NULL,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+
+  (x1$bound[abs(x1$z) != Inf] == "upper")
+  (x2$bound[abs(x2$z) != Inf] == "upper")
+  (x3$bound$bound[abs(x3$bound$z) != Inf] == "upper")
+  (x4$bound$bound[abs(x4$bound$z) != Inf] == "upper")
+  (has_error(gs_design_ahr(analysis_time = 40, test_harm = TRUE)))
+  (has_error(gs_design_ahr(analysis_time = 40, hpar = -2, test_harm = TRUE)))
+})
+
+assert("Harm bound is always below the lower bound in a group sequential design", {
+  x1 <- gs_design_ahr(analysis_time = c(12, 24, 36), info_frac = NULL,
+                      upper = gs_spending_bound, 
+                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+                      test_upper = TRUE,
+                      lower = gs_spending_bound, 
+                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2), 
+                      test_lower = TRUE,
+                      harm = gs_spending_bound,
+                      hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+                      test_harm = TRUE)
+  x2 <- gs_power_ahr(analysis_time = NULL, event = c(10, 50, 70),
+                      upper = gs_spending_bound, 
+                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+                      test_upper = TRUE,
+                      lower = gs_spending_bound, 
+                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2), 
+                      test_lower = TRUE,
+                      harm = gs_spending_bound,
+                      hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+                      test_harm = TRUE)
+
+  (all(x1$bound$z[x1$bound$bound == "lower"] - x1$bound$z[x1$bound$bound == "harm"] >= 0))
+  (all(x2$bound$z[x2$bound$bound == "lower"] - x2$bound$z[x2$bound$bound == "harm"] >= 0))
+})

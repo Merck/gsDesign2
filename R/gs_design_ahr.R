@@ -98,7 +98,7 @@
 #' # Example 2 ----
 #' # Single analysis
 #' gs_design_ahr(analysis_time = 40)
-#'
+#' 
 #' # Example 3 ----
 #' # Multiple analysis_time
 #' gs_design_ahr(analysis_time = c(12, 24, 36))
@@ -168,6 +168,22 @@
 #'   lpar = rep(-Inf, 3)
 #' )
 #' }
+#'
+#' # Example 8 ----
+#' # Design with an additional harm bound
+#' \donttest{
+#' gs_design_ahr(
+#'   analysis_time = c(12, 24, 36),
+#'   upper = gs_spending_bound,
+#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+#'   lower = gs_spending_bound,
+#'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+#'   test_lower = c(TRUE, TRUE, FALSE),
+#'   harm = gs_spending_bound,
+#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4, timing = NULL),
+#'   test_harm = c(TRUE, TRUE, FALSE)
+#' )
+#' }
 gs_design_ahr <- function(
     enroll_rate = define_enroll_rate(
       duration = c(2, 2, 10),
@@ -186,9 +202,12 @@ gs_design_ahr <- function(
     upar = list(sf = gsDesign::sfLDOF, total_spend = alpha),
     lower = gs_spending_bound,
     lpar = list(sf = gsDesign::sfLDOF, total_spend = beta),
+    harm = gs_b,
+    hpar = -Inf,
     h1_spending = TRUE,
     test_upper = TRUE,
     test_lower = TRUE,
+    test_harm = FALSE,
     info_scale = c("h0_h1_info", "h0_info", "h1_info"),
     r = 18,
     tol = 1e-6,
@@ -200,6 +219,10 @@ gs_design_ahr <- function(
   info_scale <- match.arg(info_scale)
   upper <- match.fun(upper)
   lower <- match.fun(lower)
+  harm <- match.fun(harm)
+
+  # Number of analyses (including final analysis)
+  n_analysis <- max(length(analysis_time), length(info_frac))
 
   # Check inputs ----
   check_analysis_time(analysis_time)
@@ -234,9 +257,6 @@ gs_design_ahr <- function(
   # Event fraction driven by the calendar time
   final_event <- y$event[nrow(y)]
   if_alt <- y$event / final_event
-
-  # Number of analyses (including final analysis)
-  n_analysis <- max(length(analysis_time), length(info_frac))
 
   # Initialize the next_time as the study duration
   next_time <- max(analysis_time)
@@ -308,6 +328,7 @@ gs_design_ahr <- function(
       alpha = alpha, beta = beta, binding = binding,
       upper = upper, upar = upar, test_upper = test_upper,
       lower = lower, lpar = lpar, test_lower = test_lower,
+      harm = harm, hpar = hpar, test_harm = test_harm,
       r = r, tol = tol
     )
   )
@@ -359,7 +380,6 @@ gs_design_ahr <- function(
       spending_time_upper <- info0 / info0_final
     }
 
-
     bound$spending_time[which(bound$bound == "upper")] <- spending_time_upper
   }
 
@@ -373,6 +393,16 @@ gs_design_ahr <- function(
     }
 
     bound$spending_time[which(bound$bound == "lower")] <- spending_time_lower
+  }
+
+  if (identical(harm, gs_spending_bound)) {
+    if (!is.null(hpar$timing)) {
+      spending_time_harm <- hpar$timing
+    } else {
+      spending_time_harm <- info0 / info0_final
+    }
+
+    bound$spending_time[which(bound$bound == "harm")] <- spending_time_harm
   }
 
   if (all(is.na(bound$spending_time))){
@@ -393,7 +423,8 @@ gs_design_ahr <- function(
     info_scale = info_scale,
     upper = upper, upar = upar,
     lower = lower, lpar = lpar,
-    test_upper = test_upper, test_lower = test_lower,
+    harm = harm, hpar = hpar,
+    test_upper = test_upper, test_lower = test_lower, test_harm = test_harm,
     h1_spending = h1_spending, binding = binding,
     info_scale = info_scale, r = r, tol = tol
   )

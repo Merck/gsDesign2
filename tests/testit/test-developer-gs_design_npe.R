@@ -268,3 +268,13 @@ assert("2-sided symmetric spend", {
     dplyr::arrange(analysis, bound)
   (as.data.frame(x1_c) %==% as.data.frame(x2))
 })
+
+assert("Harm bound is not provided for fixed designs", {
+  (has_error(
+    gs_design_npe(
+      theta = 0.1, info = 40,
+      upper = gs_b, upar = -qnorm(0.025), test_upper = TRUE,
+      lower = gs_b, lpar = -Inf, test_lower = FALSE,
+      harm = gs_b, hpar = -2, test_harm = TRUE)
+  ))
+})

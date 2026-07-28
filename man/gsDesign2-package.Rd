@@ -24,6 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Yujie Zhao \email{yujie.zhao@merck.com}
   \item Keaven Anderson \email{keaven_anderson@merck.com}
   \item Yilong Zhang \email{elong0527@gmail.com}
   \item John Blischak \email{jdblischak@gmail.com}

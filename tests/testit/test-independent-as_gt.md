@@ -147,7 +147,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  AHR approximations of \textasciitilde{}HR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){5-6}
@@ -182,7 +182,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  AHR approximations of \textasciitilde{}HR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){5-6}
@@ -190,18 +190,18 @@ Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}HR at bound
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -1.17 & 0.8792 & 1.5336 & 0.0349 & 0.1208 \\ 
 Efficacy & 2.67 & 0.0038 & 0.3774 & 0.0231 & 0.0038 \\ 
+Futility & -1.17 & 0.8792 & 1.5336 & 0.0349 & 0.1208 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.74 Information fraction: 0.8} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.66 & 0.7462 & 1.2331 & 0.0668 & 0.2655 \\ 
 Efficacy & 2.29 & 0.0110 & 0.4849 & 0.0897 & 0.0122 \\ 
+Futility & -0.66 & 0.7462 & 1.2331 & 0.0668 & 0.2655 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.23 & 0.5897 & 1.0662 & 0.1008 & 0.4303 \\ 
 Efficacy & 2.03 & 0.0211 & 0.5631 & 0.2070 & 0.0250 \\ 
+Futility & -0.23 & 0.5897 & 1.0662 & 0.1008 & 0.4303 \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
@@ -228,7 +228,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){5-6}
@@ -275,7 +275,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}}\textsuperscript{\textit{2}} \\ 
 \cmidrule(lr){5-6}
@@ -283,18 +283,18 @@ Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
+Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
+Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
+Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
@@ -337,7 +337,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  MaxCombo approximation\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrr}
 \toprule
  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){4-5}
@@ -345,18 +345,18 @@ Bound & Z & Nominal p\textsuperscript{\textit{1}} & Alternate hypothesis & Null 
 \midrule\addlinespace[2.5pt]
 \multicolumn{5}{l}{Analysis: 1 Time: 12 N: 500 Events: 107.4 AHR: 0.84 Event fraction: 0.32\textsuperscript{\textit{2}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -1 & 0.8413 & 0.0293 & 0.0000 \\ 
 Efficacy & 3 & 0.0013 & 0.0175 & 0.0013 \\ 
+Futility & -1 & 0.8413 & 0.0293 & 0.0000 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{5}{l}{Analysis: 2 Time: 24 N: 500 Events: 246.3 AHR: 0.72 Event fraction: 0.74\textsuperscript{\textit{2}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & 0 & 0.5000 & 0.0314 & 0.0000 \\ 
 Efficacy & 2 & 0.0228 & 0.7261 & 0.0233 \\ 
+Futility & 0 & 0.5000 & 0.0314 & 0.0000 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{5}{l}{Analysis: 3 Time: 36 N: 500 Events: 331.3 AHR: 0.68 Event fraction: 1\textsuperscript{\textit{2}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & 1 & 0.1587 & 0.0326 & 0.0000 \\ 
 Efficacy & 1 & 0.1587 & 0.9674 & 0.1956 \\ 
+Futility & 1 & 0.1587 & 0.0326 & 0.0000 \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
@@ -383,7 +383,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  measured by risk difference\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){5-6}
@@ -417,7 +417,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  measured by risk difference\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){5-6}
@@ -425,8 +425,8 @@ Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}Risk differ
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 1 N: 40 Risk difference: 0.05 Information fraction: 0.67} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -1.28 & 0.9000 & -0.1537 & 0.0444 & 0.1000 \\ 
 Efficacy & 3.71 & 0.0001 & 0.4448 & 0.0005 & 0.0001 \\ 
+Futility & -1.28 & 0.9000 & -0.1537 & 0.0444 & 0.1000 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 2 N: 50 Risk difference: 0.05 Information fraction: 0.83} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
@@ -461,7 +461,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  from gs\_power\_wlr\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){5-6}
@@ -469,18 +469,18 @@ Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at boun
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
+Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
+Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
+Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
@@ -511,7 +511,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative probability to cross boundaries}} \\ 
 \cmidrule(lr){5-6}
@@ -519,18 +519,18 @@ Bound & Z & Nominal p\textsuperscript{\textit{1}} & \textasciitilde{}wHR at boun
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{3}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
+Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{3}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
+Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{3}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
+Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
@@ -569,7 +569,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}}\textsuperscript{\textit{2}} \\ 
 \cmidrule(lr){5-6}
@@ -577,18 +577,18 @@ Bound & Z & Nominal p & \textasciitilde{}wHR at bound\textsuperscript{\textit{3}
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{4}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 Efficacy & 2.68 & 0.0037 & 0.3765 & 0.0217 & 0.0037 \\ 
+Futility & -1.17 & 0.8798 & 1.5353 & 0.0341 & 0.1202 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{4}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 Efficacy & 2.29 & 0.0110 & 0.4846 & 0.0886 & 0.0121 \\ 
+Futility & -0.66 & 0.7452 & 1.2319 & 0.0664 & 0.2664 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{6}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{4}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 Efficacy & 2.03 & 0.0212 & 0.5631 & 0.2071 & 0.0250 \\ 
+Futility & -0.22 & 0.5881 & 1.0650 & 0.1002 & 0.4319 \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
@@ -617,7 +617,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrrr}
 \toprule
  &  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){5-6}
@@ -661,7 +661,7 @@ gt_to_latex(output)
 {\fontsize{14}{17}\selectfont  WLR approximation of \textasciitilde{}wHR at bound\fontsize{12}{15}\selectfont }
 } 
 \fontsize{12.0pt}{14.0pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrrr}
 \toprule
  &  &  & \multicolumn{2}{c}{{Cumulative boundary crossing probability}} \\ 
 \cmidrule(lr){4-5}
@@ -669,18 +669,18 @@ Bound & Nominal p\textsuperscript{\textit{1}} & Z & Alternate hypothesis & Null 
 \midrule\addlinespace[2.5pt]
 \multicolumn{5}{l}{Analysis: 1 Time: 14.9 N: 108 Events: 30 AHR: 0.79 Information fraction: 0.6\textsuperscript{\textit{2}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & 0.8798 & -1.17 & 0.0341 & 0.1202 \\ 
 Efficacy & 0.0037 & 2.68 & 0.0217 & 0.0037 \\ 
+Futility & 0.8798 & -1.17 & 0.0341 & 0.1202 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{5}{l}{Analysis: 2 Time: 19.2 N: 108 Events: 40 AHR: 0.75 Information fraction: 0.8\textsuperscript{\textit{2}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & 0.7452 & -0.66 & 0.0664 & 0.2664 \\ 
 Efficacy & 0.0110 & 2.29 & 0.0886 & 0.0121 \\ 
+Futility & 0.7452 & -0.66 & 0.0664 & 0.2664 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{5}{l}{Analysis: 3 Time: 24.5 N: 108 Events: 50 AHR: 0.71 Information fraction: 1\textsuperscript{\textit{2}}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
-Futility & 0.5881 & -0.22 & 0.1002 & 0.4319 \\ 
 Efficacy & 0.0212 & 2.03 & 0.2071 & 0.0250 \\ 
+Futility & 0.5881 & -0.22 & 0.1002 & 0.4319 \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
