@@ -87,7 +87,7 @@ simplify them into two types according to whether lower bounds are
 binding or non-binding. The concept is to implicitly derive Z-value
 bounds \\a_k, b_k, k=1,\cdots,K\\ based on probabilities specified in
 the following table. We include the `test.type` argument from the
-[`gsDesign::gsDesign()`](https://keaven.github.io/gsDesign/reference/gsDesign.html)
+[`gsDesign::gsDesign()`](https://keaven.github.io/gsDesign//reference/gsDesign.html)
 function for reference.
 
 | `test.type` | Upper bound | Lower bound | Design type |

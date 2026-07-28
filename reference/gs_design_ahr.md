@@ -21,9 +21,12 @@ gs_design_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = alpha),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = beta),
+  harm = gs_b,
+  hpar = -Inf,
   h1_spending = TRUE,
   test_upper = TRUE,
   test_lower = TRUE,
+  test_harm = FALSE,
   info_scale = c("h0_h1_info", "h0_info", "h1_info"),
   r = 18,
   tol = 1e-06,
@@ -106,6 +109,15 @@ gs_design_ahr(
 
   Parameters passed to `lower`, which can be set up similarly as `upar.`
 
+- harm:
+
+  Function to compute harm bound, which can be set up similarly as
+  `lower`.
+
+- hpar:
+
+  Parameters passed to `harm`, which can be set up similarly as `lpar.`
+
 - h1_spending:
 
   Indicator that lower bound to be set by spending under alternate
@@ -129,6 +141,16 @@ gs_design_ahr(
   indicated no lower bound; otherwise, a logical vector of the same
   length as `info` should indicate which analyses will have a lower
   bound.
+
+- test_harm:
+
+  Indicator of which analyses should include a harm bound; single value
+  of `TRUE` (default) indicates all analyses; single value of `FALSE`
+  indicates no harm bound; otherwise, a logical vector of the same
+  length as `info` should indicate which analyses will have a harm
+  bound. For fixed designs, the harm bound is typically not included.
+  For group sequential designs, the harm bound is always smaller than
+  the lower bound (if any).
 
 - info_scale:
 
@@ -678,6 +700,68 @@ gs_design_ahr(
 #> 1        1   12 483.1812 109.5453 0.8107539 0.2097907 26.99548 27.38632
 #> 2        2   24 579.8174 263.4393 0.7151566 0.3352538 64.42022 65.85982
 #> 3        3   36 579.8174 355.6186 0.6833395 0.3807634 87.33726 88.90464
+#>   info_frac info_frac0
+#> 1 0.3090946  0.3080415
+#> 2 0.7376029  0.7407917
+#> 3 1.0000000  1.0000000
+#> 
+# }
+
+# Example 8 ----
+# Design with an additional harm bound
+# \donttest{
+gs_design_ahr(
+  analysis_time = c(12, 24, 36),
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+  test_lower = c(TRUE, TRUE, FALSE),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4, timing = NULL),
+  test_harm = c(TRUE, TRUE, FALSE)
+)
+#> $design
+#> [1] "ahr"
+#> 
+#> $enroll_rate
+#> # A tibble: 3 × 3
+#>   stratum duration  rate
+#>   <chr>      <dbl> <dbl>
+#> 1 All            2  14.6
+#> 2 All            2  29.1
+#> 3 All           10  43.7
+#> 
+#> $fail_rate
+#> # A tibble: 2 × 5
+#>   stratum duration fail_rate dropout_rate    hr
+#>   <chr>      <dbl>     <dbl>        <dbl> <dbl>
+#> 1 All            3    0.0770        0.001   0.9
+#> 2 All          100    0.0385        0.001   0.6
+#> 
+#> $bound
+#>   analysis bound  probability probability0          z ~hr at bound    nominal p
+#> 1        1 upper 0.0024886645 5.380432e-05  3.8727626    0.4592218 5.380432e-05
+#> 2        1  harm 0.0003589292 9.062431e-03 -2.3630574    1.6077738 9.909376e-01
+#> 3        1 lower 0.0136835827 1.193692e-01 -1.1781462    1.2671186 8.806308e-01
+#> 4        2 upper 0.5794094553 9.208423e-03  2.3578702    0.7367301 9.190059e-03
+#> 5        2  harm 0.0003772305 6.850678e-02 -1.5142303    1.2167879 9.350163e-01
+#> 6        2 lower 0.0530692198 8.094475e-01  0.8726189    0.8930843 1.914354e-01
+#> 7        3 upper 0.8999999966 2.457011e-02  2.0095985    0.7992127 2.223685e-02
+#>   spending_time
+#> 1     0.3080415
+#> 2     0.3080415
+#> 3     0.3090946
+#> 4     0.7407917
+#> 5     0.7407917
+#> 6     0.7376029
+#> 7     1.0000000
+#> 
+#> $analysis
+#>   analysis time        n     event       ahr     theta     info    info0
+#> 1        1   12 436.9293  99.05919 0.8107539 0.2097907 24.41137 24.76480
+#> 2        2   24 524.3152 238.22191 0.7151566 0.3352538 58.25368 59.55548
+#> 3        3   36 524.3152 321.57745 0.6833395 0.3807634 78.97702 80.39436
 #>   info_frac info_frac0
 #> 1 0.3090946  0.3080415
 #> 2 0.7376029  0.7407917

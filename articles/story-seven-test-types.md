@@ -19,11 +19,11 @@ with the
 [`gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md)
 function here, using designs under proportional hazards assumptions to
 compare with
-[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
+[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
 Since the sample size methods differ between the
 [`gsDesign2::gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md)
 and
-[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html)
+[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html)
 functions, we use continuous sample sizes so that spending bounds
 (Z-values, nominal \\p\\-values, spending) should be identical except
 where noted. Indeed, we are able to reproduce bounds to a high degree of
@@ -39,7 +39,7 @@ For the last two examples, we implement integer sample size and event
 counts using the
 [`to_integer()`](https://merck.github.io/gsDesign2/reference/to_integer.md)
 function for the gsDesign2 package and the
-[`toInteger()`](https://keaven.github.io/gsDesign/reference/toInteger.html)
+[`toInteger()`](https://keaven.github.io/gsDesign//reference/toInteger.html)
 function for the gsDesign package. This would generally would be used
 for all cases other than when we are comparing package computations as
 in Examples 1–5.
@@ -205,7 +205,7 @@ symmetric |>
 [TABLE]
 
 We compare with
-[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
+[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
 
 ``` r
 
@@ -294,7 +294,7 @@ asymmetric_binding |>
 [TABLE]
 
 We compare with
-[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
+[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
 
 ``` r
 
@@ -327,7 +327,7 @@ asymmetricBinding |> gsBoundSummary()
 Comparing Z-value bounds directly, we again see approximately 6 digits
 of accuracy in spite of needing to relaxing accuracy to `tol = 1e-07` in
 the call to
-[`gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html) in
+[`gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html) in
 order to get convergence.
 
 ``` r
@@ -382,7 +382,7 @@ asymmetric_nonbinding |>
 [TABLE]
 
 We compare with
-[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
+[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
 
 ``` r
 
@@ -504,7 +504,7 @@ asymmetricSafetyBinding |> gsBoundSummary()
 
 Comparing Z-value bounds directly, we again see approximately 6 digits
 of accuracy. For
-[`gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html)
+[`gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html)
 this did not require the alternate arguments for `r` and `tol`.
 
 ``` r
@@ -559,7 +559,7 @@ asymmetric_safety_nonbinding |>
 [TABLE]
 
 The corresponding
-[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html)
+[`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html)
 design is not strictly comparable since the option to eliminate some
 futility and efficacy analyses is not enabled.
 
@@ -624,7 +624,7 @@ Z-values; this can be done as follows.
 
 interim_futility_z <- -gsDesign::hrn2z(hr = c(1, .9), n = targeted_events[1:2])
 interim_futility_z
-#> [1] 0.0000000 0.7615897
+#> [1]  0.0000000 -0.7615897
 ```
 
 We will add a final futility bound of `-Inf`, indicating no final

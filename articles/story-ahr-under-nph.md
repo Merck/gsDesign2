@@ -11,7 +11,7 @@ above setting, the
 [`gsDesign2::ahr()`](https://merck.github.io/gsDesign2/reference/ahr.md)
 routine provides an average hazard ratio that can be used for sample
 size using the function
-[`gsDesign::nSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html).
+[`gsDesign::nSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
 The approach assumes piecewise constant enrollment rates and piecewise
 exponential failure rates with the option of including multiple strata.
 This approach allows the flexibility to approximate a wide variety of
@@ -240,7 +240,7 @@ xx |>
 ### Deriving the design
 
 With this average hazard ratio, we use the call for
-[`gsDesign::nEvents()`](https://keaven.github.io/gsDesign/reference/nSurvival.html)
+[`gsDesign::nEvents()`](https://keaven.github.io/gsDesign//reference/nSurvival.html)
 which uses the Schoenfeld (1981) approximation to derive a targeted
 number of events. All you need for this is the average hazard ratio from
 above, the randomization ratio (experimental/control), Type I error and
@@ -580,7 +580,7 @@ ggplot(avehrtbl, aes(x = time, y = event)) +
 ### Simulation to verify power
 
 We change the enrollment rates by stratum produced by
-[`gsDesign::nSurv()`](https://keaven.github.io/gsDesign/reference/nSurv.html)
+[`gsDesign::nSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html)
 to overall enrollment rates needed for
 [`simtrial::sim_fixed_n()`](https://merck.github.io/simtrial/reference/sim_fixed_n.html).
 

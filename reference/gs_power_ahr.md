@@ -16,8 +16,11 @@ gs_power_ahr(
   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfLDOF, total_spend = NULL),
+  harm = gs_b,
+  hpar = -Inf,
   test_lower = TRUE,
   test_upper = TRUE,
+  test_harm = FALSE,
   ratio = 1,
   binding = FALSE,
   h1_spending = TRUE,
@@ -88,6 +91,15 @@ gs_power_ahr(
 
   Parameters passed to `lower`, which can be set up similarly as `upar.`
 
+- harm:
+
+  Function to compute harm bound, which can be set up similarly as
+  `lower`.
+
+- hpar:
+
+  Parameters passed to `harm`, which can be set up similarly as `lpar.`
+
 - test_lower:
 
   Indicator of which analyses should include a lower bound; single value
@@ -102,6 +114,16 @@ gs_power_ahr(
   single value of `TRUE` (default) indicates all analyses; otherwise, a
   logical vector of the same length as `info` should indicate which
   analyses will have an efficacy bound.
+
+- test_harm:
+
+  Indicator of which analyses should include a harm bound; single value
+  of `TRUE` (default) indicates all analyses; single value of `FALSE`
+  indicates no harm bound; otherwise, a logical vector of the same
+  length as `info` should indicate which analyses will have a harm
+  bound. For fixed designs, the harm bound is typically not included.
+  For group sequential designs, the harm bound is always smaller than
+  the lower bound (if any).
 
 - ratio:
 
@@ -412,6 +434,69 @@ gs_power_ahr(
 #> 4        2 lower 2.721433e-04 0.0092093035 -2.368721    1.9665818 0.9910751474
 #> 5        3 upper 3.237355e-01 0.0250000000  2.010883    0.6100896 0.0221689184
 #> 6        3 lower 4.052127e-04 0.0250000000 -2.010883    1.6391035 0.9778310816
+#> 
+#> $analysis
+#>   analysis     time   n    event       ahr     theta      info    info0
+#> 1        1 14.90817 108 30.00008 0.7865726 0.2400702  7.373433  7.50002
+#> 2        2 24.00000 108 49.06966 0.7151566 0.3352538 11.999266 12.26741
+#> 3        3 36.00000 108 66.23948 0.6833395 0.3807634 16.267921 16.55987
+#>   info_frac info_frac0
+#> 1 0.4532499  0.4529033
+#> 2 0.7376029  0.7407917
+#> 3 1.0000000  1.0000000
+#> 
+# }
+# Example 5 ----
+# 2-sided asymmetric O'Brien-Fleming spending bound with harm bound
+# driven by both `event` and `analysis_time`, i.e.,
+# both `event` and `analysis_time` are not `NULL`,
+# then the analysis will driven by the maximal one, i.e.,
+# Time = max(analysis_time, calculated Time for targeted event)
+# Events = max(events, calculated events for targeted analysis_time)
+# \donttest{
+gs_power_ahr(
+  analysis_time = c(12, 24, 36),
+  event = c(30, 40, 50), h1_spending = FALSE,
+  binding = TRUE,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  test_upper = c(TRUE, TRUE, TRUE),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
+  test_lower = c(TRUE, TRUE, TRUE),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4),
+  test_harm = c(TRUE, TRUE, TRUE)
+)
+#> $design
+#> [1] "ahr"
+#> 
+#> $enroll_rate
+#> # A tibble: 3 × 3
+#>   stratum duration  rate
+#>   <chr>      <dbl> <dbl>
+#> 1 All            2     3
+#> 2 All            2     6
+#> 3 All           10     9
+#> 
+#> $fail_rate
+#> # A tibble: 2 × 5
+#>   stratum duration fail_rate dropout_rate    hr
+#>   <chr>      <dbl>     <dbl>        <dbl> <dbl>
+#> 1 All            3    0.0770        0.001   0.9
+#> 2 All          100    0.0385        0.001   0.6
+#> 
+#> $bound
+#>   analysis bound probability probability0         z ~hr at bound    nominal p
+#> 1        1 upper 0.007063221 0.0008667173  3.132468    0.3186016 0.0008667173
+#> 2        1 lower 0.004280475 0.0230695510 -1.994119    2.0712415 0.9769304490
+#> 3        1  harm 0.003395836 0.0191063035 -2.072567    2.1314307 0.9808936965
+#> 4        2 upper 0.114573286 0.0092093035  2.368721    0.5084965 0.0089248526
+#> 5        2 lower 0.005504505 0.0532145478 -1.711962    1.6303335 0.9565481321
+#> 6        2  harm 0.004711652 0.0509233683 -1.711962    1.6303335 0.9565481321
+#> 7        3 upper 0.323733350 0.0250000000  2.010882    0.6100897 0.0221689455
+#> 8        3 lower 0.006405898 0.1000000000 -1.384715    1.4053362 0.9169302152
+#> 9        3  harm 0.005636549 0.0983329713 -1.384715    1.4053362 0.9169302152
 #> 
 #> $analysis
 #>   analysis     time   n    event       ahr     theta      info    info0

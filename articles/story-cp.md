@@ -146,7 +146,7 @@ xu |> gs_bound_summary() |> gt()
 We assume possible IA1 observed HR values of 0.6, 0.7, 0.8, and 0.9. We
 compute the conditional power at IA2 and FA given the IA1 observed HR
 and observed blinded events. The function
-[`gsDesign::hrn2z()`](https://keaven.github.io/gsDesign/reference/nSurvival.html)
+[`gsDesign::hrn2z()`](https://keaven.github.io/gsDesign//reference/nSurvival.html)
 translates a hazard ratio and number of events into an approximate
 corresponding Z-value, using the Schoenfeld approximation.
 

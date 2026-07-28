@@ -108,6 +108,9 @@ parameters used in the <code>gs_design_npe()</code>.</p>
 <span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  test_lower <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  harm <span class="op">=</span> <span class="va">gs_b</span>,</span>
+<span>  hpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>  test_harm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  r <span class="op">=</span> <span class="fl">18</span>,</span>
 <span>  tol <span class="op">=</span> <span class="fl">1e-06</span></span>
 <span><span class="op">)</span></span>
@@ -127,6 +130,9 @@ parameters used in the <code>gs_design_npe()</code>.</p>
 <span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  test_lower <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  harm <span class="op">=</span> <span class="va">gs_b</span>,</span>
+<span>  hpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>  test_harm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  r <span class="op">=</span> <span class="fl">18</span>,</span>
 <span>  tol <span class="op">=</span> <span class="fl">1e-06</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -239,6 +245,24 @@ indicate which analyses will have a lower bound.</p></dd>
 default of <code>FALSE</code> is recommended.</p></dd>
 
 
+<dt id="arg-harm">harm<a class="anchor" aria-label="anchor" href="#arg-harm"></a></dt>
+<dd><p>Function to compute harm bound, which can be set up similarly as <code>lower</code>.</p></dd>
+
+
+<dt id="arg-hpar">hpar<a class="anchor" aria-label="anchor" href="#arg-hpar"></a></dt>
+<dd><p>Parameters passed to <code>harm</code>, which can be set up similarly as <code>lpar.</code></p></dd>
+
+
+<dt id="arg-test-harm">test_harm<a class="anchor" aria-label="anchor" href="#arg-test-harm"></a></dt>
+<dd><p>Indicator of which analyses should include a harm bound;
+single value of <code>TRUE</code> (default) indicates all analyses;
+single value of <code>FALSE</code> indicates no harm bound; otherwise,
+a logical vector of the same length as <code>info</code> should
+indicate which analyses will have a harm bound.
+For fixed designs, the harm bound is typically not included.
+For group sequential designs, the harm bound is always smaller than the lower bound (if any).</p></dd>
+
+
 <dt id="arg-r">r<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
 <dd><p>Integer value controlling grid for numerical integration as in
 Jennison and Turnbull (2000); default is 18, range is 1 to 80.
@@ -253,7 +277,7 @@ Normally, <code>r</code> will not be changed by the user.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A tibble with columns of</p><ul><li><p><code>analysis</code>: analysis index.</p></li>
-<li><p><code>bound</code>: either of value <code>"upper"</code> or <code>"lower"</code>, indicating the upper and lower bound.</p></li>
+<li><p><code>bound</code>: one of value <code>"upper"</code>, <code>"lower"</code>, or <code>"harm"</code>, indicating the upper, lower, and harm bound.</p></li>
 <li><p><code>z</code>: the Z-score bounds.</p></li>
 <li><p><code>probability</code>: cumulative probability of crossing the bound at or before the analysis.</p></li>
 <li><p><code>theta</code>: same as the input.</p></li>
@@ -268,7 +292,7 @@ factor to ensure the design has power <code>1 - beta</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The bound specifications (<code>upper</code>, <code>lower</code>, <code>upar</code>, <code>lpar</code>) of <code>gs_design_npe()</code>
+    <p>The bound specifications (<code>upper</code>, <code>lower</code>, <code>harm</code>, <code>upar</code>, <code>lpar</code>, <code>hpar</code>) of <code>gs_design_npe()</code>
 will be used to ensure Type I error and other boundary properties are as specified.
 See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()</a></code> for details on spending function.</p>
     </div>
@@ -318,7 +342,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">80</span>,</span></span>
 <span class="r-in"><span>  info0 <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">80</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, sfu <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, alpha <span class="op">=</span> <span class="fl">0.0125</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign//reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, sfu <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, alpha <span class="op">=</span> <span class="fl">0.0125</span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -369,7 +393,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  info0 <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  test_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -392,7 +416,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  info0 <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">30</span>,</span></span>
 <span class="r-in"><span>  info_scale <span class="op">=</span> <span class="st">"h1_info"</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  test_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -408,7 +432,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        3 lower -<span style="color: #BB0000;">Inf</span>         0.047<span style="text-decoration: underline;">7</span>      0.159     0.3     1     134.  134. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: info1 &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example 4 ----</span></span></span>
+<span class="r-in"><span><span class="co"># Example 4a ----</span></span></span>
 <span class="r-in"><span><span class="co"># gs_design_npe with spending function bounds</span></span></span>
 <span class="r-in"><span><span class="co"># 2-sided asymmetric bounds</span></span></span>
 <span class="r-in"><span><span class="co"># Lower spending based on non-zero effect</span></span></span>
@@ -417,9 +441,9 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  info0 <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">30</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound      z probability probability0 theta info_frac  info info0</span>
@@ -432,6 +456,34 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        3 lower  2.00     0.090<span style="text-decoration: underline;">8</span>       0.976      0.3     1     131.   98.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: info1 &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 4b ----</span></span></span>
+<span class="r-in"><span><span class="co"># gs_design_npe with an additional harm bound under the null hypothesis</span></span></span>
+<span class="r-in"><span><span class="fu">gs_design_npe</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
+<span class="r-in"><span>  info0 <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">30</span>,</span></span>
+<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  harm <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  hpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  test_harm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound         z probability probability0 theta info_frac  info info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1 upper    3.71      0.000<span style="text-decoration: underline;">139</span>     0.000<span style="text-decoration: underline;">104</span>   0.1     0.333  42.1  31.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        1 harm    -<span style="color: #BB0000;">2.31</span>      0.000<span style="text-decoration: underline;">455</span>     0.010<span style="text-decoration: underline;">4</span>     0.1     0.333  42.1  31.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1 lower   -<span style="color: #BB0000;">1.53</span>      0.007<span style="text-decoration: underline;">96</span>      0.063<span style="text-decoration: underline;">5</span>     0.1     0.333  42.1  31.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        2 upper    2.51      0.248        0.006<span style="text-decoration: underline;">05</span>    0.2     0.667  84.2  63.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>        2 harm  -<span style="color: #BB0000;">Inf</span>         0.000<span style="text-decoration: underline;">455</span>     0.010<span style="text-decoration: underline;">4</span>     0.2     0.667  84.2  63.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        2 lower    0.038<span style="text-decoration: underline;">1</span>    0.036<span style="text-decoration: underline;">9</span>       0.517      0.2     0.667  84.2  63.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span>        3 upper    1.99      0.900        0.025<span style="text-decoration: underline;">0</span>     0.3     1     126.   94.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span>        3 harm    -<span style="color: #BB0000;">0.849</span>     0.000<span style="text-decoration: underline;">464</span>     0.200      0.3     1     126.   94.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span>        3 lower    2.00      0.093<span style="text-decoration: underline;">1</span>       0.975      0.3     1     126.   94.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: info1 &lt;dbl&gt;</span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 5 ----</span></span></span>
 <span class="r-in"><span><span class="co"># gs_design_npe with two-sided symmetric spend, O'Brien-Fleming spending</span></span></span>
 <span class="r-in"><span><span class="co"># Typically, 2-sided bounds are binding</span></span></span>
@@ -440,9 +492,9 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">xx</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 10</span></span>
@@ -487,7 +539,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, sfu <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign//reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, sfu <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -503,7 +555,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span><span class="fu">gs_power_npe</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, sfu <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign//reference/gsDesign.html" class="external-link">gsDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, sfu <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span><span class="op">)</span><span class="op">$</span><span class="va">upper</span><span class="op">$</span><span class="va">bound</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">bound</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">)</span></span></span>
@@ -530,16 +582,16 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5        2 lower      -Inf  0.02780962   0.2    0.2 0.6666667   80    80    80</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 lower      -Inf  0.02780962   0.3    0.3 1.0000000  120   120   120</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example 9 ----</span></span></span>
+<span class="r-in"><span><span class="co"># Example 9a ----</span></span></span>
 <span class="r-in"><span><span class="co"># gs_power_npe with spending function bounds</span></span></span>
 <span class="r-in"><span><span class="co"># Lower spending based on non-zero effect</span></span></span>
 <span class="r-in"><span><span class="fu">gs_power_npe</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound           z probability theta theta1 info_frac info info0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper  3.71030287 0.001042508   0.1    0.1 0.3333333   40    40</span>
@@ -561,9 +613,9 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.15</span>, <span class="fl">.25</span>, <span class="fl">.35</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound         z probability theta theta1 info_frac info info0 info1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper  3.710303 0.002875773  0.15   0.15 0.3333333   40    40    40</span>
@@ -573,6 +625,41 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5        2 lower  0.519855 0.055155914  0.25   0.25 0.6666667   80    80    80</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 lower  2.408073 0.100000000  0.35   0.35 1.0000000  120   120   120</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 9b ----</span></span></span>
+<span class="r-in"><span><span class="co"># gs_power_npe with an additional harm bound under the null hypothesis</span></span></span>
+<span class="r-in"><span><span class="fu">gs_power_npe</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
+<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  harm <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  hpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">4</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  test_harm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound            z probability theta theta1 info_frac info info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper  3.710302873 0.001042508   0.1    0.1 0.3333333   40    40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 upper  2.511433808 0.234976848   0.2    0.2 0.6666667   80    80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 upper  1.993051077 0.889034824   0.3    0.3 1.0000000  120   120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        1 lower -1.542046945 0.014833710   0.1    0.1 0.3333333   40    40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        2 lower -0.007772801 0.043725831   0.2    0.2 0.6666667   80    80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3 lower  1.915934703 0.100000000   0.3    0.3 1.0000000  120   120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        1  harm -2.310708029 0.001624384   0.1    0.1 0.3333333   40    40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8        2  harm -1.687252541 0.001793482   0.2    0.2 0.6666667   80    80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9        3  harm -0.863371840 0.001799810   0.3    0.3 1.0000000  120   120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   info1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   120</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 10 ----</span></span></span>
 <span class="r-in"><span><span class="co"># gs_power_npe with two-sided symmetric spend, O'Brien-Fleming spending</span></span></span>
 <span class="r-in"><span><span class="co"># Typically, 2-sided bounds are binding</span></span></span>
@@ -581,9 +668,9 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  info <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">40</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Re-use these bounds under alternate hypothesis</span></span></span>
@@ -614,7 +701,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 <span class="r-in"><span>  info1 <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  info_scale <span class="op">=</span> <span class="st">"h0_info"</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span>, param <span class="op">=</span> <span class="cn">NULL</span>, timing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_b</span>,</span></span>
 <span class="r-in"><span>  lpar <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="va">n_analysis</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
@@ -644,7 +731,7 @@ See the help file of <code><a href="gs_spending_bound.html">gs_spending_bound()<
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">

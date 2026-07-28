@@ -30,7 +30,7 @@ a test of superiority, non-inferiority or super-superiority. For a
 design that tests for superiority, the methods are consistent with those
 of Fleiss et al. (1980), but without the continuity correction. Methods
 for sample size and power are the same as
-[`gsDesign::nBinomial()`](https://keaven.github.io/gsDesign/reference/varBinomial.html)
+[`gsDesign::nBinomial()`](https://keaven.github.io/gsDesign//reference/varBinomial.html)
 when testing on the risk-difference scale for a single stratum. This is
 also consistent with the **Hmisc** R package routines `bsamsize()` and
 `bpower()` for superiority designs.

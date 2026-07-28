@@ -223,7 +223,7 @@ yy |>
 
 We check the above for the total number of events using the **gsDesign**
 function
-[`eEvents()`](https://keaven.github.io/gsDesign/reference/eEvents.html).
+[`eEvents()`](https://keaven.github.io/gsDesign//reference/eEvents.html).
 First, we sum the \\\bar{n}\_m\\ values `sum(y$nbar)` to get 1.083773
 and compare to:
 

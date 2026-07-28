@@ -84,7 +84,7 @@ group and a time-to-event endpoint. Testing for differences between
 treatment groups is performed using the stratified logrank test. In the
 above setting, the <code><a href="../reference/ahr.html">gsDesign2::ahr()</a></code> routine provides an
 average hazard ratio that can be used for sample size using the function
-<code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::nSurv()</a></code>. The approach assumes piecewise constant
+<code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::nSurv()</a></code>. The approach assumes piecewise constant
 enrollment rates and piecewise exponential failure rates with the option
 of including multiple strata. This approach allows the flexibility to
 approximate a wide variety of scenarios. We evaluate the approximations
@@ -1693,12 +1693,12 @@ which we label as AHR.</p>
 <h3 id="deriving-the-design">Deriving the design<a class="anchor" aria-label="anchor" href="#deriving-the-design"></a>
 </h3>
 <p>With this average hazard ratio, we use the call for
-<code><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">gsDesign::nEvents()</a></code> which uses the <span class="citation">Schoenfeld (1981)</span> approximation to derive a
+<code><a href="https://keaven.github.io/gsDesign//reference/nSurvival.html" class="external-link">gsDesign::nEvents()</a></code> which uses the <span class="citation">Schoenfeld (1981)</span> approximation to derive a
 targeted number of events. All you need for this is the average hazard
 ratio from above, the randomization ratio (experimental/control), Type I
 error and Type II error (1 - power).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">target_event</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">target_event</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign//reference/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span></span>
 <span>  hr <span class="op">=</span> <span class="va">avehr</span><span class="op">$</span><span class="va">ahr</span>, <span class="co"># average hazard ratio computed above</span></span>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>, <span class="co"># randomization ratio</span></span>
 <span>  alpha <span class="op">=</span> <span class="fl">.025</span>, <span class="co"># 1-sided Type I error</span></span>
@@ -4768,7 +4768,7 @@ population.</p>
 the average hazard ratio for the overall population and use that across
 strata. First, we derive the targeted events:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">target_event</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign/reference/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">target_event</span> <span class="op">&lt;-</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="fu"><a href="https://keaven.github.io/gsDesign//reference/nSurvival.html" class="external-link">nEvents</a></span><span class="op">(</span></span>
 <span>  hr <span class="op">=</span> <span class="va">ahr2</span><span class="op">$</span><span class="va">ahr</span>,</span>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">.025</span>,</span>
@@ -5295,7 +5295,7 @@ durations.</p>
 <h3 id="simulation-to-verify-power-1">Simulation to verify power<a class="anchor" aria-label="anchor" href="#simulation-to-verify-power-1"></a>
 </h3>
 <p>We change the enrollment rates by stratum produced by
-<code><a href="https://keaven.github.io/gsDesign/reference/nSurv.html" class="external-link">gsDesign::nSurv()</a></code> to overall enrollment rates needed for
+<code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::nSurv()</a></code> to overall enrollment rates needed for
 <code><a href="https://merck.github.io/simtrial/reference/sim_fixed_n.html" class="external-link">simtrial::sim_fixed_n()</a></code>.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">er</span> <span class="op">&lt;-</span> <span class="va">enroll_rate</span> <span class="op">|&gt;</span></span>
@@ -6846,7 +6846,7 @@ Nonparametric Tests for Comparing Survival Distributions.”</span>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">

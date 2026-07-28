@@ -15,7 +15,7 @@ summary(
   analysis_decimals = NULL,
   col_vars = NULL,
   col_decimals = NULL,
-  bound_names = c("Efficacy", "Futility"),
+  bound_names = c("Efficacy", "Futility", "Harm"),
   display_spending_time = FALSE,
   ...
 )
@@ -56,7 +56,10 @@ summary(
 
 - bound_names:
 
-  Names for bounds; default is `c("Efficacy", "Futility")`.
+  Names for bounds; default is `c("Efficacy", "Futility", "Harm")`. The
+  first two values label upper and lower bounds. If a third value is
+  provided, it labels harm bounds; otherwise harm bounds are labeled
+  `"Harm"`.
 
 - display_spending_time:
 

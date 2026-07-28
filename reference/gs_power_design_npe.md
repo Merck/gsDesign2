@@ -41,6 +41,9 @@ gs_design_npe(
   test_upper = TRUE,
   test_lower = TRUE,
   binding = FALSE,
+  harm = gs_b,
+  hpar = -Inf,
+  test_harm = FALSE,
   r = 18,
   tol = 1e-06
 )
@@ -60,6 +63,9 @@ gs_power_npe(
   test_upper = TRUE,
   test_lower = TRUE,
   binding = FALSE,
+  harm = gs_b,
+  hpar = -Inf,
+  test_harm = FALSE,
   r = 18,
   tol = 1e-06
 )
@@ -188,6 +194,25 @@ gs_power_npe(
   Indicator of whether futility bound is binding; default of `FALSE` is
   recommended.
 
+- harm:
+
+  Function to compute harm bound, which can be set up similarly as
+  `lower`.
+
+- hpar:
+
+  Parameters passed to `harm`, which can be set up similarly as `lpar.`
+
+- test_harm:
+
+  Indicator of which analyses should include a harm bound; single value
+  of `TRUE` (default) indicates all analyses; single value of `FALSE`
+  indicates no harm bound; otherwise, a logical vector of the same
+  length as `info` should indicate which analyses will have a harm
+  bound. For fixed designs, the harm bound is typically not included.
+  For group sequential designs, the harm bound is always smaller than
+  the lower bound (if any).
+
 - r:
 
   Integer value controlling grid for numerical integration as in
@@ -206,8 +231,8 @@ A tibble with columns of
 
 - `analysis`: analysis index.
 
-- `bound`: either of value `"upper"` or `"lower"`, indicating the upper
-  and lower bound.
+- `bound`: one of value `"upper"`, `"lower"`, or `"harm"`, indicating
+  the upper, lower, and harm bound.
 
 - `z`: the Z-score bounds.
 
@@ -237,9 +262,9 @@ A tibble with columns of
 
 ## Details
 
-The bound specifications (`upper`, `lower`, `upar`, `lpar`) of
-`gs_design_npe()` will be used to ensure Type I error and other boundary
-properties are as specified. See the help file of
+The bound specifications (`upper`, `lower`, `harm`, `upar`, `lpar`,
+`hpar`) of `gs_design_npe()` will be used to ensure Type I error and
+other boundary properties are as specified. See the help file of
 [`gs_spending_bound()`](https://merck.github.io/gsDesign2/reference/gs_spending_bound.md)
 for details on spending function.
 
@@ -377,7 +402,7 @@ gs_design_npe(
 #> 6        3 lower -Inf         0.0477      0.159     0.3     1     134.  134. 
 #> # ℹ 1 more variable: info1 <dbl>
 
-# Example 4 ----
+# Example 4a ----
 # gs_design_npe with spending function bounds
 # 2-sided asymmetric bounds
 # Lower spending based on non-zero effect
@@ -399,6 +424,34 @@ gs_design_npe(
 #> 4        2 lower  0.150    0.0460       0.562      0.2     0.667  87.1  65.3
 #> 5        3 upper  1.99     0.900        0.0249     0.3     1     131.   98.0
 #> 6        3 lower  2.00     0.0908       0.976      0.3     1     131.   98.0
+#> # ℹ 1 more variable: info1 <dbl>
+
+# Example 4b ----
+# gs_design_npe with an additional harm bound under the null hypothesis
+gs_design_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  info0 = (1:3) * 30,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4, timing = NULL),
+  test_harm = c(TRUE, FALSE, TRUE)
+)
+#> # A tibble: 9 × 10
+#>   analysis bound         z probability probability0 theta info_frac  info info0
+#>      <int> <chr>     <dbl>       <dbl>        <dbl> <dbl>     <dbl> <dbl> <dbl>
+#> 1        1 upper    3.71      0.000139     0.000104   0.1     0.333  42.1  31.6
+#> 2        1 harm    -2.31      0.000455     0.0104     0.1     0.333  42.1  31.6
+#> 3        1 lower   -1.53      0.00796      0.0635     0.1     0.333  42.1  31.6
+#> 4        2 upper    2.51      0.248        0.00605    0.2     0.667  84.2  63.1
+#> 5        2 harm  -Inf         0.000455     0.0104     0.2     0.667  84.2  63.1
+#> 6        2 lower    0.0381    0.0369       0.517      0.2     0.667  84.2  63.1
+#> 7        3 upper    1.99      0.900        0.0250     0.3     1     126.   94.7
+#> 8        3 harm    -0.849     0.000464     0.200      0.3     1     126.   94.7
+#> 9        3 lower    2.00      0.0931       0.975      0.3     1     126.   94.7
 #> # ℹ 1 more variable: info1 <dbl>
 
 # Example 5 ----
@@ -499,7 +552,7 @@ gs_power_npe(
 #> 5        2 lower      -Inf  0.02780962   0.2    0.2 0.6666667   80    80    80
 #> 6        3 lower      -Inf  0.02780962   0.3    0.3 1.0000000  120   120   120
 
-# Example 9 ----
+# Example 9a ----
 # gs_power_npe with spending function bounds
 # Lower spending based on non-zero effect
 gs_power_npe(
@@ -541,6 +594,41 @@ gs_power_npe(
 #> 4        1 lower -1.046275 0.023023722  0.15   0.15 0.3333333   40    40    40
 #> 5        2 lower  0.519855 0.055155914  0.25   0.25 0.6666667   80    80    80
 #> 6        3 lower  2.408073 0.100000000  0.35   0.35 1.0000000  120   120   120
+
+# Example 9b ----
+# gs_power_npe with an additional harm bound under the null hypothesis
+gs_power_npe(
+  theta = c(.1, .2, .3),
+  info = (1:3) * 40,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL, timing = NULL),
+  lower = gs_spending_bound,
+  lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2, timing = NULL),
+  test_lower = c(TRUE, TRUE, TRUE),
+  harm = gs_spending_bound,
+  hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4, timing = NULL),
+  test_harm = c(TRUE, TRUE, TRUE)
+)
+#>   analysis bound            z probability theta theta1 info_frac info info0
+#> 1        1 upper  3.710302873 0.001042508   0.1    0.1 0.3333333   40    40
+#> 2        2 upper  2.511433808 0.234976848   0.2    0.2 0.6666667   80    80
+#> 3        3 upper  1.993051077 0.889034824   0.3    0.3 1.0000000  120   120
+#> 4        1 lower -1.542046945 0.014833710   0.1    0.1 0.3333333   40    40
+#> 5        2 lower -0.007772801 0.043725831   0.2    0.2 0.6666667   80    80
+#> 6        3 lower  1.915934703 0.100000000   0.3    0.3 1.0000000  120   120
+#> 7        1  harm -2.310708029 0.001624384   0.1    0.1 0.3333333   40    40
+#> 8        2  harm -1.687252541 0.001793482   0.2    0.2 0.6666667   80    80
+#> 9        3  harm -0.863371840 0.001799810   0.3    0.3 1.0000000  120   120
+#>   info1
+#> 1    40
+#> 2    80
+#> 3   120
+#> 4    40
+#> 5    80
+#> 6   120
+#> 7    40
+#> 8    80
+#> 9   120
 
 # Example 10 ----
 # gs_power_npe with two-sided symmetric spend, O'Brien-Fleming spending

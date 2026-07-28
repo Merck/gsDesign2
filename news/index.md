@@ -226,7 +226,7 @@ CRAN release: 2025-06-06
 - A new design summary function
   [`gs_bound_summary()`](https://merck.github.io/gsDesign2/reference/gs_bound_summary.md)
   is available with similar output structure as
-  [`gsDesign::gsBoundSummary()`](https://keaven.github.io/gsDesign/reference/gsBoundSummary.html)
+  [`gsDesign::gsBoundSummary()`](https://keaven.github.io/gsDesign//reference/gsBoundSummary.html)
   and supporting for multiple alpha
   ([\#468](https://github.com/Merck/gsDesign2/issues/468),
   [\#522](https://github.com/Merck/gsDesign2/issues/522),

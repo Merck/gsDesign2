@@ -48,6 +48,8 @@ Designs with both efficacy and binding/unbinding futility bounds.
   hazards](https://merck.github.io/gsDesign2/articles/story-nph-futility.md):
 - [Computing spending boundaries in group sequential
   design](https://merck.github.io/gsDesign2/articles/story-seven-test-types.md):
+- [Reproducing gsSurv Schoenfeld bounds with harm
+  bounds](https://merck.github.io/gsDesign2/articles/story-harm-bound-schoenfeld.md):
 
 ### Designs by AHR
 
@@ -67,6 +69,8 @@ Develop designs for time-to-event endpoints by average hazard ratio.
   update](https://merck.github.io/gsDesign2/articles/story-update-boundary.md):
 - [Conditional
   power](https://merck.github.io/gsDesign2/articles/story-cp.md):
+- [Reproducing gsSurv Schoenfeld bounds with harm
+  bounds](https://merck.github.io/gsDesign2/articles/story-harm-bound-schoenfeld.md):
 
 ### Designs with binary endpoints
 

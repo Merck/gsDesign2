@@ -19,7 +19,7 @@ as_gt(
   colname_spanner = "Cumulative boundary crossing probability",
   colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
   footnote = NULL,
-  display_bound = c("Efficacy", "Futility"),
+  display_bound = c("Efficacy", "Futility", "Harm"),
   display_columns = NULL,
   display_inf_bound = FALSE,
   ...
@@ -66,7 +66,7 @@ as_gt(
 - display_bound:
 
   A vector of strings specifying the label of the bounds. The default is
-  `c("Efficacy", "Futility")`.
+  `c("Efficacy", "Futility", "Harm")`.
 
 - display_columns:
 

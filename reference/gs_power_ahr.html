@@ -56,11 +56,14 @@ non-proportional hazards.</p>
 <span>  event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span>,</span>
 <span>  analysis_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
-<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span>
+<span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span>
 <span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span>
-<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  harm <span class="op">=</span> <span class="va">gs_b</span>,</span>
+<span>  hpar <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
 <span>  test_lower <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  test_upper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  test_harm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  binding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  h1_spending <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -119,6 +122,14 @@ See <a href="https://merck.github.io/gsDesign2/articles/story-seven-test-types.h
 <dd><p>Parameters passed to <code>lower</code>, which can be set up similarly as <code>upar.</code></p></dd>
 
 
+<dt id="arg-harm">harm<a class="anchor" aria-label="anchor" href="#arg-harm"></a></dt>
+<dd><p>Function to compute harm bound, which can be set up similarly as <code>lower</code>.</p></dd>
+
+
+<dt id="arg-hpar">hpar<a class="anchor" aria-label="anchor" href="#arg-hpar"></a></dt>
+<dd><p>Parameters passed to <code>harm</code>, which can be set up similarly as <code>lpar.</code></p></dd>
+
+
 <dt id="arg-test-lower">test_lower<a class="anchor" aria-label="anchor" href="#arg-test-lower"></a></dt>
 <dd><p>Indicator of which analyses should include a lower bound;
 single value of <code>TRUE</code> (default) indicates all analyses;
@@ -133,6 +144,16 @@ an upper (efficacy) bound;
 single value of <code>TRUE</code> (default) indicates all analyses; otherwise,
 a logical vector of the same length as <code>info</code> should
 indicate which analyses will have an efficacy bound.</p></dd>
+
+
+<dt id="arg-test-harm">test_harm<a class="anchor" aria-label="anchor" href="#arg-test-harm"></a></dt>
+<dd><p>Indicator of which analyses should include a harm bound;
+single value of <code>TRUE</code> (default) indicates all analyses;
+single value of <code>FALSE</code> indicates no harm bound; otherwise,
+a logical vector of the same length as <code>info</code> should
+indicate which analyses will have a harm bound.
+For fixed designs, the harm bound is typically not included.
+For group sequential designs, the harm bound is always smaller than the lower bound (if any).</p></dd>
 
 
 <dt id="arg-ratio">ratio<a class="anchor" aria-label="anchor" href="#arg-ratio"></a></dt>
@@ -224,7 +245,7 @@ later of these is used  for analysis <code>i</code>.</p></li>
 <span class="r-in"><span><span class="co"># The default output of `gs_power_ahr()` is driven by events,</span></span></span>
 <span class="r-in"><span><span class="co"># i.e., `event = c(30, 40, 50)`, `analysis_time = NULL`</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu">gs_power_ahr</span><span class="op">(</span>lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">gs_power_ahr</span><span class="op">(</span>lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ahr"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -272,9 +293,9 @@ later of these is used  for analysis <code>i</code>.</p></li>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ahr"</span>
@@ -329,9 +350,9 @@ later of these is used  for analysis <code>i</code>.</p></li>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">50</span>, <span class="fl">70</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ahr"</span>
@@ -384,9 +405,9 @@ later of these is used  for analysis <code>i</code>.</p></li>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span>, h1_spending <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
-<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign/reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ahr"</span>
@@ -426,6 +447,69 @@ later of these is used  for analysis <code>i</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 1.0000000  1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># Example 5 ----</span></span></span>
+<span class="r-in"><span><span class="co"># 2-sided asymmetric O'Brien-Fleming spending bound with harm bound</span></span></span>
+<span class="r-in"><span><span class="co"># driven by both `event` and `analysis_time`, i.e.,</span></span></span>
+<span class="r-in"><span><span class="co"># both `event` and `analysis_time` are not `NULL`,</span></span></span>
+<span class="r-in"><span><span class="co"># then the analysis will driven by the maximal one, i.e.,</span></span></span>
+<span class="r-in"><span><span class="co"># Time = max(analysis_time, calculated Time for targeted event)</span></span></span>
+<span class="r-in"><span><span class="co"># Events = max(events, calculated events for targeted analysis_time)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu">gs_power_ahr</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  analysis_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">24</span>, <span class="fl">36</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span>, h1_spending <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  binding <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  upper <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  upar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfLDOF.html" class="external-link">sfLDOF</a></span>, total_spend <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  test_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lower <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  lpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.1</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  test_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  harm <span class="op">=</span> <span class="va">gs_spending_bound</span>,</span></span>
+<span class="r-in"><span>  hpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sf <span class="op">=</span> <span class="fu">gsDesign</span><span class="fu">::</span><span class="va"><a href="https://keaven.github.io/gsDesign//reference/sfHSD.html" class="external-link">sfHSD</a></span>, total_spend <span class="op">=</span> <span class="fl">0.2</span>, param <span class="op">=</span> <span class="op">-</span><span class="fl">4</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  test_harm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ahr"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $enroll_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration  rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            2     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All            2     6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> All           10     9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $fail_rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   stratum duration fail_rate dropout_rate    hr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All            3    0.077<span style="text-decoration: underline;">0</span>        0.001   0.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> All          100    0.038<span style="text-decoration: underline;">5</span>        0.001   0.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $bound</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis bound probability probability0         z ~hr at bound    nominal p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper 0.007063221 0.0008667173  3.132468    0.3186016 0.0008667173</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        1 lower 0.004280475 0.0230695510 -1.994119    2.0712415 0.9769304490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        1  harm 0.003395836 0.0191063035 -2.072567    2.1314307 0.9808936965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 upper 0.114573286 0.0092093035  2.368721    0.5084965 0.0089248526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        2 lower 0.005504505 0.0532145478 -1.711962    1.6303335 0.9565481321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        2  harm 0.004711652 0.0509233683 -1.711962    1.6303335 0.9565481321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        3 upper 0.323733350 0.0250000000  2.010882    0.6100897 0.0221689455</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8        3 lower 0.006405898 0.1000000000 -1.384715    1.4053362 0.9169302152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9        3  harm 0.005636549 0.0983329713 -1.384715    1.4053362 0.9169302152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   analysis     time   n    event       ahr     theta      info    info0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 14.90817 108 30.00008 0.7865726 0.2400702  7.373433  7.50002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 24.00000 108 49.06966 0.7151566 0.3352538 11.999266 12.26741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        3 36.00000 108 66.23948 0.6833395 0.3807634 16.267921 16.55987</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   info_frac info_frac0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.4532499  0.4529033</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7376029  0.7407917</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1.0000000  1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -433,7 +517,7 @@ later of these is used  for analysis <code>i</code>.</p></li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Keaven Anderson, Yujie Zhao, Yilong Zhang, John Blischak, Yihui Xie, Nan Xiao, Jianxiao Yang. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <br>Copyright © 2025 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">

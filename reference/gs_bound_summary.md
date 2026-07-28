@@ -1,6 +1,6 @@
 # Bound summary table
 
-Summarizes the efficacy and futility bounds for each analysis.
+Summarizes the efficacy, futility, and harm bounds for each analysis.
 
 ## Usage
 
@@ -50,7 +50,7 @@ A data frame
 
 ## See also
 
-[`gsDesign::gsBoundSummary()`](https://keaven.github.io/gsDesign/reference/gsBoundSummary.html)
+[`gsDesign::gsBoundSummary()`](https://keaven.github.io/gsDesign//reference/gsBoundSummary.html)
 
 ## Examples
 
