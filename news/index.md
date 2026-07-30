@@ -1,5 +1,45 @@
 # Changelog
 
+## gsDesign2 1.2.0
+
+### New features
+
+- Harm boundaries are now supported in
+  [`gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md),
+  [`gs_power_ahr()`](https://merck.github.io/gsDesign2/reference/gs_power_ahr.md),
+  [`gs_design_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md),
+  and
+  [`gs_power_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
+  through the new `harm`, `hpar`, and `test_harm` arguments. Harm
+  boundaries are available for group sequential designs with futility
+  testing and are not supported for fixed designs
+  ([\#640](https://github.com/Merck/gsDesign2/issues/640), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie),
+  [@yihui](https://github.com/yihui), and
+  [@keaven](https://github.com/keaven)).
+- Harm boundaries are now included in
+  [`summary()`](https://rdrr.io/r/base/summary.html),
+  [`gs_bound_summary()`](https://merck.github.io/gsDesign2/reference/gs_bound_summary.md),
+  [`as_gt()`](https://merck.github.io/gsDesign2/reference/as_gt.md), and
+  [`as_rtf()`](https://merck.github.io/gsDesign2/reference/as_rtf.md)
+  output, with controls for custom labels and bound display
+  ([\#640](https://github.com/Merck/gsDesign2/issues/640), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie),
+  [@jdblischak](https://github.com/jdblischak),
+  [@yihui](https://github.com/yihui), and
+  [@keaven](https://github.com/keaven)).
+
+### Documentation
+
+- A new vignette demonstrates how
+  [`gs_design_ahr()`](https://merck.github.io/gsDesign2/reference/gs_design_ahr.md)
+  reproduces `gsDesign::gsSurv(method = "Schoenfeld")` boundaries across
+  test types, including designs with harm boundaries
+  ([\#640](https://github.com/Merck/gsDesign2/issues/640), thanks to
+  [@LittleBeannie](https://github.com/LittleBeannie),
+  [@yihui](https://github.com/yihui), and
+  [@keaven](https://github.com/keaven)).
+
 ## gsDesign2 1.1.9
 
 CRAN release: 2026-06-30
