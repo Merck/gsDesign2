@@ -1,3 +1,15 @@
+# gsDesign2 1.2.0
+
+## New features
+
+- Harm boundaries are now supported in `gs_design_ahr()`, `gs_power_ahr()`, `gs_design_npe()`, and `gs_power_npe()` through the new `harm`, `hpar`, and `test_harm` arguments. Harm boundaries are available for group sequential designs with futility testing and are not supported for fixed designs (#640, thanks to @LittleBeannie, @yihui, and @keaven).
+- Harm boundaries are now included in `summary()`, `gs_bound_summary()`, `as_gt()`, and `as_rtf()` output, with controls for custom labels and bound display (#640, thanks to @LittleBeannie, @jdblischak, @yihui, and @keaven).
+
+## Documentation
+
+- A new vignette demonstrates how `gs_design_ahr()` reproduces `gsDesign::gsSurv(method = "Schoenfeld")` boundaries across test types, including designs with harm boundaries (#640, thanks to @LittleBeannie, @yihui, and @keaven).
+
+
 # gsDesign2 1.1.9
 
 ## New features
