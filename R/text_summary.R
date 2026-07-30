@@ -30,6 +30,7 @@
 #' x <- gs_design_ahr(info_frac = 1:3/3, test_lower = FALSE) |> to_integer()
 #' x |> text_summary()
 #'
+#' \donttest{
 #' # Text summary of a 2-sided symmetric design
 #' x <- gs_design_ahr(info_frac = 1:3/3,
 #'                    upper = gs_spending_bound, lower = gs_spending_bound,
@@ -72,6 +73,7 @@
 #'   lpar = -Inf
 #' )
 #' x |> text_summary()
+#' }
 text_summary <- function(x, information = FALSE, time_unit = "months") {
 
   n_analysis <- nrow(x$analysis)
