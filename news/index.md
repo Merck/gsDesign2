@@ -2,6 +2,8 @@
 
 ## gsDesign2 1.2.0
 
+CRAN release: 2026-07-30
+
 ### New features
 
 - Harm boundaries are now supported in
