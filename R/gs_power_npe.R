@@ -467,6 +467,11 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
         )
       }
     }
+    # Assign the remaining probability mass to futility when no final continuation region remains
+    if (k == n_analysis && close_final_bound) {
+      previous_lower_prob <- if (k > 1) sum(lower_prob[seq_len(k - 1)]) else 0
+      lower_prob[k] <- 1 - sum(upper_prob) - previous_lower_prob
+    }
   }
 
   if (all(!test_harm)) {

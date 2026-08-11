@@ -544,7 +544,7 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7933}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
@@ -786,7 +786,7 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7933}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
@@ -948,7 +948,7 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7933}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
@@ -1118,7 +1118,7 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7933}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
@@ -1265,7 +1265,7 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7933}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
@@ -1497,7 +1497,7 @@ cat(readLines(path), sep = "\n")
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7933}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
