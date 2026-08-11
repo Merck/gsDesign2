@@ -350,6 +350,9 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
   upper_prob <- rep(NA, n_analysis)
   lower_prob <- rep(NA, n_analysis)
   harm_prob <- rep(NA, n_analysis)
+  # Close the continuation region at the final analysis for beta-spending designs
+  close_final_bound <- test_upper[n_analysis] && test_lower[n_analysis] &&
+    identical(lower, gs_spending_bound) && theta1[n_analysis] != theta0[n_analysis]
 
   # Calculate crossing prob under H1 ----
   for (k in 1:n_analysis) {
@@ -359,6 +362,10 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
       theta = theta1, efficacy = FALSE
     )
     b[k] <- upper(k = k, par = upar, hgm1 = hgm1_0, info = info0, r = r, tol = tol, test_bound = test_upper)
+    # Set the final futility bound equal to the efficacy bound
+    if (k == n_analysis && close_final_bound) {
+      a[k] <- b[k]
+    }
     harm_z[k] <- harm(
       k = k, par = hpar, hgm1 = hgm1_harm0, info = info0, r = r, tol = tol, test_bound = test_harm,
       theta = theta0, efficacy = FALSE
