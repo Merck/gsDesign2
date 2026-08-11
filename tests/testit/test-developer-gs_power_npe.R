@@ -94,7 +94,10 @@ assert("Spending function bounds - Lower spending based on non-zero effect", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  legacy_rows <- x1$analysis < 3 | x1$bound != "lower"
+  (x1[legacy_rows, ] %==% as.data.frame(x2[legacy_rows, ]))
+  (x1$z[x1$analysis == 3 & x1$bound == "lower"] ==
+    x1$z[x1$analysis == 3 & x1$bound == "upper"])
 })
 
 assert("Same bounds, but power under different theta", {
@@ -117,7 +120,10 @@ assert("Same bounds, but power under different theta", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  legacy_rows <- x1$analysis < 3 | x1$bound != "lower"
+  (x1[legacy_rows, ] %==% as.data.frame(x2[legacy_rows, ]))
+  (x1$z[x1$analysis == 3 & x1$bound == "lower"] ==
+    x1$z[x1$analysis == 3 & x1$bound == "upper"])
 })
 
 assert("Two-sided symmetric spend, O'Brien-Fleming spending", {

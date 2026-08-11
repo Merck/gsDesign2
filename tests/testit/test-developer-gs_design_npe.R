@@ -216,7 +216,10 @@ assert("spending bounds", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(analysis, bound, z, probability, theta, info, info0, info1) |>
     dplyr::arrange(analysis, bound)
-  (as.data.frame(x1_c) %==% as.data.frame(x2))
+  legacy_rows <- x1_c$analysis < 3 | x1_c$bound != "lower"
+  (as.data.frame(x1_c[legacy_rows, ]) %==% as.data.frame(x2[legacy_rows, ]))
+  (x1_c$z[x1_c$analysis == 3 & x1_c$bound == "lower"] ==
+    x1_c$z[x1_c$analysis == 3 & x1_c$bound == "upper"])
 })
 
 assert("2-sided symmetric spend", {
@@ -266,7 +269,10 @@ assert("2-sided symmetric spend", {
     dplyr::mutate(bound = tolower(bound)) |>
     dplyr::select(analysis, bound, z, probability, theta, info, info0, info1) |>
     dplyr::arrange(analysis, bound)
-  (as.data.frame(x1_c) %==% as.data.frame(x2))
+  legacy_rows <- x1_c$analysis < 3 | x1_c$bound != "lower"
+  (as.data.frame(x1_c[legacy_rows, ]) %==% as.data.frame(x2[legacy_rows, ]))
+  (x1_c$z[x1_c$analysis == 3 & x1_c$bound == "lower"] ==
+    x1_c$z[x1_c$analysis == 3 & x1_c$bound == "upper"])
 })
 
 assert("Harm bound is not provided for fixed designs", {

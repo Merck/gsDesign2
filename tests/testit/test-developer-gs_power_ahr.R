@@ -156,3 +156,47 @@ assert("Validate the boundary is symmetric in symmetric designs.", {
   lower_z <- x$bound$z[x$bound$bound == "lower"]
   (all.equal(upper_z, -lower_z))
 })
+
+assert("Final futility and efficacy bounds match with lower spending under beta-spending, binding/non-binding when it is NPH", {
+  enroll_rate <- define_enroll_rate(
+    duration = 12,
+    rate = 600/12
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, Inf),
+    fail_rate = log(2) / 9,
+    hr = c(1, 0.6),
+    dropout_rate = 0.0001
+  )
+
+  # binding
+  x <- gs_power_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      info_scale = "h0_h1_info",
+      event = c(100, 200, 300),
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -3),
+      binding = TRUE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+
+  # non-binding
+  x <- gs_power_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      info_scale = "h0_h1_info",
+      analysis_time = c(24, 30, 36),
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
+      binding = FALSE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+  
+})
