@@ -284,3 +284,109 @@ assert("Harm bound is not provided for fixed designs", {
       harm = gs_b, hpar = -2, test_harm = TRUE)
   ))
 })
+
+assert("Comparison with gsDesign when test.type = 4", {
+  timing <- 1:3/3
+  alpha <- 0.025
+  beta <- 0.1
+  effect <- 0.5
+  standard_deviation <- 1
+
+  fixed_normal <- nNormal(
+    delta1 = effect, sd = standard_deviation,
+    alpha = alpha, beta = beta, ratio = 1, outtype = 3)
+
+  gsdesign_normal <- gsDesign(
+    k = 3, test.type = 4, alpha = alpha, beta = beta,
+    n.fix = fixed_normal$n, timing = timing,
+    sfu = sfLDOF, sfl = sfLDOF, delta0 = 0, delta1 = effect)
+
+  fixed_information <- fixed_normal$n / (4 * standard_deviation^2)
+
+  gsdesign2_normal <- gs_design_npe(
+    theta = effect, theta0 = 0, theta1 = effect,
+    info = fixed_information * timing, info_scale = "h0_info",
+    alpha = alpha, beta = beta, binding = FALSE,
+    upper = gs_spending_bound,
+    upar = list(sf = sfLDOF, total_spend = alpha),
+    lower = gs_spending_bound,
+    lpar = list(sf = sfLDOF, total_spend = beta))
+
+    # the efficacy bounds from gsDesign match gsDesign2
+    (all.equal(
+      gsdesign2_normal$z[gsdesign2_normal$bound == "upper"],
+      gsdesign_normal$upper$bound,
+      tolerance = 7e-6,
+      scale = 1
+    ))
+
+    # the futility bounds from gsDesign match gsDesign2
+    (all.equal(
+      gsdesign2_normal$z[gsdesign2_normal$bound == "lower"],
+      gsdesign_normal$lower$bound,
+      tolerance = 1e-5,
+      scale = 1
+    ))
+
+    # the FA efficacy bound match with futility bound in gsDesign2
+    (all.equal(
+      gsdesign2_normal$z[gsdesign2_normal$bound == "upper" & gsdesign2_normal$analysis == 3],
+      gsdesign2_normal$z[gsdesign2_normal$bound == "lower" & gsdesign2_normal$analysis == 3],
+      tolerance = 1e-8,
+      scale = 1
+    ))
+
+})
+
+assert("Comparison with gsDesign when test.type = 3", {
+  timing <- 1:3/3
+  alpha <- 0.025
+  beta <- 0.1
+  effect <- 0.5
+  standard_deviation <- 1
+
+  fixed_normal <- nNormal(
+    delta1 = effect, sd = standard_deviation,
+    alpha = alpha, beta = beta, ratio = 1, outtype = 3)
+
+  gsdesign_normal <- gsDesign(
+    k = 3, test.type = 3, alpha = alpha, beta = beta,
+    n.fix = fixed_normal$n, timing = timing,
+    sfu = sfLDOF, sfl = sfLDOF, delta0 = 0, delta1 = effect)
+
+  fixed_information <- fixed_normal$n / (4 * standard_deviation^2)
+
+  gsdesign2_normal <- gs_design_npe(
+    theta = effect, theta0 = 0, theta1 = effect,
+    info = fixed_information * timing, info_scale = "h0_info",
+    alpha = alpha, beta = beta, binding = TRUE,
+    upper = gs_spending_bound,
+    upar = list(sf = sfLDOF, total_spend = alpha),
+    lower = gs_spending_bound,
+    lpar = list(sf = sfLDOF, total_spend = beta))
+
+    # the efficacy bounds from gsDesign match gsDesign2
+    (all.equal(
+      gsdesign2_normal$z[gsdesign2_normal$bound == "upper"],
+      gsdesign_normal$upper$bound,
+      tolerance = 7e-6,
+      scale = 1
+    ))
+
+    # the futility bounds from gsDesign match gsDesign2
+    (all.equal(
+      gsdesign2_normal$z[gsdesign2_normal$bound == "lower"],
+      gsdesign_normal$lower$bound,
+      tolerance = 1e-5,
+      scale = 1
+    ))
+
+    # the FA efficacy bound match with futility bound in gsDesign2
+    (all.equal(
+      gsdesign2_normal$z[gsdesign2_normal$bound == "upper" & gsdesign2_normal$analysis == 3],
+      gsdesign2_normal$z[gsdesign2_normal$bound == "lower" & gsdesign2_normal$analysis == 3],
+      tolerance = 1e-8,
+      scale = 1
+    ))
+
+})
