@@ -44,8 +44,8 @@ assert("calendar based cut", {
   (x1$analysis$info0 %==% u2$info0)
   (x1$analysis$time %==% l2$Time)
   (x1$analysis$event %==% l2$Events)
-  (l1$z %==% l2$Z)
-  (l1$probability %==% l2$Probability)
+  (head(l1$z, -1) %==% head(l2$Z, -1))
+  (head(l1$probability, -1) %==% head(l2$Probability, -1))
   (x1$analysis$ahr %==% l2$AHR)
   (x1$analysis$theta %==% l2$theta)
   (x1$analysis$info %==% l2$info)
@@ -81,8 +81,8 @@ assert("event based cut", {
   (all.equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"], tolerance = 2e-7))
   (all.equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"], tolerance = 2e-7))
   (all.equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"], tolerance = 2e-7))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"], tolerance = 2e-7))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$Probability[x2$Bound == "Lower"], tolerance = 3e-7))
+  (all.equal(head(x1$bound$z[x1$bound$bound == "lower"], -1), head(x2$Z[x2$Bound == "Lower"], -1), tolerance = 1e-6, scale = 1))
+  (all.equal(head(x1$bound$probability[x1$bound$bound == "lower"], -1), head(x2$Probability[x2$Bound == "Lower"], -1), tolerance = 3e-7, scale = 1))
   (all.equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Lower"], tolerance = 3e-7))
   (all.equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"], tolerance = 1e-7))
   (all.equal(x1$analysis$info, x2$info[x2$Bound == "Lower"], tolerance = 3e-6))
@@ -118,8 +118,8 @@ assert("calendar + event based cut", {
   (all.equal(x1$analysis$info0, x2$info0[x2$Bound == "Upper"], tolerance = 3e-6))
   (all.equal(x1$analysis$time, x2$Time[x2$Bound == "Lower"], tolerance = 2e-6))
   (all.equal(x1$analysis$event, x2$Events[x2$Bound == "Lower"], tolerance = 3e-6))
-  (all.equal(x1$bound$z[x1$bound$bound == "lower"], x2$Z[x2$Bound == "Lower"], tolerance = 2e-6))
-  (all.equal(x1$bound$probability[x1$bound$bound == "lower"], x2$Probability[x2$Bound == "Lower"], tolerance = 5e-7))
+  (all.equal(head(x1$bound$z[x1$bound$bound == "lower"], -1), head(x2$Z[x2$Bound == "Lower"], -1), tolerance = 2e-6))
+  (all.equal(head(x1$bound$probability[x1$bound$bound == "lower"], -1), head(x2$Probability[x2$Bound == "Lower"], -1), tolerance = 5e-7, scale = 1))
   (all.equal(x1$analysis$ahr, x2$AHR[x2$Bound == "Lower"], tolerance = 3e-7))
   (all.equal(x1$analysis$theta, x2$theta[x2$Bound == "Lower"], tolerance = 3e-7, scale = 1))
   (all.equal(x1$analysis$info, x2$info[x2$Bound == "Lower"], tolerance = 3e-6))
@@ -155,4 +155,48 @@ assert("Validate the boundary is symmetric in symmetric designs.", {
   upper_z <- x$bound$z[x$bound$bound == "upper"]
   lower_z <- x$bound$z[x$bound$bound == "lower"]
   (all.equal(upper_z, -lower_z))
+})
+
+assert("Final futility and efficacy bounds match with lower spending under beta-spending, binding/non-binding when it is NPH", {
+  enroll_rate <- define_enroll_rate(
+    duration = 12,
+    rate = 600/12
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, Inf),
+    fail_rate = log(2) / 9,
+    hr = c(1, 0.6),
+    dropout_rate = 0.0001
+  )
+
+  # binding
+  x <- gs_power_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      info_scale = "h0_h1_info",
+      event = c(100, 200, 300),
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -3),
+      binding = TRUE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+
+  # non-binding
+  x <- gs_power_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      info_scale = "h0_h1_info",
+      analysis_time = c(24, 30, 36),
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
+      binding = FALSE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+  
 })

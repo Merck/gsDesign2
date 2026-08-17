@@ -541,11 +541,11 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.065}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrdb\brdrw15\clvertalt\cellx9000
@@ -783,11 +783,11 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.065}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrdb\brdrw15\clvertalt\cellx9000
@@ -945,11 +945,11 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.065}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrdb\brdrw15\clvertalt\cellx9000
@@ -1115,11 +1115,11 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.065}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrdb\brdrw15\clvertalt\cellx9000
@@ -1263,10 +1263,10 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7200
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrdb\brdrw15\clvertalt\cellx9000
@@ -1494,11 +1494,11 @@ cat(readLines(path), sep = "\n")
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx7500
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrs\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrs\brdrw15\clvertalt\cellx9000
 \pard\hyphpar0\sb15\sa15\fi0\li0\ri0\ql\fs18{\f0 Futility}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 -0.22}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5881}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 1.065}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.1002}\cell
-\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.4319}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 2.03}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.0212}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.5631}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.7929}\cell
+\pard\hyphpar0\sb15\sa15\fi0\li0\ri0\qc\fs18{\f0 0.975}\cell
 \intbl\row\pard
 \trowd\trgaph108\trleft0\trqc
 \clbrdrl\brdrs\brdrw15\clbrdrt\brdrw15\clbrdrr\brdrs\brdrw15\clbrdrb\brdrdb\brdrw15\clvertalt\cellx9000
