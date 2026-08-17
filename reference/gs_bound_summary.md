@@ -70,11 +70,11 @@ gs_bound_summary(x)
 #> 8  Events: 248         ~HR at bound   0.7455   0.8707
 #> 9    Month: 25     P(Cross) if HR=1   0.0105   0.8620
 #> 10             P(Cross) if AHR=0.71   0.6348   0.0599
-#> 11       Final                    Z   2.0161   2.0143
-#> 12      N: 527          p (1-sided)   0.0219   0.0220
-#> 13 Events: 323         ~HR at bound   0.7990   0.7992
-#> 14   Month: 36     P(Cross) if HR=1   0.0243   0.9756
-#> 15             P(Cross) if AHR=0.68   0.9000   0.1001
+#> 11       Final                    Z   2.0161   2.0161
+#> 12      N: 527          p (1-sided)   0.0219   0.0219
+#> 13 Events: 323         ~HR at bound   0.7990   0.7990
+#> 14   Month: 36     P(Cross) if HR=1   0.0243   0.9757
+#> 15             P(Cross) if AHR=0.68   0.9000   0.1000
 
 x <- gs_design_wlr(info_frac = c(.25, .75, 1), analysis_time = c(12, 25, 36))
 gs_bound_summary(x)
@@ -89,9 +89,9 @@ gs_bound_summary(x)
 #> 8  Events: 246          ~HR at bound   0.7443   0.8692
 #> 9    Month: 25      P(Cross) if HR=1   0.0103   0.8642
 #> 10             P(Cross) if wAHR=0.71   0.6325   0.0610
-#> 11       Final                     Z   2.0152   2.0151
+#> 11       Final                     Z   2.0152   2.0152
 #> 12      N: 523           p (1-sided)   0.0219   0.0219
-#> 13 Events: 321          ~HR at bound   0.7985   0.7986
+#> 13 Events: 321          ~HR at bound   0.7985   0.7985
 #> 14   Month: 36      P(Cross) if HR=1   0.0242   0.9758
 #> 15             P(Cross) if wAHR=0.68   0.9000   0.1000
 
@@ -109,9 +109,9 @@ gs_bound_summary(x, alpha = c(0.025, 0.05))
 #> 8  Events: 278         ~HR at bound   0.7251  0.7535 0.7863   0.8701
 #> 9    Month: 24     P(Cross) if HR=1   0.0037  0.0092 0.0228   0.8768
 #> 10             P(Cross) if AHR=0.72   0.5336  0.6571 0.7770   0.0556
-#> 11       Final                    Z   2.2781  2.0096 1.7134   2.2775
+#> 11       Final                    Z   2.2781  2.0096 1.7134   2.2781
 #> 12      N: 611          p (1-sided)   0.0114  0.0222 0.0433   0.0114
 #> 13 Events: 375         ~HR at bound   0.7903  0.8125 0.8378   0.7903
 #> 14   Month: 36     P(Cross) if HR=1   0.0122  0.0237 0.0445   0.9878
-#> 15             P(Cross) if AHR=0.68   0.9000  0.9252 0.9390   0.1001
+#> 15             P(Cross) if AHR=0.68   0.9000  0.9252 0.9390   0.1000
 ```

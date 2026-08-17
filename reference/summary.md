@@ -200,7 +200,7 @@ x_ahr |> summary()
 #> 2 Analysis: 1 Tim… Effi…  3.71          0.510      0.0001                 0.0027
 #> 3 Analysis: 2 Tim… Futi…  0.63          0.923      0.266                  0.0666
 #> 4 Analysis: 2 Tim… Effi…  2.51          0.725      0.006                  0.414 
-#> 5 Analysis: 3 Tim… Futi…  1.99          0.812      0.0233                 0.101 
+#> 5 Analysis: 3 Tim… Futi…  1.99          0.812      0.0231                 0.1   
 #> 6 Analysis: 3 Tim… Effi…  1.99          0.812      0.0231                 0.9   
 #> # ℹ 1 more variable: `Null hypothesis` <dbl>
 
@@ -214,7 +214,7 @@ x_ahr |> summary(analysis_vars = c("time", "event", "info_frac"), analysis_decim
 #> 2 Analysis: 1 Tim… Effi…  3.71          0.510      0.0001                 0.0027
 #> 3 Analysis: 2 Tim… Futi…  0.63          0.923      0.266                  0.0666
 #> 4 Analysis: 2 Tim… Effi…  2.51          0.725      0.006                  0.414 
-#> 5 Analysis: 3 Tim… Futi…  1.99          0.812      0.0233                 0.101 
+#> 5 Analysis: 3 Tim… Futi…  1.99          0.812      0.0231                 0.1   
 #> 6 Analysis: 3 Tim… Effi…  1.99          0.812      0.0231                 0.9   
 #> # ℹ 1 more variable: `Null hypothesis` <dbl>
 
@@ -228,7 +228,7 @@ x_ahr |> summary(bound_names = c("A is better", "B is better"))
 #> 2 Analysis: 1 Tim… A is…  3.71          0.510      0.0001                 0.0027
 #> 3 Analysis: 2 Tim… B is…  0.63          0.923      0.266                  0.0666
 #> 4 Analysis: 2 Tim… A is…  2.51          0.725      0.006                  0.414 
-#> 5 Analysis: 3 Tim… B is…  1.99          0.812      0.0233                 0.101 
+#> 5 Analysis: 3 Tim… B is…  1.99          0.812      0.0231                 0.1   
 #> 6 Analysis: 3 Tim… A is…  1.99          0.812      0.0231                 0.9   
 #> # ℹ 1 more variable: `Null hypothesis` <dbl>
 
@@ -242,7 +242,7 @@ x_ahr |> summary(analysis_vars = c("n", "event"), analysis_decimals = c(1, 1))
 #> 2 Analysis: 1 N: … Effi…  3.71          0.510      0.0001                 0.0027
 #> 3 Analysis: 2 N: … Futi…  0.63          0.923      0.266                  0.0666
 #> 4 Analysis: 2 N: … Effi…  2.51          0.725      0.006                  0.414 
-#> 5 Analysis: 3 N: … Futi…  1.99          0.812      0.0233                 0.101 
+#> 5 Analysis: 3 N: … Futi…  1.99          0.812      0.0231                 0.1   
 #> 6 Analysis: 3 N: … Effi…  1.99          0.812      0.0231                 0.9   
 #> # ℹ 1 more variable: `Null hypothesis` <dbl>
 
@@ -256,7 +256,7 @@ x_ahr |> summary(col_decimals = c(z = 4))
 #> 2 Analysis: 1 Ti… Effi…  3.71           0.510      0.0001                 0.0027
 #> 3 Analysis: 2 Ti… Futi…  0.626          0.923      0.266                  0.0666
 #> 4 Analysis: 2 Ti… Effi…  2.51           0.725      0.006                  0.414 
-#> 5 Analysis: 3 Ti… Futi…  1.99           0.812      0.0233                 0.101 
+#> 5 Analysis: 3 Ti… Futi…  1.99           0.812      0.0231                 0.1   
 #> 6 Analysis: 3 Ti… Effi…  1.99           0.812      0.0231                 0.9   
 #> # ℹ 1 more variable: `Null hypothesis` <dbl>
 
@@ -271,7 +271,7 @@ x_ahr |> summary(col_vars = c("z", "~hr at bound", "nominal p"))
 #> 2 Analysis: 1 Time: 11.7 N: 479.6 Events… Effi…  3.71          0.510      0.0001
 #> 3 Analysis: 2 Time: 20.3 N: 493.1 Events… Futi…  0.63          0.923      0.266 
 #> 4 Analysis: 2 Time: 20.3 N: 493.1 Events… Effi…  2.51          0.725      0.006 
-#> 5 Analysis: 3 Time: 36 N: 493.1 Events: … Futi…  1.99          0.812      0.0233
+#> 5 Analysis: 3 Time: 36 N: 493.1 Events: … Futi…  1.99          0.812      0.0231
 #> 6 Analysis: 3 Time: 36 N: 493.1 Events: … Effi…  1.99          0.812      0.0231
 
 # Customize columns and digits
@@ -315,7 +315,7 @@ x_wlr |> summary()
 #> 2 Analysis: 1 Ti… Effi…  5.94           0.289      0                      0     
 #> 3 Analysis: 2 Ti… Futi…  0.57           0.919      0.284                  0.0464
 #> 4 Analysis: 2 Ti… Effi…  3.16           0.627      0.0008                 0.214 
-#> 5 Analysis: 3 Ti… Futi…  1.96           0.789      0.0247                 0.100 
+#> 5 Analysis: 3 Ti… Futi…  1.96           0.789      0.0247                 0.1   
 #> 6 Analysis: 3 Ti… Effi…  1.96           0.789      0.0247                 0.9   
 #> # ℹ 1 more variable: `Null hypothesis` <dbl>
 # }

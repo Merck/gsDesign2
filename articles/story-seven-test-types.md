@@ -335,7 +335,7 @@ order to get convergence.
 dplyr::filter(asymmetric_binding$bound, bound == "upper")$z - asymmetricBinding$upper$bound
 #> [1] -1.349247e-07  2.505868e-04  6.494307e-03
 dplyr::filter(asymmetric_binding$bound, bound == "lower")$z - asymmetricBinding$lower$bound
-#> [1] -0.02803395 -0.02670878 -0.01598602
+#> [1] -0.028033946 -0.026708784  0.006494307
 ```
 
 ### Example 4: Asymmetric 2-sided design with \\\beta\\-spending and non-binding futility bound
@@ -420,7 +420,7 @@ of accuracy.
 dplyr::filter(asymmetric_nonbinding$bound, bound == "upper")$z - asymmetricNonBinding$upper$bound
 #> [1] -1.349247e-07  9.218238e-07  3.514185e-07
 dplyr::filter(asymmetric_nonbinding$bound, bound == "lower")$z - asymmetricNonBinding$lower$bound
-#> [1] -0.03267431 -0.03311079 -0.02427000
+#> [1] -3.267431e-02 -3.311079e-02  3.514185e-07
 ```
 
 ### Example 5: Asymmetric 2-sided design with null hypothesis spending and binding futility bound

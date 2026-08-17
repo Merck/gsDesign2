@@ -79,11 +79,11 @@ x |> gs_bound_summary() |> gt()
 | Events: 317 | ~HR at bound         | 0.7758   | 0.8515   |
 | Month: 26   | P(Cross) if HR=1     | 0.0123   | 0.9271   |
 |             | P(Cross) if AHR=0.72 | 0.7242   | 0.1431   |
-| Final       | Z                    | 2.0282   | 1.9089   |
-| N: 544      | p (1-sided)          | 0.0213   | 0.0281   |
-| Events: 395 | ~HR at bound         | 0.8154   | 0.8252   |
-| Month: 36   | P(Cross) if HR=1     | 0.0228   | 0.9730   |
-|             | P(Cross) if AHR=0.69 | 0.8498   | 0.1494   |
+| Final       | Z                    | 2.0282   | 2.0282   |
+| N: 544      | p (1-sided)          | 0.0213   | 0.0213   |
+| Events: 395 | ~HR at bound         | 0.8154   | 0.8154   |
+| Month: 36   | P(Cross) if HR=1     | 0.0228   | 0.9772   |
+|             | P(Cross) if AHR=0.69 | 0.8498   | 0.1502   |
 
 ## Update design at time of interim analysis
 
@@ -135,11 +135,11 @@ xu |> gs_bound_summary() |> gt()
 | Events: 317 | ~HR at bound         | 0.7760   | 0.8433   |
 | Month: 26   | P(Cross) if HR=1     | 0.0120   | 0.9376   |
 |             | P(Cross) if AHR=0.72 | 0.7243   | 0.1436   |
-| Final       | Z                    | 2.0228   | 1.9453   |
-| N: 544      | p (1-sided)          | 0.0215   | 0.0259   |
-| Events: 395 | ~HR at bound         | 0.8158   | 0.8222   |
-| Month: 36   | P(Cross) if HR=1     | 0.0221   | 0.9755   |
-|             | P(Cross) if AHR=0.69 | 0.8476   | 0.1500   |
+| Final       | Z                    | 2.0228   | 2.0228   |
+| N: 544      | p (1-sided)          | 0.0215   | 0.0215   |
+| Events: 395 | ~HR at bound         | 0.8158   | 0.8158   |
+| Month: 36   | P(Cross) if HR=1     | 0.0221   | 0.9779   |
+|             | P(Cross) if AHR=0.69 | 0.8476   | 0.1524   |
 
 ## Testing and simple conditional power
 
