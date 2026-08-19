@@ -18,5 +18,5 @@ An \code{lt_tbl} object.
 \code{as_gt()} is deprecated; use \code{\link[lt:lt]{lt::lt()}} instead.
 }
 \seealso{
-\code{\link[lt:lt]{lt::lt()}}
+\code{\link[lt:lt]{lt::lt()}}, \link{lt-methods}
 }

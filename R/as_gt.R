@@ -25,7 +25,7 @@
 #'
 #' @return An `lt_tbl` object.
 #'
-#' @seealso [lt::lt()]
+#' @seealso [lt::lt()], [lt-methods]
 #'
 #' @export
 as_gt <- function(x, ...) {
