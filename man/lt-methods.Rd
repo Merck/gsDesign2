@@ -15,7 +15,7 @@
   colname_spanner = "Cumulative boundary crossing probability",
   colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
   footnote = NULL,
-  display_bound = c("Efficacy", "Futility"),
+  display_bound = c("Efficacy", "Futility", "Harm"),
   display_columns = NULL,
   display_inf_bound = FALSE,
   ...
@@ -42,7 +42,7 @@ the footnotes, for example, \code{c("colname", "title", "subtitle", "analysis", 
 of the table.}
 
 \item{display_bound}{A vector of strings specifying the label of the bounds.
-The default is \code{c("Efficacy", "Futility")}.}
+The default is \code{c("Efficacy", "Futility", "Harm")}.}
 
 \item{display_columns}{A vector of strings specifying the variables to be
 displayed in the summary table.}

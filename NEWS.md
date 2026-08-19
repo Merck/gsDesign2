@@ -4,6 +4,15 @@
 
 - The (heavy) **gt** dependency has been replaced with the lightweight **lt** package. The `as_gt()` function is deprecated in favor of `lt::lt()`. S3 methods for `lt()` are provided for `fixed_design_summary` and `gs_design_summary` objects. There are no significant visual changes in the HTML tables.
 
+## New features
+
+- Harm boundaries are now supported in `gs_design_ahr()`, `gs_power_ahr()`, `gs_design_npe()`, and `gs_power_npe()` through the new `harm`, `hpar`, and `test_harm` arguments. Harm boundaries are available for group sequential designs with futility testing and are not supported for fixed designs (#640, thanks to @LittleBeannie, @yihui, and @keaven).
+- Harm boundaries are now included in `summary()`, `gs_bound_summary()`, `lt()` (and the deprecated `as_gt()`), and `as_rtf()` output, with controls for custom labels and bound display (#640, thanks to @LittleBeannie, @jdblischak, @yihui, and @keaven).
+
+## Documentation
+
+- A new vignette demonstrates how `gs_design_ahr()` reproduces `gsDesign::gsSurv(method = "Schoenfeld")` boundaries across test types, including designs with harm boundaries (#640, thanks to @LittleBeannie, @yihui, and @keaven).
+
 # gsDesign2 1.1.9
 
 ## New features

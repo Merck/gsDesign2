@@ -103,7 +103,9 @@ summary.fixed_design <- function(object, ...) {
 #'   If the vector is unnamed, it must match the length of `col_vars`. If the
 #'   vector is named, you only have to specify the number of digits for the
 #'   columns you want to be displayed differently than the defaults.
-#' @param bound_names Names for bounds; default is `c("Efficacy", "Futility")`.
+#' @param bound_names Names for bounds; default is `c("Efficacy", "Futility", "Harm")`.
+#'   The first two values label upper and lower bounds. If a third value is provided,
+#'   it labels harm bounds; otherwise harm bounds are labeled `"Harm"`.
 #' @param display_spending_time A logical value (TRUE/FALSE) indicating if the spending time
 #' is summarized in the table.
 #'
@@ -257,7 +259,7 @@ summary.gs_design <- function(object,
                               analysis_decimals = NULL,
                               col_vars = NULL,
                               col_decimals = NULL,
-                              bound_names = c("Efficacy", "Futility"),
+                              bound_names = c("Efficacy", "Futility", "Harm"),
                               display_spending_time = FALSE,
                               ...) {
   x <- object
@@ -295,7 +297,8 @@ summary.gs_design <- function(object,
   xy <- x_bound
   # change Upper -> bound_names[1], e.g., Efficacy
   # change Lower -> bound_names[2], e.g., Futility
-  xy$bound <- replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2]))
+  # change Harm -> bound_names[3], e.g., Harm
+  xy$bound <- replace_values(xy$bound, c(upper = bound_names[1], lower = bound_names[2], harm = bound_names[3]))
 
   if (!"probability0" %in% names(xy)) xy$probability0 <- "-"
   xy <- xy |> arrange(analysis, desc(bound))

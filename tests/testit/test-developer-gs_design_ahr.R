@@ -43,8 +43,7 @@ assert("Multiple analysisTimes", {
   (x1$analysis$theta %==% u2$theta)
   (x1$analysis$info %==% u2$info)
   (x1$analysis$info0 %==% u2$info0)
-  (l1$z %==% l2$Z)
-  (l1$probability %==% l2$Probability)
+  (head(l1$z, -1) %==% head(l2$Z, -1))
 })
 
 assert("Specified information fraction", {
@@ -62,8 +61,7 @@ assert("Specified information fraction", {
   (all.equal(x1$analysis$theta, u2$theta, tolerance = 1e-7))
   (all.equal(x1$analysis$info, u2$info, tolerance = 4e-8))
   (all.equal(x1$analysis$info0, u2$info0, tolerance = 4e-8))
-  (all.equal(l1$z, l2$Z, tolerance = 2e-7))
-  (all.equal(l1$probability, l2$Probability))
+  (all.equal(head(l1$z, -1), head(l2$Z, -1), tolerance = 2e-7))
 })
 
 assert("Multiple analysis times & IF and driven by times", {
@@ -81,8 +79,7 @@ assert("Multiple analysis times & IF and driven by times", {
   (x1$analysis$theta %==% u2$theta)
   (x1$analysis$info %==% u2$info)
   (x1$analysis$info0 %==% u2$info0)
-  (l1$z %==% l2$Z)
-  (l1$probability %==% l2$Probability)
+  (head(l1$z, -1) %==% head(l2$Z, -1))
 })
 
 assert("Multiple analysis times & IF and driven by IF", {
@@ -100,8 +97,7 @@ assert("Multiple analysis times & IF and driven by IF", {
   (x1$analysis$theta %==% u2$theta)
   (x1$analysis$info %==% u2$info)
   (x1$analysis$info0 %==% u2$info0)
-  (l1$z %==% l2$Z)
-  (l1$probability %==% l2$Probability)
+  (head(l1$z, -1) %==% head(l2$Z, -1))
 })
 
 assert("2-sided symmetric design with O'Brien-Fleming spending", {
@@ -166,8 +162,99 @@ assert("Pocock lower spending under H1 (NPH)", {
   (x1$analysis$theta %==% u2$theta)
   (x1$analysis$info %==% u2$info)
   (x1$analysis$info0 %==% u2$info0)
-  (l1$z %==% l2$Z)
-  (l1$probability %==% l2$Probability)
+  (head(l1$z, -1) %==% head(l2$Z, -1))
+})
+
+assert("Final futility and efficacy bounds match with lower spending under beta-spending, binding/non-binding when it is PH", {
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 10),
+    rate = (1:3) / 3
+  )
+  fail_rate <- define_fail_rate(
+    duration = Inf,
+    fail_rate = log(2) / 9,
+    hr = 0.6,
+    dropout_rate = 0.0001
+  )
+
+  # binding
+  x <- gs_design_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      alpha = 0.025, beta = 0.1,
+      info_scale = "h0_h1_info",
+      info_frac = 1:3 / 3, analysis_time = 36,
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
+      binding = TRUE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+
+  # non-binding
+  x <- gs_design_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      alpha = 0.025, beta = 0.1,
+      info_scale = "h0_h1_info",
+      info_frac = 1:3 / 3, analysis_time = 36,
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
+      binding = FALSE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+  
+})
+
+assert("Final futility and efficacy bounds match with lower spending under beta-spending, binding/non-binding when it is NPH", {
+  enroll_rate <- define_enroll_rate(
+    duration = c(2, 2, 10),
+    rate = (1:3) / 3
+  )
+  fail_rate <- define_fail_rate(
+    duration = c(3, Inf),
+    fail_rate = log(2) / 9,
+    hr = c(1, 0.6),
+    dropout_rate = 0.0001
+  )
+
+  # binding
+  x <- gs_design_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      alpha = 0.025, beta = 0.1,
+      info_scale = "h0_h1_info",
+      info_frac = 1:3 / 3, analysis_time = 36,
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
+      binding = TRUE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+
+  # non-binding
+  x <- gs_design_ahr(
+      enroll_rate = enroll_rate, fail_rate = fail_rate,
+      alpha = 0.025, beta = 0.1,
+      info_scale = "h0_h1_info",
+      info_frac = 1:3 / 3, analysis_time = 36,
+      upper = gs_spending_bound,
+      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+      lower = gs_spending_bound,
+      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = 3),
+      binding = FALSE, h1_spending = TRUE
+    )
+  fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
+  fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
+  (fa_efficacy_bound$z == fa_futility_bound$z)
+  
 })
 
 assert("Spending time when both efficacy and futility bound are fixed", {
@@ -270,4 +357,54 @@ assert("Spending time when some analyses are skipped", {
   (all.equal(filter(x$bound, bound == "upper")$spending_time, 1:3/3))
   expected <- x$analysis$info[2:3] / max(x$analysis$info)
   (filter(x$bound, bound == "lower")$spending_time %==% expected)
+})
+
+assert("Harm bound is not provided when it is a fixed design", {
+  x1 <- gs_power_npe(theta = 0.5, theta1 = 0.5, theta0 = 0,
+                      info = 10, info1 = 10, info0 = 11,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+  x2 <- gs_design_npe(theta = 0.5, theta1 = 0.5, theta0 = 0,
+                      info = 10, info1 = 10, info0 = 11,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+  x3 <- gs_design_ahr(analysis_time = 36, info_frac = NULL,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+  x4 <- gs_power_ahr(analysis_time = 36, event = NULL,
+                      upper = gs_b, upar = qnorm(1 - 0.025), test_upper = TRUE,
+                      lower = gs_b, lpar = -Inf, test_lower = FALSE)
+
+  (x1$bound[abs(x1$z) != Inf] == "upper")
+  (x2$bound[abs(x2$z) != Inf] == "upper")
+  (x3$bound$bound[abs(x3$bound$z) != Inf] == "upper")
+  (x4$bound$bound[abs(x4$bound$z) != Inf] == "upper")
+  (has_error(gs_design_ahr(analysis_time = 40, test_harm = TRUE)))
+  (has_error(gs_design_ahr(analysis_time = 40, hpar = -2, test_harm = TRUE)))
+})
+
+assert("Harm bound is always below the lower bound in a group sequential design", {
+  x1 <- gs_design_ahr(analysis_time = c(12, 24, 36), info_frac = NULL,
+                      upper = gs_spending_bound, 
+                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+                      test_upper = TRUE,
+                      lower = gs_spending_bound, 
+                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2), 
+                      test_lower = TRUE,
+                      harm = gs_spending_bound,
+                      hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+                      test_harm = TRUE)
+  x2 <- gs_power_ahr(analysis_time = NULL, event = c(10, 50, 70),
+                      upper = gs_spending_bound, 
+                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+                      test_upper = TRUE,
+                      lower = gs_spending_bound, 
+                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2), 
+                      test_lower = TRUE,
+                      harm = gs_spending_bound,
+                      hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
+                      test_harm = TRUE)
+
+  (all(x1$bound$z[x1$bound$bound == "lower"] - x1$bound$z[x1$bound$bound == "harm"] >= 0))
+  (all(x2$bound$z[x2$bound$bound == "lower"] - x2$bound$z[x2$bound$bound == "harm"] >= 0))
 })

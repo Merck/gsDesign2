@@ -108,7 +108,7 @@ lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
 #'   the footnotes, for example, `c("colname", "title", "subtitle", "analysis",
 #'   "spanner")`. To disable footnotes, use `footnote = FALSE`.
 #' @param display_bound A vector of strings specifying the label of the bounds.
-#'   The default is `c("Efficacy", "Futility")`.
+#'   The default is `c("Efficacy", "Futility", "Harm")`.
 #' @param display_columns A vector of strings specifying the variables to be
 #'   displayed in the summary table.
 #' @param display_inf_bound Logical, whether to display the +/-inf bound.
@@ -209,7 +209,7 @@ lt.gs_design_summary <- function(
     colname_spanner = "Cumulative boundary crossing probability",
     colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
     footnote = NULL,
-    display_bound = c("Efficacy", "Futility"),
+    display_bound = c("Efficacy", "Futility", "Harm"),
     display_columns = NULL,
     display_inf_bound = FALSE,
     ...) {
@@ -357,6 +357,7 @@ gsd_parts <- function(
   x2 <- x2[, columns]
   x2 <- subset(x2, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
   x2 <- subset(x2, Bound %in% bound)
+  x2$Bound <- factor(x2$Bound, levels = bound)
 
   i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x2))
   names(x2)[i] <- spannersub
@@ -375,10 +376,10 @@ gsd_parts <- function(
   )
 
   list(
-    x = arrange(x2, Analysis),
+    x = arrange(x2, Analysis, Bound),
     title = title, subtitle = subtitle,
     footnote = if (!isFALSE(footnote)) footnote %||% gsd_footnote(method, columns),
-    alpha = max(filter(x, Bound == bound[1])[["Null hypothesis"]])
+    alpha = max(filter(x, Bound == "Efficacy")[["Null hypothesis"]])
   )
 }
 

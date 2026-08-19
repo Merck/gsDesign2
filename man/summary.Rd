@@ -13,7 +13,7 @@
   analysis_decimals = NULL,
   col_vars = NULL,
   col_decimals = NULL,
-  bound_names = c("Efficacy", "Futility"),
+  bound_names = c("Efficacy", "Futility", "Harm"),
   display_spending_time = FALSE,
   ...
 )
@@ -37,7 +37,9 @@ If the vector is unnamed, it must match the length of \code{col_vars}. If the
 vector is named, you only have to specify the number of digits for the
 columns you want to be displayed differently than the defaults.}
 
-\item{bound_names}{Names for bounds; default is \code{c("Efficacy", "Futility")}.}
+\item{bound_names}{Names for bounds; default is \code{c("Efficacy", "Futility", "Harm")}.
+The first two values label upper and lower bounds. If a third value is provided,
+it labels harm bounds; otherwise harm bounds are labeled \code{"Harm"}.}
 
 \item{display_spending_time}{A logical value (TRUE/FALSE) indicating if the spending time
 is summarized in the table.}
