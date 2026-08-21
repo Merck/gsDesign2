@@ -2,7 +2,7 @@
 
 ## Major changes
 
-- The (heavy) **gt** dependency has been replaced with the lightweight **lt** package. The `as_gt()` function is deprecated in favor of `lt::lt()`. S3 methods for `lt()` are provided for `fixed_design_summary` and `gs_design_summary` objects. There are no significant visual changes in the HTML tables.
+- The (heavy) **gt** dependency has been replaced with the lightweight **lt** package. The `as_gt()` function is deprecated in favor of `lt()`. S3 methods for `lt()` are provided for `fixed_design_summary` and `gs_design_summary` objects. There are no significant visual changes in the HTML tables.
 
 ## New features
 
