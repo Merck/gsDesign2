@@ -119,3 +119,41 @@ assert("Compare the gs_cp_npe2 with gsDesign::gsCP", {
   (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_simple_cp))
 
 })
+
+assert("Compare gs_cp_npe2 with gs_cp_npe1 when j = i+1", {
+
+  # simple conditional power
+  x1 <- gsDesign2:::gs_cp_npe1(
+    theta = c(0.1, 0.2), # treatment effect at analysis i and j
+    info = c(50, 100),   # statistical information at analysis i and j
+    zi = 0,              # observed z-value at analysis i
+    zj = 1.98)           # upper bound at analysis j
+  
+  # generalized conditional power
+  # which should be the same as the simple conditional power when j = i + 1
+  x2 <- gsDesign2:::gs_cp_npe2(
+    theta = c(0.1, 0.2), # treatment effect at analysis i and j
+    t = c(0.5, 1),       # information fraction at analysis i and j
+    info = c(50, 100),   # statistical information at analysis i and j
+    a = -Inf,            # futility bounds at analysis j
+    b = 1.98,            # upper bound at analysis j
+    zi = 0)              # z-value observed at i
+
+  all.equal(x1, x2$prob_alpha)
+})
+
+assert("Compare", {
+  x <- gs_cp_npe2(
+    theta = c(0.1, 0.2, 0.3),  # treatment effect of IA1, IA2 and FA
+    t = c(0.5, 0.75, 1),       # information fraction of IA1, IA2 and FA
+    info = c(50, 75, 100),     # information of IA1, IA2 and FA
+    a = c(-Inf, -Inf),         # lower bounds of IA2 and FA
+    b = c(2.4, 2.4),           # upper bounds of IA2 and FA
+    zi = 0)                    # z-value observed at IA1
+  
+  # x$sum(x$prob_alpha) is the probablity that either the upper bound is crossed at IA2 or FA
+  # x$prob_beta[2] is the probability that the upper bound is not crossed both at IA2 and FA
+  # the summization of the above two should be 1
+  all.equal(sum(x$prob_alpha) + x$prob_beta[2], 1)
+
+})
