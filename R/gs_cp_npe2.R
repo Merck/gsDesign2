@@ -39,9 +39,19 @@
 #' @param a A vector of length j-i, which specifies the futility bounds from analysis i+1 to analysis j.
 #' @param b A vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.
 #' @param zi Numeric scalar z-value observed at analysis \eqn{i}.
-#' @return A list of conditional powers: prob_alpha is a numeric vector of (\eqn{alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j}), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
-#'                                       prob_alpha_plus is a numeric vector of (\eqn{alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j}), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
-#'                                       prob_beta is a numeric vector of (\eqn{beta_i,i+1, ..., beta_i,j-1, beta_i,j}) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#' @return A list of conditional powers:
+#' - `prob_alpha` is a numeric vector of (\eqn{\alpha_{i,i+1}, ..., \alpha_{i,j-1}, \alpha_{i,j}}),
+#'    where
+#'    + (for \eqn{j = i+1}) \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j > i+1}) \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_alpha_plus` is a numeric vector of (\eqn{\alpha^+_{i,i+1}, ..., \alpha^+_{i,j-1}, \alpha^+_{i,j}}),
+#'    where
+#'    + (for \eqn{j = i+1}) \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j > i+1}) \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_beta` is a numeric vector of (\eqn{\beta_{i,i+1}, ..., \beta_{i,j-1}, \beta_{i,j}})
+#'    where
+#'    + (for \eqn{j = i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j > i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #' @noRd
 #'
 #' @examples
@@ -275,7 +285,7 @@ gs_cp_npe2 <- function(theta = NULL,
       upper_beta[x] <- b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
     }else{
       for(m in 1:x){
-        upper_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_beta[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
     }
 
