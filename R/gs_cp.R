@@ -18,7 +18,31 @@
 
 #' Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
 #'
-#' @inherit gs_cp_npe2 return
+#' @param x An object of type gsDesign2.
+#' @param theta Optional numeric vector with length \eqn{j-i+1}, which specifies
+#' the natural parameter for treatment effect of interim analysis \eqn{i} through
+#' analysis \eqn{j}. The default is `NULL`.
+#' @param i Index of current analysis, with default of 1.
+#' @param zi Numeric scalar z-value observed at analysis \eqn{i}.
+#' @return A list of conditional powers:
+#' - `prob_alpha` is a numeric vector of
+#'   (\eqn{\alpha_{i,i+1}, ..., \alpha_{i,j-1}, \alpha_{i,j}}), where
+#'   + for \eqn{j = i+1},
+#'     \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)};
+#'   + for \eqn{j > i+1},
+#'     \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_alpha_plus` is a numeric vector of
+#'   (\eqn{\alpha^+_{i,i+1}, ..., \alpha^+_{i,j-1}, \alpha^+_{i,j}}), where
+#'   + for \eqn{j = i+1},
+#'     \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)};
+#'   + for \eqn{j > i+1},
+#'     \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_beta` is a numeric vector of
+#'   (\eqn{\beta_{i,i+1}, ..., \beta_{i,j-1}, \beta_{i,j}}), where
+#'   + for \eqn{j = i+1},
+#'     \eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \mid Z_i = z_i)};
+#'   + for \eqn{j > i+1},
+#'     \eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #'
 #' @export
 #'

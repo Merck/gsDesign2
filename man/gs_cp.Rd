@@ -6,6 +6,46 @@
 \usage{
 gs_cp(x = NULL, theta = NULL, i = 1, zi = NULL)
 }
+\arguments{
+\item{x}{An object of type gsDesign2.}
+
+\item{theta}{Optional numeric vector with length \eqn{j-i+1}, which specifies
+the natural parameter for treatment effect of interim analysis \eqn{i} through
+analysis \eqn{j}. The default is \code{NULL}.}
+
+\item{i}{Index of current analysis, with default of 1.}
+
+\item{zi}{Numeric scalar z-value observed at analysis \eqn{i}.}
+}
+\value{
+A list of conditional powers:
+\itemize{
+\item \code{prob_alpha} is a numeric vector of
+(\eqn{\alpha_{i,i+1}, ..., \alpha_{i,j-1}, \alpha_{i,j}}), where
+\itemize{
+\item for \eqn{j = i+1},
+\eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)};
+\item for \eqn{j > i+1},
+\eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+}
+\item \code{prob_alpha_plus} is a numeric vector of
+(\eqn{\alpha^+_{i,i+1}, ..., \alpha^+_{i,j-1}, \alpha^+_{i,j}}), where
+\itemize{
+\item for \eqn{j = i+1},
+\eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)};
+\item for \eqn{j > i+1},
+\eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
+}
+\item \code{prob_beta} is a numeric vector of
+(\eqn{\beta_{i,i+1}, ..., \beta_{i,j-1}, \beta_{i,j}}), where
+\itemize{
+\item for \eqn{j = i+1},
+\eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \mid Z_i = z_i)};
+\item for \eqn{j > i+1},
+\eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+}
+}
+}
 \description{
 Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
 }
