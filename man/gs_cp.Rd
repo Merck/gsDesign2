@@ -6,43 +6,8 @@
 \usage{
 gs_cp(x = NULL, theta = NULL, i = 1, zi = NULL)
 }
-\arguments{
-\item{x}{An object of type gsDesign2.}
-
-\item{theta}{Optional numeric vector with length \eqn{j-i+1}, which specifies the natural parameter for treatment effect of interim analysis \eqn{i} through analysis \eqn{j}. The default is \code{NULL}.}
-
-\item{i}{Index of current analysis, with default of 1.}
-
-\item{zi}{Numeric scalar z-value observed at analysis \eqn{i}.}
-}
-\value{
-A list with the following elements:
-\describe{
-\item{\code{prob_alpha}}{A numeric vector of
-\eqn{(\alpha_{i,i+1}, \ldots, \alpha_{i,j-1}, \alpha_{i,j})}, where
-\eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.}
-\item{\code{prob_alpha_plus}}{A numeric vector of
-\eqn{(\alpha^+_{i,i+1}, \ldots, \alpha^+_{i,j-1}, \alpha^+_{i,j})}, where
-\eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.}
-\item{\code{prob_beta}}{A numeric vector of
-\eqn{(\beta_{i,i+1}, \ldots, \beta_{i,j-1}, \beta_{i,j})}, where
-\eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.}
-}
-}
 \description{
 Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
-}
-\details{
-We assume \eqn{Z_i, i = 1, ..., K} are the z-statistics at an interim analysis i, respectively.
-We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
-\deqn{E(Z_i) = \theta_i\sqrt{I_i}}
-\deqn{Cov(Z_i, Z_j) = I_i/I_j}.
-See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
-
-The returned value is list of
-\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i).}
-\deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i).}
-\deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i).}
 }
 \examples{
 library(gsDesign2)
