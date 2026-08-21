@@ -142,7 +142,7 @@ assert("Compare gs_cp_npe2 with gs_cp_npe1 when j = i+1", {
   all.equal(x1, x2$prob_alpha)
 })
 
-assert("Compare", {
+assert("Test the connection between prob_beta and prob_alpha", {
   x <- gs_cp_npe2(
     theta = c(0.1, 0.2, 0.3),  # treatment effect of IA1, IA2 and FA
     t = c(0.5, 0.75, 1),       # information fraction of IA1, IA2 and FA
