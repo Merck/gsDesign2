@@ -2,20 +2,44 @@
 % Please edit documentation in R/as_gt.R
 \name{as_gt}
 \alias{as_gt}
-\title{Deprecated: use lt() instead}
+\alias{as_gt.fixed_design_summary}
+\alias{as_gt.gs_design_summary}
+\title{Convert summary table of a fixed or group sequential design object to a gt object}
 \usage{
 as_gt(x, ...)
+
+\method{as_gt}{fixed_design_summary}(x, title = NULL, footnote = NULL, ...)
+
+\method{as_gt}{gs_design_summary}(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  colname_spanner = "Cumulative boundary crossing probability",
+  colname_spannersub = c("Alternate hypothesis", "Null hypothesis"),
+  footnote = NULL,
+  display_bound = c("Efficacy", "Futility", "Harm"),
+  display_columns = NULL,
+  display_inf_bound = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{A summary object of a fixed or group sequential design.}
 
-\item{...}{Additional arguments passed to \code{\link[lt:lt]{lt::lt()}}.}
+\item{...}{Additional arguments (not used).}
+
+\item{title, subtitle, colname_spanner, colname_spannersub, footnote, display_bound, display_columns, display_inf_bound}{See \link{lt-methods} for the meaning of these arguments.}
 }
 \value{
-An \code{lt_tbl} object.
+A \code{gt_tbl} object.
 }
 \description{
-\code{as_gt()} is deprecated; use \code{\link[lt:lt]{lt::lt()}} instead.
+\code{as_gt()} is deprecated in favor of \code{\link[lt:lt]{lt::lt()}}, which produces a lightweight
+HTML table without the heavy \pkg{gt} dependency. \code{as_gt()} is kept for one
+release so existing code that customizes the output with \pkg{gt} functions
+keeps working; it still returns a \code{gt_tbl} object and requires \pkg{gt} to be
+installed. New code should use \code{\link[lt:lt]{lt::lt()}}; see \link{lt-methods} for the available
+arguments, which mirror those of \code{as_gt()}.
 }
 \seealso{
 \code{\link[lt:lt]{lt::lt()}}, \link{lt-methods}

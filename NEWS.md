@@ -2,7 +2,7 @@
 
 ## Major changes
 
-- The (heavy) **gt** dependency has been replaced with the lightweight **lt** package. The `as_gt()` function is deprecated in favor of `lt()`. S3 methods for `lt()` are provided for `fixed_design_summary` and `gs_design_summary` objects. There are no significant visual changes in the HTML tables.
+- The (heavy) **gt** dependency has been replaced with the lightweight **lt** package, and `lt()` methods are now the recommended way to render design summaries as tables. S3 methods for `lt()` are provided for `fixed_design_summary` and `gs_design_summary` objects, and the `lt()` generic is re-exported so it can be used after loading only gsDesign2. There are no significant visual changes in the HTML tables. `as_gt()` is deprecated but kept for one release: it still returns a `gt_tbl` object (so existing code that customizes the output with **gt** functions keeps working) and now requires the suggested **gt** package to be installed.
 
 ## New features
 
