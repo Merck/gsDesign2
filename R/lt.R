@@ -16,6 +16,15 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Re-export the lt() generic so users can call lt() on a design summary after
+# only loading gsDesign2 (without also attaching lt or qualifying with lt::).
+# This also makes S3 dispatch robust regardless of package load order.
+# See https://github.com/yihui/lt/issues/4.
+
+#' @importFrom lt lt
+#' @export
+lt::lt
+
 #' Create an lt table from a design summary
 #'
 #' S3 methods for [lt::lt()] that convert fixed or group sequential design
