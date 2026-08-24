@@ -27,7 +27,7 @@
 #' Returned value is list of
 #' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
-#' \deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#' \deqn{P(\{Z_j \leq a_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #'
 #' @param theta A vector of j-i+1, which specifies the natural parameter for treatment effect.
 #'              The first element of `theta` is the treatment effect of an interim analysis i.
