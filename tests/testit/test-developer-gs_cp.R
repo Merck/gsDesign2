@@ -114,3 +114,66 @@ assert("Compare the gs_cp with gsDesign::gsCP", {
   (all.equal(gsDesign2_cp$prob_alpha[1], gsDesign2_npe2$prob_alpha[1], tolerance = 0.005, scale = 1))
 
 })
+
+assert("Handle futility bounds tested only at completed analyses", {
+  x <- gs_design_ahr(
+    alpha = 0.025, beta = 0.1, ratio = 1,
+    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
+    binding = FALSE,
+    upper = gs_spending_bound,
+    upar = list(sf = sfLDOF, total_spend = 0.025, param = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = sfLDOF, total_spend = 0.1),
+    test_lower = c(TRUE, FALSE, FALSE, FALSE),
+    h1_spending = TRUE,
+    info_scale = "h0_h1_info"
+  ) |> to_integer()
+
+  actual <- gs_cp(x = x, i = 1, zi = 0)
+  expected <- gs_cp_npe2(
+    theta = x$analysis$theta,
+    t = x$analysis$info_frac,
+    info = x$analysis$info,
+    a = rep(-Inf, 3),
+    b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis > 1],
+    zi = 0
+  )
+
+  all.equal(actual$prob_alpha, expected$prob_alpha)
+})
+
+assert("Handle efficacy and futility bounds tested only at selected analyses", {
+  x <- gs_design_ahr(
+    alpha = 0.025, beta = 0.1, ratio = 1,
+    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
+    binding = FALSE,
+    upper = gs_spending_bound,
+    upar = list(sf = sfLDOF, total_spend = 0.025, param = NULL),
+    test_upper = c(FALSE, TRUE, TRUE, TRUE),
+    lower = gs_spending_bound,
+    lpar = list(sf = sfHSD, total_spend = 0.1, param = -3),
+    test_lower = c(TRUE, FALSE, FALSE, FALSE),
+    h1_spending = TRUE,
+    info_scale = "h0_h1_info"
+  ) |> to_integer()
+
+  upper_bound <- x$bound[x$bound$bound == "upper", ]
+  lower_bound <- x$bound[x$bound$bound == "lower", ]
+
+  # output from gs_cp
+  x1 <- gs_cp(x = x, i = 1, zi = 0)
+
+  # output from gs_cp_npe2
+  x2 <- gs_cp_npe2(
+    theta = x$analysis$theta,
+    t = x$analysis$info_frac,
+    info = x$analysis$info,
+    a = rep(-Inf, 3),
+    b = upper_bound$z[upper_bound$analysis == 2:4],
+    zi = 0
+  )
+
+  all.equal(x1$prob_alpha, x2$prob_alpha)
+  all.equal(x1$prob_alpha_plus, x2$prob_alpha_plus)
+  all.equal(x1$prob_beta, x2$prob_beta)
+})
