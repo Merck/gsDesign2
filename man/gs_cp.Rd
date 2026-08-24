@@ -40,9 +40,9 @@ A list of conditional powers:
 (\eqn{\beta_{i,i+1}, ..., \beta_{i,j-1}, \beta_{i,j}}), where
 \itemize{
 \item for \eqn{j = i+1},
-\eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \mid Z_i = z_i)};
+\eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \mid Z_i = z_i)};
 \item for \eqn{j > i+1},
-\eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+\eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 }
 }
 }
