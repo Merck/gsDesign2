@@ -142,18 +142,21 @@ assert("Compare gs_cp_npe2 with gs_cp_npe1 when j = i+1", {
   all.equal(x1, x2$prob_alpha)
 })
 
-assert("Test the connection between prob_beta and prob_alpha", {
-  x <- gs_cp_npe2(
-    theta = c(0.1, 0.2, 0.3),  # treatment effect of IA1, IA2 and FA
-    t = c(0.5, 0.75, 1),       # information fraction of IA1, IA2 and FA
-    info = c(50, 75, 100),     # information of IA1, IA2 and FA
-    a = c(-Inf, -Inf),         # lower bounds of IA2 and FA
-    b = c(2.4, 2.4),           # upper bounds of IA2 and FA
-    zi = 0)                    # z-value observed at IA1
-  
-  # x$sum(x$prob_alpha) is the probablity that either the upper bound is crossed at IA2 or FA
-  # x$prob_beta[2] is the probability that the upper bound is not crossed both at IA2 and FA
-  # the summization of the above two should be 1
-  all.equal(sum(x$prob_alpha) + x$prob_beta[2], 1)
+assert("Check the connection among alpha, alpha-plus, and beta probabilities", {
+  result <- gsDesign2:::gs_cp_npe2(
+    theta = c(0.1, 0.15, 0.2),
+    t = c(0.25, 0.5, 1),
+    info = c(25, 50, 100),
+    a = c(-0.5, 1.98),
+    b = c(2.5,  1.98),
+    zi = 0
+  )
 
+  # At the next analysis, alpha and alpha-plus describe the same event.
+  all.equal(result$prob_alpha[1], result$prob_alpha_plus[1])
+
+  # Alpha-plus permits prior futility crossing, so it cannot be smaller than alpha.
+  all(result$prob_alpha <= result$prob_alpha_plus)
+
+  sum(result$prob_alpha) + sum(result$prob_beta) <= 1
 })
