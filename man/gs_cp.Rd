@@ -53,15 +53,16 @@ Conditional power computation with non-constant effect size for non-/crossing an
 library(gsDesign2)
 library(gsDesign)
 library(dplyr)
-library(mvtnorm)
-# Example 1
-# original design ----
+
 enroll_rate <- define_enroll_rate(duration = c(2, 2, 2, 18),
                                   rate = c(1, 2, 3, 4))
 fail_rate <- define_fail_rate(duration = c(3, Inf),
                               fail_rate = log(2) / 10,
                               dropout_rate = 0.001,
                               hr = c(1, 0.7))
+
+# Example 1: futility is tested at all analyses
+# original design ----
 x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
                    alpha = 0.025, beta = 0.1, ratio = 1,
                    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
@@ -87,4 +88,31 @@ gs_cp(x = x,
   i = 1, 
   zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 
+# Example 2: futility is only tested at IA1
+# original design ----
+x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+                   alpha = 0.025, beta = 0.1, ratio = 1,
+                   info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
+                   binding = FALSE,
+                   upper = gs_spending_bound,
+                   upar = list(sf = sfLDOF, total_spend = 0.025, param = NULL),
+                   test_upper = c(FALSE, TRUE, TRUE, TRUE),
+                   lower = gs_spending_bound,
+                   lpar = list(sf = sfLDOF, total_spend = 0.1),
+                   test_lower = c(TRUE, FALSE, FALSE, FALSE),
+                   h1_spending = TRUE,
+                   info_scale = "h0_h1_info") |> to_integer()
+
+# calculate conditional power
+# case 1: currently at IA1, compute conditional power at IA2, IA3 and FA,
+# with default theta = NULL
+gs_cp(x = x, i = 1,
+      zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+
+# case 2: currently at IA1, compute conditional power at IA2, IA3 and FA,
+# with user-input theta
+gs_cp(x = x,
+  theta = c(0.15, 0.2, 0.25, 0.3),
+  i = 1,
+  zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 }
