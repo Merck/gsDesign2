@@ -287,7 +287,7 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
     # upper bound
     upper_beta <- rep(0, y)
     if(y == 1){
-      upper_beta[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
+      upper_beta[y] <- a[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
     }else{
       for(m in 1:y){
         upper_beta[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])

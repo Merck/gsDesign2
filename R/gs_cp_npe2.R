@@ -285,7 +285,7 @@ gs_cp_npe2 <- function(theta = NULL,
       upper_beta[x] <- a[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
     }else{
       for(m in 1:x){
-        upper_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_beta[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
     }
 
