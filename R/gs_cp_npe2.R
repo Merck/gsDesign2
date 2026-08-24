@@ -50,8 +50,8 @@
 #'    + (for \eqn{j > i+1}) \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
 #' - `prob_beta` is a numeric vector of (\eqn{\beta_{i,i+1}, ..., \beta_{i,j-1}, \beta_{i,j}})
 #'    where
-#'    + (for \eqn{j = i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \mid Z_i = z_i)}.
-#'    + (for \eqn{j > i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j = i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j > i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #' @noRd
 #'
 #' @examples
@@ -282,10 +282,10 @@ gs_cp_npe2 <- function(theta = NULL,
     # upper bound
     upper_beta <- rep(0, x)
     if(x == 1){
-      upper_beta[x] <- b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
+      upper_beta[x] <- a[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
     }else{
       for(m in 1:x){
-        upper_beta[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
     }
 
