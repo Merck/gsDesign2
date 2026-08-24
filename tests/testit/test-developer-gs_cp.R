@@ -139,7 +139,7 @@ assert("Handle futility bounds tested only at completed analyses", {
     zi = 0
   )
 
-  all.equal(actual$prob_alpha, expected$prob_alpha)
+  (all.equal(actual$prob_alpha, expected$prob_alpha))
 })
 
 assert("Handle efficacy and futility bounds tested only at selected analyses", {
@@ -173,7 +173,7 @@ assert("Handle efficacy and futility bounds tested only at selected analyses", {
     zi = 0
   )
 
-  all.equal(x1$prob_alpha, x2$prob_alpha)
-  all.equal(x1$prob_alpha_plus, x2$prob_alpha_plus)
-  all.equal(x1$prob_beta, x2$prob_beta)
+  (all.equal(x1$prob_alpha, x2$prob_alpha))
+  (all.equal(x1$prob_alpha_plus, x2$prob_alpha_plus))
+  (all.equal(x1$prob_beta, x2$prob_beta))
 })

@@ -139,7 +139,7 @@ assert("Compare gs_cp_npe2 with gs_cp_npe1 when j = i+1", {
     b = 1.98,            # upper bound at analysis j
     zi = 0)              # z-value observed at i
 
-  all.equal(x1, x2$prob_alpha)
+  (all.equal(x1, x2$prob_alpha))
 })
 
 assert("Check the connection among alpha, alpha-plus, and beta probabilities", {
@@ -153,10 +153,10 @@ assert("Check the connection among alpha, alpha-plus, and beta probabilities", {
   )
 
   # At the next analysis, alpha and alpha-plus describe the same event.
-  all.equal(result$prob_alpha[1], result$prob_alpha_plus[1])
+  (all.equal(result$prob_alpha[1], result$prob_alpha_plus[1]))
 
   # Alpha-plus permits prior futility crossing, so it cannot be smaller than alpha.
-  all(result$prob_alpha <= result$prob_alpha_plus)
+  (all(result$prob_alpha <= result$prob_alpha_plus))
 
-  sum(result$prob_alpha) + sum(result$prob_beta) <= 1
+  (sum(result$prob_alpha) + sum(result$prob_beta) <= 1)
 })
