@@ -16,37 +16,33 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
-#'
-#' @details
-#' We assume \eqn{Z_i, i = 1, ..., K} are the z-statistics at an interim analysis i, respectively.
-#' We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
-#' \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
-#' \deqn{Cov(Z_i, Z_j) = I_i/I_j}.
-#' See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
-#'
-#' The returned value is list of
-#' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i).}
-#' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i).}
-#' \deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i).}
+#' Conditional power computation with non-constant effect size for (non-)crossing an upper/lower boundary at future analyses given Z value at analysis i
 #'
 #' @param x An object of type gsDesign2.
-#' @param theta Optional numeric vector with length \eqn{j-i+1}, which specifies the natural parameter for treatment effect of interim analysis \eqn{i} through analysis \eqn{j}. The default is `NULL`.
+#' @param theta Optional numeric vector with length \eqn{j-i+1}, which specifies
+#' the natural parameter for treatment effect of interim analysis \eqn{i} through
+#' analysis \eqn{j}. The default is `NULL`.
 #' @param i Index of current analysis, with default of 1.
 #' @param zi Numeric scalar z-value observed at analysis \eqn{i}.
-#'
-#' @return A list with the following elements:
-#' \describe{
-#'   \item{`prob_alpha`}{A numeric vector of
-#'   \eqn{(\alpha_{i,i+1}, \ldots, \alpha_{i,j-1}, \alpha_{i,j})}, where
-#'   \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.}
-#'   \item{`prob_alpha_plus`}{A numeric vector of
-#'   \eqn{(\alpha^+_{i,i+1}, \ldots, \alpha^+_{i,j-1}, \alpha^+_{i,j})}, where
-#'   \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.}
-#'   \item{`prob_beta`}{A numeric vector of
-#'   \eqn{(\beta_{i,i+1}, \ldots, \beta_{i,j-1}, \beta_{i,j})}, where
-#'   \eqn{\beta_{i,j} = P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.}
-#' }
+#' @return A list of conditional powers:
+#' - `prob_alpha` is a numeric vector of
+#'   (\eqn{\alpha_{i,i+1}, ..., \alpha_{i,j-1}, \alpha_{i,j}}), where
+#'   + for \eqn{j = i+1},
+#'     \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)};
+#'   + for \eqn{j > i+1},
+#'     \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_alpha_plus` is a numeric vector of
+#'   (\eqn{\alpha^+_{i,i+1}, ..., \alpha^+_{i,j-1}, \alpha^+_{i,j}}), where
+#'   + for \eqn{j = i+1},
+#'     \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)};
+#'   + for \eqn{j > i+1},
+#'     \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_beta` is a numeric vector of
+#'   (\eqn{\beta_{i,i+1}, ..., \beta_{i,j-1}, \beta_{i,j}}), where
+#'   + for \eqn{j = i+1},
+#'     \eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \mid Z_i = z_i)};
+#'   + for \eqn{j > i+1},
+#'     \eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #'
 #' @export
 #'
@@ -54,15 +50,16 @@
 #' library(gsDesign2)
 #' library(gsDesign)
 #' library(dplyr)
-#' library(mvtnorm)
-#' # Example 1
-#' # original design ----
+#'
 #' enroll_rate <- define_enroll_rate(duration = c(2, 2, 2, 18),
 #'                                   rate = c(1, 2, 3, 4))
 #' fail_rate <- define_fail_rate(duration = c(3, Inf),
 #'                               fail_rate = log(2) / 10,
 #'                               dropout_rate = 0.001,
 #'                               hr = c(1, 0.7))
+#'
+#' # Example 1: futility is tested at all analyses
+#' # original design ----
 #' x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
 #'                    alpha = 0.025, beta = 0.1, ratio = 1,
 #'                    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
@@ -88,6 +85,33 @@
 #'   i = 1, 
 #'   zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 #'
+#' # Example 2: futility is only tested at IA1
+#' # original design ----
+#' x <- gs_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate,
+#'                    alpha = 0.025, beta = 0.1, ratio = 1,
+#'                    info_frac = c(0.4, 0.6, 0.8, 1), analysis_time = 30,
+#'                    binding = FALSE,
+#'                    upper = gs_spending_bound,
+#'                    upar = list(sf = sfLDOF, total_spend = 0.025, param = NULL),
+#'                    test_upper = c(FALSE, TRUE, TRUE, TRUE),
+#'                    lower = gs_spending_bound,
+#'                    lpar = list(sf = sfLDOF, total_spend = 0.1),
+#'                    test_lower = c(TRUE, FALSE, FALSE, FALSE),
+#'                    h1_spending = TRUE,
+#'                    info_scale = "h0_h1_info") |> to_integer()
+#'
+#' # calculate conditional power
+#' # case 1: currently at IA1, compute conditional power at IA2, IA3 and FA,
+#' # with default theta = NULL
+#' gs_cp(x = x, i = 1,
+#'       zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
+#'
+#' # case 2: currently at IA1, compute conditional power at IA2, IA3 and FA,
+#' # with user-input theta
+#' gs_cp(x = x,
+#'   theta = c(0.15, 0.2, 0.25, 0.3),
+#'   i = 1,
+#'   zi = -gsDesign::hrn2z(hr = 0.8, n = 150+180, ratio = 1))
 gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
   # ------------------------------ #
   #        Input checking
@@ -123,19 +147,24 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
   prob_alpha <- rep(0, n_future_analysis)
   prob_alpha_plus <- rep(0, n_future_analysis)
   prob_beta <- rep(0, n_future_analysis)
+  future_analysis <- (i + 1):k_max
 
   # futility bound from analysis i+1 to analysis j
-  if("lower" %in% unique(x$bound$bound)){
-    a <- x$bound$z[x$bound$bound == "lower"][(i+1):k_max]
-  }else{
-    a <- rep(-Inf, k_max)
+  a <- rep(-Inf, n_future_analysis)
+  lower_bound <- x$bound[x$bound$bound == "lower", ]
+  lower_match <- match(future_analysis, lower_bound$analysis)
+  has_lower_bound <- !is.na(lower_match)
+  if (any(has_lower_bound)) {
+    a[has_lower_bound] <- lower_bound$z[lower_match[has_lower_bound]]
   }
 
   # efficacy bound from analysis i+1 to analysis j
-  if("upper" %in% unique(x$bound$bound)){
-    b <- x$bound$z[x$bound$bound == "upper"][(i+1):k_max]
-  }else{
-    b <- rep(Inf, k_max)
+  b <- rep(Inf, n_future_analysis)
+  upper_bound <- x$bound[x$bound$bound == "upper", ]
+  upper_match <- match(future_analysis, upper_bound$analysis)
+  has_upper_bound <- !is.na(upper_match)
+  if (any(has_upper_bound)) {
+    b[has_upper_bound] <- upper_bound$z[upper_match[has_upper_bound]]
   }
 
   # statistical information from analysis i to analysis j
@@ -258,10 +287,10 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
     # upper bound
     upper_beta <- rep(0, y)
     if(y == 1){
-      upper_beta[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
+      upper_beta[y] <- a[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
     }else{
       for(m in 1:y){
-        upper_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_beta[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
     }
 

@@ -35,7 +35,7 @@
 #' @param info A vector of length two, which specifies the statistical information under the treatment effect `theta`.
 #' @param zi Numeric scalar z-value observed at analysis \eqn{i}.
 #' @param zj Numeric scalar at the future analysis \eqn{j}.
-#' @return A scalar with the conditional power \eqn{P(Z_j > z_i \mid Z_i = z_i)}.
+#' @return A scalar with the conditional power \eqn{P(Z_j > z_j \mid Z_i = z_i)}.
 #' @noRd
 #'
 #' @examples
