@@ -34,13 +34,13 @@ as_gt(x, ...)
 A \code{gt_tbl} object.
 }
 \description{
-\code{as_gt()} is deprecated in favor of \code{\link[lt:lt]{lt::lt()}}, which produces a lightweight
+\code{as_gt()} is deprecated in favor of \code{\link[=lt]{lt()}}, which produces a lightweight
 HTML table without the heavy \pkg{gt} dependency. \code{as_gt()} is kept for one
 release so existing code that customizes the output with \pkg{gt} functions
 keeps working; it still returns a \code{gt_tbl} object and requires \pkg{gt} to be
-installed. New code should use \code{\link[lt:lt]{lt::lt()}}; see \link{lt-methods} for the available
+installed. New code should use \code{\link[=lt]{lt()}}; see \link{lt-methods} for the available
 arguments, which mirror those of \code{as_gt()}.
 }
 \seealso{
-\code{\link[lt:lt]{lt::lt()}}, \link{lt-methods}
+\code{\link[=lt]{lt()}}, \link{lt-methods}
 }

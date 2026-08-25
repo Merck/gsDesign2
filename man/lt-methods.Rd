@@ -53,7 +53,7 @@ displayed in the summary table.}
 An \code{lt_tbl} object.
 }
 \description{
-S3 methods for \code{\link[lt:lt]{lt::lt()}} that convert fixed or group sequential design
+S3 methods for \code{\link[=lt]{lt()}} that convert fixed or group sequential design
 summaries into formatted lt tables.
 }
 \examples{
@@ -92,7 +92,7 @@ fixed_design_ahr(
   study_duration = study_duration, ratio = ratio
 ) |>
   summary() |>
-  lt::lt()
+  lt()
 
 # Example 2 ----
 fixed_design_fh(
@@ -101,7 +101,7 @@ fixed_design_fh(
   study_duration = study_duration, ratio = ratio
 ) |>
   summary() |>
-  lt::lt()
+  lt()
 \donttest{
 # Group sequential design examples ---
 
@@ -110,38 +110,38 @@ fixed_design_fh(
 
 gs_design_ahr() |>
   summary() |>
-  lt::lt()
+  lt()
 
 gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
   summary() |>
-  lt::lt()
+  lt()
 
 gs_design_wlr() |>
   summary() |>
-  lt::lt()
+  lt()
 
 gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
   summary() |>
-  lt::lt()
+  lt()
 
 gs_power_combo() |>
   summary() |>
-  lt::lt()
+  lt()
 
 gs_design_rd() |>
   summary() |>
-  lt::lt()
+  lt()
 
 gs_power_rd() |>
   summary() |>
-  lt::lt()
+  lt()
 
 # Example 2 ----
 # Usage of title = ..., subtitle = ...
 # to edit the title/subtitle
 gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
   summary() |>
-  lt::lt(
+  lt(
     title = "Bound Summary",
     subtitle = "from gs_power_wlr"
   )
@@ -151,7 +151,7 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 # to edit the spanner and its sub-spanner
 gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
   summary() |>
-  lt::lt(
+  lt(
     colname_spanner = "Cumulative probability to cross boundaries",
     colname_spannersub = c("under H1", "under H0")
   )
@@ -161,7 +161,7 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 # to edit the footnote
 gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
   summary() |>
-  lt::lt(
+  lt(
     footnote = list(
       content = c(
         "approximate weighted hazard ratio to cross bound.",
@@ -179,13 +179,13 @@ gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 # to either show efficacy bound or futility bound, or both(default)
 gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
   summary() |>
-  lt::lt(display_bound = "Efficacy")
+  lt(display_bound = "Efficacy")
 
 # Example 6 ----
 # Usage of display_columns = ...
 # to select the columns to display in the summary table
 gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
   summary() |>
-  lt::lt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
+  lt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 }
 }

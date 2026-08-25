@@ -27,7 +27,7 @@ lt::lt
 
 #' Create an lt table from a design summary
 #'
-#' S3 methods for [lt::lt()] that convert fixed or group sequential design
+#' S3 methods for [lt()] that convert fixed or group sequential design
 #' summaries into formatted lt tables.
 #'
 #' @param data A summary object of a fixed or group sequential design.
@@ -78,7 +78,7 @@ NULL
 #'   study_duration = study_duration, ratio = ratio
 #' ) |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' # Example 2 ----
 #' fixed_design_fh(
@@ -87,7 +87,7 @@ NULL
 #'   study_duration = study_duration, ratio = ratio
 #' ) |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
   if (is.null(title)) title <- attr(data, "title")
   if (is.null(footnote)) footnote <- attr(data, "footnote")
@@ -133,38 +133,38 @@ lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
 #'
 #' gs_design_ahr() |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' gs_design_wlr() |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' gs_power_combo() |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' gs_design_rd() |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' gs_power_rd() |>
 #'   summary() |>
-#'   lt::lt()
+#'   lt()
 #'
 #' # Example 2 ----
 #' # Usage of title = ..., subtitle = ...
 #' # to edit the title/subtitle
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   lt::lt(
+#'   lt(
 #'     title = "Bound Summary",
 #'     subtitle = "from gs_power_wlr"
 #'   )
@@ -174,7 +174,7 @@ lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
 #' # to edit the spanner and its sub-spanner
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   lt::lt(
+#'   lt(
 #'     colname_spanner = "Cumulative probability to cross boundaries",
 #'     colname_spannersub = c("under H1", "under H0")
 #'   )
@@ -184,7 +184,7 @@ lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
 #' # to edit the footnote
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   lt::lt(
+#'   lt(
 #'     footnote = list(
 #'       content = c(
 #'         "approximate weighted hazard ratio to cross bound.",
@@ -202,14 +202,14 @@ lt.fixed_design_summary <- function(data, title = NULL, footnote = NULL, ...) {
 #' # to either show efficacy bound or futility bound, or both(default)
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   lt::lt(display_bound = "Efficacy")
+#'   lt(display_bound = "Efficacy")
 #'
 #' # Example 6 ----
 #' # Usage of display_columns = ...
 #' # to select the columns to display in the summary table
 #' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
 #'   summary() |>
-#'   lt::lt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
+#'   lt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
 #' }
 lt.gs_design_summary <- function(
     data,

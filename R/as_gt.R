@@ -18,11 +18,11 @@
 
 #' Convert summary table of a fixed or group sequential design object to a gt object
 #'
-#' `as_gt()` is deprecated in favor of [lt::lt()], which produces a lightweight
+#' `as_gt()` is deprecated in favor of [lt()], which produces a lightweight
 #' HTML table without the heavy \pkg{gt} dependency. `as_gt()` is kept for one
 #' release so existing code that customizes the output with \pkg{gt} functions
 #' keeps working; it still returns a `gt_tbl` object and requires \pkg{gt} to be
-#' installed. New code should use [lt::lt()]; see [lt-methods] for the available
+#' installed. New code should use [lt()]; see [lt-methods] for the available
 #' arguments, which mirror those of `as_gt()`.
 #'
 #' @param x A summary object of a fixed or group sequential design.
@@ -32,14 +32,14 @@
 #'
 #' @return A `gt_tbl` object.
 #'
-#' @seealso [lt::lt()], [lt-methods]
+#' @seealso [lt()], [lt-methods]
 #'
 #' @export
 as_gt <- function(x, ...) {
-  .Deprecated("lt::lt", package = "gsDesign2",
+  .Deprecated("lt", package = "gsDesign2",
     msg = paste(
       "as_gt() is deprecated and will be removed in a future release;",
-      "please use lt::lt() instead."
+      "please use lt() instead."
     ))
   UseMethod("as_gt", x)
 }
@@ -49,7 +49,7 @@ as_gt <- function(x, ...) {
 assert_gt_installed <- function() {
   if (!requireNamespace("gt", quietly = TRUE)) stop(
     "The 'gt' package is required by the deprecated as_gt(); ",
-    "install it with install.packages('gt'), or use lt::lt() instead.",
+    "install it with install.packages('gt'), or use lt() instead.",
     call. = FALSE
   )
 }
