@@ -158,7 +158,6 @@ assert("Handle efficacy and futility bounds tested only at selected analyses", {
   ) |> to_integer()
 
   upper_bound <- x$bound[x$bound$bound == "upper", ]
-  lower_bound <- x$bound[x$bound$bound == "lower", ]
 
   # output from gs_cp
   x1 <- gs_cp(x = x, i = 1, zi = 0)
