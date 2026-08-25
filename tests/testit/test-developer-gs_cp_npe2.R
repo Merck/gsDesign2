@@ -119,3 +119,44 @@ assert("Compare the gs_cp_npe2 with gsDesign::gsCP", {
   (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_simple_cp))
 
 })
+
+assert("Compare gs_cp_npe2 with gs_cp_npe1 when j = i+1", {
+
+  # simple conditional power
+  x1 <- gsDesign2:::gs_cp_npe1(
+    theta = c(0.1, 0.2), # treatment effect at analysis i and j
+    info = c(50, 100),   # statistical information at analysis i and j
+    zi = 0,              # observed z-value at analysis i
+    zj = 1.98)           # upper bound at analysis j
+  
+  # generalized conditional power
+  # which should be the same as the simple conditional power when j = i + 1
+  x2 <- gsDesign2:::gs_cp_npe2(
+    theta = c(0.1, 0.2), # treatment effect at analysis i and j
+    t = c(0.5, 1),       # information fraction at analysis i and j
+    info = c(50, 100),   # statistical information at analysis i and j
+    a = -Inf,            # futility bounds at analysis j
+    b = 1.98,            # upper bound at analysis j
+    zi = 0)              # z-value observed at i
+
+  (all.equal(x1, x2$prob_alpha))
+})
+
+assert("Check the connection among alpha, alpha-plus, and beta probabilities", {
+  result <- gsDesign2:::gs_cp_npe2(
+    theta = c(0.1, 0.15, 0.2),
+    t = c(0.25, 0.5, 1),
+    info = c(25, 50, 100),
+    a = c(-0.5, 1.98),
+    b = c(2.5,  1.98),
+    zi = 0
+  )
+
+  # At the next analysis, alpha and alpha-plus describe the same event.
+  (all.equal(result$prob_alpha[1], result$prob_alpha_plus[1]))
+
+  # Alpha-plus permits prior futility crossing, so it cannot be smaller than alpha.
+  (result$prob_alpha <= result$prob_alpha_plus)
+
+  (sum(result$prob_alpha) + sum(result$prob_beta) <= 1)
+})
