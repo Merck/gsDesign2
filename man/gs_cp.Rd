@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_cp.R
 \name{gs_cp}
 \alias{gs_cp}
-\title{Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i}
+\title{Conditional power computation with non-constant effect size for (non-)crossing an upper/lower boundary at future analyses given Z value at analysis i}
 \usage{
 gs_cp(x = NULL, theta = NULL, i = 1, zi = NULL)
 }
@@ -47,7 +47,7 @@ A list of conditional powers:
 }
 }
 \description{
-Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
+Conditional power computation with non-constant effect size for (non-)crossing an upper/lower boundary at future analyses given Z value at analysis i
 }
 \examples{
 library(gsDesign2)

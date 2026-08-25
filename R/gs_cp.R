@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
+#' Conditional power computation with non-constant effect size for (non-)crossing an upper/lower boundary at future analyses given Z value at analysis i
 #'
 #' @param x An object of type gsDesign2.
 #' @param theta Optional numeric vector with length \eqn{j-i+1}, which specifies
