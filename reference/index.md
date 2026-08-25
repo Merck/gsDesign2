@@ -93,8 +93,8 @@ Functions for conditional power.
 
 - [`gs_cp()`](https://merck.github.io/gsDesign2/reference/gs_cp.md) :
   Conditional power computation with non-constant effect size for
-  non-/crossing an upper boundary at analysis j given observed Z value
-  at analysis i
+  (non-)crossing an upper/lower boundary at future analyses given Z
+  value at analysis i
 - [`gs_cp_simple()`](https://merck.github.io/gsDesign2/reference/gs_cp_simple.md)
   : Simple conditional power computation with non-constant effect size
 
