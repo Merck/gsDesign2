@@ -19,16 +19,12 @@
 #' Conditional power computation with non-constant effect size for non-/crossing an upper boundary at analysis j given observed Z value at analysis i
 #'
 #' @details
-#' We assume \eqn{Z_i, i = 1, ..., K} are the z-statistics at an interim analysis i, respectively.
-#' We assume further \eqn{Z_i, i = 1, ..., K} follows multivariate normal distribution
+#' We assume that \eqn{Z_i, i = 1, ..., K} are the z-statistics at interim analyses.
+#' We assume further that \eqn{Z_i, i = 1, ..., K} follows a multivariate normal distribution
 #' \deqn{E(Z_i) = \theta_i\sqrt{I_i}}
 #' \deqn{Cov(Z_i, Z_j) = \sqrt{t_i/t_j}}
 #' See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
-#' Returned value is list of
-#' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
-#' \deqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
-#' \deqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
-#'
+#' 
 #' @param theta A vector of j-i+1, which specifies the natural parameter for treatment effect.
 #'              The first element of `theta` is the treatment effect of an interim analysis i.
 #'              The second element of `theta` is the treatment effect of an interim analysis i+1.
@@ -39,9 +35,19 @@
 #' @param a A vector of length j-i, which specifies the futility bounds from analysis i+1 to analysis j.
 #' @param b A vector of length j-i, which specifies the efficacy bounds from analysis i+1 to analysis j.
 #' @param zi Numeric scalar z-value observed at analysis \eqn{i}.
-#' @return A list of conditional powers: prob_alpha is a numeric vector of (\eqn{alpha_i,i+1, ..., alpha_i,j-1, alpha_i,j}), where alpha_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
-#'                                       prob_alpha_plus is a numeric vector of (\eqn{alpha^+_i,i+1, ..., alpha^+_i,j-1, alpha^+_i,j}), where alpha^+_i,j = \eqn{P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
-#'                                       prob_beta is a numeric vector of (\eqn{beta_i,i+1, ..., beta_i,j-1, beta_i,j}) where beta_i,j = \eqn{P(\{Z_j \leq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#' @return A list of conditional powers:
+#' - `prob_alpha` is a numeric vector of (\eqn{\alpha_{i,i+1}, ..., \alpha_{i,j-1}, \alpha_{i,j}}),
+#'    where
+#'    + (for \eqn{j = i+1}) \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j > i+1}) \eqn{\alpha_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_alpha_plus` is a numeric vector of (\eqn{\alpha^+_{i,i+1}, ..., \alpha^+_{i,j-1}, \alpha^+_{i,j}}),
+#'    where
+#'    + (for \eqn{j = i+1}) \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j > i+1}) \eqn{\alpha^+_{i,j} = P(\{Z_j \geq b_j\} \& \{\cap_{m=i+1}^{j-1} Z_m < b_m\} \mid Z_i = z_i)}.
+#' - `prob_beta` is a numeric vector of (\eqn{\beta_{i,i+1}, ..., \beta_{i,j-1}, \beta_{i,j}})
+#'    where
+#'    + (for \eqn{j = i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \mid Z_i = z_i)}.
+#'    + (for \eqn{j > i+1}) \eqn{\beta_{i,j} = P(\{Z_j \leq a_j\} \& \{\cap_{m=i+1}^{j-1} a_m \leq Z_m < b_m\} \mid Z_i = z_i)}.
 #' @noRd
 #'
 #' @examples
@@ -272,10 +278,10 @@ gs_cp_npe2 <- function(theta = NULL,
     # upper bound
     upper_beta <- rep(0, x)
     if(x == 1){
-      upper_beta[x] <- b[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
+      upper_beta[x] <- a[x] * sqrt(t[x + 1]) - zi * sqrt(t[1])
     }else{
       for(m in 1:x){
-        upper_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_beta[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
       }
     }
 
