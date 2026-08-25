@@ -156,7 +156,7 @@ assert("Check the connection among alpha, alpha-plus, and beta probabilities", {
   (all.equal(result$prob_alpha[1], result$prob_alpha_plus[1]))
 
   # Alpha-plus permits prior futility crossing, so it cannot be smaller than alpha.
-  (all(result$prob_alpha <= result$prob_alpha_plus))
+  (result$prob_alpha <= result$prob_alpha_plus)
 
   (sum(result$prob_alpha) + sum(result$prob_beta) <= 1)
 })
