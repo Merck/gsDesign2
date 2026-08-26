@@ -51,7 +51,6 @@ enrollment duration of 12 months with exponential inter-arrival times.
 
 ``` r
 library(gsDesign2)
-library(lt)
 
 # Basic example
 
