@@ -26,6 +26,8 @@ Useful links:
 
 Authors:
 
+- Yujie Zhao <yujie.zhao@merck.com>
+
 - Keaven Anderson <keaven_anderson@merck.com>
 
 - Yilong Zhang <elong0527@gmail.com>
