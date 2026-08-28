@@ -27,7 +27,7 @@ library(gsDesign)
 library(gsDesign2)
 library(tibble)
 library(dplyr)
-library(gt)
+library(lt)
 ```
 
 # Unstratified design
@@ -81,13 +81,13 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
-  gt() |>
-  tab_header(
+  lt() |>
+  lt_group(~ Design, sep = TRUE) |>
+  lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on binary endpoints (unstratified design)"
   ) |>
-  fmt_number(columns = 2:5, decimals = 4)
+  lt_format(columns = 2:5, decimals = 4)
 ```
 
 ## Survival outcome
@@ -121,13 +121,13 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
-  gt() |>
-  tab_header(
+  lt() |>
+  lt_group(~ Design, sep = TRUE) |>
+  lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on survival endpoints (unstratified design)"
   ) |>
-  fmt_number(columns = 2:5, decimals = 4)
+  lt_format(columns = 2:5, decimals = 4)
 ```
 
 # Stratified design
@@ -183,11 +183,11 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
-  gt() |>
-  tab_header(
+  lt() |>
+  lt_group(~ Design, sep = TRUE) |>
+  lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on binary endpoints (unstratified design)"
   ) |>
-  fmt_number(columns = 2:5, decimals = 4)
+  lt_format(columns = 2:5, decimals = 4)
 ```

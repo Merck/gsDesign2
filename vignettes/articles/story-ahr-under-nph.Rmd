@@ -99,7 +99,7 @@ library(ggplot2)
 library(dplyr)
 library(tibble)
 library(survival)
-library(gt)
+library(lt)
 ```
 
 # Single stratum non-proportional hazards example
@@ -147,7 +147,7 @@ avehr <- ahr(
   total_duration = as.numeric(total_duration)
 )
 
-avehr |> gt()
+avehr |> lt()
 ```
 
 This result can be explained by the number of events observed before and after the first 3 months of treatment in each treatment group.
@@ -158,7 +158,7 @@ xx <- pw_info(
   fail_rate = fail_rate,
   total_duration = as.numeric(total_duration)
 )
-xx |> gt()
+xx |> lt()
 ```
 
 Now we can replicate the geometric average hazard ratio (AHR) computed using the `ahr()` routine above.
@@ -168,7 +168,7 @@ Exponentiating the resulting weighted average gives the geometric mean hazard ra
 ```{r, message=FALSE}
 xx |>
   summarize(AHR = exp(sum(event * log(hr) / sum(event)))) |>
-  gt()
+  lt()
 ```
 
 ## Deriving the design
@@ -199,7 +199,7 @@ avehr <- ahr(
   total_duration = as.numeric(total_duration)
 )
 
-avehr |> gt()
+avehr |> lt()
 ```
 
 We also compute sample size, rounding up to the nearest even integer.
@@ -268,8 +268,8 @@ results1 |>
     sdEvents = sd(event), Events = mean(event),
     HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
   ) |>
-  gt() |>
-  fmt_number(column = 2:9, decimals = 3)
+  lt() |>
+  lt_format(columns = 2:9, decimals = 3)
 ```
 
 The column `HR` above is the exponentiated mean of the Cox regression coefficients (geometric mean of HR).
@@ -279,7 +279,7 @@ In this case, the information approximation under the alternate hypothesis appea
 Nonetheless, the approximation for power appear quite good as noted above.
 
 ```{r}
-avehr |> gt()
+avehr |> lt()
 ```
 
 # Different proportional hazards by strata
@@ -320,14 +320,14 @@ Now we transform the enrollment rates to account for stratified population.
 
 ```{r avehr2, warning=FALSE, message=FALSE}
 ahr2 <- ahr(enroll_rate, fail_rate, total_duration)
-ahr2 |> gt()
+ahr2 |> lt()
 ```
 
 We examine the expected events by stratum.
 
 ```{r}
 xx <- pw_info(enroll_rate, fail_rate, total_duration)
-xx |> gt()
+xx |> lt()
 ```
 
 Getting the average of `log(HR)` weighted by `Events` and exponentiating, we get the overall `AHR` just derived.
@@ -336,7 +336,7 @@ Getting the average of `log(HR)` weighted by `Events` and exponentiating, we get
 xx |>
   ungroup() |>
   summarise(lnhr = sum(event * log(hr)) / sum(event), AHR = exp(lnhr)) |>
-  gt()
+  lt()
 ```
 
 ## Deriving the design
@@ -364,7 +364,7 @@ ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = total_duration
-) |> gt()
+) |> lt()
 ```
 
 The targeted sample size, rounding up to an even integer, is:
@@ -410,7 +410,7 @@ er <- enroll_rate |>
   group_by(period) |>
   summarise(rate = sum(rate), duration = last(duration))
 
-er |> gt()
+er |> lt()
 ```
 
 
@@ -440,8 +440,8 @@ results2 |>
     sdEvents = sd(event), Events = mean(event),
     HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
   ) |>
-  gt() |>
-  fmt_number(column = 2:9, decimals = 3)
+  lt() |>
+  lt_format(columns = 2:9, decimals = 3)
 ```
 
 Finally, compare the simulation results above to the asymptotic approximation below.
@@ -453,7 +453,7 @@ ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = total_duration
-) |> gt()
+) |> lt()
 ```
 
 # References

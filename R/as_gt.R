@@ -18,67 +18,46 @@
 
 #' Convert summary table of a fixed or group sequential design object to a gt object
 #'
+#' `as_gt()` is deprecated in favor of [lt()], which produces a lightweight
+#' HTML table without the heavy \pkg{gt} dependency. `as_gt()` is kept for one
+#' release so existing code that customizes the output with \pkg{gt} functions
+#' keeps working; it still returns a `gt_tbl` object and requires \pkg{gt} to be
+#' installed. New code should use [lt()]; see [lt-methods] for the available
+#' arguments, which mirror those of `as_gt()`.
+#'
 #' @param x A summary object of a fixed or group sequential design.
+#' @param title,subtitle,colname_spanner,colname_spannersub,footnote,display_bound,display_columns,display_inf_bound
+#'   See [lt-methods] for the meaning of these arguments.
 #' @param ... Additional arguments (not used).
 #'
 #' @return A `gt_tbl` object.
 #'
+#' @seealso [lt()], [lt-methods]
+#'
 #' @export
 as_gt <- function(x, ...) {
+  .Deprecated("lt", package = "gsDesign2",
+    msg = paste(
+      "as_gt() is deprecated and will be removed in a future release;",
+      "please use lt() instead."
+    ))
   UseMethod("as_gt", x)
 }
 
+# stop with an informative message when gt is not installed, since it is only
+# a suggested (optional) dependency now that as_gt() is deprecated
+assert_gt_installed <- function() {
+  if (!requireNamespace("gt", quietly = TRUE)) stop(
+    "The 'gt' package is required by the deprecated as_gt(); ",
+    "install it with install.packages('gt'), or use lt() instead.",
+    call. = FALSE
+  )
+}
+
 #' @rdname as_gt
-#'
 #' @export
-#'
-#' @examples
-#' # Fixed design examples ----
-#'
-#' # Enrollment rate
-#' enroll_rate <- define_enroll_rate(
-#'   duration = 18,
-#'   rate = 20
-#' )
-#'
-#' # Failure rates
-#' fail_rate <- define_fail_rate(
-#'   duration = c(4, 100),
-#'   fail_rate = log(2) / 12,
-#'   dropout_rate = .001,
-#'   hr = c(1, .6)
-#' )
-#'
-#' # Study duration in months
-#' study_duration <- 36
-#'
-#' # Experimental / Control randomization ratio
-#' ratio <- 1
-#'
-#' # 1-sided Type I error
-#' alpha <- 0.025
-#'
-#' # Type II error (1 - power)
-#' beta <- 0.1
-#'
-#' # Example 1 ----
-#' fixed_design_ahr(
-#'   alpha = alpha, power = 1 - beta,
-#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
-#'   study_duration = study_duration, ratio = ratio
-#' ) |>
-#'   summary() |>
-#'   as_gt()
-#'
-#' # Example 2 ----
-#' fixed_design_fh(
-#'   alpha = alpha, power = 1 - beta,
-#'   enroll_rate = enroll_rate, fail_rate = fail_rate,
-#'   study_duration = study_duration, ratio = ratio
-#' ) |>
-#'   summary() |>
-#'   as_gt()
 as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
+  assert_gt_installed()
   if (is.null(title)) title <- attr(x, "title")
   if (is.null(footnote)) footnote <- attr(x, "footnote")
 
@@ -97,129 +76,7 @@ as_gt.fixed_design_summary <- function(x, title = NULL, footnote = NULL, ...) {
 }
 
 #' @rdname as_gt
-#'
-#' @param title A string to specify the title of the gt table.
-#' @param subtitle A string to specify the subtitle of the gt table.
-#' @param colname_spanner A string to specify the spanner of the gt table.
-#' @param colname_spannersub A vector of strings to specify the spanner details
-#'   of the gt table.
-#' @param footnote A list containing `content`, `location`, and `attr`.
-#'   `content` is a vector of string to specify the footnote text; `location` is
-#'   a vector of string to specify the locations to put the superscript of the
-#'   footnote index; `attr` is a vector of string to specify the attributes of
-#'   the footnotes, for example, `c("colname", "title", "subtitle", "analysis",
-#'   "spanner")`; users can use the functions in the `gt` package to customize
-#'   the table. To disable footnotes, use `footnote = FALSE`.
-#' @param display_bound A vector of strings specifying the label of the bounds.
-#'   The default is `c("Efficacy", "Futility", "Harm")`.
-#' @param display_columns A vector of strings specifying the variables to be
-#'   displayed in the summary table.
-#' @param display_inf_bound Logical, whether to display the +/-inf bound.
-#'
 #' @export
-#'
-#' @examples
-#' \donttest{
-#' # Group sequential design examples ---
-#'
-#' # Example 1 ----
-#' # The default output
-#'
-#' gs_design_ahr() |>
-#'   summary() |>
-#'   as_gt()
-#' 
-#' gs_design_ahr(
-#'   analysis_time = c(12, 24, 36),
-#'   upper = gs_spending_bound,
-#'   upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-#'   test_upper = c(FALSE, TRUE, TRUE),
-#'   lower = gs_spending_bound,
-#'   lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
-#'   test_lower = c(TRUE, TRUE, FALSE),
-#'   harm = gs_spending_bound,
-#'   hpar = list(sf = gsDesign::sfHSD, total_spend = 0.2, param = -4),
-#'   test_harm = c(TRUE, TRUE, FALSE)
-#'   ) |>
-#'  summary() |>
-#'  as_gt() 
-#' 
-#' gs_power_ahr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
-#'   summary() |>
-#'   as_gt()
-#'
-#' gs_design_wlr() |>
-#'   summary() |>
-#'   as_gt()
-#'
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
-#'   summary() |>
-#'   as_gt()
-#'
-#' gs_power_combo() |>
-#'   summary() |>
-#'   as_gt()
-#'
-#' gs_design_rd() |>
-#'   summary() |>
-#'   as_gt()
-#'
-#' gs_power_rd() |>
-#'   summary() |>
-#'   as_gt()
-#'
-#' # Example 2 ----
-#' # Usage of title = ..., subtitle = ...
-#' # to edit the title/subtitle
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
-#'   summary() |>
-#'   as_gt(
-#'     title = "Bound Summary",
-#'     subtitle = "from gs_power_wlr"
-#'   )
-#'
-#' # Example 3 ----
-#' # Usage of colname_spanner = ..., colname_spannersub = ...
-#' # to edit the spanner and its sub-spanner
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
-#'   summary() |>
-#'   as_gt(
-#'     colname_spanner = "Cumulative probability to cross boundaries",
-#'     colname_spannersub = c("under H1", "under H0")
-#'   )
-#'
-#' # Example 4 ----
-#' # Usage of footnote = ...
-#' # to edit the footnote
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
-#'   summary() |>
-#'   as_gt(
-#'     footnote = list(
-#'       content = c(
-#'         "approximate weighted hazard ratio to cross bound.",
-#'         "wAHR is the weighted AHR.",
-#'         "the crossing probability.",
-#'         "this table is generated by gs_power_wlr."
-#'       ),
-#'       location = c("~wHR at bound", NA, NA, NA),
-#'       attr = c("colname", "analysis", "spanner", "title")
-#'     )
-#'   )
-#'
-#' # Example 5 ----
-#' # Usage of display_bound = ...
-#' # to show selected bounds
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
-#'   summary() |>
-#'   as_gt(display_bound = "Efficacy")
-#'
-#' # Example 6 ----
-#' # Usage of display_columns = ...
-#' # to select the columns to display in the summary table
-#' gs_power_wlr(lpar = list(sf = gsDesign::sfLDOF, total_spend = 0.1)) |>
-#'   summary() |>
-#'   as_gt(display_columns = c("Analysis", "Bound", "Nominal p", "Z", "Probability"))
-#' }
 as_gt.gs_design_summary <- function(
     x,
     title = NULL,
@@ -231,6 +88,7 @@ as_gt.gs_design_summary <- function(
     display_columns = NULL,
     display_inf_bound = FALSE,
     ...) {
+  assert_gt_installed()
 
   x_old <- x
   parts <- gsd_parts(
@@ -281,128 +139,6 @@ as_gt.gs_design_summary <- function(
   )
 
   return(x)
-}
-
-# get different default columns to display
-gsd_columns <- function(columns, method, x) {
-  # set different default columns to display
-  if (is.null(columns)){
-    columns <- c(
-      "Analysis", "Bound", "Z", "Nominal p",
-      sprintf("%s at bound", switch(method, ahr = "~HR", wlr = "~wHR", rd = "~Risk difference")),
-      "Alternate hypothesis", "Null hypothesis")
-
-    if ("Spending time" %in% names(x)) {
-      columns <- c(columns[1:3], "Spending time", columns[4:length(columns)])
-    }
-  }
-
-  # filter the columns to display as the output: if `Probability` is selected to
-  # output, transform it to `c("Alternate hypothesis", "Null hypothesis")`
-  if (any(i <- columns == "Probability"))
-    columns <- c(columns[!i], "Alternate hypothesis", "Null hypothesis")
-  ## check if the `display_columns` are included in `x` output
-  if (!all(columns %in% names(x))) stop(
-    "not all variable names in 'display_columns' are in the summary_bound object!"
-  )
-  columns
-}
-
-# default footnotes for 'gs_design' tables
-gsd_footnote <- function(method, columns) {
-  n <- c("Nominal p", "~HR at bound", "~wHR at bound")
-  i <- n %in% columns
-  res <- if (i[1]) list(
-    content = paste(
-      "One-sided p-value for experimental vs control treatment.",
-      "Value < 0.5 favors experimental, > 0.5 favors control."
-    ),
-    location = n[1], attr = "colname"
-  ) else {
-    list(content = NULL, location = NULL, attr = NULL)
-  }
-  x <- "Approximate hazard ratio to cross bound."
-  switch(
-    method,
-    ahr = res %+% if (i[2]) list(x, n[2], "colname"),
-    wlr = res %+% (if (i[3]) list(x, n[3], "colname")) %+%
-      list("wAHR is the weighted AHR.", NULL, "analysis"),
-    combo = res %+% list(
-      "EF is event fraction. AHR is under regular weighted log rank test.",
-      NULL, "analysis"
-    ),
-    rd = res
-  )
-}
-
-# footnote for non-binding designs
-gsd_footnote_nb <- function(x, x_alpha) {
-  full_alpha <- attr(x, "full_alpha")
-  if (attr(x, "binding") || x_alpha >= full_alpha) return()
-  a1 <- format(x_alpha, scientific = FALSE)
-  a2 <- format(full_alpha, scientific = FALSE)
-  a3 <- format(full_alpha - x_alpha, scientific = FALSE)
-  paste0(
-    "Cumulative alpha for final analysis ",
-    "(", a1, ") ", "is less than the full alpha ", "(", a2, ") ",
-    "when the futility bound is non-binding. ",
-    "The smaller value subtracts the probability of crossing a futility bound ",
-    "before crossing an efficacy bound at a later analysis ",
-    "(", a2, " - ", a3, " = ", a1, ") ", "under the null hypothesis."
-  )
-}
-
-# where to add the non-binding design footnote
-gsd_footnote_row <- function(x, bound) {
-  # for a vector of "Analysis: N", get a logical vector `i`, in which `TRUE`
-  # indicates the position of the largest `N`
-  a <- x$Analysis
-  r <- "^Analysis: ([0-9]+).*"
-  i <- grepl(r, a)
-  k <- as.numeric(sub(r, '\\1', a[i]))
-  i[i] <- k == max(k)
-  i & x$Bound == bound
-}
-
-# a list of information for `as_[gt|rtf].gs_design()` methods: the transformed
-# data, title, and footnote, etc.
-gsd_parts <- function(
-  x, title, subtitle, spannersub, footnote, bound, columns, inf_bound,
-  transform = identity
-) {
-  method <- attr(x, "design")
-  if (!inf_bound) x <- filter(x, !is.infinite(Z))
-  # `x` needs a custom transformation in as_rtf()
-  x2 <- transform(x)
-
-  columns <- gsd_columns(columns, method, x2)
-  x2 <- x2[, columns]
-  x2 <- subset(x2, !is.na(`Alternate hypothesis`) & !is.na(`Null hypothesis`))
-  x2 <- subset(x2, Bound %in% bound)
-  x2$Bound <- factor(x2$Bound, levels = bound)
-
-  i <- match(c("Alternate hypothesis", "Null hypothesis"), names(x2))
-  names(x2)[i] <- spannersub
-
-  title <- title %||% paste("Bound summary", switch(
-    method,
-    ahr = "for AHR design", wlr = "for WLR design",
-    combo = "for MaxCombo design", rd = "of Binary Endpoint"
-  ))
-  subtitle <- subtitle %||% switch(
-    method,
-    ahr = "AHR approximations of ~HR at bound",
-    wlr = "WLR approximation of ~wHR at bound",
-    combo = "MaxCombo approximation",
-    rd = "measured by risk difference"
-  )
-
-  list(
-    x = arrange(x2, Analysis, Bound),
-    title = title, subtitle = subtitle,
-    footnote = if (!isFALSE(footnote)) footnote %||% gsd_footnote(method, columns),
-    alpha = max(filter(x, Bound == "Efficacy")[["Null hypothesis"]])
-  )
 }
 
 # Only purpose of the method below is to fix S3 redirection when gsDesign2 is

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r packages, message=FALSE, warning=FALSE}
-library(gt)
+library(lt)
 library(tidyr)
 library(ggplot2)
 library(gsDesign)
@@ -47,12 +47,12 @@ fail_rate <- define_fail_rate(
 )
 
 enroll_rate |>
-  gt() |>
-  tab_header(title = "Enrollment Table of Scenario 1")
+  lt() |>
+  lt_header(title = "Enrollment Table of Scenario 1")
 
 fail_rate |>
-  gt() |>
-  tab_header(title = "Failure Table of Scenario 1")
+  lt() |>
+  lt_header(title = "Failure Table of Scenario 1")
 ```
 
 For the above scenarios, we investigate the power, sample size and events under 6 tests:
@@ -180,11 +180,11 @@ for (trial_duration in seq(24, 60, 4)) {
 }
 
 tab |>
-  gt() |>
-  fmt_number(columns = c(2, 3), decimals = 1) |>
-  fmt_number(columns = 4, decimals = 2) |>
-  fmt_number(columns = 5, decimals = 4) |>
-  fmt_number(columns = 6:11, decimals = 2)
+  lt() |>
+  lt_format(columns = c(2, 3), decimals = 1) |>
+  lt_format(columns = 4, decimals = 2) |>
+  lt_format(columns = 5, decimals = 4) |>
+  lt_format(columns = 6:11, decimals = 2)
 ```
 
 # An Alternative Scenario
@@ -202,11 +202,11 @@ fail_rate <- define_fail_rate(
   hr = c(1, .6, .85)
 )
 enroll_rate |>
-  gt() |>
-  tab_header(title = "Enrollment Table of Scenario 2")
+  lt() |>
+  lt_header(title = "Enrollment Table of Scenario 2")
 fail_rate |>
-  gt() |>
-  tab_header(title = "Failure Table of Scenario 2")
+  lt() |>
+  lt_header(title = "Failure Table of Scenario 2")
 ```
 
 ```{r, message=FALSE}
@@ -320,9 +320,9 @@ for (trial_duration in seq(20, 60, 4)) {
 }
 
 tab |>
-  gt() |>
-  fmt_number(columns = c(2, 3), decimals = 1) |>
-  fmt_number(columns = 4, decimals = 2) |>
-  fmt_number(columns = 5, decimals = 4) |>
-  fmt_number(columns = 6:11, decimals = 2)
+  lt() |>
+  lt_format(columns = c(2, 3), decimals = 1) |>
+  lt_format(columns = 4, decimals = 2) |>
+  lt_format(columns = 5, decimals = 4) |>
+  lt_format(columns = 6:11, decimals = 2)
 ```

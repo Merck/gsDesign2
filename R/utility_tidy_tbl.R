@@ -37,7 +37,7 @@
 #'
 #' @examples
 #' library(tidyr)
-#' library(gt)
+#' library(lt)
 #' a <- data.frame(Index = 1:2, a1 = c(1.1234, 5.9876), a2 = c("text 1", "text 2"), a3 = c(3.12, 4.98))
 #' b <- data.frame(
 #'   Index = c(1, 2, 2),
@@ -46,17 +46,16 @@
 #'   b3 = (10:8) / 3
 #' )
 #' table_ab(a, b, byvar = "Index", decimals = c(0, 2, 0, 1), aname = "Index") |>
-#'   group_by(Index) |>
-#'   gt() |>
-#'   fmt_number(b3, decimals = 2) |>
-#'   tab_header(title = "Grouped data table") |>
-#'   tab_footnote(
+#'   lt() |> lt_group(~ Index, sep = TRUE) |>
+#'   lt_format("b3", decimals = 2) |>
+#'   lt_header(title = "Grouped data table") |>
+#'   lt_footnote(
 #'     "The table a variables have been concatenated into a text string, rounded appropriately.",
-#'     cells_row_groups(groups = 1)
+#'     where = "group", columns = "1"
 #'   ) |>
-#'   tab_footnote(
+#'   lt_footnote(
 #'     "Note that footnotes cannot be made for individual variables in the row groups generated using table a.",
-#'     cells_row_groups(groups = 2)
+#'     where = "group", columns = "2"
 #'   )
 table_ab <- function(table_a, table_b, byvar, decimals = 1, aname = names(table_a)[1]) {
   anames <- names(table_a)

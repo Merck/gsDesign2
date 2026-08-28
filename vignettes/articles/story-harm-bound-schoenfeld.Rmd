@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 ```{r, message=FALSE, warning=FALSE}
 library(gsDesign2)
 library(dplyr)
-library(gt)
+library(lt)
 ```
 
 # Overview
@@ -125,8 +125,8 @@ candidate_harm_bounds <- lapply(astar_candidates, function(astar_candidate) {
   )
 
 candidate_harm_bounds |>
-  gt() |>
-  fmt_number(
+  lt() |>
+  lt_format(
     columns = c("astar", "harm_z", "harm_p_lower_tail"),
     decimals = 3
   )
@@ -361,8 +361,10 @@ comparison |>
   summarize(max_abs_z_difference = max(abs_difference), .groups = "drop") |>
   left_join(test_type_labels, by = "test_type") |>
   select(test_type, description, max_abs_z_difference) |>
-  gt() |>
-  fmt_scientific(columns = max_abs_z_difference, decimals = 2)
+  # lt has no scientific formatter; render these tiny differences in
+  # scientific notation as text before building the table
+  mutate(max_abs_z_difference = formatC(max_abs_z_difference, format = "e", digits = 2)) |>
+  lt()
 ```
 
 The detailed Z-boundary comparison is shown below.
@@ -375,9 +377,14 @@ comparison |>
     bound = as.character(bound)
   ) |>
   select(-description) |>
-  gt(groupname_col = "test_type") |>
-  fmt_number(columns = c(gsSurv, gs_design_ahr), decimals = 6) |>
-  fmt_scientific(columns = c(difference, abs_difference), decimals = 2)
+  # lt has no scientific formatter; pre-format the tiny differences as text
+  mutate(
+    difference = formatC(difference, format = "e", digits = 2),
+    abs_difference = formatC(abs_difference, format = "e", digits = 2)
+  ) |>
+  lt() |>
+  lt_group(~ test_type, sep = TRUE) |>
+  lt_format(columns = c("gsSurv", "gs_design_ahr"), decimals = 6)
 ```
 
 # Sample size and event counts
@@ -415,14 +422,14 @@ harm_effect_comparison <- lapply(
   do.call(what = rbind)
 
 harm_effect_comparison |>
-  gt() |>
-  fmt_number(
+  lt() |>
+  lt_format(
     columns = c(
-      max_upper_z_difference,
-      max_futility_z_difference,
-      final_n_difference,
-      final_events_difference,
-      largest_harm_z
+      "max_upper_z_difference",
+      "max_futility_z_difference",
+      "final_n_difference",
+      "final_events_difference",
+      "largest_harm_z"
     ),
     decimals = 6
   )
@@ -474,19 +481,19 @@ sample_size_comparison |>
     events_difference,
     events_percent_difference
   ) |>
-  gt() |>
-  fmt_number(
+  lt() |>
+  lt_format(
     columns = c(
-      n_gsSurv,
-      n_gs_design_ahr,
-      n_difference,
-      events_gsSurv,
-      events_gs_design_ahr,
-      events_difference
+      "n_gsSurv",
+      "n_gs_design_ahr",
+      "n_difference",
+      "events_gsSurv",
+      "events_gs_design_ahr",
+      "events_difference"
     ),
     decimals = 2
   ) |>
-  fmt_number(columns = events_percent_difference, decimals = 3)
+  lt_format(columns = "events_percent_difference", decimals = 3)
 ```
 
 The differences are a reporting conversion issue rather than a boundary issue.
@@ -519,8 +526,8 @@ information_rate_comparison <- data.frame(
 )
 
 information_rate_comparison |>
-  gt() |>
-  fmt_number(columns = value, decimals = 6)
+  lt() |>
+  lt_format(columns = "value", decimals = 6)
 ```
 
 Thus both packages agree on the required H0 information target for the

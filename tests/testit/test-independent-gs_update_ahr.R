@@ -1,5 +1,4 @@
 library(gsDesign2)
-library(gt)
 library(dplyr)
 library(simtrial)
 library(testit)
