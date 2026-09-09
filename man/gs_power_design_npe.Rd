@@ -152,7 +152,9 @@ Normally, \code{r} will not be changed by the user.}
 \item{tol}{Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.}
 }
 \value{
-A tibble with columns of
+\code{gs_design_npe()} returns a tibble with the class \code{"gs_design_npe"}.
+\code{gs_power_npe()} returns a data frame with the class \code{"gs_power_npe"}.
+The columns are described below:
 \itemize{
 \item \code{analysis}: analysis index.
 \item \code{bound}: one of value \code{"upper"}, \code{"lower"}, or \code{"harm"}, indicating the upper, lower, and harm bound.
