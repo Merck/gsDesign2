@@ -23,6 +23,16 @@ tests/
     └── test-*.md           # Snapshot files (standalone, no .R file needed)
 ```
 
+## Test Categories: `developer` vs `independent`
+
+Every test file is named `test-developer-<topic>.R` or `test-independent-<topic>.R`. The prefix signals **how** the test establishes correctness — pick the right one so tests stay where reviewers expect them.
+
+- **`test-independent-*`** — validate outputs against an **independent source of truth**: a separate reference implementation (e.g. `gsDesign::gsSurv()`, `gsDesign::toInteger()`), a closed-form/hand-computed value, or a mathematical identity. These answer "does the package produce the statistically correct number?" and should not rely on gsDesign2 internals.
+
+- **`test-developer-*`** — exercise the package's **own implementation behavior**: default arguments, S3 class/attribute plumbing (e.g. `uninteger_is_from`), internal helpers (`gsDesign2:::`), consistency between exported and internal variants (e.g. `gs_power_ahr()` vs `gs_power_ahr_()`), argument handling, and "does this feature survive this transformation?" checks. These answer "does the code behave as engineered?" and may inspect internals freely.
+
+Rule of thumb: if the expected value comes from *outside* gsDesign2, it's `independent`; if it comes from gsDesign2 itself or from how the function is wired, it's `developer`. Add a new test to the existing file for its topic and category (e.g. a `to_integer()` behavior test goes in `test-developer-to_integer.R`, next to the other harm/attribute tests).
+
 ## Core Pattern
 
 ```r
