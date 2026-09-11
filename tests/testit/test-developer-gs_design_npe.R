@@ -52,7 +52,7 @@ assert("examples in spec - Lachin book p71", {
   x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (all.equal(x1_c, x2, check.attributes = FALSE))
+  (unclass(x1_c) %==% unclass(x2))
 })
 
 assert("fixed design with 3 equal info", {
