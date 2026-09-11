@@ -1,6 +1,7 @@
 # Development
 
 - The objects returned by `gs_design_npe()` and `gs_power_npe()` are now assigned a unique class.
+- `to_integer()` now retains the harm boundary (`harm`, `hpar`, `test_harm`) when converting an AHR group sequential design to integer events, instead of silently dropping it.
 
 # gsDesign2 1.2.0
 
