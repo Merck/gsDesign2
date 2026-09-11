@@ -76,7 +76,8 @@ and Yujie Zhao</h4>
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/gsDesign2/">gsDesign2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keaven.github.io/gsDesign/" class="external-link">gsDesign</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yihui/lt" class="external-link">lt</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -170,528 +171,722 @@ control for the design as it is not specified elsewhere.</p>
 <span></span>
 <span><span class="va">one_sided</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gsDesign2</span><span class="fu">::</span><span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Efficacy bound only"</span>, subtitle <span class="op">=</span> <span class="st">"alpha-spending"</span><span class="op">)</span></span></code></pre></div>
-<div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mwlefoodfi table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt.html" class="external-link">lt</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Efficacy bound only"</span>, subtitle <span class="op">=</span> <span class="st">"alpha-spending"</span><span class="op">)</span></span></code></pre></div>
+<style>
+th, td{ padding: 5px; }
+.lt-wrap { overflow-x: auto; }
+.lt-table {
+  --bg: 4px solid transparent;
+  --bd: 1.5px solid #888;
 
-#mwlefoodfi thead, #mwlefoodfi tbody, #mwlefoodfi tfoot, #mwlefoodfi tr, #mwlefoodfi td, #mwlefoodfi th {
-  border-style: none;
-}
+  border-collapse: separate;
+  caption-side: top;
+  margin: 1em auto;
+  border-spacing: 0;
+  border-top: var(--bd);
+  border-bottom: var(--bd);
 
-#mwlefoodfi p {
-  margin: 0;
-  padding: 0;
-}
+  caption {
+    padding: .5em; text-align: center; border-top: var(--bd);
+    .lt-title    { font-size: 1.2em; }
+    .lt-subtitle { font-size: 0.9em; }
+  }
 
-#mwlefoodfi .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
+  th { font-weight: normal; }
+  tbody {
+    :not(:last-child) :is(td, th) { border-bottom: 1px   solid #ddd; }
+    .lt-row-group :is(td, th)     { border-bottom: 1.5px solid #ddd; }
+    .lt-row-group {
+      text-align: left;
+      &.lt-row-open { border-bottom-color: transparent; }
+    }
+  }
+  thead th {
+    border-bottom: 1px solid #888;
+    &:not(:first-child) { border-left: var(--bg); }
+    &:not(:last-child) { border-right: var(--bg); }
+  }
+  .lt-indent { padding-left: 1em; }
+  .lt-spanner-row {
+    .lt-spanner       { border-bottom: 1px solid #bbb; text-align: center; }
+    .lt-spanner-empty { border-bottom: none; }
+  }
 
-#mwlefoodfi .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
+  .lt-footer {
+    font-size: 0.85em;
+    .lt-footnote:first-child td { border-top: 1px solid #aaa; }
+    .lt-source-note:first-child td { border-top: 1px dashed #aaa; }
+    .lt-source-note td { font-style: italic; }
+  }
 
-#mwlefoodfi .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
+  .al-r { text-align: right; }
+  .al-c { text-align: center; }
 
-#mwlefoodfi .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
+  .lt-fnref {
+    color: #06c;
+    &::before { content: "\00a0["; }
+    &::after  { content: "]"; }
+  }
 }
-
-#mwlefoodfi .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#mwlefoodfi .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#mwlefoodfi .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#mwlefoodfi .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#mwlefoodfi .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#mwlefoodfi .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#mwlefoodfi .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#mwlefoodfi .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#mwlefoodfi .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#mwlefoodfi .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#mwlefoodfi .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#mwlefoodfi .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#mwlefoodfi .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#mwlefoodfi .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_left {
-  text-align: left;
-}
-
-#mwlefoodfi .gt_center {
-  text-align: center;
-}
-
-#mwlefoodfi .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#mwlefoodfi .gt_font_normal {
-  font-weight: normal;
-}
-
-#mwlefoodfi .gt_font_bold {
-  font-weight: bold;
-}
-
-#mwlefoodfi .gt_font_italic {
-  font-style: italic;
-}
-
-#mwlefoodfi .gt_super {
-  font-size: 65%;
-}
-
-#mwlefoodfi .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#mwlefoodfi .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#mwlefoodfi .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#mwlefoodfi .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#mwlefoodfi .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#mwlefoodfi .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#mwlefoodfi .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#mwlefoodfi .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#mwlefoodfi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
+.lt-raw [title]::after {
+  content: " (" attr(title) ")";
+  background: lightyellow;
+  font-size: 0.85em;
 }
 </style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>Efficacy bound only</td>
-    </tr>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>alpha-spending</td>
-    </tr>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
-</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
-        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35">Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">3.61</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0002</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.4858</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0352</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7">Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">2.44</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.0073</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.7083</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.5295</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0074</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1">Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">2.00</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0227</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7894</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8500</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
-</tr>
-</tbody>
-<tfoot>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
-    </tr>
-</tfoot>
-</table>
-</div>
-<p>Now we check this with <code>gsDesign::gsSurv().</code> As noted
+<script>((window.LT=window.LT||{}).q=window.LT.q||[]).push({s:document.currentScript,d:
+{
+  "data": {
+    "Analysis": ["Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35", "Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7", "Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1"],
+    "Bound": ["Efficacy", "Efficacy", "Efficacy"],
+    "Z": [3.61, 2.44, 2],
+    "Nominal p": [2e-04, 0.0073, 0.0227],
+    "~HR at bound": [0.4858, 0.7083, 0.7894],
+    "Alternate hypothesis": [0.0352, 0.5295, 0.85],
+    "Null hypothesis": [2e-04, 0.0074, 0.025]
+  },
+  "row_group": "Analysis",
+  "spanners": [
+    {
+      "label": "Cumulative boundary crossing probability",
+      "columns": ["Alternate hypothesis", "Null hypothesis"]
+    }
+  ],
+  "header": {
+    "title": "Efficacy bound only",
+    "subtitle": "alpha-spending"
+  },
+  "footnotes": [
+    {
+      "text": "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["Nominal p"]
+      }
+    },
+    {
+      "text": "Approximate hazard ratio to cross bound.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["~HR at bound"]
+      }
+    }
+  ]
+}
+})</script><script>
+/* lt.js — build a semantic <table> from a JSON spec.
+ * Call LT.build(spec) from an inline <script> to render a table in place.
+ * One runtime per page renders any number of tables.
+ */
+(root => {
+  "use strict";
+  if (root.LT?.buildHtml) return;  // duplicate inclusion is a no-op
+
+  // `[<]` (not `<`) avoids `</…` so this file is safe to inline in <script>.
+  const esc = s => String(s)
+    .replace(/&/g, "&amp;").replace(/[<]/g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  // Text fields (title, labels, footnotes, ...) arrive as a plain string
+  // (escape it) or, when the R side wrapped them in I(), a one-element array
+  // (emit verbatim as raw HTML). `txt` renders either form.
+  const txt = v => Array.isArray(v) ? String(v[0] ?? "") : esc(v);
+  // Raw (verbatim) if `raw`, else escaped — for values already stringified
+  // (e.g. body cells whose column is flagged raw via spec.html_cols).
+  const escIf = (raw, s) => raw ? String(s ?? "") : esc(s);
+  // Is column `c` flagged raw HTML? `hc` is spec.html_cols: true (all columns)
+  // or an array of column names.
+  const rawCol = (hc, c) => hc === true || (Array.isArray(hc) && hc.includes(c));
+  const sup = i => `<sup class="lt-fnref">${i}</sup>`;
+  // Stringify, mapping null/undefined to "" (0 and false stringify normally).
+  // ±Infinity render as ∞/-∞ (ASCII minus, as raw values); formatted columns get
+  // the typographic minus via fmtNumber.
+  const str = v => v === Infinity ? "∞" : v === -Infinity ? "-∞" : String(v ?? "");
+
+  // --- Number formatting ---
+  const isNum = v => typeof v === "number" && isFinite(v);
+  // Like isNum but also accepts ±Infinity (which fmtNumber renders as ∞/−∞).
+  const isNumInf = v => isNum(v) || Math.abs(v) === Infinity;
+  // A column is "numeric" if its first non-null value is a number.
+  const numCol = col => col?.length && typeof col.find(v => v != null) === "number";
+
+  // Column order. Prefer the explicit `spec.columns` sent by R: a JSON object
+  // reorders integer-like keys (e.g. "1", "2") ahead of string keys, so
+  // Object.keys(data) alone would scramble columns whose names are numbers.
+  const colOrder = spec => (spec.columns || Object.keys(spec.data || {}))
+    .filter(c => c in (spec.data || {}));
+
+  // Display label for a column: the last "label" op that names it, else `c`.
+  const colLabel = (ops, c) => {
+    let lbl = c;
+    for (const op of ops) if (op.type === "label" && op.labels?.[c] != null) lbl = op.labels[c];
+    return lbl;
+  };
+
+  // Expand JS exponential notation (e.g. "4.2e+3") to plain decimal,
+  // preserving the significant digits produced by toPrecision.
+  function expandExp(s) {
+    if (!/e/i.test(s)) return s;
+    const [, sign, int, frac = "", expStr] =
+      s.match(/^(-?)(\d+)(?:\.(\d+))?e([+-]?\d+)$/i);
+    const exp = +expStr, digits = int + frac, point = int.length + exp;
+    let out;
+    if (point <= 0) out = "0." + "0".repeat(-point) + digits;
+    else if (point >= digits.length) out = digits + "0".repeat(point - digits.length);
+    else out = digits.slice(0, point) + "." + digits.slice(point);
+    return sign + out;
+  }
+
+  function fmtNumber(v, decimals, bigMark, sigDigits) {
+    if (v === Infinity) return "∞";
+    if (v === -Infinity) return "−∞";
+    if (!isNum(v)) return null;
+    let s = sigDigits != null ? expandExp(v.toPrecision(sigDigits)) :
+            decimals != null ? v.toFixed(decimals) : String(v);
+    if (/^-0(\.0+)?$/.test(s)) s = s.slice(1);
+    if (bigMark) {
+      const parts = s.split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, bigMark);
+      s = parts.join(".");
+    }
+    if (s[0] === "-") s = "−" + s.slice(1);
+    return decimals != null || bigMark || sigDigits != null ? s : null;
+  }
+
+  // --- Pattern merge ---
+  function mergeVals(vals, pattern) {
+    if (!pattern) return vals.filter(v => v !== "").join(" ");
+    let remaining = pattern, result = "";
+    while (remaining) {
+      const m = remaining.match(/<<(.*?)>>/);
+      if (!m) { result += subRefs(remaining, vals); break; }
+      if (m.index > 0) result += subRefs(remaining.slice(0, m.index), vals);
+      const block = m[1],
+            refs = [...block.matchAll(/\{(\d+)\}/g)].map(x => +x[1]);
+      if (!refs.length || refs.every(i => vals[i - 1] !== ""))
+        result += subRefs(block, vals);
+      remaining = remaining.slice(m.index + m[0].length);
+    }
+    return result;
+  }
+  function subRefs(s, vals) {
+    for (let i = 0; i < vals.length; i++)
+      s = s.split("{" + (i + 1) + "}").join(vals[i]);
+    return s;
+  }
+
+  // --- Auto-format numeric columns ---
+  function autoFmt(spec, display, nRow) {
+    if (spec.auto_format === false) return;
+    const data = spec.data || {}, ops = spec.ops || [],
+          colNames = colOrder(spec);
+
+    const fmtCols = new Set();
+    for (const op of ops) {
+      if (op.type === "fmt_number") for (const c of (op.columns || colNames)) fmtCols.add(c);
+    }
+
+    for (const c of colNames) {
+      if (fmtCols.has(c)) continue;
+      const col = data[c];
+      if (!numCol(col)) continue;
+
+      const lbl = colLabel(ops, c),
+            pct = /%|[ _](pct|percent)$/i.test(lbl);
+
+      if (/year/i.test(lbl) && col.every(v => v == null || /^\d{4}$/.test(String(v)))) continue;
+
+      // Determine decimal places: find max significant decimals across column,
+      // then cap dynamically based on the largest integer-part width (targeting
+      // ~4 total significant digits): e.g., values <1 get up to 4 decimals,
+      // 10-99 get 2, >=1000 get 0.
+      let maxInt = 0, n = 0;
+      for (const v of col) {
+        if (!isNum(v)) continue;
+        // Number of digits before the decimal point
+        const a = Math.abs(pct ? v * 100 : v),
+              intW = a < 1 ? 0 : Math.floor(Math.log10(a)) + 1;
+        if (intW > maxInt) maxInt = intW;
+        // Significant decimals (strip trailing zeros; adjust for pct *100)
+        const m = String(v).match(/\.(\d+)/);
+        if (!m) continue;
+        const d = m[1].replace(/0+$/, "").length - (pct ? 2 : 0);
+        if (d > n) n = d;
+      }
+      // Cap: 4 decimals max, minus integer width (so large numbers get fewer).
+      // n is already >= 0, so only the upper cap is needed.
+      n = Math.min(n, Math.max(4 - maxInt, 0));
+
+      for (let i = 0; i < nRow; i++) {
+        const v = col[i];
+        if (!isNumInf(v)) continue;
+        const s = fmtNumber(pct ? v * 100 : v, n, " ");
+        if (s != null) display[c][i] = s + (pct ? "%" : "");
+      }
+    }
+  }
+
+  // --- Apply ops to data columns, return display strings per column ---
+  function applyOps(spec) {
+    const data = spec.data || {},
+          ops = spec.ops || [],
+          colNames = colOrder(spec),
+          nRow = colNames.length ? data[colNames[0]].length : 0;
+
+    // Working copy: display[col][row] = string
+    const display = {};
+    for (const c of colNames) {
+      display[c] = data[c].map(str);
+    }
+
+    autoFmt(spec, display, nRow);
+
+    // Run fn(col, row, rawValue) over each existing cell of the given columns.
+    const eachCell = (cols, fn) => {
+      for (const c of cols) {
+        if (!data[c]) continue;
+        for (let i = 0; i < nRow; i++) fn(c, i, data[c][i]);
+      }
+    };
+
+    for (const op of ops) {
+      const cols = op.columns || colNames;
+      switch (op.type) {
+        case "fmt_number":
+          eachCell(cols, (c, i, raw) => {
+            if (!isNumInf(raw)) return;
+            const v = op.percent === true ? raw * 100 : raw,
+                  psfx = op.percent ? "%" : "",
+                  f = fmtNumber(v, op.decimals, op.big_mark ?? "", op.sig_digits),
+                  pfx = op.prefix || "", sfx = (op.suffix || "") + psfx;
+            if (f != null) display[c][i] = pfx + f + sfx;
+            else if (pfx || sfx) display[c][i] = pfx + String(v) + sfx;
+          });
+          break;
+        case "fmt_date":
+          eachCell(cols, (c, i, raw) => {
+            if (raw == null) return;
+            const d = raw instanceof Date ? raw : new Date(raw);
+            if (isNaN(d)) return;
+            display[c][i] = op.method ? d[op.method]() :
+              op.options ? d.toLocaleDateString(op.locale, op.options) :
+              d.toLocaleDateString(op.locale);
+          });
+          break;
+        case "sub":
+          eachCell(cols, (c, i, raw) => {
+            if (op.small != null && isNum(raw) && raw !== 0 &&
+                Math.abs(raw) < op.small) {
+              display[c][i] = op.small_text ?? ("<" + op.small);
+            } else if (op.zero != null && raw === 0) {
+              display[c][i] = op.zero;
+            } else if (op.missing != null && raw == null) {
+              display[c][i] = op.missing;
+            }
+          });
+          break;
+        case "merge": {
+          const mCols = op.columns;
+          if (!mCols || mCols.length < 2) break;
+          const target = mCols[0];
+          for (let i = 0; i < nRow; i++) {
+            const vals = mCols.map(c => display[c]?.[i] ?? "");
+            display[target][i] = mergeVals(vals, op.pattern);
+          }
+          break;
+        }
+      }
+    }
+
+    // Default display for missing (null/NA) cells: an em dash unless spec.missing
+    // overrides it (set to "" to keep them blank). A per-column lt_sub(missing=)
+    // has already filled its cells above, so only still-empty null cells get the
+    // default; empty strings in the data stay empty.
+    const miss = spec.missing === undefined ? "—" : spec.missing;
+    if (miss) {
+      for (const c of colNames)
+        for (let i = 0; i < nRow; i++)
+          if (data[c][i] == null && display[c][i] === "") display[c][i] = miss;
+    }
+
+    return { display, nRow };
+  }
+
+  // --- Resolve structural spec fields from ops + data ---
+  function resolveSpec(spec) {
+    const data = spec.data || {},
+          ops = spec.ops || [],
+          colNames = colOrder(spec),
+          nRow = colNames.length ? data[colNames[0]].length : 0,
+          // Run fn on each op of the given type, in document order.
+          onOp = (t, fn) => { for (const op of ops) if (op.type === t) fn(op); };
+
+    // row_group: array → rowspan mode; string → separator-row mode
+    let rowGroupSep = typeof spec.row_group === "string";
+    const rowGroupCols = Array.isArray(spec.row_group) ? spec.row_group
+          : (spec.row_group ? [spec.row_group] : []);
+    if (!rowGroupSep && rowGroupCols.length === 1 && spec.auto_sep !== false &&
+        !numCol(data[rowGroupCols[0]]) &&
+        data[rowGroupCols[0]]?.some(v => (v + "").length > 20)) rowGroupSep = true;
+
+    // Hidden columns: row_group, merge sources
+    const hidden = new Set();
+    for (const g of rowGroupCols) hidden.add(g);
+    onOp("merge", op => {
+      if (op.hide !== false && op.columns)
+        op.columns.slice(1).forEach(c => hidden.add(c));
+    });
+
+    // Visible columns after hiding
+    let visible = colNames.filter(c => !hidden.has(c));
+
+    // Apply move
+    onOp("move", op => {
+      const toMove = (op.columns || []).filter(c => visible.includes(c));
+      if (!toMove.length) return;
+      const rest = visible.filter(c => !toMove.includes(c));
+      if (op.after == null) {
+        visible = [...toMove, ...rest];
+      } else {
+        const pos = rest.indexOf(op.after);
+        if (pos >= 0) visible = [...rest.slice(0, pos + 1), ...toMove, ...rest.slice(pos + 1)];
+      }
+    });
+
+    // Set arr[i] = val where i is the position of column c in `visible`.
+    const setByCol = (arr, c, val) => { const i = visible.indexOf(c); if (i >= 0) arr[i] = val; };
+
+    // Alignment: default from data type (number→right, else left), then overrides
+    const align = visible.map(c => numCol(data[c]) ? "right" : "left");
+    onOp("align", op => { for (const c of (op.columns || [])) setByCol(align, c, op.align); });
+
+    // Column labels
+    const autoLbl = s => spec.auto_label === false ? s : s.replace(/[._]/g, " ");
+    const colLabels = visible.map(autoLbl);
+    onOp("label", op => {
+      for (const [c, lbl] of Object.entries(op.labels || {})) setByCol(colLabels, c, lbl);
+    });
+
+    // Column widths + whole-table width
+    let colWidths, tableWidth;
+    onOp("width", op => {
+      if (op.table) tableWidth = op.table;
+      if (!op.widths) return;
+      if (!colWidths) colWidths = visible.map(() => "");
+      for (const [c, w] of Object.entries(op.widths)) setByCol(colWidths, c, w);
+    });
+
+    // Indent
+    const indent = new Array(nRow).fill(0);
+    onOp("indent", op => {
+      if (op.rows) for (const r of op.rows) indent[r - 1] = op.level ?? 1;
+    });
+
+    // Runs of equal consecutive values in col → [{ label, rows (1-based) }].
+    // Used for both separator-row groups and rowspan span sizes.
+    const runs = col => {
+      const out = [];
+      for (let i = 0; i < nRow;) {
+        const label = str(col[i]), rows = [i + 1];
+        while (++i < nRow && str(col[i]) === label) rows.push(i + 1);
+        out.push({ label, rows });
+      }
+      return out;
+    };
+
+    // Row groups from data column (separator-row mode only). A group label is
+    // raw HTML when its source column is flagged raw via html_cols.
+    let groups = [];
+    if (rowGroupSep && rowGroupCols.length && data[rowGroupCols[0]]) {
+      const raw = rawCol(spec.html_cols, rowGroupCols[0]);
+      groups.push(...runs(data[rowGroupCols[0]]).map(g => ({ ...g, raw })));
+    }
+    // Manual groups (labels always escaped; the label comes from an R argument
+    // name, which cannot carry an I() raw-HTML marker)
+    onOp("row_group", op => groups.push({ label: op.label, rows: op.rows }));
+    // Group ordering
+    onOp("group_order", op => {
+      if (!groups.length) return;
+      const ordered = [], rest = [];
+      for (const lbl of (op.order || [])) {
+        const g = groups.find(x => x.label === lbl);
+        if (g) ordered.push(g);
+      }
+      for (const g of groups) if (!ordered.includes(g)) rest.push(g);
+      groups = [...ordered, ...rest];
+    });
+
+    // Rowspan groups: compute span sizes for each group column
+    const rowSpans = [];
+    if (!rowGroupSep && rowGroupCols.length) {
+      for (const gc of rowGroupCols) {
+        const spans = new Array(nRow).fill(0);
+        for (const r of runs(data[gc] || [])) spans[r.rows[0] - 1] = r.rows.length;
+        rowSpans.push({ col: gc, label: colLabel(ops, gc), spans });
+      }
+    }
+
+    // Styles: the style ops are consumed directly (css/class/columns/rows/test).
+    const styles = ops.filter(op => op.type === "style");
+
+    // Auto-spanners: split column names on separator, group contiguous prefixes
+    let spanners = spec.spanners || [];
+    if (spec.auto_span) {
+      const sep = typeof spec.auto_span === "string" ? new RegExp(spec.auto_span) : /[._]/;
+      spanners = [...spanners];
+      for (let i = 0; i < visible.length;) {
+        const m = visible[i].match(sep);
+        if (!m) { i++; continue; }
+        const prefix = visible[i].slice(0, m.index);
+        let j = i + 1;
+        while (j < visible.length) {
+          const m2 = visible[j].match(sep);
+          if (!m2 || visible[j].slice(0, m2.index) !== prefix) break;
+          j++;
+        }
+        if (j - i >= 2) {
+          spanners.push({ label: prefix, columns: visible.slice(i, j) });
+          for (let k = i; k < j; k++) {
+            const mk = visible[k].match(sep);
+            if (mk) colLabels[k] = autoLbl(visible[k].slice(mk.index + mk[0].length));
+          }
+        }
+        i = j;
+      }
+    }
+
+    return {
+      visible, align, colLabels, colWidths, tableWidth, indent,
+      groups, rowSpans, styles, spanners,
+      footnotes: spec.footnotes || [],
+      notes: spec.notes || [],
+      header: spec.header || {},
+      nRow
+    };
+  }
+
+  // Footnotes: dedup by text, assign 1..N in first-seen order.
+  function indexFootnotes(fns) {
+    const order = [], idx = {};
+    fns.forEach(f => {
+      if (idx[f.text] == null) { idx[f.text] = order.length + 1; order.push(f.text); }
+    });
+    return { order, idx };
+  }
+
+  // Find the footnote index for a (type, value) location; 0 if none.
+  // `val` is a scalar: the title group, a single column, a spanner label,
+  // or a row-group label, depending on `type`.
+  const matcher = (fns, idx) => (type, val) => {
+    for (const f of fns) {
+      const loc = f.location;
+      if (loc.type !== type) continue;
+      const hit = idx[f.text];
+      if (type === "title" && loc.group === val) return hit;
+      if (type === "column_labels" && loc.columns.includes(val)) return hit;
+      if (type === "column_spanners" && loc.spanners.includes(val)) return hit;
+      if (type === "row_groups") {
+        if (loc.match === "all") return hit;
+        if (loc.match === "exact" && loc.values.includes(val)) return hit;
+        if (loc.match === "starts_with" && val.startsWith(loc.value)) return hit;
+      }
+    }
+    return 0;
+  };
+
+  function sortByGroups(spec) {
+    if (spec.sort === false || !spec.row_group) return;
+    const data = spec.data || {},
+          cols = [].concat(spec.row_group),
+          colNames = colOrder(spec),
+          nRow = colNames.length ? data[colNames[0]].length : 0;
+    if (!nRow) return;
+    const idx = Array.from({length: nRow}, (_, i) => i);
+    idx.sort((a, b) => {
+      for (const c of cols) {
+        const va = data[c]?.[a], vb = data[c]?.[b];
+        if (va == vb) continue;
+        if (va == null) return 1;
+        if (vb == null) return -1;
+        if (va < vb) return -1;
+        if (va > vb) return 1;
+      }
+      return 0;
+    });
+    for (const c of colNames) data[c] = idx.map(i => data[c][i]);
+    // Remap 1-based row indices in ops to reflect the new order
+    const newPos = new Array(nRow);
+    for (let i = 0; i < nRow; i++) newPos[idx[i]] = i + 1;
+    for (const op of (spec.ops || [])) {
+      if (op.rows) op.rows = op.rows.map(r => newPos[r - 1]);
+    }
+  }
+
+  function buildHtml(spec) {
+    sortByGroups(spec);
+    const data = spec.data || {},
+          { display, nRow } = applyOps(spec),
+          { visible: cols, align, colLabels, colWidths, tableWidth, indent,
+            groups, rowSpans, styles, spanners, footnotes: fns, notes, header: hdr } = resolveSpec(spec),
+          reg = indexFootnotes(fns),
+          fIdx = matcher(fns, reg.idx),
+          nGrp = rowSpans.length,
+          nCol = cols.length + nGrp,
+          // Whether column `c`'s body cells are raw HTML (see lt_html() on the
+          // R side); spec.html_cols is true (all columns) or a name array.
+          isRaw = c => rawCol(spec.html_cols, c),
+          out = [`<table class="lt-table"${tableWidth ? ` style="width:${tableWidth}"` : ""}>`];
+    const mark = (type, val) => { const i = fIdx(type, val); return i ? sup(i) : ""; };
+    const cell = (c, r) => display[c]?.[r - 1] ?? "";
+    // ` name="val"` for a truthy val, else "" — for optional HTML attributes.
+    const attr = (n, v) => v ? ` ${n}="${v}"` : "";
+    // Plain class names per column (alignment + leading-indent), "" if none.
+    const colCls = cols.map((_, i) => (
+      (i === 0 && groups.length ? "lt-indent " : "") +
+      ({right: "al-r", center: "al-c"}[align[i]] || "")
+    ).trimEnd());
+
+    // Visit each cell at (rows × cols) that exists in the table, calling
+    // fn(key, c, r). rows null = all rows; cols falls back to all columns.
+    const eachLoc = (rows, locCols, fn) => {
+      for (let r = 1; r <= nRow; r++) {
+        if (rows && !rows.includes(r)) continue;
+        for (const c of (locCols || cols)) {
+          const ci = cols.indexOf(c);
+          if (ci >= 0) fn(`${r},${ci}`, c, r);
+        }
+      }
+    };
+
+    // Style map: accumulate css (";") and class (" ") per cell.
+    const styleMap = {}, classMap = {};
+    const addTo = (map, key, val, sep) => { map[key] = map[key] ? map[key] + sep + val : val; };
+    for (const s of styles)
+      eachLoc(s.rows, s.columns ? [].concat(s.columns) : null, (key, c, r) => {
+        if (s.test && !s.test(data[c][r - 1])) return;
+        if (s.css) addTo(styleMap, key, s.css, ";");
+        if (s.class) addTo(classMap, key, s.class, " ");
+      });
+
+    // <colgroup>: leading empty <col>s for rowspan group columns, so widths
+    // align with the body columns (which are offset by nGrp on the left).
+    if (colWidths && colWidths.some(w => w)) {
+      out.push(`<colgroup>`);
+      for (let i = 0; i < nGrp; i++) out.push(`<col>`);
+      for (let i = 0; i < cols.length; i++)
+        out.push(`<col${attr("style", colWidths[i] ? "width:" + colWidths[i] : "")}>`);
+      out.push(`</colgroup>`);
+    }
+
+    // <caption>: title + subtitle, each a <div> rendered only when non-empty.
+    const caption = [["title", "lt-title"], ["subtitle", "lt-subtitle"]]
+      .filter(([g]) => hdr[g] != null && hdr[g] !== "")
+      .map(([g, cls]) => `<div class="${cls}">${txt(hdr[g])}${mark("title", g)}</div>`);
+    if (caption.length)
+      out.push(`<caption class="lt-caption">`, ...caption, `</caption>`);
+
+    // <thead>
+    out.push(`<thead>`);
+    if (spanners.length) {
+      const emptyTh = `<th class="lt-spanner-empty"></th>`;
+      out.push(`<tr class="lt-spanner-row">`);
+      out.push(emptyTh.repeat(nGrp));
+      for (let k = 0; k < cols.length;) {
+        const sp = spanners.find(s => s.columns[0] === cols[k]);
+        if (sp) {
+          out.push(`<th colspan="${sp.columns.length}" scope="colgroup" class="lt-spanner">${txt(sp.label)}${mark("column_spanners", sp.label)}</th>`);
+          k += sp.columns.length;
+        } else {
+          out.push(emptyTh);
+          k++;
+        }
+      }
+      out.push(`</tr>`);
+    }
+    out.push(`<tr>`);
+    for (const rs of rowSpans) out.push(`<th scope="col">${txt(rs.label)}</th>`);
+    for (let i = 0; i < cols.length; i++)
+      out.push(`<th scope="col"${attr("class", colCls[i])}>${txt(colLabels[i])}${mark("column_labels", cols[i])}</th>`);
+    out.push(`</tr></thead>`);
+
+    // Body footnote markers
+    const bodyMarks = {};
+    for (const f of fns) {
+      if (f.location.type !== "body") continue;
+      const fi = reg.idx[f.text];
+      eachLoc(f.location.rows, f.location.columns || [], key => { bodyMarks[key] = fi; });
+    }
+
+    // Row rendering
+    const pushRow = r => {
+      out.push(`<tr>`);
+      // Row-group cells. For a group spanning n > 1 rows, the label goes in a
+      // non-spanning cell on the first row — so vertical-align centers it
+      // within that row's height (matching the body cells) instead of across
+      // the whole span — followed by an empty filler cell spanning the
+      // remaining n - 1 rows. A single-row group is just the label cell.
+      for (const rs of rowSpans) {
+        const span = rs.spans[r - 1], fill = (rs.spans[r - 2] || 0) - 1;
+        if (span > 0)
+          out.push(`<th scope="row" class="lt-row-group${span > 1 ? " lt-row-open" : ""}">${escIf(isRaw(rs.col), cell(rs.col, r))}${mark("row_groups", str(data[rs.col][r - 1]))}</th>`);
+        else if (fill > 0)
+          out.push(`<th class="lt-row-group"${attr("rowspan", fill > 1 ? fill : 0)}></th>`);
+      }
+      const ind = indent[r - 1] || 0;
+      for (let ci = 0; ci < cols.length; ci++) {
+        const k = `${r},${ci}`, c = cols[ci],
+              m = bodyMarks[k], cc = classMap[k],
+              cls = [colCls[ci], cc].filter(Boolean).join(" ");
+        let s = styleMap[k] || "";
+        if (ci === 0 && ind) s = (s ? s + ";" : "") + `padding-left:${ind + 1}em`;
+        const raw = str(data[c][r - 1]), disp = display[c][r - 1],
+              tip = raw !== disp ? ` title="${esc(raw)}"` : "";
+        out.push(`<td${attr("class", cls)}${attr("style", s)}${tip}>${escIf(isRaw(c), disp)}${m ? sup(m) : ""}</td>`);
+      }
+      out.push(`</tr>`);
+    };
+
+    // <tbody>
+    out.push(`<tbody>`);
+    if (groups.length) {
+      const seen = {};
+      for (const g of groups) {
+        out.push(`<tr class="lt-row-group"><th colspan="${nCol}" scope="colgroup">${escIf(g.raw, g.label)}${mark("row_groups", g.label)}</th></tr>`);
+        for (const r of g.rows) { seen[r] = 1; pushRow(r); }
+      }
+      for (let r = 1; r <= nRow; r++) if (!seen[r]) pushRow(r);
+    } else {
+      for (let r = 1; r <= nRow; r++) pushRow(r);
+    }
+    out.push(`</tbody>`);
+
+    // <tfoot>: footnotes then source notes, each a full-width row.
+    if (reg.order.length || notes.length) {
+      const footRow = (cls, html) => `<tr class="${cls}"><td colspan="${nCol}">${html}</td></tr>`;
+      out.push(`<tfoot class="lt-footer">`);
+      reg.order.forEach((t, i) => out.push(footRow("lt-footnote", `${sup(i + 1)} ${txt(t)}`)));
+      for (const n of notes) out.push(footRow("lt-source-note", txt(n)));
+      out.push(`</tfoot>`);
+    }
+
+    out.push(`</table>`);
+    // Wrap in a div so a wide table can scroll horizontally (`overflow-x`)
+    // instead of overflowing the page.
+    return `<div class="lt-wrap">${out.join("")}</div>`;
+  }
+
+  const mount = (s, spec) => {
+    s.insertAdjacentHTML("afterend", buildHtml(spec));
+    const tbl = s.nextElementSibling.querySelector("table"),
+          raw = (e, el) => e.altKey && el.classList.toggle("lt-raw");
+    tbl.onclick = e => e.detail === 1 && raw(e, tbl);
+    tbl.ondblclick = e => raw(e, tbl.ownerDocument.documentElement);
+  };
+  // q.push renders immediately; replay any entries queued before we loaded.
+  const q = { push: e => mount(e.s, e.d) };
+  (root.LT?.q || []).forEach(q.push);
+  root.LT = { build: spec => mount(document.currentScript, spec), buildHtml, q };
+})(window);
+</script><p>Now we check this with <code>gsDesign::gsSurv().</code> As noted
 above, sample size and event counts vary slightly from the design
 derived using <code><a href="../reference/gs_design_ahr.html">gs_design_ahr()</a></code>. This also results in
 slightly different crossing probabilities under the alternate hypothesis
@@ -762,555 +957,50 @@ better than experimental treatment.</p>
 <span></span>
 <span><span class="va">symmetric</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gsDesign2</span><span class="fu">::</span><span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt.html" class="external-link">lt</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"2-sided Symmetric Design"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Single spending function"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eexombwkke table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<script>((window.LT=window.LT||{}).q=window.LT.q||[]).push({s:document.currentScript,d:
+{
+  "data": {
+    "Analysis": ["Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35", "Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35", "Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7", "Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7", "Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1", "Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1"],
+    "Bound": ["Efficacy", "Futility", "Efficacy", "Futility", "Efficacy", "Futility"],
+    "Z": [3.61, -3.61, 2.44, -2.44, 2, -2],
+    "Nominal p": [2e-04, 0.9998, 0.0073, 0.9927, 0.0227, 0.9773],
+    "~HR at bound": [0.4858, 2.0584, 0.7083, 1.4118, 0.7894, 1.2668],
+    "Alternate hypothesis": [0.0352, 0, 0.5295, 0, 0.85, 0],
+    "Null hypothesis": [2e-04, 2e-04, 0.0074, 0.0074, 0.025, 0.025]
+  },
+  "row_group": "Analysis",
+  "spanners": [
+    {
+      "label": "Cumulative boundary crossing probability",
+      "columns": ["Alternate hypothesis", "Null hypothesis"]
+    }
+  ],
+  "header": {
+    "title": "2-sided Symmetric Design",
+    "subtitle": "Single spending function"
+  },
+  "footnotes": [
+    {
+      "text": "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["Nominal p"]
+      }
+    },
+    {
+      "text": "Approximate hazard ratio to cross bound.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["~HR at bound"]
+      }
+    }
+  ]
 }
-
-#eexombwkke thead, #eexombwkke tbody, #eexombwkke tfoot, #eexombwkke tr, #eexombwkke td, #eexombwkke th {
-  border-style: none;
-}
-
-#eexombwkke p {
-  margin: 0;
-  padding: 0;
-}
-
-#eexombwkke .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#eexombwkke .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#eexombwkke .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#eexombwkke .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#eexombwkke .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#eexombwkke .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#eexombwkke .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#eexombwkke .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#eexombwkke .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#eexombwkke .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#eexombwkke .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#eexombwkke .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#eexombwkke .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#eexombwkke .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#eexombwkke .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#eexombwkke .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#eexombwkke .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#eexombwkke .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#eexombwkke .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#eexombwkke .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_left {
-  text-align: left;
-}
-
-#eexombwkke .gt_center {
-  text-align: center;
-}
-
-#eexombwkke .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#eexombwkke .gt_font_normal {
-  font-weight: normal;
-}
-
-#eexombwkke .gt_font_bold {
-  font-weight: bold;
-}
-
-#eexombwkke .gt_font_italic {
-  font-style: italic;
-}
-
-#eexombwkke .gt_super {
-  font-size: 65%;
-}
-
-#eexombwkke .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#eexombwkke .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#eexombwkke .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#eexombwkke .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#eexombwkke .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#eexombwkke .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#eexombwkke .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#eexombwkke .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#eexombwkke div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>2-sided Symmetric Design</td>
-    </tr>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Single spending function</td>
-    </tr>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
-</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
-        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35">Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">3.61</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0002</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.4858</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0352</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
-</tr>
-<tr>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">-3.61</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.9998</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">2.0584</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0000</td>
-<td headers="Analysis: 1 Time: 14.5 N: 356 Events: 100.2 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7">Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">2.44</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.0073</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.7083</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.5295</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0074</td>
-</tr>
-<tr>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">-2.44</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.9927</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">1.4118</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.0000</td>
-<td headers="Analysis: 2 Time: 23.3 N: 393.9 Events: 200.4 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0074</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1">Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">2.00</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0227</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7894</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8500</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
-</tr>
-<tr>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">-2.00</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.9773</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">1.2668</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.0000</td>
-<td headers="Analysis: 3 Time: 36 N: 393.9 Events: 286.2 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
-</tr>
-</tbody>
-<tfoot>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
-    </tr>
-</tfoot>
-</table>
-</div>
-<p>We compare with <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
+})</script><p>We compare with <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Symmetric</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
@@ -1382,555 +1072,50 @@ Example 4.</p>
 <span></span>
 <span><span class="va">asymmetric_binding</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gsDesign2</span><span class="fu">::</span><span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt.html" class="external-link">lt</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"2-sided asymmetric design with binding futility"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Both alpha- and beta-spending used"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="ulbfdpbcyv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ulbfdpbcyv table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<script>((window.LT=window.LT||{}).q=window.LT.q||[]).push({s:document.currentScript,d:
+{
+  "data": {
+    "Analysis": ["Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35", "Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35", "Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7", "Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7", "Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1", "Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1"],
+    "Bound": ["Efficacy", "Futility", "Efficacy", "Futility", "Efficacy", "Futility"],
+    "Z": [3.61, 0.12, 2.44, 1.15, 1.93, 1.93],
+    "Nominal p": [2e-04, 0.454, 0.0074, 0.1243, 0.0268, 0.0268],
+    "~HR at bound": [0.4972, 0.9779, 0.7164, 0.854, 0.8019, 0.8019],
+    "Alternate hypothesis": [0.04, 0.0435, 0.5621, 0.096, 0.85, 0.15],
+    "Null hypothesis": [2e-04, 0.546, 0.0074, 0.8861, 0.025, 0.975]
+  },
+  "row_group": "Analysis",
+  "spanners": [
+    {
+      "label": "Cumulative boundary crossing probability",
+      "columns": ["Alternate hypothesis", "Null hypothesis"]
+    }
+  ],
+  "header": {
+    "title": "2-sided asymmetric design with binding futility",
+    "subtitle": "Both alpha- and beta-spending used"
+  },
+  "footnotes": [
+    {
+      "text": "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["Nominal p"]
+      }
+    },
+    {
+      "text": "Approximate hazard ratio to cross bound.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["~HR at bound"]
+      }
+    }
+  ]
 }
-
-#ulbfdpbcyv thead, #ulbfdpbcyv tbody, #ulbfdpbcyv tfoot, #ulbfdpbcyv tr, #ulbfdpbcyv td, #ulbfdpbcyv th {
-  border-style: none;
-}
-
-#ulbfdpbcyv p {
-  margin: 0;
-  padding: 0;
-}
-
-#ulbfdpbcyv .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#ulbfdpbcyv .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#ulbfdpbcyv .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#ulbfdpbcyv .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#ulbfdpbcyv .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#ulbfdpbcyv .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#ulbfdpbcyv .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#ulbfdpbcyv .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#ulbfdpbcyv .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#ulbfdpbcyv .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#ulbfdpbcyv .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#ulbfdpbcyv .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#ulbfdpbcyv .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#ulbfdpbcyv .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_left {
-  text-align: left;
-}
-
-#ulbfdpbcyv .gt_center {
-  text-align: center;
-}
-
-#ulbfdpbcyv .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#ulbfdpbcyv .gt_font_normal {
-  font-weight: normal;
-}
-
-#ulbfdpbcyv .gt_font_bold {
-  font-weight: bold;
-}
-
-#ulbfdpbcyv .gt_font_italic {
-  font-style: italic;
-}
-
-#ulbfdpbcyv .gt_super {
-  font-size: 65%;
-}
-
-#ulbfdpbcyv .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#ulbfdpbcyv .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#ulbfdpbcyv .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#ulbfdpbcyv .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#ulbfdpbcyv .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#ulbfdpbcyv .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#ulbfdpbcyv .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#ulbfdpbcyv .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#ulbfdpbcyv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>2-sided asymmetric design with binding futility</td>
-    </tr>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Both alpha- and beta-spending used</td>
-    </tr>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
-</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
-        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35">Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">3.61</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0002</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.4972</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0400</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
-</tr>
-<tr>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">0.12</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.4540</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.9779</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0435</td>
-<td headers="Analysis: 1 Time: 14.5 N: 380 Events: 106.9 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.5460</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7">Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">2.44</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.0074</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.7164</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.5621</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0074</td>
-</tr>
-<tr>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">1.15</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.1243</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.8540</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.0960</td>
-<td headers="Analysis: 2 Time: 23.3 N: 420.5 Events: 213.9 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.8861</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1">Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">1.93</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0268</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8019</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8500</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
-</tr>
-<tr>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">1.93</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0268</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.8019</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.1500</td>
-<td headers="Analysis: 3 Time: 36 N: 420.5 Events: 305.5 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.9750</td>
-</tr>
-</tbody>
-<tfoot>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
-    </tr>
-</tfoot>
-</table>
-</div>
-<p>We compare with <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
+})</script><p>We compare with <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asymmetricBinding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
 <span>  test.type <span class="op">=</span> <span class="fl">3</span>, <span class="co"># Two-sided asymmetric bound, binding futility</span></span>
@@ -2001,560 +1186,58 @@ futility bound is crossed.</li>
 <span></span>
 <span><span class="va">asymmetric_nonbinding</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gsDesign2</span><span class="fu">::</span><span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt.html" class="external-link">lt</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"2-sided asymmetric design with non-binding futility"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Both alpha- and beta-spending used"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="kgufivjubq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kgufivjubq table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<script>((window.LT=window.LT||{}).q=window.LT.q||[]).push({s:document.currentScript,d:
+{
+  "data": {
+    "Analysis": ["Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35", "Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35", "Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7", "Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7", "Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1", "Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1"],
+    "Bound": ["Efficacy", "Futility", "Efficacy", "Futility", "Efficacy", "Futility"],
+    "Z": [3.61, 0.15, 2.44, 1.21, 2, 2],
+    "Nominal p": [2e-04, 0.4391, 0.0073, 0.1136, 0.0227, 0.0227],
+    "~HR at bound": [0.5043, 0.9714, 0.7211, 0.8506, 0.7991, 0.7991],
+    "Alternate hypothesis": [0.0433, 0.0435, 0.5822, 0.096, 0.85, 0.15],
+    "Null hypothesis": [2e-04, 0.5609, 0.0073, 0.896, 0.0218, 0.9782]
+  },
+  "row_group": "Analysis",
+  "spanners": [
+    {
+      "label": "Cumulative boundary crossing probability",
+      "columns": ["Alternate hypothesis", "Null hypothesis"]
+    }
+  ],
+  "header": {
+    "title": "2-sided asymmetric design with non-binding futility",
+    "subtitle": "Both alpha- and beta-spending used"
+  },
+  "footnotes": [
+    {
+      "text": "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["Nominal p"]
+      }
+    },
+    {
+      "text": "Approximate hazard ratio to cross bound.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["~HR at bound"]
+      }
+    },
+    {
+      "text": "Cumulative alpha for final analysis (0.0218) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0032 = 0.0218) under the null hypothesis.",
+      "location": {
+        "type": "body",
+        "columns": ["Null hypothesis"],
+        "rows": [5]
+      }
+    }
+  ]
 }
-
-#kgufivjubq thead, #kgufivjubq tbody, #kgufivjubq tfoot, #kgufivjubq tr, #kgufivjubq td, #kgufivjubq th {
-  border-style: none;
-}
-
-#kgufivjubq p {
-  margin: 0;
-  padding: 0;
-}
-
-#kgufivjubq .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#kgufivjubq .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#kgufivjubq .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#kgufivjubq .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#kgufivjubq .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#kgufivjubq .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#kgufivjubq .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#kgufivjubq .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#kgufivjubq .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#kgufivjubq .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#kgufivjubq .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#kgufivjubq .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#kgufivjubq .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#kgufivjubq .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#kgufivjubq .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#kgufivjubq .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#kgufivjubq .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#kgufivjubq .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#kgufivjubq .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#kgufivjubq .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_left {
-  text-align: left;
-}
-
-#kgufivjubq .gt_center {
-  text-align: center;
-}
-
-#kgufivjubq .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#kgufivjubq .gt_font_normal {
-  font-weight: normal;
-}
-
-#kgufivjubq .gt_font_bold {
-  font-weight: bold;
-}
-
-#kgufivjubq .gt_font_italic {
-  font-style: italic;
-}
-
-#kgufivjubq .gt_super {
-  font-size: 65%;
-}
-
-#kgufivjubq .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#kgufivjubq .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#kgufivjubq .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#kgufivjubq .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#kgufivjubq .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#kgufivjubq .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#kgufivjubq .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#kgufivjubq .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#kgufivjubq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>2-sided asymmetric design with non-binding futility</td>
-    </tr>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Both alpha- and beta-spending used</td>
-    </tr>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
-</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
-        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35">Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">3.61</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0002</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.5043</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0433</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
-</tr>
-<tr>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">0.15</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.4391</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.9714</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0435</td>
-<td headers="Analysis: 1 Time: 14.5 N: 395.9 Events: 111.4 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.5609</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7">Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">2.44</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.0073</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.7211</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.5822</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0073</td>
-</tr>
-<tr>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">1.21</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.1136</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.8506</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.0960</td>
-<td headers="Analysis: 2 Time: 23.3 N: 438.1 Events: 222.8 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.8960</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1">Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">2.00</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0227</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7991</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8500</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> 0.0218</td>
-</tr>
-<tr>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">2.00</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0227</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7991</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.1500</td>
-<td headers="Analysis: 3 Time: 36 N: 438.1 Events: 318.3 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.9782</td>
-</tr>
-</tbody>
-<tfoot>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0218) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0032 = 0.0218) under the null hypothesis.</td>
-    </tr>
-</tfoot>
-</table>
-</div>
-<p>We compare with <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
+})</script><p>We compare with <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asymmetricNonBinding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
 <span>  test.type <span class="op">=</span> <span class="fl">4</span>, <span class="co"># Two-sided asymmetric bound, non-binding futility</span></span>
@@ -2630,547 +1313,50 @@ trial when more than a minor trend in favor of control is present.</p>
 <span></span>
 <span><span class="va">asymmetric_safety_binding</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gsDesign2</span><span class="fu">::</span><span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt.html" class="external-link">lt</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"2-sided asymmetric safety design with binding futility"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Alpha-spending used for both bounds, asymmetrically"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#txvafbsnay table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<script>((window.LT=window.LT||{}).q=window.LT.q||[]).push({s:document.currentScript,d:
+{
+  "data": {
+    "Analysis": ["Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35", "Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35", "Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7", "Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7", "Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1"],
+    "Bound": ["Efficacy", "Futility", "Efficacy", "Futility", "Efficacy"],
+    "Z": [3.61, -0.73, 2.44, -0.42, 2],
+    "Nominal p": [2e-04, 0.7664, 0.0073, 0.6629, 0.0229],
+    "~HR at bound": [0.4863, 1.1561, 0.7087, 1.0611, 0.7899],
+    "Alternate hypothesis": [0.034, 0.006, 0.5353, 0.007, 0.85],
+    "Null hypothesis": [2e-04, 0.2336, 0.0074, 0.3982, 0.025]
+  },
+  "row_group": "Analysis",
+  "spanners": [
+    {
+      "label": "Cumulative boundary crossing probability",
+      "columns": ["Alternate hypothesis", "Null hypothesis"]
+    }
+  ],
+  "header": {
+    "title": "2-sided asymmetric safety design with binding futility",
+    "subtitle": "Alpha-spending used for both bounds, asymmetrically"
+  },
+  "footnotes": [
+    {
+      "text": "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["Nominal p"]
+      }
+    },
+    {
+      "text": "Approximate hazard ratio to cross bound.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["~HR at bound"]
+      }
+    }
+  ]
 }
-
-#txvafbsnay thead, #txvafbsnay tbody, #txvafbsnay tfoot, #txvafbsnay tr, #txvafbsnay td, #txvafbsnay th {
-  border-style: none;
-}
-
-#txvafbsnay p {
-  margin: 0;
-  padding: 0;
-}
-
-#txvafbsnay .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#txvafbsnay .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#txvafbsnay .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#txvafbsnay .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#txvafbsnay .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#txvafbsnay .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#txvafbsnay .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#txvafbsnay .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#txvafbsnay .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#txvafbsnay .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#txvafbsnay .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#txvafbsnay .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#txvafbsnay .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#txvafbsnay .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#txvafbsnay .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#txvafbsnay .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#txvafbsnay .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#txvafbsnay .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#txvafbsnay .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#txvafbsnay .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_left {
-  text-align: left;
-}
-
-#txvafbsnay .gt_center {
-  text-align: center;
-}
-
-#txvafbsnay .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#txvafbsnay .gt_font_normal {
-  font-weight: normal;
-}
-
-#txvafbsnay .gt_font_bold {
-  font-weight: bold;
-}
-
-#txvafbsnay .gt_font_italic {
-  font-style: italic;
-}
-
-#txvafbsnay .gt_super {
-  font-size: 65%;
-}
-
-#txvafbsnay .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#txvafbsnay .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#txvafbsnay .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#txvafbsnay .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#txvafbsnay .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#txvafbsnay .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#txvafbsnay .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#txvafbsnay .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#txvafbsnay div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>2-sided asymmetric safety design with binding futility</td>
-    </tr>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Alpha-spending used for both bounds, asymmetrically</td>
-    </tr>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
-</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
-        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35">Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">3.61</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0002</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.4863</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0340</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0002</td>
-</tr>
-<tr>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">-0.73</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.7664</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">1.1561</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0060</td>
-<td headers="Analysis: 1 Time: 14.5 N: 359.6 Events: 101.2 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.2336</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7">Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">2.44</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.0073</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.7087</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.5353</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0074</td>
-</tr>
-<tr>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">-0.42</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.6629</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">1.0611</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.0070</td>
-<td headers="Analysis: 2 Time: 23.3 N: 397.9 Events: 202.4 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.3982</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1">Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">2.00</td>
-<td headers="Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0229</td>
-<td headers="Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7899</td>
-<td headers="Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8500</td>
-<td headers="Analysis: 3 Time: 36 N: 397.9 Events: 289.1 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">0.0250</td>
-</tr>
-</tbody>
-<tfoot>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
-    </tr>
-</tfoot>
-</table>
-</div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+})</script><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asymmetricSafetyBinding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsSurv</a></span><span class="op">(</span></span>
 <span>  test.type <span class="op">=</span> <span class="fl">5</span>, <span class="co"># Two-sided asymmetric bound, binding futility, H0 futility spending</span></span>
 <span>  astar <span class="op">=</span> <span class="va">alpha_star</span>, <span class="co"># Total Type I error spend for futility</span></span>
@@ -3240,548 +1426,62 @@ data.</p>
 <span></span>
 <span><span class="va">asymmetric_safety_nonbinding</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gsDesign2</span><span class="fu">::</span><span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt.html" class="external-link">lt</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"2-sided asymmetric safety design with non-binding futility"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Alpha-spending used for both bounds, asymmetrically"</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html" class="external-link">tab_footnote</a></span><span class="op">(</span>footnote <span class="op">=</span> <span class="st">"Integer-based sample size and event counts"</span><span class="op">)</span></span></code></pre></div>
-<div id="orehalspkz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#orehalspkz table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt_note.html" class="external-link">lt_note</a></span><span class="op">(</span><span class="st">"Integer-based sample size and event counts"</span><span class="op">)</span></span></code></pre></div>
+<script>((window.LT=window.LT||{}).q=window.LT.q||[]).push({s:document.currentScript,d:
+{
+  "data": {
+    "Analysis": ["Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35", "Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7", "Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7", "Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1"],
+    "Bound": ["Futility", "Efficacy", "Futility", "Efficacy"],
+    "Z": [-0.73, 2.44, -0.42, 2],
+    "Nominal p": [0.7674, 0.0074, 0.6627, 0.0228],
+    "~HR at bound": [1.1564, 0.7102, 1.0607, 0.7907],
+    "Alternate hypothesis": [0.0058, 0.541, 0.0068, 0.8531],
+    "Null hypothesis": [0.2326, 0.0074, 0.3982, 0.0249]
+  },
+  "row_group": "Analysis",
+  "spanners": [
+    {
+      "label": "Cumulative boundary crossing probability",
+      "columns": ["Alternate hypothesis", "Null hypothesis"]
+    }
+  ],
+  "header": {
+    "title": "2-sided asymmetric safety design with non-binding futility",
+    "subtitle": "Alpha-spending used for both bounds, asymmetrically"
+  },
+  "footnotes": [
+    {
+      "text": "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["Nominal p"]
+      }
+    },
+    {
+      "text": "Approximate hazard ratio to cross bound.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["~HR at bound"]
+      }
+    },
+    {
+      "text": "Cumulative alpha for final analysis (0.0249) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0001 = 0.0249) under the null hypothesis.",
+      "location": {
+        "type": "body",
+        "columns": ["Null hypothesis"],
+        "rows": [4]
+      }
+    }
+  ],
+  "notes": [
+    "Integer-based sample size and event counts"
+  ]
 }
-
-#orehalspkz thead, #orehalspkz tbody, #orehalspkz tfoot, #orehalspkz tr, #orehalspkz td, #orehalspkz th {
-  border-style: none;
-}
-
-#orehalspkz p {
-  margin: 0;
-  padding: 0;
-}
-
-#orehalspkz .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#orehalspkz .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#orehalspkz .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#orehalspkz .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#orehalspkz .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#orehalspkz .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#orehalspkz .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#orehalspkz .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#orehalspkz .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#orehalspkz .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#orehalspkz .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#orehalspkz .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#orehalspkz .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#orehalspkz .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#orehalspkz .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#orehalspkz .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#orehalspkz .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#orehalspkz .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#orehalspkz .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#orehalspkz .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#orehalspkz .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#orehalspkz .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#orehalspkz .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_left {
-  text-align: left;
-}
-
-#orehalspkz .gt_center {
-  text-align: center;
-}
-
-#orehalspkz .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#orehalspkz .gt_font_normal {
-  font-weight: normal;
-}
-
-#orehalspkz .gt_font_bold {
-  font-weight: bold;
-}
-
-#orehalspkz .gt_font_italic {
-  font-style: italic;
-}
-
-#orehalspkz .gt_super {
-  font-size: 65%;
-}
-
-#orehalspkz .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#orehalspkz .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#orehalspkz .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#orehalspkz .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#orehalspkz .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#orehalspkz .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#orehalspkz .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#orehalspkz .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#orehalspkz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>2-sided asymmetric safety design with non-binding futility</td>
-    </tr>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Alpha-spending used for both bounds, asymmetrically</td>
-    </tr>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
-</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
-        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35">Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">-0.73</td>
-<td headers="Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.7674</td>
-<td headers="Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">1.1564</td>
-<td headers="Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0058</td>
-<td headers="Analysis: 1 Time: 14.4 N: 360 Events: 101 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.2326</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7">Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">2.44</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.0074</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.7102</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.5410</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0074</td>
-</tr>
-<tr>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">-0.42</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.6627</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">1.0607</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.0068</td>
-<td headers="Analysis: 2 Time: 23.2 N: 400 Events: 203 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.3982</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1">Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">2.00</td>
-<td headers="Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0228</td>
-<td headers="Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7907</td>
-<td headers="Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8531</td>
-<td headers="Analysis: 3 Time: 35.9 N: 400 Events: 290 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> 0.0249</td>
-</tr>
-</tbody>
-<tfoot>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6"> Integer-based sample size and event counts</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0249) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0001 = 0.0249) under the null hypothesis.</td>
-    </tr>
-</tfoot>
-</table>
-</div>
-<p>The corresponding <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code> design is not
+})</script><p>The corresponding <code><a href="https://keaven.github.io/gsDesign//reference/nSurv.html" class="external-link">gsDesign::gsSurv()</a></code> design is not
 strictly comparable since the option to eliminate some futility and
 efficacy analyses is not enabled.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -3894,556 +1594,62 @@ error.</p>
 <span></span>
 <span><span class="va">asymmetric_fixed_bounds</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gsDesign2</span><span class="fu">::</span><span class="fu"><a href="../reference/as_gt.html">as_gt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt.html" class="external-link">lt</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"2-sided asymmetric safety design with fixed non-binding futility"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Futility bounds computed to approximate HR"</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html" class="external-link">tab_footnote</a></span><span class="op">(</span>footnote <span class="op">=</span> <span class="st">"Integer-based sample size and event counts"</span><span class="op">)</span></span></code></pre></div>
-<div id="cbwjcfdjag" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cbwjcfdjag table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lt/man/lt_note.html" class="external-link">lt_note</a></span><span class="op">(</span><span class="st">"Integer-based sample size and event counts"</span><span class="op">)</span></span></code></pre></div>
+<script>((window.LT=window.LT||{}).q=window.LT.q||[]).push({s:document.currentScript,d:
+{
+  "data": {
+    "Analysis": ["Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35", "Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35", "Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7", "Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7", "Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1"],
+    "Bound": ["Efficacy", "Futility", "Efficacy", "Futility", "Efficacy"],
+    "Z": [3.09, 0, 3.07, -0.76, 1.97],
+    "Nominal p": [0.001, 0.5, 0.0011, 0.7768, 0.0244],
+    "~HR at bound": [0.5457, 1, 0.6532, 1.1114, 0.796],
+    "Alternate hypothesis": [0.102, 0.0345, 0.3261, 0.0345, 0.8529],
+    "Null hypothesis": [0.001, 0.5, 0.0019, 0.5249, 0.0238]
+  },
+  "row_group": "Analysis",
+  "spanners": [
+    {
+      "label": "Cumulative boundary crossing probability",
+      "columns": ["Alternate hypothesis", "Null hypothesis"]
+    }
+  ],
+  "header": {
+    "title": "2-sided asymmetric safety design with fixed non-binding futility",
+    "subtitle": "Futility bounds computed to approximate HR"
+  },
+  "footnotes": [
+    {
+      "text": "One-sided p-value for experimental vs control treatment. Value < 0.5 favors experimental, > 0.5 favors control.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["Nominal p"]
+      }
+    },
+    {
+      "text": "Approximate hazard ratio to cross bound.",
+      "location": {
+        "type": "column_labels",
+        "columns": ["~HR at bound"]
+      }
+    },
+    {
+      "text": "Cumulative alpha for final analysis (0.0238) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0012 = 0.0238) under the null hypothesis.",
+      "location": {
+        "type": "body",
+        "columns": ["Null hypothesis"],
+        "rows": [5]
+      }
+    }
+  ],
+  "notes": [
+    "Integer-based sample size and event counts"
+  ]
 }
-
-#cbwjcfdjag thead, #cbwjcfdjag tbody, #cbwjcfdjag tfoot, #cbwjcfdjag tr, #cbwjcfdjag td, #cbwjcfdjag th {
-  border-style: none;
-}
-
-#cbwjcfdjag p {
-  margin: 0;
-  padding: 0;
-}
-
-#cbwjcfdjag .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#cbwjcfdjag .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#cbwjcfdjag .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#cbwjcfdjag .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#cbwjcfdjag .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#cbwjcfdjag .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#cbwjcfdjag .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#cbwjcfdjag .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#cbwjcfdjag .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#cbwjcfdjag .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#cbwjcfdjag .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#cbwjcfdjag .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#cbwjcfdjag .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#cbwjcfdjag .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#cbwjcfdjag .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cbwjcfdjag .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#cbwjcfdjag .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#cbwjcfdjag .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#cbwjcfdjag .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cbwjcfdjag .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#cbwjcfdjag .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cbwjcfdjag .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#cbwjcfdjag .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cbwjcfdjag .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#cbwjcfdjag .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cbwjcfdjag .gt_left {
-  text-align: left;
-}
-
-#cbwjcfdjag .gt_center {
-  text-align: center;
-}
-
-#cbwjcfdjag .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#cbwjcfdjag .gt_font_normal {
-  font-weight: normal;
-}
-
-#cbwjcfdjag .gt_font_bold {
-  font-weight: bold;
-}
-
-#cbwjcfdjag .gt_font_italic {
-  font-style: italic;
-}
-
-#cbwjcfdjag .gt_super {
-  font-size: 65%;
-}
-
-#cbwjcfdjag .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#cbwjcfdjag .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#cbwjcfdjag .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#cbwjcfdjag .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#cbwjcfdjag .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#cbwjcfdjag .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#cbwjcfdjag .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#cbwjcfdjag .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#cbwjcfdjag div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal" style>2-sided asymmetric safety design with fixed non-binding futility</td>
-    </tr>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Futility bounds computed to approximate HR</td>
-    </tr>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Bound">Bound</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Z">Z</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="Nominal-p">Nominal p<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="a~HR-at-bound">~HR at bound<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
-</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Cumulative boundary crossing probability">
-        <div class="gt_column_spanner">Cumulative boundary crossing probability</div>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Alternate-hypothesis">Alternate hypothesis</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Null-hypothesis">Null hypothesis</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35">Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">3.09</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.0010</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">0.5457</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.1020</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.0010</td>
-</tr>
-<tr>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Z" class="gt_row gt_right">0.00</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Nominal p" class="gt_row gt_right">0.5000</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  ~HR at bound" class="gt_row gt_right">1.0000</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Alternate hypothesis" class="gt_row gt_right">0.0345</td>
-<td headers="Analysis: 1 Time: 14.4 N: 370 Events: 104 AHR: 0.7 Information fraction: 0.35  Null hypothesis" class="gt_row gt_right">0.5000</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7">Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">3.07</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.0011</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">0.6532</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.3261</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.0019</td>
-</tr>
-<tr>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Bound" class="gt_row gt_center">Futility</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Z" class="gt_row gt_right">-0.76</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Nominal p" class="gt_row gt_right">0.7768</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  ~HR at bound" class="gt_row gt_right">1.1114</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Alternate hypothesis" class="gt_row gt_right">0.0345</td>
-<td headers="Analysis: 2 Time: 23.2 N: 410 Events: 208 AHR: 0.7 Information fraction: 0.7  Null hypothesis" class="gt_row gt_right">0.5249</td>
-</tr>
-<tr class="gt_group_heading_row">
-<th colspan="6" class="gt_group_heading" scope="colgroup" id="Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1">Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1</th>
-    </tr>
-<tr class="gt_row_group_first">
-<td headers="Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1  Bound" class="gt_row gt_center">Efficacy</td>
-<td headers="Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1  Z" class="gt_row gt_right">1.97</td>
-<td headers="Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1  Nominal p" class="gt_row gt_right">0.0244</td>
-<td headers="Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1  ~HR at bound" class="gt_row gt_right">0.7960</td>
-<td headers="Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1  Alternate hypothesis" class="gt_row gt_right">0.8529</td>
-<td headers="Analysis: 3 Time: 36 N: 410 Events: 298 AHR: 0.7 Information fraction: 1  Null hypothesis" class="gt_row gt_right">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> 0.0238</td>
-</tr>
-</tbody>
-<tfoot>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6"> Integer-based sample size and event counts</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> One-sided p-value for experimental vs control treatment. Value &lt; 0.5 favors experimental, &gt; 0.5 favors control.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Approximate hazard ratio to cross bound.</td>
-    </tr>
-<tr class="gt_footnotes">
-<td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Cumulative alpha for final analysis (0.0238) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0012 = 0.0238) under the null hypothesis.</td>
-    </tr>
-</tfoot>
-</table>
-</div>
-<p>We see that the targeted bounds are achieved with nominal <span class="math inline">\(p\)</span>-values of 0.0001 for each interim
+})</script><p>We see that the targeted bounds are achieved with nominal <span class="math inline">\(p\)</span>-values of 0.0001 for each interim
 efficacy bound and the targeted hazard ratios at interim futility
 bounds. With these methods, trial designers have more control over
 design characteristics they may desire. In particular, we note that the

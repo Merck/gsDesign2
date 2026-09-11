@@ -65,13 +65,13 @@ patterns you wish.
 
 ``` r
 
-fail_rate |> gt::gt()
+fail_rate |> lt()
 ```
 
-| stratum | duration | fail_rate  | dropout_rate | hr  |
-|---------|----------|------------|--------------|-----|
-| All     | 4        | 0.05776227 | 0.001        | 1.0 |
-| All     | Inf      | 0.05776227 | 0.001        | 0.6 |
+| stratum | duration | fail rate | dropout rate | hr  |
+|---------|----------|-----------|--------------|-----|
+| All     | 4        | 0.0578    | 0.001        | 1.0 |
+| All     | ∞        | 0.0578    | 0.001        | 0.6 |
 
 ### Step 2: derive a fixed design with no interim analyses
 
@@ -97,12 +97,12 @@ The input enrollment rates have now been scaled to achieve power:
 
 ``` r
 
-fd$enroll_rate |> gt::gt()
+fd$enroll_rate |> lt()
 ```
 
-| stratum | duration | rate     |
-|---------|----------|----------|
-| All     | 12       | 35.05288 |
+| stratum | duration | rate  |
+|---------|----------|-------|
+| All     | 12       | 35.05 |
 
 The failure and dropout rates remain unchanged from what was input. The
 summary is obtained below. The columns are:
@@ -120,14 +120,15 @@ summary is obtained below. The columns are:
 
 fd |>
   summary() |>
-  as_gt()
+  lt()
 ```
 
-| Fixed Design under AHR Method¹ |  |  |  |  |  |  |
-|----|----|----|----|----|----|----|
-| Design | N | Events | Time | Bound | alpha | Power |
-| Average hazard ratio | 420.6346 | 311.0028 | 36 | 1.959964 | 0.025 | 0.9 |
-| ¹ Power computed with average hazard ratio method. |  |  |  |  |  |  |
+| Design | N | Events | Time | AHR | Bound | alpha | Power |
+|----|----|----|----|----|----|----|----|
+| Average hazard ratio | 420.6 | 311.0 | 36 | 0.6917 | 1.960 | 0.025 | 0.9 |
+| ¹ Power computed with average hazard ratio method. |  |  |  |  |  |  |  |
+
+Fixed Design under AHR Method¹ {.table .lt-table}
 
 ### Step 3: group sequential design
 
@@ -172,8 +173,8 @@ gsd <- gs_design_ahr(
 ```
 
 Now we summarize the derived design. The summary table is further
-described in the vignette [summarize group sequential designs in gt
-tables](https://merck.github.io/gsDesign2/articles/story-summarize-designs.html).
+described in the vignette [summarize group sequential
+designs](https://merck.github.io/gsDesign2/articles/story-summarize-designs.html).
 Note that the design trend in favor of experimental treatment is very
 minor at 8 months due to the delayed effect assumption used (see AHR at
 analysis 1 in table). The design trend at 16 months is somewhat more
@@ -186,23 +187,24 @@ provocative for what might be considered.
 
 gsd |>
   summary() |>
-  as_gt()
+  lt()
 ```
 
-| Bound summary for AHR design |  |  |  |  |  |
+|  |  |  |  | Cumulative boundary crossing probability |  |
 |----|----|----|----|----|----|
-| AHR approximations of ~HR at bound |  |  |  |  |  |
-| Bound | Z | Nominal p¹ | ~HR at bound² | Cumulative boundary crossing probability |  |
-|  |  |  |  | Alternate hypothesis | Null hypothesis |
+| Bound | Z | Nominal p¹ | ~HR at bound² | Alternate hypothesis | Null hypothesis |
 | Analysis: 1 Time: 8 N: 279.3 Events: 53.3 AHR: 0.91 Information fraction: 0.17 |  |  |  |  |  |
-| Futility | -1.28 | 0.9000 | 1.4208 | 0.0539 | 0.1000 |
+| Futility | −1.28 | 0.9000 | 1.421 | 0.0539 | 0.1000 |
 | Analysis: 2 Time: 14 N: 419 Events: 137.3 AHR: 0.82 Information fraction: 0.44 |  |  |  |  |  |
-| Futility | 0.00 | 0.5000 | 1.0000 | 0.1450 | 0.5091 |
-| Efficacy | 3.17 | 0.0008 | 0.5821 | 0.0230 | 0.0008 |
+| Futility | 0.00 | 0.5000 | 1.000 | 0.1450 | 0.5091 |
+| Efficacy | 3.17 | 0.0008 | 0.582 | 0.0230 | 0.0008 |
 | Analysis: 3 Time: 24 N: 419 Events: 238.6 AHR: 0.72 Information fraction: 0.77 |  |  |  |  |  |
-| Efficacy | 2.31 | 0.0104 | 0.7413 | 0.5553 | 0.0106 |
+| Efficacy | 2.31 | 0.0104 | 0.741 | 0.5553 | 0.0106 |
 | Analysis: 4 Time: 36 N: 419 Events: 309.8 AHR: 0.69 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.02 | 0.0218 | 0.7951 | 0.8000 | ³ 0.0244 |
+| Efficacy | 2.02 | 0.0218 | 0.795 | 0.8000 | 0.0244³ |
 | ¹ One-sided p-value for experimental vs control treatment. Value \< 0.5 favors experimental, \> 0.5 favors control. |  |  |  |  |  |
 | ² Approximate hazard ratio to cross bound. |  |  |  |  |  |
 | ³ Cumulative alpha for final analysis (0.0244) is less than the full alpha (0.025) when the futility bound is non-binding. The smaller value subtracts the probability of crossing a futility bound before crossing an efficacy bound at a later analysis (0.025 - 0.0006 = 0.0244) under the null hypothesis. |  |  |  |  |  |
+
+Bound summary for AHR design  
+AHR approximations of ~HR at bound {.table .lt-table}

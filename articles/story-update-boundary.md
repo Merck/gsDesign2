@@ -3,7 +3,6 @@
 ``` r
 
 library(gsDesign2)
-library(gt)
 ```
 
 ## Design assumptions
@@ -100,11 +99,8 @@ slightly over the targeted 90%.
 
 x |>
   summary() |>
-  as_gt() |>
-  tab_header(title = "Planned design")
+  lt(title = "Planned design")
 ```
-
-[TABLE]
 
 ### Bounds for alternate alpha
 
@@ -121,11 +117,9 @@ gs_update_ahr(
   alpha = 0.025
   ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_gt(title = "Updated design",
+  lt(title = "Updated design",
         subtitle = "For alternate alpha = 0.025")
 ```
-
-[TABLE]
 
 The above updated boundaries utilize the planned treatment effect and
 the planned statistical information under null hypothesis, considering
@@ -161,11 +155,9 @@ gs_update_ahr(
                          event = c(30, 210, 32, 320))
 ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_gt(title = "Updated design",
+  lt(title = "Updated design",
         subtitle = paste0("With observed 240 events at IA and 352 events at FA"))
 ```
-
-[TABLE]
 
 ## Two-sided asymmetric design, beta-spending with non-binding lower bound
 
@@ -225,12 +217,9 @@ larger than we had above in the 1-sided example.
 
 x |>
   summary() |>
-  as_gt() |>
-  tab_header(title = "Planned design",
-             subtitle = "2-sided asymmetric design, non-binding futility")
+  lt(title = "Planned design",
+        subtitle = "2-sided asymmetric design, non-binding futility")
 ```
-
-[TABLE]
 
 ### Bounds for alternate alpha
 
@@ -246,11 +235,9 @@ gs_update_ahr(
   alpha = 0.025
   ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_gt(title = "Updated design",
+  lt(title = "Updated design",
         subtitle = "For alpha = 0.025")
 ```
-
-[TABLE]
 
 ### Updating bounds with observed events at time of analyses
 
@@ -272,11 +259,9 @@ gs_update_ahr(
                          event = c(30, 210, 32, 320))
   ) |>
   summary(col_decimals = c(z = 4)) |>
-  as_gt(title = "Updated design",
+  lt(title = "Updated design",
         subtitle = paste0("With observed 240 events at IA and 352 events at FA"))
 ```
-
-[TABLE]
 
 ## References
 

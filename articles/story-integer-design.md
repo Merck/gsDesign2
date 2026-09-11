@@ -6,7 +6,7 @@ library(gsDesign)
 library(gsDesign2)
 library(tibble)
 library(dplyr)
-library(gt)
+library(lt)
 ```
 
 ## Unstratified design
@@ -60,27 +60,14 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
-  gt() |>
-  tab_header(
+  lt() |>
+  lt_group(~ Design, sep = TRUE) |>
+  lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on binary endpoints (unstratified design)"
   ) |>
-  fmt_number(columns = 2:5, decimals = 4)
+  lt_format(columns = 2:5, decimals = 4)
 ```
-
-| Comparison between the original/integer design |  |  |  |
-|----|----|----|----|
-| on binary endpoints (unstratified design) |  |  |  |
-| Sample size | Z | Information fraction | Power |
-| Original design |  |  |  |
-| 1,243.3070 | 2.9626 | 0.5000 | 0.2598 |
-| 1,989.2912 | 2.2662 | 0.8000 | 0.7501 |
-| 2,486.6140 | 2.0278 | 1.0000 | 0.9000 |
-| Integer design |  |  |  |
-| 1,243.0000 | 2.9626 | 0.4996 | 0.2597 |
-| 1,989.0000 | 2.2662 | 0.7994 | 0.7500 |
-| 2,488.0000 | 2.0280 | 1.0000 | 0.9001 |
 
 ### Survival outcome
 
@@ -115,27 +102,14 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
-  gt() |>
-  tab_header(
+  lt() |>
+  lt_group(~ Design, sep = TRUE) |>
+  lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on survival endpoints (unstratified design)"
   ) |>
-  fmt_number(columns = 2:5, decimals = 4)
+  lt_format(columns = 2:5, decimals = 4)
 ```
-
-| Comparison between the original/integer design |  |  |  |  |
-|----|----|----|----|----|
-| on survival endpoints (unstratified design) |  |  |  |  |
-| Events | Sample size | Z | Information fraction | Power |
-| Original design |  |  |  |  |
-| 91.9812 | 405.7098 | 3.7103 | 0.3091 | 0.003627376 |
-| 221.2005 | 486.8518 | 2.5122 | 0.7376 | 0.481734802 |
-| 298.6001 | 486.8518 | 1.9828 | 1.0000 | 0.900000000 |
-| Integer design |  |  |  |  |
-| 92.0000 | 406.0000 | 3.7103 | 0.3088 | 0.003620194 |
-| 221.0000 | 488.0000 | 2.5122 | 0.7360 | 0.479605447 |
-| 299.0000 | 488.0000 | 1.9830 | 1.0000 | 0.900134317 |
 
 ## Stratified design
 
@@ -191,22 +165,11 @@ tibble(
     (xi$bound |> filter(bound == "upper"))$probability
   )
 ) |>
-  group_by(Design) |>
-  gt() |>
-  tab_header(
+  lt() |>
+  lt_group(~ Design, sep = TRUE) |>
+  lt_header(
     title = "Comparison between the original/integer design",
     subtitle = "on binary endpoints (unstratified design)"
   ) |>
-  fmt_number(columns = 2:5, decimals = 4)
+  lt_format(columns = 2:5, decimals = 4)
 ```
-
-| Comparison between the original/integer design |  |  |  |
-|----|----|----|----|
-| on binary endpoints (unstratified design) |  |  |  |
-| Sample size | Z | Information fraction | Power |
-| Original design |  |  |  |
-| 3,426.1318 | 2.4380 | 0.7000 | 0.6161 |
-| 4,894.4740 | 1.9999 | 1.0000 | 0.9000 |
-| Integer design |  |  |  |
-| 3,426.0000 | 2.4380 | 0.6998 | 0.6160 |
-| 4,896.0000 | 2.0000 | 1.0000 | 0.9001 |

@@ -3,7 +3,7 @@
 ``` r
 
 library(gsDesign2)
-library(gt)
+library(lt)
 library(dplyr)
 library(tibble)
 library(ggplot2)
@@ -62,16 +62,10 @@ fixedevents <- fixed_design_ahr(
 fixedevents |>
   summary() |>
   select(-Bound) |>
-  as_gt(footnote = "Power based on 512 events") |>
-  fmt_number(columns = 3:4, decimals = 2) |>
-  fmt_number(columns = 5:6, decimals = 3)
+  lt(footnote = "Power based on 512 events") |>
+  lt_format(columns = 3:4, decimals = 2) |>
+  lt_format(columns = 5:6, decimals = 3)
 ```
-
-| Fixed Design under AHR Method¹ |     |        |       |       |       |           |
-|--------------------------------|-----|--------|-------|-------|-------|-----------|
-| Design                         | N   | Events | Time  | AHR   | alpha | Power     |
-| Average hazard ratio           | 680 | 511.99 | 34.86 | 0.749 | 0.025 | 0.9045483 |
-| ¹ Power based on 512 events    |     |        |       |       |       |           |
 
 ## Beta-spending futility bound with AHR
 
@@ -114,13 +108,11 @@ betaspending <- gs_power_ahr(
 
 betaspending |>
   summary() |>
-  as_gt(
+  lt(
     title = "Group sequential design with futility only",
     subtitle = "Beta-spending futility bound"
   )
 ```
-
-[TABLE]
 
 ## Modified Wieand futility bound
 
@@ -161,13 +153,11 @@ wieand <- gs_power_ahr(
 
 wieand |>
   summary() |>
-  as_gt(
+  lt(
     title = "Group sequential design with futility only at interim analyses",
     subtitle = "Wieand futility rule stops if HR > 1"
   )
 ```
-
-[TABLE]
 
 ## Korn and Freidlin futility bound
 
@@ -310,11 +300,9 @@ kf <- gs_power_ahr(
 
 kf |>
   summary() |>
-  as_gt(title = "Group sequential design with futility only",
+  lt(title = "Group sequential design with futility only",
         subtitle = "Korn and Freidlin futility rule stops if HR > 1") 
 ```
-
-[TABLE]
 
 ## Classical beta-spending futility bound
 
@@ -344,13 +332,11 @@ betaspending_classic <- gs_power_ahr(
 
 betaspending_classic |>
   summary() |>
-  as_gt(
+  lt(
     title = "Group sequential design with futility only",
     subtitle = "Classical beta-spending futility bound"
   )
 ```
-
-[TABLE]
 
 ## Conclusion
 

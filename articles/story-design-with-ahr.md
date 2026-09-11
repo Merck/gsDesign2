@@ -40,7 +40,7 @@ library(gsDesign)
 library(gsDesign2)
 library(ggplot2)
 library(dplyr)
-library(gt)
+library(lt)
 library(tidyr)
 library(tibble)
 ```
@@ -307,23 +307,14 @@ ss_ahr_fixed <- do.call(
 )
 
 ss_ahr_fixed |>
-  gt() |>
-  fmt_number(columns = 1:3, decimals = 0) |>
-  fmt_number(columns = 4, decimals = 3) |>
-  tab_header(
+  lt() |>
+  lt_format(columns = 1:3, decimals = 0) |>
+  lt_format(columns = 4, decimals = 3) |>
+  lt_header(
     title = "Sample Size and Events Required by Scenario",
     subtitle = "36 Month Trial duration, 2.5% One-sided Type 1 Error, 90% Power"
   )
 ```
-
-| Sample Size and Events Required by Scenario |  |  |  |  |
-|----|----|----|----|----|
-| 36 Month Trial duration, 2.5% One-sided Type 1 Error, 90% Power |  |  |  |  |
-| time | n | event | ahr | Scenario |
-| 36 | 518 | 332 | 0.700 | PH |
-| 36 | 476 | 341 | 0.703 | Shorter delayed effect |
-| 36 | 696 | 504 | 0.749 | Longer delayed effect |
-| 36 | 760 | 544 | 0.755 | Crossing |
 
 Assuming the shorter delayed effect is the primary scenario for which we
 wish to protect power, how long should the trial be to optimize the
@@ -359,23 +350,14 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = 1:3, decimals = 0) |>
-  fmt_number(columns = 4, decimals = 3) |>
-  tab_header(
+  lt() |>
+  lt_format(columns = 1:3, decimals = 0) |>
+  lt_format(columns = 4, decimals = 3) |>
+  lt_header(
     title = "Sample Size and Events Required by Trial Duration",
     subtitle = "Delayed Effect of 4 Months, HR = 0.6 Thereafter; 90% Power"
   )
 ```
-
-| Sample Size and Events Required by Trial Duration |  |  |  |  |
-|----|----|----|----|----|
-| Delayed Effect of 4 Months, HR = 0.6 Thereafter; 90% Power |  |  |  |  |
-| time | n | event | ahr | Scenario |
-| 24 | 1,037 | 522 | 0.752 | Shorter delayed effect |
-| 30 | 623 | 390 | 0.719 | Shorter delayed effect |
-| 36 | 476 | 341 | 0.703 | Shorter delayed effect |
-| 42 | 404 | 316 | 0.694 | Shorter delayed effect |
 
 ### Alternate Hypothesis Mapping
 
@@ -427,16 +409,9 @@ ahr_by_analysis <- events_by_time_period |>
 
 ahr_by_analysis |>
   pivot_wider(names_from = Scenario, values_from = AHR1) |>
-  gt() |>
-  fmt_number(columns = 2:5, decimals = 3)
+  lt() |>
+  lt_format(columns = 2:5, decimals = 3)
 ```
-
-| time | Crossing | Longer delayed effect | PH    | Shorter delayed effect |
-|------|----------|-----------------------|-------|------------------------|
-| 12   | 0.904    | 0.870                 | 0.855 | 0.881                  |
-| 20   | 0.822    | 0.787                 | 0.763 | 0.793                  |
-| 28   | 0.754    | 0.725                 | 0.701 | 0.728                  |
-| 36   | 0.727    | 0.702                 | 0.678 | 0.703                  |
 
 ### Group Sequential Design
 
@@ -469,10 +444,8 @@ nph_asymmetric <- gs_design_ahr(
   lpar = lpar
 )
 
-summary(nph_asymmetric) |> as_gt()
+summary(nph_asymmetric) |> lt()
 ```
-
-[TABLE]
 
 By scenario, we now wish to compute the adjusted expected futility
 bounds and the power implied.
@@ -503,29 +476,10 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = "event", decimals = 1) |>
-  fmt_number(columns = 5:10, decimals = 4)
+  lt() |>
+  lt_format(columns = "event", decimals = 1) |>
+  lt_format(columns = 5:10, decimals = 4)
 ```
-
-| analysis | time | n | event | ahr | theta | info | info0 | info_frac | info_frac0 | Scenario |
-|----|----|----|----|----|----|----|----|----|----|----|
-| 1 | 12 | 60 | 10.5 | 0.7000 | 0.3567 | 2.5533 | 2.6161 | 0.1611 | 0.1632 | PH |
-| 2 | 20 | 100 | 31.8 | 0.7000 | 0.3567 | 7.7993 | 7.9576 | 0.4922 | 0.4964 | PH |
-| 3 | 28 | 100 | 50.8 | 0.7000 | 0.3567 | 12.4964 | 12.6892 | 0.7887 | 0.7916 | PH |
-| 4 | 36 | 100 | 64.1 | 0.7000 | 0.3567 | 15.8446 | 16.0303 | 1.0000 | 1.0000 | PH |
-| 1 | 12 | 60 | 14.0 | 0.8808 | 0.1269 | 3.4499 | 3.4942 | 0.1957 | 0.1952 | Shorter delayed effect |
-| 2 | 20 | 100 | 39.5 | 0.7929 | 0.2321 | 9.6905 | 9.8760 | 0.5497 | 0.5518 | Shorter delayed effect |
-| 3 | 28 | 100 | 58.9 | 0.7275 | 0.3181 | 14.4480 | 14.7332 | 0.8195 | 0.8232 | Shorter delayed effect |
-| 4 | 36 | 100 | 71.6 | 0.7032 | 0.3522 | 17.6301 | 17.8976 | 1.0000 | 1.0000 | Shorter delayed effect |
-| 1 | 12 | 60 | 14.4 | 0.9495 | 0.0518 | 3.5860 | 3.6055 | 0.2005 | 0.1991 | Longer delayed effect |
-| 2 | 20 | 100 | 40.7 | 0.8625 | 0.1479 | 10.0422 | 10.1692 | 0.5615 | 0.5614 | Longer delayed effect |
-| 3 | 28 | 100 | 60.1 | 0.7835 | 0.2439 | 14.7861 | 15.0221 | 0.8268 | 0.8294 | Longer delayed effect |
-| 4 | 36 | 100 | 72.4 | 0.7487 | 0.2895 | 17.8840 | 18.1125 | 1.0000 | 1.0000 | Longer delayed effect |
-| 1 | 12 | 60 | 15.8 | 1.2074 | −0.1885 | 3.7638 | 3.9617 | 0.2226 | 0.2215 | Crossing |
-| 2 | 20 | 100 | 42.2 | 0.9844 | 0.0157 | 9.9118 | 10.5546 | 0.5863 | 0.5902 | Crossing |
-| 3 | 28 | 100 | 60.0 | 0.8173 | 0.2017 | 14.0482 | 14.9960 | 0.8310 | 0.8385 | Crossing |
-| 4 | 36 | 100 | 71.5 | 0.7549 | 0.2811 | 16.9053 | 17.8842 | 1.0000 | 1.0000 | Crossing |
 
 #### Weighted Logrank Method
 
@@ -556,8 +510,8 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
 
 The fixed design under the second weighting scheme for four scenario are
@@ -585,16 +539,9 @@ do.call(
     }
   )
 ) |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| analysis | time | n | event | ahr | theta | info | info0 | info_frac | info_frac0 | Scenario |
-|----|----|----|----|----|----|----|----|----|----|----|
-| 1 | 44 | 490.0869 | 360.6618 | 0.6974 | 0.5587 | 32.80428 | 34.23109 | 1 | 1 | PH |
-| 1 | 44 | 298.0746 | 238.4018 | 0.6430 | 0.6602 | 23.15996 | 24.75957 | 1 | 1 | Shorter delayed effect |
-| 1 | 44 | 380.2982 | 306.6089 | 0.6772 | 0.5797 | 30.26797 | 31.94557 | 1 | 1 | Longer delayed effect |
-| 1 | 44 | 258.3378 | 204.8707 | 0.6216 | 0.7138 | 19.76247 | 21.21076 | 1 | 1 | Crossing |
 
 ## References
 

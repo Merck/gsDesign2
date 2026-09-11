@@ -7,7 +7,7 @@ library(dplyr)
 library(knitr)
 library(gsDesign)
 library(gsDesign2)
-library(gt)
+library(lt)
 ```
 
 ## Overview
@@ -432,12 +432,8 @@ theta_h1 <- abs(p_c - p_e) / sigma_h1
 tibble::tribble(
   ~n_c, ~n_e, ~p_c, ~p_e, ~theta_h1, ~theta_h0, ~info_h1, ~info_h0,
   n_c, n_e, p_c, p_e, theta_h1, theta_h0, info_h1, info_h0,
-) |> gt::gt()
+) |> lt()
 ```
-
-| n_c | n_e | p_c  | p_e | theta_h1  | theta_h0 | info_h1  | info_h0  |
-|-----|-----|------|-----|-----------|----------|----------|----------|
-| 0.5 | 0.5 | 0.28 | 0.4 | 0.1276885 | 0        | 1.132246 | 1.114082 |
 
 The above logic is implemented in the function
 [`gs_info_rd()`](https://merck.github.io/gsDesign2/reference/gs_info_rd.md).
@@ -454,13 +450,9 @@ x <- gs_info_rd(
 )
 
 x |>
-  gt::gt() |>
-  gt::fmt_number(columns = 5:8, decimals = 6)
+  lt() |>
+  lt_format(columns = 5:8, decimals = 6)
 ```
-
-| analysis | n   | rd   | rd0 | theta1   | theta0   | info1    | info0    |
-|----------|-----|------|-----|----------|----------|----------|----------|
-| 1        | 1   | 0.12 | 0   | 0.120000 | 0.000000 | 1.132246 | 1.114082 |
 
 By plugging the `theta` and `info` above into
 [`gs_design_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md),
@@ -515,14 +507,9 @@ tibble(
   `info_scale = "h1_info"` = y_1$info1[1] / x$info1[1],
   `info_scale = "h0_h1_info"` = y_2$info[1] / x$info1[1]
 ) |>
-  gt::gt() |>
-  gt::tab_header(title = "The sample size calculated by gsDesign2 under 3 info_scale")
+  lt() |>
+  lt_header(title = "The sample size calculated by gsDesign2 under 3 info_scale")
 ```
-
-| The sample size calculated by gsDesign2 under 3 info_scale |  |  |
-|----|----|----|
-| info_scale = "h0_info" | info_scale = "h1_info" | info_scale = "h0_h1_info" |
-| 654.9627 | 644.4553 | 650.7984 |
 
 The above logic is implement in
 [`gs_design_rd()`](https://merck.github.io/gsDesign2/reference/gs_design_rd.md)
@@ -596,16 +583,16 @@ tibble::tibble(
   EAST_unpool = 645,
   EAST_pool = 651
 ) |>
-  gt::gt() |>
-  gt::tab_spanner(
+  lt() |>
+  lt_spanner(
     label = "gsDesign2",
-    columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)
+    columns = c("gsDesign2_info_scale_0", "gsDesign2_info_scale_1", "gsDesign2_info_scale_2")
   ) |>
-  gt::tab_spanner(
+  lt_spanner(
     label = "EAST",
-    columns = c(EAST_unpool, EAST_pool)
+    columns = c("EAST_unpool", "EAST_pool")
   ) |>
-  cols_label(
+  lt_label(
     gsDesign2_info_scale_0 = "info_scale = \"h0_info\"",
     gsDesign2_info_scale_1 = "info_scale = \"h1_info\"",
     gsDesign2_info_scale_2 = "info_scale = \"h0_h1_info\"",
@@ -613,8 +600,6 @@ tibble::tibble(
     EAST_pool = "pooled"
   )
 ```
-
-[TABLE]
 
 ### Unstratified Group Sequential Design
 
@@ -645,16 +630,9 @@ x_gs <- gs_info_rd(
 )
 
 x_gs |>
-  gt::gt() |>
-  gt::tab_header(title = "The statistical information of the group sequential design")
+  lt() |>
+  lt_header(title = "The statistical information of the group sequential design")
 ```
-
-| The statistical information of the group sequential design |  |  |  |  |  |  |  |
-|----|----|----|----|----|----|----|----|
-| analysis | n | rd | rd0 | theta1 | theta0 | info1 | info0 |
-| 1 | 0.3333333 | 0.05 | 0 | 0.05 | 0 | 0.7662835 | 0.7619048 |
-| 2 | 0.6666667 | 0.05 | 0 | 0.05 | 0 | 1.5325670 | 1.5238095 |
-| 3 | 1.0000000 | 0.05 | 0 | 0.05 | 0 | 2.2988506 | 2.2857143 |
 
 ``` r
 
@@ -702,23 +680,12 @@ tibble(
   `info_scale = "h1_info"` = y_gs1$info1 / x_gs$info1[3],
   `info_scale = "h0_h1_info"` = y_gs2$info / x_gs$info1[3]
 ) |>
-  gt::gt() |>
-  gt::tab_header(
+  lt() |>
+  lt_header(
     title = "The sample size calculated by `gsDesign2` under 3 info_scale",
     subtitle = "under group sequential design"
   )
 ```
-
-| The sample size calculated by \`gsDesign2\` under 3 info_scale |  |  |
-|----|----|----|
-| under group sequential design |  |  |
-| info_scale = "h0_info" | info_scale = "h1_info" | info_scale = "h0_h1_info" |
-| 620.1976 | 616.6536 | 618.3786 |
-| 620.1976 | 616.6536 | 618.3786 |
-| 1240.3952 | 1233.3072 | 1236.7572 |
-| 1240.3952 | 1233.3072 | 1236.7572 |
-| 1860.5927 | 1849.9608 | 1855.1358 |
-| 1860.5927 | 1849.9608 | 1855.1358 |
 
 The above logic is implemented in
 [`gs_design_rd()`](https://merck.github.io/gsDesign2/reference/gs_design_rd.md).
@@ -873,16 +840,16 @@ tibble::tibble(
   EAST_unpool = c(617, 1233, 1850),
   EAST_pool = c(619, 1238, 1857)
 ) |>
-  gt::gt() |>
-  gt::tab_spanner(
+  lt() |>
+  lt_spanner(
     label = "gsDesign2",
-    columns = c(gsDesign2_info_scale_0, gsDesign2_info_scale_1, gsDesign2_info_scale_2)
+    columns = c("gsDesign2_info_scale_0", "gsDesign2_info_scale_1", "gsDesign2_info_scale_2")
   ) |>
-  gt::tab_spanner(
+  lt_spanner(
     label = "EAST",
-    columns = c(EAST_unpool, EAST_pool)
+    columns = c("EAST_unpool", "EAST_pool")
   ) |>
-  cols_label(
+  lt_label(
     gsDesign2_info_scale_0 = "info_scale = \"h0_info\"",
     gsDesign2_info_scale_1 = "info_scale = \"h1_info\"",
     gsDesign2_info_scale_2 = "info_scale = \"h0_h1_info\"",
@@ -890,8 +857,6 @@ tibble::tibble(
     EAST_pool = "pooled"
   )
 ```
-
-[TABLE]
 
 ### Stratified Group Sequential Design
 
@@ -933,42 +898,15 @@ x <- p_c |>
   mutate(n_c = n_c * xi_c, n_e = n_e * xi_e)
 
 x |>
-  gt::gt() |>
-  gt::fmt_number(columns = 4:8, decimals = 4) |>
-  gt::tab_footnote(
-    footnote = "p_pool = (p_c * n_c + p_e * n_e) / (n_c * n_e).",
-    locations = gt::cells_column_labels(columns = p_pool)
-  ) |>
-  gt::tab_footnote(
-    footnote = "xi_c = sample size of a strata / sample size of the control arm.",
-    locations = gt::cells_column_labels(columns = xi_c)
-  ) |>
-  gt::tab_footnote(
-    footnote = "xi_e = sample size of a strata / sample size of the experimental arm.",
-    locations = gt::cells_column_labels(columns = xi_e)
-  ) |>
-  gt::tab_footnote(
-    footnote = "n_c = total sample size of the control arm.",
-    locations = gt::cells_column_labels(columns = n_c)
-  ) |>
-  gt::tab_footnote(
-    footnote = "n_e = total size of the experimental arm.",
-    locations = gt::cells_column_labels(columns = n_e)
-  ) |>
-  gt::tab_header(title = "Stratified Example")
+  lt() |>
+  lt_format(columns = 4:8, decimals = 4) |>
+  lt_footnote("p_pool = (p_c * n_c + p_e * n_e) / (n_c * n_e).", where = "column", columns = "p_pool") |>
+  lt_footnote("xi_c = sample size of a strata / sample size of the control arm.", where = "column", columns = "xi_c") |>
+  lt_footnote("xi_e = sample size of a strata / sample size of the experimental arm.", where = "column", columns = "xi_e") |>
+  lt_footnote("n_c = total sample size of the control arm.", where = "column", columns = "n_c") |>
+  lt_footnote("n_e = total size of the experimental arm.", where = "column", columns = "n_e") |>
+  lt_header(title = "Stratified Example")
 ```
-
-| Stratified Example |  |  |  |  |  |  |  |
-|----|----|----|----|----|----|----|----|
-| stratum | p_c | p_e | p_pool¹ | xi_c² | xi_e³ | n_c⁴ | n_e⁵ |
-| S1 | 0.30 | 0.25 | 0.2750 | 0.2667 | 0.2667 | 0.1333 | 0.1333 |
-| S2 | 0.37 | 0.30 | 0.3350 | 0.3333 | 0.3333 | 0.1667 | 0.1667 |
-| S3 | 0.60 | 0.50 | 0.5500 | 0.4000 | 0.4000 | 0.2000 | 0.2000 |
-| ¹ p_pool = (p_c \* n_c + p_e \* n_e) / (n_c \* n_e). |  |  |  |  |  |  |  |
-| ² xi_c = sample size of a strata / sample size of the control arm. |  |  |  |  |  |  |  |
-| ³ xi_e = sample size of a strata / sample size of the experimental arm. |  |  |  |  |  |  |  |
-| ⁴ n_c = total sample size of the control arm. |  |  |  |  |  |  |  |
-| ⁵ n_e = total size of the experimental arm. |  |  |  |  |  |  |  |
 
 First, we calculate the variance \\ \left\\ \begin{array}{ll}
 \sigma^2\_{H_0,k,s} & = p\_{k,s}^{pool} \left(1 - p^{pool}\_{k,s}
@@ -995,31 +933,11 @@ x <- x |>
   )
 
 x |>
-  gt() |>
-  gt::fmt_number(6:11, decimals = 4) |>
-  gt::tab_footnote(
-    footnote = "sigma_h0 = the H0 sd per stratum per analysis.",
-    locations = gt::cells_column_labels(columns = sigma_h0)
-  ) |>
-  gt::tab_footnote(
-    footnote = "sigma_h1 = the H0 sd per stratum per analysis.",
-    locations = gt::cells_column_labels(columns = sigma_h1)
-  )
+  lt() |>
+  lt_format(6:11, decimals = 4) |>
+  lt_footnote("sigma_h0 = the H0 sd per stratum per analysis.", where = "column", columns = "sigma_h0") |>
+  lt_footnote("sigma_h1 = the H0 sd per stratum per analysis.", where = "column", columns = "sigma_h1")
 ```
-
-| Analysis | stratum | p_c | p_pool | p_e | n_c | n_e | xi_c | xi_e | sigma_h0¹ | sigma_h1² |
-|----|----|----|----|----|----|----|----|----|----|----|
-| 1 | S1 | 0.30 | 0.275 | 0.25 | 0.0444 | 0.0444 | 0.2667 | 0.2667 | 2.9953 | 2.9906 |
-| 1 | S2 | 0.37 | 0.335 | 0.30 | 0.0556 | 0.0556 | 0.3333 | 0.3333 | 2.8319 | 2.8241 |
-| 1 | S3 | 0.60 | 0.550 | 0.50 | 0.0667 | 0.0667 | 0.4000 | 0.4000 | 2.7249 | 2.7111 |
-| 2 | S1 | 0.30 | 0.275 | 0.25 | 0.0889 | 0.0889 | 0.2667 | 0.2667 | 2.1180 | 2.1147 |
-| 2 | S2 | 0.37 | 0.335 | 0.30 | 0.1111 | 0.1111 | 0.3333 | 0.3333 | 2.0025 | 1.9970 |
-| 2 | S3 | 0.60 | 0.550 | 0.50 | 0.1333 | 0.1333 | 0.4000 | 0.4000 | 1.9268 | 1.9170 |
-| 3 | S1 | 0.30 | 0.275 | 0.25 | 0.1333 | 0.1333 | 0.2667 | 0.2667 | 1.7293 | 1.7266 |
-| 3 | S2 | 0.37 | 0.335 | 0.30 | 0.1667 | 0.1667 | 0.3333 | 0.3333 | 1.6350 | 1.6305 |
-| 3 | S3 | 0.60 | 0.550 | 0.50 | 0.2000 | 0.2000 | 0.4000 | 0.4000 | 1.5732 | 1.5652 |
-| ¹ sigma_h0 = the H0 sd per stratum per analysis. |  |  |  |  |  |  |  |  |  |  |
-| ² sigma_h1 = the H0 sd per stratum per analysis. |  |  |  |  |  |  |  |  |  |  |
 
 Second, we calculate the weight by using inverse variance
 
@@ -1046,36 +964,12 @@ x <- x |>
   select(-c(sum_invar_H0, sum_invar_H1, sum_ss))
 
 x |>
-  gt() |>
-  fmt_number(6:14, decimals = 4) |>
-  gt::tab_footnote(
-    footnote = "weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0.",
-    locations = gt::cells_column_labels(columns = weight_invar_H0)
-  ) |>
-  gt::tab_footnote(
-    footnote = "weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1.",
-    locations = gt::cells_column_labels(columns = weight_invar_H1)
-  ) |>
-  gt::tab_footnote(
-    footnote = "weight_ss = the weight per stratum per analysis calculated by SS.",
-    locations = gt::cells_column_labels(columns = weight_ss)
-  )
+  lt() |>
+  lt_format(6:14, decimals = 4) |>
+  lt_footnote("weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "weight_invar_H0") |>
+  lt_footnote("weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1.", where = "column", columns = "weight_invar_H1") |>
+  lt_footnote("weight_ss = the weight per stratum per analysis calculated by SS.", where = "column", columns = "weight_ss")
 ```
-
-| Analysis | stratum | p_c | p_pool | p_e | n_c | n_e | xi_c | xi_e | sigma_h0 | sigma_h1 | weight_invar_H0¹ | weight_invar_H1² | weight_ss³ |
-|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 1 | S1 | 0.30 | 0.275 | 0.25 | 0.0444 | 0.0444 | 0.2667 | 0.2667 | 2.9953 | 2.9906 | 0.3006 | 0.2996 | 0.2667 |
-| 1 | S2 | 0.37 | 0.335 | 0.30 | 0.0556 | 0.0556 | 0.3333 | 0.3333 | 2.8319 | 2.8241 | 0.3362 | 0.3359 | 0.3333 |
-| 1 | S3 | 0.60 | 0.550 | 0.50 | 0.0667 | 0.0667 | 0.4000 | 0.4000 | 2.7249 | 2.7111 | 0.3632 | 0.3645 | 0.4000 |
-| 2 | S1 | 0.30 | 0.275 | 0.25 | 0.0889 | 0.0889 | 0.2667 | 0.2667 | 2.1180 | 2.1147 | 0.3006 | 0.2996 | 0.2667 |
-| 2 | S2 | 0.37 | 0.335 | 0.30 | 0.1111 | 0.1111 | 0.3333 | 0.3333 | 2.0025 | 1.9970 | 0.3362 | 0.3359 | 0.3333 |
-| 2 | S3 | 0.60 | 0.550 | 0.50 | 0.1333 | 0.1333 | 0.4000 | 0.4000 | 1.9268 | 1.9170 | 0.3632 | 0.3645 | 0.4000 |
-| 3 | S1 | 0.30 | 0.275 | 0.25 | 0.1333 | 0.1333 | 0.2667 | 0.2667 | 1.7293 | 1.7266 | 0.3006 | 0.2996 | 0.2667 |
-| 3 | S2 | 0.37 | 0.335 | 0.30 | 0.1667 | 0.1667 | 0.3333 | 0.3333 | 1.6350 | 1.6305 | 0.3362 | 0.3359 | 0.3333 |
-| 3 | S3 | 0.60 | 0.550 | 0.50 | 0.2000 | 0.2000 | 0.4000 | 0.4000 | 1.5732 | 1.5652 | 0.3632 | 0.3645 | 0.4000 |
-| ¹ weight_invar_H0 = the weight per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| ² weight_invar_H1 = the weight per stratum per analysis calculated by INVAR by using variance under H1. |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| ³ weight_ss = the weight per stratum per analysis calculated by SS. |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
 Third, we calculate the weighted risk difference and weighted
 statistical information. \\ \left\\ \begin{array}{ll} \delta\_{H_0,k} &
@@ -1132,51 +1026,15 @@ x <- x |>
 ``` r
 
 x |>
-  gt::gt() |>
-  fmt_number(c(2:4, 6:11), decimals = 6) |>
-  gt::tab_footnote(
-    footnote = "info_invar_H0 = the statistical information under H1
-    per stratum per analysis calculated by INVAR by using variance under H0.",
-    locations = gt::cells_column_labels(columns = info_invar_H0)
-  ) |>
-  gt::tab_footnote(
-    footnote = "info_invar_H1 = the statistical information under H1
-    per stratum per analysis calculated by INVAR by using variance under H0.",
-    locations = gt::cells_column_labels(columns = info_invar_H1)
-  ) |>
-  gt::tab_footnote(
-    footnote = "info_ss = the statistical information under H1
-    per stratum per analysis calculated by SS.",
-    locations = gt::cells_column_labels(columns = info_ss)
-  ) |>
-  gt::tab_footnote(
-    footnote = "info0_invar_H0 = the statistical information under H0
-    per stratum per analysis calculated by INVAR by using variance under H0.",
-    locations = gt::cells_column_labels(columns = info0_invar_H0)
-  ) |>
-  gt::tab_footnote(
-    footnote = "info0_invar_H1 = the statistical information under H0
-    per stratum per analysis calculated by INVAR by using variance under H0.",
-    locations = gt::cells_column_labels(columns = info0_invar_H1)
-  ) |>
-  gt::tab_footnote(
-    footnote = "info0_ss = the statistical information under H0
-    per stratum per analysis calculated by SS.",
-    locations = gt::cells_column_labels(columns = info0_ss)
-  )
+  lt() |>
+  lt_format(c(2:4, 6:11), decimals = 6) |>
+  lt_footnote("info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info_invar_H0") |>
+  lt_footnote("info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info_invar_H1") |>
+  lt_footnote("info_ss = the statistical information under H1 per stratum per analysis calculated by SS.", where = "column", columns = "info_ss") |>
+  lt_footnote("info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info0_invar_H0") |>
+  lt_footnote("info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0.", where = "column", columns = "info0_invar_H1") |>
+  lt_footnote("info0_ss = the statistical information under H0 per stratum per analysis calculated by SS.", where = "column", columns = "info0_ss")
 ```
-
-| Analysis | rd_invar_H0 | rd_invar_H1 | rd_ss | rd0 | info_invar_H0¹ | info_invar_H1² | info_ss³ | info0_invar_H0⁴ | info0_invar_H1⁵ | info0_ss⁶ |
-|----|----|----|----|----|----|----|----|----|----|----|
-| 1 | 0.074884 | 0.074944 | 0.076667 | 0 | 0.373240 | 0.373244 | 0.370617 | 0.370829 | 0.370826 | 0.368039 |
-| 2 | 0.074884 | 0.074944 | 0.076667 | 0 | 0.746481 | 0.746487 | 0.741235 | 0.741659 | 0.741652 | 0.736079 |
-| 3 | 0.074884 | 0.074944 | 0.076667 | 0 | 1.119721 | 1.119731 | 1.111852 | 1.112488 | 1.112479 | 1.104118 |
-| ¹ info_invar_H0 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
-| ² info_invar_H1 = the statistical information under H1 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
-| ³ info_ss = the statistical information under H1 per stratum per analysis calculated by SS. |  |  |  |  |  |  |  |  |  |  |
-| ⁴ info0_invar_H0 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
-| ⁵ info0_invar_H1 = the statistical information under H0 per stratum per analysis calculated by INVAR by using variance under H0. |  |  |  |  |  |  |  |  |  |  |
-| ⁶ info0_ss = the statistical information under H0 per stratum per analysis calculated by SS. |  |  |  |  |  |  |  |  |  |  |
 
 ``` r
 
@@ -1280,19 +1138,9 @@ ans_math <- tibble::tibble(
 )
 
 ans_math |>
-  gt::gt() |>
-  gt::tab_header(title = "Sample size calculated by INVAR and SS")
+  lt() |>
+  lt_header(title = "Sample size calculated by INVAR and SS")
 ```
-
-| Sample size calculated by INVAR and SS |                  |             |
-|----------------------------------------|------------------|-------------|
-| Weighting method                       | Calculated under | Sample size |
-| INVAR-H0                               | H0               | 849.4965    |
-| INVAR-H1                               | H0               | 848.1421    |
-| Sample Size                            | H0               | 816.5992    |
-| INVAR-H0                               | H1               | 845.1771    |
-| INVAR-H1                               | H1               | 843.8182    |
-| Sample Size                            | H1               | 812.1270    |
 
 The above logic is implemented in
 [`gs_design_rd()`](https://merck.github.io/gsDesign2/reference/gs_design_rd.md).
@@ -1507,9 +1355,9 @@ ans <- tibble::tibble(
 )
 
 ans |>
-  gt::gt() |>
-  gt::tab_header(title = "Sample size calculated by INVAR and SS") |>
-  gt::tab_spanner(
+  lt() |>
+  lt_header(title = "Sample size calculated by INVAR and SS") |>
+  lt_spanner(
     label = "Inverse variance weighting ",
     columns = c(
       "INVAR0",
@@ -1517,11 +1365,11 @@ ans |>
       "INVAR2"
     )
   ) |>
-  gt::tab_spanner(
+  lt_spanner(
     label = "Sample size weighting",
-    columns = c(SS0, SS1, SS2)
+    columns = c("SS0", "SS1", "SS2")
   ) |>
-  cols_label(
+  lt_label(
     INVAR0 = "info_scale = \"h0_info\"",
     INVAR1 = "info_scale = \"h1_info\"",
     INVAR2 = "info_scale = \"h0_h1_info\"",
@@ -1530,8 +1378,6 @@ ans |>
     SS2 = "info_scale = \"h0_h1_info\""
   )
 ```
-
-[TABLE]
 
 ## Summary
 

@@ -54,7 +54,6 @@ library(gsDesign)
 library(gsDesign2)
 library(knitr)
 library(dplyr)
-library(gt)
 library(ggplot2)
 ```
 
@@ -74,15 +73,8 @@ enroll_rate <- define_enroll_rate(
   rate = (1:4) / 4
 )
 
-enroll_rate |> gt()
+enroll_rate |> lt()
 ```
-
-| stratum | duration | rate |
-|---------|----------|------|
-| All     | 2        | 0.25 |
-| All     | 2        | 0.50 |
-| All     | 2        | 0.75 |
-| All     | 6        | 1.00 |
 
 ## Failure and dropout rates
 
@@ -114,13 +106,8 @@ fail_rate <- define_fail_rate(
   dropout_rate = .001
 )
 
-fail_rate |> gt()
+fail_rate |> lt()
 ```
-
-| stratum | duration | fail_rate  | dropout_rate | hr  |
-|---------|----------|------------|--------------|-----|
-| All     | 4        | 0.05776227 | 0.001        | 1.0 |
-| All     | Inf      | 0.05776227 | 0.001        | 0.6 |
 
 ## Fixed design
 
@@ -149,14 +136,8 @@ next integer.
 
 d |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-| Fixed Design under AHR Method¹ |  |  |  |  |  |  |  |
-|----|----|----|----|----|----|----|----|
-| Design | N | Events | Time | AHR | Bound | alpha | Power |
-| Average hazard ratio | 433.6922 | 315.2547 | 36 | 0.6934128 | 1.959964 | 0.025 | 0.9 |
-| ¹ Power computed with average hazard ratio method. |  |  |  |  |  |  |  |
 
 The enrollment rates for each period have been increased proportionately
 to size the trial for the desired properties; the duration for each
@@ -164,15 +145,8 @@ enrollment rate has not changed.
 
 ``` r
 
-d$enroll_rate |> gt()
+d$enroll_rate |> lt()
 ```
-
-| stratum | duration | rate     |
-|---------|----------|----------|
-| All     | 2        | 12.04701 |
-| All     | 2        | 24.09401 |
-| All     | 2        | 36.14102 |
-| All     | 6        | 48.18802 |
 
 ## Group sequential design
 
@@ -242,13 +216,11 @@ on the upper bound so that lower bounds with `Z = -Inf` are not shown.
 
 design1s |>
   summary() |>
-  as_gt(
+  lt(
     title = "1-sided group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
   )
 ```
-
-[TABLE]
 
 gsDesign to replicate above bounds (this will not replicate sample
 size).
@@ -305,13 +277,11 @@ Design bounds are confirmed with:
 
 design2ss |>
   summary() |>
-  as_gt(
+  lt(
     title = "2-sided symmetric group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound"
   )
 ```
-
-[TABLE]
 
 The bounds can be plotted easily:
 
@@ -367,14 +337,12 @@ of an early futility stop. Bounds are now:
 
 design2sa |>
   summary() |>
-  as_gt(
+  lt(
     title = "2-sided asymmetric group sequential bound using AHR method",
     subtitle = "Lan-DeMets spending to approximate O'Brien-Fleming bound
     for efficacy, futility disaster check at IA1, IA2 only"
   )
 ```
-
-[TABLE]
 
 ## References
 

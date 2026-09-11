@@ -117,6 +117,9 @@ Functions to summarize fixed / group sequential design results.
 - [`text_summary()`](https://merck.github.io/gsDesign2/reference/text_summary.md)
   : Generates a textual summary of a group sequential design using the
   AHR method.
+- [`lt(`*`<fixed_design_summary>`*`)`](https://merck.github.io/gsDesign2/reference/lt-methods.md)
+  [`lt(`*`<gs_design_summary>`*`)`](https://merck.github.io/gsDesign2/reference/lt-methods.md)
+  : Create an lt table from a design summary
 - [`as_gt()`](https://merck.github.io/gsDesign2/reference/as_gt.md) :
   Convert summary table of a fixed or group sequential design object to
   a gt object

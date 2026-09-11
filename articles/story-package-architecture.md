@@ -47,9 +47,9 @@ distinction. Specifically, the package provides S3 methods for
 Furthermore, the [`summary()`](https://rdrr.io/r/base/summary.html) S3
 method returns corresponding objects of class `"fixed_design_summary"`
 or `"gs_design_summary"`, and the package provides the S3 methods
-[`as_gt()`](https://merck.github.io/gsDesign2/reference/as_gt.md) and
+[`lt()`](https://rdrr.io/pkg/lt/man/lt.html) and
 [`as_rtf()`](https://merck.github.io/gsDesign2/reference/as_rtf.md) to
-convert the summary tables to [gt](https://github.com/rstudio/gt) or
+convert the summary tables to [lt](https://github.com/yihui/lt) or
 [RTF](https://en.wikipedia.org/wiki/Rich_Text_Format) format,
 respectively.
 

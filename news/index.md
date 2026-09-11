@@ -4,6 +4,22 @@
 
 CRAN release: 2026-07-30
 
+### Major changes
+
+- The (heavy) **gt** dependency has been replaced with the lightweight
+  **lt** package, and [`lt()`](https://rdrr.io/pkg/lt/man/lt.html)
+  methods are now the recommended way to render design summaries as
+  tables. S3 methods for [`lt()`](https://rdrr.io/pkg/lt/man/lt.html)
+  are provided for `fixed_design_summary` and `gs_design_summary`
+  objects, and the [`lt()`](https://rdrr.io/pkg/lt/man/lt.html) generic
+  is re-exported so it can be used after loading only gsDesign2. There
+  are no significant visual changes in the HTML tables.
+  [`as_gt()`](https://merck.github.io/gsDesign2/reference/as_gt.md) is
+  deprecated but kept for one release: it still returns a `gt_tbl`
+  object (so existing code that customizes the output with **gt**
+  functions keeps working) and now requires the suggested **gt** package
+  to be installed.
+
 ### New features
 
 - Harm boundaries are now supported in
@@ -22,7 +38,9 @@ CRAN release: 2026-07-30
 - Harm boundaries are now included in
   [`summary()`](https://rdrr.io/r/base/summary.html),
   [`gs_bound_summary()`](https://merck.github.io/gsDesign2/reference/gs_bound_summary.md),
-  [`as_gt()`](https://merck.github.io/gsDesign2/reference/as_gt.md), and
+  [`lt()`](https://rdrr.io/pkg/lt/man/lt.html) (and the deprecated
+  [`as_gt()`](https://merck.github.io/gsDesign2/reference/as_gt.md)),
+  and
   [`as_rtf()`](https://merck.github.io/gsDesign2/reference/as_rtf.md)
   output, with controls for custom labels and bound display
   ([\#640](https://github.com/Merck/gsDesign2/issues/640), thanks to

@@ -4,6 +4,7 @@
 
 library(gsDesign2)
 library(gsDesign)
+library(lt)
 ```
 
 ## Introduction
@@ -112,10 +113,8 @@ one_sided <- gsDesign2::gs_design_ahr(
 
 one_sided |>
   summary() |>
-  gsDesign2::as_gt(title = "Efficacy bound only", subtitle = "alpha-spending")
+  lt(title = "Efficacy bound only", subtitle = "alpha-spending")
 ```
-
-[TABLE]
 
 Now we check this with `gsDesign::gsSurv().` As noted above, sample size
 and event counts vary slightly from the design derived using
@@ -196,13 +195,11 @@ symmetric <- gs_design_ahr(
 
 symmetric |>
   summary() |>
-  gsDesign2::as_gt(
+  lt(
     title = "2-sided Symmetric Design",
     subtitle = "Single spending function"
   )
 ```
-
-[TABLE]
 
 We compare with
 [`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
@@ -285,13 +282,11 @@ asymmetric_binding <- gs_design_ahr(
 
 asymmetric_binding |>
   summary() |>
-  gsDesign2::as_gt(
+  lt(
     title = "2-sided asymmetric design with binding futility",
     subtitle = "Both alpha- and beta-spending used"
   )
 ```
-
-[TABLE]
 
 We compare with
 [`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
@@ -373,13 +368,11 @@ asymmetric_nonbinding <- gs_design_ahr(
 
 asymmetric_nonbinding |>
   summary() |>
-  gsDesign2::as_gt(
+  lt(
     title = "2-sided asymmetric design with non-binding futility",
     subtitle = "Both alpha- and beta-spending used"
   )
 ```
-
-[TABLE]
 
 We compare with
 [`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html).
@@ -465,13 +458,11 @@ asymmetric_safety_binding <- gs_design_ahr(
 
 asymmetric_safety_binding |>
   summary() |>
-  gsDesign2::as_gt(
+  lt(
     title = "2-sided asymmetric safety design with binding futility",
     subtitle = "Alpha-spending used for both bounds, asymmetrically"
   )
 ```
-
-[TABLE]
 
 ``` r
 
@@ -549,14 +540,12 @@ asymmetric_safety_nonbinding <- gs_design_ahr(
 
 asymmetric_safety_nonbinding |>
   summary() |>
-  gsDesign2::as_gt(
+  lt(
     title = "2-sided asymmetric safety design with non-binding futility",
     subtitle = "Alpha-spending used for both bounds, asymmetrically"
   ) |>
-  gt::tab_footnote(footnote = "Integer-based sample size and event counts")
+  lt_note("Integer-based sample size and event counts")
 ```
-
-[TABLE]
 
 The corresponding
 [`gsDesign::gsSurv()`](https://keaven.github.io/gsDesign//reference/nSurv.html)
@@ -689,14 +678,12 @@ asymmetric_fixed_bounds <- gs_design_ahr(
 
 asymmetric_fixed_bounds |>
   summary() |>
-  gsDesign2::as_gt(
+  lt(
     title = "2-sided asymmetric safety design with fixed non-binding futility",
     subtitle = "Futility bounds computed to approximate HR"
   ) |>
-  gt::tab_footnote(footnote = "Integer-based sample size and event counts")
+  lt_note("Integer-based sample size and event counts")
 ```
-
-[TABLE]
 
 We see that the targeted bounds are achieved with nominal \\p\\-values
 of 0.0001 for each interim efficacy bound and the targeted hazard ratios

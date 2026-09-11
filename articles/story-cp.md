@@ -4,7 +4,6 @@
 
 library(gsDesign)
 library(gsDesign2)
-library(gt)
 library(ggplot2)
 library(tibble)
 ```
@@ -64,26 +63,8 @@ x <- gs_design_ahr(
 
 # Round analysis time to nearest month
 x$analysis$time <- round(x$analysis$time)
-x |> gs_bound_summary() |> gt()
+x |> gs_bound_summary() |> lt()
 ```
-
-| Analysis    | Value                | Efficacy | Futility |
-|-------------|----------------------|----------|----------|
-| IA 1: 49%   | Z                    | 3.0103   | 0.2907   |
-| N: 544      | p (1-sided)          | 0.0013   | 0.3856   |
-| Events: 192 | ~HR at bound         | 0.6476   | 0.9589   |
-| Month: 16   | P(Cross) if HR=1     | 0.0013   | 0.6144   |
-|             | P(Cross) if AHR=0.81 | 0.0642   | 0.1206   |
-| IA 2: 80%   | Z                    | 2.2595   | 1.4315   |
-| N: 544      | p (1-sided)          | 0.0119   | 0.0761   |
-| Events: 317 | ~HR at bound         | 0.7758   | 0.8515   |
-| Month: 26   | P(Cross) if HR=1     | 0.0123   | 0.9271   |
-|             | P(Cross) if AHR=0.72 | 0.7242   | 0.1431   |
-| Final       | Z                    | 2.0282   | 2.0282   |
-| N: 544      | p (1-sided)          | 0.0213   | 0.0213   |
-| Events: 395 | ~HR at bound         | 0.8154   | 0.8154   |
-| Month: 36   | P(Cross) if HR=1     | 0.0228   | 0.9772   |
-|             | P(Cross) if AHR=0.69 | 0.8498   | 0.1502   |
 
 ## Update design at time of interim analysis
 
@@ -120,26 +101,8 @@ xu <- gs_update_ahr(
   event_tbl = data.frame(analysis = c(1, 1), event = c(90, 55)))
 xu$analysis$time <- c(17, x$analysis$time[2:3])
 
-xu |> gs_bound_summary() |> gt()
+xu |> gs_bound_summary() |> lt()
 ```
-
-| Analysis    | Value                | Efficacy | Futility |
-|-------------|----------------------|----------|----------|
-| IA 1: 37%   | Z                    | 3.5196   | -0.0849  |
-| N: 544      | p (1-sided)          | 0.0002   | 0.5338   |
-| Events: 145 | ~HR at bound         | 0.5573   | 1.0142   |
-| Month: 17   | P(Cross) if HR=1     | 0.0002   | 0.4662   |
-|             | P(Cross) if AHR=0.82 | 0.0093   | 0.1054   |
-| IA 2: 80%   | Z                    | 2.2576   | 1.5168   |
-| N: 544      | p (1-sided)          | 0.0120   | 0.0647   |
-| Events: 317 | ~HR at bound         | 0.7760   | 0.8433   |
-| Month: 26   | P(Cross) if HR=1     | 0.0120   | 0.9376   |
-|             | P(Cross) if AHR=0.72 | 0.7243   | 0.1436   |
-| Final       | Z                    | 2.0228   | 2.0228   |
-| N: 544      | p (1-sided)          | 0.0215   | 0.0215   |
-| Events: 395 | ~HR at bound         | 0.8158   | 0.8158   |
-| Month: 36   | P(Cross) if HR=1     | 0.0221   | 0.9779   |
-|             | P(Cross) if AHR=0.69 | 0.8476   | 0.1524   |
 
 ## Testing and simple conditional power
 

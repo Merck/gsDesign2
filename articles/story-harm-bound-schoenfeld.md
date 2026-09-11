@@ -4,7 +4,7 @@
 
 library(gsDesign2)
 library(dplyr)
-library(gt)
+library(lt)
 ```
 
 ## Overview
@@ -110,24 +110,12 @@ candidate_harm_bounds <- lapply(astar_candidates, function(astar_candidate) {
   )
 
 candidate_harm_bounds |>
-  gt() |>
-  fmt_number(
+  lt() |>
+  lt_format(
     columns = c("astar", "harm_z", "harm_p_lower_tail"),
     decimals = 3
   )
 ```
-
-| astar | analysis | harm_z | harm_p_lower_tail |
-|-------|----------|--------|-------------------|
-| 0.100 | IA 1     | −2.148 | 0.016             |
-| 0.100 | IA 2     | −1.751 | 0.040             |
-| 0.100 | Final    | −1.376 | 0.084             |
-| 0.150 | IA 1     | −1.981 | 0.024             |
-| 0.150 | IA 2     | −1.544 | 0.061             |
-| 0.150 | Final    | −1.123 | 0.131             |
-| 0.200 | IA 1     | −1.856 | 0.032             |
-| 0.200 | IA 2     | −1.385 | 0.083             |
-| 0.200 | Final    | −0.921 | 0.179             |
 
 ## Boundary specifications
 
@@ -364,20 +352,11 @@ comparison |>
   summarize(max_abs_z_difference = max(abs_difference), .groups = "drop") |>
   left_join(test_type_labels, by = "test_type") |>
   select(test_type, description, max_abs_z_difference) |>
-  gt() |>
-  fmt_scientific(columns = max_abs_z_difference, decimals = 2)
+  # lt has no scientific formatter; render these tiny differences in
+  # scientific notation as text before building the table
+  mutate(max_abs_z_difference = formatC(max_abs_z_difference, format = "e", digits = 2)) |>
+  lt()
 ```
-
-| test_type | description                         | max_abs_z_difference |
-|-----------|-------------------------------------|----------------------|
-| 1         | One-sided efficacy                  | 6.70 × 10⁻⁷          |
-| 2         | Two-sided symmetric                 | 6.70 × 10⁻⁷          |
-| 3         | Beta-spending futility, binding     | 6.68 × 10⁻⁷          |
-| 4         | Beta-spending futility, non-binding | 6.70 × 10⁻⁷          |
-| 5         | Null-spending futility, binding     | 6.70 × 10⁻⁷          |
-| 6         | Null-spending futility, non-binding | 6.70 × 10⁻⁷          |
-| 7         | Binding futility and harm           | 6.68 × 10⁻⁷          |
-| 8         | Non-binding futility and harm       | 6.70 × 10⁻⁷          |
 
 The detailed Z-boundary comparison is shown below.
 
@@ -390,72 +369,15 @@ comparison |>
     bound = as.character(bound)
   ) |>
   select(-description) |>
-  gt(groupname_col = "test_type") |>
-  fmt_number(columns = c(gsSurv, gs_design_ahr), decimals = 6) |>
-  fmt_scientific(columns = c(difference, abs_difference), decimals = 2)
+  # lt has no scientific formatter; pre-format the tiny differences as text
+  mutate(
+    difference = formatC(difference, format = "e", digits = 2),
+    abs_difference = formatC(abs_difference, format = "e", digits = 2)
+  ) |>
+  lt() |>
+  lt_group(~ test_type, sep = TRUE) |>
+  lt_format(columns = c("gsSurv", "gs_design_ahr"), decimals = 6)
 ```
-
-| analysis | bound | gsSurv | gs_design_ahr | difference | abs_difference |
-|----|----|----|----|----|----|
-| test.type 1: One-sided efficacy |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 2 | upper | 2.492116 | 2.492117 | 6.70 × 10⁻⁷ | 6.70 × 10⁻⁷ |
-| 3 | upper | 2.003326 | 2.003327 | 3.49 × 10⁻⁷ | 3.49 × 10⁻⁷ |
-| test.type 2: Two-sided symmetric |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 1 | lower | −2.983459 | −2.983459 | 0.00 | 0.00 |
-| 2 | upper | 2.492116 | 2.492117 | 6.70 × 10⁻⁷ | 6.70 × 10⁻⁷ |
-| 2 | lower | −2.492116 | −2.492117 | −6.70 × 10⁻⁷ | 6.70 × 10⁻⁷ |
-| 3 | upper | 2.003326 | 2.003327 | 3.78 × 10⁻⁷ | 3.78 × 10⁻⁷ |
-| 3 | lower | −2.003326 | −2.003327 | −3.78 × 10⁻⁷ | 3.78 × 10⁻⁷ |
-| test.type 3: Beta-spending futility, binding |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 1 | lower | −0.165324 | −0.165324 | 2.66 × 10⁻⁷ | 2.66 × 10⁻⁷ |
-| 2 | upper | 2.491541 | 2.491542 | 6.68 × 10⁻⁷ | 6.68 × 10⁻⁷ |
-| 2 | lower | 1.023887 | 1.023887 | 2.24 × 10⁻⁷ | 2.24 × 10⁻⁷ |
-| 3 | upper | 1.964627 | 1.964627 | 3.95 × 10⁻⁷ | 3.95 × 10⁻⁷ |
-| 3 | lower | 1.964627 | 1.964627 | 3.95 × 10⁻⁷ | 3.95 × 10⁻⁷ |
-| test.type 4: Beta-spending futility, non-binding |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 1 | lower | −0.143809 | −0.143809 | 2.44 × 10⁻⁷ | 2.44 × 10⁻⁷ |
-| 2 | upper | 2.492116 | 2.492117 | 6.70 × 10⁻⁷ | 6.70 × 10⁻⁷ |
-| 2 | lower | 1.054330 | 1.054331 | 1.92 × 10⁻⁷ | 1.92 × 10⁻⁷ |
-| 3 | upper | 2.003326 | 2.003327 | 3.49 × 10⁻⁷ | 3.49 × 10⁻⁷ |
-| 3 | lower | 2.003326 | 2.003327 | 3.49 × 10⁻⁷ | 3.49 × 10⁻⁷ |
-| test.type 5: Null-spending futility, binding |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 1 | lower | −1.855898 | −1.855898 | 0.00 | 0.00 |
-| 2 | upper | 2.492116 | 2.492117 | 6.70 × 10⁻⁷ | 6.70 × 10⁻⁷ |
-| 2 | lower | −1.384626 | −1.384626 | −8.58 × 10⁻⁸ | 8.58 × 10⁻⁸ |
-| 3 | upper | 2.003310 | 2.003310 | 3.49 × 10⁻⁷ | 3.49 × 10⁻⁷ |
-| 3 | lower | −0.920673 | −0.920673 | −5.03 × 10⁻⁹ | 5.03 × 10⁻⁹ |
-| test.type 6: Null-spending futility, non-binding |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 1 | lower | −1.855898 | −1.855898 | 0.00 | 0.00 |
-| 2 | upper | 2.492116 | 2.492117 | 6.70 × 10⁻⁷ | 6.70 × 10⁻⁷ |
-| 2 | lower | −1.384626 | −1.384626 | −3.81 × 10⁻⁸ | 3.81 × 10⁻⁸ |
-| 3 | upper | 2.003326 | 2.003327 | 3.49 × 10⁻⁷ | 3.49 × 10⁻⁷ |
-| 3 | lower | −0.920673 | −0.920673 | 1.48 × 10⁻⁸ | 1.48 × 10⁻⁸ |
-| test.type 7: Binding futility and harm |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 1 | lower | −0.165324 | −0.165324 | 2.66 × 10⁻⁷ | 2.66 × 10⁻⁷ |
-| 1 | harm | −1.855898 | −1.855898 | 0.00 | 0.00 |
-| 2 | upper | 2.491541 | 2.491542 | 6.68 × 10⁻⁷ | 6.68 × 10⁻⁷ |
-| 2 | lower | 1.023887 | 1.023887 | 2.24 × 10⁻⁷ | 2.24 × 10⁻⁷ |
-| 2 | harm | −1.384626 | −1.384626 | −3.81 × 10⁻⁸ | 3.81 × 10⁻⁸ |
-| 3 | upper | 1.964627 | 1.964627 | 3.95 × 10⁻⁷ | 3.95 × 10⁻⁷ |
-| 3 | lower | 1.964627 | 1.964627 | 3.95 × 10⁻⁷ | 3.95 × 10⁻⁷ |
-| 3 | harm | −0.920673 | −0.920673 | 1.48 × 10⁻⁸ | 1.48 × 10⁻⁸ |
-| test.type 8: Non-binding futility and harm |  |  |  |  |  |
-| 1 | upper | 2.983459 | 2.983459 | 0.00 | 0.00 |
-| 1 | lower | −0.143809 | −0.143809 | 2.44 × 10⁻⁷ | 2.44 × 10⁻⁷ |
-| 1 | harm | −1.855898 | −1.855898 | 0.00 | 0.00 |
-| 2 | upper | 2.492116 | 2.492117 | 6.70 × 10⁻⁷ | 6.70 × 10⁻⁷ |
-| 2 | lower | 1.054330 | 1.054331 | 1.92 × 10⁻⁷ | 1.92 × 10⁻⁷ |
-| 2 | harm | −1.384626 | −1.384626 | −3.81 × 10⁻⁸ | 3.81 × 10⁻⁸ |
-| 3 | upper | 2.003326 | 2.003327 | 3.49 × 10⁻⁷ | 3.49 × 10⁻⁷ |
-| 3 | lower | 2.003326 | 2.003327 | 3.49 × 10⁻⁷ | 3.49 × 10⁻⁷ |
-| 3 | harm | −0.920673 | −0.920673 | 1.48 × 10⁻⁸ | 1.48 × 10⁻⁸ |
 
 ## Sample size and event counts
 
@@ -493,23 +415,18 @@ harm_effect_comparison <- lapply(
   do.call(what = rbind)
 
 harm_effect_comparison |>
-  gt() |>
-  fmt_number(
+  lt() |>
+  lt_format(
     columns = c(
-      max_upper_z_difference,
-      max_futility_z_difference,
-      final_n_difference,
-      final_events_difference,
-      largest_harm_z
+      "max_upper_z_difference",
+      "max_futility_z_difference",
+      "final_n_difference",
+      "final_events_difference",
+      "largest_harm_z"
     ),
     decimals = 6
   )
 ```
-
-| comparison | max_upper_z_difference | max_futility_z_difference | final_n_difference | final_events_difference | largest_harm_z |
-|----|----|----|----|----|----|
-| test.type 3 vs test.type 7 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | −0.920673 |
-| test.type 4 vs test.type 8 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | −0.920673 |
 
 Thus, the sample size and event count changes seen for test types 7 and
 8 relative to some other test types are inherited from their underlying
@@ -562,31 +479,20 @@ sample_size_comparison |>
     events_difference,
     events_percent_difference
   ) |>
-  gt() |>
-  fmt_number(
+  lt() |>
+  lt_format(
     columns = c(
-      n_gsSurv,
-      n_gs_design_ahr,
-      n_difference,
-      events_gsSurv,
-      events_gs_design_ahr,
-      events_difference
+      "n_gsSurv",
+      "n_gs_design_ahr",
+      "n_difference",
+      "events_gsSurv",
+      "events_gs_design_ahr",
+      "events_difference"
     ),
     decimals = 2
   ) |>
-  fmt_number(columns = events_percent_difference, decimals = 3)
+  lt_format(columns = "events_percent_difference", decimals = 3)
 ```
-
-| test_type | description | n_gsSurv | n_gs_design_ahr | n_difference | events_gsSurv | events_gs_design_ahr | events_difference | events_percent_difference |
-|----|----|----|----|----|----|----|----|----|
-| 1 | One-sided efficacy | 395.16 | 397.96 | 2.80 | 287.12 | 289.15 | 2.04 | 0.710 |
-| 2 | Two-sided symmetric | 395.16 | 397.96 | 2.80 | 287.12 | 289.15 | 2.04 | 0.710 |
-| 3 | Beta-spending futility, binding | 407.56 | 410.46 | 2.89 | 296.13 | 298.23 | 2.10 | 0.710 |
-| 4 | Beta-spending futility, non-binding | 417.28 | 420.24 | 2.96 | 303.19 | 305.34 | 2.15 | 0.710 |
-| 5 | Null-spending futility, binding | 395.16 | 397.97 | 2.80 | 287.12 | 289.16 | 2.04 | 0.710 |
-| 6 | Null-spending futility, non-binding | 395.17 | 397.97 | 2.80 | 287.12 | 289.16 | 2.04 | 0.710 |
-| 7 | Binding futility and harm | 407.56 | 410.46 | 2.89 | 296.13 | 298.23 | 2.10 | 0.710 |
-| 8 | Non-binding futility and harm | 417.28 | 420.24 | 2.96 | 303.19 | 305.34 | 2.15 | 0.710 |
 
 The differences are a reporting conversion issue rather than a boundary
 issue. For this proportional hazards example with 1:1 randomization, the
@@ -620,15 +526,9 @@ information_rate_comparison <- data.frame(
 )
 
 information_rate_comparison |>
-  gt() |>
-  fmt_number(columns = value, decimals = 6)
+  lt() |>
+  lt_format(columns = "value", decimals = 6)
 ```
-
-| quantity                               | value    |
-|----------------------------------------|----------|
-| H1 AHR information per event           | 0.248238 |
-| H0/Schoenfeld information per event    | 0.250000 |
-| H0 divided by H1 information per event | 1.007097 |
 
 Thus both packages agree on the required H0 information target for the
 Schoenfeld design. The current

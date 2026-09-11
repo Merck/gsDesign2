@@ -130,7 +130,7 @@ library(ggplot2)
 library(dplyr)
 library(tibble)
 library(survival)
-library(gt)
+library(lt)
 ```
 
 ## Single stratum non-proportional hazards example
@@ -194,12 +194,8 @@ avehr <- ahr(
   total_duration = as.numeric(total_duration)
 )
 
-avehr |> gt()
+avehr |> lt()
 ```
-
-| time | ahr      | n   | event    | info     | info0    |
-|------|----------|-----|----------|----------|----------|
-| 30   | 0.691405 | 108 | 58.13107 | 14.10216 | 14.53277 |
 
 This result can be explained by the number of events observed before and
 after the first 3 months of treatment in each treatment group.
@@ -211,13 +207,8 @@ xx <- pw_info(
   fail_rate = fail_rate,
   total_duration = as.numeric(total_duration)
 )
-xx |> gt()
+xx |> lt()
 ```
-
-| time | stratum | t   | hr   | n   | event    | info     | info0    |
-|------|---------|-----|------|-----|----------|----------|----------|
-| 30   | All     | 0   | 1.00 | 12  | 22.24824 | 5.562060 | 5.562060 |
-| 30   | All     | 3   | 0.55 | 96  | 35.88283 | 8.540105 | 8.970708 |
 
 Now we can replicate the geometric average hazard ratio (AHR) computed
 using the [`ahr()`](https://merck.github.io/gsDesign2/reference/ahr.md)
@@ -230,12 +221,8 @@ geometric mean hazard ratio, which we label as AHR.
 
 xx |>
   summarize(AHR = exp(sum(event * log(hr) / sum(event)))) |>
-  gt()
+  lt()
 ```
-
-| AHR      |
-|----------|
-| 0.691405 |
 
 ### Deriving the design
 
@@ -274,12 +261,8 @@ avehr <- ahr(
   total_duration = as.numeric(total_duration)
 )
 
-avehr |> gt()
+avehr |> lt()
 ```
-
-| time | ahr      | n       | event | info    | info0 |
-|------|----------|---------|-------|---------|-------|
-| 30   | 0.691405 | 574.082 | 309   | 74.9611 | 77.25 |
 
 We also compute sample size, rounding up to the nearest even integer.
 
@@ -380,17 +363,9 @@ results1 |>
     sdEvents = sd(event), Events = mean(event),
     HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
   ) |>
-  gt() |>
-  fmt_number(column = 2:9, decimals = 3)
+  lt() |>
+  lt_format(columns = 2:9, decimals = 3)
 ```
-
-| cut | Simulations | Power | sdDur | Duration | sdEvents | Events | HR | sdlnhr | info |
-|----|----|----|----|----|----|----|----|----|----|
-| Max(min follow-up, event cut) | 1,000.000 | 0.000 | 0.993 | 30.594 | 7.283 | 314.294 | 0.691 | 0.120 | 69.23210 |
-| Max(planned duration, event cut) | 1,000.000 | 0.000 | 0.937 | 30.571 | 7.137 | 314.103 | 0.691 | 0.120 | 69.13649 |
-| Minimum follow-up | 1,000.000 | 0.000 | 0.489 | 30.027 | 11.939 | 310.040 | 0.693 | 0.121 | 68.69517 |
-| Planned duration | 1,000.000 | 0.000 | 0.000 | 30.000 | 11.862 | 309.760 | 0.693 | 0.121 | 68.60037 |
-| Targeted events | 1,000.000 | 0.000 | 1.601 | 29.870 | 0.000 | 309.000 | 0.694 | 0.122 | 67.01854 |
 
 The column `HR` above is the exponentiated mean of the Cox regression
 coefficients (geometric mean of HR). We see that the `HR` estimate below
@@ -405,12 +380,8 @@ quite good as noted above.
 
 ``` r
 
-avehr |> gt()
+avehr |> lt()
 ```
-
-| time | ahr      | n       | event | info    | info0 |
-|------|----------|---------|-------|---------|-------|
-| 30   | 0.691405 | 574.082 | 309   | 74.9611 | 77.25 |
 
 ## Different proportional hazards by strata
 
@@ -459,26 +430,16 @@ population.
 ``` r
 
 ahr2 <- ahr(enroll_rate, fail_rate, total_duration)
-ahr2 |> gt()
+ahr2 |> lt()
 ```
-
-| time | ahr      | n   | event    | info     | info0    |
-|------|----------|-----|----------|----------|----------|
-| 36   | 0.642733 | 84  | 53.41293 | 12.76869 | 13.35323 |
 
 We examine the expected events by stratum.
 
 ``` r
 
 xx <- pw_info(enroll_rate, fail_rate, total_duration)
-xx |> gt()
+xx |> lt()
 ```
-
-| time | stratum  | t   | hr        | n   | event     | info      | info0     |
-|------|----------|-----|-----------|-----|-----------|-----------|-----------|
-| 36   | High     | 0   | 1.2000000 | 28  | 25.666089 | 6.4144810 | 6.4165222 |
-| 36   | Low      | 0   | 1.0000000 | 14  | 1.996737  | 0.4991842 | 0.4991842 |
-| 36   | Moderate | 0   | 0.3333333 | 42  | 25.750105 | 5.8550281 | 6.4375262 |
 
 Getting the average of `log(HR)` weighted by `Events` and
 exponentiating, we get the overall `AHR` just derived.
@@ -488,12 +449,8 @@ exponentiating, we get the overall `AHR` just derived.
 xx |>
   ungroup() |>
   summarise(lnhr = sum(event * log(hr)) / sum(event), AHR = exp(lnhr)) |>
-  gt()
+  lt()
 ```
-
-| lnhr       | AHR      |
-|------------|----------|
-| -0.4420259 | 0.642733 |
 
 ### Deriving the design
 
@@ -525,12 +482,8 @@ ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = total_duration
-) |> gt()
+) |> lt()
 ```
-
-| time | ahr      | n       | event | info     | info0 |
-|------|----------|---------|-------|----------|-------|
-| 36   | 0.642733 | 339.693 | 216   | 51.63614 | 54    |
 
 The targeted sample size, rounding up to an even integer, is:
 
@@ -592,15 +545,8 @@ er <- enroll_rate |>
   group_by(period) |>
   summarise(rate = sum(rate), duration = last(duration))
 
-er |> gt()
+er |> lt()
 ```
-
-| period | rate      | duration |
-|--------|-----------|----------|
-| 1      | 4.043965  | 2        |
-| 2      | 8.087929  | 2        |
-| 3      | 12.131894 | 2        |
-| 4      | 16.175858 | 18       |
 
 Now we simulate and summarize results. Once again, we see that the
 expected statistical information from the simulation is greater than
@@ -632,17 +578,9 @@ results2 |>
     sdEvents = sd(event), Events = mean(event),
     HR = exp(mean(ln_hr)), sdlnhr = sd(ln_hr), info = 1 / sdlnhr^2
   ) |>
-  gt() |>
-  fmt_number(column = 2:9, decimals = 3)
+  lt() |>
+  lt_format(columns = 2:9, decimals = 3)
 ```
-
-| cut | Simulations | Power | sdDur | Duration | sdEvents | Events | HR | sdlnhr | info |
-|----|----|----|----|----|----|----|----|----|----|
-| Max(min follow-up, event cut) | 1,000.000 | 0.000 | 1.662 | 36.908 | 4.853 | 219.292 | 0.640 | 0.144 | 48.54706 |
-| Max(planned duration, event cut) | 1,000.000 | 0.000 | 1.414 | 36.942 | 5.016 | 219.319 | 0.640 | 0.144 | 48.39566 |
-| Minimum follow-up | 1,000.000 | 0.000 | 1.161 | 36.022 | 8.457 | 215.866 | 0.642 | 0.144 | 48.34920 |
-| Planned duration | 1,000.000 | 0.000 | 0.000 | 36.000 | 8.795 | 215.559 | 0.642 | 0.144 | 48.39239 |
-| Targeted events | 1,000.000 | 0.000 | 2.259 | 36.078 | 0.000 | 216.000 | 0.643 | 0.147 | 46.57092 |
 
 Finally, compare the simulation results above to the asymptotic
 approximation below. The achieved power by simulation is just below the
@@ -657,12 +595,8 @@ ahr(
   enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   total_duration = total_duration
-) |> gt()
+) |> lt()
 ```
-
-| time | ahr      | n       | event | info     | info0 |
-|------|----------|---------|-------|----------|-------|
-| 36   | 0.642733 | 339.693 | 216   | 51.63614 | 54    |
 
 ## References
 

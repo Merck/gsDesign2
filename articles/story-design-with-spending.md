@@ -4,6 +4,7 @@
 
 library(gsDesign)
 library(gsDesign2)
+library(lt)
 ```
 
 ## Overview
@@ -40,17 +41,9 @@ enroll_rate <- define_enroll_rate(
 )
 
 enroll_rate |>
-  gt::gt() |>
-  gt::tab_header(title = "Planned Relative Enrollment Rates")
+  lt() |>
+  lt_header(title = "Planned Relative Enrollment Rates")
 ```
-
-| Planned Relative Enrollment Rates |          |      |
-|-----------------------------------|----------|------|
-| stratum                           | duration | rate |
-| All                               | 2        | 8    |
-| All                               | 2        | 12   |
-| All                               | 2        | 16   |
-| All                               | 6        | 24   |
 
 We assume a hazard ratio (HR) of 0.9 for the first 3 months 0.6
 thereafter. We also assume the the control time-to-event follows a
@@ -67,15 +60,9 @@ fail_rate <- define_fail_rate(
 )
 
 fail_rate |>
-  gt::gt() |>
-  gt::tab_header(title = "Table of Failure Rate Assumptions")
+  lt() |>
+  lt_header(title = "Table of Failure Rate Assumptions")
 ```
-
-| Table of Failure Rate Assumptions |          |            |              |     |
-|-----------------------------------|----------|------------|--------------|-----|
-| stratum                           | duration | fail_rate  | dropout_rate | hr  |
-| All                               | 3        | 0.08664340 | 0.001        | 0.9 |
-| All                               | 100      | 0.04951051 | 0.001        | 0.6 |
 
 ## Fixed design with no interim analysis
 
@@ -143,14 +130,5 @@ gs <- gs_design_ahr(
 
 gs |>
   summary() |>
-  gt::gt()
+  lt()
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 23.9 N: 434 Events: 232 AHR: 0.71 Information fraction: 0.77 |  |  |  |  |  |
-| Futility | 1.04 | 0.8720 | 0.1486 | 0.0582 | 0.8514 |
-| Efficacy | 2.31 | 0.7383 | 0.0104 | 0.6235 | 0.0104 |
-| Analysis: 2 Time: 35.8 N: 434 Events: 303 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
-| Futility | 2.02 | 0.7933 | 0.0219 | 0.1002 | 0.9756 |
-| Efficacy | 2.02 | 0.7933 | 0.0219 | 0.8998 | 0.0244 |

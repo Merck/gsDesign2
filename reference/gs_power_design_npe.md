@@ -227,7 +227,9 @@ gs_power_npe(
 
 ## Value
 
-A tibble with columns of
+`gs_design_npe()` returns a tibble with the class `"gs_design_npe"`.
+`gs_power_npe()` returns a data frame with the class `"gs_power_npe"`.
+The columns are described below:
 
 - `analysis`: analysis index.
 

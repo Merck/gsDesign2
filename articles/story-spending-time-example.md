@@ -6,7 +6,7 @@ library(gsDesign)
 library(gsDesign2)
 library(tibble)
 library(dplyr)
-library(gt)
+library(lt)
 ```
 
 ## Overview
@@ -152,10 +152,8 @@ xx <- gs_design_ahr(enroll_rate,
 summary(xx,
   analysis_vars = c("time", "n", "event", "ahr", "info_frac"),
   analysis_decimals = c(0, 0, 0, 4, 4)
-) |> as_gt()
+) |> lt()
 ```
-
-[TABLE]
 
 ### Power when assumptions design are wrong
 
@@ -198,10 +196,8 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-[TABLE]
 
 Now we also require 30 months trial duration in addition to the targeted
 events. This improves the power from 63% above to 76% with an increase
@@ -234,10 +230,8 @@ yy <- gs_power_ahr(
 # get the summary table of updated design
 yy |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-[TABLE]
 
 ### Scenario 2: low control event rates
 
@@ -269,10 +263,8 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-[TABLE]
 
 If we also require adequate events, we restore power to 94.5, above the
 originally targeted level of 90%. The cost is that the expected trial
@@ -302,10 +294,8 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-[TABLE]
 
 ### Conclusions for fixed design
 
@@ -463,10 +453,8 @@ xx <- gs_design_ahr(
 # get the summary table
 xx |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-[TABLE]
 
 ### Two alternate approaches
 
@@ -515,10 +503,8 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-[TABLE]
 
 #### Fixed incremental spend with a variable number of analyses
 
@@ -606,10 +592,8 @@ fho <- gs_power_ahr(
 
 fho |>
   summary() |>
-  as_gt()
+  lt()
 ```
-
-[TABLE]
 
 ### Scenario with less treatment effect
 
@@ -663,16 +647,9 @@ yy <- gs_power_ahr(
 yy |>
   summary() |>
   filter(Bound == "Efficacy") |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 22.1 N: 517 Events: 315 AHR: 0.8 Information fraction: 0.83 |  |  |  |  |  |
-| Efficacy | 2.0500 | 0.7936 | 0.0201 | 0.4832 | 0.0201 |
-| Analysis: 2 Time: 30 N: 517 Events: 381.8 AHR: 0.76 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.1700 | 0.8008 | 0.0150 | 0.7091 | 0.0250 |
 
 Just as important, the general design principle of making interim
 analysis criteria more stringent that final is ensured for this
@@ -696,16 +673,9 @@ yz <- gs_power_ahr(
 
 yz |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 22.1 N: 517 Events: 315 AHR: 0.8 Information fraction: 0.83 |  |  |  |  |  |
-| Efficacy | 2.2500 | 0.7760 | 0.0122 | 0.4054 | 0.0122 |
-| Analysis: 2 Time: 30 N: 517 Events: 381.8 AHR: 0.76 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.0200 | 0.8136 | 0.0219 | 0.7549 | 0.0250 |
 
 ### Scenario with longer control median
 
@@ -743,16 +713,9 @@ yy <- gs_power_ahr(
 
 yy |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 22.1 N: 517 Events: 226.3 AHR: 0.72 Information fraction: 0.66 |  |  |  |  |  |
-| Efficacy | 2.2500 | 0.7414 | 0.0122 | 0.5774 | 0.0122 |
-| Analysis: 2 Time: 38.5 N: 517 Events: 344.6 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.0700 | 0.7998 | 0.0191 | 0.9464 | 0.0250 |
 
 Since the number of events was less than expected, if we had used the
 actual number of events the interim bound would be more stringent than
@@ -773,16 +736,9 @@ yz <- gs_power_ahr(
 
 yz |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 22.1 N: 517 Events: 226.3 AHR: 0.72 Information fraction: 0.66 |  |  |  |  |  |
-| Efficacy | 2.5100 | 0.7166 | 0.0061 | 0.4770 | 0.0061 |
-| Analysis: 2 Time: 38.5 N: 517 Events: 344.6 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 1.9900 | 0.8066 | 0.0230 | 0.9567 | 0.0250 |
 
 ### Summary for spending time motivation assuming delayed benefit
 
@@ -881,16 +837,9 @@ positive <- gs_design_ahr(
 
 positive |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 22.6 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |  |  |  |  |  |
-| Efficacy | 2.5600 | 0.6597 | 0.0052 | 0.7176 | 0.0052 |
-| Analysis: 2 Time: 30 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.2900 | 0.7167 | 0.0109 | 0.9000 | 0.0125 |
 
 ### Planned design for overall population
 
@@ -904,13 +853,8 @@ inflation_factor <- positive$enroll_rate$rate[1] / enroll_rate$rate[1]
 
 # Using this inflation factor, set planned enrollment rates
 planned_enroll_rate <- enroll_rate |> mutate(rate = rate * inflation_factor)
-planned_enroll_rate |> gt()
+planned_enroll_rate |> lt()
 ```
-
-| stratum  | duration | rate     |
-|----------|----------|----------|
-| Positive | 12       | 24.40522 |
-| Negative | 12       | 24.40522 |
 
 ``` r
 
@@ -923,12 +867,8 @@ overall_enroll_rate <- planned_enroll_rate |>
     rate = sum(rate)
   )
 
-overall_enroll_rate |> gt()
+overall_enroll_rate |> lt()
 ```
-
-| stratum | duration | rate     |
-|---------|----------|----------|
-| All     | 12       | 48.81043 |
 
 Now we can examine the power for the overall population based on hazard
 ratio assumptions in biomarker negative and biomarker positive subgroups
@@ -975,16 +915,9 @@ overall_planned_bounds <- gs_power_ahr(
 
 overall_planned_bounds |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 22.6 N: 585.7 Events: 317.1 AHR: 0.7 Information fraction: 0.8 |  |  |  |  |  |
-| Efficacy | 2.5600 | 0.7501 | 0.0052 | 0.7407 | 0.0052 |
-| Analysis: 2 Time: 30 N: 585.7 Events: 394.1 AHR: 0.7 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.2900 | 0.7939 | 0.0110 | 0.9100 | 0.0125 |
 
 ### Alternate scenarios overview
 
@@ -1066,14 +999,9 @@ positive_60_enroll_rate$duration <- max(positive$analysis$n) /
 
 # display the updated enrollment rate table
 positive_60_enroll_rate |>
-  gt() |>
-  fmt_number(columns = "rate", decimals = 1)
+  lt() |>
+  lt_format(columns = "rate", decimals = 1)
 ```
-
-| stratum  | duration | rate |
-|----------|----------|------|
-| Positive | 10       | 29.3 |
-| Negative | 10       | 19.5 |
 
 Now we can compute the power for the biomarker positive group with the
 targeted events. Since we have a simple proportional hazards model, they
@@ -1100,16 +1028,9 @@ positive_60_power <- gs_power_ahr(
 
 positive_60_power |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 21.5 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |  |  |  |  |  |
-| Efficacy | 2.5600 | 0.6597 | 0.0052 | 0.7176 | 0.0052 |
-| Analysis: 2 Time: 28.9 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.2900 | 0.7167 | 0.0109 | 0.9001 | 0.0125 |
 
 ##### Overall population power
 
@@ -1139,16 +1060,9 @@ gs_power_ahr(
   lpar = rep(-Inf, 2)
 ) |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 21.5 N: 488.1 Events: 262 AHR: 0.68 Information fraction: 0.8 |  |  |  |  |  |
-| Efficacy | 2.5600 | 0.7288 | 0.0052 | 0.7214 | 0.0052 |
-| Analysis: 2 Time: 28.9 N: 488.1 Events: 325.9 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.2900 | 0.7758 | 0.0110 | 0.8994 | 0.0125 |
 
 If we had used information-based (i.e., event-based) spending, we would
 not have reached full spending at final analysis and thus would have
@@ -1171,16 +1085,12 @@ gs_power_ahr(
   lpar = lpar
 ) |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
+#> Warning in max(filter(x, Bound == "Efficacy")[["Null hypothesis"]]): no
+#> non-missing arguments to max; returning -Inf
+#> Warning in max(k): no non-missing arguments to max; returning -Inf
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 21.5 N: 488.1 Events: 262 AHR: 0.68 Information fraction: 0.8 |  |  |  |  |  |
-| NA | NA | NA | NA | NA | NA |
-| Analysis: 2 Time: 28.9 N: 488.1 Events: 325.9 AHR: 0.68 Information fraction: 1 |  |  |  |  |  |
-| NA | NA | NA | NA | NA | NA |
 
 #### Biomarker subgroup prevalence lower than planned
 
@@ -1202,14 +1112,9 @@ positive_40_enroll_rate$duration <- max(positive$analysis$n) /
 
 # display the enrollment table
 positive_40_enroll_rate |>
-  gt() |>
-  fmt_number(columns = "rate", decimals = 1)
+  lt() |>
+  lt_format(columns = "rate", decimals = 1)
 ```
-
-| stratum  | duration | rate |
-|----------|----------|------|
-| Positive | 15       | 19.5 |
-| Negative | 15       | 29.3 |
 
 ##### Biomarker positive subgroup power
 
@@ -1238,16 +1143,9 @@ positive_40_power <- gs_power_ahr(
 
 positive_40_power |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 24.3 N: 292.9 Events: 151.6 AHR: 0.6 Information fraction: 0.8 |  |  |  |  |  |
-| Efficacy | 2.5300 | 0.6629 | 0.0057 | 0.7276 | 0.0057 |
-| Analysis: 2 Time: 31.7 N: 292.9 Events: 189.5 AHR: 0.6 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.3000 | 0.7157 | 0.0107 | 0.8985 | 0.0125 |
 
 ##### Overall population power
 
@@ -1269,16 +1167,9 @@ gs_power_ahr(
   lpar = rep(-Inf, 2)
 ) |>
   summary() |>
-  gt() |>
-  fmt_number(columns = 3:6, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:6, decimals = 4)
 ```
-
-| Bound | Z | ~HR at bound | Nominal p | Alternate hypothesis | Null hypothesis |
-|----|----|----|----|----|----|
-| Analysis: 1 Time: 24.3 N: 732.2 Events: 399.8 AHR: 0.72 Information fraction: 0.81 |  |  |  |  |  |
-| Efficacy | 2.5600 | 0.7741 | 0.0052 | 0.7751 | 0.0052 |
-| Analysis: 2 Time: 31.7 N: 732.2 Events: 496.3 AHR: 0.72 Information fraction: 1 |  |  |  |  |  |
-| Efficacy | 2.2900 | 0.8141 | 0.0110 | 0.9279 | 0.0125 |
 
 ### Summary of findings
 

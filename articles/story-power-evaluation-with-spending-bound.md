@@ -3,7 +3,7 @@
 ``` r
 
 library(tibble)
-library(gt)
+library(lt)
 library(gsDesign2)
 ```
 
@@ -198,14 +198,8 @@ For the CAPTURE trial, we have
 ``` r
 
 h1 <- gs_info_binomial(p1 = .15, p2 = .1, xi1 = .5, n = c(350, 700, 1400))
-h1 |> gt()
+h1 |> lt()
 ```
-
-| Analysis | n    | theta | theta1 | info      | info0 | info1     |
-|----------|------|-------|--------|-----------|-------|-----------|
-| 1        | 350  | 0.05  | 0.05   | 804.5977  | 800   | 804.5977  |
-| 2        | 700  | 0.05  | 0.05   | 1609.1954 | 1600  | 1609.1954 |
-| 3        | 1400 | 0.05  | 0.05   | 3218.3908 | 3200  | 3218.3908 |
 
 We can plug these into
 [`gs_power_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
@@ -225,18 +219,9 @@ gs_power_npe(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
 ) |>
-  gt() |>
-  fmt_number(columns = 3:10, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:10, decimals = 4)
 ```
-
-| analysis | bound | z | probability | theta | theta1 | info_frac | info | info0 | info1 |
-|----|----|----|----|----|----|----|----|----|----|
-| 1 | upper | 4.3326 | 0.0017 | 0.0500 | 0.0500 | 0.2500 | 804.5977 | 800.0000 | 804.5977 |
-| 2 | upper | 2.9632 | 0.1692 | 0.0500 | 0.0500 | 0.5000 | 1,609.1954 | 1,600.0000 | 1,609.1954 |
-| 3 | upper | 1.9686 | 0.7939 | 0.0500 | 0.0500 | 1.0000 | 3,218.3908 | 3,200.0000 | 3,218.3908 |
-| 1 | lower | −0.6292 | 0.0202 | 0.0500 | 0.0500 | 0.2500 | 804.5977 | 800.0000 | 804.5977 |
-| 2 | lower | 0.2947 | 0.0537 | 0.0500 | 0.0500 | 0.5000 | 1,609.1954 | 1,600.0000 | 1,609.1954 |
-| 3 | lower | 1.9686 | 0.2061 | 0.0500 | 0.0500 | 1.0000 | 3,218.3908 | 3,200.0000 | 3,218.3908 |
 
 Now we examine information for a smaller assumed treatment difference
 than the alternative:
@@ -253,18 +238,9 @@ gs_power_npe(
   lower = gs_spending_bound,
   lpar = list(sf = gsDesign::sfHSD, param = -2, total_spend = 0.2)
 ) |>
-  gt() |>
-  fmt_number(columns = 3:10, decimals = 4)
+  lt() |>
+  lt_format(columns = 3:10, decimals = 4)
 ```
-
-| analysis | bound | z | probability | theta | theta1 | info_frac | info | info0 | info1 |
-|----|----|----|----|----|----|----|----|----|----|
-| 1 | upper | 4.3326 | 0.0002 | 0.0300 | 0.0500 | 0.2500 | 750.7508 | 749.3042 | 753.3362 |
-| 2 | upper | 2.9632 | 0.0359 | 0.0300 | 0.0500 | 0.5000 | 1,501.5015 | 1,498.6084 | 1,506.6724 |
-| 3 | upper | 1.9686 | 0.3644 | 0.0300 | 0.0500 | 1.0000 | 3,003.0030 | 2,997.2169 | 3,013.3448 |
-| 1 | lower | −0.6751 | 0.0671 | 0.0300 | 0.0500 | 0.2500 | 750.7508 | 749.3042 | 753.3362 |
-| 2 | lower | 0.2298 | 0.1945 | 0.0300 | 0.0500 | 0.5000 | 1,501.5015 | 1,498.6084 | 1,506.6724 |
-| 3 | lower | 1.9686 | 0.6356 | 0.0300 | 0.0500 | 1.0000 | 3,003.0030 | 2,997.2169 | 3,013.3448 |
 
 ## References
 
