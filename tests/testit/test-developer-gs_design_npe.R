@@ -281,7 +281,8 @@ assert("Harm bound is not provided for fixed designs", {
       theta = 0.1, info = 40,
       upper = gs_b, upar = -qnorm(0.025), test_upper = TRUE,
       lower = gs_b, lpar = -Inf, test_lower = FALSE,
-      harm = gs_b, hpar = -2, test_harm = TRUE)
+      harm = gs_b, hpar = -2, test_harm = TRUE),
+    "gs_design_npe() harm bound cannot be tested if there is only one analysis."
   ))
 })
 
