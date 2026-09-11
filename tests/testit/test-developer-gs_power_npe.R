@@ -6,7 +6,7 @@ assert("The default of `gs_power_npe` is a single analysis with type I error con
     dplyr::filter(Bound == "Upper") |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  (unclass(x1) %==% unclass(x2))
 })
 
 assert("fixed bound", {
@@ -29,7 +29,7 @@ assert("fixed bound", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  (unclass(x1) %==% unclass(x2))
 })
 
 assert("Same fixed efficacy bounds, no futility bound (i.e., non-binding bound), null hypothesis", {
@@ -48,7 +48,7 @@ assert("Same fixed efficacy bounds, no futility bound (i.e., non-binding bound),
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  (unclass(x1) %==% unclass(x2))
 })
 
 assert("Fixed bound with futility only at analysis 1; efficacy only at analyses 2, 3", {
@@ -71,7 +71,7 @@ assert("Fixed bound with futility only at analysis 1; efficacy only at analyses 
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  (unclass(x1) %==% unclass(x2))
 })
 
 assert("Spending function bounds - Lower spending based on non-zero effect", {
@@ -95,7 +95,7 @@ assert("Spending function bounds - Lower spending based on non-zero effect", {
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
   legacy_rows <- x1$analysis < 3 | x1$bound != "lower"
-  (x1[legacy_rows, ] %==% as.data.frame(x2[legacy_rows, ]))
+  (unclass(x1[legacy_rows, ]) %==% unclass(x2[legacy_rows, ]))
   (x1$z[x1$analysis == 3 & x1$bound == "lower"] ==
     x1$z[x1$analysis == 3 & x1$bound == "upper"])
 })
@@ -121,7 +121,7 @@ assert("Same bounds, but power under different theta", {
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
   legacy_rows <- x1$analysis < 3 | x1$bound != "lower"
-  (x1[legacy_rows, ] %==% as.data.frame(x2[legacy_rows, ]))
+  (unclass(x1[legacy_rows, ]) %==% unclass(x2[legacy_rows, ]))
   (x1$z[x1$analysis == 3 & x1$bound == "lower"] ==
     x1$z[x1$analysis == 3 & x1$bound == "upper"])
 })
@@ -148,7 +148,7 @@ assert("Two-sided symmetric spend, O'Brien-Fleming spending", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  (unclass(x1) %==% unclass(x2))
 })
 
 assert("Re-use these bounds under alternate hypothesis - Always use binding = TRUE for power calculations", {
@@ -179,7 +179,7 @@ assert("Re-use these bounds under alternate hypothesis - Always use binding = TR
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1 %==% as.data.frame(x2))
+  (unclass(x1) %==% unclass(x2))
 })
 
 assert("info != info0 != info1 - If one inputs info in upar", {
@@ -212,7 +212,7 @@ assert("info != info0 != info1 - If one inputs info in upar", {
   ) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1_c %==% as.data.frame(x2))
+  (unclass(x1_c) %==% unclass(x2))
 })
 
 assert("Developer Tests 1-sided test", {
@@ -244,7 +244,7 @@ assert("Developer Tests 1-sided test", {
     n.I = (1:3) * 400,
     b = gsDesign::gsDesign(k = 3, test.type = 1, sfu = gsDesign::sfLDOF)$upper$bound, a = rep(-20, 3), r = r
   )
-  (x %==% as.data.frame(y))
+  (unclass(x) %==% unclass(y))
   (x$z[x$bound == "upper"] %==% z$upper$bound)
   (all.equal(x$probability[x$bound == "upper"], cumsum(z$upper$prob), tolerance = 3e-8))
 })
@@ -371,4 +371,8 @@ assert("Harm bound - Cap harm bound at futility bound", {
   futility_bound <- x |> dplyr::filter(bound == "lower", analysis %in% harm_analysis) |> dplyr::pull(z)
   (harm_bound <= futility_bound)
   (harm_analysis %==% 1:2)
+})
+
+assert("gs_power_npe() output object is assigned a unique class", {
+  (inherits(gs_power_npe(), "gs_power_npe"))
 })

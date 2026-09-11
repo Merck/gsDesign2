@@ -106,7 +106,11 @@
 #'   Normally, `r` will not be changed by the user.
 #' @param tol Tolerance parameter for boundary convergence (on Z-scale); normally not changed by the user.
 #'
-#' @return A tibble with columns of
+#' @return
+#'   `gs_design_npe()` returns a tibble with the class `"gs_design_npe"`.
+#'   `gs_power_npe()` returns a data frame with the class `"gs_power_npe"`.
+#'   The columns are described below:
+#'
 #'   - `analysis`: analysis index.
 #'   - `bound`: one of value `"upper"`, `"lower"`, or `"harm"`, indicating the upper, lower, and harm bound.
 #'   - `z`: the Z-score bounds.
@@ -294,7 +298,7 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
   if (n_analysis == 1 && test_harm) {
     stop("gs_power_npe() harm bound cannot be tested if there is only one analysis.")
   }
-  
+
   theta  <- check_theta(theta,  n_analysis)
   theta0 <- check_theta(theta0, n_analysis)
   theta1 <- check_theta(theta1, n_analysis)
@@ -506,6 +510,11 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
       info1 = rep(info1, 3)
     )
   }
+
+  # Add class for dispatch with potential S3 methods. The output is too
+  # dissimilar to the other functions like gs_power_ahr() to use the class
+  # "gs_design"
+  class(ans) <- c("gs_power_npe", class(ans))
 
   return(ans)
 }

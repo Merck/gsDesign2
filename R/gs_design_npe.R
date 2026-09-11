@@ -302,6 +302,7 @@ gs_design_npe <- function(
           )
       )
       ans <- ans |> select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
+      class(ans) <- c("gs_design_npe", class(ans))
       return(ans)
     }
 
@@ -311,6 +312,7 @@ gs_design_npe <- function(
       info = info * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
       info_frac = info / max(info)
     )
+    class(ans) <- c("gs_design_npe", class(ans))
     return(ans)
   }
 
@@ -444,5 +446,11 @@ gs_design_npe <- function(
   ans <- ans[order(ans$analysis, ans$bound != "upper"), c("analysis", "bound", "z", "probability", "probability0", "theta", "info_frac", "info", "info0", "info1")]
   rownames(ans) <- NULL
 
-  return(tibble::as_tibble(ans))
+  ans <- tibble::as_tibble(ans)
+  # Add class for dispatch with potential S3 methods. The output is too
+  # dissimilar to the other functions like gs_design_ahr() to use the class
+  # "gs_design"
+  class(ans) <- c("gs_design_npe", class(ans))
+
+  return(ans)
 }

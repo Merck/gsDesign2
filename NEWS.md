@@ -1,3 +1,7 @@
+# Development
+
+- The objects returned by `gs_design_npe()` and `gs_power_npe()` are now assigned a unique class.
+
 # gsDesign2 1.2.0
 
 ## Major changes

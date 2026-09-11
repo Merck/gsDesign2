@@ -52,7 +52,7 @@ assert("examples in spec - Lachin book p71", {
   x2 <- gs_design_npe_(theta = pe - pc, info = info, info0 = info0) |>
     dplyr::rename(analysis = Analysis, bound = Bound, z = Z, probability = Probability) |>
     dplyr::mutate(bound = tolower(bound))
-  (x1_c %==% x2)
+  (unclass(x1_c) %==% unclass(x2))
 })
 
 assert("fixed design with 3 equal info", {
@@ -389,4 +389,22 @@ assert("Comparison with gsDesign when test.type = 3", {
       scale = 1
     ))
 
+})
+
+assert("gs_design_npe() output object is assigned a unique class", {
+  # fixed design
+  (inherits(gs_design_npe(), "gs_design_npe"))
+
+  # group sequential design
+  x <- gs_design_npe(
+    alpha = 0.0125,
+    theta = c(.1, .2, .3),
+    info = (1:3) * 80,
+    info0 = (1:3) * 80,
+    upper = gs_b,
+    upar = gsDesign::gsDesign(k = 3, sfu = gsDesign::sfLDOF, alpha = 0.0125)$upper$bound,
+    lower = gs_b,
+    lpar = c(-1, 0, 0)
+  )
+  (inherits(x, "gs_design_npe"))
 })
