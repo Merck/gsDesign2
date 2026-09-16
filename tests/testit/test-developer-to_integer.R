@@ -308,3 +308,24 @@ assert("The attribute `uninteger_is_from` matches the input design object", {
   }, character(1))
   (unname(res) %==% power_funcs)
 })
+
+assert("to_integer.gs_design retains the harm bound (test.type 7/8 equivalent)", {
+  design_ahr <- gs_design_ahr(
+    analysis_time = c(18, 30),
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, param = NULL),
+    lower = gs_spending_bound,
+    lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
+    harm = gs_spending_bound,
+    hpar = list(sf = gsDesign::sfHSD, total_spend = 0.05, param = -2),
+    test_harm = TRUE
+  )
+
+  result <- to_integer(design_ahr)
+
+  # The harm bound must survive the conversion to integer events
+  ("harm" %in% result$bound$bound)
+  # Cumulative harm crossing under H0 at the final analysis matches the input
+  harm_h0 <- result$bound$probability0[result$bound$bound == "harm"]
+  (abs(max(harm_h0) - 0.05) < 1e-6)
+})
