@@ -145,12 +145,12 @@ gs_design_ahr(
 - test_harm:
 
   Indicator of which analyses should include a harm bound; single value
-  of `TRUE` (default) indicates all analyses; single value of `FALSE`
-  indicates no harm bound; otherwise, a logical vector of the same
-  length as `info` should indicate which analyses will have a harm
-  bound. For fixed designs, the harm bound is typically not included.
-  For group sequential designs, the harm bound is always smaller than
-  the lower bound (if any).
+  of `FALSE` (default) indicates no harm bound; single value of `TRUE`
+  indicates all analyses; otherwise, a logical vector of the same length
+  as `info` should indicate which analyses will have a harm bound. For
+  group sequential designs, the harm bound is always smaller than the
+  lower bound (if any). For fixed designs, requesting a harm bound fails
+  immediately with an error.
 
 - info_scale:
 
