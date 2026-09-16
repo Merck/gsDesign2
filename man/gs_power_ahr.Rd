@@ -81,12 +81,12 @@ a logical vector of the same length as \code{info} should
 indicate which analyses will have an efficacy bound.}
 
 \item{test_harm}{Indicator of which analyses should include a harm bound;
-single value of \code{TRUE} (default) indicates all analyses;
-single value of \code{FALSE} indicates no harm bound; otherwise,
+single value of \code{FALSE} (default) indicates no harm bound;
+single value of \code{TRUE} indicates all analyses; otherwise,
 a logical vector of the same length as \code{info} should
 indicate which analyses will have a harm bound.
-For fixed designs, the harm bound is typically not included.
-For group sequential designs, the harm bound is always smaller than the lower bound (if any).}
+For group sequential designs, the harm bound is always smaller than the lower bound (if any).
+For fixed designs, requesting a harm bound fails immediately with an error.}
 
 \item{ratio}{Experimental:Control randomization ratio.}
 
