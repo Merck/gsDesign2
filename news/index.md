@@ -1,8 +1,16 @@
 # Changelog
 
-## gsDesign2 1.2.0
+## gsDesign2 1.3.0
 
-CRAN release: 2026-07-30
+- The objects returned by
+  [`gs_design_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
+  and
+  [`gs_power_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
+  are now assigned a unique class.
+- [`to_integer()`](https://merck.github.io/gsDesign2/reference/to_integer.md)
+  now retains the harm boundary (`harm`, `hpar`, `test_harm`) when
+  converting an AHR group sequential design to integer events, instead
+  of silently dropping it.
 
 ### Major changes
 
@@ -19,6 +27,10 @@ CRAN release: 2026-07-30
   object (so existing code that customizes the output with **gt**
   functions keeps working) and now requires the suggested **gt** package
   to be installed.
+
+## gsDesign2 1.2.0
+
+CRAN release: 2026-07-30
 
 ### New features
 
