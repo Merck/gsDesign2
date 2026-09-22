@@ -94,12 +94,12 @@
 #'   a logical vector of the same length as `info` should
 #'   indicate which analyses will have a lower bound.
 #' @param test_harm Indicator of which analyses should include a harm bound;
-#'   single value of `TRUE` (default) indicates all analyses;
-#'   single value of `FALSE` indicates no harm bound; otherwise,
+#'   single value of `FALSE` (default) indicates no harm bound;
+#'   single value of `TRUE` indicates all analyses; otherwise,
 #'   a logical vector of the same length as `info` should
 #'   indicate which analyses will have a harm bound.
-#'   For fixed designs, the harm bound is typically not included.
 #'   For group sequential designs, the harm bound is always smaller than the lower bound (if any).
+#'   For fixed designs, requesting a harm bound fails immediately with an error.
 #' @param r Integer value controlling grid for numerical integration as in
 #'   Jennison and Turnbull (2000); default is 18, range is 1 to 80.
 #'   Larger values provide larger number of grid points and greater accuracy.
@@ -295,7 +295,7 @@ gs_power_npe <- function(theta = .1, theta0 = 0, theta1 = theta, # 3 theta
                          ) {
   # Check & set up parameters ----
   n_analysis <- length(info)
-  if (n_analysis == 1 && test_harm) {
+  if (n_analysis == 1 && any(test_harm)) {
     stop("gs_power_npe() harm bound cannot be tested if there is only one analysis.")
   }
 

@@ -271,39 +271,7 @@ gs_design_npe <- function(
   # for a fixed design, this is all you need.
   if (n_analysis == 1) {
     if (any(test_harm)) {
-      ans_h1 <- gs_power_npe(
-        theta = theta, theta0 = theta0, theta1 = theta1,
-        info = info * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
-        info_scale = info_scale,
-        upper = gs_b, upar = qnorm(1 - alpha), test_upper = test_upper,
-        lower = if (two_sided) lower else gs_b,
-        lpar = if (two_sided) lpar else rep(-Inf, n_analysis),
-        test_lower = test_lower, binding = binding,
-        harm = harm, hpar = hpar, test_harm = test_harm,
-        r = r, tol = tol
-      )
-      ans_h0 <- gs_power_npe(
-        theta = 0, theta0 = theta0, theta1 = theta1,
-        info = info0 * min_x, info0 = info0 * min_x, info1 = info1 * min_x,
-        info_scale = info_scale,
-        upper = gs_b, upar = qnorm(1 - alpha), test_upper = test_upper,
-        lower = if (two_sided) lower else gs_b,
-        lpar = if (two_sided) lpar else rep(-Inf, n_analysis),
-        test_lower = test_lower, binding = binding,
-        harm = harm, hpar = hpar, test_harm = test_harm,
-        r = r, tol = tol
-      )
-      suppressMessages(
-        ans <- ans_h1 |>
-          full_join(
-            ans_h0 |>
-              select(analysis, bound, probability) |>
-              rename(probability0 = probability)
-          )
-      )
-      ans <- ans |> select(analysis, bound, z, probability, probability0, theta, info_frac, info, info0, info1)
-      class(ans) <- c("gs_design_npe", class(ans))
-      return(ans)
+      stop("gs_design_npe() harm bound cannot be tested if there is only one analysis.")
     }
 
     ans <- tibble(
