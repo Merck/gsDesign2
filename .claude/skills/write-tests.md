@@ -25,13 +25,20 @@ tests/
 
 ## Test Categories: `developer` vs `independent`
 
-Every test file is named `test-developer-<topic>.R` or `test-independent-<topic>.R`. The prefix signals **how** the test establishes correctness — pick the right one so tests stay where reviewers expect them.
+Every test file is named `test-developer-<topic>.R` or `test-independent-<topic>.R`. The prefix records the test's **provenance** as evidence for validating the statistical software — pick the right one so tests stay where reviewers expect them.
 
-- **`test-independent-*`** — validate outputs against an **independent source of truth**: a separate reference implementation (e.g. `gsDesign::gsSurv()`, `gsDesign::toInteger()`), a closed-form/hand-computed value, or a mathematical identity. These answer "does the package produce the statistically correct number?" and should not rely on gsDesign2 internals.
+A test belongs in **`test-independent-*`** if either (or both) of these hold:
 
-- **`test-developer-*`** — exercise the package's **own implementation behavior**: default arguments, S3 class/attribute plumbing (e.g. `uninteger_is_from`), internal helpers (`gsDesign2:::`), consistency between exported and internal variants (e.g. `gs_power_ahr()` vs `gs_power_ahr_()`), argument handling, and "does this feature survive this transformation?" checks. These answer "does the code behave as engineered?" and may inspect internals freely.
+1. **It was written by an independent reviewer** — someone other than the developer of the code under test, tasked with independently validating it.
+2. **It uses an independent implementation** — the expected value comes from *outside* gsDesign2: a separate reference implementation (e.g. `gsDesign::gsSurv()`, `gsDesign::toInteger()`), a closed-form/hand-computed value, or a mathematical identity.
 
-Rule of thumb: if the expected value comes from *outside* gsDesign2, it's `independent`; if it comes from gsDesign2 itself or from how the function is wired, it's `developer`. Add a new test to the existing file for its topic and category (e.g. a `to_integer()` behavior test goes in `test-developer-to_integer.R`, next to the other harm/attribute tests).
+Everything else is **`test-developer-*`** — tests the developer writes against the package's own implementation behavior: default arguments, S3 class/attribute plumbing (e.g. `uninteger_is_from`), internal helpers (`gsDesign2:::`), consistency between exported and internal variants (e.g. `gs_power_ahr()` vs `gs_power_ahr_()`), argument handling, and "does this feature survive this transformation?" checks. These may inspect internals freely.
+
+Notes:
+
+- The primary signal is **who** wrote the test, not what or how it tests. Unless you were explicitly asked to write an independent validation, label your tests `developer`. (An independent reviewer may still write `test-independent-*` tests with no double programming — e.g. `test-independent-check_arg.R` confirms known errors are caught, with no reference implementation.)
+- `test-independent-*` files stand as validation evidence. When you purposefully change the statistical behavior of the code, update the affected independent tests, but keep the change minimal so the file still reflects an independent check rather than the developer's own expectations.
+- Add a new test to the existing file for its topic and category (e.g. a developer-written `to_integer()` behavior test goes in `test-developer-to_integer.R`, next to the other harm/attribute tests).
 
 ## Core Pattern
 
