@@ -23,6 +23,23 @@ tests/
     └── test-*.md           # Snapshot files (standalone, no .R file needed)
 ```
 
+## Test Categories: `developer` vs `independent`
+
+Every test file is named `test-developer-<topic>.R` or `test-independent-<topic>.R`. The prefix records the test's **provenance** as evidence for validating the statistical software — pick the right one so tests stay where reviewers expect them.
+
+A test belongs in **`test-independent-*`** if either (or both) of these hold:
+
+1. **It was written by an independent reviewer** — someone other than the developer of the code under test, tasked with independently validating it.
+2. **It uses an independent implementation** — the expected value comes from *outside* gsDesign2: a separate reference implementation (e.g. `gsDesign::gsSurv()`, `gsDesign::toInteger()`), a closed-form/hand-computed value, or a mathematical identity.
+
+Everything else is **`test-developer-*`** — tests the developer writes against the package's own implementation behavior: default arguments, S3 class/attribute plumbing (e.g. `uninteger_is_from`), internal helpers (`gsDesign2:::`), consistency between exported and internal variants (e.g. `gs_power_ahr()` vs `gs_power_ahr_()`), argument handling, and "does this feature survive this transformation?" checks. These may inspect internals freely.
+
+Notes:
+
+- The primary signal is **who** wrote the test, not what or how it tests. Unless you were explicitly asked to write an independent validation, you should most likely label your tests `developer`. (An independent reviewer may still write `test-independent-*` tests with no double programming — e.g. `test-independent-check_arg.R` confirms known errors are caught, with no reference implementation.)
+- `test-independent-*` files stand as validation evidence. When you purposefully change the statistical behavior of the code, update the affected independent tests, but keep the change minimal so the file still reflects an independent check rather than the developer's own expectations.
+- Add a new test to the existing file for its topic and category (e.g. a developer-written `to_integer()` behavior test goes in `test-developer-to_integer.R`, next to the other harm/attribute tests).
+
 ## Core Pattern
 
 ```r
