@@ -1,13 +1,14 @@
-# Development
+# gsDesign2 1.3.0
 
 - `gs_update_ahr()` gains `test_upper`, `test_lower`, and `test_harm` arguments so that the boundaries tested at each analysis can be changed when updating a design. It now also carries the harm bound through the update, drops bounds that are not tested at an analysis, and supports changing the number of analyses (taken from `event_tbl`) so the updated monitoring schedule can differ from the original design.
 - The objects returned by `gs_design_npe()` and `gs_power_npe()` are now assigned a unique class.
-
-# gsDesign2 1.2.0
+- `to_integer()` now retains the harm boundary (`harm`, `hpar`, `test_harm`) when converting an AHR group sequential design to integer events, instead of silently dropping it.
 
 ## Major changes
 
 - The (heavy) **gt** dependency has been replaced with the lightweight **lt** package, and `lt()` methods are now the recommended way to render design summaries as tables. S3 methods for `lt()` are provided for `fixed_design_summary` and `gs_design_summary` objects, and the `lt()` generic is re-exported so it can be used after loading only gsDesign2. There are no significant visual changes in the HTML tables. `as_gt()` is deprecated but kept for one release: it still returns a `gt_tbl` object (so existing code that customizes the output with **gt** functions keeps working) and now requires the suggested **gt** package to be installed.
+
+# gsDesign2 1.2.0
 
 ## New features
 

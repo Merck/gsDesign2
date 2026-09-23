@@ -36,7 +36,7 @@ Everything else is **`test-developer-*`** — tests the developer writes against
 
 Notes:
 
-- The primary signal is **who** wrote the test, not what or how it tests. Unless you were explicitly asked to write an independent validation, label your tests `developer`. (An independent reviewer may still write `test-independent-*` tests with no double programming — e.g. `test-independent-check_arg.R` confirms known errors are caught, with no reference implementation.)
+- The primary signal is **who** wrote the test, not what or how it tests. Unless you were explicitly asked to write an independent validation, you should most likely label your tests `developer`. (An independent reviewer may still write `test-independent-*` tests with no double programming — e.g. `test-independent-check_arg.R` confirms known errors are caught, with no reference implementation.)
 - `test-independent-*` files stand as validation evidence. When you purposefully change the statistical behavior of the code, update the affected independent tests, but keep the change minimal so the file still reflects an independent check rather than the developer's own expectations.
 - Add a new test to the existing file for its topic and category (e.g. a developer-written `to_integer()` behavior test goes in `test-developer-to_integer.R`, next to the other harm/attribute tests).
 
