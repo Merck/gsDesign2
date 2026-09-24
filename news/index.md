@@ -2,6 +2,13 @@
 
 ## gsDesign2 1.3.0
 
+- [`gs_update_ahr()`](https://merck.github.io/gsDesign2/reference/gs_update_ahr.md)
+  gains `test_upper`, `test_lower`, and `test_harm` arguments so that
+  the boundaries tested at each analysis can be changed when updating a
+  design. It now also carries the harm bound through the update, drops
+  bounds that are not tested at an analysis, and supports changing the
+  number of analyses (taken from `event_tbl`) so the updated monitoring
+  schedule can differ from the original design.
 - The objects returned by
   [`gs_design_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
   and

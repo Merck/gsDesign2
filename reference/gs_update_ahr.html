@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,10 @@
 <span>  alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ustime <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lstime <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  event_tbl <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  event_tbl <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  test_upper <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  test_lower <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  test_harm <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -90,10 +93,36 @@ The data frame <code>event_tbl = data.frame(analysis = c(1, 1, 2, 2), event = c(
 indicates that 30 events were observed during the delayed effect period,
 130 events were observed at the IA, and 230 events were observed at the FA.</p></dd>
 
+
+<dt id="arg-test-upper">test_upper<a class="anchor" aria-label="anchor" href="#arg-test-upper"></a></dt>
+<dd><p>Indicator of which analyses should include an upper
+(efficacy) bound in the updated design; single value of <code>TRUE</code> (default) or a
+logical vector of length equal to the updated number of analyses. Default
+<code>NULL</code> reuses the setting of the original design <code>x</code>.</p></dd>
+
+
+<dt id="arg-test-lower">test_lower<a class="anchor" aria-label="anchor" href="#arg-test-lower"></a></dt>
+<dd><p>Indicator of which analyses should include a lower
+(futility) bound in the updated design, specified as for <code>test_upper</code>.</p></dd>
+
+
+<dt id="arg-test-harm">test_harm<a class="anchor" aria-label="anchor" href="#arg-test-harm"></a></dt>
+<dd><p>Indicator of which analyses should include a harm bound in
+the updated design, specified as for <code>test_upper</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list with input parameters, enrollment rate, failure rate, analysis, and bound.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The updated number of analyses is the larger of the length of <code>ustime</code> and
+the largest value in the <code>analysis</code> column of <code>event_tbl</code>, so the monitoring
+schedule may differ from the original design <code>x</code>. (When neither is supplied,
+e.g. an alpha-only update, the original number of analyses is kept.) When the
+number of analyses changes, <code>test_upper</code>, <code>test_lower</code>, and <code>test_harm</code> must
+be supplied with the updated length.</p>
     </div>
 
     <div class="section level2">
@@ -175,7 +204,6 @@ indicates that 30 events were observed during the delayed effect period,
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 upper  0.90644887  0.023652865 1.9827196    0.7986285 0.023699381</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis   n event       ahr     theta  info info0 info_frac info_frac0</span>
@@ -215,7 +243,6 @@ indicates that 30 events were observed during the delayed effect period,
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 upper  0.93925499  0.023873317 1.9806560    0.7955620 0.023814933</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis   n event       ahr     theta info info0 info_frac info_frac0</span>
@@ -255,7 +282,6 @@ indicates that 30 events were observed during the delayed effect period,
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 upper  0.93925499  0.023873317 1.9806560    0.7955620 0.023814933</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis   n event       ahr     theta info info0 info_frac info_frac0</span>
@@ -288,7 +314,6 @@ indicates that 30 events were observed during the delayed effect period,
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1 upper  0.51773954   0.01501825 2.1696086    0.7368977 0.01501825</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 upper  0.93344812   0.04865843 1.6902088    0.8255661 0.04549401</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        1 lower  0.04125608   0.68360277 0.4777973    0.9349751 0.31639723</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2 lower  0.04125608   0.68360277      -Inf          Inf 1.00000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $analysis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   analysis   n event       ahr     theta  info info0 info_frac info_frac0</span>

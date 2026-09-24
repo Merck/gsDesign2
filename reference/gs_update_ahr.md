@@ -11,7 +11,10 @@ gs_update_ahr(
   alpha = NULL,
   ustime = NULL,
   lstime = NULL,
-  event_tbl = NULL
+  event_tbl = NULL,
+  test_upper = NULL,
+  test_lower = NULL,
+  test_harm = NULL
 )
 ```
 
@@ -54,10 +57,36 @@ gs_update_ahr(
   period, 130 events were observed at the IA, and 230 events were
   observed at the FA.
 
+- test_upper:
+
+  Indicator of which analyses should include an upper (efficacy) bound
+  in the updated design; single value of `TRUE` (default) or a logical
+  vector of length equal to the updated number of analyses. Default
+  `NULL` reuses the setting of the original design `x`.
+
+- test_lower:
+
+  Indicator of which analyses should include a lower (futility) bound in
+  the updated design, specified as for `test_upper`.
+
+- test_harm:
+
+  Indicator of which analyses should include a harm bound in the updated
+  design, specified as for `test_upper`.
+
 ## Value
 
 A list with input parameters, enrollment rate, failure rate, analysis,
 and bound.
+
+## Details
+
+The updated number of analyses is the larger of the length of `ustime`
+and the largest value in the `analysis` column of `event_tbl`, so the
+monitoring schedule may differ from the original design `x`. (When
+neither is supplied, e.g. an alpha-only update, the original number of
+analyses is kept.) When the number of analyses changes, `test_upper`,
+`test_lower`, and `test_harm` must be supplied with the updated length.
 
 ## Examples
 
@@ -139,7 +168,6 @@ gs_update_ahr(
 #> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574
 #> 2        2 upper  0.90644887  0.023652865 1.9827196    0.7986285 0.023699381
 #> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
-#> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
 #>   analysis   n event       ahr     theta  info info0 info_frac info_frac0
@@ -179,7 +207,6 @@ gs_update_ahr(
 #> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574
 #> 2        2 upper  0.93925499  0.023873317 1.9806560    0.7955620 0.023814933
 #> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
-#> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
 #>   analysis   n event       ahr     theta info info0 info_frac info_frac0
@@ -219,7 +246,6 @@ gs_update_ahr(
 #> 1        1 upper  0.48139484  0.004135574 2.6407961    0.6816991 0.004135574
 #> 2        2 upper  0.93925499  0.023873317 1.9806560    0.7955620 0.023814933
 #> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
-#> 4        2 lower  0.03534257  0.784256052      -Inf          Inf 1.000000000
 #> 
 #> $analysis
 #>   analysis   n event       ahr     theta info info0 info_frac info_frac0
@@ -252,7 +278,6 @@ gs_update_ahr(x = x, alpha = 0.05)
 #> 1        1 upper  0.51773954   0.01501825 2.1696086    0.7368977 0.01501825
 #> 2        2 upper  0.93344812   0.04865843 1.6902088    0.8255661 0.04549401
 #> 3        1 lower  0.04125608   0.68360277 0.4777973    0.9349751 0.31639723
-#> 4        2 lower  0.04125608   0.68360277      -Inf          Inf 1.00000000
 #> 
 #> $analysis
 #>   analysis   n event       ahr     theta  info info0 info_frac info_frac0
