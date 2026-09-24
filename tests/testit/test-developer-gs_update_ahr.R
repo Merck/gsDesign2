@@ -1,7 +1,3 @@
-library(gsDesign2)
-library(dplyr)
-library(testit)
-
 # A two-analysis asymmetric design with beta-spending, non-binding futility
 x <- gs_design_ahr(
   enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = (1:3) / 3),
@@ -39,7 +35,7 @@ assert("futility is not reported where test_lower is FALSE", {
 })
 
 assert("no infinite (untested) bounds are reported", {
-  (all(is.finite(xu$bound$z)))
+  (is.finite(xu$bound$z))
 })
 
 # ---- Decrease the number of analyses from 2 to 1 ---------------------------
@@ -56,4 +52,25 @@ assert("the updated design can drop interim analyses", {
 xa <- gs_update_ahr(x = x, alpha = 0.05)
 assert("alpha-only update keeps the original number of analyses", {
   (nrow(xa$analysis) == 2)
+})
+
+# ---- Errors ----------------------------------------------------------------
+assert("a testing vector whose length disagrees with the number of analyses errors", {
+  (has_error(gs_update_ahr(
+    x = x, ustime = ustime, lstime = ustime, event_tbl = event_tbl,
+    test_upper = c(TRUE, TRUE)  # length 2 but event_tbl has 3 analyses
+  )))
+})
+
+assert("an analysis beyond the original design with no observed events errors", {
+  # original design has 2 analyses; ask for 4 but omit events for analysis 3
+  (has_error(gs_update_ahr(
+    x = x,
+    ustime = c(0.4, 0.6, 0.8, 1), lstime = c(0.4, 0.6, 0.8, 1),
+    event_tbl = data.frame(analysis = c(1, 1, 2, 2, 4, 4),
+                           event = c(20, 80, 30, 150, 40, 250)),
+    test_upper = c(FALSE, TRUE, TRUE, TRUE),
+    test_lower = c(TRUE, TRUE, FALSE, FALSE),
+    test_harm = FALSE
+  )))
 })

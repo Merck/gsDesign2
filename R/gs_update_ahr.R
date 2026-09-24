@@ -45,11 +45,12 @@
 #' the updated design, specified as for `test_upper`.
 #'
 #' @details
-#' The updated number of analyses is taken from `event_tbl` (the largest value
-#' in its `analysis` column) when it is provided, so the monitoring schedule may
-#' differ from the original design `x`. When the number of analyses changes,
-#' `test_upper`, `test_lower`, and `test_harm` (as well as `ustime`/`lstime`)
-#' must be supplied with the updated length.
+#' The updated number of analyses is the larger of the length of `ustime` and
+#' the largest value in the `analysis` column of `event_tbl`, so the monitoring
+#' schedule may differ from the original design `x`. (When neither is supplied,
+#' e.g. an alpha-only update, the original number of analyses is kept.) When the
+#' number of analyses changes, `test_upper`, `test_lower`, and `test_harm` must
+#' be supplied with the updated length.
 #'
 #' @return A list with input parameters, enrollment rate, failure rate, analysis, and bound.
 #'
@@ -244,9 +245,15 @@ gs_update_ahr <- function(
   # ----------------------------------- #
   #         Get parameters              #
   # ----------------------------------- #
-  # Get the total number of analyses. When event_tbl is provided, the updated
-  # design may have a different number of analyses than the original design.
-  n_analysis <- if (!is.null(event_tbl)) max(event_tbl$analysis) else nrow(x$analysis)
+  # Get the total number of analyses. When event_tbl and/or ustime are provided,
+  # the updated design may have a different number of analyses than the original
+  # design: ustime gives one spending time per analysis, and event_tbl may carry
+  # observed events for analyses beyond the original design. event_tbl may also
+  # only contain the analyses observed so far (e.g. the IA of a two-analysis
+  # design), so it can under-count; take the larger of the two.
+  n_analysis <- max(length(ustime),
+                    if (!is.null(event_tbl)) max(event_tbl$analysis) else 0L)
+  if (n_analysis == 0L) n_analysis <- nrow(x$analysis)
 
   # Resolve the testing selections and harm bound settings. By default we reuse
   # the settings of the original design; callers may override them, which is
@@ -254,7 +261,7 @@ gs_update_ahr <- function(
   test_upper <- test_upper %||% x$input$test_upper
   test_lower <- test_lower %||% x$input$test_lower
   test_harm  <- test_harm  %||% x$input$test_harm %||% FALSE
-  harm_fun   <- x$input$harm %||% gs_b
+  harm       <- x$input$harm %||% gs_b
   hpar       <- x$input$hpar %||% -Inf
 
   # Recycle scalar testing selections to the updated number of analyses
@@ -317,7 +324,7 @@ gs_update_ahr <- function(
                                  test_upper = test_upper,
                                  lower = x$input$lower, lpar = x$input$lpar,
                                  test_lower = test_lower,
-                                 harm = harm_fun, hpar = hpar, test_harm = test_harm,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
 
     # Update boundaries and crossing prob under H1 ----
@@ -338,7 +345,7 @@ gs_update_ahr <- function(
                                  test_upper = test_upper,
                                  lower = x$input$lower, lpar = x$input$lpar,
                                  test_lower = test_lower,
-                                 harm = harm_fun, hpar = hpar, test_harm = test_harm,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
   } else {
     # ----------------------------------- #
@@ -401,7 +408,7 @@ gs_update_ahr <- function(
                                  test_upper = test_upper,
                                  lower = x$input$lower, lpar = lpar_update,
                                  test_lower = test_lower,
-                                 harm = harm_fun, hpar = hpar, test_harm = test_harm,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
 
     # Update boundaries and crossing prob under H1
@@ -414,7 +421,7 @@ gs_update_ahr <- function(
                                  test_upper = test_upper,
                                  lower = x$input$lower, lpar = lpar_update,
                                  test_lower = test_lower,
-                                 harm = harm_fun, hpar = hpar, test_harm = test_harm,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
   }
 

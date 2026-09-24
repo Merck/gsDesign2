@@ -56,11 +56,12 @@ A list with input parameters, enrollment rate, failure rate, analysis, and bound
 Group sequential design using average hazard ratio under non-proportional hazards
 }
 \details{
-The updated number of analyses is taken from \code{event_tbl} (the largest value
-in its \code{analysis} column) when it is provided, so the monitoring schedule may
-differ from the original design \code{x}. When the number of analyses changes,
-\code{test_upper}, \code{test_lower}, and \code{test_harm} (as well as \code{ustime}/\code{lstime})
-must be supplied with the updated length.
+The updated number of analyses is the larger of the length of \code{ustime} and
+the largest value in the \code{analysis} column of \code{event_tbl}, so the monitoring
+schedule may differ from the original design \code{x}. (When neither is supplied,
+e.g. an alpha-only update, the original number of analyses is kept.) When the
+number of analyses changes, \code{test_upper}, \code{test_lower}, and \code{test_harm} must
+be supplied with the updated length.
 }
 \examples{
 library(gsDesign)
