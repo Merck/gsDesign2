@@ -23,7 +23,7 @@ xu <- gs_update_ahr(
 )
 
 assert("the updated design has the requested number of analyses", {
-  (nrow(xu$analysis) == 3)
+  (nrow(xu$analysis) %==% 3L)
 })
 
 assert("efficacy is not reported where test_upper is FALSE", {
@@ -45,13 +45,13 @@ xd <- gs_update_ahr(
 )
 
 assert("the updated design can drop interim analyses", {
-  (nrow(xd$analysis) == 1)
+  (nrow(xd$analysis) %==% 1L)
 })
 
 # ---- Testing selections default to the original design ---------------------
 xa <- gs_update_ahr(x = x, alpha = 0.05)
 assert("alpha-only update keeps the original number of analyses", {
-  (nrow(xa$analysis) == 2)
+  (nrow(xa$analysis) %==% 2L)
 })
 
 # ---- Errors ----------------------------------------------------------------
