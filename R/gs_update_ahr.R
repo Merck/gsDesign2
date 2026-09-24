@@ -35,6 +35,22 @@
 #' The data frame `event_tbl = data.frame(analysis = c(1, 1, 2, 2), event = c(30, 100, 30, 200))`
 #' indicates that 30 events were observed during the delayed effect period,
 #' 130 events were observed at the IA, and 230 events were observed at the FA.
+#' @param test_upper Indicator of which analyses should include an upper
+#' (efficacy) bound in the updated design; single value of `TRUE` (default) or a
+#' logical vector of length equal to the updated number of analyses. Default
+#' `NULL` reuses the setting of the original design `x`.
+#' @param test_lower Indicator of which analyses should include a lower
+#' (futility) bound in the updated design, specified as for `test_upper`.
+#' @param test_harm Indicator of which analyses should include a harm bound in
+#' the updated design, specified as for `test_upper`.
+#'
+#' @details
+#' The updated number of analyses is the larger of the length of `ustime` and
+#' the largest value in the `analysis` column of `event_tbl`, so the monitoring
+#' schedule may differ from the original design `x`. (When neither is supplied,
+#' e.g. an alpha-only update, the original number of analyses is kept.) When the
+#' number of analyses changes, `test_upper`, `test_lower`, and `test_harm` must
+#' be supplied with the updated length.
 #'
 #' @return A list with input parameters, enrollment rate, failure rate, analysis, and bound.
 #'
@@ -195,7 +211,10 @@ gs_update_ahr <- function(
     alpha = NULL,
     ustime = NULL,
     lstime = NULL,
-    event_tbl = NULL) {
+    event_tbl = NULL,
+    test_upper = NULL,
+    test_lower = NULL,
+    test_harm = NULL) {
 
   # ----------------------------------- #
   #         Check inputs                #
@@ -226,8 +245,38 @@ gs_update_ahr <- function(
   # ----------------------------------- #
   #         Get parameters              #
   # ----------------------------------- #
-  # Get the total number of analyses
-  n_analysis <- nrow(x$analysis)
+  # Get the total number of analyses. When event_tbl and/or ustime are provided,
+  # the updated design may have a different number of analyses than the original
+  # design: ustime gives one spending time per analysis, and event_tbl may carry
+  # observed events for analyses beyond the original design. event_tbl may also
+  # only contain the analyses observed so far (e.g. the IA of a two-analysis
+  # design), so it can under-count; take the larger of the two.
+  n_analysis <- max(length(ustime),
+                    if (!is.null(event_tbl)) max(event_tbl$analysis) else 0L)
+  if (n_analysis == 0L) n_analysis <- nrow(x$analysis)
+
+  # Resolve the testing selections and harm bound settings. By default we reuse
+  # the settings of the original design; callers may override them, which is
+  # required when the number of analyses changes.
+  test_upper <- test_upper %||% x$input$test_upper
+  test_lower <- test_lower %||% x$input$test_lower
+  test_harm  <- test_harm  %||% x$input$test_harm %||% FALSE
+  harm       <- x$input$harm %||% gs_b
+  hpar       <- x$input$hpar %||% -Inf
+
+  # Recycle scalar testing selections to the updated number of analyses
+  if (length(test_upper) == 1) test_upper <- rep(test_upper, n_analysis)
+  if (length(test_lower) == 1) test_lower <- rep(test_lower, n_analysis)
+  if (length(test_harm)  == 1) test_harm  <- rep(test_harm,  n_analysis)
+
+  # Validate lengths when the number of analyses changed
+  if (n_analysis != nrow(x$analysis)) {
+    for (nm in c("test_upper", "test_lower", "test_harm")) {
+      if (length(get(nm)) != n_analysis) stop(sprintf(
+        "gs_update_ahr(): the number of analyses changed to %d, so %s must have length %d.",
+        n_analysis, nm, n_analysis))
+    }
+  }
 
   # Get the updated alpha
   if (is.null(alpha) && !is.null(x$input$alpha)) {
@@ -272,9 +321,10 @@ gs_update_ahr <- function(
                                  info1 = x$analysis$info,
                                  info_scale = x$input$info_scale,
                                  upper = x$input$upper, upar = upar_update,
-                                 test_upper = x$input$test_upper,
+                                 test_upper = test_upper,
                                  lower = x$input$lower, lpar = x$input$lpar,
-                                 test_lower = x$input$test_lower,
+                                 test_lower = test_lower,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
 
     # Update boundaries and crossing prob under H1 ----
@@ -292,9 +342,10 @@ gs_update_ahr <- function(
                                  info1 = NULL,
                                  info_scale = x$input$info_scale,
                                  upper = x$input$upper, upar = upar_update,
-                                 test_upper = x$input$test_upper,
+                                 test_upper = test_upper,
                                  lower = x$input$lower, lpar = x$input$lpar,
-                                 test_lower = x$input$test_lower,
+                                 test_lower = test_lower,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
   } else {
     # ----------------------------------- #
@@ -309,6 +360,8 @@ gs_update_ahr <- function(
       if (!(i %in% event_tbl$analysis)) {
         # if there is no observed data at analysis i,
         # for example, we only observed IA data and FA data is unavailable yet
+        if (i > nrow(x$analysis)) stop(sprintf(
+          "gs_update_ahr(): analysis %d is beyond the original design, so its events must be provided in event_tbl.", i))
         blinded_est_new <- data.frame(event = x$analysis$event[i],
                                       ahr = x$analysis$ahr[i],
                                       theta = x$analysis$theta[i],
@@ -352,9 +405,10 @@ gs_update_ahr <- function(
                                  info = blinded_est$info0,
                                  info_scale = "h0_info",
                                  upper = x$input$upper, upar = upar_update,
-                                 test_upper = x$input$test_upper,
+                                 test_upper = test_upper,
                                  lower = x$input$lower, lpar = lpar_update,
-                                 test_lower = x$input$test_lower,
+                                 test_lower = test_lower,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
 
     # Update boundaries and crossing prob under H1
@@ -364,9 +418,10 @@ gs_update_ahr <- function(
                                  info = blinded_est$info0,
                                  info_scale = "h0_info",
                                  upper = x$input$upper, upar = upar_update,
-                                 test_upper = x$input$test_upper,
+                                 test_upper = test_upper,
                                  lower = x$input$lower, lpar = lpar_update,
-                                 test_lower = x$input$test_lower,
+                                 test_lower = test_lower,
+                                 harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
   }
 
@@ -389,12 +444,16 @@ gs_update_ahr <- function(
              `nominal p` = pnorm(-z)) |>
       left_join(x_updated_h1 |>
                   select(analysis, bound, z, probability)) |>
-      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`)
+      select(analysis, bound, probability, probability0, z, `~hr at bound`, `nominal p`) |>
+      # drop bounds that are not tested at an analysis (infinite z), consistent
+      # with gs_power_ahr()/gs_design_ahr()
+      filter(!is.infinite(z))
   )
 
   ans$analysis <- data.frame(
     analysis = 1:n_analysis,
-    n = x$analysis$n,
+    # pad sample size with NA for analyses added beyond the original design
+    n = x$analysis$n[1:n_analysis],
     event = if (is.null(event_tbl)) {
       x$analysis$event
     } else {

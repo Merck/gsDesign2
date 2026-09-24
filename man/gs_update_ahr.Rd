@@ -9,7 +9,10 @@ gs_update_ahr(
   alpha = NULL,
   ustime = NULL,
   lstime = NULL,
-  event_tbl = NULL
+  event_tbl = NULL,
+  test_upper = NULL,
+  test_lower = NULL,
+  test_harm = NULL
 )
 }
 \arguments{
@@ -34,12 +37,31 @@ and the second interval follows with an HR of 0.6.
 The data frame \code{event_tbl = data.frame(analysis = c(1, 1, 2, 2), event = c(30, 100, 30, 200))}
 indicates that 30 events were observed during the delayed effect period,
 130 events were observed at the IA, and 230 events were observed at the FA.}
+
+\item{test_upper}{Indicator of which analyses should include an upper
+(efficacy) bound in the updated design; single value of \code{TRUE} (default) or a
+logical vector of length equal to the updated number of analyses. Default
+\code{NULL} reuses the setting of the original design \code{x}.}
+
+\item{test_lower}{Indicator of which analyses should include a lower
+(futility) bound in the updated design, specified as for \code{test_upper}.}
+
+\item{test_harm}{Indicator of which analyses should include a harm bound in
+the updated design, specified as for \code{test_upper}.}
 }
 \value{
 A list with input parameters, enrollment rate, failure rate, analysis, and bound.
 }
 \description{
 Group sequential design using average hazard ratio under non-proportional hazards
+}
+\details{
+The updated number of analyses is the larger of the length of \code{ustime} and
+the largest value in the \code{analysis} column of \code{event_tbl}, so the monitoring
+schedule may differ from the original design \code{x}. (When neither is supplied,
+e.g. an alpha-only update, the original number of analyses is kept.) When the
+number of analyses changes, \code{test_upper}, \code{test_lower}, and \code{test_harm} must
+be supplied with the updated length.
 }
 \examples{
 library(gsDesign)
