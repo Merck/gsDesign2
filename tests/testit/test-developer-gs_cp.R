@@ -65,18 +65,19 @@ assert("Compare the gs_cp with gsDesign::gsCP", {
 
   gsDesign2_cp <- gs_cp(x = x, i = 1, zi = -qnorm(0.04), theta = c(-log(0.8), -log(0.8), -log(0.8)))
 
+  h1_scale <- sqrt(x$analysis$info / x$analysis$info0)
   gsDesign2_npe2 <- gs_cp_npe2(# IA1's Z-score
-    zi = -qnorm(0.04),
+    zi = -qnorm(0.04) * h1_scale[1],
     # IA1, IA2 and FA's theta
     theta = c(-log(0.8), -log(0.8), -log(0.8)),
     # IA1, IA2 and FA's information fraction
-    t = x_gsd$timing[1:3],
+    t = x$analysis$info_frac[1:3],
     # IA1, IA2 and FA's statistical information
-    info = x_gsd$n.I[1:3] / 4,
+    info = x$analysis$info[1:3],
     # IA2 and FA's futility bound
     a = c(-Inf, -Inf),
     # IA2 and FA's efficacy bound
-    b = x_gsd$upper$bound[2:3]
+    b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis %in% 2:3] * h1_scale[2:3]
   )
 
   # IA2's CP given IA1
@@ -84,7 +85,7 @@ assert("Compare the gs_cp with gsDesign::gsCP", {
   (all.equal(gsDesign2_cp$prob_alpha[1], gsDesign2_npe2$prob_alpha[1], tolerance = 0.002, scale = 1))
 
   # FA's CP given IA1
-  (all.equal(gsDesign_cp$upper$prob[2], gsDesign2_cp$prob_alpha[2], tolerance = 0.005, scale = 1))
+  (all.equal(gsDesign_cp$upper$prob[2], gsDesign2_cp$prob_alpha[2], tolerance = 0.01, scale = 1))
   (all.equal(gsDesign2_cp$prob_alpha[2], gsDesign2_npe2$prob_alpha[2], tolerance = 0.001, scale = 1))
 
   # --------------------------------------------------- #
@@ -96,21 +97,21 @@ assert("Compare the gs_cp with gsDesign::gsCP", {
   gsDesign2_cp <- gs_cp(x = x, i = 2, zi = -qnorm(0.04), theta = c(-log(0.8), -log(0.8)))
 
   gsDesign2_npe2 <- gs_cp_npe2(# IA2's Z-score
-    zi = -qnorm(0.04),
+    zi = -qnorm(0.04) * h1_scale[2],
     # IA2 and FA's theta
     theta = c(-log(0.8), -log(0.8)),
     # IA2 and FA's information fraction
-    t = x_gsd$timing[2:3],
+    t = x$analysis$info_frac[2:3],
     # IA2 and FA's statistical information
-    info = x_gsd$n.I[2:3] / 4,
+    info = x$analysis$info[2:3],
     # FA's futility bound
     a = -Inf,
     # FA's efficacy bound
-    b = x_gsd$upper$bound[3]
+    b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3] * h1_scale[3]
   )
 
   # FA's CP given IA2
-  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 0.002, scale = 1))
+  (all.equal(gsDesign_cp$upper$prob[1], gsDesign2_cp$prob_alpha[1], tolerance = 0.005, scale = 1))
   (all.equal(gsDesign2_cp$prob_alpha[1], gsDesign2_npe2$prob_alpha[1], tolerance = 0.005, scale = 1))
 
 })
@@ -130,13 +131,14 @@ assert("Handle futility bounds tested only at completed analyses", {
   ) |> to_integer()
 
   actual <- gs_cp(x = x, i = 1, zi = 0)
+  h1_scale <- sqrt(x$analysis$info / x$analysis$info0)
   expected <- gs_cp_npe2(
     theta = x$analysis$theta,
     t = x$analysis$info_frac,
     info = x$analysis$info,
     a = rep(-Inf, 3),
-    b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis > 1],
-    zi = 0
+    b = x$bound$z[x$bound$bound == "upper" & x$bound$analysis > 1] * h1_scale[-1],
+    zi = 0 * h1_scale[1]
   )
 
   (all.equal(actual$prob_alpha, expected$prob_alpha, tolerance = 1e-4, scale = 1))
@@ -163,13 +165,14 @@ assert("Handle efficacy and futility bounds tested only at selected analyses", {
   x1 <- gs_cp(x = x, i = 1, zi = 0)
 
   # output from gs_cp_npe2
+  h1_scale <- sqrt(x$analysis$info / x$analysis$info0)
   x2 <- gs_cp_npe2(
     theta = x$analysis$theta,
     t = x$analysis$info_frac,
     info = x$analysis$info,
     a = rep(-Inf, 3),
-    b = upper_bound$z[upper_bound$analysis == 2:4],
-    zi = 0
+    b = upper_bound$z[upper_bound$analysis == 2:4] * h1_scale[-1],
+    zi = 0 * h1_scale[1]
   )
 
   (all.equal(x1$prob_alpha, x2$prob_alpha, tolerance = 1e-4, scale = 1))

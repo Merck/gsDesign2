@@ -49,6 +49,16 @@ A list of conditional powers:
 \description{
 Conditional power computation with non-constant effect size for (non-)crossing an upper/lower boundary at future analyses given Z value at analysis i
 }
+\details{
+The observed Z-statistic and design boundaries are standardized using
+null-hypothesis information. Conditional power is evaluated using the
+canonical process based on alternative-hypothesis information. The function
+therefore multiplies the observed Z-statistic and each future boundary at
+analysis \eqn{k} by \eqn{\sqrt{I_{k,1}/I_{k,0}}} before constructing B-value
+increments. The B-value drift remains
+\eqn{\theta_k t_k\sqrt{I_{K,1}}}, where
+\eqn{t_k=I_{k,1}/I_{K,1}}.
+}
 \examples{
 library(gsDesign2)
 library(gsDesign)
