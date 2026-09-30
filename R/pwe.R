@@ -19,13 +19,22 @@
 #' Piecewise exponential cumulative distribution function
 #'
 #' Computes the cumulative distribution function (CDF) or survival rate
-#' for a piecewise exponential distribution.
+#' for a piecewise exponential distribution, which may be stratified.
 #'
 #' @param x Times at which distribution is to be computed.
 #' @param duration A numeric vector of time duration.
 #' @param rate A numeric vector of event rate.
 #' @param lower_tail Indicator of whether lower (`TRUE`) or upper tail
 #'   (`FALSE`; default) of CDF is to be computed.
+#' @param stratum A vector of stratum labels parallel to `duration` and `rate`,
+#'   identifying the stratum each interval belongs to, e.g., the `stratum` column
+#'   of a data frame created by [define_fail_rate()]. `NULL` (default), or a
+#'   single distinct value, means the distribution is not stratified.
+#' @param weights A numeric vector of stratum weights, e.g., the prevalence of
+#'   each stratum in the population. It is normalized to sum to 1 internally.
+#'   Either named (matched to the values of `stratum`) or unnamed (matched to
+#'   `unique(stratum)` in order of appearance). Required when `stratum` has more
+#'   than one distinct value, and ignored otherwise.
 #'
 #' @return A vector with cumulative distribution function or survival values.
 #'
@@ -38,6 +47,22 @@
 #' \deqn{\Lambda(t)=\sum_{i=1}^M \delta(t\leq t_i)(\min(t,t_i)-t_{i-1})\lambda_i.}
 #' The survival at time \eqn{t} is then
 #' \deqn{S(t)=\exp(-\Lambda(t)).}
+#'
+#' For a stratified distribution, each stratum \eqn{k} has its own intervals and
+#' failure rates, hence its own survival \eqn{S_k(t)} as above. The marginal
+#' (population-level) survival is the mixture of those per-stratum curves,
+#' weighted by the stratum weights \eqn{w_k} (normalized to sum to 1):
+#'
+#' \deqn{S(t)=\sum_k w_k S_k(t).}
+#'
+#' This is the survival of a randomly selected member of the population, and is
+#' generally *not* itself a piecewise exponential distribution: a mixture of
+#' exponentials is not exponential. The marginal curve can therefore not be
+#' obtained by pooling the per-stratum failure rates, and has to be averaged on
+#' the survival scale as above.
+#'
+#' To obtain the marginal survival of the experimental arm of a design, multiply
+#' the failure rates by the hazard ratios before calling this function.
 #'
 #' @section Specification:
 #' \if{latex}{
@@ -52,6 +77,8 @@
 #'    \item Make a tibble of the input time points x, duration, hazard rates at points,
 #'    cumulative hazard and survival.
 #'    \item Extract the expected cumulative or survival of piecewise exponential distribution.
+#'    \item For a stratified distribution, average the per-stratum survival values
+#'    weighted by the normalized stratum weights.
 #'    \item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
 #'   }
 #' }
@@ -82,16 +109,73 @@
 #'   rate = rate
 #' )
 #' lines(x2, survival, col = 2)
-ppwe <- function(x, duration, rate, lower_tail = FALSE) {
+#'
+#' # A stratified distribution: the marginal survival of the control arm of a
+#' # design with a 30%/70% split between two biomarker strata.
+#' fail_rate <- rbind(
+#'   define_fail_rate(
+#'     duration = c(6, Inf), fail_rate = log(2) / c(8, 10),
+#'     hr = c(1, .7), dropout_rate = .001, stratum = "Biomarker positive"
+#'   ),
+#'   define_fail_rate(
+#'     duration = c(6, Inf), fail_rate = log(2) / c(20, 24),
+#'     hr = c(1, .5), dropout_rate = .001, stratum = "Biomarker negative"
+#'   )
+#' )
+#' x <- seq(0, 24, 4)
+#' weights <- c("Biomarker positive" = 3, "Biomarker negative" = 7)
+#' with(fail_rate, ppwe(x, duration, fail_rate, stratum = stratum, weights = weights))
+#'
+#' # The marginal curve lies between the two per-stratum curves.
+#' split(fail_rate, ~stratum) |>
+#'   vapply(function(d) ppwe(x, d$duration, d$fail_rate), numeric(length(x)))
+#'
+#' # The marginal survival of the experimental arm.
+#' with(fail_rate, ppwe(x, duration, fail_rate * hr, stratum = stratum, weights = weights))
+ppwe <- function(x, duration, rate, lower_tail = FALSE, stratum = NULL,
+                 weights = NULL) {
   # Check input enrollment rate assumptions
   check_non_negative(x)
   check_increasing(x, first = FALSE)
 
-  H <- cumulative_rate(x, duration, rate, last_(rate)) # cumulative hazard
-  survival <- exp(-H) # survival
+  strata <- unique(stratum)
+  survival <- if (length(strata) > 1) {
+    if (length(stratum) != length(duration)) stop(
+      "`stratum` must be of the same length as `duration` and `rate`"
+    )
+    weights <- normalize_weights(weights, strata)
+    # average the per-stratum survival curves on the survival scale
+    Reduce(`+`, lapply(seq_along(strata), function(i) {
+      j <- stratum == strata[i]
+      weights[i] * exp(-cumulative_rate(x, duration[j], rate[j], last_(rate[j])))
+    }))
+  } else {
+    H <- cumulative_rate(x, duration, rate, last_(rate)) # cumulative hazard
+    exp(-H) # survival
+  }
 
   # return survival or CDF
   if (lower_tail) 1 - survival else survival
+}
+
+# align `weights` with `strata` (by name when named, by position otherwise) and
+# normalize them to sum to 1
+normalize_weights <- function(weights, strata) {
+  if (is.null(weights)) stop(
+    "`weights` must be provided when there is more than one stratum"
+  )
+  if (!is.numeric(weights)) stop("`weights` must be numeric")
+  if (!is.null(names(weights))) {
+    if (!setequal(names(weights), strata)) stop(
+      "names(weights) must match the strata: ", paste(strata, collapse = ", ")
+    )
+    weights <- weights[as.character(strata)] # align with the strata order
+  } else if (length(weights) != length(strata)) stop(
+    "`weights` must be of length ", length(strata), " (the number of strata)"
+  )
+  check_non_negative(weights)
+  if (sum(weights) <= 0) stop("`weights` must not be all zero")
+  weights / sum(weights)
 }
 
 #' Approximate survival distribution with piecewise exponential distribution
