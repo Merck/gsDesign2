@@ -30,11 +30,11 @@
 #'   identifying the stratum each interval belongs to, e.g., the `stratum` column
 #'   of a data frame created by [define_fail_rate()]. `NULL` (default), or a
 #'   single distinct value, means the distribution is not stratified.
-#' @param weights A numeric vector of stratum weights, e.g., the prevalence of
-#'   each stratum in the population. It is normalized to sum to 1 internally.
-#'   Either named (matched to the values of `stratum`) or unnamed (matched to
-#'   `unique(stratum)` in order of appearance). Required when `stratum` has more
-#'   than one distinct value, and ignored otherwise.
+#' @param stratum_prev A numeric vector of stratum prevalences (the proportion of
+#'   each stratum in the population), which must sum to 1. Either named (matched
+#'   to the values of `stratum`) or unnamed (matched to `unique(stratum)` in
+#'   order of appearance). Required when `stratum` has more than one distinct
+#'   value, and ignored otherwise.
 #'
 #' @return A vector with cumulative distribution function or survival values.
 #'
@@ -51,7 +51,7 @@
 #' For a stratified distribution, each stratum \eqn{k} has its own intervals and
 #' failure rates, hence its own survival \eqn{S_k(t)} as above. The marginal
 #' (population-level) survival is the mixture of those per-stratum curves,
-#' weighted by the stratum weights \eqn{w_k} (normalized to sum to 1):
+#' weighted by the stratum prevalences \eqn{w_k} (summing to 1):
 #'
 #' \deqn{S(t)=\sum_k w_k S_k(t).}
 #'
@@ -78,7 +78,7 @@
 #'    cumulative hazard and survival.
 #'    \item Extract the expected cumulative or survival of piecewise exponential distribution.
 #'    \item For a stratified distribution, average the per-stratum survival values
-#'    weighted by the normalized stratum weights.
+#'    weighted by the stratum prevalences.
 #'    \item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
 #'   }
 #' }
@@ -123,17 +123,17 @@
 #'   )
 #' )
 #' x <- seq(0, 24, 4)
-#' weights <- c("Biomarker positive" = 3, "Biomarker negative" = 7)
-#' with(fail_rate, ppwe(x, duration, fail_rate, stratum = stratum, weights = weights))
+#' stratum_prev <- c("Biomarker positive" = .3, "Biomarker negative" = .7)
+#' with(fail_rate, ppwe(x, duration, fail_rate, stratum = stratum, stratum_prev = stratum_prev))
 #'
 #' # The marginal curve lies between the two per-stratum curves.
 #' split(fail_rate, ~stratum) |>
 #'   vapply(function(d) ppwe(x, d$duration, d$fail_rate), numeric(length(x)))
 #'
 #' # The marginal survival of the experimental arm.
-#' with(fail_rate, ppwe(x, duration, fail_rate * hr, stratum = stratum, weights = weights))
+#' with(fail_rate, ppwe(x, duration, fail_rate * hr, stratum = stratum, stratum_prev = stratum_prev))
 ppwe <- function(x, duration, rate, lower_tail = FALSE, stratum = NULL,
-                 weights = NULL) {
+                 stratum_prev = NULL) {
   # Check input enrollment rate assumptions
   check_non_negative(x)
   check_increasing(x, first = FALSE)
@@ -143,11 +143,11 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE, stratum = NULL,
     if (length(stratum) != length(duration)) stop(
       "`stratum` must be of the same length as `duration` and `rate`"
     )
-    weights <- normalize_weights(weights, strata)
+    stratum_prev <- align_stratum_prev(stratum_prev, strata)
     # average the per-stratum survival curves on the survival scale
     Reduce(`+`, lapply(seq_along(strata), function(i) {
       j <- stratum == strata[i]
-      weights[i] * exp(-cumulative_rate(x, duration[j], rate[j], last_(rate[j])))
+      stratum_prev[i] * exp(-cumulative_rate(x, duration[j], rate[j], last_(rate[j])))
     }))
   } else {
     H <- cumulative_rate(x, duration, rate, last_(rate)) # cumulative hazard
@@ -158,24 +158,26 @@ ppwe <- function(x, duration, rate, lower_tail = FALSE, stratum = NULL,
   if (lower_tail) 1 - survival else survival
 }
 
-# align `weights` with `strata` (by name when named, by position otherwise) and
-# normalize them to sum to 1
-normalize_weights <- function(weights, strata) {
-  if (is.null(weights)) stop(
-    "`weights` must be provided when there is more than one stratum"
+# align `stratum_prev` with `strata` (by name when named, by position otherwise)
+# and validate that the prevalences are non-negative and sum to 1
+align_stratum_prev <- function(stratum_prev, strata) {
+  if (is.null(stratum_prev)) stop(
+    "`stratum_prev` must be provided when there is more than one stratum"
   )
-  if (!is.numeric(weights)) stop("`weights` must be numeric")
-  if (!is.null(names(weights))) {
-    if (!setequal(names(weights), strata)) stop(
-      "names(weights) must match the strata: ", paste(strata, collapse = ", ")
+  if (!is.numeric(stratum_prev)) stop("`stratum_prev` must be numeric")
+  if (!is.null(names(stratum_prev))) {
+    if (!setequal(names(stratum_prev), strata)) stop(
+      "names(stratum_prev) must match the strata: ", paste(strata, collapse = ", ")
     )
-    weights <- weights[as.character(strata)] # align with the strata order
-  } else if (length(weights) != length(strata)) stop(
-    "`weights` must be of length ", length(strata), " (the number of strata)"
+    stratum_prev <- stratum_prev[as.character(strata)] # align with the strata order
+  } else if (length(stratum_prev) != length(strata)) stop(
+    "`stratum_prev` must be of length ", length(strata), " (the number of strata)"
   )
-  check_non_negative(weights)
-  if (sum(weights) <= 0) stop("`weights` must not be all zero")
-  weights / sum(weights)
+  check_non_negative(stratum_prev)
+  if (!isTRUE(all.equal(sum(stratum_prev), 1))) stop(
+    "`stratum_prev` must sum to 1"
+  )
+  stratum_prev
 }
 
 #' Approximate survival distribution with piecewise exponential distribution

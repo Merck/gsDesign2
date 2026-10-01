@@ -4,7 +4,14 @@
 \alias{ppwe}
 \title{Piecewise exponential cumulative distribution function}
 \usage{
-ppwe(x, duration, rate, lower_tail = FALSE, stratum = NULL, weights = NULL)
+ppwe(
+  x,
+  duration,
+  rate,
+  lower_tail = FALSE,
+  stratum = NULL,
+  stratum_prev = NULL
+)
 }
 \arguments{
 \item{x}{Times at which distribution is to be computed.}
@@ -21,11 +28,11 @@ identifying the stratum each interval belongs to, e.g., the \code{stratum} colum
 of a data frame created by \code{\link[=define_fail_rate]{define_fail_rate()}}. \code{NULL} (default), or a
 single distinct value, means the distribution is not stratified.}
 
-\item{weights}{A numeric vector of stratum weights, e.g., the prevalence of
-each stratum in the population. It is normalized to sum to 1 internally.
-Either named (matched to the values of \code{stratum}) or unnamed (matched to
-\code{unique(stratum)} in order of appearance). Required when \code{stratum} has more
-than one distinct value, and ignored otherwise.}
+\item{stratum_prev}{A numeric vector of stratum prevalences (the proportion of
+each stratum in the population), which must sum to 1. Either named (matched
+to the values of \code{stratum}) or unnamed (matched to \code{unique(stratum)} in
+order of appearance). Required when \code{stratum} has more than one distinct
+value, and ignored otherwise.}
 }
 \value{
 A vector with cumulative distribution function or survival values.
@@ -47,7 +54,7 @@ The survival at time \eqn{t} is then
 For a stratified distribution, each stratum \eqn{k} has its own intervals and
 failure rates, hence its own survival \eqn{S_k(t)} as above. The marginal
 (population-level) survival is the mixture of those per-stratum curves,
-weighted by the stratum weights \eqn{w_k} (normalized to sum to 1):
+weighted by the stratum prevalences \eqn{w_k} (summing to 1):
 
 \deqn{S(t)=\sum_k w_k S_k(t).}
 
@@ -75,7 +82,7 @@ the failure rates by the hazard ratios before calling this function.
    cumulative hazard and survival.
    \item Extract the expected cumulative or survival of piecewise exponential distribution.
    \item For a stratified distribution, average the per-stratum survival values
-   weighted by the normalized stratum weights.
+   weighted by the stratum prevalences.
    \item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
   }
 }
@@ -119,13 +126,13 @@ fail_rate <- rbind(
   )
 )
 x <- seq(0, 24, 4)
-weights <- c("Biomarker positive" = 3, "Biomarker negative" = 7)
-with(fail_rate, ppwe(x, duration, fail_rate, stratum = stratum, weights = weights))
+stratum_prev <- c("Biomarker positive" = .3, "Biomarker negative" = .7)
+with(fail_rate, ppwe(x, duration, fail_rate, stratum = stratum, stratum_prev = stratum_prev))
 
 # The marginal curve lies between the two per-stratum curves.
 split(fail_rate, ~stratum) |>
   vapply(function(d) ppwe(x, d$duration, d$fail_rate), numeric(length(x)))
 
 # The marginal survival of the experimental arm.
-with(fail_rate, ppwe(x, duration, fail_rate * hr, stratum = stratum, weights = weights))
+with(fail_rate, ppwe(x, duration, fail_rate * hr, stratum = stratum, stratum_prev = stratum_prev))
 }
