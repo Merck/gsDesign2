@@ -19,7 +19,7 @@ assert("Single analysis", {
   u1 <- x1$bound[x1$bound$bound == "upper", ]
   u2 <- x2$bounds[x2$bounds$Bound == "Upper", ]
   (x1$analysis$time %==% u2$Time)
-  (x1$analysis$event %==% u2$Events)
+  (all.equal(x1$analysis$event, u2$Events))
   (u1$z %==% u2$Z)
   (u1$probability %==% u2$Probability)
   (x1$analysis$ahr %==% u2$AHR)
