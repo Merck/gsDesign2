@@ -4,7 +4,14 @@
 \alias{ppwe}
 \title{Piecewise exponential cumulative distribution function}
 \usage{
-ppwe(x, duration, rate, lower_tail = FALSE)
+ppwe(
+  x,
+  duration,
+  rate,
+  lower_tail = FALSE,
+  stratum = NULL,
+  stratum_prev = NULL
+)
 }
 \arguments{
 \item{x}{Times at which distribution is to be computed.}
@@ -15,13 +22,24 @@ ppwe(x, duration, rate, lower_tail = FALSE)
 
 \item{lower_tail}{Indicator of whether lower (\code{TRUE}) or upper tail
 (\code{FALSE}; default) of CDF is to be computed.}
+
+\item{stratum}{A vector of stratum labels parallel to \code{duration} and \code{rate},
+identifying the stratum each interval belongs to, e.g., the \code{stratum} column
+of a data frame created by \code{\link[=define_fail_rate]{define_fail_rate()}}. \code{NULL} (default), or a
+single distinct value, means the distribution is not stratified.}
+
+\item{stratum_prev}{A numeric vector of stratum prevalences (the proportion of
+each stratum in the population), which must sum to 1. Either named (matched
+to the values of \code{stratum}) or unnamed (matched to \code{unique(stratum)} in
+order of appearance). Required when \code{stratum} has more than one distinct
+value, and ignored otherwise.}
 }
 \value{
 A vector with cumulative distribution function or survival values.
 }
 \description{
 Computes the cumulative distribution function (CDF) or survival rate
-for a piecewise exponential distribution.
+for a piecewise exponential distribution, which may be stratified.
 }
 \details{
 Suppose \eqn{\lambda_i} is the failure rate in the interval
@@ -32,6 +50,22 @@ The cumulative hazard function at an arbitrary time \eqn{t>0} is then:
 \deqn{\Lambda(t)=\sum_{i=1}^M \delta(t\leq t_i)(\min(t,t_i)-t_{i-1})\lambda_i.}
 The survival at time \eqn{t} is then
 \deqn{S(t)=\exp(-\Lambda(t)).}
+
+For a stratified distribution, each stratum \eqn{k} has its own intervals and
+failure rates, hence its own survival \eqn{S_k(t)} as above. The marginal
+(population-level) survival is the mixture of those per-stratum curves,
+weighted by the stratum prevalences \eqn{w_k} (summing to 1):
+
+\deqn{S(t)=\sum_k w_k S_k(t).}
+
+This is the survival of a randomly selected member of the population, and is
+generally \emph{not} itself a piecewise exponential distribution: a mixture of
+exponentials is not exponential. The marginal curve can therefore not be
+obtained by pooling the per-stratum failure rates, and has to be averaged on
+the survival scale as above.
+
+To obtain the marginal survival of the experimental arm of a design, multiply
+the failure rates by the hazard ratios before calling this function.
 }
 \section{Specification}{
 
@@ -47,6 +81,8 @@ The survival at time \eqn{t} is then
    \item Make a tibble of the input time points x, duration, hazard rates at points,
    cumulative hazard and survival.
    \item Extract the expected cumulative or survival of piecewise exponential distribution.
+   \item For a stratified distribution, average the per-stratum survival values
+   weighted by the stratum prevalences.
    \item If input lower_tail is true, return the CDF, else return the survival for \code{ppwe}
   }
 }
@@ -76,4 +112,27 @@ survival <- ppwe(
   rate = rate
 )
 lines(x2, survival, col = 2)
+
+# A stratified distribution: the marginal survival of the control arm of a
+# design with a 30\%/70\% split between two biomarker strata.
+fail_rate <- rbind(
+  define_fail_rate(
+    duration = c(6, Inf), fail_rate = log(2) / c(8, 10),
+    hr = c(1, .7), dropout_rate = .001, stratum = "Biomarker positive"
+  ),
+  define_fail_rate(
+    duration = c(6, Inf), fail_rate = log(2) / c(20, 24),
+    hr = c(1, .5), dropout_rate = .001, stratum = "Biomarker negative"
+  )
+)
+x <- seq(0, 24, 4)
+stratum_prev <- c("Biomarker positive" = .3, "Biomarker negative" = .7)
+with(fail_rate, ppwe(x, duration, fail_rate, stratum = stratum, stratum_prev = stratum_prev))
+
+# The marginal curve lies between the two per-stratum curves.
+split(fail_rate, ~stratum) |>
+  vapply(function(d) ppwe(x, d$duration, d$fail_rate), numeric(length(x)))
+
+# The marginal survival of the experimental arm.
+with(fail_rate, ppwe(x, duration, fail_rate * hr, stratum = stratum, stratum_prev = stratum_prev))
 }
