@@ -105,6 +105,41 @@ xu$analysis$time <- c(17, x$analysis$time[2:3])
 xu |> gs_bound_summary() |> lt()
 ```
 
+# Information scale for conditional power
+
+The observed Z-score and design boundaries are standardized using null-hypothesis
+information. Write these as
+
+$$
+  Z_k^{(0)}=\widehat\theta_k\sqrt{ℐ_{k,H_0}}.
+$$
+
+Conditional power under an assumed alternative uses the canonical process based
+on alternative-hypothesis information. Define
+
+$$
+  s_k=\sqrt{\frac{ℐ_{k,H_1}}{ℐ_{k,H_0}}},
+  \qquad
+  Z_k^{(1)}=s_k Z_k^{(0)},
+  \qquad
+  t_k^{(1)}=\frac{ℐ_{k,H_1}}{ℐ_{K,H_1}}.
+$$
+
+On this scale, $B_k^{(1)}=\sqrt{t_k^{(1)}}Z_k^{(1)}$ has canonical independent
+increments and
+
+$$
+  E(B_k^{(1)})
+  =\theta_k\sqrt{t_k^{(1)}ℐ_{k,H_1}}
+  =\theta_k t_k^{(1)}\sqrt{ℐ_{K,H_1}}.
+$$
+
+Thus, the B-value expectation remains proportional to information time when the
+treatment effect is constant. Before applying this canonical conditional
+distribution, `gs_cp_simple()` and `gs_cp()` internally transform the observed
+Z-score and each future lower or upper boundary by its analysis-specific factor
+$s_k$. This conversion matters when `info0` and `info` differ; it has no effect
+when they are equal.
 
 # Testing and simple conditional power
 
@@ -184,7 +219,7 @@ ggplot(
 
 - We assume there are 145 observed at IA1, with 90 events observed during the first 4 months since randomization when HR = 1, and 55 events after month 4 when HR = 0.6. 
 - Based on the above assumed blinded event, the IA1 blinded treatment effect is estimated by `-sum(log(c(1, 0.6)) * c(90, 55)) / 145`, and the IA1 statistical information is estimated as 145/4.
-- The statistical information of future analysis is under the null hypothesis, i.e., event/4 for equal randomization.
+- The observed Z-score and boundaries use null-hypothesis information, which is approximately event/4 for equal randomization. Conditional power transforms them to the alternative-information scale described above.
 - Given the IA1 observed HR, the IA1 Z-score is calculated using the Schoenfeld approximation.
 - Conditional power for future analyses ignores intervening interim analyses.
 
