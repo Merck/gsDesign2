@@ -19,7 +19,7 @@ assert("Single analysis", {
   u1 <- x1$bound[x1$bound$bound == "upper", ]
   u2 <- x2$bounds[x2$bounds$Bound == "Upper", ]
   (x1$analysis$time %==% u2$Time)
-  (all.equal(x1$analysis$event, u2$Events))
+  (all.equal(x1$analysis$event, u2$Events, tolerance = 1e-13))
   (u1$z %==% u2$Z)
   (u1$probability %==% u2$Probability)
   (x1$analysis$ahr %==% u2$AHR)
@@ -36,7 +36,7 @@ assert("Multiple analysisTimes", {
   l1 <- x1$bound[x1$bound$bound == "lower", ]
   l2 <- x2$bounds[x2$bounds$Bound == "Lower", ]
   (x1$analysis$time %==% u2$Time)
-  (all.equal(x1$analysis$event, u2$Events))
+  (all.equal(x1$analysis$event, u2$Events, tolerance = 1e-13))
   (u1$z %==% u2$Z)
   (u1$probability %==% u2$Probability)
   (x1$analysis$ahr %==% u2$AHR)
@@ -72,7 +72,7 @@ assert("Multiple analysis times & IF and driven by times", {
   l1 <- x1$bound[x1$bound$bound == "lower", ]
   l2 <- x2$bounds[x2$bounds$Bound == "Lower", ]
   (x1$analysis$time %==% u2$Time)
-  (all.equal(x1$analysis$event, u2$Events))
+  (all.equal(x1$analysis$event, u2$Events, tolerance = 1e-13))
   (u1$z %==% u2$Z)
   (u1$probability %==% u2$Probability)
   (x1$analysis$ahr %==% u2$AHR)
@@ -90,7 +90,7 @@ assert("Multiple analysis times & IF and driven by IF", {
   l1 <- x1$bound[x1$bound$bound == "lower", ]
   l2 <- x2$bounds[x2$bounds$Bound == "Lower", ]
   (x1$analysis$time %==% u2$Time)
-  (all.equal(x1$analysis$event, u2$Events))
+  (all.equal(x1$analysis$event, u2$Events, tolerance = 1e-13))
   (u1$z %==% u2$Z)
   (u1$probability %==% u2$Probability)
   (x1$analysis$ahr %==% u2$AHR)
@@ -122,7 +122,7 @@ assert("2-sided symmetric design with O'Brien-Fleming spending", {
   l1 <- x1$bound[x1$bound$bound == "lower", ]
   l2 <- x2$bounds[x2$bounds$Bound == "Lower", ]
   (all.equal(x1$analysis$time, u2$Time))
-  (all.equal(x1$analysis$event, u2$Events))
+  (all.equal(x1$analysis$event, u2$Events, tolerance = 1e-13))
   (all.equal(u1$z, u2$Z))
   (all.equal(u1$probability, u2$Probability))
   (all.equal(x1$analysis$ahr, u2$AHR))
@@ -155,7 +155,7 @@ assert("Pocock lower spending under H1 (NPH)", {
   l1 <- x1$bound[x1$bound$bound == "lower", ]
   l2 <- x2$bounds[x2$bounds$Bound == "Lower", ]
   (x1$analysis$time %==% u2$Time)
-  (all.equal(x1$analysis$event, u2$Events))
+  (all.equal(x1$analysis$event, u2$Events, tolerance = 1e-13))
   (u1$z %==% u2$Z)
   (u1$probability %==% u2$Probability)
   (x1$analysis$ahr %==% u2$AHR)
