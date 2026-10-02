@@ -9,6 +9,15 @@
   bounds that are not tested at an analysis, and supports changing the
   number of analyses (taken from `event_tbl`) so the updated monitoring
   schedule can differ from the original design.
+- [`ppwe()`](https://merck.github.io/gsDesign2/reference/ppwe.md) gains
+  `stratum` and `stratum_prev` arguments, so it can compute the marginal
+  (population-level) survival or CDF of a *stratified* piecewise
+  exponential distribution, as the prevalence-weighted mixture of the
+  per-stratum curves. A mixture of exponentials is not exponential, so
+  the marginal curve has to be averaged on the survival scale instead of
+  by pooling the per-stratum failure rates
+  ([\#680](https://github.com/Merck/gsDesign2/issues/680), thanks to
+  [@yihui](https://github.com/yihui)).
 - The objects returned by
   [`gs_design_npe()`](https://merck.github.io/gsDesign2/reference/gs_power_design_npe.md)
   and
