@@ -74,3 +74,35 @@ assert("an analysis beyond the original design with no observed events errors", 
     test_harm = FALSE
   )))
 })
+
+# ---- Add an analysis to an efficacy-only design (fixed -Inf futility) -------
+# A one-sided design stores its lower bound as a fixed numeric par vector
+# (gs_b with -Inf) whose length equals the original number of analyses. When a
+# later analysis is added, that vector must be padded so a bound can be looked
+# up at every analysis instead of returning NA (#105 in gsDesign2Shiny).
+xe <- gs_design_ahr(
+  enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = (1:3) / 3),
+  fail_rate = define_fail_rate(duration = c(3, Inf), fail_rate = log(2) / 9,
+                               hr = c(1, 0.6), dropout_rate = .0001),
+  alpha = 0.025, beta = 0.1, ratio = 1, info_scale = "h0_info",
+  info_frac = NULL, analysis_time = c(12, 24, 36),
+  upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+  test_upper = TRUE, lower = gs_b, lpar = rep(-Inf, 3), test_lower = FALSE
+) |> to_integer()
+
+event_tbl_e <- data.frame(analysis = c(1, 1, 2, 2, 3, 3, 4, 4),
+                          event = c(20, 100, 40, 220, 50, 310, 60, 400))
+obs_e <- as.numeric(tapply(event_tbl_e$event, event_tbl_e$analysis, sum))
+ustime_e <- obs_e / max(obs_e)
+
+xue <- gs_update_ahr(
+  x = xe, ustime = ustime_e, event_tbl = event_tbl_e,
+  test_upper = rep(TRUE, 4), test_lower = rep(FALSE, 4)
+)
+
+assert("an efficacy-only design can gain an analysis beyond the original design", {
+  (nrow(xue$analysis) %==% 4L)
+  (xue$analysis$event %==% obs_e)
+  (all(xue$bound$bound == "upper"))
+  (is.finite(xue$bound$z))
+})
