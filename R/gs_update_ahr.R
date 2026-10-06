@@ -264,6 +264,17 @@ gs_update_ahr <- function(
   harm       <- x$input$harm %||% gs_b
   hpar       <- x$input$hpar %||% -Inf
 
+  # When analyses are added beyond the original design, a fixed boundary passed
+  # as a numeric par vector (e.g. gs_b with -Inf futility for an efficacy-only
+  # design) is shorter than n_analysis; pad it so gs_power_npe() can look up a
+  # bound for every analysis instead of hitting NA. List-based spending pars
+  # carry their own `timing` of the right length, so leave those untouched.
+  pad_fixed_par <- function(par) {
+    if (is.numeric(par) && length(par) >= 1 && length(par) < n_analysis)
+      par <- c(par, rep(par[length(par)], n_analysis - length(par)))
+    par
+  }
+
   # Recycle scalar testing selections to the updated number of analyses
   if (length(test_upper) == 1) test_upper <- rep(test_upper, n_analysis)
   if (length(test_lower) == 1) test_lower <- rep(test_lower, n_analysis)
@@ -302,8 +313,8 @@ gs_update_ahr <- function(
     }
 
     # Update alpha ---
-    upar_update  <- x$input$upar
-    lpar_update <- x$input$lpar
+    upar_update  <- pad_fixed_par(x$input$upar)
+    lpar_update <- pad_fixed_par(x$input$lpar)
     upar_update$total_spend <- alpha_update
 
     # Update boundaries and crossing prob under H0 ----
@@ -322,7 +333,7 @@ gs_update_ahr <- function(
                                  info_scale = x$input$info_scale,
                                  upper = x$input$upper, upar = upar_update,
                                  test_upper = test_upper,
-                                 lower = x$input$lower, lpar = x$input$lpar,
+                                 lower = x$input$lower, lpar = lpar_update,
                                  test_lower = test_lower,
                                  harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
@@ -343,7 +354,7 @@ gs_update_ahr <- function(
                                  info_scale = x$input$info_scale,
                                  upper = x$input$upper, upar = upar_update,
                                  test_upper = test_upper,
-                                 lower = x$input$lower, lpar = x$input$lpar,
+                                 lower = x$input$lower, lpar = lpar_update,
                                  test_lower = test_lower,
                                  harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
@@ -384,8 +395,8 @@ gs_update_ahr <- function(
     }
 
     # Update timing
-    upar_update  <- x$input$upar
-    lpar_update <- x$input$lpar
+    upar_update  <- pad_fixed_par(x$input$upar)
+    lpar_update <- pad_fixed_par(x$input$lpar)
 
     if (one_sided) {
       upar_update$timing <- ustime
