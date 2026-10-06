@@ -1,6 +1,7 @@
 # gsDesign2 1.3.0
 
 - `gs_update_ahr()` gains `test_upper`, `test_lower`, and `test_harm` arguments so that the boundaries tested at each analysis can be changed when updating a design. It now also carries the harm bound through the update, drops bounds that are not tested at an analysis, and supports changing the number of analyses (taken from `event_tbl`) so the updated monitoring schedule can differ from the original design.
+- `gs_update_ahr()` no longer errors with "missing value where TRUE/FALSE needed" when an analysis is added beyond the original design and a boundary is a fixed numeric par vector (e.g. the `-Inf` futility bound of an efficacy-only design). Such par vectors are now padded to the updated number of analyses.
 - `ppwe()` gains `stratum` and `stratum_prev` arguments, so it can compute the marginal (population-level) survival or CDF of a *stratified* piecewise exponential distribution, as the prevalence-weighted mixture of the per-stratum curves. A mixture of exponentials is not exponential, so the marginal curve has to be averaged on the survival scale instead of by pooling the per-stratum failure rates (#680, thanks to @yihui).
 - The objects returned by `gs_design_npe()` and `gs_power_npe()` are now assigned a unique class.
 - `to_integer()` now retains the harm boundary (`harm`, `hpar`, `test_harm`) when converting an AHR group sequential design to integer events, instead of silently dropping it.
