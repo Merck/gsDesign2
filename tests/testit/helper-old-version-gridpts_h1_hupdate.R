@@ -29,7 +29,7 @@ NULL
 #'
 #' @details
 #' Jennison and Turnbull (p 350) claim accuracy of \code{10E-6} with \code{r=16}.
-#' The numerical integration grid spreads out at the tail to enable accurate tail probability calcuations.
+#' The numerical integration grid spreads out at the tail to enable accurate tail probability calculations.
 #'
 #'
 #' @param r Integer, at least 2; default of 18 recommended by Jennison and Turnbull

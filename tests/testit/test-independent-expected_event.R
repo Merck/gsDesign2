@@ -41,7 +41,7 @@ assert("data frame returned from expected_event not as expected", {
 # Double programming tests
 
 # Test 1: with multiple fail rates, short FU
-assert("expected events is different from double-programmed vs. expected_event, with mutiple failrates, short FU", {
+assert("expected events is different from double-programmed vs. expected_event, with multiple failrates, short FU", {
   res <- params_expected_event()
   enroll_rate <- res$enroll_rate
   fail_rate <- res$fail_rate
@@ -61,7 +61,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
 })
 
 # Test 2: with multiple fail rates, long FU
-assert("expected events is different from double-programmed vs. expected_event, with mutiple failrates, long FU", {
+assert("expected events is different from double-programmed vs. expected_event, with multiple failrates, long FU", {
   res <- params_expected_event()
   enroll_rate <- res$enroll_rate
   fail_rate <- res$fail_rate
@@ -81,7 +81,7 @@ assert("expected events is different from double-programmed vs. expected_event, 
 })
 
 # Test 3: with multiple fail rates and with multiple enrollment duration
-assert("expected events is different from double-programmed vs. expected_event, with mutiple enrollment duration", {
+assert("expected events is different from double-programmed vs. expected_event, with multiple enrollment duration", {
   enroll_rate <- define_enroll_rate(
     duration = c(50, 10),
     rate = c(10, 5)
