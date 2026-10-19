@@ -792,8 +792,8 @@ x_gsdesign <- gsDesign(
   n.fix = n_fix
 )
 
-cat("The sample size calcuated by `gsDesign` is ", x_gsdesign$n.I, ".\n")
-#> The sample size calcuated by `gsDesign` is  618.7954 1237.591 1856.386 .
+cat("The sample size calculated by `gsDesign` is ", x_gsdesign$n.I, ".\n")
+#> The sample size calculated by `gsDesign` is  618.7954 1237.591 1856.386 .
 
 gsBoundSummary(x_gsdesign, digits = 4, ddigits = 2, tdigits = 1)
 #>   Analysis                  Value Efficacy

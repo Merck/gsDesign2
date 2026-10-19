@@ -31,7 +31,7 @@ as Z-score, B-values, and canonical form.
 - [Statistical information under null and alternative
   hypothesis](https://merck.github.io/gsDesign2/articles/story-info-formula.md):
 
-### Comparision of multiple NPH tests
+### Comparison of multiple NPH tests
 
 Comparison of power among different tests, such as regular logrank test,
 weighted logrank test with different weights (i.e., Fleming-Harrington,

@@ -148,7 +148,7 @@ wieand <- gs_power_ahr(
   upper = gs_b, upar = c(rep(Inf, 2), qnorm(.975)),
   # futility bound
   lower = gs_b, lpar = c(0, 0, -Inf),
-  
+
 )
 
 wieand |>
@@ -176,24 +176,24 @@ planned trial duration.
 ``` r
 
 find_ia_time <- function(t) {
-  
+
   e_event0 <- expected_event(
-    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)), 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)),
     fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate),
     total_duration = t, simple = FALSE)
-  
+
   e_event1 <- expected_event(
-    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio), 
-    fail_rate = betaspending$fail_rate |> 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio),
+    fail_rate = betaspending$fail_rate |>
       mutate(fail_rate = fail_rate * hr) |>
-      select(stratum, fail_rate, duration, dropout_rate), 
+      select(stratum, fail_rate, duration, dropout_rate),
     total_duration = t, simple = FALSE)
-  
+
   total_event <- sum(e_event0$event) + sum(e_event1$event)
   first3m_event <- sum(e_event0$event[1]) + sum(e_event1$event[1])
-    
+
   return(2 / 3 * total_event - (total_event - first3m_event))
-} 
+}
 
 ia1_time <- uniroot(find_ia_time, interval = c(1, 50))$root
 ```
@@ -203,27 +203,27 @@ ia1_time <- uniroot(find_ia_time, interval = c(1, 50))$root
 # expected total events
 e_event_overtime <- sapply(1:betaspending$analysis$time[3], function(t){
   e_event0 <- expected_event(
-    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)), 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)),
     fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate),
     total_duration = t, simple = TRUE)
-  
+
   e_event1 <- expected_event(
-    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio), 
-    fail_rate = betaspending$fail_rate |> 
+    enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio),
+    fail_rate = betaspending$fail_rate |>
       mutate(fail_rate = fail_rate * hr) |>
-      select(stratum, fail_rate, duration, dropout_rate), 
+      select(stratum, fail_rate, duration, dropout_rate),
     total_duration = t, simple = TRUE)
-  
+
   sum(e_event0) + sum(e_event1)
 }) |> unlist()
 
 
 # visualization of expected total events
 p1 <- ggplot(data = data.frame(time = 1:betaspending$analysis$time[3],
-                               event = e_event_overtime), 
+                               event = e_event_overtime),
              aes(x = time, y = event)) +
   geom_line(linewidth = 1.2) +
-  geom_vline(xintercept = ia1_time, linetype = "dashed", 
+  geom_vline(xintercept = ia1_time, linetype = "dashed",
              color = "red", linewidth = 1.2) +
   scale_x_continuous(breaks = c(0, 6, 12, 18, 24, 30, 36),
                      labels = c("0", "6", "12", "18", "24", "30", "36")) +
@@ -237,32 +237,32 @@ p1 <- ggplot(data = data.frame(time = 1:betaspending$analysis$time[3],
 
 # expected events occur first 3 months
 e_event_first3m <- sapply(1:betaspending$analysis$time[3], function(t){
-  expected_event(enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)), 
-                 fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate), 
+  expected_event(enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio)),
+                 fail_rate = betaspending$fail_rate |> select(stratum, fail_rate, duration, dropout_rate),
                  total_duration = t, simple = FALSE)$event[1] +
-  expected_event(enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio), 
-                 fail_rate = betaspending$fail_rate |> 
+  expected_event(enroll_rate = betaspending$enroll_rate |> mutate(rate = rate / (1 + ratio) * ratio),
+                 fail_rate = betaspending$fail_rate |>
                    mutate(fail_rate = fail_rate * hr) |>
-                   select(stratum, fail_rate, duration, dropout_rate), 
+                   select(stratum, fail_rate, duration, dropout_rate),
                  total_duration = t, simple = FALSE)$event[1]
 })
 
 # visualization of expected events occur first 3 months
 p2 <- ggplot(data = data.frame(time = 1:betaspending$analysis$time[3],
-                               prop = (e_event_overtime - e_event_first3m) / e_event_overtime * 100), 
+                               prop = (e_event_overtime - e_event_first3m) / e_event_overtime * 100),
              aes(x = time, y = prop)) +
   geom_line(linewidth = 1.2) +
   scale_x_continuous(breaks = c(6, 12, 18, 24, 30, 36),
                      labels = c("6", "12", "18", "24", "30", "36")) +
   scale_y_continuous(breaks = c(10, 30, 50, 70, 90, 100),
                      labels = c("10%", "30%", "50%", "70%", "90%", "100%")) +
-  geom_hline(yintercept = 2/3*100, linetype = "dashed", 
+  geom_hline(yintercept = 2/3*100, linetype = "dashed",
              color = "red", linewidth = 1.2) +
-  geom_vline(xintercept = ia1_time, linetype = "dashed", 
+  geom_vline(xintercept = ia1_time, linetype = "dashed",
              color = "red", linewidth = 1.2) +
-  labs(x = "Months", 
+  labs(x = "Months",
        y = "Proportion") +
-  ggtitle("Proportion of expected events occuring 3 months after study start") +
+  ggtitle("Proportion of expected events occurring 3 months after study start") +
   theme(axis.title.x = element_text(size = 18),
         axis.title.y = element_text(size = 18),
         axis.text.x = element_text(size = 20),
@@ -283,25 +283,25 @@ futility bound by Korn and Freidlin (2018).
 ``` r
 
 kf <- gs_power_ahr(
-  enroll_rate = enroll_rate, 
+  enroll_rate = enroll_rate,
   fail_rate = fail_rate,
   ratio = ratio,
   # 2 IAs + 1 FA
   event = 512 * c(.5, .75, 1),
-  analysis_time = c(ia1_time, 
-                    ia1_time + 0.01, 
+  analysis_time = c(ia1_time,
+                    ia1_time + 0.01,
                     ia1_time + 0.02),
   # efficacy bound
-  upper = gs_b, 
+  upper = gs_b,
   upar = c(Inf, Inf, qnorm(.975)),
   # futility bound
-  lower = gs_b, 
+  lower = gs_b,
   lpar = c(0, 0, -Inf))
 
 kf |>
   summary() |>
   lt(title = "Group sequential design with futility only",
-        subtitle = "Korn and Freidlin futility rule stops if HR > 1") 
+        subtitle = "Korn and Freidlin futility rule stops if HR > 1")
 ```
 
 ## Classical beta-spending futility bound
@@ -314,7 +314,7 @@ average hazard ratio at the fixed design analysis for this purpose.
 
 betaspending_classic <- gs_power_ahr(
   enroll_rate = enroll_rate,
-  fail_rate = define_fail_rate(duration = Inf, 
+  fail_rate = define_fail_rate(duration = Inf,
                                fail_rate = -log(.5) / 12,
                                hr = fixedevents$analysis$ahr,
                                dropout_rate = 0),
