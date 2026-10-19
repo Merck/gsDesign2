@@ -1,6 +1,6 @@
 library(gsDesign)
 
-assert("Comparision with gsDesign::sequentialPValue", {
+assert("Comparison with gsDesign::sequentialPValue", {
   alpha <- 0.025
   beta <- 0.1
   ratio <- 1

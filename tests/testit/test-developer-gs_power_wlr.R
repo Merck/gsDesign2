@@ -1,4 +1,4 @@
-assert("Validate 2-sided symetric design", {
+assert("Validate 2-sided symmetric design", {
   x <- gs_power_wlr(enroll_rate = define_enroll_rate(duration = 12, rate = 50),
                     analysis_time = NULL, event = c(100, 200, 300),
                     upper = gs_spending_bound,

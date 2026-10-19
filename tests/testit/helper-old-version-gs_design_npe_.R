@@ -77,7 +77,7 @@ NULL
 #'    \item
 #'    \item If there is no interim analysis, return a tibble including Analysis time, upper bound, Z-value,
 #'    Probability of crossing bound, theta, info0 and info1.
-#'    \item If the desing is a group sequential design, return a tibble of Analysis,
+#'    \item If the design is a group sequential design, return a tibble of Analysis,
 #'     Bound, Z, Probability,  theta, info, info0.
 #'   }
 #' }

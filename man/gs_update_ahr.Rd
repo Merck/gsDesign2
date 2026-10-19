@@ -148,7 +148,7 @@ gs_update_ahr(x = x, alpha = 0.05)
 # ------------------------------------------------- #
 enroll_rate <- define_enroll_rate(stratum = c("A", "B"), duration = c(12, 12), rate = c(1, 1))
 
-# We assumme there are 2 strata, "A" and "B".
+# We assume there are 2 strata, "A" and "B".
 # For each stratum, there are delayed effect for the first 3 months.
 # After the delayed effect, the HR is 0.8 for stratum A and 0.5 for stratum B.
 fail_rate <- define_fail_rate(stratum = c("A", "A", "B", "B"),
