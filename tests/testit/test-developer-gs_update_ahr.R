@@ -128,13 +128,13 @@ assert("the updated efficacy bounds match gs_power_ahr() for the same 4 analyses
 
 # ---- pad_fixed_par() ---------------------------------------------------------
 assert("pad_fixed_par() pads a fixed par vector by repeating its last value", {
-  (gsDesign2:::pad_fixed_par(rep(-Inf, 3), 4) %==% rep(-Inf, 4))
-  (gsDesign2:::pad_fixed_par(c(-1, -Inf, -Inf), 5) %==% c(-1, -Inf, -Inf, -Inf, -Inf))
+  (pad_fixed_par(rep(-Inf, 3), 4) %==% rep(-Inf, 4))
+  (pad_fixed_par(c(-1, -Inf, -Inf), 5) %==% c(-1, -Inf, -Inf, -Inf, -Inf))
 })
 
 assert("pad_fixed_par() leaves a long enough vector and spending lists unchanged", {
-  (gsDesign2:::pad_fixed_par(c(-1, -Inf, -Inf), 3) %==% c(-1, -Inf, -Inf))
-  (gsDesign2:::pad_fixed_par(c(-1, -Inf, -Inf), 2) %==% c(-1, -Inf, -Inf))
+  (pad_fixed_par(c(-1, -Inf, -Inf), 3) %==% c(-1, -Inf, -Inf))
+  (pad_fixed_par(c(-1, -Inf, -Inf), 2) %==% c(-1, -Inf, -Inf))
   sp <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
-  (gsDesign2:::pad_fixed_par(sp, 4) %==% sp)
+  (pad_fixed_par(sp, 4) %==% sp)
 })
