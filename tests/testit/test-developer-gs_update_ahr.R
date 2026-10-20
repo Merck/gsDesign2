@@ -79,19 +79,25 @@ assert("an analysis beyond the original design with no observed events errors", 
 # A one-sided design stores its lower bound as a fixed numeric par vector
 # (gs_b with -Inf) whose length equals the original number of analyses. When a
 # later analysis is added, that vector must be padded so a bound can be looked
-# up at every analysis instead of returning NA (#105 in gsDesign2Shiny).
+# up at every analysis instead of returning NA (#684).
+er <- define_enroll_rate(duration = c(2, 2, 10), rate = (1:3) / 3)
+fr <- define_fail_rate(duration = c(3, Inf), fail_rate = log(2) / 9,
+                       hr = c(1, 0.6), dropout_rate = .0001)
 xe <- gs_design_ahr(
-  enroll_rate = define_enroll_rate(duration = c(2, 2, 10), rate = (1:3) / 3),
-  fail_rate = define_fail_rate(duration = c(3, Inf), fail_rate = log(2) / 9,
-                               hr = c(1, 0.6), dropout_rate = .0001),
-  alpha = 0.025, beta = 0.1, ratio = 1, info_scale = "h0_info",
-  info_frac = NULL, analysis_time = c(12, 24, 36),
+  enroll_rate = er, fail_rate = fr, alpha = 0.025, beta = 0.1, ratio = 1,
+  info_scale = "h0_info", info_frac = NULL, analysis_time = c(12, 24, 36),
   upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
   test_upper = TRUE, lower = gs_b, lpar = rep(-Inf, 3), test_lower = FALSE
-) |> to_integer()
+)
 
-event_tbl_e <- data.frame(analysis = c(1, 1, 2, 2, 3, 3, 4, 4),
-                          event = c(20, 100, 40, 220, 50, 310, 60, 400))
+# observed events per interval equal to the expected events (both arms) at 4 times
+tm <- c(12, 24, 36, 48)
+fr1 <- transform(fr, fail_rate = fail_rate * hr)
+ev <- lapply(tm, function(t) {
+  (expected_event(er, fr, t, simple = FALSE)$event +
+     expected_event(er, fr1, t, simple = FALSE)$event) / 2
+})
+event_tbl_e <- data.frame(analysis = rep(1:4, each = length(ev[[1]])), event = unlist(ev))
 obs_e <- as.numeric(tapply(event_tbl_e$event, event_tbl_e$analysis, sum))
 ustime_e <- obs_e / max(obs_e)
 
@@ -100,9 +106,35 @@ xue <- gs_update_ahr(
   test_upper = rep(TRUE, 4), test_lower = rep(FALSE, 4)
 )
 
+# the same 4-analysis efficacy-only design computed directly
+xpe <- gs_power_ahr(
+  enroll_rate = er, fail_rate = fr, ratio = 1, info_scale = "h0_info",
+  analysis_time = tm, event = NULL,
+  upper = gs_spending_bound,
+  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = ustime_e),
+  test_upper = TRUE, lower = gs_b, lpar = rep(-Inf, 4), test_lower = FALSE
+)
+
 assert("an efficacy-only design can gain an analysis beyond the original design", {
   (nrow(xue$analysis) %==% 4L)
-  (xue$analysis$event %==% obs_e)
   (all(xue$bound$bound == "upper"))
   (is.finite(xue$bound$z))
+})
+
+assert("the updated efficacy bounds match gs_power_ahr() for the same 4 analyses", {
+  (all.equal(xue$bound$z, xpe$bound$z))
+  (all.equal(xue$bound$probability, xpe$bound$probability))
+})
+
+# ---- pad_fixed_par() ---------------------------------------------------------
+assert("pad_fixed_par() pads a fixed par vector by repeating its last value", {
+  (gsDesign2:::pad_fixed_par(rep(-Inf, 3), 4) %==% rep(-Inf, 4))
+  (gsDesign2:::pad_fixed_par(c(-1, -Inf, -Inf), 5) %==% c(-1, -Inf, -Inf, -Inf, -Inf))
+})
+
+assert("pad_fixed_par() leaves a long enough vector and spending lists unchanged", {
+  (gsDesign2:::pad_fixed_par(c(-1, -Inf, -Inf), 3) %==% c(-1, -Inf, -Inf))
+  (gsDesign2:::pad_fixed_par(c(-1, -Inf, -Inf), 2) %==% c(-1, -Inf, -Inf))
+  sp <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
+  (gsDesign2:::pad_fixed_par(sp, 4) %==% sp)
 })
