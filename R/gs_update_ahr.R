@@ -141,7 +141,7 @@
 #' # ------------------------------------------------- #
 #' enroll_rate <- define_enroll_rate(stratum = c("A", "B"), duration = c(12, 12), rate = c(1, 1))
 #'
-#' # We assumme there are 2 strata, "A" and "B".
+#' # We assume there are 2 strata, "A" and "B".
 #' # For each stratum, there are delayed effect for the first 3 months.
 #' # After the delayed effect, the HR is 0.8 for stratum A and 0.5 for stratum B.
 #' fail_rate <- define_fail_rate(stratum = c("A", "A", "B", "B"),
@@ -298,7 +298,7 @@ gs_update_ahr <- function(
 
     # Check if ustime and lstime matches the spending time of the original design
     if (!is.null(ustime) && any(ustime != x$input$upar$timing)) {
-      stop("gs_update_ahr(): timing specificed in the original design (x) is different from the updated timing (ustime, lstime).")
+      stop("gs_update_ahr(): timing specified in the original design (x) is different from the updated timing (ustime, lstime).")
     }
 
     # Update alpha ---
@@ -429,7 +429,7 @@ gs_update_ahr <- function(
   #         Tidy outputs                #
   # ----------------------------------- #
   ans <- list()
-  
+
   ans$design <- x$design
 
   ans$enroll_rate <- x$enroll_rate

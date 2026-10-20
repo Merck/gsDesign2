@@ -15,7 +15,7 @@ assert("The IA nominal p-value is the same as the IA alpha spending.", {
   (all.equal(x$bound$`nominal p`[1], gsDesign::sfLDOF(alpha = 0.025, t = 18/30)$spend[1]))
 })
 
-assert("The statistcial information under null equals to event/4 udner equal randomization.", {
+assert("The statistcial information under null equals to event/4 under equal randomization.", {
   enroll_rate <- define_enroll_rate(duration = c(2, 2, 2, 6),
                                     rate = 1:4)
   fail_rate <- define_fail_rate(duration = Inf,

@@ -8,7 +8,7 @@ assert("ppwe is incorrect when there are 2-step fail rates", {
   (all.equal(res, expected))
 })
 
-assert("ppwe is incorrect if varable x is longer than the max duration of fail rates", {
+assert("ppwe is incorrect if variable x is longer than the max duration of fail rates", {
   res <- gsDesign2::ppwe(
     x = 0:80, duration = c(13, 50),
     rate = log(4)/c(19, 9), lower_tail = FALSE
