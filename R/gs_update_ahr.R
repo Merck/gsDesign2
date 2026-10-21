@@ -43,16 +43,17 @@
 #' (futility) bound in the updated design, specified as for `test_upper`.
 #' @param test_harm Indicator of which analyses should include a harm bound in
 #' the updated design, specified as for `test_upper`.
-#' @param lower,lpar Optional lower (futility) bound function and its parameters
-#' for the updated design when `event_tbl` is provided. By default the original
-#' `x$input$lower` and `x$input$lpar` are reused. If the original lower bound is
-#' fixed (`gs_b()`) and analyses are added or deleted, the original `lpar` vector
-#' is extended (by repeating its last value) or truncated to the updated number
-#' of analyses, e.g. `c(-1, -Inf, -Inf)` becomes `c(-1, -Inf, -Inf, -Inf)` when
-#' an analysis is added and `c(-1, -Inf)` when one is deleted. Use `lower` and
-#' `lpar` to specify the bound explicitly instead, e.g.
-#' `lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)`. A numeric `lpar` must have one
-#' value per analysis of the updated design.
+#' @param lower,lpar Optional. By default the original `x$input$lower` and
+#' `x$input$lpar` are reused. If the lower bound of the original design is fixed
+#' (i.e., `x$input$lower = gs_b`) and analyses are added or deleted at time of
+#' analysis, the original `lpar` vector is, by default, extended (by repeating its
+#' last value) or truncated to the updated number of analyses, e.g.,
+#' `c(-1, -Inf, -Inf)` becomes `c(-1, -Inf, -Inf, -Inf)` when an analysis is added
+#' and `c(-1, -Inf)` when one is deleted. Alternatively, users can input other
+#' values to `lower` and `lpar`, for either a fixed boundary (e.g.,
+#' `lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)`, where the length of `lpar` must
+#' match the updated number of analyses) or a spending boundary. They are used
+#' only when `event_tbl` is provided.
 #'
 #' @details
 #' The updated number of analyses is the larger of the length of `ustime` and
@@ -288,6 +289,9 @@ gs_update_ahr <- function(
             test_upper = length(test_upper), test_lower = length(test_lower),
             test_harm = length(test_harm))
   lens <- lens[names(lens) %in% c("test_upper", "test_lower", "test_harm") | lens > 0]
+  if (is.numeric(lpar) && length(lpar) != n_analysis) stop(sprintf(
+    "gs_update_ahr(): the updated design has %d analyses, so a fixed lpar must have length %d.",
+    n_analysis, n_analysis))
   if (any(lens != n_analysis)) stop(sprintf(
     "gs_update_ahr(): the updated design has %d analyses, but %s ha%s length %s.",
     n_analysis, toString(names(lens)[lens != n_analysis]),
@@ -401,9 +405,6 @@ gs_update_ahr <- function(
     # Update timing
     upar_update <- x$input$upar
     lpar_update <- lpar %||% resize_fixed_par(x$input$lpar, n_analysis)
-    if (is.numeric(lpar_update) && length(lpar_update) != n_analysis) stop(sprintf(
-      "gs_update_ahr(): the updated design has %d analyses, so a fixed lpar must have length %d.",
-      n_analysis, n_analysis))
 
     if (one_sided) {
       upar_update$timing <- ustime

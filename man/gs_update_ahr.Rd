@@ -51,16 +51,17 @@ logical vector of length equal to the updated number of analyses. Default
 \item{test_harm}{Indicator of which analyses should include a harm bound in
 the updated design, specified as for \code{test_upper}.}
 
-\item{lower, lpar}{Optional lower (futility) bound function and its parameters
-for the updated design when \code{event_tbl} is provided. By default the original
-\code{x$input$lower} and \code{x$input$lpar} are reused. If the original lower bound is
-fixed (\code{gs_b()}) and analyses are added or deleted, the original \code{lpar} vector
-is extended (by repeating its last value) or truncated to the updated number
-of analyses, e.g. \code{c(-1, -Inf, -Inf)} becomes \code{c(-1, -Inf, -Inf, -Inf)} when
-an analysis is added and \code{c(-1, -Inf)} when one is deleted. Use \code{lower} and
-\code{lpar} to specify the bound explicitly instead, e.g.
-\verb{lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)}. A numeric \code{lpar} must have one
-value per analysis of the updated design.}
+\item{lower, lpar}{Optional. By default the original \code{x$input$lower} and
+\code{x$input$lpar} are reused. If the lower bound of the original design is fixed
+(i.e., \code{x$input$lower = gs_b}) and analyses are added or deleted at time of
+analysis, the original \code{lpar} vector is, by default, extended (by repeating its
+last value) or truncated to the updated number of analyses, e.g.,
+\code{c(-1, -Inf, -Inf)} becomes \code{c(-1, -Inf, -Inf, -Inf)} when an analysis is added
+and \code{c(-1, -Inf)} when one is deleted. Alternatively, users can input other
+values to \code{lower} and \code{lpar}, for either a fixed boundary (e.g.,
+\verb{lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)}, where the length of \code{lpar} must
+match the updated number of analyses) or a spending boundary. They are used
+only when \code{event_tbl} is provided.}
 }
 \value{
 A list with input parameters, enrollment rate, failure rate, analysis, and bound.
