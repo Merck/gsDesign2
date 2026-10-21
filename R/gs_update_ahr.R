@@ -245,15 +245,14 @@ gs_update_ahr <- function(
     stop("gs_update_ahr(): lstime is not needed for one-sided design.")
   }
 
-  # Check if the upper/lower bounds are fixed, i.e., the provided function to
-  # compute bounds is equivalent to gsDesign2::gs_b()
-  lower_update <- lower %||% x$input$lower
-  if (is.character(lower_update)) lower_update <- match.fun(lower_update)
-  fixed_futility_bound <- is_gs_b(lower_update)
+  # Check if the upper/lower bounds are fixed, i.e., are gs_b(); like the other
+  # gs_* functions, accept bound functions given as strings via match.fun()
+  lower_update <- match.fun(lower %||% x$input$lower)
+  fixed_futility_bound <- identical(lower_update, gs_b)
   if (fixed_futility_bound && !is.null(lstime)) {
     stop("gs_update_ahr(): lstime is not needed for two-sided design with fixed futility bounds.")
   }
-  if (is_gs_b(x$input$upper) && fixed_futility_bound) {
+  if (identical(match.fun(x$input$upper), gs_b) && fixed_futility_bound) {
     message("gs_update_ahr(): the efficacy and futility bounds are unchanged as they are fixed boundaries from the original design.")
   }
 

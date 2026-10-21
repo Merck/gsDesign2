@@ -125,9 +125,3 @@ resize_fixed_par <- function(par, n) {
   if (length(par) < n) par <- c(par, rep(par[length(par)], n - length(par)))
   par[seq_len(n)]
 }
-
-# TRUE if a bound function is equivalent to gs_b() (i.e., a fixed boundary)
-is_gs_b <- function(f) {
-  observed <- try(f(par = 4:2, k = 2), silent = TRUE)
-  identical(observed, gs_b(par = 4:2, k = 2))
-}
