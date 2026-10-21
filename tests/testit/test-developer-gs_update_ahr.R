@@ -75,55 +75,86 @@ assert("an analysis beyond the original design with no observed events errors", 
   )))
 })
 
-# ---- Add an analysis to an efficacy-only design (fixed -Inf futility) -------
-# A one-sided design stores its lower bound as a fixed numeric par vector
-# (gs_b with -Inf) whose length equals the original number of analyses. When a
-# later analysis is added, that vector must be padded so a bound can be looked
-# up at every analysis instead of returning NA (#684).
+# ---- Add or delete analyses --------------------------------------------------
+# Designs with 3 analyses at months 12, 24, 36 and different lower bounds: none
+# (efficacy only, i.e. gs_b with -Inf, #684), beta-spending, and fixed (gs_b).
 er <- define_enroll_rate(duration = c(2, 2, 10), rate = (1:3) / 3)
 fr <- define_fail_rate(duration = c(3, Inf), fail_rate = log(2) / 9,
                        hr = c(1, 0.6), dropout_rate = .0001)
-xe <- gs_design_ahr(
-  enroll_rate = er, fail_rate = fr, alpha = 0.025, beta = 0.1, ratio = 1,
-  info_scale = "h0_info", info_frac = NULL, analysis_time = c(12, 24, 36),
-  upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
-  test_upper = TRUE, lower = gs_b, lpar = rep(-Inf, 3), test_lower = FALSE
-)
-
-# observed events per interval equal to the expected events (both arms) at 4 times
-tm <- c(12, 24, 36, 48)
 fr1 <- transform(fr, fail_rate = fail_rate * hr)
-ev <- lapply(tm, function(t) {
-  (expected_event(er, fr, t, simple = FALSE)$event +
-     expected_event(er, fr1, t, simple = FALSE)$event) / 2
-})
-event_tbl_e <- data.frame(analysis = rep(1:4, each = length(ev[[1]])), event = unlist(ev))
-obs_e <- as.numeric(tapply(event_tbl_e$event, event_tbl_e$analysis, sum))
-ustime_e <- obs_e / max(obs_e)
-
-xue <- gs_update_ahr(
-  x = xe, ustime = ustime_e, event_tbl = event_tbl_e,
-  test_upper = rep(TRUE, 4), test_lower = rep(FALSE, 4)
+make_design <- function(lower, lpar, test_lower) {
+  gs_design_ahr(
+    enroll_rate = er, fail_rate = fr, alpha = 0.025, beta = 0.1, ratio = 1,
+    info_scale = "h0_info", info_frac = NULL, analysis_time = c(12, 24, 36),
+    upper = gs_spending_bound, upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
+    test_upper = TRUE, lower = lower, lpar = lpar, test_lower = test_lower,
+    binding = FALSE
+  )
+}
+designs <- list(
+  efficacy_only = make_design(gs_b, rep(-Inf, 3), FALSE),
+  beta_spending = make_design(
+    gs_spending_bound, list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4), TRUE
+  ),
+  fixed_lower = make_design(gs_b, c(-1, -Inf, -Inf), c(TRUE, FALSE, FALSE))
 )
 
-# the same 4-analysis efficacy-only design computed directly
-xpe <- gs_power_ahr(
-  enroll_rate = er, fail_rate = fr, ratio = 1, info_scale = "h0_info",
-  analysis_time = tm, event = NULL,
-  upper = gs_spending_bound,
-  upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = ustime_e),
-  test_upper = TRUE, lower = gs_b, lpar = rep(-Inf, 4), test_lower = FALSE
-)
+# Update `x` with observed events equal to the expected events (both arms) at the
+# analysis times `tm`, and compute the same design directly via gs_power_ahr()
+update_vs_power <- function(x, tm) {
+  k <- length(tm)
+  ev <- lapply(tm, function(t) {
+    (expected_event(er, fr, t, simple = FALSE)$event +
+       expected_event(er, fr1, t, simple = FALSE)$event) / 2
+  })
+  event_tbl <- data.frame(analysis = rep(seq_len(k), each = length(ev[[1]])), event = unlist(ev))
+  obs <- as.numeric(tapply(event_tbl$event, event_tbl$analysis, sum))
+  ustime <- obs / max(obs)
+  spending <- is.list(x$input$lpar)
+  two_sided <- !all(x$bound$bound == "upper")
+  test_lower <- rep(two_sided, k)
+  xu <- gs_update_ahr(
+    x = x, ustime = ustime, lstime = if (spending) ustime, event_tbl = event_tbl,
+    test_upper = rep(TRUE, k), test_lower = test_lower
+  )
+  lpar <- if (spending) c(x$input$lpar, list(timing = ustime)) else
+    pad_fixed_par(x$input$lpar, k)[seq_len(k)]
+  xp <- gs_power_ahr(
+    enroll_rate = er, fail_rate = fr, ratio = 1, info_scale = "h0_info",
+    analysis_time = tm, event = NULL, binding = FALSE,
+    upper = gs_spending_bound,
+    upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025, timing = ustime),
+    test_upper = TRUE, lower = x$input$lower, lpar = lpar, test_lower = test_lower
+  )
+  # gs_update_ahr() lists all upper bounds first, so sort rows to compare
+  sort_bound <- function(b) b[order(b$analysis, b$bound), ]
+  list(update = sort_bound(xu$bound), power = sort_bound(xp$bound), n = nrow(xu$analysis))
+}
 
-assert("an efficacy-only design can gain an analysis beyond the original design", {
-  (nrow(xue$analysis) %==% 4L)
-  (all(xue$bound$bound == "upper"))
-  (is.finite(xue$bound$z))
+for (nm in names(designs)) for (tm in list(c(12, 20, 28, 36), c(24, 36))) {
+  res <- update_vs_power(designs[[nm]], tm)
+  assert(sprintf("%s design updated to analyses at %s matches gs_power_ahr()", nm, toString(tm)), {
+    (res$n %==% length(tm))
+    (is.finite(res$update$z))
+    (all.equal(res$update$z, res$power$z))
+    (all.equal(res$update$probability, res$power$probability))
+  })
+}
+
+assert("a length mismatch between per-analysis inputs errors", {
+  x <- designs$efficacy_only
+  (has_error(gs_update_ahr(
+    x, ustime = c(0.5, 0.8, 1), event_tbl = data.frame(analysis = c(1, 2, 3, 4), event = c(5, 6, 7, 8)),
+    test_upper = rep(TRUE, 4)
+  )))
 })
 
-assert("the updated efficacy bounds match gs_power_ahr() for the same 4 analyses", {
-  (all.equal(xue$bound$z, xpe$bound$z))
-  (all.equal(xue$bound$probability, xpe$bound$probability))
+assert("a design with fixed efficacy and futility bounds notes that they are unchanged", {
+  x <- gs_design_ahr(
+    enroll_rate = er, fail_rate = fr, alpha = 0.025, beta = 0.1, ratio = 1,
+    analysis_time = c(24, 36), upper = gs_b, upar = c(3, 2), lower = gs_b, lpar = c(-1, 1)
+  )
+  (grepl("unchanged", tryCatch(gs_update_ahr(x, alpha = 0.05), message = conditionMessage)))
 })
 
 # ---- pad_fixed_par() ---------------------------------------------------------

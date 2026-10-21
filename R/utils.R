@@ -125,3 +125,9 @@ pad_fixed_par <- function(par, n) {
     par <- c(par, rep(par[length(par)], n - length(par)))
   par
 }
+
+# TRUE if a bound function is equivalent to gs_b() (i.e., a fixed boundary)
+is_gs_b <- function(f) {
+  observed <- try(f(par = 4:2, k = 2), silent = TRUE)
+  identical(observed, gs_b(par = 4:2, k = 2))
+}

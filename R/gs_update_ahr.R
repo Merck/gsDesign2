@@ -233,13 +233,14 @@ gs_update_ahr <- function(
     stop("gs_update_ahr(): lstime is not needed for one-sided design.")
   }
 
-  # Check if futility bound is fixed. In other words, check if is the provided
-  # function to compute lower bounds equivalent to gsDesign2::gs_b()
-  gs_b_observed <- try(x$input$lower(par = 4:2, k = 2), silent = TRUE)
-  gs_b_expected <- gs_b(par = 4:2, k = 2)
-  fixed_futility_bound <- identical(gs_b_observed, gs_b_expected)
+  # Check if the upper/lower bounds are fixed, i.e., the provided function to
+  # compute bounds is equivalent to gsDesign2::gs_b()
+  fixed_futility_bound <- is_gs_b(x$input$lower)
   if (fixed_futility_bound && !is.null(lstime)) {
     stop("gs_update_ahr(): lstime is not needed for two-sided design with fixed futility bounds.")
+  }
+  if (is_gs_b(x$input$upper) && fixed_futility_bound) {
+    message("gs_update_ahr(): the efficacy and futility bounds are unchanged as they are fixed boundaries from the original design.")
   }
 
   # ----------------------------------- #
@@ -269,14 +270,15 @@ gs_update_ahr <- function(
   if (length(test_lower) == 1) test_lower <- rep(test_lower, n_analysis)
   if (length(test_harm)  == 1) test_harm  <- rep(test_harm,  n_analysis)
 
-  # Validate lengths when the number of analyses changed
-  if (n_analysis != nrow(x$analysis)) {
-    for (nm in c("test_upper", "test_lower", "test_harm")) {
-      if (length(get(nm)) != n_analysis) stop(sprintf(
-        "gs_update_ahr(): the number of analyses changed to %d, so %s must have length %d.",
-        n_analysis, nm, n_analysis))
-    }
-  }
+  # Validate that every per-analysis input matches the updated number of analyses
+  lens <- c(ustime = length(ustime), lstime = length(lstime),
+            test_upper = length(test_upper), test_lower = length(test_lower),
+            test_harm = length(test_harm))
+  lens <- lens[names(lens) %in% c("test_upper", "test_lower", "test_harm") | lens > 0]
+  if (any(lens != n_analysis)) stop(sprintf(
+    "gs_update_ahr(): the updated design has %d analyses, but %s ha%s length %s.",
+    n_analysis, toString(names(lens)[lens != n_analysis]),
+    if (sum(lens != n_analysis) > 1) "ve" else "s", toString(lens[lens != n_analysis])))
 
   # Get the updated alpha
   if (is.null(alpha) && !is.null(x$input$alpha)) {
