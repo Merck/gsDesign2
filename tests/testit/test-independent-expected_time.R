@@ -8,7 +8,7 @@ assert("expected_time equal to test_event result", {
   (t1$event %==% expected)
 })
 
-assert("expected_time euqal to AHR's result", {
+assert("expected_time equal to AHR's result", {
   res <- test_expected_time()
   enroll_rate <- res$enroll_rate
   fail_rate <- res$fail_rate

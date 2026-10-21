@@ -70,7 +70,7 @@ NULL
 #'    \item Define hgm1_0 and hgm1 to be NULL.
 #'    \item Define upperProb and lowerProb to be vectors of NA with length of the number of interim analysis.
 #'    \item Update lower and upper bounds using \code{gs_b()}.
-#'    \item If there are no interim analysis, compute proabilities of crossing upper and lower bounds
+#'    \item If there are no interim analysis, compute probabilities of crossing upper and lower bounds
 #'    using \code{h1()}.
 #'    \item Compute cross upper and lower bound probabilities using \code{hupdate()} and \code{h1()}.
 #'    \item Return a tibble of analysis number, Bounds, Z-values, Probability of crossing bounds,

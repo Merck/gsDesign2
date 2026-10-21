@@ -208,7 +208,7 @@ assert("Final futility and efficacy bounds match with lower spending under beta-
   fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
   fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
   (fa_efficacy_bound$z == fa_futility_bound$z)
-  
+
 })
 
 assert("Final futility and efficacy bounds match with lower spending under beta-spending, binding/non-binding when it is NPH", {
@@ -254,7 +254,7 @@ assert("Final futility and efficacy bounds match with lower spending under beta-
   fa_efficacy_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "upper", ]
   fa_futility_bound <- x$bound[x$bound$analysis == 3 & x$bound$bound == "lower", ]
   (fa_efficacy_bound$z == fa_futility_bound$z)
-  
+
 })
 
 assert("Spending time when both efficacy and futility bound are fixed", {
@@ -271,7 +271,7 @@ assert("Spending time when both efficacy and futility bound are fixed", {
   (!("spending_time" %in% names(x$bound)))
 })
 
-assert("Pre-specificed spending time", {
+assert("Pre-specified spending time", {
 
   # one-sided design
   x <- gs_design_ahr(alpha = 0.025,
@@ -385,21 +385,21 @@ assert("Harm bound is not provided when it is a fixed design", {
 
 assert("Harm bound is always below the lower bound in a group sequential design", {
   x1 <- gs_design_ahr(analysis_time = c(12, 24, 36), info_frac = NULL,
-                      upper = gs_spending_bound, 
-                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+                      upper = gs_spending_bound,
+                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
                       test_upper = TRUE,
-                      lower = gs_spending_bound, 
-                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2), 
+                      lower = gs_spending_bound,
+                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
                       test_lower = TRUE,
                       harm = gs_spending_bound,
                       hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
                       test_harm = TRUE)
   x2 <- gs_power_ahr(analysis_time = NULL, event = c(10, 50, 70),
-                      upper = gs_spending_bound, 
-                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025), 
+                      upper = gs_spending_bound,
+                      upar = list(sf = gsDesign::sfLDOF, total_spend = 0.025),
                       test_upper = TRUE,
-                      lower = gs_spending_bound, 
-                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2), 
+                      lower = gs_spending_bound,
+                      lpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -2),
                       test_lower = TRUE,
                       harm = gs_spending_bound,
                       hpar = list(sf = gsDesign::sfHSD, total_spend = 0.1, param = -4),
