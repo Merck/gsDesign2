@@ -12,7 +12,9 @@ gs_update_ahr(
   event_tbl = NULL,
   test_upper = NULL,
   test_lower = NULL,
-  test_harm = NULL
+  test_harm = NULL,
+  lower = NULL,
+  lpar = NULL
 )
 }
 \arguments{
@@ -48,6 +50,17 @@ logical vector of length equal to the updated number of analyses. Default
 
 \item{test_harm}{Indicator of which analyses should include a harm bound in
 the updated design, specified as for \code{test_upper}.}
+
+\item{lower, lpar}{Optional lower (futility) bound function and its parameters
+for the updated design when \code{event_tbl} is provided. By default the original
+\code{x$input$lower} and \code{x$input$lpar} are reused. If the original lower bound is
+fixed (\code{gs_b()}) and analyses are added or deleted, the original \code{lpar} vector
+is extended (by repeating its last value) or truncated to the updated number
+of analyses, e.g. \code{c(-1, -Inf, -Inf)} becomes \code{c(-1, -Inf, -Inf, -Inf)} when
+an analysis is added and \code{c(-1, -Inf)} when one is deleted. Use \code{lower} and
+\code{lpar} to specify the bound explicitly instead, e.g.
+\verb{lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)}. A numeric \code{lpar} must have one
+value per analysis of the updated design.}
 }
 \value{
 A list with input parameters, enrollment rate, failure rate, analysis, and bound.

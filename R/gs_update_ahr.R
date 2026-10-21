@@ -43,6 +43,16 @@
 #' (futility) bound in the updated design, specified as for `test_upper`.
 #' @param test_harm Indicator of which analyses should include a harm bound in
 #' the updated design, specified as for `test_upper`.
+#' @param lower,lpar Optional lower (futility) bound function and its parameters
+#' for the updated design when `event_tbl` is provided. By default the original
+#' `x$input$lower` and `x$input$lpar` are reused. If the original lower bound is
+#' fixed (`gs_b()`) and analyses are added or deleted, the original `lpar` vector
+#' is extended (by repeating its last value) or truncated to the updated number
+#' of analyses, e.g. `c(-1, -Inf, -Inf)` becomes `c(-1, -Inf, -Inf, -Inf)` when
+#' an analysis is added and `c(-1, -Inf)` when one is deleted. Use `lower` and
+#' `lpar` to specify the bound explicitly instead, e.g.
+#' `lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)`. A numeric `lpar` must have one
+#' value per analysis of the updated design.
 #'
 #' @details
 #' The updated number of analyses is the larger of the length of `ustime` and
@@ -214,7 +224,9 @@ gs_update_ahr <- function(
     event_tbl = NULL,
     test_upper = NULL,
     test_lower = NULL,
-    test_harm = NULL) {
+    test_harm = NULL,
+    lower = NULL,
+    lpar = NULL) {
 
   # ----------------------------------- #
   #         Check inputs                #
@@ -235,7 +247,9 @@ gs_update_ahr <- function(
 
   # Check if the upper/lower bounds are fixed, i.e., the provided function to
   # compute bounds is equivalent to gsDesign2::gs_b()
-  fixed_futility_bound <- is_gs_b(x$input$lower)
+  lower_update <- lower %||% x$input$lower
+  if (is.character(lower_update)) lower_update <- match.fun(lower_update)
+  fixed_futility_bound <- is_gs_b(lower_update)
   if (fixed_futility_bound && !is.null(lstime)) {
     stop("gs_update_ahr(): lstime is not needed for two-sided design with fixed futility bounds.")
   }
@@ -386,14 +400,17 @@ gs_update_ahr <- function(
     }
 
     # Update timing
-    upar_update  <- pad_fixed_par(x$input$upar, n_analysis)
-    lpar_update <- pad_fixed_par(x$input$lpar, n_analysis)
+    upar_update <- x$input$upar
+    lpar_update <- lpar %||% resize_fixed_par(x$input$lpar, n_analysis)
+    if (is.numeric(lpar_update) && length(lpar_update) != n_analysis) stop(sprintf(
+      "gs_update_ahr(): the updated design has %d analyses, so a fixed lpar must have length %d.",
+      n_analysis, n_analysis))
 
     if (one_sided) {
       upar_update$timing <- ustime
     } else {
       upar_update$timing <- ustime
-      if(is.list(x$input$lpar)) {
+      if(is.list(lpar_update)) {
         lpar_update$timing <- lstime
       }
     }
@@ -408,7 +425,7 @@ gs_update_ahr <- function(
                                  info_scale = "h0_info",
                                  upper = x$input$upper, upar = upar_update,
                                  test_upper = test_upper,
-                                 lower = x$input$lower, lpar = lpar_update,
+                                 lower = lower_update, lpar = lpar_update,
                                  test_lower = test_lower,
                                  harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)
@@ -421,7 +438,7 @@ gs_update_ahr <- function(
                                  info_scale = "h0_info",
                                  upper = x$input$upper, upar = upar_update,
                                  test_upper = test_upper,
-                                 lower = x$input$lower, lpar = lpar_update,
+                                 lower = lower_update, lpar = lpar_update,
                                  test_lower = test_lower,
                                  harm = harm, hpar = hpar, test_harm = test_harm,
                                  binding = x$input$binding)

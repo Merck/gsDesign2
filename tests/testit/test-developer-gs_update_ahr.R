@@ -118,7 +118,7 @@ update_vs_power <- function(x, tm) {
     test_upper = rep(TRUE, k), test_lower = test_lower
   )
   lpar <- if (spending) c(x$input$lpar, list(timing = ustime)) else
-    pad_fixed_par(x$input$lpar, k)[seq_len(k)]
+    resize_fixed_par(x$input$lpar, k)
   xp <- gs_power_ahr(
     enroll_rate = er, fail_rate = fr, ratio = 1, info_scale = "h0_info",
     analysis_time = tm, event = NULL, binding = FALSE,
@@ -157,15 +157,45 @@ assert("a design with fixed efficacy and futility bounds notes that they are unc
   (grepl("unchanged", tryCatch(gs_update_ahr(x, alpha = 0.05), message = conditionMessage)))
 })
 
-# ---- pad_fixed_par() ---------------------------------------------------------
-assert("pad_fixed_par() pads a fixed par vector by repeating its last value", {
-  (pad_fixed_par(rep(-Inf, 3), 4) %==% rep(-Inf, 4))
-  (pad_fixed_par(c(-1, -Inf, -Inf), 5) %==% c(-1, -Inf, -Inf, -Inf, -Inf))
+# ---- User-specified lower bound ----------------------------------------------
+# Instead of extending/truncating the original fixed lpar, the user can provide
+# the lower bound of the updated design.
+xf <- designs$fixed_lower
+tm <- c(12, 20, 28, 36)
+ev <- lapply(tm, function(t) {
+  (expected_event(er, fr, t, simple = FALSE)$event +
+     expected_event(er, fr1, t, simple = FALSE)$event) / 2
+})
+event_tbl_f <- data.frame(analysis = rep(1:4, each = 2), event = unlist(ev))
+obs_f <- as.numeric(tapply(event_tbl_f$event, event_tbl_f$analysis, sum))
+update_lower <- function(...) gs_update_ahr(
+  xf, ustime = obs_f / max(obs_f), event_tbl = event_tbl_f,
+  test_upper = rep(TRUE, 4), test_lower = rep(TRUE, 4), ...
+)
+lower_z <- function(x) x$bound$z[x$bound$bound == "lower"]
+
+assert("lower and lpar override the original fixed lower bound", {
+  (lower_z(update_lower()) %==% -1)  # default: c(-1, -Inf, -Inf, -Inf)
+  (lower_z(update_lower(lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf))) %==% c(-1, -0.5))
+  (has_error(update_lower(lower = gs_b, lpar = c(-1, -0.5))))  # wrong length
 })
 
-assert("pad_fixed_par() leaves a long enough vector and spending lists unchanged", {
-  (pad_fixed_par(c(-1, -Inf, -Inf), 3) %==% c(-1, -Inf, -Inf))
-  (pad_fixed_par(c(-1, -Inf, -Inf), 2) %==% c(-1, -Inf, -Inf))
+assert("lower can also be given as a string", {
+  (lower_z(update_lower(lower = "gs_b", lpar = c(-1, -0.5, -Inf, -Inf))) %==% c(-1, -0.5))
+})
+
+# ---- resize_fixed_par() ---------------------------------------------------------
+assert("resize_fixed_par() extends a fixed par vector by repeating its last value", {
+  (resize_fixed_par(rep(-Inf, 3), 4) %==% rep(-Inf, 4))
+  (resize_fixed_par(c(-1, -Inf, -Inf), 4) %==% c(-1, -Inf, -Inf, -Inf))
+})
+
+assert("resize_fixed_par() truncates a fixed par vector", {
+  (resize_fixed_par(c(-1, -Inf, -Inf), 2) %==% c(-1, -Inf))
+})
+
+assert("resize_fixed_par() leaves a vector of the right length and spending lists unchanged", {
+  (resize_fixed_par(c(-1, -Inf, -Inf), 3) %==% c(-1, -Inf, -Inf))
   sp <- list(sf = gsDesign::sfLDOF, total_spend = 0.025)
-  (pad_fixed_par(sp, 4) %==% sp)
+  (resize_fixed_par(sp, 4) %==% sp)
 })

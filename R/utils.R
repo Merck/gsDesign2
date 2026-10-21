@@ -111,19 +111,19 @@ get_sf <- function(f) {
   })
 }
 
-# Pad a fixed boundary `par` vector to `n` analyses by repeating its last value.
-# When gs_update_ahr() adds analyses beyond the original design, a fixed bound
-# (e.g. gs_b() with the -Inf futility vector of an efficacy-only design) would
-# otherwise be shorter than `n`, and gs_power_npe() would read NA for the new
+# Resize a fixed boundary `par` vector to `n` analyses: extend by repeating its
+# last value, or truncate. When gs_update_ahr() adds or deletes analyses, a fixed
+# bound (e.g. gs_b() with the -Inf futility vector of an efficacy-only design)
+# would otherwise have the wrong length, and gs_power_npe() would read NA for new
 # analyses. A spending `par` (a list) carries its own `timing` of the updated
 # length, so it is returned unchanged.
-# pad_fixed_par(c(-Inf, -Inf, -Inf), 4)  # c(-Inf, -Inf, -Inf, -Inf)
-# pad_fixed_par(c(-1, -Inf, -Inf), 4)    # c(-1, -Inf, -Inf, -Inf)
-# pad_fixed_par(list(sf = gsDesign::sfLDOF, total_spend = 0.025), 4)  # unchanged
-pad_fixed_par <- function(par, n) {
-  if (is.numeric(par) && length(par) >= 1 && length(par) < n)
-    par <- c(par, rep(par[length(par)], n - length(par)))
-  par
+# resize_fixed_par(c(-1, -Inf, -Inf), 4)  # c(-1, -Inf, -Inf, -Inf)
+# resize_fixed_par(c(-1, -Inf, -Inf), 2)  # c(-1, -Inf)
+# resize_fixed_par(list(sf = gsDesign::sfLDOF, total_spend = 0.025), 4)  # unchanged
+resize_fixed_par <- function(par, n) {
+  if (!is.numeric(par) || length(par) == 0) return(par)
+  if (length(par) < n) par <- c(par, rep(par[length(par)], n - length(par)))
+  par[seq_len(n)]
 }
 
 # TRUE if a bound function is equivalent to gs_b() (i.e., a fixed boundary)
