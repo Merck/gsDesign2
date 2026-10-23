@@ -113,7 +113,7 @@ assert("Increase the number of analyses from 3 to 4", {
   # the updated design has the requested number of analyses
   (nrow(xu$analysis) %==% 4L)
   # the efficacy bounds match gs_power_ahr
-  (all.equal(xp$bound$z, xu$bound$z, tolerance = 1e-6, scale = 1))
+  (all.equal(xp$bound$z, xu$bound$z, tolerance = 1e-7, scale = 1))
 })
 
 assert("Decrease the number of analyses from 3 to 2", {
@@ -138,7 +138,7 @@ assert("Decrease the number of analyses from 3 to 2", {
   # the updated design has the requested number of analyses
   (nrow(xu$analysis) %==% 2L)
   # the efficacy bounds match gs_power_ahr
-  (all.equal(xp$bound$z, xu$bound$z, tolerance = 1e-6, scale = 1))
+  (all.equal(xp$bound$z, xu$bound$z, tolerance = 1e-7, scale = 1))
 })
 
 
@@ -202,7 +202,7 @@ assert("Increase the number of analyses from 3 to 4", {
   # the updated efficacy bounds match gs_power_ahr
   (all.equal(xp$bound$z[which(xp$bound$bound == "upper")],
              xu$bound$z[which(xu$bound$bound == "upper")],
-             tolerance = 1e-6, scale = 1))
+             tolerance = 1e-7, scale = 1))
   # the updated futility bounds remain unchanged
   (xu$bound$z[which(xu$bound$bound == "lower")] %==% -2)
 })
@@ -230,7 +230,7 @@ assert("Decrease the number of analyses from 3 to 2", {
   # the updated efficacy bounds match gs_power_ahr
   (all.equal(xp$bound$z[which(xp$bound$bound == "upper")],
              xu$bound$z[which(xu$bound$bound == "upper")],
-             tolerance = 1e-6, scale = 1))
+             tolerance = 1e-7, scale = 1))
   # the updated futility bounds remain unchanged
   (xu$bound$z[which(xu$bound$bound == "lower")] %==% -2)
 })
@@ -305,5 +305,5 @@ assert("The efficacy bound matches with gs_power_ahr", {
   # the efficacy bounds match gs_power_ahr                   
   (all.equal(xp$bound$z[which(xp$bound$bound == "upper")],
              xu$bound$z[which(xu$bound$bound == "upper")],
-             tolerance = 1e-6, scale = 1))
+             tolerance = 1e-7, scale = 1))
 })
