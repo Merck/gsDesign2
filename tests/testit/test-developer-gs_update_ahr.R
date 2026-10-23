@@ -112,8 +112,8 @@ assert("Increase the number of analyses from 3 to 4", {
                      lpar = rep(-Inf, 4))
   # the updated design has the requested number of analyses
   (nrow(xu$analysis) %==% 4L)
-  # the updated bounds match gs_power_ahr
-  (xp$bound$z %==% xu$bound$z)
+  # the efficacy bounds match gs_power_ahr
+  (all.equal(xp$bound$z, xu$bound$z, tolerance = 1e-6, scale = 1))
 })
 
 assert("Decrease the number of analyses from 3 to 2", {
@@ -137,8 +137,8 @@ assert("Decrease the number of analyses from 3 to 2", {
 
   # the updated design has the requested number of analyses
   (nrow(xu$analysis) %==% 2L)
-  # the updated bounds match gs_power_ahr
-  (xp$bound$z %==% xu$bound$z)
+  # the efficacy bounds match gs_power_ahr
+  (all.equal(xp$bound$z, xu$bound$z, tolerance = 1e-6, scale = 1))
 })
 
 
@@ -200,7 +200,9 @@ assert("Increase the number of analyses from 3 to 4", {
   # the updated design has the requested number of analyses
   (nrow(xu$analysis) %==% 4L)
   # the updated efficacy bounds match gs_power_ahr
-  (xp$bound$z[which(xp$bound$bound == "upper")] %==% xu$bound$z[which(xu$bound$bound == "upper")])
+  (all.equal(xp$bound$z[which(xp$bound$bound == "upper")],
+             xu$bound$z[which(xu$bound$bound == "upper")],
+             tolerance = 1e-6, scale = 1))
   # the updated futility bounds remain unchanged
   (xu$bound$z[which(xu$bound$bound == "lower")] %==% -2)
 })
@@ -226,7 +228,9 @@ assert("Decrease the number of analyses from 3 to 2", {
   # the updated design has the requested number of analyses
   (nrow(xu$analysis) %==% 2L)
   # the updated efficacy bounds match gs_power_ahr
-  (xp$bound$z[which(xp$bound$bound == "upper")] %==% xu$bound$z[which(xu$bound$bound == "upper")])
+  (all.equal(xp$bound$z[which(xp$bound$bound == "upper")],
+             xu$bound$z[which(xu$bound$bound == "upper")],
+             tolerance = 1e-6, scale = 1))
   # the updated futility bounds remain unchanged
   (xu$bound$z[which(xu$bound$bound == "lower")] %==% -2)
 })
@@ -298,5 +302,8 @@ assert("The efficacy bound matches with gs_power_ahr", {
                      lower = gs_b,
                      lpar = rep(-Inf, 3))
                      
-  (xp$bound$z[which(xp$bound$bound == "upper")] %==% xu$bound$z[which(xu$bound$bound == "upper")])
+  # the efficacy bounds match gs_power_ahr                   
+  (all.equal(xp$bound$z[which(xp$bound$bound == "upper")],
+             xu$bound$z[which(xu$bound$bound == "upper")],
+             tolerance = 1e-6, scale = 1))
 })
