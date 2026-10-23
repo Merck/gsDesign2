@@ -18,6 +18,16 @@
 
 #' Conditional power computation with non-constant effect size for (non-)crossing an upper/lower boundary at future analyses given Z value at analysis i
 #'
+#' @details
+#' The observed Z-statistic and design boundaries are standardized using
+#' null-hypothesis information. Conditional power is evaluated using the
+#' canonical process based on alternative-hypothesis information. The function
+#' therefore multiplies the observed Z-statistic and each future boundary at
+#' analysis \eqn{k} by \eqn{\sqrt{I_{k,1}/I_{k,0}}} before constructing B-value
+#' increments. The B-value drift remains
+#' \eqn{\theta_k t_k\sqrt{I_{K,1}}}, where
+#' \eqn{t_k=I_{k,1}/I_{K,1}}.
+#'
 #' @param x An object of type gsDesign2.
 #' @param theta Optional numeric vector with length \eqn{j-i+1}, which specifies
 #' the natural parameter for treatment effect of interim analysis \eqn{i} through
@@ -169,8 +179,15 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
 
   # statistical information from analysis i to analysis j
   info <- x$analysis$info[i:k_max]
+  # null statistical information from analysis i to analysis j
+  info0 <- x$analysis$info0[i:k_max]
   # information fraction from analysis i to analysis j
   t <- x$analysis$info_frac[i:k_max]
+  h1_scale <- sqrt(info / info0)
+  observed_b <- zi * h1_scale[1] * sqrt(t[1])
+  future_scale <- h1_scale[-1] * sqrt(t[-1])
+  a_b <- a * future_scale
+  b_b <- b * future_scale
 
   if(is.null(theta)){theta <- x$analysis$theta[i:k_max]}
 
@@ -209,12 +226,12 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
     # lower bound
     lower_alpha <- rep(0, y)
     if(y == 1){
-      lower_alpha[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
+      lower_alpha[y] <- b_b[y] - observed_b
     }else{
       for (m in 1:(y - 1)) {
-        lower_alpha[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        lower_alpha[m] <- a_b[m] - observed_b
       }
-      lower_alpha[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
+      lower_alpha[y] <- b_b[y] - observed_b
     }
 
     # upper bound
@@ -223,7 +240,7 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
       upper_alpha[y] = Inf
     }else{
       for(m in 1:(y - 1)){
-        upper_alpha[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_alpha[m] <- b_b[m] - observed_b
       }
       upper_alpha[y] <- Inf
     }
@@ -244,10 +261,10 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
     # lower bound
     lower_alpha_plus <- rep(0, y)
     if(y == 1){
-      lower_alpha_plus[y] = b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
+      lower_alpha_plus[y] = b_b[y] - observed_b
     }else{
       lower_alpha_plus <- rep(-Inf, y - 1)
-      lower_alpha_plus[y] <- b[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
+      lower_alpha_plus[y] <- b_b[y] - observed_b
     }
 
     # upper bound
@@ -256,7 +273,7 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
       upper_alpha_plus[y] <- Inf
     }else{
       for(m in 1:(y - 1)){
-        upper_alpha_plus[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_alpha_plus[m] <- b_b[m] - observed_b
       }
       upper_alpha_plus[y] <- Inf
     }
@@ -279,7 +296,7 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
       lower_beta[y] <- -Inf
     }else{
       for(m in 1:(y - 1)){
-        lower_beta[m] <- a[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        lower_beta[m] <- a_b[m] - observed_b
       }
       lower_beta[y] <- -Inf
     }
@@ -287,10 +304,10 @@ gs_cp <- function(x = NULL, theta = NULL, i = 1, zi = NULL){
     # upper bound
     upper_beta <- rep(0, y)
     if(y == 1){
-      upper_beta[y] <- a[y] * sqrt(t[y + 1]) - zi * sqrt(t[1])
+      upper_beta[y] <- a_b[y] - observed_b
     }else{
       for(m in 1:y){
-        upper_beta[m] <- b[m] * sqrt(t[m + 1]) - zi * sqrt(t[1])
+        upper_beta[m] <- b_b[m] - observed_b
       }
     }
 

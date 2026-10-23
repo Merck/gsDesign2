@@ -85,15 +85,16 @@ assert("Compare the gs_cp_simple with gsDesign::gsCP", {
   # ------------------------------------------ #
   #  conditional power by gs_cp_npe1 under H1  #
   # ------------------------------------------ #
+  h1_scale <- sqrt(x$analysis$info / x$analysis$info0)
   cp12_1 <- gs_cp_npe1(theta = x$analysis$theta[c(1,2)],
                        info = x$analysis$info[c(1,2)],
-                       zi = -qnorm(0.04),
-                       zj = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2])
+                       zi = -qnorm(0.04) * h1_scale[1],
+                       zj = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 2] * h1_scale[2])
 
   cp13_1 <- gs_cp_npe1(theta = x$analysis$theta[c(1,3)],
                        info = x$analysis$info[c(1,3)],
-                       zi = -qnorm(0.04),
-                       zj = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3])
+                       zi = -qnorm(0.04) * h1_scale[1],
+                       zj = x$bound$z[x$bound$bound == "upper" & x$bound$analysis == 3] * h1_scale[3])
 
   # ------------------------------ #
   #  conditional power by gsDesign #
@@ -114,11 +115,37 @@ assert("Compare the gs_cp_simple with gsDesign::gsCP", {
 
   # under H1
   # given IA1 assumed blinded data and compute IA2 conditional power
-  (all.equal(xcp_gsd$upper$prob[1, 3], cp_1[1], tolerance = 0.007, scale = 1))
+  (all.equal(xcp_gsd$upper$prob[1, 3], cp_1[1], tolerance = 0.01, scale = 1))
   (all.equal(cp_1[1], cp12_1, scale = 1))
 
   # given IA1 assumed blinded data and compute FA conditional power
-  (all.equal(sum(xcp_gsd$upper$prob[, 3]), cp_1[2], tolerance = 0.006, scale = 1))
+  (all.equal(sum(xcp_gsd$upper$prob[, 3]), cp_1[2], tolerance = 0.01, scale = 1))
   (all.equal(cp_1[2], cp13_1, scale = 1))
 
+})
+
+assert("Rescale null-standardized statistics when H0 and H1 information differ", {
+  x <- list(
+    analysis = data.frame(
+      theta = c(0.1, 0.15),
+      info = c(20, 80),
+      info0 = c(24, 100)
+    ),
+    bound = data.frame(
+      bound = c("upper", "upper"),
+      z = c(2, 2)
+    )
+  )
+
+  observed_z <- 0.5
+  actual <- gs_cp_simple(x, theta = x$analysis$theta, i = 1, zi = observed_z)
+
+  mean_z <- x$analysis$theta * sqrt(x$analysis$info0)
+  var_z <- x$analysis$info0 / x$analysis$info
+  cov_z <- sqrt(x$analysis$info0[1] / x$analysis$info0[2]) * var_z[2]
+  conditional_mean <- mean_z[2] + cov_z / var_z[1] * (observed_z - mean_z[1])
+  conditional_sd <- sqrt(var_z[2] - cov_z^2 / var_z[1])
+  expected <- pnorm((x$bound$z[2] - conditional_mean) / conditional_sd, lower.tail = FALSE)
+
+  (actual %==% expected)
 })

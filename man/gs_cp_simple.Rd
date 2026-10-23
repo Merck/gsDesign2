@@ -24,17 +24,20 @@ A numeric vector with the conditional power
 Simple conditional power computation with non-constant effect size
 }
 \details{
-Suppose there are \eqn{K} analyses. Let \eqn{Z_i} and \eqn{Z_j} be the Z-statistics at a current analysis \eqn{i} and a future analysis \eqn{j}, respectively.
-Let's denote the statistical information at the \eqn{i}-th analysis as \eqn{I_i}.
-We further assume \eqn{Z_i} and \eqn{Z_j} are bivariate normal under standard group sequential assumptions with independent increments, then
-\deqn{E(Z_i) = \theta_i\sqrt{I_i}}
-\deqn{Var(Z_i) = 1/I_i}
-\deqn{Cov(Z_i, Z_j) = t \equiv I_i/I_j}
-See https://merck.github.io/gsDesign2/articles/story-npe-background.html for assumption details.
-Returned value is
-\deqn{P(Z_j > b_j \mid Z_i = z_i) = 1 - \Phi\left(\frac{b_j - \sqrt{t}z_i - \sqrt{I_j}(\theta_j - \theta_i\sqrt{t})}{\sqrt{1 - t}}\right)}
-where \eqn{b_j} is the efficacy bound at analysis \eqn{j}, \eqn{z_i} is the observed Z-value at analysis \eqn{i},
-and \eqn{\theta_i} is the natural parameter for treatment effect at analysis \eqn{i}.
+Suppose there are \eqn{K} analyses. The observed Z-statistic and efficacy
+bounds are standardized using null-hypothesis information \eqn{I_{k,0}}.
+Conditional power under a nonzero assumed treatment effect uses the canonical
+process based on alternative-hypothesis information \eqn{I_{k,1}}. Therefore,
+the function transforms the observed Z-statistic and future bound using
+\deqn{s_k = \sqrt{I_{k,1}/I_{k,0}}.}
+With \eqn{t=I_{i,1}/I_{j,1}}, the returned value is
+\deqn{P(Z_j > b_j \mid Z_i = z_i) = 1 - \Phi\left(
+\frac{s_j b_j - \sqrt{t}s_i z_i -
+[\theta_j\sqrt{I_{j,1}}-\theta_i\sqrt{tI_{i,1}}]}
+{\sqrt{1-t}}\right).}
+When the assumed treatment effects are all zero, the calculation uses the
+null-information scale directly. See the conditional-power vignette for
+details.
 }
 \examples{
 library(gsDesign2)
