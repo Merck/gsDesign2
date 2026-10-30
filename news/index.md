@@ -9,6 +9,17 @@
   bounds that are not tested at an analysis, and supports changing the
   number of analyses (taken from `event_tbl`) so the updated monitoring
   schedule can differ from the original design.
+- [`gs_update_ahr()`](https://merck.github.io/gsDesign2/reference/gs_update_ahr.md)
+  no longer errors with “missing value where TRUE/FALSE needed” when an
+  analysis is added beyond the original design and a boundary is a fixed
+  numeric par vector (e.g. the `-Inf` futility bound of an efficacy-only
+  design). Such par vectors are now extended (or truncated, when
+  analyses are deleted) to the updated number of analyses. The new
+  `lower` and `lpar` arguments let users specify the lower bound of the
+  updated design explicitly.
+  [`gs_update_ahr()`](https://merck.github.io/gsDesign2/reference/gs_update_ahr.md)
+  also now errors when `ustime`, `lstime`, `test_upper`, `test_lower`,
+  or `test_harm` do not match the updated number of analyses.
 - [`ppwe()`](https://merck.github.io/gsDesign2/reference/ppwe.md) gains
   `stratum` and `stratum_prev` arguments, so it can compute the marginal
   (population-level) survival or CDF of a *stratified* piecewise

@@ -14,7 +14,9 @@ gs_update_ahr(
   event_tbl = NULL,
   test_upper = NULL,
   test_lower = NULL,
-  test_harm = NULL
+  test_harm = NULL,
+  lower = NULL,
+  lpar = NULL
 )
 ```
 
@@ -73,6 +75,21 @@ gs_update_ahr(
 
   Indicator of which analyses should include a harm bound in the updated
   design, specified as for `test_upper`.
+
+- lower, lpar:
+
+  Optional. By default the original `x$input$lower` and `x$input$lpar`
+  are reused. If the lower bound of the original design is fixed (i.e.,
+  `x$input$lower = gs_b`) and analyses are added or deleted at time of
+  analysis, the original `lpar` vector is, by default, extended (by
+  repeating its last value) or truncated to the updated number of
+  analyses, e.g., `c(-1, -Inf, -Inf)` becomes `c(-1, -Inf, -Inf, -Inf)`
+  when an analysis is added and `c(-1, -Inf)` when one is deleted.
+  Alternatively, users can input other values to `lower` and `lpar`, for
+  either a fixed boundary (e.g.,
+  `lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)`, where the length of
+  `lpar` must match the updated number of analyses) or a spending
+  boundary. They are used only when `event_tbl` is provided.
 
 ## Value
 

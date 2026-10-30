@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsDesign2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,9 @@
 <span>  event_tbl <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  test_upper <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  test_lower <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  test_harm <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  test_harm <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lower <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lpar <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -109,6 +111,20 @@ logical vector of length equal to the updated number of analyses. Default
 <dt id="arg-test-harm">test_harm<a class="anchor" aria-label="anchor" href="#arg-test-harm"></a></dt>
 <dd><p>Indicator of which analyses should include a harm bound in
 the updated design, specified as for <code>test_upper</code>.</p></dd>
+
+
+<dt id="arg-lower-lpar">lower, lpar<a class="anchor" aria-label="anchor" href="#arg-lower-lpar"></a></dt>
+<dd><p>Optional. By default the original <code>x$input$lower</code> and
+<code>x$input$lpar</code> are reused. If the lower bound of the original design is fixed
+(i.e., <code>x$input$lower = gs_b</code>) and analyses are added or deleted at time of
+analysis, the original <code>lpar</code> vector is, by default, extended (by repeating its
+last value) or truncated to the updated number of analyses, e.g.,
+<code>c(-1, -Inf, -Inf)</code> becomes <code>c(-1, -Inf, -Inf, -Inf)</code> when an analysis is added
+and <code>c(-1, -Inf)</code> when one is deleted. Alternatively, users can input other
+values to <code>lower</code> and <code>lpar</code>, for either a fixed boundary (e.g.,
+<code>lower = gs_b, lpar = c(-1, -0.5, -Inf, -Inf)</code>, where the length of <code>lpar</code> must
+match the updated number of analyses) or a spending boundary. They are used
+only when <code>event_tbl</code> is provided.</p></dd>
 
 </dl></div>
     <div class="section level2">
