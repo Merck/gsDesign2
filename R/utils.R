@@ -110,3 +110,18 @@ get_sf <- function(f) {
     getExportedValue('gsDesign', f)
   })
 }
+
+# Resize a fixed boundary `par` vector to `n` analyses: extend by repeating its
+# last value, or truncate. When gs_update_ahr() adds or deletes analyses, a fixed
+# bound (e.g. gs_b() with the -Inf futility vector of an efficacy-only design)
+# would otherwise have the wrong length, and gs_power_npe() would read NA for new
+# analyses. A spending `par` (a list) carries its own `timing` of the updated
+# length, so it is returned unchanged.
+# resize_fixed_par(c(-1, -Inf, -Inf), 4)  # c(-1, -Inf, -Inf, -Inf)
+# resize_fixed_par(c(-1, -Inf, -Inf), 2)  # c(-1, -Inf)
+# resize_fixed_par(list(sf = gsDesign::sfLDOF, total_spend = 0.025), 4)  # unchanged
+resize_fixed_par <- function(par, n) {
+  if (!is.numeric(par) || length(par) == 0) return(par)
+  if (length(par) < n) par <- c(par, rep(par[length(par)], n - length(par)))
+  par[seq_len(n)]
+}
