@@ -93,7 +93,7 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
     info <- analysis$info_frac0[i]
     info <- round(info * 100)
     info <- paste0(info, "%")
-    n <- round(analysis$n[i])
+    n <- if (!is.null(analysis$n)) round(analysis$n[i])
     events <- round(analysis$event[i])
     time_value <- analysis$time[i]
     if (!is.null(time_value)) {
@@ -105,7 +105,7 @@ gs_bound_summary_single <- function(x, col_efficacy_name = "Efficacy", digits,
     col_analysis <- c(
       col_analysis,
       if (i == final) "Final" else paste(label, info),
-      paste("N:", n),
+      if (is.null(n)) "" else paste("N:", n),
       paste("Events:", events),
       if (is.null(time_value)) "" else paste0(timename, ": ", time_value),
       ""

@@ -272,10 +272,12 @@ summary.gs_design <- function(object,
   # (1) analysis variables to be displayed on the header
   # (2) decimals to be displayed for the analysis variables in (3)
   default_vars <- if (method == "rd") c("n", "rd", "info_frac") else c(
-   if(is.null(attributes(object)$updated_design)){"time"}, "n", "event", "ahr",
+    if (is.null(attr(object, "updated_design"))) c("time", "n"), "event", "ahr",
     switch(method, ahr = "info_frac0", wlr = "info_frac0", combo = "event_frac")
   )
-  default_decimals <- if (method == "rd") c(1, 4, 2) else c(1, 1, 1, 2, 2)
+  default_decimals <- if (method == "rd") c(1, 4, 2) else c(
+    if (is.null(attr(object, "updated_design"))) c(1, 1), 1, 2, 2
+  )
 
   # Filter analysis variables and update decimal places
   analysis_decimals <- get_decimals(
