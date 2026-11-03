@@ -62,10 +62,10 @@ assert("alpha-only update keeps the original number of analyses", {
 assert("updated designs can be summarized without reporting sample size", {
   for (updated_design in list(xu, xd, xa)) {
     summary_headers <- attr(summary(updated_design), "groups")$Analysis
-    (!any(grepl("N:", summary_headers, fixed = TRUE)))
-    (all(grepl("Events:", summary_headers, fixed = TRUE)))
+    (!grepl("N:", summary_headers, fixed = TRUE))
+    (grepl("Events:", summary_headers, fixed = TRUE))
     bound_headers <- gs_bound_summary(updated_design)$Analysis
-    (!any(grepl("N:", bound_headers, fixed = TRUE)))
+    (!grepl("N:", bound_headers, fixed = TRUE))
     (sum(grepl("Events:", bound_headers, fixed = TRUE)) %==% nrow(updated_design$analysis))
   }
 })
