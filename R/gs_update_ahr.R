@@ -63,6 +63,8 @@
 #' number of analyses changes, `test_upper`, `test_lower`, and `test_harm` must
 #' be supplied with the updated length.
 #'
+#' Sample size (`n`) is not reported in the updated analysis table.
+#'
 #' @return A list with input parameters, enrollment rate, failure rate, analysis, and bound.
 #'
 #' @export
@@ -471,8 +473,6 @@ gs_update_ahr <- function(
 
   ans$analysis <- data.frame(
     analysis = 1:n_analysis,
-    # pad sample size with NA for analyses added beyond the original design
-    n = x$analysis$n[1:n_analysis],
     event = if (is.null(event_tbl)) {
       x$analysis$event
     } else {

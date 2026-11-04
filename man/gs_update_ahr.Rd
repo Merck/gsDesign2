@@ -76,6 +76,8 @@ schedule may differ from the original design \code{x}. (When neither is supplied
 e.g. an alpha-only update, the original number of analyses is kept.) When the
 number of analyses changes, \code{test_upper}, \code{test_lower}, and \code{test_harm} must
 be supplied with the updated length.
+
+Sample size (\code{n}) is not reported in the updated analysis table.
 }
 \examples{
 library(gsDesign)
