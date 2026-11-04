@@ -105,6 +105,8 @@ neither is supplied, e.g. an alpha-only update, the original number of
 analyses is kept.) When the number of analyses changes, `test_upper`,
 `test_lower`, and `test_harm` must be supplied with the updated length.
 
+Sample size (`n`) is not reported in the updated analysis table.
+
 ## Examples
 
 ``` r
@@ -187,9 +189,9 @@ gs_update_ahr(
 #> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
 #> 
 #> $analysis
-#>   analysis   n event       ahr     theta  info info0 info_frac info_frac0
-#> 1        1 382   190 0.6863292 0.3763978 47.50 47.50 0.6109325  0.6109325
-#> 2        2 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000  1.0000000
+#>   analysis event       ahr     theta  info info0 info_frac info_frac0
+#> 1        1   190 0.6863292 0.3763978 47.50 47.50 0.6109325  0.6109325
+#> 2        2   311 0.6829028 0.3814027 77.75 77.75 1.0000000  1.0000000
 #> 
 
 # Updated design with 190 events observed at IA, and 300 events observed at FA,
@@ -226,9 +228,9 @@ gs_update_ahr(
 #> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
 #> 
 #> $analysis
-#>   analysis   n event       ahr     theta info info0 info_frac info_frac0
-#> 1        1 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325  0.6333333
-#> 2        2 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000  1.0000000
+#>   analysis event       ahr     theta info info0 info_frac info_frac0
+#> 1        1   190 0.6863292 0.3763978 47.5  47.5 0.6109325  0.6333333
+#> 2        2   300 0.6533201 0.4256880 75.0  75.0 1.0000000  1.0000000
 #> 
 
 # Updated design with 190 events observed at IA, and 300 events observed at FA,
@@ -265,9 +267,9 @@ gs_update_ahr(
 #> 3        1 lower  0.03534257  0.784256052 0.7866481    0.8921340 0.215743948
 #> 
 #> $analysis
-#>   analysis   n event       ahr     theta info info0 info_frac info_frac0
-#> 1        1 382   190 0.6863292 0.3763978 47.5  47.5 0.6109325  0.6333333
-#> 2        2 382   300 0.6533201 0.4256880 75.0  75.0 1.0000000  1.0000000
+#>   analysis event       ahr     theta info info0 info_frac info_frac0
+#> 1        1   190 0.6863292 0.3763978 47.5  47.5 0.6109325  0.6333333
+#> 2        2   300 0.6533201 0.4256880 75.0  75.0 1.0000000  1.0000000
 #> 
 
 # Alpha is updated to 0.05
@@ -297,9 +299,9 @@ gs_update_ahr(x = x, alpha = 0.05)
 #> 3        1 lower  0.04125608   0.68360277 0.4777973    0.9349751 0.31639723
 #> 
 #> $analysis
-#>   analysis   n event       ahr     theta  info info0 info_frac info_frac0
-#> 1        1 382   202 0.7322996 0.3115656 50.50 50.50 0.6495177  0.6495177
-#> 2        2 382   311 0.6829028 0.3814027 77.75 77.75 1.0000000  1.0000000
+#>   analysis event       ahr     theta  info info0 info_frac info_frac0
+#> 1        1   202 0.7322996 0.3115656 50.50 50.50 0.6495177  0.6495177
+#> 2        2   311 0.6829028 0.3814027 77.75 77.75 1.0000000  1.0000000
 #> 
 
 # ------------------------------------------------- #

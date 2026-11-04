@@ -3,6 +3,10 @@
 ## gsDesign2 1.3.0
 
 - [`gs_update_ahr()`](https://merck.github.io/gsDesign2/reference/gs_update_ahr.md)
+  no longer reports sample size (`n`) in updated analysis tables or
+  their default summaries, consistent with `gsDesign`
+  ([\#677](https://github.com/Merck/gsDesign2/issues/677)).
+- [`gs_update_ahr()`](https://merck.github.io/gsDesign2/reference/gs_update_ahr.md)
   gains `test_upper`, `test_lower`, and `test_harm` arguments so that
   the boundaries tested at each analysis can be changed when updating a
   design. It now also carries the harm bound through the update, drops
