@@ -16,123 +16,80 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-When applying the AHR test in the time-to-event endpoint at the $k$-th analysis, we build the standardized treatment effect as the test statistics in @proschan2006statistical:
+For an AHR test with a time-to-event endpoint, let
+$\theta_k=-\log(\mathrm{AHR}_k)$, so that a positive value favors the
+experimental arm. At analysis $k$, define the logrank score
 
 $$
-  Z_k
-  =
-  \frac{
-    \sum_{i=1}^{d_k} \Delta_i
-  }{
-    \sqrt{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}
-  },
+  U_k = \sum_{i=1}^{d_k} \Delta_i,
+  \qquad \Delta_i = E_i-O_i,
 $$
 
-where $d_k$ is the total number of events at analysis $k$. Here, $\Delta_i = O_i - E_i$ with $O_i$ is the indicator that the $i$-th event occurred in the experimental arm, and $E_i = m_{i,1}/(m_{i,0} + m_{i,1})$ as the null expectation of $O_i$ given $m_{i,0}$ and $m_{i,1}$. The numbers $m_{i,0}$ and $m_{i,1}$ refer to the number of at-risk subjects prior to the $i$-th death in the control and experimental group, respectively. When conditioning on $m_{i,0}$ and
-$m_{i,1}$, the $O_i$ has a Bernoulli distribution with parameter $E_i$. So the null conditional mean and variance of $\Delta_i$ are 0 and $V_i = E_i(1 - E_i)$, respectively. Unconditionally, $\Delta_i$ are mean 0 random variables with variance $E(V_i)$ under the null hypothesis.
-So, conditioned on $d_k$, we have $\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)) = E(\sum_{i=1}^{d_k} V_i$).
+where $d_k$ is the total number of events, $O_i$ indicates that the
+$i$-th event occurred in the experimental arm, and
+$E_i=m_{i,1}/(m_{i,0}+m_{i,1})$ is its null expectation. The quantities
+$m_{i,0}$ and $m_{i,1}$ are the numbers at risk immediately before the
+$i$-th event in the control and experimental arms, respectively. Given
+the risk sets, $O_i$ is Bernoulli with parameter $E_i$ under $H_0$.
+Consequently, $\Delta_i$ has conditional mean 0 and variance
+$V_i=E_i(1-E_i)$. Thus,
 
-In this vignette, we discuss the statistical information. Mathematically, it is the inverse of the variance, depending on whether it is under null or alternative hypothesis:
+$$
+  \operatorname{Var}(U_k\mid H_0,\text{risk sets})
+  = \sum_{i=1}^{d_k}V_i.
+$$
+
+Let $\widehat\theta_k$ denote the AHR treatment-effect estimator. Statistical
+information is the inverse variance of this estimator:
 
 $$
   \begin{array}{c}
-    \mathcal I_{k, H_0} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0), \\
-    \mathcal I_{k, H_1} = 1 /\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_1).
+    ℐ_{k,H_0}=1/\operatorname{Var}(\widehat\theta_k\mid H_0),\\
+    ℐ_{k,H_1}=1/\operatorname{Var}(\widehat\theta_k\mid H_1).
   \end{array}
 $$
 
-The ratio between two statistical information under the null hypothesis is called **information fraction**:
+Under the usual score linearization,
+$\widehat\theta_k\approx U_k/ℐ_{k,H_0}$ and
+$ℐ_{k,H_0}\approx\operatorname{Var}(U_k\mid H_0)$. The null-standardized
+test statistic is therefore
 
 $$
-  t_k = \frac{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}{\text{Var}(\sum_{i=1}^{d_K} \Delta_i | H_0)}
+  Z_k
+  =\widehat\theta_k\sqrt{ℐ_{k,H_0}}
+  \approx \frac{U_k}{\sqrt{\operatorname{Var}(U_k\mid H_0)}}.
+$$
+
+The null information fraction is
+
+$$
+  t_k = \frac{ℐ_{k,H_0}}{ℐ_{K,H_0}}
   \approx
   \frac{d_k/4}{d_K / 4}
   =
   d_k /d_K,
 $$
 
-In the rest of this vignette, we will discuss the value of $\mathcal I_{k, H_0}, \mathcal I_{k, H_1}$. To derive these statistical information, we introduce the B-values:
+where the event-count approximation assumes equal randomization. Define the
+B-values on this null-information scale by
 
 $$
   B_k
-  =
-  \frac{
-    \sum_{i=1}^{d_k} \Delta_i
-  }{
-    \sqrt{\text{Var}(\sum_{i=1}^{d_K} \Delta_i | H_0)}
-  }
-  =
-  \underbrace{
-  \frac{
-    \sum_{i=1}^{d_k} \Delta_i
-  }{
-    \sqrt{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}
-  }
-  }_{Z_k}
-  \underbrace{
-  \frac{
-    \sqrt{\text{Var}(\sum_{i=1}^{d_k} \Delta_i | H_0)}
-  }{
-    \sqrt{\text{Var}(\sum_{i=1}^{d_K} \Delta_i | H_0)}
-  }
-  }_{\sqrt{t_k}}
-  =
-  \sqrt{t_k} Z_k,
+  =\sqrt{t_k}Z_k
+  =\frac{ℐ_{k,H_0}\widehat\theta_k}
+  {\sqrt{ℐ_{K,H_0}}}
+  \approx \frac{U_k}{\sqrt{ℐ_{K,H_0}}}.
 $$
 
-As depicted in Section 2.1.3 of @proschan2006statistical, the stochastic process formulation presented in @harrington1984procedures and @tsiatis1982group provides insights that sequence of B-values, denoted as ${B_1, \ldots, B_K}$ with follows a multivariate normal distribution behaves asymptotically like Brownian motion.
-
-For 2 B-values ($B_i, B_j$ with $i \leq j$), we have
+As described in Section 2.1.3 of @proschan2006statistical, the stochastic
+process formulation of @harrington1984procedures and @tsiatis1982group implies
+that $(B_1,\ldots,B_K)$ behaves asymptotically like Brownian motion under
+$H_0$. In particular, independent score increments imply, for $i\leq j$,
 
 $$
-  \begin{eqnarray}
-    \text{Cov}(B_i, B_j)
-    & = &
-    \text{Cov}
-    \left(
-      \frac{
-        \sum_{s=1}^{d_i} \Delta_s
-      }{
-        \sqrt{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-      },
-      \frac{
-        \sum_{s=1}^{d_j} \Delta_s
-      }{
-        \sqrt{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-      }
-    \right) \\
-    & = &
-    \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-    \text{Cov}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s,
-      \sum_{s=1}^{d_j} \Delta_s
-    \right) \\
-    & = &
-    \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-    \text{Cov}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s,
-      \sum_{s=1}^{d_i} \Delta_s + \sum_{s=1}^{d_j} \Delta_s - \sum_{s=1}^{d_i} \Delta_s
-    \right) \\
-    & = &
-    \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-    \text{Var}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s
-    \right)
-    +
-    \text{Cov}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s, \sum_{s=1}^{d_j} \Delta_s - \sum_{s=1}^{d_i} \Delta_s
-    \right) \\
-    & = &
-    \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-    \text{Var}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s
-    \right)
-  \end{eqnarray}
+  \operatorname{Cov}(U_i,U_j\mid H_0)
+  =\operatorname{Var}(U_i\mid H_0)
+  =ℐ_{i,H_0}.
 $$
 
 # Null hypothesis
@@ -177,85 +134,80 @@ Accordingly, $\{Z_k\}_{k = 1, \ldots, K}$ has the canonical joint distribution w
 
 # Alternative hypothesis
 
-Under the alternative hypothesis, for 2 B-values ($B_i, B_j$ with $i \leq j$), the distribution of $\{B_k\}_{k = 1, \ldots, K}$ has the following structure:
-
-- $B_1, B_2, \ldots, B_K$ have a multivariate normal distribution.
-- $E(B_k \;|\; H_1) = \theta_k t_k \sqrt{\mathcal I_{k, H_0}}$ for any $k = 1, \ldots, K$.
-- $\text{Var}(B_k \;|\; H_1) = t_k \mathcal I_{k, H_0} / \mathcal I_{k, H_1}$.
-- $\text{Cov}(B_i, B_j \;|\; H_1) = t_i \; \mathcal I_{i, H_0}/\mathcal I_{i, H_1}$ for any $1 \leq i \leq j \leq K$.
-
-The last statement is derived as
+Under $H_1$, first define the statistic standardized by alternative-hypothesis
+information,
 
 $$
-  \begin{eqnarray}
-    \text{Cov}(B_i, B_j \;|\; H_1)
-    & = &
-    \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-    \text{Var}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s | H_1
-    \right) \\
-    & = &
-    \underbrace{
-    \frac{1}{\text{Var}(\sum_{s=1}^{d_K} \Delta_s | H_0)}
-    \text{Var}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s | H_0
-    \right)
-    }_{t_i}
-    \underbrace{
-    \text{Var}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s | H_1
-    \right)
-    }_{1/\mathcal I_{i, H_1}}
-    \bigg/
-    \underbrace{
-    \text{Var}
-    \left(
-      \sum_{s=1}^{d_i} \Delta_s | H_0
-    \right)
-    }_{1/\mathcal I_{i, H_0}} \\
-    & = &
-    t_i\; \mathcal I_{i, H_0}/\mathcal I_{i, H_1}.
-  \end{eqnarray}
+  Z_k^{(1)}=\widehat\theta_k\sqrt{ℐ_{k,H_1}}.
 $$
 
-Accordingly, $Z_k$ has the canonical joint distribution with the following properties:
+The canonical joint-distribution approximation under $H_1$ gives
+$\operatorname{Var}(Z_k^{(1)}\mid H_1)=1$ and
+
+$$
+  \operatorname{Cov}(Z_i^{(1)},Z_j^{(1)}\mid H_1)
+  =\sqrt{\frac{ℐ_{i,H_1}}{ℐ_{j,H_1}}},
+  \qquad i\leq j.
+$$
+
+Because
+$Z_k=\sqrt{ℐ_{k,H_0}/ℐ_{k,H_1}}\,Z_k^{(1)}$,
+the null-standardized $Z$-statistics have the following properties:
 
 - $Z_1, Z_2, \ldots, Z_K$ have a multivariate normal distribution.
-- $E(Z_k \;|\; H_1) = \theta_k \sqrt{\mathcal I_{k, H_0}}$ with the treatment effect as $\theta_k$ at the $k$-th analysis.
-- $\text{Var}(Z_k \;|\; H_1) = \mathcal I_{k, H_0} / \mathcal I_{k, H_1}$.
-- $\text{Cov}(Z_i, Z_j \;|\; H_1) = \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}$ for any $1 \leq i \leq j \leq K$.
+- $E(Z_k \;|\; H_1) = \theta_k \sqrt{ℐ_{k, H_0}}$ with the treatment effect as $\theta_k$ at the $k$-th analysis.
+- $\text{Var}(Z_k \;|\; H_1) = ℐ_{k, H_0} / ℐ_{k, H_1}$.
+- $\text{Cov}(Z_i, Z_j \;|\; H_1) = \sqrt{\frac{t_i}{t_j}} \frac{ℐ_{j, H_0}}{ℐ_{j, H_1}}$ for any $1 \leq i \leq j \leq K$.
 
-The last statement is because
+The covariance follows from
 
 $$
   \begin{eqnarray}
     \text{Cov}(Z_i, Z_j \;|\; H_1)
     & = &
-    \text{Cov}(B_i/\sqrt{t_i}, B_j/\sqrt{t_j})  \\
+    \sqrt{\frac{ℐ_{i,H_0}}{ℐ_{i,H_1}}}
+    \sqrt{\frac{ℐ_{j,H_0}}{ℐ_{j,H_1}}}
+    \operatorname{Cov}(Z_i^{(1)},Z_j^{(1)}\mid H_1)\\
     & = &
-    \frac{1}{\sqrt{t_i t_j}}
-    \text{Cov}(B_i, B_j)  \\
+    \frac{\sqrt{ℐ_{i,H_0}ℐ_{j,H_0}}}
+    {ℐ_{j,H_1}}\\
     & = &
-    \frac{1}{\sqrt{t_i t_j}} \text{Var}(B_i) \\
-    & = &
-    \sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}
+    \sqrt{\frac{t_i}{t_j}}
+    \frac{ℐ_{j,H_0}}{ℐ_{j,H_1}}.
   \end{eqnarray}
 $$
 
-When the local alternative assumption holds, we have $\text{Cov}(Z_i, Z_j) \approx \sqrt{\frac{t_i}{t_j}}$, which is in the format of the canonical joint distribution introduced in Chapter 3 of @proschan2006statistical.
+The corresponding B-values satisfy
+
+$$
+  \begin{array}{rcl}
+  E(B_k\mid H_1)
+  &=&\theta_k\sqrt{t_kℐ_{k,H_0}}
+  =\theta_k t_k\sqrt{ℐ_{K,H_0}},\\
+  \operatorname{Var}(B_k\mid H_1)
+  &=&t_kℐ_{k,H_0}/ℐ_{k,H_1},\\
+  \operatorname{Cov}(B_i,B_j\mid H_1)
+  &=&t_iℐ_{j,H_0}/ℐ_{j,H_1},\qquad i\leq j.
+  \end{array}
+$$
+
+Thus, unless the ratio $ℐ_{k,H_0}/ℐ_{k,H_1}$ is constant
+across analyses, the null-scaled B-values do not have independent increments
+under $H_1$. Under a local alternative,
+$ℐ_{k,H_0}/ℐ_{k,H_1}\approx1$, so
+$\text{Cov}(Z_i,Z_j\mid H_1)\approx\sqrt{t_i/t_j}$ and
+$\text{Cov}(B_i,B_j\mid H_1)\approx t_i$, recovering the canonical joint
+distribution in Chapter 3 of @proschan2006statistical.
 
 # Summary
 
 |  | B-value | Z-score |
 |:--------------------------------------|:---:| :---:|
 |Expectation mean at the $k$-th analysis under $H_0$| 0 |   0 |
-|Expectation mean at the $k$-th analysis under $H_1$| $\theta_k t_k \sqrt{\mathcal I_{k, H_0}}$ | $\theta_k \sqrt{\mathcal I_{k, H_0}}$
-|Variance at the $k$-th analysis under $H_0$| $t_k$ | 1 | $\mathcal I_{k, H_0} / \mathcal I_{k, H_1}$ |
-|Variance at the $k$-th analysis under $H_1$| $t_k \mathcal I_{k, H_0} / \mathcal I_{k, H_1}$ | $\mathcal I_{k, H_0} / \mathcal I_{k, H_1}$ |
+|Expectation mean at the $k$-th analysis under $H_1$| $\theta_k t_k \sqrt{ℐ_{K,H_0}}$ | $\theta_k \sqrt{ℐ_{k,H_0}}$ |
+|Variance at the $k$-th analysis under $H_0$| $t_k$ | 1 |
+|Variance at the $k$-th analysis under $H_1$| $t_k ℐ_{k, H_0} / ℐ_{k, H_1}$ | $ℐ_{k, H_0} / ℐ_{k, H_1}$ |
 |Covariance between the $i$-th and $j$th analysis under $H_0$ ($i\leq j$) | $t_i$ | $\sqrt{t_i/t_j}$ |
-|Covariance between the $i$-th and $j$th analysis under $H_1$ ($i\leq j$) | $t_i \; \mathcal I_{i, H_0}/\mathcal I_{i, H_1}$ | $\sqrt{\frac{t_i}{t_j}} \frac{\mathcal I_{i, H_0}}{\mathcal I_{i, H_1}}$ |
+|Covariance between the $i$-th and $j$th analysis under $H_1$ ($i\leq j$) | $t_i \; ℐ_{j,H_0}/ℐ_{j,H_1}$ | $\sqrt{t_i/t_j}\;ℐ_{j,H_0}/ℐ_{j,H_1}$ |
 
 # References
