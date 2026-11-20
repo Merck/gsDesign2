@@ -317,6 +317,42 @@ gs_power_ahr <- function(
       arrange(analysis)
   )
 
+  # Output spending time to the bounds table
+  info0 <- (y_h1 |> filter(bound == "upper"))$info0
+  info <- (y_h1 |> filter(bound == "upper"))$info
+  info0_final <- (y_h1 |> filter(analysis == n_analysis, bound == "upper"))$info0
+  info_final <- (y_h1 |> filter(analysis == n_analysis, bound == "upper"))$info
+
+  bound$spending_time <- NA
+
+  if (identical(upper, gs_spending_bound)) {
+
+    if (!is.null(upar$timing)) {
+      spending_time_upper <- upar$timing
+    } else {
+      spending_time_upper <- info0 / info0_final
+    }
+
+
+    bound$spending_time[which(bound$bound == "upper")] <- spending_time_upper
+  }
+
+  if (identical(lower, gs_spending_bound)) {
+    if (!is.null(lpar$timing)) {
+      spending_time_lower <- lpar$timing
+    } else if (h1_spending) {
+      spending_time_lower <- info / info_final
+    } else if (!h1_spending) {
+      spending_time_lower <- info0 / info0_final
+    }
+
+    bound$spending_time[which(bound$bound == "lower")] <- spending_time_lower
+  }
+
+  if (all(is.na(bound$spending_time))){
+    bound$spending_time <- NULL
+  }
+
   # Get input parameter to output ----
   input <- list(
     enroll_rate = enroll_rate, fail_rate = fail_rate,
