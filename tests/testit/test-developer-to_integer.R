@@ -329,3 +329,15 @@ assert("to_integer.gs_design retains the harm bound (test.type 7/8 equivalent)",
   harm_h0 <- result$bound$probability0[result$bound$bound == "harm"]
   (abs(max(harm_h0) - 0.05) < 1e-6)
 })
+
+assert("to_integer() maintains column spending_time for AHR designs", {
+  x <- gs_design_ahr()
+  xint <- to_integer(x)
+
+  ("spending_time" %in% colnames(x$bound))
+  ("spending_time" %in% colnames(xint$bound))
+  (x$bound$spending_time == x$bound$spending_time)
+
+  ("Spending time" %in% colnames(summary(x, display_spending_time = TRUE)))
+  ("Spending time" %in% colnames(summary(xint, display_spending_time = TRUE)))
+})
