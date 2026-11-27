@@ -191,8 +191,8 @@ gs_info_rd <- function(
         tibble(analysis = 1:n_analysis, rd0 = rd0)
       }) |>
       mutate(
-        n_e = n / (1 + ratio),
-        n_c = n * ratio / (1 + ratio),
+        n_e = n * ratio / (1 + ratio),
+        n_c = n / (1 + ratio),
         d = ifelse(p_c > p_e, 1, -1),
         p_pool_per_k_per_s = (n_c * p_c + n_e * p_e) / n,
         p_e0 = (p_c + ratio * p_e - d * rd0) / (ratio + 1),
@@ -201,17 +201,14 @@ gs_info_rd <- function(
   )
 
   # Calculate the variance of the risk difference ----
-  if (is.numeric(rd0) && rd0 == 0) {
-    tbl <- tbl |> mutate(
-      sigma2_H0_per_k_per_s = p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / n_c + 1 / n_e),
-      sigma2_H1_per_k_per_s = p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e
-    )
-  } else if ("data.frame" %in% class(rd0) || rd0 != 0) {
-    tbl <- tbl |> mutate(
-      sigma2_H0_per_k_per_s = p_c0 * (1 - p_c0) / n_c + p_e0 * (1 - p_e0) / n_e,
-      sigma2_H1_per_k_per_s = p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e
-    )
-  }
+  tbl <- tbl |> mutate(
+    sigma2_H0_per_k_per_s = ifelse(
+      rd0 == 0,
+      p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / n_c + 1 / n_e),
+      p_c0 * (1 - p_c0) / n_c + p_e0 * (1 - p_e0) / n_e
+    ),
+    sigma2_H1_per_k_per_s = p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e
+  )
 
   # Assign weights ----
   if (weight == "unstratified") {
@@ -265,11 +262,7 @@ gs_info_rd <- function(
       n = sum(n),
       rd = sum((p_c - p_e) * d * weight_per_k_per_s),
       rd0 = sum(rd0 * weight_per_k_per_s),
-      sigma2_H0 = sum(if (sum(rd0 == 0) == 0) {
-        weight_per_k_per_s^2 * p_pool_per_k_per_s * (1 - p_pool_per_k_per_s) * (1 / n_c + 1 / n_e)
-      } else {
-        weight_per_k_per_s^2 * p_c0 * (1 - p_c0) / n_c + weight_per_k_per_s^2 * p_e0 * (1 - p_e0) / n_e
-      }),
+      sigma2_H0 = sum(weight_per_k_per_s^2 * sigma2_H0_per_k_per_s),
       sigma2_H1 = sum(weight_per_k_per_s^2 * p_c * (1 - p_c) / n_c + weight_per_k_per_s^2 * p_e * (1 - p_e) / n_e)
     ) |>
     mutate(
