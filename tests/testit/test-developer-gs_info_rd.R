@@ -97,3 +97,68 @@ assert("Testing weights calculation", {
 
 
 })
+
+assert("Unbalanced randomization ratio uses n_e / n_c = ratio", {
+  p_c <- 0.2
+  p_e <- 0.1
+  n <- 300
+  ratio <- 2
+
+  n_c <- n / (1 + ratio)
+  n_e <- n * ratio / (1 + ratio)
+  p_pool <- (n_c * p_c + n_e * p_e) / n
+  expected_info0 <- 1 / (p_pool * (1 - p_pool) * (1 / n_c + 1 / n_e))
+  expected_info1 <- 1 / (p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e)
+
+  x <- gs_info_rd(
+    p_c = tibble::tibble(stratum = "All", rate = p_c),
+    p_e = tibble::tibble(stratum = "All", rate = p_e),
+    n = tibble::tibble(stratum = "All", n = n, analysis = 1),
+    rd0 = 0,
+    ratio = ratio
+  )
+
+  (all.equal(x$info0, expected_info0))
+  (all.equal(x$info1, expected_info1))
+
+  # Fixed sample size with unbalanced ratio matches gsDesign::nBinomial()
+  n_gsd <- gsDesign::nBinomial(
+    p1 = p_c, p2 = p_e, alpha = 0.025, beta = 0.1,
+    delta0 = 0, ratio = ratio, sided = 1, outtype = 1, scale = "Difference"
+  )
+  d_gsd2 <- gs_design_rd(
+    p_c = tibble::tibble(stratum = "All", rate = p_c),
+    p_e = tibble::tibble(stratum = "All", rate = p_e),
+    alpha = 0.025, beta = 0.1, rd0 = 0, ratio = ratio, info_frac = 1,
+    upper = gs_b, lower = gs_b, upar = -qnorm(0.025), lpar = -Inf,
+    h1_spending = FALSE
+  )
+  (all.equal(d_gsd2$analysis$n, n_gsd))
+})
+
+assert("Non-zero rd0 uses null rates p_c0 and p_e0 for info0", {
+  p_c <- 0.2
+  p_e <- 0.1
+  n <- 300
+  rd0 <- 0.05
+  ratio <- 2
+  d <- 1
+
+  n_c <- n / (1 + ratio)
+  n_e <- n * ratio / (1 + ratio)
+  p_e0 <- (p_c + ratio * p_e - d * rd0) / (ratio + 1)
+  p_c0 <- p_e0 + d * rd0
+  expected_info0 <- 1 / (p_c0 * (1 - p_c0) / n_c + p_e0 * (1 - p_e0) / n_e)
+  expected_info1 <- 1 / (p_c * (1 - p_c) / n_c + p_e * (1 - p_e) / n_e)
+
+  x <- gs_info_rd(
+    p_c = tibble::tibble(stratum = "All", rate = p_c),
+    p_e = tibble::tibble(stratum = "All", rate = p_e),
+    n = tibble::tibble(stratum = "All", n = n, analysis = 1),
+    rd0 = rd0,
+    ratio = ratio
+  )
+
+  (all.equal(x$info0, expected_info0))
+  (all.equal(x$info1, expected_info1))
+})

@@ -171,7 +171,7 @@ assert("Validate the sample size rounding under unequal randomization (3:2) for 
 
   # ceiling the sample size at FA, and is a multiplier of 5
   y2 <- x |> to_integer(round_up_final = TRUE, ratio = 4)
-  expected <- ceiling(x$analysis$n[3]/4) * 4
+  expected <- ceiling(x$analysis$n[3]/5) * 5
   (expected %==% y2$analysis$n[3])
 
   # round the sample size at FA, but may not a multiplier of 5
